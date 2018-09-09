@@ -2418,1060 +2418,2292 @@ namespace Implem.Pleasanter.Models
             switch (column.Name)
             {
                 case "SiteId":
-                    value = ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
-                        ? SiteId.ToExport(
-                            context: context, column: column, exportColumn: exportColumn)
-                        : string.Empty;
+                    value = ss.ReadColumnAccessControls.Allowed(
+                        context: context,
+                        ss: ss,
+                        column: column,
+                        type: ss.PermissionType,
+                        mine: mine)
+                            ? SiteId.ToExport(
+                                context: context,
+                                column: column,
+                                exportColumn: exportColumn)
+                            : string.Empty;
                     break;
                 case "UpdatedTime":
-                    value = ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
-                        ? UpdatedTime.ToExport(
-                            context: context, column: column, exportColumn: exportColumn)
-                        : string.Empty;
+                    value = ss.ReadColumnAccessControls.Allowed(
+                        context: context,
+                        ss: ss,
+                        column: column,
+                        type: ss.PermissionType,
+                        mine: mine)
+                            ? UpdatedTime.ToExport(
+                                context: context,
+                                column: column,
+                                exportColumn: exportColumn)
+                            : string.Empty;
                     break;
                 case "IssueId":
-                    value = ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
-                        ? IssueId.ToExport(
-                            context: context, column: column, exportColumn: exportColumn)
-                        : string.Empty;
+                    value = ss.ReadColumnAccessControls.Allowed(
+                        context: context,
+                        ss: ss,
+                        column: column,
+                        type: ss.PermissionType,
+                        mine: mine)
+                            ? IssueId.ToExport(
+                                context: context,
+                                column: column,
+                                exportColumn: exportColumn)
+                            : string.Empty;
                     break;
                 case "Ver":
-                    value = ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
-                        ? Ver.ToExport(
-                            context: context, column: column, exportColumn: exportColumn)
-                        : string.Empty;
+                    value = ss.ReadColumnAccessControls.Allowed(
+                        context: context,
+                        ss: ss,
+                        column: column,
+                        type: ss.PermissionType,
+                        mine: mine)
+                            ? Ver.ToExport(
+                                context: context,
+                                column: column,
+                                exportColumn: exportColumn)
+                            : string.Empty;
                     break;
                 case "Title":
-                    value = ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
-                        ? Title.ToExport(
-                            context: context, column: column, exportColumn: exportColumn)
-                        : string.Empty;
+                    value = ss.ReadColumnAccessControls.Allowed(
+                        context: context,
+                        ss: ss,
+                        column: column,
+                        type: ss.PermissionType,
+                        mine: mine)
+                            ? Title.ToExport(
+                                context: context,
+                                column: column,
+                                exportColumn: exportColumn)
+                            : string.Empty;
                     break;
                 case "Body":
-                    value = ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
-                        ? Body.ToExport(
-                            context: context, column: column, exportColumn: exportColumn)
-                        : string.Empty;
+                    value = ss.ReadColumnAccessControls.Allowed(
+                        context: context,
+                        ss: ss,
+                        column: column,
+                        type: ss.PermissionType,
+                        mine: mine)
+                            ? Body.ToExport(
+                                context: context,
+                                column: column,
+                                exportColumn: exportColumn)
+                            : string.Empty;
                     break;
                 case "TitleBody":
-                    value = ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
-                        ? TitleBody.ToExport(
-                            context: context, column: column, exportColumn: exportColumn)
-                        : string.Empty;
+                    value = ss.ReadColumnAccessControls.Allowed(
+                        context: context,
+                        ss: ss,
+                        column: column,
+                        type: ss.PermissionType,
+                        mine: mine)
+                            ? TitleBody.ToExport(
+                                context: context,
+                                column: column,
+                                exportColumn: exportColumn)
+                            : string.Empty;
                     break;
                 case "StartTime":
-                    value = ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
-                        ? StartTime.ToExport(
-                            context: context, column: column, exportColumn: exportColumn)
-                        : string.Empty;
+                    value = ss.ReadColumnAccessControls.Allowed(
+                        context: context,
+                        ss: ss,
+                        column: column,
+                        type: ss.PermissionType,
+                        mine: mine)
+                            ? StartTime.ToExport(
+                                context: context,
+                                column: column,
+                                exportColumn: exportColumn)
+                            : string.Empty;
                     break;
                 case "CompletionTime":
-                    value = ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
-                        ? CompletionTime.ToExport(
-                            context: context, column: column, exportColumn: exportColumn)
-                        : string.Empty;
+                    value = ss.ReadColumnAccessControls.Allowed(
+                        context: context,
+                        ss: ss,
+                        column: column,
+                        type: ss.PermissionType,
+                        mine: mine)
+                            ? CompletionTime.ToExport(
+                                context: context,
+                                column: column,
+                                exportColumn: exportColumn)
+                            : string.Empty;
                     break;
                 case "WorkValue":
-                    value = ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
-                        ? WorkValue.ToExport(
-                            context: context, column: column, exportColumn: exportColumn)
-                        : string.Empty;
+                    value = ss.ReadColumnAccessControls.Allowed(
+                        context: context,
+                        ss: ss,
+                        column: column,
+                        type: ss.PermissionType,
+                        mine: mine)
+                            ? WorkValue.ToExport(
+                                context: context,
+                                column: column,
+                                exportColumn: exportColumn)
+                            : string.Empty;
                     break;
                 case "ProgressRate":
-                    value = ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
-                        ? ProgressRate.ToExport(
-                            context: context, column: column, exportColumn: exportColumn)
-                        : string.Empty;
+                    value = ss.ReadColumnAccessControls.Allowed(
+                        context: context,
+                        ss: ss,
+                        column: column,
+                        type: ss.PermissionType,
+                        mine: mine)
+                            ? ProgressRate.ToExport(
+                                context: context,
+                                column: column,
+                                exportColumn: exportColumn)
+                            : string.Empty;
                     break;
                 case "RemainingWorkValue":
-                    value = ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
-                        ? RemainingWorkValue.ToExport(
-                            context: context, column: column, exportColumn: exportColumn)
-                        : string.Empty;
+                    value = ss.ReadColumnAccessControls.Allowed(
+                        context: context,
+                        ss: ss,
+                        column: column,
+                        type: ss.PermissionType,
+                        mine: mine)
+                            ? RemainingWorkValue.ToExport(
+                                context: context,
+                                column: column,
+                                exportColumn: exportColumn)
+                            : string.Empty;
                     break;
                 case "Status":
-                    value = ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
-                        ? Status.ToExport(
-                            context: context, column: column, exportColumn: exportColumn)
-                        : string.Empty;
+                    value = ss.ReadColumnAccessControls.Allowed(
+                        context: context,
+                        ss: ss,
+                        column: column,
+                        type: ss.PermissionType,
+                        mine: mine)
+                            ? Status.ToExport(
+                                context: context,
+                                column: column,
+                                exportColumn: exportColumn)
+                            : string.Empty;
                     break;
                 case "Manager":
-                    value = ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
-                        ? Manager.ToExport(
-                            context: context, column: column, exportColumn: exportColumn)
-                        : string.Empty;
+                    value = ss.ReadColumnAccessControls.Allowed(
+                        context: context,
+                        ss: ss,
+                        column: column,
+                        type: ss.PermissionType,
+                        mine: mine)
+                            ? Manager.ToExport(
+                                context: context,
+                                column: column,
+                                exportColumn: exportColumn)
+                            : string.Empty;
                     break;
                 case "Owner":
-                    value = ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
-                        ? Owner.ToExport(
-                            context: context, column: column, exportColumn: exportColumn)
-                        : string.Empty;
+                    value = ss.ReadColumnAccessControls.Allowed(
+                        context: context,
+                        ss: ss,
+                        column: column,
+                        type: ss.PermissionType,
+                        mine: mine)
+                            ? Owner.ToExport(
+                                context: context,
+                                column: column,
+                                exportColumn: exportColumn)
+                            : string.Empty;
                     break;
                 case "ClassA":
-                    value = ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
-                        ? ClassA.ToExport(
-                            context: context, column: column, exportColumn: exportColumn)
-                        : string.Empty;
+                    value = ss.ReadColumnAccessControls.Allowed(
+                        context: context,
+                        ss: ss,
+                        column: column,
+                        type: ss.PermissionType,
+                        mine: mine)
+                            ? ClassA.ToExport(
+                                context: context,
+                                column: column,
+                                exportColumn: exportColumn)
+                            : string.Empty;
                     break;
                 case "ClassB":
-                    value = ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
-                        ? ClassB.ToExport(
-                            context: context, column: column, exportColumn: exportColumn)
-                        : string.Empty;
+                    value = ss.ReadColumnAccessControls.Allowed(
+                        context: context,
+                        ss: ss,
+                        column: column,
+                        type: ss.PermissionType,
+                        mine: mine)
+                            ? ClassB.ToExport(
+                                context: context,
+                                column: column,
+                                exportColumn: exportColumn)
+                            : string.Empty;
                     break;
                 case "ClassC":
-                    value = ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
-                        ? ClassC.ToExport(
-                            context: context, column: column, exportColumn: exportColumn)
-                        : string.Empty;
+                    value = ss.ReadColumnAccessControls.Allowed(
+                        context: context,
+                        ss: ss,
+                        column: column,
+                        type: ss.PermissionType,
+                        mine: mine)
+                            ? ClassC.ToExport(
+                                context: context,
+                                column: column,
+                                exportColumn: exportColumn)
+                            : string.Empty;
                     break;
                 case "ClassD":
-                    value = ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
-                        ? ClassD.ToExport(
-                            context: context, column: column, exportColumn: exportColumn)
-                        : string.Empty;
+                    value = ss.ReadColumnAccessControls.Allowed(
+                        context: context,
+                        ss: ss,
+                        column: column,
+                        type: ss.PermissionType,
+                        mine: mine)
+                            ? ClassD.ToExport(
+                                context: context,
+                                column: column,
+                                exportColumn: exportColumn)
+                            : string.Empty;
                     break;
                 case "ClassE":
-                    value = ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
-                        ? ClassE.ToExport(
-                            context: context, column: column, exportColumn: exportColumn)
-                        : string.Empty;
+                    value = ss.ReadColumnAccessControls.Allowed(
+                        context: context,
+                        ss: ss,
+                        column: column,
+                        type: ss.PermissionType,
+                        mine: mine)
+                            ? ClassE.ToExport(
+                                context: context,
+                                column: column,
+                                exportColumn: exportColumn)
+                            : string.Empty;
                     break;
                 case "ClassF":
-                    value = ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
-                        ? ClassF.ToExport(
-                            context: context, column: column, exportColumn: exportColumn)
-                        : string.Empty;
+                    value = ss.ReadColumnAccessControls.Allowed(
+                        context: context,
+                        ss: ss,
+                        column: column,
+                        type: ss.PermissionType,
+                        mine: mine)
+                            ? ClassF.ToExport(
+                                context: context,
+                                column: column,
+                                exportColumn: exportColumn)
+                            : string.Empty;
                     break;
                 case "ClassG":
-                    value = ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
-                        ? ClassG.ToExport(
-                            context: context, column: column, exportColumn: exportColumn)
-                        : string.Empty;
+                    value = ss.ReadColumnAccessControls.Allowed(
+                        context: context,
+                        ss: ss,
+                        column: column,
+                        type: ss.PermissionType,
+                        mine: mine)
+                            ? ClassG.ToExport(
+                                context: context,
+                                column: column,
+                                exportColumn: exportColumn)
+                            : string.Empty;
                     break;
                 case "ClassH":
-                    value = ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
-                        ? ClassH.ToExport(
-                            context: context, column: column, exportColumn: exportColumn)
-                        : string.Empty;
+                    value = ss.ReadColumnAccessControls.Allowed(
+                        context: context,
+                        ss: ss,
+                        column: column,
+                        type: ss.PermissionType,
+                        mine: mine)
+                            ? ClassH.ToExport(
+                                context: context,
+                                column: column,
+                                exportColumn: exportColumn)
+                            : string.Empty;
                     break;
                 case "ClassI":
-                    value = ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
-                        ? ClassI.ToExport(
-                            context: context, column: column, exportColumn: exportColumn)
-                        : string.Empty;
+                    value = ss.ReadColumnAccessControls.Allowed(
+                        context: context,
+                        ss: ss,
+                        column: column,
+                        type: ss.PermissionType,
+                        mine: mine)
+                            ? ClassI.ToExport(
+                                context: context,
+                                column: column,
+                                exportColumn: exportColumn)
+                            : string.Empty;
                     break;
                 case "ClassJ":
-                    value = ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
-                        ? ClassJ.ToExport(
-                            context: context, column: column, exportColumn: exportColumn)
-                        : string.Empty;
+                    value = ss.ReadColumnAccessControls.Allowed(
+                        context: context,
+                        ss: ss,
+                        column: column,
+                        type: ss.PermissionType,
+                        mine: mine)
+                            ? ClassJ.ToExport(
+                                context: context,
+                                column: column,
+                                exportColumn: exportColumn)
+                            : string.Empty;
                     break;
                 case "ClassK":
-                    value = ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
-                        ? ClassK.ToExport(
-                            context: context, column: column, exportColumn: exportColumn)
-                        : string.Empty;
+                    value = ss.ReadColumnAccessControls.Allowed(
+                        context: context,
+                        ss: ss,
+                        column: column,
+                        type: ss.PermissionType,
+                        mine: mine)
+                            ? ClassK.ToExport(
+                                context: context,
+                                column: column,
+                                exportColumn: exportColumn)
+                            : string.Empty;
                     break;
                 case "ClassL":
-                    value = ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
-                        ? ClassL.ToExport(
-                            context: context, column: column, exportColumn: exportColumn)
-                        : string.Empty;
+                    value = ss.ReadColumnAccessControls.Allowed(
+                        context: context,
+                        ss: ss,
+                        column: column,
+                        type: ss.PermissionType,
+                        mine: mine)
+                            ? ClassL.ToExport(
+                                context: context,
+                                column: column,
+                                exportColumn: exportColumn)
+                            : string.Empty;
                     break;
                 case "ClassM":
-                    value = ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
-                        ? ClassM.ToExport(
-                            context: context, column: column, exportColumn: exportColumn)
-                        : string.Empty;
+                    value = ss.ReadColumnAccessControls.Allowed(
+                        context: context,
+                        ss: ss,
+                        column: column,
+                        type: ss.PermissionType,
+                        mine: mine)
+                            ? ClassM.ToExport(
+                                context: context,
+                                column: column,
+                                exportColumn: exportColumn)
+                            : string.Empty;
                     break;
                 case "ClassN":
-                    value = ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
-                        ? ClassN.ToExport(
-                            context: context, column: column, exportColumn: exportColumn)
-                        : string.Empty;
+                    value = ss.ReadColumnAccessControls.Allowed(
+                        context: context,
+                        ss: ss,
+                        column: column,
+                        type: ss.PermissionType,
+                        mine: mine)
+                            ? ClassN.ToExport(
+                                context: context,
+                                column: column,
+                                exportColumn: exportColumn)
+                            : string.Empty;
                     break;
                 case "ClassO":
-                    value = ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
-                        ? ClassO.ToExport(
-                            context: context, column: column, exportColumn: exportColumn)
-                        : string.Empty;
+                    value = ss.ReadColumnAccessControls.Allowed(
+                        context: context,
+                        ss: ss,
+                        column: column,
+                        type: ss.PermissionType,
+                        mine: mine)
+                            ? ClassO.ToExport(
+                                context: context,
+                                column: column,
+                                exportColumn: exportColumn)
+                            : string.Empty;
                     break;
                 case "ClassP":
-                    value = ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
-                        ? ClassP.ToExport(
-                            context: context, column: column, exportColumn: exportColumn)
-                        : string.Empty;
+                    value = ss.ReadColumnAccessControls.Allowed(
+                        context: context,
+                        ss: ss,
+                        column: column,
+                        type: ss.PermissionType,
+                        mine: mine)
+                            ? ClassP.ToExport(
+                                context: context,
+                                column: column,
+                                exportColumn: exportColumn)
+                            : string.Empty;
                     break;
                 case "ClassQ":
-                    value = ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
-                        ? ClassQ.ToExport(
-                            context: context, column: column, exportColumn: exportColumn)
-                        : string.Empty;
+                    value = ss.ReadColumnAccessControls.Allowed(
+                        context: context,
+                        ss: ss,
+                        column: column,
+                        type: ss.PermissionType,
+                        mine: mine)
+                            ? ClassQ.ToExport(
+                                context: context,
+                                column: column,
+                                exportColumn: exportColumn)
+                            : string.Empty;
                     break;
                 case "ClassR":
-                    value = ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
-                        ? ClassR.ToExport(
-                            context: context, column: column, exportColumn: exportColumn)
-                        : string.Empty;
+                    value = ss.ReadColumnAccessControls.Allowed(
+                        context: context,
+                        ss: ss,
+                        column: column,
+                        type: ss.PermissionType,
+                        mine: mine)
+                            ? ClassR.ToExport(
+                                context: context,
+                                column: column,
+                                exportColumn: exportColumn)
+                            : string.Empty;
                     break;
                 case "ClassS":
-                    value = ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
-                        ? ClassS.ToExport(
-                            context: context, column: column, exportColumn: exportColumn)
-                        : string.Empty;
+                    value = ss.ReadColumnAccessControls.Allowed(
+                        context: context,
+                        ss: ss,
+                        column: column,
+                        type: ss.PermissionType,
+                        mine: mine)
+                            ? ClassS.ToExport(
+                                context: context,
+                                column: column,
+                                exportColumn: exportColumn)
+                            : string.Empty;
                     break;
                 case "ClassT":
-                    value = ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
-                        ? ClassT.ToExport(
-                            context: context, column: column, exportColumn: exportColumn)
-                        : string.Empty;
+                    value = ss.ReadColumnAccessControls.Allowed(
+                        context: context,
+                        ss: ss,
+                        column: column,
+                        type: ss.PermissionType,
+                        mine: mine)
+                            ? ClassT.ToExport(
+                                context: context,
+                                column: column,
+                                exportColumn: exportColumn)
+                            : string.Empty;
                     break;
                 case "ClassU":
-                    value = ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
-                        ? ClassU.ToExport(
-                            context: context, column: column, exportColumn: exportColumn)
-                        : string.Empty;
+                    value = ss.ReadColumnAccessControls.Allowed(
+                        context: context,
+                        ss: ss,
+                        column: column,
+                        type: ss.PermissionType,
+                        mine: mine)
+                            ? ClassU.ToExport(
+                                context: context,
+                                column: column,
+                                exportColumn: exportColumn)
+                            : string.Empty;
                     break;
                 case "ClassV":
-                    value = ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
-                        ? ClassV.ToExport(
-                            context: context, column: column, exportColumn: exportColumn)
-                        : string.Empty;
+                    value = ss.ReadColumnAccessControls.Allowed(
+                        context: context,
+                        ss: ss,
+                        column: column,
+                        type: ss.PermissionType,
+                        mine: mine)
+                            ? ClassV.ToExport(
+                                context: context,
+                                column: column,
+                                exportColumn: exportColumn)
+                            : string.Empty;
                     break;
                 case "ClassW":
-                    value = ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
-                        ? ClassW.ToExport(
-                            context: context, column: column, exportColumn: exportColumn)
-                        : string.Empty;
+                    value = ss.ReadColumnAccessControls.Allowed(
+                        context: context,
+                        ss: ss,
+                        column: column,
+                        type: ss.PermissionType,
+                        mine: mine)
+                            ? ClassW.ToExport(
+                                context: context,
+                                column: column,
+                                exportColumn: exportColumn)
+                            : string.Empty;
                     break;
                 case "ClassX":
-                    value = ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
-                        ? ClassX.ToExport(
-                            context: context, column: column, exportColumn: exportColumn)
-                        : string.Empty;
+                    value = ss.ReadColumnAccessControls.Allowed(
+                        context: context,
+                        ss: ss,
+                        column: column,
+                        type: ss.PermissionType,
+                        mine: mine)
+                            ? ClassX.ToExport(
+                                context: context,
+                                column: column,
+                                exportColumn: exportColumn)
+                            : string.Empty;
                     break;
                 case "ClassY":
-                    value = ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
-                        ? ClassY.ToExport(
-                            context: context, column: column, exportColumn: exportColumn)
-                        : string.Empty;
+                    value = ss.ReadColumnAccessControls.Allowed(
+                        context: context,
+                        ss: ss,
+                        column: column,
+                        type: ss.PermissionType,
+                        mine: mine)
+                            ? ClassY.ToExport(
+                                context: context,
+                                column: column,
+                                exportColumn: exportColumn)
+                            : string.Empty;
                     break;
                 case "ClassZ":
-                    value = ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
-                        ? ClassZ.ToExport(
-                            context: context, column: column, exportColumn: exportColumn)
-                        : string.Empty;
+                    value = ss.ReadColumnAccessControls.Allowed(
+                        context: context,
+                        ss: ss,
+                        column: column,
+                        type: ss.PermissionType,
+                        mine: mine)
+                            ? ClassZ.ToExport(
+                                context: context,
+                                column: column,
+                                exportColumn: exportColumn)
+                            : string.Empty;
                     break;
                 case "NumA":
-                    value = ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
-                        ? NumA.ToExport(
-                            context: context, column: column, exportColumn: exportColumn)
-                        : string.Empty;
+                    value = ss.ReadColumnAccessControls.Allowed(
+                        context: context,
+                        ss: ss,
+                        column: column,
+                        type: ss.PermissionType,
+                        mine: mine)
+                            ? NumA.ToExport(
+                                context: context,
+                                column: column,
+                                exportColumn: exportColumn)
+                            : string.Empty;
                     break;
                 case "NumB":
-                    value = ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
-                        ? NumB.ToExport(
-                            context: context, column: column, exportColumn: exportColumn)
-                        : string.Empty;
+                    value = ss.ReadColumnAccessControls.Allowed(
+                        context: context,
+                        ss: ss,
+                        column: column,
+                        type: ss.PermissionType,
+                        mine: mine)
+                            ? NumB.ToExport(
+                                context: context,
+                                column: column,
+                                exportColumn: exportColumn)
+                            : string.Empty;
                     break;
                 case "NumC":
-                    value = ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
-                        ? NumC.ToExport(
-                            context: context, column: column, exportColumn: exportColumn)
-                        : string.Empty;
+                    value = ss.ReadColumnAccessControls.Allowed(
+                        context: context,
+                        ss: ss,
+                        column: column,
+                        type: ss.PermissionType,
+                        mine: mine)
+                            ? NumC.ToExport(
+                                context: context,
+                                column: column,
+                                exportColumn: exportColumn)
+                            : string.Empty;
                     break;
                 case "NumD":
-                    value = ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
-                        ? NumD.ToExport(
-                            context: context, column: column, exportColumn: exportColumn)
-                        : string.Empty;
+                    value = ss.ReadColumnAccessControls.Allowed(
+                        context: context,
+                        ss: ss,
+                        column: column,
+                        type: ss.PermissionType,
+                        mine: mine)
+                            ? NumD.ToExport(
+                                context: context,
+                                column: column,
+                                exportColumn: exportColumn)
+                            : string.Empty;
                     break;
                 case "NumE":
-                    value = ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
-                        ? NumE.ToExport(
-                            context: context, column: column, exportColumn: exportColumn)
-                        : string.Empty;
+                    value = ss.ReadColumnAccessControls.Allowed(
+                        context: context,
+                        ss: ss,
+                        column: column,
+                        type: ss.PermissionType,
+                        mine: mine)
+                            ? NumE.ToExport(
+                                context: context,
+                                column: column,
+                                exportColumn: exportColumn)
+                            : string.Empty;
                     break;
                 case "NumF":
-                    value = ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
-                        ? NumF.ToExport(
-                            context: context, column: column, exportColumn: exportColumn)
-                        : string.Empty;
+                    value = ss.ReadColumnAccessControls.Allowed(
+                        context: context,
+                        ss: ss,
+                        column: column,
+                        type: ss.PermissionType,
+                        mine: mine)
+                            ? NumF.ToExport(
+                                context: context,
+                                column: column,
+                                exportColumn: exportColumn)
+                            : string.Empty;
                     break;
                 case "NumG":
-                    value = ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
-                        ? NumG.ToExport(
-                            context: context, column: column, exportColumn: exportColumn)
-                        : string.Empty;
+                    value = ss.ReadColumnAccessControls.Allowed(
+                        context: context,
+                        ss: ss,
+                        column: column,
+                        type: ss.PermissionType,
+                        mine: mine)
+                            ? NumG.ToExport(
+                                context: context,
+                                column: column,
+                                exportColumn: exportColumn)
+                            : string.Empty;
                     break;
                 case "NumH":
-                    value = ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
-                        ? NumH.ToExport(
-                            context: context, column: column, exportColumn: exportColumn)
-                        : string.Empty;
+                    value = ss.ReadColumnAccessControls.Allowed(
+                        context: context,
+                        ss: ss,
+                        column: column,
+                        type: ss.PermissionType,
+                        mine: mine)
+                            ? NumH.ToExport(
+                                context: context,
+                                column: column,
+                                exportColumn: exportColumn)
+                            : string.Empty;
                     break;
                 case "NumI":
-                    value = ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
-                        ? NumI.ToExport(
-                            context: context, column: column, exportColumn: exportColumn)
-                        : string.Empty;
+                    value = ss.ReadColumnAccessControls.Allowed(
+                        context: context,
+                        ss: ss,
+                        column: column,
+                        type: ss.PermissionType,
+                        mine: mine)
+                            ? NumI.ToExport(
+                                context: context,
+                                column: column,
+                                exportColumn: exportColumn)
+                            : string.Empty;
                     break;
                 case "NumJ":
-                    value = ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
-                        ? NumJ.ToExport(
-                            context: context, column: column, exportColumn: exportColumn)
-                        : string.Empty;
+                    value = ss.ReadColumnAccessControls.Allowed(
+                        context: context,
+                        ss: ss,
+                        column: column,
+                        type: ss.PermissionType,
+                        mine: mine)
+                            ? NumJ.ToExport(
+                                context: context,
+                                column: column,
+                                exportColumn: exportColumn)
+                            : string.Empty;
                     break;
                 case "NumK":
-                    value = ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
-                        ? NumK.ToExport(
-                            context: context, column: column, exportColumn: exportColumn)
-                        : string.Empty;
+                    value = ss.ReadColumnAccessControls.Allowed(
+                        context: context,
+                        ss: ss,
+                        column: column,
+                        type: ss.PermissionType,
+                        mine: mine)
+                            ? NumK.ToExport(
+                                context: context,
+                                column: column,
+                                exportColumn: exportColumn)
+                            : string.Empty;
                     break;
                 case "NumL":
-                    value = ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
-                        ? NumL.ToExport(
-                            context: context, column: column, exportColumn: exportColumn)
-                        : string.Empty;
+                    value = ss.ReadColumnAccessControls.Allowed(
+                        context: context,
+                        ss: ss,
+                        column: column,
+                        type: ss.PermissionType,
+                        mine: mine)
+                            ? NumL.ToExport(
+                                context: context,
+                                column: column,
+                                exportColumn: exportColumn)
+                            : string.Empty;
                     break;
                 case "NumM":
-                    value = ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
-                        ? NumM.ToExport(
-                            context: context, column: column, exportColumn: exportColumn)
-                        : string.Empty;
+                    value = ss.ReadColumnAccessControls.Allowed(
+                        context: context,
+                        ss: ss,
+                        column: column,
+                        type: ss.PermissionType,
+                        mine: mine)
+                            ? NumM.ToExport(
+                                context: context,
+                                column: column,
+                                exportColumn: exportColumn)
+                            : string.Empty;
                     break;
                 case "NumN":
-                    value = ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
-                        ? NumN.ToExport(
-                            context: context, column: column, exportColumn: exportColumn)
-                        : string.Empty;
+                    value = ss.ReadColumnAccessControls.Allowed(
+                        context: context,
+                        ss: ss,
+                        column: column,
+                        type: ss.PermissionType,
+                        mine: mine)
+                            ? NumN.ToExport(
+                                context: context,
+                                column: column,
+                                exportColumn: exportColumn)
+                            : string.Empty;
                     break;
                 case "NumO":
-                    value = ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
-                        ? NumO.ToExport(
-                            context: context, column: column, exportColumn: exportColumn)
-                        : string.Empty;
+                    value = ss.ReadColumnAccessControls.Allowed(
+                        context: context,
+                        ss: ss,
+                        column: column,
+                        type: ss.PermissionType,
+                        mine: mine)
+                            ? NumO.ToExport(
+                                context: context,
+                                column: column,
+                                exportColumn: exportColumn)
+                            : string.Empty;
                     break;
                 case "NumP":
-                    value = ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
-                        ? NumP.ToExport(
-                            context: context, column: column, exportColumn: exportColumn)
-                        : string.Empty;
+                    value = ss.ReadColumnAccessControls.Allowed(
+                        context: context,
+                        ss: ss,
+                        column: column,
+                        type: ss.PermissionType,
+                        mine: mine)
+                            ? NumP.ToExport(
+                                context: context,
+                                column: column,
+                                exportColumn: exportColumn)
+                            : string.Empty;
                     break;
                 case "NumQ":
-                    value = ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
-                        ? NumQ.ToExport(
-                            context: context, column: column, exportColumn: exportColumn)
-                        : string.Empty;
+                    value = ss.ReadColumnAccessControls.Allowed(
+                        context: context,
+                        ss: ss,
+                        column: column,
+                        type: ss.PermissionType,
+                        mine: mine)
+                            ? NumQ.ToExport(
+                                context: context,
+                                column: column,
+                                exportColumn: exportColumn)
+                            : string.Empty;
                     break;
                 case "NumR":
-                    value = ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
-                        ? NumR.ToExport(
-                            context: context, column: column, exportColumn: exportColumn)
-                        : string.Empty;
+                    value = ss.ReadColumnAccessControls.Allowed(
+                        context: context,
+                        ss: ss,
+                        column: column,
+                        type: ss.PermissionType,
+                        mine: mine)
+                            ? NumR.ToExport(
+                                context: context,
+                                column: column,
+                                exportColumn: exportColumn)
+                            : string.Empty;
                     break;
                 case "NumS":
-                    value = ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
-                        ? NumS.ToExport(
-                            context: context, column: column, exportColumn: exportColumn)
-                        : string.Empty;
+                    value = ss.ReadColumnAccessControls.Allowed(
+                        context: context,
+                        ss: ss,
+                        column: column,
+                        type: ss.PermissionType,
+                        mine: mine)
+                            ? NumS.ToExport(
+                                context: context,
+                                column: column,
+                                exportColumn: exportColumn)
+                            : string.Empty;
                     break;
                 case "NumT":
-                    value = ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
-                        ? NumT.ToExport(
-                            context: context, column: column, exportColumn: exportColumn)
-                        : string.Empty;
+                    value = ss.ReadColumnAccessControls.Allowed(
+                        context: context,
+                        ss: ss,
+                        column: column,
+                        type: ss.PermissionType,
+                        mine: mine)
+                            ? NumT.ToExport(
+                                context: context,
+                                column: column,
+                                exportColumn: exportColumn)
+                            : string.Empty;
                     break;
                 case "NumU":
-                    value = ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
-                        ? NumU.ToExport(
-                            context: context, column: column, exportColumn: exportColumn)
-                        : string.Empty;
+                    value = ss.ReadColumnAccessControls.Allowed(
+                        context: context,
+                        ss: ss,
+                        column: column,
+                        type: ss.PermissionType,
+                        mine: mine)
+                            ? NumU.ToExport(
+                                context: context,
+                                column: column,
+                                exportColumn: exportColumn)
+                            : string.Empty;
                     break;
                 case "NumV":
-                    value = ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
-                        ? NumV.ToExport(
-                            context: context, column: column, exportColumn: exportColumn)
-                        : string.Empty;
+                    value = ss.ReadColumnAccessControls.Allowed(
+                        context: context,
+                        ss: ss,
+                        column: column,
+                        type: ss.PermissionType,
+                        mine: mine)
+                            ? NumV.ToExport(
+                                context: context,
+                                column: column,
+                                exportColumn: exportColumn)
+                            : string.Empty;
                     break;
                 case "NumW":
-                    value = ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
-                        ? NumW.ToExport(
-                            context: context, column: column, exportColumn: exportColumn)
-                        : string.Empty;
+                    value = ss.ReadColumnAccessControls.Allowed(
+                        context: context,
+                        ss: ss,
+                        column: column,
+                        type: ss.PermissionType,
+                        mine: mine)
+                            ? NumW.ToExport(
+                                context: context,
+                                column: column,
+                                exportColumn: exportColumn)
+                            : string.Empty;
                     break;
                 case "NumX":
-                    value = ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
-                        ? NumX.ToExport(
-                            context: context, column: column, exportColumn: exportColumn)
-                        : string.Empty;
+                    value = ss.ReadColumnAccessControls.Allowed(
+                        context: context,
+                        ss: ss,
+                        column: column,
+                        type: ss.PermissionType,
+                        mine: mine)
+                            ? NumX.ToExport(
+                                context: context,
+                                column: column,
+                                exportColumn: exportColumn)
+                            : string.Empty;
                     break;
                 case "NumY":
-                    value = ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
-                        ? NumY.ToExport(
-                            context: context, column: column, exportColumn: exportColumn)
-                        : string.Empty;
+                    value = ss.ReadColumnAccessControls.Allowed(
+                        context: context,
+                        ss: ss,
+                        column: column,
+                        type: ss.PermissionType,
+                        mine: mine)
+                            ? NumY.ToExport(
+                                context: context,
+                                column: column,
+                                exportColumn: exportColumn)
+                            : string.Empty;
                     break;
                 case "NumZ":
-                    value = ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
-                        ? NumZ.ToExport(
-                            context: context, column: column, exportColumn: exportColumn)
-                        : string.Empty;
+                    value = ss.ReadColumnAccessControls.Allowed(
+                        context: context,
+                        ss: ss,
+                        column: column,
+                        type: ss.PermissionType,
+                        mine: mine)
+                            ? NumZ.ToExport(
+                                context: context,
+                                column: column,
+                                exportColumn: exportColumn)
+                            : string.Empty;
                     break;
                 case "DateA":
-                    value = ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
-                        ? DateA.ToExport(
-                            context: context, column: column, exportColumn: exportColumn)
-                        : string.Empty;
+                    value = ss.ReadColumnAccessControls.Allowed(
+                        context: context,
+                        ss: ss,
+                        column: column,
+                        type: ss.PermissionType,
+                        mine: mine)
+                            ? DateA.ToExport(
+                                context: context,
+                                column: column,
+                                exportColumn: exportColumn)
+                            : string.Empty;
                     break;
                 case "DateB":
-                    value = ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
-                        ? DateB.ToExport(
-                            context: context, column: column, exportColumn: exportColumn)
-                        : string.Empty;
+                    value = ss.ReadColumnAccessControls.Allowed(
+                        context: context,
+                        ss: ss,
+                        column: column,
+                        type: ss.PermissionType,
+                        mine: mine)
+                            ? DateB.ToExport(
+                                context: context,
+                                column: column,
+                                exportColumn: exportColumn)
+                            : string.Empty;
                     break;
                 case "DateC":
-                    value = ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
-                        ? DateC.ToExport(
-                            context: context, column: column, exportColumn: exportColumn)
-                        : string.Empty;
+                    value = ss.ReadColumnAccessControls.Allowed(
+                        context: context,
+                        ss: ss,
+                        column: column,
+                        type: ss.PermissionType,
+                        mine: mine)
+                            ? DateC.ToExport(
+                                context: context,
+                                column: column,
+                                exportColumn: exportColumn)
+                            : string.Empty;
                     break;
                 case "DateD":
-                    value = ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
-                        ? DateD.ToExport(
-                            context: context, column: column, exportColumn: exportColumn)
-                        : string.Empty;
+                    value = ss.ReadColumnAccessControls.Allowed(
+                        context: context,
+                        ss: ss,
+                        column: column,
+                        type: ss.PermissionType,
+                        mine: mine)
+                            ? DateD.ToExport(
+                                context: context,
+                                column: column,
+                                exportColumn: exportColumn)
+                            : string.Empty;
                     break;
                 case "DateE":
-                    value = ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
-                        ? DateE.ToExport(
-                            context: context, column: column, exportColumn: exportColumn)
-                        : string.Empty;
+                    value = ss.ReadColumnAccessControls.Allowed(
+                        context: context,
+                        ss: ss,
+                        column: column,
+                        type: ss.PermissionType,
+                        mine: mine)
+                            ? DateE.ToExport(
+                                context: context,
+                                column: column,
+                                exportColumn: exportColumn)
+                            : string.Empty;
                     break;
                 case "DateF":
-                    value = ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
-                        ? DateF.ToExport(
-                            context: context, column: column, exportColumn: exportColumn)
-                        : string.Empty;
+                    value = ss.ReadColumnAccessControls.Allowed(
+                        context: context,
+                        ss: ss,
+                        column: column,
+                        type: ss.PermissionType,
+                        mine: mine)
+                            ? DateF.ToExport(
+                                context: context,
+                                column: column,
+                                exportColumn: exportColumn)
+                            : string.Empty;
                     break;
                 case "DateG":
-                    value = ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
-                        ? DateG.ToExport(
-                            context: context, column: column, exportColumn: exportColumn)
-                        : string.Empty;
+                    value = ss.ReadColumnAccessControls.Allowed(
+                        context: context,
+                        ss: ss,
+                        column: column,
+                        type: ss.PermissionType,
+                        mine: mine)
+                            ? DateG.ToExport(
+                                context: context,
+                                column: column,
+                                exportColumn: exportColumn)
+                            : string.Empty;
                     break;
                 case "DateH":
-                    value = ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
-                        ? DateH.ToExport(
-                            context: context, column: column, exportColumn: exportColumn)
-                        : string.Empty;
+                    value = ss.ReadColumnAccessControls.Allowed(
+                        context: context,
+                        ss: ss,
+                        column: column,
+                        type: ss.PermissionType,
+                        mine: mine)
+                            ? DateH.ToExport(
+                                context: context,
+                                column: column,
+                                exportColumn: exportColumn)
+                            : string.Empty;
                     break;
                 case "DateI":
-                    value = ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
-                        ? DateI.ToExport(
-                            context: context, column: column, exportColumn: exportColumn)
-                        : string.Empty;
+                    value = ss.ReadColumnAccessControls.Allowed(
+                        context: context,
+                        ss: ss,
+                        column: column,
+                        type: ss.PermissionType,
+                        mine: mine)
+                            ? DateI.ToExport(
+                                context: context,
+                                column: column,
+                                exportColumn: exportColumn)
+                            : string.Empty;
                     break;
                 case "DateJ":
-                    value = ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
-                        ? DateJ.ToExport(
-                            context: context, column: column, exportColumn: exportColumn)
-                        : string.Empty;
+                    value = ss.ReadColumnAccessControls.Allowed(
+                        context: context,
+                        ss: ss,
+                        column: column,
+                        type: ss.PermissionType,
+                        mine: mine)
+                            ? DateJ.ToExport(
+                                context: context,
+                                column: column,
+                                exportColumn: exportColumn)
+                            : string.Empty;
                     break;
                 case "DateK":
-                    value = ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
-                        ? DateK.ToExport(
-                            context: context, column: column, exportColumn: exportColumn)
-                        : string.Empty;
+                    value = ss.ReadColumnAccessControls.Allowed(
+                        context: context,
+                        ss: ss,
+                        column: column,
+                        type: ss.PermissionType,
+                        mine: mine)
+                            ? DateK.ToExport(
+                                context: context,
+                                column: column,
+                                exportColumn: exportColumn)
+                            : string.Empty;
                     break;
                 case "DateL":
-                    value = ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
-                        ? DateL.ToExport(
-                            context: context, column: column, exportColumn: exportColumn)
-                        : string.Empty;
+                    value = ss.ReadColumnAccessControls.Allowed(
+                        context: context,
+                        ss: ss,
+                        column: column,
+                        type: ss.PermissionType,
+                        mine: mine)
+                            ? DateL.ToExport(
+                                context: context,
+                                column: column,
+                                exportColumn: exportColumn)
+                            : string.Empty;
                     break;
                 case "DateM":
-                    value = ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
-                        ? DateM.ToExport(
-                            context: context, column: column, exportColumn: exportColumn)
-                        : string.Empty;
+                    value = ss.ReadColumnAccessControls.Allowed(
+                        context: context,
+                        ss: ss,
+                        column: column,
+                        type: ss.PermissionType,
+                        mine: mine)
+                            ? DateM.ToExport(
+                                context: context,
+                                column: column,
+                                exportColumn: exportColumn)
+                            : string.Empty;
                     break;
                 case "DateN":
-                    value = ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
-                        ? DateN.ToExport(
-                            context: context, column: column, exportColumn: exportColumn)
-                        : string.Empty;
+                    value = ss.ReadColumnAccessControls.Allowed(
+                        context: context,
+                        ss: ss,
+                        column: column,
+                        type: ss.PermissionType,
+                        mine: mine)
+                            ? DateN.ToExport(
+                                context: context,
+                                column: column,
+                                exportColumn: exportColumn)
+                            : string.Empty;
                     break;
                 case "DateO":
-                    value = ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
-                        ? DateO.ToExport(
-                            context: context, column: column, exportColumn: exportColumn)
-                        : string.Empty;
+                    value = ss.ReadColumnAccessControls.Allowed(
+                        context: context,
+                        ss: ss,
+                        column: column,
+                        type: ss.PermissionType,
+                        mine: mine)
+                            ? DateO.ToExport(
+                                context: context,
+                                column: column,
+                                exportColumn: exportColumn)
+                            : string.Empty;
                     break;
                 case "DateP":
-                    value = ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
-                        ? DateP.ToExport(
-                            context: context, column: column, exportColumn: exportColumn)
-                        : string.Empty;
+                    value = ss.ReadColumnAccessControls.Allowed(
+                        context: context,
+                        ss: ss,
+                        column: column,
+                        type: ss.PermissionType,
+                        mine: mine)
+                            ? DateP.ToExport(
+                                context: context,
+                                column: column,
+                                exportColumn: exportColumn)
+                            : string.Empty;
                     break;
                 case "DateQ":
-                    value = ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
-                        ? DateQ.ToExport(
-                            context: context, column: column, exportColumn: exportColumn)
-                        : string.Empty;
+                    value = ss.ReadColumnAccessControls.Allowed(
+                        context: context,
+                        ss: ss,
+                        column: column,
+                        type: ss.PermissionType,
+                        mine: mine)
+                            ? DateQ.ToExport(
+                                context: context,
+                                column: column,
+                                exportColumn: exportColumn)
+                            : string.Empty;
                     break;
                 case "DateR":
-                    value = ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
-                        ? DateR.ToExport(
-                            context: context, column: column, exportColumn: exportColumn)
-                        : string.Empty;
+                    value = ss.ReadColumnAccessControls.Allowed(
+                        context: context,
+                        ss: ss,
+                        column: column,
+                        type: ss.PermissionType,
+                        mine: mine)
+                            ? DateR.ToExport(
+                                context: context,
+                                column: column,
+                                exportColumn: exportColumn)
+                            : string.Empty;
                     break;
                 case "DateS":
-                    value = ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
-                        ? DateS.ToExport(
-                            context: context, column: column, exportColumn: exportColumn)
-                        : string.Empty;
+                    value = ss.ReadColumnAccessControls.Allowed(
+                        context: context,
+                        ss: ss,
+                        column: column,
+                        type: ss.PermissionType,
+                        mine: mine)
+                            ? DateS.ToExport(
+                                context: context,
+                                column: column,
+                                exportColumn: exportColumn)
+                            : string.Empty;
                     break;
                 case "DateT":
-                    value = ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
-                        ? DateT.ToExport(
-                            context: context, column: column, exportColumn: exportColumn)
-                        : string.Empty;
+                    value = ss.ReadColumnAccessControls.Allowed(
+                        context: context,
+                        ss: ss,
+                        column: column,
+                        type: ss.PermissionType,
+                        mine: mine)
+                            ? DateT.ToExport(
+                                context: context,
+                                column: column,
+                                exportColumn: exportColumn)
+                            : string.Empty;
                     break;
                 case "DateU":
-                    value = ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
-                        ? DateU.ToExport(
-                            context: context, column: column, exportColumn: exportColumn)
-                        : string.Empty;
+                    value = ss.ReadColumnAccessControls.Allowed(
+                        context: context,
+                        ss: ss,
+                        column: column,
+                        type: ss.PermissionType,
+                        mine: mine)
+                            ? DateU.ToExport(
+                                context: context,
+                                column: column,
+                                exportColumn: exportColumn)
+                            : string.Empty;
                     break;
                 case "DateV":
-                    value = ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
-                        ? DateV.ToExport(
-                            context: context, column: column, exportColumn: exportColumn)
-                        : string.Empty;
+                    value = ss.ReadColumnAccessControls.Allowed(
+                        context: context,
+                        ss: ss,
+                        column: column,
+                        type: ss.PermissionType,
+                        mine: mine)
+                            ? DateV.ToExport(
+                                context: context,
+                                column: column,
+                                exportColumn: exportColumn)
+                            : string.Empty;
                     break;
                 case "DateW":
-                    value = ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
-                        ? DateW.ToExport(
-                            context: context, column: column, exportColumn: exportColumn)
-                        : string.Empty;
+                    value = ss.ReadColumnAccessControls.Allowed(
+                        context: context,
+                        ss: ss,
+                        column: column,
+                        type: ss.PermissionType,
+                        mine: mine)
+                            ? DateW.ToExport(
+                                context: context,
+                                column: column,
+                                exportColumn: exportColumn)
+                            : string.Empty;
                     break;
                 case "DateX":
-                    value = ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
-                        ? DateX.ToExport(
-                            context: context, column: column, exportColumn: exportColumn)
-                        : string.Empty;
+                    value = ss.ReadColumnAccessControls.Allowed(
+                        context: context,
+                        ss: ss,
+                        column: column,
+                        type: ss.PermissionType,
+                        mine: mine)
+                            ? DateX.ToExport(
+                                context: context,
+                                column: column,
+                                exportColumn: exportColumn)
+                            : string.Empty;
                     break;
                 case "DateY":
-                    value = ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
-                        ? DateY.ToExport(
-                            context: context, column: column, exportColumn: exportColumn)
-                        : string.Empty;
+                    value = ss.ReadColumnAccessControls.Allowed(
+                        context: context,
+                        ss: ss,
+                        column: column,
+                        type: ss.PermissionType,
+                        mine: mine)
+                            ? DateY.ToExport(
+                                context: context,
+                                column: column,
+                                exportColumn: exportColumn)
+                            : string.Empty;
                     break;
                 case "DateZ":
-                    value = ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
-                        ? DateZ.ToExport(
-                            context: context, column: column, exportColumn: exportColumn)
-                        : string.Empty;
+                    value = ss.ReadColumnAccessControls.Allowed(
+                        context: context,
+                        ss: ss,
+                        column: column,
+                        type: ss.PermissionType,
+                        mine: mine)
+                            ? DateZ.ToExport(
+                                context: context,
+                                column: column,
+                                exportColumn: exportColumn)
+                            : string.Empty;
                     break;
                 case "DescriptionA":
-                    value = ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
-                        ? DescriptionA.ToExport(
-                            context: context, column: column, exportColumn: exportColumn)
-                        : string.Empty;
+                    value = ss.ReadColumnAccessControls.Allowed(
+                        context: context,
+                        ss: ss,
+                        column: column,
+                        type: ss.PermissionType,
+                        mine: mine)
+                            ? DescriptionA.ToExport(
+                                context: context,
+                                column: column,
+                                exportColumn: exportColumn)
+                            : string.Empty;
                     break;
                 case "DescriptionB":
-                    value = ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
-                        ? DescriptionB.ToExport(
-                            context: context, column: column, exportColumn: exportColumn)
-                        : string.Empty;
+                    value = ss.ReadColumnAccessControls.Allowed(
+                        context: context,
+                        ss: ss,
+                        column: column,
+                        type: ss.PermissionType,
+                        mine: mine)
+                            ? DescriptionB.ToExport(
+                                context: context,
+                                column: column,
+                                exportColumn: exportColumn)
+                            : string.Empty;
                     break;
                 case "DescriptionC":
-                    value = ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
-                        ? DescriptionC.ToExport(
-                            context: context, column: column, exportColumn: exportColumn)
-                        : string.Empty;
+                    value = ss.ReadColumnAccessControls.Allowed(
+                        context: context,
+                        ss: ss,
+                        column: column,
+                        type: ss.PermissionType,
+                        mine: mine)
+                            ? DescriptionC.ToExport(
+                                context: context,
+                                column: column,
+                                exportColumn: exportColumn)
+                            : string.Empty;
                     break;
                 case "DescriptionD":
-                    value = ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
-                        ? DescriptionD.ToExport(
-                            context: context, column: column, exportColumn: exportColumn)
-                        : string.Empty;
+                    value = ss.ReadColumnAccessControls.Allowed(
+                        context: context,
+                        ss: ss,
+                        column: column,
+                        type: ss.PermissionType,
+                        mine: mine)
+                            ? DescriptionD.ToExport(
+                                context: context,
+                                column: column,
+                                exportColumn: exportColumn)
+                            : string.Empty;
                     break;
                 case "DescriptionE":
-                    value = ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
-                        ? DescriptionE.ToExport(
-                            context: context, column: column, exportColumn: exportColumn)
-                        : string.Empty;
+                    value = ss.ReadColumnAccessControls.Allowed(
+                        context: context,
+                        ss: ss,
+                        column: column,
+                        type: ss.PermissionType,
+                        mine: mine)
+                            ? DescriptionE.ToExport(
+                                context: context,
+                                column: column,
+                                exportColumn: exportColumn)
+                            : string.Empty;
                     break;
                 case "DescriptionF":
-                    value = ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
-                        ? DescriptionF.ToExport(
-                            context: context, column: column, exportColumn: exportColumn)
-                        : string.Empty;
+                    value = ss.ReadColumnAccessControls.Allowed(
+                        context: context,
+                        ss: ss,
+                        column: column,
+                        type: ss.PermissionType,
+                        mine: mine)
+                            ? DescriptionF.ToExport(
+                                context: context,
+                                column: column,
+                                exportColumn: exportColumn)
+                            : string.Empty;
                     break;
                 case "DescriptionG":
-                    value = ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
-                        ? DescriptionG.ToExport(
-                            context: context, column: column, exportColumn: exportColumn)
-                        : string.Empty;
+                    value = ss.ReadColumnAccessControls.Allowed(
+                        context: context,
+                        ss: ss,
+                        column: column,
+                        type: ss.PermissionType,
+                        mine: mine)
+                            ? DescriptionG.ToExport(
+                                context: context,
+                                column: column,
+                                exportColumn: exportColumn)
+                            : string.Empty;
                     break;
                 case "DescriptionH":
-                    value = ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
-                        ? DescriptionH.ToExport(
-                            context: context, column: column, exportColumn: exportColumn)
-                        : string.Empty;
+                    value = ss.ReadColumnAccessControls.Allowed(
+                        context: context,
+                        ss: ss,
+                        column: column,
+                        type: ss.PermissionType,
+                        mine: mine)
+                            ? DescriptionH.ToExport(
+                                context: context,
+                                column: column,
+                                exportColumn: exportColumn)
+                            : string.Empty;
                     break;
                 case "DescriptionI":
-                    value = ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
-                        ? DescriptionI.ToExport(
-                            context: context, column: column, exportColumn: exportColumn)
-                        : string.Empty;
+                    value = ss.ReadColumnAccessControls.Allowed(
+                        context: context,
+                        ss: ss,
+                        column: column,
+                        type: ss.PermissionType,
+                        mine: mine)
+                            ? DescriptionI.ToExport(
+                                context: context,
+                                column: column,
+                                exportColumn: exportColumn)
+                            : string.Empty;
                     break;
                 case "DescriptionJ":
-                    value = ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
-                        ? DescriptionJ.ToExport(
-                            context: context, column: column, exportColumn: exportColumn)
-                        : string.Empty;
+                    value = ss.ReadColumnAccessControls.Allowed(
+                        context: context,
+                        ss: ss,
+                        column: column,
+                        type: ss.PermissionType,
+                        mine: mine)
+                            ? DescriptionJ.ToExport(
+                                context: context,
+                                column: column,
+                                exportColumn: exportColumn)
+                            : string.Empty;
                     break;
                 case "DescriptionK":
-                    value = ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
-                        ? DescriptionK.ToExport(
-                            context: context, column: column, exportColumn: exportColumn)
-                        : string.Empty;
+                    value = ss.ReadColumnAccessControls.Allowed(
+                        context: context,
+                        ss: ss,
+                        column: column,
+                        type: ss.PermissionType,
+                        mine: mine)
+                            ? DescriptionK.ToExport(
+                                context: context,
+                                column: column,
+                                exportColumn: exportColumn)
+                            : string.Empty;
                     break;
                 case "DescriptionL":
-                    value = ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
-                        ? DescriptionL.ToExport(
-                            context: context, column: column, exportColumn: exportColumn)
-                        : string.Empty;
+                    value = ss.ReadColumnAccessControls.Allowed(
+                        context: context,
+                        ss: ss,
+                        column: column,
+                        type: ss.PermissionType,
+                        mine: mine)
+                            ? DescriptionL.ToExport(
+                                context: context,
+                                column: column,
+                                exportColumn: exportColumn)
+                            : string.Empty;
                     break;
                 case "DescriptionM":
-                    value = ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
-                        ? DescriptionM.ToExport(
-                            context: context, column: column, exportColumn: exportColumn)
-                        : string.Empty;
+                    value = ss.ReadColumnAccessControls.Allowed(
+                        context: context,
+                        ss: ss,
+                        column: column,
+                        type: ss.PermissionType,
+                        mine: mine)
+                            ? DescriptionM.ToExport(
+                                context: context,
+                                column: column,
+                                exportColumn: exportColumn)
+                            : string.Empty;
                     break;
                 case "DescriptionN":
-                    value = ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
-                        ? DescriptionN.ToExport(
-                            context: context, column: column, exportColumn: exportColumn)
-                        : string.Empty;
+                    value = ss.ReadColumnAccessControls.Allowed(
+                        context: context,
+                        ss: ss,
+                        column: column,
+                        type: ss.PermissionType,
+                        mine: mine)
+                            ? DescriptionN.ToExport(
+                                context: context,
+                                column: column,
+                                exportColumn: exportColumn)
+                            : string.Empty;
                     break;
                 case "DescriptionO":
-                    value = ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
-                        ? DescriptionO.ToExport(
-                            context: context, column: column, exportColumn: exportColumn)
-                        : string.Empty;
+                    value = ss.ReadColumnAccessControls.Allowed(
+                        context: context,
+                        ss: ss,
+                        column: column,
+                        type: ss.PermissionType,
+                        mine: mine)
+                            ? DescriptionO.ToExport(
+                                context: context,
+                                column: column,
+                                exportColumn: exportColumn)
+                            : string.Empty;
                     break;
                 case "DescriptionP":
-                    value = ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
-                        ? DescriptionP.ToExport(
-                            context: context, column: column, exportColumn: exportColumn)
-                        : string.Empty;
+                    value = ss.ReadColumnAccessControls.Allowed(
+                        context: context,
+                        ss: ss,
+                        column: column,
+                        type: ss.PermissionType,
+                        mine: mine)
+                            ? DescriptionP.ToExport(
+                                context: context,
+                                column: column,
+                                exportColumn: exportColumn)
+                            : string.Empty;
                     break;
                 case "DescriptionQ":
-                    value = ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
-                        ? DescriptionQ.ToExport(
-                            context: context, column: column, exportColumn: exportColumn)
-                        : string.Empty;
+                    value = ss.ReadColumnAccessControls.Allowed(
+                        context: context,
+                        ss: ss,
+                        column: column,
+                        type: ss.PermissionType,
+                        mine: mine)
+                            ? DescriptionQ.ToExport(
+                                context: context,
+                                column: column,
+                                exportColumn: exportColumn)
+                            : string.Empty;
                     break;
                 case "DescriptionR":
-                    value = ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
-                        ? DescriptionR.ToExport(
-                            context: context, column: column, exportColumn: exportColumn)
-                        : string.Empty;
+                    value = ss.ReadColumnAccessControls.Allowed(
+                        context: context,
+                        ss: ss,
+                        column: column,
+                        type: ss.PermissionType,
+                        mine: mine)
+                            ? DescriptionR.ToExport(
+                                context: context,
+                                column: column,
+                                exportColumn: exportColumn)
+                            : string.Empty;
                     break;
                 case "DescriptionS":
-                    value = ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
-                        ? DescriptionS.ToExport(
-                            context: context, column: column, exportColumn: exportColumn)
-                        : string.Empty;
+                    value = ss.ReadColumnAccessControls.Allowed(
+                        context: context,
+                        ss: ss,
+                        column: column,
+                        type: ss.PermissionType,
+                        mine: mine)
+                            ? DescriptionS.ToExport(
+                                context: context,
+                                column: column,
+                                exportColumn: exportColumn)
+                            : string.Empty;
                     break;
                 case "DescriptionT":
-                    value = ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
-                        ? DescriptionT.ToExport(
-                            context: context, column: column, exportColumn: exportColumn)
-                        : string.Empty;
+                    value = ss.ReadColumnAccessControls.Allowed(
+                        context: context,
+                        ss: ss,
+                        column: column,
+                        type: ss.PermissionType,
+                        mine: mine)
+                            ? DescriptionT.ToExport(
+                                context: context,
+                                column: column,
+                                exportColumn: exportColumn)
+                            : string.Empty;
                     break;
                 case "DescriptionU":
-                    value = ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
-                        ? DescriptionU.ToExport(
-                            context: context, column: column, exportColumn: exportColumn)
-                        : string.Empty;
+                    value = ss.ReadColumnAccessControls.Allowed(
+                        context: context,
+                        ss: ss,
+                        column: column,
+                        type: ss.PermissionType,
+                        mine: mine)
+                            ? DescriptionU.ToExport(
+                                context: context,
+                                column: column,
+                                exportColumn: exportColumn)
+                            : string.Empty;
                     break;
                 case "DescriptionV":
-                    value = ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
-                        ? DescriptionV.ToExport(
-                            context: context, column: column, exportColumn: exportColumn)
-                        : string.Empty;
+                    value = ss.ReadColumnAccessControls.Allowed(
+                        context: context,
+                        ss: ss,
+                        column: column,
+                        type: ss.PermissionType,
+                        mine: mine)
+                            ? DescriptionV.ToExport(
+                                context: context,
+                                column: column,
+                                exportColumn: exportColumn)
+                            : string.Empty;
                     break;
                 case "DescriptionW":
-                    value = ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
-                        ? DescriptionW.ToExport(
-                            context: context, column: column, exportColumn: exportColumn)
-                        : string.Empty;
+                    value = ss.ReadColumnAccessControls.Allowed(
+                        context: context,
+                        ss: ss,
+                        column: column,
+                        type: ss.PermissionType,
+                        mine: mine)
+                            ? DescriptionW.ToExport(
+                                context: context,
+                                column: column,
+                                exportColumn: exportColumn)
+                            : string.Empty;
                     break;
                 case "DescriptionX":
-                    value = ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
-                        ? DescriptionX.ToExport(
-                            context: context, column: column, exportColumn: exportColumn)
-                        : string.Empty;
+                    value = ss.ReadColumnAccessControls.Allowed(
+                        context: context,
+                        ss: ss,
+                        column: column,
+                        type: ss.PermissionType,
+                        mine: mine)
+                            ? DescriptionX.ToExport(
+                                context: context,
+                                column: column,
+                                exportColumn: exportColumn)
+                            : string.Empty;
                     break;
                 case "DescriptionY":
-                    value = ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
-                        ? DescriptionY.ToExport(
-                            context: context, column: column, exportColumn: exportColumn)
-                        : string.Empty;
+                    value = ss.ReadColumnAccessControls.Allowed(
+                        context: context,
+                        ss: ss,
+                        column: column,
+                        type: ss.PermissionType,
+                        mine: mine)
+                            ? DescriptionY.ToExport(
+                                context: context,
+                                column: column,
+                                exportColumn: exportColumn)
+                            : string.Empty;
                     break;
                 case "DescriptionZ":
-                    value = ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
-                        ? DescriptionZ.ToExport(
-                            context: context, column: column, exportColumn: exportColumn)
-                        : string.Empty;
+                    value = ss.ReadColumnAccessControls.Allowed(
+                        context: context,
+                        ss: ss,
+                        column: column,
+                        type: ss.PermissionType,
+                        mine: mine)
+                            ? DescriptionZ.ToExport(
+                                context: context,
+                                column: column,
+                                exportColumn: exportColumn)
+                            : string.Empty;
                     break;
                 case "CheckA":
-                    value = ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
-                        ? CheckA.ToExport(
-                            context: context, column: column, exportColumn: exportColumn)
-                        : string.Empty;
+                    value = ss.ReadColumnAccessControls.Allowed(
+                        context: context,
+                        ss: ss,
+                        column: column,
+                        type: ss.PermissionType,
+                        mine: mine)
+                            ? CheckA.ToExport(
+                                context: context,
+                                column: column,
+                                exportColumn: exportColumn)
+                            : string.Empty;
                     break;
                 case "CheckB":
-                    value = ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
-                        ? CheckB.ToExport(
-                            context: context, column: column, exportColumn: exportColumn)
-                        : string.Empty;
+                    value = ss.ReadColumnAccessControls.Allowed(
+                        context: context,
+                        ss: ss,
+                        column: column,
+                        type: ss.PermissionType,
+                        mine: mine)
+                            ? CheckB.ToExport(
+                                context: context,
+                                column: column,
+                                exportColumn: exportColumn)
+                            : string.Empty;
                     break;
                 case "CheckC":
-                    value = ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
-                        ? CheckC.ToExport(
-                            context: context, column: column, exportColumn: exportColumn)
-                        : string.Empty;
+                    value = ss.ReadColumnAccessControls.Allowed(
+                        context: context,
+                        ss: ss,
+                        column: column,
+                        type: ss.PermissionType,
+                        mine: mine)
+                            ? CheckC.ToExport(
+                                context: context,
+                                column: column,
+                                exportColumn: exportColumn)
+                            : string.Empty;
                     break;
                 case "CheckD":
-                    value = ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
-                        ? CheckD.ToExport(
-                            context: context, column: column, exportColumn: exportColumn)
-                        : string.Empty;
+                    value = ss.ReadColumnAccessControls.Allowed(
+                        context: context,
+                        ss: ss,
+                        column: column,
+                        type: ss.PermissionType,
+                        mine: mine)
+                            ? CheckD.ToExport(
+                                context: context,
+                                column: column,
+                                exportColumn: exportColumn)
+                            : string.Empty;
                     break;
                 case "CheckE":
-                    value = ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
-                        ? CheckE.ToExport(
-                            context: context, column: column, exportColumn: exportColumn)
-                        : string.Empty;
+                    value = ss.ReadColumnAccessControls.Allowed(
+                        context: context,
+                        ss: ss,
+                        column: column,
+                        type: ss.PermissionType,
+                        mine: mine)
+                            ? CheckE.ToExport(
+                                context: context,
+                                column: column,
+                                exportColumn: exportColumn)
+                            : string.Empty;
                     break;
                 case "CheckF":
-                    value = ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
-                        ? CheckF.ToExport(
-                            context: context, column: column, exportColumn: exportColumn)
-                        : string.Empty;
+                    value = ss.ReadColumnAccessControls.Allowed(
+                        context: context,
+                        ss: ss,
+                        column: column,
+                        type: ss.PermissionType,
+                        mine: mine)
+                            ? CheckF.ToExport(
+                                context: context,
+                                column: column,
+                                exportColumn: exportColumn)
+                            : string.Empty;
                     break;
                 case "CheckG":
-                    value = ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
-                        ? CheckG.ToExport(
-                            context: context, column: column, exportColumn: exportColumn)
-                        : string.Empty;
+                    value = ss.ReadColumnAccessControls.Allowed(
+                        context: context,
+                        ss: ss,
+                        column: column,
+                        type: ss.PermissionType,
+                        mine: mine)
+                            ? CheckG.ToExport(
+                                context: context,
+                                column: column,
+                                exportColumn: exportColumn)
+                            : string.Empty;
                     break;
                 case "CheckH":
-                    value = ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
-                        ? CheckH.ToExport(
-                            context: context, column: column, exportColumn: exportColumn)
-                        : string.Empty;
+                    value = ss.ReadColumnAccessControls.Allowed(
+                        context: context,
+                        ss: ss,
+                        column: column,
+                        type: ss.PermissionType,
+                        mine: mine)
+                            ? CheckH.ToExport(
+                                context: context,
+                                column: column,
+                                exportColumn: exportColumn)
+                            : string.Empty;
                     break;
                 case "CheckI":
-                    value = ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
-                        ? CheckI.ToExport(
-                            context: context, column: column, exportColumn: exportColumn)
-                        : string.Empty;
+                    value = ss.ReadColumnAccessControls.Allowed(
+                        context: context,
+                        ss: ss,
+                        column: column,
+                        type: ss.PermissionType,
+                        mine: mine)
+                            ? CheckI.ToExport(
+                                context: context,
+                                column: column,
+                                exportColumn: exportColumn)
+                            : string.Empty;
                     break;
                 case "CheckJ":
-                    value = ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
-                        ? CheckJ.ToExport(
-                            context: context, column: column, exportColumn: exportColumn)
-                        : string.Empty;
+                    value = ss.ReadColumnAccessControls.Allowed(
+                        context: context,
+                        ss: ss,
+                        column: column,
+                        type: ss.PermissionType,
+                        mine: mine)
+                            ? CheckJ.ToExport(
+                                context: context,
+                                column: column,
+                                exportColumn: exportColumn)
+                            : string.Empty;
                     break;
                 case "CheckK":
-                    value = ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
-                        ? CheckK.ToExport(
-                            context: context, column: column, exportColumn: exportColumn)
-                        : string.Empty;
+                    value = ss.ReadColumnAccessControls.Allowed(
+                        context: context,
+                        ss: ss,
+                        column: column,
+                        type: ss.PermissionType,
+                        mine: mine)
+                            ? CheckK.ToExport(
+                                context: context,
+                                column: column,
+                                exportColumn: exportColumn)
+                            : string.Empty;
                     break;
                 case "CheckL":
-                    value = ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
-                        ? CheckL.ToExport(
-                            context: context, column: column, exportColumn: exportColumn)
-                        : string.Empty;
+                    value = ss.ReadColumnAccessControls.Allowed(
+                        context: context,
+                        ss: ss,
+                        column: column,
+                        type: ss.PermissionType,
+                        mine: mine)
+                            ? CheckL.ToExport(
+                                context: context,
+                                column: column,
+                                exportColumn: exportColumn)
+                            : string.Empty;
                     break;
                 case "CheckM":
-                    value = ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
-                        ? CheckM.ToExport(
-                            context: context, column: column, exportColumn: exportColumn)
-                        : string.Empty;
+                    value = ss.ReadColumnAccessControls.Allowed(
+                        context: context,
+                        ss: ss,
+                        column: column,
+                        type: ss.PermissionType,
+                        mine: mine)
+                            ? CheckM.ToExport(
+                                context: context,
+                                column: column,
+                                exportColumn: exportColumn)
+                            : string.Empty;
                     break;
                 case "CheckN":
-                    value = ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
-                        ? CheckN.ToExport(
-                            context: context, column: column, exportColumn: exportColumn)
-                        : string.Empty;
+                    value = ss.ReadColumnAccessControls.Allowed(
+                        context: context,
+                        ss: ss,
+                        column: column,
+                        type: ss.PermissionType,
+                        mine: mine)
+                            ? CheckN.ToExport(
+                                context: context,
+                                column: column,
+                                exportColumn: exportColumn)
+                            : string.Empty;
                     break;
                 case "CheckO":
-                    value = ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
-                        ? CheckO.ToExport(
-                            context: context, column: column, exportColumn: exportColumn)
-                        : string.Empty;
+                    value = ss.ReadColumnAccessControls.Allowed(
+                        context: context,
+                        ss: ss,
+                        column: column,
+                        type: ss.PermissionType,
+                        mine: mine)
+                            ? CheckO.ToExport(
+                                context: context,
+                                column: column,
+                                exportColumn: exportColumn)
+                            : string.Empty;
                     break;
                 case "CheckP":
-                    value = ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
-                        ? CheckP.ToExport(
-                            context: context, column: column, exportColumn: exportColumn)
-                        : string.Empty;
+                    value = ss.ReadColumnAccessControls.Allowed(
+                        context: context,
+                        ss: ss,
+                        column: column,
+                        type: ss.PermissionType,
+                        mine: mine)
+                            ? CheckP.ToExport(
+                                context: context,
+                                column: column,
+                                exportColumn: exportColumn)
+                            : string.Empty;
                     break;
                 case "CheckQ":
-                    value = ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
-                        ? CheckQ.ToExport(
-                            context: context, column: column, exportColumn: exportColumn)
-                        : string.Empty;
+                    value = ss.ReadColumnAccessControls.Allowed(
+                        context: context,
+                        ss: ss,
+                        column: column,
+                        type: ss.PermissionType,
+                        mine: mine)
+                            ? CheckQ.ToExport(
+                                context: context,
+                                column: column,
+                                exportColumn: exportColumn)
+                            : string.Empty;
                     break;
                 case "CheckR":
-                    value = ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
-                        ? CheckR.ToExport(
-                            context: context, column: column, exportColumn: exportColumn)
-                        : string.Empty;
+                    value = ss.ReadColumnAccessControls.Allowed(
+                        context: context,
+                        ss: ss,
+                        column: column,
+                        type: ss.PermissionType,
+                        mine: mine)
+                            ? CheckR.ToExport(
+                                context: context,
+                                column: column,
+                                exportColumn: exportColumn)
+                            : string.Empty;
                     break;
                 case "CheckS":
-                    value = ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
-                        ? CheckS.ToExport(
-                            context: context, column: column, exportColumn: exportColumn)
-                        : string.Empty;
+                    value = ss.ReadColumnAccessControls.Allowed(
+                        context: context,
+                        ss: ss,
+                        column: column,
+                        type: ss.PermissionType,
+                        mine: mine)
+                            ? CheckS.ToExport(
+                                context: context,
+                                column: column,
+                                exportColumn: exportColumn)
+                            : string.Empty;
                     break;
                 case "CheckT":
-                    value = ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
-                        ? CheckT.ToExport(
-                            context: context, column: column, exportColumn: exportColumn)
-                        : string.Empty;
+                    value = ss.ReadColumnAccessControls.Allowed(
+                        context: context,
+                        ss: ss,
+                        column: column,
+                        type: ss.PermissionType,
+                        mine: mine)
+                            ? CheckT.ToExport(
+                                context: context,
+                                column: column,
+                                exportColumn: exportColumn)
+                            : string.Empty;
                     break;
                 case "CheckU":
-                    value = ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
-                        ? CheckU.ToExport(
-                            context: context, column: column, exportColumn: exportColumn)
-                        : string.Empty;
+                    value = ss.ReadColumnAccessControls.Allowed(
+                        context: context,
+                        ss: ss,
+                        column: column,
+                        type: ss.PermissionType,
+                        mine: mine)
+                            ? CheckU.ToExport(
+                                context: context,
+                                column: column,
+                                exportColumn: exportColumn)
+                            : string.Empty;
                     break;
                 case "CheckV":
-                    value = ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
-                        ? CheckV.ToExport(
-                            context: context, column: column, exportColumn: exportColumn)
-                        : string.Empty;
+                    value = ss.ReadColumnAccessControls.Allowed(
+                        context: context,
+                        ss: ss,
+                        column: column,
+                        type: ss.PermissionType,
+                        mine: mine)
+                            ? CheckV.ToExport(
+                                context: context,
+                                column: column,
+                                exportColumn: exportColumn)
+                            : string.Empty;
                     break;
                 case "CheckW":
-                    value = ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
-                        ? CheckW.ToExport(
-                            context: context, column: column, exportColumn: exportColumn)
-                        : string.Empty;
+                    value = ss.ReadColumnAccessControls.Allowed(
+                        context: context,
+                        ss: ss,
+                        column: column,
+                        type: ss.PermissionType,
+                        mine: mine)
+                            ? CheckW.ToExport(
+                                context: context,
+                                column: column,
+                                exportColumn: exportColumn)
+                            : string.Empty;
                     break;
                 case "CheckX":
-                    value = ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
-                        ? CheckX.ToExport(
-                            context: context, column: column, exportColumn: exportColumn)
-                        : string.Empty;
+                    value = ss.ReadColumnAccessControls.Allowed(
+                        context: context,
+                        ss: ss,
+                        column: column,
+                        type: ss.PermissionType,
+                        mine: mine)
+                            ? CheckX.ToExport(
+                                context: context,
+                                column: column,
+                                exportColumn: exportColumn)
+                            : string.Empty;
                     break;
                 case "CheckY":
-                    value = ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
-                        ? CheckY.ToExport(
-                            context: context, column: column, exportColumn: exportColumn)
-                        : string.Empty;
+                    value = ss.ReadColumnAccessControls.Allowed(
+                        context: context,
+                        ss: ss,
+                        column: column,
+                        type: ss.PermissionType,
+                        mine: mine)
+                            ? CheckY.ToExport(
+                                context: context,
+                                column: column,
+                                exportColumn: exportColumn)
+                            : string.Empty;
                     break;
                 case "CheckZ":
-                    value = ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
-                        ? CheckZ.ToExport(
-                            context: context, column: column, exportColumn: exportColumn)
-                        : string.Empty;
+                    value = ss.ReadColumnAccessControls.Allowed(
+                        context: context,
+                        ss: ss,
+                        column: column,
+                        type: ss.PermissionType,
+                        mine: mine)
+                            ? CheckZ.ToExport(
+                                context: context,
+                                column: column,
+                                exportColumn: exportColumn)
+                            : string.Empty;
                     break;
                 case "AttachmentsA":
-                    value = ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
-                        ? AttachmentsA.ToExport(
-                            context: context, column: column, exportColumn: exportColumn)
-                        : string.Empty;
+                    value = ss.ReadColumnAccessControls.Allowed(
+                        context: context,
+                        ss: ss,
+                        column: column,
+                        type: ss.PermissionType,
+                        mine: mine)
+                            ? AttachmentsA.ToExport(
+                                context: context,
+                                column: column,
+                                exportColumn: exportColumn)
+                            : string.Empty;
                     break;
                 case "AttachmentsB":
-                    value = ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
-                        ? AttachmentsB.ToExport(
-                            context: context, column: column, exportColumn: exportColumn)
-                        : string.Empty;
+                    value = ss.ReadColumnAccessControls.Allowed(
+                        context: context,
+                        ss: ss,
+                        column: column,
+                        type: ss.PermissionType,
+                        mine: mine)
+                            ? AttachmentsB.ToExport(
+                                context: context,
+                                column: column,
+                                exportColumn: exportColumn)
+                            : string.Empty;
                     break;
                 case "AttachmentsC":
-                    value = ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
-                        ? AttachmentsC.ToExport(
-                            context: context, column: column, exportColumn: exportColumn)
-                        : string.Empty;
+                    value = ss.ReadColumnAccessControls.Allowed(
+                        context: context,
+                        ss: ss,
+                        column: column,
+                        type: ss.PermissionType,
+                        mine: mine)
+                            ? AttachmentsC.ToExport(
+                                context: context,
+                                column: column,
+                                exportColumn: exportColumn)
+                            : string.Empty;
                     break;
                 case "AttachmentsD":
-                    value = ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
-                        ? AttachmentsD.ToExport(
-                            context: context, column: column, exportColumn: exportColumn)
-                        : string.Empty;
+                    value = ss.ReadColumnAccessControls.Allowed(
+                        context: context,
+                        ss: ss,
+                        column: column,
+                        type: ss.PermissionType,
+                        mine: mine)
+                            ? AttachmentsD.ToExport(
+                                context: context,
+                                column: column,
+                                exportColumn: exportColumn)
+                            : string.Empty;
                     break;
                 case "AttachmentsE":
-                    value = ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
-                        ? AttachmentsE.ToExport(
-                            context: context, column: column, exportColumn: exportColumn)
-                        : string.Empty;
+                    value = ss.ReadColumnAccessControls.Allowed(
+                        context: context,
+                        ss: ss,
+                        column: column,
+                        type: ss.PermissionType,
+                        mine: mine)
+                            ? AttachmentsE.ToExport(
+                                context: context,
+                                column: column,
+                                exportColumn: exportColumn)
+                            : string.Empty;
                     break;
                 case "AttachmentsF":
-                    value = ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
-                        ? AttachmentsF.ToExport(
-                            context: context, column: column, exportColumn: exportColumn)
-                        : string.Empty;
+                    value = ss.ReadColumnAccessControls.Allowed(
+                        context: context,
+                        ss: ss,
+                        column: column,
+                        type: ss.PermissionType,
+                        mine: mine)
+                            ? AttachmentsF.ToExport(
+                                context: context,
+                                column: column,
+                                exportColumn: exportColumn)
+                            : string.Empty;
                     break;
                 case "AttachmentsG":
-                    value = ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
-                        ? AttachmentsG.ToExport(
-                            context: context, column: column, exportColumn: exportColumn)
-                        : string.Empty;
+                    value = ss.ReadColumnAccessControls.Allowed(
+                        context: context,
+                        ss: ss,
+                        column: column,
+                        type: ss.PermissionType,
+                        mine: mine)
+                            ? AttachmentsG.ToExport(
+                                context: context,
+                                column: column,
+                                exportColumn: exportColumn)
+                            : string.Empty;
                     break;
                 case "AttachmentsH":
-                    value = ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
-                        ? AttachmentsH.ToExport(
-                            context: context, column: column, exportColumn: exportColumn)
-                        : string.Empty;
+                    value = ss.ReadColumnAccessControls.Allowed(
+                        context: context,
+                        ss: ss,
+                        column: column,
+                        type: ss.PermissionType,
+                        mine: mine)
+                            ? AttachmentsH.ToExport(
+                                context: context,
+                                column: column,
+                                exportColumn: exportColumn)
+                            : string.Empty;
                     break;
                 case "AttachmentsI":
-                    value = ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
-                        ? AttachmentsI.ToExport(
-                            context: context, column: column, exportColumn: exportColumn)
-                        : string.Empty;
+                    value = ss.ReadColumnAccessControls.Allowed(
+                        context: context,
+                        ss: ss,
+                        column: column,
+                        type: ss.PermissionType,
+                        mine: mine)
+                            ? AttachmentsI.ToExport(
+                                context: context,
+                                column: column,
+                                exportColumn: exportColumn)
+                            : string.Empty;
                     break;
                 case "AttachmentsJ":
-                    value = ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
-                        ? AttachmentsJ.ToExport(
-                            context: context, column: column, exportColumn: exportColumn)
-                        : string.Empty;
+                    value = ss.ReadColumnAccessControls.Allowed(
+                        context: context,
+                        ss: ss,
+                        column: column,
+                        type: ss.PermissionType,
+                        mine: mine)
+                            ? AttachmentsJ.ToExport(
+                                context: context,
+                                column: column,
+                                exportColumn: exportColumn)
+                            : string.Empty;
                     break;
                 case "AttachmentsK":
-                    value = ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
-                        ? AttachmentsK.ToExport(
-                            context: context, column: column, exportColumn: exportColumn)
-                        : string.Empty;
+                    value = ss.ReadColumnAccessControls.Allowed(
+                        context: context,
+                        ss: ss,
+                        column: column,
+                        type: ss.PermissionType,
+                        mine: mine)
+                            ? AttachmentsK.ToExport(
+                                context: context,
+                                column: column,
+                                exportColumn: exportColumn)
+                            : string.Empty;
                     break;
                 case "AttachmentsL":
-                    value = ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
-                        ? AttachmentsL.ToExport(
-                            context: context, column: column, exportColumn: exportColumn)
-                        : string.Empty;
+                    value = ss.ReadColumnAccessControls.Allowed(
+                        context: context,
+                        ss: ss,
+                        column: column,
+                        type: ss.PermissionType,
+                        mine: mine)
+                            ? AttachmentsL.ToExport(
+                                context: context,
+                                column: column,
+                                exportColumn: exportColumn)
+                            : string.Empty;
                     break;
                 case "AttachmentsM":
-                    value = ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
-                        ? AttachmentsM.ToExport(
-                            context: context, column: column, exportColumn: exportColumn)
-                        : string.Empty;
+                    value = ss.ReadColumnAccessControls.Allowed(
+                        context: context,
+                        ss: ss,
+                        column: column,
+                        type: ss.PermissionType,
+                        mine: mine)
+                            ? AttachmentsM.ToExport(
+                                context: context,
+                                column: column,
+                                exportColumn: exportColumn)
+                            : string.Empty;
                     break;
                 case "AttachmentsN":
-                    value = ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
-                        ? AttachmentsN.ToExport(
-                            context: context, column: column, exportColumn: exportColumn)
-                        : string.Empty;
+                    value = ss.ReadColumnAccessControls.Allowed(
+                        context: context,
+                        ss: ss,
+                        column: column,
+                        type: ss.PermissionType,
+                        mine: mine)
+                            ? AttachmentsN.ToExport(
+                                context: context,
+                                column: column,
+                                exportColumn: exportColumn)
+                            : string.Empty;
                     break;
                 case "AttachmentsO":
-                    value = ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
-                        ? AttachmentsO.ToExport(
-                            context: context, column: column, exportColumn: exportColumn)
-                        : string.Empty;
+                    value = ss.ReadColumnAccessControls.Allowed(
+                        context: context,
+                        ss: ss,
+                        column: column,
+                        type: ss.PermissionType,
+                        mine: mine)
+                            ? AttachmentsO.ToExport(
+                                context: context,
+                                column: column,
+                                exportColumn: exportColumn)
+                            : string.Empty;
                     break;
                 case "AttachmentsP":
-                    value = ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
-                        ? AttachmentsP.ToExport(
-                            context: context, column: column, exportColumn: exportColumn)
-                        : string.Empty;
+                    value = ss.ReadColumnAccessControls.Allowed(
+                        context: context,
+                        ss: ss,
+                        column: column,
+                        type: ss.PermissionType,
+                        mine: mine)
+                            ? AttachmentsP.ToExport(
+                                context: context,
+                                column: column,
+                                exportColumn: exportColumn)
+                            : string.Empty;
                     break;
                 case "AttachmentsQ":
-                    value = ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
-                        ? AttachmentsQ.ToExport(
-                            context: context, column: column, exportColumn: exportColumn)
-                        : string.Empty;
+                    value = ss.ReadColumnAccessControls.Allowed(
+                        context: context,
+                        ss: ss,
+                        column: column,
+                        type: ss.PermissionType,
+                        mine: mine)
+                            ? AttachmentsQ.ToExport(
+                                context: context,
+                                column: column,
+                                exportColumn: exportColumn)
+                            : string.Empty;
                     break;
                 case "AttachmentsR":
-                    value = ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
-                        ? AttachmentsR.ToExport(
-                            context: context, column: column, exportColumn: exportColumn)
-                        : string.Empty;
+                    value = ss.ReadColumnAccessControls.Allowed(
+                        context: context,
+                        ss: ss,
+                        column: column,
+                        type: ss.PermissionType,
+                        mine: mine)
+                            ? AttachmentsR.ToExport(
+                                context: context,
+                                column: column,
+                                exportColumn: exportColumn)
+                            : string.Empty;
                     break;
                 case "AttachmentsS":
-                    value = ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
-                        ? AttachmentsS.ToExport(
-                            context: context, column: column, exportColumn: exportColumn)
-                        : string.Empty;
+                    value = ss.ReadColumnAccessControls.Allowed(
+                        context: context,
+                        ss: ss,
+                        column: column,
+                        type: ss.PermissionType,
+                        mine: mine)
+                            ? AttachmentsS.ToExport(
+                                context: context,
+                                column: column,
+                                exportColumn: exportColumn)
+                            : string.Empty;
                     break;
                 case "AttachmentsT":
-                    value = ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
-                        ? AttachmentsT.ToExport(
-                            context: context, column: column, exportColumn: exportColumn)
-                        : string.Empty;
+                    value = ss.ReadColumnAccessControls.Allowed(
+                        context: context,
+                        ss: ss,
+                        column: column,
+                        type: ss.PermissionType,
+                        mine: mine)
+                            ? AttachmentsT.ToExport(
+                                context: context,
+                                column: column,
+                                exportColumn: exportColumn)
+                            : string.Empty;
                     break;
                 case "AttachmentsU":
-                    value = ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
-                        ? AttachmentsU.ToExport(
-                            context: context, column: column, exportColumn: exportColumn)
-                        : string.Empty;
+                    value = ss.ReadColumnAccessControls.Allowed(
+                        context: context,
+                        ss: ss,
+                        column: column,
+                        type: ss.PermissionType,
+                        mine: mine)
+                            ? AttachmentsU.ToExport(
+                                context: context,
+                                column: column,
+                                exportColumn: exportColumn)
+                            : string.Empty;
                     break;
                 case "AttachmentsV":
-                    value = ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
-                        ? AttachmentsV.ToExport(
-                            context: context, column: column, exportColumn: exportColumn)
-                        : string.Empty;
+                    value = ss.ReadColumnAccessControls.Allowed(
+                        context: context,
+                        ss: ss,
+                        column: column,
+                        type: ss.PermissionType,
+                        mine: mine)
+                            ? AttachmentsV.ToExport(
+                                context: context,
+                                column: column,
+                                exportColumn: exportColumn)
+                            : string.Empty;
                     break;
                 case "AttachmentsW":
-                    value = ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
-                        ? AttachmentsW.ToExport(
-                            context: context, column: column, exportColumn: exportColumn)
-                        : string.Empty;
+                    value = ss.ReadColumnAccessControls.Allowed(
+                        context: context,
+                        ss: ss,
+                        column: column,
+                        type: ss.PermissionType,
+                        mine: mine)
+                            ? AttachmentsW.ToExport(
+                                context: context,
+                                column: column,
+                                exportColumn: exportColumn)
+                            : string.Empty;
                     break;
                 case "AttachmentsX":
-                    value = ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
-                        ? AttachmentsX.ToExport(
-                            context: context, column: column, exportColumn: exportColumn)
-                        : string.Empty;
+                    value = ss.ReadColumnAccessControls.Allowed(
+                        context: context,
+                        ss: ss,
+                        column: column,
+                        type: ss.PermissionType,
+                        mine: mine)
+                            ? AttachmentsX.ToExport(
+                                context: context,
+                                column: column,
+                                exportColumn: exportColumn)
+                            : string.Empty;
                     break;
                 case "AttachmentsY":
-                    value = ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
-                        ? AttachmentsY.ToExport(
-                            context: context, column: column, exportColumn: exportColumn)
-                        : string.Empty;
+                    value = ss.ReadColumnAccessControls.Allowed(
+                        context: context,
+                        ss: ss,
+                        column: column,
+                        type: ss.PermissionType,
+                        mine: mine)
+                            ? AttachmentsY.ToExport(
+                                context: context,
+                                column: column,
+                                exportColumn: exportColumn)
+                            : string.Empty;
                     break;
                 case "AttachmentsZ":
-                    value = ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
-                        ? AttachmentsZ.ToExport(
-                            context: context, column: column, exportColumn: exportColumn)
-                        : string.Empty;
+                    value = ss.ReadColumnAccessControls.Allowed(
+                        context: context,
+                        ss: ss,
+                        column: column,
+                        type: ss.PermissionType,
+                        mine: mine)
+                            ? AttachmentsZ.ToExport(
+                                context: context,
+                                column: column,
+                                exportColumn: exportColumn)
+                            : string.Empty;
                     break;
                 case "SiteTitle":
-                    value = ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
-                        ? SiteTitle.ToExport(
-                            context: context, column: column, exportColumn: exportColumn)
-                        : string.Empty;
+                    value = ss.ReadColumnAccessControls.Allowed(
+                        context: context,
+                        ss: ss,
+                        column: column,
+                        type: ss.PermissionType,
+                        mine: mine)
+                            ? SiteTitle.ToExport(
+                                context: context,
+                                column: column,
+                                exportColumn: exportColumn)
+                            : string.Empty;
                     break;
                 case "Comments":
-                    value = ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
-                        ? Comments.ToExport(
-                            context: context, column: column, exportColumn: exportColumn)
-                        : string.Empty;
+                    value = ss.ReadColumnAccessControls.Allowed(
+                        context: context,
+                        ss: ss,
+                        column: column,
+                        type: ss.PermissionType,
+                        mine: mine)
+                            ? Comments.ToExport(
+                                context: context,
+                                column: column,
+                                exportColumn: exportColumn)
+                            : string.Empty;
                     break;
                 case "Creator":
-                    value = ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
-                        ? Creator.ToExport(
-                            context: context, column: column, exportColumn: exportColumn)
-                        : string.Empty;
+                    value = ss.ReadColumnAccessControls.Allowed(
+                        context: context,
+                        ss: ss,
+                        column: column,
+                        type: ss.PermissionType,
+                        mine: mine)
+                            ? Creator.ToExport(
+                                context: context,
+                                column: column,
+                                exportColumn: exportColumn)
+                            : string.Empty;
                     break;
                 case "Updator":
-                    value = ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
-                        ? Updator.ToExport(
-                            context: context, column: column, exportColumn: exportColumn)
-                        : string.Empty;
+                    value = ss.ReadColumnAccessControls.Allowed(
+                        context: context,
+                        ss: ss,
+                        column: column,
+                        type: ss.PermissionType,
+                        mine: mine)
+                            ? Updator.ToExport(
+                                context: context,
+                                column: column,
+                                exportColumn: exportColumn)
+                            : string.Empty;
                     break;
                 case "CreatedTime":
-                    value = ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
-                        ? CreatedTime.ToExport(
-                            context: context, column: column, exportColumn: exportColumn)
-                        : string.Empty;
+                    value = ss.ReadColumnAccessControls.Allowed(
+                        context: context,
+                        ss: ss,
+                        column: column,
+                        type: ss.PermissionType,
+                        mine: mine)
+                            ? CreatedTime.ToExport(
+                                context: context,
+                                column: column,
+                                exportColumn: exportColumn)
+                            : string.Empty;
                     break;
                 default: return string.Empty;
             }

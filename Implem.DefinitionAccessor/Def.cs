@@ -302,6 +302,7 @@ namespace Implem.DefinitionAccessor
                     case "Model_GetItemsDefaultColumns": Code.Model_GetItemsDefaultColumns = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_GetItemsDefaultColumns, definitionRow, CodeXls); break;
                     case "Model_GetByApi": Code.Model_GetByApi = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_GetByApi, definitionRow, CodeXls); break;
                     case "Model_GetByApi_ColumnCases": Code.Model_GetByApi_ColumnCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_GetByApi_ColumnCases, definitionRow, CodeXls); break;
+                    case "Model_GetByApi_ItemTitle": Code.Model_GetByApi_ItemTitle = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_GetByApi_ItemTitle, definitionRow, CodeXls); break;
                     case "Model_SetSiteSettingsProperties": Code.Model_SetSiteSettingsProperties = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_SetSiteSettingsProperties, definitionRow, CodeXls); break;
                     case "Model_FullText": Code.Model_FullText = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_FullText, definitionRow, CodeXls); break;
                     case "Model_FullTextColumnCases": Code.Model_FullTextColumnCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_FullTextColumnCases, definitionRow, CodeXls); break;
@@ -511,6 +512,7 @@ namespace Implem.DefinitionAccessor
                     case "Model_Utilities": Code.Model_Utilities = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities, definitionRow, CodeXls); break;
                     case "Model_Utilities_Index": Code.Model_Utilities_Index = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_Index, definitionRow, CodeXls); break;
                     case "Model_Utilities_TrashBox": Code.Model_Utilities_TrashBox = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_TrashBox, definitionRow, CodeXls); break;
+                    case "Model_Utilities_EditorDialog": Code.Model_Utilities_EditorDialog = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_EditorDialog, definitionRow, CodeXls); break;
                     case "Model_Utilities_DropDownSearchDialog": Code.Model_Utilities_DropDownSearchDialog = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_DropDownSearchDialog, definitionRow, CodeXls); break;
                     case "Model_Utilities_ImportSettings": Code.Model_Utilities_ImportSettings = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_ImportSettings, definitionRow, CodeXls); break;
                     case "Model_Utilities_WhereTenantId": Code.Model_Utilities_WhereTenantId = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_WhereTenantId, definitionRow, CodeXls); break;
@@ -537,6 +539,7 @@ namespace Implem.DefinitionAccessor
                     case "Model_Utilities_EditorJson_Sites": Code.Model_Utilities_EditorJson_Sites = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_EditorJson_Sites, definitionRow, CodeXls); break;
                     case "Model_Utilities_InitSiteSettings": Code.Model_Utilities_InitSiteSettings = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_InitSiteSettings, definitionRow, CodeXls); break;
                     case "Model_Utilities_EditorResponse": Code.Model_Utilities_EditorResponse = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_EditorResponse, definitionRow, CodeXls); break;
+                    case "Model_Utilities_EditorResponse_Tables": Code.Model_Utilities_EditorResponse_Tables = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_EditorResponse_Tables, definitionRow, CodeXls); break;
                     case "Model_Utilities_GetSwitchTargets": Code.Model_Utilities_GetSwitchTargets = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_GetSwitchTargets, definitionRow, CodeXls); break;
                     case "Model_Utilities_SqlWhereTenantId": Code.Model_Utilities_SqlWhereTenantId = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_SqlWhereTenantId, definitionRow, CodeXls); break;
                     case "Model_Utilities_SiteId": Code.Model_Utilities_SiteId = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_SiteId, definitionRow, CodeXls); break;
@@ -635,6 +638,7 @@ namespace Implem.DefinitionAccessor
                     case "Model_Api": Code.Model_Api = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Api, definitionRow, CodeXls); break;
                     case "Model_ApiPropertyCases": Code.Model_ApiPropertyCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_ApiPropertyCases, definitionRow, CodeXls); break;
                     case "Model_ApiPropertyNullType": Code.Model_ApiPropertyNullType = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_ApiPropertyNullType, definitionRow, CodeXls); break;
+                    case "Model_ApiItemTitle": Code.Model_ApiItemTitle = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_ApiItemTitle, definitionRow, CodeXls); break;
                     case "Rds": Code.Rds = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Rds, definitionRow, CodeXls); break;
                     case "Rds_IdColumnCases": Code.Rds_IdColumnCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Rds_IdColumnCases, definitionRow, CodeXls); break;
                     case "Rds_SqlStatement": Code.Rds_SqlStatement = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Rds_SqlStatement, definitionRow, CodeXls); break;
@@ -3023,6 +3027,7 @@ namespace Implem.DefinitionAccessor
                     case "_sharp_OutgoingMailsForm_space__dot_content": Css._sharp_OutgoingMailsForm_space__dot_content = definitionRow[1].ToString(); SetCssTable(CssTable._sharp_OutgoingMailsForm_space__dot_content, definitionRow, CssXls); break;
                     case "_sharp_DropDownSearchDialogForm": Css._sharp_DropDownSearchDialogForm = definitionRow[1].ToString(); SetCssTable(CssTable._sharp_DropDownSearchDialogForm, definitionRow, CssXls); break;
                     case "_sharp_ViewTabsContainer": Css._sharp_ViewTabsContainer = definitionRow[1].ToString(); SetCssTable(CssTable._sharp_ViewTabsContainer, definitionRow, CssXls); break;
+                    case "_sharp_ColumnAccessControlTabsContainer": Css._sharp_ColumnAccessControlTabsContainer = definitionRow[1].ToString(); SetCssTable(CssTable._sharp_ColumnAccessControlTabsContainer, definitionRow, CssXls); break;
                     case "_sharp_SearchResults": Css._sharp_SearchResults = definitionRow[1].ToString(); SetCssTable(CssTable._sharp_SearchResults, definitionRow, CssXls); break;
                     case "_sharp_SearchResults_space__dot_count": Css._sharp_SearchResults_space__dot_count = definitionRow[1].ToString(); SetCssTable(CssTable._sharp_SearchResults_space__dot_count, definitionRow, CssXls); break;
                     case "_sharp_SearchResults_space__dot_count_space__dot_label": Css._sharp_SearchResults_space__dot_count_space__dot_label = definitionRow[1].ToString(); SetCssTable(CssTable._sharp_SearchResults_space__dot_count_space__dot_label, definitionRow, CssXls); break;
@@ -6522,6 +6527,7 @@ namespace Implem.DefinitionAccessor
         public string Model_GetItemsDefaultColumns;
         public string Model_GetByApi;
         public string Model_GetByApi_ColumnCases;
+        public string Model_GetByApi_ItemTitle;
         public string Model_SetSiteSettingsProperties;
         public string Model_FullText;
         public string Model_FullTextColumnCases;
@@ -6731,6 +6737,7 @@ namespace Implem.DefinitionAccessor
         public string Model_Utilities;
         public string Model_Utilities_Index;
         public string Model_Utilities_TrashBox;
+        public string Model_Utilities_EditorDialog;
         public string Model_Utilities_DropDownSearchDialog;
         public string Model_Utilities_ImportSettings;
         public string Model_Utilities_WhereTenantId;
@@ -6757,6 +6764,7 @@ namespace Implem.DefinitionAccessor
         public string Model_Utilities_EditorJson_Sites;
         public string Model_Utilities_InitSiteSettings;
         public string Model_Utilities_EditorResponse;
+        public string Model_Utilities_EditorResponse_Tables;
         public string Model_Utilities_GetSwitchTargets;
         public string Model_Utilities_SqlWhereTenantId;
         public string Model_Utilities_SiteId;
@@ -6855,6 +6863,7 @@ namespace Implem.DefinitionAccessor
         public string Model_Api;
         public string Model_ApiPropertyCases;
         public string Model_ApiPropertyNullType;
+        public string Model_ApiItemTitle;
         public string Rds;
         public string Rds_IdColumnCases;
         public string Rds_SqlStatement;
@@ -7073,6 +7082,7 @@ namespace Implem.DefinitionAccessor
         public CodeDefinition Model_GetItemsDefaultColumns = new CodeDefinition();
         public CodeDefinition Model_GetByApi = new CodeDefinition();
         public CodeDefinition Model_GetByApi_ColumnCases = new CodeDefinition();
+        public CodeDefinition Model_GetByApi_ItemTitle = new CodeDefinition();
         public CodeDefinition Model_SetSiteSettingsProperties = new CodeDefinition();
         public CodeDefinition Model_FullText = new CodeDefinition();
         public CodeDefinition Model_FullTextColumnCases = new CodeDefinition();
@@ -7282,6 +7292,7 @@ namespace Implem.DefinitionAccessor
         public CodeDefinition Model_Utilities = new CodeDefinition();
         public CodeDefinition Model_Utilities_Index = new CodeDefinition();
         public CodeDefinition Model_Utilities_TrashBox = new CodeDefinition();
+        public CodeDefinition Model_Utilities_EditorDialog = new CodeDefinition();
         public CodeDefinition Model_Utilities_DropDownSearchDialog = new CodeDefinition();
         public CodeDefinition Model_Utilities_ImportSettings = new CodeDefinition();
         public CodeDefinition Model_Utilities_WhereTenantId = new CodeDefinition();
@@ -7308,6 +7319,7 @@ namespace Implem.DefinitionAccessor
         public CodeDefinition Model_Utilities_EditorJson_Sites = new CodeDefinition();
         public CodeDefinition Model_Utilities_InitSiteSettings = new CodeDefinition();
         public CodeDefinition Model_Utilities_EditorResponse = new CodeDefinition();
+        public CodeDefinition Model_Utilities_EditorResponse_Tables = new CodeDefinition();
         public CodeDefinition Model_Utilities_GetSwitchTargets = new CodeDefinition();
         public CodeDefinition Model_Utilities_SqlWhereTenantId = new CodeDefinition();
         public CodeDefinition Model_Utilities_SiteId = new CodeDefinition();
@@ -7406,6 +7418,7 @@ namespace Implem.DefinitionAccessor
         public CodeDefinition Model_Api = new CodeDefinition();
         public CodeDefinition Model_ApiPropertyCases = new CodeDefinition();
         public CodeDefinition Model_ApiPropertyNullType = new CodeDefinition();
+        public CodeDefinition Model_ApiItemTitle = new CodeDefinition();
         public CodeDefinition Rds = new CodeDefinition();
         public CodeDefinition Rds_IdColumnCases = new CodeDefinition();
         public CodeDefinition Rds_SqlStatement = new CodeDefinition();
@@ -10218,6 +10231,7 @@ namespace Implem.DefinitionAccessor
         public string _sharp_OutgoingMailsForm_space__dot_content;
         public string _sharp_DropDownSearchDialogForm;
         public string _sharp_ViewTabsContainer;
+        public string _sharp_ColumnAccessControlTabsContainer;
         public string _sharp_SearchResults;
         public string _sharp_SearchResults_space__dot_count;
         public string _sharp_SearchResults_space__dot_count_space__dot_label;
@@ -10704,6 +10718,7 @@ namespace Implem.DefinitionAccessor
         public CssDefinition _sharp_OutgoingMailsForm_space__dot_content = new CssDefinition();
         public CssDefinition _sharp_DropDownSearchDialogForm = new CssDefinition();
         public CssDefinition _sharp_ViewTabsContainer = new CssDefinition();
+        public CssDefinition _sharp_ColumnAccessControlTabsContainer = new CssDefinition();
         public CssDefinition _sharp_SearchResults = new CssDefinition();
         public CssDefinition _sharp_SearchResults_space__dot_count = new CssDefinition();
         public CssDefinition _sharp_SearchResults_space__dot_count_space__dot_label = new CssDefinition();

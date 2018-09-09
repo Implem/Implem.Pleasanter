@@ -346,45 +346,155 @@ namespace Implem.Pleasanter.Models
                 switch (column.Name)
                 {
                     case "SiteId":
-                        return ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
-                            ? hb.Td(context: context, column: column, value: siteModel.SiteId)
-                            : hb.Td(context: context, column: column, value: string.Empty);
+                        return ss.ReadColumnAccessControls.Allowed(
+                            context: context,
+                            ss: ss,
+                            column: column,
+                            type: ss.PermissionType,
+                            mine: mine)
+                                ? hb.Td(
+                                    context: context,
+                                    column: column,
+                                    value: siteModel.SiteId)
+                                : hb.Td(
+                                    context: context,
+                                    column: column,
+                                    value: string.Empty);
                     case "UpdatedTime":
-                        return ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
-                            ? hb.Td(context: context, column: column, value: siteModel.UpdatedTime)
-                            : hb.Td(context: context, column: column, value: string.Empty);
+                        return ss.ReadColumnAccessControls.Allowed(
+                            context: context,
+                            ss: ss,
+                            column: column,
+                            type: ss.PermissionType,
+                            mine: mine)
+                                ? hb.Td(
+                                    context: context,
+                                    column: column,
+                                    value: siteModel.UpdatedTime)
+                                : hb.Td(
+                                    context: context,
+                                    column: column,
+                                    value: string.Empty);
                     case "Ver":
-                        return ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
-                            ? hb.Td(context: context, column: column, value: siteModel.Ver)
-                            : hb.Td(context: context, column: column, value: string.Empty);
+                        return ss.ReadColumnAccessControls.Allowed(
+                            context: context,
+                            ss: ss,
+                            column: column,
+                            type: ss.PermissionType,
+                            mine: mine)
+                                ? hb.Td(
+                                    context: context,
+                                    column: column,
+                                    value: siteModel.Ver)
+                                : hb.Td(
+                                    context: context,
+                                    column: column,
+                                    value: string.Empty);
                     case "Title":
-                        return ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
-                            ? hb.Td(context: context, column: column, value: siteModel.Title)
-                            : hb.Td(context: context, column: column, value: string.Empty);
+                        return ss.ReadColumnAccessControls.Allowed(
+                            context: context,
+                            ss: ss,
+                            column: column,
+                            type: ss.PermissionType,
+                            mine: mine)
+                                ? hb.Td(
+                                    context: context,
+                                    column: column,
+                                    value: siteModel.Title)
+                                : hb.Td(
+                                    context: context,
+                                    column: column,
+                                    value: string.Empty);
                     case "Body":
-                        return ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
-                            ? hb.Td(context: context, column: column, value: siteModel.Body)
-                            : hb.Td(context: context, column: column, value: string.Empty);
+                        return ss.ReadColumnAccessControls.Allowed(
+                            context: context,
+                            ss: ss,
+                            column: column,
+                            type: ss.PermissionType,
+                            mine: mine)
+                                ? hb.Td(
+                                    context: context,
+                                    column: column,
+                                    value: siteModel.Body)
+                                : hb.Td(
+                                    context: context,
+                                    column: column,
+                                    value: string.Empty);
                     case "TitleBody":
-                        return ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
-                            ? hb.Td(context: context, column: column, value: siteModel.TitleBody)
-                            : hb.Td(context: context, column: column, value: string.Empty);
+                        return ss.ReadColumnAccessControls.Allowed(
+                            context: context,
+                            ss: ss,
+                            column: column,
+                            type: ss.PermissionType,
+                            mine: mine)
+                                ? hb.Td(
+                                    context: context,
+                                    column: column,
+                                    value: siteModel.TitleBody)
+                                : hb.Td(
+                                    context: context,
+                                    column: column,
+                                    value: string.Empty);
                     case "Comments":
-                        return ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
-                            ? hb.Td(context: context, column: column, value: siteModel.Comments)
-                            : hb.Td(context: context, column: column, value: string.Empty);
+                        return ss.ReadColumnAccessControls.Allowed(
+                            context: context,
+                            ss: ss,
+                            column: column,
+                            type: ss.PermissionType,
+                            mine: mine)
+                                ? hb.Td(
+                                    context: context,
+                                    column: column,
+                                    value: siteModel.Comments)
+                                : hb.Td(
+                                    context: context,
+                                    column: column,
+                                    value: string.Empty);
                     case "Creator":
-                        return ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
-                            ? hb.Td(context: context, column: column, value: siteModel.Creator)
-                            : hb.Td(context: context, column: column, value: string.Empty);
+                        return ss.ReadColumnAccessControls.Allowed(
+                            context: context,
+                            ss: ss,
+                            column: column,
+                            type: ss.PermissionType,
+                            mine: mine)
+                                ? hb.Td(
+                                    context: context,
+                                    column: column,
+                                    value: siteModel.Creator)
+                                : hb.Td(
+                                    context: context,
+                                    column: column,
+                                    value: string.Empty);
                     case "Updator":
-                        return ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
-                            ? hb.Td(context: context, column: column, value: siteModel.Updator)
-                            : hb.Td(context: context, column: column, value: string.Empty);
+                        return ss.ReadColumnAccessControls.Allowed(
+                            context: context,
+                            ss: ss,
+                            column: column,
+                            type: ss.PermissionType,
+                            mine: mine)
+                                ? hb.Td(
+                                    context: context,
+                                    column: column,
+                                    value: siteModel.Updator)
+                                : hb.Td(
+                                    context: context,
+                                    column: column,
+                                    value: string.Empty);
                     case "CreatedTime":
-                        return ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
-                            ? hb.Td(context: context, column: column, value: siteModel.CreatedTime)
-                            : hb.Td(context: context, column: column, value: string.Empty);
+                        return ss.ReadColumnAccessControls.Allowed(
+                            context: context,
+                            ss: ss,
+                            column: column,
+                            type: ss.PermissionType,
+                            mine: mine)
+                                ? hb.Td(
+                                    context: context,
+                                    column: column,
+                                    value: siteModel.CreatedTime)
+                                : hb.Td(
+                                    context: context,
+                                    column: column,
+                                    value: string.Empty);
                     default: return hb;
                 }
             }

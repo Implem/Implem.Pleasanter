@@ -569,6 +569,7 @@
     <Content Include="Scripts\BurnDown.js" />
     <Content Include="Scripts\BurnDownEvents.js" />
     <Content Include="Scripts\Clipboard.js" />
+    <Content Include="Scripts\ColumnAccessControl.js" />
     <Content Include="Scripts\FieldSelectable.js" />
     <Content Include="Scripts\RelatingColumns.js" />
     <Content Include="Scripts\_Api.js" />

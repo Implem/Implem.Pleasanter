@@ -1009,6 +1009,11 @@ pre{
     clear:both;
 }
 
+#ColumnAccessControlTabsContainer{
+    margin:0px 20px 10px 20px;
+    clear:both;
+}
+
 #SearchResults{
     width:80%;
     float:left;
@@ -1977,7 +1982,7 @@ pre{
 
 .container-selectable .wrapper{
     width:100%;
-    min-height:200px;
+    min-height:300px;
     display:block;
     float:left;
     background-color:whitesmoke;

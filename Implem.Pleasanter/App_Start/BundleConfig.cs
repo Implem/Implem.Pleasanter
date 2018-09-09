@@ -42,6 +42,7 @@ namespace Implem.Pleasanter
                 "~/Scripts/Calendar.js",
                 "~/Scripts/CalendarEvents.js",
                 "~/Scripts/Clipboard.js",
+                "~/Scripts/ColumnAccessControl.js",
                 "~/Scripts/Confirm.js",
                 "~/Scripts/ConfirmEvents.js",
                 "~/Scripts/Crosstab.js",

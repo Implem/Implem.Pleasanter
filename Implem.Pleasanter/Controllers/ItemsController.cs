@@ -727,6 +727,17 @@ namespace Implem.Pleasanter.Controllers
         }
 
         [HttpPost]
+        public string SearchColumnAccessControl(long id)
+        {
+            var context = new Context();
+            var log = new SysLogModel(context: context);
+            var json = PermissionUtilities.SearchColumnAccessControl(
+                context: context, referenceId: id);
+            log.Finish(context: context, responseSize: json.Length);
+            return json;
+        }
+
+        [HttpPost]
         public string BurnDownRecordDetails(long id)
         {
             var context = new Context();

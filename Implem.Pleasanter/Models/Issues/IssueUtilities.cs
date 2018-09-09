@@ -345,709 +345,2645 @@ namespace Implem.Pleasanter.Models
                 switch (column.Name)
                 {
                     case "SiteId":
-                        return ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
-                            ? hb.Td(context: context, column: column, value: issueModel.SiteId)
-                            : hb.Td(context: context, column: column, value: string.Empty);
+                        return ss.ReadColumnAccessControls.Allowed(
+                            context: context,
+                            ss: ss,
+                            column: column,
+                            type: ss.PermissionType,
+                            mine: mine)
+                                ? hb.Td(
+                                    context: context,
+                                    column: column,
+                                    value: issueModel.SiteId)
+                                : hb.Td(
+                                    context: context,
+                                    column: column,
+                                    value: string.Empty);
                     case "UpdatedTime":
-                        return ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
-                            ? hb.Td(context: context, column: column, value: issueModel.UpdatedTime)
-                            : hb.Td(context: context, column: column, value: string.Empty);
+                        return ss.ReadColumnAccessControls.Allowed(
+                            context: context,
+                            ss: ss,
+                            column: column,
+                            type: ss.PermissionType,
+                            mine: mine)
+                                ? hb.Td(
+                                    context: context,
+                                    column: column,
+                                    value: issueModel.UpdatedTime)
+                                : hb.Td(
+                                    context: context,
+                                    column: column,
+                                    value: string.Empty);
                     case "IssueId":
-                        return ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
-                            ? hb.Td(context: context, column: column, value: issueModel.IssueId)
-                            : hb.Td(context: context, column: column, value: string.Empty);
+                        return ss.ReadColumnAccessControls.Allowed(
+                            context: context,
+                            ss: ss,
+                            column: column,
+                            type: ss.PermissionType,
+                            mine: mine)
+                                ? hb.Td(
+                                    context: context,
+                                    column: column,
+                                    value: issueModel.IssueId)
+                                : hb.Td(
+                                    context: context,
+                                    column: column,
+                                    value: string.Empty);
                     case "Ver":
-                        return ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
-                            ? hb.Td(context: context, column: column, value: issueModel.Ver)
-                            : hb.Td(context: context, column: column, value: string.Empty);
+                        return ss.ReadColumnAccessControls.Allowed(
+                            context: context,
+                            ss: ss,
+                            column: column,
+                            type: ss.PermissionType,
+                            mine: mine)
+                                ? hb.Td(
+                                    context: context,
+                                    column: column,
+                                    value: issueModel.Ver)
+                                : hb.Td(
+                                    context: context,
+                                    column: column,
+                                    value: string.Empty);
                     case "Title":
-                        return ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
-                            ? hb.Td(context: context, column: column, value: issueModel.Title)
-                            : hb.Td(context: context, column: column, value: string.Empty);
+                        return ss.ReadColumnAccessControls.Allowed(
+                            context: context,
+                            ss: ss,
+                            column: column,
+                            type: ss.PermissionType,
+                            mine: mine)
+                                ? hb.Td(
+                                    context: context,
+                                    column: column,
+                                    value: issueModel.Title)
+                                : hb.Td(
+                                    context: context,
+                                    column: column,
+                                    value: string.Empty);
                     case "Body":
-                        return ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
-                            ? hb.Td(context: context, column: column, value: issueModel.Body)
-                            : hb.Td(context: context, column: column, value: string.Empty);
+                        return ss.ReadColumnAccessControls.Allowed(
+                            context: context,
+                            ss: ss,
+                            column: column,
+                            type: ss.PermissionType,
+                            mine: mine)
+                                ? hb.Td(
+                                    context: context,
+                                    column: column,
+                                    value: issueModel.Body)
+                                : hb.Td(
+                                    context: context,
+                                    column: column,
+                                    value: string.Empty);
                     case "TitleBody":
-                        return ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
-                            ? hb.Td(context: context, column: column, value: issueModel.TitleBody)
-                            : hb.Td(context: context, column: column, value: string.Empty);
+                        return ss.ReadColumnAccessControls.Allowed(
+                            context: context,
+                            ss: ss,
+                            column: column,
+                            type: ss.PermissionType,
+                            mine: mine)
+                                ? hb.Td(
+                                    context: context,
+                                    column: column,
+                                    value: issueModel.TitleBody)
+                                : hb.Td(
+                                    context: context,
+                                    column: column,
+                                    value: string.Empty);
                     case "StartTime":
-                        return ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
-                            ? hb.Td(context: context, column: column, value: issueModel.StartTime)
-                            : hb.Td(context: context, column: column, value: string.Empty);
+                        return ss.ReadColumnAccessControls.Allowed(
+                            context: context,
+                            ss: ss,
+                            column: column,
+                            type: ss.PermissionType,
+                            mine: mine)
+                                ? hb.Td(
+                                    context: context,
+                                    column: column,
+                                    value: issueModel.StartTime)
+                                : hb.Td(
+                                    context: context,
+                                    column: column,
+                                    value: string.Empty);
                     case "CompletionTime":
-                        return ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
-                            ? hb.Td(context: context, column: column, value: issueModel.CompletionTime)
-                            : hb.Td(context: context, column: column, value: string.Empty);
+                        return ss.ReadColumnAccessControls.Allowed(
+                            context: context,
+                            ss: ss,
+                            column: column,
+                            type: ss.PermissionType,
+                            mine: mine)
+                                ? hb.Td(
+                                    context: context,
+                                    column: column,
+                                    value: issueModel.CompletionTime)
+                                : hb.Td(
+                                    context: context,
+                                    column: column,
+                                    value: string.Empty);
                     case "WorkValue":
-                        return ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
-                            ? hb.Td(context: context, column: column, value: issueModel.WorkValue)
-                            : hb.Td(context: context, column: column, value: string.Empty);
+                        return ss.ReadColumnAccessControls.Allowed(
+                            context: context,
+                            ss: ss,
+                            column: column,
+                            type: ss.PermissionType,
+                            mine: mine)
+                                ? hb.Td(
+                                    context: context,
+                                    column: column,
+                                    value: issueModel.WorkValue)
+                                : hb.Td(
+                                    context: context,
+                                    column: column,
+                                    value: string.Empty);
                     case "ProgressRate":
-                        return ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
-                            ? hb.Td(context: context, column: column, value: issueModel.ProgressRate)
-                            : hb.Td(context: context, column: column, value: string.Empty);
+                        return ss.ReadColumnAccessControls.Allowed(
+                            context: context,
+                            ss: ss,
+                            column: column,
+                            type: ss.PermissionType,
+                            mine: mine)
+                                ? hb.Td(
+                                    context: context,
+                                    column: column,
+                                    value: issueModel.ProgressRate)
+                                : hb.Td(
+                                    context: context,
+                                    column: column,
+                                    value: string.Empty);
                     case "RemainingWorkValue":
-                        return ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
-                            ? hb.Td(context: context, column: column, value: issueModel.RemainingWorkValue)
-                            : hb.Td(context: context, column: column, value: string.Empty);
+                        return ss.ReadColumnAccessControls.Allowed(
+                            context: context,
+                            ss: ss,
+                            column: column,
+                            type: ss.PermissionType,
+                            mine: mine)
+                                ? hb.Td(
+                                    context: context,
+                                    column: column,
+                                    value: issueModel.RemainingWorkValue)
+                                : hb.Td(
+                                    context: context,
+                                    column: column,
+                                    value: string.Empty);
                     case "Status":
-                        return ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
-                            ? hb.Td(context: context, column: column, value: issueModel.Status)
-                            : hb.Td(context: context, column: column, value: string.Empty);
+                        return ss.ReadColumnAccessControls.Allowed(
+                            context: context,
+                            ss: ss,
+                            column: column,
+                            type: ss.PermissionType,
+                            mine: mine)
+                                ? hb.Td(
+                                    context: context,
+                                    column: column,
+                                    value: issueModel.Status)
+                                : hb.Td(
+                                    context: context,
+                                    column: column,
+                                    value: string.Empty);
                     case "Manager":
-                        return ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
-                            ? hb.Td(context: context, column: column, value: issueModel.Manager)
-                            : hb.Td(context: context, column: column, value: string.Empty);
+                        return ss.ReadColumnAccessControls.Allowed(
+                            context: context,
+                            ss: ss,
+                            column: column,
+                            type: ss.PermissionType,
+                            mine: mine)
+                                ? hb.Td(
+                                    context: context,
+                                    column: column,
+                                    value: issueModel.Manager)
+                                : hb.Td(
+                                    context: context,
+                                    column: column,
+                                    value: string.Empty);
                     case "Owner":
-                        return ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
-                            ? hb.Td(context: context, column: column, value: issueModel.Owner)
-                            : hb.Td(context: context, column: column, value: string.Empty);
+                        return ss.ReadColumnAccessControls.Allowed(
+                            context: context,
+                            ss: ss,
+                            column: column,
+                            type: ss.PermissionType,
+                            mine: mine)
+                                ? hb.Td(
+                                    context: context,
+                                    column: column,
+                                    value: issueModel.Owner)
+                                : hb.Td(
+                                    context: context,
+                                    column: column,
+                                    value: string.Empty);
                     case "ClassA":
-                        return ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
-                            ? hb.Td(context: context, column: column, value: issueModel.ClassA)
-                            : hb.Td(context: context, column: column, value: string.Empty);
+                        return ss.ReadColumnAccessControls.Allowed(
+                            context: context,
+                            ss: ss,
+                            column: column,
+                            type: ss.PermissionType,
+                            mine: mine)
+                                ? hb.Td(
+                                    context: context,
+                                    column: column,
+                                    value: issueModel.ClassA)
+                                : hb.Td(
+                                    context: context,
+                                    column: column,
+                                    value: string.Empty);
                     case "ClassB":
-                        return ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
-                            ? hb.Td(context: context, column: column, value: issueModel.ClassB)
-                            : hb.Td(context: context, column: column, value: string.Empty);
+                        return ss.ReadColumnAccessControls.Allowed(
+                            context: context,
+                            ss: ss,
+                            column: column,
+                            type: ss.PermissionType,
+                            mine: mine)
+                                ? hb.Td(
+                                    context: context,
+                                    column: column,
+                                    value: issueModel.ClassB)
+                                : hb.Td(
+                                    context: context,
+                                    column: column,
+                                    value: string.Empty);
                     case "ClassC":
-                        return ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
-                            ? hb.Td(context: context, column: column, value: issueModel.ClassC)
-                            : hb.Td(context: context, column: column, value: string.Empty);
+                        return ss.ReadColumnAccessControls.Allowed(
+                            context: context,
+                            ss: ss,
+                            column: column,
+                            type: ss.PermissionType,
+                            mine: mine)
+                                ? hb.Td(
+                                    context: context,
+                                    column: column,
+                                    value: issueModel.ClassC)
+                                : hb.Td(
+                                    context: context,
+                                    column: column,
+                                    value: string.Empty);
                     case "ClassD":
-                        return ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
-                            ? hb.Td(context: context, column: column, value: issueModel.ClassD)
-                            : hb.Td(context: context, column: column, value: string.Empty);
+                        return ss.ReadColumnAccessControls.Allowed(
+                            context: context,
+                            ss: ss,
+                            column: column,
+                            type: ss.PermissionType,
+                            mine: mine)
+                                ? hb.Td(
+                                    context: context,
+                                    column: column,
+                                    value: issueModel.ClassD)
+                                : hb.Td(
+                                    context: context,
+                                    column: column,
+                                    value: string.Empty);
                     case "ClassE":
-                        return ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
-                            ? hb.Td(context: context, column: column, value: issueModel.ClassE)
-                            : hb.Td(context: context, column: column, value: string.Empty);
+                        return ss.ReadColumnAccessControls.Allowed(
+                            context: context,
+                            ss: ss,
+                            column: column,
+                            type: ss.PermissionType,
+                            mine: mine)
+                                ? hb.Td(
+                                    context: context,
+                                    column: column,
+                                    value: issueModel.ClassE)
+                                : hb.Td(
+                                    context: context,
+                                    column: column,
+                                    value: string.Empty);
                     case "ClassF":
-                        return ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
-                            ? hb.Td(context: context, column: column, value: issueModel.ClassF)
-                            : hb.Td(context: context, column: column, value: string.Empty);
+                        return ss.ReadColumnAccessControls.Allowed(
+                            context: context,
+                            ss: ss,
+                            column: column,
+                            type: ss.PermissionType,
+                            mine: mine)
+                                ? hb.Td(
+                                    context: context,
+                                    column: column,
+                                    value: issueModel.ClassF)
+                                : hb.Td(
+                                    context: context,
+                                    column: column,
+                                    value: string.Empty);
                     case "ClassG":
-                        return ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
-                            ? hb.Td(context: context, column: column, value: issueModel.ClassG)
-                            : hb.Td(context: context, column: column, value: string.Empty);
+                        return ss.ReadColumnAccessControls.Allowed(
+                            context: context,
+                            ss: ss,
+                            column: column,
+                            type: ss.PermissionType,
+                            mine: mine)
+                                ? hb.Td(
+                                    context: context,
+                                    column: column,
+                                    value: issueModel.ClassG)
+                                : hb.Td(
+                                    context: context,
+                                    column: column,
+                                    value: string.Empty);
                     case "ClassH":
-                        return ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
-                            ? hb.Td(context: context, column: column, value: issueModel.ClassH)
-                            : hb.Td(context: context, column: column, value: string.Empty);
+                        return ss.ReadColumnAccessControls.Allowed(
+                            context: context,
+                            ss: ss,
+                            column: column,
+                            type: ss.PermissionType,
+                            mine: mine)
+                                ? hb.Td(
+                                    context: context,
+                                    column: column,
+                                    value: issueModel.ClassH)
+                                : hb.Td(
+                                    context: context,
+                                    column: column,
+                                    value: string.Empty);
                     case "ClassI":
-                        return ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
-                            ? hb.Td(context: context, column: column, value: issueModel.ClassI)
-                            : hb.Td(context: context, column: column, value: string.Empty);
+                        return ss.ReadColumnAccessControls.Allowed(
+                            context: context,
+                            ss: ss,
+                            column: column,
+                            type: ss.PermissionType,
+                            mine: mine)
+                                ? hb.Td(
+                                    context: context,
+                                    column: column,
+                                    value: issueModel.ClassI)
+                                : hb.Td(
+                                    context: context,
+                                    column: column,
+                                    value: string.Empty);
                     case "ClassJ":
-                        return ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
-                            ? hb.Td(context: context, column: column, value: issueModel.ClassJ)
-                            : hb.Td(context: context, column: column, value: string.Empty);
+                        return ss.ReadColumnAccessControls.Allowed(
+                            context: context,
+                            ss: ss,
+                            column: column,
+                            type: ss.PermissionType,
+                            mine: mine)
+                                ? hb.Td(
+                                    context: context,
+                                    column: column,
+                                    value: issueModel.ClassJ)
+                                : hb.Td(
+                                    context: context,
+                                    column: column,
+                                    value: string.Empty);
                     case "ClassK":
-                        return ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
-                            ? hb.Td(context: context, column: column, value: issueModel.ClassK)
-                            : hb.Td(context: context, column: column, value: string.Empty);
+                        return ss.ReadColumnAccessControls.Allowed(
+                            context: context,
+                            ss: ss,
+                            column: column,
+                            type: ss.PermissionType,
+                            mine: mine)
+                                ? hb.Td(
+                                    context: context,
+                                    column: column,
+                                    value: issueModel.ClassK)
+                                : hb.Td(
+                                    context: context,
+                                    column: column,
+                                    value: string.Empty);
                     case "ClassL":
-                        return ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
-                            ? hb.Td(context: context, column: column, value: issueModel.ClassL)
-                            : hb.Td(context: context, column: column, value: string.Empty);
+                        return ss.ReadColumnAccessControls.Allowed(
+                            context: context,
+                            ss: ss,
+                            column: column,
+                            type: ss.PermissionType,
+                            mine: mine)
+                                ? hb.Td(
+                                    context: context,
+                                    column: column,
+                                    value: issueModel.ClassL)
+                                : hb.Td(
+                                    context: context,
+                                    column: column,
+                                    value: string.Empty);
                     case "ClassM":
-                        return ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
-                            ? hb.Td(context: context, column: column, value: issueModel.ClassM)
-                            : hb.Td(context: context, column: column, value: string.Empty);
+                        return ss.ReadColumnAccessControls.Allowed(
+                            context: context,
+                            ss: ss,
+                            column: column,
+                            type: ss.PermissionType,
+                            mine: mine)
+                                ? hb.Td(
+                                    context: context,
+                                    column: column,
+                                    value: issueModel.ClassM)
+                                : hb.Td(
+                                    context: context,
+                                    column: column,
+                                    value: string.Empty);
                     case "ClassN":
-                        return ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
-                            ? hb.Td(context: context, column: column, value: issueModel.ClassN)
-                            : hb.Td(context: context, column: column, value: string.Empty);
+                        return ss.ReadColumnAccessControls.Allowed(
+                            context: context,
+                            ss: ss,
+                            column: column,
+                            type: ss.PermissionType,
+                            mine: mine)
+                                ? hb.Td(
+                                    context: context,
+                                    column: column,
+                                    value: issueModel.ClassN)
+                                : hb.Td(
+                                    context: context,
+                                    column: column,
+                                    value: string.Empty);
                     case "ClassO":
-                        return ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
-                            ? hb.Td(context: context, column: column, value: issueModel.ClassO)
-                            : hb.Td(context: context, column: column, value: string.Empty);
+                        return ss.ReadColumnAccessControls.Allowed(
+                            context: context,
+                            ss: ss,
+                            column: column,
+                            type: ss.PermissionType,
+                            mine: mine)
+                                ? hb.Td(
+                                    context: context,
+                                    column: column,
+                                    value: issueModel.ClassO)
+                                : hb.Td(
+                                    context: context,
+                                    column: column,
+                                    value: string.Empty);
                     case "ClassP":
-                        return ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
-                            ? hb.Td(context: context, column: column, value: issueModel.ClassP)
-                            : hb.Td(context: context, column: column, value: string.Empty);
+                        return ss.ReadColumnAccessControls.Allowed(
+                            context: context,
+                            ss: ss,
+                            column: column,
+                            type: ss.PermissionType,
+                            mine: mine)
+                                ? hb.Td(
+                                    context: context,
+                                    column: column,
+                                    value: issueModel.ClassP)
+                                : hb.Td(
+                                    context: context,
+                                    column: column,
+                                    value: string.Empty);
                     case "ClassQ":
-                        return ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
-                            ? hb.Td(context: context, column: column, value: issueModel.ClassQ)
-                            : hb.Td(context: context, column: column, value: string.Empty);
+                        return ss.ReadColumnAccessControls.Allowed(
+                            context: context,
+                            ss: ss,
+                            column: column,
+                            type: ss.PermissionType,
+                            mine: mine)
+                                ? hb.Td(
+                                    context: context,
+                                    column: column,
+                                    value: issueModel.ClassQ)
+                                : hb.Td(
+                                    context: context,
+                                    column: column,
+                                    value: string.Empty);
                     case "ClassR":
-                        return ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
-                            ? hb.Td(context: context, column: column, value: issueModel.ClassR)
-                            : hb.Td(context: context, column: column, value: string.Empty);
+                        return ss.ReadColumnAccessControls.Allowed(
+                            context: context,
+                            ss: ss,
+                            column: column,
+                            type: ss.PermissionType,
+                            mine: mine)
+                                ? hb.Td(
+                                    context: context,
+                                    column: column,
+                                    value: issueModel.ClassR)
+                                : hb.Td(
+                                    context: context,
+                                    column: column,
+                                    value: string.Empty);
                     case "ClassS":
-                        return ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
-                            ? hb.Td(context: context, column: column, value: issueModel.ClassS)
-                            : hb.Td(context: context, column: column, value: string.Empty);
+                        return ss.ReadColumnAccessControls.Allowed(
+                            context: context,
+                            ss: ss,
+                            column: column,
+                            type: ss.PermissionType,
+                            mine: mine)
+                                ? hb.Td(
+                                    context: context,
+                                    column: column,
+                                    value: issueModel.ClassS)
+                                : hb.Td(
+                                    context: context,
+                                    column: column,
+                                    value: string.Empty);
                     case "ClassT":
-                        return ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
-                            ? hb.Td(context: context, column: column, value: issueModel.ClassT)
-                            : hb.Td(context: context, column: column, value: string.Empty);
+                        return ss.ReadColumnAccessControls.Allowed(
+                            context: context,
+                            ss: ss,
+                            column: column,
+                            type: ss.PermissionType,
+                            mine: mine)
+                                ? hb.Td(
+                                    context: context,
+                                    column: column,
+                                    value: issueModel.ClassT)
+                                : hb.Td(
+                                    context: context,
+                                    column: column,
+                                    value: string.Empty);
                     case "ClassU":
-                        return ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
-                            ? hb.Td(context: context, column: column, value: issueModel.ClassU)
-                            : hb.Td(context: context, column: column, value: string.Empty);
+                        return ss.ReadColumnAccessControls.Allowed(
+                            context: context,
+                            ss: ss,
+                            column: column,
+                            type: ss.PermissionType,
+                            mine: mine)
+                                ? hb.Td(
+                                    context: context,
+                                    column: column,
+                                    value: issueModel.ClassU)
+                                : hb.Td(
+                                    context: context,
+                                    column: column,
+                                    value: string.Empty);
                     case "ClassV":
-                        return ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
-                            ? hb.Td(context: context, column: column, value: issueModel.ClassV)
-                            : hb.Td(context: context, column: column, value: string.Empty);
+                        return ss.ReadColumnAccessControls.Allowed(
+                            context: context,
+                            ss: ss,
+                            column: column,
+                            type: ss.PermissionType,
+                            mine: mine)
+                                ? hb.Td(
+                                    context: context,
+                                    column: column,
+                                    value: issueModel.ClassV)
+                                : hb.Td(
+                                    context: context,
+                                    column: column,
+                                    value: string.Empty);
                     case "ClassW":
-                        return ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
-                            ? hb.Td(context: context, column: column, value: issueModel.ClassW)
-                            : hb.Td(context: context, column: column, value: string.Empty);
+                        return ss.ReadColumnAccessControls.Allowed(
+                            context: context,
+                            ss: ss,
+                            column: column,
+                            type: ss.PermissionType,
+                            mine: mine)
+                                ? hb.Td(
+                                    context: context,
+                                    column: column,
+                                    value: issueModel.ClassW)
+                                : hb.Td(
+                                    context: context,
+                                    column: column,
+                                    value: string.Empty);
                     case "ClassX":
-                        return ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
-                            ? hb.Td(context: context, column: column, value: issueModel.ClassX)
-                            : hb.Td(context: context, column: column, value: string.Empty);
+                        return ss.ReadColumnAccessControls.Allowed(
+                            context: context,
+                            ss: ss,
+                            column: column,
+                            type: ss.PermissionType,
+                            mine: mine)
+                                ? hb.Td(
+                                    context: context,
+                                    column: column,
+                                    value: issueModel.ClassX)
+                                : hb.Td(
+                                    context: context,
+                                    column: column,
+                                    value: string.Empty);
                     case "ClassY":
-                        return ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
-                            ? hb.Td(context: context, column: column, value: issueModel.ClassY)
-                            : hb.Td(context: context, column: column, value: string.Empty);
+                        return ss.ReadColumnAccessControls.Allowed(
+                            context: context,
+                            ss: ss,
+                            column: column,
+                            type: ss.PermissionType,
+                            mine: mine)
+                                ? hb.Td(
+                                    context: context,
+                                    column: column,
+                                    value: issueModel.ClassY)
+                                : hb.Td(
+                                    context: context,
+                                    column: column,
+                                    value: string.Empty);
                     case "ClassZ":
-                        return ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
-                            ? hb.Td(context: context, column: column, value: issueModel.ClassZ)
-                            : hb.Td(context: context, column: column, value: string.Empty);
+                        return ss.ReadColumnAccessControls.Allowed(
+                            context: context,
+                            ss: ss,
+                            column: column,
+                            type: ss.PermissionType,
+                            mine: mine)
+                                ? hb.Td(
+                                    context: context,
+                                    column: column,
+                                    value: issueModel.ClassZ)
+                                : hb.Td(
+                                    context: context,
+                                    column: column,
+                                    value: string.Empty);
                     case "NumA":
-                        return ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
-                            ? hb.Td(context: context, column: column, value: issueModel.NumA)
-                            : hb.Td(context: context, column: column, value: string.Empty);
+                        return ss.ReadColumnAccessControls.Allowed(
+                            context: context,
+                            ss: ss,
+                            column: column,
+                            type: ss.PermissionType,
+                            mine: mine)
+                                ? hb.Td(
+                                    context: context,
+                                    column: column,
+                                    value: issueModel.NumA)
+                                : hb.Td(
+                                    context: context,
+                                    column: column,
+                                    value: string.Empty);
                     case "NumB":
-                        return ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
-                            ? hb.Td(context: context, column: column, value: issueModel.NumB)
-                            : hb.Td(context: context, column: column, value: string.Empty);
+                        return ss.ReadColumnAccessControls.Allowed(
+                            context: context,
+                            ss: ss,
+                            column: column,
+                            type: ss.PermissionType,
+                            mine: mine)
+                                ? hb.Td(
+                                    context: context,
+                                    column: column,
+                                    value: issueModel.NumB)
+                                : hb.Td(
+                                    context: context,
+                                    column: column,
+                                    value: string.Empty);
                     case "NumC":
-                        return ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
-                            ? hb.Td(context: context, column: column, value: issueModel.NumC)
-                            : hb.Td(context: context, column: column, value: string.Empty);
+                        return ss.ReadColumnAccessControls.Allowed(
+                            context: context,
+                            ss: ss,
+                            column: column,
+                            type: ss.PermissionType,
+                            mine: mine)
+                                ? hb.Td(
+                                    context: context,
+                                    column: column,
+                                    value: issueModel.NumC)
+                                : hb.Td(
+                                    context: context,
+                                    column: column,
+                                    value: string.Empty);
                     case "NumD":
-                        return ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
-                            ? hb.Td(context: context, column: column, value: issueModel.NumD)
-                            : hb.Td(context: context, column: column, value: string.Empty);
+                        return ss.ReadColumnAccessControls.Allowed(
+                            context: context,
+                            ss: ss,
+                            column: column,
+                            type: ss.PermissionType,
+                            mine: mine)
+                                ? hb.Td(
+                                    context: context,
+                                    column: column,
+                                    value: issueModel.NumD)
+                                : hb.Td(
+                                    context: context,
+                                    column: column,
+                                    value: string.Empty);
                     case "NumE":
-                        return ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
-                            ? hb.Td(context: context, column: column, value: issueModel.NumE)
-                            : hb.Td(context: context, column: column, value: string.Empty);
+                        return ss.ReadColumnAccessControls.Allowed(
+                            context: context,
+                            ss: ss,
+                            column: column,
+                            type: ss.PermissionType,
+                            mine: mine)
+                                ? hb.Td(
+                                    context: context,
+                                    column: column,
+                                    value: issueModel.NumE)
+                                : hb.Td(
+                                    context: context,
+                                    column: column,
+                                    value: string.Empty);
                     case "NumF":
-                        return ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
-                            ? hb.Td(context: context, column: column, value: issueModel.NumF)
-                            : hb.Td(context: context, column: column, value: string.Empty);
+                        return ss.ReadColumnAccessControls.Allowed(
+                            context: context,
+                            ss: ss,
+                            column: column,
+                            type: ss.PermissionType,
+                            mine: mine)
+                                ? hb.Td(
+                                    context: context,
+                                    column: column,
+                                    value: issueModel.NumF)
+                                : hb.Td(
+                                    context: context,
+                                    column: column,
+                                    value: string.Empty);
                     case "NumG":
-                        return ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
-                            ? hb.Td(context: context, column: column, value: issueModel.NumG)
-                            : hb.Td(context: context, column: column, value: string.Empty);
+                        return ss.ReadColumnAccessControls.Allowed(
+                            context: context,
+                            ss: ss,
+                            column: column,
+                            type: ss.PermissionType,
+                            mine: mine)
+                                ? hb.Td(
+                                    context: context,
+                                    column: column,
+                                    value: issueModel.NumG)
+                                : hb.Td(
+                                    context: context,
+                                    column: column,
+                                    value: string.Empty);
                     case "NumH":
-                        return ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
-                            ? hb.Td(context: context, column: column, value: issueModel.NumH)
-                            : hb.Td(context: context, column: column, value: string.Empty);
+                        return ss.ReadColumnAccessControls.Allowed(
+                            context: context,
+                            ss: ss,
+                            column: column,
+                            type: ss.PermissionType,
+                            mine: mine)
+                                ? hb.Td(
+                                    context: context,
+                                    column: column,
+                                    value: issueModel.NumH)
+                                : hb.Td(
+                                    context: context,
+                                    column: column,
+                                    value: string.Empty);
                     case "NumI":
-                        return ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
-                            ? hb.Td(context: context, column: column, value: issueModel.NumI)
-                            : hb.Td(context: context, column: column, value: string.Empty);
+                        return ss.ReadColumnAccessControls.Allowed(
+                            context: context,
+                            ss: ss,
+                            column: column,
+                            type: ss.PermissionType,
+                            mine: mine)
+                                ? hb.Td(
+                                    context: context,
+                                    column: column,
+                                    value: issueModel.NumI)
+                                : hb.Td(
+                                    context: context,
+                                    column: column,
+                                    value: string.Empty);
                     case "NumJ":
-                        return ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
-                            ? hb.Td(context: context, column: column, value: issueModel.NumJ)
-                            : hb.Td(context: context, column: column, value: string.Empty);
+                        return ss.ReadColumnAccessControls.Allowed(
+                            context: context,
+                            ss: ss,
+                            column: column,
+                            type: ss.PermissionType,
+                            mine: mine)
+                                ? hb.Td(
+                                    context: context,
+                                    column: column,
+                                    value: issueModel.NumJ)
+                                : hb.Td(
+                                    context: context,
+                                    column: column,
+                                    value: string.Empty);
                     case "NumK":
-                        return ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
-                            ? hb.Td(context: context, column: column, value: issueModel.NumK)
-                            : hb.Td(context: context, column: column, value: string.Empty);
+                        return ss.ReadColumnAccessControls.Allowed(
+                            context: context,
+                            ss: ss,
+                            column: column,
+                            type: ss.PermissionType,
+                            mine: mine)
+                                ? hb.Td(
+                                    context: context,
+                                    column: column,
+                                    value: issueModel.NumK)
+                                : hb.Td(
+                                    context: context,
+                                    column: column,
+                                    value: string.Empty);
                     case "NumL":
-                        return ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
-                            ? hb.Td(context: context, column: column, value: issueModel.NumL)
-                            : hb.Td(context: context, column: column, value: string.Empty);
+                        return ss.ReadColumnAccessControls.Allowed(
+                            context: context,
+                            ss: ss,
+                            column: column,
+                            type: ss.PermissionType,
+                            mine: mine)
+                                ? hb.Td(
+                                    context: context,
+                                    column: column,
+                                    value: issueModel.NumL)
+                                : hb.Td(
+                                    context: context,
+                                    column: column,
+                                    value: string.Empty);
                     case "NumM":
-                        return ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
-                            ? hb.Td(context: context, column: column, value: issueModel.NumM)
-                            : hb.Td(context: context, column: column, value: string.Empty);
+                        return ss.ReadColumnAccessControls.Allowed(
+                            context: context,
+                            ss: ss,
+                            column: column,
+                            type: ss.PermissionType,
+                            mine: mine)
+                                ? hb.Td(
+                                    context: context,
+                                    column: column,
+                                    value: issueModel.NumM)
+                                : hb.Td(
+                                    context: context,
+                                    column: column,
+                                    value: string.Empty);
                     case "NumN":
-                        return ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
-                            ? hb.Td(context: context, column: column, value: issueModel.NumN)
-                            : hb.Td(context: context, column: column, value: string.Empty);
+                        return ss.ReadColumnAccessControls.Allowed(
+                            context: context,
+                            ss: ss,
+                            column: column,
+                            type: ss.PermissionType,
+                            mine: mine)
+                                ? hb.Td(
+                                    context: context,
+                                    column: column,
+                                    value: issueModel.NumN)
+                                : hb.Td(
+                                    context: context,
+                                    column: column,
+                                    value: string.Empty);
                     case "NumO":
-                        return ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
-                            ? hb.Td(context: context, column: column, value: issueModel.NumO)
-                            : hb.Td(context: context, column: column, value: string.Empty);
+                        return ss.ReadColumnAccessControls.Allowed(
+                            context: context,
+                            ss: ss,
+                            column: column,
+                            type: ss.PermissionType,
+                            mine: mine)
+                                ? hb.Td(
+                                    context: context,
+                                    column: column,
+                                    value: issueModel.NumO)
+                                : hb.Td(
+                                    context: context,
+                                    column: column,
+                                    value: string.Empty);
                     case "NumP":
-                        return ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
-                            ? hb.Td(context: context, column: column, value: issueModel.NumP)
-                            : hb.Td(context: context, column: column, value: string.Empty);
+                        return ss.ReadColumnAccessControls.Allowed(
+                            context: context,
+                            ss: ss,
+                            column: column,
+                            type: ss.PermissionType,
+                            mine: mine)
+                                ? hb.Td(
+                                    context: context,
+                                    column: column,
+                                    value: issueModel.NumP)
+                                : hb.Td(
+                                    context: context,
+                                    column: column,
+                                    value: string.Empty);
                     case "NumQ":
-                        return ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
-                            ? hb.Td(context: context, column: column, value: issueModel.NumQ)
-                            : hb.Td(context: context, column: column, value: string.Empty);
+                        return ss.ReadColumnAccessControls.Allowed(
+                            context: context,
+                            ss: ss,
+                            column: column,
+                            type: ss.PermissionType,
+                            mine: mine)
+                                ? hb.Td(
+                                    context: context,
+                                    column: column,
+                                    value: issueModel.NumQ)
+                                : hb.Td(
+                                    context: context,
+                                    column: column,
+                                    value: string.Empty);
                     case "NumR":
-                        return ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
-                            ? hb.Td(context: context, column: column, value: issueModel.NumR)
-                            : hb.Td(context: context, column: column, value: string.Empty);
+                        return ss.ReadColumnAccessControls.Allowed(
+                            context: context,
+                            ss: ss,
+                            column: column,
+                            type: ss.PermissionType,
+                            mine: mine)
+                                ? hb.Td(
+                                    context: context,
+                                    column: column,
+                                    value: issueModel.NumR)
+                                : hb.Td(
+                                    context: context,
+                                    column: column,
+                                    value: string.Empty);
                     case "NumS":
-                        return ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
-                            ? hb.Td(context: context, column: column, value: issueModel.NumS)
-                            : hb.Td(context: context, column: column, value: string.Empty);
+                        return ss.ReadColumnAccessControls.Allowed(
+                            context: context,
+                            ss: ss,
+                            column: column,
+                            type: ss.PermissionType,
+                            mine: mine)
+                                ? hb.Td(
+                                    context: context,
+                                    column: column,
+                                    value: issueModel.NumS)
+                                : hb.Td(
+                                    context: context,
+                                    column: column,
+                                    value: string.Empty);
                     case "NumT":
-                        return ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
-                            ? hb.Td(context: context, column: column, value: issueModel.NumT)
-                            : hb.Td(context: context, column: column, value: string.Empty);
+                        return ss.ReadColumnAccessControls.Allowed(
+                            context: context,
+                            ss: ss,
+                            column: column,
+                            type: ss.PermissionType,
+                            mine: mine)
+                                ? hb.Td(
+                                    context: context,
+                                    column: column,
+                                    value: issueModel.NumT)
+                                : hb.Td(
+                                    context: context,
+                                    column: column,
+                                    value: string.Empty);
                     case "NumU":
-                        return ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
-                            ? hb.Td(context: context, column: column, value: issueModel.NumU)
-                            : hb.Td(context: context, column: column, value: string.Empty);
+                        return ss.ReadColumnAccessControls.Allowed(
+                            context: context,
+                            ss: ss,
+                            column: column,
+                            type: ss.PermissionType,
+                            mine: mine)
+                                ? hb.Td(
+                                    context: context,
+                                    column: column,
+                                    value: issueModel.NumU)
+                                : hb.Td(
+                                    context: context,
+                                    column: column,
+                                    value: string.Empty);
                     case "NumV":
-                        return ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
-                            ? hb.Td(context: context, column: column, value: issueModel.NumV)
-                            : hb.Td(context: context, column: column, value: string.Empty);
+                        return ss.ReadColumnAccessControls.Allowed(
+                            context: context,
+                            ss: ss,
+                            column: column,
+                            type: ss.PermissionType,
+                            mine: mine)
+                                ? hb.Td(
+                                    context: context,
+                                    column: column,
+                                    value: issueModel.NumV)
+                                : hb.Td(
+                                    context: context,
+                                    column: column,
+                                    value: string.Empty);
                     case "NumW":
-                        return ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
-                            ? hb.Td(context: context, column: column, value: issueModel.NumW)
-                            : hb.Td(context: context, column: column, value: string.Empty);
+                        return ss.ReadColumnAccessControls.Allowed(
+                            context: context,
+                            ss: ss,
+                            column: column,
+                            type: ss.PermissionType,
+                            mine: mine)
+                                ? hb.Td(
+                                    context: context,
+                                    column: column,
+                                    value: issueModel.NumW)
+                                : hb.Td(
+                                    context: context,
+                                    column: column,
+                                    value: string.Empty);
                     case "NumX":
-                        return ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
-                            ? hb.Td(context: context, column: column, value: issueModel.NumX)
-                            : hb.Td(context: context, column: column, value: string.Empty);
+                        return ss.ReadColumnAccessControls.Allowed(
+                            context: context,
+                            ss: ss,
+                            column: column,
+                            type: ss.PermissionType,
+                            mine: mine)
+                                ? hb.Td(
+                                    context: context,
+                                    column: column,
+                                    value: issueModel.NumX)
+                                : hb.Td(
+                                    context: context,
+                                    column: column,
+                                    value: string.Empty);
                     case "NumY":
-                        return ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
-                            ? hb.Td(context: context, column: column, value: issueModel.NumY)
-                            : hb.Td(context: context, column: column, value: string.Empty);
+                        return ss.ReadColumnAccessControls.Allowed(
+                            context: context,
+                            ss: ss,
+                            column: column,
+                            type: ss.PermissionType,
+                            mine: mine)
+                                ? hb.Td(
+                                    context: context,
+                                    column: column,
+                                    value: issueModel.NumY)
+                                : hb.Td(
+                                    context: context,
+                                    column: column,
+                                    value: string.Empty);
                     case "NumZ":
-                        return ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
-                            ? hb.Td(context: context, column: column, value: issueModel.NumZ)
-                            : hb.Td(context: context, column: column, value: string.Empty);
+                        return ss.ReadColumnAccessControls.Allowed(
+                            context: context,
+                            ss: ss,
+                            column: column,
+                            type: ss.PermissionType,
+                            mine: mine)
+                                ? hb.Td(
+                                    context: context,
+                                    column: column,
+                                    value: issueModel.NumZ)
+                                : hb.Td(
+                                    context: context,
+                                    column: column,
+                                    value: string.Empty);
                     case "DateA":
-                        return ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
-                            ? hb.Td(context: context, column: column, value: issueModel.DateA)
-                            : hb.Td(context: context, column: column, value: string.Empty);
+                        return ss.ReadColumnAccessControls.Allowed(
+                            context: context,
+                            ss: ss,
+                            column: column,
+                            type: ss.PermissionType,
+                            mine: mine)
+                                ? hb.Td(
+                                    context: context,
+                                    column: column,
+                                    value: issueModel.DateA)
+                                : hb.Td(
+                                    context: context,
+                                    column: column,
+                                    value: string.Empty);
                     case "DateB":
-                        return ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
-                            ? hb.Td(context: context, column: column, value: issueModel.DateB)
-                            : hb.Td(context: context, column: column, value: string.Empty);
+                        return ss.ReadColumnAccessControls.Allowed(
+                            context: context,
+                            ss: ss,
+                            column: column,
+                            type: ss.PermissionType,
+                            mine: mine)
+                                ? hb.Td(
+                                    context: context,
+                                    column: column,
+                                    value: issueModel.DateB)
+                                : hb.Td(
+                                    context: context,
+                                    column: column,
+                                    value: string.Empty);
                     case "DateC":
-                        return ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
-                            ? hb.Td(context: context, column: column, value: issueModel.DateC)
-                            : hb.Td(context: context, column: column, value: string.Empty);
+                        return ss.ReadColumnAccessControls.Allowed(
+                            context: context,
+                            ss: ss,
+                            column: column,
+                            type: ss.PermissionType,
+                            mine: mine)
+                                ? hb.Td(
+                                    context: context,
+                                    column: column,
+                                    value: issueModel.DateC)
+                                : hb.Td(
+                                    context: context,
+                                    column: column,
+                                    value: string.Empty);
                     case "DateD":
-                        return ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
-                            ? hb.Td(context: context, column: column, value: issueModel.DateD)
-                            : hb.Td(context: context, column: column, value: string.Empty);
+                        return ss.ReadColumnAccessControls.Allowed(
+                            context: context,
+                            ss: ss,
+                            column: column,
+                            type: ss.PermissionType,
+                            mine: mine)
+                                ? hb.Td(
+                                    context: context,
+                                    column: column,
+                                    value: issueModel.DateD)
+                                : hb.Td(
+                                    context: context,
+                                    column: column,
+                                    value: string.Empty);
                     case "DateE":
-                        return ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
-                            ? hb.Td(context: context, column: column, value: issueModel.DateE)
-                            : hb.Td(context: context, column: column, value: string.Empty);
+                        return ss.ReadColumnAccessControls.Allowed(
+                            context: context,
+                            ss: ss,
+                            column: column,
+                            type: ss.PermissionType,
+                            mine: mine)
+                                ? hb.Td(
+                                    context: context,
+                                    column: column,
+                                    value: issueModel.DateE)
+                                : hb.Td(
+                                    context: context,
+                                    column: column,
+                                    value: string.Empty);
                     case "DateF":
-                        return ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
-                            ? hb.Td(context: context, column: column, value: issueModel.DateF)
-                            : hb.Td(context: context, column: column, value: string.Empty);
+                        return ss.ReadColumnAccessControls.Allowed(
+                            context: context,
+                            ss: ss,
+                            column: column,
+                            type: ss.PermissionType,
+                            mine: mine)
+                                ? hb.Td(
+                                    context: context,
+                                    column: column,
+                                    value: issueModel.DateF)
+                                : hb.Td(
+                                    context: context,
+                                    column: column,
+                                    value: string.Empty);
                     case "DateG":
-                        return ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
-                            ? hb.Td(context: context, column: column, value: issueModel.DateG)
-                            : hb.Td(context: context, column: column, value: string.Empty);
+                        return ss.ReadColumnAccessControls.Allowed(
+                            context: context,
+                            ss: ss,
+                            column: column,
+                            type: ss.PermissionType,
+                            mine: mine)
+                                ? hb.Td(
+                                    context: context,
+                                    column: column,
+                                    value: issueModel.DateG)
+                                : hb.Td(
+                                    context: context,
+                                    column: column,
+                                    value: string.Empty);
                     case "DateH":
-                        return ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
-                            ? hb.Td(context: context, column: column, value: issueModel.DateH)
-                            : hb.Td(context: context, column: column, value: string.Empty);
+                        return ss.ReadColumnAccessControls.Allowed(
+                            context: context,
+                            ss: ss,
+                            column: column,
+                            type: ss.PermissionType,
+                            mine: mine)
+                                ? hb.Td(
+                                    context: context,
+                                    column: column,
+                                    value: issueModel.DateH)
+                                : hb.Td(
+                                    context: context,
+                                    column: column,
+                                    value: string.Empty);
                     case "DateI":
-                        return ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
-                            ? hb.Td(context: context, column: column, value: issueModel.DateI)
-                            : hb.Td(context: context, column: column, value: string.Empty);
+                        return ss.ReadColumnAccessControls.Allowed(
+                            context: context,
+                            ss: ss,
+                            column: column,
+                            type: ss.PermissionType,
+                            mine: mine)
+                                ? hb.Td(
+                                    context: context,
+                                    column: column,
+                                    value: issueModel.DateI)
+                                : hb.Td(
+                                    context: context,
+                                    column: column,
+                                    value: string.Empty);
                     case "DateJ":
-                        return ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
-                            ? hb.Td(context: context, column: column, value: issueModel.DateJ)
-                            : hb.Td(context: context, column: column, value: string.Empty);
+                        return ss.ReadColumnAccessControls.Allowed(
+                            context: context,
+                            ss: ss,
+                            column: column,
+                            type: ss.PermissionType,
+                            mine: mine)
+                                ? hb.Td(
+                                    context: context,
+                                    column: column,
+                                    value: issueModel.DateJ)
+                                : hb.Td(
+                                    context: context,
+                                    column: column,
+                                    value: string.Empty);
                     case "DateK":
-                        return ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
-                            ? hb.Td(context: context, column: column, value: issueModel.DateK)
-                            : hb.Td(context: context, column: column, value: string.Empty);
+                        return ss.ReadColumnAccessControls.Allowed(
+                            context: context,
+                            ss: ss,
+                            column: column,
+                            type: ss.PermissionType,
+                            mine: mine)
+                                ? hb.Td(
+                                    context: context,
+                                    column: column,
+                                    value: issueModel.DateK)
+                                : hb.Td(
+                                    context: context,
+                                    column: column,
+                                    value: string.Empty);
                     case "DateL":
-                        return ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
-                            ? hb.Td(context: context, column: column, value: issueModel.DateL)
-                            : hb.Td(context: context, column: column, value: string.Empty);
+                        return ss.ReadColumnAccessControls.Allowed(
+                            context: context,
+                            ss: ss,
+                            column: column,
+                            type: ss.PermissionType,
+                            mine: mine)
+                                ? hb.Td(
+                                    context: context,
+                                    column: column,
+                                    value: issueModel.DateL)
+                                : hb.Td(
+                                    context: context,
+                                    column: column,
+                                    value: string.Empty);
                     case "DateM":
-                        return ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
-                            ? hb.Td(context: context, column: column, value: issueModel.DateM)
-                            : hb.Td(context: context, column: column, value: string.Empty);
+                        return ss.ReadColumnAccessControls.Allowed(
+                            context: context,
+                            ss: ss,
+                            column: column,
+                            type: ss.PermissionType,
+                            mine: mine)
+                                ? hb.Td(
+                                    context: context,
+                                    column: column,
+                                    value: issueModel.DateM)
+                                : hb.Td(
+                                    context: context,
+                                    column: column,
+                                    value: string.Empty);
                     case "DateN":
-                        return ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
-                            ? hb.Td(context: context, column: column, value: issueModel.DateN)
-                            : hb.Td(context: context, column: column, value: string.Empty);
+                        return ss.ReadColumnAccessControls.Allowed(
+                            context: context,
+                            ss: ss,
+                            column: column,
+                            type: ss.PermissionType,
+                            mine: mine)
+                                ? hb.Td(
+                                    context: context,
+                                    column: column,
+                                    value: issueModel.DateN)
+                                : hb.Td(
+                                    context: context,
+                                    column: column,
+                                    value: string.Empty);
                     case "DateO":
-                        return ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
-                            ? hb.Td(context: context, column: column, value: issueModel.DateO)
-                            : hb.Td(context: context, column: column, value: string.Empty);
+                        return ss.ReadColumnAccessControls.Allowed(
+                            context: context,
+                            ss: ss,
+                            column: column,
+                            type: ss.PermissionType,
+                            mine: mine)
+                                ? hb.Td(
+                                    context: context,
+                                    column: column,
+                                    value: issueModel.DateO)
+                                : hb.Td(
+                                    context: context,
+                                    column: column,
+                                    value: string.Empty);
                     case "DateP":
-                        return ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
-                            ? hb.Td(context: context, column: column, value: issueModel.DateP)
-                            : hb.Td(context: context, column: column, value: string.Empty);
+                        return ss.ReadColumnAccessControls.Allowed(
+                            context: context,
+                            ss: ss,
+                            column: column,
+                            type: ss.PermissionType,
+                            mine: mine)
+                                ? hb.Td(
+                                    context: context,
+                                    column: column,
+                                    value: issueModel.DateP)
+                                : hb.Td(
+                                    context: context,
+                                    column: column,
+                                    value: string.Empty);
                     case "DateQ":
-                        return ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
-                            ? hb.Td(context: context, column: column, value: issueModel.DateQ)
-                            : hb.Td(context: context, column: column, value: string.Empty);
+                        return ss.ReadColumnAccessControls.Allowed(
+                            context: context,
+                            ss: ss,
+                            column: column,
+                            type: ss.PermissionType,
+                            mine: mine)
+                                ? hb.Td(
+                                    context: context,
+                                    column: column,
+                                    value: issueModel.DateQ)
+                                : hb.Td(
+                                    context: context,
+                                    column: column,
+                                    value: string.Empty);
                     case "DateR":
-                        return ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
-                            ? hb.Td(context: context, column: column, value: issueModel.DateR)
-                            : hb.Td(context: context, column: column, value: string.Empty);
+                        return ss.ReadColumnAccessControls.Allowed(
+                            context: context,
+                            ss: ss,
+                            column: column,
+                            type: ss.PermissionType,
+                            mine: mine)
+                                ? hb.Td(
+                                    context: context,
+                                    column: column,
+                                    value: issueModel.DateR)
+                                : hb.Td(
+                                    context: context,
+                                    column: column,
+                                    value: string.Empty);
                     case "DateS":
-                        return ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
-                            ? hb.Td(context: context, column: column, value: issueModel.DateS)
-                            : hb.Td(context: context, column: column, value: string.Empty);
+                        return ss.ReadColumnAccessControls.Allowed(
+                            context: context,
+                            ss: ss,
+                            column: column,
+                            type: ss.PermissionType,
+                            mine: mine)
+                                ? hb.Td(
+                                    context: context,
+                                    column: column,
+                                    value: issueModel.DateS)
+                                : hb.Td(
+                                    context: context,
+                                    column: column,
+                                    value: string.Empty);
                     case "DateT":
-                        return ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
-                            ? hb.Td(context: context, column: column, value: issueModel.DateT)
-                            : hb.Td(context: context, column: column, value: string.Empty);
+                        return ss.ReadColumnAccessControls.Allowed(
+                            context: context,
+                            ss: ss,
+                            column: column,
+                            type: ss.PermissionType,
+                            mine: mine)
+                                ? hb.Td(
+                                    context: context,
+                                    column: column,
+                                    value: issueModel.DateT)
+                                : hb.Td(
+                                    context: context,
+                                    column: column,
+                                    value: string.Empty);
                     case "DateU":
-                        return ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
-                            ? hb.Td(context: context, column: column, value: issueModel.DateU)
-                            : hb.Td(context: context, column: column, value: string.Empty);
+                        return ss.ReadColumnAccessControls.Allowed(
+                            context: context,
+                            ss: ss,
+                            column: column,
+                            type: ss.PermissionType,
+                            mine: mine)
+                                ? hb.Td(
+                                    context: context,
+                                    column: column,
+                                    value: issueModel.DateU)
+                                : hb.Td(
+                                    context: context,
+                                    column: column,
+                                    value: string.Empty);
                     case "DateV":
-                        return ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
-                            ? hb.Td(context: context, column: column, value: issueModel.DateV)
-                            : hb.Td(context: context, column: column, value: string.Empty);
+                        return ss.ReadColumnAccessControls.Allowed(
+                            context: context,
+                            ss: ss,
+                            column: column,
+                            type: ss.PermissionType,
+                            mine: mine)
+                                ? hb.Td(
+                                    context: context,
+                                    column: column,
+                                    value: issueModel.DateV)
+                                : hb.Td(
+                                    context: context,
+                                    column: column,
+                                    value: string.Empty);
                     case "DateW":
-                        return ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
-                            ? hb.Td(context: context, column: column, value: issueModel.DateW)
-                            : hb.Td(context: context, column: column, value: string.Empty);
+                        return ss.ReadColumnAccessControls.Allowed(
+                            context: context,
+                            ss: ss,
+                            column: column,
+                            type: ss.PermissionType,
+                            mine: mine)
+                                ? hb.Td(
+                                    context: context,
+                                    column: column,
+                                    value: issueModel.DateW)
+                                : hb.Td(
+                                    context: context,
+                                    column: column,
+                                    value: string.Empty);
                     case "DateX":
-                        return ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
-                            ? hb.Td(context: context, column: column, value: issueModel.DateX)
-                            : hb.Td(context: context, column: column, value: string.Empty);
+                        return ss.ReadColumnAccessControls.Allowed(
+                            context: context,
+                            ss: ss,
+                            column: column,
+                            type: ss.PermissionType,
+                            mine: mine)
+                                ? hb.Td(
+                                    context: context,
+                                    column: column,
+                                    value: issueModel.DateX)
+                                : hb.Td(
+                                    context: context,
+                                    column: column,
+                                    value: string.Empty);
                     case "DateY":
-                        return ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
-                            ? hb.Td(context: context, column: column, value: issueModel.DateY)
-                            : hb.Td(context: context, column: column, value: string.Empty);
+                        return ss.ReadColumnAccessControls.Allowed(
+                            context: context,
+                            ss: ss,
+                            column: column,
+                            type: ss.PermissionType,
+                            mine: mine)
+                                ? hb.Td(
+                                    context: context,
+                                    column: column,
+                                    value: issueModel.DateY)
+                                : hb.Td(
+                                    context: context,
+                                    column: column,
+                                    value: string.Empty);
                     case "DateZ":
-                        return ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
-                            ? hb.Td(context: context, column: column, value: issueModel.DateZ)
-                            : hb.Td(context: context, column: column, value: string.Empty);
+                        return ss.ReadColumnAccessControls.Allowed(
+                            context: context,
+                            ss: ss,
+                            column: column,
+                            type: ss.PermissionType,
+                            mine: mine)
+                                ? hb.Td(
+                                    context: context,
+                                    column: column,
+                                    value: issueModel.DateZ)
+                                : hb.Td(
+                                    context: context,
+                                    column: column,
+                                    value: string.Empty);
                     case "DescriptionA":
-                        return ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
-                            ? hb.Td(context: context, column: column, value: issueModel.DescriptionA)
-                            : hb.Td(context: context, column: column, value: string.Empty);
+                        return ss.ReadColumnAccessControls.Allowed(
+                            context: context,
+                            ss: ss,
+                            column: column,
+                            type: ss.PermissionType,
+                            mine: mine)
+                                ? hb.Td(
+                                    context: context,
+                                    column: column,
+                                    value: issueModel.DescriptionA)
+                                : hb.Td(
+                                    context: context,
+                                    column: column,
+                                    value: string.Empty);
                     case "DescriptionB":
-                        return ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
-                            ? hb.Td(context: context, column: column, value: issueModel.DescriptionB)
-                            : hb.Td(context: context, column: column, value: string.Empty);
+                        return ss.ReadColumnAccessControls.Allowed(
+                            context: context,
+                            ss: ss,
+                            column: column,
+                            type: ss.PermissionType,
+                            mine: mine)
+                                ? hb.Td(
+                                    context: context,
+                                    column: column,
+                                    value: issueModel.DescriptionB)
+                                : hb.Td(
+                                    context: context,
+                                    column: column,
+                                    value: string.Empty);
                     case "DescriptionC":
-                        return ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
-                            ? hb.Td(context: context, column: column, value: issueModel.DescriptionC)
-                            : hb.Td(context: context, column: column, value: string.Empty);
+                        return ss.ReadColumnAccessControls.Allowed(
+                            context: context,
+                            ss: ss,
+                            column: column,
+                            type: ss.PermissionType,
+                            mine: mine)
+                                ? hb.Td(
+                                    context: context,
+                                    column: column,
+                                    value: issueModel.DescriptionC)
+                                : hb.Td(
+                                    context: context,
+                                    column: column,
+                                    value: string.Empty);
                     case "DescriptionD":
-                        return ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
-                            ? hb.Td(context: context, column: column, value: issueModel.DescriptionD)
-                            : hb.Td(context: context, column: column, value: string.Empty);
+                        return ss.ReadColumnAccessControls.Allowed(
+                            context: context,
+                            ss: ss,
+                            column: column,
+                            type: ss.PermissionType,
+                            mine: mine)
+                                ? hb.Td(
+                                    context: context,
+                                    column: column,
+                                    value: issueModel.DescriptionD)
+                                : hb.Td(
+                                    context: context,
+                                    column: column,
+                                    value: string.Empty);
                     case "DescriptionE":
-                        return ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
-                            ? hb.Td(context: context, column: column, value: issueModel.DescriptionE)
-                            : hb.Td(context: context, column: column, value: string.Empty);
+                        return ss.ReadColumnAccessControls.Allowed(
+                            context: context,
+                            ss: ss,
+                            column: column,
+                            type: ss.PermissionType,
+                            mine: mine)
+                                ? hb.Td(
+                                    context: context,
+                                    column: column,
+                                    value: issueModel.DescriptionE)
+                                : hb.Td(
+                                    context: context,
+                                    column: column,
+                                    value: string.Empty);
                     case "DescriptionF":
-                        return ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
-                            ? hb.Td(context: context, column: column, value: issueModel.DescriptionF)
-                            : hb.Td(context: context, column: column, value: string.Empty);
+                        return ss.ReadColumnAccessControls.Allowed(
+                            context: context,
+                            ss: ss,
+                            column: column,
+                            type: ss.PermissionType,
+                            mine: mine)
+                                ? hb.Td(
+                                    context: context,
+                                    column: column,
+                                    value: issueModel.DescriptionF)
+                                : hb.Td(
+                                    context: context,
+                                    column: column,
+                                    value: string.Empty);
                     case "DescriptionG":
-                        return ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
-                            ? hb.Td(context: context, column: column, value: issueModel.DescriptionG)
-                            : hb.Td(context: context, column: column, value: string.Empty);
+                        return ss.ReadColumnAccessControls.Allowed(
+                            context: context,
+                            ss: ss,
+                            column: column,
+                            type: ss.PermissionType,
+                            mine: mine)
+                                ? hb.Td(
+                                    context: context,
+                                    column: column,
+                                    value: issueModel.DescriptionG)
+                                : hb.Td(
+                                    context: context,
+                                    column: column,
+                                    value: string.Empty);
                     case "DescriptionH":
-                        return ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
-                            ? hb.Td(context: context, column: column, value: issueModel.DescriptionH)
-                            : hb.Td(context: context, column: column, value: string.Empty);
+                        return ss.ReadColumnAccessControls.Allowed(
+                            context: context,
+                            ss: ss,
+                            column: column,
+                            type: ss.PermissionType,
+                            mine: mine)
+                                ? hb.Td(
+                                    context: context,
+                                    column: column,
+                                    value: issueModel.DescriptionH)
+                                : hb.Td(
+                                    context: context,
+                                    column: column,
+                                    value: string.Empty);
                     case "DescriptionI":
-                        return ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
-                            ? hb.Td(context: context, column: column, value: issueModel.DescriptionI)
-                            : hb.Td(context: context, column: column, value: string.Empty);
+                        return ss.ReadColumnAccessControls.Allowed(
+                            context: context,
+                            ss: ss,
+                            column: column,
+                            type: ss.PermissionType,
+                            mine: mine)
+                                ? hb.Td(
+                                    context: context,
+                                    column: column,
+                                    value: issueModel.DescriptionI)
+                                : hb.Td(
+                                    context: context,
+                                    column: column,
+                                    value: string.Empty);
                     case "DescriptionJ":
-                        return ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
-                            ? hb.Td(context: context, column: column, value: issueModel.DescriptionJ)
-                            : hb.Td(context: context, column: column, value: string.Empty);
+                        return ss.ReadColumnAccessControls.Allowed(
+                            context: context,
+                            ss: ss,
+                            column: column,
+                            type: ss.PermissionType,
+                            mine: mine)
+                                ? hb.Td(
+                                    context: context,
+                                    column: column,
+                                    value: issueModel.DescriptionJ)
+                                : hb.Td(
+                                    context: context,
+                                    column: column,
+                                    value: string.Empty);
                     case "DescriptionK":
-                        return ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
-                            ? hb.Td(context: context, column: column, value: issueModel.DescriptionK)
-                            : hb.Td(context: context, column: column, value: string.Empty);
+                        return ss.ReadColumnAccessControls.Allowed(
+                            context: context,
+                            ss: ss,
+                            column: column,
+                            type: ss.PermissionType,
+                            mine: mine)
+                                ? hb.Td(
+                                    context: context,
+                                    column: column,
+                                    value: issueModel.DescriptionK)
+                                : hb.Td(
+                                    context: context,
+                                    column: column,
+                                    value: string.Empty);
                     case "DescriptionL":
-                        return ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
-                            ? hb.Td(context: context, column: column, value: issueModel.DescriptionL)
-                            : hb.Td(context: context, column: column, value: string.Empty);
+                        return ss.ReadColumnAccessControls.Allowed(
+                            context: context,
+                            ss: ss,
+                            column: column,
+                            type: ss.PermissionType,
+                            mine: mine)
+                                ? hb.Td(
+                                    context: context,
+                                    column: column,
+                                    value: issueModel.DescriptionL)
+                                : hb.Td(
+                                    context: context,
+                                    column: column,
+                                    value: string.Empty);
                     case "DescriptionM":
-                        return ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
-                            ? hb.Td(context: context, column: column, value: issueModel.DescriptionM)
-                            : hb.Td(context: context, column: column, value: string.Empty);
+                        return ss.ReadColumnAccessControls.Allowed(
+                            context: context,
+                            ss: ss,
+                            column: column,
+                            type: ss.PermissionType,
+                            mine: mine)
+                                ? hb.Td(
+                                    context: context,
+                                    column: column,
+                                    value: issueModel.DescriptionM)
+                                : hb.Td(
+                                    context: context,
+                                    column: column,
+                                    value: string.Empty);
                     case "DescriptionN":
-                        return ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
-                            ? hb.Td(context: context, column: column, value: issueModel.DescriptionN)
-                            : hb.Td(context: context, column: column, value: string.Empty);
+                        return ss.ReadColumnAccessControls.Allowed(
+                            context: context,
+                            ss: ss,
+                            column: column,
+                            type: ss.PermissionType,
+                            mine: mine)
+                                ? hb.Td(
+                                    context: context,
+                                    column: column,
+                                    value: issueModel.DescriptionN)
+                                : hb.Td(
+                                    context: context,
+                                    column: column,
+                                    value: string.Empty);
                     case "DescriptionO":
-                        return ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
-                            ? hb.Td(context: context, column: column, value: issueModel.DescriptionO)
-                            : hb.Td(context: context, column: column, value: string.Empty);
+                        return ss.ReadColumnAccessControls.Allowed(
+                            context: context,
+                            ss: ss,
+                            column: column,
+                            type: ss.PermissionType,
+                            mine: mine)
+                                ? hb.Td(
+                                    context: context,
+                                    column: column,
+                                    value: issueModel.DescriptionO)
+                                : hb.Td(
+                                    context: context,
+                                    column: column,
+                                    value: string.Empty);
                     case "DescriptionP":
-                        return ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
-                            ? hb.Td(context: context, column: column, value: issueModel.DescriptionP)
-                            : hb.Td(context: context, column: column, value: string.Empty);
+                        return ss.ReadColumnAccessControls.Allowed(
+                            context: context,
+                            ss: ss,
+                            column: column,
+                            type: ss.PermissionType,
+                            mine: mine)
+                                ? hb.Td(
+                                    context: context,
+                                    column: column,
+                                    value: issueModel.DescriptionP)
+                                : hb.Td(
+                                    context: context,
+                                    column: column,
+                                    value: string.Empty);
                     case "DescriptionQ":
-                        return ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
-                            ? hb.Td(context: context, column: column, value: issueModel.DescriptionQ)
-                            : hb.Td(context: context, column: column, value: string.Empty);
+                        return ss.ReadColumnAccessControls.Allowed(
+                            context: context,
+                            ss: ss,
+                            column: column,
+                            type: ss.PermissionType,
+                            mine: mine)
+                                ? hb.Td(
+                                    context: context,
+                                    column: column,
+                                    value: issueModel.DescriptionQ)
+                                : hb.Td(
+                                    context: context,
+                                    column: column,
+                                    value: string.Empty);
                     case "DescriptionR":
-                        return ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
-                            ? hb.Td(context: context, column: column, value: issueModel.DescriptionR)
-                            : hb.Td(context: context, column: column, value: string.Empty);
+                        return ss.ReadColumnAccessControls.Allowed(
+                            context: context,
+                            ss: ss,
+                            column: column,
+                            type: ss.PermissionType,
+                            mine: mine)
+                                ? hb.Td(
+                                    context: context,
+                                    column: column,
+                                    value: issueModel.DescriptionR)
+                                : hb.Td(
+                                    context: context,
+                                    column: column,
+                                    value: string.Empty);
                     case "DescriptionS":
-                        return ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
-                            ? hb.Td(context: context, column: column, value: issueModel.DescriptionS)
-                            : hb.Td(context: context, column: column, value: string.Empty);
+                        return ss.ReadColumnAccessControls.Allowed(
+                            context: context,
+                            ss: ss,
+                            column: column,
+                            type: ss.PermissionType,
+                            mine: mine)
+                                ? hb.Td(
+                                    context: context,
+                                    column: column,
+                                    value: issueModel.DescriptionS)
+                                : hb.Td(
+                                    context: context,
+                                    column: column,
+                                    value: string.Empty);
                     case "DescriptionT":
-                        return ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
-                            ? hb.Td(context: context, column: column, value: issueModel.DescriptionT)
-                            : hb.Td(context: context, column: column, value: string.Empty);
+                        return ss.ReadColumnAccessControls.Allowed(
+                            context: context,
+                            ss: ss,
+                            column: column,
+                            type: ss.PermissionType,
+                            mine: mine)
+                                ? hb.Td(
+                                    context: context,
+                                    column: column,
+                                    value: issueModel.DescriptionT)
+                                : hb.Td(
+                                    context: context,
+                                    column: column,
+                                    value: string.Empty);
                     case "DescriptionU":
-                        return ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
-                            ? hb.Td(context: context, column: column, value: issueModel.DescriptionU)
-                            : hb.Td(context: context, column: column, value: string.Empty);
+                        return ss.ReadColumnAccessControls.Allowed(
+                            context: context,
+                            ss: ss,
+                            column: column,
+                            type: ss.PermissionType,
+                            mine: mine)
+                                ? hb.Td(
+                                    context: context,
+                                    column: column,
+                                    value: issueModel.DescriptionU)
+                                : hb.Td(
+                                    context: context,
+                                    column: column,
+                                    value: string.Empty);
                     case "DescriptionV":
-                        return ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
-                            ? hb.Td(context: context, column: column, value: issueModel.DescriptionV)
-                            : hb.Td(context: context, column: column, value: string.Empty);
+                        return ss.ReadColumnAccessControls.Allowed(
+                            context: context,
+                            ss: ss,
+                            column: column,
+                            type: ss.PermissionType,
+                            mine: mine)
+                                ? hb.Td(
+                                    context: context,
+                                    column: column,
+                                    value: issueModel.DescriptionV)
+                                : hb.Td(
+                                    context: context,
+                                    column: column,
+                                    value: string.Empty);
                     case "DescriptionW":
-                        return ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
-                            ? hb.Td(context: context, column: column, value: issueModel.DescriptionW)
-                            : hb.Td(context: context, column: column, value: string.Empty);
+                        return ss.ReadColumnAccessControls.Allowed(
+                            context: context,
+                            ss: ss,
+                            column: column,
+                            type: ss.PermissionType,
+                            mine: mine)
+                                ? hb.Td(
+                                    context: context,
+                                    column: column,
+                                    value: issueModel.DescriptionW)
+                                : hb.Td(
+                                    context: context,
+                                    column: column,
+                                    value: string.Empty);
                     case "DescriptionX":
-                        return ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
-                            ? hb.Td(context: context, column: column, value: issueModel.DescriptionX)
-                            : hb.Td(context: context, column: column, value: string.Empty);
+                        return ss.ReadColumnAccessControls.Allowed(
+                            context: context,
+                            ss: ss,
+                            column: column,
+                            type: ss.PermissionType,
+                            mine: mine)
+                                ? hb.Td(
+                                    context: context,
+                                    column: column,
+                                    value: issueModel.DescriptionX)
+                                : hb.Td(
+                                    context: context,
+                                    column: column,
+                                    value: string.Empty);
                     case "DescriptionY":
-                        return ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
-                            ? hb.Td(context: context, column: column, value: issueModel.DescriptionY)
-                            : hb.Td(context: context, column: column, value: string.Empty);
+                        return ss.ReadColumnAccessControls.Allowed(
+                            context: context,
+                            ss: ss,
+                            column: column,
+                            type: ss.PermissionType,
+                            mine: mine)
+                                ? hb.Td(
+                                    context: context,
+                                    column: column,
+                                    value: issueModel.DescriptionY)
+                                : hb.Td(
+                                    context: context,
+                                    column: column,
+                                    value: string.Empty);
                     case "DescriptionZ":
-                        return ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
-                            ? hb.Td(context: context, column: column, value: issueModel.DescriptionZ)
-                            : hb.Td(context: context, column: column, value: string.Empty);
+                        return ss.ReadColumnAccessControls.Allowed(
+                            context: context,
+                            ss: ss,
+                            column: column,
+                            type: ss.PermissionType,
+                            mine: mine)
+                                ? hb.Td(
+                                    context: context,
+                                    column: column,
+                                    value: issueModel.DescriptionZ)
+                                : hb.Td(
+                                    context: context,
+                                    column: column,
+                                    value: string.Empty);
                     case "CheckA":
-                        return ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
-                            ? hb.Td(context: context, column: column, value: issueModel.CheckA)
-                            : hb.Td(context: context, column: column, value: string.Empty);
+                        return ss.ReadColumnAccessControls.Allowed(
+                            context: context,
+                            ss: ss,
+                            column: column,
+                            type: ss.PermissionType,
+                            mine: mine)
+                                ? hb.Td(
+                                    context: context,
+                                    column: column,
+                                    value: issueModel.CheckA)
+                                : hb.Td(
+                                    context: context,
+                                    column: column,
+                                    value: string.Empty);
                     case "CheckB":
-                        return ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
-                            ? hb.Td(context: context, column: column, value: issueModel.CheckB)
-                            : hb.Td(context: context, column: column, value: string.Empty);
+                        return ss.ReadColumnAccessControls.Allowed(
+                            context: context,
+                            ss: ss,
+                            column: column,
+                            type: ss.PermissionType,
+                            mine: mine)
+                                ? hb.Td(
+                                    context: context,
+                                    column: column,
+                                    value: issueModel.CheckB)
+                                : hb.Td(
+                                    context: context,
+                                    column: column,
+                                    value: string.Empty);
                     case "CheckC":
-                        return ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
-                            ? hb.Td(context: context, column: column, value: issueModel.CheckC)
-                            : hb.Td(context: context, column: column, value: string.Empty);
+                        return ss.ReadColumnAccessControls.Allowed(
+                            context: context,
+                            ss: ss,
+                            column: column,
+                            type: ss.PermissionType,
+                            mine: mine)
+                                ? hb.Td(
+                                    context: context,
+                                    column: column,
+                                    value: issueModel.CheckC)
+                                : hb.Td(
+                                    context: context,
+                                    column: column,
+                                    value: string.Empty);
                     case "CheckD":
-                        return ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
-                            ? hb.Td(context: context, column: column, value: issueModel.CheckD)
-                            : hb.Td(context: context, column: column, value: string.Empty);
+                        return ss.ReadColumnAccessControls.Allowed(
+                            context: context,
+                            ss: ss,
+                            column: column,
+                            type: ss.PermissionType,
+                            mine: mine)
+                                ? hb.Td(
+                                    context: context,
+                                    column: column,
+                                    value: issueModel.CheckD)
+                                : hb.Td(
+                                    context: context,
+                                    column: column,
+                                    value: string.Empty);
                     case "CheckE":
-                        return ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
-                            ? hb.Td(context: context, column: column, value: issueModel.CheckE)
-                            : hb.Td(context: context, column: column, value: string.Empty);
+                        return ss.ReadColumnAccessControls.Allowed(
+                            context: context,
+                            ss: ss,
+                            column: column,
+                            type: ss.PermissionType,
+                            mine: mine)
+                                ? hb.Td(
+                                    context: context,
+                                    column: column,
+                                    value: issueModel.CheckE)
+                                : hb.Td(
+                                    context: context,
+                                    column: column,
+                                    value: string.Empty);
                     case "CheckF":
-                        return ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
-                            ? hb.Td(context: context, column: column, value: issueModel.CheckF)
-                            : hb.Td(context: context, column: column, value: string.Empty);
+                        return ss.ReadColumnAccessControls.Allowed(
+                            context: context,
+                            ss: ss,
+                            column: column,
+                            type: ss.PermissionType,
+                            mine: mine)
+                                ? hb.Td(
+                                    context: context,
+                                    column: column,
+                                    value: issueModel.CheckF)
+                                : hb.Td(
+                                    context: context,
+                                    column: column,
+                                    value: string.Empty);
                     case "CheckG":
-                        return ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
-                            ? hb.Td(context: context, column: column, value: issueModel.CheckG)
-                            : hb.Td(context: context, column: column, value: string.Empty);
+                        return ss.ReadColumnAccessControls.Allowed(
+                            context: context,
+                            ss: ss,
+                            column: column,
+                            type: ss.PermissionType,
+                            mine: mine)
+                                ? hb.Td(
+                                    context: context,
+                                    column: column,
+                                    value: issueModel.CheckG)
+                                : hb.Td(
+                                    context: context,
+                                    column: column,
+                                    value: string.Empty);
                     case "CheckH":
-                        return ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
-                            ? hb.Td(context: context, column: column, value: issueModel.CheckH)
-                            : hb.Td(context: context, column: column, value: string.Empty);
+                        return ss.ReadColumnAccessControls.Allowed(
+                            context: context,
+                            ss: ss,
+                            column: column,
+                            type: ss.PermissionType,
+                            mine: mine)
+                                ? hb.Td(
+                                    context: context,
+                                    column: column,
+                                    value: issueModel.CheckH)
+                                : hb.Td(
+                                    context: context,
+                                    column: column,
+                                    value: string.Empty);
                     case "CheckI":
-                        return ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
-                            ? hb.Td(context: context, column: column, value: issueModel.CheckI)
-                            : hb.Td(context: context, column: column, value: string.Empty);
+                        return ss.ReadColumnAccessControls.Allowed(
+                            context: context,
+                            ss: ss,
+                            column: column,
+                            type: ss.PermissionType,
+                            mine: mine)
+                                ? hb.Td(
+                                    context: context,
+                                    column: column,
+                                    value: issueModel.CheckI)
+                                : hb.Td(
+                                    context: context,
+                                    column: column,
+                                    value: string.Empty);
                     case "CheckJ":
-                        return ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
-                            ? hb.Td(context: context, column: column, value: issueModel.CheckJ)
-                            : hb.Td(context: context, column: column, value: string.Empty);
+                        return ss.ReadColumnAccessControls.Allowed(
+                            context: context,
+                            ss: ss,
+                            column: column,
+                            type: ss.PermissionType,
+                            mine: mine)
+                                ? hb.Td(
+                                    context: context,
+                                    column: column,
+                                    value: issueModel.CheckJ)
+                                : hb.Td(
+                                    context: context,
+                                    column: column,
+                                    value: string.Empty);
                     case "CheckK":
-                        return ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
-                            ? hb.Td(context: context, column: column, value: issueModel.CheckK)
-                            : hb.Td(context: context, column: column, value: string.Empty);
+                        return ss.ReadColumnAccessControls.Allowed(
+                            context: context,
+                            ss: ss,
+                            column: column,
+                            type: ss.PermissionType,
+                            mine: mine)
+                                ? hb.Td(
+                                    context: context,
+                                    column: column,
+                                    value: issueModel.CheckK)
+                                : hb.Td(
+                                    context: context,
+                                    column: column,
+                                    value: string.Empty);
                     case "CheckL":
-                        return ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
-                            ? hb.Td(context: context, column: column, value: issueModel.CheckL)
-                            : hb.Td(context: context, column: column, value: string.Empty);
+                        return ss.ReadColumnAccessControls.Allowed(
+                            context: context,
+                            ss: ss,
+                            column: column,
+                            type: ss.PermissionType,
+                            mine: mine)
+                                ? hb.Td(
+                                    context: context,
+                                    column: column,
+                                    value: issueModel.CheckL)
+                                : hb.Td(
+                                    context: context,
+                                    column: column,
+                                    value: string.Empty);
                     case "CheckM":
-                        return ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
-                            ? hb.Td(context: context, column: column, value: issueModel.CheckM)
-                            : hb.Td(context: context, column: column, value: string.Empty);
+                        return ss.ReadColumnAccessControls.Allowed(
+                            context: context,
+                            ss: ss,
+                            column: column,
+                            type: ss.PermissionType,
+                            mine: mine)
+                                ? hb.Td(
+                                    context: context,
+                                    column: column,
+                                    value: issueModel.CheckM)
+                                : hb.Td(
+                                    context: context,
+                                    column: column,
+                                    value: string.Empty);
                     case "CheckN":
-                        return ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
-                            ? hb.Td(context: context, column: column, value: issueModel.CheckN)
-                            : hb.Td(context: context, column: column, value: string.Empty);
+                        return ss.ReadColumnAccessControls.Allowed(
+                            context: context,
+                            ss: ss,
+                            column: column,
+                            type: ss.PermissionType,
+                            mine: mine)
+                                ? hb.Td(
+                                    context: context,
+                                    column: column,
+                                    value: issueModel.CheckN)
+                                : hb.Td(
+                                    context: context,
+                                    column: column,
+                                    value: string.Empty);
                     case "CheckO":
-                        return ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
-                            ? hb.Td(context: context, column: column, value: issueModel.CheckO)
-                            : hb.Td(context: context, column: column, value: string.Empty);
+                        return ss.ReadColumnAccessControls.Allowed(
+                            context: context,
+                            ss: ss,
+                            column: column,
+                            type: ss.PermissionType,
+                            mine: mine)
+                                ? hb.Td(
+                                    context: context,
+                                    column: column,
+                                    value: issueModel.CheckO)
+                                : hb.Td(
+                                    context: context,
+                                    column: column,
+                                    value: string.Empty);
                     case "CheckP":
-                        return ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
-                            ? hb.Td(context: context, column: column, value: issueModel.CheckP)
-                            : hb.Td(context: context, column: column, value: string.Empty);
+                        return ss.ReadColumnAccessControls.Allowed(
+                            context: context,
+                            ss: ss,
+                            column: column,
+                            type: ss.PermissionType,
+                            mine: mine)
+                                ? hb.Td(
+                                    context: context,
+                                    column: column,
+                                    value: issueModel.CheckP)
+                                : hb.Td(
+                                    context: context,
+                                    column: column,
+                                    value: string.Empty);
                     case "CheckQ":
-                        return ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
-                            ? hb.Td(context: context, column: column, value: issueModel.CheckQ)
-                            : hb.Td(context: context, column: column, value: string.Empty);
+                        return ss.ReadColumnAccessControls.Allowed(
+                            context: context,
+                            ss: ss,
+                            column: column,
+                            type: ss.PermissionType,
+                            mine: mine)
+                                ? hb.Td(
+                                    context: context,
+                                    column: column,
+                                    value: issueModel.CheckQ)
+                                : hb.Td(
+                                    context: context,
+                                    column: column,
+                                    value: string.Empty);
                     case "CheckR":
-                        return ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
-                            ? hb.Td(context: context, column: column, value: issueModel.CheckR)
-                            : hb.Td(context: context, column: column, value: string.Empty);
+                        return ss.ReadColumnAccessControls.Allowed(
+                            context: context,
+                            ss: ss,
+                            column: column,
+                            type: ss.PermissionType,
+                            mine: mine)
+                                ? hb.Td(
+                                    context: context,
+                                    column: column,
+                                    value: issueModel.CheckR)
+                                : hb.Td(
+                                    context: context,
+                                    column: column,
+                                    value: string.Empty);
                     case "CheckS":
-                        return ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
-                            ? hb.Td(context: context, column: column, value: issueModel.CheckS)
-                            : hb.Td(context: context, column: column, value: string.Empty);
+                        return ss.ReadColumnAccessControls.Allowed(
+                            context: context,
+                            ss: ss,
+                            column: column,
+                            type: ss.PermissionType,
+                            mine: mine)
+                                ? hb.Td(
+                                    context: context,
+                                    column: column,
+                                    value: issueModel.CheckS)
+                                : hb.Td(
+                                    context: context,
+                                    column: column,
+                                    value: string.Empty);
                     case "CheckT":
-                        return ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
-                            ? hb.Td(context: context, column: column, value: issueModel.CheckT)
-                            : hb.Td(context: context, column: column, value: string.Empty);
+                        return ss.ReadColumnAccessControls.Allowed(
+                            context: context,
+                            ss: ss,
+                            column: column,
+                            type: ss.PermissionType,
+                            mine: mine)
+                                ? hb.Td(
+                                    context: context,
+                                    column: column,
+                                    value: issueModel.CheckT)
+                                : hb.Td(
+                                    context: context,
+                                    column: column,
+                                    value: string.Empty);
                     case "CheckU":
-                        return ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
-                            ? hb.Td(context: context, column: column, value: issueModel.CheckU)
-                            : hb.Td(context: context, column: column, value: string.Empty);
+                        return ss.ReadColumnAccessControls.Allowed(
+                            context: context,
+                            ss: ss,
+                            column: column,
+                            type: ss.PermissionType,
+                            mine: mine)
+                                ? hb.Td(
+                                    context: context,
+                                    column: column,
+                                    value: issueModel.CheckU)
+                                : hb.Td(
+                                    context: context,
+                                    column: column,
+                                    value: string.Empty);
                     case "CheckV":
-                        return ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
-                            ? hb.Td(context: context, column: column, value: issueModel.CheckV)
-                            : hb.Td(context: context, column: column, value: string.Empty);
+                        return ss.ReadColumnAccessControls.Allowed(
+                            context: context,
+                            ss: ss,
+                            column: column,
+                            type: ss.PermissionType,
+                            mine: mine)
+                                ? hb.Td(
+                                    context: context,
+                                    column: column,
+                                    value: issueModel.CheckV)
+                                : hb.Td(
+                                    context: context,
+                                    column: column,
+                                    value: string.Empty);
                     case "CheckW":
-                        return ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
-                            ? hb.Td(context: context, column: column, value: issueModel.CheckW)
-                            : hb.Td(context: context, column: column, value: string.Empty);
+                        return ss.ReadColumnAccessControls.Allowed(
+                            context: context,
+                            ss: ss,
+                            column: column,
+                            type: ss.PermissionType,
+                            mine: mine)
+                                ? hb.Td(
+                                    context: context,
+                                    column: column,
+                                    value: issueModel.CheckW)
+                                : hb.Td(
+                                    context: context,
+                                    column: column,
+                                    value: string.Empty);
                     case "CheckX":
-                        return ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
-                            ? hb.Td(context: context, column: column, value: issueModel.CheckX)
-                            : hb.Td(context: context, column: column, value: string.Empty);
+                        return ss.ReadColumnAccessControls.Allowed(
+                            context: context,
+                            ss: ss,
+                            column: column,
+                            type: ss.PermissionType,
+                            mine: mine)
+                                ? hb.Td(
+                                    context: context,
+                                    column: column,
+                                    value: issueModel.CheckX)
+                                : hb.Td(
+                                    context: context,
+                                    column: column,
+                                    value: string.Empty);
                     case "CheckY":
-                        return ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
-                            ? hb.Td(context: context, column: column, value: issueModel.CheckY)
-                            : hb.Td(context: context, column: column, value: string.Empty);
+                        return ss.ReadColumnAccessControls.Allowed(
+                            context: context,
+                            ss: ss,
+                            column: column,
+                            type: ss.PermissionType,
+                            mine: mine)
+                                ? hb.Td(
+                                    context: context,
+                                    column: column,
+                                    value: issueModel.CheckY)
+                                : hb.Td(
+                                    context: context,
+                                    column: column,
+                                    value: string.Empty);
                     case "CheckZ":
-                        return ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
-                            ? hb.Td(context: context, column: column, value: issueModel.CheckZ)
-                            : hb.Td(context: context, column: column, value: string.Empty);
+                        return ss.ReadColumnAccessControls.Allowed(
+                            context: context,
+                            ss: ss,
+                            column: column,
+                            type: ss.PermissionType,
+                            mine: mine)
+                                ? hb.Td(
+                                    context: context,
+                                    column: column,
+                                    value: issueModel.CheckZ)
+                                : hb.Td(
+                                    context: context,
+                                    column: column,
+                                    value: string.Empty);
                     case "AttachmentsA":
-                        return ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
-                            ? hb.Td(context: context, column: column, value: issueModel.AttachmentsA)
-                            : hb.Td(context: context, column: column, value: string.Empty);
+                        return ss.ReadColumnAccessControls.Allowed(
+                            context: context,
+                            ss: ss,
+                            column: column,
+                            type: ss.PermissionType,
+                            mine: mine)
+                                ? hb.Td(
+                                    context: context,
+                                    column: column,
+                                    value: issueModel.AttachmentsA)
+                                : hb.Td(
+                                    context: context,
+                                    column: column,
+                                    value: string.Empty);
                     case "AttachmentsB":
-                        return ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
-                            ? hb.Td(context: context, column: column, value: issueModel.AttachmentsB)
-                            : hb.Td(context: context, column: column, value: string.Empty);
+                        return ss.ReadColumnAccessControls.Allowed(
+                            context: context,
+                            ss: ss,
+                            column: column,
+                            type: ss.PermissionType,
+                            mine: mine)
+                                ? hb.Td(
+                                    context: context,
+                                    column: column,
+                                    value: issueModel.AttachmentsB)
+                                : hb.Td(
+                                    context: context,
+                                    column: column,
+                                    value: string.Empty);
                     case "AttachmentsC":
-                        return ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
-                            ? hb.Td(context: context, column: column, value: issueModel.AttachmentsC)
-                            : hb.Td(context: context, column: column, value: string.Empty);
+                        return ss.ReadColumnAccessControls.Allowed(
+                            context: context,
+                            ss: ss,
+                            column: column,
+                            type: ss.PermissionType,
+                            mine: mine)
+                                ? hb.Td(
+                                    context: context,
+                                    column: column,
+                                    value: issueModel.AttachmentsC)
+                                : hb.Td(
+                                    context: context,
+                                    column: column,
+                                    value: string.Empty);
                     case "AttachmentsD":
-                        return ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
-                            ? hb.Td(context: context, column: column, value: issueModel.AttachmentsD)
-                            : hb.Td(context: context, column: column, value: string.Empty);
+                        return ss.ReadColumnAccessControls.Allowed(
+                            context: context,
+                            ss: ss,
+                            column: column,
+                            type: ss.PermissionType,
+                            mine: mine)
+                                ? hb.Td(
+                                    context: context,
+                                    column: column,
+                                    value: issueModel.AttachmentsD)
+                                : hb.Td(
+                                    context: context,
+                                    column: column,
+                                    value: string.Empty);
                     case "AttachmentsE":
-                        return ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
-                            ? hb.Td(context: context, column: column, value: issueModel.AttachmentsE)
-                            : hb.Td(context: context, column: column, value: string.Empty);
+                        return ss.ReadColumnAccessControls.Allowed(
+                            context: context,
+                            ss: ss,
+                            column: column,
+                            type: ss.PermissionType,
+                            mine: mine)
+                                ? hb.Td(
+                                    context: context,
+                                    column: column,
+                                    value: issueModel.AttachmentsE)
+                                : hb.Td(
+                                    context: context,
+                                    column: column,
+                                    value: string.Empty);
                     case "AttachmentsF":
-                        return ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
-                            ? hb.Td(context: context, column: column, value: issueModel.AttachmentsF)
-                            : hb.Td(context: context, column: column, value: string.Empty);
+                        return ss.ReadColumnAccessControls.Allowed(
+                            context: context,
+                            ss: ss,
+                            column: column,
+                            type: ss.PermissionType,
+                            mine: mine)
+                                ? hb.Td(
+                                    context: context,
+                                    column: column,
+                                    value: issueModel.AttachmentsF)
+                                : hb.Td(
+                                    context: context,
+                                    column: column,
+                                    value: string.Empty);
                     case "AttachmentsG":
-                        return ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
-                            ? hb.Td(context: context, column: column, value: issueModel.AttachmentsG)
-                            : hb.Td(context: context, column: column, value: string.Empty);
+                        return ss.ReadColumnAccessControls.Allowed(
+                            context: context,
+                            ss: ss,
+                            column: column,
+                            type: ss.PermissionType,
+                            mine: mine)
+                                ? hb.Td(
+                                    context: context,
+                                    column: column,
+                                    value: issueModel.AttachmentsG)
+                                : hb.Td(
+                                    context: context,
+                                    column: column,
+                                    value: string.Empty);
                     case "AttachmentsH":
-                        return ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
-                            ? hb.Td(context: context, column: column, value: issueModel.AttachmentsH)
-                            : hb.Td(context: context, column: column, value: string.Empty);
+                        return ss.ReadColumnAccessControls.Allowed(
+                            context: context,
+                            ss: ss,
+                            column: column,
+                            type: ss.PermissionType,
+                            mine: mine)
+                                ? hb.Td(
+                                    context: context,
+                                    column: column,
+                                    value: issueModel.AttachmentsH)
+                                : hb.Td(
+                                    context: context,
+                                    column: column,
+                                    value: string.Empty);
                     case "AttachmentsI":
-                        return ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
-                            ? hb.Td(context: context, column: column, value: issueModel.AttachmentsI)
-                            : hb.Td(context: context, column: column, value: string.Empty);
+                        return ss.ReadColumnAccessControls.Allowed(
+                            context: context,
+                            ss: ss,
+                            column: column,
+                            type: ss.PermissionType,
+                            mine: mine)
+                                ? hb.Td(
+                                    context: context,
+                                    column: column,
+                                    value: issueModel.AttachmentsI)
+                                : hb.Td(
+                                    context: context,
+                                    column: column,
+                                    value: string.Empty);
                     case "AttachmentsJ":
-                        return ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
-                            ? hb.Td(context: context, column: column, value: issueModel.AttachmentsJ)
-                            : hb.Td(context: context, column: column, value: string.Empty);
+                        return ss.ReadColumnAccessControls.Allowed(
+                            context: context,
+                            ss: ss,
+                            column: column,
+                            type: ss.PermissionType,
+                            mine: mine)
+                                ? hb.Td(
+                                    context: context,
+                                    column: column,
+                                    value: issueModel.AttachmentsJ)
+                                : hb.Td(
+                                    context: context,
+                                    column: column,
+                                    value: string.Empty);
                     case "AttachmentsK":
-                        return ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
-                            ? hb.Td(context: context, column: column, value: issueModel.AttachmentsK)
-                            : hb.Td(context: context, column: column, value: string.Empty);
+                        return ss.ReadColumnAccessControls.Allowed(
+                            context: context,
+                            ss: ss,
+                            column: column,
+                            type: ss.PermissionType,
+                            mine: mine)
+                                ? hb.Td(
+                                    context: context,
+                                    column: column,
+                                    value: issueModel.AttachmentsK)
+                                : hb.Td(
+                                    context: context,
+                                    column: column,
+                                    value: string.Empty);
                     case "AttachmentsL":
-                        return ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
-                            ? hb.Td(context: context, column: column, value: issueModel.AttachmentsL)
-                            : hb.Td(context: context, column: column, value: string.Empty);
+                        return ss.ReadColumnAccessControls.Allowed(
+                            context: context,
+                            ss: ss,
+                            column: column,
+                            type: ss.PermissionType,
+                            mine: mine)
+                                ? hb.Td(
+                                    context: context,
+                                    column: column,
+                                    value: issueModel.AttachmentsL)
+                                : hb.Td(
+                                    context: context,
+                                    column: column,
+                                    value: string.Empty);
                     case "AttachmentsM":
-                        return ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
-                            ? hb.Td(context: context, column: column, value: issueModel.AttachmentsM)
-                            : hb.Td(context: context, column: column, value: string.Empty);
+                        return ss.ReadColumnAccessControls.Allowed(
+                            context: context,
+                            ss: ss,
+                            column: column,
+                            type: ss.PermissionType,
+                            mine: mine)
+                                ? hb.Td(
+                                    context: context,
+                                    column: column,
+                                    value: issueModel.AttachmentsM)
+                                : hb.Td(
+                                    context: context,
+                                    column: column,
+                                    value: string.Empty);
                     case "AttachmentsN":
-                        return ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
-                            ? hb.Td(context: context, column: column, value: issueModel.AttachmentsN)
-                            : hb.Td(context: context, column: column, value: string.Empty);
+                        return ss.ReadColumnAccessControls.Allowed(
+                            context: context,
+                            ss: ss,
+                            column: column,
+                            type: ss.PermissionType,
+                            mine: mine)
+                                ? hb.Td(
+                                    context: context,
+                                    column: column,
+                                    value: issueModel.AttachmentsN)
+                                : hb.Td(
+                                    context: context,
+                                    column: column,
+                                    value: string.Empty);
                     case "AttachmentsO":
-                        return ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
-                            ? hb.Td(context: context, column: column, value: issueModel.AttachmentsO)
-                            : hb.Td(context: context, column: column, value: string.Empty);
+                        return ss.ReadColumnAccessControls.Allowed(
+                            context: context,
+                            ss: ss,
+                            column: column,
+                            type: ss.PermissionType,
+                            mine: mine)
+                                ? hb.Td(
+                                    context: context,
+                                    column: column,
+                                    value: issueModel.AttachmentsO)
+                                : hb.Td(
+                                    context: context,
+                                    column: column,
+                                    value: string.Empty);
                     case "AttachmentsP":
-                        return ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
-                            ? hb.Td(context: context, column: column, value: issueModel.AttachmentsP)
-                            : hb.Td(context: context, column: column, value: string.Empty);
+                        return ss.ReadColumnAccessControls.Allowed(
+                            context: context,
+                            ss: ss,
+                            column: column,
+                            type: ss.PermissionType,
+                            mine: mine)
+                                ? hb.Td(
+                                    context: context,
+                                    column: column,
+                                    value: issueModel.AttachmentsP)
+                                : hb.Td(
+                                    context: context,
+                                    column: column,
+                                    value: string.Empty);
                     case "AttachmentsQ":
-                        return ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
-                            ? hb.Td(context: context, column: column, value: issueModel.AttachmentsQ)
-                            : hb.Td(context: context, column: column, value: string.Empty);
+                        return ss.ReadColumnAccessControls.Allowed(
+                            context: context,
+                            ss: ss,
+                            column: column,
+                            type: ss.PermissionType,
+                            mine: mine)
+                                ? hb.Td(
+                                    context: context,
+                                    column: column,
+                                    value: issueModel.AttachmentsQ)
+                                : hb.Td(
+                                    context: context,
+                                    column: column,
+                                    value: string.Empty);
                     case "AttachmentsR":
-                        return ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
-                            ? hb.Td(context: context, column: column, value: issueModel.AttachmentsR)
-                            : hb.Td(context: context, column: column, value: string.Empty);
+                        return ss.ReadColumnAccessControls.Allowed(
+                            context: context,
+                            ss: ss,
+                            column: column,
+                            type: ss.PermissionType,
+                            mine: mine)
+                                ? hb.Td(
+                                    context: context,
+                                    column: column,
+                                    value: issueModel.AttachmentsR)
+                                : hb.Td(
+                                    context: context,
+                                    column: column,
+                                    value: string.Empty);
                     case "AttachmentsS":
-                        return ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
-                            ? hb.Td(context: context, column: column, value: issueModel.AttachmentsS)
-                            : hb.Td(context: context, column: column, value: string.Empty);
+                        return ss.ReadColumnAccessControls.Allowed(
+                            context: context,
+                            ss: ss,
+                            column: column,
+                            type: ss.PermissionType,
+                            mine: mine)
+                                ? hb.Td(
+                                    context: context,
+                                    column: column,
+                                    value: issueModel.AttachmentsS)
+                                : hb.Td(
+                                    context: context,
+                                    column: column,
+                                    value: string.Empty);
                     case "AttachmentsT":
-                        return ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
-                            ? hb.Td(context: context, column: column, value: issueModel.AttachmentsT)
-                            : hb.Td(context: context, column: column, value: string.Empty);
+                        return ss.ReadColumnAccessControls.Allowed(
+                            context: context,
+                            ss: ss,
+                            column: column,
+                            type: ss.PermissionType,
+                            mine: mine)
+                                ? hb.Td(
+                                    context: context,
+                                    column: column,
+                                    value: issueModel.AttachmentsT)
+                                : hb.Td(
+                                    context: context,
+                                    column: column,
+                                    value: string.Empty);
                     case "AttachmentsU":
-                        return ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
-                            ? hb.Td(context: context, column: column, value: issueModel.AttachmentsU)
-                            : hb.Td(context: context, column: column, value: string.Empty);
+                        return ss.ReadColumnAccessControls.Allowed(
+                            context: context,
+                            ss: ss,
+                            column: column,
+                            type: ss.PermissionType,
+                            mine: mine)
+                                ? hb.Td(
+                                    context: context,
+                                    column: column,
+                                    value: issueModel.AttachmentsU)
+                                : hb.Td(
+                                    context: context,
+                                    column: column,
+                                    value: string.Empty);
                     case "AttachmentsV":
-                        return ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
-                            ? hb.Td(context: context, column: column, value: issueModel.AttachmentsV)
-                            : hb.Td(context: context, column: column, value: string.Empty);
+                        return ss.ReadColumnAccessControls.Allowed(
+                            context: context,
+                            ss: ss,
+                            column: column,
+                            type: ss.PermissionType,
+                            mine: mine)
+                                ? hb.Td(
+                                    context: context,
+                                    column: column,
+                                    value: issueModel.AttachmentsV)
+                                : hb.Td(
+                                    context: context,
+                                    column: column,
+                                    value: string.Empty);
                     case "AttachmentsW":
-                        return ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
-                            ? hb.Td(context: context, column: column, value: issueModel.AttachmentsW)
-                            : hb.Td(context: context, column: column, value: string.Empty);
+                        return ss.ReadColumnAccessControls.Allowed(
+                            context: context,
+                            ss: ss,
+                            column: column,
+                            type: ss.PermissionType,
+                            mine: mine)
+                                ? hb.Td(
+                                    context: context,
+                                    column: column,
+                                    value: issueModel.AttachmentsW)
+                                : hb.Td(
+                                    context: context,
+                                    column: column,
+                                    value: string.Empty);
                     case "AttachmentsX":
-                        return ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
-                            ? hb.Td(context: context, column: column, value: issueModel.AttachmentsX)
-                            : hb.Td(context: context, column: column, value: string.Empty);
+                        return ss.ReadColumnAccessControls.Allowed(
+                            context: context,
+                            ss: ss,
+                            column: column,
+                            type: ss.PermissionType,
+                            mine: mine)
+                                ? hb.Td(
+                                    context: context,
+                                    column: column,
+                                    value: issueModel.AttachmentsX)
+                                : hb.Td(
+                                    context: context,
+                                    column: column,
+                                    value: string.Empty);
                     case "AttachmentsY":
-                        return ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
-                            ? hb.Td(context: context, column: column, value: issueModel.AttachmentsY)
-                            : hb.Td(context: context, column: column, value: string.Empty);
+                        return ss.ReadColumnAccessControls.Allowed(
+                            context: context,
+                            ss: ss,
+                            column: column,
+                            type: ss.PermissionType,
+                            mine: mine)
+                                ? hb.Td(
+                                    context: context,
+                                    column: column,
+                                    value: issueModel.AttachmentsY)
+                                : hb.Td(
+                                    context: context,
+                                    column: column,
+                                    value: string.Empty);
                     case "AttachmentsZ":
-                        return ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
-                            ? hb.Td(context: context, column: column, value: issueModel.AttachmentsZ)
-                            : hb.Td(context: context, column: column, value: string.Empty);
+                        return ss.ReadColumnAccessControls.Allowed(
+                            context: context,
+                            ss: ss,
+                            column: column,
+                            type: ss.PermissionType,
+                            mine: mine)
+                                ? hb.Td(
+                                    context: context,
+                                    column: column,
+                                    value: issueModel.AttachmentsZ)
+                                : hb.Td(
+                                    context: context,
+                                    column: column,
+                                    value: string.Empty);
                     case "SiteTitle":
-                        return ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
-                            ? hb.Td(context: context, column: column, value: issueModel.SiteTitle)
-                            : hb.Td(context: context, column: column, value: string.Empty);
+                        return ss.ReadColumnAccessControls.Allowed(
+                            context: context,
+                            ss: ss,
+                            column: column,
+                            type: ss.PermissionType,
+                            mine: mine)
+                                ? hb.Td(
+                                    context: context,
+                                    column: column,
+                                    value: issueModel.SiteTitle)
+                                : hb.Td(
+                                    context: context,
+                                    column: column,
+                                    value: string.Empty);
                     case "Comments":
-                        return ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
-                            ? hb.Td(context: context, column: column, value: issueModel.Comments)
-                            : hb.Td(context: context, column: column, value: string.Empty);
+                        return ss.ReadColumnAccessControls.Allowed(
+                            context: context,
+                            ss: ss,
+                            column: column,
+                            type: ss.PermissionType,
+                            mine: mine)
+                                ? hb.Td(
+                                    context: context,
+                                    column: column,
+                                    value: issueModel.Comments)
+                                : hb.Td(
+                                    context: context,
+                                    column: column,
+                                    value: string.Empty);
                     case "Creator":
-                        return ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
-                            ? hb.Td(context: context, column: column, value: issueModel.Creator)
-                            : hb.Td(context: context, column: column, value: string.Empty);
+                        return ss.ReadColumnAccessControls.Allowed(
+                            context: context,
+                            ss: ss,
+                            column: column,
+                            type: ss.PermissionType,
+                            mine: mine)
+                                ? hb.Td(
+                                    context: context,
+                                    column: column,
+                                    value: issueModel.Creator)
+                                : hb.Td(
+                                    context: context,
+                                    column: column,
+                                    value: string.Empty);
                     case "Updator":
-                        return ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
-                            ? hb.Td(context: context, column: column, value: issueModel.Updator)
-                            : hb.Td(context: context, column: column, value: string.Empty);
+                        return ss.ReadColumnAccessControls.Allowed(
+                            context: context,
+                            ss: ss,
+                            column: column,
+                            type: ss.PermissionType,
+                            mine: mine)
+                                ? hb.Td(
+                                    context: context,
+                                    column: column,
+                                    value: issueModel.Updator)
+                                : hb.Td(
+                                    context: context,
+                                    column: column,
+                                    value: string.Empty);
                     case "CreatedTime":
-                        return ss.ReadColumnAccessControls.Allowed(column, ss.PermissionType, mine)
-                            ? hb.Td(context: context, column: column, value: issueModel.CreatedTime)
-                            : hb.Td(context: context, column: column, value: string.Empty);
+                        return ss.ReadColumnAccessControls.Allowed(
+                            context: context,
+                            ss: ss,
+                            column: column,
+                            type: ss.PermissionType,
+                            mine: mine)
+                                ? hb.Td(
+                                    context: context,
+                                    column: column,
+                                    value: issueModel.CreatedTime)
+                                : hb.Td(
+                                    context: context,
+                                    column: column,
+                                    value: string.Empty);
                     default: return hb;
                 }
             }
