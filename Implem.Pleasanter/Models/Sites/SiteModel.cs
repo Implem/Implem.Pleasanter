@@ -620,7 +620,10 @@ namespace Implem.Pleasanter.Models
         {
             var siteMenu = SiteInfo.TenantCaches.Get(TenantId)?
                 .SiteMenu
-                .Children(context: context, ss: ss, withParent: true);
+                .Children(
+                    context: context,
+                    siteId: ss.SiteId,
+                    withParent: true);
             Rds.ExecuteNonQuery(
                 context: context,
                 transactional: true,
