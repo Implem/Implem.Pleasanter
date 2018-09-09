@@ -280,6 +280,7 @@
     <Compile Include="Libraries\HtmlParts\HtmlSiteMenu.cs" />
     <Compile Include="Libraries\Initializers\ParametersInitializer.cs" />
     <Compile Include="Libraries\Initializers\StatusesInitializer.cs" />
+    <Compile Include="Libraries\Migrators\SiteSettings\Version1_014.cs" />
     <Compile Include="Libraries\Migrators\SiteSettings\Version1_013.cs" />
     <Compile Include="Libraries\Migrators\SiteSettings\Version1_012.cs" />
     <Compile Include="Libraries\Migrators\SiteSettings\Version1_011.cs" />
