@@ -563,7 +563,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                     {
                         ss.CreateColumnAccessControls = new List<ColumnAccessControl>();
                     }
-                    ss.CreateColumnAccessControls.Add(columnAccessControl);
+                    ss.CreateColumnAccessControls.Add(columnAccessControl.RecordingData());
                 });
             ReadColumnAccessControls?
                 .Where(o => !o.IsDefault(this, "Read"))
@@ -573,7 +573,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                     {
                         ss.ReadColumnAccessControls = new List<ColumnAccessControl>();
                     }
-                    ss.ReadColumnAccessControls.Add(columnAccessControl);
+                    ss.ReadColumnAccessControls.Add(columnAccessControl.RecordingData());
                 });
             UpdateColumnAccessControls?
                 .Where(o => !o.IsDefault(this, "Update"))
@@ -583,7 +583,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                     {
                         ss.UpdateColumnAccessControls = new List<ColumnAccessControl>();
                     }
-                    ss.UpdateColumnAccessControls.Add(columnAccessControl);
+                    ss.UpdateColumnAccessControls.Add(columnAccessControl.RecordingData());
                 });
             Columns?.ForEach(column =>
             {
@@ -1231,8 +1231,11 @@ namespace Implem.Pleasanter.Libraries.Settings
                 o.ColumnName == columnAccessControl.ColumnName);
             if (data != null)
             {
-                data.AllowedType = columnAccessControl.AllowedType;
-                data.AllowedUsers = columnAccessControl.AllowedUsers;
+                data.Depts = columnAccessControl.Depts;
+                data.Groups = columnAccessControl.Groups;
+                data.Users = columnAccessControl.Users;
+                data.Type = columnAccessControl.Type;
+                data.RecordUsers = columnAccessControl.RecordUsers;
             }
         }
 
@@ -1244,7 +1247,11 @@ namespace Implem.Pleasanter.Libraries.Settings
                 if (column != null)
                 {
                     column.CanCreate =
-                        o.Allowed(PermissionType, mine) &&
+                        o.Allowed(
+                            context: context,
+                            ss: this,
+                            type: PermissionType,
+                            mine: mine) &&
                         column.EditorReadOnly != true;
                 }
             });
@@ -1253,7 +1260,11 @@ namespace Implem.Pleasanter.Libraries.Settings
                 var column = GetColumn(context: context, columnName: o.ColumnName);
                 if (column != null)
                 {
-                    column.CanRead = o.Allowed(PermissionType, mine);
+                    column.CanRead = o.Allowed(
+                        context: context,
+                        ss: this,
+                        type: PermissionType,
+                        mine: mine);
                 }
             });
             UpdateColumnAccessControls.ForEach(o =>
@@ -1262,7 +1273,11 @@ namespace Implem.Pleasanter.Libraries.Settings
                 if (column != null)
                 {
                     column.CanUpdate =
-                        o.Allowed(PermissionType, mine) &&
+                        o.Allowed(
+                            context: context,
+                            ss: this,
+                            type: PermissionType,
+                            mine: mine) &&
                         column.EditorReadOnly != true;
                 }
             });
@@ -1381,7 +1396,7 @@ namespace Implem.Pleasanter.Libraries.Settings
             return (view?.GridColumns ?? GridColumns)
                 .Select(columnName => GetColumn(context: context, columnName: columnName))
                 .Where(column => column != null)
-                .AllowedColumns(checkPermission, ReadColumnAccessControls)
+                .AllowedColumns(checkPermission: checkPermission)
                 .Where(o => context.ContractSettings.Attachments()
                     || o.ControlType != "Attachments")
                 .ToList();
@@ -1392,7 +1407,7 @@ namespace Implem.Pleasanter.Libraries.Settings
             return FilterColumns
                 .Select(columnName => GetColumn(context: context, columnName: columnName))
                 .Where(column => column != null)
-                .AllowedColumns(checkPermission, ReadColumnAccessControls)
+                .AllowedColumns(checkPermission: checkPermission)
                 .ToList();
         }
 
@@ -1419,7 +1434,7 @@ namespace Implem.Pleasanter.Libraries.Settings
             return LinkColumns
                 .Select(columnName => GetColumn(context: context, columnName: columnName))
                 .Where(column => column != null)
-                .AllowedColumns(checkPermission, ReadColumnAccessControls)
+                .AllowedColumns(checkPermission: checkPermission)
                 .Where(o => context.ContractSettings.Attachments()
                     || o.ControlType != "Attachments")
                 .ToList();
@@ -1430,7 +1445,7 @@ namespace Implem.Pleasanter.Libraries.Settings
             return HistoryColumns
                 .Select(columnName => GetColumn(context: context, columnName: columnName))
                 .Where(column => column != null)
-                .AllowedColumns(checkPermission, ReadColumnAccessControls)
+                .AllowedColumns(checkPermission: checkPermission)
                 .Where(o => context.ContractSettings.Attachments()
                     || o.ControlType != "Attachments")
                 .ToList();
@@ -1780,7 +1795,6 @@ namespace Implem.Pleasanter.Libraries.Settings
             string type,
             IEnumerable<ColumnAccessControl> columnAccessControls = null)
         {
-            var nullableOnly = ColumnAccessControlNullableOnly(type);
             return columnAccessControls != null
                 ? columnAccessControls
                     .ToDictionary(o => o.ToJson(), o => o.ControlData(

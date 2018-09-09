@@ -1,7 +1,7 @@
 ﻿$(function () {
     $p.apply = function () {
         $('.menu').menu();
-        $('#EditorTabsContainer:not(.applied),#MailEditorTabsContainer:not(.applied),#ViewTabsContainer:not(.applied)').tabs({
+        $('#EditorTabsContainer:not(.applied),#MailEditorTabsContainer:not(.applied),#ViewTabsContainer:not(.applied),#ColumnAccessControlTabsContainer:not(.applied)').tabs({
             beforeActivate: function (event, ui) {
                 if (ui.newPanel.attr('data-action')) {
                     $p.send(ui.newPanel);

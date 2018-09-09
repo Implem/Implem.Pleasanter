@@ -268,33 +268,33 @@ namespace Implem.Pleasanter.Libraries.Security
         }
 
         public static IEnumerable<Column> AllowedColumns(
-            this IEnumerable<Column> columns,
-            bool checkPermission,
-            IEnumerable<ColumnAccessControl> readColumnAccessControls)
+            this IEnumerable<Column> columns, bool checkPermission)
         {
-            return columns
-                .Where(o => !checkPermission || o.CanRead || readColumnAccessControls?.Any(p =>
-                    p.ColumnName == o.ColumnName && p.AllowedUsers?.Any() == true) == true);
+            return columns.Where(o => !checkPermission || o.CanRead);
         }
 
         public static IEnumerable<string> AllowedColumns(SiteSettings ss)
         {
-            return ss.Columns.AllowedColumns(
-                checkPermission: true,
-                readColumnAccessControls: ss.ReadColumnAccessControls)
-                    .Select(o => o.ColumnName)
-                    .ToList();
+            return ss.Columns.AllowedColumns(checkPermission: true)
+                .Select(o => o.ColumnName)
+                .ToList();
         }
 
         public static bool Allowed(
             this List<ColumnAccessControl> columnAccessControls,
+            Context context,
+            SiteSettings ss,
             Column column,
             Types? type,
             List<string> mine)
         {
             return columnAccessControls?
                 .FirstOrDefault(o => o.ColumnName == column.ColumnName)?
-                .Allowed(type, mine) != false;
+                .Allowed(
+                    context: context,
+                    ss: ss,
+                    type: type,
+                    mine: mine) != false;
         }
 
         public static bool HasPermission(this Context context, SiteSettings ss)

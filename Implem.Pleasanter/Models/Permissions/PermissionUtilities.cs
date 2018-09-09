@@ -101,11 +101,17 @@ namespace Implem.Pleasanter.Models
         /// Fixed:
         /// </summary>
         private static Dictionary<string, ControlData> ListItemCollection(
-            this List<Permission> permissions, Context context, SiteSettings ss)
+            this List<Permission> permissions,
+            Context context,
+            SiteSettings ss,
+            bool withType = true)
         {
             return permissions.ToDictionary(
                 o => o.Key(),
-                o => o.ControlData(context: context, ss: ss));
+                o => o.ControlData(
+                    context: context,
+                    ss: ss,
+                    withType: withType));
         }
 
         /// <summary>
@@ -517,7 +523,7 @@ namespace Implem.Pleasanter.Models
         /// <summary>
         /// Fixed:
         /// </summary>
-        private static IEnumerable<int> Groups(Context context, SiteSettings ss)
+        public static List<int> Groups(Context context, SiteSettings ss)
         {
             return Rds.ExecuteTable(
                 context: context,
@@ -529,7 +535,8 @@ namespace Implem.Pleasanter.Models
                             where: Rds.GroupMembersWhere()
                                 .Add(raw: Permissions.DeptOrUser("GroupMembers"))))))
                                     .AsEnumerable()
-                                    .Select(o => o.Int("GroupId"));
+                                    .Select(o => o.Int("GroupId"))
+                                    .ToList();
         }
 
         /// <summary>
@@ -1472,7 +1479,10 @@ namespace Implem.Pleasanter.Models
                 .Select(o => o.Deserialize<ColumnAccessControl>())
                 .ToList();
             var columnAccessControl = Forms.List("ColumnAccessControlAll")
-                .Select(o => ColumnAccessControl(o.Deserialize<ColumnAccessControl>(), selected));
+                .Select(o => ColumnAccessControl(
+                    columnAccessControl: o.Deserialize<ColumnAccessControl>(),
+                    selected: selected))
+                .ToList();
             var listItemCollection = siteModel.SiteSettings.ColumnAccessControlOptions(
                 context: context,
                 type: type,
@@ -1503,14 +1513,46 @@ namespace Implem.Pleasanter.Models
                 { "Manager", Forms.Bool("ManagerAllowed") },
                 { "Owner", Forms.Bool("OwnerAllowed") },
             }
-            .Where(o => o.Value)
-            .Select(o => o.Key);
+                .Where(o => o.Value)
+                .Select(o => o.Key)
+                .ToList();
             if (selected.Any(o => o.ColumnName == columnAccessControl.ColumnName))
             {
-                columnAccessControl.AllowedType = GetPermissionTypeByForm();
-                columnAccessControl.AllowedUsers = allowdUsers;
+                columnAccessControl.Depts = new List<int>();
+                columnAccessControl.Groups = new List<int>();
+                columnAccessControl.Users = new List<int>();
+                CurrentColumnAccessControlAll().ForEach(permission =>
+                {
+                    switch (permission.Name)
+                    {
+                        case "Dept":
+                            columnAccessControl.Depts.Add(permission.Id);
+                            break;
+                        case "Group":
+                            columnAccessControl.Groups.Add(permission.Id);
+                            break;
+                        case "User":
+                            columnAccessControl.Users.Add(permission.Id);
+                            break;
+                    }
+                });
+                columnAccessControl.RecordUsers = allowdUsers;
+                columnAccessControl.Type = GetPermissionTypeByForm();
             }
             return columnAccessControl;
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        public static List<Permission> CurrentColumnAccessControlAll()
+        {
+            return Forms.List("CurrentColumnAccessControlAll")
+                .Select(data => new Permission(
+                    name: data.Split_1st(),
+                    id: data.Split_2nd().ToInt(),
+                    type: Permissions.Types.NotSet))
+                .ToList();
         }
 
         /// <summary>
@@ -1579,39 +1621,31 @@ namespace Implem.Pleasanter.Models
                     .Id("ColumnAccessControlForm")
                     .Action(Locations.ItemAction(referenceId)),
                 action: () => hb
-                    .PermissionParts(
-                        controlId: "ColumnAccessControlParts",
-                        labelText: Displays.RequiredPermission(),
-                        permissionType: columnAccessControl.AllowedType)
-                    .FieldSet(
-                        css: " enclosed",
-                        legendText: Displays.AllowedUsers(),
-                        action: () => hb
-                            .AllowedUser(
-                                context: context,
-                                ss: ss,
-                                columnAccessControl: columnAccessControl,
-                                columnName: "Creator")
-                            .AllowedUser(
-                                context: context,
-                                ss: ss,
-                                columnAccessControl: columnAccessControl,
-                                columnName: "Updator")
-                            .AllowedUser(
-                                context: context,
-                                ss: ss,
-                                columnAccessControl: columnAccessControl,
-                                columnName: "Manager")
-                            .AllowedUser(
-                                context: context,
-                                ss: ss,
-                                columnAccessControl: columnAccessControl,
-                                columnName: "Owner"),
-                        _using: type != "Create")
+                    .Div(id: "ColumnAccessControlTabsContainer", action: () => hb
+                        .Ul(id: "ColumnAccessControlTabs", action: () => hb
+                            .Li(action: () => hb
+                                .A(
+                                    href: "#ColumnAccessControlBasicTab",
+                                    text: Displays.Basic()))
+                            .Li(action: () => hb
+                                .A(
+                                    href: "#ColumnAccessControlOhtersTab",
+                                    text: Displays.Others())))
+                        .ColumnAccessControlBasicTab(
+                            context: context,
+                            ss: ss,
+                            type: type,
+                            columnAccessControl: columnAccessControl,
+                            referenceId: referenceId)
+                        .ColumnAccessControlOhtersTab(
+                            context: context,
+                            ss: ss,
+                            type: type,
+                            columnAccessControl: columnAccessControl,
+                            referenceId: referenceId))
                     .P(css: "message-dialog")
                     .Div(css: "command-center", action: () => hb
                         .Button(
-                            controlId: "ChangeColumnAccessControl",
                             text: Displays.Change(),
                             controlCss: "button-icon validate",
                             onClick: "$p.changeColumnAccessControl($(this), '" + type + "');",
@@ -1632,6 +1666,131 @@ namespace Implem.Pleasanter.Models
         /// <summary>
         /// Fixed:
         /// </summary>
+        private static HtmlBuilder ColumnAccessControlBasicTab(
+            this HtmlBuilder hb,
+            Context context,
+            SiteSettings ss,
+            string type,
+            ColumnAccessControl columnAccessControl,
+            long referenceId)
+        {
+            var currentPermissions = columnAccessControl.GetPermissions(ss: ss);
+            var sourcePermissions = SourceCollection(
+                context: context,
+                ss: ss,
+                searchText: Forms.Data("SearchColumnAccessControlElements"),
+                currentPermissions: currentPermissions);
+            var offset = Forms.Int("ColumnAccessControlSourceOffset");
+            return hb.FieldSet(id: "ColumnAccessControlBasicTab", action: () => hb
+                .Div(id: "ColumnAccessControlEditor", action: () => hb
+                    .FieldSelectable(
+                        controlId: "CurrentColumnAccessControl",
+                        fieldCss: "field-vertical both",
+                        controlContainerCss: "container-selectable",
+                        controlCss: " always-send send-all",
+                        labelText: Displays.Permissions(),
+                        listItemCollection: currentPermissions.ToDictionary(
+                            o => o.Key(), o => o.ControlData(
+                                context: context,
+                                ss: ss,
+                                withType: false)),
+                        commandOptionPositionIsTop: true,
+                        commandOptionAction: () => hb
+                            .Div(css: "command-left", action: () => hb
+                                .Button(
+                                    controlCss: "button-icon",
+                                    text: Displays.DeletePermission(),
+                                    onClick: "$p.deleteColumnAccessControl();",
+                                    icon: "ui-icon-circle-triangle-e")))
+                    .FieldSelectable(
+                        controlId: "SourceColumnAccessControl",
+                        fieldCss: "field-vertical",
+                        controlContainerCss: "container-selectable",
+                        controlWrapperCss: " h300",
+                        labelText: Displays.OptionList(),
+                        listItemCollection: sourcePermissions
+                            .Page(offset)
+                            .ListItemCollection(
+                                context: context,
+                                ss: ss,
+                                withType: false),
+                        commandOptionPositionIsTop: true,
+                        action: "Permissions",
+                        method: "post",
+                        commandOptionAction: () => hb
+                            .Div(css: "command-left", action: () => hb
+                                .Button(
+                                    controlCss: "button-icon",
+                                    text: Displays.AddPermission(),
+                                    onClick: "$p.addColumnAccessControl();",
+                                    icon: "ui-icon-circle-triangle-w")
+                                .TextBox(
+                                    controlId: "SearchColumnAccessControl",
+                                    controlCss: " auto-postback w100",
+                                    placeholder: Displays.Search(),
+                                    action: "SearchColumnAccessControl",
+                                    method: "post")
+                                .Button(
+                                    text: Displays.Search(),
+                                    controlCss: "button-icon",
+                                    onClick: "$p.send($('#SearchColumnAccessControl'));",
+                                    icon: "ui-icon-search")))
+                    .Hidden(
+                        controlId: "SourceColumnAccessControlOffset",
+                        css: "always-send",
+                        value: Paging.NextOffset(
+                            offset: offset,
+                            totalCount: sourcePermissions.Count(),
+                            pageSize: Parameters.Permissions.PageSize)
+                                .ToString())));
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        private static HtmlBuilder ColumnAccessControlOhtersTab(
+            this HtmlBuilder hb,
+            Context context,
+            SiteSettings ss,
+            string type,
+            ColumnAccessControl columnAccessControl,
+            long referenceId)
+        {
+            return hb.FieldSet(id: "ColumnAccessControlOhtersTab", action: () => hb
+                .PermissionParts(
+                    controlId: "ColumnAccessControlParts",
+                    labelText: Displays.RequiredPermission(),
+                    permissionType: columnAccessControl.Type ?? Permissions.Types.NotSet)
+                .FieldSet(
+                    css: " enclosed",
+                    legendText: Displays.AllowedUsers(),
+                    action: () => hb
+                        .AllowedUser(
+                            context: context,
+                            ss: ss,
+                            columnAccessControl: columnAccessControl,
+                            columnName: "Creator")
+                        .AllowedUser(
+                            context: context,
+                            ss: ss,
+                            columnAccessControl: columnAccessControl,
+                            columnName: "Updator")
+                        .AllowedUser(
+                            context: context,
+                            ss: ss,
+                            columnAccessControl: columnAccessControl,
+                            columnName: "Manager")
+                        .AllowedUser(
+                            context: context,
+                            ss: ss,
+                            columnAccessControl: columnAccessControl,
+                            columnName: "Owner"),
+                    _using: type != "Create"));
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
         private static HtmlBuilder AllowedUser(
             this HtmlBuilder hb,
             Context context,
@@ -1646,7 +1805,51 @@ namespace Implem.Pleasanter.Models
                 labelText: ss.GetColumn(
                     context: context,
                     columnName: columnName)?.LabelText,
-                _checked: columnAccessControl.AllowedUsers?.Contains(columnName) == true);
+                _checked: columnAccessControl.RecordUsers?.Contains(columnName) == true);
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        public static string SearchColumnAccessControl(Context context, long referenceId)
+        {
+            var itemModel = new ItemModel(
+                context: context,
+                referenceId: referenceId);
+            var siteModel = new SiteModel(
+                context: context,
+                siteId: itemModel.SiteId,
+                setByForm: true);
+            siteModel.SiteSettings = SiteSettingsUtilities.Get(
+                context: context,
+                siteModel: siteModel,
+                referenceId: referenceId);
+            var invalid = PermissionValidators.OnUpdating(
+                context: context,
+                ss: siteModel.SiteSettings);
+            switch (invalid)
+            {
+                case Error.Types.None: break;
+                default: return invalid.MessageJson();
+            }
+            var res = new ResponseCollection();
+            var currentPermissions = CurrentColumnAccessControlAll();
+            var sourcePermissions = SourceCollection(
+                context: context,
+                ss: siteModel.SiteSettings,
+                searchText: Forms.Data("SearchColumnAccessControl"),
+                currentPermissions: currentPermissions);
+            return res
+                .Html("#SourceColumnAccessControl", PermissionListItem(
+                    context: context,
+                    ss: siteModel.SiteSettings,
+                    permissions: sourcePermissions.Page(0),
+                    selectedValueTextCollection: Forms.Data("SourceColumnAccessControl")
+                        .Deserialize<List<string>>()?
+                        .Where(o => o != string.Empty),
+                    withType: false))
+                .Val("#SourceColumnAccessControlOffset", Parameters.Permissions.PageSize)
+                .ToJson();
         }
 
         /// <summary>

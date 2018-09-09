@@ -2,6 +2,7 @@
 using Implem.Pleasanter.Libraries.Requests;
 using Implem.Pleasanter.Libraries.Responses;
 using Implem.Pleasanter.Libraries.Security;
+using Implem.Pleasanter.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,8 +14,11 @@ namespace Implem.Pleasanter.Libraries.Settings
         [NonSerialized]
         public int? No;
         public string ColumnName;
-        public Permissions.Types AllowedType;
-        public IEnumerable<string> AllowedUsers;
+        public List<int> Depts;
+        public List<int> Groups;
+        public List<int> Users;
+        public List<string> RecordUsers;
+        public Permissions.Types? Type;
 
         public ColumnAccessControl()
         {
@@ -24,12 +28,16 @@ namespace Implem.Pleasanter.Libraries.Settings
         {
             No = column.No;
             ColumnName = column.ColumnName;
-            AllowedType = DefaultType(ss, type);
+            Type = DefaultType(ss, type);
         }
 
         public bool IsDefault(SiteSettings ss, string type)
         {
-            return DefaultType(ss, type) == AllowedType && AllowedUsers?.Any() != true;
+            return Depts?.Any() != true
+                && Groups?.Any() != true
+                && Users?.Any() != true
+                && RecordUsers?.Any() != true
+                && DefaultType(ss, type) == Type;
         }
 
         private Permissions.Types DefaultType(SiteSettings ss, string type)
@@ -59,25 +67,45 @@ namespace Implem.Pleasanter.Libraries.Settings
                 : new ControlData(string.Empty);
         }
 
-        public bool Allowed(Permissions.Types? type, List<string> mine)
+        public bool Allowed(
+            Context context,
+            SiteSettings ss,
+            Permissions.Types? type,
+            List<string> mine)
         {
-            if (AllowedType == Permissions.Types.NotSet && AllowedUsers?.Any() != true)
+            if (Depts?.Any() != true
+                && Groups?.Any() != true
+                && Users?.Any() != true
+                && RecordUsers?.Any() != true
+                && Type == Permissions.Types.NotSet)
             {
                 return true;
             }
-            else if (AllowedType > 0 && (AllowedType & type) == AllowedType)
+            else if (Depts?.Contains(context.DeptId) == true)
             {
                 return true;
             }
-            else if (AllowedType > 0 && AllowedUsers?.Any() != true)
+            else if (GroupContains(context: context, ss: ss))
+            {
+                return true;
+            }
+            else if (Users?.Contains(context.UserId) == true)
+            {
+                return true;
+            }
+            else if (Type != null
+                && Type != Permissions.Types.NotSet
+                && (Type & type) == Type)
+            {
+                return true;
+            }
+            else if (Type != null
+                && Type != Permissions.Types.NotSet
+                && RecordUsers?.Any() != true)
             {
                 return false;
             }
-            else if (mine == null)
-            {
-                return true;
-            }
-            else if (AllowedUsers?.Any(o => mine?.Contains(o) == true) == true)
+            else if (RecordUsers?.Any(o => mine == null || mine?.Contains(o) == true) == true)
             {
                 return true;
             }
@@ -85,6 +113,63 @@ namespace Implem.Pleasanter.Libraries.Settings
             {
                 return false;
             }
+        }
+
+        private bool GroupContains(Context context, SiteSettings ss)
+        {
+            if (Groups?.Any() == true)
+            {
+                var groups = PermissionUtilities.Groups(
+                    context: context,
+                    ss: ss);
+                return groups.Any(o => Groups.Contains(o));
+            }
+            else
+            {
+                return false;
+            }
+        }
+
+        public List<Permission> GetPermissions(SiteSettings ss)
+        {
+            var permissions = new List<Permission>();
+            Depts?.ForEach(deptId => permissions.Add(new Permission(
+                ss: ss,
+                name: "Dept",
+                id: deptId)));
+            Groups?.ForEach(groupId => permissions.Add(new Permission(
+                ss: ss,
+                name: "Group",
+                id: groupId)));
+            Users?.ForEach(userId => permissions.Add(new Permission(
+                ss: ss,
+                name: "User",
+                id: userId)));
+            return permissions;
+        }
+
+        public ColumnAccessControl RecordingData()
+        {
+            return new ColumnAccessControl()
+            {
+                No = No,
+                ColumnName = ColumnName,
+                Depts = Depts?.Any() == true
+                    ? Depts
+                    : null,
+                Groups = Groups?.Any() == true
+                    ? Groups
+                    : null,
+                Users = Users?.Any() == true
+                    ? Users
+                    : null,
+                RecordUsers = RecordUsers?.Any() == true
+                    ? RecordUsers
+                    : null,
+                Type = Type != Permissions.Types.NotSet
+                    ? Type
+                    : null
+            };
         }
     }
 }
