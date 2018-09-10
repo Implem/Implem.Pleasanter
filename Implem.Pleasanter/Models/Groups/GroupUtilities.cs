@@ -1300,10 +1300,10 @@ namespace Implem.Pleasanter.Models
                                 .Users_Disabled(0))
                     })
                         .AsEnumerable()
-                        .OrderBy(o => o["IsUser"])
-                        .ThenBy(o => o["DeptCode"])
-                        .ThenBy(o => o["DeptId"])
-                        .ThenBy(o => o["UserCode"])
+                        .OrderBy(dataRow => dataRow.Bool("IsUser"))
+                        .ThenBy(dataRow => dataRow.String("DeptCode"))
+                        .ThenBy(dataRow => dataRow.Int("DeptId"))
+                        .ThenBy(dataRow => dataRow.String("UserCode"))
                         .ForEach(dataRow =>
                             data.AddMember(
                                 context: context,
