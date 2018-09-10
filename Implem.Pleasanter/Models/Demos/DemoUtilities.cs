@@ -142,7 +142,7 @@ namespace Implem.Pleasanter.Models
                 context: context,
                 ss: SiteSettingsUtilities.UsersSiteSettings(context: context),
                 loginId: LoginId(demoModel, "User1"));
-            context = userModel.GetContext();
+            userModel.SetContext(context: context);
             SiteInfo.Reflesh(context: context);
             InitializeSites(context: context, demoModel: demoModel, idHash: idHash);
             Def.DemoDefinitionCollection

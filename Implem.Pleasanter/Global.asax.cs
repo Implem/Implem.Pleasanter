@@ -22,7 +22,12 @@ namespace Implem.Pleasanter
     {
         protected void Application_Start()
         {
-            var context = new Context();
+            var context = new Context()
+            {
+                Controller = "Global.asax",
+                Action = "Application_Start",
+                Id = 0
+            };
             Application["StartTime"] = DateTime.Now;
             Application["LastAccessTime"] = Application["StartTime"];
             Initialize();
@@ -88,7 +93,12 @@ namespace Implem.Pleasanter
 
         protected void Session_Start()
         {
-            var context = new Context();
+            var context = new Context()
+            {
+                Controller = "Global.asax",
+                Action = "Session_Start",
+                Id = 0
+            };
             Session["StartTime"] = DateTime.Now;
             Session["LastAccessTime"] = Session["StartTime"];
             Session["SessionGuid"] = Strings.NewGuid();
@@ -101,7 +111,7 @@ namespace Implem.Pleasanter
                         loginId: context.LoginId);
                 }
                 var userModel = GetUser(context: context);
-                context = userModel.GetContext();
+                userModel.SetContext(context: context);
                 StatusesInitializer.Initialize(context: context);
                 if (userModel.AccessStatus == Databases.AccessStatuses.Selected &&
                     !userModel.Disabled)
