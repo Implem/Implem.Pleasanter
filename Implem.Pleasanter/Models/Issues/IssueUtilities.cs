@@ -6525,6 +6525,10 @@ namespace Implem.Pleasanter.Models
             var issueCollection = new IssueCollection(
                 context: context,
                 ss: ss,
+                join: Rds.ItemsJoin().Add(new SqlJoin(
+                    "[Items]",
+                    SqlJoin.JoinTypes.Inner,
+                    "[Issues].[IssueId]=[Items].[ReferenceId]")),
                 where: view.Where(context: context, ss: ss),
                 orderBy: view.OrderBy(context: context, ss: ss, pageSize: pageSize),
                 offset: api.Offset,
