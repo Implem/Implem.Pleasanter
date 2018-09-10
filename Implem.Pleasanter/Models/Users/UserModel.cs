@@ -4119,20 +4119,17 @@ namespace Implem.Pleasanter.Models
         /// <summary>
         /// Fixed:
         /// </summary>
-        public Context GetContext()
+        public void SetContext(Context context)
         {
-            return new Context()
-            {
-                TenantId = TenantId,
-                DeptId = DeptId,
-                UserId = UserId,
-                LoginId = LoginId,
-                Developer = Developer,
-                TimeZoneInfo = TimeZoneInfo,
-                RdsUser = RdsUser(),
-                UserSettings = UserSettings,
-                HasPrivilege = Parameters.Security.PrivilegedUsers?.Contains(LoginId) == true
-            };
+            context.TenantId = TenantId;
+            context.DeptId = DeptId;
+            context.UserId = UserId;
+            context.LoginId = LoginId;
+            context.Developer = Developer;
+            context.TimeZoneInfo = TimeZoneInfo;
+            context.RdsUser = RdsUser();
+            context.UserSettings = UserSettings;
+            context.HasPrivilege = Parameters.Security.PrivilegedUsers?.Contains(LoginId) == true;
         }
 
         /// <summary>
