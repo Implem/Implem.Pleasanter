@@ -54,7 +54,7 @@ $p.applyRelatingColumn = function (prnt, chld, linkedClass) {
             for (var i = 0; i < loopmax; i++) {
                 var id = json.Response.Data[i].ResultId;
                 if (id == undefined) id = json.Response.Data[i].IssueId;
-                var title = json.Response.Data[i].Title;
+                var title = json.Response.Data[i].ItemTitle;
                 var isSelected = false;
                 if (id == childSelectedId) {
                     childSelected = true;
@@ -71,7 +71,7 @@ $p.applyRelatingColumn = function (prnt, chld, linkedClass) {
             param.View.ColumnFilterHash = new Object();
             param.View.ColumnFilterHash[linkedClass] = '["' + parentSelectedId + '"]';
             param.View.ColumnSorterHash = new Object();
-            param.View.ColumnSorterHash['Title'] = 0;
+            param.View.ColumnSorterHash['ItemTitle'] = 0;
             var urlpath = $('#ApplicationPath').val() +
                 'api_items/' + escape((siteid - 0)) + '/get';
             $.ajax({

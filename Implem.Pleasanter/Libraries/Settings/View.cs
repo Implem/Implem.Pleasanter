@@ -1015,9 +1015,22 @@ namespace Implem.Pleasanter.Libraries.Settings
             if (ColumnSorterHash?.Any() == true)
             {
                 ColumnSorterHash?.ForEach(data =>
-                    orderBy.Add(
-                        column: ss.GetColumn(context: context, columnName: data.Key),
-                        orderType: data.Value));
+                {
+                    switch (data.Key)
+                    {
+                        case "ItemTitle":
+                            orderBy.Add(new SqlOrderBy(
+                                columnBracket: "[Title]",
+                                orderType: data.Value,
+                                tableName: "Items"));
+                            break;
+                        default:
+                            orderBy.Add(
+                                column: ss.GetColumn(context: context, columnName: data.Key),
+                                orderType: data.Value);
+                            break;
+                    }
+                });
             }
             return pageSize > 0 && orderBy?.Any() != true
                 ? new SqlOrderByCollection().Add(
