@@ -46,7 +46,7 @@ namespace Implem.Pleasanter.Models
             return OwnerId != SavedOwnerId &&
                 (column == null ||
                 column.DefaultInput.IsNullOrEmpty() ||
-                column.DefaultInput.ToLong() != OwnerId);
+                column.GetDefaultInput(context: context).ToLong() != OwnerId);
         }
 
         public bool OwnerType_Updated(Context context, Column column = null)
@@ -54,7 +54,7 @@ namespace Implem.Pleasanter.Models
             return OwnerType != SavedOwnerType && OwnerType != null &&
                 (column == null ||
                 column.DefaultInput.IsNullOrEmpty() ||
-                column.DefaultInput.ToString() != OwnerType);
+                column.GetDefaultInput(context: context).ToString() != OwnerType);
         }
 
         public bool MailAddressId_Updated(Context context, Column column = null)
@@ -62,7 +62,7 @@ namespace Implem.Pleasanter.Models
             return MailAddressId != SavedMailAddressId &&
                 (column == null ||
                 column.DefaultInput.IsNullOrEmpty() ||
-                column.DefaultInput.ToLong() != MailAddressId);
+                column.GetDefaultInput(context: context).ToLong() != MailAddressId);
         }
 
         public bool MailAddress_Updated(Context context, Column column = null)
@@ -70,7 +70,7 @@ namespace Implem.Pleasanter.Models
             return MailAddress != SavedMailAddress && MailAddress != null &&
                 (column == null ||
                 column.DefaultInput.IsNullOrEmpty() ||
-                column.DefaultInput.ToString() != MailAddress);
+                column.GetDefaultInput(context: context).ToString() != MailAddress);
         }
 
         public MailAddressModel()

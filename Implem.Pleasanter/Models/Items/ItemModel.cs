@@ -43,7 +43,7 @@ namespace Implem.Pleasanter.Models
             return ReferenceId != SavedReferenceId &&
                 (column == null ||
                 column.DefaultInput.IsNullOrEmpty() ||
-                column.DefaultInput.ToLong() != ReferenceId);
+                column.GetDefaultInput(context: context).ToLong() != ReferenceId);
         }
 
         public bool ReferenceType_Updated(Context context, Column column = null)
@@ -51,7 +51,7 @@ namespace Implem.Pleasanter.Models
             return ReferenceType != SavedReferenceType && ReferenceType != null &&
                 (column == null ||
                 column.DefaultInput.IsNullOrEmpty() ||
-                column.DefaultInput.ToString() != ReferenceType);
+                column.GetDefaultInput(context: context).ToString() != ReferenceType);
         }
 
         public bool SiteId_Updated(Context context, Column column = null)
@@ -59,7 +59,7 @@ namespace Implem.Pleasanter.Models
             return SiteId != SavedSiteId &&
                 (column == null ||
                 column.DefaultInput.IsNullOrEmpty() ||
-                column.DefaultInput.ToLong() != SiteId);
+                column.GetDefaultInput(context: context).ToLong() != SiteId);
         }
 
         public bool Title_Updated(Context context, Column column = null)
@@ -67,7 +67,7 @@ namespace Implem.Pleasanter.Models
             return Title != SavedTitle && Title != null &&
                 (column == null ||
                 column.DefaultInput.IsNullOrEmpty() ||
-                column.DefaultInput.ToString() != Title);
+                column.GetDefaultInput(context: context).ToString() != Title);
         }
 
         public bool FullText_Updated(Context context, Column column = null)
@@ -75,7 +75,7 @@ namespace Implem.Pleasanter.Models
             return FullText != SavedFullText && FullText != null &&
                 (column == null ||
                 column.DefaultInput.IsNullOrEmpty() ||
-                column.DefaultInput.ToString() != FullText);
+                column.GetDefaultInput(context: context).ToString() != FullText);
         }
 
         public bool SearchIndexCreatedTime_Updated(Context context, Column column = null)

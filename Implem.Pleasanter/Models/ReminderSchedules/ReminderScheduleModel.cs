@@ -35,7 +35,7 @@ namespace Implem.Pleasanter.Models
             return SiteId != SavedSiteId &&
                 (column == null ||
                 column.DefaultInput.IsNullOrEmpty() ||
-                column.DefaultInput.ToLong() != SiteId);
+                column.GetDefaultInput(context: context).ToLong() != SiteId);
         }
 
         public bool Id_Updated(Context context, Column column = null)
@@ -43,7 +43,7 @@ namespace Implem.Pleasanter.Models
             return Id != SavedId &&
                 (column == null ||
                 column.DefaultInput.IsNullOrEmpty() ||
-                column.DefaultInput.ToInt() != Id);
+                column.GetDefaultInput(context: context).ToInt() != Id);
         }
 
         public bool ScheduledTime_Updated(Context context, Column column = null)

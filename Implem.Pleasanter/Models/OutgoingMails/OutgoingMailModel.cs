@@ -59,7 +59,7 @@ namespace Implem.Pleasanter.Models
             return ReferenceType != SavedReferenceType && ReferenceType != null &&
                 (column == null ||
                 column.DefaultInput.IsNullOrEmpty() ||
-                column.DefaultInput.ToString() != ReferenceType);
+                column.GetDefaultInput(context: context).ToString() != ReferenceType);
         }
 
         public bool ReferenceId_Updated(Context context, Column column = null)
@@ -67,7 +67,7 @@ namespace Implem.Pleasanter.Models
             return ReferenceId != SavedReferenceId &&
                 (column == null ||
                 column.DefaultInput.IsNullOrEmpty() ||
-                column.DefaultInput.ToLong() != ReferenceId);
+                column.GetDefaultInput(context: context).ToLong() != ReferenceId);
         }
 
         public bool ReferenceVer_Updated(Context context, Column column = null)
@@ -75,7 +75,7 @@ namespace Implem.Pleasanter.Models
             return ReferenceVer != SavedReferenceVer &&
                 (column == null ||
                 column.DefaultInput.IsNullOrEmpty() ||
-                column.DefaultInput.ToInt() != ReferenceVer);
+                column.GetDefaultInput(context: context).ToInt() != ReferenceVer);
         }
 
         public bool OutgoingMailId_Updated(Context context, Column column = null)
@@ -83,7 +83,7 @@ namespace Implem.Pleasanter.Models
             return OutgoingMailId != SavedOutgoingMailId &&
                 (column == null ||
                 column.DefaultInput.IsNullOrEmpty() ||
-                column.DefaultInput.ToLong() != OutgoingMailId);
+                column.GetDefaultInput(context: context).ToLong() != OutgoingMailId);
         }
 
         public bool Host_Updated(Context context, Column column = null)
@@ -91,7 +91,7 @@ namespace Implem.Pleasanter.Models
             return Host != SavedHost && Host != null &&
                 (column == null ||
                 column.DefaultInput.IsNullOrEmpty() ||
-                column.DefaultInput.ToString() != Host);
+                column.GetDefaultInput(context: context).ToString() != Host);
         }
 
         public bool Port_Updated(Context context, Column column = null)
@@ -99,7 +99,7 @@ namespace Implem.Pleasanter.Models
             return Port != SavedPort &&
                 (column == null ||
                 column.DefaultInput.IsNullOrEmpty() ||
-                column.DefaultInput.ToInt() != Port);
+                column.GetDefaultInput(context: context).ToInt() != Port);
         }
 
         public bool From_Updated(Context context, Column column = null)
@@ -107,7 +107,7 @@ namespace Implem.Pleasanter.Models
             return From.ToString() != SavedFrom && From.ToString() != null &&
                 (column == null ||
                 column.DefaultInput.IsNullOrEmpty() ||
-                column.DefaultInput.ToString() != From.ToString());
+                column.GetDefaultInput(context: context).ToString() != From.ToString());
         }
 
         public bool To_Updated(Context context, Column column = null)
@@ -115,7 +115,7 @@ namespace Implem.Pleasanter.Models
             return To != SavedTo && To != null &&
                 (column == null ||
                 column.DefaultInput.IsNullOrEmpty() ||
-                column.DefaultInput.ToString() != To);
+                column.GetDefaultInput(context: context).ToString() != To);
         }
 
         public bool Cc_Updated(Context context, Column column = null)
@@ -123,7 +123,7 @@ namespace Implem.Pleasanter.Models
             return Cc != SavedCc && Cc != null &&
                 (column == null ||
                 column.DefaultInput.IsNullOrEmpty() ||
-                column.DefaultInput.ToString() != Cc);
+                column.GetDefaultInput(context: context).ToString() != Cc);
         }
 
         public bool Bcc_Updated(Context context, Column column = null)
@@ -131,7 +131,7 @@ namespace Implem.Pleasanter.Models
             return Bcc != SavedBcc && Bcc != null &&
                 (column == null ||
                 column.DefaultInput.IsNullOrEmpty() ||
-                column.DefaultInput.ToString() != Bcc);
+                column.GetDefaultInput(context: context).ToString() != Bcc);
         }
 
         public bool Title_Updated(Context context, Column column = null)
@@ -139,7 +139,7 @@ namespace Implem.Pleasanter.Models
             return Title.Value != SavedTitle && Title.Value != null &&
                 (column == null ||
                 column.DefaultInput.IsNullOrEmpty() ||
-                column.DefaultInput.ToString() != Title.Value);
+                column.GetDefaultInput(context: context).ToString() != Title.Value);
         }
 
         public bool Body_Updated(Context context, Column column = null)
@@ -147,7 +147,7 @@ namespace Implem.Pleasanter.Models
             return Body != SavedBody && Body != null &&
                 (column == null ||
                 column.DefaultInput.IsNullOrEmpty() ||
-                column.DefaultInput.ToString() != Body);
+                column.GetDefaultInput(context: context).ToString() != Body);
         }
 
         public bool SentTime_Updated(Context context, Column column = null)

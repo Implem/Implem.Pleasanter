@@ -37,7 +37,7 @@ namespace Implem.Pleasanter.Models
             return GroupId != SavedGroupId &&
                 (column == null ||
                 column.DefaultInput.IsNullOrEmpty() ||
-                column.DefaultInput.ToInt() != GroupId);
+                column.GetDefaultInput(context: context).ToInt() != GroupId);
         }
 
         public bool DeptId_Updated(Context context, Column column = null)
@@ -45,7 +45,7 @@ namespace Implem.Pleasanter.Models
             return DeptId != SavedDeptId &&
                 (column == null ||
                 column.DefaultInput.IsNullOrEmpty() ||
-                column.DefaultInput.ToInt() != DeptId);
+                column.GetDefaultInput(context: context).ToInt() != DeptId);
         }
 
         public bool UserId_Updated(Context context, Column column = null)
@@ -53,7 +53,7 @@ namespace Implem.Pleasanter.Models
             return UserId != SavedUserId &&
                 (column == null ||
                 column.DefaultInput.IsNullOrEmpty() ||
-                column.DefaultInput.ToInt() != UserId);
+                column.GetDefaultInput(context: context).ToInt() != UserId);
         }
 
         public bool Admin_Updated(Context context, Column column = null)
@@ -61,7 +61,7 @@ namespace Implem.Pleasanter.Models
             return Admin != SavedAdmin &&
                 (column == null ||
                 column.DefaultInput.IsNullOrEmpty() ||
-                column.DefaultInput.ToBool() != Admin);
+                column.GetDefaultInput(context: context).ToBool() != Admin);
         }
 
         public GroupMemberModel(Context context, DataRow dataRow, string tableAlias = null)

@@ -396,7 +396,7 @@ namespace Implem.Pleasanter.Models
             return TenantId != SavedTenantId &&
                 (column == null ||
                 column.DefaultInput.IsNullOrEmpty() ||
-                column.DefaultInput.ToInt() != TenantId);
+                column.GetDefaultInput(context: context).ToInt() != TenantId);
         }
 
         public bool UserId_Updated(Context context, Column column = null)
@@ -404,7 +404,7 @@ namespace Implem.Pleasanter.Models
             return UserId != SavedUserId &&
                 (column == null ||
                 column.DefaultInput.IsNullOrEmpty() ||
-                column.DefaultInput.ToInt() != UserId);
+                column.GetDefaultInput(context: context).ToInt() != UserId);
         }
 
         public bool LoginId_Updated(Context context, Column column = null)
@@ -412,7 +412,7 @@ namespace Implem.Pleasanter.Models
             return LoginId != SavedLoginId && LoginId != null &&
                 (column == null ||
                 column.DefaultInput.IsNullOrEmpty() ||
-                column.DefaultInput.ToString() != LoginId);
+                column.GetDefaultInput(context: context).ToString() != LoginId);
         }
 
         public bool GlobalId_Updated(Context context, Column column = null)
@@ -420,7 +420,7 @@ namespace Implem.Pleasanter.Models
             return GlobalId != SavedGlobalId && GlobalId != null &&
                 (column == null ||
                 column.DefaultInput.IsNullOrEmpty() ||
-                column.DefaultInput.ToString() != GlobalId);
+                column.GetDefaultInput(context: context).ToString() != GlobalId);
         }
 
         public bool Name_Updated(Context context, Column column = null)
@@ -428,7 +428,7 @@ namespace Implem.Pleasanter.Models
             return Name != SavedName && Name != null &&
                 (column == null ||
                 column.DefaultInput.IsNullOrEmpty() ||
-                column.DefaultInput.ToString() != Name);
+                column.GetDefaultInput(context: context).ToString() != Name);
         }
 
         public bool UserCode_Updated(Context context, Column column = null)
@@ -436,7 +436,7 @@ namespace Implem.Pleasanter.Models
             return UserCode != SavedUserCode && UserCode != null &&
                 (column == null ||
                 column.DefaultInput.IsNullOrEmpty() ||
-                column.DefaultInput.ToString() != UserCode);
+                column.GetDefaultInput(context: context).ToString() != UserCode);
         }
 
         public bool Password_Updated(Context context, Column column = null)
@@ -444,7 +444,7 @@ namespace Implem.Pleasanter.Models
             return Password != SavedPassword && Password != null &&
                 (column == null ||
                 column.DefaultInput.IsNullOrEmpty() ||
-                column.DefaultInput.ToString() != Password);
+                column.GetDefaultInput(context: context).ToString() != Password);
         }
 
         public bool LastName_Updated(Context context, Column column = null)
@@ -452,7 +452,7 @@ namespace Implem.Pleasanter.Models
             return LastName != SavedLastName && LastName != null &&
                 (column == null ||
                 column.DefaultInput.IsNullOrEmpty() ||
-                column.DefaultInput.ToString() != LastName);
+                column.GetDefaultInput(context: context).ToString() != LastName);
         }
 
         public bool FirstName_Updated(Context context, Column column = null)
@@ -460,7 +460,7 @@ namespace Implem.Pleasanter.Models
             return FirstName != SavedFirstName && FirstName != null &&
                 (column == null ||
                 column.DefaultInput.IsNullOrEmpty() ||
-                column.DefaultInput.ToString() != FirstName);
+                column.GetDefaultInput(context: context).ToString() != FirstName);
         }
 
         public bool Gender_Updated(Context context, Column column = null)
@@ -468,7 +468,7 @@ namespace Implem.Pleasanter.Models
             return Gender != SavedGender && Gender != null &&
                 (column == null ||
                 column.DefaultInput.IsNullOrEmpty() ||
-                column.DefaultInput.ToString() != Gender);
+                column.GetDefaultInput(context: context).ToString() != Gender);
         }
 
         public bool Language_Updated(Context context, Column column = null)
@@ -476,7 +476,7 @@ namespace Implem.Pleasanter.Models
             return Language != SavedLanguage && Language != null &&
                 (column == null ||
                 column.DefaultInput.IsNullOrEmpty() ||
-                column.DefaultInput.ToString() != Language);
+                column.GetDefaultInput(context: context).ToString() != Language);
         }
 
         public bool TimeZone_Updated(Context context, Column column = null)
@@ -484,7 +484,7 @@ namespace Implem.Pleasanter.Models
             return TimeZone != SavedTimeZone && TimeZone != null &&
                 (column == null ||
                 column.DefaultInput.IsNullOrEmpty() ||
-                column.DefaultInput.ToString() != TimeZone);
+                column.GetDefaultInput(context: context).ToString() != TimeZone);
         }
 
         public bool DeptId_Updated(Context context, Column column = null)
@@ -492,7 +492,7 @@ namespace Implem.Pleasanter.Models
             return DeptId != SavedDeptId &&
                 (column == null ||
                 column.DefaultInput.IsNullOrEmpty() ||
-                column.DefaultInput.ToInt() != DeptId);
+                column.GetDefaultInput(context: context).ToInt() != DeptId);
         }
 
         public bool FirstAndLastNameOrder_Updated(Context context, Column column = null)
@@ -500,7 +500,7 @@ namespace Implem.Pleasanter.Models
             return FirstAndLastNameOrder.ToInt() != SavedFirstAndLastNameOrder &&
                 (column == null ||
                 column.DefaultInput.IsNullOrEmpty() ||
-                column.DefaultInput.ToInt() != FirstAndLastNameOrder.ToInt());
+                column.GetDefaultInput(context: context).ToInt() != FirstAndLastNameOrder.ToInt());
         }
 
         public bool Body_Updated(Context context, Column column = null)
@@ -508,7 +508,7 @@ namespace Implem.Pleasanter.Models
             return Body != SavedBody && Body != null &&
                 (column == null ||
                 column.DefaultInput.IsNullOrEmpty() ||
-                column.DefaultInput.ToString() != Body);
+                column.GetDefaultInput(context: context).ToString() != Body);
         }
 
         public bool NumberOfLogins_Updated(Context context, Column column = null)
@@ -516,7 +516,7 @@ namespace Implem.Pleasanter.Models
             return NumberOfLogins != SavedNumberOfLogins &&
                 (column == null ||
                 column.DefaultInput.IsNullOrEmpty() ||
-                column.DefaultInput.ToInt() != NumberOfLogins);
+                column.GetDefaultInput(context: context).ToInt() != NumberOfLogins);
         }
 
         public bool NumberOfDenial_Updated(Context context, Column column = null)
@@ -524,7 +524,7 @@ namespace Implem.Pleasanter.Models
             return NumberOfDenial != SavedNumberOfDenial &&
                 (column == null ||
                 column.DefaultInput.IsNullOrEmpty() ||
-                column.DefaultInput.ToInt() != NumberOfDenial);
+                column.GetDefaultInput(context: context).ToInt() != NumberOfDenial);
         }
 
         public bool TenantManager_Updated(Context context, Column column = null)
@@ -532,7 +532,7 @@ namespace Implem.Pleasanter.Models
             return TenantManager != SavedTenantManager &&
                 (column == null ||
                 column.DefaultInput.IsNullOrEmpty() ||
-                column.DefaultInput.ToBool() != TenantManager);
+                column.GetDefaultInput(context: context).ToBool() != TenantManager);
         }
 
         public bool ServiceManager_Updated(Context context, Column column = null)
@@ -540,7 +540,7 @@ namespace Implem.Pleasanter.Models
             return ServiceManager != SavedServiceManager &&
                 (column == null ||
                 column.DefaultInput.IsNullOrEmpty() ||
-                column.DefaultInput.ToBool() != ServiceManager);
+                column.GetDefaultInput(context: context).ToBool() != ServiceManager);
         }
 
         public bool Disabled_Updated(Context context, Column column = null)
@@ -548,7 +548,7 @@ namespace Implem.Pleasanter.Models
             return Disabled != SavedDisabled &&
                 (column == null ||
                 column.DefaultInput.IsNullOrEmpty() ||
-                column.DefaultInput.ToBool() != Disabled);
+                column.GetDefaultInput(context: context).ToBool() != Disabled);
         }
 
         public bool Developer_Updated(Context context, Column column = null)
@@ -556,7 +556,7 @@ namespace Implem.Pleasanter.Models
             return Developer != SavedDeveloper &&
                 (column == null ||
                 column.DefaultInput.IsNullOrEmpty() ||
-                column.DefaultInput.ToBool() != Developer);
+                column.GetDefaultInput(context: context).ToBool() != Developer);
         }
 
         public bool UserSettings_Updated(Context context, Column column = null)
@@ -564,7 +564,7 @@ namespace Implem.Pleasanter.Models
             return UserSettings.RecordingJson() != SavedUserSettings && UserSettings.RecordingJson() != null &&
                 (column == null ||
                 column.DefaultInput.IsNullOrEmpty() ||
-                column.DefaultInput.ToString() != UserSettings.RecordingJson());
+                column.GetDefaultInput(context: context).ToString() != UserSettings.RecordingJson());
         }
 
         public bool ApiKey_Updated(Context context, Column column = null)
@@ -572,7 +572,7 @@ namespace Implem.Pleasanter.Models
             return ApiKey != SavedApiKey && ApiKey != null &&
                 (column == null ||
                 column.DefaultInput.IsNullOrEmpty() ||
-                column.DefaultInput.ToString() != ApiKey);
+                column.GetDefaultInput(context: context).ToString() != ApiKey);
         }
 
         public bool ClassA_Updated(Context context, Column column = null)
@@ -580,7 +580,7 @@ namespace Implem.Pleasanter.Models
             return ClassA != SavedClassA && ClassA != null &&
                 (column == null ||
                 column.DefaultInput.IsNullOrEmpty() ||
-                column.DefaultInput.ToString() != ClassA);
+                column.GetDefaultInput(context: context).ToString() != ClassA);
         }
 
         public bool ClassB_Updated(Context context, Column column = null)
@@ -588,7 +588,7 @@ namespace Implem.Pleasanter.Models
             return ClassB != SavedClassB && ClassB != null &&
                 (column == null ||
                 column.DefaultInput.IsNullOrEmpty() ||
-                column.DefaultInput.ToString() != ClassB);
+                column.GetDefaultInput(context: context).ToString() != ClassB);
         }
 
         public bool ClassC_Updated(Context context, Column column = null)
@@ -596,7 +596,7 @@ namespace Implem.Pleasanter.Models
             return ClassC != SavedClassC && ClassC != null &&
                 (column == null ||
                 column.DefaultInput.IsNullOrEmpty() ||
-                column.DefaultInput.ToString() != ClassC);
+                column.GetDefaultInput(context: context).ToString() != ClassC);
         }
 
         public bool ClassD_Updated(Context context, Column column = null)
@@ -604,7 +604,7 @@ namespace Implem.Pleasanter.Models
             return ClassD != SavedClassD && ClassD != null &&
                 (column == null ||
                 column.DefaultInput.IsNullOrEmpty() ||
-                column.DefaultInput.ToString() != ClassD);
+                column.GetDefaultInput(context: context).ToString() != ClassD);
         }
 
         public bool ClassE_Updated(Context context, Column column = null)
@@ -612,7 +612,7 @@ namespace Implem.Pleasanter.Models
             return ClassE != SavedClassE && ClassE != null &&
                 (column == null ||
                 column.DefaultInput.IsNullOrEmpty() ||
-                column.DefaultInput.ToString() != ClassE);
+                column.GetDefaultInput(context: context).ToString() != ClassE);
         }
 
         public bool ClassF_Updated(Context context, Column column = null)
@@ -620,7 +620,7 @@ namespace Implem.Pleasanter.Models
             return ClassF != SavedClassF && ClassF != null &&
                 (column == null ||
                 column.DefaultInput.IsNullOrEmpty() ||
-                column.DefaultInput.ToString() != ClassF);
+                column.GetDefaultInput(context: context).ToString() != ClassF);
         }
 
         public bool ClassG_Updated(Context context, Column column = null)
@@ -628,7 +628,7 @@ namespace Implem.Pleasanter.Models
             return ClassG != SavedClassG && ClassG != null &&
                 (column == null ||
                 column.DefaultInput.IsNullOrEmpty() ||
-                column.DefaultInput.ToString() != ClassG);
+                column.GetDefaultInput(context: context).ToString() != ClassG);
         }
 
         public bool ClassH_Updated(Context context, Column column = null)
@@ -636,7 +636,7 @@ namespace Implem.Pleasanter.Models
             return ClassH != SavedClassH && ClassH != null &&
                 (column == null ||
                 column.DefaultInput.IsNullOrEmpty() ||
-                column.DefaultInput.ToString() != ClassH);
+                column.GetDefaultInput(context: context).ToString() != ClassH);
         }
 
         public bool ClassI_Updated(Context context, Column column = null)
@@ -644,7 +644,7 @@ namespace Implem.Pleasanter.Models
             return ClassI != SavedClassI && ClassI != null &&
                 (column == null ||
                 column.DefaultInput.IsNullOrEmpty() ||
-                column.DefaultInput.ToString() != ClassI);
+                column.GetDefaultInput(context: context).ToString() != ClassI);
         }
 
         public bool ClassJ_Updated(Context context, Column column = null)
@@ -652,7 +652,7 @@ namespace Implem.Pleasanter.Models
             return ClassJ != SavedClassJ && ClassJ != null &&
                 (column == null ||
                 column.DefaultInput.IsNullOrEmpty() ||
-                column.DefaultInput.ToString() != ClassJ);
+                column.GetDefaultInput(context: context).ToString() != ClassJ);
         }
 
         public bool ClassK_Updated(Context context, Column column = null)
@@ -660,7 +660,7 @@ namespace Implem.Pleasanter.Models
             return ClassK != SavedClassK && ClassK != null &&
                 (column == null ||
                 column.DefaultInput.IsNullOrEmpty() ||
-                column.DefaultInput.ToString() != ClassK);
+                column.GetDefaultInput(context: context).ToString() != ClassK);
         }
 
         public bool ClassL_Updated(Context context, Column column = null)
@@ -668,7 +668,7 @@ namespace Implem.Pleasanter.Models
             return ClassL != SavedClassL && ClassL != null &&
                 (column == null ||
                 column.DefaultInput.IsNullOrEmpty() ||
-                column.DefaultInput.ToString() != ClassL);
+                column.GetDefaultInput(context: context).ToString() != ClassL);
         }
 
         public bool ClassM_Updated(Context context, Column column = null)
@@ -676,7 +676,7 @@ namespace Implem.Pleasanter.Models
             return ClassM != SavedClassM && ClassM != null &&
                 (column == null ||
                 column.DefaultInput.IsNullOrEmpty() ||
-                column.DefaultInput.ToString() != ClassM);
+                column.GetDefaultInput(context: context).ToString() != ClassM);
         }
 
         public bool ClassN_Updated(Context context, Column column = null)
@@ -684,7 +684,7 @@ namespace Implem.Pleasanter.Models
             return ClassN != SavedClassN && ClassN != null &&
                 (column == null ||
                 column.DefaultInput.IsNullOrEmpty() ||
-                column.DefaultInput.ToString() != ClassN);
+                column.GetDefaultInput(context: context).ToString() != ClassN);
         }
 
         public bool ClassO_Updated(Context context, Column column = null)
@@ -692,7 +692,7 @@ namespace Implem.Pleasanter.Models
             return ClassO != SavedClassO && ClassO != null &&
                 (column == null ||
                 column.DefaultInput.IsNullOrEmpty() ||
-                column.DefaultInput.ToString() != ClassO);
+                column.GetDefaultInput(context: context).ToString() != ClassO);
         }
 
         public bool ClassP_Updated(Context context, Column column = null)
@@ -700,7 +700,7 @@ namespace Implem.Pleasanter.Models
             return ClassP != SavedClassP && ClassP != null &&
                 (column == null ||
                 column.DefaultInput.IsNullOrEmpty() ||
-                column.DefaultInput.ToString() != ClassP);
+                column.GetDefaultInput(context: context).ToString() != ClassP);
         }
 
         public bool ClassQ_Updated(Context context, Column column = null)
@@ -708,7 +708,7 @@ namespace Implem.Pleasanter.Models
             return ClassQ != SavedClassQ && ClassQ != null &&
                 (column == null ||
                 column.DefaultInput.IsNullOrEmpty() ||
-                column.DefaultInput.ToString() != ClassQ);
+                column.GetDefaultInput(context: context).ToString() != ClassQ);
         }
 
         public bool ClassR_Updated(Context context, Column column = null)
@@ -716,7 +716,7 @@ namespace Implem.Pleasanter.Models
             return ClassR != SavedClassR && ClassR != null &&
                 (column == null ||
                 column.DefaultInput.IsNullOrEmpty() ||
-                column.DefaultInput.ToString() != ClassR);
+                column.GetDefaultInput(context: context).ToString() != ClassR);
         }
 
         public bool ClassS_Updated(Context context, Column column = null)
@@ -724,7 +724,7 @@ namespace Implem.Pleasanter.Models
             return ClassS != SavedClassS && ClassS != null &&
                 (column == null ||
                 column.DefaultInput.IsNullOrEmpty() ||
-                column.DefaultInput.ToString() != ClassS);
+                column.GetDefaultInput(context: context).ToString() != ClassS);
         }
 
         public bool ClassT_Updated(Context context, Column column = null)
@@ -732,7 +732,7 @@ namespace Implem.Pleasanter.Models
             return ClassT != SavedClassT && ClassT != null &&
                 (column == null ||
                 column.DefaultInput.IsNullOrEmpty() ||
-                column.DefaultInput.ToString() != ClassT);
+                column.GetDefaultInput(context: context).ToString() != ClassT);
         }
 
         public bool ClassU_Updated(Context context, Column column = null)
@@ -740,7 +740,7 @@ namespace Implem.Pleasanter.Models
             return ClassU != SavedClassU && ClassU != null &&
                 (column == null ||
                 column.DefaultInput.IsNullOrEmpty() ||
-                column.DefaultInput.ToString() != ClassU);
+                column.GetDefaultInput(context: context).ToString() != ClassU);
         }
 
         public bool ClassV_Updated(Context context, Column column = null)
@@ -748,7 +748,7 @@ namespace Implem.Pleasanter.Models
             return ClassV != SavedClassV && ClassV != null &&
                 (column == null ||
                 column.DefaultInput.IsNullOrEmpty() ||
-                column.DefaultInput.ToString() != ClassV);
+                column.GetDefaultInput(context: context).ToString() != ClassV);
         }
 
         public bool ClassW_Updated(Context context, Column column = null)
@@ -756,7 +756,7 @@ namespace Implem.Pleasanter.Models
             return ClassW != SavedClassW && ClassW != null &&
                 (column == null ||
                 column.DefaultInput.IsNullOrEmpty() ||
-                column.DefaultInput.ToString() != ClassW);
+                column.GetDefaultInput(context: context).ToString() != ClassW);
         }
 
         public bool ClassX_Updated(Context context, Column column = null)
@@ -764,7 +764,7 @@ namespace Implem.Pleasanter.Models
             return ClassX != SavedClassX && ClassX != null &&
                 (column == null ||
                 column.DefaultInput.IsNullOrEmpty() ||
-                column.DefaultInput.ToString() != ClassX);
+                column.GetDefaultInput(context: context).ToString() != ClassX);
         }
 
         public bool ClassY_Updated(Context context, Column column = null)
@@ -772,7 +772,7 @@ namespace Implem.Pleasanter.Models
             return ClassY != SavedClassY && ClassY != null &&
                 (column == null ||
                 column.DefaultInput.IsNullOrEmpty() ||
-                column.DefaultInput.ToString() != ClassY);
+                column.GetDefaultInput(context: context).ToString() != ClassY);
         }
 
         public bool ClassZ_Updated(Context context, Column column = null)
@@ -780,7 +780,7 @@ namespace Implem.Pleasanter.Models
             return ClassZ != SavedClassZ && ClassZ != null &&
                 (column == null ||
                 column.DefaultInput.IsNullOrEmpty() ||
-                column.DefaultInput.ToString() != ClassZ);
+                column.GetDefaultInput(context: context).ToString() != ClassZ);
         }
 
         public bool NumA_Updated(Context context, Column column = null)
@@ -788,7 +788,7 @@ namespace Implem.Pleasanter.Models
             return NumA != SavedNumA &&
                 (column == null ||
                 column.DefaultInput.IsNullOrEmpty() ||
-                column.DefaultInput.ToDecimal() != NumA);
+                column.GetDefaultInput(context: context).ToDecimal() != NumA);
         }
 
         public bool NumB_Updated(Context context, Column column = null)
@@ -796,7 +796,7 @@ namespace Implem.Pleasanter.Models
             return NumB != SavedNumB &&
                 (column == null ||
                 column.DefaultInput.IsNullOrEmpty() ||
-                column.DefaultInput.ToDecimal() != NumB);
+                column.GetDefaultInput(context: context).ToDecimal() != NumB);
         }
 
         public bool NumC_Updated(Context context, Column column = null)
@@ -804,7 +804,7 @@ namespace Implem.Pleasanter.Models
             return NumC != SavedNumC &&
                 (column == null ||
                 column.DefaultInput.IsNullOrEmpty() ||
-                column.DefaultInput.ToDecimal() != NumC);
+                column.GetDefaultInput(context: context).ToDecimal() != NumC);
         }
 
         public bool NumD_Updated(Context context, Column column = null)
@@ -812,7 +812,7 @@ namespace Implem.Pleasanter.Models
             return NumD != SavedNumD &&
                 (column == null ||
                 column.DefaultInput.IsNullOrEmpty() ||
-                column.DefaultInput.ToDecimal() != NumD);
+                column.GetDefaultInput(context: context).ToDecimal() != NumD);
         }
 
         public bool NumE_Updated(Context context, Column column = null)
@@ -820,7 +820,7 @@ namespace Implem.Pleasanter.Models
             return NumE != SavedNumE &&
                 (column == null ||
                 column.DefaultInput.IsNullOrEmpty() ||
-                column.DefaultInput.ToDecimal() != NumE);
+                column.GetDefaultInput(context: context).ToDecimal() != NumE);
         }
 
         public bool NumF_Updated(Context context, Column column = null)
@@ -828,7 +828,7 @@ namespace Implem.Pleasanter.Models
             return NumF != SavedNumF &&
                 (column == null ||
                 column.DefaultInput.IsNullOrEmpty() ||
-                column.DefaultInput.ToDecimal() != NumF);
+                column.GetDefaultInput(context: context).ToDecimal() != NumF);
         }
 
         public bool NumG_Updated(Context context, Column column = null)
@@ -836,7 +836,7 @@ namespace Implem.Pleasanter.Models
             return NumG != SavedNumG &&
                 (column == null ||
                 column.DefaultInput.IsNullOrEmpty() ||
-                column.DefaultInput.ToDecimal() != NumG);
+                column.GetDefaultInput(context: context).ToDecimal() != NumG);
         }
 
         public bool NumH_Updated(Context context, Column column = null)
@@ -844,7 +844,7 @@ namespace Implem.Pleasanter.Models
             return NumH != SavedNumH &&
                 (column == null ||
                 column.DefaultInput.IsNullOrEmpty() ||
-                column.DefaultInput.ToDecimal() != NumH);
+                column.GetDefaultInput(context: context).ToDecimal() != NumH);
         }
 
         public bool NumI_Updated(Context context, Column column = null)
@@ -852,7 +852,7 @@ namespace Implem.Pleasanter.Models
             return NumI != SavedNumI &&
                 (column == null ||
                 column.DefaultInput.IsNullOrEmpty() ||
-                column.DefaultInput.ToDecimal() != NumI);
+                column.GetDefaultInput(context: context).ToDecimal() != NumI);
         }
 
         public bool NumJ_Updated(Context context, Column column = null)
@@ -860,7 +860,7 @@ namespace Implem.Pleasanter.Models
             return NumJ != SavedNumJ &&
                 (column == null ||
                 column.DefaultInput.IsNullOrEmpty() ||
-                column.DefaultInput.ToDecimal() != NumJ);
+                column.GetDefaultInput(context: context).ToDecimal() != NumJ);
         }
 
         public bool NumK_Updated(Context context, Column column = null)
@@ -868,7 +868,7 @@ namespace Implem.Pleasanter.Models
             return NumK != SavedNumK &&
                 (column == null ||
                 column.DefaultInput.IsNullOrEmpty() ||
-                column.DefaultInput.ToDecimal() != NumK);
+                column.GetDefaultInput(context: context).ToDecimal() != NumK);
         }
 
         public bool NumL_Updated(Context context, Column column = null)
@@ -876,7 +876,7 @@ namespace Implem.Pleasanter.Models
             return NumL != SavedNumL &&
                 (column == null ||
                 column.DefaultInput.IsNullOrEmpty() ||
-                column.DefaultInput.ToDecimal() != NumL);
+                column.GetDefaultInput(context: context).ToDecimal() != NumL);
         }
 
         public bool NumM_Updated(Context context, Column column = null)
@@ -884,7 +884,7 @@ namespace Implem.Pleasanter.Models
             return NumM != SavedNumM &&
                 (column == null ||
                 column.DefaultInput.IsNullOrEmpty() ||
-                column.DefaultInput.ToDecimal() != NumM);
+                column.GetDefaultInput(context: context).ToDecimal() != NumM);
         }
 
         public bool NumN_Updated(Context context, Column column = null)
@@ -892,7 +892,7 @@ namespace Implem.Pleasanter.Models
             return NumN != SavedNumN &&
                 (column == null ||
                 column.DefaultInput.IsNullOrEmpty() ||
-                column.DefaultInput.ToDecimal() != NumN);
+                column.GetDefaultInput(context: context).ToDecimal() != NumN);
         }
 
         public bool NumO_Updated(Context context, Column column = null)
@@ -900,7 +900,7 @@ namespace Implem.Pleasanter.Models
             return NumO != SavedNumO &&
                 (column == null ||
                 column.DefaultInput.IsNullOrEmpty() ||
-                column.DefaultInput.ToDecimal() != NumO);
+                column.GetDefaultInput(context: context).ToDecimal() != NumO);
         }
 
         public bool NumP_Updated(Context context, Column column = null)
@@ -908,7 +908,7 @@ namespace Implem.Pleasanter.Models
             return NumP != SavedNumP &&
                 (column == null ||
                 column.DefaultInput.IsNullOrEmpty() ||
-                column.DefaultInput.ToDecimal() != NumP);
+                column.GetDefaultInput(context: context).ToDecimal() != NumP);
         }
 
         public bool NumQ_Updated(Context context, Column column = null)
@@ -916,7 +916,7 @@ namespace Implem.Pleasanter.Models
             return NumQ != SavedNumQ &&
                 (column == null ||
                 column.DefaultInput.IsNullOrEmpty() ||
-                column.DefaultInput.ToDecimal() != NumQ);
+                column.GetDefaultInput(context: context).ToDecimal() != NumQ);
         }
 
         public bool NumR_Updated(Context context, Column column = null)
@@ -924,7 +924,7 @@ namespace Implem.Pleasanter.Models
             return NumR != SavedNumR &&
                 (column == null ||
                 column.DefaultInput.IsNullOrEmpty() ||
-                column.DefaultInput.ToDecimal() != NumR);
+                column.GetDefaultInput(context: context).ToDecimal() != NumR);
         }
 
         public bool NumS_Updated(Context context, Column column = null)
@@ -932,7 +932,7 @@ namespace Implem.Pleasanter.Models
             return NumS != SavedNumS &&
                 (column == null ||
                 column.DefaultInput.IsNullOrEmpty() ||
-                column.DefaultInput.ToDecimal() != NumS);
+                column.GetDefaultInput(context: context).ToDecimal() != NumS);
         }
 
         public bool NumT_Updated(Context context, Column column = null)
@@ -940,7 +940,7 @@ namespace Implem.Pleasanter.Models
             return NumT != SavedNumT &&
                 (column == null ||
                 column.DefaultInput.IsNullOrEmpty() ||
-                column.DefaultInput.ToDecimal() != NumT);
+                column.GetDefaultInput(context: context).ToDecimal() != NumT);
         }
 
         public bool NumU_Updated(Context context, Column column = null)
@@ -948,7 +948,7 @@ namespace Implem.Pleasanter.Models
             return NumU != SavedNumU &&
                 (column == null ||
                 column.DefaultInput.IsNullOrEmpty() ||
-                column.DefaultInput.ToDecimal() != NumU);
+                column.GetDefaultInput(context: context).ToDecimal() != NumU);
         }
 
         public bool NumV_Updated(Context context, Column column = null)
@@ -956,7 +956,7 @@ namespace Implem.Pleasanter.Models
             return NumV != SavedNumV &&
                 (column == null ||
                 column.DefaultInput.IsNullOrEmpty() ||
-                column.DefaultInput.ToDecimal() != NumV);
+                column.GetDefaultInput(context: context).ToDecimal() != NumV);
         }
 
         public bool NumW_Updated(Context context, Column column = null)
@@ -964,7 +964,7 @@ namespace Implem.Pleasanter.Models
             return NumW != SavedNumW &&
                 (column == null ||
                 column.DefaultInput.IsNullOrEmpty() ||
-                column.DefaultInput.ToDecimal() != NumW);
+                column.GetDefaultInput(context: context).ToDecimal() != NumW);
         }
 
         public bool NumX_Updated(Context context, Column column = null)
@@ -972,7 +972,7 @@ namespace Implem.Pleasanter.Models
             return NumX != SavedNumX &&
                 (column == null ||
                 column.DefaultInput.IsNullOrEmpty() ||
-                column.DefaultInput.ToDecimal() != NumX);
+                column.GetDefaultInput(context: context).ToDecimal() != NumX);
         }
 
         public bool NumY_Updated(Context context, Column column = null)
@@ -980,7 +980,7 @@ namespace Implem.Pleasanter.Models
             return NumY != SavedNumY &&
                 (column == null ||
                 column.DefaultInput.IsNullOrEmpty() ||
-                column.DefaultInput.ToDecimal() != NumY);
+                column.GetDefaultInput(context: context).ToDecimal() != NumY);
         }
 
         public bool NumZ_Updated(Context context, Column column = null)
@@ -988,7 +988,7 @@ namespace Implem.Pleasanter.Models
             return NumZ != SavedNumZ &&
                 (column == null ||
                 column.DefaultInput.IsNullOrEmpty() ||
-                column.DefaultInput.ToDecimal() != NumZ);
+                column.GetDefaultInput(context: context).ToDecimal() != NumZ);
         }
 
         public bool DescriptionA_Updated(Context context, Column column = null)
@@ -996,7 +996,7 @@ namespace Implem.Pleasanter.Models
             return DescriptionA != SavedDescriptionA && DescriptionA != null &&
                 (column == null ||
                 column.DefaultInput.IsNullOrEmpty() ||
-                column.DefaultInput.ToString() != DescriptionA);
+                column.GetDefaultInput(context: context).ToString() != DescriptionA);
         }
 
         public bool DescriptionB_Updated(Context context, Column column = null)
@@ -1004,7 +1004,7 @@ namespace Implem.Pleasanter.Models
             return DescriptionB != SavedDescriptionB && DescriptionB != null &&
                 (column == null ||
                 column.DefaultInput.IsNullOrEmpty() ||
-                column.DefaultInput.ToString() != DescriptionB);
+                column.GetDefaultInput(context: context).ToString() != DescriptionB);
         }
 
         public bool DescriptionC_Updated(Context context, Column column = null)
@@ -1012,7 +1012,7 @@ namespace Implem.Pleasanter.Models
             return DescriptionC != SavedDescriptionC && DescriptionC != null &&
                 (column == null ||
                 column.DefaultInput.IsNullOrEmpty() ||
-                column.DefaultInput.ToString() != DescriptionC);
+                column.GetDefaultInput(context: context).ToString() != DescriptionC);
         }
 
         public bool DescriptionD_Updated(Context context, Column column = null)
@@ -1020,7 +1020,7 @@ namespace Implem.Pleasanter.Models
             return DescriptionD != SavedDescriptionD && DescriptionD != null &&
                 (column == null ||
                 column.DefaultInput.IsNullOrEmpty() ||
-                column.DefaultInput.ToString() != DescriptionD);
+                column.GetDefaultInput(context: context).ToString() != DescriptionD);
         }
 
         public bool DescriptionE_Updated(Context context, Column column = null)
@@ -1028,7 +1028,7 @@ namespace Implem.Pleasanter.Models
             return DescriptionE != SavedDescriptionE && DescriptionE != null &&
                 (column == null ||
                 column.DefaultInput.IsNullOrEmpty() ||
-                column.DefaultInput.ToString() != DescriptionE);
+                column.GetDefaultInput(context: context).ToString() != DescriptionE);
         }
 
         public bool DescriptionF_Updated(Context context, Column column = null)
@@ -1036,7 +1036,7 @@ namespace Implem.Pleasanter.Models
             return DescriptionF != SavedDescriptionF && DescriptionF != null &&
                 (column == null ||
                 column.DefaultInput.IsNullOrEmpty() ||
-                column.DefaultInput.ToString() != DescriptionF);
+                column.GetDefaultInput(context: context).ToString() != DescriptionF);
         }
 
         public bool DescriptionG_Updated(Context context, Column column = null)
@@ -1044,7 +1044,7 @@ namespace Implem.Pleasanter.Models
             return DescriptionG != SavedDescriptionG && DescriptionG != null &&
                 (column == null ||
                 column.DefaultInput.IsNullOrEmpty() ||
-                column.DefaultInput.ToString() != DescriptionG);
+                column.GetDefaultInput(context: context).ToString() != DescriptionG);
         }
 
         public bool DescriptionH_Updated(Context context, Column column = null)
@@ -1052,7 +1052,7 @@ namespace Implem.Pleasanter.Models
             return DescriptionH != SavedDescriptionH && DescriptionH != null &&
                 (column == null ||
                 column.DefaultInput.IsNullOrEmpty() ||
-                column.DefaultInput.ToString() != DescriptionH);
+                column.GetDefaultInput(context: context).ToString() != DescriptionH);
         }
 
         public bool DescriptionI_Updated(Context context, Column column = null)
@@ -1060,7 +1060,7 @@ namespace Implem.Pleasanter.Models
             return DescriptionI != SavedDescriptionI && DescriptionI != null &&
                 (column == null ||
                 column.DefaultInput.IsNullOrEmpty() ||
-                column.DefaultInput.ToString() != DescriptionI);
+                column.GetDefaultInput(context: context).ToString() != DescriptionI);
         }
 
         public bool DescriptionJ_Updated(Context context, Column column = null)
@@ -1068,7 +1068,7 @@ namespace Implem.Pleasanter.Models
             return DescriptionJ != SavedDescriptionJ && DescriptionJ != null &&
                 (column == null ||
                 column.DefaultInput.IsNullOrEmpty() ||
-                column.DefaultInput.ToString() != DescriptionJ);
+                column.GetDefaultInput(context: context).ToString() != DescriptionJ);
         }
 
         public bool DescriptionK_Updated(Context context, Column column = null)
@@ -1076,7 +1076,7 @@ namespace Implem.Pleasanter.Models
             return DescriptionK != SavedDescriptionK && DescriptionK != null &&
                 (column == null ||
                 column.DefaultInput.IsNullOrEmpty() ||
-                column.DefaultInput.ToString() != DescriptionK);
+                column.GetDefaultInput(context: context).ToString() != DescriptionK);
         }
 
         public bool DescriptionL_Updated(Context context, Column column = null)
@@ -1084,7 +1084,7 @@ namespace Implem.Pleasanter.Models
             return DescriptionL != SavedDescriptionL && DescriptionL != null &&
                 (column == null ||
                 column.DefaultInput.IsNullOrEmpty() ||
-                column.DefaultInput.ToString() != DescriptionL);
+                column.GetDefaultInput(context: context).ToString() != DescriptionL);
         }
 
         public bool DescriptionM_Updated(Context context, Column column = null)
@@ -1092,7 +1092,7 @@ namespace Implem.Pleasanter.Models
             return DescriptionM != SavedDescriptionM && DescriptionM != null &&
                 (column == null ||
                 column.DefaultInput.IsNullOrEmpty() ||
-                column.DefaultInput.ToString() != DescriptionM);
+                column.GetDefaultInput(context: context).ToString() != DescriptionM);
         }
 
         public bool DescriptionN_Updated(Context context, Column column = null)
@@ -1100,7 +1100,7 @@ namespace Implem.Pleasanter.Models
             return DescriptionN != SavedDescriptionN && DescriptionN != null &&
                 (column == null ||
                 column.DefaultInput.IsNullOrEmpty() ||
-                column.DefaultInput.ToString() != DescriptionN);
+                column.GetDefaultInput(context: context).ToString() != DescriptionN);
         }
 
         public bool DescriptionO_Updated(Context context, Column column = null)
@@ -1108,7 +1108,7 @@ namespace Implem.Pleasanter.Models
             return DescriptionO != SavedDescriptionO && DescriptionO != null &&
                 (column == null ||
                 column.DefaultInput.IsNullOrEmpty() ||
-                column.DefaultInput.ToString() != DescriptionO);
+                column.GetDefaultInput(context: context).ToString() != DescriptionO);
         }
 
         public bool DescriptionP_Updated(Context context, Column column = null)
@@ -1116,7 +1116,7 @@ namespace Implem.Pleasanter.Models
             return DescriptionP != SavedDescriptionP && DescriptionP != null &&
                 (column == null ||
                 column.DefaultInput.IsNullOrEmpty() ||
-                column.DefaultInput.ToString() != DescriptionP);
+                column.GetDefaultInput(context: context).ToString() != DescriptionP);
         }
 
         public bool DescriptionQ_Updated(Context context, Column column = null)
@@ -1124,7 +1124,7 @@ namespace Implem.Pleasanter.Models
             return DescriptionQ != SavedDescriptionQ && DescriptionQ != null &&
                 (column == null ||
                 column.DefaultInput.IsNullOrEmpty() ||
-                column.DefaultInput.ToString() != DescriptionQ);
+                column.GetDefaultInput(context: context).ToString() != DescriptionQ);
         }
 
         public bool DescriptionR_Updated(Context context, Column column = null)
@@ -1132,7 +1132,7 @@ namespace Implem.Pleasanter.Models
             return DescriptionR != SavedDescriptionR && DescriptionR != null &&
                 (column == null ||
                 column.DefaultInput.IsNullOrEmpty() ||
-                column.DefaultInput.ToString() != DescriptionR);
+                column.GetDefaultInput(context: context).ToString() != DescriptionR);
         }
 
         public bool DescriptionS_Updated(Context context, Column column = null)
@@ -1140,7 +1140,7 @@ namespace Implem.Pleasanter.Models
             return DescriptionS != SavedDescriptionS && DescriptionS != null &&
                 (column == null ||
                 column.DefaultInput.IsNullOrEmpty() ||
-                column.DefaultInput.ToString() != DescriptionS);
+                column.GetDefaultInput(context: context).ToString() != DescriptionS);
         }
 
         public bool DescriptionT_Updated(Context context, Column column = null)
@@ -1148,7 +1148,7 @@ namespace Implem.Pleasanter.Models
             return DescriptionT != SavedDescriptionT && DescriptionT != null &&
                 (column == null ||
                 column.DefaultInput.IsNullOrEmpty() ||
-                column.DefaultInput.ToString() != DescriptionT);
+                column.GetDefaultInput(context: context).ToString() != DescriptionT);
         }
 
         public bool DescriptionU_Updated(Context context, Column column = null)
@@ -1156,7 +1156,7 @@ namespace Implem.Pleasanter.Models
             return DescriptionU != SavedDescriptionU && DescriptionU != null &&
                 (column == null ||
                 column.DefaultInput.IsNullOrEmpty() ||
-                column.DefaultInput.ToString() != DescriptionU);
+                column.GetDefaultInput(context: context).ToString() != DescriptionU);
         }
 
         public bool DescriptionV_Updated(Context context, Column column = null)
@@ -1164,7 +1164,7 @@ namespace Implem.Pleasanter.Models
             return DescriptionV != SavedDescriptionV && DescriptionV != null &&
                 (column == null ||
                 column.DefaultInput.IsNullOrEmpty() ||
-                column.DefaultInput.ToString() != DescriptionV);
+                column.GetDefaultInput(context: context).ToString() != DescriptionV);
         }
 
         public bool DescriptionW_Updated(Context context, Column column = null)
@@ -1172,7 +1172,7 @@ namespace Implem.Pleasanter.Models
             return DescriptionW != SavedDescriptionW && DescriptionW != null &&
                 (column == null ||
                 column.DefaultInput.IsNullOrEmpty() ||
-                column.DefaultInput.ToString() != DescriptionW);
+                column.GetDefaultInput(context: context).ToString() != DescriptionW);
         }
 
         public bool DescriptionX_Updated(Context context, Column column = null)
@@ -1180,7 +1180,7 @@ namespace Implem.Pleasanter.Models
             return DescriptionX != SavedDescriptionX && DescriptionX != null &&
                 (column == null ||
                 column.DefaultInput.IsNullOrEmpty() ||
-                column.DefaultInput.ToString() != DescriptionX);
+                column.GetDefaultInput(context: context).ToString() != DescriptionX);
         }
 
         public bool DescriptionY_Updated(Context context, Column column = null)
@@ -1188,7 +1188,7 @@ namespace Implem.Pleasanter.Models
             return DescriptionY != SavedDescriptionY && DescriptionY != null &&
                 (column == null ||
                 column.DefaultInput.IsNullOrEmpty() ||
-                column.DefaultInput.ToString() != DescriptionY);
+                column.GetDefaultInput(context: context).ToString() != DescriptionY);
         }
 
         public bool DescriptionZ_Updated(Context context, Column column = null)
@@ -1196,7 +1196,7 @@ namespace Implem.Pleasanter.Models
             return DescriptionZ != SavedDescriptionZ && DescriptionZ != null &&
                 (column == null ||
                 column.DefaultInput.IsNullOrEmpty() ||
-                column.DefaultInput.ToString() != DescriptionZ);
+                column.GetDefaultInput(context: context).ToString() != DescriptionZ);
         }
 
         public bool CheckA_Updated(Context context, Column column = null)
@@ -1204,7 +1204,7 @@ namespace Implem.Pleasanter.Models
             return CheckA != SavedCheckA &&
                 (column == null ||
                 column.DefaultInput.IsNullOrEmpty() ||
-                column.DefaultInput.ToBool() != CheckA);
+                column.GetDefaultInput(context: context).ToBool() != CheckA);
         }
 
         public bool CheckB_Updated(Context context, Column column = null)
@@ -1212,7 +1212,7 @@ namespace Implem.Pleasanter.Models
             return CheckB != SavedCheckB &&
                 (column == null ||
                 column.DefaultInput.IsNullOrEmpty() ||
-                column.DefaultInput.ToBool() != CheckB);
+                column.GetDefaultInput(context: context).ToBool() != CheckB);
         }
 
         public bool CheckC_Updated(Context context, Column column = null)
@@ -1220,7 +1220,7 @@ namespace Implem.Pleasanter.Models
             return CheckC != SavedCheckC &&
                 (column == null ||
                 column.DefaultInput.IsNullOrEmpty() ||
-                column.DefaultInput.ToBool() != CheckC);
+                column.GetDefaultInput(context: context).ToBool() != CheckC);
         }
 
         public bool CheckD_Updated(Context context, Column column = null)
@@ -1228,7 +1228,7 @@ namespace Implem.Pleasanter.Models
             return CheckD != SavedCheckD &&
                 (column == null ||
                 column.DefaultInput.IsNullOrEmpty() ||
-                column.DefaultInput.ToBool() != CheckD);
+                column.GetDefaultInput(context: context).ToBool() != CheckD);
         }
 
         public bool CheckE_Updated(Context context, Column column = null)
@@ -1236,7 +1236,7 @@ namespace Implem.Pleasanter.Models
             return CheckE != SavedCheckE &&
                 (column == null ||
                 column.DefaultInput.IsNullOrEmpty() ||
-                column.DefaultInput.ToBool() != CheckE);
+                column.GetDefaultInput(context: context).ToBool() != CheckE);
         }
 
         public bool CheckF_Updated(Context context, Column column = null)
@@ -1244,7 +1244,7 @@ namespace Implem.Pleasanter.Models
             return CheckF != SavedCheckF &&
                 (column == null ||
                 column.DefaultInput.IsNullOrEmpty() ||
-                column.DefaultInput.ToBool() != CheckF);
+                column.GetDefaultInput(context: context).ToBool() != CheckF);
         }
 
         public bool CheckG_Updated(Context context, Column column = null)
@@ -1252,7 +1252,7 @@ namespace Implem.Pleasanter.Models
             return CheckG != SavedCheckG &&
                 (column == null ||
                 column.DefaultInput.IsNullOrEmpty() ||
-                column.DefaultInput.ToBool() != CheckG);
+                column.GetDefaultInput(context: context).ToBool() != CheckG);
         }
 
         public bool CheckH_Updated(Context context, Column column = null)
@@ -1260,7 +1260,7 @@ namespace Implem.Pleasanter.Models
             return CheckH != SavedCheckH &&
                 (column == null ||
                 column.DefaultInput.IsNullOrEmpty() ||
-                column.DefaultInput.ToBool() != CheckH);
+                column.GetDefaultInput(context: context).ToBool() != CheckH);
         }
 
         public bool CheckI_Updated(Context context, Column column = null)
@@ -1268,7 +1268,7 @@ namespace Implem.Pleasanter.Models
             return CheckI != SavedCheckI &&
                 (column == null ||
                 column.DefaultInput.IsNullOrEmpty() ||
-                column.DefaultInput.ToBool() != CheckI);
+                column.GetDefaultInput(context: context).ToBool() != CheckI);
         }
 
         public bool CheckJ_Updated(Context context, Column column = null)
@@ -1276,7 +1276,7 @@ namespace Implem.Pleasanter.Models
             return CheckJ != SavedCheckJ &&
                 (column == null ||
                 column.DefaultInput.IsNullOrEmpty() ||
-                column.DefaultInput.ToBool() != CheckJ);
+                column.GetDefaultInput(context: context).ToBool() != CheckJ);
         }
 
         public bool CheckK_Updated(Context context, Column column = null)
@@ -1284,7 +1284,7 @@ namespace Implem.Pleasanter.Models
             return CheckK != SavedCheckK &&
                 (column == null ||
                 column.DefaultInput.IsNullOrEmpty() ||
-                column.DefaultInput.ToBool() != CheckK);
+                column.GetDefaultInput(context: context).ToBool() != CheckK);
         }
 
         public bool CheckL_Updated(Context context, Column column = null)
@@ -1292,7 +1292,7 @@ namespace Implem.Pleasanter.Models
             return CheckL != SavedCheckL &&
                 (column == null ||
                 column.DefaultInput.IsNullOrEmpty() ||
-                column.DefaultInput.ToBool() != CheckL);
+                column.GetDefaultInput(context: context).ToBool() != CheckL);
         }
 
         public bool CheckM_Updated(Context context, Column column = null)
@@ -1300,7 +1300,7 @@ namespace Implem.Pleasanter.Models
             return CheckM != SavedCheckM &&
                 (column == null ||
                 column.DefaultInput.IsNullOrEmpty() ||
-                column.DefaultInput.ToBool() != CheckM);
+                column.GetDefaultInput(context: context).ToBool() != CheckM);
         }
 
         public bool CheckN_Updated(Context context, Column column = null)
@@ -1308,7 +1308,7 @@ namespace Implem.Pleasanter.Models
             return CheckN != SavedCheckN &&
                 (column == null ||
                 column.DefaultInput.IsNullOrEmpty() ||
-                column.DefaultInput.ToBool() != CheckN);
+                column.GetDefaultInput(context: context).ToBool() != CheckN);
         }
 
         public bool CheckO_Updated(Context context, Column column = null)
@@ -1316,7 +1316,7 @@ namespace Implem.Pleasanter.Models
             return CheckO != SavedCheckO &&
                 (column == null ||
                 column.DefaultInput.IsNullOrEmpty() ||
-                column.DefaultInput.ToBool() != CheckO);
+                column.GetDefaultInput(context: context).ToBool() != CheckO);
         }
 
         public bool CheckP_Updated(Context context, Column column = null)
@@ -1324,7 +1324,7 @@ namespace Implem.Pleasanter.Models
             return CheckP != SavedCheckP &&
                 (column == null ||
                 column.DefaultInput.IsNullOrEmpty() ||
-                column.DefaultInput.ToBool() != CheckP);
+                column.GetDefaultInput(context: context).ToBool() != CheckP);
         }
 
         public bool CheckQ_Updated(Context context, Column column = null)
@@ -1332,7 +1332,7 @@ namespace Implem.Pleasanter.Models
             return CheckQ != SavedCheckQ &&
                 (column == null ||
                 column.DefaultInput.IsNullOrEmpty() ||
-                column.DefaultInput.ToBool() != CheckQ);
+                column.GetDefaultInput(context: context).ToBool() != CheckQ);
         }
 
         public bool CheckR_Updated(Context context, Column column = null)
@@ -1340,7 +1340,7 @@ namespace Implem.Pleasanter.Models
             return CheckR != SavedCheckR &&
                 (column == null ||
                 column.DefaultInput.IsNullOrEmpty() ||
-                column.DefaultInput.ToBool() != CheckR);
+                column.GetDefaultInput(context: context).ToBool() != CheckR);
         }
 
         public bool CheckS_Updated(Context context, Column column = null)
@@ -1348,7 +1348,7 @@ namespace Implem.Pleasanter.Models
             return CheckS != SavedCheckS &&
                 (column == null ||
                 column.DefaultInput.IsNullOrEmpty() ||
-                column.DefaultInput.ToBool() != CheckS);
+                column.GetDefaultInput(context: context).ToBool() != CheckS);
         }
 
         public bool CheckT_Updated(Context context, Column column = null)
@@ -1356,7 +1356,7 @@ namespace Implem.Pleasanter.Models
             return CheckT != SavedCheckT &&
                 (column == null ||
                 column.DefaultInput.IsNullOrEmpty() ||
-                column.DefaultInput.ToBool() != CheckT);
+                column.GetDefaultInput(context: context).ToBool() != CheckT);
         }
 
         public bool CheckU_Updated(Context context, Column column = null)
@@ -1364,7 +1364,7 @@ namespace Implem.Pleasanter.Models
             return CheckU != SavedCheckU &&
                 (column == null ||
                 column.DefaultInput.IsNullOrEmpty() ||
-                column.DefaultInput.ToBool() != CheckU);
+                column.GetDefaultInput(context: context).ToBool() != CheckU);
         }
 
         public bool CheckV_Updated(Context context, Column column = null)
@@ -1372,7 +1372,7 @@ namespace Implem.Pleasanter.Models
             return CheckV != SavedCheckV &&
                 (column == null ||
                 column.DefaultInput.IsNullOrEmpty() ||
-                column.DefaultInput.ToBool() != CheckV);
+                column.GetDefaultInput(context: context).ToBool() != CheckV);
         }
 
         public bool CheckW_Updated(Context context, Column column = null)
@@ -1380,7 +1380,7 @@ namespace Implem.Pleasanter.Models
             return CheckW != SavedCheckW &&
                 (column == null ||
                 column.DefaultInput.IsNullOrEmpty() ||
-                column.DefaultInput.ToBool() != CheckW);
+                column.GetDefaultInput(context: context).ToBool() != CheckW);
         }
 
         public bool CheckX_Updated(Context context, Column column = null)
@@ -1388,7 +1388,7 @@ namespace Implem.Pleasanter.Models
             return CheckX != SavedCheckX &&
                 (column == null ||
                 column.DefaultInput.IsNullOrEmpty() ||
-                column.DefaultInput.ToBool() != CheckX);
+                column.GetDefaultInput(context: context).ToBool() != CheckX);
         }
 
         public bool CheckY_Updated(Context context, Column column = null)
@@ -1396,7 +1396,7 @@ namespace Implem.Pleasanter.Models
             return CheckY != SavedCheckY &&
                 (column == null ||
                 column.DefaultInput.IsNullOrEmpty() ||
-                column.DefaultInput.ToBool() != CheckY);
+                column.GetDefaultInput(context: context).ToBool() != CheckY);
         }
 
         public bool CheckZ_Updated(Context context, Column column = null)
@@ -1404,7 +1404,7 @@ namespace Implem.Pleasanter.Models
             return CheckZ != SavedCheckZ &&
                 (column == null ||
                 column.DefaultInput.IsNullOrEmpty() ||
-                column.DefaultInput.ToBool() != CheckZ);
+                column.GetDefaultInput(context: context).ToBool() != CheckZ);
         }
 
         public bool LdapSearchRoot_Updated(Context context, Column column = null)
@@ -1412,7 +1412,7 @@ namespace Implem.Pleasanter.Models
             return LdapSearchRoot != SavedLdapSearchRoot && LdapSearchRoot != null &&
                 (column == null ||
                 column.DefaultInput.IsNullOrEmpty() ||
-                column.DefaultInput.ToString() != LdapSearchRoot);
+                column.GetDefaultInput(context: context).ToString() != LdapSearchRoot);
         }
 
         public bool Birthday_Updated(Context context, Column column = null)

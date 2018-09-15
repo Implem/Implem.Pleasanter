@@ -56,7 +56,7 @@ namespace Implem.Pleasanter.Models
             return TenantId != SavedTenantId &&
                 (column == null ||
                 column.DefaultInput.IsNullOrEmpty() ||
-                column.DefaultInput.ToInt() != TenantId);
+                column.GetDefaultInput(context: context).ToInt() != TenantId);
         }
 
         public bool DeptId_Updated(Context context, Column column = null)
@@ -64,7 +64,7 @@ namespace Implem.Pleasanter.Models
             return DeptId != SavedDeptId &&
                 (column == null ||
                 column.DefaultInput.IsNullOrEmpty() ||
-                column.DefaultInput.ToInt() != DeptId);
+                column.GetDefaultInput(context: context).ToInt() != DeptId);
         }
 
         public bool DeptCode_Updated(Context context, Column column = null)
@@ -72,7 +72,7 @@ namespace Implem.Pleasanter.Models
             return DeptCode != SavedDeptCode && DeptCode != null &&
                 (column == null ||
                 column.DefaultInput.IsNullOrEmpty() ||
-                column.DefaultInput.ToString() != DeptCode);
+                column.GetDefaultInput(context: context).ToString() != DeptCode);
         }
 
         public bool DeptName_Updated(Context context, Column column = null)
@@ -80,7 +80,7 @@ namespace Implem.Pleasanter.Models
             return DeptName != SavedDeptName && DeptName != null &&
                 (column == null ||
                 column.DefaultInput.IsNullOrEmpty() ||
-                column.DefaultInput.ToString() != DeptName);
+                column.GetDefaultInput(context: context).ToString() != DeptName);
         }
 
         public bool Body_Updated(Context context, Column column = null)
@@ -88,7 +88,7 @@ namespace Implem.Pleasanter.Models
             return Body != SavedBody && Body != null &&
                 (column == null ||
                 column.DefaultInput.IsNullOrEmpty() ||
-                column.DefaultInput.ToString() != Body);
+                column.GetDefaultInput(context: context).ToString() != Body);
         }
 
         public List<int> SwitchTargets;

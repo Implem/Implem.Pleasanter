@@ -58,7 +58,7 @@ namespace Implem.Pleasanter.Models
             return TenantId != SavedTenantId &&
                 (column == null ||
                 column.DefaultInput.IsNullOrEmpty() ||
-                column.DefaultInput.ToInt() != TenantId);
+                column.GetDefaultInput(context: context).ToInt() != TenantId);
         }
 
         public bool ReferenceType_Updated(Context context, Column column = null)
@@ -66,7 +66,7 @@ namespace Implem.Pleasanter.Models
             return ReferenceType != SavedReferenceType && ReferenceType != null &&
                 (column == null ||
                 column.DefaultInput.IsNullOrEmpty() ||
-                column.DefaultInput.ToString() != ReferenceType);
+                column.GetDefaultInput(context: context).ToString() != ReferenceType);
         }
 
         public bool ParentId_Updated(Context context, Column column = null)
@@ -74,7 +74,7 @@ namespace Implem.Pleasanter.Models
             return ParentId != SavedParentId &&
                 (column == null ||
                 column.DefaultInput.IsNullOrEmpty() ||
-                column.DefaultInput.ToLong() != ParentId);
+                column.GetDefaultInput(context: context).ToLong() != ParentId);
         }
 
         public bool InheritPermission_Updated(Context context, Column column = null)
@@ -82,7 +82,7 @@ namespace Implem.Pleasanter.Models
             return InheritPermission != SavedInheritPermission &&
                 (column == null ||
                 column.DefaultInput.IsNullOrEmpty() ||
-                column.DefaultInput.ToLong() != InheritPermission);
+                column.GetDefaultInput(context: context).ToLong() != InheritPermission);
         }
 
         public bool SiteSettings_Updated(Context context, Column column = null)
@@ -90,7 +90,7 @@ namespace Implem.Pleasanter.Models
             return SiteSettings.RecordingJson(context: context) != SavedSiteSettings && SiteSettings.RecordingJson(context: context) != null &&
                 (column == null ||
                 column.DefaultInput.IsNullOrEmpty() ||
-                column.DefaultInput.ToString() != SiteSettings.RecordingJson(context: context));
+                column.GetDefaultInput(context: context).ToString() != SiteSettings.RecordingJson(context: context));
         }
 
         public SiteSettings Session_SiteSettings(Context context)

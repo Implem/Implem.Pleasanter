@@ -37,7 +37,7 @@ namespace Implem.Pleasanter.Models
             return ReferenceId != SavedReferenceId &&
                 (column == null ||
                 column.DefaultInput.IsNullOrEmpty() ||
-                column.DefaultInput.ToLong() != ReferenceId);
+                column.GetDefaultInput(context: context).ToLong() != ReferenceId);
         }
 
         public bool ReferenceType_Updated(Context context, Column column = null)
@@ -45,7 +45,7 @@ namespace Implem.Pleasanter.Models
             return ReferenceType != SavedReferenceType && ReferenceType != null &&
                 (column == null ||
                 column.DefaultInput.IsNullOrEmpty() ||
-                column.DefaultInput.ToString() != ReferenceType);
+                column.GetDefaultInput(context: context).ToString() != ReferenceType);
         }
 
         public bool OwnerId_Updated(Context context, Column column = null)
@@ -53,7 +53,7 @@ namespace Implem.Pleasanter.Models
             return OwnerId != SavedOwnerId &&
                 (column == null ||
                 column.DefaultInput.IsNullOrEmpty() ||
-                column.DefaultInput.ToInt() != OwnerId);
+                column.GetDefaultInput(context: context).ToInt() != OwnerId);
         }
 
         public bool Data_Updated(Context context, Column column = null)
@@ -61,7 +61,7 @@ namespace Implem.Pleasanter.Models
             return Data.ToJson() != SavedData && Data.ToJson() != null &&
                 (column == null ||
                 column.DefaultInput.IsNullOrEmpty() ||
-                column.DefaultInput.ToString() != Data.ToJson());
+                column.GetDefaultInput(context: context).ToString() != Data.ToJson());
         }
 
         public OrderModel(Context context, DataRow dataRow, string tableAlias = null)
