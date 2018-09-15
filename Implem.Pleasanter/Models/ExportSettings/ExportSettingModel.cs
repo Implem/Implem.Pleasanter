@@ -41,7 +41,7 @@ namespace Implem.Pleasanter.Models
             return ReferenceType != SavedReferenceType && ReferenceType != null &&
                 (column == null ||
                 column.DefaultInput.IsNullOrEmpty() ||
-                column.DefaultInput.ToString() != ReferenceType);
+                column.GetDefaultInput(context: context).ToString() != ReferenceType);
         }
 
         public bool ReferenceId_Updated(Context context, Column column = null)
@@ -49,7 +49,7 @@ namespace Implem.Pleasanter.Models
             return ReferenceId != SavedReferenceId &&
                 (column == null ||
                 column.DefaultInput.IsNullOrEmpty() ||
-                column.DefaultInput.ToLong() != ReferenceId);
+                column.GetDefaultInput(context: context).ToLong() != ReferenceId);
         }
 
         public bool Title_Updated(Context context, Column column = null)
@@ -57,7 +57,7 @@ namespace Implem.Pleasanter.Models
             return Title.Value != SavedTitle && Title.Value != null &&
                 (column == null ||
                 column.DefaultInput.IsNullOrEmpty() ||
-                column.DefaultInput.ToString() != Title.Value);
+                column.GetDefaultInput(context: context).ToString() != Title.Value);
         }
 
         public bool ExportSettingId_Updated(Context context, Column column = null)
@@ -65,7 +65,7 @@ namespace Implem.Pleasanter.Models
             return ExportSettingId != SavedExportSettingId &&
                 (column == null ||
                 column.DefaultInput.IsNullOrEmpty() ||
-                column.DefaultInput.ToLong() != ExportSettingId);
+                column.GetDefaultInput(context: context).ToLong() != ExportSettingId);
         }
 
         public bool AddHeader_Updated(Context context, Column column = null)
@@ -73,7 +73,7 @@ namespace Implem.Pleasanter.Models
             return AddHeader != SavedAddHeader &&
                 (column == null ||
                 column.DefaultInput.IsNullOrEmpty() ||
-                column.DefaultInput.ToBool() != AddHeader);
+                column.GetDefaultInput(context: context).ToBool() != AddHeader);
         }
 
         public bool ExportColumns_Updated(Context context, Column column = null)
@@ -81,7 +81,7 @@ namespace Implem.Pleasanter.Models
             return ExportColumns.ToJson() != SavedExportColumns && ExportColumns.ToJson() != null &&
                 (column == null ||
                 column.DefaultInput.IsNullOrEmpty() ||
-                column.DefaultInput.ToString() != ExportColumns.ToJson());
+                column.GetDefaultInput(context: context).ToString() != ExportColumns.ToJson());
         }
 
         public Title Session_Title(Context context)

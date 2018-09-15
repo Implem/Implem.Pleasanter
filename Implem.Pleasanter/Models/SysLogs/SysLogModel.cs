@@ -110,7 +110,7 @@ namespace Implem.Pleasanter.Models
             return SysLogId != SavedSysLogId &&
                 (column == null ||
                 column.DefaultInput.IsNullOrEmpty() ||
-                column.DefaultInput.ToLong() != SysLogId);
+                column.GetDefaultInput(context: context).ToLong() != SysLogId);
         }
 
         public bool SysLogType_Updated(Context context, Column column = null)
@@ -118,7 +118,7 @@ namespace Implem.Pleasanter.Models
             return SysLogType.ToInt() != SavedSysLogType &&
                 (column == null ||
                 column.DefaultInput.IsNullOrEmpty() ||
-                column.DefaultInput.ToInt() != SysLogType.ToInt());
+                column.GetDefaultInput(context: context).ToInt() != SysLogType.ToInt());
         }
 
         public bool OnAzure_Updated(Context context, Column column = null)
@@ -126,7 +126,7 @@ namespace Implem.Pleasanter.Models
             return OnAzure != SavedOnAzure &&
                 (column == null ||
                 column.DefaultInput.IsNullOrEmpty() ||
-                column.DefaultInput.ToBool() != OnAzure);
+                column.GetDefaultInput(context: context).ToBool() != OnAzure);
         }
 
         public bool MachineName_Updated(Context context, Column column = null)
@@ -134,7 +134,7 @@ namespace Implem.Pleasanter.Models
             return MachineName != SavedMachineName && MachineName != null &&
                 (column == null ||
                 column.DefaultInput.IsNullOrEmpty() ||
-                column.DefaultInput.ToString() != MachineName);
+                column.GetDefaultInput(context: context).ToString() != MachineName);
         }
 
         public bool ServiceName_Updated(Context context, Column column = null)
@@ -142,7 +142,7 @@ namespace Implem.Pleasanter.Models
             return ServiceName != SavedServiceName && ServiceName != null &&
                 (column == null ||
                 column.DefaultInput.IsNullOrEmpty() ||
-                column.DefaultInput.ToString() != ServiceName);
+                column.GetDefaultInput(context: context).ToString() != ServiceName);
         }
 
         public bool TenantName_Updated(Context context, Column column = null)
@@ -150,7 +150,7 @@ namespace Implem.Pleasanter.Models
             return TenantName != SavedTenantName && TenantName != null &&
                 (column == null ||
                 column.DefaultInput.IsNullOrEmpty() ||
-                column.DefaultInput.ToString() != TenantName);
+                column.GetDefaultInput(context: context).ToString() != TenantName);
         }
 
         public bool Application_Updated(Context context, Column column = null)
@@ -158,7 +158,7 @@ namespace Implem.Pleasanter.Models
             return Application != SavedApplication && Application != null &&
                 (column == null ||
                 column.DefaultInput.IsNullOrEmpty() ||
-                column.DefaultInput.ToString() != Application);
+                column.GetDefaultInput(context: context).ToString() != Application);
         }
 
         public bool Class_Updated(Context context, Column column = null)
@@ -166,7 +166,7 @@ namespace Implem.Pleasanter.Models
             return Class != SavedClass && Class != null &&
                 (column == null ||
                 column.DefaultInput.IsNullOrEmpty() ||
-                column.DefaultInput.ToString() != Class);
+                column.GetDefaultInput(context: context).ToString() != Class);
         }
 
         public bool Method_Updated(Context context, Column column = null)
@@ -174,7 +174,7 @@ namespace Implem.Pleasanter.Models
             return Method != SavedMethod && Method != null &&
                 (column == null ||
                 column.DefaultInput.IsNullOrEmpty() ||
-                column.DefaultInput.ToString() != Method);
+                column.GetDefaultInput(context: context).ToString() != Method);
         }
 
         public bool RequestData_Updated(Context context, Column column = null)
@@ -182,7 +182,7 @@ namespace Implem.Pleasanter.Models
             return RequestData != SavedRequestData && RequestData != null &&
                 (column == null ||
                 column.DefaultInput.IsNullOrEmpty() ||
-                column.DefaultInput.ToString() != RequestData);
+                column.GetDefaultInput(context: context).ToString() != RequestData);
         }
 
         public bool HttpMethod_Updated(Context context, Column column = null)
@@ -190,7 +190,7 @@ namespace Implem.Pleasanter.Models
             return HttpMethod != SavedHttpMethod && HttpMethod != null &&
                 (column == null ||
                 column.DefaultInput.IsNullOrEmpty() ||
-                column.DefaultInput.ToString() != HttpMethod);
+                column.GetDefaultInput(context: context).ToString() != HttpMethod);
         }
 
         public bool RequestSize_Updated(Context context, Column column = null)
@@ -198,7 +198,7 @@ namespace Implem.Pleasanter.Models
             return RequestSize != SavedRequestSize &&
                 (column == null ||
                 column.DefaultInput.IsNullOrEmpty() ||
-                column.DefaultInput.ToInt() != RequestSize);
+                column.GetDefaultInput(context: context).ToInt() != RequestSize);
         }
 
         public bool ResponseSize_Updated(Context context, Column column = null)
@@ -206,7 +206,7 @@ namespace Implem.Pleasanter.Models
             return ResponseSize != SavedResponseSize &&
                 (column == null ||
                 column.DefaultInput.IsNullOrEmpty() ||
-                column.DefaultInput.ToInt() != ResponseSize);
+                column.GetDefaultInput(context: context).ToInt() != ResponseSize);
         }
 
         public bool Elapsed_Updated(Context context, Column column = null)
@@ -214,7 +214,7 @@ namespace Implem.Pleasanter.Models
             return Elapsed != SavedElapsed &&
                 (column == null ||
                 column.DefaultInput.IsNullOrEmpty() ||
-                column.DefaultInput.ToDouble() != Elapsed);
+                column.GetDefaultInput(context: context).ToDouble() != Elapsed);
         }
 
         public bool ApplicationAge_Updated(Context context, Column column = null)
@@ -222,7 +222,7 @@ namespace Implem.Pleasanter.Models
             return ApplicationAge != SavedApplicationAge &&
                 (column == null ||
                 column.DefaultInput.IsNullOrEmpty() ||
-                column.DefaultInput.ToDouble() != ApplicationAge);
+                column.GetDefaultInput(context: context).ToDouble() != ApplicationAge);
         }
 
         public bool ApplicationRequestInterval_Updated(Context context, Column column = null)
@@ -230,7 +230,7 @@ namespace Implem.Pleasanter.Models
             return ApplicationRequestInterval != SavedApplicationRequestInterval &&
                 (column == null ||
                 column.DefaultInput.IsNullOrEmpty() ||
-                column.DefaultInput.ToDouble() != ApplicationRequestInterval);
+                column.GetDefaultInput(context: context).ToDouble() != ApplicationRequestInterval);
         }
 
         public bool SessionAge_Updated(Context context, Column column = null)
@@ -238,7 +238,7 @@ namespace Implem.Pleasanter.Models
             return SessionAge != SavedSessionAge &&
                 (column == null ||
                 column.DefaultInput.IsNullOrEmpty() ||
-                column.DefaultInput.ToDouble() != SessionAge);
+                column.GetDefaultInput(context: context).ToDouble() != SessionAge);
         }
 
         public bool SessionRequestInterval_Updated(Context context, Column column = null)
@@ -246,7 +246,7 @@ namespace Implem.Pleasanter.Models
             return SessionRequestInterval != SavedSessionRequestInterval &&
                 (column == null ||
                 column.DefaultInput.IsNullOrEmpty() ||
-                column.DefaultInput.ToDouble() != SessionRequestInterval);
+                column.GetDefaultInput(context: context).ToDouble() != SessionRequestInterval);
         }
 
         public bool WorkingSet64_Updated(Context context, Column column = null)
@@ -254,7 +254,7 @@ namespace Implem.Pleasanter.Models
             return WorkingSet64 != SavedWorkingSet64 &&
                 (column == null ||
                 column.DefaultInput.IsNullOrEmpty() ||
-                column.DefaultInput.ToLong() != WorkingSet64);
+                column.GetDefaultInput(context: context).ToLong() != WorkingSet64);
         }
 
         public bool VirtualMemorySize64_Updated(Context context, Column column = null)
@@ -262,7 +262,7 @@ namespace Implem.Pleasanter.Models
             return VirtualMemorySize64 != SavedVirtualMemorySize64 &&
                 (column == null ||
                 column.DefaultInput.IsNullOrEmpty() ||
-                column.DefaultInput.ToLong() != VirtualMemorySize64);
+                column.GetDefaultInput(context: context).ToLong() != VirtualMemorySize64);
         }
 
         public bool ProcessId_Updated(Context context, Column column = null)
@@ -270,7 +270,7 @@ namespace Implem.Pleasanter.Models
             return ProcessId != SavedProcessId &&
                 (column == null ||
                 column.DefaultInput.IsNullOrEmpty() ||
-                column.DefaultInput.ToInt() != ProcessId);
+                column.GetDefaultInput(context: context).ToInt() != ProcessId);
         }
 
         public bool ProcessName_Updated(Context context, Column column = null)
@@ -278,7 +278,7 @@ namespace Implem.Pleasanter.Models
             return ProcessName != SavedProcessName && ProcessName != null &&
                 (column == null ||
                 column.DefaultInput.IsNullOrEmpty() ||
-                column.DefaultInput.ToString() != ProcessName);
+                column.GetDefaultInput(context: context).ToString() != ProcessName);
         }
 
         public bool BasePriority_Updated(Context context, Column column = null)
@@ -286,7 +286,7 @@ namespace Implem.Pleasanter.Models
             return BasePriority != SavedBasePriority &&
                 (column == null ||
                 column.DefaultInput.IsNullOrEmpty() ||
-                column.DefaultInput.ToInt() != BasePriority);
+                column.GetDefaultInput(context: context).ToInt() != BasePriority);
         }
 
         public bool Url_Updated(Context context, Column column = null)
@@ -294,7 +294,7 @@ namespace Implem.Pleasanter.Models
             return Url != SavedUrl && Url != null &&
                 (column == null ||
                 column.DefaultInput.IsNullOrEmpty() ||
-                column.DefaultInput.ToString() != Url);
+                column.GetDefaultInput(context: context).ToString() != Url);
         }
 
         public bool UrlReferer_Updated(Context context, Column column = null)
@@ -302,7 +302,7 @@ namespace Implem.Pleasanter.Models
             return UrlReferer != SavedUrlReferer && UrlReferer != null &&
                 (column == null ||
                 column.DefaultInput.IsNullOrEmpty() ||
-                column.DefaultInput.ToString() != UrlReferer);
+                column.GetDefaultInput(context: context).ToString() != UrlReferer);
         }
 
         public bool UserHostName_Updated(Context context, Column column = null)
@@ -310,7 +310,7 @@ namespace Implem.Pleasanter.Models
             return UserHostName != SavedUserHostName && UserHostName != null &&
                 (column == null ||
                 column.DefaultInput.IsNullOrEmpty() ||
-                column.DefaultInput.ToString() != UserHostName);
+                column.GetDefaultInput(context: context).ToString() != UserHostName);
         }
 
         public bool UserHostAddress_Updated(Context context, Column column = null)
@@ -318,7 +318,7 @@ namespace Implem.Pleasanter.Models
             return UserHostAddress != SavedUserHostAddress && UserHostAddress != null &&
                 (column == null ||
                 column.DefaultInput.IsNullOrEmpty() ||
-                column.DefaultInput.ToString() != UserHostAddress);
+                column.GetDefaultInput(context: context).ToString() != UserHostAddress);
         }
 
         public bool UserLanguage_Updated(Context context, Column column = null)
@@ -326,7 +326,7 @@ namespace Implem.Pleasanter.Models
             return UserLanguage != SavedUserLanguage && UserLanguage != null &&
                 (column == null ||
                 column.DefaultInput.IsNullOrEmpty() ||
-                column.DefaultInput.ToString() != UserLanguage);
+                column.GetDefaultInput(context: context).ToString() != UserLanguage);
         }
 
         public bool UserAgent_Updated(Context context, Column column = null)
@@ -334,7 +334,7 @@ namespace Implem.Pleasanter.Models
             return UserAgent != SavedUserAgent && UserAgent != null &&
                 (column == null ||
                 column.DefaultInput.IsNullOrEmpty() ||
-                column.DefaultInput.ToString() != UserAgent);
+                column.GetDefaultInput(context: context).ToString() != UserAgent);
         }
 
         public bool SessionGuid_Updated(Context context, Column column = null)
@@ -342,7 +342,7 @@ namespace Implem.Pleasanter.Models
             return SessionGuid != SavedSessionGuid && SessionGuid != null &&
                 (column == null ||
                 column.DefaultInput.IsNullOrEmpty() ||
-                column.DefaultInput.ToString() != SessionGuid);
+                column.GetDefaultInput(context: context).ToString() != SessionGuid);
         }
 
         public bool ErrMessage_Updated(Context context, Column column = null)
@@ -350,7 +350,7 @@ namespace Implem.Pleasanter.Models
             return ErrMessage != SavedErrMessage && ErrMessage != null &&
                 (column == null ||
                 column.DefaultInput.IsNullOrEmpty() ||
-                column.DefaultInput.ToString() != ErrMessage);
+                column.GetDefaultInput(context: context).ToString() != ErrMessage);
         }
 
         public bool ErrStackTrace_Updated(Context context, Column column = null)
@@ -358,7 +358,7 @@ namespace Implem.Pleasanter.Models
             return ErrStackTrace != SavedErrStackTrace && ErrStackTrace != null &&
                 (column == null ||
                 column.DefaultInput.IsNullOrEmpty() ||
-                column.DefaultInput.ToString() != ErrStackTrace);
+                column.GetDefaultInput(context: context).ToString() != ErrStackTrace);
         }
 
         public bool InDebug_Updated(Context context, Column column = null)
@@ -366,7 +366,7 @@ namespace Implem.Pleasanter.Models
             return InDebug != SavedInDebug &&
                 (column == null ||
                 column.DefaultInput.IsNullOrEmpty() ||
-                column.DefaultInput.ToBool() != InDebug);
+                column.GetDefaultInput(context: context).ToBool() != InDebug);
         }
 
         public bool AssemblyVersion_Updated(Context context, Column column = null)
@@ -374,7 +374,7 @@ namespace Implem.Pleasanter.Models
             return AssemblyVersion != SavedAssemblyVersion && AssemblyVersion != null &&
                 (column == null ||
                 column.DefaultInput.IsNullOrEmpty() ||
-                column.DefaultInput.ToString() != AssemblyVersion);
+                column.GetDefaultInput(context: context).ToString() != AssemblyVersion);
         }
 
         public SysLogModel(Context context, DataRow dataRow, string tableAlias = null)

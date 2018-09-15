@@ -41,7 +41,7 @@ namespace Implem.Pleasanter.Models
             return TenantId != SavedTenantId &&
                 (column == null ||
                 column.DefaultInput.IsNullOrEmpty() ||
-                column.DefaultInput.ToInt() != TenantId);
+                column.GetDefaultInput(context: context).ToInt() != TenantId);
         }
 
         public bool TenantName_Updated(Context context, Column column = null)
@@ -49,7 +49,7 @@ namespace Implem.Pleasanter.Models
             return TenantName != SavedTenantName && TenantName != null &&
                 (column == null ||
                 column.DefaultInput.IsNullOrEmpty() ||
-                column.DefaultInput.ToString() != TenantName);
+                column.GetDefaultInput(context: context).ToString() != TenantName);
         }
 
         public bool Title_Updated(Context context, Column column = null)
@@ -57,7 +57,7 @@ namespace Implem.Pleasanter.Models
             return Title.Value != SavedTitle && Title.Value != null &&
                 (column == null ||
                 column.DefaultInput.IsNullOrEmpty() ||
-                column.DefaultInput.ToString() != Title.Value);
+                column.GetDefaultInput(context: context).ToString() != Title.Value);
         }
 
         public bool Body_Updated(Context context, Column column = null)
@@ -65,7 +65,7 @@ namespace Implem.Pleasanter.Models
             return Body != SavedBody && Body != null &&
                 (column == null ||
                 column.DefaultInput.IsNullOrEmpty() ||
-                column.DefaultInput.ToString() != Body);
+                column.GetDefaultInput(context: context).ToString() != Body);
         }
 
         public bool ContractSettings_Updated(Context context, Column column = null)
@@ -73,7 +73,7 @@ namespace Implem.Pleasanter.Models
             return ContractSettings?.RecordingJson() != SavedContractSettings && ContractSettings?.RecordingJson() != null &&
                 (column == null ||
                 column.DefaultInput.IsNullOrEmpty() ||
-                column.DefaultInput.ToString() != ContractSettings?.RecordingJson());
+                column.GetDefaultInput(context: context).ToString() != ContractSettings?.RecordingJson());
         }
 
         public bool ContractDeadline_Updated(Context context, Column column = null)

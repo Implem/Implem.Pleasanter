@@ -46,7 +46,7 @@ namespace Implem.Pleasanter.Models
             return TenantId != SavedTenantId &&
                 (column == null ||
                 column.DefaultInput.IsNullOrEmpty() ||
-                column.DefaultInput.ToInt() != TenantId);
+                column.GetDefaultInput(context: context).ToInt() != TenantId);
         }
 
         public bool GroupId_Updated(Context context, Column column = null)
@@ -54,7 +54,7 @@ namespace Implem.Pleasanter.Models
             return GroupId != SavedGroupId &&
                 (column == null ||
                 column.DefaultInput.IsNullOrEmpty() ||
-                column.DefaultInput.ToInt() != GroupId);
+                column.GetDefaultInput(context: context).ToInt() != GroupId);
         }
 
         public bool GroupName_Updated(Context context, Column column = null)
@@ -62,7 +62,7 @@ namespace Implem.Pleasanter.Models
             return GroupName != SavedGroupName && GroupName != null &&
                 (column == null ||
                 column.DefaultInput.IsNullOrEmpty() ||
-                column.DefaultInput.ToString() != GroupName);
+                column.GetDefaultInput(context: context).ToString() != GroupName);
         }
 
         public bool Body_Updated(Context context, Column column = null)
@@ -70,7 +70,7 @@ namespace Implem.Pleasanter.Models
             return Body != SavedBody && Body != null &&
                 (column == null ||
                 column.DefaultInput.IsNullOrEmpty() ||
-                column.DefaultInput.ToString() != Body);
+                column.GetDefaultInput(context: context).ToString() != Body);
         }
 
         public List<int> SwitchTargets;

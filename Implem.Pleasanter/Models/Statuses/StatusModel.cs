@@ -35,7 +35,7 @@ namespace Implem.Pleasanter.Models
             return TenantId != SavedTenantId &&
                 (column == null ||
                 column.DefaultInput.IsNullOrEmpty() ||
-                column.DefaultInput.ToInt() != TenantId);
+                column.GetDefaultInput(context: context).ToInt() != TenantId);
         }
 
         public bool StatusId_Updated(Context context, Column column = null)
@@ -43,7 +43,7 @@ namespace Implem.Pleasanter.Models
             return StatusId != SavedStatusId &&
                 (column == null ||
                 column.DefaultInput.IsNullOrEmpty() ||
-                column.DefaultInput.ToInt() != StatusId);
+                column.GetDefaultInput(context: context).ToInt() != StatusId);
         }
 
         public bool Value_Updated(Context context, Column column = null)
@@ -51,7 +51,7 @@ namespace Implem.Pleasanter.Models
             return Value != SavedValue && Value != null &&
                 (column == null ||
                 column.DefaultInput.IsNullOrEmpty() ||
-                column.DefaultInput.ToString() != Value);
+                column.GetDefaultInput(context: context).ToString() != Value);
         }
 
         public StatusModel(Context context, DataRow dataRow, string tableAlias = null)

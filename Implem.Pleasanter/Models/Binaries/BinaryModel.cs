@@ -59,7 +59,7 @@ namespace Implem.Pleasanter.Models
             return BinaryId != SavedBinaryId &&
                 (column == null ||
                 column.DefaultInput.IsNullOrEmpty() ||
-                column.DefaultInput.ToLong() != BinaryId);
+                column.GetDefaultInput(context: context).ToLong() != BinaryId);
         }
 
         public bool TenantId_Updated(Context context, Column column = null)
@@ -67,7 +67,7 @@ namespace Implem.Pleasanter.Models
             return TenantId != SavedTenantId &&
                 (column == null ||
                 column.DefaultInput.IsNullOrEmpty() ||
-                column.DefaultInput.ToInt() != TenantId);
+                column.GetDefaultInput(context: context).ToInt() != TenantId);
         }
 
         public bool ReferenceId_Updated(Context context, Column column = null)
@@ -75,7 +75,7 @@ namespace Implem.Pleasanter.Models
             return ReferenceId != SavedReferenceId &&
                 (column == null ||
                 column.DefaultInput.IsNullOrEmpty() ||
-                column.DefaultInput.ToLong() != ReferenceId);
+                column.GetDefaultInput(context: context).ToLong() != ReferenceId);
         }
 
         public bool Guid_Updated(Context context, Column column = null)
@@ -83,7 +83,7 @@ namespace Implem.Pleasanter.Models
             return Guid != SavedGuid && Guid != null &&
                 (column == null ||
                 column.DefaultInput.IsNullOrEmpty() ||
-                column.DefaultInput.ToString() != Guid);
+                column.GetDefaultInput(context: context).ToString() != Guid);
         }
 
         public bool BinaryType_Updated(Context context, Column column = null)
@@ -91,7 +91,7 @@ namespace Implem.Pleasanter.Models
             return BinaryType != SavedBinaryType && BinaryType != null &&
                 (column == null ||
                 column.DefaultInput.IsNullOrEmpty() ||
-                column.DefaultInput.ToString() != BinaryType);
+                column.GetDefaultInput(context: context).ToString() != BinaryType);
         }
 
         public bool Title_Updated(Context context, Column column = null)
@@ -99,7 +99,7 @@ namespace Implem.Pleasanter.Models
             return Title.Value != SavedTitle && Title.Value != null &&
                 (column == null ||
                 column.DefaultInput.IsNullOrEmpty() ||
-                column.DefaultInput.ToString() != Title.Value);
+                column.GetDefaultInput(context: context).ToString() != Title.Value);
         }
 
         public bool Body_Updated(Context context, Column column = null)
@@ -107,7 +107,7 @@ namespace Implem.Pleasanter.Models
             return Body != SavedBody && Body != null &&
                 (column == null ||
                 column.DefaultInput.IsNullOrEmpty() ||
-                column.DefaultInput.ToString() != Body);
+                column.GetDefaultInput(context: context).ToString() != Body);
         }
 
         public bool FileName_Updated(Context context, Column column = null)
@@ -115,7 +115,7 @@ namespace Implem.Pleasanter.Models
             return FileName != SavedFileName && FileName != null &&
                 (column == null ||
                 column.DefaultInput.IsNullOrEmpty() ||
-                column.DefaultInput.ToString() != FileName);
+                column.GetDefaultInput(context: context).ToString() != FileName);
         }
 
         public bool Extension_Updated(Context context, Column column = null)
@@ -123,7 +123,7 @@ namespace Implem.Pleasanter.Models
             return Extension != SavedExtension && Extension != null &&
                 (column == null ||
                 column.DefaultInput.IsNullOrEmpty() ||
-                column.DefaultInput.ToString() != Extension);
+                column.GetDefaultInput(context: context).ToString() != Extension);
         }
 
         public bool Size_Updated(Context context, Column column = null)
@@ -131,7 +131,7 @@ namespace Implem.Pleasanter.Models
             return Size != SavedSize &&
                 (column == null ||
                 column.DefaultInput.IsNullOrEmpty() ||
-                column.DefaultInput.ToLong() != Size);
+                column.GetDefaultInput(context: context).ToLong() != Size);
         }
 
         public bool ContentType_Updated(Context context, Column column = null)
@@ -139,7 +139,7 @@ namespace Implem.Pleasanter.Models
             return ContentType != SavedContentType && ContentType != null &&
                 (column == null ||
                 column.DefaultInput.IsNullOrEmpty() ||
-                column.DefaultInput.ToString() != ContentType);
+                column.GetDefaultInput(context: context).ToString() != ContentType);
         }
 
         public bool BinarySettings_Updated(Context context, Column column = null)
@@ -147,7 +147,7 @@ namespace Implem.Pleasanter.Models
             return BinarySettings.ToJson() != SavedBinarySettings && BinarySettings.ToJson() != null &&
                 (column == null ||
                 column.DefaultInput.IsNullOrEmpty() ||
-                column.DefaultInput.ToString() != BinarySettings.ToJson());
+                column.GetDefaultInput(context: context).ToString() != BinarySettings.ToJson());
         }
 
         public bool Bin_Updated(Context context, Column column = null)

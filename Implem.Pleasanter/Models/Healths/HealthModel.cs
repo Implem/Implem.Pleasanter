@@ -41,7 +41,7 @@ namespace Implem.Pleasanter.Models
             return HealthId != SavedHealthId &&
                 (column == null ||
                 column.DefaultInput.IsNullOrEmpty() ||
-                column.DefaultInput.ToLong() != HealthId);
+                column.GetDefaultInput(context: context).ToLong() != HealthId);
         }
 
         public bool TenantCount_Updated(Context context, Column column = null)
@@ -49,7 +49,7 @@ namespace Implem.Pleasanter.Models
             return TenantCount != SavedTenantCount &&
                 (column == null ||
                 column.DefaultInput.IsNullOrEmpty() ||
-                column.DefaultInput.ToInt() != TenantCount);
+                column.GetDefaultInput(context: context).ToInt() != TenantCount);
         }
 
         public bool UserCount_Updated(Context context, Column column = null)
@@ -57,7 +57,7 @@ namespace Implem.Pleasanter.Models
             return UserCount != SavedUserCount &&
                 (column == null ||
                 column.DefaultInput.IsNullOrEmpty() ||
-                column.DefaultInput.ToInt() != UserCount);
+                column.GetDefaultInput(context: context).ToInt() != UserCount);
         }
 
         public bool ItemCount_Updated(Context context, Column column = null)
@@ -65,7 +65,7 @@ namespace Implem.Pleasanter.Models
             return ItemCount != SavedItemCount &&
                 (column == null ||
                 column.DefaultInput.IsNullOrEmpty() ||
-                column.DefaultInput.ToInt() != ItemCount);
+                column.GetDefaultInput(context: context).ToInt() != ItemCount);
         }
 
         public bool ErrorCount_Updated(Context context, Column column = null)
@@ -73,7 +73,7 @@ namespace Implem.Pleasanter.Models
             return ErrorCount != SavedErrorCount &&
                 (column == null ||
                 column.DefaultInput.IsNullOrEmpty() ||
-                column.DefaultInput.ToInt() != ErrorCount);
+                column.GetDefaultInput(context: context).ToInt() != ErrorCount);
         }
 
         public bool Elapsed_Updated(Context context, Column column = null)
@@ -81,7 +81,7 @@ namespace Implem.Pleasanter.Models
             return Elapsed != SavedElapsed &&
                 (column == null ||
                 column.DefaultInput.IsNullOrEmpty() ||
-                column.DefaultInput.ToDouble() != Elapsed);
+                column.GetDefaultInput(context: context).ToDouble() != Elapsed);
         }
 
         public HealthModel()

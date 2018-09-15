@@ -43,7 +43,7 @@ namespace Implem.Pleasanter.Models
             return Word != SavedWord && Word != null &&
                 (column == null ||
                 column.DefaultInput.IsNullOrEmpty() ||
-                column.DefaultInput.ToString() != Word);
+                column.GetDefaultInput(context: context).ToString() != Word);
         }
 
         public bool ReferenceId_Updated(Context context, Column column = null)
@@ -51,7 +51,7 @@ namespace Implem.Pleasanter.Models
             return ReferenceId != SavedReferenceId &&
                 (column == null ||
                 column.DefaultInput.IsNullOrEmpty() ||
-                column.DefaultInput.ToLong() != ReferenceId);
+                column.GetDefaultInput(context: context).ToLong() != ReferenceId);
         }
 
         public bool Priority_Updated(Context context, Column column = null)
@@ -59,7 +59,7 @@ namespace Implem.Pleasanter.Models
             return Priority != SavedPriority &&
                 (column == null ||
                 column.DefaultInput.IsNullOrEmpty() ||
-                column.DefaultInput.ToInt() != Priority);
+                column.GetDefaultInput(context: context).ToInt() != Priority);
         }
 
         public SearchIndexModel(Context context, DataRow dataRow, string tableAlias = null)

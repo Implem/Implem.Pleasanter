@@ -44,7 +44,7 @@ namespace Implem.Pleasanter.Models
             return Ver != SavedVer &&
                 (column == null ||
                 column.DefaultInput.IsNullOrEmpty() ||
-                column.DefaultInput.ToInt() != Ver);
+                column.GetDefaultInput(context: context).ToInt() != Ver);
         }
 
         public bool Comments_Updated(Context context, Column column = null)
@@ -52,7 +52,7 @@ namespace Implem.Pleasanter.Models
             return Comments.ToJson() != SavedComments && Comments.ToJson() != null &&
                 (column == null ||
                 column.DefaultInput.IsNullOrEmpty() ||
-                column.DefaultInput.ToString() != Comments.ToJson());
+                column.GetDefaultInput(context: context).ToString() != Comments.ToJson());
         }
 
         public bool Creator_Updated(Context context, Column column = null)
@@ -60,7 +60,7 @@ namespace Implem.Pleasanter.Models
             return Creator.Id != SavedCreator &&
                 (column == null ||
                 column.DefaultInput.IsNullOrEmpty() ||
-                column.DefaultInput.ToInt() != Creator.Id);
+                column.GetDefaultInput(context: context).ToInt() != Creator.Id);
         }
 
         public bool Updator_Updated(Context context, Column column = null)
@@ -68,7 +68,7 @@ namespace Implem.Pleasanter.Models
             return Updator.Id != SavedUpdator &&
                 (column == null ||
                 column.DefaultInput.IsNullOrEmpty() ||
-                column.DefaultInput.ToInt() != Updator.Id);
+                column.GetDefaultInput(context: context).ToInt() != Updator.Id);
         }
     }
 
@@ -86,7 +86,7 @@ namespace Implem.Pleasanter.Models
             return SiteId != SavedSiteId &&
                 (column == null ||
                 column.DefaultInput.IsNullOrEmpty() ||
-                column.DefaultInput.ToLong() != SiteId);
+                column.GetDefaultInput(context: context).ToLong() != SiteId);
         }
 
         public bool Title_Updated(Context context, Column column = null)
@@ -94,7 +94,7 @@ namespace Implem.Pleasanter.Models
             return Title.Value != SavedTitle && Title.Value != null &&
                 (column == null ||
                 column.DefaultInput.IsNullOrEmpty() ||
-                column.DefaultInput.ToString() != Title.Value);
+                column.GetDefaultInput(context: context).ToString() != Title.Value);
         }
 
         public bool Body_Updated(Context context, Column column = null)
@@ -102,7 +102,7 @@ namespace Implem.Pleasanter.Models
             return Body != SavedBody && Body != null &&
                 (column == null ||
                 column.DefaultInput.IsNullOrEmpty() ||
-                column.DefaultInput.ToString() != Body);
+                column.GetDefaultInput(context: context).ToString() != Body);
         }
     }
 }

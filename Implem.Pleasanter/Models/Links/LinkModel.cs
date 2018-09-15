@@ -43,7 +43,7 @@ namespace Implem.Pleasanter.Models
             return DestinationId != SavedDestinationId &&
                 (column == null ||
                 column.DefaultInput.IsNullOrEmpty() ||
-                column.DefaultInput.ToLong() != DestinationId);
+                column.GetDefaultInput(context: context).ToLong() != DestinationId);
         }
 
         public bool SourceId_Updated(Context context, Column column = null)
@@ -51,7 +51,7 @@ namespace Implem.Pleasanter.Models
             return SourceId != SavedSourceId &&
                 (column == null ||
                 column.DefaultInput.IsNullOrEmpty() ||
-                column.DefaultInput.ToLong() != SourceId);
+                column.GetDefaultInput(context: context).ToLong() != SourceId);
         }
 
         public LinkModel(Context context, DataRow dataRow, string tableAlias = null)

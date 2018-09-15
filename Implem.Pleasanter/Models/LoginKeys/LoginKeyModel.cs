@@ -39,7 +39,7 @@ namespace Implem.Pleasanter.Models
             return LoginId != SavedLoginId && LoginId != null &&
                 (column == null ||
                 column.DefaultInput.IsNullOrEmpty() ||
-                column.DefaultInput.ToString() != LoginId);
+                column.GetDefaultInput(context: context).ToString() != LoginId);
         }
 
         public bool Key_Updated(Context context, Column column = null)
@@ -47,7 +47,7 @@ namespace Implem.Pleasanter.Models
             return Key != SavedKey && Key != null &&
                 (column == null ||
                 column.DefaultInput.IsNullOrEmpty() ||
-                column.DefaultInput.ToString() != Key);
+                column.GetDefaultInput(context: context).ToString() != Key);
         }
 
         public bool TenantNames_Updated(Context context, Column column = null)
@@ -55,7 +55,7 @@ namespace Implem.Pleasanter.Models
             return TenantNames != SavedTenantNames && TenantNames != null &&
                 (column == null ||
                 column.DefaultInput.IsNullOrEmpty() ||
-                column.DefaultInput.ToString() != TenantNames);
+                column.GetDefaultInput(context: context).ToString() != TenantNames);
         }
 
         public bool TenantId_Updated(Context context, Column column = null)
@@ -63,7 +63,7 @@ namespace Implem.Pleasanter.Models
             return TenantId != SavedTenantId &&
                 (column == null ||
                 column.DefaultInput.IsNullOrEmpty() ||
-                column.DefaultInput.ToInt() != TenantId);
+                column.GetDefaultInput(context: context).ToInt() != TenantId);
         }
 
         public bool UserId_Updated(Context context, Column column = null)
@@ -71,7 +71,7 @@ namespace Implem.Pleasanter.Models
             return UserId != SavedUserId &&
                 (column == null ||
                 column.DefaultInput.IsNullOrEmpty() ||
-                column.DefaultInput.ToInt() != UserId);
+                column.GetDefaultInput(context: context).ToInt() != UserId);
         }
 
         public LoginKeyModel(Context context, DataRow dataRow, string tableAlias = null)

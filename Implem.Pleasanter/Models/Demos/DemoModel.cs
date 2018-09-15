@@ -43,7 +43,7 @@ namespace Implem.Pleasanter.Models
             return DemoId != SavedDemoId &&
                 (column == null ||
                 column.DefaultInput.IsNullOrEmpty() ||
-                column.DefaultInput.ToInt() != DemoId);
+                column.GetDefaultInput(context: context).ToInt() != DemoId);
         }
 
         public bool TenantId_Updated(Context context, Column column = null)
@@ -51,7 +51,7 @@ namespace Implem.Pleasanter.Models
             return TenantId != SavedTenantId &&
                 (column == null ||
                 column.DefaultInput.IsNullOrEmpty() ||
-                column.DefaultInput.ToInt() != TenantId);
+                column.GetDefaultInput(context: context).ToInt() != TenantId);
         }
 
         public bool Title_Updated(Context context, Column column = null)
@@ -59,7 +59,7 @@ namespace Implem.Pleasanter.Models
             return Title.Value != SavedTitle && Title.Value != null &&
                 (column == null ||
                 column.DefaultInput.IsNullOrEmpty() ||
-                column.DefaultInput.ToString() != Title.Value);
+                column.GetDefaultInput(context: context).ToString() != Title.Value);
         }
 
         public bool Passphrase_Updated(Context context, Column column = null)
@@ -67,7 +67,7 @@ namespace Implem.Pleasanter.Models
             return Passphrase != SavedPassphrase && Passphrase != null &&
                 (column == null ||
                 column.DefaultInput.IsNullOrEmpty() ||
-                column.DefaultInput.ToString() != Passphrase);
+                column.GetDefaultInput(context: context).ToString() != Passphrase);
         }
 
         public bool MailAddress_Updated(Context context, Column column = null)
@@ -75,7 +75,7 @@ namespace Implem.Pleasanter.Models
             return MailAddress != SavedMailAddress && MailAddress != null &&
                 (column == null ||
                 column.DefaultInput.IsNullOrEmpty() ||
-                column.DefaultInput.ToString() != MailAddress);
+                column.GetDefaultInput(context: context).ToString() != MailAddress);
         }
 
         public bool Initialized_Updated(Context context, Column column = null)
@@ -83,7 +83,7 @@ namespace Implem.Pleasanter.Models
             return Initialized != SavedInitialized &&
                 (column == null ||
                 column.DefaultInput.IsNullOrEmpty() ||
-                column.DefaultInput.ToBool() != Initialized);
+                column.GetDefaultInput(context: context).ToBool() != Initialized);
         }
 
         /// <summary>
