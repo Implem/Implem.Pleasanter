@@ -39,7 +39,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                 && Groups?.Any() != true
                 && Users?.Any() != true
                 && RecordUsers?.Any() != true
-                && DefaultType(ss, type) == Type;
+                && DefaultType(ss, type) == (Type ?? Permissions.Types.NotSet);
         }
 
         private Permissions.Types DefaultType(SiteSettings ss, string type)
@@ -79,7 +79,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                 && Groups?.Any() != true
                 && Users?.Any() != true
                 && RecordUsers?.Any() != true
-                && Type == Permissions.Types.NotSet)
+                && (Type ?? Permissions.Types.NotSet) == Permissions.Types.NotSet)
             {
                 return true;
             }
