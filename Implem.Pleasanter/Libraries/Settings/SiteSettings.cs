@@ -2365,6 +2365,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                 .Where(o => !Aggregations.Any(p => p.GroupBy == o.ColumnName))
                 .Where(o => columns.Contains("Linked__" + o.ColumnName))
                 .Where(o => o.Linked())
+                .Where(o => o.ChoiceHash.Any() == false)
                 .ForEach(column =>
                 {
                     column.ChoiceHash = new Dictionary<string, Choice>();
