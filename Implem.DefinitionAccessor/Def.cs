@@ -546,7 +546,7 @@ namespace Implem.DefinitionAccessor
                     case "Model_Utilities_SiteIdParam": Code.Model_Utilities_SiteIdParam = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_SiteIdParam, definitionRow, CodeXls); break;
                     case "Model_Utilities_FieldResponse": Code.Model_Utilities_FieldResponse = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_FieldResponse, definitionRow, CodeXls); break;
                     case "Model_Utilities_FieldResponse_ColumnCases": Code.Model_Utilities_FieldResponse_ColumnCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_FieldResponse_ColumnCases, definitionRow, CodeXls); break;
-                    case "Model_Utilities_FieldResponse_ToControl": Code.Model_Utilities_FieldResponse_ToControl = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_FieldResponse_ToControl, definitionRow, CodeXls); break;
+                    case "Model_Utilities_FieldResponse_ToResponsel": Code.Model_Utilities_FieldResponse_ToResponsel = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_FieldResponse_ToResponsel, definitionRow, CodeXls); break;
                     case "Model_Utilities_FieldResponse_AttachmentsCases": Code.Model_Utilities_FieldResponse_AttachmentsCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_FieldResponse_AttachmentsCases, definitionRow, CodeXls); break;
                     case "Model_Utilities_TableName": Code.Model_Utilities_TableName = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_TableName, definitionRow, CodeXls); break;
                     case "Model_Utilities_TableNameCases": Code.Model_Utilities_TableNameCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_TableNameCases, definitionRow, CodeXls); break;
@@ -6771,7 +6771,7 @@ namespace Implem.DefinitionAccessor
         public string Model_Utilities_SiteIdParam;
         public string Model_Utilities_FieldResponse;
         public string Model_Utilities_FieldResponse_ColumnCases;
-        public string Model_Utilities_FieldResponse_ToControl;
+        public string Model_Utilities_FieldResponse_ToResponsel;
         public string Model_Utilities_FieldResponse_AttachmentsCases;
         public string Model_Utilities_TableName;
         public string Model_Utilities_TableNameCases;
@@ -7326,7 +7326,7 @@ namespace Implem.DefinitionAccessor
         public CodeDefinition Model_Utilities_SiteIdParam = new CodeDefinition();
         public CodeDefinition Model_Utilities_FieldResponse = new CodeDefinition();
         public CodeDefinition Model_Utilities_FieldResponse_ColumnCases = new CodeDefinition();
-        public CodeDefinition Model_Utilities_FieldResponse_ToControl = new CodeDefinition();
+        public CodeDefinition Model_Utilities_FieldResponse_ToResponsel = new CodeDefinition();
         public CodeDefinition Model_Utilities_FieldResponse_AttachmentsCases = new CodeDefinition();
         public CodeDefinition Model_Utilities_TableName = new CodeDefinition();
         public CodeDefinition Model_Utilities_TableNameCases = new CodeDefinition();

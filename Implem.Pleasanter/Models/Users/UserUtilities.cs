@@ -5391,8 +5391,8 @@ namespace Implem.Pleasanter.Models
             else
             {
                 return res
-                    .Ver(context: context)
-                    .Timestamp(context: context)
+                    .Ver(context: context, ss: ss)
+                    .Timestamp(context: context, ss: ss)
                     .Val("#VerUp", false)
                     .Disabled("#VerUp", false)
                     .Html("#HeaderTitle", userModel.Title.Value)
@@ -5569,8 +5569,8 @@ namespace Implem.Pleasanter.Models
                     .OldPassword(context: context, value: string.Empty)
                     .ChangedPassword(context: context, value: string.Empty)
                     .ChangedPasswordValidator(context: context, value: string.Empty)
-                    .Ver(context: context)
-                    .Timestamp(context: context)
+                    .Ver(context: context, ss: ss)
+                    .Timestamp(context: context, ss: ss)
                     .Val("#VerUp", false)
                     .Disabled("#VerUp", false)
                     .Html("#RecordInfo", new HtmlBuilder().RecordInfo(
@@ -5588,9 +5588,10 @@ namespace Implem.Pleasanter.Models
         /// </summary>
         public static string ChangePasswordAtLogin(Context context)
         {
+            var ss = SiteSettingsUtilities.UsersSiteSettings(context: context);
             var userModel = new UserModel(
                 context: context,
-                ss: SiteSettingsUtilities.UsersSiteSettings(context: context),
+                ss: ss,
                 loginId: Forms.Data("Users_LoginId"),
                 setByForm: true);
             var invalid = UserValidators.OnPasswordChangingAtLogin(
@@ -5615,9 +5616,10 @@ namespace Implem.Pleasanter.Models
         /// </summary>
         public static string ResetPassword(Context context, int userId)
         {
+            var ss = SiteSettingsUtilities.UsersSiteSettings(context: context);
             var userModel = new UserModel(
                 context: context,
-                ss: SiteSettingsUtilities.UsersSiteSettings(context: context),
+                ss: ss,
                 userId: userId,
                 setByForm: true);
             var invalid = UserValidators.OnPasswordResetting(context: context);
@@ -5630,12 +5632,12 @@ namespace Implem.Pleasanter.Models
             return error.Has()
                 ? error.MessageJson()
                 : new UsersResponseCollection(userModel)
-                    .PasswordExpirationTime(context: context)
-                    .PasswordChangeTime(context: context)
+                    .PasswordExpirationTime(context: context, ss: ss)
+                    .PasswordChangeTime(context: context, ss: ss)
                     .AfterResetPassword(context: context, value: string.Empty)
                     .AfterResetPasswordValidator(context: context, value: string.Empty)
-                    .Ver(context: context)
-                    .Timestamp(context: context)
+                    .Ver(context: context, ss: ss)
+                    .Timestamp(context: context, ss: ss)
                     .Val("#VerUp", false)
                     .Disabled("#VerUp", false)
                     .Html("#RecordInfo", new HtmlBuilder().RecordInfo(
@@ -5655,7 +5657,7 @@ namespace Implem.Pleasanter.Models
         {
             var userModel = new UserModel(
                 context: context,
-                ss: SiteSettingsUtilities.UsersSiteSettings(context: context),
+                ss: ss,
                 userId: userId);
             var mailAddress = Forms.Data("MailAddress").Trim();
             var selected = Forms.List("MailAddresses");
@@ -5690,7 +5692,7 @@ namespace Implem.Pleasanter.Models
         {
             var userModel = new UserModel(
                 context: context,
-                ss: SiteSettingsUtilities.UsersSiteSettings(context: context),
+                ss: ss,
                 userId: userId);
             var invalid = UserValidators.OnUpdating(
                 context: context, ss: ss, userModel: userModel);

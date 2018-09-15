@@ -31,7 +31,7 @@ namespace Implem.Pleasanter.Libraries.DataTypes
             return Id.ToString();
         }
 
-        public string ToResponse(Context context)
+        public string ToResponse(Context context, SiteSettings ss, Column column)
         {
             return Id.ToString();
         }

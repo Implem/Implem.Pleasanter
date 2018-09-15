@@ -161,7 +161,7 @@ namespace Implem.Pleasanter.Libraries.DataTypes
             return Value;
         }
 
-        public string ToResponse(Context context)
+        public string ToResponse(Context context, SiteSettings ss, Column column)
         {
             return Value;
         }
