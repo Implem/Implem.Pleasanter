@@ -99,9 +99,13 @@ namespace Implem.Pleasanter.Libraries.DataTypes
             return Id.ToString();
         }
 
-        public string ToResponse(Context context)
+        public string ToResponse(Context context, SiteSettings ss, Column column)
         {
-            return Id.ToString();
+            return column.EditorReadOnly != true
+                ? Id.ToString()
+                : SiteInfo.UserName(
+                    context: context,
+                    userId: Id);
         }
 
         public HtmlBuilder Td(HtmlBuilder hb, Context context, Column column)

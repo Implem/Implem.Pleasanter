@@ -602,7 +602,7 @@ namespace Implem.Pleasanter.Models
         }
 
         public static ResponseCollection FieldResponse(
-            this ResponseCollection res,
+            this WikisResponseCollection res,
             Context context,
             SiteSettings ss,
             WikiModel wikiModel)
@@ -618,52 +618,52 @@ namespace Implem.Pleasanter.Models
                         case "SiteId":
                             res.Val(
                                 "#Wikis_SiteId",
-                                wikiModel.SiteId.ToControl(context: context, ss: ss, column: column));
+                                wikiModel.SiteId.ToResponse(context: context, ss: ss, column: column));
                             break;
                         case "UpdatedTime":
                             res.Val(
                                 "#Wikis_UpdatedTime",
-                                wikiModel.UpdatedTime.ToControl(context: context, ss: ss, column: column));
+                                wikiModel.UpdatedTime.ToResponse(context: context, ss: ss, column: column));
                             break;
                         case "WikiId":
                             res.Val(
                                 "#Wikis_WikiId",
-                                wikiModel.WikiId.ToControl(context: context, ss: ss, column: column));
+                                wikiModel.WikiId.ToResponse(context: context, ss: ss, column: column));
                             break;
                         case "Ver":
                             res.Val(
                                 "#Wikis_Ver",
-                                wikiModel.Ver.ToControl(context: context, ss: ss, column: column));
+                                wikiModel.Ver.ToResponse(context: context, ss: ss, column: column));
                             break;
                         case "Title":
                             res.Val(
                                 "#Wikis_Title",
-                                wikiModel.Title.ToControl(context: context, ss: ss, column: column));
+                                wikiModel.Title.ToResponse(context: context, ss: ss, column: column));
                             break;
                         case "Body":
                             res.Val(
                                 "#Wikis_Body",
-                                wikiModel.Body.ToControl(context: context, ss: ss, column: column));
+                                wikiModel.Body.ToResponse(context: context, ss: ss, column: column));
                             break;
                         case "Comments":
                             res.Val(
                                 "#Wikis_Comments",
-                                wikiModel.Comments.ToControl(context: context, ss: ss, column: column));
+                                wikiModel.Comments.ToResponse(context: context, ss: ss, column: column));
                             break;
                         case "Creator":
                             res.Val(
                                 "#Wikis_Creator",
-                                wikiModel.Creator.ToControl(context: context, ss: ss, column: column));
+                                wikiModel.Creator.ToResponse(context: context, ss: ss, column: column));
                             break;
                         case "Updator":
                             res.Val(
                                 "#Wikis_Updator",
-                                wikiModel.Updator.ToControl(context: context, ss: ss, column: column));
+                                wikiModel.Updator.ToResponse(context: context, ss: ss, column: column));
                             break;
                         case "CreatedTime":
                             res.Val(
                                 "#Wikis_CreatedTime",
-                                wikiModel.CreatedTime.ToControl(context: context, ss: ss, column: column));
+                                wikiModel.CreatedTime.ToResponse(context: context, ss: ss, column: column));
                             break;
                         default: break;
                     }
@@ -749,10 +749,10 @@ namespace Implem.Pleasanter.Models
             else
             {
                 return res
-                    .Ver(context: context)
-                    .Timestamp(context: context)
-                    .Val("#VerUp", false)
+                    .Ver(context: context, ss: ss)
+                    .Timestamp(context: context, ss: ss)
                     .FieldResponse(context: context, ss: ss, wikiModel: wikiModel)
+                    .Val("#VerUp", false)
                     .Disabled("#VerUp", false)
                     .Html("#HeaderTitle", wikiModel.Title.DisplayValue)
                     .Html("#RecordInfo", new HtmlBuilder().RecordInfo(

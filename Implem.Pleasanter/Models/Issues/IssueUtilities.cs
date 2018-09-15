@@ -5804,7 +5804,7 @@ namespace Implem.Pleasanter.Models
         }
 
         public static ResponseCollection FieldResponse(
-            this ResponseCollection res,
+            this IssuesResponseCollection res,
             Context context,
             SiteSettings ss,
             IssueModel issueModel)
@@ -5820,587 +5820,587 @@ namespace Implem.Pleasanter.Models
                         case "SiteId":
                             res.Val(
                                 "#Issues_SiteId",
-                                issueModel.SiteId.ToControl(context: context, ss: ss, column: column));
+                                issueModel.SiteId.ToResponse(context: context, ss: ss, column: column));
                             break;
                         case "UpdatedTime":
                             res.Val(
                                 "#Issues_UpdatedTime",
-                                issueModel.UpdatedTime.ToControl(context: context, ss: ss, column: column));
+                                issueModel.UpdatedTime.ToResponse(context: context, ss: ss, column: column));
                             break;
                         case "IssueId":
                             res.Val(
                                 "#Issues_IssueId",
-                                issueModel.IssueId.ToControl(context: context, ss: ss, column: column));
+                                issueModel.IssueId.ToResponse(context: context, ss: ss, column: column));
                             break;
                         case "Ver":
                             res.Val(
                                 "#Issues_Ver",
-                                issueModel.Ver.ToControl(context: context, ss: ss, column: column));
+                                issueModel.Ver.ToResponse(context: context, ss: ss, column: column));
                             break;
                         case "Title":
                             res.Val(
                                 "#Issues_Title",
-                                issueModel.Title.ToControl(context: context, ss: ss, column: column));
+                                issueModel.Title.ToResponse(context: context, ss: ss, column: column));
                             break;
                         case "Body":
                             res.Val(
                                 "#Issues_Body",
-                                issueModel.Body.ToControl(context: context, ss: ss, column: column));
+                                issueModel.Body.ToResponse(context: context, ss: ss, column: column));
                             break;
                         case "StartTime":
                             res.Val(
                                 "#Issues_StartTime",
-                                issueModel.StartTime.ToControl(context: context, ss: ss, column: column));
+                                issueModel.StartTime.ToResponse(context: context, ss: ss, column: column));
                             break;
                         case "CompletionTime":
                             res.Val(
                                 "#Issues_CompletionTime",
-                                issueModel.CompletionTime.ToControl(context: context, ss: ss, column: column));
+                                issueModel.CompletionTime.ToResponse(context: context, ss: ss, column: column));
                             break;
                         case "WorkValue":
                             res.Val(
                                 "#Issues_WorkValue",
-                                issueModel.WorkValue.ToControl(context: context, ss: ss, column: column));
+                                issueModel.WorkValue.ToResponse(context: context, ss: ss, column: column));
                             break;
                         case "ProgressRate":
                             res.Val(
                                 "#Issues_ProgressRate",
-                                issueModel.ProgressRate.ToControl(context: context, ss: ss, column: column));
+                                issueModel.ProgressRate.ToResponse(context: context, ss: ss, column: column));
                             break;
                         case "Status":
                             res.Val(
                                 "#Issues_Status",
-                                issueModel.Status.ToControl(context: context, ss: ss, column: column));
+                                issueModel.Status.ToResponse(context: context, ss: ss, column: column));
                             break;
                         case "Manager":
                             res.Val(
                                 "#Issues_Manager",
-                                issueModel.Manager.ToControl(context: context, ss: ss, column: column));
+                                issueModel.Manager.ToResponse(context: context, ss: ss, column: column));
                             break;
                         case "Owner":
                             res.Val(
                                 "#Issues_Owner",
-                                issueModel.Owner.ToControl(context: context, ss: ss, column: column));
+                                issueModel.Owner.ToResponse(context: context, ss: ss, column: column));
                             break;
                         case "ClassA":
                             res.Val(
                                 "#Issues_ClassA",
-                                issueModel.ClassA.ToControl(context: context, ss: ss, column: column));
+                                issueModel.ClassA.ToResponse(context: context, ss: ss, column: column));
                             break;
                         case "ClassB":
                             res.Val(
                                 "#Issues_ClassB",
-                                issueModel.ClassB.ToControl(context: context, ss: ss, column: column));
+                                issueModel.ClassB.ToResponse(context: context, ss: ss, column: column));
                             break;
                         case "ClassC":
                             res.Val(
                                 "#Issues_ClassC",
-                                issueModel.ClassC.ToControl(context: context, ss: ss, column: column));
+                                issueModel.ClassC.ToResponse(context: context, ss: ss, column: column));
                             break;
                         case "ClassD":
                             res.Val(
                                 "#Issues_ClassD",
-                                issueModel.ClassD.ToControl(context: context, ss: ss, column: column));
+                                issueModel.ClassD.ToResponse(context: context, ss: ss, column: column));
                             break;
                         case "ClassE":
                             res.Val(
                                 "#Issues_ClassE",
-                                issueModel.ClassE.ToControl(context: context, ss: ss, column: column));
+                                issueModel.ClassE.ToResponse(context: context, ss: ss, column: column));
                             break;
                         case "ClassF":
                             res.Val(
                                 "#Issues_ClassF",
-                                issueModel.ClassF.ToControl(context: context, ss: ss, column: column));
+                                issueModel.ClassF.ToResponse(context: context, ss: ss, column: column));
                             break;
                         case "ClassG":
                             res.Val(
                                 "#Issues_ClassG",
-                                issueModel.ClassG.ToControl(context: context, ss: ss, column: column));
+                                issueModel.ClassG.ToResponse(context: context, ss: ss, column: column));
                             break;
                         case "ClassH":
                             res.Val(
                                 "#Issues_ClassH",
-                                issueModel.ClassH.ToControl(context: context, ss: ss, column: column));
+                                issueModel.ClassH.ToResponse(context: context, ss: ss, column: column));
                             break;
                         case "ClassI":
                             res.Val(
                                 "#Issues_ClassI",
-                                issueModel.ClassI.ToControl(context: context, ss: ss, column: column));
+                                issueModel.ClassI.ToResponse(context: context, ss: ss, column: column));
                             break;
                         case "ClassJ":
                             res.Val(
                                 "#Issues_ClassJ",
-                                issueModel.ClassJ.ToControl(context: context, ss: ss, column: column));
+                                issueModel.ClassJ.ToResponse(context: context, ss: ss, column: column));
                             break;
                         case "ClassK":
                             res.Val(
                                 "#Issues_ClassK",
-                                issueModel.ClassK.ToControl(context: context, ss: ss, column: column));
+                                issueModel.ClassK.ToResponse(context: context, ss: ss, column: column));
                             break;
                         case "ClassL":
                             res.Val(
                                 "#Issues_ClassL",
-                                issueModel.ClassL.ToControl(context: context, ss: ss, column: column));
+                                issueModel.ClassL.ToResponse(context: context, ss: ss, column: column));
                             break;
                         case "ClassM":
                             res.Val(
                                 "#Issues_ClassM",
-                                issueModel.ClassM.ToControl(context: context, ss: ss, column: column));
+                                issueModel.ClassM.ToResponse(context: context, ss: ss, column: column));
                             break;
                         case "ClassN":
                             res.Val(
                                 "#Issues_ClassN",
-                                issueModel.ClassN.ToControl(context: context, ss: ss, column: column));
+                                issueModel.ClassN.ToResponse(context: context, ss: ss, column: column));
                             break;
                         case "ClassO":
                             res.Val(
                                 "#Issues_ClassO",
-                                issueModel.ClassO.ToControl(context: context, ss: ss, column: column));
+                                issueModel.ClassO.ToResponse(context: context, ss: ss, column: column));
                             break;
                         case "ClassP":
                             res.Val(
                                 "#Issues_ClassP",
-                                issueModel.ClassP.ToControl(context: context, ss: ss, column: column));
+                                issueModel.ClassP.ToResponse(context: context, ss: ss, column: column));
                             break;
                         case "ClassQ":
                             res.Val(
                                 "#Issues_ClassQ",
-                                issueModel.ClassQ.ToControl(context: context, ss: ss, column: column));
+                                issueModel.ClassQ.ToResponse(context: context, ss: ss, column: column));
                             break;
                         case "ClassR":
                             res.Val(
                                 "#Issues_ClassR",
-                                issueModel.ClassR.ToControl(context: context, ss: ss, column: column));
+                                issueModel.ClassR.ToResponse(context: context, ss: ss, column: column));
                             break;
                         case "ClassS":
                             res.Val(
                                 "#Issues_ClassS",
-                                issueModel.ClassS.ToControl(context: context, ss: ss, column: column));
+                                issueModel.ClassS.ToResponse(context: context, ss: ss, column: column));
                             break;
                         case "ClassT":
                             res.Val(
                                 "#Issues_ClassT",
-                                issueModel.ClassT.ToControl(context: context, ss: ss, column: column));
+                                issueModel.ClassT.ToResponse(context: context, ss: ss, column: column));
                             break;
                         case "ClassU":
                             res.Val(
                                 "#Issues_ClassU",
-                                issueModel.ClassU.ToControl(context: context, ss: ss, column: column));
+                                issueModel.ClassU.ToResponse(context: context, ss: ss, column: column));
                             break;
                         case "ClassV":
                             res.Val(
                                 "#Issues_ClassV",
-                                issueModel.ClassV.ToControl(context: context, ss: ss, column: column));
+                                issueModel.ClassV.ToResponse(context: context, ss: ss, column: column));
                             break;
                         case "ClassW":
                             res.Val(
                                 "#Issues_ClassW",
-                                issueModel.ClassW.ToControl(context: context, ss: ss, column: column));
+                                issueModel.ClassW.ToResponse(context: context, ss: ss, column: column));
                             break;
                         case "ClassX":
                             res.Val(
                                 "#Issues_ClassX",
-                                issueModel.ClassX.ToControl(context: context, ss: ss, column: column));
+                                issueModel.ClassX.ToResponse(context: context, ss: ss, column: column));
                             break;
                         case "ClassY":
                             res.Val(
                                 "#Issues_ClassY",
-                                issueModel.ClassY.ToControl(context: context, ss: ss, column: column));
+                                issueModel.ClassY.ToResponse(context: context, ss: ss, column: column));
                             break;
                         case "ClassZ":
                             res.Val(
                                 "#Issues_ClassZ",
-                                issueModel.ClassZ.ToControl(context: context, ss: ss, column: column));
+                                issueModel.ClassZ.ToResponse(context: context, ss: ss, column: column));
                             break;
                         case "NumA":
                             res.Val(
                                 "#Issues_NumA",
-                                issueModel.NumA.ToControl(context: context, ss: ss, column: column));
+                                issueModel.NumA.ToResponse(context: context, ss: ss, column: column));
                             break;
                         case "NumB":
                             res.Val(
                                 "#Issues_NumB",
-                                issueModel.NumB.ToControl(context: context, ss: ss, column: column));
+                                issueModel.NumB.ToResponse(context: context, ss: ss, column: column));
                             break;
                         case "NumC":
                             res.Val(
                                 "#Issues_NumC",
-                                issueModel.NumC.ToControl(context: context, ss: ss, column: column));
+                                issueModel.NumC.ToResponse(context: context, ss: ss, column: column));
                             break;
                         case "NumD":
                             res.Val(
                                 "#Issues_NumD",
-                                issueModel.NumD.ToControl(context: context, ss: ss, column: column));
+                                issueModel.NumD.ToResponse(context: context, ss: ss, column: column));
                             break;
                         case "NumE":
                             res.Val(
                                 "#Issues_NumE",
-                                issueModel.NumE.ToControl(context: context, ss: ss, column: column));
+                                issueModel.NumE.ToResponse(context: context, ss: ss, column: column));
                             break;
                         case "NumF":
                             res.Val(
                                 "#Issues_NumF",
-                                issueModel.NumF.ToControl(context: context, ss: ss, column: column));
+                                issueModel.NumF.ToResponse(context: context, ss: ss, column: column));
                             break;
                         case "NumG":
                             res.Val(
                                 "#Issues_NumG",
-                                issueModel.NumG.ToControl(context: context, ss: ss, column: column));
+                                issueModel.NumG.ToResponse(context: context, ss: ss, column: column));
                             break;
                         case "NumH":
                             res.Val(
                                 "#Issues_NumH",
-                                issueModel.NumH.ToControl(context: context, ss: ss, column: column));
+                                issueModel.NumH.ToResponse(context: context, ss: ss, column: column));
                             break;
                         case "NumI":
                             res.Val(
                                 "#Issues_NumI",
-                                issueModel.NumI.ToControl(context: context, ss: ss, column: column));
+                                issueModel.NumI.ToResponse(context: context, ss: ss, column: column));
                             break;
                         case "NumJ":
                             res.Val(
                                 "#Issues_NumJ",
-                                issueModel.NumJ.ToControl(context: context, ss: ss, column: column));
+                                issueModel.NumJ.ToResponse(context: context, ss: ss, column: column));
                             break;
                         case "NumK":
                             res.Val(
                                 "#Issues_NumK",
-                                issueModel.NumK.ToControl(context: context, ss: ss, column: column));
+                                issueModel.NumK.ToResponse(context: context, ss: ss, column: column));
                             break;
                         case "NumL":
                             res.Val(
                                 "#Issues_NumL",
-                                issueModel.NumL.ToControl(context: context, ss: ss, column: column));
+                                issueModel.NumL.ToResponse(context: context, ss: ss, column: column));
                             break;
                         case "NumM":
                             res.Val(
                                 "#Issues_NumM",
-                                issueModel.NumM.ToControl(context: context, ss: ss, column: column));
+                                issueModel.NumM.ToResponse(context: context, ss: ss, column: column));
                             break;
                         case "NumN":
                             res.Val(
                                 "#Issues_NumN",
-                                issueModel.NumN.ToControl(context: context, ss: ss, column: column));
+                                issueModel.NumN.ToResponse(context: context, ss: ss, column: column));
                             break;
                         case "NumO":
                             res.Val(
                                 "#Issues_NumO",
-                                issueModel.NumO.ToControl(context: context, ss: ss, column: column));
+                                issueModel.NumO.ToResponse(context: context, ss: ss, column: column));
                             break;
                         case "NumP":
                             res.Val(
                                 "#Issues_NumP",
-                                issueModel.NumP.ToControl(context: context, ss: ss, column: column));
+                                issueModel.NumP.ToResponse(context: context, ss: ss, column: column));
                             break;
                         case "NumQ":
                             res.Val(
                                 "#Issues_NumQ",
-                                issueModel.NumQ.ToControl(context: context, ss: ss, column: column));
+                                issueModel.NumQ.ToResponse(context: context, ss: ss, column: column));
                             break;
                         case "NumR":
                             res.Val(
                                 "#Issues_NumR",
-                                issueModel.NumR.ToControl(context: context, ss: ss, column: column));
+                                issueModel.NumR.ToResponse(context: context, ss: ss, column: column));
                             break;
                         case "NumS":
                             res.Val(
                                 "#Issues_NumS",
-                                issueModel.NumS.ToControl(context: context, ss: ss, column: column));
+                                issueModel.NumS.ToResponse(context: context, ss: ss, column: column));
                             break;
                         case "NumT":
                             res.Val(
                                 "#Issues_NumT",
-                                issueModel.NumT.ToControl(context: context, ss: ss, column: column));
+                                issueModel.NumT.ToResponse(context: context, ss: ss, column: column));
                             break;
                         case "NumU":
                             res.Val(
                                 "#Issues_NumU",
-                                issueModel.NumU.ToControl(context: context, ss: ss, column: column));
+                                issueModel.NumU.ToResponse(context: context, ss: ss, column: column));
                             break;
                         case "NumV":
                             res.Val(
                                 "#Issues_NumV",
-                                issueModel.NumV.ToControl(context: context, ss: ss, column: column));
+                                issueModel.NumV.ToResponse(context: context, ss: ss, column: column));
                             break;
                         case "NumW":
                             res.Val(
                                 "#Issues_NumW",
-                                issueModel.NumW.ToControl(context: context, ss: ss, column: column));
+                                issueModel.NumW.ToResponse(context: context, ss: ss, column: column));
                             break;
                         case "NumX":
                             res.Val(
                                 "#Issues_NumX",
-                                issueModel.NumX.ToControl(context: context, ss: ss, column: column));
+                                issueModel.NumX.ToResponse(context: context, ss: ss, column: column));
                             break;
                         case "NumY":
                             res.Val(
                                 "#Issues_NumY",
-                                issueModel.NumY.ToControl(context: context, ss: ss, column: column));
+                                issueModel.NumY.ToResponse(context: context, ss: ss, column: column));
                             break;
                         case "NumZ":
                             res.Val(
                                 "#Issues_NumZ",
-                                issueModel.NumZ.ToControl(context: context, ss: ss, column: column));
+                                issueModel.NumZ.ToResponse(context: context, ss: ss, column: column));
                             break;
                         case "DateA":
                             res.Val(
                                 "#Issues_DateA",
-                                issueModel.DateA.ToControl(context: context, ss: ss, column: column));
+                                issueModel.DateA.ToResponse(context: context, ss: ss, column: column));
                             break;
                         case "DateB":
                             res.Val(
                                 "#Issues_DateB",
-                                issueModel.DateB.ToControl(context: context, ss: ss, column: column));
+                                issueModel.DateB.ToResponse(context: context, ss: ss, column: column));
                             break;
                         case "DateC":
                             res.Val(
                                 "#Issues_DateC",
-                                issueModel.DateC.ToControl(context: context, ss: ss, column: column));
+                                issueModel.DateC.ToResponse(context: context, ss: ss, column: column));
                             break;
                         case "DateD":
                             res.Val(
                                 "#Issues_DateD",
-                                issueModel.DateD.ToControl(context: context, ss: ss, column: column));
+                                issueModel.DateD.ToResponse(context: context, ss: ss, column: column));
                             break;
                         case "DateE":
                             res.Val(
                                 "#Issues_DateE",
-                                issueModel.DateE.ToControl(context: context, ss: ss, column: column));
+                                issueModel.DateE.ToResponse(context: context, ss: ss, column: column));
                             break;
                         case "DateF":
                             res.Val(
                                 "#Issues_DateF",
-                                issueModel.DateF.ToControl(context: context, ss: ss, column: column));
+                                issueModel.DateF.ToResponse(context: context, ss: ss, column: column));
                             break;
                         case "DateG":
                             res.Val(
                                 "#Issues_DateG",
-                                issueModel.DateG.ToControl(context: context, ss: ss, column: column));
+                                issueModel.DateG.ToResponse(context: context, ss: ss, column: column));
                             break;
                         case "DateH":
                             res.Val(
                                 "#Issues_DateH",
-                                issueModel.DateH.ToControl(context: context, ss: ss, column: column));
+                                issueModel.DateH.ToResponse(context: context, ss: ss, column: column));
                             break;
                         case "DateI":
                             res.Val(
                                 "#Issues_DateI",
-                                issueModel.DateI.ToControl(context: context, ss: ss, column: column));
+                                issueModel.DateI.ToResponse(context: context, ss: ss, column: column));
                             break;
                         case "DateJ":
                             res.Val(
                                 "#Issues_DateJ",
-                                issueModel.DateJ.ToControl(context: context, ss: ss, column: column));
+                                issueModel.DateJ.ToResponse(context: context, ss: ss, column: column));
                             break;
                         case "DateK":
                             res.Val(
                                 "#Issues_DateK",
-                                issueModel.DateK.ToControl(context: context, ss: ss, column: column));
+                                issueModel.DateK.ToResponse(context: context, ss: ss, column: column));
                             break;
                         case "DateL":
                             res.Val(
                                 "#Issues_DateL",
-                                issueModel.DateL.ToControl(context: context, ss: ss, column: column));
+                                issueModel.DateL.ToResponse(context: context, ss: ss, column: column));
                             break;
                         case "DateM":
                             res.Val(
                                 "#Issues_DateM",
-                                issueModel.DateM.ToControl(context: context, ss: ss, column: column));
+                                issueModel.DateM.ToResponse(context: context, ss: ss, column: column));
                             break;
                         case "DateN":
                             res.Val(
                                 "#Issues_DateN",
-                                issueModel.DateN.ToControl(context: context, ss: ss, column: column));
+                                issueModel.DateN.ToResponse(context: context, ss: ss, column: column));
                             break;
                         case "DateO":
                             res.Val(
                                 "#Issues_DateO",
-                                issueModel.DateO.ToControl(context: context, ss: ss, column: column));
+                                issueModel.DateO.ToResponse(context: context, ss: ss, column: column));
                             break;
                         case "DateP":
                             res.Val(
                                 "#Issues_DateP",
-                                issueModel.DateP.ToControl(context: context, ss: ss, column: column));
+                                issueModel.DateP.ToResponse(context: context, ss: ss, column: column));
                             break;
                         case "DateQ":
                             res.Val(
                                 "#Issues_DateQ",
-                                issueModel.DateQ.ToControl(context: context, ss: ss, column: column));
+                                issueModel.DateQ.ToResponse(context: context, ss: ss, column: column));
                             break;
                         case "DateR":
                             res.Val(
                                 "#Issues_DateR",
-                                issueModel.DateR.ToControl(context: context, ss: ss, column: column));
+                                issueModel.DateR.ToResponse(context: context, ss: ss, column: column));
                             break;
                         case "DateS":
                             res.Val(
                                 "#Issues_DateS",
-                                issueModel.DateS.ToControl(context: context, ss: ss, column: column));
+                                issueModel.DateS.ToResponse(context: context, ss: ss, column: column));
                             break;
                         case "DateT":
                             res.Val(
                                 "#Issues_DateT",
-                                issueModel.DateT.ToControl(context: context, ss: ss, column: column));
+                                issueModel.DateT.ToResponse(context: context, ss: ss, column: column));
                             break;
                         case "DateU":
                             res.Val(
                                 "#Issues_DateU",
-                                issueModel.DateU.ToControl(context: context, ss: ss, column: column));
+                                issueModel.DateU.ToResponse(context: context, ss: ss, column: column));
                             break;
                         case "DateV":
                             res.Val(
                                 "#Issues_DateV",
-                                issueModel.DateV.ToControl(context: context, ss: ss, column: column));
+                                issueModel.DateV.ToResponse(context: context, ss: ss, column: column));
                             break;
                         case "DateW":
                             res.Val(
                                 "#Issues_DateW",
-                                issueModel.DateW.ToControl(context: context, ss: ss, column: column));
+                                issueModel.DateW.ToResponse(context: context, ss: ss, column: column));
                             break;
                         case "DateX":
                             res.Val(
                                 "#Issues_DateX",
-                                issueModel.DateX.ToControl(context: context, ss: ss, column: column));
+                                issueModel.DateX.ToResponse(context: context, ss: ss, column: column));
                             break;
                         case "DateY":
                             res.Val(
                                 "#Issues_DateY",
-                                issueModel.DateY.ToControl(context: context, ss: ss, column: column));
+                                issueModel.DateY.ToResponse(context: context, ss: ss, column: column));
                             break;
                         case "DateZ":
                             res.Val(
                                 "#Issues_DateZ",
-                                issueModel.DateZ.ToControl(context: context, ss: ss, column: column));
+                                issueModel.DateZ.ToResponse(context: context, ss: ss, column: column));
                             break;
                         case "DescriptionA":
                             res.Val(
                                 "#Issues_DescriptionA",
-                                issueModel.DescriptionA.ToControl(context: context, ss: ss, column: column));
+                                issueModel.DescriptionA.ToResponse(context: context, ss: ss, column: column));
                             break;
                         case "DescriptionB":
                             res.Val(
                                 "#Issues_DescriptionB",
-                                issueModel.DescriptionB.ToControl(context: context, ss: ss, column: column));
+                                issueModel.DescriptionB.ToResponse(context: context, ss: ss, column: column));
                             break;
                         case "DescriptionC":
                             res.Val(
                                 "#Issues_DescriptionC",
-                                issueModel.DescriptionC.ToControl(context: context, ss: ss, column: column));
+                                issueModel.DescriptionC.ToResponse(context: context, ss: ss, column: column));
                             break;
                         case "DescriptionD":
                             res.Val(
                                 "#Issues_DescriptionD",
-                                issueModel.DescriptionD.ToControl(context: context, ss: ss, column: column));
+                                issueModel.DescriptionD.ToResponse(context: context, ss: ss, column: column));
                             break;
                         case "DescriptionE":
                             res.Val(
                                 "#Issues_DescriptionE",
-                                issueModel.DescriptionE.ToControl(context: context, ss: ss, column: column));
+                                issueModel.DescriptionE.ToResponse(context: context, ss: ss, column: column));
                             break;
                         case "DescriptionF":
                             res.Val(
                                 "#Issues_DescriptionF",
-                                issueModel.DescriptionF.ToControl(context: context, ss: ss, column: column));
+                                issueModel.DescriptionF.ToResponse(context: context, ss: ss, column: column));
                             break;
                         case "DescriptionG":
                             res.Val(
                                 "#Issues_DescriptionG",
-                                issueModel.DescriptionG.ToControl(context: context, ss: ss, column: column));
+                                issueModel.DescriptionG.ToResponse(context: context, ss: ss, column: column));
                             break;
                         case "DescriptionH":
                             res.Val(
                                 "#Issues_DescriptionH",
-                                issueModel.DescriptionH.ToControl(context: context, ss: ss, column: column));
+                                issueModel.DescriptionH.ToResponse(context: context, ss: ss, column: column));
                             break;
                         case "DescriptionI":
                             res.Val(
                                 "#Issues_DescriptionI",
-                                issueModel.DescriptionI.ToControl(context: context, ss: ss, column: column));
+                                issueModel.DescriptionI.ToResponse(context: context, ss: ss, column: column));
                             break;
                         case "DescriptionJ":
                             res.Val(
                                 "#Issues_DescriptionJ",
-                                issueModel.DescriptionJ.ToControl(context: context, ss: ss, column: column));
+                                issueModel.DescriptionJ.ToResponse(context: context, ss: ss, column: column));
                             break;
                         case "DescriptionK":
                             res.Val(
                                 "#Issues_DescriptionK",
-                                issueModel.DescriptionK.ToControl(context: context, ss: ss, column: column));
+                                issueModel.DescriptionK.ToResponse(context: context, ss: ss, column: column));
                             break;
                         case "DescriptionL":
                             res.Val(
                                 "#Issues_DescriptionL",
-                                issueModel.DescriptionL.ToControl(context: context, ss: ss, column: column));
+                                issueModel.DescriptionL.ToResponse(context: context, ss: ss, column: column));
                             break;
                         case "DescriptionM":
                             res.Val(
                                 "#Issues_DescriptionM",
-                                issueModel.DescriptionM.ToControl(context: context, ss: ss, column: column));
+                                issueModel.DescriptionM.ToResponse(context: context, ss: ss, column: column));
                             break;
                         case "DescriptionN":
                             res.Val(
                                 "#Issues_DescriptionN",
-                                issueModel.DescriptionN.ToControl(context: context, ss: ss, column: column));
+                                issueModel.DescriptionN.ToResponse(context: context, ss: ss, column: column));
                             break;
                         case "DescriptionO":
                             res.Val(
                                 "#Issues_DescriptionO",
-                                issueModel.DescriptionO.ToControl(context: context, ss: ss, column: column));
+                                issueModel.DescriptionO.ToResponse(context: context, ss: ss, column: column));
                             break;
                         case "DescriptionP":
                             res.Val(
                                 "#Issues_DescriptionP",
-                                issueModel.DescriptionP.ToControl(context: context, ss: ss, column: column));
+                                issueModel.DescriptionP.ToResponse(context: context, ss: ss, column: column));
                             break;
                         case "DescriptionQ":
                             res.Val(
                                 "#Issues_DescriptionQ",
-                                issueModel.DescriptionQ.ToControl(context: context, ss: ss, column: column));
+                                issueModel.DescriptionQ.ToResponse(context: context, ss: ss, column: column));
                             break;
                         case "DescriptionR":
                             res.Val(
                                 "#Issues_DescriptionR",
-                                issueModel.DescriptionR.ToControl(context: context, ss: ss, column: column));
+                                issueModel.DescriptionR.ToResponse(context: context, ss: ss, column: column));
                             break;
                         case "DescriptionS":
                             res.Val(
                                 "#Issues_DescriptionS",
-                                issueModel.DescriptionS.ToControl(context: context, ss: ss, column: column));
+                                issueModel.DescriptionS.ToResponse(context: context, ss: ss, column: column));
                             break;
                         case "DescriptionT":
                             res.Val(
                                 "#Issues_DescriptionT",
-                                issueModel.DescriptionT.ToControl(context: context, ss: ss, column: column));
+                                issueModel.DescriptionT.ToResponse(context: context, ss: ss, column: column));
                             break;
                         case "DescriptionU":
                             res.Val(
                                 "#Issues_DescriptionU",
-                                issueModel.DescriptionU.ToControl(context: context, ss: ss, column: column));
+                                issueModel.DescriptionU.ToResponse(context: context, ss: ss, column: column));
                             break;
                         case "DescriptionV":
                             res.Val(
                                 "#Issues_DescriptionV",
-                                issueModel.DescriptionV.ToControl(context: context, ss: ss, column: column));
+                                issueModel.DescriptionV.ToResponse(context: context, ss: ss, column: column));
                             break;
                         case "DescriptionW":
                             res.Val(
                                 "#Issues_DescriptionW",
-                                issueModel.DescriptionW.ToControl(context: context, ss: ss, column: column));
+                                issueModel.DescriptionW.ToResponse(context: context, ss: ss, column: column));
                             break;
                         case "DescriptionX":
                             res.Val(
                                 "#Issues_DescriptionX",
-                                issueModel.DescriptionX.ToControl(context: context, ss: ss, column: column));
+                                issueModel.DescriptionX.ToResponse(context: context, ss: ss, column: column));
                             break;
                         case "DescriptionY":
                             res.Val(
                                 "#Issues_DescriptionY",
-                                issueModel.DescriptionY.ToControl(context: context, ss: ss, column: column));
+                                issueModel.DescriptionY.ToResponse(context: context, ss: ss, column: column));
                             break;
                         case "DescriptionZ":
                             res.Val(
                                 "#Issues_DescriptionZ",
-                                issueModel.DescriptionZ.ToControl(context: context, ss: ss, column: column));
+                                issueModel.DescriptionZ.ToResponse(context: context, ss: ss, column: column));
                             break;
                         case "CheckA":
                             res.Val(
@@ -6535,22 +6535,22 @@ namespace Implem.Pleasanter.Models
                         case "Comments":
                             res.Val(
                                 "#Issues_Comments",
-                                issueModel.Comments.ToControl(context: context, ss: ss, column: column));
+                                issueModel.Comments.ToResponse(context: context, ss: ss, column: column));
                             break;
                         case "Creator":
                             res.Val(
                                 "#Issues_Creator",
-                                issueModel.Creator.ToControl(context: context, ss: ss, column: column));
+                                issueModel.Creator.ToResponse(context: context, ss: ss, column: column));
                             break;
                         case "Updator":
                             res.Val(
                                 "#Issues_Updator",
-                                issueModel.Updator.ToControl(context: context, ss: ss, column: column));
+                                issueModel.Updator.ToResponse(context: context, ss: ss, column: column));
                             break;
                         case "CreatedTime":
                             res.Val(
                                 "#Issues_CreatedTime",
-                                issueModel.CreatedTime.ToControl(context: context, ss: ss, column: column));
+                                issueModel.CreatedTime.ToResponse(context: context, ss: ss, column: column));
                             break;
                         case "AttachmentsA":
                             res.ReplaceAll(
@@ -7099,10 +7099,10 @@ namespace Implem.Pleasanter.Models
             else
             {
                 return res
-                    .Ver(context: context)
-                    .Timestamp(context: context)
-                    .Val("#VerUp", false)
+                    .Ver(context: context, ss: ss)
+                    .Timestamp(context: context, ss: ss)
                     .FieldResponse(context: context, ss: ss, issueModel: issueModel)
+                    .Val("#VerUp", false)
                     .Disabled("#VerUp", false)
                     .Html("#HeaderTitle", issueModel.Title.DisplayValue)
                     .Html("#RecordInfo", new HtmlBuilder().RecordInfo(

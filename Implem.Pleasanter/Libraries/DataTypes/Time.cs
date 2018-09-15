@@ -49,10 +49,10 @@ namespace Implem.Pleasanter.Libraries.DataTypes
                 : string.Empty;
         }
 
-        public virtual string ToResponse(Context context)
+        public virtual string ToResponse(Context context, SiteSettings ss, Column column)
         {
             return Value.InRange()
-                ? DisplayValue.ToString()
+                ? column.DisplayControl(DisplayValue)
                 : string.Empty;
         }
 

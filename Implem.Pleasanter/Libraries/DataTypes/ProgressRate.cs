@@ -66,9 +66,9 @@ namespace Implem.Pleasanter.Libraries.DataTypes
             return column.Display(ss, Value);
         }
 
-        public string ToResponse(Context context)
+        public string ToResponse(Context context, SiteSettings ss, Column column)
         {
-            return Value.ToString();
+            return column.Display(ss, Value);
         }
 
         public HtmlBuilder Td(HtmlBuilder hb, Context context, Column column)

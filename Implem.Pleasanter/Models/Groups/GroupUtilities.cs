@@ -959,8 +959,8 @@ namespace Implem.Pleasanter.Models
             else
             {
                 return res
-                    .Ver(context: context)
-                    .Timestamp(context: context)
+                    .Ver(context: context, ss: ss)
+                    .Timestamp(context: context, ss: ss)
                     .Val("#VerUp", false)
                     .Disabled("#VerUp", false)
                     .Html("#HeaderTitle", groupModel.Title.Value)

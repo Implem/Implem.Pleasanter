@@ -35,9 +35,11 @@ namespace Implem.Pleasanter.Libraries.DataTypes
             return Value.ToString();
         }
 
-        public string ToResponse(Context context)
+        public string ToResponse(Context context, SiteSettings ss, Column column)
         {
-            return Value.ToString();
+            return column.EditorReadOnly != true
+                ? Value.ToString()
+                : column.Choice(ToString()).Text;
         }
 
         public override string ToString()
