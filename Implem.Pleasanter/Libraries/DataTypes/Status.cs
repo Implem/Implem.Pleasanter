@@ -9,7 +9,6 @@ using Implem.Pleasanter.Libraries.Settings;
 using System;
 using System.Data;
 using Implem.Pleasanter.Libraries.Requests;
-
 namespace Implem.Pleasanter.Libraries.DataTypes
 {
     [Serializable]

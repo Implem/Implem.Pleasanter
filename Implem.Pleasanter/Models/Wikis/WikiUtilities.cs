@@ -33,6 +33,7 @@ namespace Implem.Pleasanter.Models
             if (!column.GridDesign.IsNullOrEmpty())
             {
                 return hb.TdCustomValue(
+                    context: context,
                     ss: ss,
                     gridDesign: column.GridDesign,
                     wikiModel: wikiModel);
@@ -213,24 +214,50 @@ namespace Implem.Pleasanter.Models
         }
 
         private static HtmlBuilder TdCustomValue(
-            this HtmlBuilder hb, SiteSettings ss, string gridDesign, WikiModel wikiModel)
+            this HtmlBuilder hb,
+            Context context,
+            SiteSettings ss,
+            string gridDesign,
+            WikiModel wikiModel)
         {
             ss.IncludedColumns(gridDesign).ForEach(column =>
             {
                 var value = string.Empty;
                 switch (column.Name)
                 {
-                    case "SiteId": value = wikiModel.SiteId.GridText(column: column); break;
-                    case "UpdatedTime": value = wikiModel.UpdatedTime.GridText(column: column); break;
-                    case "WikiId": value = wikiModel.WikiId.GridText(column: column); break;
-                    case "Ver": value = wikiModel.Ver.GridText(column: column); break;
-                    case "Title": value = wikiModel.Title.GridText(column: column); break;
-                    case "Body": value = wikiModel.Body.GridText(column: column); break;
-                    case "TitleBody": value = wikiModel.TitleBody.GridText(column: column); break;
-                    case "Comments": value = wikiModel.Comments.GridText(column: column); break;
-                    case "Creator": value = wikiModel.Creator.GridText(column: column); break;
-                    case "Updator": value = wikiModel.Updator.GridText(column: column); break;
-                    case "CreatedTime": value = wikiModel.CreatedTime.GridText(column: column); break;
+                    case "SiteId": value = wikiModel.SiteId.GridText(
+                        context: context,
+                        column: column); break;
+                    case "UpdatedTime": value = wikiModel.UpdatedTime.GridText(
+                        context: context,
+                        column: column); break;
+                    case "WikiId": value = wikiModel.WikiId.GridText(
+                        context: context,
+                        column: column); break;
+                    case "Ver": value = wikiModel.Ver.GridText(
+                        context: context,
+                        column: column); break;
+                    case "Title": value = wikiModel.Title.GridText(
+                        context: context,
+                        column: column); break;
+                    case "Body": value = wikiModel.Body.GridText(
+                        context: context,
+                        column: column); break;
+                    case "TitleBody": value = wikiModel.TitleBody.GridText(
+                        context: context,
+                        column: column); break;
+                    case "Comments": value = wikiModel.Comments.GridText(
+                        context: context,
+                        column: column); break;
+                    case "Creator": value = wikiModel.Creator.GridText(
+                        context: context,
+                        column: column); break;
+                    case "Updator": value = wikiModel.Updator.GridText(
+                        context: context,
+                        column: column); break;
+                    case "CreatedTime": value = wikiModel.CreatedTime.GridText(
+                        context: context,
+                        column: column); break;
                 }
                 gridDesign = gridDesign.Replace("[" + column.ColumnName + "]", value);
             });

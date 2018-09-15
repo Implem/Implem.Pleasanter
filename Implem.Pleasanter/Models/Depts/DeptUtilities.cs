@@ -337,6 +337,7 @@ namespace Implem.Pleasanter.Models
             if (!column.GridDesign.IsNullOrEmpty())
             {
                 return hb.TdCustomValue(
+                    context: context,
                     ss: ss,
                     gridDesign: column.GridDesign,
                     deptModel: deptModel);
@@ -502,23 +503,47 @@ namespace Implem.Pleasanter.Models
         }
 
         private static HtmlBuilder TdCustomValue(
-            this HtmlBuilder hb, SiteSettings ss, string gridDesign, DeptModel deptModel)
+            this HtmlBuilder hb,
+            Context context,
+            SiteSettings ss,
+            string gridDesign,
+            DeptModel deptModel)
         {
             ss.IncludedColumns(gridDesign).ForEach(column =>
             {
                 var value = string.Empty;
                 switch (column.Name)
                 {
-                    case "DeptId": value = deptModel.DeptId.GridText(column: column); break;
-                    case "Ver": value = deptModel.Ver.GridText(column: column); break;
-                    case "DeptCode": value = deptModel.DeptCode.GridText(column: column); break;
-                    case "Dept": value = deptModel.Dept.GridText(column: column); break;
-                    case "Body": value = deptModel.Body.GridText(column: column); break;
-                    case "Comments": value = deptModel.Comments.GridText(column: column); break;
-                    case "Creator": value = deptModel.Creator.GridText(column: column); break;
-                    case "Updator": value = deptModel.Updator.GridText(column: column); break;
-                    case "CreatedTime": value = deptModel.CreatedTime.GridText(column: column); break;
-                    case "UpdatedTime": value = deptModel.UpdatedTime.GridText(column: column); break;
+                    case "DeptId": value = deptModel.DeptId.GridText(
+                        context: context,
+                        column: column); break;
+                    case "Ver": value = deptModel.Ver.GridText(
+                        context: context,
+                        column: column); break;
+                    case "DeptCode": value = deptModel.DeptCode.GridText(
+                        context: context,
+                        column: column); break;
+                    case "Dept": value = deptModel.Dept.GridText(
+                        context: context,
+                        column: column); break;
+                    case "Body": value = deptModel.Body.GridText(
+                        context: context,
+                        column: column); break;
+                    case "Comments": value = deptModel.Comments.GridText(
+                        context: context,
+                        column: column); break;
+                    case "Creator": value = deptModel.Creator.GridText(
+                        context: context,
+                        column: column); break;
+                    case "Updator": value = deptModel.Updator.GridText(
+                        context: context,
+                        column: column); break;
+                    case "CreatedTime": value = deptModel.CreatedTime.GridText(
+                        context: context,
+                        column: column); break;
+                    case "UpdatedTime": value = deptModel.UpdatedTime.GridText(
+                        context: context,
+                        column: column); break;
                 }
                 gridDesign = gridDesign.Replace("[" + column.ColumnName + "]", value);
             });

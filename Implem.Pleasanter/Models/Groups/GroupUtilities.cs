@@ -346,6 +346,7 @@ namespace Implem.Pleasanter.Models
             if (!column.GridDesign.IsNullOrEmpty())
             {
                 return hb.TdCustomValue(
+                    context: context,
                     ss: ss,
                     gridDesign: column.GridDesign,
                     groupModel: groupModel);
@@ -496,22 +497,44 @@ namespace Implem.Pleasanter.Models
         }
 
         private static HtmlBuilder TdCustomValue(
-            this HtmlBuilder hb, SiteSettings ss, string gridDesign, GroupModel groupModel)
+            this HtmlBuilder hb,
+            Context context,
+            SiteSettings ss,
+            string gridDesign,
+            GroupModel groupModel)
         {
             ss.IncludedColumns(gridDesign).ForEach(column =>
             {
                 var value = string.Empty;
                 switch (column.Name)
                 {
-                    case "GroupId": value = groupModel.GroupId.GridText(column: column); break;
-                    case "Ver": value = groupModel.Ver.GridText(column: column); break;
-                    case "GroupName": value = groupModel.GroupName.GridText(column: column); break;
-                    case "Body": value = groupModel.Body.GridText(column: column); break;
-                    case "Comments": value = groupModel.Comments.GridText(column: column); break;
-                    case "Creator": value = groupModel.Creator.GridText(column: column); break;
-                    case "Updator": value = groupModel.Updator.GridText(column: column); break;
-                    case "CreatedTime": value = groupModel.CreatedTime.GridText(column: column); break;
-                    case "UpdatedTime": value = groupModel.UpdatedTime.GridText(column: column); break;
+                    case "GroupId": value = groupModel.GroupId.GridText(
+                        context: context,
+                        column: column); break;
+                    case "Ver": value = groupModel.Ver.GridText(
+                        context: context,
+                        column: column); break;
+                    case "GroupName": value = groupModel.GroupName.GridText(
+                        context: context,
+                        column: column); break;
+                    case "Body": value = groupModel.Body.GridText(
+                        context: context,
+                        column: column); break;
+                    case "Comments": value = groupModel.Comments.GridText(
+                        context: context,
+                        column: column); break;
+                    case "Creator": value = groupModel.Creator.GridText(
+                        context: context,
+                        column: column); break;
+                    case "Updator": value = groupModel.Updator.GridText(
+                        context: context,
+                        column: column); break;
+                    case "CreatedTime": value = groupModel.CreatedTime.GridText(
+                        context: context,
+                        column: column); break;
+                    case "UpdatedTime": value = groupModel.UpdatedTime.GridText(
+                        context: context,
+                        column: column); break;
                 }
                 gridDesign = gridDesign.Replace("[" + column.ColumnName + "]", value);
             });
@@ -1342,6 +1365,91 @@ namespace Implem.Pleasanter.Models
                         context: context,
                         userId: userId) + manager));
             }
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        public static System.Web.Mvc.ContentResult GetByApi(Context context, SiteSettings ss)
+        {
+            var api = Forms.String().Deserialize<Api>();
+            if (api == null)
+            {
+                return ApiResults.Get(ApiResponses.BadRequest());
+            }
+            var view = api?.View ?? new View();
+            var siteId = view.ColumnFilterHash
+                            .Where(f => f.Key == "SiteId")
+                            .Select(f => f.Value)
+                            .FirstOrDefault()?.ToLong();
+            var userId = view.ColumnFilterHash
+                            .Where(f => f.Key == "UserId")
+                            .Select(f => f.Value)
+                            .FirstOrDefault()?.ToLong();
+            var siteModel = siteId.HasValue ? new SiteModel(context, siteId.Value) : null;
+            if (siteModel != null)
+            {
+                if (siteModel.AccessStatus != Databases.AccessStatuses.Selected)
+                {
+                    return ApiResults.Get(ApiResponses.NotFound());
+                }
+                var invalid = SiteValidators.OnReading(
+                    context,
+                    siteModel.SitesSiteSettings(context, siteId.Value),
+                    siteModel);
+                switch (invalid)
+                {
+                    case Error.Types.None: break;
+                    default: return ApiResults.Error(invalid);
+                }
+            }
+            var siteGroups = siteModel != null
+                ? SiteInfo.SiteGroups(context, siteModel.InheritPermission)?
+                .Where(o => !SiteInfo.User(context, o).Disabled).ToArray()
+                : null;
+            var pageSize = Parameters.Api.PageSize;
+            var groupCollection = new GroupCollection(
+                context: context,
+                ss: ss,
+                where: view.Where(context: context, ss: ss)
+                .Groups_TenantId(context.TenantId)
+                .SqlWhereLike(
+                    name: "SearchText",
+                    searchText: view.ColumnFilterHash
+                    .Where(f => f.Key == "SearchText")
+                    .Select(f => f.Value)
+                    .FirstOrDefault(),
+                    clauseCollection: new List<string>()
+                    {
+                        Rds.Groups_GroupId_WhereLike(),
+                        Rds.Groups_GroupName_WhereLike(),
+                        Rds.Groups_Body_WhereLike()
+                    })
+                .Add(
+                    tableName: "Groups",
+                    subLeft: Rds.SelectGroupMembers(
+                    column: Rds.GroupMembersColumn().GroupMembersCount(),
+                    where: Rds.GroupMembersWhere().UserId(userId).GroupId(raw: "[Groups].[GroupId]").Add(raw: "[Groups].[GroupId]>0")),
+                    _operator: ">0",
+                    _using: userId.HasValue),
+                orderBy: view.OrderBy(context: context, ss: ss, pageSize: pageSize),
+                offset: api.Offset,
+                pageSize: pageSize,
+                countRecord: true);
+            var groups = siteGroups == null
+                ? groupCollection
+                : groupCollection.Join(siteGroups, c => c.GroupId, s => s, (c, s) => c);
+            return ApiResults.Get(new
+            {
+                StatusCode = 200,
+                Response = new
+                {
+                    Offset = api.Offset,
+                    PageSize = pageSize,
+                    TotalCount = groups.Count(),
+                    Data = groups.Select(o => o.GetByApi(ss))
+                }
+            }.ToJson());
         }
     }
 }

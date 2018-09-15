@@ -321,5 +321,15 @@ namespace Implem.Pleasanter.Models
                 Forms.Data("ReminderTo"), out data);
             return Error.Types.None;
         }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        public static Error.Types OnReading(Context context, SiteSettings ss, SiteModel siteModel)
+        {
+            return context.CanRead(ss, true)
+                    ? Error.Types.None
+                    : Error.Types.HasNotPermission;
+        }
     }
 }

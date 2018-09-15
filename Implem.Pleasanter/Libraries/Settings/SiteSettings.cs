@@ -3244,7 +3244,7 @@ namespace Implem.Pleasanter.Libraries.Settings
         private static string LinkHashRelatingColumnsSubQuery(string referenceType, Column parentColumn, int parentId)
         {
             return (parentColumn == null || referenceType == "Wikis" || referenceType == "Sites") ? null
-                : $"select [{Rds.IdColumn(referenceType)}] from [{referenceType}] where [{parentColumn.ColumnName}] = {parentId}";
+                : $"select [{Rds.IdColumn(referenceType)}] from [{referenceType}] where try_cast([{parentColumn.ColumnName}] as bigint) = {parentId}";
         }
 
         public void SetRelatingColumnsLinkedClass()
