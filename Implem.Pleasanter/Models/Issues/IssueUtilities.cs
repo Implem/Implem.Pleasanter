@@ -335,6 +335,7 @@ namespace Implem.Pleasanter.Models
             if (!column.GridDesign.IsNullOrEmpty())
             {
                 return hb.TdCustomValue(
+                    context: context,
                     ss: ss,
                     gridDesign: column.GridDesign,
                     issueModel: issueModel);
@@ -2990,189 +2991,545 @@ namespace Implem.Pleasanter.Models
         }
 
         private static HtmlBuilder TdCustomValue(
-            this HtmlBuilder hb, SiteSettings ss, string gridDesign, IssueModel issueModel)
+            this HtmlBuilder hb,
+            Context context,
+            SiteSettings ss,
+            string gridDesign,
+            IssueModel issueModel)
         {
             ss.IncludedColumns(gridDesign).ForEach(column =>
             {
                 var value = string.Empty;
                 switch (column.Name)
                 {
-                    case "SiteId": value = issueModel.SiteId.GridText(column: column); break;
-                    case "UpdatedTime": value = issueModel.UpdatedTime.GridText(column: column); break;
-                    case "IssueId": value = issueModel.IssueId.GridText(column: column); break;
-                    case "Ver": value = issueModel.Ver.GridText(column: column); break;
-                    case "Title": value = issueModel.Title.GridText(column: column); break;
-                    case "Body": value = issueModel.Body.GridText(column: column); break;
-                    case "TitleBody": value = issueModel.TitleBody.GridText(column: column); break;
-                    case "StartTime": value = issueModel.StartTime.GridText(column: column); break;
-                    case "CompletionTime": value = issueModel.CompletionTime.GridText(column: column); break;
-                    case "WorkValue": value = issueModel.WorkValue.GridText(column: column); break;
-                    case "ProgressRate": value = issueModel.ProgressRate.GridText(column: column); break;
-                    case "RemainingWorkValue": value = issueModel.RemainingWorkValue.GridText(column: column); break;
-                    case "Status": value = issueModel.Status.GridText(column: column); break;
-                    case "Manager": value = issueModel.Manager.GridText(column: column); break;
-                    case "Owner": value = issueModel.Owner.GridText(column: column); break;
-                    case "ClassA": value = issueModel.ClassA.GridText(column: column); break;
-                    case "ClassB": value = issueModel.ClassB.GridText(column: column); break;
-                    case "ClassC": value = issueModel.ClassC.GridText(column: column); break;
-                    case "ClassD": value = issueModel.ClassD.GridText(column: column); break;
-                    case "ClassE": value = issueModel.ClassE.GridText(column: column); break;
-                    case "ClassF": value = issueModel.ClassF.GridText(column: column); break;
-                    case "ClassG": value = issueModel.ClassG.GridText(column: column); break;
-                    case "ClassH": value = issueModel.ClassH.GridText(column: column); break;
-                    case "ClassI": value = issueModel.ClassI.GridText(column: column); break;
-                    case "ClassJ": value = issueModel.ClassJ.GridText(column: column); break;
-                    case "ClassK": value = issueModel.ClassK.GridText(column: column); break;
-                    case "ClassL": value = issueModel.ClassL.GridText(column: column); break;
-                    case "ClassM": value = issueModel.ClassM.GridText(column: column); break;
-                    case "ClassN": value = issueModel.ClassN.GridText(column: column); break;
-                    case "ClassO": value = issueModel.ClassO.GridText(column: column); break;
-                    case "ClassP": value = issueModel.ClassP.GridText(column: column); break;
-                    case "ClassQ": value = issueModel.ClassQ.GridText(column: column); break;
-                    case "ClassR": value = issueModel.ClassR.GridText(column: column); break;
-                    case "ClassS": value = issueModel.ClassS.GridText(column: column); break;
-                    case "ClassT": value = issueModel.ClassT.GridText(column: column); break;
-                    case "ClassU": value = issueModel.ClassU.GridText(column: column); break;
-                    case "ClassV": value = issueModel.ClassV.GridText(column: column); break;
-                    case "ClassW": value = issueModel.ClassW.GridText(column: column); break;
-                    case "ClassX": value = issueModel.ClassX.GridText(column: column); break;
-                    case "ClassY": value = issueModel.ClassY.GridText(column: column); break;
-                    case "ClassZ": value = issueModel.ClassZ.GridText(column: column); break;
-                    case "NumA": value = issueModel.NumA.GridText(column: column); break;
-                    case "NumB": value = issueModel.NumB.GridText(column: column); break;
-                    case "NumC": value = issueModel.NumC.GridText(column: column); break;
-                    case "NumD": value = issueModel.NumD.GridText(column: column); break;
-                    case "NumE": value = issueModel.NumE.GridText(column: column); break;
-                    case "NumF": value = issueModel.NumF.GridText(column: column); break;
-                    case "NumG": value = issueModel.NumG.GridText(column: column); break;
-                    case "NumH": value = issueModel.NumH.GridText(column: column); break;
-                    case "NumI": value = issueModel.NumI.GridText(column: column); break;
-                    case "NumJ": value = issueModel.NumJ.GridText(column: column); break;
-                    case "NumK": value = issueModel.NumK.GridText(column: column); break;
-                    case "NumL": value = issueModel.NumL.GridText(column: column); break;
-                    case "NumM": value = issueModel.NumM.GridText(column: column); break;
-                    case "NumN": value = issueModel.NumN.GridText(column: column); break;
-                    case "NumO": value = issueModel.NumO.GridText(column: column); break;
-                    case "NumP": value = issueModel.NumP.GridText(column: column); break;
-                    case "NumQ": value = issueModel.NumQ.GridText(column: column); break;
-                    case "NumR": value = issueModel.NumR.GridText(column: column); break;
-                    case "NumS": value = issueModel.NumS.GridText(column: column); break;
-                    case "NumT": value = issueModel.NumT.GridText(column: column); break;
-                    case "NumU": value = issueModel.NumU.GridText(column: column); break;
-                    case "NumV": value = issueModel.NumV.GridText(column: column); break;
-                    case "NumW": value = issueModel.NumW.GridText(column: column); break;
-                    case "NumX": value = issueModel.NumX.GridText(column: column); break;
-                    case "NumY": value = issueModel.NumY.GridText(column: column); break;
-                    case "NumZ": value = issueModel.NumZ.GridText(column: column); break;
-                    case "DateA": value = issueModel.DateA.GridText(column: column); break;
-                    case "DateB": value = issueModel.DateB.GridText(column: column); break;
-                    case "DateC": value = issueModel.DateC.GridText(column: column); break;
-                    case "DateD": value = issueModel.DateD.GridText(column: column); break;
-                    case "DateE": value = issueModel.DateE.GridText(column: column); break;
-                    case "DateF": value = issueModel.DateF.GridText(column: column); break;
-                    case "DateG": value = issueModel.DateG.GridText(column: column); break;
-                    case "DateH": value = issueModel.DateH.GridText(column: column); break;
-                    case "DateI": value = issueModel.DateI.GridText(column: column); break;
-                    case "DateJ": value = issueModel.DateJ.GridText(column: column); break;
-                    case "DateK": value = issueModel.DateK.GridText(column: column); break;
-                    case "DateL": value = issueModel.DateL.GridText(column: column); break;
-                    case "DateM": value = issueModel.DateM.GridText(column: column); break;
-                    case "DateN": value = issueModel.DateN.GridText(column: column); break;
-                    case "DateO": value = issueModel.DateO.GridText(column: column); break;
-                    case "DateP": value = issueModel.DateP.GridText(column: column); break;
-                    case "DateQ": value = issueModel.DateQ.GridText(column: column); break;
-                    case "DateR": value = issueModel.DateR.GridText(column: column); break;
-                    case "DateS": value = issueModel.DateS.GridText(column: column); break;
-                    case "DateT": value = issueModel.DateT.GridText(column: column); break;
-                    case "DateU": value = issueModel.DateU.GridText(column: column); break;
-                    case "DateV": value = issueModel.DateV.GridText(column: column); break;
-                    case "DateW": value = issueModel.DateW.GridText(column: column); break;
-                    case "DateX": value = issueModel.DateX.GridText(column: column); break;
-                    case "DateY": value = issueModel.DateY.GridText(column: column); break;
-                    case "DateZ": value = issueModel.DateZ.GridText(column: column); break;
-                    case "DescriptionA": value = issueModel.DescriptionA.GridText(column: column); break;
-                    case "DescriptionB": value = issueModel.DescriptionB.GridText(column: column); break;
-                    case "DescriptionC": value = issueModel.DescriptionC.GridText(column: column); break;
-                    case "DescriptionD": value = issueModel.DescriptionD.GridText(column: column); break;
-                    case "DescriptionE": value = issueModel.DescriptionE.GridText(column: column); break;
-                    case "DescriptionF": value = issueModel.DescriptionF.GridText(column: column); break;
-                    case "DescriptionG": value = issueModel.DescriptionG.GridText(column: column); break;
-                    case "DescriptionH": value = issueModel.DescriptionH.GridText(column: column); break;
-                    case "DescriptionI": value = issueModel.DescriptionI.GridText(column: column); break;
-                    case "DescriptionJ": value = issueModel.DescriptionJ.GridText(column: column); break;
-                    case "DescriptionK": value = issueModel.DescriptionK.GridText(column: column); break;
-                    case "DescriptionL": value = issueModel.DescriptionL.GridText(column: column); break;
-                    case "DescriptionM": value = issueModel.DescriptionM.GridText(column: column); break;
-                    case "DescriptionN": value = issueModel.DescriptionN.GridText(column: column); break;
-                    case "DescriptionO": value = issueModel.DescriptionO.GridText(column: column); break;
-                    case "DescriptionP": value = issueModel.DescriptionP.GridText(column: column); break;
-                    case "DescriptionQ": value = issueModel.DescriptionQ.GridText(column: column); break;
-                    case "DescriptionR": value = issueModel.DescriptionR.GridText(column: column); break;
-                    case "DescriptionS": value = issueModel.DescriptionS.GridText(column: column); break;
-                    case "DescriptionT": value = issueModel.DescriptionT.GridText(column: column); break;
-                    case "DescriptionU": value = issueModel.DescriptionU.GridText(column: column); break;
-                    case "DescriptionV": value = issueModel.DescriptionV.GridText(column: column); break;
-                    case "DescriptionW": value = issueModel.DescriptionW.GridText(column: column); break;
-                    case "DescriptionX": value = issueModel.DescriptionX.GridText(column: column); break;
-                    case "DescriptionY": value = issueModel.DescriptionY.GridText(column: column); break;
-                    case "DescriptionZ": value = issueModel.DescriptionZ.GridText(column: column); break;
-                    case "CheckA": value = issueModel.CheckA.GridText(column: column); break;
-                    case "CheckB": value = issueModel.CheckB.GridText(column: column); break;
-                    case "CheckC": value = issueModel.CheckC.GridText(column: column); break;
-                    case "CheckD": value = issueModel.CheckD.GridText(column: column); break;
-                    case "CheckE": value = issueModel.CheckE.GridText(column: column); break;
-                    case "CheckF": value = issueModel.CheckF.GridText(column: column); break;
-                    case "CheckG": value = issueModel.CheckG.GridText(column: column); break;
-                    case "CheckH": value = issueModel.CheckH.GridText(column: column); break;
-                    case "CheckI": value = issueModel.CheckI.GridText(column: column); break;
-                    case "CheckJ": value = issueModel.CheckJ.GridText(column: column); break;
-                    case "CheckK": value = issueModel.CheckK.GridText(column: column); break;
-                    case "CheckL": value = issueModel.CheckL.GridText(column: column); break;
-                    case "CheckM": value = issueModel.CheckM.GridText(column: column); break;
-                    case "CheckN": value = issueModel.CheckN.GridText(column: column); break;
-                    case "CheckO": value = issueModel.CheckO.GridText(column: column); break;
-                    case "CheckP": value = issueModel.CheckP.GridText(column: column); break;
-                    case "CheckQ": value = issueModel.CheckQ.GridText(column: column); break;
-                    case "CheckR": value = issueModel.CheckR.GridText(column: column); break;
-                    case "CheckS": value = issueModel.CheckS.GridText(column: column); break;
-                    case "CheckT": value = issueModel.CheckT.GridText(column: column); break;
-                    case "CheckU": value = issueModel.CheckU.GridText(column: column); break;
-                    case "CheckV": value = issueModel.CheckV.GridText(column: column); break;
-                    case "CheckW": value = issueModel.CheckW.GridText(column: column); break;
-                    case "CheckX": value = issueModel.CheckX.GridText(column: column); break;
-                    case "CheckY": value = issueModel.CheckY.GridText(column: column); break;
-                    case "CheckZ": value = issueModel.CheckZ.GridText(column: column); break;
-                    case "AttachmentsA": value = issueModel.AttachmentsA.GridText(column: column); break;
-                    case "AttachmentsB": value = issueModel.AttachmentsB.GridText(column: column); break;
-                    case "AttachmentsC": value = issueModel.AttachmentsC.GridText(column: column); break;
-                    case "AttachmentsD": value = issueModel.AttachmentsD.GridText(column: column); break;
-                    case "AttachmentsE": value = issueModel.AttachmentsE.GridText(column: column); break;
-                    case "AttachmentsF": value = issueModel.AttachmentsF.GridText(column: column); break;
-                    case "AttachmentsG": value = issueModel.AttachmentsG.GridText(column: column); break;
-                    case "AttachmentsH": value = issueModel.AttachmentsH.GridText(column: column); break;
-                    case "AttachmentsI": value = issueModel.AttachmentsI.GridText(column: column); break;
-                    case "AttachmentsJ": value = issueModel.AttachmentsJ.GridText(column: column); break;
-                    case "AttachmentsK": value = issueModel.AttachmentsK.GridText(column: column); break;
-                    case "AttachmentsL": value = issueModel.AttachmentsL.GridText(column: column); break;
-                    case "AttachmentsM": value = issueModel.AttachmentsM.GridText(column: column); break;
-                    case "AttachmentsN": value = issueModel.AttachmentsN.GridText(column: column); break;
-                    case "AttachmentsO": value = issueModel.AttachmentsO.GridText(column: column); break;
-                    case "AttachmentsP": value = issueModel.AttachmentsP.GridText(column: column); break;
-                    case "AttachmentsQ": value = issueModel.AttachmentsQ.GridText(column: column); break;
-                    case "AttachmentsR": value = issueModel.AttachmentsR.GridText(column: column); break;
-                    case "AttachmentsS": value = issueModel.AttachmentsS.GridText(column: column); break;
-                    case "AttachmentsT": value = issueModel.AttachmentsT.GridText(column: column); break;
-                    case "AttachmentsU": value = issueModel.AttachmentsU.GridText(column: column); break;
-                    case "AttachmentsV": value = issueModel.AttachmentsV.GridText(column: column); break;
-                    case "AttachmentsW": value = issueModel.AttachmentsW.GridText(column: column); break;
-                    case "AttachmentsX": value = issueModel.AttachmentsX.GridText(column: column); break;
-                    case "AttachmentsY": value = issueModel.AttachmentsY.GridText(column: column); break;
-                    case "AttachmentsZ": value = issueModel.AttachmentsZ.GridText(column: column); break;
-                    case "SiteTitle": value = issueModel.SiteTitle.GridText(column: column); break;
-                    case "Comments": value = issueModel.Comments.GridText(column: column); break;
-                    case "Creator": value = issueModel.Creator.GridText(column: column); break;
-                    case "Updator": value = issueModel.Updator.GridText(column: column); break;
-                    case "CreatedTime": value = issueModel.CreatedTime.GridText(column: column); break;
+                    case "SiteId": value = issueModel.SiteId.GridText(
+                        context: context,
+                        column: column); break;
+                    case "UpdatedTime": value = issueModel.UpdatedTime.GridText(
+                        context: context,
+                        column: column); break;
+                    case "IssueId": value = issueModel.IssueId.GridText(
+                        context: context,
+                        column: column); break;
+                    case "Ver": value = issueModel.Ver.GridText(
+                        context: context,
+                        column: column); break;
+                    case "Title": value = issueModel.Title.GridText(
+                        context: context,
+                        column: column); break;
+                    case "Body": value = issueModel.Body.GridText(
+                        context: context,
+                        column: column); break;
+                    case "TitleBody": value = issueModel.TitleBody.GridText(
+                        context: context,
+                        column: column); break;
+                    case "StartTime": value = issueModel.StartTime.GridText(
+                        context: context,
+                        column: column); break;
+                    case "CompletionTime": value = issueModel.CompletionTime.GridText(
+                        context: context,
+                        column: column); break;
+                    case "WorkValue": value = issueModel.WorkValue.GridText(
+                        context: context,
+                        column: column); break;
+                    case "ProgressRate": value = issueModel.ProgressRate.GridText(
+                        context: context,
+                        column: column); break;
+                    case "RemainingWorkValue": value = issueModel.RemainingWorkValue.GridText(
+                        context: context,
+                        column: column); break;
+                    case "Status": value = issueModel.Status.GridText(
+                        context: context,
+                        column: column); break;
+                    case "Manager": value = issueModel.Manager.GridText(
+                        context: context,
+                        column: column); break;
+                    case "Owner": value = issueModel.Owner.GridText(
+                        context: context,
+                        column: column); break;
+                    case "ClassA": value = issueModel.ClassA.GridText(
+                        context: context,
+                        column: column); break;
+                    case "ClassB": value = issueModel.ClassB.GridText(
+                        context: context,
+                        column: column); break;
+                    case "ClassC": value = issueModel.ClassC.GridText(
+                        context: context,
+                        column: column); break;
+                    case "ClassD": value = issueModel.ClassD.GridText(
+                        context: context,
+                        column: column); break;
+                    case "ClassE": value = issueModel.ClassE.GridText(
+                        context: context,
+                        column: column); break;
+                    case "ClassF": value = issueModel.ClassF.GridText(
+                        context: context,
+                        column: column); break;
+                    case "ClassG": value = issueModel.ClassG.GridText(
+                        context: context,
+                        column: column); break;
+                    case "ClassH": value = issueModel.ClassH.GridText(
+                        context: context,
+                        column: column); break;
+                    case "ClassI": value = issueModel.ClassI.GridText(
+                        context: context,
+                        column: column); break;
+                    case "ClassJ": value = issueModel.ClassJ.GridText(
+                        context: context,
+                        column: column); break;
+                    case "ClassK": value = issueModel.ClassK.GridText(
+                        context: context,
+                        column: column); break;
+                    case "ClassL": value = issueModel.ClassL.GridText(
+                        context: context,
+                        column: column); break;
+                    case "ClassM": value = issueModel.ClassM.GridText(
+                        context: context,
+                        column: column); break;
+                    case "ClassN": value = issueModel.ClassN.GridText(
+                        context: context,
+                        column: column); break;
+                    case "ClassO": value = issueModel.ClassO.GridText(
+                        context: context,
+                        column: column); break;
+                    case "ClassP": value = issueModel.ClassP.GridText(
+                        context: context,
+                        column: column); break;
+                    case "ClassQ": value = issueModel.ClassQ.GridText(
+                        context: context,
+                        column: column); break;
+                    case "ClassR": value = issueModel.ClassR.GridText(
+                        context: context,
+                        column: column); break;
+                    case "ClassS": value = issueModel.ClassS.GridText(
+                        context: context,
+                        column: column); break;
+                    case "ClassT": value = issueModel.ClassT.GridText(
+                        context: context,
+                        column: column); break;
+                    case "ClassU": value = issueModel.ClassU.GridText(
+                        context: context,
+                        column: column); break;
+                    case "ClassV": value = issueModel.ClassV.GridText(
+                        context: context,
+                        column: column); break;
+                    case "ClassW": value = issueModel.ClassW.GridText(
+                        context: context,
+                        column: column); break;
+                    case "ClassX": value = issueModel.ClassX.GridText(
+                        context: context,
+                        column: column); break;
+                    case "ClassY": value = issueModel.ClassY.GridText(
+                        context: context,
+                        column: column); break;
+                    case "ClassZ": value = issueModel.ClassZ.GridText(
+                        context: context,
+                        column: column); break;
+                    case "NumA": value = issueModel.NumA.GridText(
+                        context: context,
+                        column: column); break;
+                    case "NumB": value = issueModel.NumB.GridText(
+                        context: context,
+                        column: column); break;
+                    case "NumC": value = issueModel.NumC.GridText(
+                        context: context,
+                        column: column); break;
+                    case "NumD": value = issueModel.NumD.GridText(
+                        context: context,
+                        column: column); break;
+                    case "NumE": value = issueModel.NumE.GridText(
+                        context: context,
+                        column: column); break;
+                    case "NumF": value = issueModel.NumF.GridText(
+                        context: context,
+                        column: column); break;
+                    case "NumG": value = issueModel.NumG.GridText(
+                        context: context,
+                        column: column); break;
+                    case "NumH": value = issueModel.NumH.GridText(
+                        context: context,
+                        column: column); break;
+                    case "NumI": value = issueModel.NumI.GridText(
+                        context: context,
+                        column: column); break;
+                    case "NumJ": value = issueModel.NumJ.GridText(
+                        context: context,
+                        column: column); break;
+                    case "NumK": value = issueModel.NumK.GridText(
+                        context: context,
+                        column: column); break;
+                    case "NumL": value = issueModel.NumL.GridText(
+                        context: context,
+                        column: column); break;
+                    case "NumM": value = issueModel.NumM.GridText(
+                        context: context,
+                        column: column); break;
+                    case "NumN": value = issueModel.NumN.GridText(
+                        context: context,
+                        column: column); break;
+                    case "NumO": value = issueModel.NumO.GridText(
+                        context: context,
+                        column: column); break;
+                    case "NumP": value = issueModel.NumP.GridText(
+                        context: context,
+                        column: column); break;
+                    case "NumQ": value = issueModel.NumQ.GridText(
+                        context: context,
+                        column: column); break;
+                    case "NumR": value = issueModel.NumR.GridText(
+                        context: context,
+                        column: column); break;
+                    case "NumS": value = issueModel.NumS.GridText(
+                        context: context,
+                        column: column); break;
+                    case "NumT": value = issueModel.NumT.GridText(
+                        context: context,
+                        column: column); break;
+                    case "NumU": value = issueModel.NumU.GridText(
+                        context: context,
+                        column: column); break;
+                    case "NumV": value = issueModel.NumV.GridText(
+                        context: context,
+                        column: column); break;
+                    case "NumW": value = issueModel.NumW.GridText(
+                        context: context,
+                        column: column); break;
+                    case "NumX": value = issueModel.NumX.GridText(
+                        context: context,
+                        column: column); break;
+                    case "NumY": value = issueModel.NumY.GridText(
+                        context: context,
+                        column: column); break;
+                    case "NumZ": value = issueModel.NumZ.GridText(
+                        context: context,
+                        column: column); break;
+                    case "DateA": value = issueModel.DateA.GridText(
+                        context: context,
+                        column: column); break;
+                    case "DateB": value = issueModel.DateB.GridText(
+                        context: context,
+                        column: column); break;
+                    case "DateC": value = issueModel.DateC.GridText(
+                        context: context,
+                        column: column); break;
+                    case "DateD": value = issueModel.DateD.GridText(
+                        context: context,
+                        column: column); break;
+                    case "DateE": value = issueModel.DateE.GridText(
+                        context: context,
+                        column: column); break;
+                    case "DateF": value = issueModel.DateF.GridText(
+                        context: context,
+                        column: column); break;
+                    case "DateG": value = issueModel.DateG.GridText(
+                        context: context,
+                        column: column); break;
+                    case "DateH": value = issueModel.DateH.GridText(
+                        context: context,
+                        column: column); break;
+                    case "DateI": value = issueModel.DateI.GridText(
+                        context: context,
+                        column: column); break;
+                    case "DateJ": value = issueModel.DateJ.GridText(
+                        context: context,
+                        column: column); break;
+                    case "DateK": value = issueModel.DateK.GridText(
+                        context: context,
+                        column: column); break;
+                    case "DateL": value = issueModel.DateL.GridText(
+                        context: context,
+                        column: column); break;
+                    case "DateM": value = issueModel.DateM.GridText(
+                        context: context,
+                        column: column); break;
+                    case "DateN": value = issueModel.DateN.GridText(
+                        context: context,
+                        column: column); break;
+                    case "DateO": value = issueModel.DateO.GridText(
+                        context: context,
+                        column: column); break;
+                    case "DateP": value = issueModel.DateP.GridText(
+                        context: context,
+                        column: column); break;
+                    case "DateQ": value = issueModel.DateQ.GridText(
+                        context: context,
+                        column: column); break;
+                    case "DateR": value = issueModel.DateR.GridText(
+                        context: context,
+                        column: column); break;
+                    case "DateS": value = issueModel.DateS.GridText(
+                        context: context,
+                        column: column); break;
+                    case "DateT": value = issueModel.DateT.GridText(
+                        context: context,
+                        column: column); break;
+                    case "DateU": value = issueModel.DateU.GridText(
+                        context: context,
+                        column: column); break;
+                    case "DateV": value = issueModel.DateV.GridText(
+                        context: context,
+                        column: column); break;
+                    case "DateW": value = issueModel.DateW.GridText(
+                        context: context,
+                        column: column); break;
+                    case "DateX": value = issueModel.DateX.GridText(
+                        context: context,
+                        column: column); break;
+                    case "DateY": value = issueModel.DateY.GridText(
+                        context: context,
+                        column: column); break;
+                    case "DateZ": value = issueModel.DateZ.GridText(
+                        context: context,
+                        column: column); break;
+                    case "DescriptionA": value = issueModel.DescriptionA.GridText(
+                        context: context,
+                        column: column); break;
+                    case "DescriptionB": value = issueModel.DescriptionB.GridText(
+                        context: context,
+                        column: column); break;
+                    case "DescriptionC": value = issueModel.DescriptionC.GridText(
+                        context: context,
+                        column: column); break;
+                    case "DescriptionD": value = issueModel.DescriptionD.GridText(
+                        context: context,
+                        column: column); break;
+                    case "DescriptionE": value = issueModel.DescriptionE.GridText(
+                        context: context,
+                        column: column); break;
+                    case "DescriptionF": value = issueModel.DescriptionF.GridText(
+                        context: context,
+                        column: column); break;
+                    case "DescriptionG": value = issueModel.DescriptionG.GridText(
+                        context: context,
+                        column: column); break;
+                    case "DescriptionH": value = issueModel.DescriptionH.GridText(
+                        context: context,
+                        column: column); break;
+                    case "DescriptionI": value = issueModel.DescriptionI.GridText(
+                        context: context,
+                        column: column); break;
+                    case "DescriptionJ": value = issueModel.DescriptionJ.GridText(
+                        context: context,
+                        column: column); break;
+                    case "DescriptionK": value = issueModel.DescriptionK.GridText(
+                        context: context,
+                        column: column); break;
+                    case "DescriptionL": value = issueModel.DescriptionL.GridText(
+                        context: context,
+                        column: column); break;
+                    case "DescriptionM": value = issueModel.DescriptionM.GridText(
+                        context: context,
+                        column: column); break;
+                    case "DescriptionN": value = issueModel.DescriptionN.GridText(
+                        context: context,
+                        column: column); break;
+                    case "DescriptionO": value = issueModel.DescriptionO.GridText(
+                        context: context,
+                        column: column); break;
+                    case "DescriptionP": value = issueModel.DescriptionP.GridText(
+                        context: context,
+                        column: column); break;
+                    case "DescriptionQ": value = issueModel.DescriptionQ.GridText(
+                        context: context,
+                        column: column); break;
+                    case "DescriptionR": value = issueModel.DescriptionR.GridText(
+                        context: context,
+                        column: column); break;
+                    case "DescriptionS": value = issueModel.DescriptionS.GridText(
+                        context: context,
+                        column: column); break;
+                    case "DescriptionT": value = issueModel.DescriptionT.GridText(
+                        context: context,
+                        column: column); break;
+                    case "DescriptionU": value = issueModel.DescriptionU.GridText(
+                        context: context,
+                        column: column); break;
+                    case "DescriptionV": value = issueModel.DescriptionV.GridText(
+                        context: context,
+                        column: column); break;
+                    case "DescriptionW": value = issueModel.DescriptionW.GridText(
+                        context: context,
+                        column: column); break;
+                    case "DescriptionX": value = issueModel.DescriptionX.GridText(
+                        context: context,
+                        column: column); break;
+                    case "DescriptionY": value = issueModel.DescriptionY.GridText(
+                        context: context,
+                        column: column); break;
+                    case "DescriptionZ": value = issueModel.DescriptionZ.GridText(
+                        context: context,
+                        column: column); break;
+                    case "CheckA": value = issueModel.CheckA.GridText(
+                        context: context,
+                        column: column); break;
+                    case "CheckB": value = issueModel.CheckB.GridText(
+                        context: context,
+                        column: column); break;
+                    case "CheckC": value = issueModel.CheckC.GridText(
+                        context: context,
+                        column: column); break;
+                    case "CheckD": value = issueModel.CheckD.GridText(
+                        context: context,
+                        column: column); break;
+                    case "CheckE": value = issueModel.CheckE.GridText(
+                        context: context,
+                        column: column); break;
+                    case "CheckF": value = issueModel.CheckF.GridText(
+                        context: context,
+                        column: column); break;
+                    case "CheckG": value = issueModel.CheckG.GridText(
+                        context: context,
+                        column: column); break;
+                    case "CheckH": value = issueModel.CheckH.GridText(
+                        context: context,
+                        column: column); break;
+                    case "CheckI": value = issueModel.CheckI.GridText(
+                        context: context,
+                        column: column); break;
+                    case "CheckJ": value = issueModel.CheckJ.GridText(
+                        context: context,
+                        column: column); break;
+                    case "CheckK": value = issueModel.CheckK.GridText(
+                        context: context,
+                        column: column); break;
+                    case "CheckL": value = issueModel.CheckL.GridText(
+                        context: context,
+                        column: column); break;
+                    case "CheckM": value = issueModel.CheckM.GridText(
+                        context: context,
+                        column: column); break;
+                    case "CheckN": value = issueModel.CheckN.GridText(
+                        context: context,
+                        column: column); break;
+                    case "CheckO": value = issueModel.CheckO.GridText(
+                        context: context,
+                        column: column); break;
+                    case "CheckP": value = issueModel.CheckP.GridText(
+                        context: context,
+                        column: column); break;
+                    case "CheckQ": value = issueModel.CheckQ.GridText(
+                        context: context,
+                        column: column); break;
+                    case "CheckR": value = issueModel.CheckR.GridText(
+                        context: context,
+                        column: column); break;
+                    case "CheckS": value = issueModel.CheckS.GridText(
+                        context: context,
+                        column: column); break;
+                    case "CheckT": value = issueModel.CheckT.GridText(
+                        context: context,
+                        column: column); break;
+                    case "CheckU": value = issueModel.CheckU.GridText(
+                        context: context,
+                        column: column); break;
+                    case "CheckV": value = issueModel.CheckV.GridText(
+                        context: context,
+                        column: column); break;
+                    case "CheckW": value = issueModel.CheckW.GridText(
+                        context: context,
+                        column: column); break;
+                    case "CheckX": value = issueModel.CheckX.GridText(
+                        context: context,
+                        column: column); break;
+                    case "CheckY": value = issueModel.CheckY.GridText(
+                        context: context,
+                        column: column); break;
+                    case "CheckZ": value = issueModel.CheckZ.GridText(
+                        context: context,
+                        column: column); break;
+                    case "AttachmentsA": value = issueModel.AttachmentsA.GridText(
+                        context: context,
+                        column: column); break;
+                    case "AttachmentsB": value = issueModel.AttachmentsB.GridText(
+                        context: context,
+                        column: column); break;
+                    case "AttachmentsC": value = issueModel.AttachmentsC.GridText(
+                        context: context,
+                        column: column); break;
+                    case "AttachmentsD": value = issueModel.AttachmentsD.GridText(
+                        context: context,
+                        column: column); break;
+                    case "AttachmentsE": value = issueModel.AttachmentsE.GridText(
+                        context: context,
+                        column: column); break;
+                    case "AttachmentsF": value = issueModel.AttachmentsF.GridText(
+                        context: context,
+                        column: column); break;
+                    case "AttachmentsG": value = issueModel.AttachmentsG.GridText(
+                        context: context,
+                        column: column); break;
+                    case "AttachmentsH": value = issueModel.AttachmentsH.GridText(
+                        context: context,
+                        column: column); break;
+                    case "AttachmentsI": value = issueModel.AttachmentsI.GridText(
+                        context: context,
+                        column: column); break;
+                    case "AttachmentsJ": value = issueModel.AttachmentsJ.GridText(
+                        context: context,
+                        column: column); break;
+                    case "AttachmentsK": value = issueModel.AttachmentsK.GridText(
+                        context: context,
+                        column: column); break;
+                    case "AttachmentsL": value = issueModel.AttachmentsL.GridText(
+                        context: context,
+                        column: column); break;
+                    case "AttachmentsM": value = issueModel.AttachmentsM.GridText(
+                        context: context,
+                        column: column); break;
+                    case "AttachmentsN": value = issueModel.AttachmentsN.GridText(
+                        context: context,
+                        column: column); break;
+                    case "AttachmentsO": value = issueModel.AttachmentsO.GridText(
+                        context: context,
+                        column: column); break;
+                    case "AttachmentsP": value = issueModel.AttachmentsP.GridText(
+                        context: context,
+                        column: column); break;
+                    case "AttachmentsQ": value = issueModel.AttachmentsQ.GridText(
+                        context: context,
+                        column: column); break;
+                    case "AttachmentsR": value = issueModel.AttachmentsR.GridText(
+                        context: context,
+                        column: column); break;
+                    case "AttachmentsS": value = issueModel.AttachmentsS.GridText(
+                        context: context,
+                        column: column); break;
+                    case "AttachmentsT": value = issueModel.AttachmentsT.GridText(
+                        context: context,
+                        column: column); break;
+                    case "AttachmentsU": value = issueModel.AttachmentsU.GridText(
+                        context: context,
+                        column: column); break;
+                    case "AttachmentsV": value = issueModel.AttachmentsV.GridText(
+                        context: context,
+                        column: column); break;
+                    case "AttachmentsW": value = issueModel.AttachmentsW.GridText(
+                        context: context,
+                        column: column); break;
+                    case "AttachmentsX": value = issueModel.AttachmentsX.GridText(
+                        context: context,
+                        column: column); break;
+                    case "AttachmentsY": value = issueModel.AttachmentsY.GridText(
+                        context: context,
+                        column: column); break;
+                    case "AttachmentsZ": value = issueModel.AttachmentsZ.GridText(
+                        context: context,
+                        column: column); break;
+                    case "SiteTitle": value = issueModel.SiteTitle.GridText(
+                        context: context,
+                        column: column); break;
+                    case "Comments": value = issueModel.Comments.GridText(
+                        context: context,
+                        column: column); break;
+                    case "Creator": value = issueModel.Creator.GridText(
+                        context: context,
+                        column: column); break;
+                    case "Updator": value = issueModel.Updator.GridText(
+                        context: context,
+                        column: column); break;
+                    case "CreatedTime": value = issueModel.CreatedTime.GridText(
+                        context: context,
+                        column: column); break;
                 }
                 gridDesign = gridDesign.Replace("[" + column.ColumnName + "]", value);
             });

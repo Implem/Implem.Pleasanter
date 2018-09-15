@@ -525,5 +525,35 @@ namespace Implem.Pleasanter.Libraries.Settings
                 return null;
             }
         }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        public static SiteSettings ApiUsersSiteSettings(Context context)
+        {
+            var ss = UsersSiteSettings(context);
+            ss?.Columns?
+                .Where(c => c.Name == "Disabled")?
+                .ForEach(c => c.CheckFilterControlType = ColumnUtilities.CheckFilterControlTypes.OnAndOff);
+            ss?.EditorColumns?.Clear();
+            new[] { "Password" }.ForEach(c => ss.GridColumns.Remove(c));
+            if (!context.User.TenantManager)
+            {
+                ss.GridColumns = new List<string>() { "UserId", "LoginId", "Name", "Disabled" };
+            }
+            return ss;
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        public static SiteSettings ApiGroupsSiteSettings(Context context)
+        {
+            var ss = GroupsSiteSettings(context);
+            ss?.Columns?
+                .Where(c => c.Name == "Disabled")?
+                .ForEach(c => c.CheckFilterControlType = ColumnUtilities.CheckFilterControlTypes.OnAndOff);
+            return ss;
+        }
     }
 }

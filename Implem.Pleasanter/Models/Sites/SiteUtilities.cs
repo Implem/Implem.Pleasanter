@@ -336,6 +336,7 @@ namespace Implem.Pleasanter.Models
             if (!column.GridDesign.IsNullOrEmpty())
             {
                 return hb.TdCustomValue(
+                    context: context,
                     ss: ss,
                     gridDesign: column.GridDesign,
                     siteModel: siteModel);
@@ -501,23 +502,47 @@ namespace Implem.Pleasanter.Models
         }
 
         private static HtmlBuilder TdCustomValue(
-            this HtmlBuilder hb, SiteSettings ss, string gridDesign, SiteModel siteModel)
+            this HtmlBuilder hb,
+            Context context,
+            SiteSettings ss,
+            string gridDesign,
+            SiteModel siteModel)
         {
             ss.IncludedColumns(gridDesign).ForEach(column =>
             {
                 var value = string.Empty;
                 switch (column.Name)
                 {
-                    case "SiteId": value = siteModel.SiteId.GridText(column: column); break;
-                    case "UpdatedTime": value = siteModel.UpdatedTime.GridText(column: column); break;
-                    case "Ver": value = siteModel.Ver.GridText(column: column); break;
-                    case "Title": value = siteModel.Title.GridText(column: column); break;
-                    case "Body": value = siteModel.Body.GridText(column: column); break;
-                    case "TitleBody": value = siteModel.TitleBody.GridText(column: column); break;
-                    case "Comments": value = siteModel.Comments.GridText(column: column); break;
-                    case "Creator": value = siteModel.Creator.GridText(column: column); break;
-                    case "Updator": value = siteModel.Updator.GridText(column: column); break;
-                    case "CreatedTime": value = siteModel.CreatedTime.GridText(column: column); break;
+                    case "SiteId": value = siteModel.SiteId.GridText(
+                        context: context,
+                        column: column); break;
+                    case "UpdatedTime": value = siteModel.UpdatedTime.GridText(
+                        context: context,
+                        column: column); break;
+                    case "Ver": value = siteModel.Ver.GridText(
+                        context: context,
+                        column: column); break;
+                    case "Title": value = siteModel.Title.GridText(
+                        context: context,
+                        column: column); break;
+                    case "Body": value = siteModel.Body.GridText(
+                        context: context,
+                        column: column); break;
+                    case "TitleBody": value = siteModel.TitleBody.GridText(
+                        context: context,
+                        column: column); break;
+                    case "Comments": value = siteModel.Comments.GridText(
+                        context: context,
+                        column: column); break;
+                    case "Creator": value = siteModel.Creator.GridText(
+                        context: context,
+                        column: column); break;
+                    case "Updator": value = siteModel.Updator.GridText(
+                        context: context,
+                        column: column); break;
+                    case "CreatedTime": value = siteModel.CreatedTime.GridText(
+                        context: context,
+                        column: column); break;
                 }
                 gridDesign = gridDesign.Replace("[" + column.ColumnName + "]", value);
             });

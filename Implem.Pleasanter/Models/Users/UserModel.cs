@@ -4289,5 +4289,15 @@ namespace Implem.Pleasanter.Models
         {
             return UserId == 0;
         }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        public System.Web.Mvc.ContentResult GetByApi(Context context)
+        {
+            return UserUtilities.GetByApi(
+                context: context,
+                ss: SiteSettingsUtilities.ApiUsersSiteSettings(context));
+        }
     }
 }

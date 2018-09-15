@@ -10,6 +10,7 @@ namespace Implem.Pleasanter.Libraries.Server
         public Dictionary<int, Dept> DeptHash;
         public Dictionary<int, User> UserHash;
         public Dictionary<long, List<int>> SiteUserHash;
+        public Dictionary<long, List<int>> SiteGroupHash;
         public UpdateMonitor UpdateMonitor;
 
         public TenantCache(Context context)

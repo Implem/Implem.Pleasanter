@@ -208,7 +208,9 @@
   <ItemGroup>
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="Controllers\AdminsController.cs" />
+    <Compile Include="Controllers\Api_GroupsController.cs" />
     <Compile Include="Controllers\Api_ItemsController.cs" />
+    <Compile Include="Controllers\Api_UsersController.cs" />
     <Compile Include="Controllers\ReminderSchedulesController.cs" />
     <Compile Include="Controllers\BackgroundTasksController.cs" />
     <Compile Include="Controllers\BinariesController.cs" />

@@ -99,6 +99,7 @@ namespace Implem.Pleasanter.Libraries.Models
                 dataSet: dataSet,
                 aggregationCollection: aggregations);
             DataRows = dataSet.Tables["Main"].AsEnumerable();
+            ss.SetChoiceHash(DataRows);
         }
 
         private static SqlColumnCollection SqlColumnCollection(

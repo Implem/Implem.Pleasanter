@@ -1,5 +1,7 @@
 ﻿using Implem.Libraries.Utilities;
 using Implem.Pleasanter.Interfaces;
+using Implem.Pleasanter.Libraries.DataTypes;
+using Implem.Pleasanter.Libraries.Requests;
 using Implem.Pleasanter.Libraries.Server;
 using Implem.Pleasanter.Libraries.Settings;
 using System;
@@ -7,46 +9,14 @@ namespace Implem.Pleasanter.Libraries.Extensions
 {
     public static class GridTextExtensions
     {
-        public static string GridText(this IConvertable value, Column column)
+        public static string GridText(this IConvertable value, Context context, Column column)
         {
             return column != null && value != null
-                ? value.GridText(column)
+                ? value.ToString()
                 : string.Empty;
         }
 
-        public static string GridText(this TimeZoneInfo value, Column column)
-        {
-            return value.StandardName;
-        }
-
-        public static string GridText(this string value, Column column)
-        {
-            return column.HasChoices()
-                ? column.Choice(value).TextMini
-                : value;
-        }
-
-        public static string GridText(this int value, Column column)
-        {
-            return value.ToString(column.StringFormat) + column.Unit;
-        }
-
-        public static string GridText(this long value, Column column)
-        {
-            return value.ToString(column.StringFormat) + column.Unit;
-        }
-
-        public static string GridText(this decimal value, Column column)
-        {
-            return column.Display(value, unit: true);
-        }
-
-        public static string GridText(this DateTime value, Column column)
-        {
-            return column.DisplayGrid(value.ToLocal());
-        }
-
-        public static string GridText(this bool value, Column column)
+        public static string GridText(this bool value, Context context, Column column)
         {
             return column.HasChoices()
                 ? value
@@ -55,9 +25,36 @@ namespace Implem.Pleasanter.Libraries.Extensions
                 : value.ToString();
         }
 
-        public static string GridText(this Enum value, Column column)
+        public static string GridText(this int value, Context context, Column column)
         {
-            return value.ToString();
+            return value.ToString(column.StringFormat) + column.Unit;
+        }
+
+        public static string GridText(this long value, Context context, Column column)
+        {
+            return value.ToString(column.StringFormat) + column.Unit;
+        }
+
+        public static string GridText(this decimal value, Context context, Column column)
+        {
+            return column.Display(value, unit: true);
+        }
+
+        public static string GridText(this DateTime value, Context context, Column column)
+        {
+            return column.DisplayGrid(value.ToLocal());
+        }
+
+        public static string GridText(this string value, Context context, Column column)
+        {
+            return column.HasChoices()
+                ? column.Choice(value).TextMini
+                : value;
+        }
+
+        public static string GridText(this TimeZoneInfo value, Context context, Column column)
+        {
+            return value.StandardName;
         }
     }
 }

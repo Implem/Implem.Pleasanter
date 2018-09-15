@@ -597,5 +597,15 @@ namespace Implem.Pleasanter.Models
             if (SavedUpdator == userId) mine.Add("Updator");
             return mine;
         }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        public System.Web.Mvc.ContentResult GetByApi(Context context)
+        {
+            return GroupUtilities.GetByApi(
+                context: context,
+                ss: SiteSettingsUtilities.ApiGroupsSiteSettings(context));
+        }
     }
 }
