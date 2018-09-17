@@ -5731,13 +5731,20 @@ namespace Implem.Pleasanter.Models
                     : hb;
         }
 
+        /// <summary>
+        /// Fixed:
+        /// </summary>
         private static HtmlBuilder EditorExtensions(
             this HtmlBuilder hb,
             Context context,
             SiteSettings ss,
             IssueModel issueModel)
         {
-            return hb;
+            return
+                issueModel.MethodType != BaseModel.MethodTypes.New &&
+                issueModel.VerType == Versions.VerTypes.Latest
+                    ? hb.SeparateSettingsDialog()
+                    : hb;
         }
 
         public static string EditorJson(Context context, SiteSettings ss, long issueId)
@@ -10133,19 +10140,6 @@ namespace Implem.Pleasanter.Models
                 issues.ForEach(issueModel => issueModel
                     .SetTitle(context: context, ss: ss));
             }
-        }
-
-        /// <summary>
-        /// Fixed:
-        /// </summary>
-        private static HtmlBuilder EditorExtensions(
-            this HtmlBuilder hb, SiteSettings ss, IssueModel issueModel)
-        {
-            return
-                issueModel.MethodType != BaseModel.MethodTypes.New &&
-                issueModel.VerType == Versions.VerTypes.Latest
-                    ? hb.SeparateSettingsDialog()
-                    : hb;
         }
     }
 }
