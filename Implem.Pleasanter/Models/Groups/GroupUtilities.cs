@@ -795,13 +795,19 @@ namespace Implem.Pleasanter.Models
         }
 
         private static HtmlBuilder MainCommandExtensions(
-            this HtmlBuilder hb, Context context, SiteSettings ss, GroupModel groupModel)
+            this HtmlBuilder hb,
+            Context context,
+            SiteSettings ss,
+            GroupModel groupModel)
         {
             return hb;
         }
 
         private static HtmlBuilder EditorExtensions(
-            this HtmlBuilder hb, Context context, SiteSettings ss, GroupModel groupModel)
+            this HtmlBuilder hb,
+            Context context,
+            SiteSettings ss,
+            GroupModel groupModel)
         {
             return hb;
         }

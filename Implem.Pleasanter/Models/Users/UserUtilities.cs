@@ -5164,7 +5164,10 @@ namespace Implem.Pleasanter.Models
         /// Fixed:
         /// </summary>
         private static HtmlBuilder MainCommandExtensions(
-            this HtmlBuilder hb, Context context, SiteSettings ss, UserModel userModel)
+            this HtmlBuilder hb,
+            Context context,
+            SiteSettings ss,
+            UserModel userModel)
         {
             if (userModel.VerType == Versions.VerTypes.Latest &&
                 userModel.MethodType != BaseModel.MethodTypes.New &&
@@ -5203,7 +5206,10 @@ namespace Implem.Pleasanter.Models
         /// Fixed:
         /// </summary>
         private static HtmlBuilder EditorExtensions(
-            this HtmlBuilder hb, Context context, SiteSettings ss, UserModel userModel)
+            this HtmlBuilder hb,
+            Context context,
+            SiteSettings ss,
+            UserModel userModel)
         {
             return hb
                 .ChangePasswordDialog(
