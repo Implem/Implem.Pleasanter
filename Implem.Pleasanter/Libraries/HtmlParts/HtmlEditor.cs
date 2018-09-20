@@ -40,6 +40,9 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                             controlId: "IsDialogEditorForm",
                             css: "always-send",
                             value: "1")
+                        .Hidden(
+                            controlId: "EditorLoading",
+                            value: "1")
                         .Div(css: "command-center", action: () => hb
                             .Button(
                                 text: Displays.Update(),
