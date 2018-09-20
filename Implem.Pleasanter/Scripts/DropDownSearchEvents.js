@@ -1,5 +1,10 @@
 ﻿$(function () {
     $(document).on('focusin', '.control-dropdown.search', function () {
-        $p.openDropDownSearchDialog($(this));
+        if ($('#EditorLoading').val() === '1') {
+            $(this).blur();
+            $('#EditorLoading').val(0);
+        } else {
+            $p.openDropDownSearchDialog($(this));
+        }
     });
 });
