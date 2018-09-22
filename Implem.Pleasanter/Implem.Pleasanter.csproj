@@ -208,6 +208,7 @@
   <ItemGroup>
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="Controllers\AdminsController.cs" />
+    <Compile Include="Controllers\Api_DeptsController.cs" />
     <Compile Include="Controllers\Api_GroupsController.cs" />
     <Compile Include="Controllers\Api_ItemsController.cs" />
     <Compile Include="Controllers\Api_UsersController.cs" />

@@ -634,5 +634,15 @@ namespace Implem.Pleasanter.Models
         {
             return DeptId == 0;
         }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        public System.Web.Mvc.ContentResult GetByApi(Context context)
+        {
+            return DeptUtilities.GetByApi(
+                context: context,
+                ss: SiteSettingsUtilities.ApiDeptsSiteSettings(context));
+        }
     }
 }
