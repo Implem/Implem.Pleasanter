@@ -1,8 +1,12 @@
 ﻿using Implem.DefinitionAccessor;
 using Implem.Pleasanter.Libraries.Mails;
+using Implem.Pleasanter.Libraries.Requests;
+using Implem.Pleasanter.Models;
+using System;
 using System.Linq;
 using System.Net.Mail;
 using System.Threading.Tasks;
+
 namespace Implem.Pleasanter.Libraries.DataSources
 {
     public class Smtp
@@ -15,8 +19,10 @@ namespace Implem.Pleasanter.Libraries.DataSources
         public string Bcc;
         public string Subject;
         public string Body;
+        public Context Context;
 
         public Smtp(
+            Context context,
             string host,
             int port,
             MailAddress from,
@@ -26,6 +32,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             string subject,
             string body)
         {
+            Context = context;
             Host = host;
             Port = port;
             From = from;
@@ -38,33 +45,41 @@ namespace Implem.Pleasanter.Libraries.DataSources
 
         public void Send()
         {
-            Task.Run(() =>
+            var task = Task.Run(() =>
             {
-                using (var mailMessage = new MailMessage())
+                try
                 {
-                    mailMessage.From = Addresses.From(From);
-                    Addresses.GetEnumerable(To).ForEach(to => mailMessage.To.Add(to));
-                    Addresses.GetEnumerable(Cc).ForEach(cc => mailMessage.CC.Add(cc));
-                    Addresses.GetEnumerable(Bcc).ForEach(bcc => mailMessage.Bcc.Add(bcc));
-                    mailMessage.Subject = Subject;
-                    mailMessage.Body = Body;
-                    using (var smtpClient = new SmtpClient())
+                    using (var mailMessage = new MailMessage())
                     {
-                        smtpClient.Host = Host;
-                        smtpClient.Port = Port;
-                        smtpClient.DeliveryMethod = SmtpDeliveryMethod.Network;
-                        if (Parameters.Mail.SmtpUserName != null &&
-                            Parameters.Mail.SmtpPassword != null)
+                        mailMessage.From = Addresses.From(From);
+                        Addresses.GetEnumerable(To).ForEach(to => mailMessage.To.Add(to));
+                        Addresses.GetEnumerable(Cc).ForEach(cc => mailMessage.CC.Add(cc));
+                        Addresses.GetEnumerable(Bcc).ForEach(bcc => mailMessage.Bcc.Add(bcc));
+                        mailMessage.Subject = Subject;
+                        mailMessage.Body = Body;
+                        using (var smtpClient = new SmtpClient())
                         {
-                            smtpClient.Credentials = new System.Net.NetworkCredential(
-                                Parameters.Mail.SmtpUserName, Parameters.Mail.SmtpPassword);
+                            smtpClient.Host = Host;
+                            smtpClient.Port = Port;
+                            smtpClient.DeliveryMethod = SmtpDeliveryMethod.Network;
+                            if (Parameters.Mail.SmtpUserName != null &&
+                                Parameters.Mail.SmtpPassword != null)
+                            {
+                                smtpClient.Credentials = new System.Net.NetworkCredential(
+                                    Parameters.Mail.SmtpUserName, Parameters.Mail.SmtpPassword);
+                            }
+                            smtpClient.EnableSsl = Parameters.Mail.SmtpEnableSsl;
+                            smtpClient.Send(mailMessage);
+                            smtpClient.Dispose();
                         }
-                        smtpClient.EnableSsl = Parameters.Mail.SmtpEnableSsl;
-                        smtpClient.Send(mailMessage);
-                        smtpClient.Dispose();
                     }
                 }
+                catch (Exception e)
+                {
+                    new SysLogModel(Context, e);
+                }
             });
+
         }
     }
 }

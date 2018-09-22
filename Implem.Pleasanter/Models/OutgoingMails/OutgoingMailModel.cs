@@ -706,8 +706,12 @@ namespace Implem.Pleasanter.Models
             Port = Parameters.Mail.SmtpPort;
             switch (Host)
             {
-                case "smtp.sendgrid.net": SendBySendGrid(); break;
-                default: SendBySmtp(); break;
+                case "smtp.sendgrid.net":
+                    SendBySendGrid(context: context);
+                    break;
+                default:
+                    SendBySmtp(context: context);
+                    break;
             }
             SentTime = new Time(DateTime.Now);
             error = Update(context: context, ss: ss, additionalStatements: additionalStatements);
@@ -719,33 +723,35 @@ namespace Implem.Pleasanter.Models
         /// <summary>
         /// Fixed:
         /// </summary>
-        private void SendBySmtp()
+        private void SendBySmtp(Context context)
         {
             new Smtp(
-                Host,
-                Port,
-                From,
-                To,
-                Cc,
-                Bcc,
-                Title.Value,
-                Body)
+                context: context,
+                host: Host,
+                port: Port,
+                from: From,
+                to: To,
+                cc: Cc,
+                bcc: Bcc,
+                subject: Title.Value,
+                body: Body)
                     .Send();
         }
 
         /// <summary>
         /// Fixed:
         /// </summary>
-        private void SendBySendGrid()
+        private void SendBySendGrid(Context context)
         {
             new SendGridMail(
-                Host,
-                From,
-                To,
-                Cc,
-                Bcc,
-                Title.Value,
-                Body)
+                context: context,
+                host: Host,
+                from: From,
+                to: To,
+                cc: Cc,
+                bcc: Bcc,
+                subject: Title.Value,
+                body: Body)
                     .Send();
         }
     }
