@@ -3550,7 +3550,8 @@ namespace Implem.Pleasanter.Models
                 issueModel: new IssueModel(
                     context: context,
                     ss: ss,
-                    methodType: BaseModel.MethodTypes.New));
+                    methodType: BaseModel.MethodTypes.New,
+                    setByForm: true));
         }
 
         public static string Editor(
