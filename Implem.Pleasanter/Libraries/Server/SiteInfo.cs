@@ -72,6 +72,7 @@ namespace Implem.Pleasanter.Libraries.Server
             }
             if (monitor.PermissionsUpdated || monitor.GroupsUpdated || monitor.UsersUpdated || force)
             {
+                tenantCache.SiteDeptHash = new Dictionary<long, List<int>>();
                 tenantCache.SiteUserHash = new Dictionary<long, List<int>>();
                 tenantCache.SiteGroupHash = new Dictionary<long, List<int>>();
             }
@@ -117,6 +118,23 @@ namespace Implem.Pleasanter.Libraries.Server
                     reload: true);
             }
             return tenantCache.SiteGroupHash.Get(siteId);
+        }
+
+        public static IEnumerable<int> SiteDepts(Context context, long siteId)
+        {
+            if (context.TenantId == 0)
+            {
+                return new List<int>();
+            }
+            var tenantCache = TenantCaches.Get(context.TenantId);
+            if (!tenantCache.SiteDeptHash.ContainsKey(siteId))
+            {
+                SetSiteDeptHash(
+                    context: context,
+                    siteId: siteId,
+                    reload: true);
+            }
+            return tenantCache.SiteDeptHash.Get(siteId);
         }
 
         public static void SetSiteUserHash(Context context, long siteId, bool reload = false)
@@ -173,6 +191,33 @@ namespace Implem.Pleasanter.Libraries.Server
             }
         }
 
+        public static void SetSiteDeptHash(Context context, long siteId, bool reload = false)
+        {
+            if (context.TenantId == 0)
+            {
+                return;
+            }
+            var tenantCache = TenantCaches.Get(context.TenantId);
+            if (!tenantCache.SiteDeptHash.ContainsKey(siteId))
+            {
+                try
+                {
+                    tenantCache.SiteDeptHash.Add(siteId, GetSiteDeptHash(
+                        context: context,
+                        siteId: siteId));
+                }
+                catch (Exception)
+                {
+                }
+            }
+            else if (reload)
+            {
+                tenantCache.SiteDeptHash[siteId] = GetSiteDeptHash(
+                    context: context,
+                    siteId: siteId);
+            }
+        }
+
         private static List<int> GetSiteUserHash(Context context, long siteId)
         {
             var siteUserCollection = new List<int>();
@@ -195,6 +240,18 @@ namespace Implem.Pleasanter.Libraries.Server
                 siteGroupCollection.Add(dataRow["GroupId"].ToInt());
             }
             return siteGroupCollection;
+        }
+
+        private static List<int> GetSiteDeptHash(Context context, long siteId)
+        {
+            var siteDeptCollection = new List<int>();
+            foreach (DataRow dataRow in SiteDeptDataTable(
+                context: context,
+                siteId: siteId).Rows)
+            {
+                siteDeptCollection.Add(dataRow["DeptId"].ToInt());
+            }
+            return siteDeptCollection;
         }
 
         private static DataTable SiteUserDataTable(Context context, long siteId)
@@ -248,6 +305,26 @@ namespace Implem.Pleasanter.Libraries.Server
                                 where: Rds.PermissionsWhere()
                                     .ReferenceId(siteId)
                                     .GroupId(raw: groupRaw)),
+                            _operator: ">0")));
+        }
+
+        private static DataTable SiteDeptDataTable(Context context, long siteId)
+        {
+            var deptRaw = "[Depts].[DeptId] and [Depts].[DeptId]>0";
+            return Rds.ExecuteTable(
+                context: context,
+                statements: Rds.SelectDepts(
+                    distinct: true,
+                    column: Rds.DeptsColumn().DeptId(),
+                    where: Rds.DeptsWhere()
+                        .TenantId(context.TenantId)
+                        .Add(
+                            subLeft: Rds.SelectPermissions(
+                                column: Rds.PermissionsColumn()
+                                    .PermissionType(function: Sqls.Functions.Max),
+                                where: Rds.PermissionsWhere()
+                                    .ReferenceId(siteId)
+                                    .DeptId(raw: deptRaw)),
                             _operator: ">0")));
         }
 

@@ -1130,5 +1130,90 @@ namespace Implem.Pleasanter.Models
                 ss: SiteSettingsUtilities.DeptsSiteSettings(context: context),
                 offset: DataViewGrid.Offset());
         }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        public static System.Web.Mvc.ContentResult GetByApi(Context context, SiteSettings ss)
+        {
+            var api = Forms.String().Deserialize<Api>();
+            if (api == null)
+            {
+                return ApiResults.Get(ApiResponses.BadRequest());
+            }
+            var view = api?.View ?? new View();
+            var siteId = view.ColumnFilterHash
+                            .Where(f => f.Key == "SiteId")
+                            .Select(f => f.Value)
+                            .FirstOrDefault()?.ToLong();
+            var userId = view.ColumnFilterHash
+                            .Where(f => f.Key == "UserId")
+                            .Select(f => f.Value)
+                            .FirstOrDefault()?.ToLong();
+            var siteModel = siteId.HasValue ? new SiteModel(context, siteId.Value) : null;
+            if (siteModel != null)
+            {
+                if (siteModel.AccessStatus != Databases.AccessStatuses.Selected)
+                {
+                    return ApiResults.Get(ApiResponses.NotFound());
+                }
+                var invalid = SiteValidators.OnReading(
+                    context,
+                    siteModel.SitesSiteSettings(context, siteId.Value),
+                    siteModel);
+                switch (invalid)
+                {
+                    case Error.Types.None: break;
+                    default: return ApiResults.Error(invalid);
+                }
+            }
+            var siteDepts = siteModel != null
+                ? SiteInfo.SiteDepts(context, siteModel.InheritPermission)?
+                .Where(o => !SiteInfo.User(context, o).Disabled).ToArray()
+                : null;
+            var pageSize = Parameters.Api.PageSize;
+            var deptCollection = new DeptCollection(
+                context: context,
+                ss: ss,
+                where: view.Where(context: context, ss: ss)
+                .Depts_TenantId(context.TenantId)
+                .SqlWhereLike(
+                    name: "SearchText",
+                    searchText: view.ColumnFilterHash
+                    .Where(f => f.Key == "SearchText")
+                    .Select(f => f.Value)
+                    .FirstOrDefault(),
+                    clauseCollection: new List<string>()
+                    {
+                        Rds.Depts_DeptId_WhereLike(),
+                        Rds.Depts_DeptName_WhereLike(),
+                        Rds.Depts_Body_WhereLike()
+                    })
+                .Add(
+                    tableName: "Users",
+                    subLeft: Rds.SelectUsers(
+                    column: Rds.UsersColumn().UsersCount(),
+                    where: Rds.UsersWhere().UserId(userId).DeptId(raw: "[Depts].[DeptId]").Add(raw: "[Depts].[DeptId]>0")),
+                    _operator: ">0",
+                    _using: userId.HasValue),
+                orderBy: view.OrderBy(context: context, ss: ss, pageSize: pageSize),
+                offset: api.Offset,
+                pageSize: pageSize,
+                countRecord: true);
+            var groups = siteDepts == null
+                ? deptCollection
+                : deptCollection.Join(siteDepts, c => c.DeptId, s => s, (c, s) => c);
+            return ApiResults.Get(new
+            {
+                StatusCode = 200,
+                Response = new
+                {
+                    Offset = api.Offset,
+                    PageSize = pageSize,
+                    TotalCount = groups.Count(),
+                    Data = groups.Select(o => o.GetByApi(ss))
+                }
+            }.ToJson());
+        }
     }
 }
