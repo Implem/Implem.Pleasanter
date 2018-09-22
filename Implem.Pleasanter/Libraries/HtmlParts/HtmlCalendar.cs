@@ -117,7 +117,9 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                         fromColumn.CanUpdate).ToOneOrZeroString())
                 .Hidden(controlId: "CalendarPrevious", value: Times.PreviousMonth(month))
                 .Hidden(controlId: "CalendarNext", value: Times.NextMonth(month))
-                .Hidden(controlId: "CalendarThisMonth", value: Times.ThisMonth());
+                .Hidden(controlId: "CalendarThisMonth", value: Times.ThisMonth())
+                .Hidden(controlId: "CalendarFromDefaultInput", value: fromColumn.DefaultInput)
+                .Hidden(controlId: "CalendarToDefaultInput", value: toColumn?.DefaultInput);
             return inRange
                 ? hb
                     .Hidden(
