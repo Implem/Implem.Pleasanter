@@ -115,7 +115,6 @@ namespace Implem.Pleasanter.Controllers
         }
 
         [HttpGet]
-        [OutputCache(Duration = int.MaxValue, VaryByParam = "*")]
         public FileContentResult Download(string reference, string guid)
         {
             var context = new Context();
@@ -126,7 +125,6 @@ namespace Implem.Pleasanter.Controllers
         }
 
         [HttpGet]
-        [OutputCache(Duration = int.MaxValue, VaryByParam = "*")]
         public FileContentResult DownloadTemp(string reference, string guid)
         {
             var context = new Context();
@@ -137,7 +135,6 @@ namespace Implem.Pleasanter.Controllers
         }
 
         [HttpGet]
-        [OutputCache(Duration = int.MaxValue, VaryByParam = "*", Location = OutputCacheLocation.Client)]
         public ActionResult Show(string reference, string guid)
         {
             var context = new Context();
@@ -150,7 +147,6 @@ namespace Implem.Pleasanter.Controllers
         }
 
         [HttpGet]
-        [OutputCache(Duration = int.MaxValue, VaryByParam = "*", Location = OutputCacheLocation.Client)]
         public ActionResult ShowTemp(string reference, string guid)
         {
             var context = new Context();
