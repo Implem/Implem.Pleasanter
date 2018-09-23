@@ -154,7 +154,9 @@ namespace Implem.Pleasanter.Libraries.ViewModes
             switch (column.Name)
             {
                 case "CompletionTime":
-                    return Diff(now.AddDifferenceOfDates(column.EditorFormat, minus: true));
+                    return Diff(now.AddDifferenceOfDates(
+                        format: column.EditorFormat,
+                        minus: true));
                 default:
                     return Diff(now);
             }
@@ -171,7 +173,9 @@ namespace Implem.Pleasanter.Libraries.ViewModes
             return columns?.Any() == true
                 ? columns
                 : ss.CrosstabColumnsOptions().Select(o => ss
-                    .GetColumn(context: context, columnName: o.Key)).ToList();
+                    .GetColumn(
+                        context: context,
+                        columnName: o.Key)).ToList();
         }
 
         public static string Csv(
@@ -194,30 +198,49 @@ namespace Implem.Pleasanter.Libraries.ViewModes
                     context: context,
                     ss: ss,
                     view: view,
-                    choicesX: ChoicesX(groupByX, timePeriod, month),
-                    choicesY: ChoicesY(groupByY),
+                    choicesX: ChoicesX(
+                        groupByX: groupByX,
+                        view: view,
+                        timePeriod: timePeriod,
+                        month: month),
+                    choicesY: ChoicesY(
+                        groupByY: groupByY,
+                        view: view),
                     aggregateType: aggregateType,
                     value: value,
                     firstHeaderText: $"{groupByY.LabelText} | {groupByX.LabelText}",
                     timePeriod: timePeriod,
                     month: month,
-                    data: Elements(groupByX, groupByY, dataRows));
+                    data: Elements(
+                        groupByX: groupByX,
+                        groupByY: groupByY,
+                        dataRows: dataRows));
             }
             else
             {
-                var columnList = GetColumns(context: context, ss: ss, columns: columns);
+                var columnList = GetColumns(
+                    context: context,
+                    ss: ss,
+                    columns: columns);
                 csv.Body(
                     context: context,
                     ss: ss,
                     view: view,
-                    choicesX: ChoicesX(groupByX, timePeriod, month),
+                    choicesX: ChoicesX(
+                        groupByX: groupByX,
+                        view: view,
+                        timePeriod: timePeriod,
+                        month: month),
                     choicesY: ChoicesY(columnList),
                     aggregateType: aggregateType,
                     value: value,
                     firstHeaderText: groupByX.LabelText,
                     timePeriod: timePeriod,
                     month: month,
-                    data: ColumnsElements(groupByX, dataRows, columnList),
+                    data: ColumnsElements(
+                        groupByX: groupByX,
+                        dataRows: dataRows,
+                        columnList: columnList),
                     columnList: columnList);
             }
             return csv.ToString();
@@ -257,7 +280,9 @@ namespace Implem.Pleasanter.Libraries.ViewModes
                 cells.AddRange(choicesX
                     .Select(choiceX => CellText(
                         column, aggregateType, CellValue(
-                            data, choiceX, choiceY))));
+                            data: data,
+                            choiceX: choiceX,
+                            choiceY: choiceY))));
                 csv.AppendRow(cells);
             });
         }
@@ -266,10 +291,10 @@ namespace Implem.Pleasanter.Libraries.ViewModes
             Column groupByX, Column groupByY, EnumerableRowCollection<DataRow> dataRows)
         {
             return dataRows
-                .Select(o => new CrosstabElement(
-                    o.String(groupByX.ColumnName),
-                    o.String(groupByY.ColumnName),
-                    o.Decimal("Value")))
+                .Select(dataRow => new CrosstabElement(
+                    groupByX: dataRow.String(groupByX.ColumnName),
+                    groupByY: dataRow.String(groupByY.ColumnName),
+                    value: dataRow.Decimal("Value")))
                 .ToList();
         }
 
@@ -277,23 +302,25 @@ namespace Implem.Pleasanter.Libraries.ViewModes
             Column groupByX, EnumerableRowCollection<DataRow> dataRows, List<Column> columnList)
         {
             var data = new List<CrosstabElement>();
-            dataRows.ForEach(o =>
+            dataRows.ForEach(dataRow =>
                 columnList.ForEach(column =>
                     data.Add(new CrosstabElement(
-                        o.String(groupByX.ColumnName),
-                        column.ColumnName,
-                        o.Decimal(column.ColumnName)))));
+                        groupByX: dataRow.String(groupByX.ColumnName),
+                        groupByY: column.ColumnName,
+                        value: dataRow.Decimal(column.ColumnName)))));
             return data;
         }
 
         public static Dictionary<string, ControlData> ChoicesX(
-            Column groupByX, string timePeriod, DateTime month)
+            Column groupByX, View view, string timePeriod, DateTime month)
         {
+            var selected = view.ColumnFilter(groupByX.ColumnName)?.Deserialize<List<string>>();
             return groupByX?.TypeName == "datetime"
                 ? CorrectedChoices(groupByX, timePeriod, month)
-                : groupByX.ChoiceHash?.ToDictionary(
-                    o => o.Key,
-                    o => new ControlData(o.Value.Text));
+                : groupByX
+                    .EditChoices(insertBlank: true)
+                    .Where(o => selected?.Any() != true || selected.Contains(o.Key))
+                    .ToDictionary(o => o.Key, o => o.Value);
         }
 
         private static Dictionary<string, ControlData> CorrectedChoices(
@@ -359,10 +386,13 @@ namespace Implem.Pleasanter.Libraries.ViewModes
             return hash;
         }
 
-        public static Dictionary<string, ControlData> ChoicesY(Column groupByY)
+        public static Dictionary<string, ControlData> ChoicesY(Column groupByY, View view)
         {
-            return groupByY?.ChoiceHash?.ToDictionary(
-                o => o.Key, o => new ControlData(o.Value.Text));
+            var selected = view.ColumnFilter(groupByY.ColumnName)?.Deserialize<List<string>>();
+            return groupByY?
+                .EditChoices(insertBlank: true)
+                .Where(o => selected?.Any() != true || selected.Contains(o.Key))
+                .ToDictionary(o => o.Key, o => o.Value);
         }
 
         public static Dictionary<string, ControlData> ChoicesY(List<Column> columnList)

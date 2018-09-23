@@ -175,12 +175,23 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                 hb.Table(
                     context: context,
                     ss: ss,
-                    choicesX: CrosstabUtilities.ChoicesX(groupByX, timePeriod, month),
-                    choicesY: CrosstabUtilities.ChoicesY(groupByY),
+                    choicesX: CrosstabUtilities.ChoicesX(
+                        groupByX: groupByX,
+                        view: view,
+                        timePeriod: timePeriod,
+                        month: month),
+                    choicesY: CrosstabUtilities.ChoicesY(
+                        groupByY: groupByY,
+                        view: view),
                     aggregateType: aggregateType,
                     value: value,
-                    daily: Daily(groupByX, timePeriod),
-                    data: CrosstabUtilities.Elements(groupByX, groupByY, dataRows));
+                    daily: Daily(
+                        xColumn: groupByX,
+                        timePeriod: timePeriod),
+                    data: CrosstabUtilities.Elements(
+                        groupByX: groupByX,
+                        groupByY: groupByY,
+                        dataRows: dataRows));
             }
             else
             {
@@ -191,12 +202,22 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                 hb.Table(
                     context: context,
                     ss: ss,
-                    choicesX: CrosstabUtilities.ChoicesX(groupByX, timePeriod, month),
-                    choicesY: CrosstabUtilities.ChoicesY(columnList),
+                    choicesX: CrosstabUtilities.ChoicesX(
+                        groupByX: groupByX,
+                        view: view,
+                        timePeriod: timePeriod,
+                        month: month),
+                    choicesY: CrosstabUtilities.ChoicesY(
+                        columnList: columnList),
                     aggregateType: aggregateType,
                     value: value,
-                    daily: Daily(groupByX, timePeriod),
-                    data: CrosstabUtilities.ColumnsElements(groupByX, dataRows, columnList));
+                    daily: Daily(
+                        xColumn: groupByX,
+                        timePeriod: timePeriod),
+                    data: CrosstabUtilities.ColumnsElements(
+                        groupByX: groupByX,
+                        dataRows: dataRows,
+                        columnList: columnList));
             }
             return hb
                 .Hidden(controlId: "CrosstabXType", value: groupByX?.TypeName)
@@ -220,15 +241,6 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                         o => o.Key != string.Empty ? o.Key : "0",
                         o => o.Value)
                 : null;
-        }
-
-        private static Dictionary<string, ControlData> Choices(
-            this Column column, IEnumerable<string> data)
-        {
-            return column
-                .EditChoices(insertBlank: true)
-                .Where(o => data.Contains(o.Key))
-                .ToDictionary(o => o.Key, o => o.Value);
         }
 
         private static HtmlBuilder Table(
@@ -300,7 +312,10 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                         x: choiceX.Key,
                                         max: max,
                                         data: CrosstabUtilities
-                                            .CellValue(data, choiceX, choiceY)));
+                                            .CellValue(
+                                                data: data,
+                                                choiceX: choiceX,
+                                                choiceY: choiceY)));
                             });
                         });
                     }));
