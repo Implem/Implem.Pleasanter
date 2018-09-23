@@ -320,7 +320,9 @@ namespace Implem.Pleasanter.Libraries.Settings
                 hash.Add(
                     UserColumn
                         ? User.UserTypes.Anonymous.ToInt().ToString()
-                        : string.Empty,
+                        : TypeName == "int"
+                            ? "0"
+                            : string.Empty,
                     new ControlData(string.Empty));
             }
             ChoiceHash?.Values
