@@ -118,24 +118,28 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
         {
             if (!inRange) return hb;
             var choicesY = CorrectedChoices(
-                groupByY, groupByY?.Choices(view));
+                groupByY, groupByY?.EditChoices(
+                    insertBlank: true,
+                    view: view));
             return hb.Div(
                 attributes: new HtmlAttributes()
                     .Id("KambanBody")
                     .DataAction("UpdateByKamban")
                     .DataMethod("post"),
-                action: () => groupByX.Choices(view)
-                    .Chunk(columns.ToInt())
-                    .ForEach(choicesX => hb
-                        .Table(
-                            ss: ss,
-                            choicesX: CorrectedChoices(groupByX, choicesX),
-                            choicesY: choicesY,
-                            aggregateType: aggregateType,
-                            value: value,
-                            aggregationView: aggregationView,
-                            data: data,
-                            changedItemId: changedItemId)));
+                action: () => groupByX.EditChoices(
+                    insertBlank: true,
+                    view: view)
+                        .Chunk(columns.ToInt())
+                        .ForEach(choicesX => hb
+                            .Table(
+                                ss: ss,
+                                choicesX: CorrectedChoices(groupByX, choicesX),
+                                choicesY: choicesY,
+                                aggregateType: aggregateType,
+                                value: value,
+                                aggregationView: aggregationView,
+                                data: data,
+                                changedItemId: changedItemId)));
         }
 
         private static Dictionary<string, ControlData> CorrectedChoices(
@@ -148,15 +152,6 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                         o => o.Key != string.Empty ? o.Key : "0",
                         o => o.Value)
                 : null;
-        }
-
-        private static Dictionary<string, ControlData> Choices(this Column column, View view)
-        {
-            var selected = view.ColumnFilter(column.ColumnName)?.Deserialize<List<string>>();
-            return column
-                .EditChoices(insertBlank: true)
-                .Where(o => selected?.Any() != true || selected.Contains(o.Key))
-                .ToDictionary(o => o.Key, o => o.Value);
         }
 
         private static HtmlBuilder Table(

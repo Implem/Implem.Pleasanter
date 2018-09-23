@@ -314,13 +314,9 @@ namespace Implem.Pleasanter.Libraries.ViewModes
         public static Dictionary<string, ControlData> ChoicesX(
             Column groupByX, View view, string timePeriod, DateTime month)
         {
-            var selected = view.ColumnFilter(groupByX.ColumnName)?.Deserialize<List<string>>();
             return groupByX?.TypeName == "datetime"
                 ? CorrectedChoices(groupByX, timePeriod, month)
-                : groupByX
-                    .EditChoices(insertBlank: true)
-                    .Where(o => selected?.Any() != true || selected.Contains(o.Key))
-                    .ToDictionary(o => o.Key, o => o.Value);
+                : groupByX?.EditChoices(insertBlank: true, view: view);
         }
 
         private static Dictionary<string, ControlData> CorrectedChoices(
@@ -388,11 +384,7 @@ namespace Implem.Pleasanter.Libraries.ViewModes
 
         public static Dictionary<string, ControlData> ChoicesY(Column groupByY, View view)
         {
-            var selected = view.ColumnFilter(groupByY.ColumnName)?.Deserialize<List<string>>();
-            return groupByY?
-                .EditChoices(insertBlank: true)
-                .Where(o => selected?.Any() != true || selected.Contains(o.Key))
-                .ToDictionary(o => o.Key, o => o.Value);
+            return groupByY?.EditChoices(insertBlank: true, view: view);
         }
 
         public static Dictionary<string, ControlData> ChoicesY(List<Column> columnList)

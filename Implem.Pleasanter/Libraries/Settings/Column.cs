@@ -307,9 +307,17 @@ namespace Implem.Pleasanter.Libraries.Settings
         }
 
         public Dictionary<string, ControlData> EditChoices(
-            bool insertBlank = false, bool shorten = false, bool addNotSet = false)
+            bool insertBlank = false,
+            bool shorten = false,
+            bool addNotSet = false,
+            View view = null)
         {
             var hash = new Dictionary<string, ControlData>();
+            var blank = UserColumn
+                ? User.UserTypes.Anonymous.ToInt().ToString()
+                : TypeName == "int"
+                    ? "0"
+                    : string.Empty;
             if (!HasChoices()) return hash;
             if (addNotSet && !Required)
             {
@@ -317,18 +325,18 @@ namespace Implem.Pleasanter.Libraries.Settings
             }
             if (insertBlank && CanEmpty())
             {
-                hash.Add(
-                    UserColumn
-                        ? User.UserTypes.Anonymous.ToInt().ToString()
-                        : TypeName == "int"
-                            ? "0"
-                            : string.Empty,
-                    new ControlData(string.Empty));
+                hash.Add(blank, new ControlData(string.Empty));
             }
+            var selected = view?
+                .ColumnFilter(ColumnName)?
+                .Deserialize<List<string>>()?
+                .Select(o => o == "\t" ? blank : o)
+                .ToList();
             ChoiceHash?.Values
                 .Where(o => !hash.ContainsKey(o.Value))
                 .GroupBy(o => o.Value)
                 .Select(o => o.FirstOrDefault())
+                .Where(o => selected?.Any() != true || selected.Contains(o.Value))
                 .ForEach(choice =>
                     hash.Add(
                         choice.Value,
