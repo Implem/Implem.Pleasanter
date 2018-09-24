@@ -67,7 +67,9 @@ namespace Implem.Pleasanter.Libraries.Server
                         .AsEnumerable()
                         .ToDictionary(
                             dataRow => dataRow.Int("UserId"),
-                            dataRow => new User(dataRow));
+                            dataRow => new User(
+                                context: context,
+                                dataRow: dataRow));
                 }
             }
             if (monitor.PermissionsUpdated || monitor.GroupsUpdated || monitor.UsersUpdated || force)
