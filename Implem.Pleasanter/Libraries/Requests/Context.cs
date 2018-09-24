@@ -110,7 +110,8 @@ namespace Implem.Pleasanter.Libraries.Requests
             Language = HttpContext.Current.Session["Language"].ToStr();
             Developer = HttpContext.Current.Session["Developer"].ToBool();
             TimeZoneInfo = HttpContext.Current.Session["TimeZoneInfo"] as TimeZoneInfo;
-            RdsUser = HttpContext.Current.Session["RdsUser"] as RdsUser;
+            RdsUser = HttpContext.Current.Session["RdsUser"] as RdsUser
+                ?? new RdsUser(RdsUser.UserTypes.Anonymous);
             UserSettings = HttpContext.Current.Session["UserSettings"]?
                 .ToString()
                 .Deserialize<UserSettings>()
