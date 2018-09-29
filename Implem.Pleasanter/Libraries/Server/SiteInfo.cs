@@ -5,6 +5,7 @@ using Implem.Pleasanter.Libraries.DataTypes;
 using Implem.Pleasanter.Libraries.HtmlParts;
 using Implem.Pleasanter.Libraries.Requests;
 using Implem.Pleasanter.Libraries.Responses;
+using Implem.Pleasanter.Libraries.Security;
 using Implem.Pleasanter.Models;
 using System;
 using System.Collections.Generic;
@@ -258,8 +259,6 @@ namespace Implem.Pleasanter.Libraries.Server
 
         private static DataTable SiteUserDataTable(Context context, long siteId)
         {
-            var deptRaw = "[Users].[DeptId] and [Users].[DeptId]>0";
-            var userRaw = "[Users].[UserId] and [Users].[UserId]>0";
             return Rds.ExecuteTable(
                 context: context,
                 statements: Rds.SelectUsers(
@@ -267,27 +266,7 @@ namespace Implem.Pleasanter.Libraries.Server
                     column: Rds.UsersColumn().UserId(),
                     where: Rds.UsersWhere()
                         .TenantId(context.TenantId)
-                        .Add(
-                            subLeft: Rds.SelectPermissions(
-                                column: Rds.PermissionsColumn()
-                                    .PermissionType(function: Sqls.Functions.Max),
-                                where: Rds.PermissionsWhere()
-                                    .ReferenceId(siteId)
-                                    .Or(Rds.PermissionsWhere()
-                                        .DeptId(raw: deptRaw)
-                                        .Add(
-                                            subLeft: Rds.SelectGroupMembers(
-                                                column: Rds.GroupMembersColumn()
-                                                    .GroupMembersCount(),
-                                                where: Rds.GroupMembersWhere()
-                                                    .GroupId(raw: "[Permissions].[GroupId]")
-                                                    .Or(Rds.GroupMembersWhere()
-                                                        .DeptId(raw: deptRaw)
-                                                        .UserId(raw: userRaw))
-                                                    .Add(raw: "[Permissions].[GroupId]>0")),
-                                            _operator: ">0")
-                                        .UserId(raw: userRaw))),
-                            _operator: ">0")));
+                        .SiteUserWhere(siteId: siteId)));
         }
 
         private static DataTable SiteGroupDataTable(Context context, long siteId)
