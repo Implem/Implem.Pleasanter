@@ -3,7 +3,6 @@ using Implem.Libraries.DataSources.SqlServer;
 using Implem.Libraries.Utilities;
 using Implem.Pleasanter.Libraries.DataSources;
 using Implem.Pleasanter.Libraries.Requests;
-using Implem.Pleasanter.Libraries.Server;
 using Implem.Pleasanter.Libraries.Settings;
 using Implem.Pleasanter.Models;
 using System.Collections.Generic;
@@ -145,6 +144,34 @@ namespace Implem.Pleasanter.Libraries.Security
                 }
             }
             return where;
+        }
+
+        public static SqlWhereCollection SiteUserWhere(
+            this Rds.UsersWhereCollection where, long siteId)
+        {
+            var deptRaw = "[Users].[DeptId] and [Users].[DeptId]>0";
+            var userRaw = "[Users].[UserId] and [Users].[UserId]>0";
+            return where.Add(
+                subLeft: Rds.SelectPermissions(
+                    column: Rds.PermissionsColumn()
+                        .PermissionType(function: Sqls.Functions.Max),
+                    where: Rds.PermissionsWhere()
+                        .ReferenceId(siteId)
+                        .Or(Rds.PermissionsWhere()
+                            .DeptId(raw: deptRaw)
+                            .Add(
+                                subLeft: Rds.SelectGroupMembers(
+                                    column: Rds.GroupMembersColumn()
+                                        .GroupMembersCount(),
+                                    where: Rds.GroupMembersWhere()
+                                        .GroupId(raw: "[Permissions].[GroupId]")
+                                        .Or(Rds.GroupMembersWhere()
+                                            .DeptId(raw: deptRaw)
+                                            .UserId(raw: userRaw))
+                                        .Add(raw: "[Permissions].[GroupId]>0")),
+                                _operator: ">0")
+                            .UserId(raw: userRaw))),
+                _operator: ">0");
         }
 
         public static SqlWhereCollection CanRead(

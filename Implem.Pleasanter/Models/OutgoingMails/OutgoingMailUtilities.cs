@@ -516,20 +516,14 @@ namespace Implem.Pleasanter.Models
                                 System.Globalization.CompareOptions.IgnoreWidth) != -1)
                             .ToDictionary(o => o.Key, o => new ControlData(o.Value.Text));
                 case "SiteUser":
-                    var joinPermissions = new SqlJoin(
-                        "[Permissions]",
-                        SqlJoin.JoinTypes.Inner,
-                        "([Users].[UserId]=[Permissions].[UserId] and [Permissions].[UserId] <> 0) or " +
-                        "([Users].[DeptId]=[Permissions].[DeptId] and [Permissions].[DeptId] <> 0)");
                     return DestinationCollection(
                         context: context,
                         join: Sqls.SqlJoinCollection(
                             joinDepts,
-                            joinMailAddresses,
-                            joinPermissions),
+                            joinMailAddresses),
                         where: Rds.UsersWhere()
+                            .SiteUserWhere(siteId: referenceId)
                             .MailAddresses_OwnerType("Users")
-                            .Permissions_ReferenceId(referenceId)
                             .SearchText(searchText)
                             .Users_TenantId(context.TenantId));
                 case "All":
