@@ -893,9 +893,13 @@ namespace Implem.Pleasanter.Models
             {
                 return Error.Types.InvalidRequest.MessageJson();
             }
-            var siteModel = new SiteModel(context, context.TenantId, siteId);
+            var siteModel = new SiteModel(
+                context: context,
+                siteId: siteId);
             var invalid = SiteValidators.OnUpdating(
-                context: context, ss: ss, siteModel: siteModel);
+                context: context,
+                ss: ss,
+                siteModel: siteModel);
             switch (invalid)
             {
                 case Error.Types.None: break;
