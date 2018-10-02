@@ -57,6 +57,7 @@ namespace Implem.Pleasanter.Libraries.Server
                             .AsEnumerable()
                             .Select(dataRow => new RdsUser()
                             {
+                                TenantId = context.TenantId,
                                 DeptId = dataRow.Int("DeptId"),
                                 UserId = dataRow.Int("UserId")
                             })

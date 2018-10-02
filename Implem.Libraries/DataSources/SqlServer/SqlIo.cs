@@ -41,8 +41,9 @@ namespace Implem.Libraries.DataSources.SqlServer
 
         private void SetCommandUserParams()
         {
-            SqlCommand.Parameters.AddWithValue("_U", SqlContainer.RdsUser.UserId);
+            SqlCommand.Parameters.AddWithValue("_T", SqlContainer.RdsUser.TenantId);
             SqlCommand.Parameters.AddWithValue("_D", SqlContainer.RdsUser.DeptId);
+            SqlCommand.Parameters.AddWithValue("_U", SqlContainer.RdsUser.UserId);
         }
 
         private void SetCommandText()

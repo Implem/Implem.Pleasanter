@@ -3824,6 +3824,7 @@ namespace Implem.Pleasanter.Models
         {
             return new RdsUser()
             {
+                TenantId = TenantId,
                 UserId = UserId,
                 DeptId = DeptId
             };
