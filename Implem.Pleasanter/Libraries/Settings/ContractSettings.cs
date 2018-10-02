@@ -80,7 +80,7 @@ namespace Implem.Pleasanter.Libraries.Settings
 
         public bool ItemsLimit(Context context, long siteId, int number = 1)
         {
-            return Sites > 0
+            return Items > 0
                 && Rds.ExecuteScalar_int(
                     context: context,
                     statements: Rds.SelectItems(
