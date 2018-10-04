@@ -71,6 +71,9 @@ $p.moveColumnsById = function ($control, columnsId, srcColumnsId, isKeepSource, 
         }
     }
     else if (mode === 3) {
+        $('#' + srcColumnsId + ' li').each(function (i, elm) {
+            if ($(this).hasClass('ui-selected')) $(this).removeClass('ui-selected');
+        });
         if ($('#' + columnsId + 'NessesaryColumns')) {
             var param = $('#' + columnsId + 'NessesaryColumns').val();
             if (param !== undefined) {
@@ -110,6 +113,9 @@ $p.moveColumnsById = function ($control, columnsId, srcColumnsId, isKeepSource, 
         }
     }
     else if (mode === 4) {
+        $('#' + columnsId + ' li').each(function (i, elm) {
+            if ($(this).hasClass('ui-selected')) $(this).removeClass('ui-selected');
+        });
         afterColumns = [].concat(beforeColumns);
         for (i = 0; i < srcSelected.length; i++) {
             afterColumns.push(srcSelected[i]);

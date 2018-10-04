@@ -2029,7 +2029,13 @@ namespace Implem.Pleasanter.Models
         {
             OnConstructing(context: context);
             ReferenceId = referenceId;
-            Get(context: context);
+            Get(
+                context: context,
+                join: Rds.ItemsJoin().Add(
+                    new SqlJoin(
+                        "[Sites]",
+                        SqlJoin.JoinTypes.Inner,
+                        "[Sites].[SiteId] = [Items].[SiteId] and [Sites].[TenantId] = @_T")));
             OnConstructed(context: context);
         }
     }
