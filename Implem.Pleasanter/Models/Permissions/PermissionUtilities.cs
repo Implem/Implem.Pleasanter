@@ -530,6 +530,7 @@ namespace Implem.Pleasanter.Models
                 statements: Rds.SelectGroups(
                     column: Rds.GroupsColumn().GroupId(),
                     where: Rds.GroupsWhere()
+                        .TenantId(context.TenantId)
                         .GroupId_In(sub: Rds.SelectGroupMembers(
                             column: Rds.GroupMembersColumn().GroupId(),
                             where: Rds.GroupMembersWhere()
