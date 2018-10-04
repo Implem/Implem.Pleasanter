@@ -95,6 +95,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                 name: ldap.LdapDeptName,
                 pattern: ldap.LdapDeptNamePattern);
             var deptExists = !deptCode.IsNullOrEmpty() && !deptName.IsNullOrEmpty();
+            var deptSettings = !ldap.LdapDeptCode.IsNullOrEmpty() && !ldap.LdapDeptName.IsNullOrEmpty();
             var userCode = entry.Property(
                 context: context,
                 name: ldap.LdapUserCode,
@@ -128,7 +129,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                         column: Rds.DeptsColumn().DeptId(),
                         where: Rds.DeptsWhere().DeptCode(deptCode)),
                     _using: deptExists)
-                .DeptId(0, _using: !deptExists)
+                .DeptId(0, _using: deptSettings && !deptExists)
                 .LdapSearchRoot(ldap.LdapSearchRoot)
                 .SynchronizedTime(synchronizedTime);
             ldap.LdapExtendedAttributes?.ForEach(attribute =>
