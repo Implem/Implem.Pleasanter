@@ -4131,6 +4131,7 @@ namespace Implem.Pleasanter.Models
             context.RdsUser = RdsUser();
             context.UserSettings = UserSettings;
             context.HasPrivilege = Parameters.Security.PrivilegedUsers?.Contains(LoginId) == true;
+            context.SetTenantCaches();
         }
 
         /// <summary>

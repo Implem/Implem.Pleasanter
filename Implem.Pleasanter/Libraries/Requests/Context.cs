@@ -147,7 +147,7 @@ namespace Implem.Pleasanter.Libraries.Requests
             return RouteTable.Routes.Count != 0 && HttpContext.Current != null;
         }
 
-        private void SetTenantCaches()
+        public void SetTenantCaches()
         {
             if (TenantId != 0 && !SiteInfo.TenantCaches.ContainsKey(TenantId))
             {
