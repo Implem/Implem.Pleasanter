@@ -99,7 +99,9 @@ namespace Implem.Pleasanter.Models
             string viewMode,
             Action viewModeBody)
         {
-            var invalid = DeptValidators.OnEntry(context: context, ss: ss);
+            var invalid = DeptValidators.OnEntry(
+                context: context,
+                ss: ss);
             switch (invalid)
             {
                 case Error.Types.None: break;
@@ -580,7 +582,9 @@ namespace Implem.Pleasanter.Models
             Context context, SiteSettings ss, DeptModel deptModel)
         {
             var invalid = DeptValidators.OnEditing(
-                context: context, ss: ss, deptModel: deptModel);
+                context: context,
+                ss: ss,
+                deptModel: deptModel);
             switch (invalid)
             {
                 case Error.Types.None: break;
@@ -873,7 +877,9 @@ namespace Implem.Pleasanter.Models
         {
             var deptModel = new DeptModel(context, ss, 0, setByForm: true);
             var invalid = DeptValidators.OnCreating(
-                context: context, ss: ss, deptModel: deptModel);
+                context: context,
+                ss: ss,
+                deptModel: deptModel);
             switch (invalid)
             {
                 case Error.Types.None: break;
@@ -902,7 +908,9 @@ namespace Implem.Pleasanter.Models
             var deptModel = new DeptModel(
                 context: context, ss: ss, deptId: deptId, setByForm: true);
             var invalid = DeptValidators.OnUpdating(
-                context: context, ss: ss, deptModel: deptModel);
+                context: context,
+                ss: ss,
+                deptModel: deptModel);
             switch (invalid)
             {
                 case Error.Types.None: break;
@@ -993,7 +1001,9 @@ namespace Implem.Pleasanter.Models
         {
             var deptModel = new DeptModel(context, ss, deptId);
             var invalid = DeptValidators.OnDeleting(
-                context: context, ss: ss, deptModel: deptModel);
+                context: context,
+                ss: ss,
+                deptModel: deptModel);
             switch (invalid)
             {
                 case Error.Types.None: break;

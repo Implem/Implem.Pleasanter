@@ -676,7 +676,9 @@ namespace Implem.Pleasanter.Models
             var wikiModel = new WikiModel(
                 context: context, ss: ss, wikiId: wikiId, setByForm: true);
             var invalid = WikiValidators.OnUpdating(
-                context: context, ss: ss, wikiModel: wikiModel);
+                context: context,
+                ss: ss,
+                wikiModel: wikiModel);
             switch (invalid)
             {
                 case Error.Types.None: break;
@@ -779,7 +781,9 @@ namespace Implem.Pleasanter.Models
         {
             var wikiModel = new WikiModel(context, ss, wikiId);
             var invalid = WikiValidators.OnDeleting(
-                context: context, ss: ss, wikiModel: wikiModel);
+                context: context,
+                ss: ss,
+                wikiModel: wikiModel);
             switch (invalid)
             {
                 case Error.Types.None: break;
@@ -891,7 +895,9 @@ namespace Implem.Pleasanter.Models
             }
             var wikiModel = new WikiModel(context, ss, wikiId);
             var invalid = WikiValidators.OnUpdating(
-                context: context, ss: ss, wikiModel: wikiModel);
+                context: context,
+                ss: ss,
+                wikiModel: wikiModel);
             switch (invalid)
             {
                 case Error.Types.None: break;

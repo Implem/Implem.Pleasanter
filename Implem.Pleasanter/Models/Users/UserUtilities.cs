@@ -102,7 +102,9 @@ namespace Implem.Pleasanter.Models
             string viewMode,
             Action viewModeBody)
         {
-            var invalid = UserValidators.OnEntry(context: context, ss: ss);
+            var invalid = UserValidators.OnEntry(
+                context: context,
+                ss: ss);
             switch (invalid)
             {
                 case Error.Types.None: break;
@@ -3219,7 +3221,9 @@ namespace Implem.Pleasanter.Models
             Context context, SiteSettings ss, UserModel userModel)
         {
             var invalid = UserValidators.OnEditing(
-                context: context, ss: ss, userModel: userModel);
+                context: context,
+                ss: ss,
+                userModel: userModel);
             switch (invalid)
             {
                 case Error.Types.None: break;
@@ -5297,7 +5301,9 @@ namespace Implem.Pleasanter.Models
             }
             var userModel = new UserModel(context, ss, 0, setByForm: true);
             var invalid = UserValidators.OnCreating(
-                context: context, ss: ss, userModel: userModel);
+                context: context,
+                ss: ss,
+                userModel: userModel);
             switch (invalid)
             {
                 case Error.Types.None: break;
@@ -5326,7 +5332,9 @@ namespace Implem.Pleasanter.Models
             var userModel = new UserModel(
                 context: context, ss: ss, userId: userId, setByForm: true);
             var invalid = UserValidators.OnUpdating(
-                context: context, ss: ss, userModel: userModel);
+                context: context,
+                ss: ss,
+                userModel: userModel);
             switch (invalid)
             {
                 case Error.Types.None: break;
@@ -5422,7 +5430,9 @@ namespace Implem.Pleasanter.Models
         {
             var userModel = new UserModel(context, ss, userId);
             var invalid = UserValidators.OnDeleting(
-                context: context, ss: ss, userModel: userModel);
+                context: context,
+                ss: ss,
+                userModel: userModel);
             switch (invalid)
             {
                 case Error.Types.None: break;

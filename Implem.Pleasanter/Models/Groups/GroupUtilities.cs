@@ -99,7 +99,9 @@ namespace Implem.Pleasanter.Models
             string viewMode,
             Action viewModeBody)
         {
-            var invalid = GroupValidators.OnEntry(context: context, ss: ss);
+            var invalid = GroupValidators.OnEntry(
+                context: context,
+                ss: ss);
             switch (invalid)
             {
                 case Error.Types.None: break;
@@ -571,7 +573,9 @@ namespace Implem.Pleasanter.Models
             Context context, SiteSettings ss, GroupModel groupModel)
         {
             var invalid = GroupValidators.OnEditing(
-                context: context, ss: ss, groupModel: groupModel);
+                context: context,
+                ss: ss,
+                groupModel: groupModel);
             switch (invalid)
             {
                 case Error.Types.None: break;
@@ -870,7 +874,9 @@ namespace Implem.Pleasanter.Models
         {
             var groupModel = new GroupModel(context, ss, 0, setByForm: true);
             var invalid = GroupValidators.OnCreating(
-                context: context, ss: ss, groupModel: groupModel);
+                context: context,
+                ss: ss,
+                groupModel: groupModel);
             switch (invalid)
             {
                 case Error.Types.None: break;
@@ -899,7 +905,9 @@ namespace Implem.Pleasanter.Models
             var groupModel = new GroupModel(
                 context: context, ss: ss, groupId: groupId, setByForm: true);
             var invalid = GroupValidators.OnUpdating(
-                context: context, ss: ss, groupModel: groupModel);
+                context: context,
+                ss: ss,
+                groupModel: groupModel);
             switch (invalid)
             {
                 case Error.Types.None: break;
@@ -990,7 +998,9 @@ namespace Implem.Pleasanter.Models
         {
             var groupModel = new GroupModel(context, ss, groupId);
             var invalid = GroupValidators.OnDeleting(
-                context: context, ss: ss, groupModel: groupModel);
+                context: context,
+                ss: ss,
+                groupModel: groupModel);
             switch (invalid)
             {
                 case Error.Types.None: break;
