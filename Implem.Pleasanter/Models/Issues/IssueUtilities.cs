@@ -51,7 +51,9 @@ namespace Implem.Pleasanter.Models
             string viewMode,
             Action viewModeBody)
         {
-            var invalid = IssueValidators.OnEntry(context: context, ss: ss);
+            var invalid = IssueValidators.OnEntry(
+                context: context,
+                ss: ss);
             switch (invalid)
             {
                 case Error.Types.None: break;
@@ -6880,6 +6882,15 @@ namespace Implem.Pleasanter.Models
 
         public static System.Web.Mvc.ContentResult GetByApi(Context context, SiteSettings ss)
         {
+            var invalid = IssueValidators.OnEntry(
+                context: context,
+                ss: ss,
+                api: true);
+            switch (invalid)
+            {
+                case Error.Types.None: break;
+                default: return ApiResults.Error(invalid);
+            }
             var api = Forms.String().Deserialize<Api>();
             if (api == null)
             {
@@ -6925,7 +6936,10 @@ namespace Implem.Pleasanter.Models
                 return ApiResults.Get(ApiResponses.NotFound());
             }
             var invalid = IssueValidators.OnEditing(
-                context: context, ss: ss, issueModel: issueModel);
+                context: context,
+                ss: ss,
+                issueModel: issueModel,
+                api: true);
             switch (invalid)
             {
                 case Error.Types.None: break;
@@ -6952,7 +6966,9 @@ namespace Implem.Pleasanter.Models
             }
             var issueModel = new IssueModel(context, ss, 0, setByForm: true);
             var invalid = IssueValidators.OnCreating(
-                context: context, ss: ss, issueModel: issueModel);
+                context: context,
+                ss: ss,
+                issueModel: issueModel);
             switch (invalid)
             {
                 case Error.Types.None: break;
@@ -6994,7 +7010,8 @@ namespace Implem.Pleasanter.Models
             var invalid = IssueValidators.OnCreating(
                 context: context,
                 ss: ss,
-                issueModel: issueModel);
+                issueModel: issueModel,
+                api: true);
             switch (invalid)
             {
                 case Error.Types.None: break;
@@ -7028,7 +7045,9 @@ namespace Implem.Pleasanter.Models
             var issueModel = new IssueModel(
                 context: context, ss: ss, issueId: issueId, setByForm: true);
             var invalid = IssueValidators.OnUpdating(
-                context: context, ss: ss, issueModel: issueModel);
+                context: context,
+                ss: ss,
+                issueModel: issueModel);
             switch (invalid)
             {
                 case Error.Types.None: break;
@@ -7148,7 +7167,8 @@ namespace Implem.Pleasanter.Models
             var invalid = IssueValidators.OnUpdating(
                 context: context,
                 ss: ss,
-                issueModel: issueModel);
+                issueModel: issueModel,
+                api: true);
             switch (invalid)
             {
                 case Error.Types.None: break;
@@ -7279,7 +7299,9 @@ namespace Implem.Pleasanter.Models
         {
             var issueModel = new IssueModel(context, ss, issueId);
             var invalid = IssueValidators.OnDeleting(
-                context: context, ss: ss, issueModel: issueModel);
+                context: context,
+                ss: ss,
+                issueModel: issueModel);
             switch (invalid)
             {
                 case Error.Types.None: break;
@@ -7316,7 +7338,8 @@ namespace Implem.Pleasanter.Models
             var invalid = IssueValidators.OnDeleting(
                 context: context,
                 ss: ss,
-                issueModel: issueModel);
+                issueModel: issueModel,
+                api: true);
             switch (invalid)
             {
                 case Error.Types.None: break;
@@ -7428,7 +7451,9 @@ namespace Implem.Pleasanter.Models
             }
             var issueModel = new IssueModel(context, ss, issueId);
             var invalid = IssueValidators.OnUpdating(
-                context: context, ss: ss, issueModel: issueModel);
+                context: context,
+                ss: ss,
+                issueModel: issueModel);
             switch (invalid)
             {
                 case Error.Types.None: break;
@@ -8666,7 +8691,8 @@ namespace Implem.Pleasanter.Models
                 return HtmlTemplates.Error(context, Error.Types.InvalidRequest);
             }
             var invalid = IssueValidators.OnExporting(
-                context: context, ss: ss);
+                context: context,
+                ss: ss);
             switch (invalid)
             {
                 case Error.Types.None: break;
@@ -8689,7 +8715,8 @@ namespace Implem.Pleasanter.Models
                 return null;
             }
             var invalid = IssueValidators.OnExporting(
-                context: context, ss: ss);
+                context: context,
+                ss: ss);
             switch (invalid)
             {
                 case Error.Types.None: break;
@@ -8708,7 +8735,8 @@ namespace Implem.Pleasanter.Models
         {
             if (context.ContractSettings.Export == false) return null;
             var invalid = IssueValidators.OnExporting(
-                context: context, ss: ss);
+                context: context,
+                ss: ss);
             switch (invalid)
             {
                 case Error.Types.None: break;

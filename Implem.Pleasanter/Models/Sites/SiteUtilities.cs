@@ -51,7 +51,9 @@ namespace Implem.Pleasanter.Models
             string viewMode,
             Action viewModeBody)
         {
-            var invalid = SiteValidators.OnEntry(context: context, ss: ss);
+            var invalid = SiteValidators.OnEntry(
+                context: context,
+                ss: ss);
             switch (invalid)
             {
                 case Error.Types.None: break;
@@ -629,7 +631,9 @@ namespace Implem.Pleasanter.Models
                 ss.PermissionType = SiteTopPermission();
             }
             var invalid = SiteValidators.OnCreating(
-                context: context, ss: ss, siteModel: siteModel);
+                context: context,
+                ss: ss,
+                siteModel: siteModel);
             switch (invalid)
             {
                 case Error.Types.None: break;
@@ -664,7 +668,9 @@ namespace Implem.Pleasanter.Models
                 context: context, siteModel: siteModel, referenceId: siteId);
             var ss = siteModel.SiteSettings.SiteSettingsOnUpdate(context: context);
             var invalid = SiteValidators.OnUpdating(
-                context: context, ss: ss, siteModel: siteModel);
+                context: context,
+                ss: ss,
+                siteModel: siteModel);
             switch (invalid)
             {
                 case Error.Types.None: break;
@@ -789,7 +795,9 @@ namespace Implem.Pleasanter.Models
         {
             var siteModel = new SiteModel(context, siteId);
             var invalid = SiteValidators.OnDeleting(
-                context: context, ss: ss, siteModel: siteModel);
+                context: context,
+                ss: ss,
+                siteModel: siteModel);
             switch (invalid)
             {
                 case Error.Types.None: break;

@@ -1,4 +1,5 @@
-﻿using Implem.Libraries.Utilities;
+﻿using Implem.DefinitionAccessor;
+using Implem.Libraries.Utilities;
 using Implem.Pleasanter.Libraries.General;
 using Implem.Pleasanter.Libraries.Requests;
 using Implem.Pleasanter.Libraries.Security;
@@ -9,19 +10,28 @@ namespace Implem.Pleasanter.Models
 {
     public static class UserValidators
     {
-        /// <summary>
-        /// Fixed:
-        /// </summary>
-        public static Error.Types OnEntry(Context context, SiteSettings ss)
+        public static Error.Types OnEntry(Context context, SiteSettings ss, bool api = false)
         {
-            return Permissions.CanManageTenant(context: context)
+            if (api && (context.ContractSettings.Api == false || !Parameters.Api.Enabled))
+            {
+                return Error.Types.InvalidRequest;
+            }
+            if (!Parameters.Service.ShowProfiles)
+            {
+                return Error.Types.InvalidRequest;
+            }
+            return context.HasPermission(ss: ss)
                 ? Error.Types.None
                 : Error.Types.HasNotPermission;
         }
 
-        public static Error.Types OnReading(Context context, SiteSettings ss)
+        public static Error.Types OnReading(Context context, SiteSettings ss, bool api = false)
         {
-            if (!DefinitionAccessor.Parameters.Service.ShowProfiles)
+            if (api && (context.ContractSettings.Api == false || !Parameters.Api.Enabled))
+            {
+                return Error.Types.InvalidRequest;
+            }
+            if (!Parameters.Service.ShowProfiles)
             {
                 return Error.Types.InvalidRequest;
             }
@@ -31,9 +41,13 @@ namespace Implem.Pleasanter.Models
         }
 
         public static Error.Types OnEditing(
-            Context context, SiteSettings ss, UserModel userModel)
+            Context context, SiteSettings ss, UserModel userModel, bool api = false)
         {
-            if (!DefinitionAccessor.Parameters.Service.ShowProfiles)
+            if (api && (context.ContractSettings.Api == false || !Parameters.Api.Enabled))
+            {
+                return Error.Types.InvalidRequest;
+            }
+            if (!Parameters.Service.ShowProfiles)
             {
                 return Error.Types.InvalidRequest;
             }
@@ -55,9 +69,13 @@ namespace Implem.Pleasanter.Models
         }
 
         public static Error.Types OnCreating(
-            Context context, SiteSettings ss, UserModel userModel)
+            Context context, SiteSettings ss, UserModel userModel, bool api = false)
         {
-            if (!DefinitionAccessor.Parameters.Service.ShowProfiles)
+            if (api && (context.ContractSettings.Api == false || !Parameters.Api.Enabled))
+            {
+                return Error.Types.InvalidRequest;
+            }
+            if (!Parameters.Service.ShowProfiles)
             {
                 return Error.Types.InvalidRequest;
             }
@@ -1009,8 +1027,12 @@ namespace Implem.Pleasanter.Models
         }
 
         public static Error.Types OnUpdating(
-            Context context, SiteSettings ss, UserModel userModel)
+            Context context, SiteSettings ss, UserModel userModel, bool api = false)
         {
+            if (api && (context.ContractSettings.Api == false || !Parameters.Api.Enabled))
+            {
+                return Error.Types.InvalidRequest;
+            }
             if (Forms.Exists("Users_TenantManager") && userModel.Self(context: context))
             {
                 return Error.Types.PermissionNotSelfChange;
@@ -1962,9 +1984,13 @@ namespace Implem.Pleasanter.Models
         }
 
         public static Error.Types OnDeleting(
-            Context context, SiteSettings ss, UserModel userModel)
+            Context context, SiteSettings ss, UserModel userModel, bool api = false)
         {
-            if (!DefinitionAccessor.Parameters.Service.ShowProfiles)
+            if (api && (context.ContractSettings.Api == false || !Parameters.Api.Enabled))
+            {
+                return Error.Types.InvalidRequest;
+            }
+            if (!Parameters.Service.ShowProfiles)
             {
                 return Error.Types.InvalidRequest;
             }
@@ -1973,9 +1999,13 @@ namespace Implem.Pleasanter.Models
                 : Error.Types.HasNotPermission;
         }
 
-        public static Error.Types OnRestoring(Context context)
+        public static Error.Types OnRestoring(Context context, bool api = false)
         {
-            if (!DefinitionAccessor.Parameters.Service.ShowProfiles)
+            if (api && (context.ContractSettings.Api == false || !Parameters.Api.Enabled))
+            {
+                return Error.Types.InvalidRequest;
+            }
+            if (!Parameters.Service.ShowProfiles)
             {
                 return Error.Types.InvalidRequest;
             }
@@ -1984,13 +2014,27 @@ namespace Implem.Pleasanter.Models
                 : Error.Types.HasNotPermission;
         }
 
-        public static Error.Types OnExporting(Context context, SiteSettings ss)
+        public static Error.Types OnExporting(Context context, SiteSettings ss, bool api = false)
         {
-            if (!DefinitionAccessor.Parameters.Service.ShowProfiles)
+            if (api && (context.ContractSettings.Api == false || !Parameters.Api.Enabled))
+            {
+                return Error.Types.InvalidRequest;
+            }
+            if (!Parameters.Service.ShowProfiles)
             {
                 return Error.Types.InvalidRequest;
             }
             return context.CanExport(ss: ss)
+                ? Error.Types.None
+                : Error.Types.HasNotPermission;
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        public static Error.Types OnEntry(Context context, SiteSettings ss)
+        {
+            return Permissions.CanManageTenant(context: context)
                 ? Error.Types.None
                 : Error.Types.HasNotPermission;
         }
@@ -2101,7 +2145,7 @@ namespace Implem.Pleasanter.Models
         /// </summary>
         public static Error.Types OnApiEditing(Context context, UserModel userModel)
         {
-            if (context.ContractSettings.Api == false)
+            if (context.ContractSettings.Api == false || !Parameters.Api.Enabled)
             {
                 return Error.Types.InvalidRequest;
             }
@@ -2117,7 +2161,7 @@ namespace Implem.Pleasanter.Models
         /// </summary>
         public static Error.Types OnApiCreating(Context context, UserModel userModel)
         {
-            if (context.ContractSettings.Api == false)
+            if (context.ContractSettings.Api == false || !Parameters.Api.Enabled)
             {
                 return Error.Types.InvalidRequest;
             }
@@ -2133,7 +2177,7 @@ namespace Implem.Pleasanter.Models
         /// </summary>
         public static Error.Types OnApiDeleting(Context context, UserModel userModel)
         {
-            if (context.ContractSettings.Api == false)
+            if (context.ContractSettings.Api == false || !Parameters.Api.Enabled)
             {
                 return Error.Types.InvalidRequest;
             }

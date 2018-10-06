@@ -1,4 +1,5 @@
-﻿using Implem.Libraries.Utilities;
+﻿using Implem.DefinitionAccessor;
+using Implem.Libraries.Utilities;
 using Implem.Pleasanter.Libraries.General;
 using Implem.Pleasanter.Libraries.Requests;
 using Implem.Pleasanter.Libraries.Security;
@@ -9,23 +10,35 @@ namespace Implem.Pleasanter.Models
 {
     public static class IssueValidators
     {
-        public static Error.Types OnEntry(Context context, SiteSettings ss)
+        public static Error.Types OnEntry(Context context, SiteSettings ss, bool api = false)
         {
+            if (api && (context.ContractSettings.Api == false || !Parameters.Api.Enabled))
+            {
+                return Error.Types.InvalidRequest;
+            }
             return context.HasPermission(ss: ss)
                 ? Error.Types.None
                 : Error.Types.HasNotPermission;
         }
 
-        public static Error.Types OnReading(Context context, SiteSettings ss)
+        public static Error.Types OnReading(Context context, SiteSettings ss, bool api = false)
         {
+            if (api && (context.ContractSettings.Api == false || !Parameters.Api.Enabled))
+            {
+                return Error.Types.InvalidRequest;
+            }
             return context.CanRead(ss: ss)
                 ? Error.Types.None
                 : Error.Types.HasNotPermission;
         }
 
         public static Error.Types OnEditing(
-            Context context, SiteSettings ss, IssueModel issueModel)
+            Context context, SiteSettings ss, IssueModel issueModel, bool api = false)
         {
+            if (api && (context.ContractSettings.Api == false || !Parameters.Api.Enabled))
+            {
+                return Error.Types.InvalidRequest;
+            }
             switch (issueModel.MethodType)
             {
                 case BaseModel.MethodTypes.Edit:
@@ -44,8 +57,12 @@ namespace Implem.Pleasanter.Models
         }
 
         public static Error.Types OnCreating(
-            Context context, SiteSettings ss, IssueModel issueModel)
+            Context context, SiteSettings ss, IssueModel issueModel, bool api = false)
         {
+            if (api && (context.ContractSettings.Api == false || !Parameters.Api.Enabled))
+            {
+                return Error.Types.InvalidRequest;
+            }
             if (!context.CanCreate(ss: ss))
             {
                 return Error.Types.HasNotPermission;
@@ -1060,8 +1077,12 @@ namespace Implem.Pleasanter.Models
         }
 
         public static Error.Types OnUpdating(
-            Context context, SiteSettings ss, IssueModel issueModel)
+            Context context, SiteSettings ss, IssueModel issueModel, bool api = false)
         {
+            if (api && (context.ContractSettings.Api == false || !Parameters.Api.Enabled))
+            {
+                return Error.Types.InvalidRequest;
+            }
             if (!context.CanUpdate(ss: ss))
             {
                 return Error.Types.HasNotPermission;
@@ -2085,22 +2106,34 @@ namespace Implem.Pleasanter.Models
         }
 
         public static Error.Types OnDeleting(
-            Context context, SiteSettings ss, IssueModel issueModel)
+            Context context, SiteSettings ss, IssueModel issueModel, bool api = false)
         {
+            if (api && (context.ContractSettings.Api == false || !Parameters.Api.Enabled))
+            {
+                return Error.Types.InvalidRequest;
+            }
             return context.CanDelete(ss: ss)
                 ? Error.Types.None
                 : Error.Types.HasNotPermission;
         }
 
-        public static Error.Types OnRestoring(Context context)
+        public static Error.Types OnRestoring(Context context, bool api = false)
         {
+            if (api && (context.ContractSettings.Api == false || !Parameters.Api.Enabled))
+            {
+                return Error.Types.InvalidRequest;
+            }
             return Permissions.CanManageTenant(context: context)
                 ? Error.Types.None
                 : Error.Types.HasNotPermission;
         }
 
-        public static Error.Types OnExporting(Context context, SiteSettings ss)
+        public static Error.Types OnExporting(Context context, SiteSettings ss, bool api = false)
         {
+            if (api && (context.ContractSettings.Api == false || !Parameters.Api.Enabled))
+            {
+                return Error.Types.InvalidRequest;
+            }
             return context.CanExport(ss: ss)
                 ? Error.Types.None
                 : Error.Types.HasNotPermission;
