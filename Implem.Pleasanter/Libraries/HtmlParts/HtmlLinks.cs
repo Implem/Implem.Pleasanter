@@ -111,7 +111,8 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     .IssueId_In(targets
                         .Where(o => o["Direction"].ToString() == direction)
                         .Select(o => o["Id"].ToLong()))
-                    .CanRead(context: context, idColumnBracket: "[Issues].[IssueId]"));
+                    .CanRead(context: context, idColumnBracket: "[Issues].[IssueId]"),
+                orderBy: Rds.IssuesOrderBy().UpdatedTime(SqlOrderBy.Types.desc));
         }
 
         public static Rds.IssuesColumnCollection IssuesLinkColumns(SiteSettings ss)
@@ -146,7 +147,8 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     .ResultId_In(targets
                         .Where(o => o["Direction"].ToString() == direction)
                         .Select(o => o["Id"].ToLong()))
-                    .CanRead(context: context, idColumnBracket: "[Results].[ResultId]"));
+                    .CanRead(context: context, idColumnBracket: "[Results].[ResultId]"),
+                orderBy: Rds.ResultsOrderBy().UpdatedTime(SqlOrderBy.Types.desc));
         }
 
         public static Rds.ResultsColumnCollection ResultsLinkColumns(SiteSettings ss)
