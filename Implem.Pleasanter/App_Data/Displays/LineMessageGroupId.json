@@ -1,0 +1,9 @@
+﻿{
+    "Id": "LineMessageGroupId",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "このグループのIDは次の通りです。"
+        }
+    ]
+}

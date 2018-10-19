@@ -273,7 +273,8 @@ namespace Implem.Pleasanter.Models
                 DeptId = deptId;
                 DeptName = SiteInfo.Dept(
                     tenantId: context.TenantId,
-                    deptId: DeptId).Name;
+                    deptId: DeptId)?
+                        .Name;
             }
             if (groupId != 0)
             {
@@ -281,7 +282,7 @@ namespace Implem.Pleasanter.Models
                 GroupName = new GroupModel(
                     context: context,
                     ss: SiteSettingsUtilities.GroupsSiteSettings(context: context),
-                    groupId: GroupId)
+                    groupId: GroupId)?
                         .GroupName;
             }
             if (userId != 0)
@@ -290,7 +291,7 @@ namespace Implem.Pleasanter.Models
                 var user = SiteInfo.User(
                     context: context,
                     userId: UserId);
-                Name = user.Name;
+                Name = user?.Name;
             }
             PermissionType = permissionType;
         }

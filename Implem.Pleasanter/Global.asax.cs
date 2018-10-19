@@ -16,6 +16,7 @@ using System.Web.Mvc;
 using System.Linq;
 using System.Web.Optimization;
 using System.Web.Routing;
+using System.Web.Http;
 namespace Implem.Pleasanter
 {
     public class MvcApplication : HttpApplication
@@ -52,6 +53,7 @@ namespace Implem.Pleasanter
         private void SetConfigrations()
         {
             AreaRegistration.RegisterAllAreas();
+            GlobalConfiguration.Configure(WebApiConfig.Register);
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             BundleConfig.RegisterBundles(BundleTable.Bundles);

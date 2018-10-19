@@ -304,6 +304,14 @@ namespace Implem.Pleasanter.Libraries.Responses
         public static string LimitSize(params string[] data) { return Get("LimitSize", data); }
         public static string LimitTotalSize(params string[] data) { return Get("LimitTotalSize", data); }
         public static string Line(params string[] data) { return Get("Line", data); }
+        public static string LineBot(params string[] data) { return Get("LineBot", data); }
+        public static string LineGroup(params string[] data) { return Get("LineGroup", data); }
+        public static string LineMessageFollow(params string[] data) { return Get("LineMessageFollow", data); }
+        public static string LineMessageGroupId(params string[] data) { return Get("LineMessageGroupId", data); }
+        public static string LineMessageJoinGroup(params string[] data) { return Get("LineMessageJoinGroup", data); }
+        public static string LineMessageJoinRoom(params string[] data) { return Get("LineMessageJoinRoom", data); }
+        public static string LineMessageRoomId(params string[] data) { return Get("LineMessageRoomId", data); }
+        public static string LineMessageUserId(params string[] data) { return Get("LineMessageUserId", data); }
         public static string LinkColumn(params string[] data) { return Get("LinkColumn", data); }
         public static string LinkCreated(params string[] data) { return Get("LinkCreated", data); }
         public static string LinkCreations(params string[] data) { return Get("LinkCreations", data); }
@@ -555,6 +563,7 @@ namespace Implem.Pleasanter.Libraries.Responses
         public static string UseMonth(params string[] data) { return Get("UseMonth", data); }
         public static string UseQuarter(params string[] data) { return Get("UseQuarter", data); }
         public static string UserAdmin(params string[] data) { return Get("UserAdmin", data); }
+        public static string UserDisabled(params string[] data) { return Get("UserDisabled", data); }
         public static string UsersLimit(params string[] data) { return Get("UsersLimit", data); }
         public static string UseSearch(params string[] data) { return Get("UseSearch", data); }
         public static string ValidateDate(params string[] data) { return Get("ValidateDate", data); }

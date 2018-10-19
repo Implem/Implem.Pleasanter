@@ -206,8 +206,11 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="App_Start\ApiRouteConfig.cs" />
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="Controllers\AdminsController.cs" />
+    <Compile Include="Controllers\Api\ItemsController.cs" />
+    <Compile Include="Controllers\Api\LineBotController.cs" />
     <Compile Include="Controllers\Api_DeptsController.cs" />
     <Compile Include="Controllers\Api_GroupsController.cs" />
     <Compile Include="Controllers\Api_ItemsController.cs" />
@@ -235,6 +238,7 @@
     </Compile>
     <Compile Include="Interfaces\IConvertable.cs" />
     <Compile Include="Interfaces\ISettingListItem.cs" />
+    <Compile Include="Libraries\DataSources\LineBot.cs" />
     <Compile Include="Libraries\Extensions\FormatExtension.cs" />
     <Compile Include="Libraries\Extensions\InitialValueExtensions.cs" />
     <Compile Include="Libraries\Extensions\GridTextExtensions.cs" />
@@ -1344,6 +1348,14 @@
     <Content Include="App_Data\Displays\RelatingColumnSettings.json" />
     <Content Include="App_Data\Displays\RelatingColumn.json" />
     <Content Include="App_Data\Displays\EditInDialog.json" />
+    <Content Include="App_Data\Displays\LineBot.json" />
+    <Content Include="App_Data\Displays\LineGroup.json" />
+    <Content Include="App_Data\Displays\LineMessageFollow.json" />
+    <Content Include="App_Data\Displays\LineMessageGroupId.json" />
+    <Content Include="App_Data\Displays\LineMessageJoinGroup.json" />
+    <Content Include="App_Data\Displays\LineMessageJoinRoom.json" />
+    <Content Include="App_Data\Displays\LineMessageRoomId.json" />
+    <Content Include="App_Data\Displays\LineMessageUserId.json" />
     <Content Include="Tools\BackgroundTasks.ps1" />
     <Content Include="Tools\SyncByLdap.ps1" />
     <Content Include="Views\Users\EditApi.cshtml" />

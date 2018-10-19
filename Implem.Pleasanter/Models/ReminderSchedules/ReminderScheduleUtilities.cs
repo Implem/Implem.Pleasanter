@@ -37,13 +37,18 @@ namespace Implem.Pleasanter.Models
                         column: Rds.ReminderSchedulesColumn()
                             .SiteId()
                             .Id()
-                            .Updator()
-                            .Sites_TenantId(),
+                            .Sites_Updator()
+                            .Sites_TenantId()
+                            .Users_DeptId(),
                         join: Rds.ReminderSchedulesJoin()
                             .Add(
                                 tableName: "Sites",
                                 joinType: SqlJoin.JoinTypes.Inner,
-                                joinExpression: "[Sites].[SiteId]=[ReminderSchedules].[SiteId]"),
+                                joinExpression: "[Sites].[SiteId]=[ReminderSchedules].[SiteId]")
+                            .Add(
+                                tableName: "Users",
+                                joinType: SqlJoin.JoinTypes.LeftOuter,
+                                joinExpression: "[Users].[UserId]=[Sites].[Updator]"),
                         where: Rds.ReminderSchedulesWhere()
                             .ScheduledTime(
                                 DateTime.Now.ToLocal(),
@@ -73,8 +78,6 @@ namespace Implem.Pleasanter.Models
                     .Remind(
                         context: context,
                         idList: dataRow.Int("Id").ToSingleList());
-            Sessions.Clear("TenantId");
-            Sessions.Clear("RdsUser");
         }
     }
 }

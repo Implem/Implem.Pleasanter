@@ -5917,6 +5917,16 @@ namespace Implem.Pleasanter.Models
                     .Hidden(
                         controlId: "NotificationTokenEnableList",
                         value: NotificationUtilities.Tokens())
+                    .FieldCheckBox(
+                        fieldId: "NotificationIsGroupField",
+                        controlId: "NotificationIsGroup",
+                        fieldCss: "field-wide" + (NotificationUtilities.RequireGroupCheck(notification) ? "" : " hidden"),
+                        controlCss: " always-send",
+                        labelText: Displays.LineGroup(),
+                        _checked: notification.IsGroup == true)
+                    .Hidden(
+                        controlId: "NotificationIsGroupEnableList",
+                        value: NotificationUtilities.GroupChecks())
                     .Div(_using: ss.Views?.Any() == true, action: () => hb
                         .FieldDropDown(
                             context: context,

@@ -1,0 +1,9 @@
+﻿{
+    "Id": "LineBot",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "LINE"
+        }
+    ]
+}

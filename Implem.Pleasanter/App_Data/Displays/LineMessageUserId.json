@@ -1,0 +1,9 @@
+﻿{
+    "Id": "LineMessageUserId",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "あなたのユーザーIDは次の通りです。"
+        }
+    ]
+}

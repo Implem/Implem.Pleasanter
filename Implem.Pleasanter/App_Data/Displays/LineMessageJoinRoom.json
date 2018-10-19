@@ -1,0 +1,9 @@
+﻿{
+    "Id": "LineMessageJoinRoom",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "トークルームに入れてくれてありがとう！"
+        }
+    ]
+}
