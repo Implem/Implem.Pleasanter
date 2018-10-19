@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Implem.Pleasanter.Libraries.Requests;
+using Implem.Pleasanter.Models;
+using System;
 using System.Net;
 using System.Text;
 using System.Threading.Tasks;
@@ -6,12 +8,14 @@ namespace Implem.Pleasanter.Libraries.DataSources
 {
     public class ChatWork
     {
+        public Context context;
         public string text;
         public string username;
         public string token;
-
-        public ChatWork(string _text, string _username, string _token)
+       
+        public ChatWork(Context _context, string _text, string _username, string _token)
         {
+            context = _context;
             text = _text;
             username = _username;
             token = _token;
@@ -33,9 +37,9 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     {
                         reqStream.Write(postDataBytes, 0, postDataBytes.Length);
                     }
-                    catch
+                    catch(Exception e)
                     {
-                        throw;
+                        new SysLogModel(context, e);
                     }
                 }
             });

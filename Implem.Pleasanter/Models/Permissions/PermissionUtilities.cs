@@ -340,6 +340,7 @@ namespace Implem.Pleasanter.Models
                         .DeptId()))
                             .AsEnumerable()
                             .Select(dataRow => new Permission(dataRow))
+                            .Where(o => o.Exists(context: context))
                             .ToList();
         }
 

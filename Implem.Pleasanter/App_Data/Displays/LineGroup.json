@@ -1,0 +1,13 @@
+﻿{
+    "Id": "LineGroup",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Use Group ID"
+        },
+        {
+            "Language": "ja",
+            "Body": "グループIDを使用する"
+        }
+    ]
+}

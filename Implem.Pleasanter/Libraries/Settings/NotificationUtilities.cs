@@ -29,6 +29,12 @@ namespace Implem.Pleasanter.Libraries.Settings
                     Notification.Types.ChatWork.ToInt().ToString(),
                     Displays.ChatWork());
             }
+            if (Parameters.Notification.LineBot)
+            {
+                notificationType.Add(
+                    Notification.Types.LineBot.ToInt().ToString(),
+                    Displays.LineBot());
+            }
             return notificationType;
         }
 
@@ -48,6 +54,16 @@ namespace Implem.Pleasanter.Libraries.Settings
             {
                 Notification.Types.ChatWork
             };
+        }
+
+        public static bool RequireGroupCheck(Notification notification)
+        {
+            return notification.Type == Notification.Types.LineBot;
+        }
+
+        public static string GroupChecks()
+        {
+            return Notification.Types.LineBot.ToInt().ToString();
         }
 
         public static void CheckConditions(

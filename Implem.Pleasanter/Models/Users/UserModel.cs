@@ -3784,17 +3784,14 @@ namespace Implem.Pleasanter.Models
                         .OwnerId(UserId)
                         .OwnerType("Users")
                         .MailAddress(mailAddress))));
-            if (statements.Any())
-            {
-                statements.Insert(0, Rds.PhysicalDeleteMailAddresses(
-                    where: Rds.MailAddressesWhere()
-                        .OwnerId(UserId)
-                        .OwnerType("Users")));
-                Rds.ExecuteNonQuery(
-                    context: context,
-                    transactional: true,
-                    statements: statements.ToArray());
-            }
+            statements.Insert(0, Rds.PhysicalDeleteMailAddresses(
+                where: Rds.MailAddressesWhere()
+                    .OwnerId(UserId)
+                    .OwnerType("Users")));
+            Rds.ExecuteNonQuery(
+                context: context,
+                transactional: true,
+                statements: statements.ToArray());
         }
 
         /// <summary>
@@ -3868,7 +3865,15 @@ namespace Implem.Pleasanter.Models
         /// </summary>
         public string Authenticate(Context context, string returnUrl)
         {
-            if (Authenticate(context: context))
+            if (Parameters.Security.RevealUserDisabled && DisabledUser(context: context))
+            {
+                return UserDisabled(context: context);
+            }
+            if (RejectUnregisteredUser(context: context))
+            {
+                return Deny(context: context);
+            }
+            if (Authenticate(context: context) && AllowedIpAddress())
             {
                 if (PasswordExpired())
                 {
@@ -3903,70 +3908,90 @@ namespace Implem.Pleasanter.Models
         public bool Authenticate(Context context)
         {
             var ret = false;
-            if (!RejectUnregisteredUser(context: context))
+            switch (Parameters.Authentication.Provider)
             {
-                switch (Parameters.Authentication.Provider)
-                {
-                    case "LDAP":
-                        ret = Ldap.Authenticate(
+                case "LDAP":
+                    ret = Ldap.Authenticate(
+                        context: context,
+                        loginId: LoginId,
+                        password: Forms.Data("Users_Password"));
+                    if (ret)
+                    {
+                        Get(
                             context: context,
-                            loginId: LoginId,
-                            password: Forms.Data("Users_Password"));
-                        if (ret)
-                        {
-                            Get(
-                                context: context,
-                                ss: SiteSettingsUtilities.UsersSiteSettings(context: context),
-                                where: Rds.UsersWhere().LoginId(LoginId));
-                        }
-                        break;
-                    case "LDAP+Local":
-                        ret = Ldap.Authenticate(
+                            ss: SiteSettingsUtilities.UsersSiteSettings(context: context),
+                            where: Rds.UsersWhere().LoginId(LoginId));
+                    }
+                    break;
+                case "LDAP+Local":
+                    ret = Ldap.Authenticate(
+                        context: context,
+                        loginId: LoginId,
+                        password: Forms.Data("Users_Password"));
+                    if (ret)
+                    {
+                        Get(
                             context: context,
-                            loginId: LoginId,
-                            password: Forms.Data("Users_Password"));
-                        if (ret)
-                        {
-                            Get(
-                                context: context,
-                                ss: SiteSettingsUtilities.UsersSiteSettings(context: context),
-                                where: Rds.UsersWhere().LoginId(LoginId));
-                        }
-                        else
-                        {
-                            ret = GetByCredentials(
-                                context: context,
-                                loginId: LoginId,
-                                password: Password,
-                                tenantId: Forms.Int("SelectedTenantId"));
-                        }
-                        break;
-                    case "Extension":
-                        var user = Extension.Authenticate(
-                            context: context,
-                            loginId: LoginId,
-                            password: Password);
-                        ret = user != null;
-                        if (ret)
-                        {
-                            Get(
-                                context: context,
-                                ss: SiteSettingsUtilities.UsersSiteSettings(context: context),
-                                where: Rds.UsersWhere()
-                                    .TenantId(user.TenantId)
-                                    .UserId(user.Id));
-                        }
-                        break;
-                    default:
+                            ss: SiteSettingsUtilities.UsersSiteSettings(context: context),
+                            where: Rds.UsersWhere().LoginId(LoginId));
+                    }
+                    else
+                    {
                         ret = GetByCredentials(
                             context: context,
                             loginId: LoginId,
                             password: Password,
                             tenantId: Forms.Int("SelectedTenantId"));
-                        break;
-                }
+                    }
+                    break;
+                case "Extension":
+                    var user = Extension.Authenticate(
+                        context: context,
+                        loginId: LoginId,
+                        password: Password);
+                    ret = user != null;
+                    if (ret)
+                    {
+                        Get(
+                            context: context,
+                            ss: SiteSettingsUtilities.UsersSiteSettings(context: context),
+                            where: Rds.UsersWhere()
+                                .TenantId(user.TenantId)
+                                .UserId(user.Id));
+                    }
+                    break;
+                default:
+                    ret = GetByCredentials(
+                        context: context,
+                        loginId: LoginId,
+                        password: Password,
+                        tenantId: Forms.Int("SelectedTenantId"));
+                    break;
             }
             return ret;
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        private bool AllowedIpAddress()
+        {
+            var context = new Context(TenantId);
+            return context.ContractSettings.AllowedIpAddress(context.UserHostAddress);
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        private bool DisabledUser(Context context)
+        {
+            return Rds.ExecuteScalar_int(
+                    context: context,
+                    statements: Rds.SelectUsers(
+                        column: Rds.UsersColumn().UsersCount(),
+                        where: Rds.UsersWhere()
+                            .LoginId(LoginId)
+                            .Disabled(true))) == 1;
         }
 
         /// <summary>
@@ -4035,13 +4060,7 @@ namespace Implem.Pleasanter.Models
         /// </summary>
         public string Allow(Context context, string returnUrl, bool atLogin = false)
         {
-            Rds.ExecuteNonQuery(
-                context: context,
-                statements: Rds.UpdateUsers(
-                    where: Rds.UsersWhereDefault(this),
-                    param: Rds.UsersParam()
-                        .NumberOfLogins(raw: "[NumberOfLogins] + 1")
-                        .LastLoginTime(DateTime.Now)));
+            IncrementsNumberOfLogins(context, "NumberOfLogins");
             SetFormsAuthentication(returnUrl);
             return new UsersResponseCollection(this)
                 .CloseDialog(_using: atLogin)
@@ -4054,16 +4073,33 @@ namespace Implem.Pleasanter.Models
         /// <summary>
         /// Fixed:
         /// </summary>
-        private string Deny(Context context)
+        private void IncrementsNumberOfLogins(Context context, string columnName)
         {
             Rds.ExecuteNonQuery(
                 context: context,
                 statements: Rds.UpdateUsers(
+                    where: Rds.UsersWhereDefault(this),
                     param: Rds.UsersParam()
-                        .NumberOfDenial(raw: "[NumberOfDenial] + 1"),
-                    where: Rds.UsersWhere()
-                        .LoginId(LoginId)));
+                        .NumberOfLogins(raw: $"[{columnName}] + 1")
+                        .LastLoginTime(DateTime.Now)));
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        private string Deny(Context context)
+        {
+            IncrementsNumberOfLogins(context, "NumberOfDenial");
             return Messages.ResponseAuthentication().Focus("#Password").ToJson();
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        private string UserDisabled(Context context)
+        {
+            IncrementsNumberOfLogins(context, "NumberOfDenial");
+            return Messages.ResponseUserDisabled().Focus("#Password").ToJson();
         }
 
         /// <summary>

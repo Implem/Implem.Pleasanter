@@ -65,6 +65,32 @@ namespace Implem.Pleasanter.Libraries.Security
             return Name + "," + Id + "," + Type.ToInt().ToString();
         }
 
+        public bool Exists(Context context)
+        {
+            if (Id == 0)
+            {
+                return false;
+            }
+            switch (Name)
+            {
+                case "Dept":
+                    return SiteInfo.Dept(
+                        tenantId: context.TenantId,
+                        deptId: Id) != null;
+                case "Group":
+                    return new GroupModel(
+                        context: context,
+                        ss: SiteSettingsUtilities.GroupsSiteSettings(context: context),
+                        groupId: Id).AccessStatus == Databases.AccessStatuses.Selected;
+                case "User":
+                    return !SiteInfo.User(
+                        context: context,
+                        userId: Id).Anonymous();
+                default:
+                    return false;
+            }
+        }
+
         public ControlData ControlData(Context context, SiteSettings ss, bool withType = true)
         {
             switch (Name)

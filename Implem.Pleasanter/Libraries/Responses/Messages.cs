@@ -494,6 +494,11 @@ namespace Implem.Pleasanter.Libraries.Responses
             return Get(Displays.Updated(data), "alert-success");
         }
 
+        public static Message UserDisabled(params string[] data)
+        {
+            return Get(Displays.UserDisabled(data), "alert-error");
+        }
+
         public static Message UsersLimit(params string[] data)
         {
             return Get(Displays.UsersLimit(data), "alert-error");
@@ -977,6 +982,11 @@ namespace Implem.Pleasanter.Libraries.Responses
         public static ResponseCollection ResponseUpdated(params string[] data)
         {
             return ResponseMessage(Updated(data));
+        }
+
+        public static ResponseCollection ResponseUserDisabled(params string[] data)
+        {
+            return ResponseMessage(UserDisabled(data));
         }
 
         public static ResponseCollection ResponseUsersLimit(params string[] data)

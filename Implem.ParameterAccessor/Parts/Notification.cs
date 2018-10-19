@@ -5,5 +5,8 @@
         public bool Mail;
         public bool Slack;
         public bool ChatWork;
+        public bool LineBot;
+        public string LineChannelSecret;
+        public string LineChannelAccessToken;
     }
 }

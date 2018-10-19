@@ -1,5 +1,8 @@
 ﻿{
-    "Mail": true,
-    "Slack": true,
-    "ChatWork": true
+  "Mail": true,
+  "Slack": true,
+  "ChatWork": true,
+  "LineBot": false,
+  "LineChannelSecret": null,
+  "LineChannelAccessToken": null
 }

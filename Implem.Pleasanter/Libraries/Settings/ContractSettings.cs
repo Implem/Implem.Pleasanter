@@ -5,6 +5,7 @@ using Implem.Pleasanter.Libraries.Requests;
 using Implem.Pleasanter.Libraries.Server;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Runtime.Serialization;
 namespace Implem.Pleasanter.Libraries.Settings
 {
@@ -27,6 +28,7 @@ namespace Implem.Pleasanter.Libraries.Settings
         public bool? Api;
         public DateTime? Deadline;
         public Dictionary<string, bool> Extensions;
+        public List<string> AllowIpAddresses;
 
         public ContractSettings()
         {
@@ -55,7 +57,7 @@ namespace Implem.Pleasanter.Libraries.Settings
         public bool OverDeadline()
         {
             return Deadline?.InRange() == true
-                &&  Deadline.ToDateTime() < DateTime.Now.ToLocal();
+                && Deadline.ToDateTime() < DateTime.Now.ToLocal();
         }
 
         public bool UsersLimit(Context context, int number = 1)
@@ -96,6 +98,15 @@ namespace Implem.Pleasanter.Libraries.Settings
         public bool Images()
         {
             return Parameters.BinaryStorage.Images && Attachments();
+        }
+
+        public bool AllowedIpAddress(string ipAddress)
+        {
+            if (AllowIpAddresses?.Any() != true)
+            {
+                return true;
+            }
+            return AllowIpAddresses.Contains(ipAddress);
         }
     }
 }
