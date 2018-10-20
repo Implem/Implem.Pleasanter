@@ -24,10 +24,10 @@ namespace Implem.Pleasanter.Models
     public static class SearchIndexUtilities
     {
         private static DataSet ResultContents(
-            Context context, SiteSettings ss, EnumerableRowCollection<DataRow> dataRows)
+            Context context, EnumerableRowCollection<DataRow> dataRows)
         {
             var statements = new List<SqlStatement>();
-            if (dataRows.Any(o => o["ReferenceType"].ToString() == "Sites"))
+            if (dataRows.Any(o => o.String("ReferenceType") == "Sites"))
             {
                 statements.Add(Rds.SelectSites(
                     dataTableName: "Sites",
@@ -42,7 +42,7 @@ namespace Implem.Pleasanter.Models
                             .Where(o => o.String("ReferenceType") == "Sites")
                             .Select(o => o.Long("ReferenceId")))));
             }
-            if (dataRows.Any(o => o["ReferenceType"].ToString() == "Issues"))
+            if (dataRows.Any(o => o.String("ReferenceType") == "Issues"))
             {
                 statements.Add(Rds.SelectIssues(
                     dataTableName: "Issues",
@@ -53,10 +53,10 @@ namespace Implem.Pleasanter.Models
                         .Body(),
                     where: Rds.IssuesWhere()
                         .IssueId_In(dataRows
-                            .Where(o => o["ReferenceType"].ToString() == "Issues")
-                            .Select(o =>o["ReferenceId"].ToLong()))));
+                            .Where(o => o.String("ReferenceType") == "Issues")
+                            .Select(o => o.Long("ReferenceId")))));
             }
-            if (dataRows.Any(o => o["ReferenceType"].ToString() == "Results"))
+            if (dataRows.Any(o => o.String("ReferenceType") == "Results"))
             {
                 statements.Add(Rds.SelectResults(
                     dataTableName: "Results",
@@ -67,10 +67,10 @@ namespace Implem.Pleasanter.Models
                         .Body(),
                     where: Rds.ResultsWhere()
                         .ResultId_In(dataRows
-                            .Where(o => o["ReferenceType"].ToString() == "Results")
-                            .Select(o =>o["ReferenceId"].ToLong()))));
+                            .Where(o => o.String("ReferenceType") == "Results")
+                            .Select(o => o.Long("ReferenceId")))));
             }
-            if (dataRows.Any(o => o["ReferenceType"].ToString() == "Wikis"))
+            if (dataRows.Any(o => o.String("ReferenceType") == "Wikis"))
             {
                 statements.Add(Rds.SelectWikis(
                     dataTableName: "Wikis",
@@ -81,8 +81,8 @@ namespace Implem.Pleasanter.Models
                         .Body(),
                     where: Rds.WikisWhere()
                         .WikiId_In(dataRows
-                            .Where(o => o["ReferenceType"].ToString() == "Wikis")
-                            .Select(o =>o["ReferenceId"].ToLong()))));
+                            .Where(o => o.String("ReferenceType") == "Wikis")
+                            .Select(o => o.Long("ReferenceId")))));
             }
             return Rds.ExecuteDataSet(
                 context: context,
@@ -94,7 +94,6 @@ namespace Implem.Pleasanter.Models
         /// </summary>
         public static string Search(Context context)
         {
-            var ss = new SiteSettings();
             var dataSet = Get(
                 context: context,
                 searchText: QueryStrings.Data("text"),
@@ -103,7 +102,6 @@ namespace Implem.Pleasanter.Models
                 pageSize: Parameters.General.SearchPageSize);
             return MainContainer(
                 context: context,
-                ss: ss,
                 text: QueryStrings.Data("text"),
                 offset: 0,
                 results: dataSet?.Tables["SearchResults"].AsEnumerable(),
@@ -115,7 +113,6 @@ namespace Implem.Pleasanter.Models
         /// </summary>
         public static string SearchJson(Context context)
         {
-            var ss = new SiteSettings();
             var offset = QueryStrings.Int("offset");
             var searchText = QueryStrings.Data("text");
             var dataSet = Get(
@@ -132,7 +129,6 @@ namespace Implem.Pleasanter.Models
                         "#MainContainer",
                         MainContainer(
                             context: context,
-                            ss: ss,
                             text: searchText,
                             offset: 0,
                             results: dataRows,
@@ -144,7 +140,6 @@ namespace Implem.Pleasanter.Models
                         "#SearchResults",
                         new HtmlBuilder().Results(
                             context: context,
-                            ss: ss,
                             text: searchText,
                             offset: offset,
                             dataRows: dataRows))
@@ -163,7 +158,6 @@ namespace Implem.Pleasanter.Models
         /// </summary>
         private static HtmlBuilder MainContainer(
             Context context,
-            SiteSettings ss,
             string text,
             int offset,
             EnumerableRowCollection<DataRow> results,
@@ -188,7 +182,6 @@ namespace Implem.Pleasanter.Models
                         .Count(count: count)
                         .Results(
                             context: context,
-                            ss: ss,
                             text: text,
                             offset: offset,
                             dataRows: results))
@@ -229,18 +222,17 @@ namespace Implem.Pleasanter.Models
         private static HtmlBuilder Results(
             this HtmlBuilder hb,
             Context context,
-            SiteSettings ss,
             string text,
             int offset,
             EnumerableRowCollection<DataRow> dataRows)
         {
             if (dataRows?.Any() == true)
             {
-                var dataSet = ResultContents(context: context, ss: ss, dataRows: dataRows);
+                var dataSet = ResultContents(context: context, dataRows: dataRows);
                 dataRows.ForEach(result =>
                 {
-                    var referenceType = result["ReferenceType"].ToString();
-                    var referenceId = result["ReferenceId"].ToLong();
+                    var referenceType = result.String("ReferenceType");
+                    var referenceId = result.Long("ReferenceId");
                     var dataRow = dataSet.Tables[referenceType]
                         .AsEnumerable()
                         .FirstOrDefault(o => o["Id"].ToLong() == referenceId);
@@ -262,13 +254,18 @@ namespace Implem.Pleasanter.Models
                                 .Class("result")
                                 .Add("data-href", href),
                             action: () => hb
-                                .Breadcrumb(context: context, ss: ss)
+                                .Breadcrumb(
+                                    context: context,
+                                    ss: new SiteSettings()
+                                    {
+                                        SiteId = dataRow.Long("SiteId")
+                                    })
                                 .H(number: 3, action: () => hb
                                      .A(
                                          href: href,
-                                         text: dataRow["Title"].ToString()))
+                                         text: dataRow.String("Title")))
                                 .P(action: () => hb
-                                    .Text(text: dataRow["Body"].ToString())));
+                                    .Text(text: dataRow.String("Body"))));
                     }
                 });
             }
