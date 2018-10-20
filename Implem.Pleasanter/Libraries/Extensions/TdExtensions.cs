@@ -10,7 +10,6 @@ namespace Implem.Pleasanter.Libraries.Extensions
 {
     public static class TdExtensions
     {
-
         public static HtmlBuilder Td(
             this HtmlBuilder hb, Context context, Column column, IConvertable value)
         {
