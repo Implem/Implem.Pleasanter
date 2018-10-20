@@ -145,7 +145,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                     columnName => columnName,
                     columnName => SelectableOptionsControlData(
                         context: context,
-                        ss: ss.GetJoinedSs(columnName),
+                        ss: ss?.GetJoinedSs(columnName),
                         columnName: columnName,
                         labelType: labelType,
                         order: order?.IndexOf(columnName)));
