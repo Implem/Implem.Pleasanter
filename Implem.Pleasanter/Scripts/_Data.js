@@ -7,7 +7,6 @@
 }
 
 $p.set = function ($control, val) {
-    var controlId = $control.attr('id');
     if ($control.length === 1) {
         switch ($control.prop('type')) {
             case 'checkbox':
