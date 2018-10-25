@@ -51,7 +51,7 @@ namespace Implem.Pleasanter.Libraries.DataTypes
 
         private HtmlBuilder Svg(HtmlBuilder hb, Column column)
         {
-            var width = column.Max != null
+            var width = column.Max != null && column.Max != 0
                 ? Convert.ToInt32(Value / column.Max.ToInt() * 100)
                 : 0;
             return hb.Svg(css: "svg-work-value", action: () => hb
