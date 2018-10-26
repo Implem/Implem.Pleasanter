@@ -5689,7 +5689,6 @@ namespace Implem.Pleasanter.Models
             bool synchronizeSummary = true,
             bool forceSynchronizeSourceSummary = false,
             bool notice = false,
-            RdsUser rdsUser = null,
             SqlParamCollection param = null,
             List<SqlStatement> additionalStatements = null,
             bool otherInitValue = false,
@@ -6057,7 +6056,6 @@ namespace Implem.Pleasanter.Models
             Context context,
             SiteSettings ss,
             bool extendedSqls,
-            RdsUser rdsUser = null,
             bool addUpdatedTimeParam = true,
             bool addUpdatorParam = true,
             bool updateItems = true)
@@ -6264,7 +6262,6 @@ namespace Implem.Pleasanter.Models
         public Error.Types UpdateOrCreate(
             Context context,
             SiteSettings ss,
-            RdsUser rdsUser = null,
             SqlWhereCollection where = null,
             SqlParamCollection param = null)
         {

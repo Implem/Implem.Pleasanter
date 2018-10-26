@@ -160,7 +160,6 @@ namespace Implem.Pleasanter
         {
             var userModel = new UserModel();
             Session["Language"] = Parameters.Service.DefaultLanguage ?? userModel.Language;
-            Session["RdsUser"] = userModel.RdsUser();
             Session["Developer"] = userModel.Developer;
         }
     }

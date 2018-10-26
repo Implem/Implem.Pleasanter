@@ -1,17 +1,11 @@
 ﻿using Implem.Libraries.Classes;
 using Implem.Libraries.Utilities;
-using Implem.Pleasanter.Libraries.DataSources;
-using Implem.Pleasanter.Libraries.DataTypes;
-using Implem.Pleasanter.Libraries.HtmlParts;
 using Implem.Pleasanter.Libraries.Requests;
 using Implem.Pleasanter.Libraries.Responses;
-using Implem.Pleasanter.Libraries.Security;
 using Implem.Pleasanter.Libraries.Settings;
 using Implem.Pleasanter.Models;
 using System;
-using System.Data;
 using System.Globalization;
-using System.Linq;
 using System.Web;
 namespace Implem.Pleasanter.Libraries.Server
 {
@@ -43,29 +37,6 @@ namespace Implem.Pleasanter.Libraries.Server
         public static bool Created()
         {
             return HttpContext.Current?.Session != null;
-        }
-
-        public static void Set(Context context)
-        {
-            HttpContext.Current.Session["TenantId"] = context.TenantId;
-            HttpContext.Current.Session["RdsUser"] =
-                Rds.ExecuteTable(
-                    context: context,
-                    statements: Rds.SelectUsers(
-                        column: Rds.UsersColumn().UserId().DeptId(),
-                        where: Rds.UsersWhere().UserId(context.UserId)))
-                            .AsEnumerable()
-                            .Select(dataRow => new RdsUser()
-                            {
-                                TenantId = context.TenantId,
-                                DeptId = dataRow.Int("DeptId"),
-                                UserId = dataRow.Int("UserId")
-                            })
-                            .FirstOrDefault();
-            if (!SiteInfo.TenantCaches.ContainsKey(context.TenantId))
-            {
-                SiteInfo.Reflesh(context: context);
-            }
         }
 
         public static int TenantId()
