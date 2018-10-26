@@ -19,42 +19,41 @@ namespace Implem.Pleasanter.Libraries.DataTypes
             SiteId = siteId;
         }
 
+        public string Title(Context context)
+        {
+            return SiteInfo.TenantCaches
+                .Get(context.TenantId)?
+                .SiteMenu
+                .Get(SiteId)?
+                .Title ?? string.Empty;
+        }
+
         public string ToControl(Context context, SiteSettings ss, Column column)
         {
-            return ToString();
+            return Title(context: context);
         }
 
         public string ToResponse(Context context, SiteSettings ss, Column column)
         {
-            return ToString();
-        }
-
-        public override string ToString()
-        {
-            return SiteInfo.TenantCaches.Get(Sessions.TenantId())?
-                .SiteMenu.Get(SiteId)?.Title ?? string.Empty;
+            return Title(context: context);
         }
 
         public virtual HtmlBuilder Td(HtmlBuilder hb, Context context, Column column)
         {
             return hb.Td(action: () => hb
-                .P(action: () => TdTitle(hb, column)));
-        }
-
-        protected void TdTitle(HtmlBuilder hb, Column column)
-        {
-            hb.Text(text: ToString());
+                .P(action: () => hb
+                    .Text(Title(context: context))));
         }
 
         public virtual string GridText(Context context, Column column)
         {
-            return ToString();
+            return Title(context: context);
         }
 
         public virtual string ToExport(
             Context context, Column column, ExportColumn exportColumn = null)
         {
-            return ToString();
+            return Title(context: context);
         }
 
         public bool InitialValue(Context context)
