@@ -39,11 +39,6 @@ namespace Implem.Pleasanter.Libraries.Server
             return HttpContext.Current?.Session != null;
         }
 
-        public static int TenantId()
-        {
-            return HttpContext.Current?.Session?["TenantId"].ToInt() ?? 0;
-        }
-
         public static bool LoggedIn()
         {
             return
