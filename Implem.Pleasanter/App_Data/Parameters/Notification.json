@@ -2,7 +2,6 @@
   "Mail": true,
   "Slack": true,
   "ChatWork": true,
-  "LineBot": false,
-  "LineChannelSecret": null,
+  "LineBot": true,
   "LineChannelAccessToken": null
 }
