@@ -29,7 +29,6 @@ namespace Implem.Pleasanter.Libraries.Requests
         public string UserHostAddress;
         public bool Developer;
         public TimeZoneInfo TimeZoneInfo;
-        public RdsUser RdsUser;
         public UserSettings UserSettings;
         public bool HasPrivilege;
         public ContractSettings ContractSettings;
@@ -59,18 +58,19 @@ namespace Implem.Pleasanter.Libraries.Requests
             TenantId = tenantId;
             DeptId = deptId;
             UserId = userId;
-            if (UserId != 0)
-            {
-                RdsUser = new RdsUser()
-                {
-                    TenantId = TenantId,
-                    UserId = UserId,
-                    DeptId = DeptId
-                };
-            }
             UserHostAddress = HttpContext.Current.Request?.UserHostAddress;
             SetTenantCaches();
             SetContractSettings();
+        }
+
+        public RdsUser RdsUser()
+        {
+            return new RdsUser()
+            {
+                TenantId = TenantId,
+                DeptId = DeptId,
+                UserId = UserId
+            };
         }
 
         public void SetByApi()
@@ -97,7 +97,6 @@ namespace Implem.Pleasanter.Libraries.Requests
                     UserHostAddress = HttpContext.Current.Request?.UserHostAddress;
                     Developer = userModel.Developer;
                     TimeZoneInfo = userModel.TimeZoneInfo;
-                    RdsUser = userModel.RdsUser();
                     UserSettings = userModel.UserSettings;
                     HasPrivilege = Parameters.Security.PrivilegedUsers?.Contains(LoginId) == true;
                     SetTenantCaches();
@@ -123,8 +122,6 @@ namespace Implem.Pleasanter.Libraries.Requests
             UserHostAddress = HttpContext.Current.Request?.UserHostAddress;
             Developer = HttpContext.Current.Session["Developer"].ToBool();
             TimeZoneInfo = HttpContext.Current.Session["TimeZoneInfo"] as TimeZoneInfo;
-            RdsUser = HttpContext.Current.Session["RdsUser"] as RdsUser
-                ?? new RdsUser(RdsUser.UserTypes.Anonymous);
             UserSettings = HttpContext.Current.Session["UserSettings"]?
                 .ToString()
                 .Deserialize<UserSettings>()

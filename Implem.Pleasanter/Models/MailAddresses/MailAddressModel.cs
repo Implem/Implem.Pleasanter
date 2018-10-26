@@ -195,7 +195,6 @@ namespace Implem.Pleasanter.Models
         public Error.Types Update(
             Context context,
             SiteSettings ss,
-            RdsUser rdsUser = null,
             SqlParamCollection param = null,
             List<SqlStatement> additionalStatements = null,
             bool otherInitValue = false,
@@ -276,7 +275,6 @@ namespace Implem.Pleasanter.Models
 
         public Error.Types UpdateOrCreate(
             Context context,
-            RdsUser rdsUser = null,
             SqlWhereCollection where = null,
             SqlParamCollection param = null)
         {

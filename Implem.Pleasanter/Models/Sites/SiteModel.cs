@@ -446,7 +446,6 @@ namespace Implem.Pleasanter.Models
             SiteSettings ss,
             IEnumerable<string> permissions = null,
             bool permissionChanged = false,
-            RdsUser rdsUser = null,
             SqlParamCollection param = null,
             List<SqlStatement> additionalStatements = null,
             bool otherInitValue = false,
@@ -552,7 +551,6 @@ namespace Implem.Pleasanter.Models
 
         public void UpdateRelatedRecords(
             Context context,
-            RdsUser rdsUser = null,
             bool addUpdatedTimeParam = true,
             bool addUpdatorParam = true,
             bool updateItems = true)
@@ -584,7 +582,6 @@ namespace Implem.Pleasanter.Models
 
         public Error.Types UpdateOrCreate(
             Context context,
-            RdsUser rdsUser = null,
             SqlWhereCollection where = null,
             SqlParamCollection param = null)
         {

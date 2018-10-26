@@ -257,7 +257,6 @@ namespace Implem.Pleasanter.Models
             SiteSettings ss,
             IEnumerable<string> permissions = null,
             bool permissionChanged = false,
-            RdsUser rdsUser = null,
             SqlParamCollection param = null,
             List<SqlStatement> additionalStatements = null,
             bool otherInitValue = false,
@@ -344,7 +343,6 @@ namespace Implem.Pleasanter.Models
         public Error.Types UpdateOrCreate(
             Context context,
             SiteSettings ss,
-            RdsUser rdsUser = null,
             SqlWhereCollection where = null,
             SqlParamCollection param = null)
         {

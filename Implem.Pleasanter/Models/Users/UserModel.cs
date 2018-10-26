@@ -2031,7 +2031,6 @@ namespace Implem.Pleasanter.Models
             SiteSettings ss,
             IEnumerable<string> permissions = null,
             bool permissionChanged = false,
-            RdsUser rdsUser = null,
             SqlParamCollection param = null,
             List<SqlStatement> additionalStatements = null,
             bool otherInitValue = false,
@@ -3817,32 +3816,6 @@ namespace Implem.Pleasanter.Models
         /// <summary>
         /// Fixed:
         /// </summary>
-        public RdsUser RdsUser()
-        {
-            return new RdsUser()
-            {
-                TenantId = TenantId,
-                UserId = UserId,
-                DeptId = DeptId
-            };
-        }
-
-        /// <summary>
-        /// Fixed:
-        /// </summary>
-        public UserModel(Context context, RdsUser.UserTypes userType)
-        {
-            OnConstructing(context: context);
-            UserId = userType.ToInt();
-            Get(
-                context: context,
-                ss: SiteSettingsUtilities.UsersSiteSettings(context: context));
-            OnConstructed(context: context);
-        }
-
-        /// <summary>
-        /// Fixed:
-        /// </summary>
         public UserModel(Context context, SiteSettings ss, string loginId, bool setByForm = false)
         {
             if (setByForm) SetByForm(context: context, ss: ss);
@@ -4148,7 +4121,6 @@ namespace Implem.Pleasanter.Models
             Sessions.Set("Language", Language);
             Sessions.Set("Developer", Developer);
             Sessions.Set("TimeZoneInfo", TimeZoneInfo);
-            Sessions.Set("RdsUser", RdsUser());
             Sessions.Set("UserSettings", UserSettings.ToJson());
             Sessions.Set("HasPrivilege", Parameters.Security.PrivilegedUsers?.Contains(LoginId));
         }
@@ -4164,7 +4136,6 @@ namespace Implem.Pleasanter.Models
             context.LoginId = LoginId;
             context.Developer = Developer;
             context.TimeZoneInfo = TimeZoneInfo;
-            context.RdsUser = RdsUser();
             context.UserSettings = UserSettings;
             context.HasPrivilege = Parameters.Security.PrivilegedUsers?.Contains(LoginId) == true;
             context.SetTenantCaches();
