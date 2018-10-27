@@ -14,11 +14,12 @@ namespace Implem.Pleasanter.Libraries.DataSources
         public string username;
         public string token;
 
-        public LineBot(Context context, string _text, string _username, string _token)
+        public LineBot(Context _context, string _text, string _username, string _token)
         {
             text = _text;
             username = _username;
             token = _token;
+            context = _context;
         }
 
         public void Send(string toUsers, bool isGroup)

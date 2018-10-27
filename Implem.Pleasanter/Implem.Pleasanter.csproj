@@ -1347,12 +1347,6 @@
     <Content Include="App_Data\Displays\EditInDialog.json" />
     <Content Include="App_Data\Displays\LineBot.json" />
     <Content Include="App_Data\Displays\LineGroup.json" />
-    <Content Include="App_Data\Displays\LineMessageFollow.json" />
-    <Content Include="App_Data\Displays\LineMessageGroupId.json" />
-    <Content Include="App_Data\Displays\LineMessageJoinGroup.json" />
-    <Content Include="App_Data\Displays\LineMessageJoinRoom.json" />
-    <Content Include="App_Data\Displays\LineMessageRoomId.json" />
-    <Content Include="App_Data\Displays\LineMessageUserId.json" />
     <Content Include="Tools\BackgroundTasks.ps1" />
     <Content Include="Tools\SyncByLdap.ps1" />
     <Content Include="Views\Users\EditApi.cshtml" />
