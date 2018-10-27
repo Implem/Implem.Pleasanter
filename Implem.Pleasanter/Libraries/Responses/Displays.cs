@@ -306,12 +306,6 @@ namespace Implem.Pleasanter.Libraries.Responses
         public static string Line(params string[] data) { return Get("Line", data); }
         public static string LineBot(params string[] data) { return Get("LineBot", data); }
         public static string LineGroup(params string[] data) { return Get("LineGroup", data); }
-        public static string LineMessageFollow(params string[] data) { return Get("LineMessageFollow", data); }
-        public static string LineMessageGroupId(params string[] data) { return Get("LineMessageGroupId", data); }
-        public static string LineMessageJoinGroup(params string[] data) { return Get("LineMessageJoinGroup", data); }
-        public static string LineMessageJoinRoom(params string[] data) { return Get("LineMessageJoinRoom", data); }
-        public static string LineMessageRoomId(params string[] data) { return Get("LineMessageRoomId", data); }
-        public static string LineMessageUserId(params string[] data) { return Get("LineMessageUserId", data); }
         public static string LinkColumn(params string[] data) { return Get("LinkColumn", data); }
         public static string LinkCreated(params string[] data) { return Get("LinkCreated", data); }
         public static string LinkCreations(params string[] data) { return Get("LinkCreations", data); }

@@ -1,9 +1,0 @@
-﻿{
-    "Id": "LineMessageFollow",
-    "Type": 110,
-    "Languages": [
-        {
-            "Body": "友達登録ありがとう！"
-        }
-    ]
-}

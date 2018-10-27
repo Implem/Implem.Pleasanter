@@ -1,9 +1,0 @@
-﻿{
-    "Id": "LineMessageJoinGroup",
-    "Type": 110,
-    "Languages": [
-        {
-            "Body": "グループに入れてくれてありがとう！"
-        }
-    ]
-}

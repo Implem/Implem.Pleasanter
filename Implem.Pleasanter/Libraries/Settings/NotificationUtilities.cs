@@ -52,7 +52,8 @@ namespace Implem.Pleasanter.Libraries.Settings
         {
             return new List<Notification.Types>
             {
-                Notification.Types.ChatWork
+                Notification.Types.ChatWork,
+                Notification.Types.LineBot
             };
         }
 

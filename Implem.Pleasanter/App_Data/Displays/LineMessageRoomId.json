@@ -1,9 +1,0 @@
-﻿{
-    "Id": "LineMessageRoomId",
-    "Type": 110,
-    "Languages": [
-        {
-            "Body": "このトークルームのIDは次の通りです。"
-        }
-    ]
-}

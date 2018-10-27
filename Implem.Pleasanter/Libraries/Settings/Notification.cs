@@ -160,8 +160,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                     {
                         new LineBot(context,
                             "*{0}{1}*\n{2}\n{3}".Params(Prefix, title, url, body),
-                            from,
-                            Parameters.Notification.LineChannelAccessToken)
+                            from, Token)
                                 .Send(Address, IsGroup == true);
                     }
                     break;
