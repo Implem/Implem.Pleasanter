@@ -185,9 +185,9 @@ namespace Implem.Pleasanter.Libraries.Settings
             return TimeSeriesGroupBy;
         }
 
-        public string GetTimeSeriesAggregationType(SiteSettings ss)
+        public string GetTimeSeriesAggregationType(Context context, SiteSettings ss)
         {
-            var options = ss.TimeSeriesAggregationTypeOptions();
+            var options = ss.TimeSeriesAggregationTypeOptions(context: context);
             if (TimeSeriesAggregateType.IsNullOrEmpty())
             {
                 TimeSeriesAggregateType = options.ContainsKey(Definition(ss, "TimeSeries")?.Option2)
@@ -209,9 +209,9 @@ namespace Implem.Pleasanter.Libraries.Settings
             return TimeSeriesValue;
         }
 
-        public string GetKambanGroupByX(SiteSettings ss)
+        public string GetKambanGroupByX(Context context, SiteSettings ss)
         {
-            var options = ss.KambanGroupByOptions();
+            var options = ss.KambanGroupByOptions(context: context);
             if (KambanGroupByX.IsNullOrEmpty())
             {
                 KambanGroupByX = options.ContainsKey(Definition(ss, "Kamban")?.Option1)
@@ -221,9 +221,9 @@ namespace Implem.Pleasanter.Libraries.Settings
             return KambanGroupByX;
         }
 
-        public string GetKambanGroupByY(SiteSettings ss)
+        public string GetKambanGroupByY(Context context, SiteSettings ss)
         {
-            var options = ss.KambanGroupByOptions();
+            var options = ss.KambanGroupByOptions(context: context);
             if (KambanGroupByY.IsNullOrEmpty())
             {
                 KambanGroupByY = options.ContainsKey(Definition(ss, "Kamban")?.Option2)
@@ -233,9 +233,9 @@ namespace Implem.Pleasanter.Libraries.Settings
             return KambanGroupByY;
         }
 
-        public string GetKambanAggregationType(SiteSettings ss)
+        public string GetKambanAggregationType(Context context, SiteSettings ss)
         {
-            var options = ss.KambanAggregationTypeOptions();
+            var options = ss.KambanAggregationTypeOptions(context: context);
             if (KambanAggregateType.IsNullOrEmpty())
             {
                 KambanAggregateType = options.ContainsKey(Definition(ss, "Kamban")?.Option3)
@@ -350,7 +350,9 @@ namespace Implem.Pleasanter.Libraries.Settings
                         GanttPeriod = Forms.Int(controlId);
                         break;
                     case "GanttStartDate":
-                        GanttStartDate = Time(controlId).ToDateTime().ToUniversal();
+                        GanttStartDate = Time(controlId)
+                            .ToDateTime()
+                            .ToUniversal(context: context);
                         break;
                     case "TimeSeriesGroupBy":
                         TimeSeriesGroupBy = String(controlId);
@@ -706,9 +708,9 @@ namespace Implem.Pleasanter.Libraries.Settings
                     tableName: ss.ReferenceType,
                     columnBrackets: "[CompletionTime]".ToSingleArray(),
                     _operator: " between '{0}' and '{1}'".Params(
-                        DateTime.Now.ToLocal().Date
+                        DateTime.Now.ToLocal(context: context).Date
                             .AddDays(ss.NearCompletionTimeBeforeDays.ToInt() * (-1)),
-                        DateTime.Now.ToLocal().Date
+                        DateTime.Now.ToLocal(context: context).Date
                             .AddDays(ss.NearCompletionTimeAfterDays.ToInt() + 1)
                             .AddMilliseconds(Parameters.Rds.MinimumTime * -1)
                             .ToString("yyyy/M/d H:m:s.fff")));
@@ -769,16 +771,29 @@ namespace Implem.Pleasanter.Libraries.Settings
                         switch (data.Column.TypeName.CsTypeSummary())
                         {
                             case Types.CsBool:
-                                CsBoolColumns(data.Column, data.Value, where);
+                                CsBoolColumns(
+                                    column: data.Column,
+                                    value: data.Value,
+                                    where: where);
                                 break;
                             case Types.CsNumeric:
-                                CsNumericColumns(data.Column, data.Value, where);
+                                CsNumericColumns(
+                                    column: data.Column,
+                                    value: data.Value,
+                                    where: where);
                                 break;
                             case Types.CsDateTime:
-                                CsDateTimeColumns(data.Column, data.Value, where);
+                                CsDateTimeColumns(
+                                    context: context,
+                                    column: data.Column,
+                                    value: data.Value,
+                                    where: where);
                                 break;
                             case Types.CsString:
-                                CsStringColumns(data.Column, data.Value, where);
+                                CsStringColumns(
+                                    column: data.Column,
+                                    value: data.Value,
+                                    where: where);
                                 break;
                         }
                     }
@@ -906,18 +921,25 @@ namespace Implem.Pleasanter.Libraries.Settings
         }
 
         private void CsDateTimeColumns(
-            Column column, string value, SqlWhereCollection where)
+            Context context, Column column, string value, SqlWhereCollection where)
         {
             var param = value.Deserialize<List<string>>();
             if (param.Any())
             {
                 where.Add(or: new SqlWhereCollection(
-                    CsDateTimeColumnsWhere(column, param),
-                    CsDateTimeColumnsWhereNull(column, param)));
+                    CsDateTimeColumnsWhere(
+                        context: context,
+                        column: column,
+                        param: param),
+                    CsDateTimeColumnsWhereNull(
+                        context: context,
+                        column: column,
+                        param: param)));
             }
         }
 
-        private SqlWhere CsDateTimeColumnsWhere(Column column, List<string> param)
+        private SqlWhere CsDateTimeColumnsWhere(
+            Context context, Column column, List<string> param)
         {
             return param.Any(o => o != "\t")
                 ? new SqlWhere(
@@ -925,14 +947,15 @@ namespace Implem.Pleasanter.Libraries.Settings
                     raw: param.Select(range =>
                         "#TableBracket#.[{0}] between '{1}' and '{2}'".Params(
                             column.Name,
-                            range.Split_1st().ToDateTime().ToUniversal()
+                            range.Split_1st().ToDateTime().ToUniversal(context: context)
                                 .ToString("yyyy/M/d H:m:s"),
-                            range.Split_2nd().ToDateTime().ToUniversal()
+                            range.Split_2nd().ToDateTime().ToUniversal(context: context)
                                 .ToString("yyyy/M/d H:m:s.fff"))).Join(" or "))
                 : null;
         }
 
-        private SqlWhere CsDateTimeColumnsWhereNull(Column column, List<string> param)
+        private SqlWhere CsDateTimeColumnsWhereNull(
+            Context context, Column column, List<string> param)
         {
             return param.Any(o => o == "\t")
                 ? new SqlWhere(or: new SqlWhereCollection(
@@ -944,9 +967,9 @@ namespace Implem.Pleasanter.Libraries.Settings
                         tableName: column.TableName(),
                         columnBrackets: ("[" + column.Name + "]").ToSingleArray(),
                         _operator: " not between '{0}' and '{1}'".Params(
-                            Parameters.General.MinTime.ToUniversal()
+                            Parameters.General.MinTime.ToUniversal(context: context)
                                 .ToString("yyyy/M/d H:m:s"),
-                            Parameters.General.MaxTime.ToUniversal()
+                            Parameters.General.MaxTime.ToUniversal(context: context)
                                 .ToString("yyyy/M/d H:m:s")))))
                 : null;
         }

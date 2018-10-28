@@ -15,7 +15,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                 css: "command-left",
                 action: () => hb
                     .Button(
-                        text: Displays.Restore(),
+                        text: Displays.Restore(context: context),
                         controlCss: "button-icon",
                         onClick: "$p.send($(this));",
                         icon: "ui-icon-arrowreturnthick-1-n",
@@ -25,7 +25,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                         _using: Parameters.History.Restore
                             && context.CanUpdate(ss: ss))
                     .Button(
-                        text: Displays.DeleteHistory(),
+                        text: Displays.DeleteHistory(context: context),
                         controlCss: "button-icon",
                         onClick: "$p.send($(this));",
                         icon: "ui-icon-closethick",

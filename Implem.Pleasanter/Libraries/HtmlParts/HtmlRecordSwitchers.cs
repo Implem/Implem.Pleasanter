@@ -1,4 +1,5 @@
 ﻿using Implem.Pleasanter.Libraries.Html;
+using Implem.Pleasanter.Libraries.Requests;
 using Implem.Pleasanter.Libraries.Responses;
 using Implem.Pleasanter.Libraries.Settings;
 using System.Linq;
@@ -7,13 +8,16 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
     public static class HtmlRecordSwitchers
     {
         public static HtmlBuilder RecordSwitchers(
-            this HtmlBuilder hb, SiteSettings ss, bool switcher = true)
+            this HtmlBuilder hb, Context context, SiteSettings ss, bool switcher = true)
         {
             return hb
-                .Switcher(ajax: !ss.Scripts.Any(o => o.Edit == true), switcher: switcher)
+                .Switcher(
+                    context: context,
+                    ajax: !ss.Scripts.Any(o => o.Edit == true),
+                    switcher: switcher)
                 .Button(
                     controlId: "Reload",
-                    text: Displays.Reload(),
+                    text: Displays.Reload(context: context),
                     controlCss: "button-icon confirm-reload",
                     onClick: "$p.get($(this));",
                     icon: "ui-icon-refresh",
@@ -21,14 +25,15 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     method: "post");
         }
 
-        private static HtmlBuilder Switcher(this HtmlBuilder hb, bool ajax, bool switcher)
+        private static HtmlBuilder Switcher(
+            this HtmlBuilder hb, Context context, bool ajax, bool switcher)
         {
             var onClick = $"$p.get($(this), {ajax.ToString().ToLower()});";
             return switcher
                 ? hb
                     .Button(
                         controlId: "Previous",
-                        text: Displays.Previous(),
+                        text: Displays.Previous(context: context),
                         controlCss: "button-icon confirm-reload",
                         accessKey: "b",
                         onClick: onClick,
@@ -38,7 +43,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     .Div(id: "CurrentIndex", css: "current ui-widget-header")
                     .Button(
                         controlId: "Next",
-                        text: Displays.Next(),
+                        text: Displays.Next(context: context),
                         controlCss: "button-icon confirm-reload",
                         accessKey: "n",
                         onClick: onClick,

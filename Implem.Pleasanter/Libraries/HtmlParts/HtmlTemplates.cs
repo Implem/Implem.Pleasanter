@@ -134,7 +134,9 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                 }
                 else
                 {
-                    var message = errorType.Message(messageData);
+                    var message = errorType.Message(
+                        context: context,
+                        data: messageData);
                     hb
                         .Message(message: message)
                         .MainCommands(
@@ -200,19 +202,19 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                         attributes: new HtmlAttributes()
                             .Id("VideoDialog")
                             .Class("dialog")
-                            .Title(Displays.Camera()),
+                            .Title(Displays.Camera(context: context)),
                         action: () => hb
                             .Div(action: () => hb
                                 .Video(id: "Video"))
                             .Hidden(controlId: "VideoTarget")
                             .Div(css: "command-center", action: () => hb
                                 .Button(
-                                    text: Displays.ToShoot(),
+                                    text: Displays.ToShoot(context: context),
                                     controlCss: "button-icon",
                                     onClick: "$p.toShoot($(this));",
                                     icon: "ui-icon-video")
                                 .Button(
-                                    text: Displays.Cancel(),
+                                    text: Displays.Cancel(context: context),
                                     controlCss: "button-icon",
                                     onClick: "$p.closeDialog($(this));",
                                     icon: "ui-icon-cancel")))

@@ -23,7 +23,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             return Contains(ss, dataSet)
                 ? hb.FieldSet(
                     css: " enclosed",
-                    legendText: Displays.Links(),
+                    legendText: Displays.Links(context: context),
                     action: () => hb
                         .Links(
                             context: context,
@@ -195,13 +195,13 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     ssList: ss.Destinations,
                     dataSet: dataSet,
                     direction: "Destination",
-                    caption: Displays.LinkDestinations())
+                    caption: Displays.LinkDestinations(context: context))
                 .LinkTables(
                     context: context,
                     ssList: ss.Sources,
                     dataSet: dataSet,
                     direction: "Source",
-                    caption: Displays.LinkSources()));
+                    caption: Displays.LinkSources(context: context)));
         }
 
         private static HtmlBuilder LinkTables(
@@ -239,10 +239,14 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                         siteMenu.Breadcrumb(context: context, siteId: ss.SiteId)
                                             .Select(o => o.Title)
                                             .Join(" > "),
-                                        Displays.Quantity(),
+                                        Displays.Quantity(context: context),
                                         dataRows.Count()))
                                     .THead(action: () => hb
-                                        .GridHeader(columns: columns, sort: false, checkRow: false))
+                                        .GridHeader(
+                                            context: context,
+                                            columns: columns,
+                                            sort: false,
+                                            checkRow: false))
                                     .TBody(action: () => issueCollection
                                         .ForEach(issueModel =>
                                         {
@@ -274,10 +278,14 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                         siteMenu.Breadcrumb(context: context, siteId: ss.SiteId)
                                             .Select(o => o.Title)
                                             .Join(" > "),
-                                        Displays.Quantity(),
+                                        Displays.Quantity(context: context),
                                         dataRows.Count()))
                                     .THead(action: () => hb
-                                        .GridHeader(columns: columns, sort: false, checkRow: false))
+                                        .GridHeader(
+                                            context: context,
+                                            columns: columns,
+                                            sort: false,
+                                            checkRow: false))
                                     .TBody(action: () => resultCollection
                                         .ForEach(resultModel =>
                                         {

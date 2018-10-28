@@ -70,40 +70,44 @@ namespace Implem.Pleasanter.Models
                 css: "item",
                 action: () => hb
                     .H(number: 3, css: "title-header", action: () => hb
-                        .Text(text: Displays.SentMail()))
+                        .Text(text: Displays.SentMail(context: context)))
                     .Div(css: "content", action: () => hb
                         .FieldText(
                             controlId: string.Empty,
-                            labelText: Displays.OutgoingMails_SentTime(),
+                            labelText: Displays.OutgoingMails_SentTime(context: context),
                             text: outgoingMailModel.SentTime.Value
-                                .ToLocal(Displays.Get("YmdahmFormat")),
+                                .ToLocal(
+                                    context: context,
+                                    format: Displays.Get(
+                                        context: context,
+                                        id: "YmdahmFormat")),
                             fieldCss: "field-auto")
                         .FieldText(
                             controlId: string.Empty,
-                            labelText: Displays.OutgoingMails_From(),
+                            labelText: Displays.OutgoingMails_From(context: context),
                             text: outgoingMailModel.From.ToString(),
                             fieldCss: "field-auto-thin")
                         .OutgoingMailListItemDestination(
-                            outgoingMailModel.To, Displays.OutgoingMails_To())
+                            outgoingMailModel.To, Displays.OutgoingMails_To(context: context))
                         .OutgoingMailListItemDestination(
-                            outgoingMailModel.Cc, Displays.OutgoingMails_Cc())
+                            outgoingMailModel.Cc, Displays.OutgoingMails_Cc(context: context))
                         .OutgoingMailListItemDestination(
-                            outgoingMailModel.Bcc, Displays.OutgoingMails_Bcc())
+                            outgoingMailModel.Bcc, Displays.OutgoingMails_Bcc(context: context))
                         .FieldText(
                             controlId: string.Empty,
-                            labelText: Displays.OutgoingMails_Title(),
+                            labelText: Displays.OutgoingMails_Title(context: context),
                             text: outgoingMailModel.Title.Value,
                             fieldCss: "field-wide")
                         .FieldMarkUp(
                             controlId: string.Empty,
-                            labelText: Displays.OutgoingMails_Body(),
+                            labelText: Displays.OutgoingMails_Body(context: context),
                             text: outgoingMailModel.Body,
                             fieldCss: "field-wide")
                         .Div(
                             css: "command-right",
                             action: () => hb
                                 .Button(
-                                    text: Displays.Reply(),
+                                    text: Displays.Reply(context: context),
                                     controlCss: "button-icon",
                                     onClick: "$p.openOutgoingMailReplyDialog($(this));",
                                     dataId: outgoingMailModel.OutgoingMailId.ToString(),
@@ -149,7 +153,7 @@ namespace Implem.Pleasanter.Models
                 referenceId: id);
             if (context.ContractSettings.Mail == false)
             {
-                return Error.Types.Restricted.MessageJson();
+                return Error.Types.Restricted.MessageJson(context: context);
             }
             if (MailAddressUtilities.Get(
                 context: context,
@@ -157,7 +161,7 @@ namespace Implem.Pleasanter.Models
             {
                 return new ResponseCollection()
                     .CloseDialog()
-                    .Message(Messages.MailAddressHasNotSet())
+                    .Message(Messages.MailAddressHasNotSet(context: context))
                     .ToJson();
             }
             var invalid = OutgoingMailValidators.OnEditing(
@@ -166,7 +170,7 @@ namespace Implem.Pleasanter.Models
             switch (invalid)
             {
                 case Error.Types.None: break;
-                default: return invalid.MessageJson();
+                default: return invalid.MessageJson(context: context);
             }
             var outgoingMailModel = new OutgoingMailModel().Get(
                 context: context,
@@ -180,11 +184,11 @@ namespace Implem.Pleasanter.Models
                             .Li(action: () => hb
                                 .A(
                                     href: "#FieldSetMailEditor",
-                                    text: Displays.Mail()))
+                                    text: Displays.Mail(context: context)))
                             .Li(action: () => hb
                                 .A(
                                     href: "#FieldSetAddressBook",
-                                    text: Displays.AddressBook())))
+                                    text: Displays.AddressBook(context: context))))
                         .FieldSet(id: "FieldSetMailEditor", action: () => hb
                             .Form(
                                 attributes: new HtmlAttributes()
@@ -232,24 +236,24 @@ namespace Implem.Pleasanter.Models
                     fieldCss: "field-wide",
                     controlCss: "control-basket cf",
                     labelAction: () => hb
-                        .Text(text: Displays.OutgoingMails_To()))
+                        .Text(text: Displays.OutgoingMails_To(context: context)))
                 .FieldBasket(
                     controlId: "OutgoingMails_Cc",
                     fieldCss: "field-wide",
                     controlCss: "control-basket cf",
                     labelAction: () => hb
-                        .Text(text: Displays.OutgoingMails_Cc()))
+                        .Text(text: Displays.OutgoingMails_Cc(context: context)))
                 .FieldBasket(
                     controlId: "OutgoingMails_Bcc",
                     fieldCss: "field-wide",
                     controlCss: "control-basket cf",
                     labelAction: () => hb
-                        .Text(text: Displays.OutgoingMails_Bcc()))
+                        .Text(text: Displays.OutgoingMails_Bcc(context: context)))
                 .FieldTextBox(
                     controlId: "OutgoingMails_Title",
                     fieldCss: "field-wide",
                     controlCss: " always-send",
-                    labelText: Displays.OutgoingMails_Title(),
+                    labelText: Displays.OutgoingMails_Title(context: context),
                     text: ReplyTitle(outgoingMailModel),
                     validateRequired: titleColumn.ValidateRequired ?? false,
                     validateMaxLength: titleColumn.ValidateMaxLength ?? 0)
@@ -258,8 +262,10 @@ namespace Implem.Pleasanter.Models
                     controlId: "OutgoingMails_Body",
                     fieldCss: "field-wide",
                     controlCss: " always-send h300",
-                    labelText: Displays.OutgoingMails_Body(),
-                    text: ReplyBody(outgoingMailModel),
+                    labelText: Displays.OutgoingMails_Body(context: context),
+                    text: ReplyBody(
+                        context: context,
+                        outgoingMailModel: outgoingMailModel),
                     validateRequired: bodyColumn.ValidateRequired ?? false,
                     validateMaxLength: bodyColumn.ValidateMaxLength ?? 0)
                 .P(css: "message-dialog")
@@ -267,7 +273,7 @@ namespace Implem.Pleasanter.Models
                     .Button(
                         controlId: "OutgoingMails_Send",
                         controlCss: "button-icon validate",
-                        text: Displays.Send(),
+                        text: Displays.Send(context: context),
                         onClick: "$p.sendMail($(this));",
                         icon: "ui-icon-mail-closed",
                         action: "Send",
@@ -276,7 +282,7 @@ namespace Implem.Pleasanter.Models
                     .Button(
                         controlId: "OutgoingMails_Cancel",
                         controlCss: "button-icon",
-                        text: Displays.Cancel(),
+                        text: Displays.Cancel(context: context),
                         onClick: "$p.closeDialog($(this));",
                         icon: "ui-icon-cancel"))
                 .Hidden(controlId: "OutgoingMails_Location", value: Location())
@@ -325,14 +331,17 @@ namespace Implem.Pleasanter.Models
         /// <summary>
         /// Fixed:
         /// </summary>
-        private static string ReplyBody(OutgoingMailModel outgoingMailModel)
+        private static string ReplyBody(Context context, OutgoingMailModel outgoingMailModel)
         {
             return outgoingMailModel.AccessStatus == Databases.AccessStatuses.Selected
-                ? Displays.OriginalMessage().Params(
+                ? Displays.OriginalMessage(context: context).Params(
                     Location(),
                     outgoingMailModel.From,
                     outgoingMailModel.SentTime.DisplayValue.ToString(
-                        Displays.Get("YmdahmsFormat"), Sessions.CultureInfo()),
+                        Displays.Get(
+                            context: context,
+                            id: "YmdahmsFormat"),
+                        context.CultureInfo()),
                     outgoingMailModel.Title.Value,
                     outgoingMailModel.Body)
                 : string.Empty;
@@ -399,8 +408,9 @@ namespace Implem.Pleasanter.Models
                     .FieldDropDown(
                         context: context,
                         controlId: "OutgoingMails_DestinationSearchRange",
-                        labelText: Displays.OutgoingMails_DestinationSearchRange(),
+                        labelText: Displays.OutgoingMails_DestinationSearchRange(context: context),
                         optionCollection: SearchRangeOptionCollection(
+                            context: context,
                             searchRangeDefault: searchRangeDefault,
                             addressBook: addressBook),
                         controlCss: " auto-postback always-send",
@@ -408,7 +418,7 @@ namespace Implem.Pleasanter.Models
                         method: "put")
                     .FieldTextBox(
                         controlId: "OutgoingMails_DestinationSearchText",
-                        labelText: Displays.OutgoingMails_DestinationSearchText(),
+                        labelText: Displays.OutgoingMails_DestinationSearchText(context: context),
                         controlCss: " auto-postback",
                         action: "GetDestinations",
                         method: "put"))
@@ -429,17 +439,17 @@ namespace Implem.Pleasanter.Models
                         .Div(css: "command-left", action: () => hb
                             .Button(
                                 controlId: "OutgoingMails_AddTo",
-                                text: Displays.OutgoingMails_To(),
+                                text: Displays.OutgoingMails_To(context: context),
                                 controlCss: "button-icon",
                                 icon: "ui-icon-person")
                             .Button(
                                 controlId: "OutgoingMails_AddCc",
-                                text: Displays.OutgoingMails_Cc(),
+                                text: Displays.OutgoingMails_Cc(context: context),
                                 controlCss: "button-icon",
                                 icon: "ui-icon-person")
                             .Button(
                                 controlId: "OutgoingMails_AddBcc",
-                                text: Displays.OutgoingMails_Bcc(),
+                                text: Displays.OutgoingMails_Bcc(context: context),
                                 controlCss: "button-icon",
                                 icon: "ui-icon-person"))));
         }
@@ -460,27 +470,47 @@ namespace Implem.Pleasanter.Models
         /// Fixed:
         /// </summary>
         private static Dictionary<string, ControlData> SearchRangeOptionCollection(
-            string searchRangeDefault, Dictionary<string, ControlData> addressBook)
+            Context context,
+            string searchRangeDefault,
+            Dictionary<string, ControlData> addressBook)
         {
             switch (searchRangeDefault)
             {
                 case "DefaultAddressBook":
                     return new Dictionary<string, ControlData>
                     {
-                        { "DefaultAddressBook", new ControlData(Displays.DefaultAddressBook()) },
-                        { "SiteUser", new ControlData(Displays.SiteUser()) },
-                        { "All", new ControlData(Displays.All()) }
+                        {
+                            "DefaultAddressBook",
+                            new ControlData(Displays.DefaultAddressBook(context: context))
+                        },
+                        {
+                            "SiteUser",
+                            new ControlData(Displays.SiteUser(context: context))
+                        },
+                        {
+                            "All",
+                            new ControlData(Displays.All(context: context))
+                        }
                     };
                 case "SiteUser":
                     return new Dictionary<string, ControlData>
                     {
-                        { "SiteUser", new ControlData(Displays.SiteUser()) },
-                        { "All", new ControlData(Displays.All()) }
+                        {
+                            "SiteUser",
+                            new ControlData(Displays.SiteUser(context: context))
+                        },
+                        {
+                            "All",
+                            new ControlData(Displays.All(context: context))
+                        }
                     };
                 default:
                     return new Dictionary<string, ControlData>
                     {
-                        { "All", new ControlData(Displays.All()) }
+                        {
+                            "All",
+                            new ControlData(Displays.All(context: context))
+                        }
                     };
             }
         }
@@ -614,7 +644,7 @@ namespace Implem.Pleasanter.Models
                 referenceId: id);
             if (context.ContractSettings.Mail == false)
             {
-                return Error.Types.Restricted.MessageJson();
+                return Error.Types.Restricted.MessageJson(context: context);
             }
             var outgoingMailModel = new OutgoingMailModel(
                 context: context,
@@ -632,15 +662,17 @@ namespace Implem.Pleasanter.Models
                     break;
                 case Error.Types.BadMailAddress:
                 case Error.Types.ExternalMailAddress:
-                    return invalid.MessageJson(invalidMailAddress);
+                    return invalid.MessageJson(
+                        context: context,
+                        data: invalidMailAddress);
                 default:
-                    return invalid.MessageJson();
+                    return invalid.MessageJson(context: context);
             }
             var error = outgoingMailModel.Send(
                 context: context,
                 ss: ss);
             return error.Has()
-                ? error.MessageJson()
+                ? error.MessageJson(context: context)
                 : new OutgoingMailsResponseCollection(outgoingMailModel)
                     .CloseDialog()
                     .ClearFormData()
@@ -653,7 +685,7 @@ namespace Implem.Pleasanter.Models
                             context: context,
                             ss: ss,
                             outgoingMailModel: outgoingMailModel))
-                    .Message(Messages.MailTransmissionCompletion())
+                    .Message(Messages.MailTransmissionCompletion(context: context))
                     .ToJson();
         }
     }

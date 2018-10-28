@@ -15,12 +15,12 @@ namespace Implem.Pleasanter.Libraries.Settings
             Off = 2
         }
 
-        public static Dictionary<string, string> CheckFilterTypeOptions()
+        public static Dictionary<string, string> CheckFilterTypeOptions(Context context)
         {
             return new Dictionary<string, string>
             {
-                { CheckFilterTypes.On.ToInt().ToString(), Displays.On() },
-                { CheckFilterTypes.Off.ToInt().ToString(), Displays.Off() }
+                { CheckFilterTypes.On.ToInt().ToString(), Displays.On(context: context) },
+                { CheckFilterTypes.Off.ToInt().ToString(), Displays.Off(context: context) }
             };
         }
 
@@ -30,12 +30,12 @@ namespace Implem.Pleasanter.Libraries.Settings
             OnAndOff = 2
         }
 
-        public static Dictionary<string, string> CheckFilterControlTypeOptions()
+        public static Dictionary<string, string> CheckFilterControlTypeOptions(Context context)
         {
             return new Dictionary<string, string>
             {
-                { CheckFilterControlTypes.OnOnly.ToInt().ToString(), Displays.OnOnly() },
-                { CheckFilterControlTypes.OnAndOff.ToInt().ToString(), Displays.OnAndOff() }
+                { CheckFilterControlTypes.OnOnly.ToInt().ToString(), Displays.OnOnly(context: context) },
+                { CheckFilterControlTypes.OnAndOff.ToInt().ToString(), Displays.OnAndOff(context: context) }
             };
         }
 
@@ -189,7 +189,9 @@ namespace Implem.Pleasanter.Libraries.Settings
                         break;
                 }
                 return new ControlData(
-                    text: $"[{ss.Title}] " + Displays.Get(labelText),
+                    text: $"[{ss.Title}] " + Displays.Get(
+                        context: context,
+                        id: labelText),
                     title: labelTextDefault,
                     order: order);
             }

@@ -1,25 +1,25 @@
 ﻿<!DOCTYPE html>
-<html lang="@Implem.Pleasanter.Libraries.Server.Sessions.Language()">
-    <head>
-        @using Implem.DefinitionAccessor
-        @using System.Web.Optimization
-        <meta http-equiv="X-UA-Compatible" content="IE=11" />
-        <meta http-equiv="content-language" content="ja" />
-        <meta charset="utf-8" />
-        <meta name="keywords" content="@Parameters.General.HtmlHeadKeywords">
-        <meta name="description" content="@Parameters.General.HtmlHeadDescription" />
-        <meta name="author" content="@Parameters.General.HtmlHeadAuther">
-        <meta name="viewport" content="@Parameters.General.HtmlHeadViewport" />
-        <link href="~/Styles/Plugins/Normalize.css" rel="stylesheet" />
-        <link href="~/Styles/Plugins/jquery-ui.min.css" rel="stylesheet" />
-        <link href="~/Styles/Plugins/jquery.datetimepicker.min.css" rel="stylesheet" />
-        <link href="~/Styles/Plugins/jquery.multiselect.css" rel="stylesheet" />
-        <link href="~/Styles/Plugins/jquery.multiselect.filter.css" rel="stylesheet" />
-        @Styles.Render("~/content/styles")
-        @Html.Raw(@Implem.Pleasanter.Libraries.HtmlParts.HtmlStyles.Get())
-        <title>@Parameters.General.HtmlTitle</title>
-    </head>
-    <body style="visibility:hidden">
-        @RenderBody()
-    </body>
+<html>
+<head>
+    @using Implem.DefinitionAccessor
+    @using System.Web.Optimization
+    <meta http-equiv="X-UA-Compatible" content="IE=11" />
+    <meta http-equiv="content-language" content="ja" />
+    <meta charset="utf-8" />
+    <meta name="keywords" content="@Parameters.General.HtmlHeadKeywords">
+    <meta name="description" content="@Parameters.General.HtmlHeadDescription" />
+    <meta name="author" content="@Parameters.General.HtmlHeadAuther">
+    <meta name="viewport" content="@Parameters.General.HtmlHeadViewport" />
+    <link href="~/Styles/Plugins/Normalize.css" rel="stylesheet" />
+    <link href="~/Styles/Plugins/jquery-ui.min.css" rel="stylesheet" />
+    <link href="~/Styles/Plugins/jquery.datetimepicker.min.css" rel="stylesheet" />
+    <link href="~/Styles/Plugins/jquery.multiselect.css" rel="stylesheet" />
+    <link href="~/Styles/Plugins/jquery.multiselect.filter.css" rel="stylesheet" />
+    @Styles.Render("~/content/styles")
+    @Html.Raw(@Implem.Pleasanter.Libraries.HtmlParts.HtmlStyles.Get())
+    <title>@Parameters.General.HtmlTitle</title>
+</head>
+<body style="visibility:hidden">
+    @RenderBody()
+</body>
 </html>

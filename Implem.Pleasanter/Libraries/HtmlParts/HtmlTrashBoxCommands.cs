@@ -15,7 +15,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                 css: "command-left",
                 action: () => hb
                     .Button(
-                        text: Displays.Restore(),
+                        text: Displays.Restore(context: context),
                         controlCss: "button-icon",
                         onClick: "$p.send($(this));",
                         icon: "ui-icon-arrowreturnthick-1-n",
@@ -24,7 +24,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                         confirm: "ConfirmRestore",
                         _using: Parameters.Deleted.Restore)
                     .Button(
-                        text: Displays.DeleteFromTrashBox(),
+                        text: Displays.DeleteFromTrashBox(context: context),
                         controlCss: "button-icon",
                         onClick: "$p.send($(this));",
                         icon: "ui-icon-closethick",

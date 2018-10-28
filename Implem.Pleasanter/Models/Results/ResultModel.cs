@@ -4676,7 +4676,7 @@ namespace Implem.Pleasanter.Models
             return this;
         }
 
-        public ResultApiModel GetByApi(SiteSettings ss)
+        public ResultApiModel GetByApi(Context context, SiteSettings ss)
         {
             var data = new ResultApiModel();
             ss.ReadableColumns(noJoined: true).ForEach(column =>
@@ -4684,7 +4684,7 @@ namespace Implem.Pleasanter.Models
                 switch (column.ColumnName)
                 {
                     case "SiteId": data.SiteId = SiteId; break;
-                    case "UpdatedTime": data.UpdatedTime = UpdatedTime.Value.ToLocal(); break;
+                    case "UpdatedTime": data.UpdatedTime = UpdatedTime.Value.ToLocal(context: context); break;
                     case "ResultId": data.ResultId = ResultId; break;
                     case "Ver": data.Ver = Ver; break;
                     case "Title": data.Title = Title.Value; break;
@@ -4744,32 +4744,32 @@ namespace Implem.Pleasanter.Models
                     case "NumX": data.NumX = NumX; break;
                     case "NumY": data.NumY = NumY; break;
                     case "NumZ": data.NumZ = NumZ; break;
-                    case "DateA": data.DateA = DateA.ToLocal(); break;
-                    case "DateB": data.DateB = DateB.ToLocal(); break;
-                    case "DateC": data.DateC = DateC.ToLocal(); break;
-                    case "DateD": data.DateD = DateD.ToLocal(); break;
-                    case "DateE": data.DateE = DateE.ToLocal(); break;
-                    case "DateF": data.DateF = DateF.ToLocal(); break;
-                    case "DateG": data.DateG = DateG.ToLocal(); break;
-                    case "DateH": data.DateH = DateH.ToLocal(); break;
-                    case "DateI": data.DateI = DateI.ToLocal(); break;
-                    case "DateJ": data.DateJ = DateJ.ToLocal(); break;
-                    case "DateK": data.DateK = DateK.ToLocal(); break;
-                    case "DateL": data.DateL = DateL.ToLocal(); break;
-                    case "DateM": data.DateM = DateM.ToLocal(); break;
-                    case "DateN": data.DateN = DateN.ToLocal(); break;
-                    case "DateO": data.DateO = DateO.ToLocal(); break;
-                    case "DateP": data.DateP = DateP.ToLocal(); break;
-                    case "DateQ": data.DateQ = DateQ.ToLocal(); break;
-                    case "DateR": data.DateR = DateR.ToLocal(); break;
-                    case "DateS": data.DateS = DateS.ToLocal(); break;
-                    case "DateT": data.DateT = DateT.ToLocal(); break;
-                    case "DateU": data.DateU = DateU.ToLocal(); break;
-                    case "DateV": data.DateV = DateV.ToLocal(); break;
-                    case "DateW": data.DateW = DateW.ToLocal(); break;
-                    case "DateX": data.DateX = DateX.ToLocal(); break;
-                    case "DateY": data.DateY = DateY.ToLocal(); break;
-                    case "DateZ": data.DateZ = DateZ.ToLocal(); break;
+                    case "DateA": data.DateA = DateA.ToLocal(context: context); break;
+                    case "DateB": data.DateB = DateB.ToLocal(context: context); break;
+                    case "DateC": data.DateC = DateC.ToLocal(context: context); break;
+                    case "DateD": data.DateD = DateD.ToLocal(context: context); break;
+                    case "DateE": data.DateE = DateE.ToLocal(context: context); break;
+                    case "DateF": data.DateF = DateF.ToLocal(context: context); break;
+                    case "DateG": data.DateG = DateG.ToLocal(context: context); break;
+                    case "DateH": data.DateH = DateH.ToLocal(context: context); break;
+                    case "DateI": data.DateI = DateI.ToLocal(context: context); break;
+                    case "DateJ": data.DateJ = DateJ.ToLocal(context: context); break;
+                    case "DateK": data.DateK = DateK.ToLocal(context: context); break;
+                    case "DateL": data.DateL = DateL.ToLocal(context: context); break;
+                    case "DateM": data.DateM = DateM.ToLocal(context: context); break;
+                    case "DateN": data.DateN = DateN.ToLocal(context: context); break;
+                    case "DateO": data.DateO = DateO.ToLocal(context: context); break;
+                    case "DateP": data.DateP = DateP.ToLocal(context: context); break;
+                    case "DateQ": data.DateQ = DateQ.ToLocal(context: context); break;
+                    case "DateR": data.DateR = DateR.ToLocal(context: context); break;
+                    case "DateS": data.DateS = DateS.ToLocal(context: context); break;
+                    case "DateT": data.DateT = DateT.ToLocal(context: context); break;
+                    case "DateU": data.DateU = DateU.ToLocal(context: context); break;
+                    case "DateV": data.DateV = DateV.ToLocal(context: context); break;
+                    case "DateW": data.DateW = DateW.ToLocal(context: context); break;
+                    case "DateX": data.DateX = DateX.ToLocal(context: context); break;
+                    case "DateY": data.DateY = DateY.ToLocal(context: context); break;
+                    case "DateZ": data.DateZ = DateZ.ToLocal(context: context); break;
                     case "DescriptionA": data.DescriptionA = DescriptionA; break;
                     case "DescriptionB": data.DescriptionB = DescriptionB; break;
                     case "DescriptionC": data.DescriptionC = DescriptionC; break;
@@ -4850,8 +4850,8 @@ namespace Implem.Pleasanter.Models
                     case "AttachmentsZ": data.AttachmentsZ = AttachmentsZ.RecordingJson(); break;
                     case "Creator": data.Creator = Creator.Id; break;
                     case "Updator": data.Updator = Updator.Id; break;
-                    case "CreatedTime": data.CreatedTime = CreatedTime.Value.ToLocal(); break;
-                    case "Comments": data.Comments = Comments.ToLocal().ToJson(); break;
+                    case "CreatedTime": data.CreatedTime = CreatedTime.Value.ToLocal(context: context); break;
+                    case "Comments": data.Comments = Comments.ToLocal(context: context).ToJson(); break;
                 }
             });
             data.ItemTitle = Title.DisplayValue;
@@ -7409,58 +7409,58 @@ namespace Implem.Pleasanter.Models
                     case "Results_ClassX": ClassX = Forms.Data(controlId).ToString(); break;
                     case "Results_ClassY": ClassY = Forms.Data(controlId).ToString(); break;
                     case "Results_ClassZ": ClassZ = Forms.Data(controlId).ToString(); break;
-                    case "Results_NumA": NumA = ss.GetColumn(context: context, columnName: "NumA").Round(Forms.Decimal(controlId)); break;
-                    case "Results_NumB": NumB = ss.GetColumn(context: context, columnName: "NumB").Round(Forms.Decimal(controlId)); break;
-                    case "Results_NumC": NumC = ss.GetColumn(context: context, columnName: "NumC").Round(Forms.Decimal(controlId)); break;
-                    case "Results_NumD": NumD = ss.GetColumn(context: context, columnName: "NumD").Round(Forms.Decimal(controlId)); break;
-                    case "Results_NumE": NumE = ss.GetColumn(context: context, columnName: "NumE").Round(Forms.Decimal(controlId)); break;
-                    case "Results_NumF": NumF = ss.GetColumn(context: context, columnName: "NumF").Round(Forms.Decimal(controlId)); break;
-                    case "Results_NumG": NumG = ss.GetColumn(context: context, columnName: "NumG").Round(Forms.Decimal(controlId)); break;
-                    case "Results_NumH": NumH = ss.GetColumn(context: context, columnName: "NumH").Round(Forms.Decimal(controlId)); break;
-                    case "Results_NumI": NumI = ss.GetColumn(context: context, columnName: "NumI").Round(Forms.Decimal(controlId)); break;
-                    case "Results_NumJ": NumJ = ss.GetColumn(context: context, columnName: "NumJ").Round(Forms.Decimal(controlId)); break;
-                    case "Results_NumK": NumK = ss.GetColumn(context: context, columnName: "NumK").Round(Forms.Decimal(controlId)); break;
-                    case "Results_NumL": NumL = ss.GetColumn(context: context, columnName: "NumL").Round(Forms.Decimal(controlId)); break;
-                    case "Results_NumM": NumM = ss.GetColumn(context: context, columnName: "NumM").Round(Forms.Decimal(controlId)); break;
-                    case "Results_NumN": NumN = ss.GetColumn(context: context, columnName: "NumN").Round(Forms.Decimal(controlId)); break;
-                    case "Results_NumO": NumO = ss.GetColumn(context: context, columnName: "NumO").Round(Forms.Decimal(controlId)); break;
-                    case "Results_NumP": NumP = ss.GetColumn(context: context, columnName: "NumP").Round(Forms.Decimal(controlId)); break;
-                    case "Results_NumQ": NumQ = ss.GetColumn(context: context, columnName: "NumQ").Round(Forms.Decimal(controlId)); break;
-                    case "Results_NumR": NumR = ss.GetColumn(context: context, columnName: "NumR").Round(Forms.Decimal(controlId)); break;
-                    case "Results_NumS": NumS = ss.GetColumn(context: context, columnName: "NumS").Round(Forms.Decimal(controlId)); break;
-                    case "Results_NumT": NumT = ss.GetColumn(context: context, columnName: "NumT").Round(Forms.Decimal(controlId)); break;
-                    case "Results_NumU": NumU = ss.GetColumn(context: context, columnName: "NumU").Round(Forms.Decimal(controlId)); break;
-                    case "Results_NumV": NumV = ss.GetColumn(context: context, columnName: "NumV").Round(Forms.Decimal(controlId)); break;
-                    case "Results_NumW": NumW = ss.GetColumn(context: context, columnName: "NumW").Round(Forms.Decimal(controlId)); break;
-                    case "Results_NumX": NumX = ss.GetColumn(context: context, columnName: "NumX").Round(Forms.Decimal(controlId)); break;
-                    case "Results_NumY": NumY = ss.GetColumn(context: context, columnName: "NumY").Round(Forms.Decimal(controlId)); break;
-                    case "Results_NumZ": NumZ = ss.GetColumn(context: context, columnName: "NumZ").Round(Forms.Decimal(controlId)); break;
-                    case "Results_DateA": DateA = Forms.Data(controlId).ToDateTime().ToUniversal(); break;
-                    case "Results_DateB": DateB = Forms.Data(controlId).ToDateTime().ToUniversal(); break;
-                    case "Results_DateC": DateC = Forms.Data(controlId).ToDateTime().ToUniversal(); break;
-                    case "Results_DateD": DateD = Forms.Data(controlId).ToDateTime().ToUniversal(); break;
-                    case "Results_DateE": DateE = Forms.Data(controlId).ToDateTime().ToUniversal(); break;
-                    case "Results_DateF": DateF = Forms.Data(controlId).ToDateTime().ToUniversal(); break;
-                    case "Results_DateG": DateG = Forms.Data(controlId).ToDateTime().ToUniversal(); break;
-                    case "Results_DateH": DateH = Forms.Data(controlId).ToDateTime().ToUniversal(); break;
-                    case "Results_DateI": DateI = Forms.Data(controlId).ToDateTime().ToUniversal(); break;
-                    case "Results_DateJ": DateJ = Forms.Data(controlId).ToDateTime().ToUniversal(); break;
-                    case "Results_DateK": DateK = Forms.Data(controlId).ToDateTime().ToUniversal(); break;
-                    case "Results_DateL": DateL = Forms.Data(controlId).ToDateTime().ToUniversal(); break;
-                    case "Results_DateM": DateM = Forms.Data(controlId).ToDateTime().ToUniversal(); break;
-                    case "Results_DateN": DateN = Forms.Data(controlId).ToDateTime().ToUniversal(); break;
-                    case "Results_DateO": DateO = Forms.Data(controlId).ToDateTime().ToUniversal(); break;
-                    case "Results_DateP": DateP = Forms.Data(controlId).ToDateTime().ToUniversal(); break;
-                    case "Results_DateQ": DateQ = Forms.Data(controlId).ToDateTime().ToUniversal(); break;
-                    case "Results_DateR": DateR = Forms.Data(controlId).ToDateTime().ToUniversal(); break;
-                    case "Results_DateS": DateS = Forms.Data(controlId).ToDateTime().ToUniversal(); break;
-                    case "Results_DateT": DateT = Forms.Data(controlId).ToDateTime().ToUniversal(); break;
-                    case "Results_DateU": DateU = Forms.Data(controlId).ToDateTime().ToUniversal(); break;
-                    case "Results_DateV": DateV = Forms.Data(controlId).ToDateTime().ToUniversal(); break;
-                    case "Results_DateW": DateW = Forms.Data(controlId).ToDateTime().ToUniversal(); break;
-                    case "Results_DateX": DateX = Forms.Data(controlId).ToDateTime().ToUniversal(); break;
-                    case "Results_DateY": DateY = Forms.Data(controlId).ToDateTime().ToUniversal(); break;
-                    case "Results_DateZ": DateZ = Forms.Data(controlId).ToDateTime().ToUniversal(); break;
+                    case "Results_NumA": NumA = ss.GetColumn(context: context, columnName: "NumA").Round(Forms.Decimal(context: context, key: controlId)); break;
+                    case "Results_NumB": NumB = ss.GetColumn(context: context, columnName: "NumB").Round(Forms.Decimal(context: context, key: controlId)); break;
+                    case "Results_NumC": NumC = ss.GetColumn(context: context, columnName: "NumC").Round(Forms.Decimal(context: context, key: controlId)); break;
+                    case "Results_NumD": NumD = ss.GetColumn(context: context, columnName: "NumD").Round(Forms.Decimal(context: context, key: controlId)); break;
+                    case "Results_NumE": NumE = ss.GetColumn(context: context, columnName: "NumE").Round(Forms.Decimal(context: context, key: controlId)); break;
+                    case "Results_NumF": NumF = ss.GetColumn(context: context, columnName: "NumF").Round(Forms.Decimal(context: context, key: controlId)); break;
+                    case "Results_NumG": NumG = ss.GetColumn(context: context, columnName: "NumG").Round(Forms.Decimal(context: context, key: controlId)); break;
+                    case "Results_NumH": NumH = ss.GetColumn(context: context, columnName: "NumH").Round(Forms.Decimal(context: context, key: controlId)); break;
+                    case "Results_NumI": NumI = ss.GetColumn(context: context, columnName: "NumI").Round(Forms.Decimal(context: context, key: controlId)); break;
+                    case "Results_NumJ": NumJ = ss.GetColumn(context: context, columnName: "NumJ").Round(Forms.Decimal(context: context, key: controlId)); break;
+                    case "Results_NumK": NumK = ss.GetColumn(context: context, columnName: "NumK").Round(Forms.Decimal(context: context, key: controlId)); break;
+                    case "Results_NumL": NumL = ss.GetColumn(context: context, columnName: "NumL").Round(Forms.Decimal(context: context, key: controlId)); break;
+                    case "Results_NumM": NumM = ss.GetColumn(context: context, columnName: "NumM").Round(Forms.Decimal(context: context, key: controlId)); break;
+                    case "Results_NumN": NumN = ss.GetColumn(context: context, columnName: "NumN").Round(Forms.Decimal(context: context, key: controlId)); break;
+                    case "Results_NumO": NumO = ss.GetColumn(context: context, columnName: "NumO").Round(Forms.Decimal(context: context, key: controlId)); break;
+                    case "Results_NumP": NumP = ss.GetColumn(context: context, columnName: "NumP").Round(Forms.Decimal(context: context, key: controlId)); break;
+                    case "Results_NumQ": NumQ = ss.GetColumn(context: context, columnName: "NumQ").Round(Forms.Decimal(context: context, key: controlId)); break;
+                    case "Results_NumR": NumR = ss.GetColumn(context: context, columnName: "NumR").Round(Forms.Decimal(context: context, key: controlId)); break;
+                    case "Results_NumS": NumS = ss.GetColumn(context: context, columnName: "NumS").Round(Forms.Decimal(context: context, key: controlId)); break;
+                    case "Results_NumT": NumT = ss.GetColumn(context: context, columnName: "NumT").Round(Forms.Decimal(context: context, key: controlId)); break;
+                    case "Results_NumU": NumU = ss.GetColumn(context: context, columnName: "NumU").Round(Forms.Decimal(context: context, key: controlId)); break;
+                    case "Results_NumV": NumV = ss.GetColumn(context: context, columnName: "NumV").Round(Forms.Decimal(context: context, key: controlId)); break;
+                    case "Results_NumW": NumW = ss.GetColumn(context: context, columnName: "NumW").Round(Forms.Decimal(context: context, key: controlId)); break;
+                    case "Results_NumX": NumX = ss.GetColumn(context: context, columnName: "NumX").Round(Forms.Decimal(context: context, key: controlId)); break;
+                    case "Results_NumY": NumY = ss.GetColumn(context: context, columnName: "NumY").Round(Forms.Decimal(context: context, key: controlId)); break;
+                    case "Results_NumZ": NumZ = ss.GetColumn(context: context, columnName: "NumZ").Round(Forms.Decimal(context: context, key: controlId)); break;
+                    case "Results_DateA": DateA = Forms.Data(controlId).ToDateTime().ToUniversal(context: context); break;
+                    case "Results_DateB": DateB = Forms.Data(controlId).ToDateTime().ToUniversal(context: context); break;
+                    case "Results_DateC": DateC = Forms.Data(controlId).ToDateTime().ToUniversal(context: context); break;
+                    case "Results_DateD": DateD = Forms.Data(controlId).ToDateTime().ToUniversal(context: context); break;
+                    case "Results_DateE": DateE = Forms.Data(controlId).ToDateTime().ToUniversal(context: context); break;
+                    case "Results_DateF": DateF = Forms.Data(controlId).ToDateTime().ToUniversal(context: context); break;
+                    case "Results_DateG": DateG = Forms.Data(controlId).ToDateTime().ToUniversal(context: context); break;
+                    case "Results_DateH": DateH = Forms.Data(controlId).ToDateTime().ToUniversal(context: context); break;
+                    case "Results_DateI": DateI = Forms.Data(controlId).ToDateTime().ToUniversal(context: context); break;
+                    case "Results_DateJ": DateJ = Forms.Data(controlId).ToDateTime().ToUniversal(context: context); break;
+                    case "Results_DateK": DateK = Forms.Data(controlId).ToDateTime().ToUniversal(context: context); break;
+                    case "Results_DateL": DateL = Forms.Data(controlId).ToDateTime().ToUniversal(context: context); break;
+                    case "Results_DateM": DateM = Forms.Data(controlId).ToDateTime().ToUniversal(context: context); break;
+                    case "Results_DateN": DateN = Forms.Data(controlId).ToDateTime().ToUniversal(context: context); break;
+                    case "Results_DateO": DateO = Forms.Data(controlId).ToDateTime().ToUniversal(context: context); break;
+                    case "Results_DateP": DateP = Forms.Data(controlId).ToDateTime().ToUniversal(context: context); break;
+                    case "Results_DateQ": DateQ = Forms.Data(controlId).ToDateTime().ToUniversal(context: context); break;
+                    case "Results_DateR": DateR = Forms.Data(controlId).ToDateTime().ToUniversal(context: context); break;
+                    case "Results_DateS": DateS = Forms.Data(controlId).ToDateTime().ToUniversal(context: context); break;
+                    case "Results_DateT": DateT = Forms.Data(controlId).ToDateTime().ToUniversal(context: context); break;
+                    case "Results_DateU": DateU = Forms.Data(controlId).ToDateTime().ToUniversal(context: context); break;
+                    case "Results_DateV": DateV = Forms.Data(controlId).ToDateTime().ToUniversal(context: context); break;
+                    case "Results_DateW": DateW = Forms.Data(controlId).ToDateTime().ToUniversal(context: context); break;
+                    case "Results_DateX": DateX = Forms.Data(controlId).ToDateTime().ToUniversal(context: context); break;
+                    case "Results_DateY": DateY = Forms.Data(controlId).ToDateTime().ToUniversal(context: context); break;
+                    case "Results_DateZ": DateZ = Forms.Data(controlId).ToDateTime().ToUniversal(context: context); break;
                     case "Results_DescriptionA": DescriptionA = Forms.Data(controlId).ToString(); break;
                     case "Results_DescriptionB": DescriptionB = Forms.Data(controlId).ToString(); break;
                     case "Results_DescriptionC": DescriptionC = Forms.Data(controlId).ToString(); break;
@@ -7818,32 +7818,32 @@ namespace Implem.Pleasanter.Models
             if (data.NumX != null) NumX = ss.GetColumn(context: context, columnName: "NumX").Round(data.NumX.ToDecimal());
             if (data.NumY != null) NumY = ss.GetColumn(context: context, columnName: "NumY").Round(data.NumY.ToDecimal());
             if (data.NumZ != null) NumZ = ss.GetColumn(context: context, columnName: "NumZ").Round(data.NumZ.ToDecimal());
-            if (data.DateA != null) DateA = data.DateA.ToDateTime().ToDateTime().ToUniversal();
-            if (data.DateB != null) DateB = data.DateB.ToDateTime().ToDateTime().ToUniversal();
-            if (data.DateC != null) DateC = data.DateC.ToDateTime().ToDateTime().ToUniversal();
-            if (data.DateD != null) DateD = data.DateD.ToDateTime().ToDateTime().ToUniversal();
-            if (data.DateE != null) DateE = data.DateE.ToDateTime().ToDateTime().ToUniversal();
-            if (data.DateF != null) DateF = data.DateF.ToDateTime().ToDateTime().ToUniversal();
-            if (data.DateG != null) DateG = data.DateG.ToDateTime().ToDateTime().ToUniversal();
-            if (data.DateH != null) DateH = data.DateH.ToDateTime().ToDateTime().ToUniversal();
-            if (data.DateI != null) DateI = data.DateI.ToDateTime().ToDateTime().ToUniversal();
-            if (data.DateJ != null) DateJ = data.DateJ.ToDateTime().ToDateTime().ToUniversal();
-            if (data.DateK != null) DateK = data.DateK.ToDateTime().ToDateTime().ToUniversal();
-            if (data.DateL != null) DateL = data.DateL.ToDateTime().ToDateTime().ToUniversal();
-            if (data.DateM != null) DateM = data.DateM.ToDateTime().ToDateTime().ToUniversal();
-            if (data.DateN != null) DateN = data.DateN.ToDateTime().ToDateTime().ToUniversal();
-            if (data.DateO != null) DateO = data.DateO.ToDateTime().ToDateTime().ToUniversal();
-            if (data.DateP != null) DateP = data.DateP.ToDateTime().ToDateTime().ToUniversal();
-            if (data.DateQ != null) DateQ = data.DateQ.ToDateTime().ToDateTime().ToUniversal();
-            if (data.DateR != null) DateR = data.DateR.ToDateTime().ToDateTime().ToUniversal();
-            if (data.DateS != null) DateS = data.DateS.ToDateTime().ToDateTime().ToUniversal();
-            if (data.DateT != null) DateT = data.DateT.ToDateTime().ToDateTime().ToUniversal();
-            if (data.DateU != null) DateU = data.DateU.ToDateTime().ToDateTime().ToUniversal();
-            if (data.DateV != null) DateV = data.DateV.ToDateTime().ToDateTime().ToUniversal();
-            if (data.DateW != null) DateW = data.DateW.ToDateTime().ToDateTime().ToUniversal();
-            if (data.DateX != null) DateX = data.DateX.ToDateTime().ToDateTime().ToUniversal();
-            if (data.DateY != null) DateY = data.DateY.ToDateTime().ToDateTime().ToUniversal();
-            if (data.DateZ != null) DateZ = data.DateZ.ToDateTime().ToDateTime().ToUniversal();
+            if (data.DateA != null) DateA = data.DateA.ToDateTime().ToDateTime().ToUniversal(context: context);
+            if (data.DateB != null) DateB = data.DateB.ToDateTime().ToDateTime().ToUniversal(context: context);
+            if (data.DateC != null) DateC = data.DateC.ToDateTime().ToDateTime().ToUniversal(context: context);
+            if (data.DateD != null) DateD = data.DateD.ToDateTime().ToDateTime().ToUniversal(context: context);
+            if (data.DateE != null) DateE = data.DateE.ToDateTime().ToDateTime().ToUniversal(context: context);
+            if (data.DateF != null) DateF = data.DateF.ToDateTime().ToDateTime().ToUniversal(context: context);
+            if (data.DateG != null) DateG = data.DateG.ToDateTime().ToDateTime().ToUniversal(context: context);
+            if (data.DateH != null) DateH = data.DateH.ToDateTime().ToDateTime().ToUniversal(context: context);
+            if (data.DateI != null) DateI = data.DateI.ToDateTime().ToDateTime().ToUniversal(context: context);
+            if (data.DateJ != null) DateJ = data.DateJ.ToDateTime().ToDateTime().ToUniversal(context: context);
+            if (data.DateK != null) DateK = data.DateK.ToDateTime().ToDateTime().ToUniversal(context: context);
+            if (data.DateL != null) DateL = data.DateL.ToDateTime().ToDateTime().ToUniversal(context: context);
+            if (data.DateM != null) DateM = data.DateM.ToDateTime().ToDateTime().ToUniversal(context: context);
+            if (data.DateN != null) DateN = data.DateN.ToDateTime().ToDateTime().ToUniversal(context: context);
+            if (data.DateO != null) DateO = data.DateO.ToDateTime().ToDateTime().ToUniversal(context: context);
+            if (data.DateP != null) DateP = data.DateP.ToDateTime().ToDateTime().ToUniversal(context: context);
+            if (data.DateQ != null) DateQ = data.DateQ.ToDateTime().ToDateTime().ToUniversal(context: context);
+            if (data.DateR != null) DateR = data.DateR.ToDateTime().ToDateTime().ToUniversal(context: context);
+            if (data.DateS != null) DateS = data.DateS.ToDateTime().ToDateTime().ToUniversal(context: context);
+            if (data.DateT != null) DateT = data.DateT.ToDateTime().ToDateTime().ToUniversal(context: context);
+            if (data.DateU != null) DateU = data.DateU.ToDateTime().ToDateTime().ToUniversal(context: context);
+            if (data.DateV != null) DateV = data.DateV.ToDateTime().ToDateTime().ToUniversal(context: context);
+            if (data.DateW != null) DateW = data.DateW.ToDateTime().ToDateTime().ToUniversal(context: context);
+            if (data.DateX != null) DateX = data.DateX.ToDateTime().ToDateTime().ToUniversal(context: context);
+            if (data.DateY != null) DateY = data.DateY.ToDateTime().ToDateTime().ToUniversal(context: context);
+            if (data.DateZ != null) DateZ = data.DateZ.ToDateTime().ToDateTime().ToUniversal(context: context);
             if (data.DescriptionA != null) DescriptionA = data.DescriptionA.ToString().ToString();
             if (data.DescriptionB != null) DescriptionB = data.DescriptionB.ToString().ToString();
             if (data.DescriptionC != null) DescriptionC = data.DescriptionC.ToString().ToString();
@@ -8447,20 +8447,28 @@ namespace Implem.Pleasanter.Models
                         notification.Send(
                             context: context,
                             ss: ss,
-                            title: Displays.Created(Title.DisplayValue).ToString(),
+                            title: Displays.Created(
+                                context: context,
+                                data: Title.DisplayValue).ToString(),
                             url: url,
                             body: NoticeBody(
-                                context: context, ss: ss, notification: notification));
+                                context: context,
+                                ss: ss,
+                                notification: notification));
                         break;
                     case "Updated":
                         var body = NoticeBody(
-                            context: context, ss: ss, notification: notification, update: true);
+                            context: context,
+                            ss: ss,
+                            notification: notification, update: true);
                         if (body.Length > 0)
                         {
                             notification.Send(
                                 context: context,
                                 ss: ss,
-                                title: Displays.Updated(Title.DisplayValue).ToString(),
+                                title: Displays.Updated(
+                                    context: context,
+                                    data: Title.DisplayValue).ToString(),
                                 url: url,
                                 body: body);
                         }
@@ -8469,10 +8477,14 @@ namespace Implem.Pleasanter.Models
                         notification.Send(
                             context: context,
                             ss: ss,
-                            title: Displays.Deleted(Title.DisplayValue).ToString(),
+                            title: Displays.Deleted(
+                                context: context,
+                                data: Title.DisplayValue).ToString(),
                             url: url,
                             body: NoticeBody(
-                                context: context, ss: ss, notification: notification));
+                                context: context,
+                                ss: ss,
+                                notification: notification));
                         break;
                 }
             });
@@ -9648,7 +9660,7 @@ namespace Implem.Pleasanter.Models
                         case "UpdatedTime":
                             if (dataRow[column.ColumnName] != DBNull.Value)
                             {
-                                UpdatedTime = new Time(dataRow, column.ColumnName); Timestamp = dataRow.Field<DateTime>(column.ColumnName).ToString("yyyy/M/d H:m:s.fff");
+                                UpdatedTime = new Time(context, dataRow, column.ColumnName); Timestamp = dataRow.Field<DateTime>(column.ColumnName).ToString("yyyy/M/d H:m:s.fff");
                                 SavedUpdatedTime = UpdatedTime.Value;
                             }
                             break;
@@ -10320,7 +10332,7 @@ namespace Implem.Pleasanter.Models
                             SavedUpdator = Updator.Id;
                             break;
                         case "CreatedTime":
-                            CreatedTime = new Time(dataRow, column.ColumnName);
+                            CreatedTime = new Time(context, dataRow, column.ColumnName);
                             SavedCreatedTime = CreatedTime.Value;
                             break;
                         case "IsHistory": VerType = dataRow[column.ColumnName].ToBool() ? Versions.VerTypes.History : Versions.VerTypes.Latest; break;

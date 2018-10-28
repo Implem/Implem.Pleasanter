@@ -1,4 +1,5 @@
 ﻿using Implem.Libraries.Utilities;
+using Implem.Pleasanter.Libraries.Requests;
 using Implem.Pleasanter.Libraries.Server;
 using System;
 namespace Implem.Pleasanter.Libraries.ViewModes
@@ -23,6 +24,7 @@ namespace Implem.Pleasanter.Libraries.ViewModes
         public decimal PlannedValueOfDaily;
 
         public BurnDownElement(
+            Context context,
             long id,
             int ver,
             string title,
@@ -42,15 +44,15 @@ namespace Implem.Pleasanter.Libraries.ViewModes
             Title = title;
             WorkValue = workValue;
             StartTime = startTime.InRange()
-                ? startTime.ToLocal().Date
-                : createdTime.ToLocal().Date;
-            CompletionTime = completionTime.ToLocal().Date;
+                ? startTime.ToLocal(context: context).Date
+                : createdTime.ToLocal(context: context).Date;
+            CompletionTime = completionTime.ToLocal(context: context).Date;
             ProgressRate = progressRate;
             ProgressRateAdditions = progressRateAdditions;
             Status = status;
             Updator = updatorId;
-            CreatedTime = createdTime.ToLocal().Date;
-            UpdatedTime = updatedTime.ToLocal().AddDays(1).Date;
+            CreatedTime = createdTime.ToLocal(context: context).Date;
+            UpdatedTime = updatedTime.ToLocal(context: context).AddDays(1).Date;
             EarnedValue = GetEarnedValue();
             EarnedValueAdditions = earnedValueAddtions;
             DayCount = Times.DateDiff(Times.Types.Days, StartTime, CompletionTime);

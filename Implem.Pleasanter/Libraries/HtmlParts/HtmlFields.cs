@@ -96,7 +96,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
         private static Dictionary<string, ControlData> EditChoices(
             Context context, SiteSettings ss, Column column, string value)
         {
-            var editChoices = column.EditChoices();
+            var editChoices = column.EditChoices(context: context);
             if (column.UseSearch != true)
             {
                 return editChoices;
@@ -194,6 +194,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                 preview: preview);
                         case ControlTypes.Attachments:
                             return hb.FieldAttachments(
+                                context: context,
                                 fieldId: controlId + "Field",
                                 controlId: controlId,
                                 columnName: column.ColumnName,
@@ -361,7 +362,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                 labelText: column.LabelText,
                                 labelRequired: required,
                                 text: value,
-                                format: column.DateTimeFormat(),
+                                format: column.DateTimeFormat(context: context),
                                 timepiker: column.DateTimepicker(),
                                 validateRequired: required,
                                 validateNumber: column.ValidateNumber ?? false,
@@ -417,6 +418,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                 unit: column.Unit);
                         case ControlTypes.Attachments:
                             return hb.FieldAttachments(
+                                context: context,
                                 fieldId: controlId + "Field",
                                 controlId: controlId,
                                 columnName: column.ColumnName,
@@ -1301,6 +1303,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
 
         public static HtmlBuilder FieldAttachments(
             this HtmlBuilder hb,
+            Context context,
             string fieldId = null,
             string controlId = null,
             string columnName = null,
@@ -1331,6 +1334,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     labelRequired: labelRequired,
                     controlAction: () => hb
                         .Attachments(
+                            context: context,
                             controlId: controlId,
                             columnName: columnName,
                             controlCss: controlCss,

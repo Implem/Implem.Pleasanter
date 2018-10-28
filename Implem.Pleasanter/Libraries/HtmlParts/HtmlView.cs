@@ -16,7 +16,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                 fieldId: "ViewSelectorField",
                 controlId: "ViewSelector",
                 controlCss: " auto-postback",
-                labelText: Displays.DataView(),
+                labelText: Displays.DataView(context: context),
                 optionCollection: ss.Views?.ToDictionary(o =>
                     o.Id.ToString(), o => o.Name),
                 selectedValue: ss.Views?.FirstOrDefault(o =>

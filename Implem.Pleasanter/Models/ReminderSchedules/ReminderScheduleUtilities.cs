@@ -51,7 +51,7 @@ namespace Implem.Pleasanter.Models
                                 joinExpression: "[Users].[UserId]=[Sites].[Updator]"),
                         where: Rds.ReminderSchedulesWhere()
                             .ScheduledTime(
-                                DateTime.Now.ToLocal(),
+                                DateTime.Now.ToLocal(context: context),
                                 _operator: "<=")))
                                     .AsEnumerable();
                 targets.ForEach(dataRow => Remind(

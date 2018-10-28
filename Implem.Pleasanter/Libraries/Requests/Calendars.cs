@@ -5,27 +5,29 @@ namespace Implem.Pleasanter.Libraries.Requests
 {
     public static class Calendars
     {
-        public static DateTime BeginDate(DateTime date)
+        public static DateTime BeginDate(Context context, DateTime date)
         {
-            date = date.ToLocal().Date;
+            date = date.ToLocal(context: context).Date;
             date = new DateTime(date.Year, date.Month, 1);
             if ((int)date.DayOfWeek < Parameters.General.FirstDayOfWeek)
             {
                 return date.AddDays(
                     ((int)date.DayOfWeek - Parameters.General.FirstDayOfWeek + 7) * -1)
-                        .ToUniversal();
+                        .ToUniversal(context: context);
             }
             else
             {
                 return date.AddDays(
                     ((int)date.DayOfWeek - Parameters.General.FirstDayOfWeek) * -1)
-                        .ToUniversal();
+                        .ToUniversal(context: context);
             }
         }
 
-        public static DateTime EndDate(DateTime date)
+        public static DateTime EndDate(Context context, DateTime date)
         {
-            return BeginDate(date).AddDays(43).AddMilliseconds(-3);
+            return BeginDate(
+                context: context,
+                date: date).AddDays(43).AddMilliseconds(-3);
         }
     }
 }

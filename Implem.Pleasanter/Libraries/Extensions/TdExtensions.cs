@@ -71,14 +71,19 @@ namespace Implem.Pleasanter.Libraries.Extensions
             this HtmlBuilder hb, Context context, Column column, decimal value)
         {
             return hb.Td(action: () => hb
-                .Text(text: column.Display(value, unit: true)));
+                .Text(text: column.Display(
+                    context: context,
+                    value: value,
+                    unit: true)));
         }
 
         public static HtmlBuilder Td(
             this HtmlBuilder hb, Context context, Column column, DateTime value)
         {
             return hb.Td(action: () => hb
-                .Text(text: column.DisplayGrid(value.ToLocal())));
+                .Text(text: column.DisplayGrid(
+                    context: context,
+                    value: value.ToLocal(context: context))));
         }
 
         public static HtmlBuilder Td(

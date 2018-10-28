@@ -8,6 +8,7 @@ using Implem.Pleasanter.Libraries.Settings;
 using Implem.Pleasanter.Models;
 using System;
 using System.Data;
+using System.Globalization;
 using System.Linq;
 using System.Web;
 using System.Web.Routing;
@@ -54,7 +55,7 @@ namespace Implem.Pleasanter.Libraries.Requests
 
         public Context(int tenantId, int deptId = 0, int userId = 0)
         {
-            Authenticated = Sessions.LoggedIn();
+            Authenticated = LoggedIn();
             TenantId = tenantId;
             DeptId = deptId;
             UserId = userId;
@@ -71,6 +72,18 @@ namespace Implem.Pleasanter.Libraries.Requests
                 DeptId = DeptId,
                 UserId = UserId
             };
+        }
+
+        public CultureInfo CultureInfo()
+        {
+            return new CultureInfo(Language);
+        }
+
+        private bool LoggedIn()
+        {
+            return HttpContext.Current?.User?.Identity.Name.IsNullOrEmpty() == false &&
+                HttpContext.Current?.User.Identity.Name !=
+                    Implem.Libraries.Classes.RdsUser.UserTypes.Anonymous.ToInt().ToString();
         }
 
         public void SetByApi()
@@ -103,7 +116,7 @@ namespace Implem.Pleasanter.Libraries.Requests
                     SetContractSettings();
                 }
             }
-            else if (Sessions.LoggedIn())
+            else if (LoggedIn())
             {
                 SetBySession();
             }
@@ -111,7 +124,7 @@ namespace Implem.Pleasanter.Libraries.Requests
 
         public void SetBySession()
         {
-            Authenticated = Sessions.LoggedIn();
+            Authenticated = LoggedIn();
             LoginId = HttpContext.Current.User.Identity.Name;
             TenantId = HttpContext.Current.Session["TenantId"].ToInt();
             DeptId = HttpContext.Current.Session["DeptId"].ToInt();

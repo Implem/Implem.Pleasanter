@@ -21,7 +21,9 @@ namespace Implem.Pleasanter.Libraries.Initializers
                     loginId: "Administrator",
                     name: "Administrator",
                     password: Parameters.Service.DefaultPassword.Sha512Cng(),
-                    passwordExpirationTime: new Time(DateTime.Now),
+                    passwordExpirationTime: new Time(
+                        context: context,
+                        value: DateTime.Now),
                     tenantManager: true);
                 Create(
                     context: context,

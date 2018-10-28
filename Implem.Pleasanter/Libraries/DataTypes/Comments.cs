@@ -67,10 +67,10 @@ namespace Implem.Pleasanter.Libraries.DataTypes
             }
         }
 
-        public Comments ToLocal()
+        public Comments ToLocal(Context context)
         {
             var comments = new Comments();
-            ForEach(o => comments.Add(o.ToLocal()));
+            ForEach(o => comments.Add(o.ToLocal(context: context)));
             return comments;
         }
 
@@ -105,7 +105,7 @@ namespace Implem.Pleasanter.Libraries.DataTypes
         {
             return this?.Take(DisplayCount(context: context)).Select(comment =>
                 "{0} {1}  \n{2}".Params(
-                    comment.CreatedTimeDisplayValue(),
+                    comment.CreatedTimeDisplayValue(context: context),
                     SiteInfo.UserName(
                         context: context,
                         userId: comment.Creator),
@@ -139,7 +139,7 @@ namespace Implem.Pleasanter.Libraries.DataTypes
         public string ToExport(Context context, Column column, ExportColumn exportColumn = null)
         {
             return this.Select(o =>
-                o.CreatedTime.ToLocal().ToViewText() + " " +
+                o.CreatedTime.ToLocal(context: context).ToViewText(context: context) + " " +
                 SiteInfo.UserName(
                     context: context,
                     userId: o.Creator) + "\n" +
@@ -156,7 +156,7 @@ namespace Implem.Pleasanter.Libraries.DataTypes
             var body = string.Empty;
             if (context.Action == "deletecomment")
             {
-                body = Displays.CommentDeleted() + "\n";
+                body = Displays.CommentDeleted(context: context) + "\n";
             }
             if (this.Any())
             {
@@ -176,7 +176,7 @@ namespace Implem.Pleasanter.Libraries.DataTypes
                             column: column,
                             updated: updated,
                             update: update,
-                            suffix: Displays.CommentUpdated()));
+                            suffix: Displays.CommentUpdated(context: context)));
                 return body;
             }
             else

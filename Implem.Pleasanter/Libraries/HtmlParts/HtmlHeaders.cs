@@ -52,11 +52,11 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                         where: Rds.TenantsWhere().TenantId(context.TenantId)));
                 return !title.IsNullOrEmpty()
                     ? title
-                    : Displays.ProductName();
+                    : Displays.ProductName(context: context);
             }
             else
             {
-                return Displays.ProductName();
+                return Displays.ProductName(context: context);
             }
         }
     }

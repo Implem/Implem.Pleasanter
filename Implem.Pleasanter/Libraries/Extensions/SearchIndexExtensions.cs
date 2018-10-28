@@ -45,7 +45,7 @@ namespace Implem.Pleasanter.Libraries.Extensions
             Dictionary<string, int> searchIndexHash,
             int searchPriority)
         {
-            Update(searchIndexHash, self.ToLocal().ToString(), searchPriority);
+            Update(searchIndexHash, self.ToLocal(context: context).ToString(), searchPriority);
         }
 
         public static void SearchIndexes(
@@ -146,7 +146,7 @@ namespace Implem.Pleasanter.Libraries.Extensions
             SearchIndexes(
                 context: context,
                 searchIndexHash: searchIndexHash,
-                text: self.Value.ToLocal().ToString(),
+                text: self.Value.ToLocal(context: context).ToString(),
                 searchPriority: searchPriority);
         }
 

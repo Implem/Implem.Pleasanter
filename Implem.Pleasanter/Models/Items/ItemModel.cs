@@ -163,7 +163,7 @@ namespace Implem.Pleasanter.Models
         {
             if (ReferenceType != "Sites")
             {
-                return Messages.ResponseNotFound().ToJson();
+                return Messages.ResponseNotFound(context: context).ToJson();
             }
             SetSite(
                 context: context,
@@ -177,7 +177,7 @@ namespace Implem.Pleasanter.Models
                 case "Results":
                     return ResultUtilities.IndexJson(context: context, ss: Site.SiteSettings);
                 default:
-                    return Messages.ResponseNotFound().ToJson();
+                    return Messages.ResponseNotFound(context: context).ToJson();
             }
         }
 
@@ -214,7 +214,7 @@ namespace Implem.Pleasanter.Models
         {
             if (ReferenceType != "Sites")
             {
-                return Messages.ResponseNotFound().ToJson();
+                return Messages.ResponseNotFound(context: context).ToJson();
             }
             SetSite(
                 context: context,
@@ -231,7 +231,7 @@ namespace Implem.Pleasanter.Models
                 case "Results":
                     return ResultUtilities.TrashBoxJson(context: context, ss: Site.SiteSettings);
                 default:
-                    return Messages.ResponseNotFound().ToJson();
+                    return Messages.ResponseNotFound(context: context).ToJson();
             }
         }
 
@@ -285,7 +285,7 @@ namespace Implem.Pleasanter.Models
                             setSiteIntegration: true,
                             setAllChoices: true));
                 default:
-                    return Messages.ResponseNotFound().ToJson();
+                    return Messages.ResponseNotFound(context: context).ToJson();
             }
         }
 
@@ -335,7 +335,7 @@ namespace Implem.Pleasanter.Models
                             referenceId: ReferenceId,
                             setSiteIntegration: true));
                 default:
-                    return Messages.ResponseNotFound().ToJson();
+                    return Messages.ResponseNotFound(context: context).ToJson();
             }
         }
 
@@ -373,7 +373,7 @@ namespace Implem.Pleasanter.Models
                             setSiteIntegration: true,
                             setAllChoices: true));
                 default:
-                    return Messages.ResponseNotFound().ToJson();
+                    return Messages.ResponseNotFound(context: context).ToJson();
             }
         }
 
@@ -409,7 +409,7 @@ namespace Implem.Pleasanter.Models
                         context: context,
                         ss: Site.SiteSettings);
                 default:
-                    return Messages.ResponseNotFound().ToJson();
+                    return Messages.ResponseNotFound(context: context).ToJson();
             }
         }
 
@@ -426,7 +426,7 @@ namespace Implem.Pleasanter.Models
                         context: context,
                         ss: Site.SiteSettings);
                 default:
-                    return Messages.ResponseNotFound().ToJson();
+                    return Messages.ResponseNotFound(context: context).ToJson();
             }
         }
 
@@ -476,7 +476,7 @@ namespace Implem.Pleasanter.Models
                             referenceId: ReferenceId,
                             setSiteIntegration: true));
                 default:
-                    return Messages.ResponseNotFound().ToJson();
+                    return Messages.ResponseNotFound(context: context).ToJson();
             }
         }
 
@@ -530,7 +530,7 @@ namespace Implem.Pleasanter.Models
                             setSiteIntegration: true,
                             setAllChoices: true));
                 default:
-                    return Messages.ResponseNotFound().ToJson();
+                    return Messages.ResponseNotFound(context: context).ToJson();
             }
         }
 
@@ -584,7 +584,7 @@ namespace Implem.Pleasanter.Models
                             setSiteIntegration: true,
                             setAllChoices: true));
                 default:
-                    return Messages.ResponseNotFound().ToJson();
+                    return Messages.ResponseNotFound(context: context).ToJson();
             }
         }
 
@@ -677,7 +677,7 @@ namespace Implem.Pleasanter.Models
                         context: context,
                         siteModel: Site);
                 default:
-                    return Messages.ResponseNotFound().ToJson();
+                    return Messages.ResponseNotFound(context: context).ToJson();
             }
         }
 
@@ -703,7 +703,7 @@ namespace Implem.Pleasanter.Models
                             setSiteIntegration: true),
                         siteModel: Site);
                 default:
-                    return Messages.ResponseNotFound().ToJson();
+                    return Messages.ResponseNotFound(context: context).ToJson();
             }
         }
 
@@ -808,7 +808,9 @@ namespace Implem.Pleasanter.Models
             return new ResponseCollection()
                 .Append("#DropDownSearchResults", new HtmlBuilder()
                     .SelectableItems(
-                        listItemCollection: column?.EditChoices(addNotSet: nextOffset == -1)))
+                        listItemCollection: column?.EditChoices(
+                            context: context,
+                            addNotSet: nextOffset == -1)))
                 .Val("#DropDownSearchResultsOffset", nextOffset)
                 .ToJson();
         }
@@ -835,7 +837,9 @@ namespace Implem.Pleasanter.Models
                     "#DropDownSearchResults",
                     new HtmlBuilder().Selectable(
                         controlId: "DropDownSearchResults",
-                        listItemCollection: column?.EditChoices(addNotSet: true),
+                        listItemCollection: column?.EditChoices(
+                            context: context,
+                            addNotSet: true),
                         action: "SearchDropDown",
                         method: "post"))
                 .Val("#DropDownSearchResultsOffset", nextOffset)
@@ -868,7 +872,7 @@ namespace Implem.Pleasanter.Models
             else if (selected.Count() != 1)
             {
                 return new ResponseCollection()
-                    .Message(Messages.SelectOne())
+                    .Message(Messages.SelectOne(context: context))
                     .ToJson();
             }
             else
@@ -938,9 +942,11 @@ namespace Implem.Pleasanter.Models
                 context: context,
                 columnName: column.ColumnName,
                 selectedValues: selected);
-            var optionCollection = column?.EditChoices(addNotSet: true)?
-                .Where(o => selected.Contains(o.Key))
-                .ToDictionary(o => o.Key, o => o.Value);
+            var optionCollection = column?.EditChoices(
+                context: context,
+                addNotSet: true)?
+                    .Where(o => selected.Contains(o.Key))
+                    .ToDictionary(o => o.Key, o => o.Value);
             return optionCollection?.Any() == true
                 ? new ResponseCollection()
                     .CloseDialog("#DropDownSearchDialog")
@@ -959,7 +965,7 @@ namespace Implem.Pleasanter.Models
                     .Trigger("#" + controlId, "change")
                     .ToJson()
                 : new ResponseCollection()
-                    .Message(Messages.NotFound())
+                    .Message(Messages.NotFound(context: context))
                     .ToJson();
         }
 
@@ -1001,7 +1007,7 @@ namespace Implem.Pleasanter.Models
                             setSiteIntegration: true),
                         offset: DataViewGrid.Offset());
                 default:
-                    return Messages.ResponseNotFound().ToJson();
+                    return Messages.ResponseNotFound(context: context).ToJson();
             }
         }
 
@@ -1031,7 +1037,7 @@ namespace Implem.Pleasanter.Models
                         offset: DataViewGrid.Offset(),
                         action: "TrashBoxGridRows");
                 default:
-                    return Messages.ResponseNotFound().ToJson();
+                    return Messages.ResponseNotFound(context: context).ToJson();
             }
         }
 
@@ -1057,7 +1063,7 @@ namespace Implem.Pleasanter.Models
                             setSiteIntegration: true),
                         offset: Forms.Int("ImageLibOffset"));
                 default:
-                    return Messages.ResponseNotFound().ToJson();
+                    return Messages.ResponseNotFound(context: context).ToJson();
             }
         }
 
@@ -1103,7 +1109,7 @@ namespace Implem.Pleasanter.Models
                             resultId: ReferenceId);
                     }
                 default:
-                    return ApiResults.Get(ApiResponses.BadRequest());
+                    return ApiResults.Get(ApiResponses.BadRequest(context: context));
             }
         }
 
@@ -1130,7 +1136,7 @@ namespace Implem.Pleasanter.Models
                             context: context,
                             referenceId: ReferenceId));
                 default:
-                    return Messages.ResponseNotFound().ToJson();
+                    return Messages.ResponseNotFound(context: context).ToJson();
             }
         }
 
@@ -1152,7 +1158,7 @@ namespace Implem.Pleasanter.Models
                             context: context,
                             referenceId: ReferenceId));
                 default:
-                    return ApiResults.Get(ApiResponses.BadRequest());
+                    return ApiResults.Get(ApiResponses.BadRequest(context: context));
             }
         }
 
@@ -1167,7 +1173,7 @@ namespace Implem.Pleasanter.Models
                         parentId: Site.SiteId,
                         inheritPermission: Site.InheritPermission);
                 default:
-                    return Messages.ResponseNotFound().ToJson();
+                    return Messages.ResponseNotFound(context: context).ToJson();
             }
         }
 
@@ -1182,7 +1188,7 @@ namespace Implem.Pleasanter.Models
                         parentId: Site.SiteId,
                         inheritPermission: Site.InheritPermission);
                 default:
-                    return Messages.ResponseNotFound().ToJson();
+                    return Messages.ResponseNotFound(context: context).ToJson();
             }
         }
 
@@ -1196,7 +1202,7 @@ namespace Implem.Pleasanter.Models
                         context: context,
                         siteModel: Site);
                 default:
-                    return Messages.ResponseNotFound().ToJson();
+                    return Messages.ResponseNotFound(context: context).ToJson();
             }
         }
 
@@ -1232,7 +1238,7 @@ namespace Implem.Pleasanter.Models
                             referenceId: ReferenceId),
                         wikiId: ReferenceId);
                 default:
-                    return Messages.ResponseNotFound().ToJson();
+                    return Messages.ResponseNotFound(context: context).ToJson();
             }
         }
 
@@ -1256,7 +1262,7 @@ namespace Implem.Pleasanter.Models
                             referenceId: ReferenceId),
                         resultId: ReferenceId);
                 default:
-                    return ApiResults.Get(ApiResponses.BadRequest());
+                    return ApiResults.Get(ApiResponses.BadRequest(context: context));
             }
         }
 
@@ -1292,7 +1298,7 @@ namespace Implem.Pleasanter.Models
                             referenceId: ReferenceId),
                         wikiId: ReferenceId);
                 default:
-                    return Messages.ResponseNotFound().ToJson();
+                    return Messages.ResponseNotFound(context: context).ToJson();
             }
         }
 
@@ -1320,7 +1326,7 @@ namespace Implem.Pleasanter.Models
                             referenceId: ReferenceId),
                         resultId: ReferenceId);
                 default:
-                    return Messages.ResponseNotFound().ToJson();
+                    return Messages.ResponseNotFound(context: context).ToJson();
             }
         }
 
@@ -1392,7 +1398,7 @@ namespace Implem.Pleasanter.Models
                             referenceId: ReferenceId),
                     resultId: ReferenceId);
                 default:
-                    return Messages.ResponseNotFound().ToJson();
+                    return Messages.ResponseNotFound(context: context).ToJson();
             }
         }
 
@@ -1416,7 +1422,7 @@ namespace Implem.Pleasanter.Models
                             referenceId: ReferenceId,
                             setSiteIntegration: true));
                 default:
-                    return Messages.ResponseNotFound().ToJson();
+                    return Messages.ResponseNotFound(context: context).ToJson();
             }
         }
 
@@ -1454,7 +1460,7 @@ namespace Implem.Pleasanter.Models
                             referenceId: ReferenceId),
                         wikiId: ReferenceId);
                 default:
-                    return Messages.ResponseNotFound().ToJson();
+                    return Messages.ResponseNotFound(context: context).ToJson();
             }
         }
 
@@ -1478,7 +1484,7 @@ namespace Implem.Pleasanter.Models
                             referenceId: ReferenceId),
                         resultId: ReferenceId);
                 default:
-                    return ApiResults.Get(ApiResponses.BadRequest());
+                    return ApiResults.Get(ApiResponses.BadRequest(context: context));
             }
         }
 
@@ -1502,7 +1508,7 @@ namespace Implem.Pleasanter.Models
                             referenceId: ReferenceId,
                             setSiteIntegration: true));
                 default:
-                    return Messages.ResponseNotFound().ToJson();
+                    return Messages.ResponseNotFound(context: context).ToJson();
             }
         }
 
@@ -1539,7 +1545,7 @@ namespace Implem.Pleasanter.Models
                             ss: Site.SiteSettings,
                             wikiId: ReferenceId);
                     default:
-                        return Messages.ResponseNotFound().ToJson();
+                        return Messages.ResponseNotFound(context: context).ToJson();
                 }
             }
         }
@@ -1574,7 +1580,7 @@ namespace Implem.Pleasanter.Models
                             setSiteIntegration: true,
                             tableType: Sqls.TableTypes.Deleted));
                 default:
-                    return Messages.ResponseNotFound().ToJson();
+                    return Messages.ResponseNotFound(context: context).ToJson();
             }
         }
 
@@ -1608,7 +1614,7 @@ namespace Implem.Pleasanter.Models
                             referenceId: ReferenceId,
                             tableType: Sqls.TableTypes.Deleted));
                 default:
-                    return Messages.ResponseNotFound().ToJson();
+                    return Messages.ResponseNotFound(context: context).ToJson();
             }
         }
 
@@ -1654,7 +1660,7 @@ namespace Implem.Pleasanter.Models
                             tableType: Sqls.TableTypes.History),
                         wikiId: ReferenceId);
                 default:
-                    return Messages.ResponseNotFound().ToJson();
+                    return Messages.ResponseNotFound(context: context).ToJson();
             }
         }
 
@@ -1671,7 +1677,7 @@ namespace Implem.Pleasanter.Models
                             referenceId: ReferenceId),
                         issueId: ReferenceId);
                 default:
-                    return Messages.ResponseNotFound().ToJson();
+                    return Messages.ResponseNotFound(context: context).ToJson();
             }
         }
 
@@ -1688,7 +1694,7 @@ namespace Implem.Pleasanter.Models
                             referenceId: ReferenceId),
                         issueId: ReferenceId);
                 default:
-                    return Messages.ResponseNotFound().ToJson();
+                    return Messages.ResponseNotFound(context: context).ToJson();
             }
         }
 
@@ -1717,7 +1723,7 @@ namespace Implem.Pleasanter.Models
                         ss: Site.SiteSettings,
                         wikiId: ReferenceId);
                 default:
-                    return Messages.ResponseNotFound().ToJson();
+                    return Messages.ResponseNotFound(context: context).ToJson();
             }
         }
 
@@ -1749,7 +1755,7 @@ namespace Implem.Pleasanter.Models
                         ss: Site.SiteSettings,
                         wikiId: ReferenceId);
                 default:
-                    return Messages.ResponseNotFound().ToJson();
+                    return Messages.ResponseNotFound(context: context).ToJson();
             }
         }
 
@@ -1778,7 +1784,7 @@ namespace Implem.Pleasanter.Models
                         ss: Site.SiteSettings,
                         wikiId: ReferenceId);
                 default:
-                    return Messages.ResponseNotFound().ToJson();
+                    return Messages.ResponseNotFound(context: context).ToJson();
             }
         }
 
@@ -1804,7 +1810,7 @@ namespace Implem.Pleasanter.Models
                             setSiteIntegration: true,
                             setAllChoices: true));
                 default:
-                    return Messages.ResponseNotFound().ToJson();
+                    return Messages.ResponseNotFound(context: context).ToJson();
             }
         }
 
@@ -1830,7 +1836,7 @@ namespace Implem.Pleasanter.Models
                             setSiteIntegration: true,
                             setAllChoices: true));
                 default:
-                    return Messages.ResponseNotFound().ToJson();
+                    return Messages.ResponseNotFound(context: context).ToJson();
             }
         }
 
@@ -1987,11 +1993,11 @@ namespace Implem.Pleasanter.Models
                             SavedUpdator = Updator.Id;
                             break;
                         case "CreatedTime":
-                            CreatedTime = new Time(dataRow, column.ColumnName);
+                            CreatedTime = new Time(context, dataRow, column.ColumnName);
                             SavedCreatedTime = CreatedTime.Value;
                             break;
                         case "UpdatedTime":
-                            UpdatedTime = new Time(dataRow, column.ColumnName);
+                            UpdatedTime = new Time(context, dataRow, column.ColumnName);
                             SavedUpdatedTime = UpdatedTime.Value;
                             break;
                         case "IsHistory": VerType = dataRow[column.ColumnName].ToBool() ? Versions.VerTypes.History : Versions.VerTypes.Latest; break;

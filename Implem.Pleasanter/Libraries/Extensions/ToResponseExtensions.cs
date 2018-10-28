@@ -24,7 +24,9 @@ namespace Implem.Pleasanter.Libraries.Extensions
             this DateTime self, Context context, SiteSettings ss, Column column)
         {
             return self.InRange()
-                ? column.DisplayControl(self.ToLocal())
+                ? column.DisplayControl(
+                    context: context,
+                    value: self.ToLocal(context: context))
                 : string.Empty;
         }
 
@@ -44,8 +46,15 @@ namespace Implem.Pleasanter.Libraries.Extensions
             this decimal self, Context context, SiteSettings ss, Column column)
         {
             return column.ControlType == "Spinner"
-                ? column.Display(self, format: false)
-                : column.Display(ss, self, format: column.Format == "C");
+                ? column.Display(
+                    context: context,
+                    value: self,
+                    format: false)
+                : column.Display(
+                    context: context,
+                    ss: ss,
+                    value: self,
+                    format: column.Format == "C");
         }
 
         public static string ToResponse(

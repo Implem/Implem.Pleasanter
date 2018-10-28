@@ -33,7 +33,9 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                             siteId: siteId,
                             referenceType: referenceType,
                             useNavigationMenu: useNavigationMenu)
-                        .Search(_using: useSearch))
+                        .Search(
+                            context: context,
+                            _using: useSearch))
                 : hb;
         }
 
@@ -45,7 +47,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             string referenceType,
             bool useNavigationMenu)
         {
-            var canManageGroups = Sessions.UserSettings().DisableGroupAdmin != true;
+            var canManageGroups = context.UserSettings.DisableGroupAdmin != true;
             var canManageSite = siteId != 0 && context.CanManageSite(ss: ss, site: true);
             var canManageDepts = Permissions.CanManageTenant(context: context);
             var canManageUsers = Permissions.CanManageTenant(context: context);
@@ -66,7 +68,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                         : null,
                                     action: () => hb
                                         .Span(css: "ui-icon ui-icon-plus")
-                                        .Text(text: Displays.New()))),
+                                        .Text(text: Displays.New(context: context)))),
                         _using: ss.ReferenceType == "Sites" && context.Action == "index"
                             ? context.CanManageSite(ss: ss)
                             : context.CanCreate(ss: ss)
@@ -79,7 +81,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                 attributes: new HtmlAttributes().DataId("ViewModeMenu"),
                                 action: () => hb
                                     .Span(css: "ui-icon ui-icon-triangle-1-e")
-                                    .Text(text: Displays.View()))
+                                    .Text(text: Displays.View(context: context)))
                             .ViewModeMenu(context: context, ss: ss),
                         _using: Def.ViewModeDefinitionCollection
                             .Any(o => o.ReferenceType == referenceType))
@@ -90,8 +92,9 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                 attributes: new HtmlAttributes().DataId("SettingsMenu"),
                                 action: () => hb
                                     .Span(css: "ui-icon ui-icon-gear")
-                                    .Text(text: Displays.Manage()))
+                                    .Text(text: Displays.Manage(context: context)))
                             .SettingsMenu(
+                                context: context,
                                 ss: ss,
                                 siteId: siteId,
                                 canManageSite: canManageSite,
@@ -148,6 +151,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     .Select(mode => mode.Name)
                     .ForEach(action => hb
                         .ViewModeMenu(
+                            context: context,
                             siteId: ss.SiteId,
                             referenceType: ss.ReferenceType,
                             action: action,
@@ -171,6 +175,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
 
         private static HtmlBuilder ViewModeMenu(
             this HtmlBuilder hb,
+            Context context,
             long siteId,
             string referenceType,
             string action,
@@ -186,11 +191,14 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                             .DataAction(action),
                     action: () => hb
                         .Span(css: "ui-icon ui-icon-triangle-1-e")
-                        .Text(text: Displays.Get(action))));
+                        .Text(text: Displays.Get(
+                            context: context,
+                            id: action))));
         }
 
         private static HtmlBuilder SettingsMenu(
             this HtmlBuilder hb,
+            Context context,
             SiteSettings ss,
             long siteId,
             bool canManageSite,
@@ -209,7 +217,9 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                 href: Locations.ItemEdit(siteId),
                                 action: () => hb
                                     .Span(css: "ui-icon ui-icon-gear")
-                                    .Text(text: SiteSettingsDisplayName(ss))),
+                                    .Text(text: SiteSettingsDisplayName(
+                                        context: context,
+                                        ss: ss))),
                         _using: canManageSite)
                     .Li(
                         action: () => hb
@@ -217,7 +227,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                 href: Locations.Index("Depts"),
                                 action: () => hb
                                     .Span(css: "ui-icon ui-icon-gear")
-                                    .Text(text: Displays.DeptAdmin())),
+                                    .Text(text: Displays.DeptAdmin(context: context))),
                         _using: canManageDepts)
                     .Li(
                         action: () => hb
@@ -225,7 +235,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                 href: Locations.Index("Groups"),
                                 action: () => hb
                                     .Span(css: "ui-icon ui-icon-gear")
-                                    .Text(text: Displays.GroupAdmin())),
+                                    .Text(text: Displays.GroupAdmin(context: context))),
                         _using: canManageGroups)
                     .Li(
                         action: () => hb
@@ -233,7 +243,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                 href: Locations.Index("Users"),
                                 action: () => hb
                                     .Span(css: "ui-icon ui-icon-gear")
-                                    .Text(text: Displays.UserAdmin())),
+                                    .Text(text: Displays.UserAdmin(context: context))),
                         _using: canManageUsers)
                     .Li(
                         action: () => hb
@@ -241,21 +251,21 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                 href: Locations.ItemTrashBox(siteId),
                                 action: () => hb
                                     .Span(css: "ui-icon ui-icon-trash")
-                                    .Text(text: Displays.TrashBox())),
+                                    .Text(text: Displays.TrashBox(context: context))),
                         _using: canManageTrashBox));
         }
 
-        private static string SiteSettingsDisplayName(SiteSettings ss)
+        private static string SiteSettingsDisplayName(Context context, SiteSettings ss)
         {
             switch (ss.ReferenceType)
             {
                 case "Sites":
-                    return Displays.ManageFolder();
+                    return Displays.ManageFolder(context: context);
                 case "Issues":
                 case "Results":
-                    return Displays.ManageTable();
+                    return Displays.ManageTable(context: context);
                 case "Wikis":
-                    return Displays.ManageWiki();
+                    return Displays.ManageWiki(context: context);
                 default:
                     return null;
             }
@@ -269,14 +279,14 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                         href: Locations.Logout(),
                         action: () => hb
                             .Span(css: "ui-icon ui-icon-locked")
-                            .Text(text: Displays.Logout())))
+                            .Text(text: Displays.Logout(context: context))))
                 .Li(
                     action: () => hb
                         .A(
                             href: Locations.Edit("Users", context.UserId),
                             action: () => hb
                                 .Span(css: "ui-icon ui-icon-wrench")
-                                .Text(text: Displays.EditProfile())),
+                                .Text(text: Displays.EditProfile(context: context))),
                     _using: Parameters.Service.ShowProfiles)
                 .Li(
                     action: () => hb
@@ -284,7 +294,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                             href: Locations.Get("Users", "EditApi"),
                             action: () => hb
                                 .Span(css: "ui-icon ui-icon-link")
-                                .Text(text: Displays.ApiSettings())),
+                                .Text(text: Displays.ApiSettings(context: context))),
                     _using: context.ContractSettings.Api != false && Parameters.Api.Enabled)
                 .Li(action: () => hb
                     .A(
@@ -292,44 +302,44 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                         target: "_blank",
                         action: () => hb
                             .Span(css: "ui-icon ui-icon-help")
-                            .Text(text: Displays.UsageGuide())))
+                            .Text(text: Displays.UsageGuide(context: context))))
                 .Li(action: () => hb
                     .A(
                         href: Parameters.General.HtmlBlogUrl,
                         target: "_blank",
                         action: () => hb
                             .Span(css: "ui-icon ui-icon-info")
-                            .Text(text: Displays.Blog())))
+                            .Text(text: Displays.Blog(context: context))))
                 .Li(action: () => hb
                     .A(
                         href: Parameters.General.HtmlSupportUrl,
                         target: "_blank",
                         action: () => hb
                             .Span(css: "ui-icon ui-icon-contact")
-                            .Text(text: Displays.Support())))
+                            .Text(text: Displays.Support(context: context))))
                 .Li(action: () => hb
                     .A(
                         href: Parameters.General.HtmlContactUrl,
                         target: "_blank",
                         action: () => hb
                             .Span(css: "ui-icon ui-icon-contact")
-                            .Text(text: Displays.Contact())))
+                            .Text(text: Displays.Contact(context: context))))
                 .Li(action: () => hb
                     .A(
                         href: Parameters.General.HtmlPortalUrl,
                         target: "_blank",
                         action: () => hb
                             .Span(css: "ui-icon ui-icon-cart")
-                            .Text(text: Displays.Portal())))
+                            .Text(text: Displays.Portal(context: context))))
                 .Li(action: () => hb
                     .A(
                         href: Locations.Get("versions"),
                         action: () => hb
                             .Span(css: "ui-icon ui-icon-info")
-                            .Text(text: Displays.Version()))));
+                            .Text(text: Displays.Version(context: context)))));
         }
 
-        private static HtmlBuilder Search(this HtmlBuilder hb, bool _using)
+        private static HtmlBuilder Search(this HtmlBuilder hb, Context context, bool _using)
         {
             return _using
                 ? hb
@@ -337,7 +347,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                         .TextBox(
                             controlId: "Search",
                             controlCss: " w150 redirect",
-                            placeholder: Displays.Search()))
+                            placeholder: Displays.Search(context: context)))
                 : hb;
         }
 

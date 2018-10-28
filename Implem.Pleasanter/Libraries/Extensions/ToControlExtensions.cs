@@ -15,7 +15,9 @@ namespace Implem.Pleasanter.Libraries.Extensions
         public static string ToControl(
             this DateTime self, Context context, SiteSettings ss, Column column)
         {
-            return column.DisplayControl(self.ToLocal());
+            return column.DisplayControl(
+                context: context,
+                value: self.ToLocal(context: context));
         }
 
         public static string ToControl(
@@ -40,8 +42,15 @@ namespace Implem.Pleasanter.Libraries.Extensions
             this decimal self, Context context, SiteSettings ss, Column column)
         {
             return column.ControlType == "Spinner"
-                ? column.Display(self, format: false)
-                : column.Display(ss, self, format: column.Format == "C");
+                ? column.Display(
+                    context: context,
+                    value: self,
+                    format: false)
+                : column.Display(
+                    context: context,
+                    ss: ss,
+                    value: self,
+                    format: column.Format == "C");
         }
     }
 }

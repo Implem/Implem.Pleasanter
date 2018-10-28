@@ -45,15 +45,19 @@ namespace Implem.Pleasanter.Models
             demoModel.Create(context: context, ss: ss);
             demoModel.Initialize(context: context, outgoingMailModel: new OutgoingMailModel()
             {
-                Title = new Title(Displays.DemoMailTitle()),
+                Title = new Title(Displays.DemoMailTitle(context: context)),
                 Body = Displays.DemoMailBody(
-                    Locations.DemoUri(passphrase),
-                    Parameters.Service.DemoUsagePeriod.ToString()),
+                    context: context,
+                    data: new string[]
+                    {
+                        Locations.DemoUri(passphrase),
+                        Parameters.Service.DemoUsagePeriod.ToString()
+                    }),
                 From = new System.Net.Mail.MailAddress(Parameters.Mail.SupportFrom),
                 To = mailAddress,
                 Bcc = Parameters.Mail.SupportFrom
             });
-            return Messages.ResponseSentAcceptanceMail()
+            return Messages.ResponseSentAcceptanceMail(context: context)
                 .Remove("#DemoForm")
                 .ToJson();
         }
@@ -190,8 +194,12 @@ namespace Implem.Pleasanter.Models
                                     .TenantId(demoModel.TenantId)
                                     .DeptCode(demoDefinition.ClassA)
                                     .DeptName(demoDefinition.Title)
-                                    .CreatedTime(demoDefinition.CreatedTime.DemoTime(demoModel))
-                                    .UpdatedTime(demoDefinition.UpdatedTime.DemoTime(demoModel)))
+                                    .CreatedTime(demoDefinition.CreatedTime.DemoTime(
+                                        context: context,
+                                        demoModel: demoModel))
+                                    .UpdatedTime(demoDefinition.UpdatedTime.DemoTime(
+                                        context: context,
+                                        demoModel: demoModel)))
                         }).Identity.ToLong()));
         }
 
@@ -221,8 +229,12 @@ namespace Implem.Pleasanter.Models
                                     .DeptId(idHash.Get(demoDefinition.ParentId).ToInt())
                                     .Birthday(demoDefinition.ClassC.ToDateTime())
                                     .Gender(demoDefinition.ClassB)
-                                    .CreatedTime(demoDefinition.CreatedTime.DemoTime(demoModel))
-                                    .UpdatedTime(demoDefinition.UpdatedTime.DemoTime(demoModel))),
+                                    .CreatedTime(demoDefinition.CreatedTime.DemoTime(
+                                        context: context,
+                                        demoModel: demoModel))
+                                    .UpdatedTime(demoDefinition.UpdatedTime.DemoTime(
+                                        context: context,
+                                        demoModel: demoModel))),
                             Rds.InsertMailAddresses(
                                 param: Rds.MailAddressesParam()
                                     .OwnerId(raw: Def.Sql.Identity)
@@ -286,8 +298,12 @@ namespace Implem.Pleasanter.Models
                                     .ReferenceType("Sites")
                                     .Creator(idHash.Get(demoDefinition.Creator))
                                     .Updator(idHash.Get(demoDefinition.Updator))
-                                    .CreatedTime(demoDefinition.CreatedTime.DemoTime(demoModel))
-                                    .UpdatedTime(demoDefinition.UpdatedTime.DemoTime(demoModel)),
+                                    .CreatedTime(demoDefinition.CreatedTime.DemoTime(
+                                        context: context,
+                                        demoModel: demoModel))
+                                    .UpdatedTime(demoDefinition.UpdatedTime.DemoTime(
+                                        context: context,
+                                        demoModel: demoModel)),
                                 addUpdatorParam: false),
                             Rds.InsertSites(
                                 param: Rds.SitesParam()
@@ -302,8 +318,12 @@ namespace Implem.Pleasanter.Models
                                     .SiteSettings(demoDefinition.Body.Replace(idHash))
                                     .Creator(idHash.Get(demoDefinition.Creator))
                                     .Updator(idHash.Get(demoDefinition.Updator))
-                                    .CreatedTime(demoDefinition.CreatedTime.DemoTime(demoModel))
-                                    .UpdatedTime(demoDefinition.UpdatedTime.DemoTime(demoModel)),
+                                    .CreatedTime(demoDefinition.CreatedTime.DemoTime(
+                                        context: context,
+                                        demoModel: demoModel))
+                                    .UpdatedTime(demoDefinition.UpdatedTime.DemoTime(
+                                        context: context,
+                                        demoModel: demoModel)),
                                 addUpdatorParam: false)
                         }).Identity.ToLong()));
         }
@@ -347,8 +367,12 @@ namespace Implem.Pleasanter.Models
                                     .ReferenceType("Issues")
                                     .Creator(idHash.Get(demoDefinition.Creator))
                                     .Updator(idHash.Get(demoDefinition.Updator))
-                                    .CreatedTime(demoDefinition.CreatedTime.DemoTime(demoModel))
-                                    .UpdatedTime(demoDefinition.CreatedTime.DemoTime(demoModel)),
+                                    .CreatedTime(demoDefinition.CreatedTime.DemoTime(
+                                        context: context,
+                                        demoModel: demoModel))
+                                    .UpdatedTime(demoDefinition.CreatedTime.DemoTime(
+                                        context: context,
+                                        demoModel: demoModel)),
                                 addUpdatorParam: false),
                             Rds.InsertIssues(
                                 param: Rds.IssuesParam()
@@ -356,9 +380,14 @@ namespace Implem.Pleasanter.Models
                                     .IssueId(raw: Def.Sql.Identity)
                                     .Title(demoDefinition.Title)
                                     .Body(demoDefinition.Body.Replace(idHash))
-                                    .StartTime(demoDefinition.StartTime.DemoTime(demoModel))
+                                    .StartTime(demoDefinition.StartTime.DemoTime(
+                                        context: context,
+                                        demoModel: demoModel))
                                     .CompletionTime(demoDefinition.CompletionTime
-                                        .AddDays(1).DemoTime(demoModel))
+                                        .AddDays(1)
+                                        .DemoTime(
+                                            context: context,
+                                            demoModel: demoModel))
                                     .WorkValue(demoDefinition.WorkValue)
                                     .ProgressRate(0)
                                     .Status(demoDefinition.Status)
@@ -494,11 +523,19 @@ namespace Implem.Pleasanter.Models
                                     .CheckX(demoDefinition.CheckX)
                                     .CheckY(demoDefinition.CheckY)
                                     .CheckZ(demoDefinition.CheckZ)
-                                    .Comments(Comments(demoModel, idHash, demoDefinition.Id))
+                                    .Comments(Comments(
+                                        context: context,
+                                        demoModel: demoModel,
+                                        idHash: idHash,
+                                        parentId: demoDefinition.Id))
                                     .Creator(idHash.Get(demoDefinition.Creator))
                                     .Updator(idHash.Get(demoDefinition.Updator))
-                                    .CreatedTime(demoDefinition.CreatedTime.DemoTime(demoModel))
-                                    .UpdatedTime(demoDefinition.CreatedTime.DemoTime(demoModel)),
+                                    .CreatedTime(demoDefinition.CreatedTime.DemoTime(
+                                        context: context,
+                                        demoModel: demoModel))
+                                    .UpdatedTime(demoDefinition.CreatedTime.DemoTime(
+                                        context: context,
+                                        demoModel: demoModel)),
                                 addUpdatorParam: false)
                         }).Identity.ToLong();
                     idHash.Add(demoDefinition.Id, issueId);
@@ -573,8 +610,12 @@ namespace Implem.Pleasanter.Models
                                     .Status(status)
                                     .Creator(creator)
                                     .Updator(updator)
-                                    .CreatedTime(demoDefinition.CreatedTime.DemoTime(demoModel))
-                                    .UpdatedTime(demoDefinition.UpdatedTime.DemoTime(demoModel)),
+                                    .CreatedTime(demoDefinition.CreatedTime.DemoTime(
+                                        context: context,
+                                        demoModel: demoModel))
+                                    .UpdatedTime(demoDefinition.UpdatedTime.DemoTime(
+                                        context: context,
+                                        demoModel: demoModel)),
                                 where: Rds.IssuesWhere()
                                     .IssueId(issueModel.IssueId)));
                     }
@@ -616,8 +657,12 @@ namespace Implem.Pleasanter.Models
                                     .ReferenceType("Results")
                                     .Creator(idHash.Get(demoDefinition.Creator))
                                     .Updator(idHash.Get(demoDefinition.Updator))
-                                    .CreatedTime(demoDefinition.CreatedTime.DemoTime(demoModel))
-                                    .UpdatedTime(demoDefinition.UpdatedTime.DemoTime(demoModel)),
+                                    .CreatedTime(demoDefinition.CreatedTime.DemoTime(
+                                        context: context,
+                                        demoModel: demoModel))
+                                    .UpdatedTime(demoDefinition.UpdatedTime.DemoTime(
+                                        context: context,
+                                        demoModel: demoModel)),
                                 addUpdatorParam: false),
                             Rds.InsertResults(
                                 param: Rds.ResultsParam()
@@ -758,11 +803,19 @@ namespace Implem.Pleasanter.Models
                                     .CheckX(demoDefinition.CheckX)
                                     .CheckY(demoDefinition.CheckY)
                                     .CheckZ(demoDefinition.CheckZ)
-                                    .Comments(Comments(demoModel, idHash, demoDefinition.Id))
+                                    .Comments(Comments(
+                                        context: context,
+                                        demoModel: demoModel,
+                                        idHash: idHash,
+                                        parentId: demoDefinition.Id))
                                     .Creator(idHash.Get(demoDefinition.Creator))
                                     .Updator(idHash.Get(demoDefinition.Updator))
-                                    .CreatedTime(demoDefinition.CreatedTime.DemoTime(demoModel))
-                                    .UpdatedTime(demoDefinition.UpdatedTime.DemoTime(demoModel)),
+                                    .CreatedTime(demoDefinition.CreatedTime.DemoTime(
+                                        context: context,
+                                        demoModel: demoModel))
+                                    .UpdatedTime(demoDefinition.UpdatedTime.DemoTime(
+                                        context: context,
+                                        demoModel: demoModel)),
                                 addUpdatorParam: false)
                         }).Identity.ToLong();
                     idHash.Add(demoDefinition.Id, resultId);
@@ -865,6 +918,7 @@ namespace Implem.Pleasanter.Models
         /// Fixed:
         /// </summary>
         private static string Comments(
+            Context context,
             DemoModel demoModel,
             Dictionary<string, long> idHash,
             string parentId)
@@ -878,7 +932,9 @@ namespace Implem.Pleasanter.Models
                     comments.Add(new Comment
                     {
                         CommentId = data.Index + 1,
-                        CreatedTime = data.DemoDefinition.CreatedTime.DemoTime(demoModel),
+                        CreatedTime = data.DemoDefinition.CreatedTime.DemoTime(
+                            context: context,
+                            demoModel: demoModel),
                         Creator = idHash.Get(data.DemoDefinition.Creator).ToInt(),
                         Body = data.DemoDefinition.Body.Replace(idHash)
                     }));
@@ -919,9 +975,9 @@ namespace Implem.Pleasanter.Models
         /// <summary>
         /// Fixed:
         /// </summary>
-        private static DateTime DemoTime(this DateTime self, DemoModel demoModel)
+        private static DateTime DemoTime(this DateTime self, Context context, DemoModel demoModel)
         {
-            return self.AddDays(demoModel.TimeLag).ToUniversal();
+            return self.AddDays(demoModel.TimeLag).ToUniversal(context: context);
         }
     }
 }

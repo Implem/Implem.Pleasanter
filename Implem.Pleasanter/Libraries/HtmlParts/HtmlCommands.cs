@@ -31,7 +31,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     {
                         hb.Button(
                             controlId: "GoBack",
-                            text: Displays.GoBack(),
+                            text: Displays.GoBack(context: context),
                             controlCss: "button-icon",
                             accessKey: "q",
                             onClick: "$p.back();",
@@ -40,7 +40,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     if (context.Action == "new")
                     {
                         hb.Button(
-                            text: Displays.Create(),
+                            text: Displays.Create(context: context),
                             controlCss: "button-icon validate",
                             accessKey: "s",
                             onClick: "$p.send($(this));",
@@ -52,7 +52,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     {
                         hb
                             .Button(
-                                text: Displays.Update(),
+                                text: Displays.Update(context: context),
                                 controlCss: "button-icon validate",
                                 accessKey: "s",
                                 onClick: "$p.send($(this));",
@@ -61,7 +61,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                 method: "put",
                                 _using: updateButton && context.CanUpdate(ss: ss))
                             .Button(
-                                text: Displays.Copy(),
+                                text: Displays.Copy(context: context),
                                 controlCss: "button-icon open-dialog",
                                 accessKey: "c",
                                 onClick: "$p.openDialog($(this));",
@@ -69,7 +69,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                 selector: "#CopyDialog",
                                 _using: copyButton && context.CanCreate(ss: ss))
                             .Button(
-                                text: Displays.Move(),
+                                text: Displays.Move(context: context),
                                 controlCss: "button-icon open-dialog",
                                 accessKey: "o",
                                 onClick: "$p.moveTargets($(this));",
@@ -80,7 +80,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                 _using: moveButton && context.CanUpdate(ss: ss))
                             .Button(
                                 controlId: "EditOutgoingMail",
-                                text: Displays.Mail(),
+                                text: Displays.Mail(context: context),
                                 controlCss: "button-icon",
                                 onClick: "$p.openOutgoingMailDialog($(this));",
                                 icon: "ui-icon-mail-closed",
@@ -89,7 +89,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                 accessKey: "m",
                                 _using: mailButton && context.CanSendMail(ss: ss))
                             .Button(
-                                text: Displays.Delete(),
+                                text: Displays.Delete(context: context),
                                 controlCss: "button-icon",
                                 accessKey: "r",
                                 onClick: "$p.send($(this));",
@@ -101,7 +101,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                     && context.CanDelete(ss: ss)
                                     && !ss.IsSite(context: context))
                             .Button(
-                                text: Displays.DeleteSite(),
+                                text: Displays.DeleteSite(context: context),
                                 controlCss: "button-icon",
                                 accessKey: "r",
                                 onClick: "$p.openDeleteSiteDialog($(this));",
@@ -116,7 +116,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                 case "index":
                                     hb
                                         .Button(
-                                            text: Displays.BulkMove(),
+                                            text: Displays.BulkMove(context: context),
                                             controlCss: "button-icon open-dialog",
                                             accessKey: "o",
                                             onClick: "$p.moveTargets($(this));",
@@ -126,7 +126,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                             method: "get",
                                             _using: context.CanUpdate(ss: ss))
                                         .Button(
-                                            text: Displays.BulkDelete(),
+                                            text: Displays.BulkDelete(context: context),
                                             controlCss: "button-icon",
                                             accessKey: "r",
                                             onClick: "$p.send($(this));",
@@ -137,7 +137,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                             _using: context.CanDelete(ss: ss))
                                         .Button(
                                             controlId: "EditImportSettings",
-                                            text: Displays.Import(),
+                                            text: Displays.Import(context: context),
                                             controlCss: "button-icon",
                                             accessKey: "w",
                                             onClick: "$p.openImportSettingsDialog($(this));",
@@ -145,7 +145,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                             selector: "#ImportSettingsDialog",
                                             _using: context.CanImport(ss: ss))
                                         .Button(
-                                            text: Displays.Export(),
+                                            text: Displays.Export(context: context),
                                             controlCss: "button-icon",
                                             accessKey: "x",
                                             onClick: "$p.openExportSelectorDialog($(this));",
@@ -156,7 +156,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                     break;
                                 case "crosstab":
                                     hb.Button(
-                                        text: Displays.Export(),
+                                        text: Displays.Export(context: context),
                                         controlCss: "button-icon",
                                         accessKey: "x",
                                         onClick: "$p.exportCrosstab();",

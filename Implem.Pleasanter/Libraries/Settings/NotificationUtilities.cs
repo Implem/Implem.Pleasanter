@@ -1,5 +1,6 @@
 ﻿using Implem.DefinitionAccessor;
 using Implem.Libraries.Utilities;
+using Implem.Pleasanter.Libraries.Requests;
 using Implem.Pleasanter.Libraries.Responses;
 using System.Collections.Generic;
 using System.Data;
@@ -8,32 +9,32 @@ namespace Implem.Pleasanter.Libraries.Settings
 {
     public static class NotificationUtilities
     {
-        public static Dictionary<string, string> Types()
+        public static Dictionary<string, string> Types(Context context)
         {
             var notificationType = new Dictionary<string, string>();
             if (Parameters.Notification.Mail)
             {
                 notificationType.Add(
                     Notification.Types.Mail.ToInt().ToString(),
-                    Displays.Mail());
+                    Displays.Mail(context: context));
             }
             if (Parameters.Notification.Slack)
             {
                 notificationType.Add(
                     Notification.Types.Slack.ToInt().ToString(),
-                    Displays.Slack());
+                    Displays.Slack(context: context));
             }
             if (Parameters.Notification.ChatWork)
             {
                 notificationType.Add(
                     Notification.Types.ChatWork.ToInt().ToString(),
-                    Displays.ChatWork());
+                    Displays.ChatWork(context: context));
             }
             if (Parameters.Notification.LineBot)
             {
                 notificationType.Add(
                     Notification.Types.LineBot.ToInt().ToString(),
-                    Displays.LineBot());
+                    Displays.LineBot(context: context));
             }
             return notificationType;
         }

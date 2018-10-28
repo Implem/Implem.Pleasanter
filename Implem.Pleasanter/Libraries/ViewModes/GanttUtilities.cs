@@ -32,7 +32,7 @@ namespace Implem.Pleasanter.Libraries.ViewModes
         public static Rds.IssuesWhereCollection Where(
             Context context, SiteSettings ss, View view)
         {
-            var start = view.GanttStartDate.ToDateTime().ToUniversal();
+            var start = view.GanttStartDate.ToDateTime().ToUniversal(context: context);
             var end = start.AddDays(view.GanttPeriod.ToInt()).AddMilliseconds(-3);
             return Rds.IssuesWhere()
                 .Or(Rds.IssuesWhere()

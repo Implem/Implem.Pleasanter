@@ -1,5 +1,6 @@
 ﻿using Implem.DefinitionAccessor;
 using Implem.Libraries.Utilities;
+using Implem.Pleasanter.Libraries.Requests;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -27,24 +28,24 @@ namespace Implem.Pleasanter.Libraries.Server
             Yearly = 60
         }
 
-        public static DateTime ToLocal(this DateTime value)
+        public static DateTime ToLocal(this DateTime value, Context context)
         {
             if (value.ToOADate() == 0) return value;
-            var timeZoneInfo = Sessions.TimeZoneInfo();
+            var timeZoneInfo = context.TimeZoneInfo;
             return timeZoneInfo != null && timeZoneInfo.Id != TimeZoneInfo.Local.Id
                 ? TimeZoneInfo.ConvertTime(value, timeZoneInfo)
                 : value;
         }
 
-        public static string ToLocal(this DateTime value, string format)
+        public static string ToLocal(this DateTime value, Context context, string format)
         {
-            return value.ToLocal().ToString(format, Sessions.CultureInfo());
+            return value.ToLocal(context: context).ToString(format, context.CultureInfo());
         }
 
-        public static DateTime ToUniversal(this DateTime value)
+        public static DateTime ToUniversal(this DateTime value, Context context)
         {
             if (value.ToOADate() == 0) return value;
-            var timeZoneInfo = Sessions.TimeZoneInfo();
+            var timeZoneInfo = context.TimeZoneInfo;
             return timeZoneInfo != null && timeZoneInfo.Id != TimeZoneInfo.Local.Id
                 ? TimeZoneInfo.ConvertTime(value, timeZoneInfo, TimeZoneInfo.Local)
                 : value;
@@ -82,27 +83,27 @@ namespace Implem.Pleasanter.Libraries.Server
                 o > Parameters.General.MaxTime);
         }
 
-        public static string PreviousMonth(DateTime month)
+        public static string PreviousMonth(Context context, DateTime month)
         {
-            var data = month.ToLocal().AddMonths(-1);
+            var data = month.ToLocal(context: context).AddMonths(-1);
             return new DateTime(data.Year, data.Month, 1).ToString();
         }
 
-        public static string NextMonth(DateTime month)
+        public static string NextMonth(Context context, DateTime month)
         {
-            var data = month.ToLocal().AddMonths(1);
+            var data = month.ToLocal(context: context).AddMonths(1);
             return new DateTime(data.Year, data.Month, 1).ToString();
         }
 
-        public static string ThisMonth()
+        public static string ThisMonth(Context context)
         {
-            var data = DateTime.Now.ToLocal();
+            var data = DateTime.Now.ToLocal(context: context);
             return new DateTime(data.Year, data.Month, 1).ToString();
         }
 
-        public static DateTime Next(this DateTime self, RepeatTypes type)
+        public static DateTime Next(this DateTime self, Context context, RepeatTypes type)
         {
-            var now = DateTime.Now.ToLocal();
+            var now = DateTime.Now.ToLocal(context: context);
             var start = now > self
                 ? now
                 : self;
@@ -219,10 +220,10 @@ namespace Implem.Pleasanter.Libraries.Server
                 .Where(o => o.DayOfWeek == (dayOfWeek ?? self.DayOfWeek));
         }
 
-        public static string ToViewText(this DateTime self, string format = "")
+        public static string ToViewText(this DateTime self, Context context, string format = "")
         {
             return self.InRange()
-                ? self.ToString(format, Sessions.CultureInfo())
+                ? self.ToString(format, context.CultureInfo())
                 : string.Empty;
         }
     }

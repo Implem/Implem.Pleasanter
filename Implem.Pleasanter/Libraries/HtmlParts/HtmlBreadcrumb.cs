@@ -33,7 +33,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                         context: context,
                         ss: ss,
                         controller: context.Controller,
-                        display: Displays.Depts());
+                        display: Displays.Depts(context: context));
                 case "groups":
                     return Permissions.CanManageTenant(context: context)
                         ? Breadcrumb(
@@ -41,7 +41,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                             context: context,
                             ss: ss,
                             controller: context.Controller,
-                            display: Displays.Groups())
+                            display: Displays.Groups(context: context))
                         : Breadcrumb(
                             hb: hb,
                             context: context,
@@ -57,7 +57,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                 {
                                     {
                                         Locations.Get("Users", "EditApi"),
-                                        Displays.ApiSettings()
+                                        Displays.ApiSettings(context: context)
                                     }
                                 });
                         default:
@@ -67,7 +67,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                     context: context,
                                     ss: ss,
                                     controller: context.Controller,
-                                    display: Displays.Users())
+                                    display: Displays.Users(context: context))
                                 : Breadcrumb(
                                     hb: hb,
                                     context: context,
@@ -94,12 +94,12 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             return display != null
                 ? hb.Breadcrumb(context: context, ss: ss, data: new Dictionary<string, string>
                 {
-                    { Locations.Index("Admins"), Displays.Admin() },
+                    { Locations.Index("Admins"), Displays.Admin(context: context) },
                     { Locations.Index(controller), display }
                 })
                 : hb.Breadcrumb(context: context, ss: ss, data: new Dictionary<string, string>
                 {
-                    { Locations.Index("Admins"), Displays.Admin() }
+                    { Locations.Index("Admins"), Displays.Admin(context: context) }
                 });
         }
 
@@ -126,7 +126,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
         {
             return hb.Ul(id: "Breadcrumb", action: () =>
             {
-                hb.Li(Locations.Top(), Displays.Top());
+                hb.Li(Locations.Top(), Displays.Top(context: context));
                 data?.ForEach(item => hb
                     .Li(href: item.Key, text: item.Value));
                 hb.TrashBox(context: context, ss: ss);
@@ -150,7 +150,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                         css: "item trashbox",
                         action: () => hb
                             .Span(action: () => hb
-                                .Text(text: Displays.TrashBox())));
+                                .Text(text: Displays.TrashBox(context: context))));
                 default:
                     return hb;
             }

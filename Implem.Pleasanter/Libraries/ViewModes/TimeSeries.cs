@@ -56,7 +56,10 @@ namespace Implem.Pleasanter.Libraries.ViewModes
                     userColumn: groupBy?.UserColumn == true,
                     id: dataRow["Id"].ToLong(),
                     ver: dataRow["Ver"].ToInt(),
-                    updatedTime: dataRow["UpdatedTime"].ToDateTime().ToLocal().Date,
+                    updatedTime: dataRow["UpdatedTime"]
+                        .ToDateTime()
+                        .ToLocal(context: context)
+                        .Date,
                     index: dataRow[groupBy.ColumnName].ToString(),
                     value: dataRow[value.ColumnName].ToDecimal(),
                     isHistory: dataRow["IsHistory"].ToBool())));
@@ -80,7 +83,7 @@ namespace Implem.Pleasanter.Libraries.ViewModes
             }
         }
 
-        public string Json(Column groupBy, Column value)
+        public string Json(Context context, Column groupBy, Column value)
         {
             var elements = new List<Element>();
             var choices = groupBy
@@ -91,12 +94,15 @@ namespace Implem.Pleasanter.Libraries.ViewModes
                 .ToDictionary(o => o.Key, o => o.Value);
             var valueColumn = value;
             var choiceKeys = choices.Keys.ToList();
-            var indexes = choices.Select((o, i) => new Index
+            var indexes = choices.Select((index, id) => new Index
             {
-                Id = i,
-                Key = o.Key,
-                Text = IndexText(o, valueColumn),
-                Style = o.Value.Style
+                Id = id,
+                Key = index.Key,
+                Text = IndexText(
+                    context: context,
+                    index: index,
+                    valueColumn: valueColumn),
+                Style = index.Value.Style
             }).ToList();
             if (this.Any())
             {
@@ -116,7 +122,9 @@ namespace Implem.Pleasanter.Libraries.ViewModes
                         elements.Add(new Element()
                         {
                             Index = choiceKeys.IndexOf(index),
-                            Day = currentTime.ToLocal(Displays.YmdFormat()),
+                            Day = currentTime.ToLocal(
+                                context: context,
+                                format: Displays.YmdFormat(context: context)),
                             Value = data,
                             Y = y
                         });
@@ -133,13 +141,17 @@ namespace Implem.Pleasanter.Libraries.ViewModes
             }.ToJson();
         }
 
-        private string IndexText(KeyValuePair<string, ControlData> index, Column valueColumn)
+        private string IndexText(
+            Context context, KeyValuePair<string, ControlData> index, Column valueColumn)
         {
             var data = GetData(Targets(MaxTime).Where(p => p.Index == index.Key));
             return "{0}: {1}".Params(
                 index.Value.Text,
                 AggregationType != "Count"
-                    ? valueColumn.Display(data, unit: true)
+                    ? valueColumn.Display(
+                        context: context,
+                        value: data,
+                        unit: true)
                     : data.ToString());
         }
 

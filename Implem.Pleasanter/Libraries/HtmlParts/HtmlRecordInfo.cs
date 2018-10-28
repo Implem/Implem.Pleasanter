@@ -17,14 +17,14 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                 .RecordedTime(
                     context: context,
                     controlId: tableName + "_CreatedTime",
-                    labelText: Displays.CreatedTime(),
+                    labelText: Displays.CreatedTime(context: context),
                     format: Def.ColumnTable._Bases_CreatedTime.EditorFormat,
                     userId: baseModel.Creator.Id,
                     time: baseModel.CreatedTime)
                 .RecordedTime(
                     context: context,
                     controlId: tableName + "_UpdatedTime",
-                    labelText: Displays.UpdatedTime(),
+                    labelText: Displays.UpdatedTime(context: context),
                     format: Def.ColumnTable._Bases_UpdatedTime.EditorFormat,
                     userId: baseModel.Updator.Id,
                     time: baseModel.UpdatedTime);
@@ -46,6 +46,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     context: context,
                     id: userId)
                 .RecordedTime(
+                    context: context,
                     format: format,
                     controlId: controlId,
                     time: time));
@@ -53,6 +54,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
 
         private static HtmlBuilder RecordedTime(
             this HtmlBuilder hb,
+            Context context,
             string format,
             string controlId,
             Time time)
@@ -68,14 +70,19 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                 .Class("time"),
                             action: () => hb
                                 .Text(time.DisplayValue.ToViewText(
-                                    Displays.Get(format + "Format")))))
+                                    context: context,
+                                    format: Displays.Get(
+                                        context: context,
+                                        id: format + "Format")))))
                     .P(action: () => hb
-                        .ElapsedTime(time.DisplayValue));
+                        .ElapsedTime(
+                            context: context,
+                            value: time.DisplayValue));
             }
             else
             {
                 return hb.P(action: () => hb
-                    .Text(text: Displays.Hyphen()));
+                    .Text(text: Displays.Hyphen(context: context)));
             }
         }
     }

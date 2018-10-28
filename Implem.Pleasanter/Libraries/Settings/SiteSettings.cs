@@ -182,7 +182,7 @@ namespace Implem.Pleasanter.Libraries.Settings
             UpdateTitleColumns();
             UpdateLinkColumns(context: context);
             UpdateHistoryColumns(context: context);
-            UpdateColumns();
+            UpdateColumns(context: context);
             UpdateColumnHash();
             var accessControlColumns = Columns
                 .Where(o => o.EditorColumn || o.ColumnName == "Comments")
@@ -493,7 +493,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                 {
                     ss.Reminders = new SettingList<Reminder>();
                 }
-                ss.Reminders.Add(notification.GetRecordingData());
+                ss.Reminders.Add(notification.GetRecordingData(context: context));
             });
             Exports?.ForEach(exportSetting =>
             {
@@ -596,7 +596,9 @@ namespace Implem.Pleasanter.Libraries.Settings
                 if (columnDefinition != null)
                 {
                     var labelText = column.LabelText;
-                    if (column.LabelText != Displays.Get(columnDefinition.Id))
+                    if (column.LabelText != Displays.Get(
+                        context: context,
+                        id: columnDefinition.Id))
                     {
                         enabled = true;
                         newColumn.LabelText = column.LabelText;
@@ -975,7 +977,7 @@ namespace Implem.Pleasanter.Libraries.Settings
             return columnDefinition?.LinkColumn > 0;
         }
 
-        private void UpdateColumns(bool onSerializing = false)
+        private void UpdateColumns(Context context, bool onSerializing = false)
         {
             if (Columns == null) Columns = new List<Column>();
             ColumnDefinitionHash?.Values.ForEach(columnDefinition =>
@@ -989,12 +991,17 @@ namespace Implem.Pleasanter.Libraries.Settings
                         column = new Column(columnDefinition.ColumnName);
                         Columns.Add(column);
                     }
-                    UpdateColumn(this, columnDefinition, column);
+                    UpdateColumn(
+                        context: context,
+                        ss: this,
+                        columnDefinition: columnDefinition,
+                        column: column);
                 }
             });
         }
 
         private void UpdateColumn(
+            Context context,
             SiteSettings ss,
             ColumnDefinition columnDefinition,
             Column column,
@@ -1008,12 +1015,18 @@ namespace Implem.Pleasanter.Libraries.Settings
                     (columnDefinition.Unique && columnDefinition.TypeName == "bigint") ||
                     columnDefinition.ColumnName == "Ver";
                 column.ColumnName = column.ColumnName ?? columnDefinition.ColumnName;
-                column.LabelText = ModifiedLabelText(column, columnDefinition)
-                    ?? column.LabelText
-                    ?? columnDefinition.LabelText;
-                column.GridLabelText = ModifiedLabelText(column, columnDefinition)
-                    ?? column.GridLabelText
-                    ?? column.LabelText;
+                column.LabelText = ModifiedLabelText(
+                    context: context,
+                    column: column,
+                    columnDefinition: columnDefinition)
+                        ?? column.LabelText
+                        ?? columnDefinition.LabelText;
+                column.GridLabelText = ModifiedLabelText(
+                    context: context,
+                    column: column,
+                    columnDefinition: columnDefinition)
+                        ?? column.GridLabelText
+                        ?? column.LabelText;
                 column.ChoicesText = column.ChoicesText ?? columnDefinition.ChoicesText;
                 column.UseSearch = column.UseSearch ?? columnDefinition.UseSearch;
                 column.DefaultInput = column.DefaultInput ?? columnDefinition.DefaultInput;
@@ -1064,7 +1077,9 @@ namespace Implem.Pleasanter.Libraries.Settings
                 column.LinkColumn = columnDefinition.LinkColumn > 0;
                 column.HistoryColumn = columnDefinition.HistoryColumn > 0;
                 column.Export = columnDefinition.Export > 0;
-                column.LabelTextDefault = Displays.Get(columnDefinition.Id);
+                column.LabelTextDefault = Displays.Get(
+                    context: context,
+                    id: columnDefinition.Id);
                 column.TypeName = columnDefinition.TypeName;
                 column.TypeCs = columnDefinition.TypeCs;
                 column.JoinTableName = columnDefinition.JoinTableName;
@@ -1088,7 +1103,8 @@ namespace Implem.Pleasanter.Libraries.Settings
             }
         }
 
-        private string ModifiedLabelText(Column column, ColumnDefinition columnDefinition)
+        private string ModifiedLabelText(
+            Context context, Column column, ColumnDefinition columnDefinition)
         {
             switch (TableType)
             {
@@ -1096,9 +1112,9 @@ namespace Implem.Pleasanter.Libraries.Settings
                     switch (column.ColumnName)
                     {
                         case "Updator":
-                            return Displays.Deleter();
+                            return Displays.Deleter(context: context);
                         case "UpdatedTime":
-                            return Displays.DeletedTime();
+                            return Displays.DeletedTime(context: context);
                     }
                     break;
             }
@@ -1144,8 +1160,10 @@ namespace Implem.Pleasanter.Libraries.Settings
                         .Where(o => o.ColumnName.Contains(","))
                         .Where(o => new ColumnNameInfo(o).SiteId == ss.SiteId)
                         .ForEach(o => UpdateColumn(
-                            ss,
-                            ss.ColumnDefinitionHash.Get(new ColumnNameInfo(o).Name), o)));
+                            context: context,
+                            ss: ss,
+                            columnDefinition: ss.ColumnDefinitionHash.Get(new ColumnNameInfo(o).Name),
+                            column: o)));
                 JoinOptionHash = GetJoinOptionHash(context: context);
             }
         }
@@ -1322,7 +1340,12 @@ namespace Implem.Pleasanter.Libraries.Settings
                 if (column != null)
                 {
                     column.ColumnName = columnName;
-                    UpdateColumn(ss, columnDefinition, column, columnNameInfo);
+                    UpdateColumn(
+                        context: context,
+                        ss: ss,
+                        columnDefinition: columnDefinition,
+                        column: column,
+                        columnNameInfo: columnNameInfo);
                     column.SetChoiceHash(context: context, siteId: ss.InheritPermission);
                     Columns.Add(column);
                     ColumnHash.Add(columnName, column);
@@ -1833,22 +1856,24 @@ namespace Implem.Pleasanter.Libraries.Settings
                 .ToDictionary(
                     o => o.Id.ToString(),
                     o => new ControlData((o.GroupBy == "[NotGroupBy]"
-                        ? Displays.NoClassification()
+                        ? Displays.NoClassification(context: context)
                         : GetColumn(context: context, columnName: o.GroupBy)?.LabelText) +
-                            " (" + Displays.Get(o.Type.ToString()) +
-                                (o.Target != string.Empty
-                                    ? ": " + GetColumn(
-                                        context: context,
-                                        columnName: o.Target)?
-                                            .LabelText
-                                    : string.Empty) + ")"));
+                            " (" + Displays.Get(
+                                context: context,
+                                id: o.Type.ToString())
+                                    + (o.Target != string.Empty
+                                        ? ": " + GetColumn(
+                                            context: context,
+                                            columnName: o.Target)?
+                                                .LabelText
+                                        : string.Empty) + ")"));
         }
 
         public Dictionary<string, ControlData> AggregationSource(Context context)
         {
             var aggregationSource = new Dictionary<string, ControlData>
             {
-                { "[NotGroupBy]", new ControlData(Displays.NoClassification()) }
+                { "[NotGroupBy]", new ControlData(Displays.NoClassification(context: context)) }
             };
             return aggregationSource.AddRange(Def.ColumnDefinitionCollection
                 .Where(o => o.TableName == ReferenceType)
@@ -1882,18 +1907,21 @@ namespace Implem.Pleasanter.Libraries.Settings
         public Dictionary<string, string> CrosstabGroupByXOptions(Context context)
         {
             SetJoinedSsHash(context: context);
-            return CrosstabGroupByOptions(datetime: true);
+            return CrosstabGroupByOptions(
+                context: context,
+                datetime: true);
         }
 
         public Dictionary<string, string> CrosstabGroupByYOptions(Context context)
         {
             SetJoinedSsHash(context: context);
-            var hash = CrosstabGroupByOptions();
-            hash.Add("Columns", Displays.NumericColumn());
+            var hash = CrosstabGroupByOptions(context: context);
+            hash.Add("Columns", Displays.NumericColumn(context: context));
             return hash;
         }
 
-        private Dictionary<string, string> CrosstabGroupByOptions(bool datetime = false)
+        private Dictionary<string, string> CrosstabGroupByOptions(
+            Context context, bool datetime = false)
         {
             var hash = new Dictionary<string, string>();
             JoinOptionHash?.ForEach(join =>
@@ -1914,10 +1942,10 @@ namespace Implem.Pleasanter.Libraries.Settings
                     {
                         hash.Add(
                             ColumnUtilities.ColumnName(join.Key, "CreatedTime"),
-                            join.Value + " " + Displays.CreatedTime());
+                            join.Value + " " + Displays.CreatedTime(context: context));
                         hash.Add(
                             ColumnUtilities.ColumnName(join.Key, "UpdatedTime"),
-                            join.Value + " " + Displays.UpdatedTime());
+                            join.Value + " " + Displays.UpdatedTime(context: context));
                     }
                 }
             });
@@ -1947,26 +1975,26 @@ namespace Implem.Pleasanter.Libraries.Settings
             return hash;
         }
 
-        public Dictionary<string, string> CrosstabAggregationTypeOptions()
+        public Dictionary<string, string> CrosstabAggregationTypeOptions(Context context)
         {
             return new Dictionary<string, string>
             {
-                { "Count", Displays.Count() },
-                { "Total", Displays.Total() },
-                { "Average", Displays.Average() },
-                { "Max", Displays.Max() },
-                { "Min", Displays.Min() }
+                { "Count", Displays.Count(context: context) },
+                { "Total", Displays.Total(context: context) },
+                { "Average", Displays.Average(context: context) },
+                { "Max", Displays.Max(context: context) },
+                { "Min", Displays.Min(context: context) }
             };
         }
 
-        public Dictionary<string, string> CrosstabTimePeriodOptions()
+        public Dictionary<string, string> CrosstabTimePeriodOptions(Context context)
         {
             return new Dictionary<string, string>
             {
-                { "Yearly", Displays.Year() },
-                { "Monthly", Displays.Month() },
-                { "Weekly", Displays.Week() },
-                { "Daily", Displays.Day() }
+                { "Yearly", Displays.Year(context: context) },
+                { "Monthly", Displays.Month(context: context) },
+                { "Weekly", Displays.Week(context: context) },
+                { "Daily", Displays.Day(context: context) }
             };
         }
 
@@ -1998,15 +2026,15 @@ namespace Implem.Pleasanter.Libraries.Settings
                 .ToDictionary(o => o.ColumnName, o => o.LabelText);
         }
 
-        public Dictionary<string, string> TimeSeriesAggregationTypeOptions()
+        public Dictionary<string, string> TimeSeriesAggregationTypeOptions(Context context)
         {
             return new Dictionary<string, string>
             {
-                { "Count", Displays.Count() },
-                { "Total", Displays.Total() },
-                { "Average", Displays.Average() },
-                { "Max", Displays.Max() },
-                { "Min", Displays.Min() }
+                { "Count", Displays.Count(context: context) },
+                { "Total", Displays.Total(context: context) },
+                { "Average", Displays.Average(context: context) },
+                { "Max", Displays.Max(context: context) },
+                { "Min", Displays.Min(context: context) }
             };
         }
 
@@ -2021,12 +2049,13 @@ namespace Implem.Pleasanter.Libraries.Settings
                 .ToDictionary(o => o.ColumnName, o => o.LabelText);
         }
 
-        public Dictionary<string, string> KambanGroupByOptions(bool addNothing = false)
+        public Dictionary<string, string> KambanGroupByOptions(
+            Context context, bool addNothing = false)
         {
             var hash = new Dictionary<string, string>();
             if (addNothing)
             {
-                hash.Add("Nothing", Displays.NoClassification());
+                hash.Add("Nothing", Displays.NoClassification(context: context));
             }
             hash.AddRange(Columns
                 .Where(o => o.HasChoices())
@@ -2037,15 +2066,15 @@ namespace Implem.Pleasanter.Libraries.Settings
             return hash;
         }
 
-        public Dictionary<string, string> KambanAggregationTypeOptions()
+        public Dictionary<string, string> KambanAggregationTypeOptions(Context context)
         {
             return new Dictionary<string, string>
             {
-                { "Count", Displays.Count() },
-                { "Total", Displays.Total() },
-                { "Average", Displays.Average() },
-                { "Max", Displays.Max() },
-                { "Min", Displays.Min() }
+                { "Count", Displays.Count(context: context) },
+                { "Total", Displays.Total(context: context) },
+                { "Average", Displays.Average(context: context) },
+                { "Max", Displays.Max(context: context) },
+                { "Min", Displays.Min(context: context) }
             };
         }
 

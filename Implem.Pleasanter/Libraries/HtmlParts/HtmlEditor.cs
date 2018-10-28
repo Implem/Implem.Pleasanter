@@ -15,7 +15,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     attributes: new HtmlAttributes()
                         .Id("EditorDialog")
                         .Class("dialog")
-                        .Title(Displays.Edit()),
+                        .Title(Displays.Edit(context: context)),
                     action: () => hb
                         .Div(id: "EditInDialogBody")
                         .P(css: "message-dialog"))
@@ -24,7 +24,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
         }
 
         public static HtmlBuilder DialogEditorForm(
-            this HtmlBuilder hb, long siteId, long referenceId, Action action)
+            this HtmlBuilder hb, Context context, long siteId, long referenceId, Action action)
         {
             return hb.Form(
                 attributes: new HtmlAttributes()
@@ -45,14 +45,14 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                             value: "1")
                         .Div(css: "command-center", action: () => hb
                             .Button(
-                                text: Displays.Update(),
+                                text: Displays.Update(context: context),
                                 controlCss: "button-icon",
                                 onClick: "$p.send($(this));",
                                 icon: "ui-icon-copy",
                                 action: "Update",
                                 method: "put")
                             .Button(
-                                text: Displays.Cancel(),
+                                text: Displays.Cancel(context: context),
                                 controlCss: "button-icon",
                                 onClick: "$p.closeDialog($(this));",
                                 icon: "ui-icon-cancel"));

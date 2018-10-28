@@ -47,7 +47,7 @@ namespace Implem.Pleasanter.Models
                 methodType: BaseModel.MethodTypes.Index,
                 referenceType: "Users",
                 script: JavaScripts.ViewMode(viewMode),
-                title: Displays.Users() + " - " + Displays.List(),
+                title: Displays.Users(context: context) + " - " + Displays.List(context: context),
                 action: () =>
                 {
                     hb
@@ -85,11 +85,11 @@ namespace Implem.Pleasanter.Models
                         .Div(attributes: new HtmlAttributes()
                             .Id("ImportSettingsDialog")
                             .Class("dialog")
-                            .Title(Displays.Import()))
+                            .Title(Displays.Import(context: context)))
                         .Div(attributes: new HtmlAttributes()
                             .Id("ExportSettingsDialog")
                             .Class("dialog")
-                            .Title(Displays.ExportSettings()));
+                            .Title(Displays.ExportSettings(context: context)));
                 }).ToString();
         }
 
@@ -147,7 +147,7 @@ namespace Implem.Pleasanter.Models
                     .Div(attributes: new HtmlAttributes()
                         .Id("ExportSelectorDialog")
                         .Class("dialog")
-                        .Title(Displays.Export())))
+                        .Title(Displays.Export(context: context))))
                     .ToString();
         }
 
@@ -297,6 +297,7 @@ namespace Implem.Pleasanter.Models
                     _using: addHeader,
                     action: () => hb
                         .GridHeader(
+                            context: context,
                             columns: columns, 
                             view: view,
                             checkAll: checkAll,
@@ -3240,7 +3241,7 @@ namespace Implem.Pleasanter.Models
                 methodType: userModel.MethodType,
                 referenceType: "Users",
                 title: userModel.MethodType == BaseModel.MethodTypes.New
-                    ? Displays.Users() + " - " + Displays.New()
+                    ? Displays.Users(context: context) + " - " + Displays.New(context: context)
                     : userModel.Title.Value,
                 action: () =>
                 {
@@ -3292,7 +3293,7 @@ namespace Implem.Pleasanter.Models
                                     columnPermissionType: commentsColumnPermissionType),
                             _using: showComments)
                         .Div(id: "EditorTabsContainer", css: tabsCss, action: () => hb
-                            .EditorTabs(userModel: userModel)
+                            .EditorTabs(context: context, userModel: userModel)
                             .FieldSetGeneral(
                                 context: context,
                                 ss: ss,
@@ -3338,7 +3339,10 @@ namespace Implem.Pleasanter.Models
                     referenceType: "Users",
                     referenceId: userModel.UserId,
                     referenceVer: userModel.Ver)
-                .CopyDialog("Users", userModel.UserId)
+                .CopyDialog(
+                    context: context,
+                    referenceType: "Users",
+                    id: userModel.UserId)
                 .OutgoingMailDialog()
                 .EditorExtensions(
                     context: context,
@@ -3349,24 +3353,25 @@ namespace Implem.Pleasanter.Models
         /// <summary>
         /// Fixed:
         /// </summary>
-        private static HtmlBuilder EditorTabs(this HtmlBuilder hb, UserModel userModel)
+        private static HtmlBuilder EditorTabs(
+            this HtmlBuilder hb, Context context, UserModel userModel)
         {
             return hb.Ul(id: "EditorTabs", action: () => hb
                 .Li(action: () => hb
                     .A(
                         href: "#FieldSetGeneral",
-                        text: Displays.General()))
+                        text: Displays.General(context: context)))
                 .Li(action: () => hb
                     .A(
                         href: "#FieldSetMailAddresses",
-                        text: Displays.MailAddresses(),
+                        text: Displays.MailAddresses(context: context),
                         _using: userModel.MethodType != BaseModel.MethodTypes.New))
                 .Li(
                     _using: userModel.MethodType != BaseModel.MethodTypes.New,
                     action: () => hb
                         .A(
                             href: "#FieldSetHistories",
-                            text: Displays.ChangeHistoryList())));
+                            text: Displays.ChangeHistoryList(context: context))));
         }
 
         private static HtmlBuilder FieldSetGeneral(
@@ -5187,7 +5192,7 @@ namespace Implem.Pleasanter.Models
                 if (userModel.Self(context: context))
                 {
                     hb.Button(
-                        text: Displays.ChangePassword(),
+                        text: Displays.ChangePassword(context: context),
                         controlCss: "button-icon",
                         onClick: "$p.openDialog($(this));",
                         icon: "ui-icon-person",
@@ -5196,7 +5201,7 @@ namespace Implem.Pleasanter.Models
                 if (context.User.TenantManager)
                 {
                     hb.Button(
-                        text: Displays.ResetPassword(),
+                        text: Displays.ResetPassword(context: context),
                         controlCss: "button-icon",
                         onClick: "$p.openDialog($(this));",
                         icon: "ui-icon-person",
@@ -5297,7 +5302,7 @@ namespace Implem.Pleasanter.Models
         {
             if (context.ContractSettings.UsersLimit(context: context))
             {
-                return Error.Types.UsersLimit.MessageJson();
+                return Error.Types.UsersLimit.MessageJson(context: context);
             }
             var userModel = new UserModel(context, ss, 0, setByForm: true);
             var invalid = UserValidators.OnCreating(
@@ -5307,13 +5312,15 @@ namespace Implem.Pleasanter.Models
             switch (invalid)
             {
                 case Error.Types.None: break;
-                default: return invalid.MessageJson();
+                default: return invalid.MessageJson(context: context);
             }
             var error = userModel.Create(context: context, ss: ss);
             switch (error)
             {
                 case Error.Types.None:
-                    Sessions.Set("Message", Messages.Created(userModel.Title.Value));
+                    Sessions.Set("Message", Messages.Created(
+                        context: context,
+                        data: userModel.Title.Value));
                     return new ResponseCollection()
                         .SetMemory("formChanged", false)
                         .Href(Locations.Edit(
@@ -5323,7 +5330,7 @@ namespace Implem.Pleasanter.Models
                                 : userModel.UserId))
                         .ToJson();
                 default:
-                    return error.MessageJson();
+                    return error.MessageJson(context: context);
             }
         }
 
@@ -5339,15 +5346,15 @@ namespace Implem.Pleasanter.Models
             {
                 case Error.Types.None: break;
                 case Error.Types.PermissionNotSelfChange:
-                    return Messages.ResponsePermissionNotSelfChange()
+                    return Messages.ResponsePermissionNotSelfChange(context: context)
                         .Val("#Users_TenantManager", userModel.SavedTenantManager)
                         .ClearFormData("Users_TenantManager")
                         .ToJson();
-                default: return invalid.MessageJson();
+                default: return invalid.MessageJson(context: context);
             }
             if (userModel.AccessStatus != Databases.AccessStatuses.Selected)
             {
-                return Messages.ResponseDeleteConflicts().ToJson();
+                return Messages.ResponseDeleteConflicts(context: context).ToJson();
             }
             var error = userModel.Update(context: context, ss: ss);
             switch (error)
@@ -5364,10 +5371,11 @@ namespace Implem.Pleasanter.Models
                         .ToJson();
                 case Error.Types.UpdateConflicts:
                     return Messages.ResponseUpdateConflicts(
-                        userModel.Updator.Name)
+                        context: context,
+                        data: userModel.Updator.Name)
                             .ToJson();
                 default:
-                    return error.MessageJson();
+                    return error.MessageJson(context: context);
             }
         }
 
@@ -5400,7 +5408,9 @@ namespace Implem.Pleasanter.Models
                             columns: columns,
                             checkAll: false))
                     .CloseDialog()
-                    .Message(Messages.Updated(userModel.Title.DisplayValue));
+                    .Message(Messages.Updated(
+                        context: context,
+                        data: userModel.Title.DisplayValue));
             }
             else
             {
@@ -5415,7 +5425,9 @@ namespace Implem.Pleasanter.Models
                         baseModel: userModel,
                         tableName: "Users"))
                     .SetMemory("formChanged", false)
-                    .Message(Messages.Updated(userModel.Title.Value))
+                    .Message(Messages.Updated(
+                        context: context,
+                        data: userModel.Title.Value))
                     .Comment(
                         context: context,
                         ss: ss,
@@ -5436,20 +5448,22 @@ namespace Implem.Pleasanter.Models
             switch (invalid)
             {
                 case Error.Types.None: break;
-                default: return invalid.MessageJson();
+                default: return invalid.MessageJson(context: context);
             }
             var error = userModel.Delete(context: context, ss: ss);
             switch (error)
             {
                 case Error.Types.None:
-                    Sessions.Set("Message", Messages.Deleted(userModel.Title.Value));
+                    Sessions.Set("Message", Messages.Deleted(
+                        context: context,
+                        data: userModel.Title.Value));
                     var res = new UsersResponseCollection(userModel);
                 res
                     .SetMemory("formChanged", false)
                     .Href(Locations.Index("Users"));
                     return res.ToJson();
                 default:
-                    return error.MessageJson();
+                    return error.MessageJson(context: context);
             }
         }
 
@@ -5463,7 +5477,7 @@ namespace Implem.Pleasanter.Models
             var columns = ss.GetHistoryColumns(context: context, checkPermission: true);
             if (!context.CanRead(ss: ss))
             {
-                return Error.Types.HasNotPermission.MessageJson();
+                return Error.Types.HasNotPermission.MessageJson(context: context);
             }
             var hb = new HtmlBuilder();
             hb
@@ -5473,6 +5487,7 @@ namespace Implem.Pleasanter.Models
                     action: () => hb
                         .THead(action: () => hb
                             .GridHeader(
+                                context: context,
                                 columns: columns,
                                 sort: false,
                                 checkRow: true))
@@ -5576,11 +5591,11 @@ namespace Implem.Pleasanter.Models
             switch (invalid)
             {
                 case Error.Types.None: break;
-                default: return invalid.MessageJson();
+                default: return invalid.MessageJson(context: context);
             }
             var error = userModel.ChangePassword(context: context);
             return error.Has()
-                ? error.MessageJson()
+                ? error.MessageJson(context: context)
                 : new UsersResponseCollection(userModel)
                     .OldPassword(context: context, value: string.Empty)
                     .ChangedPassword(context: context, value: string.Empty)
@@ -5595,7 +5610,7 @@ namespace Implem.Pleasanter.Models
                         tableName: "Users"))
                     .CloseDialog()
                     .ClearFormData()
-                    .Message(Messages.ChangingPasswordComplete())
+                    .Message(Messages.ChangingPasswordComplete(context: context))
                     .ToJson();
         }
 
@@ -5616,11 +5631,11 @@ namespace Implem.Pleasanter.Models
             switch (invalid)
             {
                 case Error.Types.None: break;
-                default: return invalid.MessageJson();
+                default: return invalid.MessageJson(context: context);
             }
             var error = userModel.ChangePasswordAtLogin(context: context);
             return error.Has()
-                ? error.MessageJson()
+                ? error.MessageJson(context: context)
                 : userModel.Allow(
                     context: context,
                     returnUrl: Forms.Data("ReturnUrl"),
@@ -5642,11 +5657,11 @@ namespace Implem.Pleasanter.Models
             switch (invalid)
             {
                 case Error.Types.None: break;
-                default: return invalid.MessageJson();
+                default: return invalid.MessageJson(context: context);
             }
             var error = userModel.ResetPassword(context: context);
             return error.Has()
-                ? error.MessageJson()
+                ? error.MessageJson(context: context)
                 : new UsersResponseCollection(userModel)
                     .PasswordExpirationTime(context: context, ss: ss)
                     .PasswordChangeTime(context: context, ss: ss)
@@ -5662,7 +5677,7 @@ namespace Implem.Pleasanter.Models
                         tableName: "Users"))
                     .CloseDialog()
                     .ClearFormData()
-                    .Message(Messages.PasswordResetCompleted())
+                    .Message(Messages.PasswordResetCompleted(context: context))
                     .ToJson();
         }
 
@@ -5688,16 +5703,18 @@ namespace Implem.Pleasanter.Models
                 case Error.Types.None:
                     break;
                 case Error.Types.BadMailAddress:
-                    return invalid.MessageJson(badMailAddress);
+                    return invalid.MessageJson(
+                        context: context,
+                        data: badMailAddress);
                 default:
-                    return invalid.MessageJson();
+                    return invalid.MessageJson(context: context);
             }
             var error = userModel.AddMailAddress(
                 context: context,
                 mailAddress: mailAddress,
                 selected: selected);
             return error.Has()
-                ? error.MessageJson()
+                ? error.MessageJson(context: context)
                 : ResponseMailAddresses(userModel, selected);
         }
 
@@ -5715,14 +5732,14 @@ namespace Implem.Pleasanter.Models
             switch (invalid)
             {
                 case Error.Types.None: break;
-                default: return invalid.MessageJson();
+                default: return invalid.MessageJson(context: context);
             }
             var selected = Forms.List("MailAddresses");
             var error = userModel.DeleteMailAddresses(
                 context: context,
                 selected: selected);
             return error.Has()
-                ? error.MessageJson()
+                ? error.MessageJson(context: context)
                 : ResponseMailAddresses(userModel, selected);
         }
 
@@ -5755,7 +5772,7 @@ namespace Implem.Pleasanter.Models
                 attributes: new HtmlAttributes()
                     .Id("ChangePasswordDialog")
                     .Class("dialog")
-                    .Title(Displays.ChangePassword()),
+                    .Title(Displays.ChangePassword(context: context)),
                 action: () => hb
                     .Form(
                         attributes: new HtmlAttributes()
@@ -5785,14 +5802,14 @@ namespace Implem.Pleasanter.Models
                             .Div(css: "command-center", action: () => hb
                                 .Button(
                                     controlId: "ChangePassword",
-                                    text: Displays.Change(),
+                                    text: Displays.Change(context: context),
                                     controlCss: "button-icon validate",
                                     onClick: "$p.send($(this));",
                                     icon: "ui-icon-disk",
                                     action: "ChangePassword",
                                     method: "post")
                                 .Button(
-                                    text: Displays.Cancel(),
+                                    text: Displays.Cancel(context: context),
                                     controlCss: "button-icon",
                                     onClick: "$p.closeDialog($(this));",
                                     icon: "ui-icon-cancel"))));
@@ -5808,7 +5825,7 @@ namespace Implem.Pleasanter.Models
                 attributes: new HtmlAttributes()
                     .Id("ResetPasswordDialog")
                     .Class("dialog")
-                    .Title(Displays.ResetPassword()),
+                    .Title(Displays.ResetPassword(context: context)),
                 action: () => hb
                     .Form(
                         attributes: new HtmlAttributes()
@@ -5836,14 +5853,14 @@ namespace Implem.Pleasanter.Models
                             .Div(css: "command-center", action: () => hb
                                 .Button(
                                     controlId: "ResetPassword",
-                                    text: Displays.Reset(),
+                                    text: Displays.Reset(context: context),
                                     controlCss: "button-icon validate",
                                     onClick: "$p.send($(this));",
                                     icon: "ui-icon-disk",
                                     action: "ResetPassword",
                                     method: "post")
                                 .Button(
-                                    text: Displays.Cancel(),
+                                    text: Displays.Cancel(context: context),
                                     controlCss: "button-icon",
                                     onClick: "$p.closeDialog($(this));",
                                     icon: "ui-icon-cancel"))));
@@ -5881,7 +5898,7 @@ namespace Implem.Pleasanter.Models
                 action: () => hb
                     .Div(id: "PortalLink", action: () => hb
                         .A(href: Parameters.General.HtmlPortalUrl, action: () => hb
-                            .Text(Displays.Portal())))
+                            .Text(Displays.Portal(context: context))))
                     .Form(
                         attributes: new HtmlAttributes()
                             .Id("UserForm")
@@ -5918,7 +5935,7 @@ namespace Implem.Pleasanter.Models
                                     .Button(
                                         controlId: "Login",
                                         controlCss: "button-icon button-right-justified validate",
-                                        text: Displays.Login(),
+                                        text: Displays.Login(context: context),
                                         onClick: "$p.send($(this));",
                                         icon: "ui-icon-unlocked",
                                         action: "Authenticate",
@@ -5933,7 +5950,7 @@ namespace Implem.Pleasanter.Models
                             .Div(id: "Demo", action: () => hb
                                 .FieldSet(
                                     css: " enclosed-thin",
-                                    legendText: Displays.ViewDemoEnvironment(),
+                                    legendText: Displays.ViewDemoEnvironment(context: context),
                                     action: () => hb
                                         .Div(id: "DemoFields", action: () => hb
                                             .Field(
@@ -5943,7 +5960,7 @@ namespace Implem.Pleasanter.Models
                                                     context: context,
                                                     columnName: "DemoMailAddress"))
                                             .Button(
-                                                text: Displays.Register(),
+                                                text: Displays.Register(context: context),
                                                 controlCss: "button-icon validate",
                                                 onClick: "$p.send($(this));",
                                                 icon: "ui-icon-mail-closed",
@@ -5975,7 +5992,7 @@ namespace Implem.Pleasanter.Models
                 attributes: new HtmlAttributes()
                     .Id("ChangePasswordDialog")
                     .Class("dialog")
-                    .Title(Displays.ChangePassword()),
+                    .Title(Displays.ChangePassword(context: context)),
                 action: () => hb
                     .Form(
                         attributes: new HtmlAttributes()
@@ -5999,14 +6016,14 @@ namespace Implem.Pleasanter.Models
                             .Div(css: "command-center", action: () => hb
                                 .Button(
                                     controlId: "ChangePassword",
-                                    text: Displays.Change(),
+                                    text: Displays.Change(context: context),
                                     controlCss: "button-icon validate",
                                     onClick: "$p.changePasswordAtLogin($(this));",
                                     icon: "ui-icon-disk",
                                     action: "ChangePasswordAtLogin",
                                     method: "post")
                                 .Button(
-                                    text: Displays.Cancel(),
+                                    text: Displays.Cancel(context: context),
                                     controlCss: "button-icon",
                                     onClick: "$p.closeDialog($(this));",
                                     icon: "ui-icon-cancel"))));
@@ -6041,7 +6058,7 @@ namespace Implem.Pleasanter.Models
                     fieldCss: "field-vertical w500",
                     controlContainerCss: "container-selectable",
                     controlWrapperCss: " h350",
-                    labelText: Displays.MailAddresses(),
+                    labelText: Displays.MailAddresses(context: context),
                     listItemCollection: listItemCollection,
                     commandOptionAction: () => hb
                         .Div(css: "command-left", action: () => hb
@@ -6049,7 +6066,7 @@ namespace Implem.Pleasanter.Models
                                 controlId: "MailAddress",
                                 controlCss: " w200")
                             .Button(
-                                text: Displays.Add(),
+                                text: Displays.Add(context: context),
                                 controlCss: "button-icon",
                                 onClick: "$p.send($(this));",
                                 icon: "ui-icon-disk",
@@ -6058,7 +6075,7 @@ namespace Implem.Pleasanter.Models
                             .Button(
                                 controlId: "DeleteMailAddresses",
                                 controlCss: "button-icon",
-                                text: Displays.Delete(),
+                                text: Displays.Delete(context: context),
                                 onClick: "$p.send($(this));",
                                 icon: "ui-icon-image",
                                 action: "DeleteMailAddresses",
@@ -6095,7 +6112,7 @@ namespace Implem.Pleasanter.Models
                 verType: Versions.VerTypes.Latest,
                 methodType: BaseModel.MethodTypes.Index,
                 referenceType: "Users",
-                title: Displays.ApiSettings(),
+                title: Displays.ApiSettings(context: context),
                 action: () => hb
                     .Form(
                         attributes: new HtmlAttributes()
@@ -6103,7 +6120,9 @@ namespace Implem.Pleasanter.Models
                             .Class("main-form")
                             .Action(Locations.Action("Users")),
                         action: () => hb
-                            .ApiEditor(userModel)
+                            .ApiEditor(
+                                context: context,
+                                userModel: userModel)
                             .MainCommands(
                                 context: context,
                                 ss: ss,
@@ -6116,7 +6135,8 @@ namespace Implem.Pleasanter.Models
         /// <summary>
         /// Fixed:
         /// </summary>
-        private static HtmlBuilder ApiEditor(this HtmlBuilder hb, UserModel userModel)
+        private static HtmlBuilder ApiEditor(
+            this HtmlBuilder hb, Context context, UserModel userModel)
         {
             return hb
                 .Div(id: "EditorTabsContainer", css: "max", action: () => hb
@@ -6124,12 +6144,12 @@ namespace Implem.Pleasanter.Models
                         .Li(action: () => hb
                             .A(
                                 href: "#FieldSetGeneral",
-                                text: Displays.General())))
+                                text: Displays.General(context: context))))
                     .FieldSet(id: "FieldSetGeneral", action: () => hb
                         .FieldText(
                             controlId: "ApiKey",
                             fieldCss: "field-wide",
-                            labelText: Displays.ApiKey(),
+                            labelText: Displays.ApiKey(context: context),
                             text: userModel.ApiKey))
                     .Div(
                         id: "ApiEditorCommands",
@@ -6138,8 +6158,8 @@ namespace Implem.Pleasanter.Models
                                 controlId: "CreateApiKey",
                                 controlCss: "button-icon",
                                 text: userModel.ApiKey.IsNullOrEmpty()
-                                    ? Displays.Create()
-                                    : Displays.ReCreate(),
+                                    ? Displays.Create(context: context)
+                                    : Displays.ReCreate(context: context),
                                 onClick: "$p.send($(this));",
                                 icon: "ui-icon-disk",
                                 action: "CreateApiKey",
@@ -6147,7 +6167,7 @@ namespace Implem.Pleasanter.Models
                             .Button(
                                 controlId: "DeleteApiKey",
                                 controlCss: "button-icon",
-                                text: Displays.Delete(),
+                                text: Displays.Delete(context: context),
                                 onClick: "$p.send($(this));",
                                 icon: "ui-icon-trash",
                                 action: "DeleteApiKey",
@@ -6173,13 +6193,17 @@ namespace Implem.Pleasanter.Models
             var error = userModel.CreateApiKey(context: context, ss: ss);
             if (error.Has())
             {
-                return error.MessageJson();
+                return error.MessageJson(context: context);
             }
             else
             {
                 return new ResponseCollection()
-                    .ReplaceAll("#EditorTabsContainer", new HtmlBuilder().ApiEditor(userModel))
-                    .Message(Messages.ApiKeyCreated())
+                    .ReplaceAll(
+                        "#EditorTabsContainer",
+                        new HtmlBuilder().ApiEditor(
+                            context: context,
+                            userModel: userModel))
+                    .Message(Messages.ApiKeyCreated(context: context))
                     .ToJson();
             }
         }
@@ -6201,13 +6225,17 @@ namespace Implem.Pleasanter.Models
             var error = userModel.DeleteApiKey(context: context, ss: ss);
             if (error.Has())
             {
-                return error.MessageJson();
+                return error.MessageJson(context: context);
             }
             else
             {
                 return new ResponseCollection()
-                    .ReplaceAll("#EditorTabsContainer", new HtmlBuilder().ApiEditor(userModel))
-                    .Message(Messages.ApiKeyCreated())
+                    .ReplaceAll(
+                        "#EditorTabsContainer",
+                        new HtmlBuilder().ApiEditor(
+                            context: context,
+                            userModel: userModel))
+                    .Message(Messages.ApiKeyCreated(context: context))
                     .ToJson();
             }
         }
@@ -6220,19 +6248,19 @@ namespace Implem.Pleasanter.Models
             var api = Forms.String().Deserialize<Api>();
             if (api == null)
             {
-                return ApiResults.Get(ApiResponses.BadRequest());
+                return ApiResults.Get(ApiResponses.BadRequest(context: context));
             }
             var view = api?.View ?? new View();
             var siteId = view.ColumnFilterHash
-                            .Where(f => f.Key == "SiteId")
-                            .Select(f => f.Value)
-                            .FirstOrDefault()?.ToLong();
+                .Where(f => f.Key == "SiteId")
+                .Select(f => f.Value)
+                .FirstOrDefault()?.ToLong();
             var siteModel = siteId.HasValue ? new SiteModel(context, siteId.Value) : null;
             if (siteModel != null)
             {
                 if (siteModel.AccessStatus != Databases.AccessStatuses.Selected)
                 {
-                    return ApiResults.Get(ApiResponses.NotFound());
+                    return ApiResults.Get(ApiResponses.NotFound(context: context));
                 }
                 var invalid = SiteValidators.OnReading(
                     context,
@@ -6241,7 +6269,9 @@ namespace Implem.Pleasanter.Models
                 switch (invalid)
                 {
                     case Error.Types.None: break;
-                    default: return ApiResults.Error(invalid);
+                    default: return ApiResults.Error(
+                        context: context,
+                        type: invalid);
                 }
             }
             var siteUsers = siteModel != null
@@ -6255,21 +6285,21 @@ namespace Implem.Pleasanter.Models
                 where: view.Where(context: context, ss: ss)
                 .Users_TenantId(context.TenantId)
                 .SqlWhereLike(
-                            name: "SearchText",
-                            searchText: view.ColumnFilterHash
-                            .Where(f => f.Key == "SearchText")
-                            .Select(f => f.Value)
-                            .FirstOrDefault(),
-                            clauseCollection: new List<string>()
-                            {
-                                Rds.Users_LoginId_WhereLike(),
-                                Rds.Users_Name_WhereLike(),
-                                Rds.Users_UserCode_WhereLike(),
-                                Rds.Users_Body_WhereLike(),
-                                Rds.Depts_DeptCode_WhereLike(),
-                                Rds.Depts_DeptName_WhereLike(),
-                                Rds.Depts_Body_WhereLike()
-                            }),
+                    name: "SearchText",
+                    searchText: view.ColumnFilterHash
+                    .Where(f => f.Key == "SearchText")
+                    .Select(f => f.Value)
+                    .FirstOrDefault(),
+                    clauseCollection: new List<string>()
+                    {
+                        Rds.Users_LoginId_WhereLike(),
+                        Rds.Users_Name_WhereLike(),
+                        Rds.Users_UserCode_WhereLike(),
+                        Rds.Users_Body_WhereLike(),
+                        Rds.Depts_DeptCode_WhereLike(),
+                        Rds.Depts_DeptName_WhereLike(),
+                        Rds.Depts_Body_WhereLike()
+                    }),
                 orderBy: view.OrderBy(context: context, ss: ss, pageSize: pageSize),
                 offset: api.Offset,
                 pageSize: pageSize,
@@ -6285,7 +6315,9 @@ namespace Implem.Pleasanter.Models
                     Offset = api.Offset,
                     PageSize = pageSize,
                     TotalCount = users.Count(),
-                    Data = users.Select(o => o.GetByApi(ss))
+                    Data = users.Select(o => o.GetByApi(
+                        context: context,
+                        ss: ss))
                 }
             }.ToJson());
         }

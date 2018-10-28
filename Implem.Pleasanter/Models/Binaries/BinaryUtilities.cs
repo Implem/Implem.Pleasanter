@@ -142,13 +142,13 @@ namespace Implem.Pleasanter.Models
             switch (invalid)
             {
                 case Error.Types.None: break;
-                default: return invalid.MessageJson();
+                default: return invalid.MessageJson(context: context);
             }
             var error = new BinaryModel(siteModel.SiteId).UpdateSiteImage(
                 context: context, file: file);
             if (error.Has())
             {
-                return error.MessageJson();
+                return error.MessageJson(context: context);
             }
             else
             {
@@ -164,7 +164,7 @@ namespace Implem.Pleasanter.Models
                         new HtmlBuilder().SiteImageSettingsEditor(
                             context: context,
                             ss: siteModel.SiteSettings))
-                    .Message(Messages.FileUpdateCompleted())
+                    .Message(Messages.FileUpdateCompleted(context: context))
                     .ToJson();
             }
         }
@@ -184,13 +184,13 @@ namespace Implem.Pleasanter.Models
             switch (invalid)
             {
                 case Error.Types.None: break;
-                default: return invalid.MessageJson();
+                default: return invalid.MessageJson(context: context);
             }
             var error = new BinaryModel(siteModel.SiteId)
                 .DeleteSiteImage(context: context);
             if (error.Has())
             {
-                return error.MessageJson();
+                return error.MessageJson(context: context);
             }
             else
             {
@@ -206,7 +206,7 @@ namespace Implem.Pleasanter.Models
                         new HtmlBuilder().SiteImageSettingsEditor(
                             context: context,
                             ss: siteModel.SiteSettings))
-                    .Message(Messages.FileDeleteCompleted())
+                    .Message(Messages.FileDeleteCompleted(context: context))
                     .ToJson();
             }
         }
@@ -231,9 +231,10 @@ namespace Implem.Pleasanter.Models
             {
                 case Error.Types.OverTenantStorageSize:
                     return Messages.ResponseOverTenantStorageSize(
-                        context.ContractSettings.StorageSize.ToString()).ToJson();
+                        context: context,
+                        data: context.ContractSettings.StorageSize.ToString()).ToJson();
                 case Error.Types.None: break;
-                default: return invalid.MessageJson();
+                default: return invalid.MessageJson(context: context);
             }
             var guid = Strings.NewGuid();
             var file = files[0];
@@ -288,11 +289,11 @@ namespace Implem.Pleasanter.Models
             switch (invalid)
             {
                 case Error.Types.None: break;
-                default: return invalid.MessageJson();
+                default: return invalid.MessageJson(context: context);
             }
             binaryModel.Delete(context: context);
             return new ResponseCollection()
-                .Message(Messages.DeletedImage())
+                .Message(Messages.DeletedImage(context: context))
                 .Remove($"#ImageLib .item[data-id=\"{guid}\"]")
                 .ToJson();
         }
@@ -323,18 +324,22 @@ namespace Implem.Pleasanter.Models
             {
                 case Error.Types.OverLimitQuantity:
                     return Messages.ResponseOverLimitQuantity(
-                        column.LimitQuantity.ToString()).ToJson();
+                        context: context,
+                        data: column.LimitQuantity.ToString()).ToJson();
                 case Error.Types.OverLimitSize:
                     return Messages.ResponseOverLimitSize(
-                        column.LimitSize.ToString()).ToJson();
+                        context: context,
+                        data: column.LimitSize.ToString()).ToJson();
                 case Error.Types.OverTotalLimitSize:
                     return Messages.ResponseOverTotalLimitSize(
-                        column.TotalLimitSize.ToString()).ToJson();
+                        context: context,
+                        data: column.TotalLimitSize.ToString()).ToJson();
                 case Error.Types.OverTenantStorageSize:
                     return Messages.ResponseOverTenantStorageSize(
-                        context.ContractSettings.StorageSize.ToString()).ToJson();
+                        context: context,
+                        data: context.ContractSettings.StorageSize.ToString()).ToJson();
                 case Error.Types.None: break;
-                default: return invalid.MessageJson();
+                default: return invalid.MessageJson(context: context);
             }
             files.ForEach(file => attachments.Add(new Attachment()
             {

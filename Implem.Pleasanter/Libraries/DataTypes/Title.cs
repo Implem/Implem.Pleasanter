@@ -56,7 +56,7 @@ namespace Implem.Pleasanter.Libraries.DataTypes
                     .Join(ss.TitleSeparator);
             DisplayValue = displayValue != string.Empty
                 ? displayValue
-                : Displays.NoTitle();
+                : Displays.NoTitle(context: context);
         }
 
         public Title(Context context, SiteSettings ss, long id, Dictionary<string, string> data)
@@ -73,7 +73,7 @@ namespace Implem.Pleasanter.Libraries.DataTypes
                 .Join(ss.TitleSeparator);
             DisplayValue = displayValue != string.Empty
                 ? displayValue
-                : Displays.NoTitle();
+                : Displays.NoTitle(context: context);
         }
 
         private string GetDisplayValue(
@@ -88,19 +88,25 @@ namespace Implem.Pleasanter.Libraries.DataTypes
                                 context: context,
                                 userId: dataRow.Int(path))
                             : column.Choice(dataRow.Long(path).ToString()).Text
-                        : column.Display(dataRow.Decimal(path), unit: true);
+                        : column.Display(
+                            context: context,
+                            value: dataRow.Decimal(path),
+                            unit: true);
                 case Types.CsDateTime:
                     switch (path)
                     {
                         case "CompletionTime":
-                            return column.DisplayControl(new CompletionTime(
+                            return column.DisplayControl(
                                 context: context,
-                                ss: ss,
-                                dataRow: dataRow,
-                                column: new ColumnNameInfo(path)).DisplayValue);
+                                value: new CompletionTime(
+                                    context: context,
+                                    ss: ss,
+                                    dataRow: dataRow,
+                                    column: new ColumnNameInfo(path)).DisplayValue);
                         default:
                             return column.DisplayControl(
-                                dataRow.DateTime(path).ToLocal());
+                                context: context,
+                                value: dataRow.DateTime(path).ToLocal(context: context));
                     }
                 case Types.CsString:
                     return column.HasChoices()
@@ -123,18 +129,26 @@ namespace Implem.Pleasanter.Libraries.DataTypes
                                 context: context,
                                 userId: data.Get(column.ColumnName).ToInt())
                             : column.Choice(data.Get(column.ColumnName)).Text
-                        : column.Display(data.Get(column.ColumnName).ToDecimal(), unit: true);
+                        : column.Display(
+                            context: context,
+                            value: data.Get(column.ColumnName).ToDecimal(),
+                            unit: true);
                 case Types.CsDateTime:
                     switch (column.ColumnName)
                     {
                         case "CompletionTime":
-                            return column.DisplayControl(new CompletionTime(
+                            return column.DisplayControl(
                                 context: context,
-                                ss: ss,
-                                value: data.Get(column.ColumnName).ToDateTime()).DisplayValue);
+                                value: new CompletionTime(
+                                    context: context,
+                                    ss: ss,
+                                    value: data.Get(column.ColumnName).ToDateTime()).DisplayValue);
                         default:
                             return column.DisplayControl(
-                                data.Get(column.ColumnName).ToDateTime().ToLocal());
+                                context: context,
+                                value: data.Get(column.ColumnName)
+                                    .ToDateTime()
+                                    .ToLocal(context: context));
                     }
                 case Types.CsString:
                     return column.HasChoices()

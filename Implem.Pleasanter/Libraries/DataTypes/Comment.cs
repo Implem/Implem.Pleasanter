@@ -44,7 +44,7 @@ namespace Implem.Pleasanter.Libraries.DataTypes
                     action?.Invoke();
                     hb
                         .P(css: "time", action: () => hb
-                            .Text(text: CreatedTimeDisplayValue()))
+                            .Text(text: CreatedTimeDisplayValue(context: context)))
                         .HtmlUser(
                             context: context,
                             id: Updator ?? Creator);
@@ -70,14 +70,22 @@ namespace Implem.Pleasanter.Libraries.DataTypes
                 });
         }
 
-        public string CreatedTimeDisplayValue()
+        public string CreatedTimeDisplayValue(Context context)
         {
             return UpdatedTime == null
-                ? CreatedTime.ToLocal(Displays.Get("YmdahmFormat"))
+                ? CreatedTime.ToLocal(
+                    context: context,
+                    format: Displays.Get(
+                        context: context,
+                        id: "YmdahmFormat"))
                 : UpdatedTime
                     .ToDateTime()
-                    .ToLocal(Displays.Get("YmdahmFormat"))
-                        + $" [{Displays.CommentUpdated()}]";
+                    .ToLocal(
+                        context: context,
+                        format: Displays.Get(
+                            context: context,
+                            id: "YmdahmFormat"))
+                                + $" [{Displays.CommentUpdated(context: context)}]";
         }
 
         private bool CanEdit(Context context, SiteSettings ss, bool allowEditing, bool readOnly)
@@ -93,13 +101,13 @@ namespace Implem.Pleasanter.Libraries.DataTypes
             Updated = true;
         }
 
-        public Comment ToLocal()
+        public Comment ToLocal(Context context)
         {
             return new Comment()
             {
                 CommentId = CommentId,
-                CreatedTime = CreatedTime.ToLocal(),
-                UpdatedTime = UpdatedTime?.ToLocal(),
+                CreatedTime = CreatedTime.ToLocal(context: context),
+                UpdatedTime = UpdatedTime?.ToLocal(context: context),
                 Creator = Creator,
                 Updator = Updator,
                 Body = Body

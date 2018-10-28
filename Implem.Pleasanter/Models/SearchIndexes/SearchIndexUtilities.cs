@@ -178,8 +178,12 @@ namespace Implem.Pleasanter.Models
                 useBreadcrumb: false,
                 action: () => hb
                     .Div(id: "SearchResults", action: () => hb
-                        .Command(text: text)
-                        .Count(count: count)
+                        .Command(
+                            context: context,
+                            text: text)
+                        .Count(
+                            context: context,
+                            count: count)
                         .Results(
                             context: context,
                             text: text,
@@ -193,25 +197,24 @@ namespace Implem.Pleasanter.Models
         /// <summary>
         /// Fixed:
         /// </summary>
-        private static HtmlBuilder Command(this HtmlBuilder hb, string text)
+        private static HtmlBuilder Command(this HtmlBuilder hb, Context context, string text)
         {
             return hb.Div(css: "command-center", action: () => hb
                 .TextBox(
                     controlId: "Search",
                     controlCss: " w600 focus",
                     text: text,
-                    placeholder: Displays.Search()));
+                    placeholder: Displays.Search(context: context)));
         }
 
         /// <summary>
         /// Fixed:
         /// </summary>
-        private static HtmlBuilder Count(
-            this HtmlBuilder hb, int count)
+        private static HtmlBuilder Count(this HtmlBuilder hb, Context context, int count)
         {
             return hb.Div(css: "count", action: () => hb
                 .Span(css: "label", action: () => hb
-                    .Text(text: Displays.Quantity()))
+                    .Text(text: Displays.Quantity(context: context)))
                 .Span(css: "data", action: () => hb
                     .Text(text: count.ToString())));
         }
