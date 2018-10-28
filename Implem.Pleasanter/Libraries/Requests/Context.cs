@@ -30,7 +30,7 @@ namespace Implem.Pleasanter.Libraries.Requests
         public string LoginId = HttpContext.Current?.User?.Identity.Name;
         public Dept Dept;
         public User User;
-        public string Language;
+        public string Language = Parameters.Service?.DefaultLanguage;
         public string UserHostAddress;
         public bool Developer;
         public TimeZoneInfo TimeZoneInfo;
