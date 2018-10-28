@@ -5318,9 +5318,11 @@ namespace Implem.Pleasanter.Models
             switch (error)
             {
                 case Error.Types.None:
-                    Sessions.Set("Message", Messages.Created(
+                    SessionUtilities.Set(
                         context: context,
-                        data: userModel.Title.Value));
+                        message: Messages.Created(
+                            context: context,
+                            data: userModel.Title.Value));
                     return new ResponseCollection()
                         .SetMemory("formChanged", false)
                         .Href(Locations.Edit(
@@ -5454,9 +5456,11 @@ namespace Implem.Pleasanter.Models
             switch (error)
             {
                 case Error.Types.None:
-                    Sessions.Set("Message", Messages.Deleted(
+                    SessionUtilities.Set(
                         context: context,
-                        data: userModel.Title.Value));
+                        message: Messages.Deleted(
+                            context: context,
+                            data: userModel.Title.Value));
                     var res = new UsersResponseCollection(userModel);
                 res
                     .SetMemory("formChanged", false)

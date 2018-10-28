@@ -671,9 +671,11 @@ namespace Implem.Pleasanter.Models
             switch (error)
             {
                 case Error.Types.None:
-                    Sessions.Set("Message", Messages.Created(
+                    SessionUtilities.Set(
                         context: context,
-                        data: siteModel.Title.Value));
+                        message: Messages.Created(
+                            context: context,
+                            data: siteModel.Title.Value));
                     return new ResponseCollection()
                         .SetMemory("formChanged", false)
                         .Href(Locations.Edit(
@@ -842,9 +844,11 @@ namespace Implem.Pleasanter.Models
             switch (error)
             {
                 case Error.Types.None:
-                    Sessions.Set("Message", Messages.Deleted(
+                    SessionUtilities.Set(
                         context: context,
-                        data: siteModel.Title.Value));
+                        message: Messages.Deleted(
+                            context: context,
+                            data: siteModel.Title.Value));
                     var res = new SitesResponseCollection(siteModel);
                 res
                     .SetMemory("formChanged", false)
@@ -973,9 +977,11 @@ namespace Implem.Pleasanter.Models
             switch (error)
             {
                 case Error.Types.None:
-                    Sessions.Set("Message", Messages.RestoredFromHistory(
+                    SessionUtilities.Set(
                         context: context,
-                        data: ver.First().ToString()));
+                        message: Messages.RestoredFromHistory(
+                            context: context,
+                            data: ver.First().ToString()));
                     return  new ResponseCollection()
                         .SetMemory("formChanged", false)
                         .Href(Locations.ItemEdit(siteId))

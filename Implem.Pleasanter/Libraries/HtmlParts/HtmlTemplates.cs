@@ -1,4 +1,5 @@
 ﻿using Implem.Libraries.Utilities;
+using Implem.Pleasanter.Libraries.DataSources;
 using Implem.Pleasanter.Libraries.General;
 using Implem.Pleasanter.Libraries.Html;
 using Implem.Pleasanter.Libraries.Images;
@@ -130,7 +131,10 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                             text: title);
                     }
                     action?.Invoke();
-                    hb.Message(message: Sessions.Message());
+                    hb.Message(message: SessionUtilities.Get(
+                        context: context,
+                        type: SessionUtilities.Types.Messages,
+                        remove: true).Deserialize<Message>());
                 }
                 else
                 {

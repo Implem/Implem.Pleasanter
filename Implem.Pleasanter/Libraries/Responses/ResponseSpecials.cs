@@ -48,6 +48,28 @@ namespace Implem.Pleasanter.Libraries.Responses
         }
     }
 
+    public class SessionsResponseCollection : ResponseCollection
+    {
+        public SessionModel SessionModel;
+
+        public SessionsResponseCollection(SessionModel sessionModel)
+        {
+            SessionModel = sessionModel;
+        }
+
+        public SessionsResponseCollection Val(string selector, string value)
+        {
+            base.Val(selector, value);
+            return this;
+        }
+
+        public SessionsResponseCollection ValAndFormData(string selector, string value)
+        {
+            base.ValAndFormData(selector, value);
+            return this;
+        }
+    }
+
     public class StatusesResponseCollection : ResponseCollection
     {
         public StatusModel StatusModel;
@@ -928,6 +950,226 @@ namespace Implem.Pleasanter.Libraries.Responses
             this DemosResponseCollection res, Context context, string value)
         {
             return res.ValAndFormData("#Demos_Timestamp", value);
+        }
+
+        public static SessionsResponseCollection Ver(
+            this SessionsResponseCollection res,
+            Context context,
+            SiteSettings ss,
+            Column column = null)
+        {
+            return res.Val(
+                "#Sessions_Ver",
+                res.SessionModel.Ver.ToResponse(
+                    context: context,
+                    ss: ss,
+                    column: column ?? ss.GetColumn(
+                        context: context,
+                        columnName: "Ver")));
+        }
+
+        public static SessionsResponseCollection Ver(
+            this SessionsResponseCollection res, Context context, string value)
+        {
+            return res.Val("#Sessions_Ver", value);
+        }
+
+        public static SessionsResponseCollection Ver_FormData(
+            this SessionsResponseCollection res,
+            Context context,
+            SiteSettings ss,
+            Column column = null)
+        {
+            return res.ValAndFormData(
+                "#Sessions_Ver",
+                res.SessionModel.Ver.ToResponse(
+                    context: context,
+                    ss: ss,
+                    column: column ?? ss.GetColumn(
+                        context: context,
+                        columnName: "Ver")));
+        }
+
+        public static SessionsResponseCollection Ver_FormData(
+            this SessionsResponseCollection res, Context context, string value)
+        {
+            return res.ValAndFormData("#Sessions_Ver", value);
+        }
+
+        public static SessionsResponseCollection Comments(
+            this SessionsResponseCollection res,
+            Context context,
+            SiteSettings ss,
+            Column column = null)
+        {
+            return res.Val(
+                "#Sessions_Comments",
+                res.SessionModel.Comments.ToResponse(
+                    context: context,
+                    ss: ss,
+                    column: column ?? ss.GetColumn(
+                        context: context,
+                        columnName: "Comments")));
+        }
+
+        public static SessionsResponseCollection Comments(
+            this SessionsResponseCollection res, Context context, string value)
+        {
+            return res.Val("#Sessions_Comments", value);
+        }
+
+        public static SessionsResponseCollection Comments_FormData(
+            this SessionsResponseCollection res,
+            Context context,
+            SiteSettings ss,
+            Column column = null)
+        {
+            return res.ValAndFormData(
+                "#Sessions_Comments",
+                res.SessionModel.Comments.ToResponse(
+                    context: context,
+                    ss: ss,
+                    column: column ?? ss.GetColumn(
+                        context: context,
+                        columnName: "Comments")));
+        }
+
+        public static SessionsResponseCollection Comments_FormData(
+            this SessionsResponseCollection res, Context context, string value)
+        {
+            return res.ValAndFormData("#Sessions_Comments", value);
+        }
+
+        public static SessionsResponseCollection CreatedTime(
+            this SessionsResponseCollection res,
+            Context context,
+            SiteSettings ss,
+            Column column = null)
+        {
+            return res.Val(
+                "#Sessions_CreatedTime",
+                res.SessionModel.CreatedTime.ToResponse(
+                    context: context,
+                    ss: ss,
+                    column: column ?? ss.GetColumn(
+                        context: context,
+                        columnName: "CreatedTime")));
+        }
+
+        public static SessionsResponseCollection CreatedTime(
+            this SessionsResponseCollection res, Context context, string value)
+        {
+            return res.Val("#Sessions_CreatedTime", value);
+        }
+
+        public static SessionsResponseCollection CreatedTime_FormData(
+            this SessionsResponseCollection res,
+            Context context,
+            SiteSettings ss,
+            Column column = null)
+        {
+            return res.ValAndFormData(
+                "#Sessions_CreatedTime",
+                res.SessionModel.CreatedTime.ToResponse(
+                    context: context,
+                    ss: ss,
+                    column: column ?? ss.GetColumn(
+                        context: context,
+                        columnName: "CreatedTime")));
+        }
+
+        public static SessionsResponseCollection CreatedTime_FormData(
+            this SessionsResponseCollection res, Context context, string value)
+        {
+            return res.ValAndFormData("#Sessions_CreatedTime", value);
+        }
+
+        public static SessionsResponseCollection UpdatedTime(
+            this SessionsResponseCollection res,
+            Context context,
+            SiteSettings ss,
+            Column column = null)
+        {
+            return res.Val(
+                "#Sessions_UpdatedTime",
+                res.SessionModel.UpdatedTime.ToResponse(
+                    context: context,
+                    ss: ss,
+                    column: column ?? ss.GetColumn(
+                        context: context,
+                        columnName: "UpdatedTime")));
+        }
+
+        public static SessionsResponseCollection UpdatedTime(
+            this SessionsResponseCollection res, Context context, string value)
+        {
+            return res.Val("#Sessions_UpdatedTime", value);
+        }
+
+        public static SessionsResponseCollection UpdatedTime_FormData(
+            this SessionsResponseCollection res,
+            Context context,
+            SiteSettings ss,
+            Column column = null)
+        {
+            return res.ValAndFormData(
+                "#Sessions_UpdatedTime",
+                res.SessionModel.UpdatedTime.ToResponse(
+                    context: context,
+                    ss: ss,
+                    column: column ?? ss.GetColumn(
+                        context: context,
+                        columnName: "UpdatedTime")));
+        }
+
+        public static SessionsResponseCollection UpdatedTime_FormData(
+            this SessionsResponseCollection res, Context context, string value)
+        {
+            return res.ValAndFormData("#Sessions_UpdatedTime", value);
+        }
+
+        public static SessionsResponseCollection Timestamp(
+            this SessionsResponseCollection res,
+            Context context,
+            SiteSettings ss,
+            Column column = null)
+        {
+            return res.Val(
+                "#Sessions_Timestamp",
+                res.SessionModel.Timestamp.ToResponse(
+                    context: context,
+                    ss: ss,
+                    column: column ?? ss.GetColumn(
+                        context: context,
+                        columnName: "Timestamp")));
+        }
+
+        public static SessionsResponseCollection Timestamp(
+            this SessionsResponseCollection res, Context context, string value)
+        {
+            return res.Val("#Sessions_Timestamp", value);
+        }
+
+        public static SessionsResponseCollection Timestamp_FormData(
+            this SessionsResponseCollection res,
+            Context context,
+            SiteSettings ss,
+            Column column = null)
+        {
+            return res.ValAndFormData(
+                "#Sessions_Timestamp",
+                res.SessionModel.Timestamp.ToResponse(
+                    context: context,
+                    ss: ss,
+                    column: column ?? ss.GetColumn(
+                        context: context,
+                        columnName: "Timestamp")));
+        }
+
+        public static SessionsResponseCollection Timestamp_FormData(
+            this SessionsResponseCollection res, Context context, string value)
+        {
+            return res.ValAndFormData("#Sessions_Timestamp", value);
         }
 
         public static StatusesResponseCollection Ver(

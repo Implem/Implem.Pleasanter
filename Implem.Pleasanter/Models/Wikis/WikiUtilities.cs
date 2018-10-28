@@ -802,9 +802,11 @@ namespace Implem.Pleasanter.Models
             switch (error)
             {
                 case Error.Types.None:
-                    Sessions.Set("Message", Messages.Deleted(
+                    SessionUtilities.Set(
                         context: context,
-                        data: wikiModel.Title.Value));
+                        message: Messages.Deleted(
+                            context: context,
+                            data: wikiModel.Title.Value));
                     var res = new WikisResponseCollection(wikiModel);
                 res
                     .SetMemory("formChanged", false)
@@ -938,9 +940,11 @@ namespace Implem.Pleasanter.Models
             switch (error)
             {
                 case Error.Types.None:
-                    Sessions.Set("Message", Messages.RestoredFromHistory(
+                    SessionUtilities.Set(
                         context: context,
-                        data: ver.First().ToString()));
+                        message: Messages.RestoredFromHistory(
+                            context: context,
+                            data: ver.First().ToString()));
                     return  new ResponseCollection()
                         .SetMemory("formChanged", false)
                         .Href(Locations.ItemEdit(wikiId))
