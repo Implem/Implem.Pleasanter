@@ -1035,9 +1035,9 @@ namespace Implem.Pleasanter.Models
                             context: context,
                             data: deptModel.Title.Value));
                     var res = new DeptsResponseCollection(deptModel);
-                res
-                    .SetMemory("formChanged", false)
-                    .Href(Locations.Index("Depts"));
+                    res
+                        .SetMemory("formChanged", false)
+                        .Href(Locations.Index("Depts"));
                     return res.ToJson();
                 default:
                     return error.MessageJson(context: context);

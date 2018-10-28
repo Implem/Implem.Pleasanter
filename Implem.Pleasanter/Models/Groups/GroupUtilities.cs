@@ -1032,9 +1032,9 @@ namespace Implem.Pleasanter.Models
                             context: context,
                             data: groupModel.Title.Value));
                     var res = new GroupsResponseCollection(groupModel);
-                res
-                    .SetMemory("formChanged", false)
-                    .Href(Locations.Index("Groups"));
+                    res
+                        .SetMemory("formChanged", false)
+                        .Href(Locations.Index("Groups"));
                     return res.ToJson();
                 default:
                     return error.MessageJson(context: context);

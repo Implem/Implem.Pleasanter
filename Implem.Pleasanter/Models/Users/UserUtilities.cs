@@ -5462,9 +5462,9 @@ namespace Implem.Pleasanter.Models
                             context: context,
                             data: userModel.Title.Value));
                     var res = new UsersResponseCollection(userModel);
-                res
-                    .SetMemory("formChanged", false)
-                    .Href(Locations.Index("Users"));
+                    res
+                        .SetMemory("formChanged", false)
+                        .Href(Locations.Index("Users"));
                     return res.ToJson();
                 default:
                     return error.MessageJson(context: context);
