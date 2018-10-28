@@ -100,12 +100,13 @@ namespace Implem.Pleasanter.Libraries.Security
                         tenantId: context.TenantId,
                         deptId: Id);
                     return DisplayText(
-                        Displays.Depts(),
-                        Id != 0
+                        context: context,
+                        text: Displays.Depts(context: context),
+                        name: Id != 0
                             ? dept?.Name
                             : null,
-                        dept?.Code,
-                        withType);
+                        title: dept?.Code,
+                        withType: withType);
                 case "Group":
                     var groupModel = Id != 0
                         ? new GroupModel(
@@ -114,38 +115,42 @@ namespace Implem.Pleasanter.Libraries.Security
                             groupId: Id)
                         : null;
                     return DisplayText(
-                        Displays.Groups(),
-                        groupModel?.AccessStatus == Databases.AccessStatuses.Selected
+                        context: context,
+                        text: Displays.Groups(context: context),
+                        name: groupModel?.AccessStatus == Databases.AccessStatuses.Selected
                             ? groupModel.GroupName
                             : null,
-                        null,
-                        withType);
+                        title: null,
+                        withType: withType);
                 case "User":
                     var user = SiteInfo.User(
                         context: context,
                         userId: Id);
                     return DisplayText(
-                        Displays.Users(),
-                        Id != 0
+                        context: context,
+                        text: Displays.Users(context: context),
+                        name: Id != 0
                             ? user?.Name
                             : null,
-                        Id != 0
+                        title: Id != 0
                             ? user?.LoginId
                             : null,
-                        withType);
+                        withType: withType);
                 default:
                     var column = ss?.GetColumn(
                         context: context,
                         columnName: Name);
                     return DisplayText(
-                        Displays.Column(),
-                        column?.LabelText,
-                        column?.LabelTextDefault,
-                        withType);
+                        context: context,
+                        text: Displays.Column(context: context),
+                        name: column?.LabelText,
+                        title: column?.LabelTextDefault,
+                        withType: withType);
             }
         }
 
-        private ControlData DisplayText(string text, string name, string title, bool withType)
+        private ControlData DisplayText(
+            Context context, string text, string name, string title, bool withType)
         {
             return new ControlData(
                 text: "[" + text +
@@ -157,18 +162,20 @@ namespace Implem.Pleasanter.Libraries.Security
                         ? " " + name
                         : string.Empty) +
                     (withType
-                        ? " - [" + DisplayTypeName() + "]"
+                        ? " - [" + DisplayTypeName(context: context) + "]"
                         : string.Empty),
                 title: title);
         }
 
-        private string DisplayTypeName()
+        private string DisplayTypeName(Context context)
         {
             var permissionType = Type.ToLong();
             return Parameters.Permissions.Pattern.ContainsValue(permissionType)
-                ? Displays.Get(Parameters.Permissions.Pattern.First(o =>
-                    o.Value == permissionType).Key)
-                : Displays.Special();
+                ? Displays.Get(
+                    context: context,
+                    id: Parameters.Permissions.Pattern.First(o =>
+                        o.Value == permissionType).Key)
+                : Displays.Special(context: context);
         }
     }
 }

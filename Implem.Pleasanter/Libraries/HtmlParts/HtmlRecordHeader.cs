@@ -23,7 +23,10 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                             baseModel: baseModel,
                             tableName: tableName))
                     .Div(id: "RecordSwitchers", action: () => hb
-                        .RecordSwitchers(ss: ss, switcher: switcher)))
+                        .RecordSwitchers(
+                            context: context,
+                            ss: ss,
+                            switcher: switcher)))
                     .Notes(
                         context: context,
                         ss: ss,

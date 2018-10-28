@@ -19,11 +19,11 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             var notes = new Dictionary<string, string>();
             if (!context.CanUpdate(ss: ss))
             {
-                notes.Add("readonly", Displays.CanNotUpdate());
+                notes.Add("readonly", Displays.CanNotUpdate(context: context));
             }
             if (verType == Versions.VerTypes.History)
             {
-                notes.Add("history", Displays.ReadOnlyBecausePreviousVer());
+                notes.Add("history", Displays.ReadOnlyBecausePreviousVer(context: context));
             }
             if (notes.Any())
             {

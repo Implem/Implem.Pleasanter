@@ -23,7 +23,9 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
         {
             var burnDown = new BurnDown(context: context, ss: ss, dataRows: dataRows);
             return hb
-                .Body(burnDown: burnDown)
+                .Body(
+                    context: context,
+                    burnDown: burnDown)
                 .Details(
                     context: context,
                     ss: ss,
@@ -32,13 +34,13 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     column: column);
         }
 
-        private static HtmlBuilder Body(this HtmlBuilder hb, BurnDown burnDown)
+        private static HtmlBuilder Body(this HtmlBuilder hb, Context context, BurnDown burnDown)
         {
             return hb.Div(action: () => hb
                 .Svg(id: "BurnDown")
                 .Hidden(
                     controlId: "BurnDownJson",
-                    value: burnDown.Json()));
+                    value: burnDown.Json(context: context)));
         }
 
         private static HtmlBuilder Details(
@@ -100,6 +102,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                         o.EarnedValueAdditions != 0))
                     {
                         hb.DetailsRow(
+                            context: context,
                             burnDown: burnDown,
                             updators: updators,
                             currentTime: currentTime,
@@ -134,29 +137,32 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             {
                 hb
                     .Th(action: () => hb
-                        .Text(text: Displays.Date()))
+                        .Text(text: Displays.Date(context: context)))
                     .Th(action: () => hb
-                        .Text(text: Displays.PlannedValue()))
+                        .Text(text: Displays.PlannedValue(context: context)))
                     .Th(action: () => hb
-                        .Text(text: Displays.EarnedValue()))
+                        .Text(text: Displays.EarnedValue(context: context)))
                     .Th(action: () => hb
-                        .Text(text: Displays.Difference()))
+                        .Text(text: Displays.Difference(context: context)))
                     .Th(action: () => hb
-                        .Text(text: ownerLabelText + " " + Displays.Total()));
+                        .Text(text: ownerLabelText + " " + Displays.Total(context: context)));
                 updators.ForEach(updatorId => hb
                     .Th(action: () => hb
                         .Text(text: SiteInfo.User(
                             context: context,
                             userId: updatorId).Name +
-                                " ({0})".Params(column.Display(burnDown
-                                    .Where(p => p.Updator == updatorId)
-                                    .Select(p => p.EarnedValueAdditions)
-                                    .Sum()) + column.Unit))));
+                                " ({0})".Params(column.Display(
+                                    context: context,
+                                    value: burnDown
+                                        .Where(p => p.Updator == updatorId)
+                                        .Select(p => p.EarnedValueAdditions)
+                                        .Sum()) + column.Unit))));
             });
         }
 
         private static HtmlBuilder DetailsRow(
             this HtmlBuilder hb,
+            Context context,
             BurnDown burnDown,
             IEnumerable<int> updators,
             DateTime currentTime,
@@ -179,15 +185,19 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                         .Td(action: () => hb
                             .Text(text: "{0} - {1}".Params(
                                 currentTime.AddDays(-1).ToString(
-                                    Displays.Get("YmdaFormat"),
-                                    Sessions.CultureInfo()),
+                                    Displays.Get(context: context, id: "YmdaFormat"),
+                                    context.CultureInfo()),
                                 currentTime.ToString(
-                                    Displays.Get("YmdaFormat"),
-                                    Sessions.CultureInfo()))))
+                                    Displays.Get(context: context, id: "YmdaFormat"),
+                                    context.CultureInfo()))))
                         .Td(action: () => hb
-                            .Text(text: column.Display(planned) + column.Unit))
+                            .Text(text: column.Display(
+                                context: context,
+                                value: planned) + column.Unit))
                         .Td(action: () => hb
-                            .Text(text: column.Display(earned) + column.Unit))
+                            .Text(text: column.Display(
+                                context: context,
+                                value: earned) + column.Unit))
                         .Td(value: difference, unit: column.Unit, css: "difference")
                         .Td(value: burnDown
                                 .Where(o => o.UpdatedTime == currentTime)
@@ -237,6 +247,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                             .Distinct()
                             .ForEach(updatorId =>
                                 hb.BurnDownRecordDetail(
+                                    context: context,
                                     fullName: SiteInfo.User(
                                         context: context,
                                         userId: updatorId).Name,
@@ -253,6 +264,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
 
         private static HtmlBuilder BurnDownRecordDetail(
             this HtmlBuilder hb,
+            Context context,
             int updatorId,
             string fullName,
             decimal earndValue,
@@ -266,7 +278,9 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                 hb.Div(css: "user-info", action: () => hb
                     .Text("{0} ({1}{2})".Params(
                         fullName,
-                        progressRateColumn.Display(earndValue),
+                        progressRateColumn.Display(
+                            context: context,
+                            value: earndValue),
                         unit)));
                 elements
                     .Where(o => o.Updator == updatorId)
@@ -275,6 +289,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     .ForEach(element => hb
                         .Div(css: "items", action: () => hb
                             .BurnDownRecordDetailAnchor(
+                                context: context,
                                 element: element,
                                 progressRateColumn: progressRateColumn,
                                 statusColumn: statusColumn,
@@ -285,6 +300,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
 
         private static HtmlBuilder BurnDownRecordDetailAnchor(
             this HtmlBuilder hb,
+            Context context,
             BurnDownElement element,
             Column progressRateColumn,
             Column statusColumn,
@@ -293,10 +309,16 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             return hb.A(
                 href: Locations.ItemEdit(element.Id),
                 text: "{0}{1} * {2}% = {3}{1} : {4} - {5}".Params(
-                    progressRateColumn.Display(element.WorkValue),
+                    progressRateColumn.Display(
+                        context: context,
+                        value: element.WorkValue),
                     unit,
-                    progressRateColumn.Display(element.ProgressRateAdditions),
-                    progressRateColumn.Display(element.EarnedValueAdditions),
+                    progressRateColumn.Display(
+                        context: context,
+                        value: element.ProgressRateAdditions),
+                    progressRateColumn.Display(
+                        context: context,
+                        value: element.EarnedValueAdditions),
                     element.Title,
                     statusColumn.Choice(element.Status.ToString())
                         .Text));

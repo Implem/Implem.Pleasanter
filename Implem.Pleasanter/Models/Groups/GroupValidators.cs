@@ -191,10 +191,10 @@ namespace Implem.Pleasanter.Models
         public static Error.Types OnEntry(Context context, SiteSettings ss)
         {
             return
-                Sessions.UserSettings().DisableGroupAdmin != true ||
-                Permissions.CanManageTenant(context: context)
-                    ? Error.Types.None
-                    : Error.Types.HasNotPermission;
+                context.UserSettings.DisableGroupAdmin != true
+                    || Permissions.CanManageTenant(context: context)
+                        ? Error.Types.None
+                        : Error.Types.HasNotPermission;
         }
     }
 }

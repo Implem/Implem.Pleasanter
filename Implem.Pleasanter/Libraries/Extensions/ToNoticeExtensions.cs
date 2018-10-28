@@ -63,12 +63,18 @@ namespace Implem.Pleasanter.Libraries.Extensions
             bool updated,
             bool update)
         {
-            return column.Display(self, unit: true).ToNoticeLine(
+            return column.Display(
                 context: context,
-                saved: column.Display(saved, unit: true),
-                column: column,
-                updated: updated,
-                update: update);
+                value: self,
+                unit: true).ToNoticeLine(
+                    context: context,
+                    saved: column.Display(
+                        context: context,
+                        value: saved,
+                        unit: true),
+                    column: column,
+                    updated: updated,
+                    update: update);
         }
 
         public static string ToNotice(
@@ -79,12 +85,16 @@ namespace Implem.Pleasanter.Libraries.Extensions
             bool updated,
             bool update)
         {
-            return column.DisplayControl(self.ToLocal()).ToNoticeLine(
+            return column.DisplayControl(
                 context: context,
-                saved: column.DisplayControl(saved.ToLocal()),
-                column: column,
-                updated: updated,
-                update: update);
+                value: self.ToLocal(context: context)).ToNoticeLine(
+                    context: context,
+                    saved: column.DisplayControl(
+                        context: context,
+                        value: saved.ToLocal(context: context)),
+                    column: column,
+                    updated: updated,
+                    update: update);
         }
 
         public static string ToNotice(

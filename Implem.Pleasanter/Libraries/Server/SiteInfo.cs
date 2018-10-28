@@ -348,7 +348,7 @@ namespace Implem.Pleasanter.Libraries.Server
             return name != null
                 ? name
                 : notSet
-                    ? Displays.NotSet()
+                    ? Displays.NotSet(context: context)
                     : string.Empty;
         }
     }

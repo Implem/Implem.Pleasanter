@@ -1,11 +1,13 @@
 ﻿using Implem.Libraries.Utilities;
+using Implem.Pleasanter.Libraries.Requests;
 using Implem.Pleasanter.Libraries.Responses;
 using System.Collections.Generic;
 namespace Implem.Pleasanter.Libraries.Settings
 {
     public static class NumColumnExtensions
     {
-        public static Dictionary<string, ControlData> NumFilterOptions(this Column column)
+        public static Dictionary<string, ControlData> NumFilterOptions(
+            this Column column, Context context)
         {
             var min = column.NumFilterMin;
             var max = column.NumFilterMax;
@@ -13,47 +15,74 @@ namespace Implem.Pleasanter.Libraries.Settings
             var data = new Dictionary<string, ControlData>();
             if (!column.Required)
             {
-                data.Add("\t", new ControlData(Displays.NotSet()));
+                data.Add("\t", new ControlData(Displays.NotSet(context: context)));
             }
             if (min < max && step > 0)
             {
-                data.Add(column, 0, min, lessThan: true);
+                data.Add(
+                    context: context,
+                    column: column,
+                    from: 0,
+                    to: min,
+                    lessThan: true);
                 for (var num = min; num < max; num += step)
                 {
-                    data.Add(column, num, num + step - Minimum(column));
+                    data.Add(
+                        context: context,
+                        column: column,
+                        from: num,
+                        to: num + step - Minimum(column));
                 }
-                data.Add(column, max, 0, over: true);
+                data.Add(
+                    context: context,
+                    column: column,
+                    from: max,
+                    to: 0,
+                    over: true);
             }
             return data;
         }
 
         private static void Add(
             this Dictionary<string, ControlData> data,
+            Context context,
             Column column,
             decimal? from,
             decimal? to,
             bool lessThan = false,
             bool over = false)
         {
-            var fromText = column.Display(from ?? 0, unit: true);
-            var toText = column.Display(to ?? 0, unit: true);
+            var fromText = column.Display(
+                context: context,
+                value: from ?? 0,
+                unit: true);
+            var toText = column.Display(
+                context: context,
+                value: to ?? 0,
+                unit: true);
             if (lessThan)
             {
                 data.Add(
                     "," + to.TrimEndZero(),
-                    new ControlData(Displays.LessThan(fromText)));
+                    new ControlData(Displays.LessThan(
+                        context: context,
+                        data: fromText)));
             }
             else if (over)
             {
                 data.Add(
                     from.TrimEndZero() + ",",
-                    new ControlData(Displays.Over(fromText)));
+                    new ControlData(Displays.Over(
+                        context: context,
+                        data: fromText)));
             }
             else
             {
                 data.Add(
                     from.TrimEndZero() + "," + to.TrimEndZero(),
-                    new ControlData(Displays.Over(fromText)));
+                    new ControlData(Displays.Over(
+                        context: context,
+                        data: fromText)));
             }
         }
 

@@ -25,7 +25,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                 linkCollection.Any()
                     ? hb.FieldSet(
                         css: " enclosed link-creations",
-                        legendText: Displays.LinkCreations(),
+                        legendText: Displays.LinkCreations(context: context),
                         action: () => hb
                             .LinkCreations(
                                 context: context,

@@ -1,4 +1,5 @@
 ﻿using Implem.Pleasanter.Libraries.Html;
+using Implem.Pleasanter.Libraries.Requests;
 namespace Implem.Pleasanter.Libraries.Responses
 {
     public static class Messages
@@ -14,984 +15,1572 @@ namespace Implem.Pleasanter.Libraries.Responses
             return new ResponseCollection().Message(message);
         }
 
-        public static Message AlreadyAdded(params string[] data)
+        public static Message AlreadyAdded(Context context, params string[] data)
         {
-            return Get(Displays.AlreadyAdded(data), "alert-error");
+            return Get(
+                text: Displays.AlreadyAdded(
+                    context: context,
+                    data: data),
+                css: "alert-error");
         }
 
-        public static Message AlreadyLinked(params string[] data)
+        public static Message AlreadyLinked(Context context, params string[] data)
         {
-            return Get(Displays.AlreadyLinked(data), "alert-error");
+            return Get(
+                text: Displays.AlreadyLinked(
+                    context: context,
+                    data: data),
+                css: "alert-error");
         }
 
-        public static Message ApiKeyCreated(params string[] data)
+        public static Message ApiKeyCreated(Context context, params string[] data)
         {
-            return Get(Displays.ApiKeyCreated(data), "alert-success");
+            return Get(
+                text: Displays.ApiKeyCreated(
+                    context: context,
+                    data: data),
+                css: "alert-success");
         }
 
-        public static Message ApiKeyDeleted(params string[] data)
+        public static Message ApiKeyDeleted(Context context, params string[] data)
         {
-            return Get(Displays.ApiKeyDeleted(data), "alert-success");
+            return Get(
+                text: Displays.ApiKeyDeleted(
+                    context: context,
+                    data: data),
+                css: "alert-success");
         }
 
-        public static Message ApplicationError(params string[] data)
+        public static Message ApplicationError(Context context, params string[] data)
         {
-            return Get(Displays.ApplicationError(data), "alert-error");
+            return Get(
+                text: Displays.ApplicationError(
+                    context: context,
+                    data: data),
+                css: "alert-error");
         }
 
-        public static Message Authentication(params string[] data)
+        public static Message Authentication(Context context, params string[] data)
         {
-            return Get(Displays.Authentication(data), "alert-error");
+            return Get(
+                text: Displays.Authentication(
+                    context: context,
+                    data: data),
+                css: "alert-error");
         }
 
-        public static Message BadFormat(params string[] data)
+        public static Message BadFormat(Context context, params string[] data)
         {
-            return Get(Displays.BadFormat(data), "alert-error");
+            return Get(
+                text: Displays.BadFormat(
+                    context: context,
+                    data: data),
+                css: "alert-error");
         }
 
-        public static Message BadMailAddress(params string[] data)
+        public static Message BadMailAddress(Context context, params string[] data)
         {
-            return Get(Displays.BadMailAddress(data), "alert-error");
+            return Get(
+                text: Displays.BadMailAddress(
+                    context: context,
+                    data: data),
+                css: "alert-error");
         }
 
-        public static Message BadRequest(params string[] data)
+        public static Message BadRequest(Context context, params string[] data)
         {
-            return Get(Displays.BadRequest(data), "alert-error");
+            return Get(
+                text: Displays.BadRequest(
+                    context: context,
+                    data: data),
+                css: "alert-error");
         }
 
-        public static Message BulkDeleted(params string[] data)
+        public static Message BulkDeleted(Context context, params string[] data)
         {
-            return Get(Displays.BulkDeleted(data), "alert-success");
+            return Get(
+                text: Displays.BulkDeleted(
+                    context: context,
+                    data: data),
+                css: "alert-success");
         }
 
-        public static Message BulkMoved(params string[] data)
+        public static Message BulkMoved(Context context, params string[] data)
         {
-            return Get(Displays.BulkMoved(data), "alert-success");
+            return Get(
+                text: Displays.BulkMoved(
+                    context: context,
+                    data: data),
+                css: "alert-success");
         }
 
-        public static Message BulkRestored(params string[] data)
+        public static Message BulkRestored(Context context, params string[] data)
         {
-            return Get(Displays.BulkRestored(data), "alert-success");
+            return Get(
+                text: Displays.BulkRestored(
+                    context: context,
+                    data: data),
+                css: "alert-success");
         }
 
-        public static Message CanNotChangeInheritance(params string[] data)
+        public static Message CanNotChangeInheritance(Context context, params string[] data)
         {
-            return Get(Displays.CanNotChangeInheritance(data), "alert-error");
+            return Get(
+                text: Displays.CanNotChangeInheritance(
+                    context: context,
+                    data: data),
+                css: "alert-error");
         }
 
-        public static Message CanNotDisabled(params string[] data)
+        public static Message CanNotDisabled(Context context, params string[] data)
         {
-            return Get(Displays.CanNotDisabled(data), "alert-error");
+            return Get(
+                text: Displays.CanNotDisabled(
+                    context: context,
+                    data: data),
+                css: "alert-error");
         }
 
-        public static Message CanNotInherit(params string[] data)
+        public static Message CanNotInherit(Context context, params string[] data)
         {
-            return Get(Displays.CanNotInherit(data), "alert-error");
+            return Get(
+                text: Displays.CanNotInherit(
+                    context: context,
+                    data: data),
+                css: "alert-error");
         }
 
-        public static Message CanNotLink(params string[] data)
+        public static Message CanNotLink(Context context, params string[] data)
         {
-            return Get(Displays.CanNotLink(data), "alert-error");
+            return Get(
+                text: Displays.CanNotLink(
+                    context: context,
+                    data: data),
+                css: "alert-error");
         }
 
-        public static Message CanNotPerformed(params string[] data)
+        public static Message CanNotPerformed(Context context, params string[] data)
         {
-            return Get(Displays.CanNotPerformed(data), "alert-error");
+            return Get(
+                text: Displays.CanNotPerformed(
+                    context: context,
+                    data: data),
+                css: "alert-error");
         }
 
-        public static Message CanNotUpdate(params string[] data)
+        public static Message CanNotUpdate(Context context, params string[] data)
         {
-            return Get(Displays.CanNotUpdate(data), "alert-info");
+            return Get(
+                text: Displays.CanNotUpdate(
+                    context: context,
+                    data: data),
+                css: "alert-info");
         }
 
-        public static Message CantSetAtTopOfSite(params string[] data)
+        public static Message CantSetAtTopOfSite(Context context, params string[] data)
         {
-            return Get(Displays.CantSetAtTopOfSite(data), "alert-error");
+            return Get(
+                text: Displays.CantSetAtTopOfSite(
+                    context: context,
+                    data: data),
+                css: "alert-error");
         }
 
-        public static Message ChangingPasswordComplete(params string[] data)
+        public static Message ChangingPasswordComplete(Context context, params string[] data)
         {
-            return Get(Displays.ChangingPasswordComplete(data), "alert-success");
+            return Get(
+                text: Displays.ChangingPasswordComplete(
+                    context: context,
+                    data: data),
+                css: "alert-success");
         }
 
-        public static Message CodeDefinerBackupCompleted(params string[] data)
+        public static Message CodeDefinerBackupCompleted(Context context, params string[] data)
         {
-            return Get(Displays.CodeDefinerBackupCompleted(data), "alert-success");
+            return Get(
+                text: Displays.CodeDefinerBackupCompleted(
+                    context: context,
+                    data: data),
+                css: "alert-success");
         }
 
-        public static Message CodeDefinerCompleted(params string[] data)
+        public static Message CodeDefinerCompleted(Context context, params string[] data)
         {
-            return Get(Displays.CodeDefinerCompleted(data), "alert-success");
+            return Get(
+                text: Displays.CodeDefinerCompleted(
+                    context: context,
+                    data: data),
+                css: "alert-success");
         }
 
-        public static Message CodeDefinerCssCompleted(params string[] data)
+        public static Message CodeDefinerCssCompleted(Context context, params string[] data)
         {
-            return Get(Displays.CodeDefinerCssCompleted(data), "alert-success");
+            return Get(
+                text: Displays.CodeDefinerCssCompleted(
+                    context: context,
+                    data: data),
+                css: "alert-success");
         }
 
-        public static Message CodeDefinerDefCompleted(params string[] data)
+        public static Message CodeDefinerDefCompleted(Context context, params string[] data)
         {
-            return Get(Displays.CodeDefinerDefCompleted(data), "alert-success");
+            return Get(
+                text: Displays.CodeDefinerDefCompleted(
+                    context: context,
+                    data: data),
+                css: "alert-success");
         }
 
-        public static Message CodeDefinerInsertTestDataCompleted(params string[] data)
+        public static Message CodeDefinerInsertTestDataCompleted(Context context, params string[] data)
         {
-            return Get(Displays.CodeDefinerInsertTestDataCompleted(data), "alert-success");
+            return Get(
+                text: Displays.CodeDefinerInsertTestDataCompleted(
+                    context: context,
+                    data: data),
+                css: "alert-success");
         }
 
-        public static Message CodeDefinerMvcCompleted(params string[] data)
+        public static Message CodeDefinerMvcCompleted(Context context, params string[] data)
         {
-            return Get(Displays.CodeDefinerMvcCompleted(data), "alert-success");
+            return Get(
+                text: Displays.CodeDefinerMvcCompleted(
+                    context: context,
+                    data: data),
+                css: "alert-success");
         }
 
-        public static Message CodeDefinerRdsCompleted(params string[] data)
+        public static Message CodeDefinerRdsCompleted(Context context, params string[] data)
         {
-            return Get(Displays.CodeDefinerRdsCompleted(data), "alert-success");
+            return Get(
+                text: Displays.CodeDefinerRdsCompleted(
+                    context: context,
+                    data: data),
+                css: "alert-success");
         }
 
-        public static Message CommentDeleted(params string[] data)
+        public static Message CommentDeleted(Context context, params string[] data)
         {
-            return Get(Displays.CommentDeleted(data), "alert-success");
+            return Get(
+                text: Displays.CommentDeleted(
+                    context: context,
+                    data: data),
+                css: "alert-success");
         }
 
-        public static Message Copied(params string[] data)
+        public static Message Copied(Context context, params string[] data)
         {
-            return Get(Displays.Copied(data), "alert-success");
+            return Get(
+                text: Displays.Copied(
+                    context: context,
+                    data: data),
+                css: "alert-success");
         }
 
-        public static Message Created(params string[] data)
+        public static Message Created(Context context, params string[] data)
         {
-            return Get(Displays.Created(data), "alert-success");
+            return Get(
+                text: Displays.Created(
+                    context: context,
+                    data: data),
+                css: "alert-success");
         }
 
-        public static Message DefinitionNotFound(params string[] data)
+        public static Message DefinitionNotFound(Context context, params string[] data)
         {
-            return Get(Displays.DefinitionNotFound(data), "alert-error");
+            return Get(
+                text: Displays.DefinitionNotFound(
+                    context: context,
+                    data: data),
+                css: "alert-error");
         }
 
-        public static Message DeleteConflicts(params string[] data)
+        public static Message DeleteConflicts(Context context, params string[] data)
         {
-            return Get(Displays.DeleteConflicts(data), "alert-error");
+            return Get(
+                text: Displays.DeleteConflicts(
+                    context: context,
+                    data: data),
+                css: "alert-error");
         }
 
-        public static Message Deleted(params string[] data)
+        public static Message Deleted(Context context, params string[] data)
         {
-            return Get(Displays.Deleted(data), "alert-success");
+            return Get(
+                text: Displays.Deleted(
+                    context: context,
+                    data: data),
+                css: "alert-success");
         }
 
-        public static Message DeletedImage(params string[] data)
+        public static Message DeletedImage(Context context, params string[] data)
         {
-            return Get(Displays.DeletedImage(data), "alert-success");
+            return Get(
+                text: Displays.DeletedImage(
+                    context: context,
+                    data: data),
+                css: "alert-success");
         }
 
-        public static Message Duplicated(params string[] data)
+        public static Message Duplicated(Context context, params string[] data)
         {
-            return Get(Displays.Duplicated(data), "alert-error");
+            return Get(
+                text: Displays.Duplicated(
+                    context: context,
+                    data: data),
+                css: "alert-error");
         }
 
-        public static Message Expired(params string[] data)
+        public static Message Expired(Context context, params string[] data)
         {
-            return Get(Displays.Expired(data), "alert-error");
+            return Get(
+                text: Displays.Expired(
+                    context: context,
+                    data: data),
+                css: "alert-error");
         }
 
-        public static Message ExternalMailAddress(params string[] data)
+        public static Message ExternalMailAddress(Context context, params string[] data)
         {
-            return Get(Displays.ExternalMailAddress(data), "alert-error");
+            return Get(
+                text: Displays.ExternalMailAddress(
+                    context: context,
+                    data: data),
+                css: "alert-error");
         }
 
-        public static Message FailedReadFile(params string[] data)
+        public static Message FailedReadFile(Context context, params string[] data)
         {
-            return Get(Displays.FailedReadFile(data), "alert-error");
+            return Get(
+                text: Displays.FailedReadFile(
+                    context: context,
+                    data: data),
+                css: "alert-error");
         }
 
-        public static Message FileDeleteCompleted(params string[] data)
+        public static Message FileDeleteCompleted(Context context, params string[] data)
         {
-            return Get(Displays.FileDeleteCompleted(data), "alert-success");
+            return Get(
+                text: Displays.FileDeleteCompleted(
+                    context: context,
+                    data: data),
+                css: "alert-success");
         }
 
-        public static Message FileDragDrop(params string[] data)
+        public static Message FileDragDrop(Context context, params string[] data)
         {
-            return Get(Displays.FileDragDrop(data), "alert-success");
+            return Get(
+                text: Displays.FileDragDrop(
+                    context: context,
+                    data: data),
+                css: "alert-success");
         }
 
-        public static Message FileNotFound(params string[] data)
+        public static Message FileNotFound(Context context, params string[] data)
         {
-            return Get(Displays.FileNotFound(data), "alert-error");
+            return Get(
+                text: Displays.FileNotFound(
+                    context: context,
+                    data: data),
+                css: "alert-error");
         }
 
-        public static Message FileUpdateCompleted(params string[] data)
+        public static Message FileUpdateCompleted(Context context, params string[] data)
         {
-            return Get(Displays.FileUpdateCompleted(data), "alert-success");
+            return Get(
+                text: Displays.FileUpdateCompleted(
+                    context: context,
+                    data: data),
+                css: "alert-success");
         }
 
-        public static Message HasBeenDeleted(params string[] data)
+        public static Message HasBeenDeleted(Context context, params string[] data)
         {
-            return Get(Displays.HasBeenDeleted(data), "alert-info");
+            return Get(
+                text: Displays.HasBeenDeleted(
+                    context: context,
+                    data: data),
+                css: "alert-info");
         }
 
-        public static Message HasBeenMoved(params string[] data)
+        public static Message HasBeenMoved(Context context, params string[] data)
         {
-            return Get(Displays.HasBeenMoved(data), "alert-info");
+            return Get(
+                text: Displays.HasBeenMoved(
+                    context: context,
+                    data: data),
+                css: "alert-info");
         }
 
-        public static Message HasNotPermission(params string[] data)
+        public static Message HasNotPermission(Context context, params string[] data)
         {
-            return Get(Displays.HasNotPermission(data), "alert-error");
+            return Get(
+                text: Displays.HasNotPermission(
+                    context: context,
+                    data: data),
+                css: "alert-error");
         }
 
-        public static Message HistoryDeleted(params string[] data)
+        public static Message HistoryDeleted(Context context, params string[] data)
         {
-            return Get(Displays.HistoryDeleted(data), "alert-success");
+            return Get(
+                text: Displays.HistoryDeleted(
+                    context: context,
+                    data: data),
+                css: "alert-success");
         }
 
-        public static Message Imported(params string[] data)
+        public static Message Imported(Context context, params string[] data)
         {
-            return Get(Displays.Imported(data), "alert-success");
+            return Get(
+                text: Displays.Imported(
+                    context: context,
+                    data: data),
+                css: "alert-success");
         }
 
-        public static Message ImportMax(params string[] data)
+        public static Message ImportMax(Context context, params string[] data)
         {
-            return Get(Displays.ImportMax(data), "alert-error");
+            return Get(
+                text: Displays.ImportMax(
+                    context: context,
+                    data: data),
+                css: "alert-error");
         }
 
-        public static Message InCompression(params string[] data)
+        public static Message InCompression(Context context, params string[] data)
         {
-            return Get(Displays.InCompression(data), "alert-info");
+            return Get(
+                text: Displays.InCompression(
+                    context: context,
+                    data: data),
+                css: "alert-info");
         }
 
-        public static Message InCopying(params string[] data)
+        public static Message InCopying(Context context, params string[] data)
         {
-            return Get(Displays.InCopying(data), "alert-info");
+            return Get(
+                text: Displays.InCopying(
+                    context: context,
+                    data: data),
+                css: "alert-info");
         }
 
-        public static Message IncorrectCurrentPassword(params string[] data)
+        public static Message IncorrectCurrentPassword(Context context, params string[] data)
         {
-            return Get(Displays.IncorrectCurrentPassword(data), "alert-error");
+            return Get(
+                text: Displays.IncorrectCurrentPassword(
+                    context: context,
+                    data: data),
+                css: "alert-error");
         }
 
-        public static Message IncorrectFileFormat(params string[] data)
+        public static Message IncorrectFileFormat(Context context, params string[] data)
         {
-            return Get(Displays.IncorrectFileFormat(data), "alert-error");
+            return Get(
+                text: Displays.IncorrectFileFormat(
+                    context: context,
+                    data: data),
+                css: "alert-error");
         }
 
-        public static Message IncorrectSiteDeleting(params string[] data)
+        public static Message IncorrectSiteDeleting(Context context, params string[] data)
         {
-            return Get(Displays.IncorrectSiteDeleting(data), "alert-error");
+            return Get(
+                text: Displays.IncorrectSiteDeleting(
+                    context: context,
+                    data: data),
+                css: "alert-error");
         }
 
-        public static Message InputMailAddress(params string[] data)
+        public static Message InputMailAddress(Context context, params string[] data)
         {
-            return Get(Displays.InputMailAddress(data), "alert-error");
+            return Get(
+                text: Displays.InputMailAddress(
+                    context: context,
+                    data: data),
+                css: "alert-error");
         }
 
-        public static Message InternalServerError(params string[] data)
+        public static Message InternalServerError(Context context, params string[] data)
         {
-            return Get(Displays.InternalServerError(data), "alert-error");
+            return Get(
+                text: Displays.InternalServerError(
+                    context: context,
+                    data: data),
+                css: "alert-error");
         }
 
-        public static Message InvalidCsvData(params string[] data)
+        public static Message InvalidCsvData(Context context, params string[] data)
         {
-            return Get(Displays.InvalidCsvData(data), "alert-error");
+            return Get(
+                text: Displays.InvalidCsvData(
+                    context: context,
+                    data: data),
+                css: "alert-error");
         }
 
-        public static Message InvalidFormula(params string[] data)
+        public static Message InvalidFormula(Context context, params string[] data)
         {
-            return Get(Displays.InvalidFormula(data), "alert-error");
+            return Get(
+                text: Displays.InvalidFormula(
+                    context: context,
+                    data: data),
+                css: "alert-error");
         }
 
-        public static Message InvalidRequest(params string[] data)
+        public static Message InvalidRequest(Context context, params string[] data)
         {
-            return Get(Displays.InvalidRequest(data), "alert-error");
+            return Get(
+                text: Displays.InvalidRequest(
+                    context: context,
+                    data: data),
+                css: "alert-error");
         }
 
-        public static Message ItemsLimit(params string[] data)
+        public static Message ItemsLimit(Context context, params string[] data)
         {
-            return Get(Displays.ItemsLimit(data), "alert-error");
+            return Get(
+                text: Displays.ItemsLimit(
+                    context: context,
+                    data: data),
+                css: "alert-error");
         }
 
-        public static Message LinkCreated(params string[] data)
+        public static Message LinkCreated(Context context, params string[] data)
         {
-            return Get(Displays.LinkCreated(data), "alert-success");
+            return Get(
+                text: Displays.LinkCreated(
+                    context: context,
+                    data: data),
+                css: "alert-success");
         }
 
-        public static Message LoginIdAlreadyUse(params string[] data)
+        public static Message LoginIdAlreadyUse(Context context, params string[] data)
         {
-            return Get(Displays.LoginIdAlreadyUse(data), "alert-error");
+            return Get(
+                text: Displays.LoginIdAlreadyUse(
+                    context: context,
+                    data: data),
+                css: "alert-error");
         }
 
-        public static Message LoginIn(params string[] data)
+        public static Message LoginIn(Context context, params string[] data)
         {
-            return Get(Displays.LoginIn(data), "alert-success");
+            return Get(
+                text: Displays.LoginIn(
+                    context: context,
+                    data: data),
+                css: "alert-success");
         }
 
-        public static Message MailAddressHasNotSet(params string[] data)
+        public static Message MailAddressHasNotSet(Context context, params string[] data)
         {
-            return Get(Displays.MailAddressHasNotSet(data), "alert-error");
+            return Get(
+                text: Displays.MailAddressHasNotSet(
+                    context: context,
+                    data: data),
+                css: "alert-error");
         }
 
-        public static Message MailTransmissionCompletion(params string[] data)
+        public static Message MailTransmissionCompletion(Context context, params string[] data)
         {
-            return Get(Displays.MailTransmissionCompletion(data), "alert-success");
+            return Get(
+                text: Displays.MailTransmissionCompletion(
+                    context: context,
+                    data: data),
+                css: "alert-success");
         }
 
-        public static Message Moved(params string[] data)
+        public static Message Moved(Context context, params string[] data)
         {
-            return Get(Displays.Moved(data), "alert-success");
+            return Get(
+                text: Displays.Moved(
+                    context: context,
+                    data: data),
+                css: "alert-success");
         }
 
-        public static Message NoLinks(params string[] data)
+        public static Message NoLinks(Context context, params string[] data)
         {
-            return Get(Displays.NoLinks(data), "alert-error");
+            return Get(
+                text: Displays.NoLinks(
+                    context: context,
+                    data: data),
+                css: "alert-error");
         }
 
-        public static Message NotFound(params string[] data)
+        public static Message NotFound(Context context, params string[] data)
         {
-            return Get(Displays.NotFound(data), "alert-error");
+            return Get(
+                text: Displays.NotFound(
+                    context: context,
+                    data: data),
+                css: "alert-error");
         }
 
-        public static Message NotRequiredColumn(params string[] data)
+        public static Message NotRequiredColumn(Context context, params string[] data)
         {
-            return Get(Displays.NotRequiredColumn(data), "alert-error");
+            return Get(
+                text: Displays.NotRequiredColumn(
+                    context: context,
+                    data: data),
+                css: "alert-error");
         }
 
-        public static Message OverLimitQuantity(params string[] data)
+        public static Message OverLimitQuantity(Context context, params string[] data)
         {
-            return Get(Displays.OverLimitQuantity(data), "alert-error");
+            return Get(
+                text: Displays.OverLimitQuantity(
+                    context: context,
+                    data: data),
+                css: "alert-error");
         }
 
-        public static Message OverLimitSize(params string[] data)
+        public static Message OverLimitSize(Context context, params string[] data)
         {
-            return Get(Displays.OverLimitSize(data), "alert-error");
+            return Get(
+                text: Displays.OverLimitSize(
+                    context: context,
+                    data: data),
+                css: "alert-error");
         }
 
-        public static Message OverTenantStorageSize(params string[] data)
+        public static Message OverTenantStorageSize(Context context, params string[] data)
         {
-            return Get(Displays.OverTenantStorageSize(data), "alert-error");
+            return Get(
+                text: Displays.OverTenantStorageSize(
+                    context: context,
+                    data: data),
+                css: "alert-error");
         }
 
-        public static Message OverTotalLimitSize(params string[] data)
+        public static Message OverTotalLimitSize(Context context, params string[] data)
         {
-            return Get(Displays.OverTotalLimitSize(data), "alert-error");
+            return Get(
+                text: Displays.OverTotalLimitSize(
+                    context: context,
+                    data: data),
+                css: "alert-error");
         }
 
-        public static Message ParameterSyntaxError(params string[] data)
+        public static Message ParameterSyntaxError(Context context, params string[] data)
         {
-            return Get(Displays.ParameterSyntaxError(data), "alert-error");
+            return Get(
+                text: Displays.ParameterSyntaxError(
+                    context: context,
+                    data: data),
+                css: "alert-error");
         }
 
-        public static Message PasswordNotChanged(params string[] data)
+        public static Message PasswordNotChanged(Context context, params string[] data)
         {
-            return Get(Displays.PasswordNotChanged(data), "alert-error");
+            return Get(
+                text: Displays.PasswordNotChanged(
+                    context: context,
+                    data: data),
+                css: "alert-error");
         }
 
-        public static Message PasswordResetCompleted(params string[] data)
+        public static Message PasswordResetCompleted(Context context, params string[] data)
         {
-            return Get(Displays.PasswordResetCompleted(data), "alert-success");
+            return Get(
+                text: Displays.PasswordResetCompleted(
+                    context: context,
+                    data: data),
+                css: "alert-success");
         }
 
-        public static Message PermissionNotSelfChange(params string[] data)
+        public static Message PermissionNotSelfChange(Context context, params string[] data)
         {
-            return Get(Displays.PermissionNotSelfChange(data), "alert-error");
+            return Get(
+                text: Displays.PermissionNotSelfChange(
+                    context: context,
+                    data: data),
+                css: "alert-error");
         }
 
-        public static Message PhysicalDeleted(params string[] data)
+        public static Message PhysicalDeleted(Context context, params string[] data)
         {
-            return Get(Displays.PhysicalDeleted(data), "alert-success");
+            return Get(
+                text: Displays.PhysicalDeleted(
+                    context: context,
+                    data: data),
+                css: "alert-success");
         }
 
-        public static Message ReadOnlyBecausePreviousVer(params string[] data)
+        public static Message ReadOnlyBecausePreviousVer(Context context, params string[] data)
         {
-            return Get(Displays.ReadOnlyBecausePreviousVer(data), "alert-info");
+            return Get(
+                text: Displays.ReadOnlyBecausePreviousVer(
+                    context: context,
+                    data: data),
+                css: "alert-info");
         }
 
-        public static Message RequireMailAddresses(params string[] data)
+        public static Message RequireMailAddresses(Context context, params string[] data)
         {
-            return Get(Displays.RequireMailAddresses(data), "alert-error");
+            return Get(
+                text: Displays.RequireMailAddresses(
+                    context: context,
+                    data: data),
+                css: "alert-error");
         }
 
-        public static Message RequireTo(params string[] data)
+        public static Message RequireTo(Context context, params string[] data)
         {
-            return Get(Displays.RequireTo(data), "alert-error");
+            return Get(
+                text: Displays.RequireTo(
+                    context: context,
+                    data: data),
+                css: "alert-error");
         }
 
-        public static Message RestoredFromHistory(params string[] data)
+        public static Message RestoredFromHistory(Context context, params string[] data)
         {
-            return Get(Displays.RestoredFromHistory(data), "alert-success");
+            return Get(
+                text: Displays.RestoredFromHistory(
+                    context: context,
+                    data: data),
+                css: "alert-success");
         }
 
-        public static Message Restricted(params string[] data)
+        public static Message Restricted(Context context, params string[] data)
         {
-            return Get(Displays.Restricted(data), "alert-error");
+            return Get(
+                text: Displays.Restricted(
+                    context: context,
+                    data: data),
+                css: "alert-error");
         }
 
-        public static Message SelectFile(params string[] data)
+        public static Message SelectFile(Context context, params string[] data)
         {
-            return Get(Displays.SelectFile(data), "alert-error");
+            return Get(
+                text: Displays.SelectFile(
+                    context: context,
+                    data: data),
+                css: "alert-error");
         }
 
-        public static Message SelectOne(params string[] data)
+        public static Message SelectOne(Context context, params string[] data)
         {
-            return Get(Displays.SelectOne(data), "alert-error");
+            return Get(
+                text: Displays.SelectOne(
+                    context: context,
+                    data: data),
+                css: "alert-error");
         }
 
-        public static Message SelectTargets(params string[] data)
+        public static Message SelectTargets(Context context, params string[] data)
         {
-            return Get(Displays.SelectTargets(data), "alert-error");
+            return Get(
+                text: Displays.SelectTargets(
+                    context: context,
+                    data: data),
+                css: "alert-error");
         }
 
-        public static Message SentAcceptanceMail (params string[] data)
+        public static Message SentAcceptanceMail (Context context, params string[] data)
         {
-            return Get(Displays.SentAcceptanceMail (data), "alert-success");
+            return Get(
+                text: Displays.SentAcceptanceMail (
+                    context: context,
+                    data: data),
+                css: "alert-success");
         }
 
-        public static Message Separated(params string[] data)
+        public static Message Separated(Context context, params string[] data)
         {
-            return Get(Displays.Separated(data), "alert-success");
+            return Get(
+                text: Displays.Separated(
+                    context: context,
+                    data: data),
+                css: "alert-success");
         }
 
-        public static Message SitesCreated(params string[] data)
+        public static Message SitesCreated(Context context, params string[] data)
         {
-            return Get(Displays.SitesCreated(data), "alert-success");
+            return Get(
+                text: Displays.SitesCreated(
+                    context: context,
+                    data: data),
+                css: "alert-success");
         }
 
-        public static Message SitesLimit(params string[] data)
+        public static Message SitesLimit(Context context, params string[] data)
         {
-            return Get(Displays.SitesLimit(data), "alert-error");
+            return Get(
+                text: Displays.SitesLimit(
+                    context: context,
+                    data: data),
+                css: "alert-error");
         }
 
-        public static Message SynchronizationCompleted(params string[] data)
+        public static Message SynchronizationCompleted(Context context, params string[] data)
         {
-            return Get(Displays.SynchronizationCompleted(data), "alert-success");
+            return Get(
+                text: Displays.SynchronizationCompleted(
+                    context: context,
+                    data: data),
+                css: "alert-success");
         }
 
-        public static Message TooManyCases(params string[] data)
+        public static Message TooManyCases(Context context, params string[] data)
         {
-            return Get(Displays.TooManyCases(data), "alert-error");
+            return Get(
+                text: Displays.TooManyCases(
+                    context: context,
+                    data: data),
+                css: "alert-error");
         }
 
-        public static Message TooManyColumnCases(params string[] data)
+        public static Message TooManyColumnCases(Context context, params string[] data)
         {
-            return Get(Displays.TooManyColumnCases(data), "alert-error");
+            return Get(
+                text: Displays.TooManyColumnCases(
+                    context: context,
+                    data: data),
+                css: "alert-error");
         }
 
-        public static Message TooManyRowCases(params string[] data)
+        public static Message TooManyRowCases(Context context, params string[] data)
         {
-            return Get(Displays.TooManyRowCases(data), "alert-error");
+            return Get(
+                text: Displays.TooManyRowCases(
+                    context: context,
+                    data: data),
+                css: "alert-error");
         }
 
-        public static Message Unauthorized(params string[] data)
+        public static Message Unauthorized(Context context, params string[] data)
         {
-            return Get(Displays.Unauthorized(data), "alert-error");
+            return Get(
+                text: Displays.Unauthorized(
+                    context: context,
+                    data: data),
+                css: "alert-error");
         }
 
-        public static Message UpdateConflicts(params string[] data)
+        public static Message UpdateConflicts(Context context, params string[] data)
         {
-            return Get(Displays.UpdateConflicts(data), "alert-error");
+            return Get(
+                text: Displays.UpdateConflicts(
+                    context: context,
+                    data: data),
+                css: "alert-error");
         }
 
-        public static Message Updated(params string[] data)
+        public static Message Updated(Context context, params string[] data)
         {
-            return Get(Displays.Updated(data), "alert-success");
+            return Get(
+                text: Displays.Updated(
+                    context: context,
+                    data: data),
+                css: "alert-success");
         }
 
-        public static Message UserDisabled(params string[] data)
+        public static Message UserDisabled(Context context, params string[] data)
         {
-            return Get(Displays.UserDisabled(data), "alert-error");
+            return Get(
+                text: Displays.UserDisabled(
+                    context: context,
+                    data: data),
+                css: "alert-error");
         }
 
-        public static Message UsersLimit(params string[] data)
+        public static Message UsersLimit(Context context, params string[] data)
         {
-            return Get(Displays.UsersLimit(data), "alert-error");
+            return Get(
+                text: Displays.UsersLimit(
+                    context: context,
+                    data: data),
+                css: "alert-error");
         }
 
-        public static ResponseCollection ResponseAlreadyAdded(params string[] data)
+        public static ResponseCollection ResponseAlreadyAdded(Context context, params string[] data)
         {
-            return ResponseMessage(AlreadyAdded(data));
+            return ResponseMessage(AlreadyAdded(
+                context: context,
+                data: data));
         }
 
-        public static ResponseCollection ResponseAlreadyLinked(params string[] data)
+        public static ResponseCollection ResponseAlreadyLinked(Context context, params string[] data)
         {
-            return ResponseMessage(AlreadyLinked(data));
+            return ResponseMessage(AlreadyLinked(
+                context: context,
+                data: data));
         }
 
-        public static ResponseCollection ResponseApiKeyCreated(params string[] data)
+        public static ResponseCollection ResponseApiKeyCreated(Context context, params string[] data)
         {
-            return ResponseMessage(ApiKeyCreated(data));
+            return ResponseMessage(ApiKeyCreated(
+                context: context,
+                data: data));
         }
 
-        public static ResponseCollection ResponseApiKeyDeleted(params string[] data)
+        public static ResponseCollection ResponseApiKeyDeleted(Context context, params string[] data)
         {
-            return ResponseMessage(ApiKeyDeleted(data));
+            return ResponseMessage(ApiKeyDeleted(
+                context: context,
+                data: data));
         }
 
-        public static ResponseCollection ResponseApplicationError(params string[] data)
+        public static ResponseCollection ResponseApplicationError(Context context, params string[] data)
         {
-            return ResponseMessage(ApplicationError(data));
+            return ResponseMessage(ApplicationError(
+                context: context,
+                data: data));
         }
 
-        public static ResponseCollection ResponseAuthentication(params string[] data)
+        public static ResponseCollection ResponseAuthentication(Context context, params string[] data)
         {
-            return ResponseMessage(Authentication(data));
+            return ResponseMessage(Authentication(
+                context: context,
+                data: data));
         }
 
-        public static ResponseCollection ResponseBadFormat(params string[] data)
+        public static ResponseCollection ResponseBadFormat(Context context, params string[] data)
         {
-            return ResponseMessage(BadFormat(data));
+            return ResponseMessage(BadFormat(
+                context: context,
+                data: data));
         }
 
-        public static ResponseCollection ResponseBadMailAddress(params string[] data)
+        public static ResponseCollection ResponseBadMailAddress(Context context, params string[] data)
         {
-            return ResponseMessage(BadMailAddress(data));
+            return ResponseMessage(BadMailAddress(
+                context: context,
+                data: data));
         }
 
-        public static ResponseCollection ResponseBadRequest(params string[] data)
+        public static ResponseCollection ResponseBadRequest(Context context, params string[] data)
         {
-            return ResponseMessage(BadRequest(data));
+            return ResponseMessage(BadRequest(
+                context: context,
+                data: data));
         }
 
-        public static ResponseCollection ResponseBulkDeleted(params string[] data)
+        public static ResponseCollection ResponseBulkDeleted(Context context, params string[] data)
         {
-            return ResponseMessage(BulkDeleted(data));
+            return ResponseMessage(BulkDeleted(
+                context: context,
+                data: data));
         }
 
-        public static ResponseCollection ResponseBulkMoved(params string[] data)
+        public static ResponseCollection ResponseBulkMoved(Context context, params string[] data)
         {
-            return ResponseMessage(BulkMoved(data));
+            return ResponseMessage(BulkMoved(
+                context: context,
+                data: data));
         }
 
-        public static ResponseCollection ResponseBulkRestored(params string[] data)
+        public static ResponseCollection ResponseBulkRestored(Context context, params string[] data)
         {
-            return ResponseMessage(BulkRestored(data));
+            return ResponseMessage(BulkRestored(
+                context: context,
+                data: data));
         }
 
-        public static ResponseCollection ResponseCanNotChangeInheritance(params string[] data)
+        public static ResponseCollection ResponseCanNotChangeInheritance(Context context, params string[] data)
         {
-            return ResponseMessage(CanNotChangeInheritance(data));
+            return ResponseMessage(CanNotChangeInheritance(
+                context: context,
+                data: data));
         }
 
-        public static ResponseCollection ResponseCanNotDisabled(params string[] data)
+        public static ResponseCollection ResponseCanNotDisabled(Context context, params string[] data)
         {
-            return ResponseMessage(CanNotDisabled(data));
+            return ResponseMessage(CanNotDisabled(
+                context: context,
+                data: data));
         }
 
-        public static ResponseCollection ResponseCanNotInherit(params string[] data)
+        public static ResponseCollection ResponseCanNotInherit(Context context, params string[] data)
         {
-            return ResponseMessage(CanNotInherit(data));
+            return ResponseMessage(CanNotInherit(
+                context: context,
+                data: data));
         }
 
-        public static ResponseCollection ResponseCanNotLink(params string[] data)
+        public static ResponseCollection ResponseCanNotLink(Context context, params string[] data)
         {
-            return ResponseMessage(CanNotLink(data));
+            return ResponseMessage(CanNotLink(
+                context: context,
+                data: data));
         }
 
-        public static ResponseCollection ResponseCanNotPerformed(params string[] data)
+        public static ResponseCollection ResponseCanNotPerformed(Context context, params string[] data)
         {
-            return ResponseMessage(CanNotPerformed(data));
+            return ResponseMessage(CanNotPerformed(
+                context: context,
+                data: data));
         }
 
-        public static ResponseCollection ResponseCanNotUpdate(params string[] data)
+        public static ResponseCollection ResponseCanNotUpdate(Context context, params string[] data)
         {
-            return ResponseMessage(CanNotUpdate(data));
+            return ResponseMessage(CanNotUpdate(
+                context: context,
+                data: data));
         }
 
-        public static ResponseCollection ResponseCantSetAtTopOfSite(params string[] data)
+        public static ResponseCollection ResponseCantSetAtTopOfSite(Context context, params string[] data)
         {
-            return ResponseMessage(CantSetAtTopOfSite(data));
+            return ResponseMessage(CantSetAtTopOfSite(
+                context: context,
+                data: data));
         }
 
-        public static ResponseCollection ResponseChangingPasswordComplete(params string[] data)
+        public static ResponseCollection ResponseChangingPasswordComplete(Context context, params string[] data)
         {
-            return ResponseMessage(ChangingPasswordComplete(data));
+            return ResponseMessage(ChangingPasswordComplete(
+                context: context,
+                data: data));
         }
 
-        public static ResponseCollection ResponseCodeDefinerBackupCompleted(params string[] data)
+        public static ResponseCollection ResponseCodeDefinerBackupCompleted(Context context, params string[] data)
         {
-            return ResponseMessage(CodeDefinerBackupCompleted(data));
+            return ResponseMessage(CodeDefinerBackupCompleted(
+                context: context,
+                data: data));
         }
 
-        public static ResponseCollection ResponseCodeDefinerCompleted(params string[] data)
+        public static ResponseCollection ResponseCodeDefinerCompleted(Context context, params string[] data)
         {
-            return ResponseMessage(CodeDefinerCompleted(data));
+            return ResponseMessage(CodeDefinerCompleted(
+                context: context,
+                data: data));
         }
 
-        public static ResponseCollection ResponseCodeDefinerCssCompleted(params string[] data)
+        public static ResponseCollection ResponseCodeDefinerCssCompleted(Context context, params string[] data)
         {
-            return ResponseMessage(CodeDefinerCssCompleted(data));
+            return ResponseMessage(CodeDefinerCssCompleted(
+                context: context,
+                data: data));
         }
 
-        public static ResponseCollection ResponseCodeDefinerDefCompleted(params string[] data)
+        public static ResponseCollection ResponseCodeDefinerDefCompleted(Context context, params string[] data)
         {
-            return ResponseMessage(CodeDefinerDefCompleted(data));
+            return ResponseMessage(CodeDefinerDefCompleted(
+                context: context,
+                data: data));
         }
 
-        public static ResponseCollection ResponseCodeDefinerInsertTestDataCompleted(params string[] data)
+        public static ResponseCollection ResponseCodeDefinerInsertTestDataCompleted(Context context, params string[] data)
         {
-            return ResponseMessage(CodeDefinerInsertTestDataCompleted(data));
+            return ResponseMessage(CodeDefinerInsertTestDataCompleted(
+                context: context,
+                data: data));
         }
 
-        public static ResponseCollection ResponseCodeDefinerMvcCompleted(params string[] data)
+        public static ResponseCollection ResponseCodeDefinerMvcCompleted(Context context, params string[] data)
         {
-            return ResponseMessage(CodeDefinerMvcCompleted(data));
+            return ResponseMessage(CodeDefinerMvcCompleted(
+                context: context,
+                data: data));
         }
 
-        public static ResponseCollection ResponseCodeDefinerRdsCompleted(params string[] data)
+        public static ResponseCollection ResponseCodeDefinerRdsCompleted(Context context, params string[] data)
         {
-            return ResponseMessage(CodeDefinerRdsCompleted(data));
+            return ResponseMessage(CodeDefinerRdsCompleted(
+                context: context,
+                data: data));
         }
 
-        public static ResponseCollection ResponseCommentDeleted(params string[] data)
+        public static ResponseCollection ResponseCommentDeleted(Context context, params string[] data)
         {
-            return ResponseMessage(CommentDeleted(data));
+            return ResponseMessage(CommentDeleted(
+                context: context,
+                data: data));
         }
 
-        public static ResponseCollection ResponseCopied(params string[] data)
+        public static ResponseCollection ResponseCopied(Context context, params string[] data)
         {
-            return ResponseMessage(Copied(data));
+            return ResponseMessage(Copied(
+                context: context,
+                data: data));
         }
 
-        public static ResponseCollection ResponseCreated(params string[] data)
+        public static ResponseCollection ResponseCreated(Context context, params string[] data)
         {
-            return ResponseMessage(Created(data));
+            return ResponseMessage(Created(
+                context: context,
+                data: data));
         }
 
-        public static ResponseCollection ResponseDefinitionNotFound(params string[] data)
+        public static ResponseCollection ResponseDefinitionNotFound(Context context, params string[] data)
         {
-            return ResponseMessage(DefinitionNotFound(data));
+            return ResponseMessage(DefinitionNotFound(
+                context: context,
+                data: data));
         }
 
-        public static ResponseCollection ResponseDeleteConflicts(params string[] data)
+        public static ResponseCollection ResponseDeleteConflicts(Context context, params string[] data)
         {
-            return ResponseMessage(DeleteConflicts(data));
+            return ResponseMessage(DeleteConflicts(
+                context: context,
+                data: data));
         }
 
-        public static ResponseCollection ResponseDeleted(params string[] data)
+        public static ResponseCollection ResponseDeleted(Context context, params string[] data)
         {
-            return ResponseMessage(Deleted(data));
+            return ResponseMessage(Deleted(
+                context: context,
+                data: data));
         }
 
-        public static ResponseCollection ResponseDeletedImage(params string[] data)
+        public static ResponseCollection ResponseDeletedImage(Context context, params string[] data)
         {
-            return ResponseMessage(DeletedImage(data));
+            return ResponseMessage(DeletedImage(
+                context: context,
+                data: data));
         }
 
-        public static ResponseCollection ResponseDuplicated(params string[] data)
+        public static ResponseCollection ResponseDuplicated(Context context, params string[] data)
         {
-            return ResponseMessage(Duplicated(data));
+            return ResponseMessage(Duplicated(
+                context: context,
+                data: data));
         }
 
-        public static ResponseCollection ResponseExpired(params string[] data)
+        public static ResponseCollection ResponseExpired(Context context, params string[] data)
         {
-            return ResponseMessage(Expired(data));
+            return ResponseMessage(Expired(
+                context: context,
+                data: data));
         }
 
-        public static ResponseCollection ResponseExternalMailAddress(params string[] data)
+        public static ResponseCollection ResponseExternalMailAddress(Context context, params string[] data)
         {
-            return ResponseMessage(ExternalMailAddress(data));
+            return ResponseMessage(ExternalMailAddress(
+                context: context,
+                data: data));
         }
 
-        public static ResponseCollection ResponseFailedReadFile(params string[] data)
+        public static ResponseCollection ResponseFailedReadFile(Context context, params string[] data)
         {
-            return ResponseMessage(FailedReadFile(data));
+            return ResponseMessage(FailedReadFile(
+                context: context,
+                data: data));
         }
 
-        public static ResponseCollection ResponseFileDeleteCompleted(params string[] data)
+        public static ResponseCollection ResponseFileDeleteCompleted(Context context, params string[] data)
         {
-            return ResponseMessage(FileDeleteCompleted(data));
+            return ResponseMessage(FileDeleteCompleted(
+                context: context,
+                data: data));
         }
 
-        public static ResponseCollection ResponseFileDragDrop(params string[] data)
+        public static ResponseCollection ResponseFileDragDrop(Context context, params string[] data)
         {
-            return ResponseMessage(FileDragDrop(data));
+            return ResponseMessage(FileDragDrop(
+                context: context,
+                data: data));
         }
 
-        public static ResponseCollection ResponseFileNotFound(params string[] data)
+        public static ResponseCollection ResponseFileNotFound(Context context, params string[] data)
         {
-            return ResponseMessage(FileNotFound(data));
+            return ResponseMessage(FileNotFound(
+                context: context,
+                data: data));
         }
 
-        public static ResponseCollection ResponseFileUpdateCompleted(params string[] data)
+        public static ResponseCollection ResponseFileUpdateCompleted(Context context, params string[] data)
         {
-            return ResponseMessage(FileUpdateCompleted(data));
+            return ResponseMessage(FileUpdateCompleted(
+                context: context,
+                data: data));
         }
 
-        public static ResponseCollection ResponseHasBeenDeleted(params string[] data)
+        public static ResponseCollection ResponseHasBeenDeleted(Context context, params string[] data)
         {
-            return ResponseMessage(HasBeenDeleted(data));
+            return ResponseMessage(HasBeenDeleted(
+                context: context,
+                data: data));
         }
 
-        public static ResponseCollection ResponseHasBeenMoved(params string[] data)
+        public static ResponseCollection ResponseHasBeenMoved(Context context, params string[] data)
         {
-            return ResponseMessage(HasBeenMoved(data));
+            return ResponseMessage(HasBeenMoved(
+                context: context,
+                data: data));
         }
 
-        public static ResponseCollection ResponseHasNotPermission(params string[] data)
+        public static ResponseCollection ResponseHasNotPermission(Context context, params string[] data)
         {
-            return ResponseMessage(HasNotPermission(data));
+            return ResponseMessage(HasNotPermission(
+                context: context,
+                data: data));
         }
 
-        public static ResponseCollection ResponseHistoryDeleted(params string[] data)
+        public static ResponseCollection ResponseHistoryDeleted(Context context, params string[] data)
         {
-            return ResponseMessage(HistoryDeleted(data));
+            return ResponseMessage(HistoryDeleted(
+                context: context,
+                data: data));
         }
 
-        public static ResponseCollection ResponseImported(params string[] data)
+        public static ResponseCollection ResponseImported(Context context, params string[] data)
         {
-            return ResponseMessage(Imported(data));
+            return ResponseMessage(Imported(
+                context: context,
+                data: data));
         }
 
-        public static ResponseCollection ResponseImportMax(params string[] data)
+        public static ResponseCollection ResponseImportMax(Context context, params string[] data)
         {
-            return ResponseMessage(ImportMax(data));
+            return ResponseMessage(ImportMax(
+                context: context,
+                data: data));
         }
 
-        public static ResponseCollection ResponseInCompression(params string[] data)
+        public static ResponseCollection ResponseInCompression(Context context, params string[] data)
         {
-            return ResponseMessage(InCompression(data));
+            return ResponseMessage(InCompression(
+                context: context,
+                data: data));
         }
 
-        public static ResponseCollection ResponseInCopying(params string[] data)
+        public static ResponseCollection ResponseInCopying(Context context, params string[] data)
         {
-            return ResponseMessage(InCopying(data));
+            return ResponseMessage(InCopying(
+                context: context,
+                data: data));
         }
 
-        public static ResponseCollection ResponseIncorrectCurrentPassword(params string[] data)
+        public static ResponseCollection ResponseIncorrectCurrentPassword(Context context, params string[] data)
         {
-            return ResponseMessage(IncorrectCurrentPassword(data));
+            return ResponseMessage(IncorrectCurrentPassword(
+                context: context,
+                data: data));
         }
 
-        public static ResponseCollection ResponseIncorrectFileFormat(params string[] data)
+        public static ResponseCollection ResponseIncorrectFileFormat(Context context, params string[] data)
         {
-            return ResponseMessage(IncorrectFileFormat(data));
+            return ResponseMessage(IncorrectFileFormat(
+                context: context,
+                data: data));
         }
 
-        public static ResponseCollection ResponseIncorrectSiteDeleting(params string[] data)
+        public static ResponseCollection ResponseIncorrectSiteDeleting(Context context, params string[] data)
         {
-            return ResponseMessage(IncorrectSiteDeleting(data));
+            return ResponseMessage(IncorrectSiteDeleting(
+                context: context,
+                data: data));
         }
 
-        public static ResponseCollection ResponseInputMailAddress(params string[] data)
+        public static ResponseCollection ResponseInputMailAddress(Context context, params string[] data)
         {
-            return ResponseMessage(InputMailAddress(data));
+            return ResponseMessage(InputMailAddress(
+                context: context,
+                data: data));
         }
 
-        public static ResponseCollection ResponseInternalServerError(params string[] data)
+        public static ResponseCollection ResponseInternalServerError(Context context, params string[] data)
         {
-            return ResponseMessage(InternalServerError(data));
+            return ResponseMessage(InternalServerError(
+                context: context,
+                data: data));
         }
 
-        public static ResponseCollection ResponseInvalidCsvData(params string[] data)
+        public static ResponseCollection ResponseInvalidCsvData(Context context, params string[] data)
         {
-            return ResponseMessage(InvalidCsvData(data));
+            return ResponseMessage(InvalidCsvData(
+                context: context,
+                data: data));
         }
 
-        public static ResponseCollection ResponseInvalidFormula(params string[] data)
+        public static ResponseCollection ResponseInvalidFormula(Context context, params string[] data)
         {
-            return ResponseMessage(InvalidFormula(data));
+            return ResponseMessage(InvalidFormula(
+                context: context,
+                data: data));
         }
 
-        public static ResponseCollection ResponseInvalidRequest(params string[] data)
+        public static ResponseCollection ResponseInvalidRequest(Context context, params string[] data)
         {
-            return ResponseMessage(InvalidRequest(data));
+            return ResponseMessage(InvalidRequest(
+                context: context,
+                data: data));
         }
 
-        public static ResponseCollection ResponseItemsLimit(params string[] data)
+        public static ResponseCollection ResponseItemsLimit(Context context, params string[] data)
         {
-            return ResponseMessage(ItemsLimit(data));
+            return ResponseMessage(ItemsLimit(
+                context: context,
+                data: data));
         }
 
-        public static ResponseCollection ResponseLinkCreated(params string[] data)
+        public static ResponseCollection ResponseLinkCreated(Context context, params string[] data)
         {
-            return ResponseMessage(LinkCreated(data));
+            return ResponseMessage(LinkCreated(
+                context: context,
+                data: data));
         }
 
-        public static ResponseCollection ResponseLoginIdAlreadyUse(params string[] data)
+        public static ResponseCollection ResponseLoginIdAlreadyUse(Context context, params string[] data)
         {
-            return ResponseMessage(LoginIdAlreadyUse(data));
+            return ResponseMessage(LoginIdAlreadyUse(
+                context: context,
+                data: data));
         }
 
-        public static ResponseCollection ResponseLoginIn(params string[] data)
+        public static ResponseCollection ResponseLoginIn(Context context, params string[] data)
         {
-            return ResponseMessage(LoginIn(data));
+            return ResponseMessage(LoginIn(
+                context: context,
+                data: data));
         }
 
-        public static ResponseCollection ResponseMailAddressHasNotSet(params string[] data)
+        public static ResponseCollection ResponseMailAddressHasNotSet(Context context, params string[] data)
         {
-            return ResponseMessage(MailAddressHasNotSet(data));
+            return ResponseMessage(MailAddressHasNotSet(
+                context: context,
+                data: data));
         }
 
-        public static ResponseCollection ResponseMailTransmissionCompletion(params string[] data)
+        public static ResponseCollection ResponseMailTransmissionCompletion(Context context, params string[] data)
         {
-            return ResponseMessage(MailTransmissionCompletion(data));
+            return ResponseMessage(MailTransmissionCompletion(
+                context: context,
+                data: data));
         }
 
-        public static ResponseCollection ResponseMoved(params string[] data)
+        public static ResponseCollection ResponseMoved(Context context, params string[] data)
         {
-            return ResponseMessage(Moved(data));
+            return ResponseMessage(Moved(
+                context: context,
+                data: data));
         }
 
-        public static ResponseCollection ResponseNoLinks(params string[] data)
+        public static ResponseCollection ResponseNoLinks(Context context, params string[] data)
         {
-            return ResponseMessage(NoLinks(data));
+            return ResponseMessage(NoLinks(
+                context: context,
+                data: data));
         }
 
-        public static ResponseCollection ResponseNotFound(params string[] data)
+        public static ResponseCollection ResponseNotFound(Context context, params string[] data)
         {
-            return ResponseMessage(NotFound(data));
+            return ResponseMessage(NotFound(
+                context: context,
+                data: data));
         }
 
-        public static ResponseCollection ResponseNotRequiredColumn(params string[] data)
+        public static ResponseCollection ResponseNotRequiredColumn(Context context, params string[] data)
         {
-            return ResponseMessage(NotRequiredColumn(data));
+            return ResponseMessage(NotRequiredColumn(
+                context: context,
+                data: data));
         }
 
-        public static ResponseCollection ResponseOverLimitQuantity(params string[] data)
+        public static ResponseCollection ResponseOverLimitQuantity(Context context, params string[] data)
         {
-            return ResponseMessage(OverLimitQuantity(data));
+            return ResponseMessage(OverLimitQuantity(
+                context: context,
+                data: data));
         }
 
-        public static ResponseCollection ResponseOverLimitSize(params string[] data)
+        public static ResponseCollection ResponseOverLimitSize(Context context, params string[] data)
         {
-            return ResponseMessage(OverLimitSize(data));
+            return ResponseMessage(OverLimitSize(
+                context: context,
+                data: data));
         }
 
-        public static ResponseCollection ResponseOverTenantStorageSize(params string[] data)
+        public static ResponseCollection ResponseOverTenantStorageSize(Context context, params string[] data)
         {
-            return ResponseMessage(OverTenantStorageSize(data));
+            return ResponseMessage(OverTenantStorageSize(
+                context: context,
+                data: data));
         }
 
-        public static ResponseCollection ResponseOverTotalLimitSize(params string[] data)
+        public static ResponseCollection ResponseOverTotalLimitSize(Context context, params string[] data)
         {
-            return ResponseMessage(OverTotalLimitSize(data));
+            return ResponseMessage(OverTotalLimitSize(
+                context: context,
+                data: data));
         }
 
-        public static ResponseCollection ResponseParameterSyntaxError(params string[] data)
+        public static ResponseCollection ResponseParameterSyntaxError(Context context, params string[] data)
         {
-            return ResponseMessage(ParameterSyntaxError(data));
+            return ResponseMessage(ParameterSyntaxError(
+                context: context,
+                data: data));
         }
 
-        public static ResponseCollection ResponsePasswordNotChanged(params string[] data)
+        public static ResponseCollection ResponsePasswordNotChanged(Context context, params string[] data)
         {
-            return ResponseMessage(PasswordNotChanged(data));
+            return ResponseMessage(PasswordNotChanged(
+                context: context,
+                data: data));
         }
 
-        public static ResponseCollection ResponsePasswordResetCompleted(params string[] data)
+        public static ResponseCollection ResponsePasswordResetCompleted(Context context, params string[] data)
         {
-            return ResponseMessage(PasswordResetCompleted(data));
+            return ResponseMessage(PasswordResetCompleted(
+                context: context,
+                data: data));
         }
 
-        public static ResponseCollection ResponsePermissionNotSelfChange(params string[] data)
+        public static ResponseCollection ResponsePermissionNotSelfChange(Context context, params string[] data)
         {
-            return ResponseMessage(PermissionNotSelfChange(data));
+            return ResponseMessage(PermissionNotSelfChange(
+                context: context,
+                data: data));
         }
 
-        public static ResponseCollection ResponsePhysicalDeleted(params string[] data)
+        public static ResponseCollection ResponsePhysicalDeleted(Context context, params string[] data)
         {
-            return ResponseMessage(PhysicalDeleted(data));
+            return ResponseMessage(PhysicalDeleted(
+                context: context,
+                data: data));
         }
 
-        public static ResponseCollection ResponseReadOnlyBecausePreviousVer(params string[] data)
+        public static ResponseCollection ResponseReadOnlyBecausePreviousVer(Context context, params string[] data)
         {
-            return ResponseMessage(ReadOnlyBecausePreviousVer(data));
+            return ResponseMessage(ReadOnlyBecausePreviousVer(
+                context: context,
+                data: data));
         }
 
-        public static ResponseCollection ResponseRequireMailAddresses(params string[] data)
+        public static ResponseCollection ResponseRequireMailAddresses(Context context, params string[] data)
         {
-            return ResponseMessage(RequireMailAddresses(data));
+            return ResponseMessage(RequireMailAddresses(
+                context: context,
+                data: data));
         }
 
-        public static ResponseCollection ResponseRequireTo(params string[] data)
+        public static ResponseCollection ResponseRequireTo(Context context, params string[] data)
         {
-            return ResponseMessage(RequireTo(data));
+            return ResponseMessage(RequireTo(
+                context: context,
+                data: data));
         }
 
-        public static ResponseCollection ResponseRestoredFromHistory(params string[] data)
+        public static ResponseCollection ResponseRestoredFromHistory(Context context, params string[] data)
         {
-            return ResponseMessage(RestoredFromHistory(data));
+            return ResponseMessage(RestoredFromHistory(
+                context: context,
+                data: data));
         }
 
-        public static ResponseCollection ResponseRestricted(params string[] data)
+        public static ResponseCollection ResponseRestricted(Context context, params string[] data)
         {
-            return ResponseMessage(Restricted(data));
+            return ResponseMessage(Restricted(
+                context: context,
+                data: data));
         }
 
-        public static ResponseCollection ResponseSelectFile(params string[] data)
+        public static ResponseCollection ResponseSelectFile(Context context, params string[] data)
         {
-            return ResponseMessage(SelectFile(data));
+            return ResponseMessage(SelectFile(
+                context: context,
+                data: data));
         }
 
-        public static ResponseCollection ResponseSelectOne(params string[] data)
+        public static ResponseCollection ResponseSelectOne(Context context, params string[] data)
         {
-            return ResponseMessage(SelectOne(data));
+            return ResponseMessage(SelectOne(
+                context: context,
+                data: data));
         }
 
-        public static ResponseCollection ResponseSelectTargets(params string[] data)
+        public static ResponseCollection ResponseSelectTargets(Context context, params string[] data)
         {
-            return ResponseMessage(SelectTargets(data));
+            return ResponseMessage(SelectTargets(
+                context: context,
+                data: data));
         }
 
-        public static ResponseCollection ResponseSentAcceptanceMail (params string[] data)
+        public static ResponseCollection ResponseSentAcceptanceMail (Context context, params string[] data)
         {
-            return ResponseMessage(SentAcceptanceMail (data));
+            return ResponseMessage(SentAcceptanceMail (
+                context: context,
+                data: data));
         }
 
-        public static ResponseCollection ResponseSeparated(params string[] data)
+        public static ResponseCollection ResponseSeparated(Context context, params string[] data)
         {
-            return ResponseMessage(Separated(data));
+            return ResponseMessage(Separated(
+                context: context,
+                data: data));
         }
 
-        public static ResponseCollection ResponseSitesCreated(params string[] data)
+        public static ResponseCollection ResponseSitesCreated(Context context, params string[] data)
         {
-            return ResponseMessage(SitesCreated(data));
+            return ResponseMessage(SitesCreated(
+                context: context,
+                data: data));
         }
 
-        public static ResponseCollection ResponseSitesLimit(params string[] data)
+        public static ResponseCollection ResponseSitesLimit(Context context, params string[] data)
         {
-            return ResponseMessage(SitesLimit(data));
+            return ResponseMessage(SitesLimit(
+                context: context,
+                data: data));
         }
 
-        public static ResponseCollection ResponseSynchronizationCompleted(params string[] data)
+        public static ResponseCollection ResponseSynchronizationCompleted(Context context, params string[] data)
         {
-            return ResponseMessage(SynchronizationCompleted(data));
+            return ResponseMessage(SynchronizationCompleted(
+                context: context,
+                data: data));
         }
 
-        public static ResponseCollection ResponseTooManyCases(params string[] data)
+        public static ResponseCollection ResponseTooManyCases(Context context, params string[] data)
         {
-            return ResponseMessage(TooManyCases(data));
+            return ResponseMessage(TooManyCases(
+                context: context,
+                data: data));
         }
 
-        public static ResponseCollection ResponseTooManyColumnCases(params string[] data)
+        public static ResponseCollection ResponseTooManyColumnCases(Context context, params string[] data)
         {
-            return ResponseMessage(TooManyColumnCases(data));
+            return ResponseMessage(TooManyColumnCases(
+                context: context,
+                data: data));
         }
 
-        public static ResponseCollection ResponseTooManyRowCases(params string[] data)
+        public static ResponseCollection ResponseTooManyRowCases(Context context, params string[] data)
         {
-            return ResponseMessage(TooManyRowCases(data));
+            return ResponseMessage(TooManyRowCases(
+                context: context,
+                data: data));
         }
 
-        public static ResponseCollection ResponseUnauthorized(params string[] data)
+        public static ResponseCollection ResponseUnauthorized(Context context, params string[] data)
         {
-            return ResponseMessage(Unauthorized(data));
+            return ResponseMessage(Unauthorized(
+                context: context,
+                data: data));
         }
 
-        public static ResponseCollection ResponseUpdateConflicts(params string[] data)
+        public static ResponseCollection ResponseUpdateConflicts(Context context, params string[] data)
         {
-            return ResponseMessage(UpdateConflicts(data));
+            return ResponseMessage(UpdateConflicts(
+                context: context,
+                data: data));
         }
 
-        public static ResponseCollection ResponseUpdated(params string[] data)
+        public static ResponseCollection ResponseUpdated(Context context, params string[] data)
         {
-            return ResponseMessage(Updated(data));
+            return ResponseMessage(Updated(
+                context: context,
+                data: data));
         }
 
-        public static ResponseCollection ResponseUserDisabled(params string[] data)
+        public static ResponseCollection ResponseUserDisabled(Context context, params string[] data)
         {
-            return ResponseMessage(UserDisabled(data));
+            return ResponseMessage(UserDisabled(
+                context: context,
+                data: data));
         }
 
-        public static ResponseCollection ResponseUsersLimit(params string[] data)
+        public static ResponseCollection ResponseUsersLimit(Context context, params string[] data)
         {
-            return ResponseMessage(UsersLimit(data));
+            return ResponseMessage(UsersLimit(
+                context: context,
+                data: data));
         }
     }
 }

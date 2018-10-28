@@ -31,7 +31,7 @@ namespace Implem.Pleasanter.Libraries.ViewModes
             return data;
         }
 
-        public static bool InRangeX(EnumerableRowCollection<DataRow> dataRows)
+        public static bool InRangeX(Context context, EnumerableRowCollection<DataRow> dataRows)
         {
             var inRange = dataRows.Select(o => o.String("GroupByX")).Distinct().Count() <=
                 Parameters.General.CrosstabXLimit;
@@ -39,12 +39,14 @@ namespace Implem.Pleasanter.Libraries.ViewModes
             {
                 Sessions.Set(
                     "Message",
-                    Messages.TooManyCases(Parameters.General.CrosstabXLimit.ToString()));
+                    Messages.TooManyCases(
+                        context: context,
+                        data: Parameters.General.CrosstabXLimit.ToString()));
             }
             return inRange;
         }
 
-        public static bool InRangeY(EnumerableRowCollection<DataRow> dataRows)
+        public static bool InRangeY(Context context, EnumerableRowCollection<DataRow> dataRows)
         {
             var inRange = dataRows.Select(o => o.String("GroupByY")).Distinct().Count() <=
                 Parameters.General.CrosstabYLimit;
@@ -52,14 +54,19 @@ namespace Implem.Pleasanter.Libraries.ViewModes
             {
                 Sessions.Set(
                     "Message",
-                    Messages.TooManyCases(Parameters.General.CrosstabYLimit.ToString()));
+                    Messages.TooManyCases(
+                        context: context,
+                        data: Parameters.General.CrosstabYLimit.ToString()));
             }
             return inRange;
         }
 
-        public static string DateGroup(SiteSettings ss, Column column, string timePeriod)
+        public static string DateGroup(
+            Context context, SiteSettings ss, Column column, string timePeriod)
         {
-            var columnBracket = ColumnBracket(column);
+            var columnBracket = ColumnBracket(
+                context: context,
+                column: column);
             switch (timePeriod)
             {
                 case "Yearly":
@@ -87,7 +94,7 @@ namespace Implem.Pleasanter.Libraries.ViewModes
         }
 
         public static SqlWhereCollection Where(
-            SiteSettings ss, Column column, string timePeriod, DateTime month)
+            Context context, SiteSettings ss, Column column, string timePeriod, DateTime month)
         {
             switch (timePeriod)
             {
@@ -99,8 +106,8 @@ namespace Implem.Pleasanter.Libraries.ViewModes
                         {
                             "[{0}] between '{1}' and '{2:yyyy/MM/dd HH:mm:ss.fff}'".Params(
                                 column.Name,
-                                year.AddYears(-11).ToUniversal(),
-                                year.AddYears(1).AddMilliseconds(-3).ToUniversal())
+                                year.AddYears(-11).ToUniversal(context: context),
+                                year.AddYears(1).AddMilliseconds(-3).ToUniversal(context: context))
                         }, _operator: null));
                 case "Monthly":
                     return new SqlWhereCollection(new SqlWhere(
@@ -109,8 +116,8 @@ namespace Implem.Pleasanter.Libraries.ViewModes
                         {
                             "[{0}] between '{1}' and '{2:yyyy/MM/dd HH:mm:ss.fff}'".Params(
                                 column.Name,
-                                month.AddMonths(-11).ToUniversal(),
-                                month.AddMonths(1).AddMilliseconds(-3).ToUniversal())
+                                month.AddMonths(-11).ToUniversal(context: context),
+                                month.AddMonths(1).AddMilliseconds(-3).ToUniversal(context: context))
                         }, _operator: null));
                 case "Weekly":
                     var end = WeeklyEndDate(month);
@@ -120,8 +127,8 @@ namespace Implem.Pleasanter.Libraries.ViewModes
                         {
                             "[{0}] between '{1}' and '{2:yyyy/MM/dd HH:mm:ss.fff}'".Params(
                                 column.Name,
-                                end.AddDays(-77).ToUniversal(),
-                                end.AddDays(7).AddMilliseconds(-3).ToUniversal())
+                                end.AddDays(-77).ToUniversal(context: context),
+                                end.AddDays(7).AddMilliseconds(-3).ToUniversal(context: context))
                         }, _operator: null));
                 case "Daily":
                     return new SqlWhereCollection(new SqlWhere(
@@ -130,17 +137,19 @@ namespace Implem.Pleasanter.Libraries.ViewModes
                         {
                             "[{0}] between '{1}' and '{2:yyyy/MM/dd HH:mm:ss.fff}'".Params(
                                 column.Name,
-                                month.ToUniversal(),
-                                month.AddMonths(1).AddMilliseconds(-3).ToUniversal())
+                                month.ToUniversal(context: context),
+                                month.AddMonths(1).AddMilliseconds(-3).ToUniversal(context: context))
                         }, _operator: null));
                 default: return null;
             }
         }
 
-        private static string ColumnBracket(Column column)
+        private static string ColumnBracket(Context context, Column column)
         {
             var columnBracket = "[{0}].[{1}]".Params(column.TableName(), column.Name);
-            var diff = Diff(column);
+            var diff = Diff(
+                context: context,
+                column: column);
             if (diff != 0)
             {
                 columnBracket = $"dateadd(hour,{diff},{columnBracket})";
@@ -148,9 +157,9 @@ namespace Implem.Pleasanter.Libraries.ViewModes
             return columnBracket;
         }
 
-        private static int Diff(Column column)
+        private static int Diff(Context context, Column column)
         {
-            var now = DateTime.Now.ToLocal();
+            var now = DateTime.Now.ToLocal(context: context);
             switch (column.Name)
             {
                 case "CompletionTime":
@@ -199,11 +208,13 @@ namespace Implem.Pleasanter.Libraries.ViewModes
                     ss: ss,
                     view: view,
                     choicesX: ChoicesX(
+                        context: context,
                         groupByX: groupByX,
                         view: view,
                         timePeriod: timePeriod,
                         month: month),
                     choicesY: ChoicesY(
+                        context: context,
                         groupByY: groupByY,
                         view: view),
                     aggregateType: aggregateType,
@@ -227,6 +238,7 @@ namespace Implem.Pleasanter.Libraries.ViewModes
                     ss: ss,
                     view: view,
                     choicesX: ChoicesX(
+                        context: context,
                         groupByX: groupByX,
                         view: view,
                         timePeriod: timePeriod,
@@ -265,13 +277,13 @@ namespace Implem.Pleasanter.Libraries.ViewModes
             {
                 firstHeaderText
             };
-            headers.AddRange(choicesX.Select(o => o.Value.DisplayValue()));
+            headers.AddRange(choicesX.Select(o => o.Value.DisplayValue(context: context)));
             csv.AppendRow(headers);
             choicesY?.ForEach(choiceY =>
             {
                 var cells = new List<string>()
                 {
-                    choiceY.Value.DisplayValue()
+                    choiceY.Value.DisplayValue(context: context)
                 };
                 var column = columnList?.Any() != true
                     ? value
@@ -279,7 +291,10 @@ namespace Implem.Pleasanter.Libraries.ViewModes
                 var row = data.Where(o => o.GroupByY == choiceY.Key).ToList();
                 cells.AddRange(choicesX
                     .Select(choiceX => CellText(
-                        column, aggregateType, CellValue(
+                        context: context,
+                        value: column,
+                        aggregateType: aggregateType,
+                        data: CellValue(
                             data: data,
                             choiceX: choiceX,
                             choiceY: choiceY))));
@@ -312,11 +327,14 @@ namespace Implem.Pleasanter.Libraries.ViewModes
         }
 
         public static Dictionary<string, ControlData> ChoicesX(
-            Column groupByX, View view, string timePeriod, DateTime month)
+            Context context, Column groupByX, View view, string timePeriod, DateTime month)
         {
             return groupByX?.TypeName == "datetime"
                 ? CorrectedChoices(groupByX, timePeriod, month)
-                : groupByX?.EditChoices(insertBlank: true, view: view);
+                : groupByX?.EditChoices(
+                    context: context,
+                    insertBlank: true,
+                    view: view);
         }
 
         private static Dictionary<string, ControlData> CorrectedChoices(
@@ -382,9 +400,13 @@ namespace Implem.Pleasanter.Libraries.ViewModes
             return hash;
         }
 
-        public static Dictionary<string, ControlData> ChoicesY(Column groupByY, View view)
+        public static Dictionary<string, ControlData> ChoicesY(
+            Context context, Column groupByY, View view)
         {
-            return groupByY?.EditChoices(insertBlank: true, view: view);
+            return groupByY?.EditChoices(
+                context: context,
+                insertBlank: true,
+                view: view);
         }
 
         public static Dictionary<string, ControlData> ChoicesY(List<Column> columnList)
@@ -403,10 +425,12 @@ namespace Implem.Pleasanter.Libraries.ViewModes
                 o.GroupByY == choiceY.Key)?.Value ?? 0;
         }
 
-        public static string CellText(Column value, string aggregateType, decimal data)
+        public static string CellText(
+            Context context, Column value, string aggregateType, decimal data)
         {
             return value?.Display(
-                data,
+                context: context,
+                value: data,
                 unit: aggregateType != "Count",
                 format: aggregateType != "Count") ?? data.ToString();
         }

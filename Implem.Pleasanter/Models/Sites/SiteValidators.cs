@@ -265,7 +265,7 @@ namespace Implem.Pleasanter.Models
                     case "Format":
                         try
                         {
-                            0.ToString(formData.Value, Sessions.CultureInfo());
+                            0.ToString(formData.Value, context.CultureInfo());
                         }
                         catch (System.Exception)
                         {

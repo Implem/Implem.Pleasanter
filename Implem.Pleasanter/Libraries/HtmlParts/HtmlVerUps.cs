@@ -17,7 +17,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                 baseModel.MethodType != BaseModel.MethodTypes.New
                     ? hb.FieldCheckBox(
                         controlId: "VerUp",
-                        labelText: Displays.VerUp(),
+                        labelText: Displays.VerUp(context: context),
                         _checked: mustVerUp,
                         disabled: mustVerUp,
                         fieldCss: " w400 both",

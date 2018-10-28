@@ -194,7 +194,7 @@ namespace Implem.Pleasanter.Models
             return this;
         }
 
-        public WikiApiModel GetByApi(SiteSettings ss)
+        public WikiApiModel GetByApi(Context context, SiteSettings ss)
         {
             var data = new WikiApiModel();
             ss.ReadableColumns(noJoined: true).ForEach(column =>
@@ -202,15 +202,15 @@ namespace Implem.Pleasanter.Models
                 switch (column.ColumnName)
                 {
                     case "SiteId": data.SiteId = SiteId; break;
-                    case "UpdatedTime": data.UpdatedTime = UpdatedTime.Value.ToLocal(); break;
+                    case "UpdatedTime": data.UpdatedTime = UpdatedTime.Value.ToLocal(context: context); break;
                     case "WikiId": data.WikiId = WikiId; break;
                     case "Ver": data.Ver = Ver; break;
                     case "Title": data.Title = Title.Value; break;
                     case "Body": data.Body = Body; break;
                     case "Creator": data.Creator = Creator.Id; break;
                     case "Updator": data.Updator = Updator.Id; break;
-                    case "CreatedTime": data.CreatedTime = CreatedTime.Value.ToLocal(); break;
-                    case "Comments": data.Comments = Comments.ToLocal().ToJson(); break;
+                    case "CreatedTime": data.CreatedTime = CreatedTime.Value.ToLocal(context: context); break;
+                    case "Comments": data.Comments = Comments.ToLocal(context: context).ToJson(); break;
                 }
             });
             data.ItemTitle = Title.DisplayValue;
@@ -844,20 +844,28 @@ namespace Implem.Pleasanter.Models
                         notification.Send(
                             context: context,
                             ss: ss,
-                            title: Displays.Created(Title.DisplayValue).ToString(),
+                            title: Displays.Created(
+                                context: context,
+                                data: Title.DisplayValue).ToString(),
                             url: url,
                             body: NoticeBody(
-                                context: context, ss: ss, notification: notification));
+                                context: context,
+                                ss: ss,
+                                notification: notification));
                         break;
                     case "Updated":
                         var body = NoticeBody(
-                            context: context, ss: ss, notification: notification, update: true);
+                            context: context,
+                            ss: ss,
+                            notification: notification, update: true);
                         if (body.Length > 0)
                         {
                             notification.Send(
                                 context: context,
                                 ss: ss,
-                                title: Displays.Updated(Title.DisplayValue).ToString(),
+                                title: Displays.Updated(
+                                    context: context,
+                                    data: Title.DisplayValue).ToString(),
                                 url: url,
                                 body: body);
                         }
@@ -866,10 +874,14 @@ namespace Implem.Pleasanter.Models
                         notification.Send(
                             context: context,
                             ss: ss,
-                            title: Displays.Deleted(Title.DisplayValue).ToString(),
+                            title: Displays.Deleted(
+                                context: context,
+                                data: Title.DisplayValue).ToString(),
                             url: url,
                             body: NoticeBody(
-                                context: context, ss: ss, notification: notification));
+                                context: context,
+                                ss: ss,
+                                notification: notification));
                         break;
                 }
             });
@@ -981,7 +993,7 @@ namespace Implem.Pleasanter.Models
                         case "UpdatedTime":
                             if (dataRow[column.ColumnName] != DBNull.Value)
                             {
-                                UpdatedTime = new Time(dataRow, column.ColumnName); Timestamp = dataRow.Field<DateTime>(column.ColumnName).ToString("yyyy/M/d H:m:s.fff");
+                                UpdatedTime = new Time(context, dataRow, column.ColumnName); Timestamp = dataRow.Field<DateTime>(column.ColumnName).ToString("yyyy/M/d H:m:s.fff");
                                 SavedUpdatedTime = UpdatedTime.Value;
                             }
                             break;
@@ -1017,7 +1029,7 @@ namespace Implem.Pleasanter.Models
                             SavedUpdator = Updator.Id;
                             break;
                         case "CreatedTime":
-                            CreatedTime = new Time(dataRow, column.ColumnName);
+                            CreatedTime = new Time(context, dataRow, column.ColumnName);
                             SavedCreatedTime = CreatedTime.Value;
                             break;
                         case "IsHistory": VerType = dataRow[column.ColumnName].ToBool() ? Versions.VerTypes.History : Versions.VerTypes.Latest; break;

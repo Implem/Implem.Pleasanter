@@ -21,6 +21,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     id: "Aggregations",
                     action: () => hb
                         .DisplayControl(
+                            context: context,
                             id: "ReduceAggregations",
                             icon: "ui-icon-close")
                         .Contents(context: context, ss: ss, aggregations: aggregations))
@@ -29,6 +30,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     css: "reduced",
                     action: () => hb
                         .DisplayControl(
+                            context: context,
                             id: "ExpandAggregations",
                             icon: "ui-icon-folder-open"));
         }
@@ -49,7 +51,8 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             return HttpContext.Current.Session[key].ToBool();
         }
 
-        private static HtmlBuilder DisplayControl(this HtmlBuilder hb, string id, string icon)
+        private static HtmlBuilder DisplayControl(
+            this HtmlBuilder hb, Context context, string id, string icon)
         {
             return hb.Div(
                 attributes: new HtmlAttributes()
@@ -59,7 +62,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     .DataMethod("post"),
                 action: () => hb
                     .Span(css: "ui-icon " + icon)
-                    .Text(text: Displays.Aggregations() + ":"));
+                    .Text(text: Displays.Aggregations(context: context) + ":"));
         }
 
         private static HtmlBuilder Contents(
@@ -67,28 +70,37 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
         {
             return aggregations.TotalCount != 0
                 ? hb
-                    .Total(aggregations: aggregations)
-                    .Overdue(aggregations: aggregations)
-                    .Parts(context: context, ss: ss, aggregations: aggregations)
+                    .Total(
+                        context: context,
+                        aggregations: aggregations)
+                    .Overdue(
+                        context: context,
+                        aggregations: aggregations)
+                    .Parts(
+                        context: context,
+                        ss: ss,
+                        aggregations: aggregations)
                 : hb.Span(css: "label", action: () => hb
-                    .Text(text: Displays.NoData()));
+                    .Text(text: Displays.NoData(context: context)));
         }
 
-        private static HtmlBuilder Total(this HtmlBuilder hb, Aggregations aggregations)
+        private static HtmlBuilder Total(
+            this HtmlBuilder hb, Context context, Aggregations aggregations)
         {
             return hb
                 .Span(css: "label", action: () => hb
-                    .Text(text: Displays.Quantity()))
+                    .Text(text: Displays.Quantity(context: context)))
                 .Span(css: "data", action: () => hb
                     .Text(text: aggregations.TotalCount.ToString()));
         }
 
-        private static HtmlBuilder Overdue(this HtmlBuilder hb, Aggregations aggregations)
+        private static HtmlBuilder Overdue(
+            this HtmlBuilder hb, Context context, Aggregations aggregations)
         {
             return aggregations.OverdueCount > 0
                 ? hb
                     .Span(css: "label overdue", action: () => hb
-                        .Text(text: Displays.Overdue()))
+                        .Text(text: Displays.Overdue(context: context)))
                     .Span(css: "data overdue", action: () => hb
                         .Text(text: aggregations.OverdueCount.ToString()))
                 : hb;
@@ -111,6 +123,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                         context: context, columnName: aggregation.Target);
                     if (aggregation.Data.Count > 0)
                         hb.GroupBy(
+                            context: context,
                             groupBy: groupBy,
                             targetColumn: targetColumn,
                             aggregation: aggregation);
@@ -123,7 +136,9 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                     selectedValue: data.Key)
                                 : string.Empty,
                             value: (targetColumn != null
-                                ? targetColumn.Display(data.Value)
+                                ? targetColumn.Display(
+                                    context: context,
+                                    value: data.Value)
                                 : data.Value.ToString()) +
                                     (aggregation.Type != Aggregation.Types.Count
                                         ? targetColumn?.Unit
@@ -137,6 +152,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
 
         private static HtmlBuilder GroupBy(
             this HtmlBuilder hb,
+            Context context,
             Column groupBy,
             Column targetColumn,
             Aggregation aggregation)
@@ -147,11 +163,15 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             switch (aggregation.Type)
             {
                 case Aggregation.Types.Count:
-                    text += Displays.Get(aggregation.Type.ToString());
+                    text += Displays.Get(
+                        context: context,
+                        id: aggregation.Type.ToString());
                     break;
                 default:
                     text += targetColumn.GridLabelText + " " +
-                        Displays.Get(aggregation.Type.ToString());
+                        Displays.Get(
+                            context: context,
+                            id: aggregation.Type.ToString());
                     break;
             }
             return hb.Span(css: "label", action: () => hb
@@ -171,9 +191,9 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                 var label = groupBy.Choice(selectedValue).TextMini;
                 return label.IsNullOrEmpty()
                     ? NumericZero(groupBy, selectedValue)
-                        ? Displays.NotSet()
+                        ? Displays.NotSet(context: context)
                         : StringEmpty(groupBy, selectedValue)
-                            ? Displays.NotSet()
+                            ? Displays.NotSet(context: context)
                             : "? " + selectedValue
                     : label;
             }

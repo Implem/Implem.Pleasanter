@@ -22,7 +22,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                 context: context,
                 ss: ss,
                 methodType: Pleasanter.Models.BaseModel.MethodTypes.NotSet,
-                title: Displays.Admin(),
+                title: Displays.Admin(context: context),
                 verType: Versions.VerTypes.Latest,
                 useNavigationMenu: false,
                 action: () => hb
@@ -34,7 +34,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                         .Href(Locations.Index("Depts")),
                                     action: () => hb
                                         .Div(action: () => hb
-                                            .Text(Displays.Depts()))
+                                            .Text(Displays.Depts(context: context)))
                                         .StackStyles()))
                             .Li(css: "nav-site", action: () => hb
                                 .A(
@@ -42,7 +42,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                         .Href(Locations.Index("Groups")),
                                     action: () => hb
                                         .Div(action: () => hb
-                                            .Text(Displays.Groups()))
+                                            .Text(Displays.Groups(context: context)))
                                         .StackStyles()))
                             .Li(css: "nav-site", action: () => hb
                                 .A(
@@ -50,7 +50,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                         .Href(Locations.Index("Users")),
                                     action: () => hb
                                         .Div(action: () => hb
-                                            .Text(Displays.Users()))
+                                            .Text(Displays.Users(context: context)))
                                         .StackStyles()))))
                     .MainCommands(
                         context: context,

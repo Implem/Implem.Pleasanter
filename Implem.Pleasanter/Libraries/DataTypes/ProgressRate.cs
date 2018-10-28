@@ -63,40 +63,46 @@ namespace Implem.Pleasanter.Libraries.DataTypes
 
         public string ToControl(Context context, SiteSettings ss, Column column)
         {
-            return column.Display(ss, Value);
+            return column.Display(
+                context: context,
+                ss: ss,
+                value: Value);
         }
 
         public string ToResponse(Context context, SiteSettings ss, Column column)
         {
-            return column.Display(ss, Value);
+            return column.Display(
+                context: context,
+                ss: ss,
+                value: Value);
         }
 
         public HtmlBuilder Td(HtmlBuilder hb, Context context, Column column)
         {
-            return hb.Td(action: () => Svg(hb, column));
+            return hb.Td(action: () => Svg(hb, context, column));
         }
 
-        public bool Delay(Status status)
+        public bool Delay(Context context, Status status)
         {
             if (!status.Incomplete()) return false;
             var now = VerType == Versions.VerTypes.Latest
-                ? DateTime.Now.ToLocal()
-                : UpdatedTime.ToLocal();
-            var start = Start().ToLocal();
-            var end = CompletionTime.ToLocal();
+                ? DateTime.Now.ToLocal(context: context)
+                : UpdatedTime.ToLocal(context: context);
+            var start = Start().ToLocal(context: context);
+            var end = CompletionTime.ToLocal(context: context);
             var range = Times.DateDiff(Times.Types.Seconds, start, end);
             var plannedValue = PlannedValue(now, start, range);
             var earnedValue = EarnedValue();
             return plannedValue > earnedValue && Value < 100;
         }
 
-        private HtmlBuilder Svg(HtmlBuilder hb, Column column)
+        private HtmlBuilder Svg(HtmlBuilder hb, Context context, Column column)
         {
             var now = VerType == Versions.VerTypes.Latest
-                ? DateTime.Now.ToLocal()
-                : UpdatedTime.ToLocal();
-            var start = Start().ToLocal();
-            var end = CompletionTime.ToLocal();
+                ? DateTime.Now.ToLocal(context: context)
+                : UpdatedTime.ToLocal(context: context);
+            var start = Start().ToLocal(context: context);
+            var end = CompletionTime.ToLocal(context: context);
             var range = Times.DateDiff(Times.Types.Seconds, start, end);
             var plannedValue = PlannedValue(now, start, range);
             var earnedValue = EarnedValue();
@@ -106,7 +112,10 @@ namespace Implem.Pleasanter.Libraries.DataTypes
                     : string.Empty);
             return hb.Svg(css: css, action: () => hb
                 .SvgText(
-                    text: column.Display(Value, unit: true),
+                    text: column.Display(
+                        context: context,
+                        value: Value,
+                        unit: true),
                     x: 0,
                     y: Parameters.General.ProgressRateTextTop)
                 .Rect(
@@ -156,7 +165,10 @@ namespace Implem.Pleasanter.Libraries.DataTypes
 
         public string GridText(Context context, Column column)
         {
-            return column.Display(Value, unit: true);
+            return column.Display(
+                context: context,
+                value: Value,
+                unit: true);
         }
 
         public string ToExport(Context context, Column column, ExportColumn exportColumn = null)
@@ -171,12 +183,18 @@ namespace Implem.Pleasanter.Libraries.DataTypes
             bool updated,
             bool update)
         {
-            return column.Display(Value, unit: true).ToNoticeLine(
+            return column.Display(
                 context: context,
-                saved: column.Display(saved, unit: true),
-                column: column,
-                updated: updated,
-                update: update);
+                value: Value,
+                unit: true).ToNoticeLine(
+                    context: context,
+                    saved: column.Display(
+                        context: context,
+                        value: saved,
+                        unit: true),
+                    column: column,
+                    updated: updated,
+                    update: update);
         }
 
         public bool InitialValue(Context context)

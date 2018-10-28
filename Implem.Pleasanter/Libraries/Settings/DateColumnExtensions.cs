@@ -1,4 +1,5 @@
 ﻿using Implem.Libraries.Utilities;
+using Implem.Pleasanter.Libraries.Requests;
 using Implem.Pleasanter.Libraries.Responses;
 using Implem.Pleasanter.Libraries.Server;
 using System;
@@ -7,10 +8,11 @@ namespace Implem.Pleasanter.Libraries.Settings
 {
     public static class DateColumnExtensions
     {
-        public static Dictionary<string, ControlData> DateFilterOptions(this Column column)
+        public static Dictionary<string, ControlData> DateFilterOptions(
+            this Column column, Context context)
         {
             var hash = new Dictionary<string, ControlData>();
-            var now = DateTime.Now.ToLocal();
+            var now = DateTime.Now.ToLocal(context: context);
             var min = Min(column, now);
             var max = Max(column, now);
             var diff = 0;
@@ -20,18 +22,19 @@ namespace Implem.Pleasanter.Libraries.Settings
             }
             if (!column.Required)
             {
-                hash.Add("\t", new ControlData(Displays.NotSet()));
+                hash.Add("\t", new ControlData(Displays.NotSet(context: context)));
             }
             if (column.DateFilterFy == true)
             {
                 for (var m = min; m <= max; m += 12)
                 {
                     SetFy(
-                        hash,
-                        now,
-                        now.AddMonths(m),
-                        column.RecordedTime,
-                        diff);
+                        context: context,
+                        hash: hash,
+                        now: now,
+                        current: now.AddMonths(m),
+                        recordedTime: column.RecordedTime,
+                        diff: diff);
                 }
             }
             if (column.DateFilterHalf == true)
@@ -39,11 +42,12 @@ namespace Implem.Pleasanter.Libraries.Settings
                 for (var m = min; m <= max; m += 6)
                 {
                     SetHalf(
-                        hash,
-                        now,
-                        now.AddMonths(m),
-                        column.RecordedTime,
-                        diff);
+                        context: context,
+                        hash: hash,
+                        now: now,
+                        current:  now.AddMonths(m),
+                        recordedTime: column.RecordedTime,
+                        diff: diff);
                 }
             }
             if (column.DateFilterQuarter == true)
@@ -51,11 +55,12 @@ namespace Implem.Pleasanter.Libraries.Settings
                 for (var m = min; m <= max; m += 3)
                 {
                     SetQuarter(
-                        hash,
-                        now,
-                        now.AddMonths(m),
-                        column.RecordedTime,
-                        diff);
+                        context: context,
+                        hash: hash,
+                        now: now,
+                        current: now.AddMonths(m),
+                        recordedTime: column.RecordedTime,
+                        diff: diff);
                 }
             }
             if (column.DateFilterMonth == true)
@@ -63,11 +68,12 @@ namespace Implem.Pleasanter.Libraries.Settings
                 for (var m = min; m <= max; m++)
                 {
                     SetMonth(
-                        hash,
-                        now,
-                        now.AddMonths(m),
-                        column.RecordedTime,
-                        diff);
+                        context: context,
+                        hash: hash,
+                        now: now,
+                        current: now.AddMonths(m),
+                        recordedTime: column.RecordedTime,
+                        diff: diff);
                 }
             }
             return hash;
@@ -84,6 +90,7 @@ namespace Implem.Pleasanter.Libraries.Settings
         }
 
         private static void SetMonth(
+            Context context,
             Dictionary<string, ControlData> hash,
             DateTime now,
             DateTime current,
@@ -96,12 +103,13 @@ namespace Implem.Pleasanter.Libraries.Settings
             {
                 hash.Add(
                     Period(timePeriod),
-                    new ControlData(current.ToString("y", Sessions.CultureInfo()) +
+                    new ControlData(current.ToString("y", context.CultureInfo()) +
                         InRange(timePeriod, now)));
             }
         }
 
         private static void SetQuarter(
+            Context context,
             Dictionary<string, ControlData> hash,
             DateTime now,
             DateTime current,
@@ -115,12 +123,15 @@ namespace Implem.Pleasanter.Libraries.Settings
                 hash.Add(
                     Period(timePeriod),
                     new ControlData(Displays.Quarter(
-                        current.Fy().ToString(), current.Quarter().ToString()) +
+                        context,
+                        current.Fy().ToString(),
+                        current.Quarter().ToString()) +
                             InRange(timePeriod, now)));
             }
         }
 
         private static void SetHalf(
+            Context context,
             Dictionary<string, ControlData> hash,
             DateTime now,
             DateTime current,
@@ -134,13 +145,18 @@ namespace Implem.Pleasanter.Libraries.Settings
                 hash.Add(
                     Period(timePeriod),
                     new ControlData((current.Half() == 0
-                        ? Displays.Half1(current.Fy().ToString())
-                        : Displays.Half2(current.Fy().ToString())) +
-                            InRange(timePeriod, now)));
+                        ? Displays.Half1(
+                            context: context,
+                            data: current.Fy().ToString())
+                        : Displays.Half2(
+                            context: context,
+                            data: current.Fy().ToString()))
+                                + InRange(timePeriod, now)));
             }
         }
 
         private static void SetFy(
+            Context context,
             Dictionary<string, ControlData> hash,
             DateTime now,
             DateTime current,
@@ -153,7 +169,9 @@ namespace Implem.Pleasanter.Libraries.Settings
             {
                 hash.Add(
                     Period(timePeriod),
-                    new ControlData(Displays.Fy(current.Fy().ToString()) + InRange(timePeriod, now)));
+                    new ControlData(Displays.Fy(
+                        context: context,
+                        data: current.Fy().ToString()) + InRange(timePeriod, now)));
             }
         }
 

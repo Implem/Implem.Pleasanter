@@ -14,7 +14,7 @@ namespace Implem.Pleasanter.Libraries.Models
         {
             return
                 baseModel.Updator.Id != context.UserId ||
-                baseModel.UpdatedTime.DifferentDate();
+                baseModel.UpdatedTime.DifferentDate(context: context);
         }
     }
 }

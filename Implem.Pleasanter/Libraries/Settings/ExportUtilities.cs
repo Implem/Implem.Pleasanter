@@ -133,13 +133,20 @@ namespace Implem.Pleasanter.Libraries.Settings
                             .Get(column.SiteId)?
                             .Get(dataRow.Key)?
                             .Get(column.Id) ?? string.Empty).Join(",") + "\n"));
-            return new ResponseFile(csv.ToString(), FileName(ss, export.Name));
+            return new ResponseFile(
+                fileContent: csv.ToString(),
+                fileDownloadName: FileName(
+                    context: context,
+                    ss: ss,
+                    name: export.Name));
         }
 
-        public static string FileName(SiteSettings ss, string name)
+        public static string FileName(Context context, SiteSettings ss, string name)
         {
             return Files.ValidFileName("_".JoinParam(
-                ss.Title, name, DateTime.Now.ToLocal(Displays.YmdhmsFormat())) + ".csv");
+                ss.Title, name, DateTime.Now.ToLocal(
+                    context: context,
+                    format: Displays.YmdhmsFormat(context: context))) + ".csv");
         }
 
         private static Dictionary<long, string> KeyColumns(Export export, long siteId)

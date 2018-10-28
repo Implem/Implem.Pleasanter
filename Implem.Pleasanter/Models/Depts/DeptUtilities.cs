@@ -47,7 +47,7 @@ namespace Implem.Pleasanter.Models
                 methodType: BaseModel.MethodTypes.Index,
                 referenceType: "Depts",
                 script: JavaScripts.ViewMode(viewMode),
-                title: Displays.Depts() + " - " + Displays.List(),
+                title: Displays.Depts(context: context) + " - " + Displays.List(context: context),
                 action: () =>
                 {
                     hb
@@ -82,11 +82,11 @@ namespace Implem.Pleasanter.Models
                         .Div(attributes: new HtmlAttributes()
                             .Id("ImportSettingsDialog")
                             .Class("dialog")
-                            .Title(Displays.Import()))
+                            .Title(Displays.Import(context: context)))
                         .Div(attributes: new HtmlAttributes()
                             .Id("ExportSettingsDialog")
                             .Class("dialog")
-                            .Title(Displays.ExportSettings()));
+                            .Title(Displays.ExportSettings(context: context)));
                 }).ToString();
         }
 
@@ -144,7 +144,7 @@ namespace Implem.Pleasanter.Models
                     .Div(attributes: new HtmlAttributes()
                         .Id("ExportSelectorDialog")
                         .Class("dialog")
-                        .Title(Displays.Export())))
+                        .Title(Displays.Export(context: context))))
                     .ToString();
         }
 
@@ -290,6 +290,7 @@ namespace Implem.Pleasanter.Models
                     _using: addHeader,
                     action: () => hb
                         .GridHeader(
+                            context: context,
                             columns: columns, 
                             view: view,
                             checkAll: checkAll,
@@ -601,7 +602,7 @@ namespace Implem.Pleasanter.Models
                 methodType: deptModel.MethodType,
                 referenceType: "Depts",
                 title: deptModel.MethodType == BaseModel.MethodTypes.New
-                    ? Displays.Depts() + " - " + Displays.New()
+                    ? Displays.Depts(context: context) + " - " + Displays.New(context: context)
                     : deptModel.Title.Value,
                 action: () =>
                 {
@@ -648,7 +649,9 @@ namespace Implem.Pleasanter.Models
                                     columnPermissionType: commentsColumnPermissionType),
                             _using: showComments)
                         .Div(id: "EditorTabsContainer", css: tabsCss, action: () => hb
-                            .EditorTabs(deptModel: deptModel)
+                            .EditorTabs(
+                                context: context,
+                                deptModel: deptModel)
                             .FieldSetGeneral(context: context, ss: ss, deptModel: deptModel)
                             .FieldSet(
                                 attributes: new HtmlAttributes()
@@ -688,7 +691,10 @@ namespace Implem.Pleasanter.Models
                     referenceType: "Depts",
                     referenceId: deptModel.DeptId,
                     referenceVer: deptModel.Ver)
-                .CopyDialog("Depts", deptModel.DeptId)
+                .CopyDialog(
+                    context: context,
+                    referenceType: "Depts",
+                    id: deptModel.DeptId)
                 .OutgoingMailDialog()
                 .EditorExtensions(
                     context: context,
@@ -696,19 +702,20 @@ namespace Implem.Pleasanter.Models
                     ss: ss));
         }
 
-        private static HtmlBuilder EditorTabs(this HtmlBuilder hb, DeptModel deptModel)
+        private static HtmlBuilder EditorTabs(
+            this HtmlBuilder hb, Context context, DeptModel deptModel)
         {
             return hb.Ul(id: "EditorTabs", action: () => hb
                 .Li(action: () => hb
                     .A(
                         href: "#FieldSetGeneral",
-                        text: Displays.General()))
+                        text: Displays.General(context: context)))
                 .Li(
                     _using: deptModel.MethodType != BaseModel.MethodTypes.New,
                     action: () => hb
                         .A(
                             href: "#FieldSetHistories",
-                            text: Displays.ChangeHistoryList())));
+                            text: Displays.ChangeHistoryList(context: context))));
         }
 
         private static HtmlBuilder FieldSetGeneral(
@@ -883,13 +890,15 @@ namespace Implem.Pleasanter.Models
             switch (invalid)
             {
                 case Error.Types.None: break;
-                default: return invalid.MessageJson();
+                default: return invalid.MessageJson(context: context);
             }
             var error = deptModel.Create(context: context, ss: ss);
             switch (error)
             {
                 case Error.Types.None:
-                    Sessions.Set("Message", Messages.Created(deptModel.Title.Value));
+                    Sessions.Set("Message", Messages.Created(
+                        context: context,
+                        data: deptModel.Title.Value));
                     return new ResponseCollection()
                         .SetMemory("formChanged", false)
                         .Href(Locations.Edit(
@@ -899,7 +908,7 @@ namespace Implem.Pleasanter.Models
                                 : deptModel.DeptId))
                         .ToJson();
                 default:
-                    return error.MessageJson();
+                    return error.MessageJson(context: context);
             }
         }
 
@@ -914,11 +923,11 @@ namespace Implem.Pleasanter.Models
             switch (invalid)
             {
                 case Error.Types.None: break;
-                default: return invalid.MessageJson();
+                default: return invalid.MessageJson(context: context);
             }
             if (deptModel.AccessStatus != Databases.AccessStatuses.Selected)
             {
-                return Messages.ResponseDeleteConflicts().ToJson();
+                return Messages.ResponseDeleteConflicts(context: context).ToJson();
             }
             var error = deptModel.Update(context: context, ss: ss);
             switch (error)
@@ -935,10 +944,11 @@ namespace Implem.Pleasanter.Models
                         .ToJson();
                 case Error.Types.UpdateConflicts:
                     return Messages.ResponseUpdateConflicts(
-                        deptModel.Updator.Name)
+                        context: context,
+                        data: deptModel.Updator.Name)
                             .ToJson();
                 default:
-                    return error.MessageJson();
+                    return error.MessageJson(context: context);
             }
         }
 
@@ -971,7 +981,9 @@ namespace Implem.Pleasanter.Models
                             columns: columns,
                             checkAll: false))
                     .CloseDialog()
-                    .Message(Messages.Updated(deptModel.Title.DisplayValue));
+                    .Message(Messages.Updated(
+                        context: context,
+                        data: deptModel.Title.DisplayValue));
             }
             else
             {
@@ -986,7 +998,9 @@ namespace Implem.Pleasanter.Models
                         baseModel: deptModel,
                         tableName: "Depts"))
                     .SetMemory("formChanged", false)
-                    .Message(Messages.Updated(deptModel.Title.Value))
+                    .Message(Messages.Updated(
+                        context: context,
+                        data: deptModel.Title.Value))
                     .Comment(
                         context: context,
                         ss: ss,
@@ -1007,20 +1021,22 @@ namespace Implem.Pleasanter.Models
             switch (invalid)
             {
                 case Error.Types.None: break;
-                default: return invalid.MessageJson();
+                default: return invalid.MessageJson(context: context);
             }
             var error = deptModel.Delete(context: context, ss: ss);
             switch (error)
             {
                 case Error.Types.None:
-                    Sessions.Set("Message", Messages.Deleted(deptModel.Title.Value));
+                    Sessions.Set("Message", Messages.Deleted(
+                        context: context,
+                        data: deptModel.Title.Value));
                     var res = new DeptsResponseCollection(deptModel);
                 res
                     .SetMemory("formChanged", false)
                     .Href(Locations.Index("Depts"));
                     return res.ToJson();
                 default:
-                    return error.MessageJson();
+                    return error.MessageJson(context: context);
             }
         }
 
@@ -1034,7 +1050,7 @@ namespace Implem.Pleasanter.Models
             var columns = ss.GetHistoryColumns(context: context, checkPermission: true);
             if (!context.CanRead(ss: ss))
             {
-                return Error.Types.HasNotPermission.MessageJson();
+                return Error.Types.HasNotPermission.MessageJson(context: context);
             }
             var hb = new HtmlBuilder();
             hb
@@ -1044,6 +1060,7 @@ namespace Implem.Pleasanter.Models
                     action: () => hb
                         .THead(action: () => hb
                             .GridHeader(
+                                context: context,
                                 columns: columns,
                                 sort: false,
                                 checkRow: true))
@@ -1149,23 +1166,23 @@ namespace Implem.Pleasanter.Models
             var api = Forms.String().Deserialize<Api>();
             if (api == null)
             {
-                return ApiResults.Get(ApiResponses.BadRequest());
+                return ApiResults.Get(ApiResponses.BadRequest(context: context));
             }
             var view = api?.View ?? new View();
             var siteId = view.ColumnFilterHash
-                            .Where(f => f.Key == "SiteId")
-                            .Select(f => f.Value)
-                            .FirstOrDefault()?.ToLong();
+                .Where(f => f.Key == "SiteId")
+                .Select(f => f.Value)
+                .FirstOrDefault()?.ToLong();
             var userId = view.ColumnFilterHash
-                            .Where(f => f.Key == "UserId")
-                            .Select(f => f.Value)
-                            .FirstOrDefault()?.ToLong();
+                .Where(f => f.Key == "UserId")
+                .Select(f => f.Value)
+                .FirstOrDefault()?.ToLong();
             var siteModel = siteId.HasValue ? new SiteModel(context, siteId.Value) : null;
             if (siteModel != null)
             {
                 if (siteModel.AccessStatus != Databases.AccessStatuses.Selected)
                 {
-                    return ApiResults.Get(ApiResponses.NotFound());
+                    return ApiResults.Get(ApiResponses.NotFound(context: context));
                 }
                 var invalid = SiteValidators.OnReading(
                     context,
@@ -1174,12 +1191,14 @@ namespace Implem.Pleasanter.Models
                 switch (invalid)
                 {
                     case Error.Types.None: break;
-                    default: return ApiResults.Error(invalid);
+                    default: return ApiResults.Error(
+                        context: context,
+                        type: invalid);
                 }
             }
             var siteDepts = siteModel != null
                 ? SiteInfo.SiteDepts(context, siteModel.InheritPermission)?
-                .Where(o => !SiteInfo.User(context, o).Disabled).ToArray()
+                    .Where(o => !SiteInfo.User(context, o).Disabled).ToArray()
                 : null;
             var pageSize = Parameters.Api.PageSize;
             var deptCollection = new DeptCollection(
@@ -1203,7 +1222,10 @@ namespace Implem.Pleasanter.Models
                     tableName: "Users",
                     subLeft: Rds.SelectUsers(
                     column: Rds.UsersColumn().UsersCount(),
-                    where: Rds.UsersWhere().UserId(userId).DeptId(raw: "[Depts].[DeptId]").Add(raw: "[Depts].[DeptId]>0")),
+                    where: Rds.UsersWhere()
+                        .UserId(userId)
+                        .DeptId(raw: "[Depts].[DeptId]")
+                        .Add(raw: "[Depts].[DeptId]>0")),
                     _operator: ">0",
                     _using: userId.HasValue),
                 orderBy: view.OrderBy(context: context, ss: ss, pageSize: pageSize),
@@ -1221,7 +1243,9 @@ namespace Implem.Pleasanter.Models
                     Offset = api.Offset,
                     PageSize = pageSize,
                     TotalCount = groups.Count(),
-                    Data = groups.Select(o => o.GetByApi(ss))
+                    Data = groups.Select(o => o.GetByApi(
+                        context: context,
+                        ss: ss))
                 }
             }.ToJson());
         }

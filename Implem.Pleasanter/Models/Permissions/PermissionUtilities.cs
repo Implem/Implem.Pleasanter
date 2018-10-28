@@ -47,7 +47,7 @@ namespace Implem.Pleasanter.Models
             switch (invalid)
             {
                 case Error.Types.None: break;
-                default: return invalid.MessageJson();
+                default: return invalid.MessageJson(context: context);
             }
             var hb = new HtmlBuilder();
             var permissions = SourceCollection(
@@ -123,7 +123,7 @@ namespace Implem.Pleasanter.Models
             return hb.FieldSet(
                 id: "FieldSetPermissionEditor",
                 css: " enclosed",
-                legendText: Displays.PermissionSetting(),
+                legendText: Displays.PermissionSetting(context: context),
                 action: () => hb
                     .Inherit(
                         context: context,
@@ -149,7 +149,7 @@ namespace Implem.Pleasanter.Models
                     controlId: "InheritPermission",
                     fieldCss: "field-auto-thin",
                     controlCss: " auto-postback",
-                    labelText: Displays.InheritPermission(),
+                    labelText: Displays.InheritPermission(context: context),
                     optionCollection: InheritTargets(
                         context: context,
                         ss: siteModel.SiteSettings),
@@ -167,7 +167,7 @@ namespace Implem.Pleasanter.Models
         {
             return new Dictionary<string, ControlData>
             {
-                { ss.SiteId.ToString(), new ControlData(Displays.NotInheritPermission()) },
+                { ss.SiteId.ToString(), new ControlData(Displays.NotInheritPermission(context: context)) },
             }.AddRange(InheritTargetsDataRows(context: context, ss: ss)
                 .ToDictionary(
                     o => o["SiteId"].ToString(),
@@ -220,6 +220,7 @@ namespace Implem.Pleasanter.Models
                         ss: ss,
                         permissions: currentPermissions)
                     .SourcePermissions(
+                        context: context,
                         ss: ss,
                         permissions: sourcePermissions
                             .Page(offset)
@@ -245,7 +246,7 @@ namespace Implem.Pleasanter.Models
                 fieldCss: "field-vertical both",
                 controlContainerCss: "container-selectable",
                 controlCss: " send-all",
-                labelText: Displays.Permissions(),
+                labelText: Displays.Permissions(context: context),
                 listItemCollection: permissions.ToDictionary(
                     o => o.Key(), o => o.ControlData(
                         context: context,
@@ -256,7 +257,7 @@ namespace Implem.Pleasanter.Models
                         .Button(
                             controlId: "OpenPermissionsDialog",
                             controlCss: "button-icon post",
-                            text: Displays.AdvancedSetting(),
+                            text: Displays.AdvancedSetting(context: context),
                             onClick: "$p.openPermissionsDialog($(this));",
                             icon: "ui-icon-gear",
                             action: "OpenPermissionsDialog",
@@ -264,7 +265,7 @@ namespace Implem.Pleasanter.Models
                         .Button(
                             controlId: "DeletePermissions",
                             controlCss: "button-icon post",
-                            text: Displays.DeletePermission(),
+                            text: Displays.DeletePermission(context: context),
                             onClick: "$p.setPermissions($(this));",
                             icon: "ui-icon-circle-triangle-e",
                             action: "SetPermissions",
@@ -276,6 +277,7 @@ namespace Implem.Pleasanter.Models
         /// </summary>
         private static HtmlBuilder SourcePermissions(
             this HtmlBuilder hb,
+            Context context,
             SiteSettings ss,
             Dictionary<string, ControlData> permissions,
             int offset = 0,
@@ -287,7 +289,7 @@ namespace Implem.Pleasanter.Models
                     fieldCss: "field-vertical",
                     controlContainerCss: "container-selectable",
                     controlWrapperCss: " h300",
-                    labelText: Displays.OptionList(),
+                    labelText: Displays.OptionList(context: context),
                     listItemCollection: permissions,
                     commandOptionPositionIsTop: true,
                     action: "Permissions",
@@ -297,7 +299,7 @@ namespace Implem.Pleasanter.Models
                             .Button(
                                 controlId: "AddPermissions",
                                 controlCss: "button-icon post",
-                                text: Displays.AddPermission(),
+                                text: Displays.AddPermission(context: context),
                                 onClick: "$p.setPermissions($(this));",
                                 icon: "ui-icon-circle-triangle-w",
                                 action: "SetPermissions",
@@ -305,11 +307,11 @@ namespace Implem.Pleasanter.Models
                             .TextBox(
                                 controlId: "SearchPermissionElements",
                                 controlCss: " auto-postback w100",
-                                placeholder: Displays.Search(),
+                                placeholder: Displays.Search(context: context),
                                 action: "SearchPermissionElements",
                                 method: "post")
                             .Button(
-                                text: Displays.Search(),
+                                text: Displays.Search(context: context),
                                 controlCss: "button-icon",
                                 onClick: "$p.send($('#SearchPermissionElements'));",
                                 icon: "ui-icon-search")))
@@ -608,7 +610,7 @@ namespace Implem.Pleasanter.Models
             switch (invalid)
             {
                 case Error.Types.None: break;
-                default: return invalid.MessageJson();
+                default: return invalid.MessageJson(context: context);
             }
             var res = new ResponseCollection();
             var selectedCurrentPermissions = Forms.List("CurrentPermissions");
@@ -617,7 +619,7 @@ namespace Implem.Pleasanter.Models
                 selectedCurrentPermissions.Any(o =>
                     o.StartsWith($"User,{context.UserId},")))
             {
-                res.Message(Messages.PermissionNotSelfChange());
+                res.Message(Messages.PermissionNotSelfChange(context: context));
             }
             else
             {
@@ -645,8 +647,9 @@ namespace Implem.Pleasanter.Models
                         res.ReplaceAll(
                             "#PermissionParts",
                             new HtmlBuilder().PermissionParts(
+                                context: context,
                                 controlId: "PermissionParts",
-                                labelText: Displays.Permissions(),
+                                labelText: Displays.Permissions(context: context),
                                 permissionType: (Permissions.Types)Forms.Long(
                                     "PermissionPattern")));
                         break;
@@ -821,7 +824,7 @@ namespace Implem.Pleasanter.Models
             switch (invalid)
             {
                 case Error.Types.None: break;
-                default: return invalid.MessageJson();
+                default: return invalid.MessageJson(context: context);
             }
             var res = new ResponseCollection();
             var currentPermissions = CurrentPermissions(
@@ -877,11 +880,11 @@ namespace Implem.Pleasanter.Models
             var selected = Forms.List("CurrentPermissions");
             if (selected.Any(o => o.StartsWith($"User,{context.UserId},")))
             {
-                return res.Message(Messages.PermissionNotSelfChange()).ToJson();
+                return res.Message(Messages.PermissionNotSelfChange(context: context)).ToJson();
             }
             else if (!selected.Any())
             {
-                return res.Message(Messages.SelectTargets()).ToJson();
+                return res.Message(Messages.SelectTargets(context: context)).ToJson();
             }
             else
             {
@@ -898,12 +901,12 @@ namespace Implem.Pleasanter.Models
         /// <summary>
         /// Fixed:
         /// </summary>
-        public static HtmlBuilder PermissionsDialog(this HtmlBuilder hb)
+        public static HtmlBuilder PermissionsDialog(this HtmlBuilder hb, Context context)
         {
             return hb.Div(attributes: new HtmlAttributes()
                 .Id("PermissionsDialog")
                 .Class("dialog")
-                .Title(Displays.AdvancedSetting()));
+                .Title(Displays.AdvancedSetting(context: context)));
         }
 
         /// <summary>
@@ -922,31 +925,34 @@ namespace Implem.Pleasanter.Models
                         context: context,
                         controlId: "PermissionPattern",
                         controlCss: " auto-postback",
-                        labelText: Displays.Pattern(),
+                        labelText: Displays.Pattern(context: context),
                         optionCollection: Parameters.Permissions.Pattern
                             .ToDictionary(
                                 o => o.Value.ToString(),
-                                o => new ControlData(Displays.Get(o.Key))),
+                                o => new ControlData(Displays.Get(
+                                    context: context,
+                                    id: o.Key))),
                         selectedValue: permissionType.ToLong().ToString(),
                         addSelectedValue: false,
                         action: "SetPermissions",
                         method: "post")
                     .PermissionParts(
+                        context: context,
                         controlId: "PermissionParts",
-                        labelText: Displays.Permissions(),
+                        labelText: Displays.Permissions(context: context),
                         permissionType: permissionType)
                     .P(css: "message-dialog")
                     .Div(css: "command-center", action: () => hb
                         .Button(
                             controlId: "ChangePermissions",
-                            text: Displays.Change(),
+                            text: Displays.Change(context: context),
                             controlCss: "button-icon validate",
                             onClick: "$p.changePermissions($(this));",
                             icon: "ui-icon-disk",
                             action: "SetPermissions",
                             method: "post")
                         .Button(
-                            text: Displays.Cancel(),
+                            text: Displays.Cancel(context: context),
                             controlCss: "button-icon",
                             onClick: "$p.closeDialog($(this));",
                             icon: "ui-icon-cancel")));
@@ -956,7 +962,9 @@ namespace Implem.Pleasanter.Models
         /// Fixed:
         /// </summary>
         private static HtmlBuilder PermissionParts(
-            this HtmlBuilder hb, string controlId,
+            this HtmlBuilder hb,
+            Context context,
+            string controlId,
             string labelText,
             Permissions.Types permissionType)
         {
@@ -965,28 +973,60 @@ namespace Implem.Pleasanter.Models
                 css: " enclosed",
                 legendText: labelText,
                 action: () => hb
-                    .PermissionPart(permissionType, Permissions.Types.Read)
-                    .PermissionPart(permissionType, Permissions.Types.Create)
-                    .PermissionPart(permissionType, Permissions.Types.Update)
-                    .PermissionPart(permissionType, Permissions.Types.Delete)
-                    .PermissionPart(permissionType, Permissions.Types.SendMail)
-                    .PermissionPart(permissionType, Permissions.Types.Export)
-                    .PermissionPart(permissionType, Permissions.Types.Import)
-                    .PermissionPart(permissionType, Permissions.Types.ManageSite)
-                    .PermissionPart(permissionType, Permissions.Types.ManagePermission));
+                    .PermissionPart(
+                        context: context,
+                        permissionType: permissionType,
+                        type: Permissions.Types.Read)
+                    .PermissionPart(
+                        context: context,
+                        permissionType: permissionType,
+                        type: Permissions.Types.Create)
+                    .PermissionPart(
+                        context: context,
+                        permissionType: permissionType,
+                        type: Permissions.Types.Update)
+                    .PermissionPart(
+                        context: context,
+                        permissionType: permissionType,
+                        type: Permissions.Types.Delete)
+                    .PermissionPart(
+                        context: context,
+                        permissionType: permissionType,
+                        type: Permissions.Types.SendMail)
+                    .PermissionPart(
+                        context: context,
+                        permissionType: permissionType,
+                        type: Permissions.Types.Export)
+                    .PermissionPart(
+                        context: context,
+                        permissionType: permissionType,
+                        type: Permissions.Types.Import)
+                    .PermissionPart(
+                        context: context,
+                        permissionType: permissionType,
+                        type: Permissions.Types.ManageSite)
+                    .PermissionPart(
+                        context: context,
+                        permissionType: permissionType,
+                        type: Permissions.Types.ManagePermission));
         }
 
         /// <summary>
         /// Fixed:
         /// </summary>
         private static HtmlBuilder PermissionPart(
-            this HtmlBuilder hb, Permissions.Types permissionType, Permissions.Types type)
+            this HtmlBuilder hb,
+            Context context,
+            Permissions.Types permissionType,
+            Permissions.Types type)
         {
             return hb.FieldCheckBox(
                 controlId: type.ToString(),
                 fieldCss: "field-auto-thin w200",
                 controlCss: " always-send",
-                labelText: Displays.Get(type.ToString()),
+                labelText: Displays.Get(
+                    context: context,
+                    id: type.ToString()),
                 _checked: (permissionType & type) > 0,
                 dataId: type.ToLong().ToString());
         }
@@ -1033,7 +1073,7 @@ namespace Implem.Pleasanter.Models
                 referenceId: referenceId);
             if (!context.CanManagePermission(ss: ss))
             {
-                return Error.Types.HasNotPermission.MessageJson();
+                return Error.Types.HasNotPermission.MessageJson(context: context);
             }
             return new ResponseCollection()
                 .Html(
@@ -1055,7 +1095,7 @@ namespace Implem.Pleasanter.Models
             return hb.FieldSet(
                 id: "FieldSetRecordAccessControl",
                 css: " enclosed",
-                legendText: Displays.PermissionForCreating(),
+                legendText: Displays.PermissionForCreating(context: context),
                 action: () => hb
                     .Div(
                         id: "PermissionForCreating",
@@ -1084,7 +1124,7 @@ namespace Implem.Pleasanter.Models
                 fieldCss: "field-vertical both",
                 controlContainerCss: "container-selectable",
                 controlCss: " send-all",
-                labelText: Displays.CurrentSettings(),
+                labelText: Displays.CurrentSettings(context: context),
                 listItemCollection: permissions.ToDictionary(
                     o => o.Key(),
                     o => o.ControlData(context: context, ss: ss)),
@@ -1094,7 +1134,7 @@ namespace Implem.Pleasanter.Models
                         .Button(
                             controlId: "OpenPermissionForCreatingDialog",
                             controlCss: "button-icon post",
-                            text: Displays.AdvancedSetting(),
+                            text: Displays.AdvancedSetting(context: context),
                             onClick: "$p.openPermissionForCreatingDialog($(this));",
                             icon: "ui-icon-gear",
                             action: "OpenPermissionForCreatingDialog",
@@ -1102,7 +1142,7 @@ namespace Implem.Pleasanter.Models
                         .Button(
                             controlId: "DeletePermissionForCreating",
                             controlCss: "button-icon post",
-                            text: Displays.ToDisable(),
+                            text: Displays.ToDisable(context: context),
                             onClick: "$p.setPermissionForCreating($(this));",
                             icon: "ui-icon-circle-triangle-e",
                             action: "SetPermissionForCreating",
@@ -1123,7 +1163,7 @@ namespace Implem.Pleasanter.Models
                 fieldCss: "field-vertical",
                 controlContainerCss: "container-selectable",
                 controlWrapperCss: " h300",
-                labelText: Displays.OptionList(),
+                labelText: Displays.OptionList(context: context),
                 listItemCollection: permissions.ToDictionary(
                     o => o.Key(), o => o.ControlData(
                         context: context,
@@ -1135,7 +1175,7 @@ namespace Implem.Pleasanter.Models
                         .Button(
                             controlId: "AddPermissionForCreating",
                             controlCss: "button-icon post",
-                            text: Displays.ToEnable(),
+                            text: Displays.ToEnable(context: context),
                             onClick: "$p.setPermissionForCreating($(this));",
                             icon: "ui-icon-circle-triangle-w",
                             action: "SetPermissionForCreating",
@@ -1183,7 +1223,7 @@ namespace Implem.Pleasanter.Models
             switch (invalid)
             {
                 case Error.Types.None: break;
-                default: return invalid.MessageJson();
+                default: return invalid.MessageJson(context: context);
             }
             var res = new ResponseCollection();
             var selectedCurrentPermissionForCreating = Forms.List("CurrentPermissionForCreating");
@@ -1192,7 +1232,7 @@ namespace Implem.Pleasanter.Models
                 selectedCurrentPermissionForCreating.Any(o =>
                     o.StartsWith($"User,{context.UserId},")))
             {
-                res.Message(Messages.PermissionNotSelfChange());
+                res.Message(Messages.PermissionNotSelfChange(context: context));
             }
             else
             {
@@ -1231,8 +1271,9 @@ namespace Implem.Pleasanter.Models
                         res.ReplaceAll(
                             "#PermissionForCreatingParts",
                             new HtmlBuilder().PermissionParts(
+                                context: context,
                                 controlId: "PermissionForCreatingParts",
-                                labelText: Displays.Permissions(),
+                                labelText: Displays.Permissions(context: context),
                                 permissionType: (Permissions.Types)Forms.Long(
                                     "PermissionForCreatingPattern")));
                         break;
@@ -1283,7 +1324,7 @@ namespace Implem.Pleasanter.Models
             var selected = Forms.List("CurrentPermissionForCreating");
             if (!selected.Any())
             {
-                return res.Message(Messages.SelectTargets()).ToJson();
+                return res.Message(Messages.SelectTargets(context: context)).ToJson();
             }
             else
             {
@@ -1300,12 +1341,12 @@ namespace Implem.Pleasanter.Models
         /// <summary>
         /// Fixed:
         /// </summary>
-        public static HtmlBuilder PermissionForCreatingDialog(this HtmlBuilder hb)
+        public static HtmlBuilder PermissionForCreatingDialog(this HtmlBuilder hb, Context context)
         {
             return hb.Div(attributes: new HtmlAttributes()
                 .Id("PermissionForCreatingDialog")
                 .Class("dialog")
-                .Title(Displays.AdvancedSetting()));
+                .Title(Displays.AdvancedSetting(context: context)));
         }
 
         /// <summary>
@@ -1324,31 +1365,34 @@ namespace Implem.Pleasanter.Models
                         context: context,
                         controlId: "PermissionForCreatingPattern",
                         controlCss: " auto-postback",
-                        labelText: Displays.Pattern(),
+                        labelText: Displays.Pattern(context: context),
                         optionCollection: Parameters.Permissions.Pattern
                             .ToDictionary(
                                 o => o.Value.ToString(),
-                                o => new ControlData(Displays.Get(o.Key))),
+                                o => new ControlData(Displays.Get(
+                                    context: context,
+                                    id: o.Key))),
                         selectedValue: permissionType.ToLong().ToString(),
                         addSelectedValue: false,
                         action: "SetPermissionForCreating",
                         method: "post")
                     .PermissionParts(
+                        context: context,
                         controlId: "PermissionForCreatingParts",
-                        labelText: Displays.Permissions(),
+                        labelText: Displays.Permissions(context: context),
                         permissionType: permissionType)
                     .P(css: "message-dialog")
                     .Div(css: "command-center", action: () => hb
                         .Button(
                             controlId: "ChangePermissionForCreating",
-                            text: Displays.Change(),
+                            text: Displays.Change(context: context),
                             controlCss: "button-icon validate",
                             onClick: "$p.changePermissionForCreating($(this));",
                             icon: "ui-icon-disk",
                             action: "SetPermissionForCreating",
                             method: "post")
                         .Button(
-                            text: Displays.Cancel(),
+                            text: Displays.Cancel(context: context),
                             controlCss: "button-icon",
                             onClick: "$p.closeDialog($(this));",
                             icon: "ui-icon-cancel")));
@@ -1368,7 +1412,7 @@ namespace Implem.Pleasanter.Models
                 referenceId: referenceId);
             if (!context.CanManagePermission(ss: ss))
             {
-                return Error.Types.HasNotPermission.MessageJson();
+                return Error.Types.HasNotPermission.MessageJson(context: context);
             }
             return new ResponseCollection()
                 .Html(
@@ -1389,7 +1433,7 @@ namespace Implem.Pleasanter.Models
             return hb.FieldSet(
                 id: "FieldSetColumnAccessControl",
                 css: " enclosed",
-                legendText: Displays.ColumnAccessControl(),
+                legendText: Displays.ColumnAccessControl(context: context),
                 action: () => hb
                     .Div(
                         id: "ColumnAccessControl",
@@ -1398,17 +1442,17 @@ namespace Implem.Pleasanter.Models
                                 context: context,
                                 ss: ss,
                                 type: "Create",
-                                labelText: Displays.CreateColumnAccessControl())
+                                labelText: Displays.CreateColumnAccessControl(context: context))
                             .ColumnAccessControl(
                                 context: context,
                                 ss: ss,
                                 type: "Read",
-                                labelText: Displays.ReadColumnAccessControl())
+                                labelText: Displays.ReadColumnAccessControl(context: context))
                             .ColumnAccessControl(
                                 context: context,
                                 ss: ss,
                                 type: "Update",
-                                labelText: Displays.UpdateColumnAccessControl())));
+                                labelText: Displays.UpdateColumnAccessControl(context: context))));
         }
 
         /// <summary>
@@ -1433,7 +1477,7 @@ namespace Implem.Pleasanter.Models
                         .Button(
                             controlId: type + "OpenColumnAccessControlDialog",
                             controlCss: "button-icon post",
-                            text: Displays.AdvancedSetting(),
+                            text: Displays.AdvancedSetting(context: context),
                             onClick: "$p.openColumnAccessControlDialog($(this));",
                             icon: "ui-icon-gear",
                             action: "OpenColumnAccessControlDialog",
@@ -1443,12 +1487,12 @@ namespace Implem.Pleasanter.Models
         /// <summary>
         /// Fixed:
         /// </summary>
-        public static HtmlBuilder ColumnAccessControlDialog(this HtmlBuilder hb)
+        public static HtmlBuilder ColumnAccessControlDialog(this HtmlBuilder hb, Context context)
         {
             return hb.Div(attributes: new HtmlAttributes()
                 .Id("ColumnAccessControlDialog")
                 .Class("dialog")
-                .Title(Displays.AdvancedSetting()));
+                .Title(Displays.AdvancedSetting(context: context)));
         }
 
         /// <summary>
@@ -1473,7 +1517,7 @@ namespace Implem.Pleasanter.Models
             switch (invalid)
             {
                 case Error.Types.None: break;
-                default: return invalid.MessageJson();
+                default: return invalid.MessageJson(context: context);
             }
             var res = new ResponseCollection();
             var type = Forms.Data("ColumnAccessControlType");
@@ -1571,14 +1615,14 @@ namespace Implem.Pleasanter.Models
                 referenceId: referenceId);
             if (!context.CanManagePermission(ss: ss))
             {
-                return Error.Types.HasNotPermission.MessageJson();
+                return Error.Types.HasNotPermission.MessageJson(context: context);
             }
             var res = new ResponseCollection();
             var type = ColumnAccessControlType();
             var selected = Forms.List(type + "ColumnAccessControl");
             if (!selected.Any())
             {
-                return res.Message(Messages.SelectTargets()).ToJson();
+                return res.Message(Messages.SelectTargets(context: context)).ToJson();
             }
             else
             {
@@ -1628,11 +1672,11 @@ namespace Implem.Pleasanter.Models
                             .Li(action: () => hb
                                 .A(
                                     href: "#ColumnAccessControlBasicTab",
-                                    text: Displays.Basic()))
+                                    text: Displays.Basic(context: context)))
                             .Li(action: () => hb
                                 .A(
                                     href: "#ColumnAccessControlOhtersTab",
-                                    text: Displays.Others())))
+                                    text: Displays.Others(context: context))))
                         .ColumnAccessControlBasicTab(
                             context: context,
                             ss: ss,
@@ -1648,14 +1692,14 @@ namespace Implem.Pleasanter.Models
                     .P(css: "message-dialog")
                     .Div(css: "command-center", action: () => hb
                         .Button(
-                            text: Displays.Change(),
+                            text: Displays.Change(context: context),
                             controlCss: "button-icon validate",
                             onClick: "$p.changeColumnAccessControl($(this), '" + type + "');",
                             icon: "ui-icon-disk",
                             action: "SetColumnAccessControl",
                             method: "post")
                         .Button(
-                            text: Displays.Cancel(),
+                            text: Displays.Cancel(context: context),
                             controlCss: "button-icon",
                             onClick: "$p.closeDialog($(this));",
                             icon: "ui-icon-cancel"))
@@ -1690,7 +1734,7 @@ namespace Implem.Pleasanter.Models
                         fieldCss: "field-vertical both",
                         controlContainerCss: "container-selectable",
                         controlCss: " always-send send-all",
-                        labelText: Displays.Permissions(),
+                        labelText: Displays.Permissions(context: context),
                         listItemCollection: currentPermissions.ToDictionary(
                             o => o.Key(), o => o.ControlData(
                                 context: context,
@@ -1701,7 +1745,7 @@ namespace Implem.Pleasanter.Models
                             .Div(css: "command-left", action: () => hb
                                 .Button(
                                     controlCss: "button-icon",
-                                    text: Displays.DeletePermission(),
+                                    text: Displays.DeletePermission(context: context),
                                     onClick: "$p.deleteColumnAccessControl();",
                                     icon: "ui-icon-circle-triangle-e")))
                     .FieldSelectable(
@@ -1709,7 +1753,7 @@ namespace Implem.Pleasanter.Models
                         fieldCss: "field-vertical",
                         controlContainerCss: "container-selectable",
                         controlWrapperCss: " h300",
-                        labelText: Displays.OptionList(),
+                        labelText: Displays.OptionList(context: context),
                         listItemCollection: sourcePermissions
                             .Page(offset)
                             .ListItemCollection(
@@ -1723,17 +1767,17 @@ namespace Implem.Pleasanter.Models
                             .Div(css: "command-left", action: () => hb
                                 .Button(
                                     controlCss: "button-icon",
-                                    text: Displays.AddPermission(),
+                                    text: Displays.AddPermission(context: context),
                                     onClick: "$p.addColumnAccessControl();",
                                     icon: "ui-icon-circle-triangle-w")
                                 .TextBox(
                                     controlId: "SearchColumnAccessControl",
                                     controlCss: " auto-postback w100",
-                                    placeholder: Displays.Search(),
+                                    placeholder: Displays.Search(context: context),
                                     action: "SearchColumnAccessControl",
                                     method: "post")
                                 .Button(
-                                    text: Displays.Search(),
+                                    text: Displays.Search(context: context),
                                     controlCss: "button-icon",
                                     onClick: "$p.send($('#SearchColumnAccessControl'));",
                                     icon: "ui-icon-search")))
@@ -1760,12 +1804,13 @@ namespace Implem.Pleasanter.Models
         {
             return hb.FieldSet(id: "ColumnAccessControlOhtersTab", action: () => hb
                 .PermissionParts(
+                    context: context,
                     controlId: "ColumnAccessControlParts",
-                    labelText: Displays.RequiredPermission(),
+                    labelText: Displays.RequiredPermission(context: context),
                     permissionType: columnAccessControl.Type ?? Permissions.Types.NotSet)
                 .FieldSet(
                     css: " enclosed",
-                    legendText: Displays.AllowedUsers(),
+                    legendText: Displays.AllowedUsers(context: context),
                     action: () => hb
                         .AllowedUser(
                             context: context,
@@ -1832,7 +1877,7 @@ namespace Implem.Pleasanter.Models
             switch (invalid)
             {
                 case Error.Types.None: break;
-                default: return invalid.MessageJson();
+                default: return invalid.MessageJson(context: context);
             }
             var res = new ResponseCollection();
             var currentPermissions = CurrentColumnAccessControlAll();

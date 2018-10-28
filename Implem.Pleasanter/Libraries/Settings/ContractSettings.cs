@@ -54,10 +54,10 @@ namespace Implem.Pleasanter.Libraries.Settings
             return this.ToJson() == "[]";
         }
 
-        public bool OverDeadline()
+        public bool OverDeadline(Context context)
         {
             return Deadline?.InRange() == true
-                && Deadline.ToDateTime() < DateTime.Now.ToLocal();
+                && Deadline.ToDateTime() < DateTime.Now.ToLocal(context: context);
         }
 
         public bool UsersLimit(Context context, int number = 1)

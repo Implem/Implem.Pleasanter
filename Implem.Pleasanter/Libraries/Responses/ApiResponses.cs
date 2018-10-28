@@ -1,5 +1,6 @@
 ﻿using Implem.Libraries.Utilities;
 using Implem.Pleasanter.Libraries.General;
+using Implem.Pleasanter.Libraries.Requests;
 using System.Linq;
 namespace Implem.Pleasanter.Libraries.Responses
 {
@@ -10,26 +11,30 @@ namespace Implem.Pleasanter.Libraries.Responses
             return new ApiResponse(id, 200, message);
         }
 
-        public static ApiResponse Error(Error.Types type, params string[] data)
+        public static ApiResponse Error(Context context, Error.Types type, params string[] data)
         {
             return new ApiResponse(500, data?.Any() == true
-                ? Displays.Get(type.ToString()).Params(data)
-                : Displays.Get(type.ToString()));
+                ? Displays.Get(
+                    context: context,
+                    id: type.ToString()).Params(data)
+                : Displays.Get(
+                    context: context,
+                    id: type.ToString()));
         }
 
-        public static ApiResponse BadRequest()
+        public static ApiResponse BadRequest(Context context)
         {
-            return new ApiResponse(400, Displays.BadRequest());
+            return new ApiResponse(400, Displays.BadRequest(context: context));
         }
 
-        public static ApiResponse Unauthorized()
+        public static ApiResponse Unauthorized(Context context)
         {
-            return new ApiResponse(401, Displays.Unauthorized());
+            return new ApiResponse(401, Displays.Unauthorized(context: context));
         }
 
-        public static ApiResponse NotFound()
+        public static ApiResponse NotFound(Context context)
         {
-            return new ApiResponse(404, Displays.NotFound());
+            return new ApiResponse(404, Displays.NotFound(context: context));
         }
     }
 }

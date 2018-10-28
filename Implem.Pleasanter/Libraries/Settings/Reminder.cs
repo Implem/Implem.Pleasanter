@@ -33,11 +33,11 @@ namespace Implem.Pleasanter.Libraries.Settings
         public bool? NotSendIfNotApplicable;
         public int Condition;
 
-        public Reminder()
+        public Reminder(Context context)
         {
             Body = BodyPlaceholder;
             Line = Parameters.Reminder.DefaultLine;
-            StartDateTime = DateTime.Now.ToLocal().Date.AddDays(1);
+            StartDateTime = DateTime.Now.ToLocal(context: context).Date.AddDays(1);
             Range = Parameters.Reminder.DefaultRange;
         }
 
@@ -120,7 +120,7 @@ namespace Implem.Pleasanter.Libraries.Settings
             {
                 new OutgoingMailModel()
                 {
-                    Title = GetSubject(test: test),
+                    Title = GetSubject(context: context, test: test),
                     Body = GetBody(context: context, ss: ss, dataSet: dataSet),
                     From = new MailAddress(From),
                     To = To
@@ -132,17 +132,19 @@ namespace Implem.Pleasanter.Libraries.Settings
                     context: context,
                     statements: Rds.UpdateReminderSchedules(
                         param: Rds.ReminderSchedulesParam()
-                            .ScheduledTime(StartDateTime.Next(Type)),
+                            .ScheduledTime(StartDateTime.Next(
+                                context: context,
+                                type: Type)),
                         where: Rds.ReminderSchedulesWhere()
                             .SiteId(ss.SiteId)
                             .Id(Id)));
             }
         }
 
-        private Title GetSubject(bool test)
+        private Title GetSubject(Context context, bool test)
         {
             return new Title((test
-                ? "(" + Displays.Test() + ")"
+                ? "(" + Displays.Test(context: context) + ")"
                 : string.Empty)
                     + Subject);
         }
@@ -156,7 +158,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                 .ToList();
             timeGroups.ForEach(timeGroup =>
             {
-                var date = timeGroup.First().DateTime(Column).ToLocal().Date;
+                var date = timeGroup.First().DateTime(Column).ToLocal(context: context).Date;
                 switch (Column)
                 {
                     case "CompletionTime":
@@ -169,8 +171,10 @@ namespace Implem.Pleasanter.Libraries.Settings
                         break;
                 }
                 sb.Append("{0} ({1})\n".Params(
-                    date.ToString(Displays.Get("YmdaFormat"), Sessions.CultureInfo()),
-                    Relative(date)));
+                    date.ToString(
+                        Displays.Get(context: context, id: "YmdaFormat"),
+                        context.CultureInfo()),
+                    Relative(context: context, time: date)));
                 timeGroup
                     .OrderBy(dataRow => dataRow.Int("Status"))
                     .ForEach(dataRow =>
@@ -185,7 +189,7 @@ namespace Implem.Pleasanter.Libraries.Settings
             });
             if (!timeGroups.Any())
             {
-                sb.Append(Displays.NoTargetRecord(), "\r\n");
+                sb.Append(Displays.NoTargetRecord(context: context), "\r\n");
             }
             return Body.Contains(BodyPlaceholder)
                 ? Body.Replace(BodyPlaceholder, sb.ToString())
@@ -220,7 +224,8 @@ namespace Implem.Pleasanter.Libraries.Settings
                         .Add(
                             tableName: ss.ReferenceType,
                             columnBrackets: new string[] { orderByColumn.ColumnName },
-                            _operator: "<'{0}'".Params(DateTime.Now.ToLocal().Date.AddDays(Range)))
+                            _operator: "<'{0}'".Params(
+                                DateTime.Now.ToLocal(context: context).Date.AddDays(Range)))
                         .Or(new SqlWhereCollection()
                             .Add(
                                 tableName: ss.ReferenceType,
@@ -232,7 +237,8 @@ namespace Implem.Pleasanter.Libraries.Settings
                                 {
                                     "[" + orderByColumn.ColumnName + "]"
                                 },
-                                _operator: "<'{0}'".Params(DateTime.Now.ToLocal().Date),
+                                _operator: "<'{0}'".Params(
+                                    DateTime.Now.ToLocal(context: context).Date),
                                 _using: SendCompletedInPast == true)),
                     orderBy: new SqlOrderByCollection().Add(ss, ss.GetColumn(
                         context: context, columnName: Column)),
@@ -241,26 +247,30 @@ namespace Implem.Pleasanter.Libraries.Settings
             return dataSet;
         }
 
-        private string Relative(DateTime time)
+        private string Relative(Context context, DateTime time)
         {
-            var diff = DateTime.Now.ToLocal().Date - time;
+            var diff = DateTime.Now.ToLocal(context: context).Date - time;
             if (diff.TotalDays == 0)
             {
-                return Displays.Today();
+                return Displays.Today(context: context);
             }
             else if (diff.TotalDays < 0)
             {
-                return Displays.LimitAfterDays((diff.Days * -1).ToString());
+                return Displays.LimitAfterDays(
+                    context: context,
+                    data: (diff.Days * -1).ToString());
             }
             else
             {
-                return Displays.LimitBeforeDays(diff.Days.ToString());
+                return Displays.LimitBeforeDays(
+                    context: context,
+                    data: diff.Days.ToString());
             }
         }
 
-        public Reminder GetRecordingData()
+        public Reminder GetRecordingData(Context context)
         {
-            var reminder = new Reminder();
+            var reminder = new Reminder(context: context);
             reminder.Id = Id;
             reminder.Subject = Subject;
             reminder.Body = Body;

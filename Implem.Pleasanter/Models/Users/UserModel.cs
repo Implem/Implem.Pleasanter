@@ -1787,7 +1787,7 @@ namespace Implem.Pleasanter.Models
             return this;
         }
 
-        public UserApiModel GetByApi(SiteSettings ss)
+        public UserApiModel GetByApi(Context context, SiteSettings ss)
         {
             var data = new UserApiModel();
             ss.ReadableColumns(noJoined: true).ForEach(column =>
@@ -1804,7 +1804,7 @@ namespace Implem.Pleasanter.Models
                     case "Password": data.Password = Password; break;
                     case "LastName": data.LastName = LastName; break;
                     case "FirstName": data.FirstName = FirstName; break;
-                    case "Birthday": data.Birthday = Birthday.Value.ToLocal(); break;
+                    case "Birthday": data.Birthday = Birthday.Value.ToLocal(context: context); break;
                     case "Gender": data.Gender = Gender; break;
                     case "Language": data.Language = Language; break;
                     case "TimeZone": data.TimeZone = TimeZone; break;
@@ -1812,9 +1812,9 @@ namespace Implem.Pleasanter.Models
                     case "DeptId": data.DeptId = DeptId; break;
                     case "FirstAndLastNameOrder": data.FirstAndLastNameOrder = FirstAndLastNameOrder.ToInt(); break;
                     case "Body": data.Body = Body; break;
-                    case "LastLoginTime": data.LastLoginTime = LastLoginTime.Value.ToLocal(); break;
-                    case "PasswordExpirationTime": data.PasswordExpirationTime = PasswordExpirationTime.Value.ToLocal(); break;
-                    case "PasswordChangeTime": data.PasswordChangeTime = PasswordChangeTime.Value.ToLocal(); break;
+                    case "LastLoginTime": data.LastLoginTime = LastLoginTime.Value.ToLocal(context: context); break;
+                    case "PasswordExpirationTime": data.PasswordExpirationTime = PasswordExpirationTime.Value.ToLocal(context: context); break;
+                    case "PasswordChangeTime": data.PasswordChangeTime = PasswordChangeTime.Value.ToLocal(context: context); break;
                     case "NumberOfLogins": data.NumberOfLogins = NumberOfLogins; break;
                     case "NumberOfDenial": data.NumberOfDenial = NumberOfDenial; break;
                     case "TenantManager": data.TenantManager = TenantManager; break;
@@ -1875,32 +1875,32 @@ namespace Implem.Pleasanter.Models
                     case "NumX": data.NumX = NumX; break;
                     case "NumY": data.NumY = NumY; break;
                     case "NumZ": data.NumZ = NumZ; break;
-                    case "DateA": data.DateA = DateA.ToLocal(); break;
-                    case "DateB": data.DateB = DateB.ToLocal(); break;
-                    case "DateC": data.DateC = DateC.ToLocal(); break;
-                    case "DateD": data.DateD = DateD.ToLocal(); break;
-                    case "DateE": data.DateE = DateE.ToLocal(); break;
-                    case "DateF": data.DateF = DateF.ToLocal(); break;
-                    case "DateG": data.DateG = DateG.ToLocal(); break;
-                    case "DateH": data.DateH = DateH.ToLocal(); break;
-                    case "DateI": data.DateI = DateI.ToLocal(); break;
-                    case "DateJ": data.DateJ = DateJ.ToLocal(); break;
-                    case "DateK": data.DateK = DateK.ToLocal(); break;
-                    case "DateL": data.DateL = DateL.ToLocal(); break;
-                    case "DateM": data.DateM = DateM.ToLocal(); break;
-                    case "DateN": data.DateN = DateN.ToLocal(); break;
-                    case "DateO": data.DateO = DateO.ToLocal(); break;
-                    case "DateP": data.DateP = DateP.ToLocal(); break;
-                    case "DateQ": data.DateQ = DateQ.ToLocal(); break;
-                    case "DateR": data.DateR = DateR.ToLocal(); break;
-                    case "DateS": data.DateS = DateS.ToLocal(); break;
-                    case "DateT": data.DateT = DateT.ToLocal(); break;
-                    case "DateU": data.DateU = DateU.ToLocal(); break;
-                    case "DateV": data.DateV = DateV.ToLocal(); break;
-                    case "DateW": data.DateW = DateW.ToLocal(); break;
-                    case "DateX": data.DateX = DateX.ToLocal(); break;
-                    case "DateY": data.DateY = DateY.ToLocal(); break;
-                    case "DateZ": data.DateZ = DateZ.ToLocal(); break;
+                    case "DateA": data.DateA = DateA.ToLocal(context: context); break;
+                    case "DateB": data.DateB = DateB.ToLocal(context: context); break;
+                    case "DateC": data.DateC = DateC.ToLocal(context: context); break;
+                    case "DateD": data.DateD = DateD.ToLocal(context: context); break;
+                    case "DateE": data.DateE = DateE.ToLocal(context: context); break;
+                    case "DateF": data.DateF = DateF.ToLocal(context: context); break;
+                    case "DateG": data.DateG = DateG.ToLocal(context: context); break;
+                    case "DateH": data.DateH = DateH.ToLocal(context: context); break;
+                    case "DateI": data.DateI = DateI.ToLocal(context: context); break;
+                    case "DateJ": data.DateJ = DateJ.ToLocal(context: context); break;
+                    case "DateK": data.DateK = DateK.ToLocal(context: context); break;
+                    case "DateL": data.DateL = DateL.ToLocal(context: context); break;
+                    case "DateM": data.DateM = DateM.ToLocal(context: context); break;
+                    case "DateN": data.DateN = DateN.ToLocal(context: context); break;
+                    case "DateO": data.DateO = DateO.ToLocal(context: context); break;
+                    case "DateP": data.DateP = DateP.ToLocal(context: context); break;
+                    case "DateQ": data.DateQ = DateQ.ToLocal(context: context); break;
+                    case "DateR": data.DateR = DateR.ToLocal(context: context); break;
+                    case "DateS": data.DateS = DateS.ToLocal(context: context); break;
+                    case "DateT": data.DateT = DateT.ToLocal(context: context); break;
+                    case "DateU": data.DateU = DateU.ToLocal(context: context); break;
+                    case "DateV": data.DateV = DateV.ToLocal(context: context); break;
+                    case "DateW": data.DateW = DateW.ToLocal(context: context); break;
+                    case "DateX": data.DateX = DateX.ToLocal(context: context); break;
+                    case "DateY": data.DateY = DateY.ToLocal(context: context); break;
+                    case "DateZ": data.DateZ = DateZ.ToLocal(context: context); break;
                     case "DescriptionA": data.DescriptionA = DescriptionA; break;
                     case "DescriptionB": data.DescriptionB = DescriptionB; break;
                     case "DescriptionC": data.DescriptionC = DescriptionC; break;
@@ -1954,12 +1954,12 @@ namespace Implem.Pleasanter.Models
                     case "CheckY": data.CheckY = CheckY; break;
                     case "CheckZ": data.CheckZ = CheckZ; break;
                     case "LdapSearchRoot": data.LdapSearchRoot = LdapSearchRoot; break;
-                    case "SynchronizedTime": data.SynchronizedTime = SynchronizedTime.ToLocal(); break;
+                    case "SynchronizedTime": data.SynchronizedTime = SynchronizedTime.ToLocal(context: context); break;
                     case "Creator": data.Creator = Creator.Id; break;
                     case "Updator": data.Updator = Updator.Id; break;
-                    case "CreatedTime": data.CreatedTime = CreatedTime.Value.ToLocal(); break;
-                    case "UpdatedTime": data.UpdatedTime = UpdatedTime.Value.ToLocal(); break;
-                    case "Comments": data.Comments = Comments.ToLocal().ToJson(); break;
+                    case "CreatedTime": data.CreatedTime = CreatedTime.Value.ToLocal(context: context); break;
+                    case "UpdatedTime": data.UpdatedTime = UpdatedTime.Value.ToLocal(context: context); break;
+                    case "Comments": data.Comments = Comments.ToLocal(context: context).ToJson(); break;
                 }
             });
             return data;
@@ -1974,7 +1974,7 @@ namespace Implem.Pleasanter.Models
             bool get = true)
         {
             TenantId = context.TenantId;
-            PasswordExpirationPeriod();
+            PasswordExpirationPeriod(context: context);
             var statements = new List<SqlStatement>();
             CreateStatements(context, ss, statements, tableType, param, otherInitValue);
             try
@@ -2352,7 +2352,7 @@ namespace Implem.Pleasanter.Models
                     case "Users_RememberMe": RememberMe = Forms.Data(controlId).ToBool(); break;
                     case "Users_LastName": LastName = Forms.Data(controlId).ToString(); break;
                     case "Users_FirstName": FirstName = Forms.Data(controlId).ToString(); break;
-                    case "Users_Birthday": Birthday = new Time(Forms.Data(controlId).ToDateTime(), byForm: true); break;
+                    case "Users_Birthday": Birthday = new Time(context, Forms.Data(controlId).ToDateTime(), byForm: true); break;
                     case "Users_Gender": Gender = Forms.Data(controlId).ToString(); break;
                     case "Users_Language": Language = Forms.Data(controlId).ToString(); break;
                     case "Users_TimeZone": TimeZone = Forms.Data(controlId).ToString(); break;
@@ -2360,9 +2360,9 @@ namespace Implem.Pleasanter.Models
                     case "Users_DeptId": DeptId = Forms.Data(controlId).ToInt(); break;
                     case "Users_FirstAndLastNameOrder": FirstAndLastNameOrder = (Names.FirstAndLastNameOrders)Forms.Data(controlId).ToInt(); break;
                     case "Users_Body": Body = Forms.Data(controlId).ToString(); break;
-                    case "Users_LastLoginTime": LastLoginTime = new Time(Forms.Data(controlId).ToDateTime(), byForm: true); break;
-                    case "Users_PasswordExpirationTime": PasswordExpirationTime = new Time(Forms.Data(controlId).ToDateTime(), byForm: true); break;
-                    case "Users_PasswordChangeTime": PasswordChangeTime = new Time(Forms.Data(controlId).ToDateTime(), byForm: true); break;
+                    case "Users_LastLoginTime": LastLoginTime = new Time(context, Forms.Data(controlId).ToDateTime(), byForm: true); break;
+                    case "Users_PasswordExpirationTime": PasswordExpirationTime = new Time(context, Forms.Data(controlId).ToDateTime(), byForm: true); break;
+                    case "Users_PasswordChangeTime": PasswordChangeTime = new Time(context, Forms.Data(controlId).ToDateTime(), byForm: true); break;
                     case "Users_NumberOfLogins": NumberOfLogins = Forms.Data(controlId).ToInt(); break;
                     case "Users_NumberOfDenial": NumberOfDenial = Forms.Data(controlId).ToInt(); break;
                     case "Users_TenantManager": TenantManager = Forms.Data(controlId).ToBool(); break;
@@ -2401,58 +2401,58 @@ namespace Implem.Pleasanter.Models
                     case "Users_ClassX": ClassX = Forms.Data(controlId).ToString(); break;
                     case "Users_ClassY": ClassY = Forms.Data(controlId).ToString(); break;
                     case "Users_ClassZ": ClassZ = Forms.Data(controlId).ToString(); break;
-                    case "Users_NumA": NumA = ss.GetColumn(context: context, columnName: "NumA").Round(Forms.Decimal(controlId)); break;
-                    case "Users_NumB": NumB = ss.GetColumn(context: context, columnName: "NumB").Round(Forms.Decimal(controlId)); break;
-                    case "Users_NumC": NumC = ss.GetColumn(context: context, columnName: "NumC").Round(Forms.Decimal(controlId)); break;
-                    case "Users_NumD": NumD = ss.GetColumn(context: context, columnName: "NumD").Round(Forms.Decimal(controlId)); break;
-                    case "Users_NumE": NumE = ss.GetColumn(context: context, columnName: "NumE").Round(Forms.Decimal(controlId)); break;
-                    case "Users_NumF": NumF = ss.GetColumn(context: context, columnName: "NumF").Round(Forms.Decimal(controlId)); break;
-                    case "Users_NumG": NumG = ss.GetColumn(context: context, columnName: "NumG").Round(Forms.Decimal(controlId)); break;
-                    case "Users_NumH": NumH = ss.GetColumn(context: context, columnName: "NumH").Round(Forms.Decimal(controlId)); break;
-                    case "Users_NumI": NumI = ss.GetColumn(context: context, columnName: "NumI").Round(Forms.Decimal(controlId)); break;
-                    case "Users_NumJ": NumJ = ss.GetColumn(context: context, columnName: "NumJ").Round(Forms.Decimal(controlId)); break;
-                    case "Users_NumK": NumK = ss.GetColumn(context: context, columnName: "NumK").Round(Forms.Decimal(controlId)); break;
-                    case "Users_NumL": NumL = ss.GetColumn(context: context, columnName: "NumL").Round(Forms.Decimal(controlId)); break;
-                    case "Users_NumM": NumM = ss.GetColumn(context: context, columnName: "NumM").Round(Forms.Decimal(controlId)); break;
-                    case "Users_NumN": NumN = ss.GetColumn(context: context, columnName: "NumN").Round(Forms.Decimal(controlId)); break;
-                    case "Users_NumO": NumO = ss.GetColumn(context: context, columnName: "NumO").Round(Forms.Decimal(controlId)); break;
-                    case "Users_NumP": NumP = ss.GetColumn(context: context, columnName: "NumP").Round(Forms.Decimal(controlId)); break;
-                    case "Users_NumQ": NumQ = ss.GetColumn(context: context, columnName: "NumQ").Round(Forms.Decimal(controlId)); break;
-                    case "Users_NumR": NumR = ss.GetColumn(context: context, columnName: "NumR").Round(Forms.Decimal(controlId)); break;
-                    case "Users_NumS": NumS = ss.GetColumn(context: context, columnName: "NumS").Round(Forms.Decimal(controlId)); break;
-                    case "Users_NumT": NumT = ss.GetColumn(context: context, columnName: "NumT").Round(Forms.Decimal(controlId)); break;
-                    case "Users_NumU": NumU = ss.GetColumn(context: context, columnName: "NumU").Round(Forms.Decimal(controlId)); break;
-                    case "Users_NumV": NumV = ss.GetColumn(context: context, columnName: "NumV").Round(Forms.Decimal(controlId)); break;
-                    case "Users_NumW": NumW = ss.GetColumn(context: context, columnName: "NumW").Round(Forms.Decimal(controlId)); break;
-                    case "Users_NumX": NumX = ss.GetColumn(context: context, columnName: "NumX").Round(Forms.Decimal(controlId)); break;
-                    case "Users_NumY": NumY = ss.GetColumn(context: context, columnName: "NumY").Round(Forms.Decimal(controlId)); break;
-                    case "Users_NumZ": NumZ = ss.GetColumn(context: context, columnName: "NumZ").Round(Forms.Decimal(controlId)); break;
-                    case "Users_DateA": DateA = Forms.Data(controlId).ToDateTime().ToUniversal(); break;
-                    case "Users_DateB": DateB = Forms.Data(controlId).ToDateTime().ToUniversal(); break;
-                    case "Users_DateC": DateC = Forms.Data(controlId).ToDateTime().ToUniversal(); break;
-                    case "Users_DateD": DateD = Forms.Data(controlId).ToDateTime().ToUniversal(); break;
-                    case "Users_DateE": DateE = Forms.Data(controlId).ToDateTime().ToUniversal(); break;
-                    case "Users_DateF": DateF = Forms.Data(controlId).ToDateTime().ToUniversal(); break;
-                    case "Users_DateG": DateG = Forms.Data(controlId).ToDateTime().ToUniversal(); break;
-                    case "Users_DateH": DateH = Forms.Data(controlId).ToDateTime().ToUniversal(); break;
-                    case "Users_DateI": DateI = Forms.Data(controlId).ToDateTime().ToUniversal(); break;
-                    case "Users_DateJ": DateJ = Forms.Data(controlId).ToDateTime().ToUniversal(); break;
-                    case "Users_DateK": DateK = Forms.Data(controlId).ToDateTime().ToUniversal(); break;
-                    case "Users_DateL": DateL = Forms.Data(controlId).ToDateTime().ToUniversal(); break;
-                    case "Users_DateM": DateM = Forms.Data(controlId).ToDateTime().ToUniversal(); break;
-                    case "Users_DateN": DateN = Forms.Data(controlId).ToDateTime().ToUniversal(); break;
-                    case "Users_DateO": DateO = Forms.Data(controlId).ToDateTime().ToUniversal(); break;
-                    case "Users_DateP": DateP = Forms.Data(controlId).ToDateTime().ToUniversal(); break;
-                    case "Users_DateQ": DateQ = Forms.Data(controlId).ToDateTime().ToUniversal(); break;
-                    case "Users_DateR": DateR = Forms.Data(controlId).ToDateTime().ToUniversal(); break;
-                    case "Users_DateS": DateS = Forms.Data(controlId).ToDateTime().ToUniversal(); break;
-                    case "Users_DateT": DateT = Forms.Data(controlId).ToDateTime().ToUniversal(); break;
-                    case "Users_DateU": DateU = Forms.Data(controlId).ToDateTime().ToUniversal(); break;
-                    case "Users_DateV": DateV = Forms.Data(controlId).ToDateTime().ToUniversal(); break;
-                    case "Users_DateW": DateW = Forms.Data(controlId).ToDateTime().ToUniversal(); break;
-                    case "Users_DateX": DateX = Forms.Data(controlId).ToDateTime().ToUniversal(); break;
-                    case "Users_DateY": DateY = Forms.Data(controlId).ToDateTime().ToUniversal(); break;
-                    case "Users_DateZ": DateZ = Forms.Data(controlId).ToDateTime().ToUniversal(); break;
+                    case "Users_NumA": NumA = ss.GetColumn(context: context, columnName: "NumA").Round(Forms.Decimal(context: context, key: controlId)); break;
+                    case "Users_NumB": NumB = ss.GetColumn(context: context, columnName: "NumB").Round(Forms.Decimal(context: context, key: controlId)); break;
+                    case "Users_NumC": NumC = ss.GetColumn(context: context, columnName: "NumC").Round(Forms.Decimal(context: context, key: controlId)); break;
+                    case "Users_NumD": NumD = ss.GetColumn(context: context, columnName: "NumD").Round(Forms.Decimal(context: context, key: controlId)); break;
+                    case "Users_NumE": NumE = ss.GetColumn(context: context, columnName: "NumE").Round(Forms.Decimal(context: context, key: controlId)); break;
+                    case "Users_NumF": NumF = ss.GetColumn(context: context, columnName: "NumF").Round(Forms.Decimal(context: context, key: controlId)); break;
+                    case "Users_NumG": NumG = ss.GetColumn(context: context, columnName: "NumG").Round(Forms.Decimal(context: context, key: controlId)); break;
+                    case "Users_NumH": NumH = ss.GetColumn(context: context, columnName: "NumH").Round(Forms.Decimal(context: context, key: controlId)); break;
+                    case "Users_NumI": NumI = ss.GetColumn(context: context, columnName: "NumI").Round(Forms.Decimal(context: context, key: controlId)); break;
+                    case "Users_NumJ": NumJ = ss.GetColumn(context: context, columnName: "NumJ").Round(Forms.Decimal(context: context, key: controlId)); break;
+                    case "Users_NumK": NumK = ss.GetColumn(context: context, columnName: "NumK").Round(Forms.Decimal(context: context, key: controlId)); break;
+                    case "Users_NumL": NumL = ss.GetColumn(context: context, columnName: "NumL").Round(Forms.Decimal(context: context, key: controlId)); break;
+                    case "Users_NumM": NumM = ss.GetColumn(context: context, columnName: "NumM").Round(Forms.Decimal(context: context, key: controlId)); break;
+                    case "Users_NumN": NumN = ss.GetColumn(context: context, columnName: "NumN").Round(Forms.Decimal(context: context, key: controlId)); break;
+                    case "Users_NumO": NumO = ss.GetColumn(context: context, columnName: "NumO").Round(Forms.Decimal(context: context, key: controlId)); break;
+                    case "Users_NumP": NumP = ss.GetColumn(context: context, columnName: "NumP").Round(Forms.Decimal(context: context, key: controlId)); break;
+                    case "Users_NumQ": NumQ = ss.GetColumn(context: context, columnName: "NumQ").Round(Forms.Decimal(context: context, key: controlId)); break;
+                    case "Users_NumR": NumR = ss.GetColumn(context: context, columnName: "NumR").Round(Forms.Decimal(context: context, key: controlId)); break;
+                    case "Users_NumS": NumS = ss.GetColumn(context: context, columnName: "NumS").Round(Forms.Decimal(context: context, key: controlId)); break;
+                    case "Users_NumT": NumT = ss.GetColumn(context: context, columnName: "NumT").Round(Forms.Decimal(context: context, key: controlId)); break;
+                    case "Users_NumU": NumU = ss.GetColumn(context: context, columnName: "NumU").Round(Forms.Decimal(context: context, key: controlId)); break;
+                    case "Users_NumV": NumV = ss.GetColumn(context: context, columnName: "NumV").Round(Forms.Decimal(context: context, key: controlId)); break;
+                    case "Users_NumW": NumW = ss.GetColumn(context: context, columnName: "NumW").Round(Forms.Decimal(context: context, key: controlId)); break;
+                    case "Users_NumX": NumX = ss.GetColumn(context: context, columnName: "NumX").Round(Forms.Decimal(context: context, key: controlId)); break;
+                    case "Users_NumY": NumY = ss.GetColumn(context: context, columnName: "NumY").Round(Forms.Decimal(context: context, key: controlId)); break;
+                    case "Users_NumZ": NumZ = ss.GetColumn(context: context, columnName: "NumZ").Round(Forms.Decimal(context: context, key: controlId)); break;
+                    case "Users_DateA": DateA = Forms.Data(controlId).ToDateTime().ToUniversal(context: context); break;
+                    case "Users_DateB": DateB = Forms.Data(controlId).ToDateTime().ToUniversal(context: context); break;
+                    case "Users_DateC": DateC = Forms.Data(controlId).ToDateTime().ToUniversal(context: context); break;
+                    case "Users_DateD": DateD = Forms.Data(controlId).ToDateTime().ToUniversal(context: context); break;
+                    case "Users_DateE": DateE = Forms.Data(controlId).ToDateTime().ToUniversal(context: context); break;
+                    case "Users_DateF": DateF = Forms.Data(controlId).ToDateTime().ToUniversal(context: context); break;
+                    case "Users_DateG": DateG = Forms.Data(controlId).ToDateTime().ToUniversal(context: context); break;
+                    case "Users_DateH": DateH = Forms.Data(controlId).ToDateTime().ToUniversal(context: context); break;
+                    case "Users_DateI": DateI = Forms.Data(controlId).ToDateTime().ToUniversal(context: context); break;
+                    case "Users_DateJ": DateJ = Forms.Data(controlId).ToDateTime().ToUniversal(context: context); break;
+                    case "Users_DateK": DateK = Forms.Data(controlId).ToDateTime().ToUniversal(context: context); break;
+                    case "Users_DateL": DateL = Forms.Data(controlId).ToDateTime().ToUniversal(context: context); break;
+                    case "Users_DateM": DateM = Forms.Data(controlId).ToDateTime().ToUniversal(context: context); break;
+                    case "Users_DateN": DateN = Forms.Data(controlId).ToDateTime().ToUniversal(context: context); break;
+                    case "Users_DateO": DateO = Forms.Data(controlId).ToDateTime().ToUniversal(context: context); break;
+                    case "Users_DateP": DateP = Forms.Data(controlId).ToDateTime().ToUniversal(context: context); break;
+                    case "Users_DateQ": DateQ = Forms.Data(controlId).ToDateTime().ToUniversal(context: context); break;
+                    case "Users_DateR": DateR = Forms.Data(controlId).ToDateTime().ToUniversal(context: context); break;
+                    case "Users_DateS": DateS = Forms.Data(controlId).ToDateTime().ToUniversal(context: context); break;
+                    case "Users_DateT": DateT = Forms.Data(controlId).ToDateTime().ToUniversal(context: context); break;
+                    case "Users_DateU": DateU = Forms.Data(controlId).ToDateTime().ToUniversal(context: context); break;
+                    case "Users_DateV": DateV = Forms.Data(controlId).ToDateTime().ToUniversal(context: context); break;
+                    case "Users_DateW": DateW = Forms.Data(controlId).ToDateTime().ToUniversal(context: context); break;
+                    case "Users_DateX": DateX = Forms.Data(controlId).ToDateTime().ToUniversal(context: context); break;
+                    case "Users_DateY": DateY = Forms.Data(controlId).ToDateTime().ToUniversal(context: context); break;
+                    case "Users_DateZ": DateZ = Forms.Data(controlId).ToDateTime().ToUniversal(context: context); break;
                     case "Users_DescriptionA": DescriptionA = Forms.Data(controlId).ToString(); break;
                     case "Users_DescriptionB": DescriptionB = Forms.Data(controlId).ToString(); break;
                     case "Users_DescriptionC": DescriptionC = Forms.Data(controlId).ToString(); break;
@@ -2506,7 +2506,7 @@ namespace Implem.Pleasanter.Models
                     case "Users_CheckY": CheckY = Forms.Data(controlId).ToBool(); break;
                     case "Users_CheckZ": CheckZ = Forms.Data(controlId).ToBool(); break;
                     case "Users_LdapSearchRoot": LdapSearchRoot = Forms.Data(controlId).ToString(); break;
-                    case "Users_SynchronizedTime": SynchronizedTime = Forms.Data(controlId).ToDateTime().ToUniversal(); break;
+                    case "Users_SynchronizedTime": SynchronizedTime = Forms.Data(controlId).ToDateTime().ToUniversal(context: context); break;
                     case "Users_Timestamp": Timestamp = Forms.Data(controlId).ToString(); break;
                     case "Comments": Comments.Prepend(context: context, ss: ss, body: Forms.Data("Comments")); break;
                     case "VerUp": VerUp = Forms.Data(controlId).ToBool(); break;
@@ -2731,7 +2731,7 @@ namespace Implem.Pleasanter.Models
             if (data.Password != null) Password = data.Password.ToString().ToString().Sha512Cng();
             if (data.LastName != null) LastName = data.LastName.ToString().ToString();
             if (data.FirstName != null) FirstName = data.FirstName.ToString().ToString();
-            if (data.Birthday != null) Birthday = new Time(data.Birthday.ToDateTime(), byForm: true);
+            if (data.Birthday != null) Birthday = new Time(context, data.Birthday.ToDateTime(), byForm: true);
             if (data.Gender != null) Gender = data.Gender.ToString().ToString();
             if (data.Language != null) Language = data.Language.ToString().ToString();
             if (data.TimeZone != null) TimeZone = data.TimeZone.ToString().ToString();
@@ -2739,9 +2739,9 @@ namespace Implem.Pleasanter.Models
             if (data.DeptId != null) DeptId = data.DeptId.ToInt().ToInt();
             if (data.FirstAndLastNameOrder != null) FirstAndLastNameOrder = (Names.FirstAndLastNameOrders)data.FirstAndLastNameOrder.ToInt().ToInt();
             if (data.Body != null) Body = data.Body.ToString().ToString();
-            if (data.LastLoginTime != null) LastLoginTime = new Time(data.LastLoginTime.ToDateTime(), byForm: true);
-            if (data.PasswordExpirationTime != null) PasswordExpirationTime = new Time(data.PasswordExpirationTime.ToDateTime(), byForm: true);
-            if (data.PasswordChangeTime != null) PasswordChangeTime = new Time(data.PasswordChangeTime.ToDateTime(), byForm: true);
+            if (data.LastLoginTime != null) LastLoginTime = new Time(context, data.LastLoginTime.ToDateTime(), byForm: true);
+            if (data.PasswordExpirationTime != null) PasswordExpirationTime = new Time(context, data.PasswordExpirationTime.ToDateTime(), byForm: true);
+            if (data.PasswordChangeTime != null) PasswordChangeTime = new Time(context, data.PasswordChangeTime.ToDateTime(), byForm: true);
             if (data.NumberOfLogins != null) NumberOfLogins = data.NumberOfLogins.ToInt().ToInt();
             if (data.NumberOfDenial != null) NumberOfDenial = data.NumberOfDenial.ToInt().ToInt();
             if (data.TenantManager != null) TenantManager = data.TenantManager.ToBool().ToBool();
@@ -2799,32 +2799,32 @@ namespace Implem.Pleasanter.Models
             if (data.NumX != null) NumX = ss.GetColumn(context: context, columnName: "NumX").Round(data.NumX.ToDecimal());
             if (data.NumY != null) NumY = ss.GetColumn(context: context, columnName: "NumY").Round(data.NumY.ToDecimal());
             if (data.NumZ != null) NumZ = ss.GetColumn(context: context, columnName: "NumZ").Round(data.NumZ.ToDecimal());
-            if (data.DateA != null) DateA = data.DateA.ToDateTime().ToDateTime().ToUniversal();
-            if (data.DateB != null) DateB = data.DateB.ToDateTime().ToDateTime().ToUniversal();
-            if (data.DateC != null) DateC = data.DateC.ToDateTime().ToDateTime().ToUniversal();
-            if (data.DateD != null) DateD = data.DateD.ToDateTime().ToDateTime().ToUniversal();
-            if (data.DateE != null) DateE = data.DateE.ToDateTime().ToDateTime().ToUniversal();
-            if (data.DateF != null) DateF = data.DateF.ToDateTime().ToDateTime().ToUniversal();
-            if (data.DateG != null) DateG = data.DateG.ToDateTime().ToDateTime().ToUniversal();
-            if (data.DateH != null) DateH = data.DateH.ToDateTime().ToDateTime().ToUniversal();
-            if (data.DateI != null) DateI = data.DateI.ToDateTime().ToDateTime().ToUniversal();
-            if (data.DateJ != null) DateJ = data.DateJ.ToDateTime().ToDateTime().ToUniversal();
-            if (data.DateK != null) DateK = data.DateK.ToDateTime().ToDateTime().ToUniversal();
-            if (data.DateL != null) DateL = data.DateL.ToDateTime().ToDateTime().ToUniversal();
-            if (data.DateM != null) DateM = data.DateM.ToDateTime().ToDateTime().ToUniversal();
-            if (data.DateN != null) DateN = data.DateN.ToDateTime().ToDateTime().ToUniversal();
-            if (data.DateO != null) DateO = data.DateO.ToDateTime().ToDateTime().ToUniversal();
-            if (data.DateP != null) DateP = data.DateP.ToDateTime().ToDateTime().ToUniversal();
-            if (data.DateQ != null) DateQ = data.DateQ.ToDateTime().ToDateTime().ToUniversal();
-            if (data.DateR != null) DateR = data.DateR.ToDateTime().ToDateTime().ToUniversal();
-            if (data.DateS != null) DateS = data.DateS.ToDateTime().ToDateTime().ToUniversal();
-            if (data.DateT != null) DateT = data.DateT.ToDateTime().ToDateTime().ToUniversal();
-            if (data.DateU != null) DateU = data.DateU.ToDateTime().ToDateTime().ToUniversal();
-            if (data.DateV != null) DateV = data.DateV.ToDateTime().ToDateTime().ToUniversal();
-            if (data.DateW != null) DateW = data.DateW.ToDateTime().ToDateTime().ToUniversal();
-            if (data.DateX != null) DateX = data.DateX.ToDateTime().ToDateTime().ToUniversal();
-            if (data.DateY != null) DateY = data.DateY.ToDateTime().ToDateTime().ToUniversal();
-            if (data.DateZ != null) DateZ = data.DateZ.ToDateTime().ToDateTime().ToUniversal();
+            if (data.DateA != null) DateA = data.DateA.ToDateTime().ToDateTime().ToUniversal(context: context);
+            if (data.DateB != null) DateB = data.DateB.ToDateTime().ToDateTime().ToUniversal(context: context);
+            if (data.DateC != null) DateC = data.DateC.ToDateTime().ToDateTime().ToUniversal(context: context);
+            if (data.DateD != null) DateD = data.DateD.ToDateTime().ToDateTime().ToUniversal(context: context);
+            if (data.DateE != null) DateE = data.DateE.ToDateTime().ToDateTime().ToUniversal(context: context);
+            if (data.DateF != null) DateF = data.DateF.ToDateTime().ToDateTime().ToUniversal(context: context);
+            if (data.DateG != null) DateG = data.DateG.ToDateTime().ToDateTime().ToUniversal(context: context);
+            if (data.DateH != null) DateH = data.DateH.ToDateTime().ToDateTime().ToUniversal(context: context);
+            if (data.DateI != null) DateI = data.DateI.ToDateTime().ToDateTime().ToUniversal(context: context);
+            if (data.DateJ != null) DateJ = data.DateJ.ToDateTime().ToDateTime().ToUniversal(context: context);
+            if (data.DateK != null) DateK = data.DateK.ToDateTime().ToDateTime().ToUniversal(context: context);
+            if (data.DateL != null) DateL = data.DateL.ToDateTime().ToDateTime().ToUniversal(context: context);
+            if (data.DateM != null) DateM = data.DateM.ToDateTime().ToDateTime().ToUniversal(context: context);
+            if (data.DateN != null) DateN = data.DateN.ToDateTime().ToDateTime().ToUniversal(context: context);
+            if (data.DateO != null) DateO = data.DateO.ToDateTime().ToDateTime().ToUniversal(context: context);
+            if (data.DateP != null) DateP = data.DateP.ToDateTime().ToDateTime().ToUniversal(context: context);
+            if (data.DateQ != null) DateQ = data.DateQ.ToDateTime().ToDateTime().ToUniversal(context: context);
+            if (data.DateR != null) DateR = data.DateR.ToDateTime().ToDateTime().ToUniversal(context: context);
+            if (data.DateS != null) DateS = data.DateS.ToDateTime().ToDateTime().ToUniversal(context: context);
+            if (data.DateT != null) DateT = data.DateT.ToDateTime().ToDateTime().ToUniversal(context: context);
+            if (data.DateU != null) DateU = data.DateU.ToDateTime().ToDateTime().ToUniversal(context: context);
+            if (data.DateV != null) DateV = data.DateV.ToDateTime().ToDateTime().ToUniversal(context: context);
+            if (data.DateW != null) DateW = data.DateW.ToDateTime().ToDateTime().ToUniversal(context: context);
+            if (data.DateX != null) DateX = data.DateX.ToDateTime().ToDateTime().ToUniversal(context: context);
+            if (data.DateY != null) DateY = data.DateY.ToDateTime().ToDateTime().ToUniversal(context: context);
+            if (data.DateZ != null) DateZ = data.DateZ.ToDateTime().ToDateTime().ToUniversal(context: context);
             if (data.DescriptionA != null) DescriptionA = data.DescriptionA.ToString().ToString();
             if (data.DescriptionB != null) DescriptionB = data.DescriptionB.ToString().ToString();
             if (data.DescriptionC != null) DescriptionC = data.DescriptionC.ToString().ToString();
@@ -2878,7 +2878,7 @@ namespace Implem.Pleasanter.Models
             if (data.CheckY != null) CheckY = data.CheckY.ToBool().ToBool();
             if (data.CheckZ != null) CheckZ = data.CheckZ.ToBool().ToBool();
             if (data.LdapSearchRoot != null) LdapSearchRoot = data.LdapSearchRoot.ToString().ToString();
-            if (data.SynchronizedTime != null) SynchronizedTime = data.SynchronizedTime.ToDateTime().ToDateTime().ToUniversal();
+            if (data.SynchronizedTime != null) SynchronizedTime = data.SynchronizedTime.ToDateTime().ToDateTime().ToUniversal(context: context);
             if (data.Comments != null) Comments.Prepend(context: context, ss: ss, body: data.Comments);
             if (data.VerUp != null) VerUp = data.VerUp.ToBool();
         }
@@ -2956,7 +2956,7 @@ namespace Implem.Pleasanter.Models
                             SavedFirstName = FirstName;
                             break;
                         case "Birthday":
-                            Birthday = new Time(dataRow, column.ColumnName);
+                            Birthday = new Time(context, dataRow, column.ColumnName);
                             SavedBirthday = Birthday.Value;
                             break;
                         case "Gender":
@@ -2988,15 +2988,15 @@ namespace Implem.Pleasanter.Models
                             SavedBody = Body;
                             break;
                         case "LastLoginTime":
-                            LastLoginTime = new Time(dataRow, column.ColumnName);
+                            LastLoginTime = new Time(context, dataRow, column.ColumnName);
                             SavedLastLoginTime = LastLoginTime.Value;
                             break;
                         case "PasswordExpirationTime":
-                            PasswordExpirationTime = new Time(dataRow, column.ColumnName);
+                            PasswordExpirationTime = new Time(context, dataRow, column.ColumnName);
                             SavedPasswordExpirationTime = PasswordExpirationTime.Value;
                             break;
                         case "PasswordChangeTime":
-                            PasswordChangeTime = new Time(dataRow, column.ColumnName);
+                            PasswordChangeTime = new Time(context, dataRow, column.ColumnName);
                             SavedPasswordChangeTime = PasswordChangeTime.Value;
                             break;
                         case "NumberOfLogins":
@@ -3572,11 +3572,11 @@ namespace Implem.Pleasanter.Models
                             SavedUpdator = Updator.Id;
                             break;
                         case "CreatedTime":
-                            CreatedTime = new Time(dataRow, column.ColumnName);
+                            CreatedTime = new Time(context, dataRow, column.ColumnName);
                             SavedCreatedTime = CreatedTime.Value;
                             break;
                         case "UpdatedTime":
-                            UpdatedTime = new Time(dataRow, column.ColumnName); Timestamp = dataRow.Field<DateTime>(column.ColumnName).ToString("yyyy/M/d H:m:s.fff");
+                            UpdatedTime = new Time(context, dataRow, column.ColumnName); Timestamp = dataRow.Field<DateTime>(column.ColumnName).ToString("yyyy/M/d H:m:s.fff");
                             SavedUpdatedTime = UpdatedTime.Value;
                             break;
                         case "IsHistory": VerType = dataRow[column.ColumnName].ToBool() ? Versions.VerTypes.History : Versions.VerTypes.Latest; break;
@@ -3805,11 +3805,12 @@ namespace Implem.Pleasanter.Models
         /// <summary>
         /// Fixed:
         /// </summary>
-        private void PasswordExpirationPeriod()
+        private void PasswordExpirationPeriod(Context context)
         {
             PasswordExpirationTime = Parameters.Authentication.PasswordExpirationPeriod != 0
-                ? new Time(DateTime.Today.AddDays(
-                    Parameters.Authentication.PasswordExpirationPeriod))
+                ? new Time(
+                    context: context,
+                    value: DateTime.Today.AddDays(Parameters.Authentication.PasswordExpirationPeriod))
                 : PasswordExpirationTime;
         }
 
@@ -4010,7 +4011,7 @@ namespace Implem.Pleasanter.Models
                     controlId: "SelectedTenantId",
                     fieldCss: " field-wide",
                     controlCss: " always-send",
-                    labelText: Displays.Tenants(),
+                    labelText: Displays.Tenants(context: context),
                     optionCollection: tenantOptions)).ToJson();
         }
 
@@ -4037,7 +4038,7 @@ namespace Implem.Pleasanter.Models
             SetFormsAuthentication(returnUrl);
             return new UsersResponseCollection(this)
                 .CloseDialog(_using: atLogin)
-                .Message(Messages.LoginIn())
+                .Message(Messages.LoginIn(context: context))
                 .Href(returnUrl == string.Empty
                     ? Locations.Top()
                     : returnUrl).ToJson();
@@ -4063,7 +4064,7 @@ namespace Implem.Pleasanter.Models
         private string Deny(Context context)
         {
             IncrementsNumberOfLogins(context, "NumberOfDenial");
-            return Messages.ResponseAuthentication().Focus("#Password").ToJson();
+            return Messages.ResponseAuthentication(context: context).Focus("#Password").ToJson();
         }
 
         /// <summary>
@@ -4072,7 +4073,7 @@ namespace Implem.Pleasanter.Models
         private string UserDisabled(Context context)
         {
             IncrementsNumberOfLogins(context, "NumberOfDenial");
-            return Messages.ResponseUserDisabled().Focus("#Password").ToJson();
+            return Messages.ResponseUserDisabled(context: context).Focus("#Password").ToJson();
         }
 
         /// <summary>
@@ -4150,7 +4151,9 @@ namespace Implem.Pleasanter.Models
                 context: context,
                 statements: Rds.UpdateUsers(
                     where: Rds.UsersWhereDefault(this),
-                    param: ChangePasswordParam(ChangedPassword)));
+                    param: ChangePasswordParam(
+                        context: context,
+                        password: ChangedPassword)));
             Get(
                 context: context,
                 ss: SiteSettingsUtilities.UsersSiteSettings(context: context));
@@ -4166,7 +4169,10 @@ namespace Implem.Pleasanter.Models
                 context: context,
                 statements: Rds.UpdateUsers(
                     where: Rds.UsersWhereDefault(this),
-                    param: ChangePasswordParam(ChangedPassword, changeAtLogin: true)));
+                    param: ChangePasswordParam(
+                        context: context,
+                        password: ChangedPassword,
+                        changeAtLogin: true)));
             return Error.Types.None;
         }
 
@@ -4179,7 +4185,9 @@ namespace Implem.Pleasanter.Models
                 context: context,
                 statements: Rds.UpdateUsers(
                     where: Rds.UsersWhereDefault(this),
-                    param: ChangePasswordParam(AfterResetPassword)));
+                    param: ChangePasswordParam(
+                        context: context,
+                        password: AfterResetPassword)));
             Get(
                 context: context,
                 ss: SiteSettingsUtilities.UsersSiteSettings(context: context));
@@ -4189,9 +4197,10 @@ namespace Implem.Pleasanter.Models
         /// <summary>
         /// Fixed:
         /// </summary>
-        public SqlParamCollection ChangePasswordParam(string password, bool changeAtLogin = false)
+        public SqlParamCollection ChangePasswordParam(
+            Context context, string password, bool changeAtLogin = false)
         {
-            PasswordExpirationPeriod();
+            PasswordExpirationPeriod(context: context);
             var param = Rds.UsersParam()
                 .Password(password)
                 .PasswordChangeTime(raw: "getdate()");

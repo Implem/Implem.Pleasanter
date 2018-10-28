@@ -307,6 +307,7 @@ namespace Implem.Pleasanter.Libraries.Settings
         }
 
         public Dictionary<string, ControlData> EditChoices(
+            Context context,
             bool insertBlank = false,
             bool shorten = false,
             bool addNotSet = false,
@@ -321,7 +322,7 @@ namespace Implem.Pleasanter.Libraries.Settings
             if (!HasChoices()) return hash;
             if (addNotSet && !Required)
             {
-                hash.Add("\t", new ControlData(Displays.NotSet()));
+                hash.Add("\t", new ControlData(Displays.NotSet(context: context)));
             }
             if (insertBlank && CanEmpty())
             {
@@ -417,7 +418,8 @@ namespace Implem.Pleasanter.Libraries.Settings
             }
             else if (TypeName == "datetime")
             {
-                return value?.ToDateTime().ToUniversal().ToString() ?? string.Empty;
+                return value?.ToDateTime().ToUniversal(context: context).ToString()
+                    ?? string.Empty;
             }
             else if (HasChoices())
             {
@@ -433,14 +435,15 @@ namespace Implem.Pleasanter.Libraries.Settings
             return recordingData ?? string.Empty;
         }
 
-        public string Display(decimal value, bool unit = false, bool format = true)
+        public string Display(
+            Context context, decimal value, bool unit = false, bool format = true)
         {
             return (!Format.IsNullOrEmpty() && format
                 ? value.ToString(
                     Format + (Format == "C" && DecimalPlaces.ToInt() == 0
                         ? string.Empty
                         : DecimalPlaces.ToString()),
-                    Sessions.CultureInfo())
+                    context.CultureInfo())
                 : DecimalPlaces.ToInt() == 0
                     ? value.ToString("0", "0")
                     : DisplayValue(value))
@@ -454,21 +457,29 @@ namespace Implem.Pleasanter.Libraries.Settings
                 .TrimEndZero();
         }
 
-        public string Display(SiteSettings ss, decimal value, bool format = true)
+        public string Display(Context context, SiteSettings ss, decimal value, bool format = true)
         {
-            return Display(value, format: format) + (EditorReadOnly == true || !CanUpdate
-                ? Unit
-                : string.Empty);
+            return Display(
+                context: context,
+                value: value,
+                format: format)
+                    + (EditorReadOnly == true || !CanUpdate
+                        ? Unit
+                        : string.Empty);
         }
 
-        public string DisplayGrid(DateTime value)
+        public string DisplayGrid(Context context, DateTime value)
         {
-            return value.Display(GridFormat);
+            return value.Display(
+                context: context,
+                format: GridFormat);
         }
 
-        public string DisplayControl(DateTime value)
+        public string DisplayControl(Context context, DateTime value)
         {
-            return value.Display(EditorFormat);
+            return value.Display(
+                context: context,
+                format: EditorFormat);
         }
 
         public decimal Round(decimal value)
@@ -476,15 +487,15 @@ namespace Implem.Pleasanter.Libraries.Settings
              return Math.Round(value, DecimalPlaces.ToInt(), MidpointRounding.AwayFromZero);
         }
 
-        public string DateTimeFormat()
+        public string DateTimeFormat(Context context)
         {
             switch (EditorFormat)
             {
                 case "Ymdhm":
                 case "Ymdhms":
-                    return Displays.YmdhmDatePickerFormat();
+                    return Displays.YmdhmDatePickerFormat(context: context);
                 default:
-                    return Displays.YmdDatePickerFormat();
+                    return Displays.YmdDatePickerFormat(context: context);
             }
         }
 

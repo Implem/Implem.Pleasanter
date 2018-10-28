@@ -26,7 +26,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     controlId: "TimeSeriesGroupBy",
                     fieldCss: "field-auto-thin",
                     controlCss: " auto-postback",
-                    labelText: Displays.GroupBy(),
+                    labelText: Displays.GroupBy(context: context),
                     optionCollection: ss.TimeSeriesGroupByOptions(),
                     selectedValue: groupBy?.ColumnName,
                     addSelectedValue: false,
@@ -36,8 +36,8 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     controlId: "TimeSeriesAggregateType",
                     fieldCss: "field-auto-thin",
                     controlCss: " auto-postback",
-                    labelText: Displays.AggregationType(),
-                    optionCollection: ss.TimeSeriesAggregationTypeOptions(),
+                    labelText: Displays.AggregationType(context: context),
+                    optionCollection: ss.TimeSeriesAggregationTypeOptions(context: context),
                     selectedValue: aggregationType,
                     addSelectedValue: false,
                     method: "post")
@@ -47,7 +47,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     controlId: "TimeSeriesValue",
                     fieldCss: "field-auto-thin",
                     controlCss: " auto-postback",
-                    labelText: Displays.AggregationTarget(),
+                    labelText: Displays.AggregationTarget(context: context),
                     optionCollection: ss.TimeSeriesValueOptions(),
                     selectedValue: value?.ColumnName,
                     addSelectedValue: false,
@@ -86,7 +86,10 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     .Svg(id: "TimeSeries")
                     .Hidden(
                         controlId: "TimeSeriesJson",
-                        value: timeSeries.Json(groupBy, value));
+                        value: timeSeries.Json(
+                            context: context,
+                            groupBy: groupBy,
+                            value: value));
             }
             else
             {

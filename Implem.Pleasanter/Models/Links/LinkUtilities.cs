@@ -43,12 +43,12 @@ namespace Implem.Pleasanter.Models
         /// <summary>
         /// Fixed:
         /// </summary>
-        public static HtmlBuilder LinkDialog(this HtmlBuilder hb)
+        public static HtmlBuilder LinkDialog(this HtmlBuilder hb, Context context)
         {
             return hb.Div(attributes: new HtmlAttributes()
                 .Id("LinkDialog")
                 .Class("dialog")
-                .Title(Displays.Links()));
+                .Title(Displays.Links(context: context)));
         }
     }
 }

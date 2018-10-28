@@ -33,17 +33,21 @@ namespace Implem.Pleasanter.Libraries.Extensions
         public static string ToExport(
             this decimal value, Context context, Column column, ExportColumn exportColumn = null)
         {
-            return column.Display(value, format: false);
+            return column.Display(
+                context: context,
+                value: value,
+                format: false);
         }
 
         public static string ToExport(
             this DateTime value, Context context, Column column, ExportColumn exportColumn = null)
         {
             return value.InRange()
-                ? value.ToLocal().Display(
-                    exportColumn?.Format ??
-                    column?.EditorFormat ??
-                    "Ymd")
+                ? value.ToLocal(context: context).Display(
+                    context: context,
+                    format: exportColumn?.Format
+                        ?? column?.EditorFormat
+                        ?? "Ymd")
                 : string.Empty;
         }
 

@@ -14,7 +14,7 @@ namespace Implem.Pleasanter.Controllers
             var log = new SysLogModel(context: context);
             var result = context.Authenticated
                 ? new GroupModel().GetByApi(context: context)
-                : ApiResults.Unauthorized();
+                : ApiResults.Unauthorized(context: context);
             log.Finish(context: context, responseSize: result.Content.Length);
             return result;
         }

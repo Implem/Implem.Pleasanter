@@ -32,7 +32,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                     .Text(text: Parameters.General.HtmlTitle)))
                             .Div(action: () => hb
                                 .Span(action: () => hb
-                                    .Text(text: Displays.Version()))
+                                    .Text(text: Displays.Version(context: context)))
                                 .Span(action: () => hb
                                     .Text(text: Environments.AssemblyVersion +
                                         (Parameters.Enterprise
@@ -41,7 +41,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                             .Div(
                                 action: () => hb
                                     .Span(action: () => hb
-                                        .Text(text: plan + Displays.Plan())),
+                                        .Text(text: plan + Displays.Plan(context: context))),
                                 _using: !plan.IsNullOrEmpty())
                             .Div(action: () => hb
                                 .Span(action: () => hb

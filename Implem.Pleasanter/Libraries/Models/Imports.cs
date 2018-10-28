@@ -19,18 +19,26 @@ namespace Implem.Pleasanter.Libraries.Models
                 if (!headers.Contains(name))
                 {
                     return Messages.ResponseNotRequiredColumn(
-                        ss.GetColumn(context: context, columnName: name).LabelText).ToJson();
+                        context: context,
+                        data: ss.GetColumn(
+                            context: context,
+                            columnName: name).LabelText).ToJson();
                 }
             }
             return null;
         }
 
-        public static string Validate(Dictionary<int, string> hash, Column column)
+        public static string Validate(Context context, Dictionary<int, string> hash, Column column)
         {
             foreach (var data in hash.Where(o => HasError(o.Value, column)))
             {
                 return Messages.ResponseInvalidCsvData(
-                    (data.Key + 2).ToString(), column.LabelText).ToJson();
+                    context: context,
+                    data: new string[]
+                    {
+                        (data.Key + 2).ToString(),
+                        column.LabelText
+                    }).ToJson();
             }
             return null;
         }

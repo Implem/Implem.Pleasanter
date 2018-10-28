@@ -13,25 +13,25 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                 attributes: new HtmlAttributes()
                     .Id("MoveDialog")
                     .Class("dialog")
-                    .Title(Displays.MoveSettings()),
+                    .Title(Displays.MoveSettings(context: context)),
                 action: () => hb
                     .FieldDropDown(
                         context: context,
                         controlId: "MoveTargets",
                         controlCss: " always-send",
-                        labelText: Displays.Destination(),
+                        labelText: Displays.Destination(context: context),
                         optionCollection: new Dictionary<string, ControlData>())
                     .P(css: "message-dialog")
                     .Div(css: "command-center", action: () => hb
                         .Button(
-                            text: Displays.Move(),
+                            text: Displays.Move(context: context),
                             controlCss: "button-icon",
                             onClick: "$p.move($(this));",
                             icon: "ui-icon-copy",
                             action: bulk ? "BulkMove" : "Move",
                             method: "put")
                         .Button(
-                            text: Displays.Cancel(),
+                            text: Displays.Cancel(context: context),
                             controlCss: "button-icon",
                             onClick: "$p.closeDialog($(this));",
                             icon: "ui-icon-cancel")));

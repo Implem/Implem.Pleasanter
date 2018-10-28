@@ -126,7 +126,7 @@ namespace Implem.Pleasanter.Libraries.ViewModes
                 groupBy: groupBy,
                 sortBy: string.Empty,
                 id: 0,
-                title: Displays.Total() + ": " + title,
+                title: Displays.Total(context: context) + ": " + title,
                 workValue: workValueData,
                 startTime: dataRows.Min(o => o.DateTime("StartTime")),
                 completionTime: dataRows.Max(o => o.DateTime("CompletionTime")),

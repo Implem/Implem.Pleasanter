@@ -1,18 +1,16 @@
 ﻿using Implem.DefinitionAccessor;
 using Implem.Libraries.Utilities;
-using Implem.Pleasanter.Libraries.Extensions;
 using Implem.Pleasanter.Libraries.DataSources;
+using Implem.Pleasanter.Libraries.Extensions;
 using Implem.Pleasanter.Libraries.Html;
 using Implem.Pleasanter.Libraries.HtmlParts;
 using Implem.Pleasanter.Libraries.Models;
+using Implem.Pleasanter.Libraries.Requests;
 using Implem.Pleasanter.Libraries.Responses;
 using Implem.Pleasanter.Libraries.Server;
 using Implem.Pleasanter.Libraries.Settings;
 using System;
 using System.Data;
-using System.Runtime.Serialization;
-using Implem.Pleasanter.Libraries.Requests;
-
 namespace Implem.Pleasanter.Libraries.DataTypes
 {
     [Serializable]
@@ -33,7 +31,7 @@ namespace Implem.Pleasanter.Libraries.DataTypes
             column = column ?? new ColumnNameInfo("CompletionTime");
             Value = dataRow.DateTime(Rds.DataColumnName(column, "CompletionTime"));
             DisplayValue = Value
-                .ToLocal()
+                .ToLocal(context: context)
                 .AddDifferenceOfDates(ss.GetColumn(
                     context: context,
                     columnName: "CompletionTime")?.EditorFormat, minus: true);
@@ -49,12 +47,12 @@ namespace Implem.Pleasanter.Libraries.DataTypes
             SiteSettings ss,
             DateTime value,
             Status status,
-            bool byForm = false) : base(value, byForm)
+            bool byForm = false) : base(context, value, byForm)
         {
             if (byForm)
             {
                 Value = value
-                    .ToUniversal()
+                    .ToUniversal(context: context)
                     .AddDifferenceOfDates(ss.GetColumn(
                         context: context,
                         columnName: "CompletionTime")?.EditorFormat);
@@ -66,7 +64,7 @@ namespace Implem.Pleasanter.Libraries.DataTypes
                     .AddDifferenceOfDates(ss.GetColumn(
                         context: context,
                         columnName: "CompletionTime")?.EditorFormat);
-                DisplayValue = value.ToLocal();
+                DisplayValue = value.ToLocal(context: context);
             }
             Status = status;
         }
@@ -75,16 +73,10 @@ namespace Implem.Pleasanter.Libraries.DataTypes
         {
             Value = value;
             DisplayValue = Value
-                .ToLocal()
+                .ToLocal(context: context)
                 .AddDifferenceOfDates(ss.GetColumn(
                     context: context,
                     columnName: "CompletionTime")?.EditorFormat, minus: true);
-        }
-
-        [OnDeserialized]
-        private void OnDeserialized(StreamingContext streamingContext)
-        {
-            DisplayValue = Value.ToUniversal();
         }
 
         public override HtmlBuilder Td(HtmlBuilder hb, Context context, Column column)
@@ -92,21 +84,23 @@ namespace Implem.Pleasanter.Libraries.DataTypes
             return hb.Td(action: () =>
             {
                 hb.P(css: "time", action: () => hb
-                    .Text(column.DisplayGrid(DisplayValue)));
+                    .Text(column.DisplayGrid(
+                        context: context,
+                        value: DisplayValue)));
                 if (Status?.Value < Parameters.General.CompletionCode)
                 {
-                    LimitText(hb);
+                    LimitText(hb, context);
                 }
             });
         }
 
-        public bool Near(SiteSettings ss)
+        public bool Near(Context context, SiteSettings ss)
         {
             return
-                DateTime.Now.ToLocal().Date.AddDays(
+                DateTime.Now.ToLocal(context: context).Date.AddDays(
                     ss.NearCompletionTimeBeforeDays.ToInt() * (-1))
                         <= DisplayValue &&
-                DateTime.Now.ToLocal().Date.AddDays(
+                DateTime.Now.ToLocal(context: context).Date.AddDays(
                     ss.NearCompletionTimeAfterDays.ToInt() + 1).AddMilliseconds(-1)
                         >= DisplayValue;
         }
@@ -116,73 +110,97 @@ namespace Implem.Pleasanter.Libraries.DataTypes
             return Status.Incomplete() && Value < DateTime.Now;
         }
 
-        private HtmlBuilder LimitText(HtmlBuilder hb)
+        private HtmlBuilder LimitText(HtmlBuilder hb, Context context)
         {
-            var value = Value.ToLocal();
+            var value = Value.ToLocal(context: context);
             if (!Times.InRange(value))
             {
                 return hb;
             }
             var now = VerType == Versions.VerTypes.Latest
-                ? DateTime.Now.ToLocal()
-                : UpdatedTime.ToLocal();
+                ? DateTime.Now.ToLocal(context: context)
+                : UpdatedTime.ToLocal(context: context);
             var css = LimitCss(now, value);
             var years = Times.DateDiff(Times.Types.Years, now, value);
             if (Math.Abs(years) >= 2)
             {
                 return years > 0
                     ? hb.P(css: css, action: () => hb
-                        .Text(text: Displays.LimitAfterYears(years.ToString())))
+                        .Text(text: Displays.LimitAfterYears(
+                            context: context,
+                            data: years.ToString())))
                     : hb.P(css: css, action: () => hb
-                        .Text(text: Displays.LimitBeforeYears((years * -1).ToString())));
+                        .Text(text: Displays.LimitBeforeYears(
+                            context: context,
+                            data: (years * -1).ToString())));
             }
             var months = Times.DateDiff(Times.Types.Months, now, value);
             if (Math.Abs(months) >= 2)
             {
                 return months > 0
                     ? hb.P(css: css, action: () => hb
-                        .Text(text: Displays.LimitAfterMonths(months.ToString())))
+                        .Text(text: Displays.LimitAfterMonths(
+                            context: context,
+                            data: months.ToString())))
                     : hb.P(css: css, action: () => hb
-                        .Text(text: Displays.LimitBeforeMonths((months * -1).ToString())));
+                        .Text(text: Displays.LimitBeforeMonths(
+                            context: context,
+                            data: (months * -1).ToString())));
             }
             var days = Times.DateDiff(Times.Types.Days, now, value);
             if ((days >= 0 && days >= 2) || (days < 0))
             {
                 return days > 0
                     ? hb.P(css: css, action: () => hb
-                        .Text(text: Displays.LimitAfterDays((days - 1).ToString())))
+                        .Text(text: Displays.LimitAfterDays(
+                            context: context,
+                            data: (days - 1).ToString())))
                     : hb.P(css: css, action: () => hb
-                        .Text(text: Displays.LimitBeforeDays(((days * -1) + 1).ToString())));
+                        .Text(text: Displays.LimitBeforeDays(
+                            context: context,
+                            data: ((days * -1) + 1).ToString())));
             }
             var hours = Times.DateDiff(Times.Types.Hours, now, value);
             if (Math.Abs(hours) >= 3)
             {
                 return hours > 0
                     ? hb.P(css: css, action: () => hb
-                        .Text(text: Displays.LimitAfterHours(hours.ToString())))
+                        .Text(text: Displays.LimitAfterHours(
+                            context: context,
+                            data: hours.ToString())))
                     : hb.P(css: css, action: () => hb
-                        .Text(text: Displays.LimitBeforeHours((hours * -1).ToString())));
+                        .Text(text: Displays.LimitBeforeHours(
+                            context: context,
+                            data: (hours * -1).ToString())));
             }
             var minutes = Times.DateDiff(Times.Types.Minutes, now, value);
             if (Math.Abs(minutes) >= 3)
             {
                 return minutes > 0
                     ? hb.P(css: css, action: () => hb
-                        .Text(text: Displays.LimitAfterMinutes(minutes.ToString())))
+                        .Text(text: Displays.LimitAfterMinutes(
+                            context: context,
+                            data: minutes.ToString())))
                     : hb.P(css: css, action: () => hb
-                        .Text(text: Displays.LimitBeforeMinutes((minutes * -1).ToString())));
+                        .Text(text: Displays.LimitBeforeMinutes(
+                            context: context,
+                            data: (minutes * -1).ToString())));
             }
             var seconds = Times.DateDiff(Times.Types.Seconds, now, value);
             if (Math.Abs(seconds) >= 1)
             {
                 return seconds > 0
                     ? hb.P(css: css, action: () => hb
-                        .Text(text: Displays.LimitAfterSeconds(seconds.ToString())))
+                        .Text(text: Displays.LimitAfterSeconds(
+                            context: context,
+                            data: seconds.ToString())))
                     : hb.P(css: css, action: () => hb
-                        .Text(text: Displays.LimitBeforeSeconds((seconds * -1).ToString())));
+                        .Text(text: Displays.LimitBeforeSeconds(
+                            context: context,
+                            data: (seconds * -1).ToString())));
             }
             return hb.P(css: "Display-just", action: () => hb
-                .Text(text: Displays.LimitJust()));
+                .Text(text: Displays.LimitJust(context: context)));
         }
 
         private static string LimitCss(DateTime now, DateTime limit)
@@ -208,7 +226,9 @@ namespace Implem.Pleasanter.Libraries.DataTypes
 
         public override string GridText(Context context, Column column)
         {
-            return column.DisplayGrid(DisplayValue);
+            return column.DisplayGrid(
+                context: context,
+                value: DisplayValue);
         }
 
         public override string ToNotice(
@@ -218,14 +238,18 @@ namespace Implem.Pleasanter.Libraries.DataTypes
             bool updated,
             bool update)
         {
-            return column.DisplayControl(DisplayValue).ToNoticeLine(
+            return column.DisplayControl(
                 context: context,
-                saved: column.DisplayControl(saved
-                    .ToLocal()
-                    .AddDifferenceOfDates(column.EditorFormat, minus: true)),
-                column: column,
-                updated: updated,
-                update: update);
+                value: DisplayValue).ToNoticeLine(
+                    context: context,
+                    saved: column.DisplayControl(
+                        context: context,
+                        value: saved
+                            .ToLocal(context: context)
+                            .AddDifferenceOfDates(column.EditorFormat, minus: true)),
+                    column: column,
+                    updated: updated,
+                    update: update);
         }
     }
 }

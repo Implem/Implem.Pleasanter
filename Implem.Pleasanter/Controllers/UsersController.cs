@@ -210,7 +210,7 @@ namespace Implem.Pleasanter.Controllers
                 context: context,
                 returnUrl: returnUrl,
                 message: Request.QueryString["expired"] == "1" && !Request.IsAjaxRequest()
-                    ? Messages.Expired().Text
+                    ? Messages.Expired(context: context).Text
                     : string.Empty);
             ViewBag.HtmlBody = html;
             log.Finish(context: context, responseSize: html.Length);

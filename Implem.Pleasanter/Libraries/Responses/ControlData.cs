@@ -1,4 +1,5 @@
 ﻿using Implem.Libraries.Utilities;
+using Implem.Pleasanter.Libraries.Requests;
 namespace Implem.Pleasanter.Libraries.Responses
 {
     public class ControlData
@@ -19,11 +20,11 @@ namespace Implem.Pleasanter.Libraries.Responses
             Order = order;
         }
 
-        public string DisplayValue()
+        public string DisplayValue(Context context)
         {
             return !Text.IsNullOrEmpty()
                 ? Text
-                : Displays.NotSet();
+                : Displays.NotSet(context: context);
         }
     }
 }

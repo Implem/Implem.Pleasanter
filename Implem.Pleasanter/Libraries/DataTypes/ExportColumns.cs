@@ -66,12 +66,16 @@ namespace Implem.Pleasanter.Libraries.DataTypes
                 !Def.ColumnDefinitionCollection.Any(p => p.ColumnName == key && p.Export > 0));
         }
 
-        public Dictionary<string, ControlData> ExportColumnHash(SiteSettings ss)
+        public Dictionary<string, ControlData> ExportColumnHash(Context context, SiteSettings ss)
         {
             return Columns.ToDictionary(
                 o => o.Key,
-                o => new ControlData(Displays.Get(ExportColumn(ss, o.Key)) +
-                    (o.Value ? " (" + Displays.Output() + ")" : string.Empty)));
+                o => new ControlData(Displays.Get(
+                    context: context,
+                    id: ExportColumn(ss, o.Key))
+                        + (o.Value
+                            ? $" ({Displays.Output(context: context)})"
+                            : string.Empty)));
         }
 
         public string ExportColumn(SiteSettings ss, string columnName)
@@ -81,6 +85,7 @@ namespace Implem.Pleasanter.Libraries.DataTypes
         }
 
         public void SetExport(
+            Context context,
             Responses.ResponseCollection res,
             string controlId,
             IEnumerable<string> selectedValues,
@@ -120,7 +125,9 @@ namespace Implem.Pleasanter.Libraries.DataTypes
             Columns.AddRange(newColumns);
             res.Html("#ExportSettings_Columns",
                 new HtmlBuilder().SelectableItems(
-                    listItemCollection: ExportColumnHash(ss),
+                    listItemCollection: ExportColumnHash(
+                        context: context,
+                        ss: ss),
                     selectedValueTextCollection: selectedValues));
         }
 

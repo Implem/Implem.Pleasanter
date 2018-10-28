@@ -64,7 +64,7 @@ namespace Implem.Pleasanter.Libraries.Settings
             var column = ss.GetColumn(context: context, columnName: ColumnName);
             return column != null
                 ? new ControlData(column.LabelText + (!IsDefault(ss, type)
-                    ? " (" + Displays.Enabled() + ")"
+                    ? " (" + Displays.Enabled(context: context) + ")"
                     : string.Empty))
                 : new ControlData(string.Empty);
         }

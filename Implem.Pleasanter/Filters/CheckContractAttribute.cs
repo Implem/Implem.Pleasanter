@@ -16,7 +16,7 @@ namespace Implem.Pleasanter.Filters
                 filterContext.Result = new RedirectResult(Locations.BadRequest());
                 return;
             }
-            if (context.Authenticated && context.ContractSettings.OverDeadline())
+            if (context.Authenticated && context.ContractSettings.OverDeadline(context: context))
             {
                 Authentications.SignOut();
                 filterContext.Result = new RedirectResult(Locations.Login() + "?expired=1");

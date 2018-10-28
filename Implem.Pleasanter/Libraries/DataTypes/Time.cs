@@ -8,7 +8,6 @@ using Implem.Pleasanter.Libraries.Server;
 using Implem.Pleasanter.Libraries.Settings;
 using System;
 using System.Data;
-using System.Runtime.Serialization;
 namespace Implem.Pleasanter.Libraries.DataTypes
 {
     public class Time : IConvertable
@@ -20,39 +19,37 @@ namespace Implem.Pleasanter.Libraries.DataTypes
         {
         }
 
-        public Time(DataRow dataRow, string name)
+        public Time(Context context, DataRow dataRow, string name)
         {
             Value = dataRow.DateTime(name);
-            DisplayValue = Value.ToLocal();
+            DisplayValue = Value.ToLocal(context: context);
         }
 
-        public Time(DateTime value, bool byForm = false)
+        public Time(Context context, DateTime value, bool byForm = false)
         {
             Value = value.InRange()
                 ? byForm
-                    ? value.ToUniversal()
+                    ? value.ToUniversal(context: context)
                     : value
                 : 0.ToDateTime();
             DisplayValue = value;
         }
 
-        [OnDeserialized]
-        private void OnDeserialized(StreamingContext streamingContext)
-        {
-            DisplayValue = Value.ToLocal();
-        }
-
         public virtual string ToControl(Context context, SiteSettings ss, Column column)
         {
             return Value.InRange()
-                ? column.DisplayControl(DisplayValue)
+                ? column.DisplayControl(
+                    context: context,
+                    value: DisplayValue)
                 : string.Empty;
         }
 
         public virtual string ToResponse(Context context, SiteSettings ss, Column column)
         {
             return Value.InRange()
-                ? column.DisplayControl(DisplayValue)
+                ? column.DisplayControl(
+                    context: context,
+                    value: DisplayValue)
                 : string.Empty;
         }
 
@@ -63,29 +60,34 @@ namespace Implem.Pleasanter.Libraries.DataTypes
                 : string.Empty;
         }
 
-        public bool DifferentDate()
+        public bool DifferentDate(Context context)
         {
-            return DisplayValue.Date != DateTime.Now.ToLocal().Date;
+            return DisplayValue.Date != DateTime.Now.ToLocal(context: context).Date;
         }
 
         public virtual HtmlBuilder Td(HtmlBuilder hb, Context context, Column column)
         {
             return hb.Td(action: () => hb
                 .P(css: "time", action: () => hb
-                    .Text(column.DisplayGrid(DisplayValue))));
+                    .Text(column.DisplayGrid(
+                        context: context,
+                        value: DisplayValue))));
         }
 
         public virtual string GridText(Context context, Column column)
         {
-            return column.DisplayGrid(DisplayValue);
+            return column.DisplayGrid(
+                context: context,
+                value: DisplayValue);
         }
 
         public string ToExport(Context context, Column column, ExportColumn exportColumn = null)
         {
             return DisplayValue.Display(
-                exportColumn?.Format ??
-                column?.EditorFormat ??
-                "Ymd");
+                context: context,
+                format: exportColumn?.Format
+                    ?? column?.EditorFormat
+                    ?? "Ymd");
         }
 
         public virtual string ToNotice(
@@ -95,12 +97,16 @@ namespace Implem.Pleasanter.Libraries.DataTypes
             bool updated,
             bool update)
         {
-            return column.DisplayControl(DisplayValue).ToNoticeLine(
+            return column.DisplayControl(
                 context: context,
-                saved: column.DisplayControl(saved.ToLocal()),
-                column: column,
-                updated: updated,
-                update: update);
+                value: DisplayValue).ToNoticeLine(
+                    context: context,
+                    saved: column.DisplayControl(
+                        context: context,
+                        value: saved.ToLocal(context: context)),
+                    column: column,
+                    updated: updated,
+                    update: update);
         }
 
         public bool InitialValue(Context context)

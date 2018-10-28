@@ -727,7 +727,8 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
         }
 
         public static HtmlBuilder Attachments(
-           this HtmlBuilder hb,
+            this HtmlBuilder hb,
+            Context context,
             string controlId = null,
             string columnName = null,
             string controlCss = null,
@@ -754,7 +755,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                             .DataName(columnName)
                             .DataAction("binaries/multiupload"),
                         action: () => hb
-                            .Text(text: Displays.FileDragDrop())
+                            .Text(text: Displays.FileDragDrop(context: context))
                             .Input(
                                 id: columnName + ".input",
                                 attributes: new HtmlAttributes()
@@ -794,7 +795,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                 id: columnName + ".abort",
                                 css: "abort",
                                 action: () => hb
-                                    .Text(text: Displays.Cancel())),
+                                    .Text(text: Displays.Cancel(context: context))),
                         _using: !readOnly)
                 : hb;
         }

@@ -1,5 +1,6 @@
 ﻿using Implem.Libraries.DataSources.SqlServer;
 using Implem.Pleasanter.Libraries.Html;
+using Implem.Pleasanter.Libraries.Requests;
 using Implem.Pleasanter.Libraries.Responses;
 using Implem.Pleasanter.Libraries.Settings;
 using System.Collections.Generic;
@@ -10,6 +11,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
     {
         public static HtmlBuilder GridHeader(
             this HtmlBuilder hb,
+            Context context,
             IEnumerable<Column> columns,
             View view = null,
             bool sort = true,
@@ -42,7 +44,9 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                         .DataMethod("post"),
                                     action: () => hb
                                         .Span(action: () => hb
-                                            .Text(text: Displays.Get(column.GridLabelText)))
+                                            .Text(text: Displays.Get(
+                                                context: context,
+                                                id: column.GridLabelText)))
                                         .SortIcon(
                                             view: view,
                                             key: column.ColumnName)));
@@ -50,7 +54,9 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                         else
                         {
                             hb.Th(action: () => hb
-                                .Text(text: Displays.Get(column.GridLabelText)));
+                                .Text(text: Displays.Get(
+                                    context: context,
+                                    id: column.GridLabelText)));
                         }
                     });
                 });

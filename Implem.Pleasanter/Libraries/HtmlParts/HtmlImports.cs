@@ -13,18 +13,18 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                 attributes: new HtmlAttributes()
                     .Id("ImportSettingsDialog")
                     .Class("dialog")
-                    .Title(Displays.Import()),
+                    .Title(Displays.Import(context: context)),
                 action: () => hb
                     .FieldTextBox(
                         textType: HtmlTypes.TextTypes.File,
                         controlId: "Import",
                         fieldCss: "field-wide",
-                        labelText: Displays.CsvFile())
+                        labelText: Displays.CsvFile(context: context))
                     .FieldDropDown(
                         context: context,
                         controlId: "Encoding",
                         fieldCss: "field-wide",
-                        labelText: Displays.CharacterCode(),
+                        labelText: Displays.CharacterCode(context: context),
                         optionCollection: new Dictionary<string, ControlData>
                         {
                             { "Shift-JIS", new ControlData("Shift-JIS") },
@@ -33,7 +33,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     .FieldCheckBox(
                         controlId: "UpdatableImport",
                         fieldCss: "field-wide",
-                        labelText: Displays.UpdatableImport(),
+                        labelText: Displays.UpdatableImport(context: context),
                         _checked: false,
                         controlCss: " always-send")
                     .P(css: "message-dialog")
@@ -41,14 +41,14 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                         css: "command-center",
                         action: () => hb
                             .Button(
-                                text: Displays.Import(),
+                                text: Displays.Import(context: context),
                                 controlCss: "button-icon",
                                 onClick: "$p.import($(this));",
                                 icon: "ui-icon-arrowreturnthick-1-e",
                                 action: "Import",
                                 method: "post")
                             .Button(
-                                text: Displays.Cancel(),
+                                text: Displays.Cancel(context: context),
                                 controlCss: "button-icon",
                                 onClick: "$p.closeDialog($(this));",
                                 icon: "ui-icon-cancel")));

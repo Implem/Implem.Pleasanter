@@ -321,6 +321,7 @@ namespace Implem.Pleasanter.Models
                 mine: wikiModel.Mine(context: context));
             return editInDialog
                 ? hb.DialogEditorForm(
+                    context: context,
                     siteId: wikiModel.SiteId,
                     referenceId: wikiModel.WikiId,
                     action: () => hb
@@ -339,7 +340,7 @@ namespace Implem.Pleasanter.Models
                     parentId: ss.ParentId,
                     referenceType: "Wikis",
                     title: wikiModel.MethodType == BaseModel.MethodTypes.New
-                        ? Displays.New()
+                        ? Displays.New(context: context)
                         : wikiModel.Title.DisplayValue,
                     useTitle: ss.TitleColumns?.Any(o => ss.EditorColumns.Contains(o)) == true,
                     userScript: ss.EditorScripts(
@@ -446,7 +447,10 @@ namespace Implem.Pleasanter.Models
                     referenceType: "Wikis",
                     referenceId: wikiModel.WikiId,
                     referenceVer: wikiModel.Ver)
-                .CopyDialog("items", wikiModel.WikiId)
+                .CopyDialog(
+                    context: context,
+                    referenceType: "items",
+                    id: wikiModel.WikiId)
                 .MoveDialog(context: context)
                 .OutgoingMailDialog());
         }
@@ -461,18 +465,18 @@ namespace Implem.Pleasanter.Models
                 .Li(action: () => hb
                     .A(
                         href: "#FieldSetGeneral",
-                        text: Displays.General()))
+                        text: Displays.General(context: context)))
                 .Li(_using: wikiModel.MethodType != BaseModel.MethodTypes.New,
                     action: () => hb
                         .A(
                             href: "#FieldSetHistories",
-                            text: Displays.ChangeHistoryList()))
+                            text: Displays.ChangeHistoryList(context: context)))
                 .Li(_using: context.CanManagePermission(ss: ss) &&
                         wikiModel.MethodType != BaseModel.MethodTypes.New,
                     action: () => hb
                         .A(
                             href: "#FieldSetRecordAccessControl",
-                            text: Displays.RecordAccessControl())));
+                            text: Displays.RecordAccessControl(context: context))));
         }
 
         private static HtmlBuilder FieldSetGeneral(
@@ -682,11 +686,11 @@ namespace Implem.Pleasanter.Models
             switch (invalid)
             {
                 case Error.Types.None: break;
-                default: return invalid.MessageJson();
+                default: return invalid.MessageJson(context: context);
             }
             if (wikiModel.AccessStatus != Databases.AccessStatuses.Selected)
             {
-                return Messages.ResponseDeleteConflicts().ToJson();
+                return Messages.ResponseDeleteConflicts(context: context).ToJson();
             }
             var error = wikiModel.Update(
                 context: context,
@@ -710,10 +714,11 @@ namespace Implem.Pleasanter.Models
                         .ToJson();
                 case Error.Types.UpdateConflicts:
                     return Messages.ResponseUpdateConflicts(
-                        wikiModel.Updator.Name)
+                        context: context,
+                        data: wikiModel.Updator.Name)
                             .ToJson();
                 default:
-                    return error.MessageJson();
+                    return error.MessageJson(context: context);
             }
         }
 
@@ -746,7 +751,9 @@ namespace Implem.Pleasanter.Models
                             columns: columns,
                             checkAll: false))
                     .CloseDialog()
-                    .Message(Messages.Updated(wikiModel.Title.DisplayValue));
+                    .Message(Messages.Updated(
+                        context: context,
+                        data: wikiModel.Title.DisplayValue));
             }
             else
             {
@@ -766,7 +773,9 @@ namespace Implem.Pleasanter.Models
                         ss: ss,
                         id: wikiModel.WikiId))
                     .SetMemory("formChanged", false)
-                    .Message(Messages.Updated(wikiModel.Title.DisplayValue))
+                    .Message(Messages.Updated(
+                        context: context,
+                        data: wikiModel.Title.DisplayValue))
                     .Comment(
                         context: context,
                         ss: ss,
@@ -787,13 +796,15 @@ namespace Implem.Pleasanter.Models
             switch (invalid)
             {
                 case Error.Types.None: break;
-                default: return invalid.MessageJson();
+                default: return invalid.MessageJson(context: context);
             }
             var error = wikiModel.Delete(context: context, ss: ss, notice: true);
             switch (error)
             {
                 case Error.Types.None:
-                    Sessions.Set("Message", Messages.Deleted(wikiModel.Title.Value));
+                    Sessions.Set("Message", Messages.Deleted(
+                        context: context,
+                        data: wikiModel.Title.Value));
                     var res = new WikisResponseCollection(wikiModel);
                 res
                     .SetMemory("formChanged", false)
@@ -807,7 +818,7 @@ namespace Implem.Pleasanter.Models
                                 .SiteId(wikiModel.SiteId)))));
                     return res.ToJson();
                 default:
-                    return error.MessageJson();
+                    return error.MessageJson(context: context);
             }
         }
 
@@ -839,7 +850,7 @@ namespace Implem.Pleasanter.Models
                     }
                     else
                     {
-                        return Messages.ResponseSelectTargets().ToJson();
+                        return Messages.ResponseSelectTargets(context: context).ToJson();
                     }
                 }
                 Summaries.Synchronize(context: context, ss: ss);
@@ -847,7 +858,7 @@ namespace Implem.Pleasanter.Models
             }
             else
             {
-                return Messages.ResponseHasNotPermission().ToJson();
+                return Messages.ResponseHasNotPermission(context: context).ToJson();
             }
         }
 
@@ -891,7 +902,7 @@ namespace Implem.Pleasanter.Models
         {
             if (!Parameters.History.Restore)
             {
-                return Error.Types.InvalidRequest.MessageJson();
+                return Error.Types.InvalidRequest.MessageJson(context: context);
             }
             var wikiModel = new WikiModel(context, ss, wikiId);
             var invalid = WikiValidators.OnUpdating(
@@ -901,7 +912,7 @@ namespace Implem.Pleasanter.Models
             switch (invalid)
             {
                 case Error.Types.None: break;
-                default: return invalid.MessageJson();
+                default: return invalid.MessageJson(context: context);
             }
             var ver = Forms.Data("GridCheckedItems")
                 .Split(',')
@@ -909,7 +920,7 @@ namespace Implem.Pleasanter.Models
                 .ToList();
             if (ver.Count() != 1)
             {
-                return Error.Types.SelectOne.MessageJson();
+                return Error.Types.SelectOne.MessageJson(context: context);
             }
             wikiModel.SetByModel(new WikiModel().Get(
                 context: context,
@@ -927,13 +938,15 @@ namespace Implem.Pleasanter.Models
             switch (error)
             {
                 case Error.Types.None:
-                    Sessions.Set("Message", Messages.RestoredFromHistory(ver.First().ToString()));
+                    Sessions.Set("Message", Messages.RestoredFromHistory(
+                        context: context,
+                        data: ver.First().ToString()));
                     return  new ResponseCollection()
                         .SetMemory("formChanged", false)
                         .Href(Locations.ItemEdit(wikiId))
                         .ToJson();
                 default:
-                    return error.MessageJson();
+                    return error.MessageJson(context: context);
             }
         }
 
@@ -947,7 +960,7 @@ namespace Implem.Pleasanter.Models
             var columns = ss.GetHistoryColumns(context: context, checkPermission: true);
             if (!context.CanRead(ss: ss))
             {
-                return Error.Types.HasNotPermission.MessageJson();
+                return Error.Types.HasNotPermission.MessageJson(context: context);
             }
             var hb = new HtmlBuilder();
             hb
@@ -957,6 +970,7 @@ namespace Implem.Pleasanter.Models
                     action: () => hb
                         .THead(action: () => hb
                             .GridHeader(
+                                context: context,
                                 columns: columns,
                                 sort: false,
                                 checkRow: true))
@@ -1047,7 +1061,7 @@ namespace Implem.Pleasanter.Models
         {
             if (!Parameters.History.PhysicalDelete)
             {
-                return Error.Types.InvalidRequest.MessageJson();
+                return Error.Types.InvalidRequest.MessageJson(context: context);
             }
             if (context.CanManageSite(ss: ss))
             {
@@ -1078,18 +1092,20 @@ namespace Implem.Pleasanter.Models
                     }
                     else
                     {
-                        return Messages.ResponseSelectTargets().ToJson();
+                        return Messages.ResponseSelectTargets(context: context).ToJson();
                     }
                 }
                 return Histories(
                     context: context,
                     ss: ss,
                     wikiId: wikiId,
-                    message: Messages.HistoryDeleted(count.ToString()));
+                    message: Messages.HistoryDeleted(
+                        context: context,
+                        data: count.ToString()));
             }
             else
             {
-                return Messages.ResponseHasNotPermission().ToJson();
+                return Messages.ResponseHasNotPermission(context: context).ToJson();
             }
         }
 
@@ -1136,13 +1152,13 @@ namespace Implem.Pleasanter.Models
             var name = Strings.NewGuid();
             return hb
                 .Div(css: "samples-displayed", action: () => hb
-                    .Text(text: Displays.SamplesDisplayed()))
+                    .Text(text: Displays.SamplesDisplayed(context: context)))
                 .Div(css: "template-tab-container", action: () => hb
                     .Ul(action: () => hb
                         .Li(action: () => hb
                             .A(
                                 href: "#" + name + "Editor",
-                                text: Displays.Editor())))
+                                text: Displays.Editor(context: context))))
                     .FieldSet(
                         id: name + "Editor",
                         action: () => hb

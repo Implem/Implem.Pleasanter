@@ -37,12 +37,17 @@ namespace Implem.Pleasanter.Libraries.Extensions
 
         public static string GridText(this decimal value, Context context, Column column)
         {
-            return column.Display(value, unit: true);
+            return column.Display(
+                context: context,
+                value: value,
+                unit: true);
         }
 
         public static string GridText(this DateTime value, Context context, Column column)
         {
-            return column.DisplayGrid(value.ToLocal());
+            return column.DisplayGrid(
+                context: context,
+                value: value.ToLocal(context: context));
         }
 
         public static string GridText(this string value, Context context, Column column)

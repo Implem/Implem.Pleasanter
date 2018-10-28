@@ -449,7 +449,7 @@ namespace Implem.Pleasanter.Models
                         case "CreatedTime":
                             if (dataRow[column.ColumnName] != DBNull.Value)
                             {
-                                CreatedTime = new Time(dataRow, column.ColumnName);
+                                CreatedTime = new Time(context, dataRow, column.ColumnName);
                                 SavedCreatedTime = CreatedTime.Value;
                             }
                             break;
@@ -609,7 +609,7 @@ namespace Implem.Pleasanter.Models
                             SavedUpdator = Updator.Id;
                             break;
                         case "UpdatedTime":
-                            UpdatedTime = new Time(dataRow, column.ColumnName); Timestamp = dataRow.Field<DateTime>(column.ColumnName).ToString("yyyy/M/d H:m:s.fff");
+                            UpdatedTime = new Time(context, dataRow, column.ColumnName); Timestamp = dataRow.Field<DateTime>(column.ColumnName).ToString("yyyy/M/d H:m:s.fff");
                             SavedUpdatedTime = UpdatedTime.Value;
                             break;
                         case "IsHistory": VerType = dataRow[column.ColumnName].ToBool() ? Versions.VerTypes.History : Versions.VerTypes.Latest; break;

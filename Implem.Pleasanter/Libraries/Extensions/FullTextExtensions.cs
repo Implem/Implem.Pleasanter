@@ -29,7 +29,7 @@ namespace Implem.Pleasanter.Libraries.Extensions
 
         public static void FullText(this DateTime self, Context context, List<string> fullText)
         {
-            var value = self.ToLocal();
+            var value = self.ToLocal(context: context);
             if (value.InRange())
             {
                 fullText.Add(value.ToString());
@@ -86,7 +86,7 @@ namespace Implem.Pleasanter.Libraries.Extensions
         public static void FullText(
             this CompletionTime self, Context context, List<string> fullText)
         {
-            var value = self?.Value.ToLocal().AddDays(-1);
+            var value = self?.Value.ToLocal(context: context).AddDays(-1);
             if (value?.InRange() == true)
             {
                 fullText.Add(value.ToString());
@@ -95,7 +95,7 @@ namespace Implem.Pleasanter.Libraries.Extensions
 
         public static void FullText(this Time self, Context context, List<string> fullText)
         {
-            var value = self?.Value.ToLocal();
+            var value = self?.Value.ToLocal(context: context);
             if (value?.InRange() == true)
             {
                 fullText.Add(value.ToString());

@@ -25,7 +25,7 @@ namespace Implem.Pleasanter.Controllers
             }
             else
             {
-                return Content(Error.Types.ApplicationError.MessageJson());
+                return Content(Error.Types.ApplicationError.MessageJson(context: context));
             }
         }
 
@@ -43,7 +43,7 @@ namespace Implem.Pleasanter.Controllers
             }
             else
             {
-                return Content(Error.Types.NotFound.MessageJson());
+                return Content(Error.Types.NotFound.MessageJson(context: context));
             }
         }
 
@@ -61,7 +61,7 @@ namespace Implem.Pleasanter.Controllers
             }
             else
             {
-                return Content(Error.Types.NotFound.MessageJson());
+                return Content(Error.Types.NotFound.MessageJson(context: context));
             }
         }
 
@@ -83,8 +83,9 @@ namespace Implem.Pleasanter.Controllers
             }
             else
             {
-                return Content(Error.Types.ParameterSyntaxError
-                    .MessageJson(messageData));
+                return Content(Error.Types.ParameterSyntaxError.MessageJson(
+                    context: context,
+                    data: messageData));
             }
         }
 
@@ -102,7 +103,7 @@ namespace Implem.Pleasanter.Controllers
             }
             else
             {
-                return Content(Error.Types.InternalServerError.MessageJson());
+                return Content(Error.Types.InternalServerError.MessageJson(context: context));
             }
         }
     }

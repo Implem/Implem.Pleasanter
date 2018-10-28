@@ -103,7 +103,7 @@ namespace Implem.Pleasanter.Libraries.Models
                         resultId: id);
                     break;
             }
-            return Messages.ResponseSynchronizationCompleted().ToJson();
+            return Messages.ResponseSynchronizationCompleted(context: context).ToJson();
         }
 
         private static void SynchronizeIssues(

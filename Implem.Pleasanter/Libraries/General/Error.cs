@@ -1,4 +1,5 @@
 ﻿using Implem.Libraries.Utilities;
+using Implem.Pleasanter.Libraries.Requests;
 using Implem.Pleasanter.Libraries.Responses;
 namespace Implem.Pleasanter.Libraries.General
 {
@@ -71,131 +72,247 @@ namespace Implem.Pleasanter.Libraries.General
             return type != Types.None;
         }
 
-        public static Message Message(this Types type, params string[] data)
+        public static Message Message(this Types type, Context context, params string[] data)
         {
             switch (type)
             {
                 case Types.AlreadyAdded:
-                    return Messages.AlreadyAdded(data);
+                    return Messages.AlreadyAdded(
+                        context: context,
+                        data: data);
                 case Types.AlreadyLinked:
-                    return Messages.AlreadyLinked(data);
+                    return Messages.AlreadyLinked(
+                        context: context,
+                        data: data);
                 case Types.ApplicationError:
-                    return Messages.ApplicationError(data);
+                    return Messages.ApplicationError(
+                        context: context,
+                        data: data);
                 case Types.Authentication:
-                    return Messages.Authentication(data);
+                    return Messages.Authentication(
+                        context: context,
+                        data: data);
                 case Types.BadFormat:
-                    return Messages.BadFormat(data);
+                    return Messages.BadFormat(
+                        context: context,
+                        data: data);
                 case Types.BadMailAddress:
-                    return Messages.BadMailAddress(data);
+                    return Messages.BadMailAddress(
+                        context: context,
+                        data: data);
                 case Types.BadRequest:
-                    return Messages.BadRequest(data);
+                    return Messages.BadRequest(
+                        context: context,
+                        data: data);
                 case Types.CanNotChangeInheritance:
-                    return Messages.CanNotChangeInheritance(data);
+                    return Messages.CanNotChangeInheritance(
+                        context: context,
+                        data: data);
                 case Types.CanNotDisabled:
-                    return Messages.CanNotDisabled(data);
+                    return Messages.CanNotDisabled(
+                        context: context,
+                        data: data);
                 case Types.CanNotInherit:
-                    return Messages.CanNotInherit(data);
+                    return Messages.CanNotInherit(
+                        context: context,
+                        data: data);
                 case Types.CanNotLink:
-                    return Messages.CanNotLink(data);
+                    return Messages.CanNotLink(
+                        context: context,
+                        data: data);
                 case Types.CanNotPerformed:
-                    return Messages.CanNotPerformed(data);
+                    return Messages.CanNotPerformed(
+                        context: context,
+                        data: data);
                 case Types.CantSetAtTopOfSite:
-                    return Messages.CantSetAtTopOfSite(data);
+                    return Messages.CantSetAtTopOfSite(
+                        context: context,
+                        data: data);
                 case Types.DefinitionNotFound:
-                    return Messages.DefinitionNotFound(data);
+                    return Messages.DefinitionNotFound(
+                        context: context,
+                        data: data);
                 case Types.DeleteConflicts:
-                    return Messages.DeleteConflicts(data);
+                    return Messages.DeleteConflicts(
+                        context: context,
+                        data: data);
                 case Types.Duplicated:
-                    return Messages.Duplicated(data);
+                    return Messages.Duplicated(
+                        context: context,
+                        data: data);
                 case Types.Expired:
-                    return Messages.Expired(data);
+                    return Messages.Expired(
+                        context: context,
+                        data: data);
                 case Types.ExternalMailAddress:
-                    return Messages.ExternalMailAddress(data);
+                    return Messages.ExternalMailAddress(
+                        context: context,
+                        data: data);
                 case Types.FailedReadFile:
-                    return Messages.FailedReadFile(data);
+                    return Messages.FailedReadFile(
+                        context: context,
+                        data: data);
                 case Types.FileNotFound:
-                    return Messages.FileNotFound(data);
+                    return Messages.FileNotFound(
+                        context: context,
+                        data: data);
                 case Types.HasNotPermission:
-                    return Messages.HasNotPermission(data);
+                    return Messages.HasNotPermission(
+                        context: context,
+                        data: data);
                 case Types.ImportMax:
-                    return Messages.ImportMax(data);
+                    return Messages.ImportMax(
+                        context: context,
+                        data: data);
                 case Types.IncorrectCurrentPassword:
-                    return Messages.IncorrectCurrentPassword(data);
+                    return Messages.IncorrectCurrentPassword(
+                        context: context,
+                        data: data);
                 case Types.IncorrectFileFormat:
-                    return Messages.IncorrectFileFormat(data);
+                    return Messages.IncorrectFileFormat(
+                        context: context,
+                        data: data);
                 case Types.IncorrectSiteDeleting:
-                    return Messages.IncorrectSiteDeleting(data);
+                    return Messages.IncorrectSiteDeleting(
+                        context: context,
+                        data: data);
                 case Types.InputMailAddress:
-                    return Messages.InputMailAddress(data);
+                    return Messages.InputMailAddress(
+                        context: context,
+                        data: data);
                 case Types.InternalServerError:
-                    return Messages.InternalServerError(data);
+                    return Messages.InternalServerError(
+                        context: context,
+                        data: data);
                 case Types.InvalidCsvData:
-                    return Messages.InvalidCsvData(data);
+                    return Messages.InvalidCsvData(
+                        context: context,
+                        data: data);
                 case Types.InvalidFormula:
-                    return Messages.InvalidFormula(data);
+                    return Messages.InvalidFormula(
+                        context: context,
+                        data: data);
                 case Types.InvalidRequest:
-                    return Messages.InvalidRequest(data);
+                    return Messages.InvalidRequest(
+                        context: context,
+                        data: data);
                 case Types.ItemsLimit:
-                    return Messages.ItemsLimit(data);
+                    return Messages.ItemsLimit(
+                        context: context,
+                        data: data);
                 case Types.LoginIdAlreadyUse:
-                    return Messages.LoginIdAlreadyUse(data);
+                    return Messages.LoginIdAlreadyUse(
+                        context: context,
+                        data: data);
                 case Types.MailAddressHasNotSet:
-                    return Messages.MailAddressHasNotSet(data);
+                    return Messages.MailAddressHasNotSet(
+                        context: context,
+                        data: data);
                 case Types.NoLinks:
-                    return Messages.NoLinks(data);
+                    return Messages.NoLinks(
+                        context: context,
+                        data: data);
                 case Types.NotFound:
-                    return Messages.NotFound(data);
+                    return Messages.NotFound(
+                        context: context,
+                        data: data);
                 case Types.NotRequiredColumn:
-                    return Messages.NotRequiredColumn(data);
+                    return Messages.NotRequiredColumn(
+                        context: context,
+                        data: data);
                 case Types.OverLimitQuantity:
-                    return Messages.OverLimitQuantity(data);
+                    return Messages.OverLimitQuantity(
+                        context: context,
+                        data: data);
                 case Types.OverLimitSize:
-                    return Messages.OverLimitSize(data);
+                    return Messages.OverLimitSize(
+                        context: context,
+                        data: data);
                 case Types.OverTenantStorageSize:
-                    return Messages.OverTenantStorageSize(data);
+                    return Messages.OverTenantStorageSize(
+                        context: context,
+                        data: data);
                 case Types.OverTotalLimitSize:
-                    return Messages.OverTotalLimitSize(data);
+                    return Messages.OverTotalLimitSize(
+                        context: context,
+                        data: data);
                 case Types.ParameterSyntaxError:
-                    return Messages.ParameterSyntaxError(data);
+                    return Messages.ParameterSyntaxError(
+                        context: context,
+                        data: data);
                 case Types.PasswordNotChanged:
-                    return Messages.PasswordNotChanged(data);
+                    return Messages.PasswordNotChanged(
+                        context: context,
+                        data: data);
                 case Types.PermissionNotSelfChange:
-                    return Messages.PermissionNotSelfChange(data);
+                    return Messages.PermissionNotSelfChange(
+                        context: context,
+                        data: data);
                 case Types.RequireMailAddresses:
-                    return Messages.RequireMailAddresses(data);
+                    return Messages.RequireMailAddresses(
+                        context: context,
+                        data: data);
                 case Types.RequireTo:
-                    return Messages.RequireTo(data);
+                    return Messages.RequireTo(
+                        context: context,
+                        data: data);
                 case Types.Restricted:
-                    return Messages.Restricted(data);
+                    return Messages.Restricted(
+                        context: context,
+                        data: data);
                 case Types.SelectFile:
-                    return Messages.SelectFile(data);
+                    return Messages.SelectFile(
+                        context: context,
+                        data: data);
                 case Types.SelectOne:
-                    return Messages.SelectOne(data);
+                    return Messages.SelectOne(
+                        context: context,
+                        data: data);
                 case Types.SelectTargets:
-                    return Messages.SelectTargets(data);
+                    return Messages.SelectTargets(
+                        context: context,
+                        data: data);
                 case Types.SitesLimit:
-                    return Messages.SitesLimit(data);
+                    return Messages.SitesLimit(
+                        context: context,
+                        data: data);
                 case Types.TooManyCases:
-                    return Messages.TooManyCases(data);
+                    return Messages.TooManyCases(
+                        context: context,
+                        data: data);
                 case Types.TooManyColumnCases:
-                    return Messages.TooManyColumnCases(data);
+                    return Messages.TooManyColumnCases(
+                        context: context,
+                        data: data);
                 case Types.TooManyRowCases:
-                    return Messages.TooManyRowCases(data);
+                    return Messages.TooManyRowCases(
+                        context: context,
+                        data: data);
                 case Types.Unauthorized:
-                    return Messages.Unauthorized(data);
+                    return Messages.Unauthorized(
+                        context: context,
+                        data: data);
                 case Types.UpdateConflicts:
-                    return Messages.UpdateConflicts(data);
+                    return Messages.UpdateConflicts(
+                        context: context,
+                        data: data);
                 case Types.UserDisabled:
-                    return Messages.UserDisabled(data);
+                    return Messages.UserDisabled(
+                        context: context,
+                        data: data);
                 case Types.UsersLimit:
-                    return Messages.UsersLimit(data);
+                    return Messages.UsersLimit(
+                        context: context,
+                        data: data);
                 default: return null;
             }
         }
 
-        public static string MessageJson(this Types type, params string[] data)
+        public static string MessageJson(this Types type, Context context, params string[] data)
         {
-            return new ResponseCollection().Message(type.Message(data)).ToJson();
+            return new ResponseCollection().Message(type.Message(
+                context: context,
+                data: data)).ToJson();
         }
     }
 }
