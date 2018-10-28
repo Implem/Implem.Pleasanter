@@ -17,6 +17,10 @@ namespace Implem.Pleasanter.Libraries.Requests
     public class Context
     {
         public bool Authenticated;
+        public bool HasSession;
+        public string SessionGuid;
+        public double SessionAge;
+        public double SessionRequestInterval;
         public string Controller;
         public string Action;
         public long Id;
@@ -36,9 +40,8 @@ namespace Implem.Pleasanter.Libraries.Requests
         
         public Context(bool empty = false, bool api = false)
         {
-            Controller = GetController();
-            Action = GetAction();
-            Id = GetId();
+            SetSessionStatuses();
+            SetRouteProperties();
             if (HttpContext.Current?.Session == null || empty)
             {
                 ContractSettings = new ContractSettings();
@@ -142,6 +145,43 @@ namespace Implem.Pleasanter.Libraries.Requests
             HasPrivilege = HttpContext.Current.Session["HasPrivilege"].ToBool();
             SetTenantCaches();
             SetContractSettings();
+        }
+
+        private void SetSessionStatuses()
+        {
+            if (HttpContext.Current?.Session != null)
+            {
+                HasSession = true;
+                SessionGuid = GetSessionGuid();
+                SessionAge = GetSessionAge();
+                SessionRequestInterval = GetSessionRequestInterval();
+            }
+        }
+
+        private static string GetSessionGuid()
+        {
+            return HttpContext.Current.Session?["SessionGuid"].ToString();
+        }
+
+        private static double GetSessionAge()
+        {
+            return (DateTime.Now - HttpContext.Current.Session["StartTime"].ToDateTime())
+                .TotalMilliseconds;
+        }
+
+        private static double GetSessionRequestInterval()
+        {
+            var ret = (DateTime.Now - HttpContext.Current.Session["LastAccessTime"].ToDateTime())
+                .TotalMilliseconds;
+            HttpContext.Current.Session["LastAccessTime"] = DateTime.Now;
+            return ret;
+        }
+
+        private void SetRouteProperties()
+        {
+            Controller = GetController();
+            Action = GetAction();
+            Id = GetId();
         }
 
         private static string GetController()

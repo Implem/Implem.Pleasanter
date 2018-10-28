@@ -14,7 +14,7 @@ namespace Implem.Pleasanter.Libraries.Server
         public static string Key(Context context)
         {
             var callerOfMethod = context.Action;
-            if (Sessions.Created())
+            if (context.HasSession)
             {
                 var path = Url.AbsolutePath().ToLower()
                     .Split('/').Where(o => o != string.Empty).ToList();

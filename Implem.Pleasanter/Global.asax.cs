@@ -93,15 +93,15 @@ namespace Implem.Pleasanter
 
         protected void Session_Start()
         {
+            Session["StartTime"] = DateTime.Now;
+            Session["LastAccessTime"] = Session["StartTime"];
+            Session["SessionGuid"] = Strings.NewGuid();
             var context = new Context()
             {
                 Controller = "Global.asax",
                 Action = "Session_Start",
                 Id = 0
             };
-            Session["StartTime"] = DateTime.Now;
-            Session["LastAccessTime"] = Session["StartTime"];
-            Session["SessionGuid"] = Strings.NewGuid();
             if (context.Authenticated)
             {
                 if (Authentications.Windows())

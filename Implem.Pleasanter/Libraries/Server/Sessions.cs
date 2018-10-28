@@ -1,8 +1,6 @@
-﻿using Implem.Libraries.Utilities;
-using Implem.Pleasanter.Libraries.Requests;
+﻿using Implem.Pleasanter.Libraries.Requests;
 using Implem.Pleasanter.Libraries.Responses;
 using Implem.Pleasanter.Models;
-using System;
 using System.Web;
 namespace Implem.Pleasanter.Libraries.Server
 {
@@ -22,39 +20,6 @@ namespace Implem.Pleasanter.Libraries.Server
         public static void Clear(string name)
         {
             HttpContext.Current.Session[name] = null;
-        }
-
-        public static bool Created()
-        {
-            return HttpContext.Current?.Session != null;
-        }
-
-        public static double SessionAge()
-        {
-            return Created()
-                ? (DateTime.Now - HttpContext.Current.Session["StartTime"].ToDateTime())
-                    .TotalMilliseconds
-                : 0;
-        }
-
-        public static double SessionRequestInterval()
-        {
-            if (Created())
-            {
-                var ret = (DateTime.Now - HttpContext.Current.Session["LastAccessTime"].ToDateTime())
-                    .TotalMilliseconds;
-                HttpContext.Current.Session["LastAccessTime"] = DateTime.Now;
-                return ret;
-            }
-            else
-            {
-                return 0;
-            }
-        }
-
-        public static string SessionGuid()
-        {
-            return HttpContext.Current.Session?["SessionGuid"].ToString();
         }
 
         public static Message Message()
