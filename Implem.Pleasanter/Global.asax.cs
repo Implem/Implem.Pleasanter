@@ -22,12 +22,7 @@ namespace Implem.Pleasanter
     {
         protected void Application_Start()
         {
-            var context = new Context()
-            {
-                Controller = "Global.asax",
-                Action = "Application_Start",
-                Id = 0
-            };
+            Context context = ApplicationStartContext();
             Application["StartTime"] = DateTime.Now;
             Application["LastAccessTime"] = Application["StartTime"];
             Initialize();
@@ -40,6 +35,16 @@ namespace Implem.Pleasanter
             SetConfigrations();
             SiteInfo.Reflesh(context: context);
             log.Finish(context: context);
+        }
+
+        private static Context ApplicationStartContext()
+        {
+            return new Context()
+            {
+                Controller = "Global.asax",
+                Action = "Application_Start",
+                Id = 0
+            };
         }
 
         private void Initialize()
@@ -94,40 +99,19 @@ namespace Implem.Pleasanter
         protected void Session_Start()
         {
             Session["StartTime"] = DateTime.Now;
-            Session["LastAccessTime"] = Session["StartTime"];
+            Session["LastAccessTime"] = DateTime.Now;
             Session["SessionGuid"] = Strings.NewGuid();
-            var context = new Context()
+            var context = SessionStartContext();
+            if (WindowsAuthenticated(context))
             {
-                Controller = "Global.asax",
-                Action = "Session_Start",
-                Id = 0
-            };
+                Ldap.UpdateOrInsert(
+                    context: context,
+                    loginId: context.LoginId);
+                context.Set();
+            }
             if (context.Authenticated)
             {
-                if (Authentications.Windows())
-                {
-                    Ldap.UpdateOrInsert(
-                        context: context,
-                        loginId: context.LoginId);
-                }
-                var userModel = GetUser(context: context);
-                userModel.SetContext(context: context);
                 StatusesInitializer.Initialize(context: context);
-                if (userModel.AccessStatus == Databases.AccessStatuses.Selected &&
-                    !userModel.Disabled)
-                {
-                    userModel.SetSession();
-                }
-                else
-                {
-                    Authentications.SignOut();
-                    SetAnonymousSession();
-                    Response.Redirect(HttpContext.Current.Request.Url.ToString());
-                }
-            }
-            else
-            {
-                SetAnonymousSession();
             }
             switch (Request.AppRelativeCurrentExecutionFilePath.ToLower())
             {
@@ -138,6 +122,24 @@ namespace Implem.Pleasanter
                     new SysLogModel(context: context).Finish(context: context);
                     break;
             }
+        }
+
+        private static Context SessionStartContext()
+        {
+            return new Context()
+            {
+                Controller = "Global.asax",
+                Action = "Session_Start",
+                Id = 0
+            };
+        }
+
+        private static bool WindowsAuthenticated(Context context)
+        {
+            return Authentications.Windows()
+                && !context.LoginId.IsNullOrEmpty()
+                && (!Parameters.Authentication.RejectUnregisteredUser
+                || context.Authenticated);
         }
 
         private static UserModel GetUser(Context context)
@@ -153,13 +155,6 @@ namespace Implem.Pleasanter
                         where: Rds.UsersWhere().LoginId(context.LoginId)))
                             .AsEnumerable()
                             .FirstOrDefault());
-        }
-
-        private void SetAnonymousSession()
-        {
-            var userModel = new UserModel();
-            Session["Language"] = Parameters.Service.DefaultLanguage ?? userModel.Language;
-            Session["Developer"] = userModel.Developer;
         }
     }
 }

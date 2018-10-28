@@ -10,7 +10,7 @@ namespace Implem.Pleasanter.Controllers
         [HttpPost]
         public ContentResult Get()
         {
-            var context = new Context(api: true);
+            var context = new Context();
             var log = new SysLogModel(context: context);
             var result = context.Authenticated
                 ? new DeptModel().GetByApi(context: context)

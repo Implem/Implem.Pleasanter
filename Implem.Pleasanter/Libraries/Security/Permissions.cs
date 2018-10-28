@@ -480,14 +480,14 @@ namespace Implem.Pleasanter.Libraries.Security
 
         public static bool CanManageTenant(Context context)
         {
-            return context.User.TenantManager
+            return context.User?.TenantManager == true
                 || context.HasPrivilege;
         }
 
         public static bool CanReadGroup(Context context)
         {
             return 
-                context.UserSettings.DisableGroupAdmin != true &&
+                context.UserSettings?.DisableGroupAdmin != true &&
                 (context.Id == 0 ||
                 CanManageTenant(context: context) ||
                 Groups(context: context).Any() ||
@@ -497,7 +497,7 @@ namespace Implem.Pleasanter.Libraries.Security
         public static bool CanEditGroup(Context context)
         {
             return
-                context.UserSettings.DisableGroupAdmin != true
+                context.UserSettings?.DisableGroupAdmin != true
                 && (context.Id == 0
                 || CanManageTenant(context: context)
                 || Groups(context: context).Any(o => o["Admin"].ToBool())

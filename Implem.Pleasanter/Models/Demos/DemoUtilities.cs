@@ -142,11 +142,6 @@ namespace Implem.Pleasanter.Models
                 demoModel: demoModel,
                 idHash: idHash,
                 password: password);
-            var userModel = new UserModel(
-                context: context,
-                ss: SiteSettingsUtilities.UsersSiteSettings(context: context),
-                loginId: LoginId(demoModel, "User1"));
-            userModel.SetContext(context: context);
             SiteInfo.Reflesh(context: context);
             InitializeSites(context: context, demoModel: demoModel, idHash: idHash);
             Def.DemoDefinitionCollection

@@ -5198,7 +5198,7 @@ namespace Implem.Pleasanter.Models
                         icon: "ui-icon-person",
                         selector: "#ChangePasswordDialog");
                 }
-                if (context.User.TenantManager)
+                if (context.User?.TenantManager == true)
                 {
                     hb.Button(
                         text: Displays.ResetPassword(context: context),

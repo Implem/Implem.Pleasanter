@@ -7753,7 +7753,7 @@ namespace Implem.Pleasanter.Models
         /// </summary>
         private static Permissions.Types SiteTopPermission(Context context)
         {
-            return context.UserSettings.DisableTopSiteCreation == true
+            return context.UserSettings?.DisableTopSiteCreation == true
                 ? Permissions.Types.Read
                 : (Permissions.Types)Parameters.Permissions.Manager;
         }

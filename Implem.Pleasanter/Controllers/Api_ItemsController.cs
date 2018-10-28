@@ -10,7 +10,7 @@ namespace Implem.Pleasanter.Controllers
         [HttpPost]
         public ContentResult Get(long id)
         {
-            var context = new Context(api: true);
+            var context = new Context();
             var log = new SysLogModel(context: context);
             var result = context.Authenticated
                 ? new ItemModel(context: context, referenceId: id).GetByApi(context: context)
@@ -22,7 +22,7 @@ namespace Implem.Pleasanter.Controllers
         [HttpPost]
         public ContentResult Create(long id)
         {
-            var context = new Context(api: true);
+            var context = new Context();
             var log = new SysLogModel(context: context);
             var result = context.Authenticated
                 ? new ItemModel(context: context, referenceId: id).CreateByApi(context: context)
@@ -34,7 +34,7 @@ namespace Implem.Pleasanter.Controllers
         [HttpPost]
         public ContentResult Update(long id)
         {
-            var context = new Context(api: true);
+            var context = new Context();
             var log = new SysLogModel(context: context);
             var result = context.Authenticated
                 ? new ItemModel(context: context, referenceId: id).UpdateByApi(context: context)
@@ -46,7 +46,7 @@ namespace Implem.Pleasanter.Controllers
         [HttpPost]
         public ContentResult Delete(long id)
         {
-            var context = new Context(api: true);
+            var context = new Context();
             var log = new SysLogModel(context: context);
             var result = context.Authenticated
                 ? new ItemModel(context: context, referenceId: id).DeleteByApi(context: context)
