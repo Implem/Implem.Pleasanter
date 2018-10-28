@@ -7183,10 +7183,10 @@ namespace Implem.Pleasanter.Models
                             context: context,
                             data: resultModel.Title.Value));
                     var res = new ResultsResponseCollection(resultModel);
-                res
-                    .SetMemory("formChanged", false)
-                    .Href(Locations.Get(
-                        "Items", ss.SiteId.ToString(), ViewModes.GetBySession(ss.SiteId)));
+                    res
+                        .SetMemory("formChanged", false)
+                        .Href(Locations.Get(
+                            "Items", ss.SiteId.ToString(), ViewModes.GetBySession(ss.SiteId)));
                     return res.ToJson();
                 default:
                     return error.MessageJson(context: context);
