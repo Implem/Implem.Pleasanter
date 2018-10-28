@@ -744,7 +744,7 @@ namespace Implem.Pleasanter.Models
         public void WriteSysLog(Context context)
         {
             StartTime = DateTime.Now;
-            SetProperties();
+            SetProperties(context: context);
             SysLogId = Rds.ExecuteScalar_response(
                 context: context,
                 selectIdentity: true,
@@ -759,7 +759,7 @@ namespace Implem.Pleasanter.Models
         /// <summary>
         /// Fixed:
         /// </summary>
-        private void SetProperties()
+        private void SetProperties(Context context)
         {
             SysLogType = SysLogTypes.Info;
             OnAzure = Environments.RdsProvider == "Azure";
@@ -773,8 +773,8 @@ namespace Implem.Pleasanter.Models
                 HttpMethod = request.HttpMethod();
                 ApplicationAge = Applications.ApplicationAge();
                 ApplicationRequestInterval = Applications.ApplicationRequestInterval();
-                SessionAge = Sessions.SessionAge();
-                SessionRequestInterval = Sessions.SessionRequestInterval();
+                SessionAge = context.SessionAge;
+                SessionRequestInterval = context.SessionRequestInterval;
                 RequestSize = RequestData.Length;
                 Url = request.Url();
                 UrlReferer = request.UrlReferrer();
@@ -782,7 +782,7 @@ namespace Implem.Pleasanter.Models
                 UserHostAddress = request.UserHostAddress();
                 UserLanguage = request.UserLanguage();
                 UserAgent = request.UserAgent();
-                SessionGuid = Sessions.SessionGuid();
+                SessionGuid = context.SessionGuid;
             }
             InDebug = Debugs.InDebug();
             AssemblyVersion = Environments.AssemblyVersion;
