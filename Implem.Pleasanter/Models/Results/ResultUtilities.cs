@@ -6812,9 +6812,11 @@ namespace Implem.Pleasanter.Models
             switch (error)
             {
                 case Error.Types.None:
-                    Sessions.Set("Message", Messages.Created(
+                    SessionUtilities.Set(
                         context: context,
-                        data: resultModel.Title.DisplayValue));
+                        message: Messages.Created(
+                            context: context,
+                            data: resultModel.Title.DisplayValue));
                     return new ResponseCollection()
                         .SetMemory("formChanged", false)
                         .Href(Locations.Edit(
@@ -7175,9 +7177,11 @@ namespace Implem.Pleasanter.Models
             switch (error)
             {
                 case Error.Types.None:
-                    Sessions.Set("Message", Messages.Deleted(
+                    SessionUtilities.Set(
                         context: context,
-                        data: resultModel.Title.Value));
+                        message: Messages.Deleted(
+                            context: context,
+                            data: resultModel.Title.Value));
                     var res = new ResultsResponseCollection(resultModel);
                 res
                     .SetMemory("formChanged", false)
@@ -7357,9 +7361,11 @@ namespace Implem.Pleasanter.Models
             switch (error)
             {
                 case Error.Types.None:
-                    Sessions.Set("Message", Messages.RestoredFromHistory(
+                    SessionUtilities.Set(
                         context: context,
-                        data: ver.First().ToString()));
+                        message: Messages.RestoredFromHistory(
+                            context: context,
+                            data: ver.First().ToString()));
                     return  new ResponseCollection()
                         .SetMemory("formChanged", false)
                         .Href(Locations.ItemEdit(resultId))
@@ -8591,9 +8597,9 @@ namespace Implem.Pleasanter.Models
             var inRange = dataRows.Count() <= Parameters.General.CalendarLimit;
             if (!inRange)
             {
-                Sessions.Set(
-                    "Message",
-                    Messages.TooManyCases(
+                SessionUtilities.Set(
+                    context: context,
+                    message: Messages.TooManyCases(
                         context: context,
                         data: Parameters.General.CalendarLimit.ToString()));
             }
@@ -8865,17 +8871,17 @@ namespace Implem.Pleasanter.Models
                         dataRows: dataRows);
             if (!inRangeX)
             {
-                Sessions.Set(
-                    "Message",
-                    Messages.TooManyColumnCases(
+                SessionUtilities.Set(
+                    context: context,
+                    message: Messages.TooManyColumnCases(
                         context: context,
                         data: Parameters.General.CrosstabXLimit.ToString()));
             }
             else if (!inRangeY)
             {
-                Sessions.Set(
-                    "Message",
-                    Messages.TooManyColumnCases(
+                SessionUtilities.Set(
+                    context: context,
+                    message: Messages.TooManyColumnCases(
                         context: context,
                         data: Parameters.General.CrosstabYLimit.ToString()));
             }
@@ -9154,9 +9160,9 @@ namespace Implem.Pleasanter.Models
                 Parameters.General.TimeSeriesLimit;
             if (!inRange)
             {
-                Sessions.Set(
-                    "Message",
-                    Messages.TooManyCases(
+                SessionUtilities.Set(
+                    context: context,
+                    message: Messages.TooManyCases(
                         context: context,
                         data: Parameters.General.TimeSeriesLimit.ToString()));
             }
@@ -9310,9 +9316,9 @@ namespace Implem.Pleasanter.Models
                 Parameters.General.KambanLimit;
             if (!inRange)
             {
-                Sessions.Set(
-                    "Message",
-                    Messages.TooManyCases(
+                SessionUtilities.Set(
+                    context: context,
+                    message: Messages.TooManyCases(
                         context: context,
                         data: Parameters.General.KambanLimit.ToString()));
             }

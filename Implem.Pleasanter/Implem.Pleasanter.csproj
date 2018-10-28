@@ -522,6 +522,10 @@
     <Compile Include="Models\SearchIndexes\SearchIndexUtilities.cs" />
     <Compile Include="Models\SearchIndexes\SearchIndexModel.cs" />
     <Compile Include="Models\SearchIndexes\SearchIndexValidators.cs" />
+    <Compile Include="Models\Sessions\SessionCollection.cs" />
+    <Compile Include="Models\Sessions\SessionModel.cs" />
+    <Compile Include="Models\Sessions\SessionUtilities.cs" />
+    <Compile Include="Models\Sessions\SessionValidators.cs" />
     <Compile Include="Models\Sites\SiteApiModel.cs" />
     <Compile Include="Models\Sites\SiteCollection.cs" />
     <Compile Include="Models\Sites\SiteModel.cs" />

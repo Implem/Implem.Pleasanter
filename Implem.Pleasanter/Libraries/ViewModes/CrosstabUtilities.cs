@@ -6,6 +6,7 @@ using Implem.Pleasanter.Libraries.Requests;
 using Implem.Pleasanter.Libraries.Responses;
 using Implem.Pleasanter.Libraries.Server;
 using Implem.Pleasanter.Libraries.Settings;
+using Implem.Pleasanter.Models;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -37,9 +38,9 @@ namespace Implem.Pleasanter.Libraries.ViewModes
                 Parameters.General.CrosstabXLimit;
             if (!inRange)
             {
-                Sessions.Set(
-                    "Message",
-                    Messages.TooManyCases(
+                SessionUtilities.Set(
+                    context: context,
+                    message: Messages.TooManyCases(
                         context: context,
                         data: Parameters.General.CrosstabXLimit.ToString()));
             }
@@ -52,9 +53,9 @@ namespace Implem.Pleasanter.Libraries.ViewModes
                 Parameters.General.CrosstabYLimit;
             if (!inRange)
             {
-                Sessions.Set(
-                    "Message",
-                    Messages.TooManyCases(
+                SessionUtilities.Set(
+                    context: context,
+                    message: Messages.TooManyCases(
                         context: context,
                         data: Parameters.General.CrosstabYLimit.ToString()));
             }

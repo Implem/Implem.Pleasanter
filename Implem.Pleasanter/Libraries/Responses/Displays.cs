@@ -5768,6 +5768,36 @@ namespace Implem.Pleasanter.Libraries.Responses
                 data: data);
         }
 
+        public static string Sessions_SessionGuid(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "Sessions_SessionGuid",
+                data: data);
+        }
+
+        public static string Sessions_Type(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "Sessions_Type",
+                data: data);
+        }
+
+        public static string Sessions_Value(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "Sessions_Value",
+                data: data);
+        }
+
         public static string SysLogs_CreatedTime(
             Context context,
             params string[] data)
@@ -12538,6 +12568,86 @@ namespace Implem.Pleasanter.Libraries.Responses
                 data: data);
         }
 
+        public static string Sessions_Ver(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "Sessions_Ver",
+                data: data);
+        }
+
+        public static string Sessions_Comments(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "Sessions_Comments",
+                data: data);
+        }
+
+        public static string Sessions_Creator(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "Sessions_Creator",
+                data: data);
+        }
+
+        public static string Sessions_Updator(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "Sessions_Updator",
+                data: data);
+        }
+
+        public static string Sessions_CreatedTime(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "Sessions_CreatedTime",
+                data: data);
+        }
+
+        public static string Sessions_UpdatedTime(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "Sessions_UpdatedTime",
+                data: data);
+        }
+
+        public static string Sessions_VerUp(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "Sessions_VerUp",
+                data: data);
+        }
+
+        public static string Sessions_Timestamp(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "Sessions_Timestamp",
+                data: data);
+        }
+
         public static string SysLogs_Ver(
             Context context,
             params string[] data)
@@ -14425,6 +14535,16 @@ namespace Implem.Pleasanter.Libraries.Responses
             return Get(
                 context: context,
                 id: "Demos",
+                data: data);
+        }
+
+        public static string Sessions(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "Sessions",
                 data: data);
         }
 
