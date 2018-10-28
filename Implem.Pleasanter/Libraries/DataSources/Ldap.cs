@@ -73,8 +73,9 @@ namespace Implem.Pleasanter.Libraries.DataSources
                         ldap: ldap,
                         synchronizedTime: DateTime.Now);
                 }
-                catch (Exception)
+                catch (Exception e)
                 {
+                    new SysLogModel(context: context, e: e);
                 }
             }
         }

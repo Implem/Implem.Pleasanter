@@ -47,7 +47,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             string referenceType,
             bool useNavigationMenu)
         {
-            var canManageGroups = context.UserSettings.DisableGroupAdmin != true;
+            var canManageGroups = context.UserSettings?.DisableGroupAdmin != true;
             var canManageSite = siteId != 0 && context.CanManageSite(ss: ss, site: true);
             var canManageDepts = Permissions.CanManageTenant(context: context);
             var canManageUsers = Permissions.CanManageTenant(context: context);

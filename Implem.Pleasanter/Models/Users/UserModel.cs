@@ -3799,7 +3799,6 @@ namespace Implem.Pleasanter.Models
         private void SetSiteInfo(Context context)
         {
             SiteInfo.Reflesh(context: context);
-            if (Self(context: context)) SetSession();
         }
 
         /// <summary>
@@ -4104,42 +4103,10 @@ namespace Implem.Pleasanter.Models
             System.Web.Security.FormsAuthentication.SetAuthCookie(
                 userName: LoginId,
                 createPersistentCookie: Forms.Bool("Users_RememberMe"));
-            SetSession();
             Libraries.Initializers.StatusesInitializer.Initialize(new Context(
                 tenantId: TenantId,
                 deptId: DeptId,
                 userId: UserId));
-        }
-
-        /// <summary>
-        /// Fixed:
-        /// </summary>
-        public void SetSession()
-        {
-            Sessions.Set("TenantId", TenantId);
-            Sessions.Set("DeptId", DeptId);
-            Sessions.Set("UserId", UserId);
-            Sessions.Set("Language", Language);
-            Sessions.Set("Developer", Developer);
-            Sessions.Set("TimeZoneInfo", TimeZoneInfo);
-            Sessions.Set("UserSettings", UserSettings.ToJson());
-            Sessions.Set("HasPrivilege", Parameters.Security.PrivilegedUsers?.Contains(LoginId));
-        }
-
-        /// <summary>
-        /// Fixed:
-        /// </summary>
-        public void SetContext(Context context)
-        {
-            context.TenantId = TenantId;
-            context.DeptId = DeptId;
-            context.UserId = UserId;
-            context.LoginId = LoginId;
-            context.Developer = Developer;
-            context.TimeZoneInfo = TimeZoneInfo;
-            context.UserSettings = UserSettings;
-            context.HasPrivilege = Parameters.Security.PrivilegedUsers?.Contains(LoginId) == true;
-            context.SetTenantCaches();
         }
 
         /// <summary>

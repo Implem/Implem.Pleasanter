@@ -537,7 +537,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                 .ForEach(c => c.CheckFilterControlType = ColumnUtilities.CheckFilterControlTypes.OnAndOff);
             ss?.EditorColumns?.Clear();
             new[] { "Password" }.ForEach(c => ss.GridColumns.Remove(c));
-            if (!context.User.TenantManager)
+            if (context.User?.TenantManager != true)
             {
                 ss.GridColumns = new List<string>() { "UserId", "LoginId", "Name", "Disabled" };
             }

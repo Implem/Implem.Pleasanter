@@ -27,7 +27,7 @@ namespace Implem.Pleasanter.Libraries.Requests
         public int TenantId;
         public int DeptId;
         public int UserId;
-        public string LoginId;
+        public string LoginId = HttpContext.Current?.User?.Identity.Name;
         public Dept Dept;
         public User User;
         public string Language;
@@ -36,35 +36,72 @@ namespace Implem.Pleasanter.Libraries.Requests
         public TimeZoneInfo TimeZoneInfo;
         public UserSettings UserSettings;
         public bool HasPrivilege;
-        public ContractSettings ContractSettings;
+        public ContractSettings ContractSettings = new ContractSettings();
         
-        public Context(bool empty = false, bool api = false)
+        public Context()
         {
-            SetSessionStatuses();
-            SetRouteProperties();
-            if (HttpContext.Current?.Session == null || empty)
-            {
-                ContractSettings = new ContractSettings();
-            }
-            else if (api)
-            {
-                SetByApi();
-            }
-            else
-            {
-                SetBySession();
-            }
+            Set();
         }
 
         public Context(int tenantId, int deptId = 0, int userId = 0)
         {
-            Authenticated = LoggedIn();
             TenantId = tenantId;
             DeptId = deptId;
             UserId = userId;
             UserHostAddress = HttpContext.Current.Request?.UserHostAddress;
             SetTenantCaches();
             SetContractSettings();
+        }
+
+        public void Set()
+        {
+            SetSessionStatuses();
+            SetRouteProperties();
+            if (HttpContext.Current?.Session != null)
+            {
+                var api = Forms.String().Deserialize<Api>();
+                if (api?.ApiKey.IsNullOrEmpty() == false)
+                {
+                    var userModel = new UserModel().Get(
+                        context: this,
+                        ss: null,
+                        where: Rds.UsersWhere()
+                            .ApiKey(api.ApiKey)
+                            .Disabled(0));
+                    Set(userModel);
+                }
+                else if (!LoginId.IsNullOrEmpty())
+                {
+                    var userModel = new UserModel().Get(
+                        context: this,
+                        ss: null,
+                        where: Rds.UsersWhere()
+                            .LoginId(LoginId)
+                            .Disabled(0));
+                    Set(userModel);
+                }
+            }
+        }
+
+        private void Set(UserModel userModel)
+        {
+            if (userModel.AccessStatus == Databases.AccessStatuses.Selected)
+            {
+                Authenticated = true;
+                TenantId = userModel.TenantId;
+                DeptId = userModel.DeptId;
+                UserId = userModel.UserId;
+                Dept = SiteInfo.Dept(tenantId: TenantId, deptId: DeptId);
+                User = SiteInfo.User(context: this, userId: UserId);
+                Language = userModel.Language;
+                UserHostAddress = HttpContext.Current.Request?.UserHostAddress;
+                Developer = userModel.Developer;
+                TimeZoneInfo = userModel.TimeZoneInfo;
+                UserSettings = userModel.UserSettings;
+                HasPrivilege = Parameters.Security.PrivilegedUsers?.Contains(LoginId) == true;
+                SetTenantCaches();
+                SetContractSettings();
+            }
         }
 
         public RdsUser RdsUser()
@@ -82,71 +119,6 @@ namespace Implem.Pleasanter.Libraries.Requests
             return new CultureInfo(Language);
         }
 
-        private bool LoggedIn()
-        {
-            return HttpContext.Current?.User?.Identity.Name.IsNullOrEmpty() == false &&
-                HttpContext.Current?.User.Identity.Name !=
-                    Implem.Libraries.Classes.RdsUser.UserTypes.Anonymous.ToInt().ToString();
-        }
-
-        public void SetByApi()
-        {
-            var api = Forms.String().Deserialize<Api>();
-            if (api?.ApiKey.IsNullOrEmpty() == false)
-            {
-                var userModel = new UserModel().Get(
-                    context: this,
-                    ss: null,
-                    where: Rds.UsersWhere()
-                        .ApiKey(api.ApiKey)
-                        .Disabled(0));
-                if (userModel.AccessStatus == Databases.AccessStatuses.Selected)
-                {
-                    Authenticated = true;
-                    LoginId = userModel.LoginId;
-                    TenantId = userModel.TenantId;
-                    DeptId = userModel.DeptId;
-                    UserId = userModel.UserId;
-                    Dept = SiteInfo.Dept(tenantId: TenantId, deptId: DeptId);
-                    User = SiteInfo.User(context: this, userId: UserId);
-                    Language = userModel.Language;
-                    UserHostAddress = HttpContext.Current.Request?.UserHostAddress;
-                    Developer = userModel.Developer;
-                    TimeZoneInfo = userModel.TimeZoneInfo;
-                    UserSettings = userModel.UserSettings;
-                    HasPrivilege = Parameters.Security.PrivilegedUsers?.Contains(LoginId) == true;
-                    SetTenantCaches();
-                    SetContractSettings();
-                }
-            }
-            else if (LoggedIn())
-            {
-                SetBySession();
-            }
-        }
-
-        public void SetBySession()
-        {
-            Authenticated = LoggedIn();
-            LoginId = HttpContext.Current.User.Identity.Name;
-            TenantId = HttpContext.Current.Session["TenantId"].ToInt();
-            DeptId = HttpContext.Current.Session["DeptId"].ToInt();
-            UserId = HttpContext.Current.Session["UserId"].ToInt();
-            Dept = SiteInfo.Dept(tenantId: TenantId, deptId: DeptId);
-            User = SiteInfo.User(context: this, userId: UserId);
-            Language = HttpContext.Current.Session["Language"].ToStr();
-            UserHostAddress = HttpContext.Current.Request?.UserHostAddress;
-            Developer = HttpContext.Current.Session["Developer"].ToBool();
-            TimeZoneInfo = HttpContext.Current.Session["TimeZoneInfo"] as TimeZoneInfo;
-            UserSettings = HttpContext.Current.Session["UserSettings"]?
-                .ToString()
-                .Deserialize<UserSettings>()
-                    ?? new UserSettings();
-            HasPrivilege = HttpContext.Current.Session["HasPrivilege"].ToBool();
-            SetTenantCaches();
-            SetContractSettings();
-        }
-
         private void SetSessionStatuses()
         {
             if (HttpContext.Current?.Session != null)
@@ -160,7 +132,7 @@ namespace Implem.Pleasanter.Libraries.Requests
 
         private static string GetSessionGuid()
         {
-            return HttpContext.Current.Session?["SessionGuid"].ToString();
+            return HttpContext.Current.Session?["SessionGuid"]?.ToString();
         }
 
         private static double GetSessionAge()
