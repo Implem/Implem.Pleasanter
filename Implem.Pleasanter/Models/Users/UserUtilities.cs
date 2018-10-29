@@ -45,6 +45,7 @@ namespace Implem.Pleasanter.Models
             return hb.Template(
                 context: context,
                 ss: ss,
+                view: view,
                 verType: Versions.VerTypes.Latest,
                 methodType: BaseModel.MethodTypes.Index,
                 referenceType: "Users",
@@ -115,6 +116,7 @@ namespace Implem.Pleasanter.Models
             return hb.Template(
                 context: context,
                 ss: ss,
+                view: view,
                 verType: Versions.VerTypes.Latest,
                 methodType: BaseModel.MethodTypes.Index,
                 siteId: ss.SiteId,
@@ -258,7 +260,7 @@ namespace Implem.Pleasanter.Models
                 .ReplaceAll("#CopyDirectUrlToClipboard", new HtmlBuilder()
                     .CopyDirectUrlToClipboard(
                         context: context,
-                        ss: ss))
+                        view: view))
                 .ReplaceAll("#Aggregations", new HtmlBuilder().Aggregations(
                     context: context,
                     ss: ss,
@@ -3241,6 +3243,7 @@ namespace Implem.Pleasanter.Models
             return hb.Template(
                 context: context,
                 ss: ss,
+                view: null,
                 verType: userModel.VerType,
                 methodType: userModel.MethodType,
                 referenceType: "Users",
@@ -5895,6 +5898,7 @@ namespace Implem.Pleasanter.Models
             return hb.Template(
                 context: context,
                 ss: ss,
+                view: null,
                 verType: Versions.VerTypes.Latest,
                 useBreadcrumb: false,
                 useTitle: false,
@@ -6117,6 +6121,7 @@ namespace Implem.Pleasanter.Models
             return hb.Template(
                 context: context,
                 ss: ss,
+                view: null,
                 verType: Versions.VerTypes.Latest,
                 methodType: BaseModel.MethodTypes.Index,
                 referenceType: "Users",

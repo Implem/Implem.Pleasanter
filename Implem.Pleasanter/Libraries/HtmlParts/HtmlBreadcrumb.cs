@@ -13,7 +13,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
     public static class HtmlBreadcrumb
     {
         public static HtmlBuilder Breadcrumb(
-            this HtmlBuilder hb, Context context, SiteSettings ss, bool _using)
+            this HtmlBuilder hb, Context context, SiteSettings ss, View view, bool _using)
         {
             if (!context.Authenticated || !_using)
             {
@@ -77,7 +77,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     return hb
                         .CopyDirectUrlToClipboard(
                             context: context,
-                            ss: ss)
+                            view: view)
                         .Breadcrumb(
                             context: context,
                             ss: ss);
@@ -161,30 +161,35 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
         }
 
         public static HtmlBuilder CopyDirectUrlToClipboard(
-            this HtmlBuilder hb, Context context, SiteSettings ss)
+            this HtmlBuilder hb, Context context, View view)
+        {
+            return view != null
+                ? hb.Div(
+                    attributes: new HtmlAttributes()
+                        .Id("CopyToClipboards"),
+                    action: () => hb
+                        .Div(
+                    attributes: new HtmlAttributes()
+                        .Id("CopyDirectUrlToClipboard")
+                        .Class("display-control")
+                        .OnClick($"$p.copyDirectUrlToClipboard('{DirectUrl(view: view)}');"),
+                    action: () => hb
+                        .Span(css: "ui-icon ui-icon-link")
+                        .Text(text: string.Empty)))
+                : hb;
+        }
+
+        private static string DirectUrl(View view)
         {
             var queryString = HttpUtility.ParseQueryString(HttpContext.Current.Request.Url.Query);
-            var view = context.View(ss.SiteId).ToJson();
-            if (!view.IsNullOrEmpty())
+            if (view != null)
             {
-                queryString["View"] = view;
+                queryString["View"] = view.ToJson();
             }
-            var directUrl = new System.UriBuilder(HttpContext.Current.Request.Url.AbsoluteUri)
+            return new System.UriBuilder(HttpContext.Current.Request.Url.AbsoluteUri)
             {
                 Query = queryString.ToString()
             }.ToString();
-            return hb.Div(
-                attributes: new HtmlAttributes()
-                    .Id("CopyToClipboards"),
-                action: () => hb
-                    .Div(
-                attributes: new HtmlAttributes()
-                    .Id("CopyDirectUrlToClipboard")
-                    .Class("display-control")
-                    .OnClick("$p.copyDirectUrlToClipboard('" + directUrl + "');"),
-                action: () => hb
-                    .Span(css: "ui-icon ui-icon-link")
-                    .Text(text: "")));
         }
     }
 }

@@ -2688,13 +2688,13 @@ namespace Implem.Pleasanter.Libraries.Responses
                 data: data);
         }
 
-        public static string LineBot(
+        public static string Line(
             Context context,
             params string[] data)
         {
             return Get(
                 context: context,
-                id: "LineBot",
+                id: "Line",
                 data: data);
         }
 
@@ -5805,6 +5805,16 @@ namespace Implem.Pleasanter.Libraries.Responses
             return Get(
                 context: context,
                 id: "Sessions_ReadOnce",
+                data: data);
+        }
+
+        public static string Sessions_ReadOneByOne(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "Sessions_ReadOneByOne",
                 data: data);
         }
 

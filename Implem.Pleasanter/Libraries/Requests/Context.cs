@@ -139,11 +139,6 @@ namespace Implem.Pleasanter.Libraries.Requests
             return new CultureInfo(Language);
         }
 
-        public View View(long siteId)
-        {
-            return SessionData.Get("View" + siteId)?.Deserialize<View>();
-        }
-
         public Message Message()
         {
             return SessionData.Get("Message")?.Deserialize<Message>();

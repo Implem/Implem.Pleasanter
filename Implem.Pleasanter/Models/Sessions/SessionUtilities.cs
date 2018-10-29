@@ -37,7 +37,8 @@ namespace Implem.Pleasanter.Models
                             .Key()
                             .Value(),
                         where: Rds.SessionsWhere()
-                            .SessionGuid(context.SessionGuid)),
+                            .SessionGuid(context.SessionGuid)
+                            .ReadOneByOne(1, _operator: "<>")),
                     Rds.PhysicalDeleteSessions(
                         where: Rds.SessionsWhere()
                             .SessionGuid(context.SessionGuid)
@@ -57,7 +58,26 @@ namespace Implem.Pleasanter.Models
         /// <summary>
         /// Fixed:
         /// </summary>
-        public static void Set(Context context, string key, string value, bool readOnce = false)
+        public static View View(Context context, string key)
+        {
+            return Rds.ExecuteScalar_string(
+                context: context,
+                statements: Rds.SelectSessions(
+                    column: Rds.SessionsColumn().Value(),
+                    where: Rds.SessionsWhere()
+                        .SessionGuid(context.SessionGuid)
+                        .Key(key))).Deserialize<View>();
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        public static void Set(
+            Context context,
+            string key,
+            string value,
+            bool readOnce = false,
+            bool readOneByOne = false)
         {
             Rds.ExecuteNonQuery(
                 context: context,
@@ -70,6 +90,18 @@ namespace Implem.Pleasanter.Models
                     where: Rds.SessionsWhere()
                         .SessionGuid(context.SessionGuid)
                         .Key(key)));
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        public static void Set(Context context, string key, View view)
+        {
+            Set(
+                context: context,
+                key: key,
+                value: view.ToJson(),
+                readOneByOne: true);
         }
 
         /// <summary>

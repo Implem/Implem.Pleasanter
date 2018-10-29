@@ -2,5 +2,5 @@
   "Mail": true,
   "Slack": true,
   "ChatWork": true,
-  "LineBot": true
+  "Line": true
 }

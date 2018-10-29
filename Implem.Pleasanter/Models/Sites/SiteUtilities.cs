@@ -64,6 +64,7 @@ namespace Implem.Pleasanter.Models
             return hb.Template(
                 context: context,
                 ss: ss,
+                view: view,
                 verType: Versions.VerTypes.Latest,
                 methodType: BaseModel.MethodTypes.Index,
                 siteId: ss.SiteId,
@@ -208,7 +209,7 @@ namespace Implem.Pleasanter.Models
                 .ReplaceAll("#CopyDirectUrlToClipboard", new HtmlBuilder()
                     .CopyDirectUrlToClipboard(
                         context: context,
-                        ss: ss))
+                        view: view))
                 .ReplaceAll("#Aggregations", new HtmlBuilder().Aggregations(
                     context: context,
                     ss: ss,
@@ -2333,6 +2334,7 @@ namespace Implem.Pleasanter.Models
             return hb.Template(
                 context: context,
                 ss: ss,
+                view: null,
                 verType: verType,
                 methodType: BaseModel.MethodTypes.Index,
                 referenceType: "Sites",
@@ -2386,6 +2388,7 @@ namespace Implem.Pleasanter.Models
             return hb.Template(
                 context: context,
                 ss: ss,
+                view: null,
                 verType: Versions.VerTypes.Latest,
                 methodType: BaseModel.MethodTypes.Index,
                 siteId: siteModel.SiteId,
@@ -2899,6 +2902,7 @@ namespace Implem.Pleasanter.Models
             return hb.Template(
                 context: context,
                 ss: siteModel.SiteSettings,
+                view: null,
                 verType: siteModel.VerType,
                 methodType: siteModel.MethodType,
                 siteId: siteModel.SiteId,
@@ -6058,16 +6062,6 @@ namespace Implem.Pleasanter.Models
                     .Hidden(
                         controlId: "NotificationTokenEnableList",
                         value: NotificationUtilities.Tokens())
-                    .FieldCheckBox(
-                        fieldId: "NotificationIsGroupField",
-                        controlId: "NotificationIsGroup",
-                        fieldCss: "field-wide" + (NotificationUtilities.RequireGroupCheck(notification) ? "" : " hidden"),
-                        controlCss: " always-send",
-                        labelText: Displays.LineGroup(context: context),
-                        _checked: notification.IsGroup == true)
-                    .Hidden(
-                        controlId: "NotificationIsGroupEnableList",
-                        value: NotificationUtilities.GroupChecks())
                     .Div(_using: ss.Views?.Any() == true, action: () => hb
                         .FieldDropDown(
                             context: context,

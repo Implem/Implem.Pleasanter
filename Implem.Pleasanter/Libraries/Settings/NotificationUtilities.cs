@@ -30,12 +30,16 @@ namespace Implem.Pleasanter.Libraries.Settings
                     Notification.Types.ChatWork.ToInt().ToString(),
                     Displays.ChatWork(context: context));
             }
-            if (Parameters.Notification.LineBot)
+            if (Parameters.Notification.Line)
             {
                 notificationType.Add(
-                    Notification.Types.LineBot.ToInt().ToString(),
-                    Displays.LineBot(context: context));
+                    Notification.Types.Line.ToInt().ToString(),
+                    Displays.Line(context: context));
+                notificationType.Add(
+                    Notification.Types.LineGroup.ToInt().ToString(),
+                    Displays.LineGroup(context: context));
             }
+            
             return notificationType;
         }
 
@@ -54,20 +58,11 @@ namespace Implem.Pleasanter.Libraries.Settings
             return new List<Notification.Types>
             {
                 Notification.Types.ChatWork,
-                Notification.Types.LineBot
+                Notification.Types.Line,
+                Notification.Types.LineGroup
             };
         }
-
-        public static bool RequireGroupCheck(Notification notification)
-        {
-            return notification.Type == Notification.Types.LineBot;
-        }
-
-        public static string GroupChecks()
-        {
-            return Notification.Types.LineBot.ToInt().ToString();
-        }
-
+        
         public static void CheckConditions(
             this SettingList<Notification> notifications,
             List<View> views,

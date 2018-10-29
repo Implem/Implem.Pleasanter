@@ -18,6 +18,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             this HtmlBuilder hb,
             Context context,
             SiteSettings ss,
+            View view,
             Versions.VerTypes verType,
             BaseModel.MethodTypes methodType,
             long siteId = 0,
@@ -38,6 +39,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                 .MainContainer(
                     context: context,
                     ss: ss,
+                    view: view,
                     verType: verType,
                     methodType: methodType,
                     siteId: siteId,
@@ -60,6 +62,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             this HtmlBuilder hb,
             Context context,
             SiteSettings ss,
+            View view,
             Versions.VerTypes verType,
             BaseModel.MethodTypes methodType,
             long siteId,
@@ -87,6 +90,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                 .Content(
                     context: context,
                     ss: ss,
+                    view: view,
                     errorType: errorType,
                     messageData: messageData,
                     siteId: siteId,
@@ -108,6 +112,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             this HtmlBuilder hb,
             Context context,
             SiteSettings ss,
+            View view,
             Error.Types errorType,
             string[] messageData,
             long siteId = 0,
@@ -121,7 +126,11 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                 if (!errorType.Has())
                 {
                     hb.Nav(css: "both cf", action: () => hb
-                        .Breadcrumb(context: context, ss: ss, _using: useBreadcrumb));
+                        .Breadcrumb(
+                            context: context,
+                            ss: ss,
+                            view: view,
+                            _using: useBreadcrumb));
                     if (useTitle)
                     {
                         hb.Title(
@@ -243,6 +252,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                 .MainContainer(
                     context: context,
                     ss: ss,
+                    view: null,
                     verType: Versions.VerTypes.Latest,
                     methodType: BaseModel.MethodTypes.NotSet,
                     messageData: messageData,

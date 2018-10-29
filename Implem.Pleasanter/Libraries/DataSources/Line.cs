@@ -7,14 +7,14 @@ using System.Text;
 using System.Threading.Tasks;
 namespace Implem.Pleasanter.Libraries.DataSources
 {
-    public class LineBot
+    public class Line
     {
         public Context context;
         public string text;
         public string username;
         public string token;
 
-        public LineBot(Context _context, string _text, string _username, string _token)
+        public Line(Context _context, string _text, string _username, string _token)
         {
             text = _text;
             username = _username;

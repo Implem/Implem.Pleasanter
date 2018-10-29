@@ -168,6 +168,7 @@ namespace Implem.Pleasanter.Models
             return hb.Template(
                 context: context,
                 ss: new SiteSettings(),
+                view: null,
                 verType: Versions.VerTypes.Latest,
                 methodType: BaseModel.MethodTypes.NotSet,
                 referenceType: "SearchIndexes",

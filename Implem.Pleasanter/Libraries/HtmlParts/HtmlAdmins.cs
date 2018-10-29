@@ -21,6 +21,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             return hb.Template(
                 context: context,
                 ss: ss,
+                view: null,
                 methodType: Pleasanter.Models.BaseModel.MethodTypes.NotSet,
                 title: Displays.Admin(context: context),
                 verType: Versions.VerTypes.Latest,
