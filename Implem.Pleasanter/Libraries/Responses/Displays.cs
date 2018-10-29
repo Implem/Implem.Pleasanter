@@ -2688,16 +2688,6 @@ namespace Implem.Pleasanter.Libraries.Responses
                 data: data);
         }
 
-        public static string Line(
-            Context context,
-            params string[] data)
-        {
-            return Get(
-                context: context,
-                id: "Line",
-                data: data);
-        }
-
         public static string LineBot(
             Context context,
             params string[] data)
@@ -4215,6 +4205,16 @@ namespace Implem.Pleasanter.Libraries.Responses
             return Get(
                 context: context,
                 id: "Restricted",
+                data: data);
+        }
+
+        public static string Row(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "Row",
                 data: data);
         }
 

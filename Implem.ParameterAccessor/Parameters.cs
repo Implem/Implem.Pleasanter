@@ -31,6 +31,7 @@ namespace Implem.DefinitionAccessor
         public static Search Search;
         public static Security Security;
         public static Service Service;
+        public static Session Session;
         public static SysLog SysLog;
     }
 }

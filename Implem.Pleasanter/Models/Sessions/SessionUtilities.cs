@@ -41,7 +41,12 @@ namespace Implem.Pleasanter.Models
                     Rds.PhysicalDeleteSessions(
                         where: Rds.SessionsWhere()
                             .SessionGuid(context.SessionGuid)
-                            .ReadOnce(1))
+                            .ReadOnce(1)),
+                    Rds.PhysicalDeleteSessions(
+                        where: Rds.SessionsWhere()
+                            .UpdatedTime(
+                                DateTime.Now.AddMinutes(Parameters.Session.RetentionPeriod * -1),
+                                _operator: "<"))
                 })
                     .AsEnumerable()
                     .ToDictionary(
