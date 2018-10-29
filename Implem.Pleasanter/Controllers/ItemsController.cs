@@ -5,9 +5,7 @@ using System.Web.Mvc;
 namespace Implem.Pleasanter.Controllers
 {
     [Authorize]
-    [CheckContract]
     [ValidateInput(false)]
-    [RefleshSiteInfo]
     public class ItemsController : Controller
     {
         [AcceptVerbs(HttpVerbs.Get | HttpVerbs.Post)]

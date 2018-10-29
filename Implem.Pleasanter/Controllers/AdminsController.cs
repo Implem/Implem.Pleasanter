@@ -1,5 +1,4 @@
-﻿using Implem.Pleasanter.Filters;
-using Implem.Pleasanter.Libraries.Html;
+﻿using Implem.Pleasanter.Libraries.Html;
 using Implem.Pleasanter.Libraries.HtmlParts;
 using Implem.Pleasanter.Libraries.Initializers;
 using Implem.Pleasanter.Libraries.Requests;
@@ -8,8 +7,6 @@ using System.Web.Mvc;
 namespace Implem.Pleasanter.Controllers
 {
     [Authorize]
-    [CheckContract]
-    [RefleshSiteInfo]
     public class AdminsController : Controller
     {
         [HttpGet]

@@ -1,4 +1,3 @@
-using Implem.Pleasanter.Filters;
 using Implem.Pleasanter.Libraries.Requests;
 using Implem.Pleasanter.Libraries.Resources;
 using Implem.Pleasanter.Models;
@@ -7,9 +6,7 @@ using System.Web.UI;
 namespace Implem.Pleasanter.Controllers
 {
     [AllowAnonymous]
-    [CheckContract]
     [ValidateInput(false)]
-    [RefleshSiteInfo]
     public class ResourcesController : Controller
     {
         [HttpGet]

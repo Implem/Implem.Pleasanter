@@ -1,13 +1,10 @@
 ﻿using Implem.DefinitionAccessor;
-using Implem.Pleasanter.Filters;
 using Implem.Pleasanter.Libraries.Requests;
 using Implem.Pleasanter.Models;
 using System.Web.Mvc;
 namespace Implem.Pleasanter.Controllers
 {
     [Authorize]
-    [CheckContract]
-    [RefleshSiteInfo]
     public class ReminderSchedulesController : Controller
     {
         [AllowAnonymous]

@@ -1,5 +1,4 @@
-﻿using Implem.Pleasanter.Filters;
-using Implem.Pleasanter.Libraries.Requests;
+﻿using Implem.Pleasanter.Libraries.Requests;
 using Implem.Pleasanter.Libraries.Responses;
 using Implem.Pleasanter.Libraries.Security;
 using Implem.Pleasanter.Libraries.Server;
@@ -9,9 +8,7 @@ using System.Web.Mvc;
 namespace Implem.Pleasanter.Controllers
 {
     [Authorize]
-    [CheckContract]
     [ValidateInput(false)]
-    [RefleshSiteInfo]
     public class GroupsController : Controller
     {
         [AcceptVerbs(HttpVerbs.Get | HttpVerbs.Post)]

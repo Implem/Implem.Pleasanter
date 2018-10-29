@@ -10,14 +10,16 @@ namespace Implem.Pleasanter.Filters
     {
         public void OnException(ExceptionContext filterContext)
         {
-            var context = new Context();
+            var context = new Context(sessionData: false);
             if (filterContext == null)
             {
                 throw new ArgumentNullException("No ExceptionContext");
             }
             try
             {
-                new SysLogModel(context: context, filterContext: filterContext);
+                new SysLogModel(
+                    context: context,
+                    filterContext: filterContext);
             }
             catch
             {
