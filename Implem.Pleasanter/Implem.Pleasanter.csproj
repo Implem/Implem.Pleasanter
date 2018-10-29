@@ -1258,7 +1258,7 @@
     <Content Include="App_Data\Displays\PeriodType.json" />
     <Content Include="App_Data\Displays\Subject.json" />
     <Content Include="App_Data\Displays\Body.json" />
-    <Content Include="App_Data\Displays\Line.json" />
+    <Content Include="App_Data\Displays\Row.json" />
     <Content Include="App_Data\Displays\To.json" />
     <Content Include="App_Data\Displays\From.json" />
     <Content Include="App_Data\Displays\StartDateTime.json" />
@@ -1348,6 +1348,7 @@
     <Content Include="App_Data\Displays\EditInDialog.json" />
     <Content Include="App_Data\Displays\LineBot.json" />
     <Content Include="App_Data\Displays\LineGroup.json" />
+    <Content Include="App_Data\Parameters\Session.json" />
     <Content Include="Tools\BackgroundTasks.ps1" />
     <Content Include="Tools\SyncByLdap.ps1" />
     <Content Include="Views\Users\EditApi.cshtml" />

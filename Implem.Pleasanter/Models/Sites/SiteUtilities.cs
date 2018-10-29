@@ -6288,7 +6288,7 @@ namespace Implem.Pleasanter.Models
                     .Th(action: () => hb
                         .Text(text: Displays.Body(context: context)))
                     .Th(action: () => hb
-                        .Text(text: Displays.Line(context: context)))
+                        .Text(text: Displays.Row(context: context)))
                     .Th(action: () => hb
                         .Text(text: Displays.From(context: context)))
                     .Th(action: () => hb
@@ -6405,7 +6405,7 @@ namespace Implem.Pleasanter.Models
                         controlId: "ReminderLine",
                         fieldCss: "field-wide",
                         controlCss: " always-send",
-                        labelText: Displays.Line(context: context),
+                        labelText: Displays.Row(context: context),
                         text: reminder.DisplayLine(ss),
                         validateRequired: true)
                     .FieldTextBox(

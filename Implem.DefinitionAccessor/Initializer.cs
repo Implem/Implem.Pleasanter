@@ -93,6 +93,7 @@ namespace Implem.DefinitionAccessor
             Parameters.Search = Read<ParameterAccessor.Parts.Search>();
             Parameters.Security = Read<ParameterAccessor.Parts.Security>();
             Parameters.Service = Read<ParameterAccessor.Parts.Service>();
+            Parameters.Session = Read<ParameterAccessor.Parts.Session>();
             Parameters.SysLog = Read<ParameterAccessor.Parts.SysLog>();
         }
 
