@@ -1,6 +1,5 @@
 ﻿using Implem.DefinitionAccessor;
 using Implem.Libraries.Utilities;
-using Implem.Pleasanter.Filters;
 using Implem.Pleasanter.Libraries.General;
 using Implem.Pleasanter.Libraries.HtmlParts;
 using Implem.Pleasanter.Libraries.Requests;
@@ -8,8 +7,6 @@ using System.Web.Mvc;
 namespace Implem.Pleasanter.Controllers
 {
     [Authorize]
-    [CheckContract]
-    [RefleshSiteInfo]
     public class ErrorsController : Controller
     {
         [AllowAnonymous]

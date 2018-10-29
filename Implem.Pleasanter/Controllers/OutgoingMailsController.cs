@@ -1,13 +1,10 @@
-﻿using Implem.Pleasanter.Filters;
-using Implem.Pleasanter.Libraries.Requests;
+﻿using Implem.Pleasanter.Libraries.Requests;
 using Implem.Pleasanter.Models;
 using System.Web.Mvc;
 namespace Implem.Pleasanter.Controllers
 {
     [Authorize]
-    [CheckContract]
     [ValidateInput(false)]
-    [RefleshSiteInfo]
     public class OutgoingMailsController : Controller
     {
         [HttpPut]

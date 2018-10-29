@@ -1,5 +1,4 @@
 ﻿using Implem.Libraries.Utilities;
-using Implem.Pleasanter.Filters;
 using Implem.Pleasanter.Libraries.Requests;
 using Implem.Pleasanter.Libraries.Responses;
 using Implem.Pleasanter.Models;
@@ -9,9 +8,7 @@ using System.Web.UI;
 namespace Implem.Pleasanter.Controllers
 {
     [Authorize]
-    [CheckContract]
     [ValidateInput(false)]
-    [RefleshSiteInfo]
     public class BinariesController : Controller
     {
         [HttpGet]

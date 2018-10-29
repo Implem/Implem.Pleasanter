@@ -224,11 +224,8 @@
     <Compile Include="Controllers\ResourcesController.cs" />
     <Compile Include="Controllers\UsersController.cs" />
     <Compile Include="Controllers\VersionsController.cs" />
-    <Compile Include="Filters\CheckParameterSyntaxError.cs" />
-    <Compile Include="Filters\CheckUserAttributes.cs" />
+    <Compile Include="Filters\CheckContextAttributes.cs" />
     <Compile Include="Filters\HandleErrorExAttribute.cs" />
-    <Compile Include="Filters\CheckContractAttribute.cs" />
-    <Compile Include="Filters\RefleshSiteInfoAttribute.cs" />
     <Compile Include="Filters\RequestLimitAttribute.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
