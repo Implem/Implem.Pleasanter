@@ -5,6 +5,6 @@
         public bool Mail;
         public bool Slack;
         public bool ChatWork;
-        public bool LineBot;
+        public bool Line;
     }
 }

@@ -27,10 +27,12 @@ namespace Implem.Pleasanter.Models
         public string Key = string.Empty;
         public string Value = string.Empty;
         public bool ReadOnce = false;
+        public bool ReadOneByOne = false;
         [NonSerialized] public string SavedSessionGuid = string.Empty;
         [NonSerialized] public string SavedKey = string.Empty;
         [NonSerialized] public string SavedValue = string.Empty;
         [NonSerialized] public bool SavedReadOnce = false;
+        [NonSerialized] public bool SavedReadOneByOne = false;
 
         public bool SessionGuid_Updated(Context context, Column column = null)
         {
@@ -62,6 +64,14 @@ namespace Implem.Pleasanter.Models
                 (column == null ||
                 column.DefaultInput.IsNullOrEmpty() ||
                 column.GetDefaultInput(context: context).ToBool() != ReadOnce);
+        }
+
+        public bool ReadOneByOne_Updated(Context context, Column column = null)
+        {
+            return ReadOneByOne != SavedReadOneByOne &&
+                (column == null ||
+                column.DefaultInput.IsNullOrEmpty() ||
+                column.GetDefaultInput(context: context).ToBool() != ReadOneByOne);
         }
 
         public SessionModel(Context context, DataRow dataRow, string tableAlias = null)
@@ -115,6 +125,7 @@ namespace Implem.Pleasanter.Models
             Key = sessionModel.Key;
             Value = sessionModel.Value;
             ReadOnce = sessionModel.ReadOnce;
+            ReadOneByOne = sessionModel.ReadOneByOne;
             Comments = sessionModel.Comments;
             Creator = sessionModel.Creator;
             Updator = sessionModel.Updator;
@@ -170,6 +181,10 @@ namespace Implem.Pleasanter.Models
                             ReadOnce = dataRow[column.ColumnName].ToBool();
                             SavedReadOnce = ReadOnce;
                             break;
+                        case "ReadOneByOne":
+                            ReadOneByOne = dataRow[column.ColumnName].ToBool();
+                            SavedReadOneByOne = ReadOneByOne;
+                            break;
                         case "Ver":
                             Ver = dataRow[column.ColumnName].ToInt();
                             SavedVer = Ver;
@@ -207,6 +222,7 @@ namespace Implem.Pleasanter.Models
                 Key_Updated(context: context) ||
                 Value_Updated(context: context) ||
                 ReadOnce_Updated(context: context) ||
+                ReadOneByOne_Updated(context: context) ||
                 Ver_Updated(context: context) ||
                 Comments_Updated(context: context) ||
                 Creator_Updated(context: context) ||

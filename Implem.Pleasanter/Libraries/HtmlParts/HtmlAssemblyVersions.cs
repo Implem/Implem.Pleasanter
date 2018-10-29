@@ -19,6 +19,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                 .Template(
                     context: context,
                     ss: ss,
+                    view: null,
                     verType: Versions.VerTypes.Latest,
                     methodType: BaseModel.MethodTypes.NotSet,
                     useBreadcrumb: false,

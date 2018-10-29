@@ -27,10 +27,6 @@
             $('#NotificationTokenEnableList').val()
                 .split(',')
                 .indexOf($('#NotificationType').val()) !== -1);
-        $('#NotificationIsGroupField').toggle(
-            $('#NotificationIsGroupEnableList').val()
-                .split(',')
-                .indexOf($('#NotificationType').val()) !== -1);
     });
     $(document).on('click', '#SummarySettings .grid-row button', function () {
         var $control = $($(this).attr('data-selector'))

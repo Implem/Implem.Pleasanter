@@ -232,7 +232,7 @@
     </Compile>
     <Compile Include="Interfaces\IConvertable.cs" />
     <Compile Include="Interfaces\ISettingListItem.cs" />
-    <Compile Include="Libraries\DataSources\LineBot.cs" />
+    <Compile Include="Libraries\DataSources\Line.cs" />
     <Compile Include="Libraries\Extensions\FormatExtension.cs" />
     <Compile Include="Libraries\Extensions\InitialValueExtensions.cs" />
     <Compile Include="Libraries\Extensions\GridTextExtensions.cs" />
@@ -562,6 +562,7 @@
     <Content Include="App_Data\Parameters\ExtendedScripts\Sample.js.txt" />
     <Content Include="App_Data\Parameters\ExtendedSqls\Sample.json.txt" />
     <Content Include="App_Data\Parameters\ExtendedStyles\Sample.css.txt" />
+    <Content Include="App_Data\Parameters\Session.json" />
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
     <Content Include="Images\loading.gif" />
@@ -1346,9 +1347,8 @@
     <Content Include="App_Data\Displays\RelatingColumnSettings.json" />
     <Content Include="App_Data\Displays\RelatingColumn.json" />
     <Content Include="App_Data\Displays\EditInDialog.json" />
-    <Content Include="App_Data\Displays\LineBot.json" />
+    <Content Include="App_Data\Displays\Line.json" />
     <Content Include="App_Data\Displays\LineGroup.json" />
-    <Content Include="App_Data\Parameters\Session.json" />
     <Content Include="Tools\BackgroundTasks.ps1" />
     <Content Include="Tools\SyncByLdap.ps1" />
     <Content Include="Views\Users\EditApi.cshtml" />

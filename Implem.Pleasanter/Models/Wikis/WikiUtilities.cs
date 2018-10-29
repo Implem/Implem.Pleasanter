@@ -334,6 +334,7 @@ namespace Implem.Pleasanter.Models
                 : hb.Template(
                     context: context,
                     ss: ss,
+                    view: null,
                     verType: wikiModel.VerType,
                     methodType: wikiModel.MethodType,
                     siteId: wikiModel.SiteId,

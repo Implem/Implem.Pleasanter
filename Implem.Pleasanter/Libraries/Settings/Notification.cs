@@ -22,7 +22,6 @@ namespace Implem.Pleasanter.Libraries.Settings
         public string Prefix;
         public string Address;
         public string Token;
-        public bool? IsGroup;
         public List<string> MonitorChangesColumns;
         public int BeforeCondition;
         public int AfterCondition;
@@ -35,7 +34,8 @@ namespace Implem.Pleasanter.Libraries.Settings
             Mail = 1,
             Slack = 2,
             ChatWork = 3,
-            LineBot = 4
+            Line = 4,
+            LineGroup = 5
         }
 
         public enum Expressions : int
@@ -60,7 +60,6 @@ namespace Implem.Pleasanter.Libraries.Settings
             string prefix,
             string address,
             string token,
-            bool? isGroup,
             List<string> monitorChangesColumns,
             int beforeCondition = 0,
             int afterCondition = 0,
@@ -71,7 +70,6 @@ namespace Implem.Pleasanter.Libraries.Settings
             Prefix = prefix;
             Address = address;
             Token = token;
-            IsGroup = isGroup;
             MonitorChangesColumns = monitorChangesColumns;
             BeforeCondition = beforeCondition;
             AfterCondition = afterCondition;
@@ -93,7 +91,6 @@ namespace Implem.Pleasanter.Libraries.Settings
             string prefix,
             string address,
             string token,
-            bool? isGroup,
             List<string> monitorChangesColumns,
             int beforeCondition = 0,
             int afterCondition = 0,
@@ -103,7 +100,6 @@ namespace Implem.Pleasanter.Libraries.Settings
             Prefix = prefix;
             Address = address;
             Token = token;
-            IsGroup = isGroup;
             MonitorChangesColumns = monitorChangesColumns;
             BeforeCondition = beforeCondition;
             AfterCondition = afterCondition;
@@ -155,13 +151,14 @@ namespace Implem.Pleasanter.Libraries.Settings
                                 .Send(Address);
                     }
                     break;
-                case Types.LineBot:
-                    if (Parameters.Notification.LineBot)
+                case Types.Line:
+                case Types.LineGroup:
+                    if (Parameters.Notification.Line)
                     {
-                        new LineBot(context,
+                        new Line(context,
                             "*{0}{1}*\n{2}\n{3}".Params(Prefix, title, url, body),
                             from, Token)
-                                .Send(Address, IsGroup == true);
+                                .Send(Address, Type==Types.LineGroup);
                     }
                     break;
                 default:
@@ -226,10 +223,6 @@ namespace Implem.Pleasanter.Libraries.Settings
             if (!Token.IsNullOrEmpty())
             {
                 notification.Token = Token;
-            }
-            if (IsGroup == true)
-            {
-                notification.IsGroup = IsGroup;
             }
             if (MonitorChangesColumns?.Any() == true)
             {

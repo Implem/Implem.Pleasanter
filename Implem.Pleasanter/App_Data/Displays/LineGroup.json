@@ -3,11 +3,11 @@
     "Type": 110,
     "Languages": [
         {
-            "Body": "Use Group ID"
+            "Body": "LINE Group"
         },
         {
             "Language": "ja",
-            "Body": "グループIDを使用する"
+            "Body": "LINEグループ"
         }
     ]
 }

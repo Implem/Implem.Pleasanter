@@ -45,6 +45,7 @@ namespace Implem.Pleasanter.Models
             return hb.Template(
                 context: context,
                 ss: ss,
+                view: view,
                 verType: Versions.VerTypes.Latest,
                 methodType: BaseModel.MethodTypes.Index,
                 referenceType: "Groups",
@@ -112,6 +113,7 @@ namespace Implem.Pleasanter.Models
             return hb.Template(
                 context: context,
                 ss: ss,
+                view: view,
                 verType: Versions.VerTypes.Latest,
                 methodType: BaseModel.MethodTypes.Index,
                 siteId: ss.SiteId,
@@ -260,7 +262,7 @@ namespace Implem.Pleasanter.Models
                 .ReplaceAll("#CopyDirectUrlToClipboard", new HtmlBuilder()
                     .CopyDirectUrlToClipboard(
                         context: context,
-                        ss: ss))
+                        view: view))
                 .ReplaceAll("#Aggregations", new HtmlBuilder().Aggregations(
                     context: context,
                     ss: ss,
@@ -593,6 +595,7 @@ namespace Implem.Pleasanter.Models
             return hb.Template(
                 context: context,
                 ss: ss,
+                view: null,
                 verType: groupModel.VerType,
                 methodType: groupModel.MethodType,
                 referenceType: "Groups",
