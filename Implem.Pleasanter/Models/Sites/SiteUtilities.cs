@@ -28,7 +28,9 @@ namespace Implem.Pleasanter.Models
             var hb = new HtmlBuilder();
             var view = Views.GetBySession(context: context, ss: ss);
             var gridData = GetGridData(context: context, ss: ss, view: view);
-            var viewMode = ViewModes.GetBySession(ss.SiteId);
+            var viewMode = ViewModes.GetSessionData(
+                context: context,
+                siteId: ss.SiteId);
             return hb.ViewModeTemplate(
                 context: context,
                 ss: ss,
@@ -204,7 +206,9 @@ namespace Implem.Pleasanter.Models
                 .ClearFormData("GridCheckedItems", _using: clearCheck)
                 .CloseDialog()
                 .ReplaceAll("#CopyDirectUrlToClipboard", new HtmlBuilder()
-                    .CopyDirectUrlToClipboard(ss: ss))
+                    .CopyDirectUrlToClipboard(
+                        context: context,
+                        ss: ss))
                 .ReplaceAll("#Aggregations", new HtmlBuilder().Aggregations(
                     context: context,
                     ss: ss,
@@ -293,7 +297,9 @@ namespace Implem.Pleasanter.Models
             var hb = new HtmlBuilder();
             var view = Views.GetBySession(context: context, ss: ss);
             var gridData = GetGridData(context: context, ss: ss, view: view);
-            var viewMode = ViewModes.GetBySession(ss.SiteId);
+            var viewMode = ViewModes.GetSessionData(
+                context: context,
+                siteId: ss.SiteId);
             return hb.ViewModeTemplate(
                 context: context,
                 ss: ss,
@@ -2533,7 +2539,9 @@ namespace Implem.Pleasanter.Models
                             column: Rds.WikisColumn().WikiId(),
                             where: Rds.WikisWhere().SiteId(siteId))));
                 default:
-                    var viewMode = ViewModes.GetBySession(siteId);
+                    var viewMode = ViewModes.GetSessionData(
+                        context: context,
+                        siteId: siteId);
                     switch (viewMode.ToLower())
                     {
                         case "trashbox":

@@ -28,7 +28,9 @@ namespace Implem.Pleasanter.Models
             var hb = new HtmlBuilder();
             var view = Views.GetBySession(context: context, ss: ss);
             var gridData = GetGridData(context: context, ss: ss, view: view);
-            var viewMode = ViewModes.GetBySession(ss.SiteId);
+            var viewMode = ViewModes.GetSessionData(
+                context: context,
+                siteId: ss.SiteId);
             return hb.ViewModeTemplate(
                 context: context,
                 ss: ss,
@@ -204,7 +206,9 @@ namespace Implem.Pleasanter.Models
                 .ClearFormData("GridCheckedItems", _using: clearCheck)
                 .CloseDialog()
                 .ReplaceAll("#CopyDirectUrlToClipboard", new HtmlBuilder()
-                    .CopyDirectUrlToClipboard(ss: ss))
+                    .CopyDirectUrlToClipboard(
+                        context: context,
+                        ss: ss))
                 .ReplaceAll("#Aggregations", new HtmlBuilder().Aggregations(
                     context: context,
                     ss: ss,
@@ -292,7 +296,9 @@ namespace Implem.Pleasanter.Models
             var hb = new HtmlBuilder();
             var view = Views.GetBySession(context: context, ss: ss);
             var gridData = GetGridData(context: context, ss: ss, view: view);
-            var viewMode = ViewModes.GetBySession(ss.SiteId);
+            var viewMode = ViewModes.GetSessionData(
+                context: context,
+                siteId: ss.SiteId);
             return hb.ViewModeTemplate(
                 context: context,
                 ss: ss,
@@ -7186,7 +7192,11 @@ namespace Implem.Pleasanter.Models
                     res
                         .SetMemory("formChanged", false)
                         .Href(Locations.Get(
-                            "Items", ss.SiteId.ToString(), ViewModes.GetBySession(ss.SiteId)));
+                            "Items",
+                            ss.SiteId.ToString(),
+                            ViewModes.GetSessionData(
+                                context: context,
+                                siteId: ss.SiteId)));
                     return res.ToJson();
                 default:
                     return error.MessageJson(context: context);
@@ -8508,7 +8518,9 @@ namespace Implem.Pleasanter.Models
             }
             var view = Views.GetBySession(context: context, ss: ss);
             var gridData = GetGridData(context: context, ss: ss, view: view);
-            var viewMode = ViewModes.GetBySession(ss.SiteId);
+            var viewMode = ViewModes.GetSessionData(
+                context: context,
+                siteId: ss.SiteId);
             var groupByX = ss.GetColumn(
                 context: context,
                 columnName: view.GetCrosstabGroupByX(context: context, ss: ss));
@@ -8566,7 +8578,9 @@ namespace Implem.Pleasanter.Models
             var view = Views.GetBySession(context: context, ss: ss);
             var gridData = GetGridData(
                 context: context, ss: ss, view: view);
-            var viewMode = ViewModes.GetBySession(siteId: ss.SiteId);
+            var viewMode = ViewModes.GetSessionData(
+                context: context,
+                siteId: ss.SiteId);
             var fromColumn = ss.GetColumn(
                 context: context,
                 columnName: view.GetCalendarFromColumn(ss));
@@ -8831,7 +8845,9 @@ namespace Implem.Pleasanter.Models
             var hb = new HtmlBuilder();
             var view = Views.GetBySession(context: context, ss: ss);
             var gridData = GetGridData(context: context, ss: ss, view: view);
-            var viewMode = ViewModes.GetBySession(siteId: ss.SiteId);
+            var viewMode = ViewModes.GetSessionData(
+                context: context,
+                siteId: ss.SiteId);
             var groupByX = ss.GetColumn(
                 context: context,
                 columnName: view.GetCrosstabGroupByX(context: context, ss: ss));
@@ -8915,7 +8931,9 @@ namespace Implem.Pleasanter.Models
             }
             var view = Views.GetBySession(context: context, ss: ss);
             var gridData = GetGridData(context: context, ss: ss, view: view);
-            var viewMode = ViewModes.GetBySession(siteId: ss.SiteId);
+            var viewMode = ViewModes.GetSessionData(
+                context: context,
+                siteId: ss.SiteId);
             var groupByX = ss.GetColumn(
                 context: context,
                 columnName: view.GetCrosstabGroupByX(context: context, ss: ss));
@@ -9155,7 +9173,9 @@ namespace Implem.Pleasanter.Models
             var hb = new HtmlBuilder();
             var view = Views.GetBySession(context: context, ss: ss);
             var gridData = GetGridData(context: context, ss: ss, view: view);
-            var viewMode = ViewModes.GetBySession(ss.SiteId);
+            var viewMode = ViewModes.GetSessionData(
+                context: context,
+                siteId: ss.SiteId);
             var inRange = gridData.Aggregations.TotalCount <=
                 Parameters.General.TimeSeriesLimit;
             if (!inRange)
@@ -9311,7 +9331,9 @@ namespace Implem.Pleasanter.Models
             var hb = new HtmlBuilder();
             var view = Views.GetBySession(context: context, ss: ss);
             var gridData = GetGridData(context: context, ss: ss, view: view);
-            var viewMode = ViewModes.GetBySession(siteId: ss.SiteId);
+            var viewMode = ViewModes.GetSessionData(
+                context: context,
+                siteId: ss.SiteId);
             var inRange = gridData.Aggregations.TotalCount <=
                 Parameters.General.KambanLimit;
             if (!inRange)
@@ -9517,7 +9539,9 @@ namespace Implem.Pleasanter.Models
             var hb = new HtmlBuilder();
             var view = Views.GetBySession(context: context, ss: ss);
             var gridData = GetGridData(context: context, ss: ss, view: view);
-            var viewMode = ViewModes.GetBySession(ss.SiteId);
+            var viewMode = ViewModes.GetSessionData(
+                context: context,
+                siteId: ss.SiteId);
             return hb.ViewModeTemplate(
                 context: context,
                 ss: ss,

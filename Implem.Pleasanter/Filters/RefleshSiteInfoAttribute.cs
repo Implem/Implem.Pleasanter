@@ -7,7 +7,10 @@ namespace Implem.Pleasanter.Filters
     {
         public void OnAuthorization(AuthorizationContext filterContext)
         {
-            SiteInfo.Reflesh(context: new Context());
+            SiteInfo.Reflesh(context: new Context(
+                routeProperties: false,
+                sessionStatus: false,
+                sessionData: false));
         }
     }
 }

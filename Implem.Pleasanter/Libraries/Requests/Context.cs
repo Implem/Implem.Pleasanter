@@ -3,10 +3,12 @@ using Implem.Libraries.Classes;
 using Implem.Libraries.Utilities;
 using Implem.Pleasanter.Libraries.DataSources;
 using Implem.Pleasanter.Libraries.DataTypes;
+using Implem.Pleasanter.Libraries.Responses;
 using Implem.Pleasanter.Libraries.Server;
 using Implem.Pleasanter.Libraries.Settings;
 using Implem.Pleasanter.Models;
 using System;
+using System.Collections.Generic;
 using System.Data;
 using System.Globalization;
 using System.Linq;
@@ -21,6 +23,7 @@ namespace Implem.Pleasanter.Libraries.Requests
         public string SessionGuid;
         public double SessionAge;
         public double SessionRequestInterval;
+        public Dictionary<string, string> SessionData = new Dictionary<string, string>();
         public string Controller;
         public string Action;
         public long Id;
@@ -37,10 +40,18 @@ namespace Implem.Pleasanter.Libraries.Requests
         public UserSettings UserSettings;
         public bool HasPrivilege;
         public ContractSettings ContractSettings = new ContractSettings();
-        
-        public Context()
+
+        public Context(
+            bool routeProperties = true,
+            bool sessionStatus = true,
+            bool sessionData = true,
+            bool user = true)
         {
-            Set();
+            Set(
+                routeProperties: routeProperties,
+                sessionStatus: sessionStatus,
+                sessionData: sessionData,
+                user: user);
         }
 
         public Context(int tenantId, int deptId = 0, int userId = 0)
@@ -53,11 +64,15 @@ namespace Implem.Pleasanter.Libraries.Requests
             SetContractSettings();
         }
 
-        public void Set()
+        public void Set(
+            bool routeProperties = true,
+            bool sessionStatus = true,
+            bool sessionData = true,
+            bool user = true)
         {
-            SetSessionStatuses();
-            SetRouteProperties();
-            if (HttpContext.Current?.Session != null)
+            if (routeProperties) SetRouteProperties();
+            if (sessionStatus) SetSessionStatuses();
+            if (user && HttpContext.Current?.Session != null)
             {
                 var api = Forms.String().Deserialize<Api>();
                 if (api?.ApiKey.IsNullOrEmpty() == false)
@@ -68,7 +83,9 @@ namespace Implem.Pleasanter.Libraries.Requests
                         where: Rds.UsersWhere()
                             .ApiKey(api.ApiKey)
                             .Disabled(0));
-                    Set(userModel);
+                    Set(
+                        userModel: userModel,
+                        sessionData: sessionData);
                 }
                 else if (!LoginId.IsNullOrEmpty())
                 {
@@ -78,12 +95,14 @@ namespace Implem.Pleasanter.Libraries.Requests
                         where: Rds.UsersWhere()
                             .LoginId(LoginId)
                             .Disabled(0));
-                    Set(userModel);
+                    Set(
+                        userModel: userModel,
+                        sessionData: sessionData);
                 }
             }
         }
 
-        private void Set(UserModel userModel)
+        private void Set(UserModel userModel, bool sessionData)
         {
             if (userModel.AccessStatus == Databases.AccessStatuses.Selected)
             {
@@ -101,6 +120,7 @@ namespace Implem.Pleasanter.Libraries.Requests
                 HasPrivilege = Parameters.Security.PrivilegedUsers?.Contains(LoginId) == true;
                 SetTenantCaches();
                 SetContractSettings();
+                if (sessionData) SessionData = SessionUtilities.Get(this);
             }
         }
 
@@ -117,6 +137,16 @@ namespace Implem.Pleasanter.Libraries.Requests
         public CultureInfo CultureInfo()
         {
             return new CultureInfo(Language);
+        }
+
+        public View View(long siteId)
+        {
+            return SessionData.Get("View" + siteId)?.Deserialize<View>();
+        }
+
+        public Message Message()
+        {
+            return SessionData.Get("Message")?.Deserialize<Message>();
         }
 
         private void SetSessionStatuses()
