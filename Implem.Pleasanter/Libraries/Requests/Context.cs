@@ -240,7 +240,7 @@ namespace Implem.Pleasanter.Libraries.Requests
                         .FirstOrDefault();
             ContractSettings = dataRow?.String("ContractSettings").Deserialize<ContractSettings>()
                 ?? new ContractSettings();
-            ContractSettings.Deadline = dataRow?.DateTime("ContractDeadline") ;
+            ContractSettings.Deadline = dataRow?.DateTime("ContractDeadline");
         }
     }
 }
