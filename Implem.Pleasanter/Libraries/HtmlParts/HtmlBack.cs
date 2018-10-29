@@ -98,7 +98,9 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                             : Locations.Get(
                                                 "Items",
                                                 siteId.ToString(),
-                                                Requests.ViewModes.GetBySession(siteId));
+                                                Requests.ViewModes.GetSessionData(
+                                                    context: context,
+                                                    siteId: siteId));
                                 case "trashbox":
                                     return Locations.ItemIndex(siteId);
                                 default:

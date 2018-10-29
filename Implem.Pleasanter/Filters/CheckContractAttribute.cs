@@ -8,7 +8,10 @@ namespace Implem.Pleasanter.Filters
     {
         public void OnAuthorization(AuthorizationContext filterContext)
         {
-            var context = new Context();
+            var context = new Context(
+                routeProperties: false,
+                sessionStatus: false,
+                sessionData: false);
             if (context.Authenticated
                 && !context.ContractSettings.AllowedIpAddress(context.UserHostAddress))
             {

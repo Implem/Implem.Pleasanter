@@ -26,7 +26,9 @@ namespace Implem.Pleasanter.Libraries.Responses
                 .ReplaceAll("#Breadcrumb", new HtmlBuilder()
                     .Breadcrumb(context: context, ss: ss))
                 .ReplaceAll("#CopyDirectUrlToClipboard", new HtmlBuilder()
-                    .CopyDirectUrlToClipboard(ss: ss))
+                    .CopyDirectUrlToClipboard(
+                        context: context,
+                        ss: ss))
                 .ReplaceAll("#Aggregations", new HtmlBuilder()
                     .Aggregations(
                         context: context,

@@ -5778,13 +5778,13 @@ namespace Implem.Pleasanter.Libraries.Responses
                 data: data);
         }
 
-        public static string Sessions_Type(
+        public static string Sessions_Key(
             Context context,
             params string[] data)
         {
             return Get(
                 context: context,
-                id: "Sessions_Type",
+                id: "Sessions_Key",
                 data: data);
         }
 
@@ -5795,6 +5795,16 @@ namespace Implem.Pleasanter.Libraries.Responses
             return Get(
                 context: context,
                 id: "Sessions_Value",
+                data: data);
+        }
+
+        public static string Sessions_ReadOnce(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "Sessions_ReadOnce",
                 data: data);
         }
 

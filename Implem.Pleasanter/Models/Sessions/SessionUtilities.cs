@@ -26,48 +26,45 @@ namespace Implem.Pleasanter.Models
         /// <summary>
         /// Fixed:
         /// </summary>
-        public enum Types : int
+        public static Dictionary<string, string> Get(Context context)
         {
-            Messages
-        }
-
-        /// <summary>
-        /// Fixed:
-        /// </summary>
-        public static string Get(Context context, Types type, bool remove = false)
-        {
-            var where = Rds.SessionsWhere()
-                .SessionGuid(context.SessionGuid)
-                .Type(type);
-            var statements = new List<SqlStatement>()
-            {
-                Rds.SelectSessions(
-                    column: Rds.SessionsColumn().Value(),
-                    where: where)
-            };
-            if (remove)
-            {
-                statements.Add(Rds.PhysicalDeleteSessions(where: where));
-            }
-            return Rds.ExecuteScalar_string(
+            return Rds.ExecuteTable(
                 context: context,
-                statements: statements.ToArray());
+                statements: new SqlStatement[]
+                {
+                    Rds.SelectSessions(
+                        column: Rds.SessionsColumn()
+                            .Key()
+                            .Value(),
+                        where: Rds.SessionsWhere()
+                            .SessionGuid(context.SessionGuid)),
+                    Rds.PhysicalDeleteSessions(
+                        where: Rds.SessionsWhere()
+                            .SessionGuid(context.SessionGuid)
+                            .ReadOnce(1))
+                })
+                    .AsEnumerable()
+                    .ToDictionary(
+                        dataRow => dataRow.String("Key"),
+                        dataRow => dataRow.String("Value"));
         }
 
         /// <summary>
         /// Fixed:
         /// </summary>
-        public static void Set(Context context, Types type, string value)
+        public static void Set(Context context, string key, string value, bool readOnce = false)
         {
             Rds.ExecuteNonQuery(
                 context: context,
                 statements: Rds.UpdateOrInsertSessions(
                     param: Rds.SessionsParam()
                         .SessionGuid(context.SessionGuid)
-                        .Type(type)
-                        .Value(value),
+                        .Key(key)
+                        .Value(value)
+                        .ReadOnce(readOnce),
                     where: Rds.SessionsWhere()
-                        .SessionGuid(context.SessionGuid)));
+                        .SessionGuid(context.SessionGuid)
+                        .Key(key)));
         }
 
         /// <summary>
@@ -77,8 +74,9 @@ namespace Implem.Pleasanter.Models
         {
             Set(
                 context: context,
-                type: Types.Messages,
-                value: message.ToJson());
+                key: "Message",
+                value: message.ToJson(),
+                readOnce: true);
         }
     }
 }

@@ -131,10 +131,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                             text: title);
                     }
                     action?.Invoke();
-                    hb.Message(message: SessionUtilities.Get(
-                        context: context,
-                        type: SessionUtilities.Types.Messages,
-                        remove: true).Deserialize<Message>());
+                    hb.Message(message: context.Message());
                 }
                 else
                 {

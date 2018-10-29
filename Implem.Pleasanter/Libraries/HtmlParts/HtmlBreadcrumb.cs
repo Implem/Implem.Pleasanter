@@ -75,8 +75,12 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     }
                 case "items":
                     return hb
-                        .CopyDirectUrlToClipboard(ss: ss)
-                        .Breadcrumb(context: context, ss: ss);
+                        .CopyDirectUrlToClipboard(
+                            context: context,
+                            ss: ss)
+                        .Breadcrumb(
+                            context: context,
+                            ss: ss);
                 case "permissions":
                     return hb.Breadcrumb(context: context, ss: ss);
                 default:
@@ -156,10 +160,11 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             }
         }
 
-        public static HtmlBuilder CopyDirectUrlToClipboard(this HtmlBuilder hb, SiteSettings ss)
+        public static HtmlBuilder CopyDirectUrlToClipboard(
+            this HtmlBuilder hb, Context context, SiteSettings ss)
         {
             var queryString = HttpUtility.ParseQueryString(HttpContext.Current.Request.Url.Query);
-            var view = (HttpContext.Current.Session["View" + ss.SiteId] as View)?.ToJson();
+            var view = context.View(ss.SiteId).ToJson();
             if (!view.IsNullOrEmpty())
             {
                 queryString["View"] = view;
