@@ -7286,8 +7286,12 @@ namespace Implem.Pleasanter.Models
                 issueModel.Comments.Clear();
             }
             ss.Columns
-                .Where(column => column.CopyByDefault == true)
-                .ForEach(column => issueModel.SetDefault(context: context, ss: ss, column: column));
+                .Where(column => column.CopyByDefault == true
+                    || column.TypeCs == "Attachments")
+                .ForEach(column => issueModel.SetDefault(
+                    context: context,
+                    ss: ss,
+                    column: column));
             var error = issueModel.Create(
                 context, ss, forceSynchronizeSourceSummary: true, otherInitValue: true);
             switch (error)
