@@ -7291,6 +7291,84 @@ namespace Implem.Pleasanter.Models
                 case "Timestamp":
                     Timestamp = column.GetDefaultInput(context: context).ToString();
                     break;
+                case "AttachmentsA":
+                    AttachmentsA = new Attachments();
+                    break;
+                case "AttachmentsB":
+                    AttachmentsB = new Attachments();
+                    break;
+                case "AttachmentsC":
+                    AttachmentsC = new Attachments();
+                    break;
+                case "AttachmentsD":
+                    AttachmentsD = new Attachments();
+                    break;
+                case "AttachmentsE":
+                    AttachmentsE = new Attachments();
+                    break;
+                case "AttachmentsF":
+                    AttachmentsF = new Attachments();
+                    break;
+                case "AttachmentsG":
+                    AttachmentsG = new Attachments();
+                    break;
+                case "AttachmentsH":
+                    AttachmentsH = new Attachments();
+                    break;
+                case "AttachmentsI":
+                    AttachmentsI = new Attachments();
+                    break;
+                case "AttachmentsJ":
+                    AttachmentsJ = new Attachments();
+                    break;
+                case "AttachmentsK":
+                    AttachmentsK = new Attachments();
+                    break;
+                case "AttachmentsL":
+                    AttachmentsL = new Attachments();
+                    break;
+                case "AttachmentsM":
+                    AttachmentsM = new Attachments();
+                    break;
+                case "AttachmentsN":
+                    AttachmentsN = new Attachments();
+                    break;
+                case "AttachmentsO":
+                    AttachmentsO = new Attachments();
+                    break;
+                case "AttachmentsP":
+                    AttachmentsP = new Attachments();
+                    break;
+                case "AttachmentsQ":
+                    AttachmentsQ = new Attachments();
+                    break;
+                case "AttachmentsR":
+                    AttachmentsR = new Attachments();
+                    break;
+                case "AttachmentsS":
+                    AttachmentsS = new Attachments();
+                    break;
+                case "AttachmentsT":
+                    AttachmentsT = new Attachments();
+                    break;
+                case "AttachmentsU":
+                    AttachmentsU = new Attachments();
+                    break;
+                case "AttachmentsV":
+                    AttachmentsV = new Attachments();
+                    break;
+                case "AttachmentsW":
+                    AttachmentsW = new Attachments();
+                    break;
+                case "AttachmentsX":
+                    AttachmentsX = new Attachments();
+                    break;
+                case "AttachmentsY":
+                    AttachmentsY = new Attachments();
+                    break;
+                case "AttachmentsZ":
+                    AttachmentsZ = new Attachments();
+                    break;
                 case "DateA":
                     DateA = column.DefaultTime();
                     break;

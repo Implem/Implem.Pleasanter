@@ -4011,7 +4011,8 @@ namespace Implem.Pleasanter.Models
                             .FieldCheckBox(
                                 controlId: "CopyByDefault",
                                 labelText: Displays.CopyByDefault(context: context),
-                                _checked: column.CopyByDefault == true)
+                                _checked: column.CopyByDefault == true,
+                                _using: column.TypeCs != "Attachments")
                             .FieldCheckBox(
                                 controlId: "EditorReadOnly",
                                 labelText: Displays.ReadOnly(context: context),
