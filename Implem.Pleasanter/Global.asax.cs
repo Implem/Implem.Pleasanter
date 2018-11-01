@@ -22,10 +22,10 @@ namespace Implem.Pleasanter
     {
         protected void Application_Start()
         {
-            Context context = ApplicationStartContext();
             Application["StartTime"] = DateTime.Now;
             Application["LastAccessTime"] = Application["StartTime"];
             Initialize();
+            Context context = ApplicationStartContext();
             var log = new SysLogModel(context: context);
             UsersInitializer.Initialize(context: context);
             ItemsInitializer.Initialize(context: context);
@@ -39,7 +39,7 @@ namespace Implem.Pleasanter
 
         private static Context ApplicationStartContext()
         {
-            return new Context()
+            return new Context(tenantId: 0)
             {
                 Controller = "Global.asax",
                 Action = "Application_Start",
