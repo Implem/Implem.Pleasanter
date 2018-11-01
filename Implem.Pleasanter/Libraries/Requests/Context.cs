@@ -59,7 +59,9 @@ namespace Implem.Pleasanter.Libraries.Requests
             TenantId = tenantId;
             DeptId = deptId;
             UserId = userId;
-            UserHostAddress = HttpContext.Current.Request?.UserHostAddress;
+            UserHostAddress = HasRoute()
+                ? HttpContext.Current?.Request?.UserHostAddress
+                : null;
             SetTenantCaches();
             SetContractSettings();
         }
@@ -113,7 +115,7 @@ namespace Implem.Pleasanter.Libraries.Requests
                 Dept = SiteInfo.Dept(tenantId: TenantId, deptId: DeptId);
                 User = SiteInfo.User(context: this, userId: UserId);
                 Language = userModel.Language;
-                UserHostAddress = HttpContext.Current.Request?.UserHostAddress;
+                UserHostAddress = HttpContext.Current?.Request?.UserHostAddress;
                 Developer = userModel.Developer;
                 TimeZoneInfo = userModel.TimeZoneInfo;
                 UserSettings = userModel.UserSettings;
@@ -157,7 +159,7 @@ namespace Implem.Pleasanter.Libraries.Requests
 
         private static string GetSessionGuid()
         {
-            return HttpContext.Current.Session?["SessionGuid"]?.ToString();
+            return HttpContext.Current?.Session?["SessionGuid"]?.ToString();
         }
 
         private static double GetSessionAge()
