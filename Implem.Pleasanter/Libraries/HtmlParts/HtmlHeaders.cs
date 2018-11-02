@@ -21,6 +21,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             bool useNavigationMenu,
             bool useSearch)
         {
+            var title = Title(context: context);
             return hb.Header(id: "Header", action: () => hb
                 .H(number: 2, id: "Logo", action: () => hb
                     .A(
@@ -28,9 +29,9 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                         action: () => hb
                             .Img(
                                 id: "CorpLogo",
-                                src: Locations.Images("logo-corp.png"))
+                                src: Locations.Images(title.IsNullOrEmpty() ? "logo-corp-with-title.png" : "logo-corp.png"))
                             .Span(id: "ProductLogo", action: () => hb
-                                .Text(text: Title(context: context)))))
+                                .Text(text: title))))
                 .NavigationMenu(
                     context: context,
                     ss: ss,
@@ -52,12 +53,13 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                         where: Rds.TenantsWhere().TenantId(context.TenantId)));
                 return !title.IsNullOrEmpty()
                     ? title
-                    : Displays.ProductName(context: context);
+                    : (Parameters.General.DisplayLogoText)? Displays.ProductName(context: context) : string.Empty;
             }
             else
             {
-                return Displays.ProductName(context: context);
+                return (Parameters.General.DisplayLogoText) ? Displays.ProductName(context: context) : string.Empty;
             }
         }
+        
     }
 }
