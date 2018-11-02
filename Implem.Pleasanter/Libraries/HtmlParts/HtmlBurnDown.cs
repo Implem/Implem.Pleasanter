@@ -62,7 +62,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                         .Sum())
                     .Distinct()
                     .ToList();
-                hb.Table(id: "BurnDownDetails", css: "grid", action: () => hb
+                hb.Table(id: "BurnDownDetails", css: "grid not-link", action: () => hb
                     .THead(action: () => hb.DetailsHeader(
                         context: context,
                         burnDown: burnDown,
@@ -170,7 +170,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
         {
             return hb.Tr(
                 attributes: new HtmlAttributes()
-                    .Class("grid-row not-link")
+                    .Class("grid-row")
                     .Add("data-date", currentTime.ToShortDateString())
                     .DataAction("BurnDownRecordDetails")
                     .DataMethod("post"),
@@ -239,7 +239,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
         {
             return hb.Tr(
                 attributes: new HtmlAttributes()
-                    .Class("grid-row not-link items"),
+                    .Class("grid-row items"),
                 action: () => hb
                     .Td(attributes: new HtmlAttributes().Colspan(colspan),
                         action: () => elements
