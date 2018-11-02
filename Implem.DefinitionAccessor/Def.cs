@@ -388,6 +388,7 @@ namespace Implem.DefinitionAccessor
                     case "Model_IfDuplicatedStatements_ColumnCases": Code.Model_IfDuplicatedStatements_ColumnCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_IfDuplicatedStatements_ColumnCases, definitionRow, CodeXls); break;
                     case "Model_SetDefault": Code.Model_SetDefault = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_SetDefault, definitionRow, CodeXls); break;
                     case "Model_SetDefault_ColumnCases": Code.Model_SetDefault_ColumnCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_SetDefault_ColumnCases, definitionRow, CodeXls); break;
+                    case "Model_SetDefault_AttachmentsColumnCases": Code.Model_SetDefault_AttachmentsColumnCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_SetDefault_AttachmentsColumnCases, definitionRow, CodeXls); break;
                     case "Model_SetDefault_DateTimeColumnCases": Code.Model_SetDefault_DateTimeColumnCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_SetDefault_DateTimeColumnCases, definitionRow, CodeXls); break;
                     case "Model_SetDefault_CompletionTimeColumnCases": Code.Model_SetDefault_CompletionTimeColumnCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_SetDefault_CompletionTimeColumnCases, definitionRow, CodeXls); break;
                     case "Model_SetByForm": Code.Model_SetByForm = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_SetByForm, definitionRow, CodeXls); break;
@@ -2997,6 +2998,7 @@ namespace Implem.DefinitionAccessor
                     case "_sharp_BurnDown_space__dot_total_space_circle": Css._sharp_BurnDown_space__dot_total_space_circle = definitionRow[1].ToString(); SetCssTable(CssTable._sharp_BurnDown_space__dot_total_space_circle, definitionRow, CssXls); break;
                     case "_sharp_BurnDown_space__dot_planned_space_circle": Css._sharp_BurnDown_space__dot_planned_space_circle = definitionRow[1].ToString(); SetCssTable(CssTable._sharp_BurnDown_space__dot_planned_space_circle, definitionRow, CssXls); break;
                     case "_sharp_BurnDown_space__dot_earned_space_circle": Css._sharp_BurnDown_space__dot_earned_space_circle = definitionRow[1].ToString(); SetCssTable(CssTable._sharp_BurnDown_space__dot_earned_space_circle, definitionRow, CssXls); break;
+                    case "_sharp_BurnDownDetails_space___space_tbody_space___space_tr_colon_hover": Css._sharp_BurnDownDetails_space___space_tbody_space___space_tr_colon_hover = definitionRow[1].ToString(); SetCssTable(CssTable._sharp_BurnDownDetails_space___space_tbody_space___space_tr_colon_hover, definitionRow, CssXls); break;
                     case "_sharp_BurnDownDetails_space___space_tbody_space___space_tr_space___space_td": Css._sharp_BurnDownDetails_space___space_tbody_space___space_tr_space___space_td = definitionRow[1].ToString(); SetCssTable(CssTable._sharp_BurnDownDetails_space___space_tbody_space___space_tr_space___space_td, definitionRow, CssXls); break;
                     case "_sharp_BurnDownDetails_space___space_tbody_space___space_tr_space___space_td_dot_warning": Css._sharp_BurnDownDetails_space___space_tbody_space___space_tr_space___space_td_dot_warning = definitionRow[1].ToString(); SetCssTable(CssTable._sharp_BurnDownDetails_space___space_tbody_space___space_tr_space___space_td_dot_warning, definitionRow, CssXls); break;
                     case "_sharp_BurnDownDetails_space___space_tbody_space___space_tr_space___space_td_dot_difference": Css._sharp_BurnDownDetails_space___space_tbody_space___space_tr_space___space_td_dot_difference = definitionRow[1].ToString(); SetCssTable(CssTable._sharp_BurnDownDetails_space___space_tbody_space___space_tr_space___space_td_dot_difference, definitionRow, CssXls); break;
@@ -6627,6 +6629,7 @@ namespace Implem.DefinitionAccessor
         public string Model_IfDuplicatedStatements_ColumnCases;
         public string Model_SetDefault;
         public string Model_SetDefault_ColumnCases;
+        public string Model_SetDefault_AttachmentsColumnCases;
         public string Model_SetDefault_DateTimeColumnCases;
         public string Model_SetDefault_CompletionTimeColumnCases;
         public string Model_SetByForm;
@@ -7183,6 +7186,7 @@ namespace Implem.DefinitionAccessor
         public CodeDefinition Model_IfDuplicatedStatements_ColumnCases = new CodeDefinition();
         public CodeDefinition Model_SetDefault = new CodeDefinition();
         public CodeDefinition Model_SetDefault_ColumnCases = new CodeDefinition();
+        public CodeDefinition Model_SetDefault_AttachmentsColumnCases = new CodeDefinition();
         public CodeDefinition Model_SetDefault_DateTimeColumnCases = new CodeDefinition();
         public CodeDefinition Model_SetDefault_CompletionTimeColumnCases = new CodeDefinition();
         public CodeDefinition Model_SetByForm = new CodeDefinition();
@@ -10229,6 +10233,7 @@ namespace Implem.DefinitionAccessor
         public string _sharp_BurnDown_space__dot_total_space_circle;
         public string _sharp_BurnDown_space__dot_planned_space_circle;
         public string _sharp_BurnDown_space__dot_earned_space_circle;
+        public string _sharp_BurnDownDetails_space___space_tbody_space___space_tr_colon_hover;
         public string _sharp_BurnDownDetails_space___space_tbody_space___space_tr_space___space_td;
         public string _sharp_BurnDownDetails_space___space_tbody_space___space_tr_space___space_td_dot_warning;
         public string _sharp_BurnDownDetails_space___space_tbody_space___space_tr_space___space_td_dot_difference;
@@ -10716,6 +10721,7 @@ namespace Implem.DefinitionAccessor
         public CssDefinition _sharp_BurnDown_space__dot_total_space_circle = new CssDefinition();
         public CssDefinition _sharp_BurnDown_space__dot_planned_space_circle = new CssDefinition();
         public CssDefinition _sharp_BurnDown_space__dot_earned_space_circle = new CssDefinition();
+        public CssDefinition _sharp_BurnDownDetails_space___space_tbody_space___space_tr_colon_hover = new CssDefinition();
         public CssDefinition _sharp_BurnDownDetails_space___space_tbody_space___space_tr_space___space_td = new CssDefinition();
         public CssDefinition _sharp_BurnDownDetails_space___space_tbody_space___space_tr_space___space_td_dot_warning = new CssDefinition();
         public CssDefinition _sharp_BurnDownDetails_space___space_tbody_space___space_tr_space___space_td_dot_difference = new CssDefinition();
