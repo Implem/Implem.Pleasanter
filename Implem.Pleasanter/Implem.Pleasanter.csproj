@@ -566,6 +566,7 @@
     <Content Include="App_Data\Parameters\ExtendedStyles\Sample.css.txt" />
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
+    <Content Include="Images\logo-version.png" />
     <Content Include="Images\loading.gif" />
     <Content Include="Images\logo-corp-with-title.png" />
     <Content Include="Images\logo-corp.png" />
