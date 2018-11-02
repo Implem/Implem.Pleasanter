@@ -233,6 +233,7 @@
     <Compile Include="Interfaces\IConvertable.cs" />
     <Compile Include="Interfaces\ISettingListItem.cs" />
     <Compile Include="Libraries\DataSources\Line.cs" />
+    <Compile Include="Libraries\DataSources\Teams.cs" />
     <Compile Include="Libraries\Extensions\FormatExtension.cs" />
     <Compile Include="Libraries\Extensions\InitialValueExtensions.cs" />
     <Compile Include="Libraries\Extensions\GridTextExtensions.cs" />
@@ -559,12 +560,14 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Content Include="App_Data\Displays\ManageSite.json" />
     <Content Include="App_Data\Displays\Read.json" />
+    <Content Include="App_Data\Displays\Teams.json" />
     <Content Include="App_Data\Parameters\ExtendedScripts\Sample.js.txt" />
     <Content Include="App_Data\Parameters\ExtendedSqls\Sample.json.txt" />
     <Content Include="App_Data\Parameters\ExtendedStyles\Sample.css.txt" />
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
     <Content Include="Images\loading.gif" />
+    <Content Include="Images\logo-corp-with-title.png" />
     <Content Include="Images\logo-corp.png" />
     <Content Include="Scripts\AggregationEvents.js" />
     <Content Include="Scripts\AnchorEvents.js" />
@@ -1349,6 +1352,7 @@
     <Content Include="App_Data\Displays\Line.json" />
     <Content Include="App_Data\Displays\LineGroup.json" />
     <Content Include="App_Data\Parameters\Session.json" />
+    <Content Include="App_Data\Displays\UserDisabled.json" />
     <Content Include="Tools\BackgroundTasks.ps1" />
     <Content Include="Tools\SyncByLdap.ps1" />
     <Content Include="Views\Users\EditApi.cshtml" />

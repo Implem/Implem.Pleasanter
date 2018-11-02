@@ -12,6 +12,7 @@
   "HtmlBlogUrl": "https://implem.co.jp/category/blog/",
   "HtmlSupportUrl": "https://implem.co.jp/service/",
   "HtmlContactUrl": "https://implem.co.jp/contact/",
+  "DisplayLogoText": false,
   "SiteMenuHotSpan": 30,
   "SiteCreatedSimultaneously": 5,
   "LimitWarning1": 86400,
