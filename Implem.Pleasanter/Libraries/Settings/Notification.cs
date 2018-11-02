@@ -35,7 +35,8 @@ namespace Implem.Pleasanter.Libraries.Settings
             Slack = 2,
             ChatWork = 3,
             Line = 4,
-            LineGroup = 5
+            LineGroup = 5,
+            Teams = 6
         }
 
         public enum Expressions : int
@@ -159,6 +160,14 @@ namespace Implem.Pleasanter.Libraries.Settings
                             "*{0}{1}*\n{2}\n{3}".Params(Prefix, title, url, body),
                             from, Token)
                                 .Send(Address, Type==Types.LineGroup);
+                    }
+                    break;
+                case Types.Teams:
+                    if (Parameters.Notification.Teams)
+                    {
+                        new Teams(context,
+                            "*{0}{1}*\n{2}\n{3}".Params(Prefix, title, url, body))
+                                .Send(Address);
                     }
                     break;
                 default:

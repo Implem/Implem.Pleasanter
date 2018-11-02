@@ -4848,6 +4848,16 @@ namespace Implem.Pleasanter.Libraries.Responses
                 data: data);
         }
 
+        public static string Teams(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "Teams",
+                data: data);
+        }
+
         public static string Template(
             Context context,
             params string[] data)

@@ -39,7 +39,13 @@ namespace Implem.Pleasanter.Libraries.Settings
                     Notification.Types.LineGroup.ToInt().ToString(),
                     Displays.LineGroup(context: context));
             }
-            
+            if (Parameters.Notification.Teams)
+            {
+                notificationType.Add(
+                    Notification.Types.Teams.ToInt().ToString(),
+                    Displays.Teams(context: context));
+            }
+
             return notificationType;
         }
 
