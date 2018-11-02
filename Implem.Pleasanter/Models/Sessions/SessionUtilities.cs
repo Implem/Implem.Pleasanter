@@ -38,7 +38,7 @@ namespace Implem.Pleasanter.Models
                             .Value(),
                         where: Rds.SessionsWhere()
                             .SessionGuid(context.SessionGuid)
-                            .ReadOneByOne(1, _operator: "<>")),
+                            .ReadOneByOne(_operator: " is null")),
                     Rds.PhysicalDeleteSessions(
                         where: Rds.SessionsWhere()
                             .SessionGuid(context.SessionGuid)
@@ -79,6 +79,14 @@ namespace Implem.Pleasanter.Models
             bool readOnce = false,
             bool readOneByOne = false)
         {
+            if (context.SessionData.ContainsKey(key))
+            {
+                context.SessionData[key] = value;
+            }
+            else
+            {
+                context.SessionData.Add(key, value);
+            }
             Rds.ExecuteNonQuery(
                 context: context,
                 statements: Rds.UpdateOrInsertSessions(
