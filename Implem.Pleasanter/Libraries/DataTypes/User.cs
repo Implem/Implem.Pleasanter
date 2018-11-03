@@ -10,6 +10,7 @@ using Implem.Pleasanter.Libraries.Settings;
 using System;
 using System.Data;
 using Implem.Pleasanter.Libraries.Requests;
+using Implem.Pleasanter.Libraries.Security;
 namespace Implem.Pleasanter.Libraries.DataTypes
 {
     [Serializable]
@@ -83,7 +84,8 @@ namespace Implem.Pleasanter.Libraries.DataTypes
             DeptId = dataRow.Int("DeptId");
             LoginId = dataRow.String("LoginId");
             Name = dataRow.String("Name");
-            TenantManager = dataRow.Bool("TenantManager") || context.HasPrivilege;
+            TenantManager = dataRow.Bool("TenantManager")
+                || Permissions.PrivilegedUsers(loginId: dataRow.String("LoginId"));
             ServiceManager = dataRow.Bool("ServiceManager");
             Disabled = dataRow.Bool("Disabled");
         }
