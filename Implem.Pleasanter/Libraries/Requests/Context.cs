@@ -4,6 +4,7 @@ using Implem.Libraries.Utilities;
 using Implem.Pleasanter.Libraries.DataSources;
 using Implem.Pleasanter.Libraries.DataTypes;
 using Implem.Pleasanter.Libraries.Responses;
+using Implem.Pleasanter.Libraries.Security;
 using Implem.Pleasanter.Libraries.Server;
 using Implem.Pleasanter.Libraries.Settings;
 using Implem.Pleasanter.Models;
@@ -119,7 +120,7 @@ namespace Implem.Pleasanter.Libraries.Requests
                 Developer = userModel.Developer;
                 TimeZoneInfo = userModel.TimeZoneInfo;
                 UserSettings = userModel.UserSettings;
-                HasPrivilege = Parameters.Security.PrivilegedUsers?.Contains(LoginId) == true;
+                HasPrivilege = Permissions.PrivilegedUsers(loginId: userModel.LoginId);
                 SetTenantCaches();
                 SetContractSettings();
                 if (sessionData) SessionData = SessionUtilities.Get(this);

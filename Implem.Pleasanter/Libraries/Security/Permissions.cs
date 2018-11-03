@@ -528,5 +528,10 @@ namespace Implem.Pleasanter.Libraries.Security
             if (context.User?.ServiceManager == true) type |= Types.ManageService;
             return type;
         }
+
+        public static bool PrivilegedUsers(string loginId)
+        {
+            return Parameters.Security.PrivilegedUsers?.Contains(loginId) == true;
+        }
     }
 }
