@@ -3745,6 +3745,7 @@ namespace Implem.Pleasanter.Models
                             _using: !Request.IsAjax()))
                 .OutgoingMailsForm(
                     context: context,
+                    ss: ss,
                     referenceType: "Issues",
                     referenceId: issueModel.IssueId,
                     referenceVer: issueModel.Ver)

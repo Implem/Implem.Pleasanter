@@ -3010,7 +3010,8 @@ namespace Implem.Pleasanter.Models
                         .Hidden(controlId: "Id", value: siteModel.SiteId.ToString()))
                 .OutgoingMailsForm(
                     context: context,
-                    referenceType: "items",
+                    ss: ss,
+                    referenceType: "Sites",
                     referenceId: siteModel.SiteId,
                     referenceVer: siteModel.Ver)
                 .CopyDialog(

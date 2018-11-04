@@ -695,6 +695,7 @@ namespace Implem.Pleasanter.Models
                             _using: !Request.IsAjax()))
                 .OutgoingMailsForm(
                     context: context,
+                    ss: ss,
                     referenceType: "Groups",
                     referenceId: groupModel.GroupId,
                     referenceVer: groupModel.Ver)
