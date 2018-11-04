@@ -2161,8 +2161,6 @@ namespace Implem.Pleasanter.Models
                                 .OrderBy(v => v.OrderNo)
                                 .Select(v => v.Views)
                                 .ToList();
-                        SiteSettingsUtilities.Get(
-                            context: context, siteModel: this, referenceId: SiteId);
                         OpenViewDialog(context: context, res: res, view: view);
                     }
                 }
@@ -2186,17 +2184,20 @@ namespace Implem.Pleasanter.Models
         /// </summary>
         private void AddViewFilter(Context context, ResponseCollection res)
         {
-            SiteSettingsUtilities.Get(context: context, siteModel: this, referenceId: SiteId);
-            res
-                .Append(
-                    "#ViewFiltersTab .items",
-                    new HtmlBuilder().ViewFilter(
-                        context: context,
-                        ss: SiteSettings,
-                        column: SiteSettings.GetColumn(
+            var column = SiteSettings.GetColumn(
+                context: context,
+                columnName: Forms.Data("ViewFilterSelector"));
+            if (column != null)
+            {
+                res
+                    .Append(
+                        "#ViewFiltersTab .items",
+                        new HtmlBuilder().ViewFilter(
                             context: context,
-                            columnName: Forms.Data("ViewFilterSelector"))))
-                .Remove("#ViewFilterSelector option:selected");
+                            ss: SiteSettings,
+                            column: column))
+                    .Remove("#ViewFilterSelector option:selected");
+            }
         }
 
         /// <summary>

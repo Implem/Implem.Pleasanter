@@ -147,6 +147,8 @@ namespace Implem.Pleasanter.Libraries.Settings
         public bool Joined;
         [NonSerialized]
         public bool Linking;
+        [NonSerialized]
+        public bool LinkedChoiceHashCreated;
         // compatibility
         public bool? GridVisible;
         public bool? FilterVisible;
@@ -172,6 +174,18 @@ namespace Implem.Pleasanter.Libraries.Settings
         public Column(string columnName)
         {
             ColumnName = columnName;
+        }
+
+        public void SetChoiceHash(Context context, bool searchOnly = false, bool noLimit = true)
+        {
+            SetChoiceHash(
+                context: context,
+                siteId: SiteSettings.SiteId,
+                linkHash: SiteSettings.LinkHash(
+                    context: context,
+                    columnName: Name,
+                    searchOnly: searchOnly,
+                    noLimit: noLimit));
         }
 
         public void SetChoiceHash(
@@ -263,6 +277,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                         {
                             linkHash[line].ForEach(value =>
                                 AddToChoiceHash(value));
+                            LinkedChoiceHashCreated = true;
                         }
                     }
                     else if (TypeName != "bit")
@@ -320,6 +335,10 @@ namespace Implem.Pleasanter.Libraries.Settings
                     ? "0"
                     : string.Empty;
             if (!HasChoices()) return hash;
+            if (!LinkedChoiceHashCreated)
+            {
+                SetChoiceHash(context: context);
+            }
             if (addNotSet && !Required)
             {
                 hash.Add("\t", new ControlData(Displays.NotSet(context: context)));
