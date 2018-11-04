@@ -298,6 +298,16 @@ namespace Implem.Pleasanter.Libraries.Responses
                 data: data);
         }
 
+        public static string Attachments(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "Attachments",
+                data: data);
+        }
+
         public static string Authentication(
             Context context,
             params string[] data)
@@ -648,6 +658,16 @@ namespace Implem.Pleasanter.Libraries.Responses
                 data: data);
         }
 
+        public static string Check(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "Check",
+                data: data);
+        }
+
         public static string CheckAll(
             Context context,
             params string[] data)
@@ -655,6 +675,16 @@ namespace Implem.Pleasanter.Libraries.Responses
             return Get(
                 context: context,
                 id: "CheckAll",
+                data: data);
+        }
+
+        public static string Class(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "Class",
                 data: data);
         }
 
@@ -3435,6 +3465,16 @@ namespace Implem.Pleasanter.Libraries.Responses
             return Get(
                 context: context,
                 id: "NoWrap",
+                data: data);
+        }
+
+        public static string Num(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "Num",
                 data: data);
         }
 

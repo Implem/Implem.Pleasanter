@@ -34,7 +34,7 @@ namespace Implem.Pleasanter.Libraries.Requests
         public string LoginId = HttpContext.Current?.User?.Identity.Name;
         public Dept Dept;
         public User User;
-        public string Language = Parameters.Service?.DefaultLanguage;
+        public string Language = Parameters.Service.DefaultLanguage;
         public string UserHostAddress;
         public bool Developer;
         public TimeZoneInfo TimeZoneInfo;
@@ -55,11 +55,12 @@ namespace Implem.Pleasanter.Libraries.Requests
                 user: user);
         }
 
-        public Context(int tenantId, int deptId = 0, int userId = 0)
+        public Context(int tenantId, int deptId = 0, int userId = 0, string language = null)
         {
             TenantId = tenantId;
             DeptId = deptId;
             UserId = userId;
+            Language = language ?? Language;
             UserHostAddress = HasRoute()
                 ? HttpContext.Current?.Request?.UserHostAddress
                 : null;
@@ -101,6 +102,10 @@ namespace Implem.Pleasanter.Libraries.Requests
                     Set(
                         userModel: userModel,
                         sessionData: sessionData);
+                }
+                else
+                {
+                    if (sessionStatus) Language = SessionLanguage();
                 }
             }
         }
@@ -203,6 +208,30 @@ namespace Implem.Pleasanter.Libraries.Requests
             return HasRoute()
                 ? Url.RouteData("id").ToLong()
                 : 0;
+        }
+
+        private string SessionLanguage()
+        {
+            var types = Def.ColumnTable.Users_Language.ChoicesText
+                .SplitReturn()
+                .Select(o => o.Split_1st())
+                .ToList();
+            var language = string.Empty;
+            if (HasRoute())
+            {
+                language = QueryStrings.Data("Language");
+                if (!language.IsNullOrEmpty())
+                {
+                    SessionUtilities.Set(
+                        context: this,
+                        key: "Language",
+                        value: language);
+                }
+                language = SessionUtilities.Language(context: this) ?? language;
+            }
+            return types.Contains(language)
+                ? language
+                : Parameters.Service?.DefaultLanguage;
         }
 
         private static bool HasRoute()

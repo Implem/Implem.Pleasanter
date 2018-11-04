@@ -36,7 +36,9 @@ namespace Implem.Pleasanter.Models
                 TenantName = mailAddress
             };
             tenantModel.Create(context: context, ss: ss);
-            context = new Context(tenantId: tenantModel.TenantId);
+            context = new Context(
+                tenantId: tenantModel.TenantId,
+                language: context.Language);
             var demoModel = new DemoModel()
             {
                 Passphrase = passphrase,
@@ -221,6 +223,7 @@ namespace Implem.Pleasanter.Models
                                     .LoginId(loginId)
                                     .Password(password)
                                     .Name(demoDefinition.Title)
+                                    .Language(context.Language)
                                     .DeptId(idHash.Get(demoDefinition.ParentId).ToInt())
                                     .Birthday(demoDefinition.ClassC.ToDateTime())
                                     .Gender(demoDefinition.ClassB)

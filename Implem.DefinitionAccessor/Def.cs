@@ -2240,10 +2240,10 @@ namespace Implem.DefinitionAccessor
                                 definitionRow["ColumnName"].ToString();
                             newColumnDefinition.SavedColumnName = newColumnDefinition.ColumnName;
                             break;
-                        case "LabelText":
-                            newColumnDefinition.LabelText = customDefinitionRow.Get("LabelText")?.ToString() ??
-                                definitionRow["LabelText"].ToString();
-                            newColumnDefinition.SavedLabelText = newColumnDefinition.LabelText;
+                        case "Languages":
+                            newColumnDefinition.Languages = customDefinitionRow.Get("Languages")?.ToString() ??
+                                definitionRow["Languages"].ToString();
+                            newColumnDefinition.SavedLanguages = newColumnDefinition.Languages;
                             break;
                         case "No":
                             newColumnDefinition.No = customDefinitionRow.Get("No")?.ToInt() ??
@@ -2756,7 +2756,7 @@ namespace Implem.DefinitionAccessor
             if (definitionRow.ContainsKey("EachModel")) { definition.EachModel = definitionRow["EachModel"].ToBool(); definition.SavedEachModel = definition.EachModel; }
             if (definitionRow.ContainsKey("Label")) { definition.Label = definitionRow["Label"].ToString(); definition.SavedLabel = definition.Label; }
             if (definitionRow.ContainsKey("ColumnName")) { definition.ColumnName = definitionRow["ColumnName"].ToString(); definition.SavedColumnName = definition.ColumnName; }
-            if (definitionRow.ContainsKey("LabelText")) { definition.LabelText = definitionRow["LabelText"].ToString(); definition.SavedLabelText = definition.LabelText; }
+            if (definitionRow.ContainsKey("Languages")) { definition.Languages = definitionRow["Languages"].ToString(); definition.SavedLanguages = definition.Languages; }
             if (definitionRow.ContainsKey("No")) { definition.No = definitionRow["No"].ToInt(); definition.SavedNo = definition.No; }
             if (definitionRow.ContainsKey("History")) { definition.History = definitionRow["History"].ToInt(); definition.SavedHistory = definition.History; }
             if (definitionRow.ContainsKey("Import")) { definition.Import = definitionRow["Import"].ToInt(); definition.SavedImport = definition.Import; }
@@ -5743,7 +5743,7 @@ namespace Implem.DefinitionAccessor
                         case "EachModel": columnDefinition.EachModel = optionValue.ToBool(); break;
                         case "Label": columnDefinition.Label = optionValue.ToString(); break;
                         case "ColumnName": columnDefinition.ColumnName = optionValue.ToString(); break;
-                        case "LabelText": columnDefinition.LabelText = optionValue.ToString(); break;
+                        case "Languages": columnDefinition.Languages = optionValue.ToString(); break;
                         case "No": columnDefinition.No = optionValue.ToInt(); break;
                         case "History": columnDefinition.History = optionValue.ToInt(); break;
                         case "Import": columnDefinition.Import = optionValue.ToInt(); break;
@@ -7603,7 +7603,7 @@ namespace Implem.DefinitionAccessor
         public bool EachModel; public bool SavedEachModel;
         public string Label; public string SavedLabel;
         public string ColumnName; public string SavedColumnName;
-        public string LabelText; public string SavedLabelText;
+        public string Languages; public string SavedLanguages;
         public int No; public int SavedNo;
         public int History; public int SavedHistory;
         public int Import; public int SavedImport;
@@ -7717,7 +7717,7 @@ namespace Implem.DefinitionAccessor
             if (propertyCollection.ContainsKey("EachModel")) EachModel = propertyCollection["EachModel"].ToBool(); else EachModel = false;
             if (propertyCollection.ContainsKey("Label")) Label = propertyCollection["Label"].ToString(); else Label = string.Empty;
             if (propertyCollection.ContainsKey("ColumnName")) ColumnName = propertyCollection["ColumnName"].ToString(); else ColumnName = string.Empty;
-            if (propertyCollection.ContainsKey("LabelText")) LabelText = propertyCollection["LabelText"].ToString(); else LabelText = string.Empty;
+            if (propertyCollection.ContainsKey("Languages")) Languages = propertyCollection["Languages"].ToString(); else Languages = string.Empty;
             if (propertyCollection.ContainsKey("No")) No = propertyCollection["No"].ToInt(); else No = 0;
             if (propertyCollection.ContainsKey("History")) History = propertyCollection["History"].ToInt(); else History = 0;
             if (propertyCollection.ContainsKey("Import")) Import = propertyCollection["Import"].ToInt(); else Import = 0;
@@ -7831,7 +7831,7 @@ namespace Implem.DefinitionAccessor
                     case "EachModel": return EachModel;
                     case "Label": return Label;
                     case "ColumnName": return ColumnName;
-                    case "LabelText": return LabelText;
+                    case "Languages": return Languages;
                     case "No": return No;
                     case "History": return History;
                     case "Import": return Import;
@@ -7945,7 +7945,7 @@ namespace Implem.DefinitionAccessor
             EachModel = SavedEachModel;
             Label = SavedLabel;
             ColumnName = SavedColumnName;
-            LabelText = SavedLabelText;
+            Languages = SavedLanguages;
             No = SavedNo;
             History = SavedHistory;
             Import = SavedImport;

@@ -318,8 +318,9 @@ namespace Implem.DefinitionAccessor
                         def.TableName = extendedColumns.TableName;
                         def.Label = extendedColumns.Label ?? def.Label;
                         def.ColumnName = columnName;
-                        def.LabelText = def.LabelText
-                            .Substring(0, def.LabelText.Length -1) + id;
+                        def.Languages = Displays.DisplayHash.Get(part.Key).Languages
+                            .ToDictionary(o => o.Language, o => o.Body + id)
+                            .ToJson();
                         Def.ColumnDefinitionCollection.Add(def);
                     }
                 });
@@ -427,21 +428,31 @@ namespace Implem.DefinitionAccessor
             Displays.DisplayHash = DisplayHash();
             Def.ColumnDefinitionCollection
                 .Where(o => !o.Base)
-                .Select(o => new { o.Id, Body = o.LabelText })
+                .Select(o => new
+                {
+                    o.Id,
+                    Default = o.Languages.Deserialize<Dictionary<string, string>>().Get(string.Empty),
+                    Ja = o.Languages.Deserialize<Dictionary<string, string>>().Get("ja")
+                })
                 .Union(Def.ColumnDefinitionCollection
                     .Where(o => !o.Base)
-                    .Select(o => new { Id = o.TableName, Body = o.Label })
+                    .Select(o => new
+                    {
+                        Id = o.TableName,
+                        Default = o.TableName,
+                        Ja = o.Label
+                    })
                     .Distinct())
                 .Where(o => !Displays.DisplayHash.ContainsKey(o.Id))
-                .ForEach(o => Displays.DisplayHash.Add(
-                    o.Id, new Display
+                .ForEach(o => Displays.DisplayHash.Add(o.Id, new Display
+                {
+                    Id = o.Id,
+                    Languages = new List<DisplayElement>
                     {
-                        Id = o.Id,
-                        Languages = new List<DisplayElement>
-                        {
-                            new DisplayElement { Body = o.Body }
-                        }
-                    }));
+                        new DisplayElement { Body = o.Default },
+                        new DisplayElement { Language = "ja", Body = o.Ja }
+                    }
+                }));
         }
 
         private static Dictionary<string, Display> DisplayHash()
