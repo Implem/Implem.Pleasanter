@@ -2616,6 +2616,7 @@ namespace Implem.Pleasanter.Libraries.Settings
             Context context,
             string columnName,
             string searchText = null,
+            bool searchOnly = true,
             IEnumerable<string> selectedValues = null,
             int offset = 0,
             bool noLimit = false,
@@ -2625,8 +2626,11 @@ namespace Implem.Pleasanter.Libraries.Settings
             var hash = new Dictionary<string, List<string>>();
             Links?
                 .Where(o => o.ColumnName == columnName)
-                .Where(o => GetColumn(context: context, columnName: o.ColumnName)?
-                    .UseSearch == true)
+                .Where(o => !searchOnly
+                    || GetColumn(
+                        context: context,
+                        columnName: o.ColumnName)?
+                            .UseSearch == true)
                 .GroupBy(o => o.SiteId)
                 .Select(o => o.FirstOrDefault())
                 .ForEach(link =>
