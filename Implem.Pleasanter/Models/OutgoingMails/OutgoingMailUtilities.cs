@@ -29,14 +29,11 @@ namespace Implem.Pleasanter.Models
         public static HtmlBuilder OutgoingMailsForm(
             this HtmlBuilder hb,
             Context context,
+            SiteSettings ss,
             string referenceType,
             long referenceId,
             int referenceVer)
         {
-            var ss = SiteSettingsUtilities.GetByReference(
-                context: context,
-                reference: context.Controller,
-                referenceId: referenceId);
             return hb.Form(
                 attributes: new HtmlAttributes()
                     .Id("OutgoingMailsForm")

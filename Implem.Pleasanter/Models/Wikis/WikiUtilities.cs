@@ -445,6 +445,7 @@ namespace Implem.Pleasanter.Models
                             _using: !Request.IsAjax() || context.Action == "create"))
                 .OutgoingMailsForm(
                     context: context,
+                    ss: ss,
                     referenceType: "Wikis",
                     referenceId: wikiModel.WikiId,
                     referenceVer: wikiModel.Ver)
