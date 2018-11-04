@@ -335,7 +335,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                     ? "0"
                     : string.Empty;
             if (!HasChoices()) return hash;
-            if (!LinkedChoiceHashCreated)
+            if (Linked() && !LinkedChoiceHashCreated)
             {
                 SetChoiceHash(context: context);
             }
