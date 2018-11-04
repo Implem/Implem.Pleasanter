@@ -201,9 +201,6 @@ namespace Implem.CodeDefiner.Functions.AspNetMvc.CSharp.Parts
                         code = code.Replace(
                             "#ColumnName#", columnDefinition.ColumnName.PublicVariableName());
                         break;
-                    case "ColumnCaption":
-                        code = code.Replace("#ColumnCaption#", columnDefinition.LabelText);
-                        break;
                     case "Type":
                         code = code.Replace("#Type#", Strings.CoalesceEmpty(
                             columnDefinition.TypeCs, columnDefinition.TypeName.CsType()));

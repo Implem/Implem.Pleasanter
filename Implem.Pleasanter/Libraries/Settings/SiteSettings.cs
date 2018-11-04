@@ -1,8 +1,8 @@
 ﻿using Implem.DefinitionAccessor;
 using Implem.Libraries.DataSources.SqlServer;
 using Implem.Libraries.Utilities;
-using Implem.Pleasanter.Libraries.Extensions;
 using Implem.Pleasanter.Libraries.DataSources;
+using Implem.Pleasanter.Libraries.Extensions;
 using Implem.Pleasanter.Libraries.General;
 using Implem.Pleasanter.Libraries.HtmlParts;
 using Implem.Pleasanter.Libraries.Requests;
@@ -1019,13 +1019,19 @@ namespace Implem.Pleasanter.Libraries.Settings
                     context: context,
                     column: column,
                     columnDefinition: columnDefinition)
-                        ?? column.LabelText
-                        ?? columnDefinition.LabelText;
+                        ?? LanguagesLabelText(
+                            context: context,
+                            labelText: column.LabelText)
+                        ?? LanguagesLabelText(
+                            context: context,
+                            labelText: columnDefinition.Languages);
                 column.GridLabelText = ModifiedLabelText(
                     context: context,
                     column: column,
                     columnDefinition: columnDefinition)
-                        ?? column.GridLabelText
+                        ?? LanguagesLabelText(
+                            context: context,
+                            labelText: column.GridLabelText)
                         ?? column.LabelText;
                 column.ChoicesText = column.ChoicesText ?? columnDefinition.ChoicesText;
                 column.UseSearch = column.UseSearch ?? columnDefinition.UseSearch;
@@ -1119,6 +1125,19 @@ namespace Implem.Pleasanter.Libraries.Settings
                     break;
             }
             return null;
+        }
+
+        private string LanguagesLabelText(Context context, string labelText)
+        {
+            var hash = labelText?.Deserialize<Dictionary<string, string>>();
+            if (hash != null)
+            {
+                return hash.Get(context.Language) ?? hash.Get("");
+            }
+            else
+            {
+                return labelText;
+            }
         }
 
         private void UpdateColumnHash()

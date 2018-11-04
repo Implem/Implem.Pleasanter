@@ -58,6 +58,20 @@ namespace Implem.Pleasanter.Models
         /// <summary>
         /// Fixed:
         /// </summary>
+        public static string Language(Context context)
+        {
+            return Rds.ExecuteScalar_string(
+                context: context,
+                statements: Rds.SelectSessions(
+                    column: Rds.SessionsColumn().Value(),
+                    where: Rds.SessionsWhere()
+                        .SessionGuid(context.SessionGuid)
+                        .Key("Language")));
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
         public static View View(Context context, string key)
         {
             return Rds.ExecuteScalar_string(
