@@ -16,6 +16,7 @@ using System.Net.Mail;
 using System.Text;
 namespace Implem.Pleasanter.Libraries.Settings
 {
+    [Serializable]
     public class Reminder : ISettingListItem
     {
         const string BodyPlaceholder = "[[Records]]";
@@ -32,6 +33,10 @@ namespace Implem.Pleasanter.Libraries.Settings
         public bool? SendCompletedInPast;
         public bool? NotSendIfNotApplicable;
         public int Condition;
+
+        public Reminder()
+        {
+        }
 
         public Reminder(Context context)
         {
