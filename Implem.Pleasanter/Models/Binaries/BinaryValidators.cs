@@ -117,8 +117,8 @@ namespace Implem.Pleasanter.Models
                 return Error.Types.BadRequest;
             }
             if (OverLimitQuantity(
-                attachments.Count().ToDecimal(),
-                files.Count().ToDecimal(),
+                attachments?.Count().ToDecimal() ?? 0,
+                files?.Count().ToDecimal() ?? 0,
                 column.LimitQuantity))
             {
                 return Error.Types.OverLimitQuantity;
@@ -129,7 +129,7 @@ namespace Implem.Pleasanter.Models
             }
             var newTotalFileSize = files.Sum(x => x.ContentLength.ToDecimal());
             if (OverTotalLimitSize(
-                attachments.Select(x => x.Size.ToDecimal()).Sum(),
+                attachments?.Select(x => x.Size.ToDecimal()).Sum() ?? 0,
                 newTotalFileSize,
                 column.TotalLimitSize))
             {
