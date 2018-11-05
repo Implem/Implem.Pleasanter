@@ -319,7 +319,9 @@ namespace Implem.DefinitionAccessor
                         def.Label = extendedColumns.Label ?? def.Label;
                         def.ColumnName = columnName;
                         def.Languages = Displays.DisplayHash.Get(part.Key).Languages
-                            .ToDictionary(o => o.Language, o => o.Body + id)
+                            .ToDictionary(
+                                o => o.Language ?? string.Empty,
+                                o => o.Body + id)
                             .ToJson();
                         Def.ColumnDefinitionCollection.Add(def);
                     }
