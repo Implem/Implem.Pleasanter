@@ -2426,6 +2426,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                                 new Choice(
                                     dataRow.String(column.ColumnName),
                                     dataRow.String("Linked__" + column.ColumnName))));
+                    column.LinkedChoiceHashCreated = true;
                 });
         }
 
@@ -2635,7 +2636,7 @@ namespace Implem.Pleasanter.Libraries.Settings
             Context context,
             string columnName,
             string searchText = null,
-            bool searchOnly = true,
+            bool searchColumnOnly = true,
             IEnumerable<string> selectedValues = null,
             int offset = 0,
             bool noLimit = false,
@@ -2645,7 +2646,7 @@ namespace Implem.Pleasanter.Libraries.Settings
             var hash = new Dictionary<string, List<string>>();
             Links?
                 .Where(o => o.ColumnName == columnName)
-                .Where(o => !searchOnly
+                .Where(o => !searchColumnOnly
                     || GetColumn(
                         context: context,
                         columnName: o.ColumnName)?

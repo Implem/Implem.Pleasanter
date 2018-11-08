@@ -176,7 +176,7 @@ namespace Implem.Pleasanter.Libraries.Settings
             ColumnName = columnName;
         }
 
-        public void SetChoiceHash(Context context, bool searchOnly = false, bool noLimit = true)
+        public void SetChoiceHash(Context context, bool searchColumnOnly = false)
         {
             SetChoiceHash(
                 context: context,
@@ -184,8 +184,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                 linkHash: SiteSettings.LinkHash(
                     context: context,
                     columnName: Name,
-                    searchOnly: searchOnly,
-                    noLimit: noLimit));
+                    searchColumnOnly: searchColumnOnly));
         }
 
         public void SetChoiceHash(
