@@ -78,7 +78,9 @@ namespace Implem.Pleasanter.Models
                         _operator: ">="));
             if (demoModel.AccessStatus == Databases.AccessStatuses.Selected)
             {
-                var loginId = LoginId(demoModel, "User1");
+                var loginId = LoginId(
+                    demoModel: demoModel,
+                    userId: FirstUser(context: context));
                 var password = Strings.NewGuid().Sha512Cng();
                 if (!demoModel.Initialized)
                 {
@@ -108,6 +110,18 @@ namespace Implem.Pleasanter.Models
             {
                 return false;
             }
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        private static string FirstUser(Context context)
+        {
+            return Def.DemoDefinitionCollection
+                .Where(o => o.Language == context.Language)
+                .Where(o => o.Type == "Users")
+                .FirstOrDefault()?
+                .Id;
         }
 
         /// <summary>
@@ -147,6 +161,7 @@ namespace Implem.Pleasanter.Models
             SiteInfo.Reflesh(context: context);
             InitializeSites(context: context, demoModel: demoModel, idHash: idHash);
             Def.DemoDefinitionCollection
+                .Where(o => o.Language == context.Language)
                 .Where(o => o.Type == "Sites")
                 .OrderBy(o => o.Id)
                 .ForEach(o =>
@@ -178,6 +193,7 @@ namespace Implem.Pleasanter.Models
             Context context, DemoModel demoModel, Dictionary<string, long> idHash)
         {
             Def.DemoDefinitionCollection
+                .Where(o => o.Language == context.Language)
                 .Where(o => o.Type == "Depts")
                 .ForEach(demoDefinition => idHash.Add(
                     demoDefinition.Id, Rds.ExecuteScalar_response(
@@ -207,10 +223,13 @@ namespace Implem.Pleasanter.Models
             Context context, DemoModel demoModel, Dictionary<string, long> idHash, string password)
         {
             Def.DemoDefinitionCollection
+                .Where(o => o.Language == context.Language)
                 .Where(o => o.Type == "Users")
                 .ForEach(demoDefinition =>
                 {
-                    var loginId = LoginId(demoModel, demoDefinition.Id);
+                    var loginId = LoginId(
+                        demoModel: demoModel,
+                        userId: demoDefinition.Id);
                     idHash.Add(demoDefinition.Id, Rds.ExecuteScalar_response(
                         context: context,
                         selectIdentity: true,
@@ -249,6 +268,7 @@ namespace Implem.Pleasanter.Models
             Context context, DemoModel demoModel, Dictionary<string, long> idHash)
         {
             Def.DemoDefinitionCollection
+                .Where(o => o.Language == context.Language)
                 .Where(o => o.Type == "Sites" && o.ParentId == string.Empty)
                 .ForEach(o => InitializeSites(
                     context: context,
@@ -282,6 +302,7 @@ namespace Implem.Pleasanter.Models
             Context context, DemoModel demoModel, Dictionary<string, long> idHash, string topId)
         {
             Def.DemoDefinitionCollection
+                .Where(o => o.Language == context.Language)
                 .Where(o => o.Type == "Sites")
                 .Where(o => o.Id == topId || o.ParentId == topId)
                 .ForEach(demoDefinition => idHash.Add(
@@ -350,6 +371,7 @@ namespace Implem.Pleasanter.Models
             Dictionary<string, long> idHash)
         {
             Def.DemoDefinitionCollection
+                .Where(o => o.Language == context.Language)
                 .Where(o => o.ParentId == parentId)
                 .Where(o => o.Type == "Issues")
                 .ForEach(demoDefinition =>
@@ -640,6 +662,7 @@ namespace Implem.Pleasanter.Models
             Dictionary<string, long> idHash)
         {
             Def.DemoDefinitionCollection
+                .Where(o => o.Language == context.Language)
                 .Where(o => o.ParentId == parentId)
                 .Where(o => o.Type == "Results")
                 .ForEach(demoDefinition =>
@@ -851,6 +874,7 @@ namespace Implem.Pleasanter.Models
             Context context, DemoModel demoModel, Dictionary<string, long> idHash)
         {
             Def.DemoDefinitionCollection
+                .Where(o => o.Language == context.Language)
                 .Where(o => o.Type == "Sites")
                 .Where(o => o.ClassB.Trim() != string.Empty)
                 .ForEach(demoDefinition =>
@@ -860,6 +884,7 @@ namespace Implem.Pleasanter.Models
                             .DestinationId(idHash.Get(demoDefinition.ClassB))
                             .SourceId(idHash.Get(demoDefinition.Id)))));
             Def.DemoDefinitionCollection
+                .Where(o => o.Language == context.Language)
                 .Where(o => o.Type == "Sites")
                 .Where(o => o.ClassC.Trim() != string.Empty)
                 .ForEach(demoDefinition =>
@@ -869,7 +894,8 @@ namespace Implem.Pleasanter.Models
                             .DestinationId(idHash.Get(demoDefinition.ClassC))
                             .SourceId(idHash.Get(demoDefinition.Id)))));
             Def.DemoDefinitionCollection
-                .Where(o => o.ClassA.RegexExists("^#[A-Za-z0-9]+?#$"))
+                .Where(o => o.Language == context.Language)
+                .Where(o => o.ClassA.RegexExists("^#[A-Za-z0-9_]+?#$"))
                 .ForEach(demoDefinition =>
                     Rds.ExecuteNonQuery(
                         context: context,
@@ -885,6 +911,7 @@ namespace Implem.Pleasanter.Models
         private static void InitializePermissions(Context context, Dictionary<string, long> idHash)
         {
             Def.DemoDefinitionCollection
+                .Where(o => o.Language == context.Language)
                 .Where(o => o.Type == "Sites")
                 .Where(o => o.ParentId == string.Empty)
                 .Select(o => o.Id)
@@ -896,7 +923,7 @@ namespace Implem.Pleasanter.Models
                         param: Rds.PermissionsParam()
                             .ReferenceId(idHash.Get(id))
                             .DeptId(0)
-                            .UserId(idHash.Get("User1"))
+                            .UserId(idHash.Get(FirstUser(context: context)))
                             .PermissionType(Permissions.Manager())));
                 idHash.Where(o => o.Key.StartsWith("Dept")).Select(o => o.Value).ForEach(deptId =>
                 {
@@ -923,6 +950,7 @@ namespace Implem.Pleasanter.Models
         {
             var comments = new Comments();
             Def.DemoDefinitionCollection
+                .Where(o => o.Language == context.Language)
                 .Where(o => o.Type == "Comments")
                 .Where(o => o.ParentId == parentId)
                 .Select((o, i) => new { DemoDefinition = o, Index = i })
@@ -944,7 +972,7 @@ namespace Implem.Pleasanter.Models
         /// </summary>
         private static string Replace(this string self, Dictionary<string, long> idHash)
         {
-            foreach (var id in self.RegexValues("#[A-Za-z0-9]+?#").Distinct())
+            foreach (var id in self.RegexValues("#[A-Za-z0-9_]+?#").Distinct())
             {
                 self = self.Replace(
                     id, idHash.Get(id.ToString().Substring(1, id.Length - 2)).ToString());
