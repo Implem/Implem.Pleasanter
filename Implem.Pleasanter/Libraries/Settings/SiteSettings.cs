@@ -1019,19 +1019,13 @@ namespace Implem.Pleasanter.Libraries.Settings
                     context: context,
                     column: column,
                     columnDefinition: columnDefinition)
-                        ?? LanguagesLabelText(
-                            context: context,
-                            labelText: column.LabelText)
-                        ?? LanguagesLabelText(
-                            context: context,
-                            labelText: columnDefinition.Languages);
+                        ?? column.LabelText
+                        ?? columnDefinition.LabelText;
                 column.GridLabelText = ModifiedLabelText(
                     context: context,
                     column: column,
                     columnDefinition: columnDefinition)
-                        ?? LanguagesLabelText(
-                            context: context,
-                            labelText: column.GridLabelText)
+                        ?? column.GridLabelText
                         ?? column.LabelText;
                 column.ChoicesText = column.ChoicesText ?? columnDefinition.ChoicesText;
                 column.UseSearch = column.UseSearch ?? columnDefinition.UseSearch;
