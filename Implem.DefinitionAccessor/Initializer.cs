@@ -318,11 +318,8 @@ namespace Implem.DefinitionAccessor
                         def.TableName = extendedColumns.TableName;
                         def.Label = extendedColumns.Label ?? def.Label;
                         def.ColumnName = columnName;
-                        def.Languages = Displays.DisplayHash.Get(part.Key).Languages
-                            .ToDictionary(
-                                o => o.Language ?? string.Empty,
-                                o => o.Body + id)
-                            .ToJson();
+                        def.LabelText = def.LabelText.Substring(
+                            0, def.LabelText.Length - 1) + id;
                         Def.ColumnDefinitionCollection.Add(def);
                     }
                 });
@@ -361,9 +358,6 @@ namespace Implem.DefinitionAccessor
             {
                 case "Azure":
                     Environments.RdsProvider = "Azure";
-                    Azures.SetRetryManager(
-                        Parameters.Rds.SqlAzureRetryCount,
-                        Parameters.Rds.SqlAzureRetryInterval);
                     break;
                 default:
                     Environments.RdsProvider = "Local";
@@ -430,31 +424,21 @@ namespace Implem.DefinitionAccessor
             Displays.DisplayHash = DisplayHash();
             Def.ColumnDefinitionCollection
                 .Where(o => !o.Base)
-                .Select(o => new
-                {
-                    o.Id,
-                    Default = o.Languages.Deserialize<Dictionary<string, string>>().Get(string.Empty),
-                    Ja = o.Languages.Deserialize<Dictionary<string, string>>().Get("ja")
-                })
+                .Select(o => new { o.Id, Body = o.LabelText })
                 .Union(Def.ColumnDefinitionCollection
                     .Where(o => !o.Base)
-                    .Select(o => new
-                    {
-                        Id = o.TableName,
-                        Default = o.TableName,
-                        Ja = o.Label
-                    })
+                    .Select(o => new { Id = o.TableName, Body = o.Label })
                     .Distinct())
                 .Where(o => !Displays.DisplayHash.ContainsKey(o.Id))
-                .ForEach(o => Displays.DisplayHash.Add(o.Id, new Display
-                {
-                    Id = o.Id,
-                    Languages = new List<DisplayElement>
+                .ForEach(o => Displays.DisplayHash.Add(
+                    o.Id, new Display
                     {
-                        new DisplayElement { Body = o.Default },
-                        new DisplayElement { Language = "ja", Body = o.Ja }
-                    }
-                }));
+                        Id = o.Id,
+                        Languages = new List<DisplayElement>
+                        {
+                            new DisplayElement { Body = o.Body }
+                        }
+                    }));
         }
 
         private static Dictionary<string, Display> DisplayHash()
