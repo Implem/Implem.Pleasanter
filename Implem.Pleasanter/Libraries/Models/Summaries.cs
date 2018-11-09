@@ -179,6 +179,7 @@ namespace Implem.Pleasanter.Libraries.Models
                         issueModel.SetByFormula(context: context, ss: destinationSs);
                         issueModel.VerUp = Versions.MustVerUp(
                             context: context, baseModel: issueModel);
+                        issueModel.SetChoiceHash(context: context, ss: destinationSs);
                         issueModel.Update(
                             context: context,
                             ss: destinationSs,
@@ -675,6 +676,7 @@ namespace Implem.Pleasanter.Libraries.Models
                         resultModel.SetByFormula(context: context, ss: destinationSs);
                         resultModel.VerUp = Versions.MustVerUp(
                             context: context, baseModel: resultModel);
+                        resultModel.SetChoiceHash(context: context, ss: destinationSs);
                         resultModel.Update(
                             context: context,
                             ss: destinationSs,

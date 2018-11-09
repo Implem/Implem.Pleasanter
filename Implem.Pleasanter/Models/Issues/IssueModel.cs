@@ -9970,7 +9970,7 @@ namespace Implem.Pleasanter.Models
             SetChoiceHash(context: context, ss: ss);
         }
 
-        private void SetChoiceHash(Context context, SiteSettings ss)
+        public void SetChoiceHash(Context context, SiteSettings ss)
         {
             ss.GetUseSearchLinks(context: context).ForEach(link =>
             {
