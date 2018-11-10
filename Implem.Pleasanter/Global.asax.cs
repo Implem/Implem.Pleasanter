@@ -8,7 +8,6 @@ using Implem.Pleasanter.Libraries.Security;
 using Implem.Pleasanter.Libraries.Server;
 using Implem.Pleasanter.Libraries.Settings;
 using Implem.Pleasanter.Models;
-using System;
 using System.Data;
 using System.Linq;
 using System.Reflection;
@@ -22,8 +21,6 @@ namespace Implem.Pleasanter
     {
         protected void Application_Start()
         {
-            Application["StartTime"] = DateTime.Now;
-            Application["LastAccessTime"] = Application["StartTime"];
             Initialize();
             Context context = ApplicationStartContext();
             var log = new SysLogModel(context: context);
@@ -98,10 +95,9 @@ namespace Implem.Pleasanter
 
         protected void Session_Start()
         {
-            Session["SessionGuid"] = Strings.NewGuid();
-            Session["StartTime"] = DateTime.Now;
-            Session["LastAccessTime"] = DateTime.Now;
+            Session["Enabled"] = true;
             var context = SessionStartContext();
+            SessionUtilities.SetStartTime(context: context);
             if (WindowsAuthenticated(context))
             {
                 Ldap.UpdateOrInsert(

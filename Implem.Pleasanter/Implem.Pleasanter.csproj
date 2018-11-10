@@ -425,7 +425,6 @@
     <Compile Include="Libraries\Security\Authentications.cs" />
     <Compile Include="Libraries\Security\Permissions.cs" />
     <Compile Include="Libraries\Server\Applications.cs" />
-    <Compile Include="Libraries\Server\Pages.cs" />
     <Compile Include="Libraries\Server\Sessions.cs" />
     <Compile Include="Libraries\Server\SiteCondition.cs" />
     <Compile Include="Libraries\Server\SiteInfo.cs" />

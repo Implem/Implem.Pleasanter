@@ -773,8 +773,8 @@ namespace Implem.Pleasanter.Models
                 HttpMethod = request.HttpMethod();
                 ApplicationAge = Applications.ApplicationAge();
                 ApplicationRequestInterval = Applications.ApplicationRequestInterval();
-                SessionAge = context.SessionAge;
-                SessionRequestInterval = context.SessionRequestInterval;
+                SessionAge = context.SessionAge();
+                SessionRequestInterval = context.SessionRequestInterval();
                 RequestSize = RequestData.Length;
                 Url = request.Url();
                 UrlReferer = request.UrlReferrer();

@@ -6064,7 +6064,7 @@ namespace Implem.Pleasanter.Models
                                 o => new ControlData(o["MailAddress"].ToString()));
             userModel.Session_MailAddresses(
                 context: context,
-                value: listItemCollection.Keys.ToList());
+                value: listItemCollection.Keys.ToList().ToJson());
             return hb.FieldSet(id: "FieldSetMailAddresses", action: () => hb
                 .FieldSelectable(
                     controlId: "MailAddresses",

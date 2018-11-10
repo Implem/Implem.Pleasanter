@@ -25,14 +25,14 @@ namespace Implem.Pleasanter.Models
     {
         public string SessionGuid = string.Empty;
         public string Key = string.Empty;
+        public string Page = string.Empty;
         public string Value = string.Empty;
         public bool ReadOnce = false;
-        public bool ReadOneByOne = false;
         [NonSerialized] public string SavedSessionGuid = string.Empty;
         [NonSerialized] public string SavedKey = string.Empty;
+        [NonSerialized] public string SavedPage = string.Empty;
         [NonSerialized] public string SavedValue = string.Empty;
         [NonSerialized] public bool SavedReadOnce = false;
-        [NonSerialized] public bool SavedReadOneByOne = false;
 
         public bool SessionGuid_Updated(Context context, Column column = null)
         {
@@ -50,6 +50,14 @@ namespace Implem.Pleasanter.Models
                 column.GetDefaultInput(context: context).ToString() != Key);
         }
 
+        public bool Page_Updated(Context context, Column column = null)
+        {
+            return Page != SavedPage && Page != null &&
+                (column == null ||
+                column.DefaultInput.IsNullOrEmpty() ||
+                column.GetDefaultInput(context: context).ToString() != Page);
+        }
+
         public bool Value_Updated(Context context, Column column = null)
         {
             return Value != SavedValue && Value != null &&
@@ -64,14 +72,6 @@ namespace Implem.Pleasanter.Models
                 (column == null ||
                 column.DefaultInput.IsNullOrEmpty() ||
                 column.GetDefaultInput(context: context).ToBool() != ReadOnce);
-        }
-
-        public bool ReadOneByOne_Updated(Context context, Column column = null)
-        {
-            return ReadOneByOne != SavedReadOneByOne &&
-                (column == null ||
-                column.DefaultInput.IsNullOrEmpty() ||
-                column.GetDefaultInput(context: context).ToBool() != ReadOneByOne);
         }
 
         public SessionModel(Context context, DataRow dataRow, string tableAlias = null)
@@ -123,9 +123,9 @@ namespace Implem.Pleasanter.Models
         {
             SessionGuid = sessionModel.SessionGuid;
             Key = sessionModel.Key;
+            Page = sessionModel.Page;
             Value = sessionModel.Value;
             ReadOnce = sessionModel.ReadOnce;
-            ReadOneByOne = sessionModel.ReadOneByOne;
             Comments = sessionModel.Comments;
             Creator = sessionModel.Creator;
             Updator = sessionModel.Updator;
@@ -173,6 +173,13 @@ namespace Implem.Pleasanter.Models
                                 SavedKey = Key;
                             }
                             break;
+                        case "Page":
+                            if (dataRow[column.ColumnName] != DBNull.Value)
+                            {
+                                Page = dataRow[column.ColumnName].ToString();
+                                SavedPage = Page;
+                            }
+                            break;
                         case "Value":
                             Value = dataRow[column.ColumnName].ToString();
                             SavedValue = Value;
@@ -180,10 +187,6 @@ namespace Implem.Pleasanter.Models
                         case "ReadOnce":
                             ReadOnce = dataRow[column.ColumnName].ToBool();
                             SavedReadOnce = ReadOnce;
-                            break;
-                        case "ReadOneByOne":
-                            ReadOneByOne = dataRow[column.ColumnName].ToBool();
-                            SavedReadOneByOne = ReadOneByOne;
                             break;
                         case "Ver":
                             Ver = dataRow[column.ColumnName].ToInt();
@@ -220,9 +223,9 @@ namespace Implem.Pleasanter.Models
             return
                 SessionGuid_Updated(context: context) ||
                 Key_Updated(context: context) ||
+                Page_Updated(context: context) ||
                 Value_Updated(context: context) ||
                 ReadOnce_Updated(context: context) ||
-                ReadOneByOne_Updated(context: context) ||
                 Ver_Updated(context: context) ||
                 Comments_Updated(context: context) ||
                 Creator_Updated(context: context) ||

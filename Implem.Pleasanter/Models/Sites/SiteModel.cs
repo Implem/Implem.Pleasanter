@@ -95,61 +95,61 @@ namespace Implem.Pleasanter.Models
 
         public SiteSettings Session_SiteSettings(Context context)
         {
-            return this.PageSession(context: context, name: "SiteSettings") != null
-                ? this.PageSession(context: context, name: "SiteSettings")?.ToString().Deserialize<SiteSettings>() ?? new SiteSettings(context: context, referenceType: ReferenceType)
+            return context.SessionData.Get("SiteSettings") != null
+                ? context.SessionData.Get("SiteSettings")?.ToString().Deserialize<SiteSettings>() ?? new SiteSettings(context: context, referenceType: ReferenceType)
                 : SiteSettings;
         }
 
-        public void Session_SiteSettings(Context context, object value)
+        public void Session_SiteSettings(Context context, string value)
         {
-            this.PageSession(
+            SessionUtilities.Set(
                 context: context,
-                name: "SiteSettings",
+                key: "SiteSettings",
                 value: value);
         }
 
         public List<string> Session_MonitorChangesColumns(Context context)
         {
-            return this.PageSession(context: context, name: "MonitorChangesColumns") != null
-                ? this.PageSession(context: context, name: "MonitorChangesColumns") as List<string> ?? new List<string>()
+            return context.SessionData.Get("MonitorChangesColumns") != null
+                ? context.SessionData.Get("MonitorChangesColumns").Deserialize<List<string>>() ?? new List<string>()
                 : MonitorChangesColumns;
         }
 
-        public void Session_MonitorChangesColumns(Context context, object value)
+        public void Session_MonitorChangesColumns(Context context, string value)
         {
-            this.PageSession(
+            SessionUtilities.Set(
                 context: context,
-                name: "MonitorChangesColumns",
+                key: "MonitorChangesColumns",
                 value: value);
         }
 
         public List<string> Session_TitleColumns(Context context)
         {
-            return this.PageSession(context: context, name: "TitleColumns") != null
-                ? this.PageSession(context: context, name: "TitleColumns") as List<string> ?? new List<string>()
+            return context.SessionData.Get("TitleColumns") != null
+                ? context.SessionData.Get("TitleColumns").Deserialize<List<string>>() ?? new List<string>()
                 : TitleColumns;
         }
 
-        public void Session_TitleColumns(Context context, object value)
+        public void Session_TitleColumns(Context context, string value)
         {
-            this.PageSession(
+            SessionUtilities.Set(
                 context: context,
-                name: "TitleColumns",
+                key: "TitleColumns",
                 value: value);
         }
 
         public Export Session_Export(Context context)
         {
-            return this.PageSession(context: context, name: "Export") != null
-                ? this.PageSession(context: context, name: "Export") as Export ?? new Export()
+            return context.SessionData.Get("Export") != null
+                ? context.SessionData.Get("Export").Deserialize<Export>() ?? new Export()
                 : Export;
         }
 
-        public void Session_Export(Context context, object value)
+        public void Session_Export(Context context, string value)
         {
-            this.PageSession(
+            SessionUtilities.Set(
                 context: context,
-                name: "Export",
+                key: "Export",
                 value: value);
         }
 
@@ -1743,7 +1743,7 @@ namespace Implem.Pleasanter.Models
                     {
                         Session_TitleColumns(
                             context: context,
-                            value: titleColumns);
+                            value: titleColumns.ToJson());
                     }
                     SiteSettings.EditorColumns = Forms.List("EditorColumnsAll");
                     res.Html(
@@ -2319,7 +2319,7 @@ namespace Implem.Pleasanter.Models
             {
                 Session_MonitorChangesColumns(
                     context: context,
-                    value: notification.MonitorChangesColumns);
+                    value: notification.MonitorChangesColumns.ToJson());
                 res.Html("#NotificationDialog", SiteUtilities.NotificationDialog(
                     context: context,
                     ss: SiteSettings,
@@ -2739,7 +2739,7 @@ namespace Implem.Pleasanter.Models
             {
                 Session_Export(
                     context: context,
-                    value: export);
+                    value: export.ToJson());
                 res.Html("#ExportDialog", SiteUtilities.ExportDialog(
                     context: context,
                     ss: SiteSettings,
@@ -2920,7 +2920,7 @@ namespace Implem.Pleasanter.Models
                 context: context, searchText: searchText));
             Session_Export(
                 context: context,
-                value: new Export(current));
+                value: new Export(current).ToJson());
             res
                 .Html("#ExportColumns", new HtmlBuilder()
                     .SelectableItems(listItemCollection: ExportUtilities

@@ -20,14 +20,12 @@ namespace Implem.Pleasanter.Libraries.Requests
     public class Context
     {
         public bool Authenticated;
-        public bool HasSession;
         public string SessionGuid;
-        public double SessionAge;
-        public double SessionRequestInterval;
         public Dictionary<string, string> SessionData = new Dictionary<string, string>();
         public string Controller;
         public string Action;
         public long Id;
+        public string Page;
         public int TenantId;
         public int DeptId;
         public int UserId;
@@ -106,6 +104,7 @@ namespace Implem.Pleasanter.Libraries.Requests
                 }
                 else
                 {
+                    if (sessionData) SessionData = SessionUtilities.Get(this);
                     if (sessionStatus) Language = SessionLanguage();
                 }
             }
@@ -129,6 +128,7 @@ namespace Implem.Pleasanter.Libraries.Requests
                 HasPrivilege = Permissions.PrivilegedUsers(loginId: userModel.LoginId);
                 SetTenantCaches();
                 SetContractSettings();
+                SetPage();
                 if (sessionData) SessionData = SessionUtilities.Get(this);
             }
         }
@@ -157,30 +157,21 @@ namespace Implem.Pleasanter.Libraries.Requests
         {
             if (HttpContext.Current?.Session != null)
             {
-                HasSession = true;
-                SessionGuid = GetSessionGuid();
-                SessionAge = GetSessionAge();
-                SessionRequestInterval = GetSessionRequestInterval();
+                SessionGuid = HttpContext.Current?.Session.SessionID;
             }
         }
 
-        private static string GetSessionGuid()
+        public double SessionAge()
         {
-            return HttpContext.Current?.Session?["SessionGuid"]?.ToString();
+            return (DateTime.Now - (SessionData.Get("StartTime")?.ToDateTime()
+                ?? DateTime.Now)).TotalMilliseconds;
         }
 
-        private static double GetSessionAge()
+        public double SessionRequestInterval()
         {
-            return (DateTime.Now - HttpContext.Current.Session["StartTime"].ToDateTime())
-                .TotalMilliseconds;
-        }
-
-        private static double GetSessionRequestInterval()
-        {
-            var ret = (DateTime.Now - HttpContext.Current.Session["LastAccessTime"].ToDateTime())
-                .TotalMilliseconds;
-            HttpContext.Current.Session["LastAccessTime"] = DateTime.Now;
-            return ret;
+            SessionUtilities.SetLastAccessTime(context: this);
+            return (DateTime.Now - (SessionData.Get("LastAccessTime")?.ToDateTime()
+                ?? DateTime.Now)).TotalMilliseconds;
         }
 
         private void SetRouteProperties()
@@ -228,7 +219,7 @@ namespace Implem.Pleasanter.Libraries.Requests
                         key: "Language",
                         value: language);
                 }
-                language = SessionUtilities.Language(context: this) ?? language;
+                language = SessionData.Get("Language") ?? language;
             }
             return types.Contains(language)
                 ? language
@@ -269,6 +260,20 @@ namespace Implem.Pleasanter.Libraries.Requests
             ContractSettings = dataRow?.String("ContractSettings").Deserialize<ContractSettings>()
                 ?? new ContractSettings();
             ContractSettings.Deadline = dataRow?.DateTime("ContractDeadline");
+        }
+
+        public void SetPage()
+        {
+            var callerOfMethod = Action;
+            if (HasRoute())
+            {
+                var path = Url.AbsolutePath().ToLower()
+                    .Split('/').Where(o => o != string.Empty).ToList();
+                var methodIndex = path.IndexOf(callerOfMethod.ToLower());
+                Page = methodIndex != -1
+                    ? path.Take(methodIndex).Join("/")
+                    : path.Join("/");
+            }
         }
     }
 }
