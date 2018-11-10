@@ -167,16 +167,16 @@ namespace Implem.Pleasanter.Models
 
         public BinarySettings Session_BinarySettings(Context context)
         {
-            return this.PageSession(context: context, name: "BinarySettings") != null
-                ? this.PageSession(context: context, name: "BinarySettings")?.ToString().Deserialize<BinarySettings>() ?? new BinarySettings()
+            return context.SessionData.Get("BinarySettings") != null
+                ? context.SessionData.Get("BinarySettings")?.ToString().Deserialize<BinarySettings>() ?? new BinarySettings()
                 : BinarySettings;
         }
 
-        public void Session_BinarySettings(Context context, object value)
+        public void Session_BinarySettings(Context context, string value)
         {
-            this.PageSession(
+            SessionUtilities.Set(
                 context: context,
-                name: "BinarySettings",
+                key: "BinarySettings",
                 value: value);
         }
 

@@ -38,7 +38,9 @@ namespace Implem.Pleasanter.Models
                             .Value(),
                         where: Rds.SessionsWhere()
                             .SessionGuid(context.SessionGuid)
-                            .ReadOneByOne(_operator: " is null")),
+                            .Or(or: Rds.SessionsWhere()
+                                .Page(context.Page, _using: context.Page != null)
+                                .Page(raw: "''"))),
                     Rds.PhysicalDeleteSessions(
                         where: Rds.SessionsWhere()
                             .SessionGuid(context.SessionGuid)
@@ -58,29 +60,15 @@ namespace Implem.Pleasanter.Models
         /// <summary>
         /// Fixed:
         /// </summary>
-        public static string Language(Context context)
+        public static bool Bool(Context context, string key)
         {
-            return Rds.ExecuteScalar_string(
+            return Rds.ExecuteScalar_bool(
                 context: context,
                 statements: Rds.SelectSessions(
                     column: Rds.SessionsColumn().Value(),
                     where: Rds.SessionsWhere()
                         .SessionGuid(context.SessionGuid)
-                        .Key("Language")));
-        }
-
-        /// <summary>
-        /// Fixed:
-        /// </summary>
-        public static View View(Context context, string key)
-        {
-            return Rds.ExecuteScalar_string(
-                context: context,
-                statements: Rds.SelectSessions(
-                    column: Rds.SessionsColumn().Value(),
-                    where: Rds.SessionsWhere()
-                        .SessionGuid(context.SessionGuid)
-                        .Key(key))).Deserialize<View>();
+                        .Key(key)));
         }
 
         /// <summary>
@@ -91,27 +79,100 @@ namespace Implem.Pleasanter.Models
             string key,
             string value,
             bool readOnce = false,
-            bool readOneByOne = false)
+            bool page = false)
+        {
+            SetContext(
+                context: context,
+                key: key,
+                value: value);
+            SetRds(
+                context: context,
+                key: key,
+                value: value,
+                readOnce: readOnce,
+                page: page);
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        private static void SetContext(Context context, string key, string value)
         {
             if (context.SessionData.ContainsKey(key))
             {
-                context.SessionData[key] = value;
+                if (value != null)
+                {
+                    context.SessionData[key] = value;
+                }
+                else
+                {
+                    context.SessionData.Remove(key);
+                }
             }
             else
             {
                 context.SessionData.Add(key, value);
             }
-            Rds.ExecuteNonQuery(
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        private static void SetRds(
+            Context context,
+            string key,
+            string value,
+            bool readOnce,
+            bool page)
+        {
+            if (value != null)
+            {
+                Rds.ExecuteNonQuery(
+                    context: context,
+                    statements: Rds.UpdateOrInsertSessions(
+                        param: Rds.SessionsParam()
+                            .SessionGuid(context.SessionGuid)
+                            .Key(key)
+                            .Page(page
+                                ? context.Page ?? string.Empty
+                                : string.Empty)
+                            .Value(value)
+                            .ReadOnce(readOnce),
+                        where: Rds.SessionsWhere()
+                            .SessionGuid(context.SessionGuid)
+                            .Key(key)
+                            .Page(context.Page, _using: page)));
+            }
+            else
+            {
+                Remove(
+                    context: context,
+                    key: key,
+                    page: page);
+            }
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        public static void SetStartTime(Context context)
+        {
+            Set(
                 context: context,
-                statements: Rds.UpdateOrInsertSessions(
-                    param: Rds.SessionsParam()
-                        .SessionGuid(context.SessionGuid)
-                        .Key(key)
-                        .Value(value)
-                        .ReadOnce(readOnce),
-                    where: Rds.SessionsWhere()
-                        .SessionGuid(context.SessionGuid)
-                        .Key(key)));
+                key: "StartTime",
+                value: DateTime.Now.ToString());
+            SetLastAccessTime(context: context);
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        public static void SetLastAccessTime(Context context)
+        {
+            Set(
+                context: context,
+                key: "LastAccessTime",
+                value: DateTime.Now.ToString());
         }
 
         /// <summary>
@@ -123,7 +184,7 @@ namespace Implem.Pleasanter.Models
                 context: context,
                 key: key,
                 value: view.ToJson(),
-                readOneByOne: true);
+                page: true);
         }
 
         /// <summary>
@@ -136,6 +197,20 @@ namespace Implem.Pleasanter.Models
                 key: "Message",
                 value: message.ToJson(),
                 readOnce: true);
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        public static void Remove(Context context, string key, bool page)
+        {
+            Rds.ExecuteNonQuery(
+                context: context,
+                statements: Rds.PhysicalDeleteSessions(
+                    where: Rds.SessionsWhere()
+                        .SessionGuid(context.SessionGuid)
+                        .Key(key)
+                        .Page(context.Page, _using: page)));
         }
     }
 }

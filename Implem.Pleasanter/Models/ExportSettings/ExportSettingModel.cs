@@ -86,46 +86,46 @@ namespace Implem.Pleasanter.Models
 
         public Title Session_Title(Context context)
         {
-            return this.PageSession(context: context, name: "Title") != null
-                ? this.PageSession(context: context, name: "Title") as Title
+            return context.SessionData.Get("Title") != null
+                ? context.SessionData.Get("Title").Deserialize<Title>() ?? new Title()
                 : Title;
         }
 
-        public void Session_Title(Context context, object value)
+        public void Session_Title(Context context, string value)
         {
-            this.PageSession(
+            SessionUtilities.Set(
                 context: context,
-                name: "Title",
+                key: "Title",
                 value: value);
         }
 
         public bool Session_AddHeader(Context context)
         {
-            return this.PageSession(context: context, name: "AddHeader") != null
-                ? this.PageSession(context: context, name: "AddHeader").ToBool()
+            return context.SessionData.Get("AddHeader") != null
+                ? context.SessionData.Get("AddHeader").ToBool()
                 : AddHeader;
         }
 
-        public void Session_AddHeader(Context context, object value)
+        public void Session_AddHeader(Context context, string value)
         {
-            this.PageSession(
+            SessionUtilities.Set(
                 context: context,
-                name: "AddHeader",
+                key: "AddHeader",
                 value: value);
         }
 
         public ExportColumns Session_ExportColumns(Context context)
         {
-            return this.PageSession(context: context, name: "ExportColumns") != null
-                ? this.PageSession(context: context, name: "ExportColumns")?.ToString().Deserialize<ExportColumns>() ?? new ExportColumns(ReferenceType)
+            return context.SessionData.Get("ExportColumns") != null
+                ? context.SessionData.Get("ExportColumns")?.ToString().Deserialize<ExportColumns>() ?? new ExportColumns(ReferenceType)
                 : ExportColumns;
         }
 
-        public void Session_ExportColumns(Context context, object value)
+        public void Session_ExportColumns(Context context, string value)
         {
-            this.PageSession(
+            SessionUtilities.Set(
                 context: context,
-                name: "ExportColumns",
+                key: "ExportColumns",
                 value: value);
         }
 

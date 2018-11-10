@@ -1665,31 +1665,31 @@ namespace Implem.Pleasanter.Models
 
         public UserSettings Session_UserSettings(Context context)
         {
-            return this.PageSession(context: context, name: "UserSettings") != null
-                ? this.PageSession(context: context, name: "UserSettings")?.ToString().Deserialize<UserSettings>() ?? new UserSettings()
+            return context.SessionData.Get("UserSettings") != null
+                ? context.SessionData.Get("UserSettings")?.ToString().Deserialize<UserSettings>() ?? new UserSettings()
                 : UserSettings;
         }
 
-        public void Session_UserSettings(Context context, object value)
+        public void Session_UserSettings(Context context, string value)
         {
-            this.PageSession(
+            SessionUtilities.Set(
                 context: context,
-                name: "UserSettings",
+                key: "UserSettings",
                 value: value);
         }
 
         public List<string> Session_MailAddresses(Context context)
         {
-            return this.PageSession(context: context, name: "MailAddresses") != null
-                ? this.PageSession(context: context, name: "MailAddresses") as List<string>
+            return context.SessionData.Get("MailAddresses") != null
+                ? context.SessionData.Get("MailAddresses").Deserialize<List<string>>() ?? new List<string>()
                 : MailAddresses;
         }
 
-        public void Session_MailAddresses(Context context, object value)
+        public void Session_MailAddresses(Context context, string value)
         {
-            this.PageSession(
+            SessionUtilities.Set(
                 context: context,
-                name: "MailAddresses",
+                key: "MailAddresses",
                 value: value);
         }
 
@@ -4231,7 +4231,7 @@ namespace Implem.Pleasanter.Models
                 MailAddresses.Add(mailAddress);
                 Session_MailAddresses(
                     context: context,
-                    value: MailAddresses);
+                    value: MailAddresses.ToJson());
                 return Error.Types.None;
             }
         }
@@ -4245,7 +4245,7 @@ namespace Implem.Pleasanter.Models
             MailAddresses.RemoveAll(o => selected.Contains(o));
             Session_MailAddresses(
                 context: context,
-                value: MailAddresses);
+                value: MailAddresses.ToJson());
             return Error.Types.None;
         }
 

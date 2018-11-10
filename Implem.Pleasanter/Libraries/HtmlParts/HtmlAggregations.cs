@@ -7,8 +7,8 @@ using Implem.Pleasanter.Libraries.Responses;
 using Implem.Pleasanter.Libraries.Security;
 using Implem.Pleasanter.Libraries.Server;
 using Implem.Pleasanter.Libraries.Settings;
+using Implem.Pleasanter.Models;
 using System.Linq;
-using System.Web;
 namespace Implem.Pleasanter.Libraries.HtmlParts
 {
     public static class HtmlAggregations
@@ -37,18 +37,25 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
 
         private static bool Reduced(Context context, long siteId)
         {
-            var key = "ReduceAggregations_" + (siteId == 0
-                ? Pages.Key(context: context)
-                : siteId.ToString());
-            if (Forms.ControlId() == "ReduceAggregations")
+            var key = "ReduceAggregations";
+            if (Forms.ControlId() == key)
             {
-                HttpContext.Current.Session[key] = true;
+                SessionUtilities.Set(
+                    context: context,
+                    key: key,
+                    value: "1",
+                    page: true);
             }
             else if (Forms.ControlId() == "ExpandAggregations")
             {
-                HttpContext.Current.Session.Remove(key);
+                SessionUtilities.Remove(
+                    context: context,
+                    key: key,
+                    page: true);
             }
-            return HttpContext.Current.Session[key].ToBool();
+            return SessionUtilities.Bool(
+                context: context,
+                key: key);
         }
 
         private static HtmlBuilder DisplayControl(

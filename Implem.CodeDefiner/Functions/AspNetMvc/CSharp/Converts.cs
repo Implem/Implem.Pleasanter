@@ -64,7 +64,12 @@ namespace Implem.CodeDefiner.Functions.AspNetMvc.CSharp
             var placeholder = Placeholder(code, "#BySession#");
             return columnDefinition.BySession != string.Empty
                 ? code.Replace(placeholder, columnDefinition.BySession)
-                : code.ConvertType("#BySession#", columnDefinition);
+                : columnDefinition.TypeCs.IsNullOrEmpty()
+                    ? code.Replace(placeholder, Variable(placeholder)
+                        + columnDefinition.TypeName.CastType())
+                    : code.Replace(placeholder, Variable(placeholder)
+                        + ".Deserialize<{0}>() ?? new {0}()"
+                            .Params(columnDefinition.TypeCs));
         }
 
         private static string TypeCs(
@@ -113,7 +118,8 @@ namespace Implem.CodeDefiner.Functions.AspNetMvc.CSharp
                         CreateObjectByDataRow(columnDefinition, "column.ColumnName"));
                 default:
                     return code.Replace(
-                        placeholder, AsPrefix(columnDefinition, codeVariable));
+                        placeholder,
+                        AsPrefix(columnDefinition, codeVariable));
             }
         }
 

@@ -4,6 +4,7 @@ using Implem.Pleasanter.Libraries.Requests;
 using Implem.Pleasanter.Libraries.Responses;
 using Implem.Pleasanter.Libraries.Server;
 using Implem.Pleasanter.Libraries.Settings;
+using Implem.Pleasanter.Models;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -64,18 +65,25 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
 
         private static bool Reduced(Context context, long? siteId)
         {
-            var key = "ReduceViewFilters_" + (siteId != null
-                ? Pages.Key(context: context)
-                : siteId.ToString());
-            if (Forms.ControlId() == "ReduceViewFilters")
+            var key = "ReduceViewFilters";
+            if (Forms.ControlId() == key)
             {
-                HttpContext.Current.Session[key] = true;
+                SessionUtilities.Set(
+                    context: context,
+                    key: key,
+                    value: "1",
+                    page: true);
             }
             else if (Forms.ControlId() == "ExpandViewFilters")
             {
-                HttpContext.Current.Session.Remove(key);
+                SessionUtilities.Remove(
+                    context: context,
+                    key: key,
+                    page: true);
             }
-            return HttpContext.Current.Session[key].ToBool();
+            return SessionUtilities.Bool(
+                context: context,
+                key: key);
         }
 
         private static HtmlBuilder DisplayControl(
