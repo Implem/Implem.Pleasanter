@@ -74,6 +74,7 @@ namespace Implem.Pleasanter.Libraries.Requests
 
         public Context(int tenantId, int deptId = 0, int userId = 0, string language = null)
         {
+            SetRequests();
             TenantId = tenantId;
             DeptId = deptId;
             UserId = userId;
