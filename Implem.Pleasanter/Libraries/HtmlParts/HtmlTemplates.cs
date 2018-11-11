@@ -234,7 +234,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
 
         private static HtmlBuilder VideoDialog(this HtmlBuilder hb, Context context, SiteSettings ss)
         {
-            return context.ContractSettings.Attachments() != false && !ss.Mobile
+            return context.ContractSettings.Attachments() != false && !context.Mobile
                 ? hb
                     .Div(
                         attributes: new HtmlAttributes()
@@ -262,7 +262,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
 
         private static HtmlBuilder HiddenData(this HtmlBuilder hb, Context context)
         {
-            return !Request.IsAjax()
+            return !context.Ajax
                 ? hb
                     .Hidden(controlId: "ApplicationPath", value: Locations.Get(context: context))
                     .Hidden(controlId: "Language", value: context.Language)

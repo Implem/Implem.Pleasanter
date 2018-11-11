@@ -766,26 +766,50 @@ namespace Implem.Pleasanter.Models
             MachineName = Environments.MachineName;
             ServiceName = Environments.ServiceName;
             Application = Environments.Application;
-            var request = new Request();
-            if (request.HttpRequest != null)
+            if (context.Url != null)
             {
-                RequestData = request.ProcessedRequestData();
-                HttpMethod = request.HttpMethod();
+                RequestData = ProcessedRequestData(context: context);
+                HttpMethod = context.HttpMethod;
                 ApplicationAge = Applications.ApplicationAge();
                 ApplicationRequestInterval = Applications.ApplicationRequestInterval();
                 SessionAge = context.SessionAge();
                 SessionRequestInterval = context.SessionRequestInterval();
                 RequestSize = RequestData.Length;
-                Url = request.Url();
-                UrlReferer = request.UrlReferrer();
-                UserHostName = request.UserHostName();
-                UserHostAddress = request.UserHostAddress();
-                UserLanguage = request.UserLanguage();
-                UserAgent = request.UserAgent();
+                Url = context.Url;
+                UrlReferer = context.UrlReferrer;
+                UserHostName = context.UserHostName;
+                UserHostAddress = context.UserHostAddress;
+                UserLanguage = context.Language;
+                UserAgent = context.UserAgent;
                 SessionGuid = context.SessionGuid;
             }
             InDebug = Debugs.InDebug();
             AssemblyVersion = Environments.AssemblyVersion;
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        public string ProcessedRequestData(Context context)
+        {
+            return context.FormStringRaw.Split('&')
+                .Where(o => o.Contains('='))
+                .Select(o => ProcessedRequestData(o))
+                .Join("&");
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        private string ProcessedRequestData(string requestData)
+        {
+            switch (requestData.Substring(0, requestData.IndexOf("=")).ToLower())
+            {
+                case "users_password": return "Users_Password=*";
+                case "users_changedpassword": return "Users_ChangedPassword=*";
+                case "users_afterresetpassword": return "Users_AfterResetPassword=*";
+                default: return requestData;
+            }
         }
 
         /// <summary>

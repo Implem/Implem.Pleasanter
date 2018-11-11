@@ -25,13 +25,17 @@ namespace Implem.Pleasanter.Libraries.Requests
         public Dictionary<string, string> SessionData = new Dictionary<string, string>();
         public QueryStrings QueryStrings = new QueryStrings();
         public Forms Forms = new Forms();
+        public string FormStringRaw;
+        public string FormString;
         public List<PostedFile> PostedFiles = new List<PostedFile>();
+        public string HttpMethod;
         public bool Ajax;
+        public bool Mobile;
         public Dictionary<string, string> RouteData = new Dictionary<string, string>();
         public string ApplicationPath;
         public string AbsoluteUri;
         public string AbsolutePath;
-        public string LocalPath;
+        public string Url;
         public string UrlReferrer;
         public string Controller;
         public string Action;
@@ -44,8 +48,10 @@ namespace Implem.Pleasanter.Libraries.Requests
         public string LoginId = HttpContext.Current?.User?.Identity.Name;
         public Dept Dept;
         public User User;
-        public string Language = Parameters.Service.DefaultLanguage;
+        public string UserHostName;
         public string UserHostAddress;
+        public string UserAgent;
+        public string Language = Parameters.Service.DefaultLanguage;
         public bool Developer;
         public TimeZoneInfo TimeZoneInfo = TimeZoneInfo.GetSystemTimeZones()
             .FirstOrDefault(o => o.Id == Parameters.Service.TimeZoneDefault);
@@ -54,13 +60,13 @@ namespace Implem.Pleasanter.Libraries.Requests
         public ContractSettings ContractSettings = new ContractSettings();
 
         public Context(
-            bool routeProperties = true,
+            bool request = true,
             bool sessionStatus = true,
             bool sessionData = true,
             bool user = true)
         {
             Set(
-                routeProperties: routeProperties,
+                request: request,
                 sessionStatus: sessionStatus,
                 setData: sessionData,
                 user: user);
@@ -86,16 +92,16 @@ namespace Implem.Pleasanter.Libraries.Requests
         }
 
         public void Set(
-            bool routeProperties = true,
+            bool request = true,
             bool sessionStatus = true,
             bool setData = true,
             bool user = true)
         {
-            if (routeProperties) SetRouteProperties();
+            if (request) SetRequests();
             if (sessionStatus) SetSessionStatuses();
-            if (user && HttpContext.Current?.Session != null)
+            if (user && HasRoute())
             {
-                var api = Forms.String().Deserialize<Api>();
+                var api = FormString.Deserialize<Api>();
                 if (api?.ApiKey.IsNullOrEmpty() == false)
                 {
                     var userModel = new UserModel().Get(
@@ -221,12 +227,15 @@ namespace Implem.Pleasanter.Libraries.Requests
                 ?? DateTime.Now)).TotalMilliseconds;
         }
 
-        private void SetRouteProperties()
+        private void SetRequests()
         {
             if (HasRoute())
             {
                 var request = HttpContext.Current.Request;
+                FormStringRaw = HttpContext.Current.Request.Form.ToString();
+                FormString = HttpUtility.UrlDecode(FormStringRaw, System.Text.Encoding.UTF8);
                 Ajax = new HttpRequestWrapper(request).IsAjaxRequest();
+                Mobile = request.Browser.IsMobileDevice;
                 RouteData = GetRouteData();
                 Server = request.Url.Scheme + "://" + request.Url.Authority;
                 ApplicationPath = request.ApplicationPath.EndsWith("/")
@@ -234,11 +243,14 @@ namespace Implem.Pleasanter.Libraries.Requests
                     : request.ApplicationPath + "/";
                 AbsoluteUri = request.Url.AbsoluteUri;
                 AbsolutePath = request.Url.AbsolutePath;
-                LocalPath = request.Url.LocalPath;
+                Url = request.Url.ToString();
                 UrlReferrer = request.UrlReferrer?.ToString();
                 Controller = RouteData.Get("controller")?.ToLower() ?? string.Empty;
                 Action = RouteData.Get("action")?.ToLower() ?? string.Empty;
                 Id = RouteData.Get("id")?.ToLong() ?? 0;
+                UserHostName = request.UserHostName;
+                UserHostAddress = request.UserHostAddress;
+                UserAgent = request.UserAgent;
             }
         }
 

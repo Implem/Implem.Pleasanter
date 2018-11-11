@@ -448,7 +448,7 @@ namespace Implem.Pleasanter.Models
                             controlId: "SwitchTargets",
                             css: "always-send",
                             value: wikiModel.WikiId.ToString(),
-                            _using: !Request.IsAjax() || context.Action == "create"))
+                            _using: !context.Ajax || context.Action == "create"))
                 .OutgoingMailsForm(
                     context: context,
                     ss: ss,

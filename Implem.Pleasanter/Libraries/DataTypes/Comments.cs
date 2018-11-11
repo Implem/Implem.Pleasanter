@@ -96,7 +96,7 @@ namespace Implem.Pleasanter.Libraries.DataTypes
                         ss: column.SiteSettings,
                         allowEditing: column.SiteSettings.AllowEditingComments == true,
                         allowImage: column.AllowImage == true,
-                        mobile: column.SiteSettings.Mobile,
+                        mobile: context.Mobile,
                         css: css,
                         readOnly: true)));
         }

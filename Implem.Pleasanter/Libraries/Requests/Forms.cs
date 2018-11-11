@@ -17,11 +17,6 @@ namespace Implem.Pleasanter.Libraries.Requests
             return this.Get(key) ?? string.Empty;
         }
 
-        public string String()
-        {
-            return HttpUtility.UrlDecode(HttpContext.Current.Request.Form.ToString(), System.Text.Encoding.UTF8);
-        }
-
         public string ControlId()
         {
             return Data("ControlId");

@@ -7,7 +7,7 @@ namespace Implem.Pleasanter.Libraries.Requests
     {
         public static View GetBySession(Context context, SiteSettings ss)
         {
-            var view = !Request.IsAjax()
+            var view = !context.Ajax
                 ? context.QueryStrings.Data("View")?.Deserialize<View>()
                 : null;
             var key = "View";

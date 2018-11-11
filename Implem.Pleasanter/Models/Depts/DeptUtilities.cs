@@ -713,7 +713,7 @@ namespace Implem.Pleasanter.Models
                             controlId: "SwitchTargets",
                             css: "always-send",
                             value: deptModel.SwitchTargets?.Join(),
-                            _using: !Request.IsAjax()))
+                            _using: !context.Ajax))
                 .OutgoingMailsForm(
                     context: context,
                     ss: ss,
@@ -1199,7 +1199,7 @@ namespace Implem.Pleasanter.Models
         /// </summary>
         public static System.Web.Mvc.ContentResult GetByApi(Context context, SiteSettings ss)
         {
-            var api = context.Forms.String().Deserialize<Api>();
+            var api = context.FormString.Deserialize<Api>();
             if (api == null)
             {
                 return ApiResults.Get(ApiResponses.BadRequest(context: context));
