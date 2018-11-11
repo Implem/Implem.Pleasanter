@@ -38,7 +38,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
         private static bool Reduced(Context context, long siteId)
         {
             var key = "ReduceAggregations";
-            if (Forms.ControlId() == key)
+            if (context.Forms.ControlId() == key)
             {
                 SessionUtilities.Set(
                     context: context,
@@ -46,7 +46,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     value: "1",
                     page: true);
             }
-            else if (Forms.ControlId() == "ExpandAggregations")
+            else if (context.Forms.ControlId() == "ExpandAggregations")
             {
                 SessionUtilities.Remove(
                     context: context,

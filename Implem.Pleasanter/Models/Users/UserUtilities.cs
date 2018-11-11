@@ -293,7 +293,9 @@ namespace Implem.Pleasanter.Models
             bool clearCheck = false,
             string action = "GridRows")
         {
-            var checkAll = clearCheck ? false : Forms.Bool("GridCheckAll");
+            var checkAll = clearCheck
+                ? false
+                : context.Forms.Bool("GridCheckAll");
             var columns = ss.GetGridColumns(
                 context: context,
                 view: view,
@@ -5336,7 +5338,7 @@ namespace Implem.Pleasanter.Models
                         .Href(Locations.Edit(
                             controller: context.Controller,
                             id: ss.Columns.Any(o => o.Linking)
-                                ? Forms.Long("LinkId")
+                                ? context.Forms.Long("LinkId")
                                 : userModel.UserId))
                         .ToJson();
                 default:
@@ -5395,7 +5397,7 @@ namespace Implem.Pleasanter.Models
             SiteSettings ss,
             UserModel userModel)
         {
-            if (Forms.Bool("IsDialogEditorForm"))
+            if (context.Forms.Bool("IsDialogEditorForm"))
             {
                 var view = Views.GetBySession(
                     context: context,
@@ -5578,9 +5580,9 @@ namespace Implem.Pleasanter.Models
                 ss: ss,
                 where: Rds.UsersWhere()
                     .UserId(userModel.UserId)
-                    .Ver(Forms.Int("Ver")),
+                    .Ver(context.Forms.Int("Ver")),
                 tableType: Sqls.TableTypes.NormalAndHistory);
-            userModel.VerType = Forms.Bool("Latest")
+            userModel.VerType = context.Forms.Bool("Latest")
                 ? Versions.VerTypes.Latest
                 : Versions.VerTypes.History;
             return EditorResponse(context, ss, userModel).ToJson();
@@ -5635,7 +5637,7 @@ namespace Implem.Pleasanter.Models
             var userModel = new UserModel(
                 context: context,
                 ss: ss,
-                loginId: Forms.Data("Users_LoginId"),
+                loginId: context.Forms.Data("Users_LoginId"),
                 setByForm: true);
             var invalid = UserValidators.OnPasswordChangingAtLogin(
                 context: context,
@@ -5650,7 +5652,7 @@ namespace Implem.Pleasanter.Models
                 ? error.MessageJson(context: context)
                 : userModel.Allow(
                     context: context,
-                    returnUrl: Forms.Data("ReturnUrl"),
+                    returnUrl: context.Forms.Data("ReturnUrl"),
                     atLogin: true);
         }
 
@@ -5702,8 +5704,8 @@ namespace Implem.Pleasanter.Models
                 context: context,
                 ss: ss,
                 userId: userId);
-            var mailAddress = Forms.Data("MailAddress").Trim();
-            var selected = Forms.List("MailAddresses");
+            var mailAddress = context.Forms.Data("MailAddress").Trim();
+            var selected = context.Forms.List("MailAddresses");
             var badMailAddress = string.Empty;
             var invalid = UserValidators.OnAddingMailAddress(
                 context: context,
@@ -5746,7 +5748,7 @@ namespace Implem.Pleasanter.Models
                 case Error.Types.None: break;
                 default: return invalid.MessageJson(context: context);
             }
-            var selected = Forms.List("MailAddresses");
+            var selected = context.Forms.List("MailAddresses");
             var error = userModel.DeleteMailAddresses(
                 context: context,
                 selected: selected);
@@ -5886,7 +5888,7 @@ namespace Implem.Pleasanter.Models
             return GridRows(
                 context: context,
                 ss: SiteSettingsUtilities.UsersSiteSettings(context: context),
-                offset: DataViewGrid.Offset());
+                offset: DataViewGrid.Offset(context: context));
         }
 
         /// <summary>
@@ -5983,7 +5985,9 @@ namespace Implem.Pleasanter.Models
                     .ChangePasswordAtLoginDialog(
                         context: context,
                         ss: ss)
-                    .Hidden(controlId: "ReturnUrl", value: QueryStrings.Data("ReturnUrl")))
+                    .Hidden(
+                        controlId: "ReturnUrl",
+                        value: context.QueryStrings.Data("ReturnUrl")))
                     .ToString();
         }
 
@@ -6259,7 +6263,7 @@ namespace Implem.Pleasanter.Models
         /// </summary>
         public static System.Web.Mvc.ContentResult GetByApi(Context context, SiteSettings ss)
         {
-            var api = Forms.String().Deserialize<Api>();
+            var api = context.Forms.String().Deserialize<Api>();
             if (api == null)
             {
                 return ApiResults.Get(ApiResponses.BadRequest(context: context));

@@ -762,11 +762,11 @@ namespace Implem.Pleasanter.Models
         public string SearchDropDown(Context context)
         {
             SetSite(context: context);
-            var controlId = Forms.Data("DropDownSearchTarget");
-            var searchText = Forms.Data("DropDownSearchText");
-            string parentClass = Forms.Data("DropDownSearchParentClass");
-            int parentId = Forms.Int("DropDownSearchParentDataId");
-            switch (Forms.ControlId())
+            var controlId = context.Forms.Data("DropDownSearchTarget");
+            var searchText = context.Forms.Data("DropDownSearchText");
+            string parentClass = context.Forms.Data("DropDownSearchParentClass");
+            int parentId = context.Forms.Int("DropDownSearchParentDataId");
+            switch (context.Forms.ControlId())
             {
                 case "DropDownSearchResults":
                     return
@@ -793,7 +793,7 @@ namespace Implem.Pleasanter.Models
             string parentClass = "",
             int parentId = 0)
         {
-            var offset = Forms.Int("DropDownSearchResultsOffset");
+            var offset = context.Forms.Int("DropDownSearchResultsOffset");
             var column = SearchDropDownColumn(
                 context: context,
                 controlId: controlId,
@@ -850,15 +850,15 @@ namespace Implem.Pleasanter.Models
         public string SelectSearchDropDown(Context context)
         {
             SetSite(context: context);
-            var controlId = Forms.Data("DropDownSearchTarget");
-            var searchText = Forms.Data("DropDownSearchText");
+            var controlId = context.Forms.Data("DropDownSearchTarget");
+            var searchText = context.Forms.Data("DropDownSearchText");
             var column = SearchDropDownColumn(
                 context: context,
                 controlId: controlId,
                 searchText: searchText);
-            var selected = Forms.List("DropDownSearchResults");
-            var editor = Forms.Bool("DropDownSearchOnEditor");
-            var multiple = Forms.Bool("DropDownSearchMultiple");
+            var selected = context.Forms.List("DropDownSearchResults");
+            var editor = context.Forms.Bool("DropDownSearchOnEditor");
+            var multiple = context.Forms.Bool("DropDownSearchMultiple");
             if (multiple)
             {
                 return SelectSearchDropDownResponse(
@@ -925,7 +925,7 @@ namespace Implem.Pleasanter.Models
                 ss.SetChoiceHash(
                     context: context,
                     columnName: column?.ColumnName,
-                    searchText: Forms.Data("DropDownSearchText"));
+                    searchText: context.Forms.Data("DropDownSearchText"));
             }
             return column;
         }
@@ -997,7 +997,7 @@ namespace Implem.Pleasanter.Models
                             context: context,
                             referenceId: ReferenceId,
                             setSiteIntegration: true),
-                        offset: DataViewGrid.Offset());
+                        offset: DataViewGrid.Offset(context: context));
                 case "Results":
                     return ResultUtilities.GridRows(
                         context: context,
@@ -1005,7 +1005,7 @@ namespace Implem.Pleasanter.Models
                             context: context,
                             referenceId: ReferenceId,
                             setSiteIntegration: true),
-                        offset: DataViewGrid.Offset());
+                        offset: DataViewGrid.Offset(context: context));
                 default:
                     return Messages.ResponseNotFound(context: context).ToJson();
             }
@@ -1024,7 +1024,7 @@ namespace Implem.Pleasanter.Models
                             referenceId: ReferenceId,
                             setSiteIntegration: true,
                             tableType: Sqls.TableTypes.Deleted),
-                        offset: DataViewGrid.Offset(),
+                        offset: DataViewGrid.Offset(context: context),
                         action: "TrashBoxGridRows");
                 case "Results":
                     return ResultUtilities.GridRows(
@@ -1034,7 +1034,7 @@ namespace Implem.Pleasanter.Models
                             referenceId: ReferenceId,
                             setSiteIntegration: true,
                             tableType: Sqls.TableTypes.Deleted),
-                        offset: DataViewGrid.Offset(),
+                        offset: DataViewGrid.Offset(context: context),
                         action: "TrashBoxGridRows");
                 default:
                     return Messages.ResponseNotFound(context: context).ToJson();
@@ -1053,7 +1053,7 @@ namespace Implem.Pleasanter.Models
                             context: context,
                             referenceId: ReferenceId,
                             setSiteIntegration: true),
-                        offset: Forms.Int("ImageLibOffset"));
+                        offset: context.Forms.Int("ImageLibOffset"));
                 case "Results":
                     return ResultUtilities.ImageLibNext(
                         context: context,
@@ -1061,7 +1061,7 @@ namespace Implem.Pleasanter.Models
                             context: context,
                             referenceId: ReferenceId,
                             setSiteIntegration: true),
-                        offset: Forms.Int("ImageLibOffset"));
+                        offset: context.Forms.Int("ImageLibOffset"));
                 default:
                     return Messages.ResponseNotFound(context: context).ToJson();
             }
@@ -1887,7 +1887,7 @@ namespace Implem.Pleasanter.Models
             Sqls.TableTypes tableType = Sqls.TableTypes.Normal)
         {
             SiteModel siteModel;
-            if (ReferenceType == "Sites" && Forms.Exists("Ver"))
+            if (ReferenceType == "Sites" && context.Forms.Exists("Ver"))
             {
                 siteModel = new SiteModel();
                 siteModel.Get(
@@ -1895,9 +1895,9 @@ namespace Implem.Pleasanter.Models
                     where: Rds.SitesWhere()
                         .TenantId(context.TenantId)
                         .SiteId(ReferenceId)
-                        .Ver(Forms.Int("Ver")),
+                        .Ver(context.Forms.Int("Ver")),
                     tableType: Sqls.TableTypes.NormalAndHistory);
-                siteModel.VerType =  Forms.Bool("Latest")
+                siteModel.VerType =  context.Forms.Bool("Latest")
                     ? Versions.VerTypes.Latest
                     : Versions.VerTypes.History;
             }

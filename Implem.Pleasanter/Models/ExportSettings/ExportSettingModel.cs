@@ -417,9 +417,9 @@ namespace Implem.Pleasanter.Models
 
         private void SetBySession(Context context)
         {
-            if (!Forms.HasData("ExportSettings_Title")) Title = Session_Title(context: context);
-            if (!Forms.HasData("ExportSettings_AddHeader")) AddHeader = Session_AddHeader(context: context);
-            if (!Forms.HasData("ExportSettings_ExportColumns")) ExportColumns = Session_ExportColumns(context: context);
+            if (!context.Forms.Exists("ExportSettings_Title")) Title = Session_Title(context: context);
+            if (!context.Forms.Exists("ExportSettings_AddHeader")) AddHeader = Session_AddHeader(context: context);
+            if (!context.Forms.Exists("ExportSettings_ExportColumns")) ExportColumns = Session_ExportColumns(context: context);
         }
 
         private void Set(Context context, DataTable dataTable)

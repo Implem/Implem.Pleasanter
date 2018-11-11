@@ -41,7 +41,7 @@ namespace Implem.Pleasanter.Models
                 return Error.Types.HasNotPermission;
             }
             ss.SetColumnAccessControls(context: context, mine: siteModel.Mine(context: context));
-            foreach(var controlId in Forms.Keys())
+            foreach(var controlId in context.Forms.Keys)
             {
                 switch (controlId)
                 {
@@ -87,7 +87,7 @@ namespace Implem.Pleasanter.Models
                 return Error.Types.HasNotPermission;
             }
             ss.SetColumnAccessControls(context: context, mine: siteModel.Mine(context: context));
-            foreach(var controlId in Forms.Keys())
+            foreach(var controlId in context.Forms.Keys)
             {
                 switch (controlId)
                 {
@@ -131,7 +131,7 @@ namespace Implem.Pleasanter.Models
                         if (!new PermissionCollection(
                             context: context,
                             referenceId: ss.SiteId,
-                            permissions: Forms.List("CurrentPermissionsAll"))
+                            permissions: context.Forms.List("CurrentPermissionsAll"))
                                 .InTenant(context: context))
                         {
                             return Error.Types.InvalidRequest;
@@ -159,7 +159,8 @@ namespace Implem.Pleasanter.Models
 
         public static Error.Types OnDeleting(Context context, SiteSettings ss, SiteModel siteModel)
         {
-            if (ss.Title != Forms.Data("DeleteSiteTitle") || !Authenticate(context: context))
+            if (ss.Title != context.Forms.Data("DeleteSiteTitle")
+                || !Authenticate(context: context))
             {
                 return Error.Types.IncorrectSiteDeleting;
             }
@@ -172,8 +173,8 @@ namespace Implem.Pleasanter.Models
         {
             return Authentications.Windows() || Authentications.Try(
                 context: context,
-                loginId: Forms.Data("Users_LoginId"),
-                password: Forms.Data("Users_Password").Sha512Cng());
+                loginId: context.Forms.Data("Users_LoginId"),
+                password: context.Forms.Data("Users_Password").Sha512Cng());
         }
 
         public static Error.Types OnRestoring(Context context)
@@ -258,18 +259,20 @@ namespace Implem.Pleasanter.Models
             {
                 return Error.Types.HasNotPermission;
             }
-            foreach (var formData in Forms.All())
+            foreach (var key in context.Forms.Keys)
             {
-                switch (formData.Key)
+                switch (key)
                 {
                     case "Format":
                         try
                         {
-                            0.ToString(formData.Value, context.CultureInfo());
+                            0.ToString(
+                                format: context.Forms.Get(key),
+                                provider: context.CultureInfo());
                         }
                         catch (System.Exception)
                         {
-                            data = formData.Value;
+                            data = context.Forms.Get(key);
                             return Error.Types.BadFormat;
                         }
                         break;
@@ -284,13 +287,13 @@ namespace Implem.Pleasanter.Models
             {
                 return Error.Types.HasNotPermission;
             }
-            var inheritPermission = Forms.Long("InheritPermission");
+            var inheritPermission = context.Forms.Long("InheritPermission");
             if (ss.SiteId != inheritPermission)
             {
                 if (!PermissionUtilities.InheritTargetsDataRows(
                     context: context,
                     ss: ss).Any(o =>
-                        o.Long("SiteId") == Forms.Long("InheritPermission")))
+                        o.Long("SiteId") == context.Forms.Long("InheritPermission")))
                 {
                     return Error.Types.CanNotInherit;
                 }
@@ -308,17 +311,17 @@ namespace Implem.Pleasanter.Models
             return Error.Types.None;
         }
 
-        public static Error.Types SetReminder(out string data)
+        public static Error.Types SetReminder(Context context, out string data)
         {
             data = null;
             var badFrom = MailAddressValidators.BadMailAddress(
-                Forms.Data("ReminderFrom"), out data);
+                context.Forms.Data("ReminderFrom"), out data);
             if (badFrom != Error.Types.None) return badFrom;
             var badTo = MailAddressValidators.BadMailAddress(
-                Forms.Data("ReminderTo"), out data);
+                context.Forms.Data("ReminderTo"), out data);
             if (badTo != Error.Types.None) return badTo;
             var externalTo = MailAddressValidators.ExternalMailAddress(
-                Forms.Data("ReminderTo"), out data);
+                context.Forms.Data("ReminderTo"), out data);
             return Error.Types.None;
         }
 

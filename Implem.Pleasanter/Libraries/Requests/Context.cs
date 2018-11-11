@@ -22,6 +22,9 @@ namespace Implem.Pleasanter.Libraries.Requests
         public bool Authenticated;
         public string SessionGuid;
         public Dictionary<string, string> SessionData = new Dictionary<string, string>();
+        public QueryStrings QueryStrings = new QueryStrings();
+        public Forms Forms = new Forms();
+        public List<PostedFile> PostedFiles = new List<PostedFile>();
         public string Controller;
         public string Action;
         public long Id;
@@ -50,7 +53,7 @@ namespace Implem.Pleasanter.Libraries.Requests
             Set(
                 routeProperties: routeProperties,
                 sessionStatus: sessionStatus,
-                sessionData: sessionData,
+                setData: sessionData,
                 user: user);
         }
 
@@ -67,10 +70,16 @@ namespace Implem.Pleasanter.Libraries.Requests
             SetContractSettings();
         }
 
+        public Context(HttpPostedFileBase[] files)
+        {
+            Set();
+            SetPostedFiles(files: files);
+        }
+
         public void Set(
             bool routeProperties = true,
             bool sessionStatus = true,
-            bool sessionData = true,
+            bool setData = true,
             bool user = true)
         {
             if (routeProperties) SetRouteProperties();
@@ -88,7 +97,7 @@ namespace Implem.Pleasanter.Libraries.Requests
                             .Disabled(0));
                     Set(
                         userModel: userModel,
-                        sessionData: sessionData);
+                        setData: setData);
                 }
                 else if (!LoginId.IsNullOrEmpty())
                 {
@@ -100,17 +109,17 @@ namespace Implem.Pleasanter.Libraries.Requests
                             .Disabled(0));
                     Set(
                         userModel: userModel,
-                        sessionData: sessionData);
+                        setData: setData);
                 }
                 else
                 {
-                    if (sessionData) SessionData = SessionUtilities.Get(this);
+                    if (setData) SetData();
                     if (sessionStatus) Language = SessionLanguage();
                 }
             }
         }
 
-        private void Set(UserModel userModel, bool sessionData)
+        private void Set(UserModel userModel, bool setData)
         {
             if (userModel.AccessStatus == Databases.AccessStatuses.Selected)
             {
@@ -129,8 +138,37 @@ namespace Implem.Pleasanter.Libraries.Requests
                 SetTenantCaches();
                 SetContractSettings();
                 SetPage();
-                if (sessionData) SessionData = SessionUtilities.Get(this);
+                if (setData) SetData();
             }
+        }
+
+        private void SetData()
+        {
+            var request = HttpContext.Current.Request;
+            SessionData = SessionUtilities.Get(this);
+            request.QueryString.AllKeys
+                .Where(o => o != null)
+                .ForEach(key =>
+                    QueryStrings.Add(key, request.QueryString[key]));
+            request.Form.AllKeys
+                .Where(o => o != null)
+                .ForEach(key =>
+                    Forms.Add(key, request.Form[key]));
+        }
+
+        private void SetPostedFiles(HttpPostedFileBase[] files)
+        {
+            files?.ForEach(file =>
+            {
+                PostedFiles.Add(new PostedFile()
+                {
+                    Guid = file.WriteToTemp(),
+                    FileName = file.FileName.Split('\\').Last(),
+                    Extension = file.Extension(),
+                    Size = file.ContentLength,
+                    ContentType = file.ContentType
+                });
+            });
         }
 
         public RdsUser RdsUser()

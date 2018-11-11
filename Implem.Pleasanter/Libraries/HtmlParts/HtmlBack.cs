@@ -83,17 +83,17 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                     return Locations.ItemIndex(parentId);
                             }
                         case "Wikis":
-                            return QueryStrings.Int("back") == 1 && !referer.IsNullOrEmpty()
-                                ? referer
-                                : Locations.ItemIndex(parentId);
+                            return context.QueryStrings.Int("back") == 1
+                                && !referer.IsNullOrEmpty()
+                                    ? referer
+                                    : Locations.ItemIndex(parentId);
                         default:
                             switch (context.Action)
                             {
                                 case "new":
                                 case "edit":
-                                    return
-                                        QueryStrings.Int("back") == 1 &&
-                                        !referer.IsNullOrEmpty()
+                                    return context.QueryStrings.Int("back") == 1
+                                        && !referer.IsNullOrEmpty()
                                             ? referer
                                             : Locations.Get(
                                                 "Items",

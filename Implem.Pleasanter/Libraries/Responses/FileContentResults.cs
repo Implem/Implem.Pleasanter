@@ -53,7 +53,7 @@ namespace Implem.Pleasanter.Libraries.Responses
             switch (Parameters.BinaryStorage.Provider)
             {
                 case "Local":
-                    return Files.Bytes(
+                    return Implem.Libraries.Utilities.Files.Bytes(
                         Path.Combine(Directories.BinaryStorage(),
                         dataRow.String("BinaryType"),
                         dataRow.String("Guid")));

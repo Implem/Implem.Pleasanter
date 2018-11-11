@@ -8,7 +8,7 @@ namespace Implem.Pleasanter.Libraries.Requests
         public static View GetBySession(Context context, SiteSettings ss)
         {
             var view = !Request.IsAjax()
-                ? QueryStrings.Data("View")?.Deserialize<View>()
+                ? context.QueryStrings.Data("View")?.Deserialize<View>()
                 : null;
             var key = "View";
             if (view != null)
@@ -19,9 +19,9 @@ namespace Implem.Pleasanter.Libraries.Requests
                     view: view);
                 return view;
             }
-            if (Forms.ControlId() == "ViewSelector")
+            if (context.Forms.ControlId() == "ViewSelector")
             {
-                view = ss.Views?.Get(Forms.Int("ViewSelector"))
+                view = ss.Views?.Get(context.Forms.Int("ViewSelector"))
                     ?? new View(context: context, ss: ss);
                 SessionUtilities.Set(
                     context: context,

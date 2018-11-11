@@ -19,9 +19,9 @@ namespace Implem.Pleasanter.Models
             {
                 return Error.Types.HasNotPermission;
             }
-            foreach (var controlId in Forms.Keys())
+            foreach (var key in context.Forms.Keys)
             {
-                switch (controlId)
+                switch (key)
                 {
                     case "InheritPermission":
                         var type = SiteValidators.InheritPermission(

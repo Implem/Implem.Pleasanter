@@ -1,6 +1,6 @@
-﻿using Implem.Pleasanter.Filters;
-using Implem.Pleasanter.Libraries.Requests;
+﻿using Implem.Pleasanter.Libraries.Requests;
 using Implem.Pleasanter.Models;
+using System.Web;
 using System.Web.Mvc;
 namespace Implem.Pleasanter.Controllers
 {
@@ -240,9 +240,9 @@ namespace Implem.Pleasanter.Controllers
         }
 
         [HttpPost]
-        public string Import(long id)
+        public string Import(long id, HttpPostedFileBase[] file)
         {
-            var context = new Context();
+            var context = new Context(files: file);
             var log = new SysLogModel(context: context);
             var json = new ItemModel(context: context, referenceId: id).Import(context: context);
             log.Finish(context: context, responseSize: json.Length);

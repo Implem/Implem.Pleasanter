@@ -8,17 +8,21 @@ namespace Implem.Pleasanter.Libraries.Requests
         public bool All;
         public List<long> Selected;
 
-        public GridSelector()
+        public GridSelector(Context context)
         {
-            All = Forms.Bool("GridCheckAll");
+            All = context.Forms.Bool("GridCheckAll");
             Selected = All
-                ? Get("GridUnCheckedItems")
-                : Get("GridCheckedItems");
+                ? Get(
+                    context: context,
+                    name: "GridUnCheckedItems")
+                : Get(
+                    context: context,
+                    name: "GridCheckedItems");
         }
 
-        private static List<long> Get(string name)
+        private static List<long> Get(Context context, string name)
         {
-            return Forms.Data(name)
+            return context.Forms.Data(name)
                 .Split(',')
                 .Select(o => o.ToLong())
                 .Where(o => o != 0)

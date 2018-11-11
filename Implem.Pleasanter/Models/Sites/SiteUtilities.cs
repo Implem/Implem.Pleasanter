@@ -242,7 +242,9 @@ namespace Implem.Pleasanter.Models
             bool clearCheck = false,
             string action = "GridRows")
         {
-            var checkAll = clearCheck ? false : Forms.Bool("GridCheckAll");
+            var checkAll = clearCheck
+                ? false
+                : context.Forms.Bool("GridCheckAll");
             var columns = ss.GetGridColumns(
                 context: context,
                 view: view,
@@ -719,18 +721,17 @@ namespace Implem.Pleasanter.Models
             {
                 return Messages.ResponseDeleteConflicts(context: context).ToJson();
             }
-            if (Forms.Exists("InheritPermission"))
+            if (context.Forms.Exists("InheritPermission"))
             {
-                siteModel.InheritPermission = Forms.Long("InheritPermission");
+                siteModel.InheritPermission = context.Forms.Long("InheritPermission");
                 ss.InheritPermission = siteModel.InheritPermission;
             }
             var error = siteModel.Update(
                 context: context,
                 ss: ss,
-                permissions: Forms.List("CurrentPermissionsAll"),
-                permissionChanged:
-                    Forms.Exists("InheritPermission") ||
-                    Forms.Exists("CurrentPermissionsAll"));
+                permissions: context.Forms.List("CurrentPermissionsAll"),
+                permissionChanged: context.Forms.Exists("InheritPermission")
+                    || context.Forms.Exists("CurrentPermissionsAll"));
             switch (error)
             {
                 case Error.Types.None:
@@ -761,7 +762,7 @@ namespace Implem.Pleasanter.Models
             SiteModel siteModel)
         {
             var ss = siteModel.SiteSettings;
-            if (Forms.Bool("IsDialogEditorForm"))
+            if (context.Forms.Bool("IsDialogEditorForm"))
             {
                 var view = Views.GetBySession(
                     context: context,
@@ -822,7 +823,7 @@ namespace Implem.Pleasanter.Models
                 return Error.Types.SitesLimit.MessageJson(context: context);
             }
             siteModel.Title.Value += Displays.SuffixCopy(context: context);
-            if (!Forms.Bool("CopyWithComments"))
+            if (!context.Forms.Bool("CopyWithComments"))
             {
                 siteModel.Comments.Clear();
             }
@@ -874,7 +875,7 @@ namespace Implem.Pleasanter.Models
             }
             else if (context.CanManageSite(ss: ss))
             {
-                var selector = new GridSelector();
+                var selector = new GridSelector(context: context);
                 var count = 0;
                 if (selector.All)
                 {
@@ -963,7 +964,7 @@ namespace Implem.Pleasanter.Models
                 case Error.Types.None: break;
                 default: return invalid.MessageJson(context: context);
             }
-            var ver = Forms.Data("GridCheckedItems")
+            var ver = context.Forms.Data("GridCheckedItems")
                 .Split(',')
                 .Where(o => !o.IsNullOrEmpty())
                 .ToList();
@@ -1095,7 +1096,7 @@ namespace Implem.Pleasanter.Models
             }
             if (context.CanManageSite(ss: ss))
             {
-                var selector = new GridSelector();
+                var selector = new GridSelector(context: context);
                 var selected = selector
                     .Selected
                     .Select(o => o.ToInt())
@@ -1179,7 +1180,7 @@ namespace Implem.Pleasanter.Models
             }
             if (context.CanManageSite(ss: ss))
             {
-                var selector = new GridSelector();
+                var selector = new GridSelector(context: context);
                 var count = 0;
                 if (selector.All)
                 {
@@ -1624,7 +1625,7 @@ namespace Implem.Pleasanter.Models
                 case Error.Types.None: break;
                 default: return invalid.MessageJson(context: context);
             }
-            var id = Forms.Data("TemplateId");
+            var id = context.Forms.Data("TemplateId");
             if (id.IsNullOrEmpty())
             {
                 return Error.Types.SelectTargets.MessageJson(context: context);
@@ -1642,7 +1643,7 @@ namespace Implem.Pleasanter.Models
                 return Error.Types.NotFound.MessageJson(context: context);
             }
             siteModel.ReferenceType = templateSs.ReferenceType;
-            siteModel.Title = new Title(Forms.Data("SiteTitle"));
+            siteModel.Title = new Title(context.Forms.Data("SiteTitle"));
             siteModel.Body = templateDefinition.Body;
             siteModel.SiteSettings = templateSs;
             siteModel.Create(context: context, otherInitValue: true);
@@ -1705,9 +1706,9 @@ namespace Implem.Pleasanter.Models
                 ? SiteTopPermission(context: context)
                 : Permissions.Get(context: context, siteId: id);
             var sourceSiteModel = new SiteModel(
-                context: context, siteId: Forms.Long("SiteId"));
+                context: context, siteId: context.Forms.Long("SiteId"));
             var destinationSiteModel = new SiteModel(
-                context: context, siteId: Forms.Long("DestinationId"));
+                context: context, siteId: context.Forms.Long("DestinationId"));
             if (siteModel.NotFound() ||
                 sourceSiteModel.NotFound() ||
                 destinationSiteModel.NotFound())
@@ -1912,9 +1913,9 @@ namespace Implem.Pleasanter.Models
             siteModel.SiteSettings = SiteSettingsUtilities.Get(
                 context: context, siteModel: siteModel, referenceId: id);
             var sourceSiteModel = new SiteModel(
-                context: context, siteId: Forms.Long("SiteId"));
+                context: context, siteId: context.Forms.Long("SiteId"));
             var destinationSiteModel = new SiteModel(
-                context: context, siteId: Forms.Long("DestinationId"));
+                context: context, siteId: context.Forms.Long("DestinationId"));
             if (siteModel.NotFound() ||
                 sourceSiteModel.NotFound() ||
                 destinationSiteModel.NotFound())
@@ -1969,7 +1970,8 @@ namespace Implem.Pleasanter.Models
                     siteModel: siteModel,
                     invalid: Error.Types.CanNotLink);
             }
-            var column = sourceSiteModel.SiteSettings.ColumnHash.Get(Forms.Data("LinkColumn"));
+            var column = sourceSiteModel.SiteSettings.ColumnHash.Get(
+                context.Forms.Data("LinkColumn"));
             if (column == null)
             {
                 return SiteMenuError(
@@ -1978,7 +1980,7 @@ namespace Implem.Pleasanter.Models
                     siteModel: siteModel,
                     invalid: Error.Types.InvalidRequest);
             } 
-            var labelText = Forms.Data("LinkColumnLabelText");
+            var labelText = context.Forms.Data("LinkColumnLabelText");
             column.LabelText = labelText;
             column.GridLabelText = labelText;
             column.ChoicesText = $"[[{destinationSiteModel.SiteId}]]";
@@ -2060,7 +2062,7 @@ namespace Implem.Pleasanter.Models
                 ReferenceId = siteModel.SiteId,
                 ReferenceType = "Sites",
                 OwnerId = ownerId,
-                Data = Forms.LongList("Data")
+                Data = context.Forms.LongList("Data")
             }.UpdateOrCreate(context: context);
         }
 
@@ -2803,9 +2805,9 @@ namespace Implem.Pleasanter.Models
         /// </summary>
         public static string PreviewTemplate(Context context)
         {
-            var controlId = Forms.ControlId();
+            var controlId = context.Forms.ControlId();
             var template = Def.TemplateDefinitionCollection
-                .FirstOrDefault(o => o.Id == Forms.List(controlId).FirstOrDefault());
+                .FirstOrDefault(o => o.Id == context.Forms.List(controlId).FirstOrDefault());
             return template != null
                 ? PreviewTemplate(context: context, template: template, controlId: controlId)
                 : new ResponseCollection()
@@ -4594,7 +4596,7 @@ namespace Implem.Pleasanter.Models
         public static HtmlBuilder EditSummary(
             this HtmlBuilder hb, Context context, SiteSettings ss)
         {
-            var selected = Forms.Data("EditSummary").Deserialize<IEnumerable<int>>();
+            var selected = context.Forms.Data("EditSummary").Deserialize<IEnumerable<int>>();
             return hb
                 .Table(
                     id: "EditSummary",
@@ -5035,7 +5037,7 @@ namespace Implem.Pleasanter.Models
         public static HtmlBuilder EditFormula(
             this HtmlBuilder hb, Context context, SiteSettings ss)
         {
-            var selected = Forms.Data("EditFormula").Deserialize<IEnumerable<int>>();
+            var selected = context.Forms.Data("EditFormula").Deserialize<IEnumerable<int>>();
             return hb
                 .Table(
                     id: "EditFormula",
@@ -5911,7 +5913,7 @@ namespace Implem.Pleasanter.Models
         public static HtmlBuilder EditNotification(
             this HtmlBuilder hb, Context context, SiteSettings ss)
         {
-            var selected = Forms.Data("EditNotification").Deserialize<IEnumerable<int>>();
+            var selected = context.Forms.Data("EditNotification").Deserialize<IEnumerable<int>>();
             return hb.Table(
                 id: "EditNotification",
                 css: "grid",
@@ -6241,7 +6243,7 @@ namespace Implem.Pleasanter.Models
         public static HtmlBuilder EditReminder(
             this HtmlBuilder hb, Context context, SiteSettings ss)
         {
-            var selected = Forms.Data("EditReminder").Deserialize<IEnumerable<int>>();
+            var selected = context.Forms.Data("EditReminder").Deserialize<IEnumerable<int>>();
             return hb.Table(
                 id: "EditReminder",
                 css: "grid",
@@ -6578,7 +6580,7 @@ namespace Implem.Pleasanter.Models
         public static HtmlBuilder EditExport(this HtmlBuilder hb, Context context, SiteSettings ss)
         {
             ss.SetExports(context: context);
-            var selected = Forms.Data("EditExport").Deserialize<IEnumerable<int>>();
+            var selected = context.Forms.Data("EditExport").Deserialize<IEnumerable<int>>();
             return hb.Table(
                 id: "EditExport",
                 css: "grid",
@@ -7144,7 +7146,7 @@ namespace Implem.Pleasanter.Models
         public static HtmlBuilder EditStyle(
             this HtmlBuilder hb, Context context, SiteSettings ss)
         {
-            var selected = Forms.Data("EditStyle").Deserialize<IEnumerable<int>>();
+            var selected = context.Forms.Data("EditStyle").Deserialize<IEnumerable<int>>();
             return hb.Table(
                 id: "EditStyle",
                 css: "grid",
@@ -7456,7 +7458,7 @@ namespace Implem.Pleasanter.Models
         /// </summary>
         public static HtmlBuilder EditScript(this HtmlBuilder hb, Context context, SiteSettings ss)
         {
-            var selected = Forms.Data("EditScript").Deserialize<IEnumerable<int>>();
+            var selected = context.Forms.Data("EditScript").Deserialize<IEnumerable<int>>();
             return hb.Table(
                 id: "EditScript",
                 css: "grid",
@@ -7801,7 +7803,7 @@ namespace Implem.Pleasanter.Models
                 case Error.Types.None: break;
                 default: return invalid.MessageJson(context: context);
             }
-            var selected = Forms.IntList("EditSummary");
+            var selected = context.Forms.IntList("EditSummary");
             if (selected?.Any() != true)
             {
                 return Messages.ResponseSelectTargets(context: context).ToJson();
@@ -7832,7 +7834,7 @@ namespace Implem.Pleasanter.Models
                 case Error.Types.None: break;
                 default: return invalid.MessageJson(context: context);
             }
-            var selected = Forms.IntList("EditFormula");
+            var selected = context.Forms.IntList("EditFormula");
             if (selected?.Any() != true)
             {
                 return Messages.ResponseSelectTargets(context: context).ToJson();
@@ -7854,7 +7856,8 @@ namespace Implem.Pleasanter.Models
         public static HtmlBuilder EditRelatingColumns(
             this HtmlBuilder hb, Context context, SiteSettings ss)
         {
-            var selected = Forms.Data("EditRelatingColumns").Deserialize<IEnumerable<int>>();
+            var selected = context.Forms.Data("EditRelatingColumns")
+                .Deserialize<IEnumerable<int>>();
             return hb.Table(
                 id: "EditRelatingColumns",
                 css: "grid",

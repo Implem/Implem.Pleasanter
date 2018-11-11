@@ -17,8 +17,7 @@ namespace Implem.Pleasanter.Libraries.Responses
         private static ResponseCollection ViewFilters(
             this ResponseCollection res, Context context, SiteSettings ss, View view)
         {
-            var controlId = Forms.ControlId();
-            switch (Forms.ControlId())
+            switch (context.Forms.ControlId())
             {
                 case "ViewSelector":
                 case "ReduceViewFilters":

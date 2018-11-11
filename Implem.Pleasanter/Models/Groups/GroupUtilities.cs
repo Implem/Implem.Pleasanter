@@ -295,7 +295,9 @@ namespace Implem.Pleasanter.Models
             bool clearCheck = false,
             string action = "GridRows")
         {
-            var checkAll = clearCheck ? false : Forms.Bool("GridCheckAll");
+            var checkAll = clearCheck
+                ? false
+                : context.Forms.Bool("GridCheckAll");
             var columns = ss.GetGridColumns(
                 context: context,
                 view: view,
@@ -911,7 +913,7 @@ namespace Implem.Pleasanter.Models
                         .Href(Locations.Edit(
                             controller: context.Controller,
                             id: ss.Columns.Any(o => o.Linking)
-                                ? Forms.Long("LinkId")
+                                ? context.Forms.Long("LinkId")
                                 : groupModel.GroupId))
                         .ToJson();
                 default:
@@ -965,7 +967,7 @@ namespace Implem.Pleasanter.Models
             SiteSettings ss,
             GroupModel groupModel)
         {
-            if (Forms.Bool("IsDialogEditorForm"))
+            if (context.Forms.Bool("IsDialogEditorForm"))
             {
                 var view = Views.GetBySession(
                     context: context,
@@ -1148,9 +1150,9 @@ namespace Implem.Pleasanter.Models
                 ss: ss,
                 where: Rds.GroupsWhere()
                     .GroupId(groupModel.GroupId)
-                    .Ver(Forms.Int("Ver")),
+                    .Ver(context.Forms.Int("Ver")),
                 tableType: Sqls.TableTypes.NormalAndHistory);
-            groupModel.VerType = Forms.Bool("Latest")
+            groupModel.VerType = context.Forms.Bool("Latest")
                 ? Versions.VerTypes.Latest
                 : Versions.VerTypes.History;
             return EditorResponse(context, ss, groupModel).ToJson();
@@ -1164,7 +1166,7 @@ namespace Implem.Pleasanter.Models
             return GridRows(
                 context: context,
                 ss: SiteSettingsUtilities.GroupsSiteSettings(context: context),
-                offset: DataViewGrid.Offset());
+                offset: DataViewGrid.Offset(context: context));
         }
 
         /// <summary>
@@ -1302,10 +1304,10 @@ namespace Implem.Pleasanter.Models
         private static Dictionary<string, ControlData> SelectableMembers(Context context)
         {
             var data = new Dictionary<string, ControlData>();
-            var searchText = Forms.Data("SearchMemberText");
+            var searchText = context.Forms.Data("SearchMemberText");
             if (!searchText.IsNullOrEmpty())
             {
-                var currentMembers = Forms.List("CurrentMembersAll");
+                var currentMembers = context.Forms.List("CurrentMembersAll");
                 Rds.ExecuteTable(
                     context: context,
                     statements: new SqlStatement[]
@@ -1417,7 +1419,7 @@ namespace Implem.Pleasanter.Models
         /// </summary>
         public static System.Web.Mvc.ContentResult GetByApi(Context context, SiteSettings ss)
         {
-            var api = Forms.String().Deserialize<Api>();
+            var api = context.Forms.String().Deserialize<Api>();
             if (api == null)
             {
                 return ApiResults.Get(ApiResponses.BadRequest(context: context));

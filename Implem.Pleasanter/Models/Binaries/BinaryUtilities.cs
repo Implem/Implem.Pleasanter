@@ -18,6 +18,7 @@ using Implem.Pleasanter.Libraries.Settings;
 using System;
 using System.Collections.Generic;
 using System.Data;
+using System.IO;
 using System.Linq;
 namespace Implem.Pleasanter.Models
 {
@@ -134,18 +135,18 @@ namespace Implem.Pleasanter.Models
                 context: context,
                 siteModel: siteModel,
                 referenceId: siteModel.SiteId);
-            var file = Forms.File(Libraries.Images.ImageData.Types.SiteImage.ToString());
+            var bin = context.PostedFiles.FirstOrDefault()?.Byte();
             var invalid = BinaryValidators.OnUploadingSiteImage(
                 context: context,
                 ss: siteModel.SiteSettings,
-                file: file);
+                bin: bin);
             switch (invalid)
             {
                 case Error.Types.None: break;
                 default: return invalid.MessageJson(context: context);
             }
             var error = new BinaryModel(siteModel.SiteId).UpdateSiteImage(
-                context: context, file: file);
+                context: context, bin: bin);
             if (error.Has())
             {
                 return error.MessageJson(context: context);
@@ -214,19 +215,16 @@ namespace Implem.Pleasanter.Models
         /// <summary>
         /// Fixed:
         /// </summary>
-        public static string UploadImage(
-            Context context, System.Web.HttpPostedFileBase[] files, long id)
+        public static string UploadImage(Context context, long id)
         {
-            var controlId = Forms.ControlId();
+            var controlId = context.Forms.ControlId();
             var ss = new ItemModel(
                 context: context,
                 referenceId: id).GetSite(
                     context: context,
                     initSiteSettings: true)
                         .SiteSettings;
-            var invalid = BinaryValidators.OnUploadingImage(
-                context: context,
-                files: files);
+            var invalid = BinaryValidators.OnUploadingImage(context: context);
             switch (invalid)
             {
                 case Error.Types.OverTenantStorageSize:
@@ -236,31 +234,34 @@ namespace Implem.Pleasanter.Models
                 case Error.Types.None: break;
                 default: return invalid.MessageJson(context: context);
             }
-            var guid = Strings.NewGuid();
-            var file = files[0];
-            var size = file.ContentLength;
+            var file = context.PostedFiles.FirstOrDefault();
             var bin = file.Byte();
-            Rds.ExecuteNonQuery(
-                context: context,
-                statements: Rds.InsertBinaries(
-                    param: Rds.BinariesParam()
-                        .TenantId(context.TenantId)
-                        .ReferenceId(id)
-                        .Guid(guid)
-                        .BinaryType("Images")
-                        .Title(file.FileName)
-                        .Bin(bin, _using: !Parameters.BinaryStorage.IsLocal())
-                        .FileName(file.FileName)
-                        .Extension(file.Extension())
-                        .Size(size)
-                        .ContentType(file.ContentType)));
             if (Parameters.BinaryStorage.IsLocal())
             {
-                bin.Write(System.IO.Path.Combine(Directories.BinaryStorage(), "Images", guid));
+                bin.Write(Path.Combine(Directories.BinaryStorage(), "Images", file.Guid));
+            }
+            else
+            {
+                Rds.ExecuteNonQuery(
+                    context: context,
+                    statements: Rds.InsertBinaries(
+                        param: Rds.BinariesParam()
+                            .TenantId(context.TenantId)
+                            .ReferenceId(id)
+                            .Guid(file.Guid)
+                            .BinaryType("Images")
+                            .Title(file.FileName)
+                            .Bin(bin)
+                            .FileName(file.FileName)
+                            .Extension(file.Extension)
+                            .Size(file.Size)
+                            .ContentType(file.ContentType)));
             }
             var hb = new HtmlBuilder();
             return new ResponseCollection()
-                .InsertText("#" + Forms.ControlId(), $"![image]({Locations.ShowFile(guid)})")
+                .InsertText(
+                    "#" + context.Forms.ControlId(),
+                    $"![image]({Locations.ShowFile(file.Guid)})")
                 .ToJson();
         }
 
@@ -301,10 +302,9 @@ namespace Implem.Pleasanter.Models
         /// <summary>
         /// Fixed:
         /// </summary>
-        public static string MultiUpload(
-            Context context, System.Web.HttpPostedFileBase[] files, long id)
+        public static string MultiUpload(Context context, long id)
         {
-            var controlId = Forms.ControlId();
+            var controlId = context.Forms.ControlId();
             var ss = new ItemModel(
                 context: context,
                 referenceId: id).GetSite(
@@ -313,13 +313,12 @@ namespace Implem.Pleasanter.Models
                         .SiteSettings;
             var column = ss.GetColumn(
                 context: context,
-                columnName: Forms.Data("ColumnName"));
-            var attachments = Forms.Data("AttachmentsData").Deserialize<Attachments>();
+                columnName: context.Forms.Data("ColumnName"));
+            var attachments = context.Forms.Data("AttachmentsData").Deserialize<Attachments>();
             var invalid = BinaryValidators.OnUploading(
                 context: context,
                 column: column,
-                attachments: attachments,
-                files: files);
+                attachments: attachments);
             switch (invalid)
             {
                 case Error.Types.OverLimitQuantity:
@@ -341,12 +340,12 @@ namespace Implem.Pleasanter.Models
                 case Error.Types.None: break;
                 default: return invalid.MessageJson(context: context);
             }
-            files.ForEach(file => attachments.Add(new Attachment()
+            context.PostedFiles.ForEach(file => attachments.Add(new Attachment()
             {
-                Guid = file.WriteToTemp(),
+                Guid = file.Guid,
                 Name = file.FileName.Split('\\').Last(),
-                Size = file.ContentLength,
-                Extention = file.Extension(),
+                Size = file.Size,
+                Extention = file.Extension,
                 ContentType = file.ContentType,
                 Added = true,
                 Deleted = false
@@ -398,7 +397,7 @@ namespace Implem.Pleasanter.Models
             {
                 return null;
             }
-            File.DeleteTemp(Forms.Data("Guid"));
+            Libraries.DataSources.File.DeleteTemp(context.Forms.Data("Guid"));
             return "[]";
         }
 

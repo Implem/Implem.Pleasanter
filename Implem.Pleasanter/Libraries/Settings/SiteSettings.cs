@@ -2134,7 +2134,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                 columnPermissionType != Permissions.ColumnPermissionTypes.Deny;
         }
 
-        public void Set(string propertyName, string value)
+        public void Set(Context context, string propertyName, string value)
         {
             switch (propertyName)
             {
@@ -2165,14 +2165,14 @@ namespace Implem.Pleasanter.Libraries.Settings
                 case "CreateColumnAccessControlAll": SetCreateColumnAccessControl(value); break;
                 case "ReadColumnAccessControlAll": SetReadColumnAccessControl(value); break;
                 case "UpdateColumnAccessControlAll": SetUpdateColumnAccessControl(value); break;
-                case "GridColumnsAll": GridColumns = Forms.List(propertyName); break;
-                case "FilterColumnsAll": FilterColumns = Forms.List(propertyName); break;
-                case "EditorColumnsAll": EditorColumns = Forms.List(propertyName); break;
-                case "TitleColumnsAll": TitleColumns = Forms.List(propertyName); break;
-                case "LinkColumnsAll": LinkColumns = Forms.List(propertyName); break;
-                case "HistoryColumnsAll": HistoryColumns = Forms.List(propertyName); break;
+                case "GridColumnsAll": GridColumns = context.Forms.List(propertyName); break;
+                case "FilterColumnsAll": FilterColumns = context.Forms.List(propertyName); break;
+                case "EditorColumnsAll": EditorColumns = context.Forms.List(propertyName); break;
+                case "TitleColumnsAll": TitleColumns = context.Forms.List(propertyName); break;
+                case "LinkColumnsAll": LinkColumns = context.Forms.List(propertyName); break;
+                case "HistoryColumnsAll": HistoryColumns = context.Forms.List(propertyName); break;
                 case "ViewsAll":
-                    Views = Views?.Join(Forms.List(propertyName).Select((val, key) => new { Key = key, Val = val }), v => v.Id, l => l.Val.ToInt(),
+                    Views = Views?.Join(context.Forms.List(propertyName).Select((val, key) => new { Key = key, Val = val }), v => v.Id, l => l.Val.ToInt(),
                         (v, l) => new { Views = v, OrderNo = l.Key })
                         .OrderBy(v => v.OrderNo)
                         .Select(v => v.Views)

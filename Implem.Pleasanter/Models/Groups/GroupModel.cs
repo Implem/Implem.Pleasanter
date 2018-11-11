@@ -273,7 +273,7 @@ namespace Implem.Pleasanter.Models
                     where: Rds.GroupMembersWhere()
                         .GroupId(GroupId))
             };
-            Forms.List("CurrentMembersAll").ForEach(data =>
+            context.Forms.List("CurrentMembersAll").ForEach(data =>
             {
                 if (data.StartsWith("Dept,"))
                 {
@@ -434,16 +434,16 @@ namespace Implem.Pleasanter.Models
 
         public void SetByForm(Context context, SiteSettings ss)
         {
-            Forms.Keys().ForEach(controlId =>
+            context.Forms.Keys.ForEach(controlId =>
             {
                 switch (controlId)
                 {
-                    case "Groups_TenantId": TenantId = Forms.Data(controlId).ToInt(); break;
-                    case "Groups_GroupName": GroupName = Forms.Data(controlId).ToString(); break;
-                    case "Groups_Body": Body = Forms.Data(controlId).ToString(); break;
-                    case "Groups_Timestamp": Timestamp = Forms.Data(controlId).ToString(); break;
-                    case "Comments": Comments.Prepend(context: context, ss: ss, body: Forms.Data("Comments")); break;
-                    case "VerUp": VerUp = Forms.Data(controlId).ToBool(); break;
+                    case "Groups_TenantId": TenantId = context.Forms.Data(controlId).ToInt(); break;
+                    case "Groups_GroupName": GroupName = context.Forms.Data(controlId).ToString(); break;
+                    case "Groups_Body": Body = context.Forms.Data(controlId).ToString(); break;
+                    case "Groups_Timestamp": Timestamp = context.Forms.Data(controlId).ToString(); break;
+                    case "Comments": Comments.Prepend(context: context, ss: ss, body: context.Forms.Data("Comments")); break;
+                    case "VerUp": VerUp = context.Forms.Data(controlId).ToBool(); break;
                     default:
                         if (controlId.RegexExists("Comment[0-9]+"))
                         {
@@ -451,23 +451,16 @@ namespace Implem.Pleasanter.Models
                                 context: context,
                                 ss: ss,
                                 commentId: controlId.Substring("Comment".Length).ToInt(),
-                                body: Forms.Data(controlId));
+                                body: context.Forms.Data(controlId));
                         }
                         break;
                 }
             });
             if (context.Action == "deletecomment")
             {
-                DeleteCommentId = Forms.ControlId().Split(',')._2nd().ToInt();
+                DeleteCommentId = context.Forms.ControlId().Split(',')._2nd().ToInt();
                 Comments.RemoveAll(o => o.CommentId == DeleteCommentId);
             }
-            Forms.FileKeys().ForEach(controlId =>
-            {
-                switch (controlId)
-                {
-                    default: break;
-                }
-            });
         }
 
         public void SetByModel(GroupModel groupModel)
@@ -486,7 +479,7 @@ namespace Implem.Pleasanter.Models
 
         public void SetByApi(Context context, SiteSettings ss)
         {
-            var data = Forms.String().Deserialize<GroupApiModel>();
+            var data = context.Forms.String().Deserialize<GroupApiModel>();
             if (data == null)
             {
                 return;

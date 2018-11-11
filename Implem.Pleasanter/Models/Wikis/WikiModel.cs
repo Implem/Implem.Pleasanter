@@ -639,15 +639,15 @@ namespace Implem.Pleasanter.Models
 
         public void SetByForm(Context context, SiteSettings ss)
         {
-            Forms.Keys().ForEach(controlId =>
+            context.Forms.Keys.ForEach(controlId =>
             {
                 switch (controlId)
                 {
-                    case "Wikis_Title": Title = new Title(WikiId, Forms.Data(controlId)); break;
-                    case "Wikis_Body": Body = Forms.Data(controlId).ToString(); break;
-                    case "Wikis_Timestamp": Timestamp = Forms.Data(controlId).ToString(); break;
-                    case "Comments": Comments.Prepend(context: context, ss: ss, body: Forms.Data("Comments")); break;
-                    case "VerUp": VerUp = Forms.Data(controlId).ToBool(); break;
+                    case "Wikis_Title": Title = new Title(WikiId, context.Forms.Data(controlId)); break;
+                    case "Wikis_Body": Body = context.Forms.Data(controlId).ToString(); break;
+                    case "Wikis_Timestamp": Timestamp = context.Forms.Data(controlId).ToString(); break;
+                    case "Comments": Comments.Prepend(context: context, ss: ss, body: context.Forms.Data("Comments")); break;
+                    case "VerUp": VerUp = context.Forms.Data(controlId).ToBool(); break;
                     default:
                         if (controlId.RegexExists("Comment[0-9]+"))
                         {
@@ -655,7 +655,7 @@ namespace Implem.Pleasanter.Models
                                 context: context,
                                 ss: ss,
                                 commentId: controlId.Substring("Comment".Length).ToInt(),
-                                body: Forms.Data(controlId));
+                                body: context.Forms.Data(controlId));
                         }
                         break;
                 }
@@ -664,16 +664,9 @@ namespace Implem.Pleasanter.Models
             SetChoiceHash(context: context, ss: ss);
             if (context.Action == "deletecomment")
             {
-                DeleteCommentId = Forms.ControlId().Split(',')._2nd().ToInt();
+                DeleteCommentId = context.Forms.ControlId().Split(',')._2nd().ToInt();
                 Comments.RemoveAll(o => o.CommentId == DeleteCommentId);
             }
-            Forms.FileKeys().ForEach(controlId =>
-            {
-                switch (controlId)
-                {
-                    default: break;
-                }
-            });
         }
 
         public void SetByModel(WikiModel wikiModel)
@@ -692,7 +685,7 @@ namespace Implem.Pleasanter.Models
 
         public void SetByApi(Context context, SiteSettings ss)
         {
-            var data = Forms.String().Deserialize<WikiApiModel>();
+            var data = context.Forms.String().Deserialize<WikiApiModel>();
             if (data == null)
             {
                 return;

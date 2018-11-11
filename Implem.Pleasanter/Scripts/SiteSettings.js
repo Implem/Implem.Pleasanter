@@ -1,10 +1,10 @@
 ﻿$p.uploadSiteImage = function ($control) {
     var data = new FormData();
-    data.append('SiteImage', $('#SiteImage').prop('files')[0]);
-    $p.upload(
+    data.append('file', $('#SiteImage').prop('files')[0]);
+    $p.multiUpload(
         $('.main-form').attr('action').replace('_action_', $control.attr('data-action')),
-        $control.attr('data-method'),
-        data);
+        data,
+        $control);
 }
 
 $p.openSiteSettingsDialog = function ($control, selector, width) {

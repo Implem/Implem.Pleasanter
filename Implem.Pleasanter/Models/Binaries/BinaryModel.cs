@@ -489,7 +489,7 @@ namespace Implem.Pleasanter.Models
 
         private void SetBySession(Context context)
         {
-            if (!Forms.HasData("Binaries_BinarySettings")) BinarySettings = Session_BinarySettings(context: context);
+            if (!context.Forms.Exists("Binaries_BinarySettings")) BinarySettings = Session_BinarySettings(context: context);
         }
 
         private void Set(Context context, DataTable dataTable)
@@ -679,11 +679,11 @@ namespace Implem.Pleasanter.Models
         /// <summary>
         /// Fixed:
         /// </summary>
-        public Error.Types UpdateSiteImage(Context context, byte[] file)
+        public Error.Types UpdateSiteImage(Context context, byte[] bin)
         {
             BinaryType = "SiteImage";
             var imageData = new Libraries.Images.ImageData(
-                file,
+                bin,
                 ReferenceId,
                 Libraries.Images.ImageData.Types.SiteImage);
             switch (Parameters.BinaryStorage.Provider)

@@ -14,7 +14,7 @@ namespace Implem.Pleasanter.Controllers
             var context = new Context();
             if (Parameters.Reminder.Enabled)
             {
-                if (QueryStrings.Bool("NoLog"))
+                if (context.QueryStrings.Bool("NoLog"))
                 {
                     return ReminderScheduleUtilities.Remind(context: context);
                 }

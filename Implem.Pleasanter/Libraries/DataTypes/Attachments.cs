@@ -63,7 +63,7 @@ namespace Implem.Pleasanter.Libraries.DataTypes
             {
                 if (Parameters.BinaryStorage.IsLocal())
                 {
-                    attachment.WriteToLocal();
+                    attachment.WriteToLocal(context: context);
                 }
                 attachment.SqlStatement(
                     context: context, statements: statements, referenceId: referenceId);

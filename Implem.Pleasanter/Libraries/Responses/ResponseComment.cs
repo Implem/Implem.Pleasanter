@@ -17,7 +17,7 @@ namespace Implem.Pleasanter.Libraries.Responses
             Comments comments,
             Versions.VerTypes verType)
         {
-            return Forms.Data("Comments").Trim() != string.Empty
+            return context.Forms.Data("Comments").Trim() != string.Empty
                 ? res
                     .Val("#Comments", string.Empty)
                     .Focus("#Comments")
@@ -40,7 +40,7 @@ namespace Implem.Pleasanter.Libraries.Responses
             int deleteCommentId)
         {
             comments
-                .Where(o => Forms.Exists("Comment" + o.CommentId))
+                .Where(o => context.Forms.Exists("Comment" + o.CommentId))
                 .ForEach(comment =>
                     res.ReplaceAll(
                         Selector(comment.CommentId),
