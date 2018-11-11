@@ -34,15 +34,15 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             string referenceType,
             string siteReferenceType)
         {
-            var referer = HttpUtility.UrlDecode(Url.UrlReferrer());
+            var referer = HttpUtility.UrlDecode(context.UrlReferrer);
             switch (context.Controller)
             {
                 case "admins":
-                    return Locations.Top();
+                    return Locations.Top(context: context);
                 case "versions":
                     return referer != null
                         ? referer
-                        : Locations.Top();
+                        : Locations.Top(context: context);
                 case "depts":
                 case "groups":
                 case "users":
@@ -54,13 +54,17 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                 referer?.EndsWith("/new") == false
                                     ? referer
                                     : null,
-                                Locations.Get(context.Controller));
+                                Locations.Get(
+                                    context: context,
+                                    parts: context.Controller));
                         case "editapi":
                             return referer != null
                                 ? referer
-                                : Locations.Top();
+                                : Locations.Top(context: context);
                         default:
-                            return Locations.Get("Admins");
+                            return Locations.Get(
+                                context: context,
+                                parts: "Admins");
                     }
                 default:
                     switch (referenceType)
@@ -70,23 +74,33 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                             {
                                 case "new":
                                 case "trashbox":
-                                    return Locations.ItemIndex(siteId);
+                                    return Locations.ItemIndex(
+                                        context: context,
+                                        id: siteId);
                                 case "edit":
                                     switch (siteReferenceType)
                                     {
                                         case "Wikis":
-                                            return Locations.ItemIndex(parentId);
+                                            return Locations.ItemIndex(
+                                                context: context,
+                                                id: parentId);
                                         default:
-                                            return Locations.ItemIndex(siteId);
+                                            return Locations.ItemIndex(
+                                                context: context,
+                                                id: siteId);
                                     }
                                 default:
-                                    return Locations.ItemIndex(parentId);
+                                    return Locations.ItemIndex(
+                                        context: context,
+                                        id: parentId);
                             }
                         case "Wikis":
                             return context.QueryStrings.Int("back") == 1
                                 && !referer.IsNullOrEmpty()
                                     ? referer
-                                    : Locations.ItemIndex(parentId);
+                                    : Locations.ItemIndex(
+                                        context: context,
+                                        id: parentId);
                         default:
                             switch (context.Action)
                             {
@@ -96,15 +110,23 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                         && !referer.IsNullOrEmpty()
                                             ? referer
                                             : Locations.Get(
-                                                "Items",
-                                                siteId.ToString(),
-                                                Requests.ViewModes.GetSessionData(
-                                                    context: context,
-                                                    siteId: siteId));
+                                                context: context,
+                                                parts: new string[]
+                                                {
+                                                    "Items",
+                                                    siteId.ToString(),
+                                                    Requests.ViewModes.GetSessionData(
+                                                        context: context,
+                                                        siteId: siteId)
+                                                });
                                 case "trashbox":
-                                    return Locations.ItemIndex(siteId);
+                                    return Locations.ItemIndex(
+                                        context: context,
+                                        id: siteId);
                                 default:
-                                    return Locations.ItemIndex(parentId);
+                                    return Locations.ItemIndex(
+                                        context: context,
+                                        id: parentId);
                             }
                     }
             }

@@ -5,6 +5,93 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
 {
     public static class HtmlTags
     {
+        public static HtmlBuilder Html(
+            this HtmlBuilder hb,
+            bool _using = true,
+            Action action = null)
+        {
+            return _using
+                ? hb.Append(
+                    tag: "html",
+                    action: action)
+                : hb;
+        }
+
+        public static HtmlBuilder Head(
+            this HtmlBuilder hb,
+            bool _using = true,
+            Action action = null)
+        {
+            return _using
+                ? hb.Append(
+                    tag: "head",
+                    action: action)
+                : hb;
+        }
+
+        public static HtmlBuilder Meta(
+            this HtmlBuilder hb,
+            string httpEquiv = null,
+            string content = null,
+            string charset = null,
+            string name = null,
+            bool _using = true)
+        {
+            return _using
+                ? hb.Append(
+                    tag: "meta",
+                    closeLevel: 1,
+                    attributes: new HtmlAttributes()
+                        .Add("http-equiv", httpEquiv)
+                        .Add("content", content)
+                        .Add("charset", charset)
+                        .Add("name", name))
+                : hb;
+        }
+
+        public static HtmlBuilder Link(
+            this HtmlBuilder hb,
+            string href = null,
+            string rel = null,
+            bool _using = true)
+        {
+            return _using
+                ? hb.Append(
+                    tag: "link",
+                    closeLevel: 1,
+                    attributes: new HtmlAttributes()
+                        .Href(href)
+                        .Rel(rel))
+                : hb;
+        }
+
+        public static HtmlBuilder Title(
+            this HtmlBuilder hb,
+            bool _using = true,
+            Action action = null)
+        {
+            return _using
+                ? hb.Append(
+                    tag: "title",
+                    action: action)
+                : hb;
+        }
+
+        public static HtmlBuilder Body(
+            this HtmlBuilder hb,
+            string style,
+            bool _using = true,
+            Action action = null)
+        {
+            return _using
+                ? hb.Append(
+                    tag: "body",
+                    attributes: new HtmlAttributes()
+                        .Add("style", style),
+                    action: action)
+                : hb;
+        }
+
         public static HtmlBuilder Header(
             this HtmlBuilder hb,
             string id = null,
@@ -514,8 +601,6 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             return _using
                 ? hb.Append(
                     tag: "form",
-                    id: null,
-                    css: null,
                     attributes: attributes,
                     action: action)
                 : hb;
@@ -620,24 +705,6 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                 : hb;
         }
 
-        public static HtmlBuilder Link(
-            this HtmlBuilder hb,
-            string href = null,
-            string rel = null,
-            bool _using = true)
-        {
-            return _using
-                ? hb.Append(
-                    tag: "link",
-                    id: null,
-                    css: null,
-                    attributes: new HtmlAttributes()
-                        .Href(href)
-                        .Rel(rel),
-                    action: null)
-                : hb;
-        }
-
         public static HtmlBuilder Style(
             this HtmlBuilder hb,
             string id = null,
@@ -649,8 +716,6 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             return _using
                 ? hb.Append(
                     tag: "style",
-                    id: null,
-                    css: null,
                     attributes: new HtmlAttributes()
                         .Src(src)
                         .Type(type),

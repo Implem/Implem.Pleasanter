@@ -5,17 +5,20 @@ using Implem.Pleasanter.Libraries.Requests;
 using Implem.Pleasanter.Libraries.Responses;
 using Implem.Pleasanter.Libraries.Settings;
 using System.Linq;
+using System.Web.Optimization;
 namespace Implem.Pleasanter.Libraries.HtmlParts
 {
     public static class HtmlStyles
     {
-        public static string Get()
+        public static string Get(Context context)
         {
             return new HtmlBuilder()
                 .Link(
                     rel: "stylesheet",
-                    href: Locations.Get("Resources/Styles?v=" +
-                        Parameters.ExtendedStyles.Join().Sha512Cng()),
+                    href: Locations.Get(
+                        context: context,
+                        parts: "Resources/Styles?v="
+                            + Parameters.ExtendedStyles.Join().Sha512Cng()),
                     _using: Parameters.ExtendedStyles?.Any() == true)
                 .ToString();
         }
@@ -32,6 +35,41 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     style: userStyle,
                     _using: context.ContractSettings.Style != false
                         && !userStyle.IsNullOrEmpty());
+        }
+
+        public static HtmlBuilder LinkedStyles(this HtmlBuilder hb, Context context)
+        {
+            return hb
+                .Link(
+                    href: Locations.Get(
+                        context: context,
+                        parts: "Styles/Plugins/Normalize.css"),
+                    rel: "stylesheet")
+                .Link(
+                    href: Locations.Get(
+                        context: context,
+                        parts: "Styles/Plugins/jquery-ui.min.css"),
+                    rel: "stylesheet")
+                .Link(
+                    href: Locations.Get(
+                        context: context,
+                        parts: "Styles/Plugins/jquery.datetimepicker.min.css"),
+                    rel: "stylesheet")
+                .Link(
+                    href: Locations.Get(
+                        context: context,
+                        parts: "Styles/Plugins/jquery.multiselect.css"),
+                    rel: "stylesheet")
+                .Link(
+                    href: Locations.Get(
+                        context: context,
+                        parts: "Styles/Plugins/jquery.multiselect.filter.css"),
+                    rel: "stylesheet")
+                .Link(
+                    href: Locations.Get(
+                        context: context,
+                        parts: BundleTable.Bundles.ResolveBundleUrl("~/content/styles")),
+                    rel: "stylesheet");
         }
     }
 }

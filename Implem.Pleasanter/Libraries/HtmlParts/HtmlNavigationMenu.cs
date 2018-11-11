@@ -128,9 +128,13 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                 case "items":
                     return SiteIndex(context: context, ss: ss)
                         ? "javascript:void(0);"
-                        : Locations.ItemNew(ss.SiteId);
+                        : Locations.ItemNew(
+                            context: context,
+                            id: ss.SiteId);
                 default:
-                    return Locations.New(context.Controller);
+                    return Locations.New(
+                        context: context,
+                        controller: context.Controller);
             }
         }
 
@@ -185,7 +189,10 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                 .A(
                     attributes: postBack
                         ? new HtmlAttributes().OnClick(
-                            "location.href='" + Locations.ItemView(siteId, action) + "'")
+                            "location.href='" + Locations.ItemView(
+                                context: context,
+                                id: siteId,
+                                action: action) + "'")
                         : new HtmlAttributes()
                             .OnClick("$p.viewMode($(this));")
                             .DataAction(action),
@@ -214,7 +221,9 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     .Li(
                         action: () => hb
                             .A(
-                                href: Locations.ItemEdit(siteId),
+                                href: Locations.ItemEdit(
+                                    context: context,
+                                    id: siteId),
                                 action: () => hb
                                     .Span(css: "ui-icon ui-icon-gear")
                                     .Text(text: SiteSettingsDisplayName(
@@ -224,7 +233,9 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     .Li(
                         action: () => hb
                             .A(
-                                href: Locations.Index("Depts"),
+                                href: Locations.Index(
+                                    context: context,
+                                    controller: "Depts"),
                                 action: () => hb
                                     .Span(css: "ui-icon ui-icon-gear")
                                     .Text(text: Displays.DeptAdmin(context: context))),
@@ -232,7 +243,9 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     .Li(
                         action: () => hb
                             .A(
-                                href: Locations.Index("Groups"),
+                                href: Locations.Index(
+                                    context: context,
+                                    controller: "Groups"),
                                 action: () => hb
                                     .Span(css: "ui-icon ui-icon-gear")
                                     .Text(text: Displays.GroupAdmin(context: context))),
@@ -240,7 +253,9 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     .Li(
                         action: () => hb
                             .A(
-                                href: Locations.Index("Users"),
+                                href: Locations.Index(
+                                    context: context,
+                                    controller: "Users"),
                                 action: () => hb
                                     .Span(css: "ui-icon ui-icon-gear")
                                     .Text(text: Displays.UserAdmin(context: context))),
@@ -248,7 +263,9 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     .Li(
                         action: () => hb
                             .A(
-                                href: Locations.ItemTrashBox(siteId),
+                                href: Locations.ItemTrashBox(
+                                    context: context,
+                                    id: siteId),
                                 action: () => hb
                                     .Span(css: "ui-icon ui-icon-trash")
                                     .Text(text: Displays.TrashBox(context: context))),
@@ -276,14 +293,17 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             return hb.Ul(id: "AccountMenu", css: "menu", action: () => hb
                 .Li(action: () => hb
                     .A(
-                        href: Locations.Logout(),
+                        href: Locations.Logout(context: context),
                         action: () => hb
                             .Span(css: "ui-icon ui-icon-locked")
                             .Text(text: Displays.Logout(context: context))))
                 .Li(
                     action: () => hb
                         .A(
-                            href: Locations.Edit("Users", context.UserId),
+                            href: Locations.Edit(
+                                context: context,
+                                controller: "Users",
+                                id: context.UserId),
                             action: () => hb
                                 .Span(css: "ui-icon ui-icon-wrench")
                                 .Text(text: Displays.EditProfile(context: context))),
@@ -291,7 +311,13 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                 .Li(
                     action: () => hb
                         .A(
-                            href: Locations.Get("Users", "EditApi"),
+                            href: Locations.Get(
+                                context: context,
+                                parts: new string[]
+                                {
+                                    "Users",
+                                    "EditApi"
+                                }),
                             action: () => hb
                                 .Span(css: "ui-icon ui-icon-link")
                                 .Text(text: Displays.ApiSettings(context: context))),
@@ -333,7 +359,9 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                             .Text(text: Displays.Portal(context: context))))
                 .Li(action: () => hb
                     .A(
-                        href: Locations.Get("versions"),
+                        href: Locations.Get(
+                            context: context,
+                            parts: "versions"),
                         action: () => hb
                             .Span(css: "ui-icon ui-icon-info")
                             .Text(text: Displays.Version(context: context)))));

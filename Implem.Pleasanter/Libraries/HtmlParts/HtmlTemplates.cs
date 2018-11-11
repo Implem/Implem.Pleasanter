@@ -1,12 +1,11 @@
-﻿using Implem.Libraries.Utilities;
-using Implem.Pleasanter.Libraries.DataSources;
+﻿using Implem.DefinitionAccessor;
+using Implem.Libraries.Utilities;
 using Implem.Pleasanter.Libraries.General;
 using Implem.Pleasanter.Libraries.Html;
 using Implem.Pleasanter.Libraries.Images;
 using Implem.Pleasanter.Libraries.Models;
 using Implem.Pleasanter.Libraries.Requests;
 using Implem.Pleasanter.Libraries.Responses;
-using Implem.Pleasanter.Libraries.Server;
 using Implem.Pleasanter.Libraries.Settings;
 using Implem.Pleasanter.Models;
 using System;
@@ -35,7 +34,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             string userStyle = null,
             Action action = null)
         {
-            return hb
+            return hb.Container(context: context, action: () => hb
                 .MainContainer(
                     context: context,
                     ss: ss,
@@ -55,7 +54,32 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                 .HiddenData(context: context)
                 .VideoDialog(context: context, ss: ss)
                 .Styles(context: context, ss: ss, userStyle: userStyle)
-                .Scripts(context: context, ss: ss, script: script, userScript: userScript);
+                .Scripts(context: context, ss: ss, script: script, userScript: userScript));
+        }
+
+        private static HtmlBuilder Container(this HtmlBuilder hb, Context context, Action action)
+        {
+            if (!context.Ajax)
+            {
+                return hb.Html(action: () => hb
+                    .Head(action: () => hb
+                        .Meta(httpEquiv: "X-UA-Compatible", content: "IE=edge")
+                        .Meta(httpEquiv: "content-language", content: context.Language)
+                        .Meta(charset: "utf-8")
+                        .Meta(name: "keywords", content: Parameters.General.HtmlHeadKeywords)
+                        .Meta(name: "description", content: Parameters.General.HtmlHeadDescription)
+                        .Meta(name: "author", content: Parameters.General.HtmlHeadAuther)
+                        .Meta(name: "viewport", content: Parameters.General.HtmlHeadViewport)
+                        .LinkedStyles(context: context)
+                        .Title(action: () => hb
+                            .Text(text: Parameters.General.HtmlTitle)))
+                    .Body(style: "visibility:hidden", action: action));
+            }
+            else
+            {
+                action?.Invoke();
+                return hb;
+            }
         }
 
         public static HtmlBuilder MainContainer(
@@ -191,15 +215,19 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                 sizeType: ImageData.SizeTypes.Icon)
                     ? hb.Img(
                         src: Locations.Get(
-                            "Items",
-                            siteId.ToString(),
-                            "Binaries",
-                            "SiteImageIcon",
-                            BinaryUtilities.SiteImagePrefix(
-                                context: context,
-                                ss: ss,
-                                referenceId: siteId,
-                                sizeType: ImageData.SizeTypes.Icon)),
+                            context: context,
+                            parts: new string[]
+                            {
+                                "Items",
+                                siteId.ToString(),
+                                "Binaries",
+                                "SiteImageIcon",
+                                BinaryUtilities.SiteImagePrefix(
+                                    context: context,
+                                    ss: ss,
+                                    referenceId: siteId,
+                                    sizeType: ImageData.SizeTypes.Icon)
+                            }),
                         css: "site-image-icon")
                     : hb;
         }
@@ -236,7 +264,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
         {
             return !Request.IsAjax()
                 ? hb
-                    .Hidden(controlId: "ApplicationPath", value: Locations.Get())
+                    .Hidden(controlId: "ApplicationPath", value: Locations.Get(context: context))
                     .Hidden(controlId: "Language", value: context.Language)
                     .Hidden(controlId: "DeptId", value: context.DeptId.ToString())
                     .Hidden(controlId: "UserId", value: context.UserId.ToString())
@@ -248,7 +276,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
         {
             var hb = new HtmlBuilder();
             var ss = new SiteSettings();
-            return hb
+            return hb.Container(context: context, action: () => hb
                 .MainContainer(
                     context: context,
                     ss: ss,
@@ -267,8 +295,8 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     useNavigationMenu: true)
                 .HiddenData(context: context)
                 .Styles(context: context, ss: ss)
-                .Scripts(context: context, ss: ss)
-                .ToString();
+                .Scripts(context: context, ss: ss))
+                    .ToString();
         }
     }
 }

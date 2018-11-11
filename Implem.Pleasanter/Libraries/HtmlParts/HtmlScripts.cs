@@ -20,19 +20,39 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
         {
             return !Request.IsAjax()
                 ? hb
-                    .Script(src: Locations.Get("Scripts/Plugins/jquery-3.1.0.min.js"))
-                    .Script(src: Locations.Get("Scripts/Plugins/jquery-ui.min.js"))
-                    .Script(src: Locations.Get("Scripts/Plugins/jquery.datetimepicker.full.min.js"))
-                    .Script(src: Locations.Get("Scripts/Plugins/jquery.multiselect.min.js"))
-                    .Script(src: Locations.Get("Scripts/Plugins/jquery.multiselect.filter.min.js"))
-                    .Script(src: Locations.Get("Scripts/Plugins/jquery.validate.min.js"))
-                    .Script(src: Locations.Get("Scripts/Plugins/d3.min.js"))
-                    .Script(src: Locations.Get("Scripts/Plugins/hogan-3.0.2.min.js"))
-                    .Script(src: Locations.Get("Scripts/Plugins/marked.min.js"))
+                    .Script(src: Locations.Get(
+                        context: context,
+                        parts: "Scripts/Plugins/jquery-3.1.0.min.js"))
+                    .Script(src: Locations.Get(
+                        context: context,
+                        parts: "Scripts/Plugins/jquery-ui.min.js"))
+                    .Script(src: Locations.Get(
+                        context: context,
+                        parts: "Scripts/Plugins/jquery.datetimepicker.full.min.js"))
+                    .Script(src: Locations.Get(
+                        context: context,
+                        parts: "Scripts/Plugins/jquery.multiselect.min.js"))
+                    .Script(src: Locations.Get(
+                        context: context,
+                        parts: "Scripts/Plugins/jquery.multiselect.filter.min.js"))
+                    .Script(src: Locations.Get(
+                        context: context,
+                        parts: "Scripts/Plugins/jquery.validate.min.js"))
+                    .Script(src: Locations.Get(
+                        context: context,
+                        parts: "Scripts/Plugins/d3.min.js"))
+                    .Script(src: Locations.Get(
+                        context: context,
+                        parts: "Scripts/Plugins/hogan-3.0.2.min.js"))
+                    .Script(src: Locations.Get(
+                        context: context,
+                        parts: "Scripts/Plugins/marked.min.js"))
                     .Generals()
                     .Script(
-                        src: Locations.Get("Resources/Scripts?v=" +
-                            Parameters.ExtendedScripts.Join().Sha512Cng()),
+                        src: Locations.Get(
+                            context: context,
+                            parts: "Resources/Scripts?v="
+                                + Parameters.ExtendedScripts.Join().Sha512Cng()),
                         _using: Parameters.ExtendedScripts?.Any() == true)
                     .Script(script: script, _using: !script.IsNullOrEmpty())
                     .Script(
@@ -50,7 +70,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
         {
             if (!System.Diagnostics.Debugger.IsAttached)
             {
-                hb.Script(src: ResolveBundleUrl("~/bundles/Generals"));
+                hb.Script(src: BundleTable.Bundles.ResolveBundleUrl("~/bundles/Generals"));
             }
             else
             {
@@ -58,11 +78,6 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     hb.Script(src: VirtualPathUtility.ToAbsolute(path)));
             }
             return hb;
-        }
-
-        private static string ResolveBundleUrl(string url)
-        {
-            return BundleTable.Bundles.ResolveBundleUrl(url);
         }
     }
 }

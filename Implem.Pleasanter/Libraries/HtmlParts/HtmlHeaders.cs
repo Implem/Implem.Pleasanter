@@ -25,11 +25,15 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             return hb.Header(id: "Header", action: () => hb
                 .H(number: 2, id: "Logo", action: () => hb
                     .A(
-                        attributes: new HtmlAttributes().Href(Locations.Top()),
+                        attributes: new HtmlAttributes().Href(Locations.Top(context: context)),
                         action: () => hb
                             .Img(
                                 id: "CorpLogo",
-                                src: Locations.Images(title.IsNullOrEmpty() ? "logo-corp-with-title.png" : "logo-corp.png"))
+                                src: Locations.Images(
+                                    context: context,
+                                    parts: title.IsNullOrEmpty()
+                                        ? "logo-corp-with-title.png"
+                                        : "logo-corp.png"))
                             .Span(id: "ProductLogo", action: () => hb
                                 .Text(text: title))))
                 .NavigationMenu(

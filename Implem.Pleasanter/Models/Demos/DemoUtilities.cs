@@ -52,7 +52,9 @@ namespace Implem.Pleasanter.Models
                     context: context,
                     data: new string[]
                     {
-                        Locations.DemoUri(passphrase),
+                        Locations.DemoUri(
+                            context: context,
+                            passphrase: passphrase),
                         Parameters.Service.DemoUsagePeriod.ToString()
                     }),
                 From = new System.Net.Mail.MailAddress(Parameters.Mail.SupportFrom),

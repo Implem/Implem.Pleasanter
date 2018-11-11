@@ -38,7 +38,7 @@ namespace Implem.Pleasanter.Controllers
             {
                 DemoUtilities.Login(context: context);
                 log.Finish(context: context);
-                return Redirect(Locations.Get());
+                return Redirect(Locations.Get(context: context));
             }
             else
             {

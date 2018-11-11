@@ -17,7 +17,10 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     .Form(
                         attributes: new HtmlAttributes()
                             .Id("CopyDialogForm")
-                            .Action(Locations.Action(referenceType, id)),
+                            .Action(Locations.Action(
+                                context: context,
+                                controller: referenceType,
+                                id: id)),
                         action: () => hb
                             .FieldCheckBox(
                                 controlId: "CopyWithComments",

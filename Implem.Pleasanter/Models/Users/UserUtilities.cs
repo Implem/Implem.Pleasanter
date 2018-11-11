@@ -58,7 +58,9 @@ namespace Implem.Pleasanter.Models
                             attributes: new HtmlAttributes()
                                 .Id("UserForm")
                                 .Class("main-form")
-                                .Action(Locations.Action("Users")),
+                                .Action(Locations.Action(
+                                    context: context,
+                                    controller: "Users")),
                             action: () => hb
                                 .ViewFilters(
                                     context: context,
@@ -80,8 +82,12 @@ namespace Implem.Pleasanter.Models
                                     siteId: ss.SiteId,
                                     verType: Versions.VerTypes.Latest)
                                 .Div(css: "margin-bottom")
-                                .Hidden(controlId: "TableName", value: "Users")
-                                .Hidden(controlId: "BaseUrl", value: Locations.BaseUrl())
+                                .Hidden(
+                                    controlId: "TableName",
+                                    value: "Users")
+                                .Hidden(
+                                    controlId: "BaseUrl",
+                                    value: Locations.BaseUrl(context: context))
                                 .Hidden(
                                     controlId: "GridOffset",
                                     value: Parameters.General.GridPageSize.ToString()))
@@ -130,7 +136,9 @@ namespace Implem.Pleasanter.Models
                         attributes: new HtmlAttributes()
                             .Id("UsersForm")
                             .Class("main-form")
-                            .Action(Locations.ItemAction(ss.SiteId)),
+                            .Action(Locations.ItemAction(
+                                context: context,
+                                id: ss.SiteId)),
                         action: () => hb
                             .ViewSelector(context: context, ss: ss, view: view)
                             .ViewFilters(context: context, ss: ss, view: view)
@@ -145,8 +153,12 @@ namespace Implem.Pleasanter.Models
                                 siteId: ss.SiteId,
                                 verType: Versions.VerTypes.Latest)
                             .Div(css: "margin-bottom")
-                            .Hidden(controlId: "TableName", value: "Users")
-                            .Hidden(controlId: "BaseUrl", value: Locations.BaseUrl()))
+                            .Hidden(
+                                controlId: "TableName",
+                                value: "Users")
+                            .Hidden(
+                                controlId: "BaseUrl",
+                                value: Locations.BaseUrl(context: context)))
                     .MoveDialog(context: context, bulk: true)
                     .Div(attributes: new HtmlAttributes()
                         .Id("ExportSelectorDialog")
@@ -3283,8 +3295,13 @@ namespace Implem.Pleasanter.Models
                         .Id("UserForm")
                         .Class("main-form confirm-reload")
                         .Action(userModel.UserId != 0
-                            ? Locations.Action("Users", userModel.UserId)
-                            : Locations.Action("Users")),
+                            ? Locations.Action(
+                                context: context,
+                                controller: "Users",
+                                id: userModel.UserId)
+                            : Locations.Action(
+                                context: context,
+                                controller: "Users")),
                     action: () => hb
                         .RecordHeader(
                             context: context,
@@ -3330,7 +3347,9 @@ namespace Implem.Pleasanter.Models
                                         context: context,
                                         userModel: userModel,
                                         ss: ss)))
-                        .Hidden(controlId: "BaseUrl", value: Locations.BaseUrl())
+                        .Hidden(
+                            controlId: "BaseUrl",
+                            value: Locations.BaseUrl(context: context))
                         .Hidden(
                             controlId: "MethodType",
                             value: userModel.MethodType.ToString().ToLower())
@@ -5336,6 +5355,7 @@ namespace Implem.Pleasanter.Models
                     return new ResponseCollection()
                         .SetMemory("formChanged", false)
                         .Href(Locations.Edit(
+                            context: context,
                             controller: context.Controller,
                             id: ss.Columns.Any(o => o.Linking)
                                 ? context.Forms.Long("LinkId")
@@ -5474,7 +5494,9 @@ namespace Implem.Pleasanter.Models
                     var res = new UsersResponseCollection(userModel);
                     res
                         .SetMemory("formChanged", false)
-                        .Href(Locations.Index("Users"));
+                        .Href(Locations.Index(
+                            context: context,
+                            controller: "Users"));
                     return res.ToJson();
                 default:
                     return error.MessageJson(context: context);
@@ -5791,7 +5813,10 @@ namespace Implem.Pleasanter.Models
                     .Form(
                         attributes: new HtmlAttributes()
                             .Id("ChangePasswordForm")
-                            .Action(Locations.Action("Users", userId))
+                            .Action(Locations.Action(
+                                context: context,
+                                controller: "Users",
+                                id: userId))
                             .DataEnter("#ChangePassword"),
                         action: () => hb
                             .Field(
@@ -5844,7 +5869,10 @@ namespace Implem.Pleasanter.Models
                     .Form(
                         attributes: new HtmlAttributes()
                             .Id("ResetPasswordForm")
-                            .Action(Locations.Action("Users", userId))
+                            .Action(Locations.Action(
+                                context: context,
+                                controller: "Users",
+                                id: userId))
                             .DataEnter("#ResetPassword"),
                         action: () => hb
                             .Field(
@@ -5918,7 +5946,13 @@ namespace Implem.Pleasanter.Models
                         attributes: new HtmlAttributes()
                             .Id("UserForm")
                             .Class("main-form")
-                            .Action(Locations.Raw("users", "_action_?ReturnUrl=" + returnUrl))
+                            .Action(Locations.Raw(
+                                context: context,
+                                parts: new string[]
+                                {
+                                    "users",
+                                    "_action_?ReturnUrl=" + returnUrl
+                                }))
                             .DataEnter("#Login"),
                         action: () => hb
                             .FieldSet(id: "LoginFieldSet", action: () => hb
@@ -5959,7 +5993,13 @@ namespace Implem.Pleasanter.Models
                     .Form(
                         attributes: new HtmlAttributes()
                             .Id("DemoForm")
-                            .Action(Locations.Get("demos", "_action_")),
+                            .Action(Locations.Get(
+                                context: context,
+                                parts: new string[]
+                                {
+                                    "demos",
+                                    "_action_"
+                                })),
                         _using: Parameters.Service.Demo,
                         action: () => hb
                             .Div(id: "Demo", action: () => hb
@@ -6014,7 +6054,9 @@ namespace Implem.Pleasanter.Models
                     .Form(
                         attributes: new HtmlAttributes()
                             .Id("ChangePasswordForm")
-                            .Action(Locations.Action("Users"))
+                            .Action(Locations.Action(
+                                context: context,
+                                controller: "Users"))
                             .DataEnter("#ChangePassword"),
                         action: () => hb
                             .Field(
@@ -6136,7 +6178,9 @@ namespace Implem.Pleasanter.Models
                         attributes: new HtmlAttributes()
                             .Id("UserForm")
                             .Class("main-form")
-                            .Action(Locations.Action("Users")),
+                            .Action(Locations.Action(
+                                context: context,
+                                controller: "Users")),
                         action: () => hb
                             .ApiEditor(
                                 context: context,

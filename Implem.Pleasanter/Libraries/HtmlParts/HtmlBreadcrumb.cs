@@ -56,7 +56,13 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                 data: new Dictionary<string, string>
                                 {
                                     {
-                                        Locations.Get("Users", "EditApi"),
+                                        Locations.Get(
+                                            context: context,
+                                            parts: new string[]
+                                            {
+                                                "Users",
+                                                "EditApi"
+                                            }),
                                         Displays.ApiSettings(context: context)
                                     }
                                 });
@@ -98,12 +104,27 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             return display != null
                 ? hb.Breadcrumb(context: context, ss: ss, data: new Dictionary<string, string>
                 {
-                    { Locations.Index("Admins"), Displays.Admin(context: context) },
-                    { Locations.Index(controller), display }
+                    {
+                        Locations.Index(
+                            context: context,
+                            controller: "Admins"),
+                        Displays.Admin(context: context)
+                    },
+                    {
+                        Locations.Index(
+                            context: context,
+                            controller: controller),
+                        display
+                    }
                 })
                 : hb.Breadcrumb(context: context, ss: ss, data: new Dictionary<string, string>
                 {
-                    { Locations.Index("Admins"), Displays.Admin(context: context) }
+                    {
+                        Locations.Index(
+                            context: context,
+                            controller: "Admins"),
+                        Displays.Admin(context: context)
+                    }
                 });
         }
 
@@ -114,11 +135,17 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                 ss: ss,
                 data: SiteInfo.TenantCaches.Get(context.TenantId)?
                     .SiteMenu
-                    .Breadcrumb(context: context, siteId: ss.SiteId)
+                    .Breadcrumb(
+                        context: context,
+                        siteId: ss.SiteId)
                     .ToDictionary(
                         o => !o.HasOnlyOneChild()
-                            ? Locations.ItemIndex(o.SiteId)
-                            : Locations.ItemEdit(o.OnlyOneChildId),
+                            ? Locations.ItemIndex(
+                                context: context,
+                                id: o.SiteId)
+                            : Locations.ItemEdit(
+                                context: context,
+                                id: o.OnlyOneChildId),
                         o => o.Title));
         }
 
@@ -130,10 +157,16 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
         {
             return hb.Ul(id: "Breadcrumb", action: () =>
             {
-                hb.Li(Locations.Top(), Displays.Top(context: context));
+                hb.Li(
+                    href: Locations.Top(context: context),
+                    text: Displays.Top(context: context));
                 data?.ForEach(item => hb
-                    .Li(href: item.Key, text: item.Value));
-                hb.TrashBox(context: context, ss: ss);
+                    .Li(
+                        href: item.Key,
+                        text: item.Value));
+                hb.TrashBox(
+                    context: context,
+                    ss: ss);
             });
         }
 

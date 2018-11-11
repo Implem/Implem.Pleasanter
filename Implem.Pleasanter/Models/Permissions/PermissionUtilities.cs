@@ -919,7 +919,9 @@ namespace Implem.Pleasanter.Models
             return hb.Form(
                 attributes: new HtmlAttributes()
                     .Id("PermissionsForm")
-                    .Action(Locations.ItemAction(referenceId)),
+                    .Action(Locations.ItemAction(
+                        context: context,
+                        id: referenceId)),
                 action: () => hb
                     .FieldDropDown(
                         context: context,
@@ -1359,7 +1361,9 @@ namespace Implem.Pleasanter.Models
             return hb.Form(
                 attributes: new HtmlAttributes()
                     .Id("PermissionForCreatingForm")
-                    .Action(Locations.ItemAction(referenceId)),
+                    .Action(Locations.ItemAction(
+                        context: context,
+                        id: referenceId)),
                 action: () => hb
                     .FieldDropDown(
                         context: context,
@@ -1668,7 +1672,9 @@ namespace Implem.Pleasanter.Models
             return hb.Form(
                 attributes: new HtmlAttributes()
                     .Id("ColumnAccessControlForm")
-                    .Action(Locations.ItemAction(referenceId)),
+                    .Action(Locations.ItemAction(
+                        context: context,
+                        id: referenceId)),
                 action: () => hb
                     .Div(id: "ColumnAccessControlTabsContainer", action: () => hb
                         .Ul(id: "ColumnAccessControlTabs", action: () => hb

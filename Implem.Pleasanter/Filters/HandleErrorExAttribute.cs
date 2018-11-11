@@ -26,7 +26,8 @@ namespace Implem.Pleasanter.Filters
                 throw;
             }
             filterContext.ExceptionHandled = true;
-            filterContext.Result = new RedirectResult(Locations.ApplicationError());
+            filterContext.Result = new RedirectResult(
+                Locations.ApplicationError(context: context));
         }
     }
 }

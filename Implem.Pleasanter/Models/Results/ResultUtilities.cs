@@ -78,7 +78,9 @@ namespace Implem.Pleasanter.Models
                         attributes: new HtmlAttributes()
                             .Id("ResultsForm")
                             .Class("main-form")
-                            .Action(Locations.ItemAction(ss.SiteId)),
+                            .Action(Locations.ItemAction(
+                                context: context,
+                                id: ss.SiteId)),
                         action: () => hb
                             .ViewSelector(context: context, ss: ss, view: view)
                             .ViewFilters(context: context, ss: ss, view: view)
@@ -93,8 +95,12 @@ namespace Implem.Pleasanter.Models
                                 siteId: ss.SiteId,
                                 verType: Versions.VerTypes.Latest)
                             .Div(css: "margin-bottom")
-                            .Hidden(controlId: "TableName", value: "Results")
-                            .Hidden(controlId: "BaseUrl", value: Locations.BaseUrl()))
+                            .Hidden(
+                                controlId: "TableName",
+                                value: "Results")
+                            .Hidden(
+                                controlId: "BaseUrl",
+                                value: Locations.BaseUrl(context: context)))
                     .EditorDialog(context: context, ss: ss)
                     .DropDownSearchDialog(
                         context: context,
@@ -3575,9 +3581,11 @@ namespace Implem.Pleasanter.Models
                     attributes: new HtmlAttributes()
                         .Id("ResultForm")
                         .Class("main-form confirm-reload")
-                        .Action(Locations.ItemAction(resultModel.ResultId != 0 
-                            ? resultModel.ResultId
-                            : resultModel.SiteId)),
+                        .Action(Locations.ItemAction(
+                            context: context,
+                            id: resultModel.ResultId != 0 
+                                ? resultModel.ResultId
+                                : resultModel.SiteId)),
                     action: () => hb
                         .RecordHeader(
                             context: context,
@@ -3632,7 +3640,9 @@ namespace Implem.Pleasanter.Models
                                         context: context,
                                         ss: ss,
                                         resultModel: resultModel)))
-                        .Hidden(controlId: "BaseUrl", value: Locations.BaseUrl())
+                        .Hidden(
+                            controlId: "BaseUrl",
+                            value: Locations.BaseUrl(context: context))
                         .Hidden(
                             controlId: "FromSiteId",
                             css: "control-hidden always-send",
@@ -6831,6 +6841,7 @@ namespace Implem.Pleasanter.Models
                     return new ResponseCollection()
                         .SetMemory("formChanged", false)
                         .Href(Locations.Edit(
+                            context: context,
                             controller: context.Controller,
                             id: ss.Columns.Any(o => o.Linking)
                                 ? context.Forms.Long("LinkId")
@@ -7162,7 +7173,9 @@ namespace Implem.Pleasanter.Models
             {
                 case Error.Types.None:
                     return new ResponseCollection()
-                        .Href(Locations.ItemEdit(resultModel.ResultId))
+                        .Href(Locations.ItemEdit(
+                            context: context,
+                            id: resultModel.ResultId))
                         .ToJson();
                 case Error.Types.Duplicated:
                     return Messages.ResponseDuplicated(
@@ -7201,11 +7214,15 @@ namespace Implem.Pleasanter.Models
                     res
                         .SetMemory("formChanged", false)
                         .Href(Locations.Get(
-                            "Items",
-                            ss.SiteId.ToString(),
-                            ViewModes.GetSessionData(
-                                context: context,
-                                siteId: ss.SiteId)));
+                            context: context,
+                            parts: new string[]
+                            {
+                                "Items",
+                                ss.SiteId.ToString(),
+                                ViewModes.GetSessionData(
+                                    context: context,
+                                    siteId: ss.SiteId)
+                            }));
                     return res.ToJson();
                 default:
                     return error.MessageJson(context: context);
@@ -7387,7 +7404,9 @@ namespace Implem.Pleasanter.Models
                             data: ver.First().ToString()));
                     return  new ResponseCollection()
                         .SetMemory("formChanged", false)
-                        .Href(Locations.ItemEdit(resultId))
+                        .Href(Locations.ItemEdit(
+                            context: context,
+                            id: resultId))
                         .ToJson();
                 default:
                     return error.MessageJson(context: context);

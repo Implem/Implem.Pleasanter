@@ -52,7 +52,9 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             this HtmlBuilder hb, Context context, SiteSettings ss, DataRow dataRow)
         {
             var guid = dataRow.String("Guid");
-            var href = Locations.ShowFile(guid);
+            var href = Locations.ShowFile(
+                context: context,
+                guid: guid);
             return hb.Div(
                 attributes: new HtmlAttributes()
                     .Class("item")
@@ -62,7 +64,9 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                         css: "title",
                         action: () => hb
                             .A(
-                                href: Locations.ItemEdit(dataRow.Long("Id")),
+                                href: Locations.ItemEdit(
+                                    context: context,
+                                    id: dataRow.Long("Id")),
                                 action: () => hb
                                     .Text(text: dataRow.String("ItemTitle"))))
                     .Div(
@@ -77,7 +81,9 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                         onClick: $"$p.deleteImage($(this));",
                         dataId: guid,
                         icon: "ui-icon-trash",
-                        action: Locations.DeleteImage(guid),
+                        action: Locations.DeleteImage(
+                            context: context,
+                            guid: guid),
                         method: "delete",
                         confirm: "ConfirmDelete",
                         _using: context.CanUpdate(ss: ss)));

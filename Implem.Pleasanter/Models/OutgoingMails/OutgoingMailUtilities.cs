@@ -37,7 +37,11 @@ namespace Implem.Pleasanter.Models
             return hb.Form(
                 attributes: new HtmlAttributes()
                     .Id("OutgoingMailsForm")
-                    .Action(Locations.Action(context.Controller, referenceId, "OutgoingMails")),
+                    .Action(Locations.Action(
+                        context: context,
+                        table: context.Controller,
+                        id: referenceId,
+                        controller: "OutgoingMails")),
                 action: () =>
                     new OutgoingMailCollection(
                         context: context,
@@ -191,7 +195,10 @@ namespace Implem.Pleasanter.Models
                                 attributes: new HtmlAttributes()
                                     .Id("OutgoingMailForm")
                                     .Action(Locations.Action(
-                                        reference, id, "OutgoingMails")),
+                                        context: context,
+                                        table: reference,
+                                        id: id,
+                                        controller: "OutgoingMails")),
                                 action: () => hb
                                     .Editor(
                                         context: context,
@@ -202,7 +209,10 @@ namespace Implem.Pleasanter.Models
                                 attributes: new HtmlAttributes()
                                     .Id("OutgoingMailDestinationForm")
                                     .Action(Locations.Action(
-                                        reference, id, "OutgoingMails")),
+                                        context: context,
+                                        table: reference,
+                                        id: id,
+                                        controller: "OutgoingMails")),
                                 action: () => hb
                                     .Destinations(context: context, ss: ss)))))
                 .Invoke("initOutgoingMailDialog")
@@ -282,7 +292,9 @@ namespace Implem.Pleasanter.Models
                         text: Displays.Cancel(context: context),
                         onClick: "$p.closeDialog($(this));",
                         icon: "ui-icon-cancel"))
-                .Hidden(controlId: "OutgoingMails_Location", value: Location())
+                .Hidden(
+                    controlId: "OutgoingMails_Location",
+                    value: Location(context: context))
                 .Hidden(
                     controlId: "OutgoingMails_Reply",
                     value: outgoingMailModel.AccessStatus == Databases.AccessStatuses.Selected
@@ -332,7 +344,7 @@ namespace Implem.Pleasanter.Models
         {
             return outgoingMailModel.AccessStatus == Databases.AccessStatuses.Selected
                 ? Displays.OriginalMessage(context: context).Params(
-                    Location(),
+                    Location(context: context),
                     outgoingMailModel.From,
                     outgoingMailModel.SentTime.DisplayValue.ToString(
                         Displays.Get(
@@ -382,9 +394,9 @@ namespace Implem.Pleasanter.Models
         /// <summary>
         /// Fixed:
         /// </summary>
-        private static string Location()
+        private static string Location(Context context)
         {
-            var location = Url.AbsoluteUri().ToLower();
+            var location = context.AbsoluteUri.ToLower();
             return location.Substring(0, location.IndexOf("/outgoingmails"));
         }
 

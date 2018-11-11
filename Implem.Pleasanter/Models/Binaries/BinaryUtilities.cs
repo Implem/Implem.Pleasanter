@@ -18,7 +18,6 @@ using Implem.Pleasanter.Libraries.Settings;
 using System;
 using System.Collections.Generic;
 using System.Data;
-using System.IO;
 using System.Linq;
 namespace Implem.Pleasanter.Models
 {
@@ -238,7 +237,10 @@ namespace Implem.Pleasanter.Models
             var bin = file.Byte();
             if (Parameters.BinaryStorage.IsLocal())
             {
-                bin.Write(Path.Combine(Directories.BinaryStorage(), "Images", file.Guid));
+                bin.Write(System.IO.Path.Combine(
+                    Directories.BinaryStorage(),
+                    "Images",
+                    file.Guid));
             }
             else
             {
@@ -261,7 +263,9 @@ namespace Implem.Pleasanter.Models
             return new ResponseCollection()
                 .InsertText(
                     "#" + context.Forms.ControlId(),
-                    $"![image]({Locations.ShowFile(file.Guid)})")
+                    "![image]({0})".Params(Locations.ShowFile(
+                        context: context,
+                        guid: file.Guid)))
                 .ToJson();
         }
 

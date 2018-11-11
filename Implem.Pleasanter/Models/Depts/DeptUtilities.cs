@@ -58,7 +58,9 @@ namespace Implem.Pleasanter.Models
                             attributes: new HtmlAttributes()
                                 .Id("DeptForm")
                                 .Class("main-form")
-                                .Action(Locations.Action("Depts")),
+                                .Action(Locations.Action(
+                                    context: context,
+                                    controller: "Depts")),
                             action: () => hb
                                 .ViewFilters(context: context, ss: ss, view: view)
                                 .Aggregations(
@@ -77,8 +79,12 @@ namespace Implem.Pleasanter.Models
                                     siteId: ss.SiteId,
                                     verType: Versions.VerTypes.Latest)
                                 .Div(css: "margin-bottom")
-                                .Hidden(controlId: "TableName", value: "Depts")
-                                .Hidden(controlId: "BaseUrl", value: Locations.BaseUrl())
+                                .Hidden(
+                                    controlId: "TableName",
+                                    value: "Depts")
+                                .Hidden(
+                                    controlId: "BaseUrl",
+                                    value: Locations.BaseUrl(context: context))
                                 .Hidden(
                                     controlId: "GridOffset",
                                     value: Parameters.General.GridPageSize.ToString()))
@@ -127,7 +133,9 @@ namespace Implem.Pleasanter.Models
                         attributes: new HtmlAttributes()
                             .Id("DeptsForm")
                             .Class("main-form")
-                            .Action(Locations.ItemAction(ss.SiteId)),
+                            .Action(Locations.ItemAction(
+                                context: context,
+                                id: ss.SiteId)),
                         action: () => hb
                             .ViewSelector(context: context, ss: ss, view: view)
                             .ViewFilters(context: context, ss: ss, view: view)
@@ -142,8 +150,12 @@ namespace Implem.Pleasanter.Models
                                 siteId: ss.SiteId,
                                 verType: Versions.VerTypes.Latest)
                             .Div(css: "margin-bottom")
-                            .Hidden(controlId: "TableName", value: "Depts")
-                            .Hidden(controlId: "BaseUrl", value: Locations.BaseUrl()))
+                            .Hidden(
+                                controlId: "TableName",
+                                value: "Depts")
+                            .Hidden(
+                                controlId: "BaseUrl",
+                                value: Locations.BaseUrl(context: context)))
                     .MoveDialog(context: context, bulk: true)
                     .Div(attributes: new HtmlAttributes()
                         .Id("ExportSelectorDialog")
@@ -639,8 +651,13 @@ namespace Implem.Pleasanter.Models
                         .Id("DeptForm")
                         .Class("main-form confirm-reload")
                         .Action(deptModel.DeptId != 0
-                            ? Locations.Action("Depts", deptModel.DeptId)
-                            : Locations.Action("Depts")),
+                            ? Locations.Action(
+                                context: context,
+                                controller: "Depts",
+                                id: deptModel.DeptId)
+                            : Locations.Action(
+                                context: context,
+                                controller: "Depts")),
                     action: () => hb
                         .RecordHeader(
                             context: context,
@@ -682,7 +699,9 @@ namespace Implem.Pleasanter.Models
                                         context: context,
                                         deptModel: deptModel,
                                         ss: ss)))
-                        .Hidden(controlId: "BaseUrl", value: Locations.BaseUrl())
+                        .Hidden(
+                            controlId: "BaseUrl",
+                            value: Locations.BaseUrl(context: context))
                         .Hidden(
                             controlId: "MethodType",
                             value: deptModel.MethodType.ToString().ToLower())
@@ -914,6 +933,7 @@ namespace Implem.Pleasanter.Models
                     return new ResponseCollection()
                         .SetMemory("formChanged", false)
                         .Href(Locations.Edit(
+                            context: context,
                             controller: context.Controller,
                             id: ss.Columns.Any(o => o.Linking)
                                 ? context.Forms.Long("LinkId")
@@ -1047,7 +1067,9 @@ namespace Implem.Pleasanter.Models
                     var res = new DeptsResponseCollection(deptModel);
                     res
                         .SetMemory("formChanged", false)
-                        .Href(Locations.Index("Depts"));
+                        .Href(Locations.Index(
+                            context: context,
+                            controller: "Depts"));
                     return res.ToJson();
                 default:
                     return error.MessageJson(context: context);
