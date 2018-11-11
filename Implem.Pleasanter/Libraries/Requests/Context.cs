@@ -21,7 +21,7 @@ namespace Implem.Pleasanter.Libraries.Requests
     public class Context
     {
         public bool Authenticated;
-        public string SessionGuid;
+        public string SessionGuid = Guid.NewGuid().ToString().Replace("-", string.Empty);
         public Dictionary<string, string> SessionData = new Dictionary<string, string>();
         public QueryStrings QueryStrings = new QueryStrings();
         public Forms Forms = new Forms();
@@ -258,11 +258,11 @@ namespace Implem.Pleasanter.Libraries.Requests
         {
             return HasRoute()
                 ? RouteTable.Routes
-                    .GetRouteData(new HttpContextWrapper(HttpContext.Current))
+                    .GetRouteData(new HttpContextWrapper(HttpContext.Current))?
                     .Values
                     .ToDictionary(
                         o => o.Key,
-                        o => o.Value.ToString())
+                        o => o.Value.ToString()) ?? new Dictionary<string, string>()
                 : new Dictionary<string, string>();
         }
 
