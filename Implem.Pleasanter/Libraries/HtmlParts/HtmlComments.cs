@@ -29,7 +29,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     title: column?.Description,
                     labelText: column?.LabelText,
                     allowImage: column?.AllowImage == true,
-                    mobile: column?.SiteSettings.Mobile == true,
+                    mobile: context.Mobile == true,
                     _using: !readOnly)
                 .Div(id: "CommentList", action: () => comments
                     .ForEach(comment => hb
@@ -55,7 +55,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                 ss: ss,
                 allowEditing: ss.AllowEditingComments == true,
                 allowImage: column.AllowImage == true,
-                mobile: ss.Mobile,
+                mobile: context.Mobile,
                 readOnly: readOnly,
                 controlId: "Comment" + comment.CommentId,
                 action: () => hb

@@ -18,7 +18,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             string script = null,
             string userScript = null)
         {
-            return !Request.IsAjax()
+            return !context.Ajax
                 ? hb
                     .Script(src: Locations.Get(
                         context: context,

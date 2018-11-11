@@ -2964,7 +2964,7 @@ namespace Implem.Pleasanter.Models
                         controlId: "SwitchTargets",
                         css: "always-send",
                         value: siteModel.SiteId.ToString(),
-                        _using: !Request.IsAjax())).ToString();
+                        _using: !context.Ajax)).ToString();
         }
 
         /// <summary>
@@ -3219,7 +3219,7 @@ namespace Implem.Pleasanter.Models
                         fieldCss: "field-wide",
                         labelText: Displays.Sites_Body(context: context),
                         text: siteModel.Body,
-                        mobile: siteModel.SiteSettings.Mobile,
+                        mobile: context.Mobile,
                         _using: siteModel.ReferenceType != "Wikis")
                     .Field(
                         controlId: "Sites_ReferenceType",
@@ -3494,7 +3494,7 @@ namespace Implem.Pleasanter.Models
                             placeholder: Displays.CustomDesign(context: context),
                             text: ss.GridDesignEditorText(column),
                             allowImage: column.AllowImage == true,
-                            mobile: ss.Mobile);
+                            mobile: context.Mobile);
                 });
             return hb
                 .Hidden(

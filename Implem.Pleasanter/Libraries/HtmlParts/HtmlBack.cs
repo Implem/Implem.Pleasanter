@@ -15,7 +15,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             string referenceType,
             string siteReferenceType)
         {
-            return !Request.IsAjax()
+            return !context.Ajax
                 ? hb.Hidden(
                     controlId: "BackUrl",
                     rawValue: BackUrl(

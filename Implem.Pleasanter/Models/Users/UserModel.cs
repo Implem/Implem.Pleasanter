@@ -2712,7 +2712,7 @@ namespace Implem.Pleasanter.Models
 
         public void SetByApi(Context context, SiteSettings ss)
         {
-            var data = context.Forms.String().Deserialize<UserApiModel>();
+            var data = context.FormString.Deserialize<UserApiModel>();
             if (data == null)
             {
                 return;

@@ -76,7 +76,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     value: value,
                     optionCollection: EditChoices(
                         context: context, ss: ss, column: column, value: value),
-                    mobile: ss.Mobile,
+                    mobile: context.Mobile,
                     preview: preview);
             }
             else

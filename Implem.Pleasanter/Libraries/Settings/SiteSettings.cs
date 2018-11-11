@@ -67,8 +67,6 @@ namespace Implem.Pleasanter.Libraries.Settings
         [NonSerialized]
         public bool Linked;
         [NonSerialized]
-        public bool Mobile;
-        [NonSerialized]
         public string DuplicatedColumn;
         public string ReferenceType;
         public decimal? NearCompletionTimeAfterDays;
@@ -214,8 +212,6 @@ namespace Implem.Pleasanter.Libraries.Settings
             EnableImageLib = EnableImageLib ?? true;
             ImageLibPageSize = ImageLibPageSize ?? Parameters.General.ImageLibPageSize;
             TitleSeparator = TitleSeparator ?? ")";
-            var request = new Request();
-            Mobile = request.IsMobile();
         }
 
         public void SetLinkedSiteSettings(Context context)
