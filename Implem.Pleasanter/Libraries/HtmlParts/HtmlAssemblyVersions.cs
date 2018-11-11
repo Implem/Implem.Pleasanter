@@ -30,7 +30,9 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                             .Div(action: () => hb
                                 .Span(action: () => hb
                                     .Img(id: "logoVersion",
-                                        src: Locations.Images("logo-version.png"))))
+                                        src: Locations.Images(
+                                            context: context,
+                                            parts: "logo-version.png"))))
                             .Div(action: () => hb
                                 .Span(action: () => hb
                                     .Text(text: Displays.Version(context: context)))

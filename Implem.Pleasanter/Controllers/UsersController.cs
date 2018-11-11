@@ -201,7 +201,7 @@ namespace Implem.Pleasanter.Controllers
                     Authentications.SignOut();
                 }
                 log.Finish(context: context);
-                return base.Redirect(Locations.Top());
+                return base.Redirect(Locations.Top(context: context));
             }
             var html = UserUtilities.HtmlLogin(
                 context: context,
@@ -238,7 +238,7 @@ namespace Implem.Pleasanter.Controllers
             var context = new Context();
             var log = new SysLogModel(context: context);
             Authentications.SignOut();
-            var url = Locations.Login();
+            var url = Locations.Login(context: context);
             log.Finish(context: context);
             return Redirect(url);
         }

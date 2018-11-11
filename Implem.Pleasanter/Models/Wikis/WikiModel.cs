@@ -806,7 +806,9 @@ namespace Implem.Pleasanter.Models
 
         private void Notice(Context context, SiteSettings ss, string type)
         {
-            var url = Locations.ItemEditAbsoluteUri(WikiId);
+            var url = Locations.ItemEditAbsoluteUri(
+                context: context,
+                id: WikiId);
             ss.Notifications.Where(o => o.Enabled).ForEach(notification =>
             {
                 if (notification.HasRelatedUsers())

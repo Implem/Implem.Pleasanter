@@ -381,9 +381,11 @@ namespace Implem.Pleasanter.Models
                     attributes: new HtmlAttributes()
                         .Id("WikiForm")
                         .Class("main-form")
-                        .Action(Locations.ItemAction(wikiModel.WikiId != 0
-                            ? wikiModel.WikiId
-                            : wikiModel.SiteId)),
+                        .Action(Locations.ItemAction(
+                            context: context,
+                            id: wikiModel.WikiId != 0
+                                ? wikiModel.WikiId
+                                : wikiModel.SiteId)),
                     action: () => hb
                         .RecordHeader(
                             context: context,
@@ -432,8 +434,12 @@ namespace Implem.Pleasanter.Models
                                 moveButton: false,
                                 mailButton: true,
                                 deleteButton: true))
-                        .Hidden(controlId: "BaseUrl", value: Locations.BaseUrl())
-                        .Hidden(controlId: "MethodType", value: "edit")
+                        .Hidden(
+                            controlId: "BaseUrl",
+                            value: Locations.BaseUrl(context: context))
+                        .Hidden(
+                            controlId: "MethodType",
+                            value: "edit")
                         .Hidden(
                             controlId: "Wikis_Timestamp",
                             css: "always-send",
@@ -812,14 +818,16 @@ namespace Implem.Pleasanter.Models
                     var res = new WikisResponseCollection(wikiModel);
                 res
                     .SetMemory("formChanged", false)
-                    .Href(Locations.ItemIndex(Rds.ExecuteScalar_long(
+                    .Href(Locations.ItemIndex(
                         context: context,
-                        statements: Rds.SelectSites(
-                            tableType: Sqls.TableTypes.Deleted,
-                            column: Rds.SitesColumn().ParentId(),
-                            where: Rds.SitesWhere()
-                                .TenantId(context.TenantId)
-                                .SiteId(wikiModel.SiteId)))));
+                        id: Rds.ExecuteScalar_long(
+                            context: context,
+                            statements: Rds.SelectSites(
+                                tableType: Sqls.TableTypes.Deleted,
+                                column: Rds.SitesColumn().ParentId(),
+                                where: Rds.SitesWhere()
+                                    .TenantId(context.TenantId)
+                                    .SiteId(wikiModel.SiteId)))));
                     return res.ToJson();
                 default:
                     return error.MessageJson(context: context);
@@ -949,7 +957,9 @@ namespace Implem.Pleasanter.Models
                             data: ver.First().ToString()));
                     return  new ResponseCollection()
                         .SetMemory("formChanged", false)
-                        .Href(Locations.ItemEdit(wikiId))
+                        .Href(Locations.ItemEdit(
+                            context: context,
+                            id: wikiId))
                         .ToJson();
                 default:
                     return error.MessageJson(context: context);

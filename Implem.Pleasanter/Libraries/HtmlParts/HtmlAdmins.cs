@@ -32,7 +32,9 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                             .Li(css: "nav-site", action: () => hb
                                 .A(
                                     attributes: new HtmlAttributes()
-                                        .Href(Locations.Index("Depts")),
+                                        .Href(Locations.Index(
+                                            context: context,
+                                            controller: "Depts")),
                                     action: () => hb
                                         .Div(action: () => hb
                                             .Text(Displays.Depts(context: context)))
@@ -40,7 +42,9 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                             .Li(css: "nav-site", action: () => hb
                                 .A(
                                     attributes: new HtmlAttributes()
-                                        .Href(Locations.Index("Groups")),
+                                        .Href(Locations.Index(
+                                            context: context,
+                                            controller: "Groups")),
                                     action: () => hb
                                         .Div(action: () => hb
                                             .Text(Displays.Groups(context: context)))
@@ -48,7 +52,9 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                             .Li(css: "nav-site", action: () => hb
                                 .A(
                                     attributes: new HtmlAttributes()
-                                        .Href(Locations.Index("Users")),
+                                        .Href(Locations.Index(
+                                            context: context,
+                                            controller: "Users")),
                                     action: () => hb
                                         .Div(action: () => hb
                                             .Text(Displays.Users(context: context)))

@@ -78,7 +78,9 @@ namespace Implem.Pleasanter.Models
                         attributes: new HtmlAttributes()
                             .Id("IssuesForm")
                             .Class("main-form")
-                            .Action(Locations.ItemAction(ss.SiteId)),
+                            .Action(Locations.ItemAction(
+                                context: context,
+                                id: ss.SiteId)),
                         action: () => hb
                             .ViewSelector(context: context, ss: ss, view: view)
                             .ViewFilters(context: context, ss: ss, view: view)
@@ -93,8 +95,12 @@ namespace Implem.Pleasanter.Models
                                 siteId: ss.SiteId,
                                 verType: Versions.VerTypes.Latest)
                             .Div(css: "margin-bottom")
-                            .Hidden(controlId: "TableName", value: "Issues")
-                            .Hidden(controlId: "BaseUrl", value: Locations.BaseUrl()))
+                            .Hidden(
+                                controlId: "TableName",
+                                value: "Issues")
+                            .Hidden(
+                                controlId: "BaseUrl",
+                                value: Locations.BaseUrl(context: context)))
                     .EditorDialog(context: context, ss: ss)
                     .DropDownSearchDialog(
                         context: context,
@@ -3665,9 +3671,11 @@ namespace Implem.Pleasanter.Models
                     attributes: new HtmlAttributes()
                         .Id("IssueForm")
                         .Class("main-form confirm-reload")
-                        .Action(Locations.ItemAction(issueModel.IssueId != 0 
-                            ? issueModel.IssueId
-                            : issueModel.SiteId)),
+                        .Action(Locations.ItemAction(
+                            context: context,
+                            id: issueModel.IssueId != 0 
+                                ? issueModel.IssueId
+                                : issueModel.SiteId)),
                     action: () => hb
                         .RecordHeader(
                             context: context,
@@ -3722,7 +3730,9 @@ namespace Implem.Pleasanter.Models
                                         context: context,
                                         ss: ss,
                                         issueModel: issueModel)))
-                        .Hidden(controlId: "BaseUrl", value: Locations.BaseUrl())
+                        .Hidden(
+                            controlId: "BaseUrl",
+                            value: Locations.BaseUrl(context: context))
                         .Hidden(
                             controlId: "FromSiteId",
                             css: "control-hidden always-send",
@@ -7017,6 +7027,7 @@ namespace Implem.Pleasanter.Models
                     return new ResponseCollection()
                         .SetMemory("formChanged", false)
                         .Href(Locations.Edit(
+                            context: context,
                             controller: context.Controller,
                             id: ss.Columns.Any(o => o.Linking)
                                 ? context.Forms.Long("LinkId")
@@ -7355,7 +7366,9 @@ namespace Implem.Pleasanter.Models
             {
                 case Error.Types.None:
                     return new ResponseCollection()
-                        .Href(Locations.ItemEdit(issueModel.IssueId))
+                        .Href(Locations.ItemEdit(
+                            context: context,
+                            id: issueModel.IssueId))
                         .ToJson();
                 case Error.Types.Duplicated:
                     return Messages.ResponseDuplicated(
@@ -7394,11 +7407,15 @@ namespace Implem.Pleasanter.Models
                     res
                         .SetMemory("formChanged", false)
                         .Href(Locations.Get(
-                            "Items",
-                            ss.SiteId.ToString(),
-                            ViewModes.GetSessionData(
-                                context: context,
-                                siteId: ss.SiteId)));
+                            context: context,
+                            parts: new string[]
+                            {
+                                "Items",
+                                ss.SiteId.ToString(),
+                                ViewModes.GetSessionData(
+                                    context: context,
+                                    siteId: ss.SiteId)
+                            }));
                     return res.ToJson();
                 default:
                     return error.MessageJson(context: context);
@@ -7580,7 +7597,9 @@ namespace Implem.Pleasanter.Models
                             data: ver.First().ToString()));
                     return  new ResponseCollection()
                         .SetMemory("formChanged", false)
-                        .Href(Locations.ItemEdit(issueId))
+                        .Href(Locations.ItemEdit(
+                            context: context,
+                            id: issueId))
                         .ToJson();
                 default:
                     return error.MessageJson(context: context);
@@ -7762,8 +7781,10 @@ namespace Implem.Pleasanter.Models
                 var addCommentCollection = new List<string>();
                 addCommentCollection.AddRange(idHash.Select(o => "[{0}]({1}{2})  ".Params(
                     context.Forms.Data("SeparateTitle_" + o.Key),
-                    Url.Server(),
-                    Locations.ItemEdit(o.Value))));
+                    context.Server,
+                    Locations.ItemEdit(
+                        context: context,
+                        id: o.Value))));
                 var addComment = "[md]\n{0}  \n{1}".Params(
                     Displays.Separated(context: context),
                     addCommentCollection.Join("\n"));

@@ -4034,7 +4034,7 @@ namespace Implem.Pleasanter.Models
                 .CloseDialog(_using: atLogin)
                 .Message(Messages.LoginIn(context: context))
                 .Href(returnUrl == string.Empty
-                    ? Locations.Top()
+                    ? Locations.Top(context: context)
                     : returnUrl).ToJson();
         }
 

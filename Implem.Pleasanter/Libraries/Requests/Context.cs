@@ -14,6 +14,7 @@ using System.Data;
 using System.Globalization;
 using System.Linq;
 using System.Web;
+using System.Web.Mvc;
 using System.Web.Routing;
 namespace Implem.Pleasanter.Libraries.Requests
 {
@@ -25,10 +26,18 @@ namespace Implem.Pleasanter.Libraries.Requests
         public QueryStrings QueryStrings = new QueryStrings();
         public Forms Forms = new Forms();
         public List<PostedFile> PostedFiles = new List<PostedFile>();
+        public bool Ajax;
+        public Dictionary<string, string> RouteData = new Dictionary<string, string>();
+        public string ApplicationPath;
+        public string AbsoluteUri;
+        public string AbsolutePath;
+        public string LocalPath;
+        public string UrlReferrer;
         public string Controller;
         public string Action;
         public long Id;
         public string Page;
+        public string Server;
         public int TenantId;
         public int DeptId;
         public int UserId;
@@ -214,30 +223,35 @@ namespace Implem.Pleasanter.Libraries.Requests
 
         private void SetRouteProperties()
         {
-            Controller = GetController();
-            Action = GetAction();
-            Id = GetId();
+            if (HasRoute())
+            {
+                var request = HttpContext.Current.Request;
+                Ajax = new HttpRequestWrapper(request).IsAjaxRequest();
+                RouteData = GetRouteData();
+                Server = request.Url.Scheme + "://" + request.Url.Authority;
+                ApplicationPath = request.ApplicationPath.EndsWith("/")
+                    ? request.ApplicationPath
+                    : request.ApplicationPath + "/";
+                AbsoluteUri = request.Url.AbsoluteUri;
+                AbsolutePath = request.Url.AbsolutePath;
+                LocalPath = request.Url.LocalPath;
+                UrlReferrer = request.UrlReferrer?.ToString();
+                Controller = RouteData.Get("controller")?.ToLower() ?? string.Empty;
+                Action = RouteData.Get("action")?.ToLower() ?? string.Empty;
+                Id = RouteData.Get("id")?.ToLong() ?? 0;
+            }
         }
 
-        private static string GetController()
+        public Dictionary<string, string> GetRouteData()
         {
             return HasRoute()
-                ? Url.RouteData("controller").ToString().ToLower()
-                : StackTraces.Class();
-        }
-
-        private static string GetAction()
-        {
-            return HasRoute()
-                ? Url.RouteData("action").ToString().ToLower()
-                : StackTraces.Method();
-        }
-
-        private static long GetId()
-        {
-            return HasRoute()
-                ? Url.RouteData("id").ToLong()
-                : 0;
+                ? RouteTable.Routes
+                    .GetRouteData(new HttpContextWrapper(HttpContext.Current))
+                    .Values
+                    .ToDictionary(
+                        o => o.Key,
+                        o => o.Value.ToString())
+                : new Dictionary<string, string>();
         }
 
         private string SessionLanguage()
@@ -305,7 +319,7 @@ namespace Implem.Pleasanter.Libraries.Requests
             var callerOfMethod = Action;
             if (HasRoute())
             {
-                var path = Url.AbsolutePath().ToLower()
+                var path = AbsolutePath.ToLower()
                     .Split('/').Where(o => o != string.Empty).ToList();
                 var methodIndex = path.IndexOf(callerOfMethod.ToLower());
                 Page = methodIndex != -1

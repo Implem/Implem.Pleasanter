@@ -29,9 +29,11 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             return hb.Form(
                 attributes: new HtmlAttributes()
                     .Id("DialogEditorForm")
-                    .Action(Locations.ItemAction(referenceId != 0
-                        ? referenceId
-                        : siteId)),
+                    .Action(Locations.ItemAction(
+                        context: context,
+                        id: referenceId != 0
+                            ? referenceId
+                            : siteId)),
                 action: () =>
                 {
                     action();

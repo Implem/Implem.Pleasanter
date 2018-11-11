@@ -78,7 +78,9 @@ namespace Implem.Pleasanter.Models
                         attributes: new HtmlAttributes()
                             .Id("SitesForm")
                             .Class("main-form")
-                            .Action(Locations.ItemAction(ss.SiteId)),
+                            .Action(Locations.ItemAction(
+                                context: context,
+                                id: ss.SiteId)),
                         action: () => hb
                             .ViewSelector(context: context, ss: ss, view: view)
                             .ViewFilters(context: context, ss: ss, view: view)
@@ -93,8 +95,12 @@ namespace Implem.Pleasanter.Models
                                 siteId: ss.SiteId,
                                 verType: Versions.VerTypes.Latest)
                             .Div(css: "margin-bottom")
-                            .Hidden(controlId: "TableName", value: "Sites")
-                            .Hidden(controlId: "BaseUrl", value: Locations.BaseUrl()))
+                            .Hidden(
+                                controlId: "TableName",
+                                value: "Sites")
+                            .Hidden(
+                                controlId: "BaseUrl",
+                                value: Locations.BaseUrl(context: context)))
                     .EditorDialog(context: context, ss: ss)
                     .DropDownSearchDialog(
                         context: context,
@@ -688,6 +694,7 @@ namespace Implem.Pleasanter.Models
                     return new ResponseCollection()
                         .SetMemory("formChanged", false)
                         .Href(Locations.Edit(
+                            context: context,
                             controller: context.Controller,
                             id: siteModel.ReferenceType == "Wikis"
                                 ? Rds.ExecuteScalar_long(
@@ -860,7 +867,9 @@ namespace Implem.Pleasanter.Models
                     var res = new SitesResponseCollection(siteModel);
                 res
                     .SetMemory("formChanged", false)
-                    .Href(Locations.ItemIndex(siteModel.ParentId));
+                    .Href(Locations.ItemIndex(
+                        context: context,
+                        id: siteModel.ParentId));
                     return res.ToJson();
                 default:
                     return error.MessageJson(context: context);
@@ -992,7 +1001,9 @@ namespace Implem.Pleasanter.Models
                             data: ver.First().ToString()));
                     return  new ResponseCollection()
                         .SetMemory("formChanged", false)
-                        .Href(Locations.ItemEdit(siteId))
+                        .Href(Locations.ItemEdit(
+                            context: context,
+                            id: siteId))
                         .ToJson();
                 default:
                     return error.MessageJson(context: context);
@@ -2348,7 +2359,9 @@ namespace Implem.Pleasanter.Models
                             attributes: new HtmlAttributes()
                                 .Id("SitesForm")
                                 .Class("main-form")
-                                .Action(Locations.ItemAction(0)),
+                                .Action(Locations.ItemAction(
+                                    context: context,
+                                    id: 0)),
                             action: () => hb
                                 .SiteMenu(
                                     context: context,
@@ -2404,7 +2417,9 @@ namespace Implem.Pleasanter.Models
                             attributes: new HtmlAttributes()
                                 .Id("SitesForm")
                                 .Class("main-form")
-                                .Action(Locations.ItemAction(ss.SiteId)),
+                                .Action(Locations.ItemAction(
+                                    context: context,
+                                    id: ss.SiteId)),
                             action: () => hb
                                 .SiteMenu(
                                     context: context,
@@ -2538,11 +2553,13 @@ namespace Implem.Pleasanter.Models
             switch (referenceType)
             {
                 case "Wikis":
-                    return Locations.ItemEdit(Rds.ExecuteScalar_long(
+                    return Locations.ItemEdit(
                         context: context,
-                        statements: Rds.SelectWikis(
-                            column: Rds.WikisColumn().WikiId(),
-                            where: Rds.WikisWhere().SiteId(siteId))));
+                        id: Rds.ExecuteScalar_long(
+                            context: context,
+                            statements: Rds.SelectWikis(
+                                column: Rds.WikisColumn().WikiId(),
+                                where: Rds.WikisWhere().SiteId(siteId))));
                 default:
                     var viewMode = ViewModes.GetSessionData(
                         context: context,
@@ -2553,7 +2570,14 @@ namespace Implem.Pleasanter.Models
                             viewMode = "index";
                             break;
                     }
-                    return Locations.Get("Items", siteId.ToString(), viewMode);
+                    return Locations.Get(
+                        context: context,
+                        parts: new string[]
+                        {
+                            "Items",
+                            siteId.ToString(),
+                            viewMode
+                        });
             }
         }
 
@@ -2574,6 +2598,7 @@ namespace Implem.Pleasanter.Models
             if (toParent)
             {
                 hb.SiteMenuParent(
+                    context: context,
                     siteId: siteId,
                     title: title,
                     hasImage: hasImage,
@@ -2582,6 +2607,7 @@ namespace Implem.Pleasanter.Models
             else
             {
                 hb.SiteMenuChild(
+                    context: context,
                     siteId: siteId,
                     title: title,
                     hasImage: hasImage,
@@ -2600,6 +2626,7 @@ namespace Implem.Pleasanter.Models
         /// </summary>
         private static HtmlBuilder SiteMenuParent(
             this HtmlBuilder hb,
+            Context context,
             long siteId,
             string title,
             bool hasImage,
@@ -2610,11 +2637,15 @@ namespace Implem.Pleasanter.Models
                 return hb
                     .Img(
                         src: Locations.Get(
-                            "Items",
-                            siteId.ToString(),
-                            "Binaries",
-                            "SiteImageIcon",
-                            siteImagePrefix),
+                            context: context,
+                            parts: new string[]
+                            {
+                                "Items",
+                                siteId.ToString(),
+                                "Binaries",
+                                "SiteImageIcon",
+                                siteImagePrefix
+                            }),
                         css: "site-image-icon")
                     .Span(css: "title", action: () => hb
                         .Text(title));
@@ -2633,6 +2664,7 @@ namespace Implem.Pleasanter.Models
         /// </summary>
         private static HtmlBuilder SiteMenuChild(
             this HtmlBuilder hb,
+            Context context,
             long siteId,
             string title,
             bool hasImage,
@@ -2642,11 +2674,15 @@ namespace Implem.Pleasanter.Models
             {
                 hb.Img(
                     src: Locations.Get(
-                        "Items",
-                        siteId.ToString(),
-                        "Binaries",
-                        "SiteImageThumbnail",
-                        siteImagePrefix),
+                        context: context,
+                        parts: new string[]
+                        {
+                            "Items",
+                            siteId.ToString(),
+                            "Binaries",
+                            "SiteImageThumbnail",
+                            siteImagePrefix
+                        }),
                     css: "site-image-thumbnail");
             }
             return hb.Span(css: "title", action: () => hb
@@ -2773,7 +2809,9 @@ namespace Implem.Pleasanter.Models
                     .Form(
                         attributes: new HtmlAttributes()
                             .Id("SiteTitleForm")
-                            .Action(Locations.ItemAction(ss.SiteId)),
+                            .Action(Locations.ItemAction(
+                                context: context,
+                                id: ss.SiteId)),
                         action: () => hb
                             .FieldTextBox(
                                 controlId: "SiteTitle",
@@ -2916,8 +2954,12 @@ namespace Implem.Pleasanter.Models
                     : siteModel.Title + " - " + Displays.Manage(context: context),
                 action: () => hb
                     .Editor(context: context, siteModel: siteModel)
-                    .Hidden(controlId: "BaseUrl", value: Locations.BaseUrl())
-                    .Hidden(controlId: "ReferenceType", value: "Sites")
+                    .Hidden(
+                        controlId: "BaseUrl",
+                        value: Locations.BaseUrl(context: context))
+                    .Hidden(
+                        controlId: "ReferenceType",
+                        value: "Sites")
                     .Hidden(
                         controlId: "SwitchTargets",
                         css: "always-send",
@@ -2945,7 +2987,9 @@ namespace Implem.Pleasanter.Models
                     attributes: new HtmlAttributes()
                         .Id("SiteForm")
                         .Class("main-form confirm-reload")
-                        .Action(Locations.ItemAction(siteModel.SiteId)),
+                        .Action(Locations.ItemAction(
+                            context: context,
+                            id: siteModel.SiteId)),
                     action: () => hb
                         .RecordHeader(
                             context: context,
@@ -3122,10 +3166,16 @@ namespace Implem.Pleasanter.Models
                             column: Rds.WikisColumn().WikiId(),
                             where: Rds.WikisWhere().SiteId(siteModel.SiteId)));
                     return wikiId != 0
-                        ? Locations.ItemEdit(wikiId)
-                        : Locations.ItemIndex(siteModel.ParentId);
+                        ? Locations.ItemEdit(
+                            context: context,
+                            id: wikiId)
+                        : Locations.ItemIndex(
+                            context: context,
+                            id: siteModel.ParentId);
                 default:
-                    return Locations.ItemIndex(siteModel.SiteId);
+                    return Locations.ItemIndex(
+                        context: context,
+                        id: siteModel.SiteId);
             }
         }
 
@@ -3391,7 +3441,9 @@ namespace Implem.Pleasanter.Models
             return hb.Form(
                 attributes: new HtmlAttributes()
                     .Id("GridColumnForm")
-                    .Action(Locations.ItemAction(ss.SiteId)),
+                    .Action(Locations.ItemAction(
+                        context: context,
+                        id: ss.SiteId)),
                 action: () => hb
                     .GridColumnDialog(
                         context: context,
@@ -3571,7 +3623,9 @@ namespace Implem.Pleasanter.Models
             return hb.Form(
                 attributes: new HtmlAttributes()
                     .Id("FilterColumnForm")
-                    .Action(Locations.ItemAction(ss.SiteId)),
+                    .Action(Locations.ItemAction(
+                        context: context,
+                        id: ss.SiteId)),
                 action: () => hb
                     .FilterColumnDialog(
                         context: context,
@@ -3943,7 +3997,9 @@ namespace Implem.Pleasanter.Models
             return hb.Form(
                 attributes: new HtmlAttributes()
                     .Id("EditorColumnForm")
-                    .Action(Locations.ItemAction(ss.SiteId)),
+                    .Action(Locations.ItemAction(
+                        context: context,
+                        id: ss.SiteId)),
                 action: () => hb
                     .EditorColumnDialog(
                         context: context, ss: ss, column: column, titleColumns: titleColumns));
@@ -4752,7 +4808,9 @@ namespace Implem.Pleasanter.Models
             return hb.Form(
                 attributes: new HtmlAttributes()
                     .Id("SummaryForm")
-                    .Action(Locations.ItemAction(ss.SiteId)),
+                    .Action(Locations.ItemAction(
+                        context: context,
+                        id: ss.SiteId)),
                 action: () => hb
                     .FieldText(
                         controlId: "SummaryId",
@@ -5132,7 +5190,9 @@ namespace Implem.Pleasanter.Models
             return hb.Form(
                 attributes: new HtmlAttributes()
                     .Id("FormulaForm")
-                    .Action(Locations.ItemAction(ss.SiteId)),
+                    .Action(Locations.ItemAction(
+                        context: context,
+                        id: ss.SiteId)),
                 action: () => hb
                     .FieldText(
                         controlId: "FormulaId",
@@ -5275,7 +5335,9 @@ namespace Implem.Pleasanter.Models
             return hb.Form(
                 attributes: new HtmlAttributes()
                     .Id("ViewForm")
-                    .Action(Locations.ItemAction(ss.SiteId)),
+                    .Action(Locations.ItemAction(
+                        context: context,
+                        id: ss.SiteId)),
                 action: () => hb
                     .FieldText(
                         controlId: "ViewId",
@@ -6027,7 +6089,9 @@ namespace Implem.Pleasanter.Models
             return hb.Form(
                 attributes: new HtmlAttributes()
                     .Id("NotificationForm")
-                    .Action(Locations.ItemAction(ss.SiteId)),
+                    .Action(Locations.ItemAction(
+                        context: context,
+                        id: ss.SiteId)),
                 action: () => hb
                     .FieldText(
                         controlId: "NotificationId",
@@ -6376,7 +6440,9 @@ namespace Implem.Pleasanter.Models
             return hb.Form(
                 attributes: new HtmlAttributes()
                     .Id("ReminderForm")
-                    .Action(Locations.ItemAction(ss.SiteId)),
+                    .Action(Locations.ItemAction(
+                        context: context,
+                        id: ss.SiteId)),
                 action: () => hb
                     .FieldText(
                         controlId: "ReminderId",
@@ -6669,7 +6735,9 @@ namespace Implem.Pleasanter.Models
             return hb.Form(
                 attributes: new HtmlAttributes()
                     .Id("ExportForm")
-                    .Action(Locations.ItemAction(ss.SiteId)),
+                    .Action(Locations.ItemAction(
+                        context: context,
+                        id: ss.SiteId)),
                 action: () => hb
                     .FieldText(
                         controlId: "ExportId",
@@ -6805,7 +6873,9 @@ namespace Implem.Pleasanter.Models
             return hb.Form(
                 attributes: new HtmlAttributes()
                     .Id("ExportColumnsForm")
-                    .Action(Locations.ItemAction(ss.SiteId)),
+                    .Action(Locations.ItemAction(
+                        context: context,
+                        id: ss.SiteId)),
                 action: () => hb
                     .FieldText(
                         labelText: Displays.Column(context: context),
@@ -7287,7 +7357,9 @@ namespace Implem.Pleasanter.Models
             return hb.Form(
                 attributes: new HtmlAttributes()
                     .Id("StyleForm")
-                    .Action(Locations.ItemAction(ss.SiteId)),
+                    .Action(Locations.ItemAction(
+                        context: context,
+                        id: ss.SiteId)),
                 action: () => hb
                     .FieldText(
                         controlId: "StyleId",
@@ -7601,7 +7673,9 @@ namespace Implem.Pleasanter.Models
             return hb.Form(
                 attributes: new HtmlAttributes()
                     .Id("ScriptForm")
-                    .Action(Locations.ItemAction(ss.SiteId)),
+                    .Action(Locations.ItemAction(
+                        context: context,
+                        id: ss.SiteId)),
                 action: () => hb
                     .FieldText(
                         controlId: "ScriptId",
@@ -7937,7 +8011,9 @@ namespace Implem.Pleasanter.Models
             return hb.Form(
                 attributes: new HtmlAttributes()
                     .Id("RelatingColumnForm")
-                    .Action(Locations.ItemAction(ss.SiteId)),
+                    .Action(Locations.ItemAction(
+                        context: context,
+                        id: ss.SiteId)),
                 action: () => hb
                     .FieldText(
                         controlId: "RelatingColumnId",

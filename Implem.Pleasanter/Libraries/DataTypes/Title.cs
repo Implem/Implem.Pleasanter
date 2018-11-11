@@ -195,15 +195,16 @@ namespace Implem.Pleasanter.Libraries.DataTypes
         {
             switch (column.SiteSettings.TableType)
             {
-
                 case Sqls.TableTypes.Normal:
                     hb.A(
-                        href: Locations.ItemEdit(Id) +
-                            (column.Joined ||
-                            column.SiteSettings.Linked ||
-                            column.SiteSettings?.IntegratedSites?.Any() == true
-                                ? "?back=1"
-                                : string.Empty),
+                        href: Locations.ItemEdit(
+                            context: context,
+                            id: Id)
+                                + (column.Joined
+                                    || column.SiteSettings.Linked
+                                    || column.SiteSettings?.IntegratedSites?.Any() == true
+                                        ? "?back=1"
+                                        : string.Empty),
                         text: DisplayValue);
                     break;
                 default:

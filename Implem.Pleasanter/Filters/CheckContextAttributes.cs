@@ -17,19 +17,23 @@ namespace Implem.Pleasanter.Filters
                 sessionData: false);
             if (context.Controller != "errors" && Parameters.SyntaxErrors?.Any() == true)
             {
-                filterContext.Result = new RedirectResult(Locations.ParameterSyntaxError());
+                filterContext.Result = new RedirectResult(
+                    Locations.ParameterSyntaxError(context: context));
             }
             if (context.Authenticated
                 && !context.ContractSettings.AllowedIpAddress(context.UserHostAddress))
             {
                 Authentications.SignOut();
-                filterContext.Result = new RedirectResult(Locations.BadRequest());
+                filterContext.Result = new RedirectResult(
+                    Locations.BadRequest(context: context));
                 return;
             }
-            if (context.Authenticated && context.ContractSettings.OverDeadline(context: context))
+            if (context.Authenticated
+                && context.ContractSettings.OverDeadline(context: context))
             {
                 Authentications.SignOut();
-                filterContext.Result = new RedirectResult(Locations.Login() + "?expired=1");
+                filterContext.Result = new RedirectResult(
+                    Locations.Login(context: context) + "?expired=1");
                 return;
             }
             if (!context.LoginId.IsNullOrEmpty())
@@ -44,7 +48,8 @@ namespace Implem.Pleasanter.Filters
                     else
                     {
                         Authentications.SignOut();
-                        filterContext.Result = new RedirectResult(Locations.Login());
+                        filterContext.Result = new RedirectResult(
+                            Locations.Login(context: context));
                         return;
                     }
                 }

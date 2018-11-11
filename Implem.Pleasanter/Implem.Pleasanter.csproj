@@ -226,7 +226,6 @@
     <Compile Include="Controllers\VersionsController.cs" />
     <Compile Include="Filters\CheckContextAttributes.cs" />
     <Compile Include="Filters\HandleErrorExAttribute.cs" />
-    <Compile Include="Filters\RequestLimitAttribute.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -409,7 +408,6 @@
     <Compile Include="Libraries\Requests\DataViewGrid.cs" />
     <Compile Include="Libraries\Requests\QueryStrings.cs" />
     <Compile Include="Libraries\Requests\Request.cs" />
-    <Compile Include="Libraries\Requests\Url.cs" />
     <Compile Include="Libraries\Responses\ControlData.cs" />
     <Compile Include="Libraries\Responses\ResponseViews.cs" />
     <Compile Include="Libraries\Responses\Message.cs" />

@@ -16,7 +16,10 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     .Form(
                         attributes: new HtmlAttributes()
                             .Id("DropDownSearchDialogForm")
-                            .Action(Locations.Action(controller, id)),
+                            .Action(Locations.Action(
+                                context: context,
+                                controller: controller,
+                                id: id)),
                         action: () => hb
                             .FieldSelectable(
                                 controlId: "DropDownSearchResults",

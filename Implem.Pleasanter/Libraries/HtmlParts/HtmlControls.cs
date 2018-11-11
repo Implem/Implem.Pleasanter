@@ -769,6 +769,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                         action: () => attachments?
                             .ForEach(item => hb
                                 .AttachmentItem(
+                                    context: context,
                                     controlId: controlId,
                                     guid: item.Guid,
                                     css: item.Added == true
@@ -802,6 +803,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
 
         private static HtmlBuilder AttachmentItem(
             this HtmlBuilder hb,
+            Context context,
             string controlId = null,
             string guid = null,
             string css = null,
@@ -820,13 +822,19 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                         .A(
                             attributes: new HtmlAttributes()
                                 .Class("file-name")
-                                .Href(Locations.ShowFile(guid, temp: added == true)),
+                                .Href(Locations.ShowFile(
+                                    context: context,
+                                    guid: guid,
+                                    temp: added == true)),
                             action: () => hb
                                 .Span(css: "ui-icon ui-icon-circle-zoomin show-file"))
                         .A(
                             attributes: new HtmlAttributes()
                                 .Class("file-name")
-                                .Href(Locations.DownloadFile(guid, temp: added == true)),
+                                .Href(Locations.DownloadFile(
+                                    context: context,
+                                    guid: guid,
+                                    temp: added == true)),
                             action: () => hb
                                 .Text(text: fileName + "　(" + displaySize + ")"))
                         .Div(

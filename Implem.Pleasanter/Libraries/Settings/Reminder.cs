@@ -188,7 +188,8 @@ namespace Implem.Pleasanter.Libraries.Settings
                             ReplacedLine(context: context, ss: ss, dataRow: dataRow),
                             "\n\t",
                             Locations.ItemEditAbsoluteUri(
-                                dataRow.Long(Rds.IdColumn(ss.ReferenceType))),
+                                context: context,
+                                id: dataRow.Long(Rds.IdColumn(ss.ReferenceType))),
                             "\n"));
                 sb.Append("\n");
             });
