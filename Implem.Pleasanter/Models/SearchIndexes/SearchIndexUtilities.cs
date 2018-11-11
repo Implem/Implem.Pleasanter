@@ -96,13 +96,13 @@ namespace Implem.Pleasanter.Models
         {
             var dataSet = Get(
                 context: context,
-                searchText: QueryStrings.Data("text"),
+                searchText: context.QueryStrings.Data("text"),
                 dataTableName: "SearchResults",
-                offset: QueryStrings.Int("offset"),
+                offset: context.QueryStrings.Int("offset"),
                 pageSize: Parameters.General.SearchPageSize);
             return MainContainer(
                 context: context,
-                text: QueryStrings.Data("text"),
+                text: context.QueryStrings.Data("text"),
                 offset: 0,
                 results: dataSet?.Tables["SearchResults"].AsEnumerable(),
                 count: Rds.Count(dataSet)).ToString();
@@ -113,8 +113,8 @@ namespace Implem.Pleasanter.Models
         /// </summary>
         public static string SearchJson(Context context)
         {
-            var offset = QueryStrings.Int("offset");
-            var searchText = QueryStrings.Data("text");
+            var offset = context.QueryStrings.Int("offset");
+            var searchText = context.QueryStrings.Data("text");
             var dataSet = Get(
                 context: context,
                 searchText: searchText,

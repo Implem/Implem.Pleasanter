@@ -445,9 +445,9 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
         private static string ToLinkId(
             this string self, Context context, SiteSettings ss, Column column)
         {
-            if (column.Linked(ss, QueryStrings.Long("FromSiteId")))
+            if (column.Linked(ss, context.QueryStrings.Long("FromSiteId")))
             {
-                var id = QueryStrings.Data("LinkId");
+                var id = context.QueryStrings.Data("LinkId");
                 if (column.UseSearch == true)
                 {
                     ss.SetChoiceHash(

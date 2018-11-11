@@ -172,7 +172,7 @@ namespace Implem.Pleasanter.Models
             var outgoingMailModel = new OutgoingMailModel().Get(
                 context: context,
                 where: Rds.OutgoingMailsWhere().OutgoingMailId(
-                    Forms.Long("OutgoingMails_OutgoingMailId")));
+                    context.Forms.Long("OutgoingMails_OutgoingMailId")));
             var hb = new HtmlBuilder();
             return new ResponseCollection()
                 .Html("#OutgoingMailDialog", hb

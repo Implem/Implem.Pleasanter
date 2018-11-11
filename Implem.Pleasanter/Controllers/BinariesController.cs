@@ -48,9 +48,9 @@ namespace Implem.Pleasanter.Controllers
         }
 
         [HttpPost]
-        public string UpdateSiteImage(string reference, long id)
+        public string UpdateSiteImage(string reference, long id, HttpPostedFileBase[] file)
         {
-            var context = new Context();
+            var context = new Context(files: file);
             var log = new SysLogModel(context: context);
             var json = reference.ToLower() == "items"
                 ? BinaryUtilities.UpdateSiteImage(
@@ -78,11 +78,10 @@ namespace Implem.Pleasanter.Controllers
         [HttpPost]
         public string UploadImage(string reference, long id, HttpPostedFileBase[] file)
         {
-            var context = new Context();
+            var context = new Context(files: file);
             var log = new SysLogModel(context: context);
             var json = BinaryUtilities.UploadImage(
                 context: context,
-                files: file,
                 id: id);
             log.Finish(context: context, responseSize: json.Length);
             return json;
@@ -101,11 +100,10 @@ namespace Implem.Pleasanter.Controllers
         [HttpPost]
         public string MultiUpload(string reference, long id, HttpPostedFileBase[] file)
         {
-            var context = new Context();
+            var context = new Context(files: file);
             var log = new SysLogModel(context: context);
             var json = BinaryUtilities.MultiUpload(
                 context: context,
-                files: file,
                 id: id);
             log.Finish(context: context, responseSize: json.Length);
             return json;

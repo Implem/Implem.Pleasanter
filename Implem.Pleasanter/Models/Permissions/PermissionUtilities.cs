@@ -28,7 +28,7 @@ namespace Implem.Pleasanter.Models
         /// </summary>
         public static string Permission(Context context, long referenceId)
         {
-            var controlId = Forms.ControlId();
+            var controlId = context.Forms.ControlId();
             var selector = "#" + controlId;
             var itemModel = new ItemModel(
                 context: context,
@@ -53,11 +53,11 @@ namespace Implem.Pleasanter.Models
             var permissions = SourceCollection(
                 context: context,
                 ss: siteModel.SiteSettings,
-                searchText: Forms.Data("SearchPermissionElements"),
+                searchText: context.Forms.Data("SearchPermissionElements"),
                 currentPermissions: CurrentPermissions(
                     context: context,
                     referenceId: referenceId));
-            var offset = Forms.Int("SourcePermissionsOffset");
+            var offset = context.Forms.Int("SourcePermissionsOffset");
             switch (controlId)
             {
                 case "SourcePermissions":
@@ -210,9 +210,9 @@ namespace Implem.Pleasanter.Models
             var sourcePermissions = SourceCollection(
                 context: context,
                 ss: ss,
-                searchText: Forms.Data("SearchPermissionElements"),
+                searchText: context.Forms.Data("SearchPermissionElements"),
                 currentPermissions: currentPermissions);
-            var offset = Forms.Int("PermissionSourceOffset");
+            var offset = context.Forms.Int("PermissionSourceOffset");
             return _using
                 ? hb
                     .CurrentPermissions(
@@ -613,9 +613,9 @@ namespace Implem.Pleasanter.Models
                 default: return invalid.MessageJson(context: context);
             }
             var res = new ResponseCollection();
-            var selectedCurrentPermissions = Forms.List("CurrentPermissions");
-            var selectedSourcePermissions = Forms.List("SourcePermissions");
-            if (Forms.ControlId() != "AddPermissions" &&
+            var selectedCurrentPermissions = context.Forms.List("CurrentPermissions");
+            var selectedSourcePermissions = context.Forms.List("SourcePermissions");
+            if (context.Forms.ControlId() != "AddPermissions" &&
                 selectedCurrentPermissions.Any(o =>
                     o.StartsWith($"User,{context.UserId},")))
             {
@@ -623,12 +623,12 @@ namespace Implem.Pleasanter.Models
             }
             else
             {
-                var currentPermissions = Forms.Exists("CurrentPermissionsAll")
-                    ? Permissions.Get(Forms.List("CurrentPermissionsAll"))
+                var currentPermissions = context.Forms.Exists("CurrentPermissionsAll")
+                    ? Permissions.Get(context.Forms.List("CurrentPermissionsAll"))
                     : CurrentCollection(
                         context: context,
                         referenceId: referenceId);
-                switch (Forms.ControlId())
+                switch (context.Forms.ControlId())
                 {
                     case "InheritPermission":
                         res.InheritPermission(
@@ -650,7 +650,7 @@ namespace Implem.Pleasanter.Models
                                 context: context,
                                 controlId: "PermissionParts",
                                 labelText: Displays.Permissions(context: context),
-                                permissionType: (Permissions.Types)Forms.Long(
+                                permissionType: (Permissions.Types)context.Forms.Long(
                                     "PermissionPattern")));
                         break;
                     case "ChangePermissions":
@@ -660,7 +660,7 @@ namespace Implem.Pleasanter.Models
                             selector: "#CurrentPermissions",
                             currentPermissions: currentPermissions,
                             selectedCurrentPermissions: selectedCurrentPermissions,
-                            permissionType: GetPermissionTypeByForm());
+                            permissionType: GetPermissionTypeByForm(context: context));
                         break;
                     case "DeletePermissions":
                         res.DeletePermissions(
@@ -685,7 +685,7 @@ namespace Implem.Pleasanter.Models
             ItemModel itemModel,
             SiteModel siteModel)
         {
-            var inheritPermission = Forms.Long("InheritPermission");
+            var inheritPermission = context.Forms.Long("InheritPermission");
             var hb = new HtmlBuilder();
             if (siteModel.SiteId == inheritPermission)
             {
@@ -723,7 +723,7 @@ namespace Implem.Pleasanter.Models
             var sourcePermissions = SourceCollection(
                 context: context,
                 ss: siteModel.SiteSettings,
-                searchText: Forms.Data("SearchPermissionElements"),
+                searchText: context.Forms.Data("SearchPermissionElements"),
                 currentPermissions: currentPermissions);
             res
                 .ScrollTop("#SourcePermissionsWrapper")
@@ -784,7 +784,7 @@ namespace Implem.Pleasanter.Models
             var sourcePermissions = SourceCollection(
                 context: context,
                 ss: siteModel.SiteSettings,
-                searchText: Forms.Data("SearchPermissionElements"),
+                searchText: context.Forms.Data("SearchPermissionElements"),
                 currentPermissions: currentPermissions);
             res
                 .Html("#CurrentPermissions", PermissionListItem(
@@ -833,14 +833,14 @@ namespace Implem.Pleasanter.Models
             var sourcePermissions = SourceCollection(
                 context: context,
                 ss: siteModel.SiteSettings,
-                searchText: Forms.Data("SearchPermissionElements"),
+                searchText: context.Forms.Data("SearchPermissionElements"),
                 currentPermissions: currentPermissions);
             return res
                 .Html("#SourcePermissions", PermissionListItem(
                     context: context,
                     ss: siteModel.SiteSettings,
                     permissions: sourcePermissions.Page(0),
-                    selectedValueTextCollection: Forms.Data("SourcePermissions")
+                    selectedValueTextCollection: context.Forms.Data("SourcePermissions")
                         .Deserialize<List<string>>()?
                         .Where(o => o != string.Empty),
                     withType: false))
@@ -853,8 +853,8 @@ namespace Implem.Pleasanter.Models
         /// </summary>
         private static List<Permission> CurrentPermissions(Context context, long referenceId)
         {
-            return Forms.Exists("CurrentPermissionsAll")
-                ? Permissions.Get(Forms.List("CurrentPermissionsAll"))
+            return context.Forms.Exists("CurrentPermissionsAll")
+                ? Permissions.Get(context.Forms.List("CurrentPermissionsAll"))
                 : CurrentCollection(
                     context: context,
                     referenceId: referenceId).ToList();
@@ -877,7 +877,7 @@ namespace Implem.Pleasanter.Models
                 siteModel: siteModel,
                 referenceId: referenceId);
             var res = new ResponseCollection();
-            var selected = Forms.List("CurrentPermissions");
+            var selected = context.Forms.List("CurrentPermissions");
             if (selected.Any(o => o.StartsWith($"User,{context.UserId},")))
             {
                 return res.Message(Messages.PermissionNotSelfChange(context: context)).ToJson();
@@ -1044,18 +1044,18 @@ namespace Implem.Pleasanter.Models
         /// <summary>
         /// Fixed:
         /// </summary>
-        public static Permissions.Types GetPermissionTypeByForm()
+        public static Permissions.Types GetPermissionTypeByForm(Context context)
         {
             var permissionType = Permissions.Types.NotSet;
-            if (Forms.Bool("Read")) permissionType |= Permissions.Types.Read;
-            if (Forms.Bool("Create")) permissionType |= Permissions.Types.Create;
-            if (Forms.Bool("Update")) permissionType |= Permissions.Types.Update;
-            if (Forms.Bool("Delete")) permissionType |= Permissions.Types.Delete;
-            if (Forms.Bool("SendMail")) permissionType |= Permissions.Types.SendMail;
-            if (Forms.Bool("Export")) permissionType |= Permissions.Types.Export;
-            if (Forms.Bool("Import")) permissionType |= Permissions.Types.Import;
-            if (Forms.Bool("ManageSite")) permissionType |= Permissions.Types.ManageSite;
-            if (Forms.Bool("ManagePermission")) permissionType |= Permissions.Types.ManagePermission;
+            if (context.Forms.Bool("Read")) permissionType |= Permissions.Types.Read;
+            if (context.Forms.Bool("Create")) permissionType |= Permissions.Types.Create;
+            if (context.Forms.Bool("Update")) permissionType |= Permissions.Types.Update;
+            if (context.Forms.Bool("Delete")) permissionType |= Permissions.Types.Delete;
+            if (context.Forms.Bool("SendMail")) permissionType |= Permissions.Types.SendMail;
+            if (context.Forms.Bool("Export")) permissionType |= Permissions.Types.Export;
+            if (context.Forms.Bool("Import")) permissionType |= Permissions.Types.Import;
+            if (context.Forms.Bool("ManageSite")) permissionType |= Permissions.Types.ManageSite;
+            if (context.Forms.Bool("ManagePermission")) permissionType |= Permissions.Types.ManagePermission;
             return permissionType;
         }
 
@@ -1226,9 +1226,9 @@ namespace Implem.Pleasanter.Models
                 default: return invalid.MessageJson(context: context);
             }
             var res = new ResponseCollection();
-            var selectedCurrentPermissionForCreating = Forms.List("CurrentPermissionForCreating");
-            var selectedSourcePermissionForCreating = Forms.List("SourcePermissionForCreating");
-            if (Forms.ControlId() != "AddPermissionForCreating" &&
+            var selectedCurrentPermissionForCreating = context.Forms.List("CurrentPermissionForCreating");
+            var selectedSourcePermissionForCreating = context.Forms.List("SourcePermissionForCreating");
+            if (context.Forms.ControlId() != "AddPermissionForCreating" &&
                 selectedCurrentPermissionForCreating.Any(o =>
                     o.StartsWith($"User,{context.UserId},")))
             {
@@ -1237,14 +1237,14 @@ namespace Implem.Pleasanter.Models
             else
             {
                 var permissionForCreating = PermissionForCreating(siteModel.SiteSettings);
-                var currentPermissionForCreating = Forms.Exists("CurrentPermissionForCreatingAll")
-                    ? Permissions.Get(Forms.List("CurrentPermissionForCreatingAll"))
+                var currentPermissionForCreating = context.Forms.Exists("CurrentPermissionForCreatingAll")
+                    ? Permissions.Get(context.Forms.List("CurrentPermissionForCreatingAll"))
                     : permissionForCreating.Where(o => !o.Source).ToList();
                 var sourcePermissionForCreating = permissionForCreating
                     .Where(o => !currentPermissionForCreating.Any(p =>
                         p.NameAndId() == o.NameAndId()))
                     .ToList();
-                switch (Forms.ControlId())
+                switch (context.Forms.ControlId())
                 {
                     case "AddPermissionForCreating":
                         currentPermissionForCreating.AddRange(
@@ -1274,7 +1274,7 @@ namespace Implem.Pleasanter.Models
                                 context: context,
                                 controlId: "PermissionForCreatingParts",
                                 labelText: Displays.Permissions(context: context),
-                                permissionType: (Permissions.Types)Forms.Long(
+                                permissionType: (Permissions.Types)context.Forms.Long(
                                     "PermissionForCreatingPattern")));
                         break;
                     case "ChangePermissionForCreating":
@@ -1284,7 +1284,7 @@ namespace Implem.Pleasanter.Models
                             selector: "#CurrentPermissionForCreating",
                             currentPermissions: currentPermissionForCreating,
                             selectedCurrentPermissions: selectedCurrentPermissionForCreating,
-                            permissionType: GetPermissionTypeByForm());
+                            permissionType: GetPermissionTypeByForm(context: context));
                         break;
                     case "DeletePermissionForCreating":
                         sourcePermissionForCreating.AddRange(
@@ -1321,7 +1321,7 @@ namespace Implem.Pleasanter.Models
         public static string OpenPermissionForCreatingDialog(Context context, long referenceId)
         {
             var res = new ResponseCollection();
-            var selected = Forms.List("CurrentPermissionForCreating");
+            var selected = context.Forms.List("CurrentPermissionForCreating");
             if (!selected.Any())
             {
                 return res.Message(Messages.SelectTargets(context: context)).ToJson();
@@ -1520,12 +1520,13 @@ namespace Implem.Pleasanter.Models
                 default: return invalid.MessageJson(context: context);
             }
             var res = new ResponseCollection();
-            var type = Forms.Data("ColumnAccessControlType");
-            var selected = Forms.List("ColumnAccessControl")
+            var type = context.Forms.Data("ColumnAccessControlType");
+            var selected = context.Forms.List("ColumnAccessControl")
                 .Select(o => o.Deserialize<ColumnAccessControl>())
                 .ToList();
-            var columnAccessControl = Forms.List("ColumnAccessControlAll")
+            var columnAccessControl = context.Forms.List("ColumnAccessControlAll")
                 .Select(o => ColumnAccessControl(
+                    context: context,
                     columnAccessControl: o.Deserialize<ColumnAccessControl>(),
                     selected: selected))
                 .ToList();
@@ -1550,14 +1551,16 @@ namespace Implem.Pleasanter.Models
         /// Fixed:
         /// </summary>
         private static ColumnAccessControl ColumnAccessControl(
-            ColumnAccessControl columnAccessControl, List<ColumnAccessControl> selected)
+            Context context,
+            ColumnAccessControl columnAccessControl,
+            List<ColumnAccessControl> selected)
         {
             var allowdUsers = new Dictionary<string, bool>
             {
-                { "Creator", Forms.Bool("CreatorAllowed") },
-                { "Updator", Forms.Bool("UpdatorAllowed") },
-                { "Manager", Forms.Bool("ManagerAllowed") },
-                { "Owner", Forms.Bool("OwnerAllowed") },
+                { "Creator", context.Forms.Bool("CreatorAllowed") },
+                { "Updator", context.Forms.Bool("UpdatorAllowed") },
+                { "Manager", context.Forms.Bool("ManagerAllowed") },
+                { "Owner", context.Forms.Bool("OwnerAllowed") },
             }
                 .Where(o => o.Value)
                 .Select(o => o.Key)
@@ -1567,7 +1570,7 @@ namespace Implem.Pleasanter.Models
                 columnAccessControl.Depts = new List<int>();
                 columnAccessControl.Groups = new List<int>();
                 columnAccessControl.Users = new List<int>();
-                CurrentColumnAccessControlAll().ForEach(permission =>
+                CurrentColumnAccessControlAll(context: context).ForEach(permission =>
                 {
                     switch (permission.Name)
                     {
@@ -1583,7 +1586,7 @@ namespace Implem.Pleasanter.Models
                     }
                 });
                 columnAccessControl.RecordUsers = allowdUsers;
-                columnAccessControl.Type = GetPermissionTypeByForm();
+                columnAccessControl.Type = GetPermissionTypeByForm(context: context);
             }
             return columnAccessControl;
         }
@@ -1591,9 +1594,9 @@ namespace Implem.Pleasanter.Models
         /// <summary>
         /// Fixed:
         /// </summary>
-        public static List<Permission> CurrentColumnAccessControlAll()
+        public static List<Permission> CurrentColumnAccessControlAll(Context context)
         {
-            return Forms.List("CurrentColumnAccessControlAll")
+            return context.Forms.List("CurrentColumnAccessControlAll")
                 .Select(data => new Permission(
                     name: data.Split_1st(),
                     id: data.Split_2nd().ToInt(),
@@ -1618,8 +1621,8 @@ namespace Implem.Pleasanter.Models
                 return Error.Types.HasNotPermission.MessageJson(context: context);
             }
             var res = new ResponseCollection();
-            var type = ColumnAccessControlType();
-            var selected = Forms.List(type + "ColumnAccessControl");
+            var type = ColumnAccessControlType(context: context);
+            var selected = context.Forms.List(type + "ColumnAccessControl");
             if (!selected.Any())
             {
                 return res.Message(Messages.SelectTargets(context: context)).ToJson();
@@ -1639,9 +1642,9 @@ namespace Implem.Pleasanter.Models
         /// <summary>
         /// Fixed:
         /// </summary>
-        private static string ColumnAccessControlType()
+        private static string ColumnAccessControlType(Context context)
         {
-            switch (Forms.ControlId())
+            switch (context.Forms.ControlId())
             {
                 case "CreateOpenColumnAccessControlDialog": return "Create";
                 case "ReadOpenColumnAccessControlDialog": return "Read";
@@ -1724,9 +1727,9 @@ namespace Implem.Pleasanter.Models
             var sourcePermissions = SourceCollection(
                 context: context,
                 ss: ss,
-                searchText: Forms.Data("SearchColumnAccessControlElements"),
+                searchText: context.Forms.Data("SearchColumnAccessControlElements"),
                 currentPermissions: currentPermissions);
-            var offset = Forms.Int("ColumnAccessControlSourceOffset");
+            var offset = context.Forms.Int("ColumnAccessControlSourceOffset");
             return hb.FieldSet(id: "ColumnAccessControlBasicTab", action: () => hb
                 .Div(id: "ColumnAccessControlEditor", action: () => hb
                     .FieldSelectable(
@@ -1880,18 +1883,18 @@ namespace Implem.Pleasanter.Models
                 default: return invalid.MessageJson(context: context);
             }
             var res = new ResponseCollection();
-            var currentPermissions = CurrentColumnAccessControlAll();
+            var currentPermissions = CurrentColumnAccessControlAll(context: context);
             var sourcePermissions = SourceCollection(
                 context: context,
                 ss: siteModel.SiteSettings,
-                searchText: Forms.Data("SearchColumnAccessControl"),
+                searchText: context.Forms.Data("SearchColumnAccessControl"),
                 currentPermissions: currentPermissions);
             return res
                 .Html("#SourceColumnAccessControl", PermissionListItem(
                     context: context,
                     ss: siteModel.SiteSettings,
                     permissions: sourcePermissions.Page(0),
-                    selectedValueTextCollection: Forms.Data("SourceColumnAccessControl")
+                    selectedValueTextCollection: context.Forms.Data("SourceColumnAccessControl")
                         .Deserialize<List<string>>()?
                         .Where(o => o != string.Empty),
                     withType: false))

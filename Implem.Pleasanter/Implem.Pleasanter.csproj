@@ -302,6 +302,7 @@
     <Compile Include="Libraries\Requests\Calendars.cs" />
     <Compile Include="Libraries\Requests\GridSelector.cs" />
     <Compile Include="Libraries\DataSources\File.cs" />
+    <Compile Include="Libraries\Requests\PostedFile.cs" />
     <Compile Include="Libraries\Resources\JavaScripts.cs" />
     <Compile Include="Libraries\Resources\Css.cs" />
     <Compile Include="Libraries\Responses\ApiResponse.cs" />

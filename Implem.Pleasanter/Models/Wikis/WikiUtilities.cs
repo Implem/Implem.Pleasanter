@@ -698,8 +698,8 @@ namespace Implem.Pleasanter.Models
                 context: context,
                 ss: ss,
                 notice: true,
-                permissions: Forms.List("CurrentPermissionsAll"),
-                permissionChanged: Forms.Exists("CurrentPermissionsAll"));
+                permissions: context.Forms.List("CurrentPermissionsAll"),
+                permissionChanged: context.Forms.Exists("CurrentPermissionsAll"));
             switch (error)
             {
                 case Error.Types.None:
@@ -730,7 +730,7 @@ namespace Implem.Pleasanter.Models
             SiteSettings ss,
             WikiModel wikiModel)
         {
-            if (Forms.Bool("IsDialogEditorForm"))
+            if (context.Forms.Bool("IsDialogEditorForm"))
             {
                 var view = Views.GetBySession(
                     context: context,
@@ -833,7 +833,7 @@ namespace Implem.Pleasanter.Models
         {
             if (context.CanManageSite(ss: ss))
             {
-                var selector = new GridSelector();
+                var selector = new GridSelector(context: context);
                 var count = 0;
                 if (selector.All)
                 {
@@ -918,7 +918,7 @@ namespace Implem.Pleasanter.Models
                 case Error.Types.None: break;
                 default: return invalid.MessageJson(context: context);
             }
-            var ver = Forms.Data("GridCheckedItems")
+            var ver = context.Forms.Data("GridCheckedItems")
                 .Split(',')
                 .Where(o => !o.IsNullOrEmpty())
                 .ToList();
@@ -1055,9 +1055,9 @@ namespace Implem.Pleasanter.Models
                 ss: ss,
                 where: Rds.WikisWhere()
                     .WikiId(wikiModel.WikiId)
-                    .Ver(Forms.Int("Ver")),
+                    .Ver(context.Forms.Int("Ver")),
                 tableType: Sqls.TableTypes.NormalAndHistory);
-            wikiModel.VerType = Forms.Bool("Latest")
+            wikiModel.VerType = context.Forms.Bool("Latest")
                 ? Versions.VerTypes.Latest
                 : Versions.VerTypes.History;
             return EditorResponse(context, ss, wikiModel).ToJson();
@@ -1071,7 +1071,7 @@ namespace Implem.Pleasanter.Models
             }
             if (context.CanManageSite(ss: ss))
             {
-                var selector = new GridSelector();
+                var selector = new GridSelector(context: context);
                 var selected = selector
                     .Selected
                     .Select(o => o.ToInt())

@@ -422,16 +422,16 @@ namespace Implem.Pleasanter.Models
 
         public void SetByForm(Context context, SiteSettings ss)
         {
-            Forms.Keys().ForEach(controlId =>
+            context.Forms.Keys.ForEach(controlId =>
             {
                 switch (controlId)
                 {
-                    case "Depts_DeptCode": DeptCode = Forms.Data(controlId).ToString(); break;
-                    case "Depts_DeptName": DeptName = Forms.Data(controlId).ToString(); break;
-                    case "Depts_Body": Body = Forms.Data(controlId).ToString(); break;
-                    case "Depts_Timestamp": Timestamp = Forms.Data(controlId).ToString(); break;
-                    case "Comments": Comments.Prepend(context: context, ss: ss, body: Forms.Data("Comments")); break;
-                    case "VerUp": VerUp = Forms.Data(controlId).ToBool(); break;
+                    case "Depts_DeptCode": DeptCode = context.Forms.Data(controlId).ToString(); break;
+                    case "Depts_DeptName": DeptName = context.Forms.Data(controlId).ToString(); break;
+                    case "Depts_Body": Body = context.Forms.Data(controlId).ToString(); break;
+                    case "Depts_Timestamp": Timestamp = context.Forms.Data(controlId).ToString(); break;
+                    case "Comments": Comments.Prepend(context: context, ss: ss, body: context.Forms.Data("Comments")); break;
+                    case "VerUp": VerUp = context.Forms.Data(controlId).ToBool(); break;
                     default:
                         if (controlId.RegexExists("Comment[0-9]+"))
                         {
@@ -439,23 +439,16 @@ namespace Implem.Pleasanter.Models
                                 context: context,
                                 ss: ss,
                                 commentId: controlId.Substring("Comment".Length).ToInt(),
-                                body: Forms.Data(controlId));
+                                body: context.Forms.Data(controlId));
                         }
                         break;
                 }
             });
             if (context.Action == "deletecomment")
             {
-                DeleteCommentId = Forms.ControlId().Split(',')._2nd().ToInt();
+                DeleteCommentId = context.Forms.ControlId().Split(',')._2nd().ToInt();
                 Comments.RemoveAll(o => o.CommentId == DeleteCommentId);
             }
-            Forms.FileKeys().ForEach(controlId =>
-            {
-                switch (controlId)
-                {
-                    default: break;
-                }
-            });
         }
 
         public void SetByModel(DeptModel deptModel)
@@ -475,7 +468,7 @@ namespace Implem.Pleasanter.Models
 
         public void SetByApi(Context context, SiteSettings ss)
         {
-            var data = Forms.String().Deserialize<DeptApiModel>();
+            var data = context.Forms.String().Deserialize<DeptApiModel>();
             if (data == null)
             {
                 return;

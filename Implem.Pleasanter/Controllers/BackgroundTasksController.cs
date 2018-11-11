@@ -15,7 +15,7 @@ namespace Implem.Pleasanter.Controllers
             var context = new Context();
             if (Parameters.BackgroundTask.Enabled)
             {
-                if (QueryStrings.Bool("NoLog"))
+                if (context.QueryStrings.Bool("NoLog"))
                 {
                     return BackgroundTasks.Do(context);
                 }

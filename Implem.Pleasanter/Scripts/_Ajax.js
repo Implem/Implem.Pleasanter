@@ -41,33 +41,8 @@
     return ret;
 }
 
-$p.upload = function (url, methodType, data, $control) {
-    $p.loading($control);
-    $p.clearMessage();
-    return $.ajax({
-        url: url,
-        type: methodType,
-        cache: false,
-        contentType: false,
-        processData: false,
-        data: data
-    })
-    .done(function (json, textStatus, jqXHR) {
-        $p.setByJson(url, methodType, data, $control, true, JSON.parse(json));
-        return true;
-    })
-    .fail(function (jqXHR, textStatus, errorThrown) {
-        alert(textStatus + '\n' +
-            $(jqXHR.responseText).text().trim().replace('\n', ''));
-        return false;
-    })
-    .always(function (jqXHR, textStatus) {
-        $p.clearData('ControlId', data);
-        $p.loaded();
-    });
-}
-
 $p.multiUpload = function (url, data, $control, statusBar) {
+    $p.loading($control);
     $p.clearMessage();
     var methodType = 'POST';
     var uploader = $.ajax({

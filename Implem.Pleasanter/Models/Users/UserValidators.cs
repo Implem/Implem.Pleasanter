@@ -1033,7 +1033,8 @@ namespace Implem.Pleasanter.Models
             {
                 return Error.Types.InvalidRequest;
             }
-            if (Forms.Exists("Users_TenantManager") && userModel.Self(context: context))
+            if (context.Forms.Exists("Users_TenantManager")
+                && userModel.Self(context: context))
             {
                 return Error.Types.PermissionNotSelfChange;
             }
@@ -2087,7 +2088,7 @@ namespace Implem.Pleasanter.Models
                 context: context,
                 loginId: userModel.LoginId,
                 password: userModel.Password,
-                tenantId: Forms.Int("SelectedTenantId")))
+                tenantId: context.Forms.Int("SelectedTenantId")))
             {
                 return Error.Types.IncorrectCurrentPassword;
             }
@@ -2099,7 +2100,7 @@ namespace Implem.Pleasanter.Models
         /// </summary>
         public static Error.Types OnPasswordResetting(Context context)
         {
-            if (!DefinitionAccessor.Parameters.Service.ShowProfiles)
+            if (!Parameters.Service.ShowProfiles)
             {
                 return Error.Types.InvalidRequest;
             }

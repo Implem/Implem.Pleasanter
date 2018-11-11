@@ -7640,178 +7640,178 @@ namespace Implem.Pleasanter.Models
 
         public void SetByForm(Context context, SiteSettings ss)
         {
-            Forms.Keys().ForEach(controlId =>
+            context.Forms.Keys.ForEach(controlId =>
             {
                 switch (controlId)
                 {
-                    case "Issues_Title": Title = new Title(IssueId, Forms.Data(controlId)); break;
-                    case "Issues_Body": Body = Forms.Data(controlId).ToString(); break;
-                    case "Issues_StartTime": StartTime = Forms.DateTime(controlId).ToUniversal(context: context); ProgressRate.StartTime = StartTime; break;
-                    case "Issues_CompletionTime": CompletionTime = new CompletionTime(context: context, ss: ss, value: Forms.Data(controlId).ToDateTime(), status: Status, byForm: true); ProgressRate.CompletionTime = CompletionTime.Value; break;
-                    case "Issues_WorkValue": WorkValue = new WorkValue(ss.GetColumn(context: context, columnName: "WorkValue").Round(Forms.Decimal(context: context, key: controlId)), ProgressRate.Value); break;
-                    case "Issues_ProgressRate": ProgressRate = new ProgressRate(CreatedTime, StartTime, CompletionTime, ss.GetColumn(context: context, columnName: "ProgressRate").Round(Forms.Decimal(context: context, key: controlId))); WorkValue.ProgressRate = ProgressRate.Value; break;
-                    case "Issues_Status": Status = new Status(Forms.Int(controlId)); CompletionTime.Status = Status; break;
-                    case "Issues_Manager": Manager = SiteInfo.User(context: context, userId: Forms.Int(controlId)); break;
-                    case "Issues_Owner": Owner = SiteInfo.User(context: context, userId: Forms.Int(controlId)); break;
-                    case "Issues_ClassA": ClassA = Forms.Data(controlId).ToString(); break;
-                    case "Issues_ClassB": ClassB = Forms.Data(controlId).ToString(); break;
-                    case "Issues_ClassC": ClassC = Forms.Data(controlId).ToString(); break;
-                    case "Issues_ClassD": ClassD = Forms.Data(controlId).ToString(); break;
-                    case "Issues_ClassE": ClassE = Forms.Data(controlId).ToString(); break;
-                    case "Issues_ClassF": ClassF = Forms.Data(controlId).ToString(); break;
-                    case "Issues_ClassG": ClassG = Forms.Data(controlId).ToString(); break;
-                    case "Issues_ClassH": ClassH = Forms.Data(controlId).ToString(); break;
-                    case "Issues_ClassI": ClassI = Forms.Data(controlId).ToString(); break;
-                    case "Issues_ClassJ": ClassJ = Forms.Data(controlId).ToString(); break;
-                    case "Issues_ClassK": ClassK = Forms.Data(controlId).ToString(); break;
-                    case "Issues_ClassL": ClassL = Forms.Data(controlId).ToString(); break;
-                    case "Issues_ClassM": ClassM = Forms.Data(controlId).ToString(); break;
-                    case "Issues_ClassN": ClassN = Forms.Data(controlId).ToString(); break;
-                    case "Issues_ClassO": ClassO = Forms.Data(controlId).ToString(); break;
-                    case "Issues_ClassP": ClassP = Forms.Data(controlId).ToString(); break;
-                    case "Issues_ClassQ": ClassQ = Forms.Data(controlId).ToString(); break;
-                    case "Issues_ClassR": ClassR = Forms.Data(controlId).ToString(); break;
-                    case "Issues_ClassS": ClassS = Forms.Data(controlId).ToString(); break;
-                    case "Issues_ClassT": ClassT = Forms.Data(controlId).ToString(); break;
-                    case "Issues_ClassU": ClassU = Forms.Data(controlId).ToString(); break;
-                    case "Issues_ClassV": ClassV = Forms.Data(controlId).ToString(); break;
-                    case "Issues_ClassW": ClassW = Forms.Data(controlId).ToString(); break;
-                    case "Issues_ClassX": ClassX = Forms.Data(controlId).ToString(); break;
-                    case "Issues_ClassY": ClassY = Forms.Data(controlId).ToString(); break;
-                    case "Issues_ClassZ": ClassZ = Forms.Data(controlId).ToString(); break;
-                    case "Issues_NumA": NumA = ss.GetColumn(context: context, columnName: "NumA").Round(Forms.Decimal(context: context, key: controlId)); break;
-                    case "Issues_NumB": NumB = ss.GetColumn(context: context, columnName: "NumB").Round(Forms.Decimal(context: context, key: controlId)); break;
-                    case "Issues_NumC": NumC = ss.GetColumn(context: context, columnName: "NumC").Round(Forms.Decimal(context: context, key: controlId)); break;
-                    case "Issues_NumD": NumD = ss.GetColumn(context: context, columnName: "NumD").Round(Forms.Decimal(context: context, key: controlId)); break;
-                    case "Issues_NumE": NumE = ss.GetColumn(context: context, columnName: "NumE").Round(Forms.Decimal(context: context, key: controlId)); break;
-                    case "Issues_NumF": NumF = ss.GetColumn(context: context, columnName: "NumF").Round(Forms.Decimal(context: context, key: controlId)); break;
-                    case "Issues_NumG": NumG = ss.GetColumn(context: context, columnName: "NumG").Round(Forms.Decimal(context: context, key: controlId)); break;
-                    case "Issues_NumH": NumH = ss.GetColumn(context: context, columnName: "NumH").Round(Forms.Decimal(context: context, key: controlId)); break;
-                    case "Issues_NumI": NumI = ss.GetColumn(context: context, columnName: "NumI").Round(Forms.Decimal(context: context, key: controlId)); break;
-                    case "Issues_NumJ": NumJ = ss.GetColumn(context: context, columnName: "NumJ").Round(Forms.Decimal(context: context, key: controlId)); break;
-                    case "Issues_NumK": NumK = ss.GetColumn(context: context, columnName: "NumK").Round(Forms.Decimal(context: context, key: controlId)); break;
-                    case "Issues_NumL": NumL = ss.GetColumn(context: context, columnName: "NumL").Round(Forms.Decimal(context: context, key: controlId)); break;
-                    case "Issues_NumM": NumM = ss.GetColumn(context: context, columnName: "NumM").Round(Forms.Decimal(context: context, key: controlId)); break;
-                    case "Issues_NumN": NumN = ss.GetColumn(context: context, columnName: "NumN").Round(Forms.Decimal(context: context, key: controlId)); break;
-                    case "Issues_NumO": NumO = ss.GetColumn(context: context, columnName: "NumO").Round(Forms.Decimal(context: context, key: controlId)); break;
-                    case "Issues_NumP": NumP = ss.GetColumn(context: context, columnName: "NumP").Round(Forms.Decimal(context: context, key: controlId)); break;
-                    case "Issues_NumQ": NumQ = ss.GetColumn(context: context, columnName: "NumQ").Round(Forms.Decimal(context: context, key: controlId)); break;
-                    case "Issues_NumR": NumR = ss.GetColumn(context: context, columnName: "NumR").Round(Forms.Decimal(context: context, key: controlId)); break;
-                    case "Issues_NumS": NumS = ss.GetColumn(context: context, columnName: "NumS").Round(Forms.Decimal(context: context, key: controlId)); break;
-                    case "Issues_NumT": NumT = ss.GetColumn(context: context, columnName: "NumT").Round(Forms.Decimal(context: context, key: controlId)); break;
-                    case "Issues_NumU": NumU = ss.GetColumn(context: context, columnName: "NumU").Round(Forms.Decimal(context: context, key: controlId)); break;
-                    case "Issues_NumV": NumV = ss.GetColumn(context: context, columnName: "NumV").Round(Forms.Decimal(context: context, key: controlId)); break;
-                    case "Issues_NumW": NumW = ss.GetColumn(context: context, columnName: "NumW").Round(Forms.Decimal(context: context, key: controlId)); break;
-                    case "Issues_NumX": NumX = ss.GetColumn(context: context, columnName: "NumX").Round(Forms.Decimal(context: context, key: controlId)); break;
-                    case "Issues_NumY": NumY = ss.GetColumn(context: context, columnName: "NumY").Round(Forms.Decimal(context: context, key: controlId)); break;
-                    case "Issues_NumZ": NumZ = ss.GetColumn(context: context, columnName: "NumZ").Round(Forms.Decimal(context: context, key: controlId)); break;
-                    case "Issues_DateA": DateA = Forms.Data(controlId).ToDateTime().ToUniversal(context: context); break;
-                    case "Issues_DateB": DateB = Forms.Data(controlId).ToDateTime().ToUniversal(context: context); break;
-                    case "Issues_DateC": DateC = Forms.Data(controlId).ToDateTime().ToUniversal(context: context); break;
-                    case "Issues_DateD": DateD = Forms.Data(controlId).ToDateTime().ToUniversal(context: context); break;
-                    case "Issues_DateE": DateE = Forms.Data(controlId).ToDateTime().ToUniversal(context: context); break;
-                    case "Issues_DateF": DateF = Forms.Data(controlId).ToDateTime().ToUniversal(context: context); break;
-                    case "Issues_DateG": DateG = Forms.Data(controlId).ToDateTime().ToUniversal(context: context); break;
-                    case "Issues_DateH": DateH = Forms.Data(controlId).ToDateTime().ToUniversal(context: context); break;
-                    case "Issues_DateI": DateI = Forms.Data(controlId).ToDateTime().ToUniversal(context: context); break;
-                    case "Issues_DateJ": DateJ = Forms.Data(controlId).ToDateTime().ToUniversal(context: context); break;
-                    case "Issues_DateK": DateK = Forms.Data(controlId).ToDateTime().ToUniversal(context: context); break;
-                    case "Issues_DateL": DateL = Forms.Data(controlId).ToDateTime().ToUniversal(context: context); break;
-                    case "Issues_DateM": DateM = Forms.Data(controlId).ToDateTime().ToUniversal(context: context); break;
-                    case "Issues_DateN": DateN = Forms.Data(controlId).ToDateTime().ToUniversal(context: context); break;
-                    case "Issues_DateO": DateO = Forms.Data(controlId).ToDateTime().ToUniversal(context: context); break;
-                    case "Issues_DateP": DateP = Forms.Data(controlId).ToDateTime().ToUniversal(context: context); break;
-                    case "Issues_DateQ": DateQ = Forms.Data(controlId).ToDateTime().ToUniversal(context: context); break;
-                    case "Issues_DateR": DateR = Forms.Data(controlId).ToDateTime().ToUniversal(context: context); break;
-                    case "Issues_DateS": DateS = Forms.Data(controlId).ToDateTime().ToUniversal(context: context); break;
-                    case "Issues_DateT": DateT = Forms.Data(controlId).ToDateTime().ToUniversal(context: context); break;
-                    case "Issues_DateU": DateU = Forms.Data(controlId).ToDateTime().ToUniversal(context: context); break;
-                    case "Issues_DateV": DateV = Forms.Data(controlId).ToDateTime().ToUniversal(context: context); break;
-                    case "Issues_DateW": DateW = Forms.Data(controlId).ToDateTime().ToUniversal(context: context); break;
-                    case "Issues_DateX": DateX = Forms.Data(controlId).ToDateTime().ToUniversal(context: context); break;
-                    case "Issues_DateY": DateY = Forms.Data(controlId).ToDateTime().ToUniversal(context: context); break;
-                    case "Issues_DateZ": DateZ = Forms.Data(controlId).ToDateTime().ToUniversal(context: context); break;
-                    case "Issues_DescriptionA": DescriptionA = Forms.Data(controlId).ToString(); break;
-                    case "Issues_DescriptionB": DescriptionB = Forms.Data(controlId).ToString(); break;
-                    case "Issues_DescriptionC": DescriptionC = Forms.Data(controlId).ToString(); break;
-                    case "Issues_DescriptionD": DescriptionD = Forms.Data(controlId).ToString(); break;
-                    case "Issues_DescriptionE": DescriptionE = Forms.Data(controlId).ToString(); break;
-                    case "Issues_DescriptionF": DescriptionF = Forms.Data(controlId).ToString(); break;
-                    case "Issues_DescriptionG": DescriptionG = Forms.Data(controlId).ToString(); break;
-                    case "Issues_DescriptionH": DescriptionH = Forms.Data(controlId).ToString(); break;
-                    case "Issues_DescriptionI": DescriptionI = Forms.Data(controlId).ToString(); break;
-                    case "Issues_DescriptionJ": DescriptionJ = Forms.Data(controlId).ToString(); break;
-                    case "Issues_DescriptionK": DescriptionK = Forms.Data(controlId).ToString(); break;
-                    case "Issues_DescriptionL": DescriptionL = Forms.Data(controlId).ToString(); break;
-                    case "Issues_DescriptionM": DescriptionM = Forms.Data(controlId).ToString(); break;
-                    case "Issues_DescriptionN": DescriptionN = Forms.Data(controlId).ToString(); break;
-                    case "Issues_DescriptionO": DescriptionO = Forms.Data(controlId).ToString(); break;
-                    case "Issues_DescriptionP": DescriptionP = Forms.Data(controlId).ToString(); break;
-                    case "Issues_DescriptionQ": DescriptionQ = Forms.Data(controlId).ToString(); break;
-                    case "Issues_DescriptionR": DescriptionR = Forms.Data(controlId).ToString(); break;
-                    case "Issues_DescriptionS": DescriptionS = Forms.Data(controlId).ToString(); break;
-                    case "Issues_DescriptionT": DescriptionT = Forms.Data(controlId).ToString(); break;
-                    case "Issues_DescriptionU": DescriptionU = Forms.Data(controlId).ToString(); break;
-                    case "Issues_DescriptionV": DescriptionV = Forms.Data(controlId).ToString(); break;
-                    case "Issues_DescriptionW": DescriptionW = Forms.Data(controlId).ToString(); break;
-                    case "Issues_DescriptionX": DescriptionX = Forms.Data(controlId).ToString(); break;
-                    case "Issues_DescriptionY": DescriptionY = Forms.Data(controlId).ToString(); break;
-                    case "Issues_DescriptionZ": DescriptionZ = Forms.Data(controlId).ToString(); break;
-                    case "Issues_CheckA": CheckA = Forms.Data(controlId).ToBool(); break;
-                    case "Issues_CheckB": CheckB = Forms.Data(controlId).ToBool(); break;
-                    case "Issues_CheckC": CheckC = Forms.Data(controlId).ToBool(); break;
-                    case "Issues_CheckD": CheckD = Forms.Data(controlId).ToBool(); break;
-                    case "Issues_CheckE": CheckE = Forms.Data(controlId).ToBool(); break;
-                    case "Issues_CheckF": CheckF = Forms.Data(controlId).ToBool(); break;
-                    case "Issues_CheckG": CheckG = Forms.Data(controlId).ToBool(); break;
-                    case "Issues_CheckH": CheckH = Forms.Data(controlId).ToBool(); break;
-                    case "Issues_CheckI": CheckI = Forms.Data(controlId).ToBool(); break;
-                    case "Issues_CheckJ": CheckJ = Forms.Data(controlId).ToBool(); break;
-                    case "Issues_CheckK": CheckK = Forms.Data(controlId).ToBool(); break;
-                    case "Issues_CheckL": CheckL = Forms.Data(controlId).ToBool(); break;
-                    case "Issues_CheckM": CheckM = Forms.Data(controlId).ToBool(); break;
-                    case "Issues_CheckN": CheckN = Forms.Data(controlId).ToBool(); break;
-                    case "Issues_CheckO": CheckO = Forms.Data(controlId).ToBool(); break;
-                    case "Issues_CheckP": CheckP = Forms.Data(controlId).ToBool(); break;
-                    case "Issues_CheckQ": CheckQ = Forms.Data(controlId).ToBool(); break;
-                    case "Issues_CheckR": CheckR = Forms.Data(controlId).ToBool(); break;
-                    case "Issues_CheckS": CheckS = Forms.Data(controlId).ToBool(); break;
-                    case "Issues_CheckT": CheckT = Forms.Data(controlId).ToBool(); break;
-                    case "Issues_CheckU": CheckU = Forms.Data(controlId).ToBool(); break;
-                    case "Issues_CheckV": CheckV = Forms.Data(controlId).ToBool(); break;
-                    case "Issues_CheckW": CheckW = Forms.Data(controlId).ToBool(); break;
-                    case "Issues_CheckX": CheckX = Forms.Data(controlId).ToBool(); break;
-                    case "Issues_CheckY": CheckY = Forms.Data(controlId).ToBool(); break;
-                    case "Issues_CheckZ": CheckZ = Forms.Data(controlId).ToBool(); break;
-                    case "Issues_AttachmentsA": AttachmentsA = Forms.Data(controlId).Deserialize<Attachments>(); break;
-                    case "Issues_AttachmentsB": AttachmentsB = Forms.Data(controlId).Deserialize<Attachments>(); break;
-                    case "Issues_AttachmentsC": AttachmentsC = Forms.Data(controlId).Deserialize<Attachments>(); break;
-                    case "Issues_AttachmentsD": AttachmentsD = Forms.Data(controlId).Deserialize<Attachments>(); break;
-                    case "Issues_AttachmentsE": AttachmentsE = Forms.Data(controlId).Deserialize<Attachments>(); break;
-                    case "Issues_AttachmentsF": AttachmentsF = Forms.Data(controlId).Deserialize<Attachments>(); break;
-                    case "Issues_AttachmentsG": AttachmentsG = Forms.Data(controlId).Deserialize<Attachments>(); break;
-                    case "Issues_AttachmentsH": AttachmentsH = Forms.Data(controlId).Deserialize<Attachments>(); break;
-                    case "Issues_AttachmentsI": AttachmentsI = Forms.Data(controlId).Deserialize<Attachments>(); break;
-                    case "Issues_AttachmentsJ": AttachmentsJ = Forms.Data(controlId).Deserialize<Attachments>(); break;
-                    case "Issues_AttachmentsK": AttachmentsK = Forms.Data(controlId).Deserialize<Attachments>(); break;
-                    case "Issues_AttachmentsL": AttachmentsL = Forms.Data(controlId).Deserialize<Attachments>(); break;
-                    case "Issues_AttachmentsM": AttachmentsM = Forms.Data(controlId).Deserialize<Attachments>(); break;
-                    case "Issues_AttachmentsN": AttachmentsN = Forms.Data(controlId).Deserialize<Attachments>(); break;
-                    case "Issues_AttachmentsO": AttachmentsO = Forms.Data(controlId).Deserialize<Attachments>(); break;
-                    case "Issues_AttachmentsP": AttachmentsP = Forms.Data(controlId).Deserialize<Attachments>(); break;
-                    case "Issues_AttachmentsQ": AttachmentsQ = Forms.Data(controlId).Deserialize<Attachments>(); break;
-                    case "Issues_AttachmentsR": AttachmentsR = Forms.Data(controlId).Deserialize<Attachments>(); break;
-                    case "Issues_AttachmentsS": AttachmentsS = Forms.Data(controlId).Deserialize<Attachments>(); break;
-                    case "Issues_AttachmentsT": AttachmentsT = Forms.Data(controlId).Deserialize<Attachments>(); break;
-                    case "Issues_AttachmentsU": AttachmentsU = Forms.Data(controlId).Deserialize<Attachments>(); break;
-                    case "Issues_AttachmentsV": AttachmentsV = Forms.Data(controlId).Deserialize<Attachments>(); break;
-                    case "Issues_AttachmentsW": AttachmentsW = Forms.Data(controlId).Deserialize<Attachments>(); break;
-                    case "Issues_AttachmentsX": AttachmentsX = Forms.Data(controlId).Deserialize<Attachments>(); break;
-                    case "Issues_AttachmentsY": AttachmentsY = Forms.Data(controlId).Deserialize<Attachments>(); break;
-                    case "Issues_AttachmentsZ": AttachmentsZ = Forms.Data(controlId).Deserialize<Attachments>(); break;
-                    case "Issues_Timestamp": Timestamp = Forms.Data(controlId).ToString(); break;
-                    case "Comments": Comments.Prepend(context: context, ss: ss, body: Forms.Data("Comments")); break;
-                    case "VerUp": VerUp = Forms.Data(controlId).ToBool(); break;
+                    case "Issues_Title": Title = new Title(IssueId, context.Forms.Data(controlId)); break;
+                    case "Issues_Body": Body = context.Forms.Data(controlId).ToString(); break;
+                    case "Issues_StartTime": StartTime = context.Forms.DateTime(controlId).ToUniversal(context: context); ProgressRate.StartTime = StartTime; break;
+                    case "Issues_CompletionTime": CompletionTime = new CompletionTime(context: context, ss: ss, value: context.Forms.Data(controlId).ToDateTime(), status: Status, byForm: true); ProgressRate.CompletionTime = CompletionTime.Value; break;
+                    case "Issues_WorkValue": WorkValue = new WorkValue(ss.GetColumn(context: context, columnName: "WorkValue").Round(context.Forms.Decimal(context: context, key: controlId)), ProgressRate.Value); break;
+                    case "Issues_ProgressRate": ProgressRate = new ProgressRate(CreatedTime, StartTime, CompletionTime, ss.GetColumn(context: context, columnName: "ProgressRate").Round(context.Forms.Decimal(context: context, key: controlId))); WorkValue.ProgressRate = ProgressRate.Value; break;
+                    case "Issues_Status": Status = new Status(context.Forms.Int(controlId)); CompletionTime.Status = Status; break;
+                    case "Issues_Manager": Manager = SiteInfo.User(context: context, userId: context.Forms.Int(controlId)); break;
+                    case "Issues_Owner": Owner = SiteInfo.User(context: context, userId: context.Forms.Int(controlId)); break;
+                    case "Issues_ClassA": ClassA = context.Forms.Data(controlId).ToString(); break;
+                    case "Issues_ClassB": ClassB = context.Forms.Data(controlId).ToString(); break;
+                    case "Issues_ClassC": ClassC = context.Forms.Data(controlId).ToString(); break;
+                    case "Issues_ClassD": ClassD = context.Forms.Data(controlId).ToString(); break;
+                    case "Issues_ClassE": ClassE = context.Forms.Data(controlId).ToString(); break;
+                    case "Issues_ClassF": ClassF = context.Forms.Data(controlId).ToString(); break;
+                    case "Issues_ClassG": ClassG = context.Forms.Data(controlId).ToString(); break;
+                    case "Issues_ClassH": ClassH = context.Forms.Data(controlId).ToString(); break;
+                    case "Issues_ClassI": ClassI = context.Forms.Data(controlId).ToString(); break;
+                    case "Issues_ClassJ": ClassJ = context.Forms.Data(controlId).ToString(); break;
+                    case "Issues_ClassK": ClassK = context.Forms.Data(controlId).ToString(); break;
+                    case "Issues_ClassL": ClassL = context.Forms.Data(controlId).ToString(); break;
+                    case "Issues_ClassM": ClassM = context.Forms.Data(controlId).ToString(); break;
+                    case "Issues_ClassN": ClassN = context.Forms.Data(controlId).ToString(); break;
+                    case "Issues_ClassO": ClassO = context.Forms.Data(controlId).ToString(); break;
+                    case "Issues_ClassP": ClassP = context.Forms.Data(controlId).ToString(); break;
+                    case "Issues_ClassQ": ClassQ = context.Forms.Data(controlId).ToString(); break;
+                    case "Issues_ClassR": ClassR = context.Forms.Data(controlId).ToString(); break;
+                    case "Issues_ClassS": ClassS = context.Forms.Data(controlId).ToString(); break;
+                    case "Issues_ClassT": ClassT = context.Forms.Data(controlId).ToString(); break;
+                    case "Issues_ClassU": ClassU = context.Forms.Data(controlId).ToString(); break;
+                    case "Issues_ClassV": ClassV = context.Forms.Data(controlId).ToString(); break;
+                    case "Issues_ClassW": ClassW = context.Forms.Data(controlId).ToString(); break;
+                    case "Issues_ClassX": ClassX = context.Forms.Data(controlId).ToString(); break;
+                    case "Issues_ClassY": ClassY = context.Forms.Data(controlId).ToString(); break;
+                    case "Issues_ClassZ": ClassZ = context.Forms.Data(controlId).ToString(); break;
+                    case "Issues_NumA": NumA = ss.GetColumn(context: context, columnName: "NumA").Round(context.Forms.Decimal(context: context, key: controlId)); break;
+                    case "Issues_NumB": NumB = ss.GetColumn(context: context, columnName: "NumB").Round(context.Forms.Decimal(context: context, key: controlId)); break;
+                    case "Issues_NumC": NumC = ss.GetColumn(context: context, columnName: "NumC").Round(context.Forms.Decimal(context: context, key: controlId)); break;
+                    case "Issues_NumD": NumD = ss.GetColumn(context: context, columnName: "NumD").Round(context.Forms.Decimal(context: context, key: controlId)); break;
+                    case "Issues_NumE": NumE = ss.GetColumn(context: context, columnName: "NumE").Round(context.Forms.Decimal(context: context, key: controlId)); break;
+                    case "Issues_NumF": NumF = ss.GetColumn(context: context, columnName: "NumF").Round(context.Forms.Decimal(context: context, key: controlId)); break;
+                    case "Issues_NumG": NumG = ss.GetColumn(context: context, columnName: "NumG").Round(context.Forms.Decimal(context: context, key: controlId)); break;
+                    case "Issues_NumH": NumH = ss.GetColumn(context: context, columnName: "NumH").Round(context.Forms.Decimal(context: context, key: controlId)); break;
+                    case "Issues_NumI": NumI = ss.GetColumn(context: context, columnName: "NumI").Round(context.Forms.Decimal(context: context, key: controlId)); break;
+                    case "Issues_NumJ": NumJ = ss.GetColumn(context: context, columnName: "NumJ").Round(context.Forms.Decimal(context: context, key: controlId)); break;
+                    case "Issues_NumK": NumK = ss.GetColumn(context: context, columnName: "NumK").Round(context.Forms.Decimal(context: context, key: controlId)); break;
+                    case "Issues_NumL": NumL = ss.GetColumn(context: context, columnName: "NumL").Round(context.Forms.Decimal(context: context, key: controlId)); break;
+                    case "Issues_NumM": NumM = ss.GetColumn(context: context, columnName: "NumM").Round(context.Forms.Decimal(context: context, key: controlId)); break;
+                    case "Issues_NumN": NumN = ss.GetColumn(context: context, columnName: "NumN").Round(context.Forms.Decimal(context: context, key: controlId)); break;
+                    case "Issues_NumO": NumO = ss.GetColumn(context: context, columnName: "NumO").Round(context.Forms.Decimal(context: context, key: controlId)); break;
+                    case "Issues_NumP": NumP = ss.GetColumn(context: context, columnName: "NumP").Round(context.Forms.Decimal(context: context, key: controlId)); break;
+                    case "Issues_NumQ": NumQ = ss.GetColumn(context: context, columnName: "NumQ").Round(context.Forms.Decimal(context: context, key: controlId)); break;
+                    case "Issues_NumR": NumR = ss.GetColumn(context: context, columnName: "NumR").Round(context.Forms.Decimal(context: context, key: controlId)); break;
+                    case "Issues_NumS": NumS = ss.GetColumn(context: context, columnName: "NumS").Round(context.Forms.Decimal(context: context, key: controlId)); break;
+                    case "Issues_NumT": NumT = ss.GetColumn(context: context, columnName: "NumT").Round(context.Forms.Decimal(context: context, key: controlId)); break;
+                    case "Issues_NumU": NumU = ss.GetColumn(context: context, columnName: "NumU").Round(context.Forms.Decimal(context: context, key: controlId)); break;
+                    case "Issues_NumV": NumV = ss.GetColumn(context: context, columnName: "NumV").Round(context.Forms.Decimal(context: context, key: controlId)); break;
+                    case "Issues_NumW": NumW = ss.GetColumn(context: context, columnName: "NumW").Round(context.Forms.Decimal(context: context, key: controlId)); break;
+                    case "Issues_NumX": NumX = ss.GetColumn(context: context, columnName: "NumX").Round(context.Forms.Decimal(context: context, key: controlId)); break;
+                    case "Issues_NumY": NumY = ss.GetColumn(context: context, columnName: "NumY").Round(context.Forms.Decimal(context: context, key: controlId)); break;
+                    case "Issues_NumZ": NumZ = ss.GetColumn(context: context, columnName: "NumZ").Round(context.Forms.Decimal(context: context, key: controlId)); break;
+                    case "Issues_DateA": DateA = context.Forms.Data(controlId).ToDateTime().ToUniversal(context: context); break;
+                    case "Issues_DateB": DateB = context.Forms.Data(controlId).ToDateTime().ToUniversal(context: context); break;
+                    case "Issues_DateC": DateC = context.Forms.Data(controlId).ToDateTime().ToUniversal(context: context); break;
+                    case "Issues_DateD": DateD = context.Forms.Data(controlId).ToDateTime().ToUniversal(context: context); break;
+                    case "Issues_DateE": DateE = context.Forms.Data(controlId).ToDateTime().ToUniversal(context: context); break;
+                    case "Issues_DateF": DateF = context.Forms.Data(controlId).ToDateTime().ToUniversal(context: context); break;
+                    case "Issues_DateG": DateG = context.Forms.Data(controlId).ToDateTime().ToUniversal(context: context); break;
+                    case "Issues_DateH": DateH = context.Forms.Data(controlId).ToDateTime().ToUniversal(context: context); break;
+                    case "Issues_DateI": DateI = context.Forms.Data(controlId).ToDateTime().ToUniversal(context: context); break;
+                    case "Issues_DateJ": DateJ = context.Forms.Data(controlId).ToDateTime().ToUniversal(context: context); break;
+                    case "Issues_DateK": DateK = context.Forms.Data(controlId).ToDateTime().ToUniversal(context: context); break;
+                    case "Issues_DateL": DateL = context.Forms.Data(controlId).ToDateTime().ToUniversal(context: context); break;
+                    case "Issues_DateM": DateM = context.Forms.Data(controlId).ToDateTime().ToUniversal(context: context); break;
+                    case "Issues_DateN": DateN = context.Forms.Data(controlId).ToDateTime().ToUniversal(context: context); break;
+                    case "Issues_DateO": DateO = context.Forms.Data(controlId).ToDateTime().ToUniversal(context: context); break;
+                    case "Issues_DateP": DateP = context.Forms.Data(controlId).ToDateTime().ToUniversal(context: context); break;
+                    case "Issues_DateQ": DateQ = context.Forms.Data(controlId).ToDateTime().ToUniversal(context: context); break;
+                    case "Issues_DateR": DateR = context.Forms.Data(controlId).ToDateTime().ToUniversal(context: context); break;
+                    case "Issues_DateS": DateS = context.Forms.Data(controlId).ToDateTime().ToUniversal(context: context); break;
+                    case "Issues_DateT": DateT = context.Forms.Data(controlId).ToDateTime().ToUniversal(context: context); break;
+                    case "Issues_DateU": DateU = context.Forms.Data(controlId).ToDateTime().ToUniversal(context: context); break;
+                    case "Issues_DateV": DateV = context.Forms.Data(controlId).ToDateTime().ToUniversal(context: context); break;
+                    case "Issues_DateW": DateW = context.Forms.Data(controlId).ToDateTime().ToUniversal(context: context); break;
+                    case "Issues_DateX": DateX = context.Forms.Data(controlId).ToDateTime().ToUniversal(context: context); break;
+                    case "Issues_DateY": DateY = context.Forms.Data(controlId).ToDateTime().ToUniversal(context: context); break;
+                    case "Issues_DateZ": DateZ = context.Forms.Data(controlId).ToDateTime().ToUniversal(context: context); break;
+                    case "Issues_DescriptionA": DescriptionA = context.Forms.Data(controlId).ToString(); break;
+                    case "Issues_DescriptionB": DescriptionB = context.Forms.Data(controlId).ToString(); break;
+                    case "Issues_DescriptionC": DescriptionC = context.Forms.Data(controlId).ToString(); break;
+                    case "Issues_DescriptionD": DescriptionD = context.Forms.Data(controlId).ToString(); break;
+                    case "Issues_DescriptionE": DescriptionE = context.Forms.Data(controlId).ToString(); break;
+                    case "Issues_DescriptionF": DescriptionF = context.Forms.Data(controlId).ToString(); break;
+                    case "Issues_DescriptionG": DescriptionG = context.Forms.Data(controlId).ToString(); break;
+                    case "Issues_DescriptionH": DescriptionH = context.Forms.Data(controlId).ToString(); break;
+                    case "Issues_DescriptionI": DescriptionI = context.Forms.Data(controlId).ToString(); break;
+                    case "Issues_DescriptionJ": DescriptionJ = context.Forms.Data(controlId).ToString(); break;
+                    case "Issues_DescriptionK": DescriptionK = context.Forms.Data(controlId).ToString(); break;
+                    case "Issues_DescriptionL": DescriptionL = context.Forms.Data(controlId).ToString(); break;
+                    case "Issues_DescriptionM": DescriptionM = context.Forms.Data(controlId).ToString(); break;
+                    case "Issues_DescriptionN": DescriptionN = context.Forms.Data(controlId).ToString(); break;
+                    case "Issues_DescriptionO": DescriptionO = context.Forms.Data(controlId).ToString(); break;
+                    case "Issues_DescriptionP": DescriptionP = context.Forms.Data(controlId).ToString(); break;
+                    case "Issues_DescriptionQ": DescriptionQ = context.Forms.Data(controlId).ToString(); break;
+                    case "Issues_DescriptionR": DescriptionR = context.Forms.Data(controlId).ToString(); break;
+                    case "Issues_DescriptionS": DescriptionS = context.Forms.Data(controlId).ToString(); break;
+                    case "Issues_DescriptionT": DescriptionT = context.Forms.Data(controlId).ToString(); break;
+                    case "Issues_DescriptionU": DescriptionU = context.Forms.Data(controlId).ToString(); break;
+                    case "Issues_DescriptionV": DescriptionV = context.Forms.Data(controlId).ToString(); break;
+                    case "Issues_DescriptionW": DescriptionW = context.Forms.Data(controlId).ToString(); break;
+                    case "Issues_DescriptionX": DescriptionX = context.Forms.Data(controlId).ToString(); break;
+                    case "Issues_DescriptionY": DescriptionY = context.Forms.Data(controlId).ToString(); break;
+                    case "Issues_DescriptionZ": DescriptionZ = context.Forms.Data(controlId).ToString(); break;
+                    case "Issues_CheckA": CheckA = context.Forms.Data(controlId).ToBool(); break;
+                    case "Issues_CheckB": CheckB = context.Forms.Data(controlId).ToBool(); break;
+                    case "Issues_CheckC": CheckC = context.Forms.Data(controlId).ToBool(); break;
+                    case "Issues_CheckD": CheckD = context.Forms.Data(controlId).ToBool(); break;
+                    case "Issues_CheckE": CheckE = context.Forms.Data(controlId).ToBool(); break;
+                    case "Issues_CheckF": CheckF = context.Forms.Data(controlId).ToBool(); break;
+                    case "Issues_CheckG": CheckG = context.Forms.Data(controlId).ToBool(); break;
+                    case "Issues_CheckH": CheckH = context.Forms.Data(controlId).ToBool(); break;
+                    case "Issues_CheckI": CheckI = context.Forms.Data(controlId).ToBool(); break;
+                    case "Issues_CheckJ": CheckJ = context.Forms.Data(controlId).ToBool(); break;
+                    case "Issues_CheckK": CheckK = context.Forms.Data(controlId).ToBool(); break;
+                    case "Issues_CheckL": CheckL = context.Forms.Data(controlId).ToBool(); break;
+                    case "Issues_CheckM": CheckM = context.Forms.Data(controlId).ToBool(); break;
+                    case "Issues_CheckN": CheckN = context.Forms.Data(controlId).ToBool(); break;
+                    case "Issues_CheckO": CheckO = context.Forms.Data(controlId).ToBool(); break;
+                    case "Issues_CheckP": CheckP = context.Forms.Data(controlId).ToBool(); break;
+                    case "Issues_CheckQ": CheckQ = context.Forms.Data(controlId).ToBool(); break;
+                    case "Issues_CheckR": CheckR = context.Forms.Data(controlId).ToBool(); break;
+                    case "Issues_CheckS": CheckS = context.Forms.Data(controlId).ToBool(); break;
+                    case "Issues_CheckT": CheckT = context.Forms.Data(controlId).ToBool(); break;
+                    case "Issues_CheckU": CheckU = context.Forms.Data(controlId).ToBool(); break;
+                    case "Issues_CheckV": CheckV = context.Forms.Data(controlId).ToBool(); break;
+                    case "Issues_CheckW": CheckW = context.Forms.Data(controlId).ToBool(); break;
+                    case "Issues_CheckX": CheckX = context.Forms.Data(controlId).ToBool(); break;
+                    case "Issues_CheckY": CheckY = context.Forms.Data(controlId).ToBool(); break;
+                    case "Issues_CheckZ": CheckZ = context.Forms.Data(controlId).ToBool(); break;
+                    case "Issues_AttachmentsA": AttachmentsA = context.Forms.Data(controlId).Deserialize<Attachments>(); break;
+                    case "Issues_AttachmentsB": AttachmentsB = context.Forms.Data(controlId).Deserialize<Attachments>(); break;
+                    case "Issues_AttachmentsC": AttachmentsC = context.Forms.Data(controlId).Deserialize<Attachments>(); break;
+                    case "Issues_AttachmentsD": AttachmentsD = context.Forms.Data(controlId).Deserialize<Attachments>(); break;
+                    case "Issues_AttachmentsE": AttachmentsE = context.Forms.Data(controlId).Deserialize<Attachments>(); break;
+                    case "Issues_AttachmentsF": AttachmentsF = context.Forms.Data(controlId).Deserialize<Attachments>(); break;
+                    case "Issues_AttachmentsG": AttachmentsG = context.Forms.Data(controlId).Deserialize<Attachments>(); break;
+                    case "Issues_AttachmentsH": AttachmentsH = context.Forms.Data(controlId).Deserialize<Attachments>(); break;
+                    case "Issues_AttachmentsI": AttachmentsI = context.Forms.Data(controlId).Deserialize<Attachments>(); break;
+                    case "Issues_AttachmentsJ": AttachmentsJ = context.Forms.Data(controlId).Deserialize<Attachments>(); break;
+                    case "Issues_AttachmentsK": AttachmentsK = context.Forms.Data(controlId).Deserialize<Attachments>(); break;
+                    case "Issues_AttachmentsL": AttachmentsL = context.Forms.Data(controlId).Deserialize<Attachments>(); break;
+                    case "Issues_AttachmentsM": AttachmentsM = context.Forms.Data(controlId).Deserialize<Attachments>(); break;
+                    case "Issues_AttachmentsN": AttachmentsN = context.Forms.Data(controlId).Deserialize<Attachments>(); break;
+                    case "Issues_AttachmentsO": AttachmentsO = context.Forms.Data(controlId).Deserialize<Attachments>(); break;
+                    case "Issues_AttachmentsP": AttachmentsP = context.Forms.Data(controlId).Deserialize<Attachments>(); break;
+                    case "Issues_AttachmentsQ": AttachmentsQ = context.Forms.Data(controlId).Deserialize<Attachments>(); break;
+                    case "Issues_AttachmentsR": AttachmentsR = context.Forms.Data(controlId).Deserialize<Attachments>(); break;
+                    case "Issues_AttachmentsS": AttachmentsS = context.Forms.Data(controlId).Deserialize<Attachments>(); break;
+                    case "Issues_AttachmentsT": AttachmentsT = context.Forms.Data(controlId).Deserialize<Attachments>(); break;
+                    case "Issues_AttachmentsU": AttachmentsU = context.Forms.Data(controlId).Deserialize<Attachments>(); break;
+                    case "Issues_AttachmentsV": AttachmentsV = context.Forms.Data(controlId).Deserialize<Attachments>(); break;
+                    case "Issues_AttachmentsW": AttachmentsW = context.Forms.Data(controlId).Deserialize<Attachments>(); break;
+                    case "Issues_AttachmentsX": AttachmentsX = context.Forms.Data(controlId).Deserialize<Attachments>(); break;
+                    case "Issues_AttachmentsY": AttachmentsY = context.Forms.Data(controlId).Deserialize<Attachments>(); break;
+                    case "Issues_AttachmentsZ": AttachmentsZ = context.Forms.Data(controlId).Deserialize<Attachments>(); break;
+                    case "Issues_Timestamp": Timestamp = context.Forms.Data(controlId).ToString(); break;
+                    case "Comments": Comments.Prepend(context: context, ss: ss, body: context.Forms.Data("Comments")); break;
+                    case "VerUp": VerUp = context.Forms.Data(controlId).ToBool(); break;
                     default:
                         if (controlId.RegexExists("Comment[0-9]+"))
                         {
@@ -7819,18 +7819,18 @@ namespace Implem.Pleasanter.Models
                                 context: context,
                                 ss: ss,
                                 commentId: controlId.Substring("Comment".Length).ToInt(),
-                                body: Forms.Data(controlId));
+                                body: context.Forms.Data(controlId));
                         }
                         break;
                 }
             });
-            var fromSiteId = Forms.Long("FromSiteId");
+            var fromSiteId = context.Forms.Long("FromSiteId");
             if (fromSiteId > 0)
             {
                 var column = ss.GetColumn(
                     context: context,
                     columnName: ss.Links.FirstOrDefault(o => o.SiteId == fromSiteId).ColumnName);
-                if (PropertyValue(context: context, name: column?.ColumnName) == Forms.Data("LinkId"))
+                if (PropertyValue(context: context, name: column?.ColumnName) == context.Forms.Data("LinkId"))
                 {
                     column.Linking = true;
                 }
@@ -7839,16 +7839,9 @@ namespace Implem.Pleasanter.Models
             SetChoiceHash(context: context, ss: ss);
             if (context.Action == "deletecomment")
             {
-                DeleteCommentId = Forms.ControlId().Split(',')._2nd().ToInt();
+                DeleteCommentId = context.Forms.ControlId().Split(',')._2nd().ToInt();
                 Comments.RemoveAll(o => o.CommentId == DeleteCommentId);
             }
-            Forms.FileKeys().ForEach(controlId =>
-            {
-                switch (controlId)
-                {
-                    default: break;
-                }
-            });
         }
 
         public void SetByModel(IssueModel issueModel)
@@ -8031,7 +8024,7 @@ namespace Implem.Pleasanter.Models
 
         public void SetByApi(Context context, SiteSettings ss)
         {
-            var data = Forms.String().Deserialize<IssueApiModel>();
+            var data = context.Forms.String().Deserialize<IssueApiModel>();
             if (data == null)
             {
                 return;

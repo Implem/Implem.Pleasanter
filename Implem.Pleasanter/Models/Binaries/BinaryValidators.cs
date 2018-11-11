@@ -32,19 +32,19 @@ namespace Implem.Pleasanter.Models
         /// Fixed:
         /// </summary>
         public static Error.Types OnUploadingSiteImage(
-            Context context, SiteSettings ss, byte[] file)
+            Context context, SiteSettings ss, byte[] bin)
         {
             if (!context.CanManageSite(ss: ss))
             {
                 return Error.Types.HasNotPermission;
             }
-            if (file == null)
+            if (bin == null)
             {
                 return Error.Types.SelectFile;
             }
             try
             {
-                System.Drawing.Image.FromStream(new System.IO.MemoryStream(file));
+                System.Drawing.Image.FromStream(new System.IO.MemoryStream(bin));
             }
             catch (System.Exception)
             {
@@ -68,14 +68,13 @@ namespace Implem.Pleasanter.Models
         /// <summary>
         /// Fixed:
         /// </summary>
-        public static Error.Types OnUploadingImage(
-            Context context, System.Web.HttpPostedFileBase[] files)
+        public static Error.Types OnUploadingImage(Context context)
         {
             if (!context.ContractSettings.Attachments())
             {
                 return Error.Types.BadRequest;
             }
-            var newTotalFileSize = files.Sum(x => x.ContentLength.ToDecimal());
+            var newTotalFileSize = context.PostedFiles.Sum(x => x.Size);
             if (OverTenantStorageSize(
                 BinaryUtilities.UsedTenantStorageSize(context: context),
                 newTotalFileSize,
@@ -109,8 +108,7 @@ namespace Implem.Pleasanter.Models
         public static Error.Types OnUploading(
             Context context,
             Column column,
-            Libraries.DataTypes.Attachments attachments,
-            System.Web.HttpPostedFileBase[] files)
+            Libraries.DataTypes.Attachments attachments)
         {
             if (!context.ContractSettings.Attachments())
             {
@@ -118,16 +116,16 @@ namespace Implem.Pleasanter.Models
             }
             if (OverLimitQuantity(
                 attachments?.Count().ToDecimal() ?? 0,
-                files?.Count().ToDecimal() ?? 0,
+                context.PostedFiles?.Count().ToDecimal() ?? 0,
                 column.LimitQuantity))
             {
                 return Error.Types.OverLimitQuantity;
             }
-            if (OverLimitSize(files, column.LimitSize))
+            if (OverLimitSize(context, column.LimitSize))
             {
                 return Error.Types.OverLimitSize;
             }
-            var newTotalFileSize = files.Sum(x => x.ContentLength.ToDecimal());
+            var newTotalFileSize = context.PostedFiles.Sum(x => x.Size.ToDecimal());
             if (OverTotalLimitSize(
                 attachments?.Select(x => x.Size.ToDecimal()).Sum() ?? 0,
                 newTotalFileSize,
@@ -158,11 +156,11 @@ namespace Implem.Pleasanter.Models
         /// <summary>
         /// Fixed:
         /// </summary>
-        private static bool OverLimitSize(System.Web.HttpPostedFileBase[] files, decimal? limit)
+        private static bool OverLimitSize(Context context, decimal? limit)
         {
-            foreach (var item in files)
+            foreach (var item in context.PostedFiles)
             {
-                if (item.ContentLength > limit * 1024 * 1024) return true;
+                if (item.Size > limit * 1024 * 1024) return true;
             }
             return false;
         }

@@ -267,7 +267,7 @@ namespace Implem.Pleasanter.Libraries.Settings
         {
             var columnFilterPrefix = "ViewFilters__";
             var columnSorterPrefix = "ViewSorters__";
-            switch (Forms.Data("ControlId"))
+            switch (context.Forms.Data("ControlId"))
             {
                 case "ViewFilters_Reset":
                     Incomplete = null;
@@ -287,99 +287,157 @@ namespace Implem.Pleasanter.Libraries.Settings
                 switch (controlId)
                 {
                     case "ViewName":
-                        Name = String(controlId);
+                        Name = String(
+                            context: context,
+                            controlId: controlId);
                         break;
                     case "ViewGridColumnsAll":
-                        GridColumns = String(controlId).Deserialize<List<string>>();
+                        GridColumns = String(
+                            context: context,
+                            controlId: controlId).Deserialize<List<string>>();
                         break;
                     case "ViewFilters_Incomplete":
-                        Incomplete = Bool(controlId);
+                        Incomplete = Bool(
+                            context: context,
+                            controlId: controlId);
                         break;
                     case "ViewFilters_Own":
-                        Own = Bool(controlId);
+                        Own = Bool(
+                            context: context,
+                            controlId: controlId);
                         break;
                     case "ViewFilters_NearCompletionTime":
-                        NearCompletionTime = Bool(controlId);
+                        NearCompletionTime = Bool(
+                            context: context,
+                            controlId: controlId);
                         break;
                     case "ViewFilters_Delay":
-                        Delay = Bool(controlId);
+                        Delay = Bool(
+                            context: context,
+                            controlId: controlId);
                         break;
                     case "ViewFilters_Overdue":
-                        Overdue = Bool(controlId);
+                        Overdue = Bool(
+                            context: context,
+                            controlId: controlId);
                         break;
                     case "ViewFilters_Search":
-                        Search = String(controlId);
+                        Search = String(
+                            context: context,
+                            controlId: controlId);
                         break;
                     case "ViewSorters":
-                        SetSorters(ss);
+                        SetSorters(
+                            context: context,
+                            ss: ss);
                         break;
                     case "CalendarFromTo":
-                        CalendarFromTo = String(controlId);
+                        CalendarFromTo = String(
+                            context: context,
+                            controlId: controlId);
                         break;
                     case "CalendarMonth":
-                        CalendarMonth = Time(controlId);
+                        CalendarMonth = Time(
+                            context: context,
+                            controlId: controlId);
                         break;
                     case "CrosstabGroupByX":
-                        CrosstabGroupByX = String(controlId);
+                        CrosstabGroupByX = String(
+                            context: context,
+                            controlId: controlId);
                         break;
                     case "CrosstabGroupByY":
-                        CrosstabGroupByY = String(controlId);
+                        CrosstabGroupByY = String(
+                            context: context,
+                            controlId: controlId);
                         break;
                     case "CrosstabColumns":
-                        CrosstabColumns = String(controlId);
+                        CrosstabColumns = String(
+                            context: context,
+                            controlId: controlId);
                         break;
                     case "CrosstabAggregateType":
-                        CrosstabAggregateType = String(controlId);
+                        CrosstabAggregateType = String(
+                            context: context,
+                            controlId: controlId);
                         break;
                     case "CrosstabValue":
-                        CrosstabValue = String(controlId);
+                        CrosstabValue = String(
+                            context: context,
+                            controlId: controlId);
                         break;
                     case "CrosstabTimePeriod":
-                        CrosstabTimePeriod = String(controlId);
+                        CrosstabTimePeriod = String(
+                            context: context,
+                            controlId: controlId);
                         break;
                     case "CrosstabMonth":
-                        CrosstabMonth = Time(controlId);
+                        CrosstabMonth = Time(
+                            context: context,
+                            controlId: controlId);
                         break;
                     case "GanttGroupBy":
-                        GanttGroupBy = String(controlId);
+                        GanttGroupBy = String(
+                            context: context,
+                            controlId: controlId);
                         break;
                     case "GanttSortBy":
-                        GanttSortBy = String(controlId);
+                        GanttSortBy = String(
+                            context: context,
+                            controlId: controlId);
                         break;
                     case "GanttPeriod":
-                        GanttPeriod = Forms.Int(controlId);
+                        GanttPeriod = context.Forms.Int(controlId);
                         break;
                     case "GanttStartDate":
-                        GanttStartDate = Time(controlId)
-                            .ToDateTime()
-                            .ToUniversal(context: context);
+                        GanttStartDate = Time(
+                            context: context,
+                            controlId: controlId)
+                                .ToDateTime()
+                                .ToUniversal(context: context);
                         break;
                     case "TimeSeriesGroupBy":
-                        TimeSeriesGroupBy = String(controlId);
+                        TimeSeriesGroupBy = String(
+                            context: context,
+                            controlId: controlId);
                         break;
                     case "TimeSeriesAggregateType":
-                        TimeSeriesAggregateType = String(controlId);
+                        TimeSeriesAggregateType = String(
+                            context: context,
+                            controlId: controlId);
                         break;
                     case "TimeSeriesValue":
-                        TimeSeriesValue = String(controlId);
+                        TimeSeriesValue = String(
+                            context: context,
+                            controlId: controlId);
                         break;
                     case "KambanGroupByX":
-                        KambanGroupByX = String(controlId);
+                        KambanGroupByX = String(
+                            context: context,
+                            controlId: controlId);
                         break;
                     case "KambanGroupByY":
-                        KambanGroupByY = String(controlId);
+                        KambanGroupByY = String(
+                            context: context,
+                            controlId: controlId);
                         break;
                     case "KambanAggregateType":
-                        KambanAggregateType = String(controlId);
+                        KambanAggregateType = String(
+                            context: context,
+                            controlId: controlId);
                         break;
                     case "KambanValue":
-                        KambanValue = String(controlId);
+                        KambanValue = String(
+                            context: context,
+                            controlId: controlId);
                         break;
                     case "KambanColumns":
-                        KambanColumns = Forms.Int(controlId);
+                        KambanColumns = context.Forms.Int(controlId);
                         break;
                     case "KambanAggregationView":
-                        KambanAggregationView = Forms.Bool(controlId);
+                        KambanAggregationView = Bool(
+                            context: context,
+                            controlId: controlId);
                         break;
                     default:
                         if (controlId.StartsWith(columnFilterPrefix))
@@ -388,7 +446,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                                 context: context,
                                 ss: ss,
                                 columnName: controlId.Substring(columnFilterPrefix.Length),
-                                value: Forms.Data(controlId));
+                                value: context.Forms.Data(controlId));
                         }
                         else if (controlId.StartsWith(columnSorterPrefix))
                         {
@@ -396,7 +454,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                                 context: context,
                                 ss: ss,
                                 columnName: controlId.Substring(columnSorterPrefix.Length),
-                                value: OrderByType(Forms.Data(controlId)));
+                                value: OrderByType(context.Forms.Data(controlId)));
                         }
                         break;
                 }
@@ -404,9 +462,9 @@ namespace Implem.Pleasanter.Libraries.Settings
             KambanColumns = KambanColumns ?? Parameters.General.KambanColumns;
         }
 
-        private bool? Bool(string controlId)
+        private bool? Bool(Context context, string controlId)
         {
-            var data = Forms.Bool(controlId);
+            var data = context.Forms.Bool(controlId);
             if (data)
             {
                 return true;
@@ -417,9 +475,9 @@ namespace Implem.Pleasanter.Libraries.Settings
             }
         }
 
-        private DateTime? Time(string controlId)
+        private DateTime? Time(Context context, string controlId)
         {
-            var data = Forms.DateTime(controlId);
+            var data = context.Forms.DateTime(controlId);
             if (data.InRange())
             {
                 return data;
@@ -430,9 +488,9 @@ namespace Implem.Pleasanter.Libraries.Settings
             }
         }
 
-        private string String(string controlId)
+        private string String(Context context, string controlId)
         {
-            var data = Forms.Data(controlId);
+            var data = context.Forms.Data(controlId);
             if (data != string.Empty)
             {
                 return data;
@@ -516,10 +574,10 @@ namespace Implem.Pleasanter.Libraries.Settings
             }
         }
 
-        private void SetSorters(SiteSettings ss)
+        private void SetSorters(Context context, SiteSettings ss)
         {
             ColumnSorterHash = new Dictionary<string, SqlOrderBy.Types>();
-            Forms.List("ViewSorters").ForEach(data =>
+            context.Forms.List("ViewSorters").ForEach(data =>
             {
                 var columnName = data.Split_1st('&');
                 var type = OrderByType(data.Split_2nd('&'));

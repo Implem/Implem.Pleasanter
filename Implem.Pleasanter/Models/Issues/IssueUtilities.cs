@@ -242,7 +242,9 @@ namespace Implem.Pleasanter.Models
             bool clearCheck = false,
             string action = "GridRows")
         {
-            var checkAll = clearCheck ? false : Forms.Bool("GridCheckAll");
+            var checkAll = clearCheck
+                ? false
+                : context.Forms.Bool("GridCheckAll");
             var columns = ss.GetGridColumns(
                 context: context,
                 view: view,
@@ -3724,13 +3726,13 @@ namespace Implem.Pleasanter.Models
                         .Hidden(
                             controlId: "FromSiteId",
                             css: "control-hidden always-send",
-                            value: QueryStrings.Data("FromSiteId"),
-                            _using: QueryStrings.Long("FromSiteId") > 0)
+                            value: context.QueryStrings.Data("FromSiteId"),
+                            _using: context.QueryStrings.Long("FromSiteId") > 0)
                         .Hidden(
                             controlId: "LinkId",
                             css: "control-hidden always-send",
-                            value: QueryStrings.Data("LinkId"),
-                            _using: QueryStrings.Long("LinkId") > 0)
+                            value: context.QueryStrings.Data("LinkId"),
+                            _using: context.QueryStrings.Long("LinkId") > 0)
                         .Hidden(
                             controlId: "MethodType",
                             value: issueModel.MethodType.ToString().ToLower())
@@ -5785,7 +5787,7 @@ namespace Implem.Pleasanter.Models
             string switchTargets = null)
         {
             issueModel.MethodType = BaseModel.MethodTypes.Edit;
-            var editInDialog = Forms.Bool("EditInDialog");
+            var editInDialog = context.Forms.Bool("EditInDialog");
             return editInDialog
                 ? new IssuesResponseCollection(issueModel)
                     .Html("#EditInDialogBody", Editor(
@@ -6914,7 +6916,7 @@ namespace Implem.Pleasanter.Models
                     context: context,
                     type: invalid);
             }
-            var api = Forms.String().Deserialize<Api>();
+            var api = context.Forms.String().Deserialize<Api>();
             if (api == null)
             {
                 return ApiResults.Get(ApiResponses.BadRequest(context: context));
@@ -7017,7 +7019,7 @@ namespace Implem.Pleasanter.Models
                         .Href(Locations.Edit(
                             controller: context.Controller,
                             id: ss.Columns.Any(o => o.Linking)
-                                ? Forms.Long("LinkId")
+                                ? context.Forms.Long("LinkId")
                                 : issueModel.IssueId))
                         .ToJson();
                 case Error.Types.Duplicated:
@@ -7106,8 +7108,8 @@ namespace Implem.Pleasanter.Models
                 context: context,
                 ss: ss,
                 notice: true,
-                permissions: Forms.List("CurrentPermissionsAll"),
-                permissionChanged: Forms.Exists("CurrentPermissionsAll"));
+                permissions: context.Forms.List("CurrentPermissionsAll"),
+                permissionChanged: context.Forms.Exists("CurrentPermissionsAll"));
             switch (error)
             {
                 case Error.Types.None:
@@ -7150,7 +7152,7 @@ namespace Implem.Pleasanter.Models
             SiteSettings ss,
             IssueModel issueModel)
         {
-            if (Forms.Bool("IsDialogEditorForm"))
+            if (context.Forms.Bool("IsDialogEditorForm"))
             {
                 var view = Views.GetBySession(
                     context: context,
@@ -7282,7 +7284,7 @@ namespace Implem.Pleasanter.Models
             {
                 issueModel.Title.Value += Displays.SuffixCopy(context: context);
             }
-            if (!Forms.Bool("CopyWithComments"))
+            if (!context.Forms.Bool("CopyWithComments"))
             {
                 issueModel.Comments.Clear();
             }
@@ -7323,7 +7325,7 @@ namespace Implem.Pleasanter.Models
 
         public static string Move(Context context, SiteSettings ss, long issueId)
         {
-            var siteId = Forms.Long("MoveTargets");
+            var siteId = context.Forms.Long("MoveTargets");
             if (context.ContractSettings.ItemsLimit(context: context, siteId: siteId))
             {
                 return Error.Types.ItemsLimit.MessageJson(context: context);
@@ -7456,7 +7458,7 @@ namespace Implem.Pleasanter.Models
             }
             else if (context.CanManageSite(ss: ss))
             {
-                var selector = new GridSelector();
+                var selector = new GridSelector(context: context);
                 var count = 0;
                 if (selector.All)
                 {
@@ -7547,7 +7549,7 @@ namespace Implem.Pleasanter.Models
                 case Error.Types.None: break;
                 default: return invalid.MessageJson(context: context);
             }
-            var ver = Forms.Data("GridCheckedItems")
+            var ver = context.Forms.Data("GridCheckedItems")
                 .Split(',')
                 .Where(o => !o.IsNullOrEmpty())
                 .ToList();
@@ -7684,9 +7686,9 @@ namespace Implem.Pleasanter.Models
                 ss: ss,
                 where: Rds.IssuesWhere()
                     .IssueId(issueModel.IssueId)
-                    .Ver(Forms.Int("Ver")),
+                    .Ver(context.Forms.Int("Ver")),
                 tableType: Sqls.TableTypes.NormalAndHistory);
-            issueModel.VerType = Forms.Bool("Latest")
+            issueModel.VerType = context.Forms.Bool("Latest")
                 ? Versions.VerTypes.Latest
                 : Versions.VerTypes.History;
             return EditorResponse(context, ss, issueModel).ToJson();
@@ -7723,7 +7725,7 @@ namespace Implem.Pleasanter.Models
 
         public static string Separate(Context context, SiteSettings ss, long issueId)
         {
-            var number = Forms.Int("SeparateNumber");
+            var number = context.Forms.Int("SeparateNumber");
             if (context.ContractSettings.ItemsLimit(context: context, siteId: ss.SiteId, number: number - 1))
             {
                 return Error.Types.ItemsLimit.MessageJson(context: context);
@@ -7759,7 +7761,7 @@ namespace Implem.Pleasanter.Models
                 }
                 var addCommentCollection = new List<string>();
                 addCommentCollection.AddRange(idHash.Select(o => "[{0}]({1}{2})  ".Params(
-                    Forms.Data("SeparateTitle_" + o.Key),
+                    context.Forms.Data("SeparateTitle_" + o.Key),
                     Url.Server(),
                     Locations.ItemEdit(o.Value))));
                 var addComment = "[md]\n{0}  \n{1}".Params(
@@ -7773,12 +7775,16 @@ namespace Implem.Pleasanter.Models
                         ? ver
                         : 1;
                     issueModel.Timestamp = timestampHash[index];
-                    issueModel.Title.Value = Forms.Data("SeparateTitle_" + index);
+                    issueModel.Title.Value = context.Forms.Data("SeparateTitle_" + index);
                     issueModel.WorkValue.Value = source
-                        ? Forms.Decimal(context: context, key: "SourceWorkValue")
-                        : Forms.Decimal(context: context, key: "SeparateWorkValue_" + index);
+                        ? context.Forms.Decimal(
+                            context: context,
+                            key: "SourceWorkValue")
+                        : context.Forms.Decimal(
+                            context: context,
+                            key: "SeparateWorkValue_" + index);
                     issueModel.Comments.Clear();
-                    if (source || Forms.Bool("SeparateCopyWithComments"))
+                    if (source || context.Forms.Bool("SeparateCopyWithComments"))
                     {
                         issueModel.Comments = comments.Deserialize<Comments>();
                     }
@@ -7806,8 +7812,8 @@ namespace Implem.Pleasanter.Models
 
         public static string BulkMove(Context context, SiteSettings ss)
         {
-            var siteId = Forms.Long("MoveTargets");
-            var selector = new GridSelector();
+            var siteId = context.Forms.Long("MoveTargets");
+            var selector = new GridSelector(context: context);
             var count = BulkMoveCount(
                 context: context,
                 ss: ss,
@@ -7923,7 +7929,7 @@ namespace Implem.Pleasanter.Models
         {
             if (context.CanDelete(ss: ss))
             {
-                var selector = new GridSelector();
+                var selector = new GridSelector(context: context);
                 var count = 0;
                 if (selector.All)
                 {
@@ -8008,7 +8014,7 @@ namespace Implem.Pleasanter.Models
             }
             if (context.CanManageSite(ss: ss))
             {
-                var selector = new GridSelector();
+                var selector = new GridSelector(context: context);
                 var selected = selector
                     .Selected
                     .Select(o => o.ToInt())
@@ -8094,7 +8100,7 @@ namespace Implem.Pleasanter.Models
             }
             if (context.CanManageSite(ss: ss))
             {
-                var selector = new GridSelector();
+                var selector = new GridSelector(context: context);
                 var count = 0;
                 if (selector.All)
                 {
@@ -8196,7 +8202,9 @@ namespace Implem.Pleasanter.Models
             Csv csv;
             try
             {
-                csv = new Csv(Forms.File("Import"), Forms.Data("Encoding"));
+                csv = new Csv(
+                    csv: context.PostedFiles.FirstOrDefault().Byte(),
+                    encoding: context.Forms.Data("Encoding"));
             }
             catch
             {
@@ -8239,7 +8247,7 @@ namespace Implem.Pleasanter.Models
                 csv.Rows.Select((o, i) => new { Row = o, Index = i }).ForEach(data =>
                 {
                     var issueModel = new IssueModel() { SiteId = ss.SiteId };
-                    if (Forms.Bool("UpdatableImport") && idColumn > -1)
+                    if (context.Forms.Bool("UpdatableImport") && idColumn > -1)
                     {
                         var model = new IssueModel(
                             context: context,
@@ -8844,7 +8852,7 @@ namespace Implem.Pleasanter.Models
                 ss: ss,
                 export: ss.GetExport(
                     context: context,
-                    id: QueryStrings.Int("id")));
+                    id: context.QueryStrings.Int("id")));
         }
 
         public static ResponseFile ExportCrosstab(
@@ -8984,7 +8992,7 @@ namespace Implem.Pleasanter.Models
             var issueModel = new IssueModel(
                 context: context,
                 ss: ss,
-                issueId: Forms.Long("Id"),
+                issueId: context.Forms.Long("Id"),
                 setByForm: true);
             var invalid = IssueValidators.OnUpdating(
                 context: context,
@@ -9028,7 +9036,7 @@ namespace Implem.Pleasanter.Models
             }
             var view = Views.GetBySession(context: context, ss: ss);
             var gridData = GetGridData(context: context, ss: ss, view: view);
-            var bodyOnly = Forms.ControlId().StartsWith("Calendar");
+            var bodyOnly = context.Forms.ControlId().StartsWith("Calendar");
             var fromColumn = ss.GetColumn(
                 context: context,
                 columnName: view.GetCalendarFromColumn(ss));
@@ -9314,7 +9322,7 @@ namespace Implem.Pleasanter.Models
                     || Libraries.ViewModes.CrosstabUtilities.InRangeY(
                         context: context,
                         dataRows: dataRows);
-            var bodyOnly = Forms.ControlId().StartsWith("Crosstab");
+            var bodyOnly = context.Forms.ControlId().StartsWith("Crosstab");
             return inRangeX && inRangeY
                 ? new ResponseCollection()
                     .ViewMode(
@@ -9573,7 +9581,7 @@ namespace Implem.Pleasanter.Models
             }
             var view = Views.GetBySession(context: context, ss: ss);
             var gridData = GetGridData(context: context, ss: ss, view: view);
-            var bodyOnly = Forms.ControlId().StartsWith("Gantt");
+            var bodyOnly = context.Forms.ControlId().StartsWith("Gantt");
             var range = new Libraries.ViewModes.GanttRange(
                 context: context,
                 ss: ss,
@@ -9801,7 +9809,7 @@ namespace Implem.Pleasanter.Models
 
         public static string BurnDownRecordDetails(Context context, SiteSettings ss)
         {
-            var date = Forms.DateTime("BurnDownDate");
+            var date = context.Forms.DateTime("BurnDownDate");
             return new ResponseCollection()
                 .After(string.Empty, new HtmlBuilder().BurnDownRecordDetails(
                     context: context,
@@ -9815,7 +9823,7 @@ namespace Implem.Pleasanter.Models
                                 .Where(o => o.UpdatedTime == date),
                     progressRateColumn: ss.GetColumn(context: context, columnName: "ProgressRate"),
                     statusColumn: ss.GetColumn(context: context, columnName: "Status"),
-                    colspan: Forms.Int("BurnDownColspan"),
+                    colspan: context.Forms.Int("BurnDownColspan"),
                     unit: ss.GetColumn(context: context, columnName: "WorkValue").Unit)).ToJson();
         }
 
@@ -9914,7 +9922,7 @@ namespace Implem.Pleasanter.Models
             }
             var view = Views.GetBySession(context: context, ss: ss);
             var gridData = GetGridData(context: context, ss: ss, view: view);
-            var bodyOnly = Forms.ControlId().StartsWith("TimeSeries");
+            var bodyOnly = context.Forms.ControlId().StartsWith("TimeSeries");
             return gridData.Aggregations.TotalCount <= Parameters.General.TimeSeriesLimit
                 ? new ResponseCollection()
                     .ViewMode(
@@ -10072,7 +10080,7 @@ namespace Implem.Pleasanter.Models
             }
             var view = Views.GetBySession(context: context, ss: ss);
             var gridData = GetGridData(context: context, ss: ss, view: view);
-            var bodyOnly = Forms.ControlId().StartsWith("Kamban");
+            var bodyOnly = context.Forms.ControlId().StartsWith("Kamban");
             return gridData.Aggregations.TotalCount <= Parameters.General.KambanLimit
                 ? new ResponseCollection()
                     .ViewMode(
@@ -10089,7 +10097,7 @@ namespace Implem.Pleasanter.Models
                                 ss: ss,
                                 view: view,
                                 bodyOnly: bodyOnly,
-                                changedItemId: Forms.Long("KambanId")))
+                                changedItemId: context.Forms.Long("KambanId")))
                     .ToJson()
                 : new ResponseCollection()
                     .ViewMode(
@@ -10211,7 +10219,7 @@ namespace Implem.Pleasanter.Models
             var issueModel = new IssueModel(
                 context: context,
                 ss: ss,
-                issueId: Forms.Long("KambanId"),
+                issueId: context.Forms.Long("KambanId"),
                 setByForm: true);
             var invalid = IssueValidators.OnUpdating(
                 context: context,
@@ -10269,7 +10277,7 @@ namespace Implem.Pleasanter.Models
             }
             var view = Views.GetBySession(context: context, ss: ss);
             var gridData = GetGridData(context: context, ss: ss, view: view);
-            var bodyOnly = Forms.ControlId().StartsWith("ImageLib");
+            var bodyOnly = context.Forms.ControlId().StartsWith("ImageLib");
             return new ResponseCollection()
                 .ViewMode(
                     context: context,

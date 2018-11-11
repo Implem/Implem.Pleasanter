@@ -30,7 +30,7 @@ namespace Implem.Pleasanter.Models
         {
             var ss = new SiteSettings();
             var passphrase = Strings.NewGuid();
-            var mailAddress = Forms.Data("Users_DemoMailAddress");
+            var mailAddress = context.Forms.Data("Users_DemoMailAddress");
             var tenantModel = new TenantModel()
             {
                 TenantName = mailAddress
@@ -72,7 +72,7 @@ namespace Implem.Pleasanter.Models
             var demoModel = new DemoModel().Get(
                 context: context,
                 where: Rds.DemosWhere()
-                    .Passphrase(QueryStrings.Data("passphrase"))
+                    .Passphrase(context.QueryStrings.Data("passphrase"))
                     .CreatedTime(
                         DateTime.Now.AddDays(Parameters.Service.DemoUsagePeriod * -1),
                         _operator: ">="));

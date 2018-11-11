@@ -66,7 +66,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
         private static bool Reduced(Context context, long? siteId)
         {
             var key = "ReduceViewFilters";
-            if (Forms.ControlId() == key)
+            if (context.Forms.ControlId() == key)
             {
                 SessionUtilities.Set(
                     context: context,
@@ -74,7 +74,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     value: "1",
                     page: true);
             }
-            else if (Forms.ControlId() == "ExpandViewFilters")
+            else if (context.Forms.ControlId() == "ExpandViewFilters")
             {
                 SessionUtilities.Remove(
                     context: context,

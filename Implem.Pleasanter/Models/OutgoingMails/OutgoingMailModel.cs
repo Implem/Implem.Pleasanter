@@ -615,7 +615,7 @@ namespace Implem.Pleasanter.Models
                 ReferenceType = reference.ToLower();
             }
             ReferenceId = referenceId;
-            ReferenceVer = Forms.Int("Ver");
+            ReferenceVer = context.Forms.Int("Ver");
             From = OutgoingMailUtilities.From(
                 context: context,
                 userId: context.UserId);
@@ -632,26 +632,26 @@ namespace Implem.Pleasanter.Models
         public void SetByForm(Context context)
         {
             var ss = SiteSettingsUtilities.OutgoingMailsSiteSettings(context: context);
-            Forms.Keys().ForEach(controlId =>
+            context.Forms.Keys.ForEach(controlId =>
             {
                 switch (controlId)
                 {
-                    case "OutgoingMails_To": To = Forms.List(controlId).Join(";"); break;
-                    case "OutgoingMails_Cc": Cc = Forms.List(controlId).Join(";"); break;
-                    case "OutgoingMails_Bcc": Bcc = Forms.List(controlId).Join(";"); break;
-                    case "OutgoingMails_Title": Title = new Title(OutgoingMailId, Forms.Data(controlId)); break;
-                    case "OutgoingMails_Body": Body = Forms.Data(controlId).ToString(); break;
-                    case "OutgoingMails_SentTime": SentTime = new Time(context, Forms.Data(controlId).ToDateTime(), byForm: true); break;
-                    case "OutgoingMails_DestinationSearchRange": DestinationSearchRange = Forms.Data(controlId).ToString(); break;
-                    case "OutgoingMails_DestinationSearchText": DestinationSearchText = Forms.Data(controlId).ToString(); break;
-                    case "OutgoingMails_Timestamp": Timestamp = Forms.Data(controlId).ToString(); break;
+                    case "OutgoingMails_To": To = context.Forms.List(controlId).Join(";"); break;
+                    case "OutgoingMails_Cc": Cc = context.Forms.List(controlId).Join(";"); break;
+                    case "OutgoingMails_Bcc": Bcc = context.Forms.List(controlId).Join(";"); break;
+                    case "OutgoingMails_Title": Title = new Title(OutgoingMailId, context.Forms.Data(controlId)); break;
+                    case "OutgoingMails_Body": Body = context.Forms.Data(controlId).ToString(); break;
+                    case "OutgoingMails_SentTime": SentTime = new Time(context, context.Forms.Data(controlId).ToDateTime(), byForm: true); break;
+                    case "OutgoingMails_DestinationSearchRange": DestinationSearchRange = context.Forms.Data(controlId).ToString(); break;
+                    case "OutgoingMails_DestinationSearchText": DestinationSearchText = context.Forms.Data(controlId).ToString(); break;
+                    case "OutgoingMails_Timestamp": Timestamp = context.Forms.Data(controlId).ToString(); break;
                     case "Comments":
                         Comments.Prepend(
                             context: context,
                             ss: new SiteSettings(),
-                            body: Forms.Data("Comments"));
+                            body: context.Forms.Data("Comments"));
                         break;
-                    case "VerUp": VerUp = Forms.Data(controlId).ToBool(); break;
+                    case "VerUp": VerUp = context.Forms.Data(controlId).ToBool(); break;
                     default:
                         if (controlId.RegexExists("Comment[0-9]+"))
                         {
@@ -659,7 +659,7 @@ namespace Implem.Pleasanter.Models
                                 context: context,
                                 ss: ss,
                                 commentId: controlId.Substring("Comment".Length).ToInt(),
-                                body: Forms.Data(controlId));
+                                body: context.Forms.Data(controlId));
                         }
                         break;
                 }

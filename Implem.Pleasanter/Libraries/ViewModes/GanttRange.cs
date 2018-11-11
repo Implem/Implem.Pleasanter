@@ -23,7 +23,7 @@ namespace Implem.Pleasanter.Libraries.ViewModes
                 if (view.GanttStartDate == null) view.GanttStartDate = Min;
                 view.GanttPeriod = Period;
             }
-            else if (Forms.ControlId().StartsWith("ViewFilters_"))
+            else if (context.Forms.ControlId().StartsWith("ViewFilters_"))
             {
                 view.GanttPeriod = Period;
             }

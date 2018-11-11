@@ -5,124 +5,73 @@ using System.Linq;
 using System.Web;
 namespace Implem.Pleasanter.Libraries.Requests
 {
-    public static class Forms
+    public class Forms : Dictionary<string, string>
     {
-        public static string String()
+        public bool Exists(string key)
+        {
+            return this.Get(key) != null;
+        }
+
+        public string Data(string key)
+        {
+            return this.Get(key) ?? string.Empty;
+        }
+
+        public string String()
         {
             return HttpUtility.UrlDecode(HttpContext.Current.Request.Form.ToString(), System.Text.Encoding.UTF8);
         }
 
-        public static Dictionary<string, string> All()
-        {
-            var hash = new Dictionary<string, string>();
-            HttpContext.Current.Request.Form.AllKeys.ToList().ForEach(key =>
-                hash.Add(key, HttpContext.Current.Request.Form[key]));
-            return hash;
-        }
-
-        public static string ControlId()
+        public string ControlId()
         {
             return Data("ControlId");
         }
 
-        public static bool Bool(string key)
+        public bool Bool(string key)
         {
             return Data(key).ToBool();
         }
 
-        public static int Int(string key)
+        public int Int(string key)
         {
             return Data(key).ToInt();
         }
 
-        public static long Long(string key)
+        public long Long(string key)
         {
             return Data(key).ToLong();
         }
 
-        public static decimal Decimal(Context context, string key)
+        public decimal Decimal(Context context, string key)
         {
             return Data(key).ToDecimal(context.CultureInfo());
         }
 
-        public static DateTime DateTime(string key)
+        public DateTime DateTime(string key)
         {
             return Data(key).ToDateTime();
         }
 
-        public static List<int> IntList(string name)
+        public List<int> IntList(string name)
         {
             return Data(name)
                 .Deserialize<List<int>>()?
                 .ToList() ?? new List<int>();
         }
 
-        public static List<long> LongList(string name)
+        public List<long> LongList(string name)
         {
             return Data(name)
                 .Deserialize<List<long>>()?
                 .ToList() ?? new List<long>();
         }
 
-        public static List<string> List(string name)
+        public List<string> List(string name)
         {
             return Data(name)
                 .Deserialize<List<string>>()?
                 .Where(o => o != string.Empty)
                 .ToList() ?? new List<string>();
-        }
-
-        public static IEnumerable<string> Keys()
-        {
-            foreach (var key in HttpContext.Current.Request.Form.Keys)
-            {
-                yield return key?.ToString();
-            }
-        }
-
-        public static IEnumerable<string> FileKeys()
-        {
-            foreach (var key in HttpContext.Current.Request.Files.Keys)
-            {
-                yield return key.ToString();
-            }
-        }
-
-        public static bool Exists(string key)
-        {
-            return HttpContext.Current.Request.Form[key] != null;
-        }
-
-        public static string Data(string key)
-        {
-            if (HttpContext.Current.Request.Form[key] != null)
-            {
-                return HttpContext.Current.Request.Form[key];
-            }
-            else
-            {
-                return string.Empty;
-            }
-        }
-
-        public static byte[] File(string key)
-        {
-            var file = HttpContext.Current.Request.Files[key];
-            if (file != null)
-            {
-                var bin = new byte[file.ContentLength];
-                file.InputStream.Read(bin, 0, file.ContentLength);
-                return bin;
-            }
-            else
-            {
-                return null;
-            }
-        }
-
-        public static bool HasData(string key)
-        {
-            return HttpContext.Current.Request.Form[key] != null;
         }
     }
 }

@@ -286,7 +286,9 @@ namespace Implem.Pleasanter.Models
             bool clearCheck = false,
             string action = "GridRows")
         {
-            var checkAll = clearCheck ? false : Forms.Bool("GridCheckAll");
+            var checkAll = clearCheck
+                ? false
+                : context.Forms.Bool("GridCheckAll");
             var columns = ss.GetGridColumns(
                 context: context,
                 view: view,
@@ -914,7 +916,7 @@ namespace Implem.Pleasanter.Models
                         .Href(Locations.Edit(
                             controller: context.Controller,
                             id: ss.Columns.Any(o => o.Linking)
-                                ? Forms.Long("LinkId")
+                                ? context.Forms.Long("LinkId")
                                 : deptModel.DeptId))
                         .ToJson();
                 default:
@@ -968,7 +970,7 @@ namespace Implem.Pleasanter.Models
             SiteSettings ss,
             DeptModel deptModel)
         {
-            if (Forms.Bool("IsDialogEditorForm"))
+            if (context.Forms.Bool("IsDialogEditorForm"))
             {
                 var view = Views.GetBySession(
                     context: context,
@@ -1151,9 +1153,9 @@ namespace Implem.Pleasanter.Models
                 ss: ss,
                 where: Rds.DeptsWhere()
                     .DeptId(deptModel.DeptId)
-                    .Ver(Forms.Int("Ver")),
+                    .Ver(context.Forms.Int("Ver")),
                 tableType: Sqls.TableTypes.NormalAndHistory);
-            deptModel.VerType = Forms.Bool("Latest")
+            deptModel.VerType = context.Forms.Bool("Latest")
                 ? Versions.VerTypes.Latest
                 : Versions.VerTypes.History;
             return EditorResponse(context, ss, deptModel).ToJson();
@@ -1167,7 +1169,7 @@ namespace Implem.Pleasanter.Models
             return GridRows(
                 context: context,
                 ss: SiteSettingsUtilities.DeptsSiteSettings(context: context),
-                offset: DataViewGrid.Offset());
+                offset: DataViewGrid.Offset(context: context));
         }
 
         /// <summary>
@@ -1175,7 +1177,7 @@ namespace Implem.Pleasanter.Models
         /// </summary>
         public static System.Web.Mvc.ContentResult GetByApi(Context context, SiteSettings ss)
         {
-            var api = Forms.String().Deserialize<Api>();
+            var api = context.Forms.String().Deserialize<Api>();
             if (api == null)
             {
                 return ApiResults.Get(ApiResponses.BadRequest(context: context));

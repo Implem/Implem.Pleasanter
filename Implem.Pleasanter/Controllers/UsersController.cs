@@ -196,7 +196,7 @@ namespace Implem.Pleasanter.Controllers
             var log = new SysLogModel(context: context);
             if (context.Authenticated)
             {
-                if (QueryStrings.Bool("new"))
+                if (context.QueryStrings.Bool("new"))
                 {
                     Authentications.SignOut();
                 }

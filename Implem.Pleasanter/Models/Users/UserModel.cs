@@ -2338,178 +2338,178 @@ namespace Implem.Pleasanter.Models
 
         public void SetByForm(Context context, SiteSettings ss)
         {
-            Forms.Keys().ForEach(controlId =>
+            context.Forms.Keys.ForEach(controlId =>
             {
                 switch (controlId)
                 {
-                    case "Users_LoginId": LoginId = Forms.Data(controlId).ToString(); break;
-                    case "Users_GlobalId": GlobalId = Forms.Data(controlId).ToString(); break;
-                    case "Users_Name": Name = Forms.Data(controlId).ToString(); break;
-                    case "Users_UserCode": UserCode = Forms.Data(controlId).ToString(); break;
-                    case "Users_Password": Password = Forms.Data(controlId).ToString().Sha512Cng(); break;
-                    case "Users_PasswordValidate": PasswordValidate = Forms.Data(controlId).ToString().Sha512Cng(); break;
-                    case "Users_PasswordDummy": PasswordDummy = Forms.Data(controlId).ToString().Sha512Cng(); break;
-                    case "Users_RememberMe": RememberMe = Forms.Data(controlId).ToBool(); break;
-                    case "Users_LastName": LastName = Forms.Data(controlId).ToString(); break;
-                    case "Users_FirstName": FirstName = Forms.Data(controlId).ToString(); break;
-                    case "Users_Birthday": Birthday = new Time(context, Forms.Data(controlId).ToDateTime(), byForm: true); break;
-                    case "Users_Gender": Gender = Forms.Data(controlId).ToString(); break;
-                    case "Users_Language": Language = Forms.Data(controlId).ToString(); break;
-                    case "Users_TimeZone": TimeZone = Forms.Data(controlId).ToString(); break;
-                    case "Users_DeptCode": DeptCode = Forms.Data(controlId).ToString(); break;
-                    case "Users_DeptId": DeptId = Forms.Data(controlId).ToInt(); break;
-                    case "Users_FirstAndLastNameOrder": FirstAndLastNameOrder = (Names.FirstAndLastNameOrders)Forms.Data(controlId).ToInt(); break;
-                    case "Users_Body": Body = Forms.Data(controlId).ToString(); break;
-                    case "Users_LastLoginTime": LastLoginTime = new Time(context, Forms.Data(controlId).ToDateTime(), byForm: true); break;
-                    case "Users_PasswordExpirationTime": PasswordExpirationTime = new Time(context, Forms.Data(controlId).ToDateTime(), byForm: true); break;
-                    case "Users_PasswordChangeTime": PasswordChangeTime = new Time(context, Forms.Data(controlId).ToDateTime(), byForm: true); break;
-                    case "Users_NumberOfLogins": NumberOfLogins = Forms.Data(controlId).ToInt(); break;
-                    case "Users_NumberOfDenial": NumberOfDenial = Forms.Data(controlId).ToInt(); break;
-                    case "Users_TenantManager": TenantManager = Forms.Data(controlId).ToBool(); break;
-                    case "Users_Disabled": Disabled = Forms.Data(controlId).ToBool(); break;
-                    case "Users_ApiKey": ApiKey = Forms.Data(controlId).ToString(); break;
-                    case "Users_OldPassword": OldPassword = Forms.Data(controlId).ToString().Sha512Cng(); break;
-                    case "Users_ChangedPassword": ChangedPassword = Forms.Data(controlId).ToString().Sha512Cng(); break;
-                    case "Users_ChangedPasswordValidator": ChangedPasswordValidator = Forms.Data(controlId).ToString().Sha512Cng(); break;
-                    case "Users_AfterResetPassword": AfterResetPassword = Forms.Data(controlId).ToString().Sha512Cng(); break;
-                    case "Users_AfterResetPasswordValidator": AfterResetPasswordValidator = Forms.Data(controlId).ToString().Sha512Cng(); break;
-                    case "Users_DemoMailAddress": DemoMailAddress = Forms.Data(controlId).ToString(); break;
-                    case "Users_SessionGuid": SessionGuid = Forms.Data(controlId).ToString(); break;
-                    case "Users_ClassA": ClassA = Forms.Data(controlId).ToString(); break;
-                    case "Users_ClassB": ClassB = Forms.Data(controlId).ToString(); break;
-                    case "Users_ClassC": ClassC = Forms.Data(controlId).ToString(); break;
-                    case "Users_ClassD": ClassD = Forms.Data(controlId).ToString(); break;
-                    case "Users_ClassE": ClassE = Forms.Data(controlId).ToString(); break;
-                    case "Users_ClassF": ClassF = Forms.Data(controlId).ToString(); break;
-                    case "Users_ClassG": ClassG = Forms.Data(controlId).ToString(); break;
-                    case "Users_ClassH": ClassH = Forms.Data(controlId).ToString(); break;
-                    case "Users_ClassI": ClassI = Forms.Data(controlId).ToString(); break;
-                    case "Users_ClassJ": ClassJ = Forms.Data(controlId).ToString(); break;
-                    case "Users_ClassK": ClassK = Forms.Data(controlId).ToString(); break;
-                    case "Users_ClassL": ClassL = Forms.Data(controlId).ToString(); break;
-                    case "Users_ClassM": ClassM = Forms.Data(controlId).ToString(); break;
-                    case "Users_ClassN": ClassN = Forms.Data(controlId).ToString(); break;
-                    case "Users_ClassO": ClassO = Forms.Data(controlId).ToString(); break;
-                    case "Users_ClassP": ClassP = Forms.Data(controlId).ToString(); break;
-                    case "Users_ClassQ": ClassQ = Forms.Data(controlId).ToString(); break;
-                    case "Users_ClassR": ClassR = Forms.Data(controlId).ToString(); break;
-                    case "Users_ClassS": ClassS = Forms.Data(controlId).ToString(); break;
-                    case "Users_ClassT": ClassT = Forms.Data(controlId).ToString(); break;
-                    case "Users_ClassU": ClassU = Forms.Data(controlId).ToString(); break;
-                    case "Users_ClassV": ClassV = Forms.Data(controlId).ToString(); break;
-                    case "Users_ClassW": ClassW = Forms.Data(controlId).ToString(); break;
-                    case "Users_ClassX": ClassX = Forms.Data(controlId).ToString(); break;
-                    case "Users_ClassY": ClassY = Forms.Data(controlId).ToString(); break;
-                    case "Users_ClassZ": ClassZ = Forms.Data(controlId).ToString(); break;
-                    case "Users_NumA": NumA = ss.GetColumn(context: context, columnName: "NumA").Round(Forms.Decimal(context: context, key: controlId)); break;
-                    case "Users_NumB": NumB = ss.GetColumn(context: context, columnName: "NumB").Round(Forms.Decimal(context: context, key: controlId)); break;
-                    case "Users_NumC": NumC = ss.GetColumn(context: context, columnName: "NumC").Round(Forms.Decimal(context: context, key: controlId)); break;
-                    case "Users_NumD": NumD = ss.GetColumn(context: context, columnName: "NumD").Round(Forms.Decimal(context: context, key: controlId)); break;
-                    case "Users_NumE": NumE = ss.GetColumn(context: context, columnName: "NumE").Round(Forms.Decimal(context: context, key: controlId)); break;
-                    case "Users_NumF": NumF = ss.GetColumn(context: context, columnName: "NumF").Round(Forms.Decimal(context: context, key: controlId)); break;
-                    case "Users_NumG": NumG = ss.GetColumn(context: context, columnName: "NumG").Round(Forms.Decimal(context: context, key: controlId)); break;
-                    case "Users_NumH": NumH = ss.GetColumn(context: context, columnName: "NumH").Round(Forms.Decimal(context: context, key: controlId)); break;
-                    case "Users_NumI": NumI = ss.GetColumn(context: context, columnName: "NumI").Round(Forms.Decimal(context: context, key: controlId)); break;
-                    case "Users_NumJ": NumJ = ss.GetColumn(context: context, columnName: "NumJ").Round(Forms.Decimal(context: context, key: controlId)); break;
-                    case "Users_NumK": NumK = ss.GetColumn(context: context, columnName: "NumK").Round(Forms.Decimal(context: context, key: controlId)); break;
-                    case "Users_NumL": NumL = ss.GetColumn(context: context, columnName: "NumL").Round(Forms.Decimal(context: context, key: controlId)); break;
-                    case "Users_NumM": NumM = ss.GetColumn(context: context, columnName: "NumM").Round(Forms.Decimal(context: context, key: controlId)); break;
-                    case "Users_NumN": NumN = ss.GetColumn(context: context, columnName: "NumN").Round(Forms.Decimal(context: context, key: controlId)); break;
-                    case "Users_NumO": NumO = ss.GetColumn(context: context, columnName: "NumO").Round(Forms.Decimal(context: context, key: controlId)); break;
-                    case "Users_NumP": NumP = ss.GetColumn(context: context, columnName: "NumP").Round(Forms.Decimal(context: context, key: controlId)); break;
-                    case "Users_NumQ": NumQ = ss.GetColumn(context: context, columnName: "NumQ").Round(Forms.Decimal(context: context, key: controlId)); break;
-                    case "Users_NumR": NumR = ss.GetColumn(context: context, columnName: "NumR").Round(Forms.Decimal(context: context, key: controlId)); break;
-                    case "Users_NumS": NumS = ss.GetColumn(context: context, columnName: "NumS").Round(Forms.Decimal(context: context, key: controlId)); break;
-                    case "Users_NumT": NumT = ss.GetColumn(context: context, columnName: "NumT").Round(Forms.Decimal(context: context, key: controlId)); break;
-                    case "Users_NumU": NumU = ss.GetColumn(context: context, columnName: "NumU").Round(Forms.Decimal(context: context, key: controlId)); break;
-                    case "Users_NumV": NumV = ss.GetColumn(context: context, columnName: "NumV").Round(Forms.Decimal(context: context, key: controlId)); break;
-                    case "Users_NumW": NumW = ss.GetColumn(context: context, columnName: "NumW").Round(Forms.Decimal(context: context, key: controlId)); break;
-                    case "Users_NumX": NumX = ss.GetColumn(context: context, columnName: "NumX").Round(Forms.Decimal(context: context, key: controlId)); break;
-                    case "Users_NumY": NumY = ss.GetColumn(context: context, columnName: "NumY").Round(Forms.Decimal(context: context, key: controlId)); break;
-                    case "Users_NumZ": NumZ = ss.GetColumn(context: context, columnName: "NumZ").Round(Forms.Decimal(context: context, key: controlId)); break;
-                    case "Users_DateA": DateA = Forms.Data(controlId).ToDateTime().ToUniversal(context: context); break;
-                    case "Users_DateB": DateB = Forms.Data(controlId).ToDateTime().ToUniversal(context: context); break;
-                    case "Users_DateC": DateC = Forms.Data(controlId).ToDateTime().ToUniversal(context: context); break;
-                    case "Users_DateD": DateD = Forms.Data(controlId).ToDateTime().ToUniversal(context: context); break;
-                    case "Users_DateE": DateE = Forms.Data(controlId).ToDateTime().ToUniversal(context: context); break;
-                    case "Users_DateF": DateF = Forms.Data(controlId).ToDateTime().ToUniversal(context: context); break;
-                    case "Users_DateG": DateG = Forms.Data(controlId).ToDateTime().ToUniversal(context: context); break;
-                    case "Users_DateH": DateH = Forms.Data(controlId).ToDateTime().ToUniversal(context: context); break;
-                    case "Users_DateI": DateI = Forms.Data(controlId).ToDateTime().ToUniversal(context: context); break;
-                    case "Users_DateJ": DateJ = Forms.Data(controlId).ToDateTime().ToUniversal(context: context); break;
-                    case "Users_DateK": DateK = Forms.Data(controlId).ToDateTime().ToUniversal(context: context); break;
-                    case "Users_DateL": DateL = Forms.Data(controlId).ToDateTime().ToUniversal(context: context); break;
-                    case "Users_DateM": DateM = Forms.Data(controlId).ToDateTime().ToUniversal(context: context); break;
-                    case "Users_DateN": DateN = Forms.Data(controlId).ToDateTime().ToUniversal(context: context); break;
-                    case "Users_DateO": DateO = Forms.Data(controlId).ToDateTime().ToUniversal(context: context); break;
-                    case "Users_DateP": DateP = Forms.Data(controlId).ToDateTime().ToUniversal(context: context); break;
-                    case "Users_DateQ": DateQ = Forms.Data(controlId).ToDateTime().ToUniversal(context: context); break;
-                    case "Users_DateR": DateR = Forms.Data(controlId).ToDateTime().ToUniversal(context: context); break;
-                    case "Users_DateS": DateS = Forms.Data(controlId).ToDateTime().ToUniversal(context: context); break;
-                    case "Users_DateT": DateT = Forms.Data(controlId).ToDateTime().ToUniversal(context: context); break;
-                    case "Users_DateU": DateU = Forms.Data(controlId).ToDateTime().ToUniversal(context: context); break;
-                    case "Users_DateV": DateV = Forms.Data(controlId).ToDateTime().ToUniversal(context: context); break;
-                    case "Users_DateW": DateW = Forms.Data(controlId).ToDateTime().ToUniversal(context: context); break;
-                    case "Users_DateX": DateX = Forms.Data(controlId).ToDateTime().ToUniversal(context: context); break;
-                    case "Users_DateY": DateY = Forms.Data(controlId).ToDateTime().ToUniversal(context: context); break;
-                    case "Users_DateZ": DateZ = Forms.Data(controlId).ToDateTime().ToUniversal(context: context); break;
-                    case "Users_DescriptionA": DescriptionA = Forms.Data(controlId).ToString(); break;
-                    case "Users_DescriptionB": DescriptionB = Forms.Data(controlId).ToString(); break;
-                    case "Users_DescriptionC": DescriptionC = Forms.Data(controlId).ToString(); break;
-                    case "Users_DescriptionD": DescriptionD = Forms.Data(controlId).ToString(); break;
-                    case "Users_DescriptionE": DescriptionE = Forms.Data(controlId).ToString(); break;
-                    case "Users_DescriptionF": DescriptionF = Forms.Data(controlId).ToString(); break;
-                    case "Users_DescriptionG": DescriptionG = Forms.Data(controlId).ToString(); break;
-                    case "Users_DescriptionH": DescriptionH = Forms.Data(controlId).ToString(); break;
-                    case "Users_DescriptionI": DescriptionI = Forms.Data(controlId).ToString(); break;
-                    case "Users_DescriptionJ": DescriptionJ = Forms.Data(controlId).ToString(); break;
-                    case "Users_DescriptionK": DescriptionK = Forms.Data(controlId).ToString(); break;
-                    case "Users_DescriptionL": DescriptionL = Forms.Data(controlId).ToString(); break;
-                    case "Users_DescriptionM": DescriptionM = Forms.Data(controlId).ToString(); break;
-                    case "Users_DescriptionN": DescriptionN = Forms.Data(controlId).ToString(); break;
-                    case "Users_DescriptionO": DescriptionO = Forms.Data(controlId).ToString(); break;
-                    case "Users_DescriptionP": DescriptionP = Forms.Data(controlId).ToString(); break;
-                    case "Users_DescriptionQ": DescriptionQ = Forms.Data(controlId).ToString(); break;
-                    case "Users_DescriptionR": DescriptionR = Forms.Data(controlId).ToString(); break;
-                    case "Users_DescriptionS": DescriptionS = Forms.Data(controlId).ToString(); break;
-                    case "Users_DescriptionT": DescriptionT = Forms.Data(controlId).ToString(); break;
-                    case "Users_DescriptionU": DescriptionU = Forms.Data(controlId).ToString(); break;
-                    case "Users_DescriptionV": DescriptionV = Forms.Data(controlId).ToString(); break;
-                    case "Users_DescriptionW": DescriptionW = Forms.Data(controlId).ToString(); break;
-                    case "Users_DescriptionX": DescriptionX = Forms.Data(controlId).ToString(); break;
-                    case "Users_DescriptionY": DescriptionY = Forms.Data(controlId).ToString(); break;
-                    case "Users_DescriptionZ": DescriptionZ = Forms.Data(controlId).ToString(); break;
-                    case "Users_CheckA": CheckA = Forms.Data(controlId).ToBool(); break;
-                    case "Users_CheckB": CheckB = Forms.Data(controlId).ToBool(); break;
-                    case "Users_CheckC": CheckC = Forms.Data(controlId).ToBool(); break;
-                    case "Users_CheckD": CheckD = Forms.Data(controlId).ToBool(); break;
-                    case "Users_CheckE": CheckE = Forms.Data(controlId).ToBool(); break;
-                    case "Users_CheckF": CheckF = Forms.Data(controlId).ToBool(); break;
-                    case "Users_CheckG": CheckG = Forms.Data(controlId).ToBool(); break;
-                    case "Users_CheckH": CheckH = Forms.Data(controlId).ToBool(); break;
-                    case "Users_CheckI": CheckI = Forms.Data(controlId).ToBool(); break;
-                    case "Users_CheckJ": CheckJ = Forms.Data(controlId).ToBool(); break;
-                    case "Users_CheckK": CheckK = Forms.Data(controlId).ToBool(); break;
-                    case "Users_CheckL": CheckL = Forms.Data(controlId).ToBool(); break;
-                    case "Users_CheckM": CheckM = Forms.Data(controlId).ToBool(); break;
-                    case "Users_CheckN": CheckN = Forms.Data(controlId).ToBool(); break;
-                    case "Users_CheckO": CheckO = Forms.Data(controlId).ToBool(); break;
-                    case "Users_CheckP": CheckP = Forms.Data(controlId).ToBool(); break;
-                    case "Users_CheckQ": CheckQ = Forms.Data(controlId).ToBool(); break;
-                    case "Users_CheckR": CheckR = Forms.Data(controlId).ToBool(); break;
-                    case "Users_CheckS": CheckS = Forms.Data(controlId).ToBool(); break;
-                    case "Users_CheckT": CheckT = Forms.Data(controlId).ToBool(); break;
-                    case "Users_CheckU": CheckU = Forms.Data(controlId).ToBool(); break;
-                    case "Users_CheckV": CheckV = Forms.Data(controlId).ToBool(); break;
-                    case "Users_CheckW": CheckW = Forms.Data(controlId).ToBool(); break;
-                    case "Users_CheckX": CheckX = Forms.Data(controlId).ToBool(); break;
-                    case "Users_CheckY": CheckY = Forms.Data(controlId).ToBool(); break;
-                    case "Users_CheckZ": CheckZ = Forms.Data(controlId).ToBool(); break;
-                    case "Users_LdapSearchRoot": LdapSearchRoot = Forms.Data(controlId).ToString(); break;
-                    case "Users_SynchronizedTime": SynchronizedTime = Forms.Data(controlId).ToDateTime().ToUniversal(context: context); break;
-                    case "Users_Timestamp": Timestamp = Forms.Data(controlId).ToString(); break;
-                    case "Comments": Comments.Prepend(context: context, ss: ss, body: Forms.Data("Comments")); break;
-                    case "VerUp": VerUp = Forms.Data(controlId).ToBool(); break;
+                    case "Users_LoginId": LoginId = context.Forms.Data(controlId).ToString(); break;
+                    case "Users_GlobalId": GlobalId = context.Forms.Data(controlId).ToString(); break;
+                    case "Users_Name": Name = context.Forms.Data(controlId).ToString(); break;
+                    case "Users_UserCode": UserCode = context.Forms.Data(controlId).ToString(); break;
+                    case "Users_Password": Password = context.Forms.Data(controlId).ToString().Sha512Cng(); break;
+                    case "Users_PasswordValidate": PasswordValidate = context.Forms.Data(controlId).ToString().Sha512Cng(); break;
+                    case "Users_PasswordDummy": PasswordDummy = context.Forms.Data(controlId).ToString().Sha512Cng(); break;
+                    case "Users_RememberMe": RememberMe = context.Forms.Data(controlId).ToBool(); break;
+                    case "Users_LastName": LastName = context.Forms.Data(controlId).ToString(); break;
+                    case "Users_FirstName": FirstName = context.Forms.Data(controlId).ToString(); break;
+                    case "Users_Birthday": Birthday = new Time(context, context.Forms.Data(controlId).ToDateTime(), byForm: true); break;
+                    case "Users_Gender": Gender = context.Forms.Data(controlId).ToString(); break;
+                    case "Users_Language": Language = context.Forms.Data(controlId).ToString(); break;
+                    case "Users_TimeZone": TimeZone = context.Forms.Data(controlId).ToString(); break;
+                    case "Users_DeptCode": DeptCode = context.Forms.Data(controlId).ToString(); break;
+                    case "Users_DeptId": DeptId = context.Forms.Data(controlId).ToInt(); break;
+                    case "Users_FirstAndLastNameOrder": FirstAndLastNameOrder = (Names.FirstAndLastNameOrders)context.Forms.Data(controlId).ToInt(); break;
+                    case "Users_Body": Body = context.Forms.Data(controlId).ToString(); break;
+                    case "Users_LastLoginTime": LastLoginTime = new Time(context, context.Forms.Data(controlId).ToDateTime(), byForm: true); break;
+                    case "Users_PasswordExpirationTime": PasswordExpirationTime = new Time(context, context.Forms.Data(controlId).ToDateTime(), byForm: true); break;
+                    case "Users_PasswordChangeTime": PasswordChangeTime = new Time(context, context.Forms.Data(controlId).ToDateTime(), byForm: true); break;
+                    case "Users_NumberOfLogins": NumberOfLogins = context.Forms.Data(controlId).ToInt(); break;
+                    case "Users_NumberOfDenial": NumberOfDenial = context.Forms.Data(controlId).ToInt(); break;
+                    case "Users_TenantManager": TenantManager = context.Forms.Data(controlId).ToBool(); break;
+                    case "Users_Disabled": Disabled = context.Forms.Data(controlId).ToBool(); break;
+                    case "Users_ApiKey": ApiKey = context.Forms.Data(controlId).ToString(); break;
+                    case "Users_OldPassword": OldPassword = context.Forms.Data(controlId).ToString().Sha512Cng(); break;
+                    case "Users_ChangedPassword": ChangedPassword = context.Forms.Data(controlId).ToString().Sha512Cng(); break;
+                    case "Users_ChangedPasswordValidator": ChangedPasswordValidator = context.Forms.Data(controlId).ToString().Sha512Cng(); break;
+                    case "Users_AfterResetPassword": AfterResetPassword = context.Forms.Data(controlId).ToString().Sha512Cng(); break;
+                    case "Users_AfterResetPasswordValidator": AfterResetPasswordValidator = context.Forms.Data(controlId).ToString().Sha512Cng(); break;
+                    case "Users_DemoMailAddress": DemoMailAddress = context.Forms.Data(controlId).ToString(); break;
+                    case "Users_SessionGuid": SessionGuid = context.Forms.Data(controlId).ToString(); break;
+                    case "Users_ClassA": ClassA = context.Forms.Data(controlId).ToString(); break;
+                    case "Users_ClassB": ClassB = context.Forms.Data(controlId).ToString(); break;
+                    case "Users_ClassC": ClassC = context.Forms.Data(controlId).ToString(); break;
+                    case "Users_ClassD": ClassD = context.Forms.Data(controlId).ToString(); break;
+                    case "Users_ClassE": ClassE = context.Forms.Data(controlId).ToString(); break;
+                    case "Users_ClassF": ClassF = context.Forms.Data(controlId).ToString(); break;
+                    case "Users_ClassG": ClassG = context.Forms.Data(controlId).ToString(); break;
+                    case "Users_ClassH": ClassH = context.Forms.Data(controlId).ToString(); break;
+                    case "Users_ClassI": ClassI = context.Forms.Data(controlId).ToString(); break;
+                    case "Users_ClassJ": ClassJ = context.Forms.Data(controlId).ToString(); break;
+                    case "Users_ClassK": ClassK = context.Forms.Data(controlId).ToString(); break;
+                    case "Users_ClassL": ClassL = context.Forms.Data(controlId).ToString(); break;
+                    case "Users_ClassM": ClassM = context.Forms.Data(controlId).ToString(); break;
+                    case "Users_ClassN": ClassN = context.Forms.Data(controlId).ToString(); break;
+                    case "Users_ClassO": ClassO = context.Forms.Data(controlId).ToString(); break;
+                    case "Users_ClassP": ClassP = context.Forms.Data(controlId).ToString(); break;
+                    case "Users_ClassQ": ClassQ = context.Forms.Data(controlId).ToString(); break;
+                    case "Users_ClassR": ClassR = context.Forms.Data(controlId).ToString(); break;
+                    case "Users_ClassS": ClassS = context.Forms.Data(controlId).ToString(); break;
+                    case "Users_ClassT": ClassT = context.Forms.Data(controlId).ToString(); break;
+                    case "Users_ClassU": ClassU = context.Forms.Data(controlId).ToString(); break;
+                    case "Users_ClassV": ClassV = context.Forms.Data(controlId).ToString(); break;
+                    case "Users_ClassW": ClassW = context.Forms.Data(controlId).ToString(); break;
+                    case "Users_ClassX": ClassX = context.Forms.Data(controlId).ToString(); break;
+                    case "Users_ClassY": ClassY = context.Forms.Data(controlId).ToString(); break;
+                    case "Users_ClassZ": ClassZ = context.Forms.Data(controlId).ToString(); break;
+                    case "Users_NumA": NumA = ss.GetColumn(context: context, columnName: "NumA").Round(context.Forms.Decimal(context: context, key: controlId)); break;
+                    case "Users_NumB": NumB = ss.GetColumn(context: context, columnName: "NumB").Round(context.Forms.Decimal(context: context, key: controlId)); break;
+                    case "Users_NumC": NumC = ss.GetColumn(context: context, columnName: "NumC").Round(context.Forms.Decimal(context: context, key: controlId)); break;
+                    case "Users_NumD": NumD = ss.GetColumn(context: context, columnName: "NumD").Round(context.Forms.Decimal(context: context, key: controlId)); break;
+                    case "Users_NumE": NumE = ss.GetColumn(context: context, columnName: "NumE").Round(context.Forms.Decimal(context: context, key: controlId)); break;
+                    case "Users_NumF": NumF = ss.GetColumn(context: context, columnName: "NumF").Round(context.Forms.Decimal(context: context, key: controlId)); break;
+                    case "Users_NumG": NumG = ss.GetColumn(context: context, columnName: "NumG").Round(context.Forms.Decimal(context: context, key: controlId)); break;
+                    case "Users_NumH": NumH = ss.GetColumn(context: context, columnName: "NumH").Round(context.Forms.Decimal(context: context, key: controlId)); break;
+                    case "Users_NumI": NumI = ss.GetColumn(context: context, columnName: "NumI").Round(context.Forms.Decimal(context: context, key: controlId)); break;
+                    case "Users_NumJ": NumJ = ss.GetColumn(context: context, columnName: "NumJ").Round(context.Forms.Decimal(context: context, key: controlId)); break;
+                    case "Users_NumK": NumK = ss.GetColumn(context: context, columnName: "NumK").Round(context.Forms.Decimal(context: context, key: controlId)); break;
+                    case "Users_NumL": NumL = ss.GetColumn(context: context, columnName: "NumL").Round(context.Forms.Decimal(context: context, key: controlId)); break;
+                    case "Users_NumM": NumM = ss.GetColumn(context: context, columnName: "NumM").Round(context.Forms.Decimal(context: context, key: controlId)); break;
+                    case "Users_NumN": NumN = ss.GetColumn(context: context, columnName: "NumN").Round(context.Forms.Decimal(context: context, key: controlId)); break;
+                    case "Users_NumO": NumO = ss.GetColumn(context: context, columnName: "NumO").Round(context.Forms.Decimal(context: context, key: controlId)); break;
+                    case "Users_NumP": NumP = ss.GetColumn(context: context, columnName: "NumP").Round(context.Forms.Decimal(context: context, key: controlId)); break;
+                    case "Users_NumQ": NumQ = ss.GetColumn(context: context, columnName: "NumQ").Round(context.Forms.Decimal(context: context, key: controlId)); break;
+                    case "Users_NumR": NumR = ss.GetColumn(context: context, columnName: "NumR").Round(context.Forms.Decimal(context: context, key: controlId)); break;
+                    case "Users_NumS": NumS = ss.GetColumn(context: context, columnName: "NumS").Round(context.Forms.Decimal(context: context, key: controlId)); break;
+                    case "Users_NumT": NumT = ss.GetColumn(context: context, columnName: "NumT").Round(context.Forms.Decimal(context: context, key: controlId)); break;
+                    case "Users_NumU": NumU = ss.GetColumn(context: context, columnName: "NumU").Round(context.Forms.Decimal(context: context, key: controlId)); break;
+                    case "Users_NumV": NumV = ss.GetColumn(context: context, columnName: "NumV").Round(context.Forms.Decimal(context: context, key: controlId)); break;
+                    case "Users_NumW": NumW = ss.GetColumn(context: context, columnName: "NumW").Round(context.Forms.Decimal(context: context, key: controlId)); break;
+                    case "Users_NumX": NumX = ss.GetColumn(context: context, columnName: "NumX").Round(context.Forms.Decimal(context: context, key: controlId)); break;
+                    case "Users_NumY": NumY = ss.GetColumn(context: context, columnName: "NumY").Round(context.Forms.Decimal(context: context, key: controlId)); break;
+                    case "Users_NumZ": NumZ = ss.GetColumn(context: context, columnName: "NumZ").Round(context.Forms.Decimal(context: context, key: controlId)); break;
+                    case "Users_DateA": DateA = context.Forms.Data(controlId).ToDateTime().ToUniversal(context: context); break;
+                    case "Users_DateB": DateB = context.Forms.Data(controlId).ToDateTime().ToUniversal(context: context); break;
+                    case "Users_DateC": DateC = context.Forms.Data(controlId).ToDateTime().ToUniversal(context: context); break;
+                    case "Users_DateD": DateD = context.Forms.Data(controlId).ToDateTime().ToUniversal(context: context); break;
+                    case "Users_DateE": DateE = context.Forms.Data(controlId).ToDateTime().ToUniversal(context: context); break;
+                    case "Users_DateF": DateF = context.Forms.Data(controlId).ToDateTime().ToUniversal(context: context); break;
+                    case "Users_DateG": DateG = context.Forms.Data(controlId).ToDateTime().ToUniversal(context: context); break;
+                    case "Users_DateH": DateH = context.Forms.Data(controlId).ToDateTime().ToUniversal(context: context); break;
+                    case "Users_DateI": DateI = context.Forms.Data(controlId).ToDateTime().ToUniversal(context: context); break;
+                    case "Users_DateJ": DateJ = context.Forms.Data(controlId).ToDateTime().ToUniversal(context: context); break;
+                    case "Users_DateK": DateK = context.Forms.Data(controlId).ToDateTime().ToUniversal(context: context); break;
+                    case "Users_DateL": DateL = context.Forms.Data(controlId).ToDateTime().ToUniversal(context: context); break;
+                    case "Users_DateM": DateM = context.Forms.Data(controlId).ToDateTime().ToUniversal(context: context); break;
+                    case "Users_DateN": DateN = context.Forms.Data(controlId).ToDateTime().ToUniversal(context: context); break;
+                    case "Users_DateO": DateO = context.Forms.Data(controlId).ToDateTime().ToUniversal(context: context); break;
+                    case "Users_DateP": DateP = context.Forms.Data(controlId).ToDateTime().ToUniversal(context: context); break;
+                    case "Users_DateQ": DateQ = context.Forms.Data(controlId).ToDateTime().ToUniversal(context: context); break;
+                    case "Users_DateR": DateR = context.Forms.Data(controlId).ToDateTime().ToUniversal(context: context); break;
+                    case "Users_DateS": DateS = context.Forms.Data(controlId).ToDateTime().ToUniversal(context: context); break;
+                    case "Users_DateT": DateT = context.Forms.Data(controlId).ToDateTime().ToUniversal(context: context); break;
+                    case "Users_DateU": DateU = context.Forms.Data(controlId).ToDateTime().ToUniversal(context: context); break;
+                    case "Users_DateV": DateV = context.Forms.Data(controlId).ToDateTime().ToUniversal(context: context); break;
+                    case "Users_DateW": DateW = context.Forms.Data(controlId).ToDateTime().ToUniversal(context: context); break;
+                    case "Users_DateX": DateX = context.Forms.Data(controlId).ToDateTime().ToUniversal(context: context); break;
+                    case "Users_DateY": DateY = context.Forms.Data(controlId).ToDateTime().ToUniversal(context: context); break;
+                    case "Users_DateZ": DateZ = context.Forms.Data(controlId).ToDateTime().ToUniversal(context: context); break;
+                    case "Users_DescriptionA": DescriptionA = context.Forms.Data(controlId).ToString(); break;
+                    case "Users_DescriptionB": DescriptionB = context.Forms.Data(controlId).ToString(); break;
+                    case "Users_DescriptionC": DescriptionC = context.Forms.Data(controlId).ToString(); break;
+                    case "Users_DescriptionD": DescriptionD = context.Forms.Data(controlId).ToString(); break;
+                    case "Users_DescriptionE": DescriptionE = context.Forms.Data(controlId).ToString(); break;
+                    case "Users_DescriptionF": DescriptionF = context.Forms.Data(controlId).ToString(); break;
+                    case "Users_DescriptionG": DescriptionG = context.Forms.Data(controlId).ToString(); break;
+                    case "Users_DescriptionH": DescriptionH = context.Forms.Data(controlId).ToString(); break;
+                    case "Users_DescriptionI": DescriptionI = context.Forms.Data(controlId).ToString(); break;
+                    case "Users_DescriptionJ": DescriptionJ = context.Forms.Data(controlId).ToString(); break;
+                    case "Users_DescriptionK": DescriptionK = context.Forms.Data(controlId).ToString(); break;
+                    case "Users_DescriptionL": DescriptionL = context.Forms.Data(controlId).ToString(); break;
+                    case "Users_DescriptionM": DescriptionM = context.Forms.Data(controlId).ToString(); break;
+                    case "Users_DescriptionN": DescriptionN = context.Forms.Data(controlId).ToString(); break;
+                    case "Users_DescriptionO": DescriptionO = context.Forms.Data(controlId).ToString(); break;
+                    case "Users_DescriptionP": DescriptionP = context.Forms.Data(controlId).ToString(); break;
+                    case "Users_DescriptionQ": DescriptionQ = context.Forms.Data(controlId).ToString(); break;
+                    case "Users_DescriptionR": DescriptionR = context.Forms.Data(controlId).ToString(); break;
+                    case "Users_DescriptionS": DescriptionS = context.Forms.Data(controlId).ToString(); break;
+                    case "Users_DescriptionT": DescriptionT = context.Forms.Data(controlId).ToString(); break;
+                    case "Users_DescriptionU": DescriptionU = context.Forms.Data(controlId).ToString(); break;
+                    case "Users_DescriptionV": DescriptionV = context.Forms.Data(controlId).ToString(); break;
+                    case "Users_DescriptionW": DescriptionW = context.Forms.Data(controlId).ToString(); break;
+                    case "Users_DescriptionX": DescriptionX = context.Forms.Data(controlId).ToString(); break;
+                    case "Users_DescriptionY": DescriptionY = context.Forms.Data(controlId).ToString(); break;
+                    case "Users_DescriptionZ": DescriptionZ = context.Forms.Data(controlId).ToString(); break;
+                    case "Users_CheckA": CheckA = context.Forms.Data(controlId).ToBool(); break;
+                    case "Users_CheckB": CheckB = context.Forms.Data(controlId).ToBool(); break;
+                    case "Users_CheckC": CheckC = context.Forms.Data(controlId).ToBool(); break;
+                    case "Users_CheckD": CheckD = context.Forms.Data(controlId).ToBool(); break;
+                    case "Users_CheckE": CheckE = context.Forms.Data(controlId).ToBool(); break;
+                    case "Users_CheckF": CheckF = context.Forms.Data(controlId).ToBool(); break;
+                    case "Users_CheckG": CheckG = context.Forms.Data(controlId).ToBool(); break;
+                    case "Users_CheckH": CheckH = context.Forms.Data(controlId).ToBool(); break;
+                    case "Users_CheckI": CheckI = context.Forms.Data(controlId).ToBool(); break;
+                    case "Users_CheckJ": CheckJ = context.Forms.Data(controlId).ToBool(); break;
+                    case "Users_CheckK": CheckK = context.Forms.Data(controlId).ToBool(); break;
+                    case "Users_CheckL": CheckL = context.Forms.Data(controlId).ToBool(); break;
+                    case "Users_CheckM": CheckM = context.Forms.Data(controlId).ToBool(); break;
+                    case "Users_CheckN": CheckN = context.Forms.Data(controlId).ToBool(); break;
+                    case "Users_CheckO": CheckO = context.Forms.Data(controlId).ToBool(); break;
+                    case "Users_CheckP": CheckP = context.Forms.Data(controlId).ToBool(); break;
+                    case "Users_CheckQ": CheckQ = context.Forms.Data(controlId).ToBool(); break;
+                    case "Users_CheckR": CheckR = context.Forms.Data(controlId).ToBool(); break;
+                    case "Users_CheckS": CheckS = context.Forms.Data(controlId).ToBool(); break;
+                    case "Users_CheckT": CheckT = context.Forms.Data(controlId).ToBool(); break;
+                    case "Users_CheckU": CheckU = context.Forms.Data(controlId).ToBool(); break;
+                    case "Users_CheckV": CheckV = context.Forms.Data(controlId).ToBool(); break;
+                    case "Users_CheckW": CheckW = context.Forms.Data(controlId).ToBool(); break;
+                    case "Users_CheckX": CheckX = context.Forms.Data(controlId).ToBool(); break;
+                    case "Users_CheckY": CheckY = context.Forms.Data(controlId).ToBool(); break;
+                    case "Users_CheckZ": CheckZ = context.Forms.Data(controlId).ToBool(); break;
+                    case "Users_LdapSearchRoot": LdapSearchRoot = context.Forms.Data(controlId).ToString(); break;
+                    case "Users_SynchronizedTime": SynchronizedTime = context.Forms.Data(controlId).ToDateTime().ToUniversal(context: context); break;
+                    case "Users_Timestamp": Timestamp = context.Forms.Data(controlId).ToString(); break;
+                    case "Comments": Comments.Prepend(context: context, ss: ss, body: context.Forms.Data("Comments")); break;
+                    case "VerUp": VerUp = context.Forms.Data(controlId).ToBool(); break;
                     default:
                         if (controlId.RegexExists("Comment[0-9]+"))
                         {
@@ -2517,23 +2517,16 @@ namespace Implem.Pleasanter.Models
                                 context: context,
                                 ss: ss,
                                 commentId: controlId.Substring("Comment".Length).ToInt(),
-                                body: Forms.Data(controlId));
+                                body: context.Forms.Data(controlId));
                         }
                         break;
                 }
             });
             if (context.Action == "deletecomment")
             {
-                DeleteCommentId = Forms.ControlId().Split(',')._2nd().ToInt();
+                DeleteCommentId = context.Forms.ControlId().Split(',')._2nd().ToInt();
                 Comments.RemoveAll(o => o.CommentId == DeleteCommentId);
             }
-            Forms.FileKeys().ForEach(controlId =>
-            {
-                switch (controlId)
-                {
-                    default: break;
-                }
-            });
         }
 
         public void SetByModel(UserModel userModel)
@@ -2719,7 +2712,7 @@ namespace Implem.Pleasanter.Models
 
         public void SetByApi(Context context, SiteSettings ss)
         {
-            var data = Forms.String().Deserialize<UserApiModel>();
+            var data = context.Forms.String().Deserialize<UserApiModel>();
             if (data == null)
             {
                 return;
@@ -2885,8 +2878,8 @@ namespace Implem.Pleasanter.Models
 
         private void SetBySession(Context context)
         {
-            if (!Forms.HasData("Users_UserSettings")) UserSettings = Session_UserSettings(context: context);
-            if (!Forms.HasData("Users_MailAddresses")) MailAddresses = Session_MailAddresses(context: context);
+            if (!context.Forms.Exists("Users_UserSettings")) UserSettings = Session_UserSettings(context: context);
+            if (!context.Forms.Exists("Users_MailAddresses")) MailAddresses = Session_MailAddresses(context: context);
         }
 
         private void Set(Context context, SiteSettings ss, DataTable dataTable)
@@ -3887,7 +3880,7 @@ namespace Implem.Pleasanter.Models
                     ret = Ldap.Authenticate(
                         context: context,
                         loginId: LoginId,
-                        password: Forms.Data("Users_Password"));
+                        password: context.Forms.Data("Users_Password"));
                     if (ret)
                     {
                         Get(
@@ -3900,7 +3893,7 @@ namespace Implem.Pleasanter.Models
                     ret = Ldap.Authenticate(
                         context: context,
                         loginId: LoginId,
-                        password: Forms.Data("Users_Password"));
+                        password: context.Forms.Data("Users_Password"));
                     if (ret)
                     {
                         Get(
@@ -3914,7 +3907,7 @@ namespace Implem.Pleasanter.Models
                             context: context,
                             loginId: LoginId,
                             password: Password,
-                            tenantId: Forms.Int("SelectedTenantId"));
+                            tenantId: context.Forms.Int("SelectedTenantId"));
                     }
                     break;
                 case "Extension":
@@ -3938,7 +3931,7 @@ namespace Implem.Pleasanter.Models
                         context: context,
                         loginId: LoginId,
                         password: Password,
-                        tenantId: Forms.Int("SelectedTenantId"));
+                        tenantId: context.Forms.Int("SelectedTenantId"));
                     break;
             }
             return ret;
@@ -4034,7 +4027,9 @@ namespace Implem.Pleasanter.Models
         public string Allow(Context context, string returnUrl, bool atLogin = false)
         {
             IncrementsNumberOfLogins(context, "NumberOfLogins");
-            SetFormsAuthentication(returnUrl);
+            SetFormsAuthentication(
+                context: context,
+                returnUrl: returnUrl);
             return new UsersResponseCollection(this)
                 .CloseDialog(_using: atLogin)
                 .Message(Messages.LoginIn(context: context))
@@ -4098,11 +4093,11 @@ namespace Implem.Pleasanter.Models
         /// <summary>
         /// Fixed:
         /// </summary>
-        public void SetFormsAuthentication(string returnUrl)
+        public void SetFormsAuthentication(Context context, string returnUrl)
         {
             System.Web.Security.FormsAuthentication.SetAuthCookie(
                 userName: LoginId,
-                createPersistentCookie: Forms.Bool("Users_RememberMe"));
+                createPersistentCookie: context.Forms.Bool("Users_RememberMe"));
             Libraries.Initializers.StatusesInitializer.Initialize(new Context(
                 tenantId: TenantId,
                 deptId: DeptId,

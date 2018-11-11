@@ -42,7 +42,7 @@ namespace Implem.Pleasanter.Libraries.DataTypes
             return strSize;
         }
 
-        public void WriteToLocal()
+        public void WriteToLocal(Context context)
         {
             if (Added == true)
             {

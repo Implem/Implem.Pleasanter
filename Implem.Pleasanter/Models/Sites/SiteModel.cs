@@ -687,17 +687,17 @@ namespace Implem.Pleasanter.Models
         public void SetByForm(Context context)
         {
             var ss = new SiteSettings();
-            Forms.Keys().ForEach(controlId =>
+            context.Forms.Keys.ForEach(controlId =>
             {
                 switch (controlId)
                 {
-                    case "Sites_Title": Title = new Title(SiteId, Forms.Data(controlId)); break;
-                    case "Sites_Body": Body = Forms.Data(controlId).ToString(); break;
-                    case "Sites_ReferenceType": ReferenceType = Forms.Data(controlId).ToString(); break;
-                    case "Sites_InheritPermission": InheritPermission = Forms.Data(controlId).ToLong(); break;
-                    case "Sites_Timestamp": Timestamp = Forms.Data(controlId).ToString(); break;
-                    case "Comments": Comments.Prepend(context: context, ss: ss, body: Forms.Data("Comments")); break;
-                    case "VerUp": VerUp = Forms.Data(controlId).ToBool(); break;
+                    case "Sites_Title": Title = new Title(SiteId, context.Forms.Data(controlId)); break;
+                    case "Sites_Body": Body = context.Forms.Data(controlId).ToString(); break;
+                    case "Sites_ReferenceType": ReferenceType = context.Forms.Data(controlId).ToString(); break;
+                    case "Sites_InheritPermission": InheritPermission = context.Forms.Data(controlId).ToLong(); break;
+                    case "Sites_Timestamp": Timestamp = context.Forms.Data(controlId).ToString(); break;
+                    case "Comments": Comments.Prepend(context: context, ss: ss, body: context.Forms.Data("Comments")); break;
+                    case "VerUp": VerUp = context.Forms.Data(controlId).ToBool(); break;
                     default:
                         if (controlId.RegexExists("Comment[0-9]+"))
                         {
@@ -705,7 +705,7 @@ namespace Implem.Pleasanter.Models
                                 context: context,
                                 ss: ss,
                                 commentId: controlId.Substring("Comment".Length).ToInt(),
-                                body: Forms.Data(controlId));
+                                body: context.Forms.Data(controlId));
                         }
                         break;
                 }
@@ -713,16 +713,9 @@ namespace Implem.Pleasanter.Models
             SetSiteSettings(context: context);
             if (context.Action == "deletecomment")
             {
-                DeleteCommentId = Forms.ControlId().Split(',')._2nd().ToInt();
+                DeleteCommentId = context.Forms.ControlId().Split(',')._2nd().ToInt();
                 Comments.RemoveAll(o => o.CommentId == DeleteCommentId);
             }
-            Forms.FileKeys().ForEach(controlId =>
-            {
-                switch (controlId)
-                {
-                    default: break;
-                }
-            });
         }
 
         public void SetByModel(SiteModel siteModel)
@@ -750,7 +743,7 @@ namespace Implem.Pleasanter.Models
 
         public void SetByApi(Context context, SiteSettings ss)
         {
-            var data = Forms.String().Deserialize<SiteApiModel>();
+            var data = context.Forms.String().Deserialize<SiteApiModel>();
             if (data == null)
             {
                 return;
@@ -785,10 +778,10 @@ namespace Implem.Pleasanter.Models
 
         private void SetBySession(Context context)
         {
-            if (!Forms.HasData("Sites_SiteSettings")) SiteSettings = Session_SiteSettings(context: context);
-            if (!Forms.HasData("Sites_MonitorChangesColumns")) MonitorChangesColumns = Session_MonitorChangesColumns(context: context);
-            if (!Forms.HasData("Sites_TitleColumns")) TitleColumns = Session_TitleColumns(context: context);
-            if (!Forms.HasData("Sites_Export")) Export = Session_Export(context: context);
+            if (!context.Forms.Exists("Sites_SiteSettings")) SiteSettings = Session_SiteSettings(context: context);
+            if (!context.Forms.Exists("Sites_MonitorChangesColumns")) MonitorChangesColumns = Session_MonitorChangesColumns(context: context);
+            if (!context.Forms.Exists("Sites_TitleColumns")) TitleColumns = Session_TitleColumns(context: context);
+            if (!context.Forms.Exists("Sites_Export")) Export = Session_Export(context: context);
         }
 
         private void Set(Context context, DataTable dataTable)
@@ -1050,7 +1043,7 @@ namespace Implem.Pleasanter.Models
         /// </summary>
         private void SetSiteSettings(Context context, ResponseCollection res)
         {
-            var controlId = Forms.ControlId();
+            var controlId = context.Forms.ControlId();
             SiteSettings.SetJoinedSsHash(context: context);
             switch (controlId)
             {
@@ -1202,7 +1195,9 @@ namespace Implem.Pleasanter.Models
                         res: res);
                     break;
                 case "DeleteViews":
-                    DeleteViews(res: res);
+                    DeleteViews(
+                        context: context,
+                        res: res);
                     break;
                 case "ViewGridJoin":
                     SetViewGridColumnsSelectable(
@@ -1423,10 +1418,11 @@ namespace Implem.Pleasanter.Models
                         res: res);
                     break;
                 default:
-                    Forms.All()
+                    context.Forms
                         .Where(o => o.Key != controlId)
                         .ForEach(data =>
                             SiteSettings.Set(
+                                context: context,
                                 propertyName: data.Key,
                                 value: data.Value));
                     break;
@@ -1453,7 +1449,7 @@ namespace Implem.Pleasanter.Models
         /// </summary>
         private void OpenGridColumnDialog(Context context, ResponseCollection res)
         {
-            var selectedColumns = Forms.List("GridColumns");
+            var selectedColumns = context.Forms.List("GridColumns");
             if (selectedColumns.Count() != 1)
             {
                 res.Message(Messages.SelectOne(context: context));
@@ -1473,7 +1469,7 @@ namespace Implem.Pleasanter.Models
                 }
                 else
                 {
-                    SiteSettings.GridColumns = Forms.List("GridColumnsAll");
+                    SiteSettings.GridColumns = context.Forms.List("GridColumnsAll");
                     res.Html(
                         "#GridColumnDialog",
                         SiteUtilities.GridColumnDialog(
@@ -1489,7 +1485,7 @@ namespace Implem.Pleasanter.Models
         /// </summary>
         private void SetGridColumn(Context context, ResponseCollection res)
         {
-            var columnName = Forms.Data("GridColumnName");
+            var columnName = context.Forms.Data("GridColumnName");
             var column = SiteSettings.GridColumn(columnName);
             if (column == null)
             {
@@ -1497,11 +1493,14 @@ namespace Implem.Pleasanter.Models
             }
             else
             {
-                Forms.All().ForEach(data => SiteSettings.SetColumnProperty(
+                context.Forms.ForEach(control => SiteSettings.SetColumnProperty(
                     context: context,
                     column: column,
-                    propertyName: data.Key,
-                    value: GridColumnValue(data.Key, data.Value)));
+                    propertyName: control.Key,
+                    value: GridColumnValue(
+                        context: context,
+                        name: control.Key,
+                        value: control.Value)));
                 res
                     .Html("#GridColumns", new HtmlBuilder().SelectableItems(
                         listItemCollection: SiteSettings.GridSelectableOptions(context: context),
@@ -1513,12 +1512,12 @@ namespace Implem.Pleasanter.Models
         /// <summary>
         /// Fixed:
         /// </summary>
-        private string GridColumnValue(string name, string value)
+        private string GridColumnValue(Context context, string name, string value)
         {
             switch (name)
             {
                 case "GridDesign":
-                    return Forms.Bool("UseGridDesign")
+                    return context.Forms.Bool("UseGridDesign")
                         ? value
                         : null;
                 default:
@@ -1531,9 +1530,9 @@ namespace Implem.Pleasanter.Models
         /// </summary>
         private void SetGridColumnsSelectable(Context context, ResponseCollection res)
         {
-            SiteSettings.GridColumns = Forms.List("GridColumnsAll");
+            SiteSettings.GridColumns = context.Forms.List("GridColumnsAll");
             var listItemCollection = SiteSettings.GridSelectableOptions(
-                context: context, enabled: false, join: Forms.Data("GridJoin"));
+                context: context, enabled: false, join: context.Forms.Data("GridJoin"));
             if (!listItemCollection.Any())
             {
                 res.Message(Messages.NotFound(context: context));
@@ -1550,7 +1549,7 @@ namespace Implem.Pleasanter.Models
         /// </summary>
         private void OpenFilterColumnDialog(Context context, ResponseCollection res)
         {
-            var selectedColumns = Forms.List("FilterColumns");
+            var selectedColumns = context.Forms.List("FilterColumns");
             if (selectedColumns.Count() != 1)
             {
                 res.Message(Messages.SelectOne(context: context));
@@ -1569,7 +1568,7 @@ namespace Implem.Pleasanter.Models
                     res.Message(Messages.CanNotPerformed(context: context));
                 }
                 {
-                    SiteSettings.FilterColumns = Forms.List("FilterColumnsAll");
+                    SiteSettings.FilterColumns = context.Forms.List("FilterColumnsAll");
                     res.Html(
                         "#FilterColumnDialog",
                         SiteUtilities.FilterColumnDialog(
@@ -1585,7 +1584,7 @@ namespace Implem.Pleasanter.Models
         /// </summary>
         private void SetFilterColumn(Context context, ResponseCollection res)
         {
-            var columnName = Forms.Data("FilterColumnName");
+            var columnName = context.Forms.Data("FilterColumnName");
             var column = SiteSettings.FilterColumn(columnName);
             if (column == null)
             {
@@ -1593,11 +1592,11 @@ namespace Implem.Pleasanter.Models
             }
             else
             {
-                Forms.All().ForEach(data => SiteSettings.SetColumnProperty(
+                context.Forms.ForEach(control => SiteSettings.SetColumnProperty(
                     context: context,
                     column: column,
-                    propertyName: data.Key,
-                    value: data.Value));
+                    propertyName: control.Key,
+                    value: control.Value));
                 res
                     .Html("#FilterColumns", new HtmlBuilder().SelectableItems(
                         listItemCollection: SiteSettings.FilterSelectableOptions(context: context),
@@ -1611,9 +1610,9 @@ namespace Implem.Pleasanter.Models
         /// </summary>
         private void SetFilterColumnsSelectable(Context context, ResponseCollection res)
         {
-            SiteSettings.FilterColumns = Forms.List("FilterColumnsAll");
+            SiteSettings.FilterColumns = context.Forms.List("FilterColumnsAll");
             var listItemCollection = SiteSettings.FilterSelectableOptions(
-                context: context, enabled: false, join: Forms.Data("FilterJoin"));
+                context: context, enabled: false, join: context.Forms.Data("FilterJoin"));
             if (!listItemCollection.Any())
             {
                 res.Message(Messages.NotFound(context: context));
@@ -1630,14 +1629,14 @@ namespace Implem.Pleasanter.Models
         /// </summary>
         private void SetAggregations(Context context, ResponseCollection res, string controlId)
         {
-            var selectedColumns = Forms.List("AggregationDestination");
-            var selectedSourceColumns = Forms.List("AggregationSource");
+            var selectedColumns = context.Forms.List("AggregationDestination");
+            var selectedSourceColumns = context.Forms.List("AggregationSource");
             if (selectedColumns.Any() || selectedSourceColumns.Any())
             {
                 int id = 1;
                 List<Libraries.Settings.Aggregation> aggregations = new List<Libraries.Settings.Aggregation>();
                 List<string> refactSelectedColumns = new List<string>();
-                Forms.List("AggregationDestinationAll").ForEach(a =>
+                context.Forms.List("AggregationDestinationAll").ForEach(a =>
                 {
                     var aggrigation = SiteSettings.Aggregations.Where(o => o.Id == a.ToInt()).FirstOrDefault();
                     if (selectedColumns.Contains(aggrigation.Id.ToString()))
@@ -1675,18 +1674,18 @@ namespace Implem.Pleasanter.Models
         private void SetAggregationDetails(Context context, ResponseCollection res)
         {
             Aggregation.Types type;
-            Enum.TryParse(Forms.Data("AggregationType"), out type);
+            Enum.TryParse(context.Forms.Data("AggregationType"), out type);
             var target = type != Aggregation.Types.Count
-                ? Forms.Data("AggregationTarget")
+                ? context.Forms.Data("AggregationTarget")
                 : string.Empty;
-            var selectedColumns = Forms.List("AggregationDestination");
-            var selectedSourceColumns = Forms.List("AggregationSource");
+            var selectedColumns = context.Forms.List("AggregationDestination");
+            var selectedSourceColumns = context.Forms.List("AggregationSource");
             if (selectedColumns.Any() || selectedSourceColumns.Any())
             {
                 int id = 1;
                 List<Aggregation> aggregations = new List<Aggregation>();
                 List<string> refactSelectedColumns = new List<string>();
-                Forms.List("AggregationDestinationAll").ForEach(a =>
+                context.Forms.List("AggregationDestinationAll").ForEach(a =>
                 {
                     var aggrigation = SiteSettings.Aggregations.Where(o => o.Id == a.ToInt()).FirstOrDefault();
                     if (selectedColumns.Contains(aggrigation.Id.ToString()))
@@ -1724,7 +1723,7 @@ namespace Implem.Pleasanter.Models
         /// </summary>
         private void OpenEditorColumnDialog(Context context, ResponseCollection res)
         {
-            var selectedColumns = Forms.List("EditorColumns");
+            var selectedColumns = context.Forms.List("EditorColumns");
             if (selectedColumns.Count() != 1)
             {
                 res.Message(Messages.SelectOne(context: context));
@@ -1745,7 +1744,7 @@ namespace Implem.Pleasanter.Models
                             context: context,
                             value: titleColumns.ToJson());
                     }
-                    SiteSettings.EditorColumns = Forms.List("EditorColumnsAll");
+                    SiteSettings.EditorColumns = context.Forms.List("EditorColumnsAll");
                     res.Html(
                         "#EditorColumnDialog",
                         SiteUtilities.EditorColumnDialog(
@@ -1762,7 +1761,7 @@ namespace Implem.Pleasanter.Models
         /// </summary>
         private void SetEditorColumn(Context context, ResponseCollection res)
         {
-            var columnName = Forms.Data("EditorColumnName");
+            var columnName = context.Forms.Data("EditorColumnName");
             var column = SiteSettings.EditorColumn(columnName);
             if (column == null)
             {
@@ -1772,14 +1771,14 @@ namespace Implem.Pleasanter.Models
             {
                 if (column.ColumnName == "Title")
                 {
-                    SiteSettings.TitleColumns = Forms.List("TitleColumnsAll");
+                    SiteSettings.TitleColumns = context.Forms.List("TitleColumnsAll");
                 }
-                Forms.All().ForEach(data =>
+                context.Forms.ForEach(control =>
                     SiteSettings.SetColumnProperty(
                         context: context,
                         column: column,
-                        propertyName: data.Key,
-                        value: data.Value));
+                        propertyName: control.Key,
+                        value: control.Value));
                 res
                     .Html("#EditorColumns", new HtmlBuilder().SelectableItems(
                         listItemCollection: SiteSettings.EditorSelectableOptions(context: context),
@@ -1801,7 +1800,7 @@ namespace Implem.Pleasanter.Models
                     ss: SiteSettings,
                     column: ss.GetColumn(
                         context: context,
-                        columnName: Forms.Data("EditorColumnName")),
+                        columnName: context.Forms.Data("EditorColumnName")),
                     titleColumns: ss.TitleColumns));
         }
 
@@ -1810,7 +1809,7 @@ namespace Implem.Pleasanter.Models
         /// </summary>
         private void SetSummariesOrder(Context context, ResponseCollection res, string controlId)
         {
-            var selected = Forms.IntList("EditSummary");
+            var selected = context.Forms.IntList("EditSummary");
             if (selected?.Any() != true)
             {
                 res.Message(Messages.SelectTargets(context: context)).ToJson();
@@ -1845,7 +1844,7 @@ namespace Implem.Pleasanter.Models
                 }
                 else
                 {
-                    var summary = SiteSettings.Summaries?.Get(Forms.Int("SummaryId"));
+                    var summary = SiteSettings.Summaries?.Get(context.Forms.Int("SummaryId"));
                     if (summary == null)
                     {
                         OpenDialogError(res, Messages.SelectOne(context: context));
@@ -1871,7 +1870,7 @@ namespace Implem.Pleasanter.Models
             res.Html("#SummaryDialog", SiteUtilities.SummaryDialog(
                 context: context,
                 ss: SiteSettings,
-                controlId: Forms.ControlId(),
+                controlId: context.Forms.ControlId(),
                 summary: summary));
         }
 
@@ -1880,7 +1879,7 @@ namespace Implem.Pleasanter.Models
         /// </summary>
         private void SetSummarySiteId(Context context, ResponseCollection res)
         {
-            var siteId = Forms.Long("SummarySiteId");
+            var siteId = context.Forms.Long("SummarySiteId");
             var destinationSiteModel = new SiteModel(context: context, siteId: siteId);
             res
                 .ReplaceAll("#SummaryDestinationColumnField", new HtmlBuilder()
@@ -1903,7 +1902,7 @@ namespace Implem.Pleasanter.Models
                 .SummarySourceColumn(
                     context: context,
                     ss: SiteSettings,
-                    type: Forms.Data("SummaryType")));
+                    type: context.Forms.Data("SummaryType")));
         }
 
         /// <summary>
@@ -1912,19 +1911,19 @@ namespace Implem.Pleasanter.Models
         private void AddSummary(Context context, ResponseCollection res)
         {
             SiteSettings.SetLinkedSiteSettings(context: context);
-            var siteId = Forms.Long("SummarySiteId");
+            var siteId = context.Forms.Long("SummarySiteId");
             var destinationSs = SiteSettings.Destinations.Get(siteId);
-            int? destinationCondition = Forms.Int("SummaryDestinationCondition");
-            int? sourceCondition = Forms.Int("SummarySourceCondition");
+            int? destinationCondition = context.Forms.Int("SummaryDestinationCondition");
+            int? sourceCondition = context.Forms.Int("SummarySourceCondition");
             var error = SiteSettings.AddSummary(
                 siteId,
-                new SiteModel(context: context, siteId: Forms.Long("SummarySiteId")).ReferenceType,
-                Forms.Data("SummaryDestinationColumn"),
+                new SiteModel(context: context, siteId: context.Forms.Long("SummarySiteId")).ReferenceType,
+                context.Forms.Data("SummaryDestinationColumn"),
                 destinationSs?.Views?.Get(destinationCondition)?.Id,
-                Forms.Bool("SummarySetZeroWhenOutOfCondition"),
-                Forms.Data("SummaryLinkColumn"),
-                Forms.Data("SummaryType"),
-                Forms.Data("SummarySourceColumn"),
+                context.Forms.Bool("SummarySetZeroWhenOutOfCondition"),
+                context.Forms.Data("SummaryLinkColumn"),
+                context.Forms.Data("SummaryType"),
+                context.Forms.Data("SummarySourceColumn"),
                 SiteSettings.Views?.Get(sourceCondition)?.Id);
             if (error.Has())
             {
@@ -1945,21 +1944,21 @@ namespace Implem.Pleasanter.Models
         private void UpdateSummary(Context context, ResponseCollection res)
         {
             SiteSettings.SetLinkedSiteSettings(context: context);
-            var siteId = Forms.Long("SummarySiteId");
+            var siteId = context.Forms.Long("SummarySiteId");
             var destinationSs = SiteSettings.Destinations.Get(siteId);
-            int? destinationCondition = Forms.Int("SummaryDestinationCondition");
-            int? sourceCondition = Forms.Int("SummarySourceCondition");
-            var outOfCondition = Forms.Data("SummaryOutOfCondition").Trim();
+            int? destinationCondition = context.Forms.Int("SummaryDestinationCondition");
+            int? sourceCondition = context.Forms.Int("SummarySourceCondition");
+            var outOfCondition = context.Forms.Data("SummaryOutOfCondition").Trim();
             var error = SiteSettings.UpdateSummary(
-                Forms.Int("SummaryId"),
+                context.Forms.Int("SummaryId"),
                 siteId,
-                new SiteModel(context: context, siteId: Forms.Long("SummarySiteId")).ReferenceType,
-                Forms.Data("SummaryDestinationColumn"),
+                new SiteModel(context: context, siteId: context.Forms.Long("SummarySiteId")).ReferenceType,
+                context.Forms.Data("SummaryDestinationColumn"),
                 destinationSs?.Views?.Get(destinationCondition)?.Id,
-                Forms.Bool("SummarySetZeroWhenOutOfCondition"),
-                Forms.Data("SummaryLinkColumn"),
-                Forms.Data("SummaryType"),
-                Forms.Data("SummarySourceColumn"),
+                context.Forms.Bool("SummarySetZeroWhenOutOfCondition"),
+                context.Forms.Data("SummaryLinkColumn"),
+                context.Forms.Data("SummaryType"),
+                context.Forms.Data("SummarySourceColumn"),
                 SiteSettings.Views?.Get(sourceCondition)?.Id);
             if (error.Has())
             {
@@ -1979,7 +1978,7 @@ namespace Implem.Pleasanter.Models
         /// </summary>
         private void DeleteSummaries(Context context, ResponseCollection res)
         {
-            var selected = Forms.IntList("EditSummary");
+            var selected = context.Forms.IntList("EditSummary");
             if (selected?.Any() != true)
             {
                 res.Message(Messages.SelectTargets(context: context)).ToJson();
@@ -1997,7 +1996,7 @@ namespace Implem.Pleasanter.Models
         /// </summary>
         private void SetFormulasOrder(Context context, ResponseCollection res, string controlId)
         {
-            var selected = Forms.IntList("EditFormula");
+            var selected = context.Forms.IntList("EditFormula");
             if (selected?.Any() != true)
             {
                 res.Message(Messages.SelectTargets(context: context)).ToJson();
@@ -2026,7 +2025,7 @@ namespace Implem.Pleasanter.Models
             }
             else
             {
-                var formulaSet = SiteSettings.Formulas?.Get(Forms.Int("FormulaId"));
+                var formulaSet = SiteSettings.Formulas?.Get(context.Forms.Int("FormulaId"));
                 if (formulaSet == null)
                 {
                     OpenDialogError(res, Messages.SelectOne(context: context));
@@ -2052,7 +2051,7 @@ namespace Implem.Pleasanter.Models
             res.Html("#FormulaDialog", SiteUtilities.FormulaDialog(
                 context: context,
                 ss: SiteSettings,
-                controlId: Forms.ControlId(),
+                controlId: context.Forms.ControlId(),
                 formulaSet: formulaSet));
         }
 
@@ -2061,11 +2060,11 @@ namespace Implem.Pleasanter.Models
         /// </summary>
         private void AddFormula(Context context, ResponseCollection res)
         {
-            var outOfCondition = Forms.Data("FormulaOutOfCondition").Trim();
+            var outOfCondition = context.Forms.Data("FormulaOutOfCondition").Trim();
             var error = SiteSettings.AddFormula(
-                Forms.Data("FormulaTarget"),
-                Forms.Int("FormulaCondition"),
-                Forms.Data("Formula"),
+                context.Forms.Data("FormulaTarget"),
+                context.Forms.Int("FormulaCondition"),
+                context.Forms.Data("Formula"),
                 outOfCondition != string.Empty
                     ? outOfCondition
                     : null);
@@ -2087,13 +2086,13 @@ namespace Implem.Pleasanter.Models
         /// </summary>
         private void UpdateFormula(Context context, ResponseCollection res)
         {
-            var id = Forms.Int("FormulaId");
-            var outOfCondition = Forms.Data("FormulaOutOfCondition").Trim();
+            var id = context.Forms.Int("FormulaId");
+            var outOfCondition = context.Forms.Data("FormulaOutOfCondition").Trim();
             var error = SiteSettings.UpdateFormula(
                 id,
-                Forms.Data("FormulaTarget"),
-                Forms.Int("FormulaCondition"),
-                Forms.Data("Formula"),
+                context.Forms.Data("FormulaTarget"),
+                context.Forms.Int("FormulaCondition"),
+                context.Forms.Data("Formula"),
                 outOfCondition != string.Empty
                     ? outOfCondition
                     : null);
@@ -2115,7 +2114,7 @@ namespace Implem.Pleasanter.Models
         /// </summary>
         private void DeleteFormulas(Context context, ResponseCollection res)
         {
-            var selected = Forms.IntList("EditFormula");
+            var selected = context.Forms.IntList("EditFormula");
             if (selected?.Any() != true)
             {
                 res.Message(Messages.SelectTargets(context: context)).ToJson();
@@ -2141,7 +2140,7 @@ namespace Implem.Pleasanter.Models
             }
             else
             {
-                var idList = Forms.IntList("Views");
+                var idList = context.Forms.IntList("Views");
                 if (idList.Count() != 1)
                 {
                     OpenDialogError(res, Messages.SelectOne(context: context));
@@ -2156,7 +2155,7 @@ namespace Implem.Pleasanter.Models
                     else
                     {
                         SiteSettings.Views = SiteSettings.Views.Join(
-                            Forms.List("ViewsAll").Select((val, key) => new { Key = key, Val = val }), v => v.Id, l => l.Val.ToInt(),
+                            context.Forms.List("ViewsAll").Select((val, key) => new { Key = key, Val = val }), v => v.Id, l => l.Val.ToInt(),
                                 (v, l) => new { Views = v, OrderNo = l.Key })
                                 .OrderBy(v => v.OrderNo)
                                 .Select(v => v.Views)
@@ -2175,7 +2174,7 @@ namespace Implem.Pleasanter.Models
             res.Html("#ViewDialog", SiteUtilities.ViewDialog(
                 context: context,
                 ss: SiteSettings,
-                controlId: Forms.ControlId(),
+                controlId: context.Forms.ControlId(),
                 view: view));
         }
 
@@ -2186,7 +2185,7 @@ namespace Implem.Pleasanter.Models
         {
             var column = SiteSettings.GetColumn(
                 context: context,
-                columnName: Forms.Data("ViewFilterSelector"));
+                columnName: context.Forms.Data("ViewFilterSelector"));
             if (column != null)
             {
                 res
@@ -2219,7 +2218,7 @@ namespace Implem.Pleasanter.Models
         /// </summary>
         private void UpdateView(Context context, ResponseCollection res)
         {
-            var selected = Forms.Int("ViewId");
+            var selected = context.Forms.Int("ViewId");
             var view = SiteSettings.Views?.Get(selected);
             if (view == null)
             {
@@ -2237,10 +2236,10 @@ namespace Implem.Pleasanter.Models
         /// <summary>
         /// Fixed:
         /// </summary>
-        private void DeleteViews(ResponseCollection res)
+        private void DeleteViews(Context context, ResponseCollection res)
         {
             SiteSettings.Views?.RemoveAll(o =>
-                Forms.IntList("Views").Contains(o.Id));
+                context.Forms.IntList("Views").Contains(o.Id));
             res.ViewResponses(SiteSettings);
         }
 
@@ -2249,12 +2248,12 @@ namespace Implem.Pleasanter.Models
         /// </summary>
         private void SetViewGridColumnsSelectable(Context context, ResponseCollection res)
         {
-            var gridColumns = Forms.List("ViewGridColumnsAll");
+            var gridColumns = context.Forms.List("ViewGridColumnsAll");
             var listItemCollection = SiteSettings.ViewGridSelectableOptions(
                 context: context,
                 gridColumns: gridColumns,
                 enabled: false,
-                join: Forms.Data("ViewGridJoin"));
+                join: context.Forms.Data("ViewGridJoin"));
             if (!listItemCollection.Any())
             {
                 res.Message(Messages.NotFound(context: context));
@@ -2288,7 +2287,7 @@ namespace Implem.Pleasanter.Models
             }
             else
             {
-                var notification = SiteSettings.Notifications?.Get(Forms.Int("NotificationId"));
+                var notification = SiteSettings.Notifications?.Get(context.Forms.Int("NotificationId"));
                 if (notification == null)
                 {
                     OpenDialogError(res, Messages.SelectOne(context: context));
@@ -2323,7 +2322,7 @@ namespace Implem.Pleasanter.Models
                 res.Html("#NotificationDialog", SiteUtilities.NotificationDialog(
                     context: context,
                     ss: SiteSettings,
-                    controlId: Forms.ControlId(),
+                    controlId: context.Forms.ControlId(),
                     notification: notification));
             }
         }
@@ -2341,14 +2340,14 @@ namespace Implem.Pleasanter.Models
             {
                 SiteSettings.Notifications.Add(new Notification(
                     SiteSettings.Notifications.MaxOrDefault(o => o.Id) + 1,
-                    (Notification.Types)Forms.Int("NotificationType"),
-                    Forms.Data("NotificationPrefix"),
-                    Forms.Data("NotificationAddress"),
-                    Forms.Data("NotificationToken"),
-                    Forms.List("MonitorChangesColumnsAll"),
-                    Forms.Int("BeforeCondition"),
-                    Forms.Int("AfterCondition"),
-                    (Notification.Expressions)Forms.Int("Expression")));
+                    (Notification.Types)context.Forms.Int("NotificationType"),
+                    context.Forms.Data("NotificationPrefix"),
+                    context.Forms.Data("NotificationAddress"),
+                    context.Forms.Data("NotificationToken"),
+                    context.Forms.List("MonitorChangesColumnsAll"),
+                    context.Forms.Int("BeforeCondition"),
+                    context.Forms.Int("AfterCondition"),
+                    (Notification.Expressions)context.Forms.Int("Expression")));
                 SetNotificationsResponseCollection(context: context, res: res);
             }
         }
@@ -2364,7 +2363,7 @@ namespace Implem.Pleasanter.Models
             }
             else
             {
-                var notification = SiteSettings.Notifications.Get(Forms.Int("NotificationId"));
+                var notification = SiteSettings.Notifications.Get(context.Forms.Int("NotificationId"));
                 if (notification == null)
                 {
                     res.Message(Messages.NotFound(context: context));
@@ -2372,14 +2371,14 @@ namespace Implem.Pleasanter.Models
                 else
                 {
                     notification.Update(
-                        (Notification.Types)Forms.Int("NotificationType"),
-                        Forms.Data("NotificationPrefix"),
-                        Forms.Data("NotificationAddress"),
-                        Forms.Data("NotificationToken"),
-                        Forms.List("MonitorChangesColumnsAll"),
-                        Forms.Int("BeforeCondition"),
-                        Forms.Int("AfterCondition"),
-                        (Notification.Expressions)Forms.Int("Expression"));
+                        (Notification.Types)context.Forms.Int("NotificationType"),
+                        context.Forms.Data("NotificationPrefix"),
+                        context.Forms.Data("NotificationAddress"),
+                        context.Forms.Data("NotificationToken"),
+                        context.Forms.List("MonitorChangesColumnsAll"),
+                        context.Forms.Int("BeforeCondition"),
+                        context.Forms.Int("AfterCondition"),
+                        (Notification.Expressions)context.Forms.Int("Expression"));
                     SetNotificationsResponseCollection(context: context, res: res);
                 }
             }
@@ -2397,7 +2396,7 @@ namespace Implem.Pleasanter.Models
             }
             else
             {
-                var selected = Forms.IntList("EditNotification");
+                var selected = context.Forms.IntList("EditNotification");
                 if (selected?.Any() != true)
                 {
                     res.Message(Messages.SelectTargets(context: context)).ToJson();
@@ -2441,7 +2440,7 @@ namespace Implem.Pleasanter.Models
             }
             else
             {
-                var selected = Forms.IntList("EditNotification");
+                var selected = context.Forms.IntList("EditNotification");
                 if (selected?.Any() != true)
                 {
                     res.Message(Messages.SelectTargets(context: context)).ToJson();
@@ -2469,7 +2468,7 @@ namespace Implem.Pleasanter.Models
             }
             else
             {
-                var reminder = SiteSettings.Reminders?.Get(Forms.Int("ReminderId"));
+                var reminder = SiteSettings.Reminders?.Get(context.Forms.Int("ReminderId"));
                 if (reminder == null)
                 {
                     OpenDialogError(res, Messages.SelectOne(context: context));
@@ -2501,7 +2500,7 @@ namespace Implem.Pleasanter.Models
                 res.Html("#ReminderDialog", SiteUtilities.ReminderDialog(
                     context: context,
                     ss: SiteSettings,
-                    controlId: Forms.ControlId(),
+                    controlId: context.Forms.ControlId(),
                     reminder: reminder));
             }
         }
@@ -2518,25 +2517,27 @@ namespace Implem.Pleasanter.Models
             else
             {
                 var invalidMailAddress = string.Empty;
-                var invalid = SiteValidators.SetReminder(out invalidMailAddress);
+                var invalid = SiteValidators.SetReminder(
+                    context: context,
+                    data: out invalidMailAddress);
                 switch (invalid)
                 {
                     case Error.Types.None:
                         SiteSettings.Reminders.Add(new Reminder(
                             id: SiteSettings.Reminders.MaxOrDefault(o => o.Id) + 1,
-                            subject: Forms.Data("ReminderSubject"),
-                            body: Forms.Data("ReminderBody"),
+                            subject: context.Forms.Data("ReminderSubject"),
+                            body: context.Forms.Data("ReminderBody"),
                             line: SiteSettings.LabelTextToColumnName(
-                                Forms.Data("ReminderLine")),
-                            from: Forms.Data("ReminderFrom"),
-                            to: Forms.Data("ReminderTo"),
-                            column: Forms.Data("ReminderColumn"),
-                            startDateTime: Forms.DateTime("ReminderStartDateTime"),
-                            type: (Times.RepeatTypes)Forms.Int("ReminderType"),
-                            range: Forms.Int("ReminderRange"),
-                            sendCompletedInPast: Forms.Bool("ReminderSendCompletedInPast"),
-                            notSendIfNotApplicable: Forms.Bool("NotSendIfNotApplicable"),
-                            condition: Forms.Int("ReminderCondition")));
+                                context.Forms.Data("ReminderLine")),
+                            from: context.Forms.Data("ReminderFrom"),
+                            to: context.Forms.Data("ReminderTo"),
+                            column: context.Forms.Data("ReminderColumn"),
+                            startDateTime: context.Forms.DateTime("ReminderStartDateTime"),
+                            type: (Times.RepeatTypes)context.Forms.Int("ReminderType"),
+                            range: context.Forms.Int("ReminderRange"),
+                            sendCompletedInPast: context.Forms.Bool("ReminderSendCompletedInPast"),
+                            notSendIfNotApplicable: context.Forms.Bool("NotSendIfNotApplicable"),
+                            condition: context.Forms.Int("ReminderCondition")));
                         SetRemindersResponseCollection(context: context, res: res);
                         break;
                     case Error.Types.BadMailAddress:
@@ -2563,7 +2564,7 @@ namespace Implem.Pleasanter.Models
             }
             else
             {
-                var reminder = SiteSettings.Reminders.Get(Forms.Int("ReminderId"));
+                var reminder = SiteSettings.Reminders.Get(context.Forms.Int("ReminderId"));
                 if (reminder == null)
                 {
                     res.Message(Messages.NotFound(context: context));
@@ -2571,24 +2572,26 @@ namespace Implem.Pleasanter.Models
                 else
                 {
                     var invalidMailAddress = string.Empty;
-                    var invalid = SiteValidators.SetReminder(out invalidMailAddress);
+                    var invalid = SiteValidators.SetReminder(
+                        context: context,
+                        data: out invalidMailAddress);
                     switch (invalid)
                     {
                         case Error.Types.None:
                             reminder.Update(
-                                subject: Forms.Data("ReminderSubject"),
-                                body: Forms.Data("ReminderBody"),
+                                subject: context.Forms.Data("ReminderSubject"),
+                                body: context.Forms.Data("ReminderBody"),
                                 line: SiteSettings.LabelTextToColumnName(
-                                    Forms.Data("ReminderLine")),
-                                from: Forms.Data("ReminderFrom"),
-                                to: Forms.Data("ReminderTo"),
-                                column: Forms.Data("ReminderColumn"),
-                                startDateTime: Forms.DateTime("ReminderStartDateTime"),
-                                type: (Times.RepeatTypes)Forms.Int("ReminderType"),
-                                range: Forms.Int("ReminderRange"),
-                                sendCompletedInPast: Forms.Bool("ReminderSendCompletedInPast"),
-                                notSendIfNotApplicable: Forms.Bool("NotSendIfNotApplicable"),
-                                condition: Forms.Int("ReminderCondition"));
+                                    context.Forms.Data("ReminderLine")),
+                                from: context.Forms.Data("ReminderFrom"),
+                                to: context.Forms.Data("ReminderTo"),
+                                column: context.Forms.Data("ReminderColumn"),
+                                startDateTime: context.Forms.DateTime("ReminderStartDateTime"),
+                                type: (Times.RepeatTypes)context.Forms.Int("ReminderType"),
+                                range: context.Forms.Int("ReminderRange"),
+                                sendCompletedInPast: context.Forms.Bool("ReminderSendCompletedInPast"),
+                                notSendIfNotApplicable: context.Forms.Bool("NotSendIfNotApplicable"),
+                                condition: context.Forms.Int("ReminderCondition"));
                             SetRemindersResponseCollection(context: context, res: res);
                             break;
                         case Error.Types.BadMailAddress:
@@ -2616,7 +2619,7 @@ namespace Implem.Pleasanter.Models
             }
             else
             {
-                var selected = Forms.IntList("EditReminder");
+                var selected = context.Forms.IntList("EditReminder");
                 if (selected?.Any() != true)
                 {
                     res.Message(Messages.SelectTargets(context: context)).ToJson();
@@ -2660,7 +2663,7 @@ namespace Implem.Pleasanter.Models
             }
             else
             {
-                var selected = Forms.IntList("EditReminder");
+                var selected = context.Forms.IntList("EditReminder");
                 if (selected?.Any() != true)
                 {
                     res.Message(Messages.SelectTargets(context: context)).ToJson();
@@ -2685,7 +2688,7 @@ namespace Implem.Pleasanter.Models
             }
             else
             {
-                var selected = Forms.IntList("EditReminder");
+                var selected = context.Forms.IntList("EditReminder");
                 if (selected?.Any() != true)
                 {
                     res.Message(Messages.SelectTargets(context: context)).ToJson();
@@ -2712,7 +2715,7 @@ namespace Implem.Pleasanter.Models
             }
             else
             {
-                var export = SiteSettings.Exports?.Get(Forms.Int("ExportId"));
+                var export = SiteSettings.Exports?.Get(context.Forms.Int("ExportId"));
                 if (export == null)
                 {
                     OpenDialogError(res, Messages.SelectOne(context: context));
@@ -2743,7 +2746,7 @@ namespace Implem.Pleasanter.Models
                 res.Html("#ExportDialog", SiteUtilities.ExportDialog(
                     context: context,
                     ss: SiteSettings,
-                    controlId: Forms.ControlId(),
+                    controlId: context.Forms.ControlId(),
                     export: export));
             }
         }
@@ -2770,7 +2773,7 @@ namespace Implem.Pleasanter.Models
                     SiteSettings.SetExport(context: context, export: Export);
                     int id = 1;
                     var columns = new List<ExportColumn>();
-                    Forms.List("ExportColumnsAll").ForEach(o =>
+                    context.Forms.List("ExportColumnsAll").ForEach(o =>
                     {
                         var exp = o.Deserialize<ExportColumn>()
                             ?? Session_Export(context: context)
@@ -2791,9 +2794,9 @@ namespace Implem.Pleasanter.Models
                     });
                     Export.Columns = columns;
                     Export.Id = SiteSettings.Exports.MaxOrDefault(o => o.Id) + 1;
-                    Export.Name = Forms.Data("ExportName");
-                    Export.Header = Forms.Bool("ExportHeader");
-                    Export.Join = Forms.Data("ExportJoin").Deserialize<Join>();
+                    Export.Name = context.Forms.Data("ExportName");
+                    Export.Header = context.Forms.Bool("ExportHeader");
+                    Export.Join = context.Forms.Data("ExportJoin").Deserialize<Join>();
                     SiteSettings.Exports.Add(Export);
                     SetExportsResponseCollection(context: context, res: res);
                 }
@@ -2811,7 +2814,7 @@ namespace Implem.Pleasanter.Models
             }
             else
             {
-                var export = SiteSettings.Exports.Get(Forms.Int("ExportId"));
+                var export = SiteSettings.Exports.Get(context.Forms.Int("ExportId"));
                 if (export == null)
                 {
                     res.Message(Messages.NotFound(context: context));
@@ -2821,7 +2824,7 @@ namespace Implem.Pleasanter.Models
                     SiteSettings.SetExports(context: context);
                     int id = 1;
                     var columns = new List<ExportColumn>();
-                    Forms.List("ExportColumnsAll").ForEach(o =>
+                    context.Forms.List("ExportColumnsAll").ForEach(o =>
                     {
                         var exp = o.Deserialize<ExportColumn>()
                             ?? Session_Export(context: context)
@@ -2841,9 +2844,9 @@ namespace Implem.Pleasanter.Models
                         });
                     });
                     export.Update(
-                        Forms.Data("ExportName"),
-                        Forms.Bool("ExportHeader"),
-                        Forms.Data("ExportJoin").Deserialize<Join>(),
+                        context.Forms.Data("ExportName"),
+                        context.Forms.Bool("ExportHeader"),
+                        context.Forms.Data("ExportJoin").Deserialize<Join>(),
                         columns);
                     SetExportsResponseCollection(context: context, res: res);
                 }
@@ -2861,7 +2864,7 @@ namespace Implem.Pleasanter.Models
             }
             else
             {
-                var selected = Forms.IntList("EditExport");
+                var selected = context.Forms.IntList("EditExport");
                 if (selected?.Any() != true)
                 {
                     res.Message(Messages.SelectTargets(context: context)).ToJson();
@@ -2900,8 +2903,8 @@ namespace Implem.Pleasanter.Models
         private void SetExportColumnsSelectable(Context context, ResponseCollection res)
         {
             SiteSettings.SetExports(context: context);
-            var join = Forms.Data("ExportJoin").Deserialize<Join>();
-            var searchText = Forms.Data("SearchExportColumns");
+            var join = context.Forms.Data("ExportJoin").Deserialize<Join>();
+            var searchText = context.Forms.Data("SearchExportColumns");
             var current = new List<ExportColumn>();
             var sources = new List<ExportColumn>();
             var allows = join?
@@ -2938,8 +2941,8 @@ namespace Implem.Pleasanter.Models
         private void SetExportColumnsSelectableBySearch(Context context, ResponseCollection res)
         {
             SiteSettings.SetExports(context: context);
-            var join = Forms.Data("ExportJoin").Deserialize<Join>();
-            var searchText = Forms.Data("SearchExportColumns");
+            var join = context.Forms.Data("ExportJoin").Deserialize<Join>();
+            var searchText = context.Forms.Data("SearchExportColumns");
             var sources = new List<ExportColumn>();
             var allows = join?
                 .Where(o => SiteSettings.JoinedSsHash?.ContainsKey(o.SiteId) == true)
@@ -2969,7 +2972,7 @@ namespace Implem.Pleasanter.Models
             }
             else
             {
-                var selected = Forms.IntList("EditExport");
+                var selected = context.Forms.IntList("EditExport");
                 if (selected?.Any() != true)
                 {
                     res.Message(Messages.SelectTargets(context: context)).ToJson();
@@ -2991,7 +2994,7 @@ namespace Implem.Pleasanter.Models
         {
             Export = Session_Export(context: context);
             SiteSettings.SetExport(context: context, export: Export);
-            var selected = Forms.List("ExportColumns");
+            var selected = context.Forms.List("ExportColumns");
             if (selected.Count() != 1)
             {
                 res.Message(Messages.SelectOne(context: context));
@@ -3002,7 +3005,7 @@ namespace Implem.Pleasanter.Models
                 int id = 1;
                 var columns = new List<ExportColumn>();
                 var selectedNewId = "";
-                Forms.List("ExportColumnsAll").ForEach(o =>
+                context.Forms.List("ExportColumnsAll").ForEach(o =>
                 {
                     var exp = o.Deserialize<ExportColumn>() ?? Export.Columns.Where(c => c.Id.ToString() == o).FirstOrDefault();
                     if (exp.Id.ToString() == selected[0]) selectedNewId = id.ToString();
@@ -3051,7 +3054,7 @@ namespace Implem.Pleasanter.Models
                 res.Html("#ExportColumnsDialog", SiteUtilities.ExportColumnsDialog(
                     context: context,
                     ss: SiteSettings,
-                    controlId: Forms.ControlId(),
+                    controlId: context.Forms.ControlId(),
                     exportColumn: column));
             }
         }
@@ -3070,7 +3073,7 @@ namespace Implem.Pleasanter.Models
                 Export = Session_Export(context: context);
                 SiteSettings.SetExport(context: context, export: Export);
                 var column = Export.Columns.FirstOrDefault(o =>
-                    o.Id == Forms.Int("ExportColumnId"));
+                    o.Id == context.Forms.Int("ExportColumnId"));
                 if (column == null)
                 {
                     res.Message(Messages.NotFound(context: context));
@@ -3079,9 +3082,9 @@ namespace Implem.Pleasanter.Models
                 {
                     var selected = new List<string> { column.Id.ToString() };
                     column.Update(
-                        Forms.Data("ExportColumnLabelText"),
-                        (ExportColumn.Types)Forms.Int("ExportColumnType"),
-                        Forms.Data("ExportFormat"));
+                        context.Forms.Data("ExportColumnLabelText"),
+                        (ExportColumn.Types)context.Forms.Int("ExportColumnType"),
+                        context.Forms.Data("ExportFormat"));
                     res
                         .Html("#ExportColumns", new HtmlBuilder().SelectableItems(
                             listItemCollection: ExportUtilities
@@ -3098,7 +3101,7 @@ namespace Implem.Pleasanter.Models
         /// </summary>
         private void SetStylesOrder(Context context, ResponseCollection res, string controlId)
         {
-            var selected = Forms.IntList("EditStyle");
+            var selected = context.Forms.IntList("EditStyle");
             if (selected?.Any() != true)
             {
                 res.Message(Messages.SelectTargets(context: context)).ToJson();
@@ -3129,7 +3132,7 @@ namespace Implem.Pleasanter.Models
             }
             else
             {
-                var style = SiteSettings.Styles?.Get(Forms.Int("StyleId"));
+                var style = SiteSettings.Styles?.Get(context.Forms.Int("StyleId"));
                 if (style == null)
                 {
                     OpenDialogError(
@@ -3156,7 +3159,7 @@ namespace Implem.Pleasanter.Models
             res.Html("#StyleDialog", SiteUtilities.StyleDialog(
                 context: context,
                 ss: SiteSettings,
-                controlId: Forms.ControlId(),
+                controlId: context.Forms.ControlId(),
                 style: style));
         }
 
@@ -3167,19 +3170,19 @@ namespace Implem.Pleasanter.Models
         {
             SiteSettings.Styles.Add(new Style(
                 id: SiteSettings.Styles.MaxOrDefault(o => o.Id) + 1,
-                title: Forms.Data("StyleTitle"),
-                all: Forms.Bool("StyleAll"),
-                _new: Forms.Bool("StyleNew"),
-                edit: Forms.Bool("StyleEdit"),
-                index: Forms.Bool("StyleIndex"),
-                calendar: Forms.Bool("StyleCalendar"),
-                crosstab: Forms.Bool("StyleCrosstab"),
-                gantt: Forms.Bool("StyleGantt"),
-                burnDown: Forms.Bool("StyleBurnDown"),
-                timeSeries: Forms.Bool("StyleTimeSeries"),
-                kamban: Forms.Bool("StyleKamban"),
-                imageLib: Forms.Bool("StyleImageLib"),
-                body: Forms.Data("StyleBody")));
+                title: context.Forms.Data("StyleTitle"),
+                all: context.Forms.Bool("StyleAll"),
+                _new: context.Forms.Bool("StyleNew"),
+                edit: context.Forms.Bool("StyleEdit"),
+                index: context.Forms.Bool("StyleIndex"),
+                calendar: context.Forms.Bool("StyleCalendar"),
+                crosstab: context.Forms.Bool("StyleCrosstab"),
+                gantt: context.Forms.Bool("StyleGantt"),
+                burnDown: context.Forms.Bool("StyleBurnDown"),
+                timeSeries: context.Forms.Bool("StyleTimeSeries"),
+                kamban: context.Forms.Bool("StyleKamban"),
+                imageLib: context.Forms.Bool("StyleImageLib"),
+                body: context.Forms.Data("StyleBody")));
             res
                 .ReplaceAll("#EditStyle", new HtmlBuilder()
                     .EditStyle(
@@ -3194,21 +3197,21 @@ namespace Implem.Pleasanter.Models
         private void UpdateStyle(Context context, ResponseCollection res, string controlId)
         {
             SiteSettings.Styles?
-                .FirstOrDefault(o => o.Id == Forms.Int("StyleId"))?
+                .FirstOrDefault(o => o.Id == context.Forms.Int("StyleId"))?
                 .Update(
-                    title: Forms.Data("StyleTitle"),
-                    all: Forms.Bool("StyleAll"),
-                    _new: Forms.Bool("StyleNew"),
-                    edit: Forms.Bool("StyleEdit"),
-                    index: Forms.Bool("StyleIndex"),
-                    calendar: Forms.Bool("StyleCalendar"),
-                    crosstab: Forms.Bool("StyleCrosstab"),
-                    gantt: Forms.Bool("StyleGantt"),
-                    burnDown: Forms.Bool("StyleBurnDown"),
-                    timeSeries: Forms.Bool("StyleTimeSeries"),
-                    kamban: Forms.Bool("StyleKamban"),
-                    imageLib: Forms.Bool("StyleImageLib"),
-                    body: Forms.Data("StyleBody"));
+                    title: context.Forms.Data("StyleTitle"),
+                    all: context.Forms.Bool("StyleAll"),
+                    _new: context.Forms.Bool("StyleNew"),
+                    edit: context.Forms.Bool("StyleEdit"),
+                    index: context.Forms.Bool("StyleIndex"),
+                    calendar: context.Forms.Bool("StyleCalendar"),
+                    crosstab: context.Forms.Bool("StyleCrosstab"),
+                    gantt: context.Forms.Bool("StyleGantt"),
+                    burnDown: context.Forms.Bool("StyleBurnDown"),
+                    timeSeries: context.Forms.Bool("StyleTimeSeries"),
+                    kamban: context.Forms.Bool("StyleKamban"),
+                    imageLib: context.Forms.Bool("StyleImageLib"),
+                    body: context.Forms.Data("StyleBody"));
             res
                 .Html("#EditStyle", new HtmlBuilder()
                     .EditStyle(
@@ -3222,7 +3225,7 @@ namespace Implem.Pleasanter.Models
         /// </summary>
         private void DeleteStyles(Context context, ResponseCollection res)
         {
-            var selected = Forms.IntList("EditStyle");
+            var selected = context.Forms.IntList("EditStyle");
             if (selected?.Any() != true)
             {
                 res.Message(Messages.SelectTargets(context: context)).ToJson();
@@ -3242,7 +3245,7 @@ namespace Implem.Pleasanter.Models
         /// </summary>
         private void SetScriptsOrder(Context context, ResponseCollection res, string controlId)
         {
-            var selected = Forms.IntList("EditScript");
+            var selected = context.Forms.IntList("EditScript");
             if (selected?.Any() != true)
             {
                 res.Message(Messages.SelectTargets(context: context)).ToJson();
@@ -3273,7 +3276,7 @@ namespace Implem.Pleasanter.Models
             }
             else
             {
-                var script = SiteSettings.Scripts?.Get(Forms.Int("ScriptId"));
+                var script = SiteSettings.Scripts?.Get(context.Forms.Int("ScriptId"));
                 if (script == null)
                 {
                     OpenDialogError(
@@ -3300,7 +3303,7 @@ namespace Implem.Pleasanter.Models
             res.Html("#ScriptDialog", SiteUtilities.ScriptDialog(
                 context: context,
                 ss: SiteSettings,
-                controlId: Forms.ControlId(),
+                controlId: context.Forms.ControlId(),
                 script: script));
         }
 
@@ -3311,19 +3314,19 @@ namespace Implem.Pleasanter.Models
         {
             SiteSettings.Scripts.Add(new Script(
                 id: SiteSettings.Scripts.MaxOrDefault(o => o.Id) + 1,
-                title: Forms.Data("ScriptTitle"),
-                all: Forms.Bool("ScriptAll"),
-                _new: Forms.Bool("ScriptNew"),
-                edit: Forms.Bool("ScriptEdit"),
-                index: Forms.Bool("ScriptIndex"),
-                calendar: Forms.Bool("ScriptCalendar"),
-                crosstab: Forms.Bool("ScriptCrosstab"),
-                gantt: Forms.Bool("ScriptGantt"),
-                burnDown: Forms.Bool("ScriptBurnDown"),
-                timeSeries: Forms.Bool("ScriptTimeSeries"),
-                kamban: Forms.Bool("ScriptKamban"),
-                imageLib: Forms.Bool("ScriptImageLib"),
-                body: Forms.Data("ScriptBody")));
+                title: context.Forms.Data("ScriptTitle"),
+                all: context.Forms.Bool("ScriptAll"),
+                _new: context.Forms.Bool("ScriptNew"),
+                edit: context.Forms.Bool("ScriptEdit"),
+                index: context.Forms.Bool("ScriptIndex"),
+                calendar: context.Forms.Bool("ScriptCalendar"),
+                crosstab: context.Forms.Bool("ScriptCrosstab"),
+                gantt: context.Forms.Bool("ScriptGantt"),
+                burnDown: context.Forms.Bool("ScriptBurnDown"),
+                timeSeries: context.Forms.Bool("ScriptTimeSeries"),
+                kamban: context.Forms.Bool("ScriptKamban"),
+                imageLib: context.Forms.Bool("ScriptImageLib"),
+                body: context.Forms.Data("ScriptBody")));
             res
                 .ReplaceAll("#EditScript", new HtmlBuilder()
                     .EditScript(
@@ -3338,21 +3341,21 @@ namespace Implem.Pleasanter.Models
         private void UpdateScript(Context context, ResponseCollection res, string controlId)
         {
             SiteSettings.Scripts?
-                .FirstOrDefault(o => o.Id == Forms.Int("ScriptId"))?
+                .FirstOrDefault(o => o.Id == context.Forms.Int("ScriptId"))?
                 .Update(
-                    title: Forms.Data("ScriptTitle"),
-                    all: Forms.Bool("ScriptAll"),
-                    _new: Forms.Bool("ScriptNew"),
-                    edit: Forms.Bool("ScriptEdit"),
-                    index: Forms.Bool("ScriptIndex"),
-                    calendar: Forms.Bool("ScriptCalendar"),
-                    crosstab: Forms.Bool("ScriptCrosstab"),
-                    gantt: Forms.Bool("ScriptGantt"),
-                    burnDown: Forms.Bool("ScriptBurnDown"),
-                    timeSeries: Forms.Bool("ScriptTimeSeries"),
-                    kamban: Forms.Bool("ScriptKamban"),
-                    imageLib: Forms.Bool("ScriptImageLib"),
-                    body: Forms.Data("ScriptBody"));
+                    title: context.Forms.Data("ScriptTitle"),
+                    all: context.Forms.Bool("ScriptAll"),
+                    _new: context.Forms.Bool("ScriptNew"),
+                    edit: context.Forms.Bool("ScriptEdit"),
+                    index: context.Forms.Bool("ScriptIndex"),
+                    calendar: context.Forms.Bool("ScriptCalendar"),
+                    crosstab: context.Forms.Bool("ScriptCrosstab"),
+                    gantt: context.Forms.Bool("ScriptGantt"),
+                    burnDown: context.Forms.Bool("ScriptBurnDown"),
+                    timeSeries: context.Forms.Bool("ScriptTimeSeries"),
+                    kamban: context.Forms.Bool("ScriptKamban"),
+                    imageLib: context.Forms.Bool("ScriptImageLib"),
+                    body: context.Forms.Data("ScriptBody"));
             res
                 .Html("#EditScript", new HtmlBuilder()
                     .EditScript(
@@ -3366,7 +3369,7 @@ namespace Implem.Pleasanter.Models
         /// </summary>
         private void DeleteScripts(Context context, ResponseCollection res)
         {
-            var selected = Forms.IntList("EditScript");
+            var selected = context.Forms.IntList("EditScript");
             if (selected?.Any() != true)
             {
                 res.Message(Messages.SelectTargets(context: context)).ToJson();
@@ -3423,7 +3426,7 @@ namespace Implem.Pleasanter.Models
         private void SetRelatingColumnsOrder(
             Context context, ResponseCollection res, string controlId)
         {
-            var selected = Forms.IntList("EditRelatingColumns");
+            var selected = context.Forms.IntList("EditRelatingColumns");
             if (selected?.Any() != true)
             {
                 res.Message(Messages.SelectTargets(context: context)).ToJson();
@@ -3455,7 +3458,7 @@ namespace Implem.Pleasanter.Models
             }
             else
             {
-                var RelatingColumn = SiteSettings.RelatingColumns?.Get(Forms.Int("RelatingColumnId"));
+                var RelatingColumn = SiteSettings.RelatingColumns?.Get(context.Forms.Int("RelatingColumnId"));
                 if (RelatingColumn == null)
                 {
                     OpenDialogError(res, Messages.SelectOne(context: context));
@@ -3481,7 +3484,7 @@ namespace Implem.Pleasanter.Models
             res.Html("#RelatingColumnDialog", SiteUtilities.RelatingColumnDialog(
                 context: context,
                 ss: SiteSettings,
-                controlId: Forms.ControlId(),
+                controlId: context.Forms.ControlId(),
                 relatingColumn: relatingColumn));
         }
 
@@ -3492,8 +3495,8 @@ namespace Implem.Pleasanter.Models
         {
             SiteSettings.RelatingColumns.Add(new RelatingColumn(
                 id: SiteSettings.RelatingColumns.MaxOrDefault(o => o.Id) + 1,
-                title: Forms.Data("RelatingColumnTitle"),
-                columns: Forms.List("RelatingColumnColumnsAll")));
+                title: context.Forms.Data("RelatingColumnTitle"),
+                columns: context.Forms.List("RelatingColumnColumnsAll")));
             res
                 .ReplaceAll("#EditRelatingColumns", new HtmlBuilder()
                     .EditRelatingColumns(
@@ -3509,10 +3512,10 @@ namespace Implem.Pleasanter.Models
             Context context, ResponseCollection res, string controlId)
         {
             SiteSettings.RelatingColumns?
-                .FirstOrDefault(o => o.Id == Forms.Int("RelatingColumnId"))?
+                .FirstOrDefault(o => o.Id == context.Forms.Int("RelatingColumnId"))?
                 .Update(
-                    title: Forms.Data("RelatingColumnTitle"),
-                    columns: Forms.List("RelatingColumnColumnsAll"));
+                    title: context.Forms.Data("RelatingColumnTitle"),
+                    columns: context.Forms.List("RelatingColumnColumnsAll"));
             res
                 .Html("#EditRelatingColumns", new HtmlBuilder()
                     .EditRelatingColumns(
@@ -3526,7 +3529,7 @@ namespace Implem.Pleasanter.Models
         /// </summary>
         private void DeleteRelatingColumns(Context context, ResponseCollection res)
         {
-            var selected = Forms.IntList("EditRelatingColumns");
+            var selected = context.Forms.IntList("EditRelatingColumns");
             if (selected?.Any() != true)
             {
                 res.Message(Messages.SelectTargets(context: context)).ToJson();
