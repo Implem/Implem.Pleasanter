@@ -34,8 +34,13 @@ namespace Implem.Pleasanter.Models
                     column: Rds.SitesColumn()
                         .ParentId(_as: "SiteId")
                         .SiteId(_as: "Id")
-                        .Title()
-                        .Body(),
+                        .Body()
+                        .Items_Title(),
+                    join: new SqlJoinCollection(
+                        new SqlJoin(
+                            tableBracket: "[Items]",
+                            joinType: SqlJoin.JoinTypes.Inner,
+                            joinExpression: "[Items].[ReferenceId]=[Sites].[SiteId]")),
                     where: Rds.SitesWhere()
                         .TenantId(context.TenantId)
                         .SiteId_In(dataRows
@@ -49,8 +54,13 @@ namespace Implem.Pleasanter.Models
                     column: Rds.IssuesColumn()
                         .SiteId()
                         .IssueId(_as: "Id")
-                        .Title()
-                        .Body(),
+                        .Body()
+                        .Items_Title(),
+                    join: new SqlJoinCollection(
+                        new SqlJoin(
+                            tableBracket: "[Items]",
+                            joinType: SqlJoin.JoinTypes.Inner,
+                            joinExpression: "[Items].[ReferenceId]=[Issues].[IssueId]")),
                     where: Rds.IssuesWhere()
                         .IssueId_In(dataRows
                             .Where(o => o.String("ReferenceType") == "Issues")
@@ -63,8 +73,13 @@ namespace Implem.Pleasanter.Models
                     column: Rds.ResultsColumn()
                         .SiteId()
                         .ResultId(_as: "Id")
-                        .Title()
-                        .Body(),
+                        .Body()
+                        .Items_Title(),
+                    join: new SqlJoinCollection(
+                        new SqlJoin(
+                            tableBracket: "[Items]",
+                            joinType: SqlJoin.JoinTypes.Inner,
+                            joinExpression: "[Items].[ReferenceId]=[Results].[ResultId]")),
                     where: Rds.ResultsWhere()
                         .ResultId_In(dataRows
                             .Where(o => o.String("ReferenceType") == "Results")
@@ -77,8 +92,13 @@ namespace Implem.Pleasanter.Models
                     column: Rds.WikisColumn()
                         .SiteId()
                         .WikiId(_as: "Id")
-                        .Title()
-                        .Body(),
+                        .Body()
+                        .Items_Title(),
+                    join: new SqlJoinCollection(
+                        new SqlJoin(
+                            tableBracket: "[Items]",
+                            joinType: SqlJoin.JoinTypes.Inner,
+                            joinExpression: "[Items].[ReferenceId]=[Wikis].[WikiId]")),
                     where: Rds.WikisWhere()
                         .WikiId_In(dataRows
                             .Where(o => o.String("ReferenceType") == "Wikis")
@@ -403,7 +423,8 @@ namespace Implem.Pleasanter.Models
                     context: context,
                     column: Rds.ItemsColumn()
                         .ReferenceId()
-                        .ReferenceType(),
+                        .ReferenceType()
+                        .Title(),
                     orderBy: Rds.ItemsOrderBy()
                         .UpdatedTime(SqlOrderBy.Types.desc),
                     siteIdList: siteIdList,
