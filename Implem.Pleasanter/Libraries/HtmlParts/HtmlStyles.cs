@@ -66,9 +66,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                         parts: "Styles/Plugins/jquery.multiselect.filter.css"),
                     rel: "stylesheet")
                 .Link(
-                    href: Locations.Get(
-                        context: context,
-                        parts: BundleTable.Bundles.ResolveBundleUrl("~/content/styles")),
+                    href: BundleTable.Bundles.ResolveBundleUrl("~/content/styles"),
                     rel: "stylesheet");
         }
     }
