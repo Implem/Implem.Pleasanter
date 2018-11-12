@@ -424,19 +424,37 @@ namespace Implem.DefinitionAccessor
             Displays.DisplayHash = DisplayHash();
             Def.ColumnDefinitionCollection
                 .Where(o => !o.Base)
-                .Select(o => new { o.Id, Body = o.LabelText })
+                .Select(o => new
+                {
+                    o.Id,
+                    En = o.ColumnName,
+                    Ja = o.LabelText
+                })
                 .Union(Def.ColumnDefinitionCollection
                     .Where(o => !o.Base)
-                    .Select(o => new { Id = o.TableName, Body = o.Label })
+                    .Select(o => new
+                    {
+                        Id = o.TableName,
+                        En = o.TableName,
+                        Ja = o.Label
+                    })
                     .Distinct())
                 .Where(o => !Displays.DisplayHash.ContainsKey(o.Id))
-                .ForEach(o => Displays.DisplayHash.Add(
+                .ForEach(o => Displays.DisplayHash.UpdateOrAdd(
                     o.Id, new Display
                     {
                         Id = o.Id,
                         Languages = new List<DisplayElement>
                         {
-                            new DisplayElement { Body = o.Body }
+                            new DisplayElement
+                            {
+                                Body = o.En
+                            },
+                            new DisplayElement
+                            {
+                                Language = "ja",
+                                Body = o.Ja
+                            }
                         }
                     }));
         }

@@ -1016,7 +1016,9 @@ namespace Implem.Pleasanter.Libraries.Settings
                     column: column,
                     columnDefinition: columnDefinition)
                         ?? column.LabelText
-                        ?? columnDefinition.LabelText;
+                        ?? Displays.Get(
+                            context: context,
+                            id: columnDefinition.Id);
                 column.GridLabelText = ModifiedLabelText(
                     context: context,
                     column: column,
