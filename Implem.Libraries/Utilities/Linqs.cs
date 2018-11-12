@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
-
 namespace Implem.Libraries.Utilities
 {
     public static class Linqs
@@ -29,6 +28,20 @@ namespace Implem.Libraries.Utilities
             foreach (var dataPart in data)
             {
                 self.Add(dataPart);
+            }
+            return self.ToDictionary(o => o.Key, o => o.Value);
+        }
+
+        public static Dictionary<K, V> UpdateOrAdd<K, V>(
+            this Dictionary<K, V> self, K key, V value)
+        {
+            if (self.ContainsKey(key))
+            {
+                self[key] = value;
+            }
+            else
+            {
+                self.Add(key, value);
             }
             return self.ToDictionary(o => o.Key, o => o.Value);
         }
