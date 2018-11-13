@@ -1310,6 +1310,7 @@ namespace Implem.DefinitionAccessor
                     case "Demos_DemoId": Column.Demos_DemoId = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Demos_DemoId, definitionRow, ColumnXls); break;
                     case "Demos_TenantId": Column.Demos_TenantId = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Demos_TenantId, definitionRow, ColumnXls); break;
                     case "Demos_Title": Column.Demos_Title = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Demos_Title, definitionRow, ColumnXls); break;
+                    case "Demos_LoginId": Column.Demos_LoginId = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Demos_LoginId, definitionRow, ColumnXls); break;
                     case "Demos_Passphrase": Column.Demos_Passphrase = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Demos_Passphrase, definitionRow, ColumnXls); break;
                     case "Demos_MailAddress": Column.Demos_MailAddress = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Demos_MailAddress, definitionRow, ColumnXls); break;
                     case "Demos_Initialized": Column.Demos_Initialized = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Demos_Initialized, definitionRow, ColumnXls); break;
@@ -8474,6 +8475,7 @@ namespace Implem.DefinitionAccessor
         public string Demos_DemoId;
         public string Demos_TenantId;
         public string Demos_Title;
+        public string Demos_LoginId;
         public string Demos_Passphrase;
         public string Demos_MailAddress;
         public string Demos_Initialized;
@@ -9381,6 +9383,7 @@ namespace Implem.DefinitionAccessor
         public ColumnDefinition Demos_DemoId = new ColumnDefinition();
         public ColumnDefinition Demos_TenantId = new ColumnDefinition();
         public ColumnDefinition Demos_Title = new ColumnDefinition();
+        public ColumnDefinition Demos_LoginId = new ColumnDefinition();
         public ColumnDefinition Demos_Passphrase = new ColumnDefinition();
         public ColumnDefinition Demos_MailAddress = new ColumnDefinition();
         public ColumnDefinition Demos_Initialized = new ColumnDefinition();

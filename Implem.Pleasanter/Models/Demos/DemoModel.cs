@@ -26,6 +26,7 @@ namespace Implem.Pleasanter.Models
         public int DemoId = 0;
         public int TenantId = 0;
         public Title Title = new Title();
+        public string LoginId = string.Empty;
         public string Passphrase = string.Empty;
         public string MailAddress = string.Empty;
         public bool Initialized = false;
@@ -33,6 +34,7 @@ namespace Implem.Pleasanter.Models
         [NonSerialized] public int SavedDemoId = 0;
         [NonSerialized] public int SavedTenantId = 0;
         [NonSerialized] public string SavedTitle = string.Empty;
+        [NonSerialized] public string SavedLoginId = string.Empty;
         [NonSerialized] public string SavedPassphrase = string.Empty;
         [NonSerialized] public string SavedMailAddress = string.Empty;
         [NonSerialized] public bool SavedInitialized = false;
@@ -60,6 +62,14 @@ namespace Implem.Pleasanter.Models
                 (column == null ||
                 column.DefaultInput.IsNullOrEmpty() ||
                 column.GetDefaultInput(context: context).ToString() != Title.Value);
+        }
+
+        public bool LoginId_Updated(Context context, Column column = null)
+        {
+            return LoginId != SavedLoginId && LoginId != null &&
+                (column == null ||
+                column.DefaultInput.IsNullOrEmpty() ||
+                column.GetDefaultInput(context: context).ToString() != LoginId);
         }
 
         public bool Passphrase_Updated(Context context, Column column = null)
@@ -280,6 +290,7 @@ namespace Implem.Pleasanter.Models
             column.Ver(function: Sqls.Functions.SingleColumn); param.Ver();
             column.TenantId(function: Sqls.Functions.SingleColumn); param.TenantId();
             column.Title(function: Sqls.Functions.SingleColumn); param.Title();
+            column.LoginId(function: Sqls.Functions.SingleColumn); param.LoginId();
             column.Passphrase(function: Sqls.Functions.SingleColumn); param.Passphrase();
             column.MailAddress(function: Sqls.Functions.SingleColumn); param.MailAddress();
             column.Initialized(function: Sqls.Functions.SingleColumn); param.Initialized();
@@ -364,6 +375,7 @@ namespace Implem.Pleasanter.Models
         {
             TenantId = demoModel.TenantId;
             Title = demoModel.Title;
+            LoginId = demoModel.LoginId;
             Passphrase = demoModel.Passphrase;
             MailAddress = demoModel.MailAddress;
             Initialized = demoModel.Initialized;
@@ -420,6 +432,10 @@ namespace Implem.Pleasanter.Models
                             Title = new Title(dataRow, "DemoId");
                             SavedTitle = Title.Value;
                             break;
+                        case "LoginId":
+                            LoginId = dataRow[column.ColumnName].ToString();
+                            SavedLoginId = LoginId;
+                            break;
                         case "Passphrase":
                             Passphrase = dataRow[column.ColumnName].ToString();
                             SavedPassphrase = Passphrase;
@@ -465,6 +481,7 @@ namespace Implem.Pleasanter.Models
                 Ver_Updated(context: context) ||
                 TenantId_Updated(context: context) ||
                 Title_Updated(context: context) ||
+                LoginId_Updated(context: context) ||
                 Passphrase_Updated(context: context) ||
                 MailAddress_Updated(context: context) ||
                 Initialized_Updated(context: context) ||

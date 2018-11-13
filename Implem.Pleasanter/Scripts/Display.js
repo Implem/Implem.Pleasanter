@@ -10,6 +10,8 @@
         ConfirmDelete_ja: '本当に削除してもよろしいですか？',
         ConfirmPhysicalDelete: 'Are you sure you want to delete ?',
         ConfirmPhysicalDelete_ja: 'この操作を行うと元に戻すことはできません。本当に削除してもよろしいですか？',
+        ConfirmRebuildSearchIndex: 'Would you like to rebuild the search index ?',
+        ConfirmRebuildSearchIndex_ja: '検索インデックスを再構築しますか？',
         ConfirmReload: 'Are you sure you want to reload this page?',
         ConfirmReload_ja: 'このページを離れようとしています。',
         ConfirmReset: 'Are you sure you want to reset ?',
