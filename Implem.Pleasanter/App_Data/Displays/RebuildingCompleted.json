@@ -1,0 +1,13 @@
+﻿{
+    "Id": "RebuildingCompleted",
+    "Type": 210,
+    "Languages": [
+        {
+            "Body": "Rebuilding is completed."
+        },
+        {
+            "Language": "ja",
+            "Body": "再構築が完了しました。"
+        }
+    ]
+}

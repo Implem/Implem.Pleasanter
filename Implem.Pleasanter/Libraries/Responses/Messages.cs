@@ -717,6 +717,15 @@ namespace Implem.Pleasanter.Libraries.Responses
                 css: "alert-info");
         }
 
+        public static Message RebuildingCompleted(Context context, params string[] data)
+        {
+            return Get(
+                text: Displays.RebuildingCompleted(
+                    context: context,
+                    data: data),
+                css: "alert-success");
+        }
+
         public static Message RequireMailAddresses(Context context, params string[] data)
         {
             return Get(
@@ -1439,6 +1448,13 @@ namespace Implem.Pleasanter.Libraries.Responses
         public static ResponseCollection ResponseReadOnlyBecausePreviousVer(Context context, params string[] data)
         {
             return ResponseMessage(ReadOnlyBecausePreviousVer(
+                context: context,
+                data: data));
+        }
+
+        public static ResponseCollection ResponseRebuildingCompleted(Context context, params string[] data)
+        {
+            return ResponseMessage(RebuildingCompleted(
                 context: context,
                 data: data));
         }

@@ -80,14 +80,14 @@ namespace Implem.Pleasanter.Models
                         _operator: ">="));
             if (demoModel.AccessStatus == Databases.AccessStatuses.Selected)
             {
-                var loginId = LoginId(
-                    demoModel: demoModel,
-                    userId: FirstUser(context: context));
                 var password = Strings.NewGuid().Sha512Cng();
                 if (!demoModel.Initialized)
                 {
                     var idHash = new Dictionary<string, long>();
-                    demoModel.Initialize(context: context, idHash: idHash, password: password);
+                    demoModel.Initialize(
+                        context: context,
+                        idHash: idHash,
+                        password: password);
                 }
                 else
                 {
@@ -95,12 +95,12 @@ namespace Implem.Pleasanter.Models
                         context: context,
                         statements: Rds.UpdateUsers(
                             param: Rds.UsersParam().Password(password),
-                            where: Rds.UsersWhere().LoginId(loginId)));
+                            where: Rds.UsersWhere().LoginId(demoModel.LoginId)));
                 }
                 context = new Context(tenantId: demoModel.TenantId);
                 new UserModel()
                 {
-                    LoginId = loginId,
+                    LoginId = demoModel.LoginId,
                     Password = password
                 }.Authenticate(
                     context: context,
@@ -261,6 +261,18 @@ namespace Implem.Pleasanter.Models
                                     .MailAddress(loginId + "@example.com"))
                         }).Identity.ToLong());
                 });
+            Rds.ExecuteNonQuery(
+                context: context,
+                statements: Rds.UpdateDemos(
+                    where: Rds.DemosWhere().TenantId(demoModel.TenantId),
+                    param: Rds.DemosParam()
+                        .LoginId(LoginId(
+                            demoModel: demoModel,
+                            userId: Def.DemoDefinitionCollection
+                                .Where(o => o.Language == context.Language)
+                                .Where(o => o.Type == "Users")
+                                .FirstOrDefault()?
+                                .Id))));
         }
 
         /// <summary>

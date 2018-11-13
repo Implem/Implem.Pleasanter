@@ -878,6 +878,16 @@ namespace Implem.Pleasanter.Libraries.Responses
                 data: data);
         }
 
+        public static string ConfirmRebuildSearchIndex(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "ConfirmRebuildSearchIndex",
+                data: data);
+        }
+
         public static string ConfirmReload(
             Context context,
             params string[] data)
@@ -4058,6 +4068,26 @@ namespace Implem.Pleasanter.Libraries.Responses
                 data: data);
         }
 
+        public static string RebuildingCompleted(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "RebuildingCompleted",
+                data: data);
+        }
+
+        public static string RebuildSearchIndex(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "RebuildSearchIndex",
+                data: data);
+        }
+
         public static string RecordAccessControl(
             Context context,
             params string[] data)
@@ -5778,6 +5808,16 @@ namespace Implem.Pleasanter.Libraries.Responses
                 data: data);
         }
 
+        public static string Demos_LoginId(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "Demos_LoginId",
+                data: data);
+        }
+
         public static string Demos_Passphrase(
             Context context,
             params string[] data)
@@ -5838,6 +5878,16 @@ namespace Implem.Pleasanter.Libraries.Responses
                 data: data);
         }
 
+        public static string Sessions_Page(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "Sessions_Page",
+                data: data);
+        }
+
         public static string Sessions_Value(
             Context context,
             params string[] data)
@@ -5855,16 +5905,6 @@ namespace Implem.Pleasanter.Libraries.Responses
             return Get(
                 context: context,
                 id: "Sessions_ReadOnce",
-                data: data);
-        }
-
-        public static string Sessions_ReadOneByOne(
-            Context context,
-            params string[] data)
-        {
-            return Get(
-                context: context,
-                id: "Sessions_ReadOneByOne",
                 data: data);
         }
 
