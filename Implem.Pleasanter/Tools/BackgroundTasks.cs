@@ -20,7 +20,10 @@ namespace Implem.Pleasanter.Tools
             {
                 SysLogUtilities.Maintain(context: context);
                 SearchIndexUtilities.Maintain(context: context);
-                SearchIndexUtilities.CreateInBackground(context: context);
+                if (Parameters.BackgroundTask.Enabled)
+                {
+                    SearchIndexUtilities.RebuildSearchIndexes(context: context);
+                }
                 Thread.Sleep(Parameters.BackgroundTask.Interval);
                 LatestTime = DateTime.Now;
             }

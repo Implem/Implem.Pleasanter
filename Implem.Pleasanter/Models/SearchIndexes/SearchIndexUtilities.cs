@@ -638,73 +638,102 @@ namespace Implem.Pleasanter.Models
         /// <summary>
         /// Fixed:
         /// </summary>
-        public static void CreateInBackground(Context context)
+        public static string RebuildSearchIndexes(Context context, SiteModel siteModel)
         {
-            if (Parameters.BackgroundTask.Enabled)
+            siteModel.SiteSettings = SiteSettingsUtilities.Get(
+                context: context,
+                siteModel: siteModel,
+                referenceId: siteModel.SiteId);
+            var ss = siteModel.SiteSettings.SiteSettingsOnUpdate(context: context);
+            var invalid = SiteValidators.OnUpdating(
+                context: context,
+                ss: ss,
+                siteModel: siteModel);
+            switch (invalid)
             {
-                var hash = new Dictionary<long, SiteModel>();
-                Rds.ExecuteTable(
-                    context: context,
-                    statements: Rds.SelectItems(
-                        column: Rds.ItemsColumn()
-                            .ReferenceId()
-                            .SiteId()
-                            .UpdatedTime()
-                            .Users_TenantId()
-                            .Users_DeptId()
-                            .Users_UserId(),
-                        join: Rds.ItemsJoinDefault().Add(new SqlJoin(
-                            tableBracket: "[Users]",
-                            joinType: SqlJoin.JoinTypes.Inner,
-                            joinExpression: "[Users].[UserId]=[Items].[Updator]")),
-                        where: Rds.ItemsWhere().Add(
-                            raw: "[Items].[SearchIndexCreatedTime] is null or [Items].[SearchIndexCreatedTime]<>[Items].[UpdatedTime]"),
-                        top: Parameters.BackgroundTask.CreateSearchIndexLot))
-                            .AsEnumerable()
-                            .Select(o => new
-                            {
-                                ReferenceId = o["ReferenceId"].ToLong(),
-                                SiteId = o["SiteId"].ToLong(),
-                                UpdatedTime = o.Field<DateTime>("UpdatedTime")
-                                    .ToString("yyyy/M/d H:m:s.fff"),
-                                TenantId = o.Int("TenantId"),
-                                DeptId = o.Int("DeptId"),
-                                UserId = o.Int("UserId")
-                            })
-                            .ForEach(data =>
-                            {
-                                var otherContext = new Context(
-                                    tenantId: data.TenantId,
-                                    deptId: data.DeptId,
-                                    userId: data.UserId);
-                                var siteModel = hash.Get(data.SiteId) ??
-                                    new SiteModel().Get(
-                                        context: otherContext,
-                                        where: Rds.SitesWhere().SiteId(data.SiteId));
-                                if (!hash.ContainsKey(data.SiteId))
-                                {
-                                    siteModel.SiteSettings = SiteSettingsUtilities.Get(
-                                        context: otherContext,
-                                        siteModel: siteModel,
-                                        referenceId: siteModel.SiteId);
-                                    hash.Add(data.SiteId, siteModel);
-                                }
-                                Libraries.Search.Indexes.Create(
-                                    context: otherContext,
-                                    ss: siteModel.SiteSettings,
-                                    id: data.ReferenceId,
-                                    force: true);
-                                Rds.ExecuteNonQuery(
-                                    context: otherContext,
-                                    statements: Rds.UpdateItems(
-                                        where: Rds.ItemsWhere()
-                                            .ReferenceId(data.ReferenceId),
-                                        param: Rds.ItemsParam()
-                                            .SearchIndexCreatedTime(data.UpdatedTime),
-                                        addUpdatorParam: false,
-                                        addUpdatedTimeParam: false));
-                            });
+                case Error.Types.None: break;
+                default: return invalid.MessageJson(context: context);
             }
+            RebuildSearchIndexes(
+                context: context,
+                siteId: siteModel.SiteId);
+            return new ResponseCollection()
+                .Message(Messages.RebuildingCompleted(context: context))
+                .ToJson();
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        public static void RebuildSearchIndexes(Context context, long siteId = -1)
+        {
+            var hash = new Dictionary<long, SiteModel>();
+            Rds.ExecuteTable(
+                context: context,
+                statements: Rds.SelectItems(
+                    column: Rds.ItemsColumn()
+                        .ReferenceId()
+                        .SiteId()
+                        .UpdatedTime()
+                        .Users_TenantId()
+                        .Users_DeptId()
+                        .Users_UserId(),
+                    join: Rds.ItemsJoinDefault().Add(new SqlJoin(
+                        tableBracket: "[Users]",
+                        joinType: SqlJoin.JoinTypes.Inner,
+                        joinExpression: "[Users].[UserId]=[Items].[Updator]")),
+                    where: siteId > 0
+                        ? Rds.ItemsWhere().SiteId(siteId)
+                        : Rds.ItemsWhere().Add(raw: new List<string>()
+                        {
+                            "[Items].[SearchIndexCreatedTime] is null",
+                            "[Items].[SearchIndexCreatedTime]<>[Items].[UpdatedTime]"
+                        }.Join(" or ")),
+                    top: Parameters.BackgroundTask.CreateSearchIndexLot))
+                        .AsEnumerable()
+                        .Select(o => new
+                        {
+                            ReferenceId = o["ReferenceId"].ToLong(),
+                            SiteId = o["SiteId"].ToLong(),
+                            UpdatedTime = o.Field<DateTime>("UpdatedTime")
+                                .ToString("yyyy/M/d H:m:s.fff"),
+                            TenantId = o.Int("TenantId"),
+                            DeptId = o.Int("DeptId"),
+                            UserId = o.Int("UserId")
+                        })
+                        .ForEach(data =>
+                        {
+                            var currentContext = new Context(
+                                tenantId: data.TenantId,
+                                deptId: data.DeptId,
+                                userId: data.UserId);
+                            var siteModel = hash.Get(data.SiteId) ??
+                                new SiteModel().Get(
+                                    context: currentContext,
+                                    where: Rds.SitesWhere().SiteId(data.SiteId));
+                            if (!hash.ContainsKey(data.SiteId))
+                            {
+                                siteModel.SiteSettings = SiteSettingsUtilities.Get(
+                                    context: currentContext,
+                                    siteModel: siteModel,
+                                    referenceId: siteModel.SiteId);
+                                hash.Add(data.SiteId, siteModel);
+                            }
+                            Libraries.Search.Indexes.Create(
+                                context: currentContext,
+                                ss: siteModel.SiteSettings,
+                                id: data.ReferenceId,
+                                force: true);
+                            Rds.ExecuteNonQuery(
+                                context: currentContext,
+                                statements: Rds.UpdateItems(
+                                    where: Rds.ItemsWhere()
+                                        .ReferenceId(data.ReferenceId),
+                                    param: Rds.ItemsParam()
+                                        .SearchIndexCreatedTime(data.UpdatedTime),
+                                    addUpdatorParam: false,
+                                    addUpdatedTimeParam: false));
+                        });
         }
     }
 }

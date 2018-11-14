@@ -598,6 +598,20 @@ namespace Implem.Pleasanter.Controllers
         }
 
         [HttpPost]
+        public string RebuildSearchIndexes(long id)
+        {
+            var context = new Context();
+            var log = new SysLogModel(context: context);
+            var json = SearchIndexUtilities.RebuildSearchIndexes(
+                context: context,
+                siteModel: new SiteModel(
+                    context: context,
+                    siteId: id));
+            log.Finish(context: context, responseSize: json.Length);
+            return json;
+        }
+
+        [HttpPost]
         public string Histories(long id)
         {
             var context = new Context();

@@ -1355,6 +1355,10 @@
     <Content Include="App_Data\Displays\Num.json" />
     <Content Include="App_Data\Displays\Check.json" />
     <Content Include="App_Data\Displays\Attachments.json" />
+    <Content Include="App_Data\Displays\SearchSettings.json" />
+    <Content Include="App_Data\Displays\ConfirmRebuildSearchIndex.json" />
+    <Content Include="App_Data\Displays\RebuildingCompleted.json" />
+    <Content Include="App_Data\Displays\RebuildSearchIndexes.json" />
     <Content Include="Tools\BackgroundTasks.ps1" />
     <Content Include="Tools\SyncByLdap.ps1" />
     <Content Include="Views\Users\EditApi.cshtml" />

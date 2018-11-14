@@ -53,8 +53,7 @@ namespace Implem.Pleasanter.Libraries.Requests
         public string UserAgent;
         public string Language = Parameters.Service.DefaultLanguage;
         public bool Developer;
-        public TimeZoneInfo TimeZoneInfo = TimeZoneInfo.GetSystemTimeZones()
-            .FirstOrDefault(o => o.Id == Parameters.Service.TimeZoneDefault);
+        public TimeZoneInfo TimeZoneInfo = Environments.TimeZoneInfoDefault;
         public UserSettings UserSettings;
         public bool HasPrivilege;
         public ContractSettings ContractSettings = new ContractSettings();

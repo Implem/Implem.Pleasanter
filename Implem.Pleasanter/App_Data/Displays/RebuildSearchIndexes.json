@@ -1,9 +1,9 @@
 ﻿{
-    "Id": "RebuildSearchIndex",
+    "Id": "RebuildSearchIndexes",
     "Type": 110,
     "Languages": [
         {
-            "Body": "Rebuild search index"
+            "Body": "Rebuild search indexes"
         },
         {
             "Language": "ja",
