@@ -282,7 +282,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                     ColumnSorterHash = null;
                     break;
             }
-            foreach (string controlId in HttpContext.Current.Request.Form)
+            foreach (string controlId in context.Forms.Keys)
             {
                 switch (controlId)
                 {

@@ -205,21 +205,21 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     attributes: new HtmlAttributes()
                         .Id("CopyDirectUrlToClipboard")
                         .Class("display-control")
-                        .OnClick($"$p.copyDirectUrlToClipboard('{DirectUrl(view: view)}');"),
+                        .OnClick($"$p.copyDirectUrlToClipboard('{DirectUrl(context: context, view: view)}');"),
                     action: () => hb
                         .Span(css: "ui-icon ui-icon-link")
                         .Text(text: string.Empty)))
                 : hb;
         }
 
-        private static string DirectUrl(View view)
+        private static string DirectUrl(Context context, View view)
         {
-            var queryString = HttpUtility.ParseQueryString(HttpContext.Current.Request.Url.Query);
+            var queryString = HttpUtility.ParseQueryString(context.Query);
             if (view != null)
             {
                 queryString["View"] = view.ToJson();
             }
-            return new System.UriBuilder(HttpContext.Current.Request.Url.AbsoluteUri)
+            return new System.UriBuilder(context.AbsoluteUri)
             {
                 Query = queryString.ToString()
             }.ToString();
