@@ -7084,31 +7084,50 @@ namespace Implem.Pleasanter.Models
             this HtmlBuilder hb, Context context, SiteSettings ss)
         {
             return hb.FieldSet(id: "SearchSettingsEditor", action: () => hb
-                .FieldDropDown(
+                .FieldSet(
+                    id: "SearchSettingsEditorGeneral",
+                    css: " enclosed",
+                    legendText: Displays.SearchSettings(context: context),
+                    action: () => hb
+                    .FieldDropDown(
                         context: context,
-                    controlId: "SearchType",
-                    controlCss: " always-send",
-                    labelText: Displays.SearchTypes(context: context),
-                    optionCollection: new Dictionary<string, string>()
-                    {
+                        controlId: "SearchType",
+                        controlCss: " always-send",
+                        labelText: Displays.SearchTypes(context: context),
+                        optionCollection: new Dictionary<string, string>()
                         {
-                            SiteSettings.SearchTypes.FullText.ToInt().ToString(),
-                            Displays.FullText(context: context)
+                            {
+                                SiteSettings.SearchTypes.FullText.ToInt().ToString(),
+                                Displays.FullText(context: context)
+                            },
+                            {
+                                SiteSettings.SearchTypes.PartialMatch.ToInt().ToString(),
+                                Displays.PartialMatch(context: context)
+                            },
+                            {
+                                SiteSettings.SearchTypes.MatchInFrontOfTitle.ToInt().ToString(),
+                                Displays.MatchInFrontOfTitle(context: context)
+                            },
+                            {
+                                SiteSettings.SearchTypes.BroadMatchOfTitle.ToInt().ToString(),
+                                Displays.BroadMatchOfTitle(context: context)
+                            }
                         },
-                        {
-                            SiteSettings.SearchTypes.PartialMatch.ToInt().ToString(),
-                            Displays.PartialMatch(context: context)
-                        },
-                        {
-                            SiteSettings.SearchTypes.MatchInFrontOfTitle.ToInt().ToString(),
-                            Displays.MatchInFrontOfTitle(context: context)
-                        },
-                        {
-                            SiteSettings.SearchTypes.BroadMatchOfTitle.ToInt().ToString(),
-                            Displays.BroadMatchOfTitle(context: context)
-                        }
-                    },
-                    selectedValue: ss.SearchType.ToInt().ToString()));
+                        selectedValue: ss.SearchType.ToInt().ToString()))
+                .FieldSet(
+                    id: "SearchSettingsEditorOperations",
+                    css: " enclosed",
+                    legendText: Displays.Operations(context: context),
+                    action: () => hb
+                        .Button(
+                            controlId: "RebuildSearchIndexes",
+                            controlCss: "button-icon",
+                            text: Displays.RebuildSearchIndexes(context: context),
+                            onClick: "$p.send($(this));",
+                            icon: "ui-icon-refresh",
+                            action: "RebuildSearchIndexes",
+                            method: "post",
+                            confirm: Displays.ConfirmRebuildSearchIndex(context: context))));
         }
 
         /// <summary>

@@ -4078,13 +4078,13 @@ namespace Implem.Pleasanter.Libraries.Responses
                 data: data);
         }
 
-        public static string RebuildSearchIndex(
+        public static string RebuildSearchIndexes(
             Context context,
             params string[] data)
         {
             return Get(
                 context: context,
-                id: "RebuildSearchIndex",
+                id: "RebuildSearchIndexes",
                 data: data);
         }
 
@@ -4355,6 +4355,16 @@ namespace Implem.Pleasanter.Libraries.Responses
             return Get(
                 context: context,
                 id: "Search",
+                data: data);
+        }
+
+        public static string SearchSettings(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "SearchSettings",
                 data: data);
         }
 
