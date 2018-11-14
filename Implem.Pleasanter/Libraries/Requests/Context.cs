@@ -37,6 +37,7 @@ namespace Implem.Pleasanter.Libraries.Requests
         public string AbsolutePath;
         public string Url;
         public string UrlReferrer;
+        public string Query;
         public string Controller;
         public string Action;
         public long Id;
@@ -245,6 +246,7 @@ namespace Implem.Pleasanter.Libraries.Requests
                 AbsolutePath = request.Url.AbsolutePath;
                 Url = request.Url.ToString();
                 UrlReferrer = request.UrlReferrer?.ToString();
+                Query = request.Url.Query;
                 Controller = RouteData.Get("controller")?.ToLower() ?? string.Empty;
                 Action = RouteData.Get("action")?.ToLower() ?? string.Empty;
                 Id = RouteData.Get("id")?.ToLong() ?? 0;

@@ -27,7 +27,6 @@ namespace Implem.Pleasanter.Tools
                 Thread.Sleep(Parameters.BackgroundTask.Interval);
                 LatestTime = DateTime.Now;
             }
-            HttpContext.Current.Session.Abandon();
             return new ResponseCollection().ToJson();
         }
     }

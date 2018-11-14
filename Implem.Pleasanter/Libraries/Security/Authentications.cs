@@ -1,8 +1,8 @@
 ﻿using Implem.Pleasanter.Libraries.Requests;
+using Implem.Pleasanter.Libraries.Server;
 using Implem.Pleasanter.Libraries.Settings;
 using Implem.Pleasanter.Models;
 using System.Configuration;
-using System.Web;
 using System.Web.Configuration;
 using System.Web.Security;
 namespace Implem.Pleasanter.Libraries.Security
@@ -30,7 +30,7 @@ namespace Implem.Pleasanter.Libraries.Security
         public static void SignOut()
         {
             FormsAuthentication.SignOut();
-            HttpContext.Current.Session.Abandon();
+            Sessions.Abandon();
         }
 
         public static bool Windows()
