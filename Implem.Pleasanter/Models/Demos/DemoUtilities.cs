@@ -80,6 +80,9 @@ namespace Implem.Pleasanter.Models
                         _operator: ">="));
             if (demoModel.AccessStatus == Databases.AccessStatuses.Selected)
             {
+                context = new Context(
+                    tenantId: demoModel.TenantId,
+                    language: context.Language);
                 var password = Strings.NewGuid().Sha512Cng();
                 if (!demoModel.Initialized)
                 {
@@ -97,7 +100,6 @@ namespace Implem.Pleasanter.Models
                             param: Rds.UsersParam().Password(password),
                             where: Rds.UsersWhere().LoginId(demoModel.LoginId)));
                 }
-                context = new Context(tenantId: demoModel.TenantId);
                 new UserModel()
                 {
                     LoginId = demoModel.LoginId,
@@ -160,7 +162,9 @@ namespace Implem.Pleasanter.Models
                 demoModel: demoModel,
                 idHash: idHash,
                 password: password);
-            SiteInfo.Reflesh(context: context);
+            SiteInfo.Reflesh(
+                context: context,
+                force: true);
             InitializeSites(context: context, demoModel: demoModel, idHash: idHash);
             Def.DemoDefinitionCollection
                 .Where(o => o.Language == context.Language)
@@ -319,18 +323,26 @@ namespace Implem.Pleasanter.Models
                 .Where(o => o.Language == context.Language)
                 .Where(o => o.Type == "Sites")
                 .Where(o => o.Id == topId || o.ParentId == topId)
-                .ForEach(demoDefinition => idHash.Add(
-                    demoDefinition.Id, Rds.ExecuteScalar_response(
-                        context: context,
-                        selectIdentity: true,
-                        statements: new SqlStatement[]
-                        {
+                .ForEach(demoDefinition =>
+                {
+                    var creator = idHash.Get(demoDefinition.Creator);
+                    var updator = idHash.Get(demoDefinition.Updator);
+                    context = new Context(
+                        tenantId: demoModel.TenantId,
+                        userId: updator.ToInt(),
+                        language: context.Language);
+                    idHash.Add(
+                        demoDefinition.Id, Rds.ExecuteScalar_response(
+                            context: context,
+                            selectIdentity: true,
+                            statements: new SqlStatement[]
+                            {
                             Rds.InsertItems(
                                 setIdentity: true,
                                 param: Rds.ItemsParam()
                                     .ReferenceType("Sites")
-                                    .Creator(idHash.Get(demoDefinition.Creator))
-                                    .Updator(idHash.Get(demoDefinition.Updator))
+                                    .Creator(creator)
+                                    .Updator(updator)
                                     .CreatedTime(demoDefinition.CreatedTime.DemoTime(
                                         context: context,
                                         demoModel: demoModel))
@@ -349,8 +361,8 @@ namespace Implem.Pleasanter.Models
                                         : 0)
                                     .InheritPermission(idHash, topId, demoDefinition.ParentId)
                                     .SiteSettings(demoDefinition.Body.Replace(idHash))
-                                    .Creator(idHash.Get(demoDefinition.Creator))
-                                    .Updator(idHash.Get(demoDefinition.Updator))
+                                    .Creator(creator)
+                                    .Updator(updator)
                                     .CreatedTime(demoDefinition.CreatedTime.DemoTime(
                                         context: context,
                                         demoModel: demoModel))
@@ -358,7 +370,8 @@ namespace Implem.Pleasanter.Models
                                         context: context,
                                         demoModel: demoModel)),
                                 addUpdatorParam: false)
-                        }).Identity.ToLong()));
+                            }).Identity.ToLong());
+                });
         }
 
         /// <summary>
@@ -390,6 +403,12 @@ namespace Implem.Pleasanter.Models
                 .Where(o => o.Type == "Issues")
                 .ForEach(demoDefinition =>
                 {
+                    var creator = idHash.Get(demoDefinition.Creator);
+                    var updator = idHash.Get(demoDefinition.Updator);
+                    context = new Context(
+                        tenantId: demoModel.TenantId,
+                        userId: updator.ToInt(),
+                        language: context.Language);
                     var issueId = Rds.ExecuteScalar_response(
                         context: context,
                         selectIdentity: true,
@@ -399,8 +418,8 @@ namespace Implem.Pleasanter.Models
                                 setIdentity: true,
                                 param: Rds.ItemsParam()
                                     .ReferenceType("Issues")
-                                    .Creator(idHash.Get(demoDefinition.Creator))
-                                    .Updator(idHash.Get(demoDefinition.Updator))
+                                    .Creator(creator)
+                                    .Updator(updator)
                                     .CreatedTime(demoDefinition.CreatedTime.DemoTime(
                                         context: context,
                                         demoModel: demoModel))
@@ -562,8 +581,8 @@ namespace Implem.Pleasanter.Models
                                         demoModel: demoModel,
                                         idHash: idHash,
                                         parentId: demoDefinition.Id))
-                                    .Creator(idHash.Get(demoDefinition.Creator))
-                                    .Updator(idHash.Get(demoDefinition.Updator))
+                                    .Creator(creator)
+                                    .Updator(updator)
                                     .CreatedTime(demoDefinition.CreatedTime.DemoTime(
                                         context: context,
                                         demoModel: demoModel))
@@ -600,8 +619,6 @@ namespace Implem.Pleasanter.Models
                         var startTime = issueModel.StartTime;
                         var progressRate = demoDefinition.ProgressRate;
                         var status = issueModel.Status.Value;
-                        var creator = issueModel.Creator.Id;
-                        var updator = issueModel.Updator.Id;
                         for (var d = 0; d < days -1; d++)
                         {
                             issueModel.VerUp = true;
@@ -681,6 +698,12 @@ namespace Implem.Pleasanter.Models
                 .Where(o => o.Type == "Results")
                 .ForEach(demoDefinition =>
                 {
+                    var creator = idHash.Get(demoDefinition.Creator);
+                    var updator = idHash.Get(demoDefinition.Updator);
+                    context = new Context(
+                        tenantId: demoModel.TenantId,
+                        userId: updator.ToInt(),
+                        language: context.Language);
                     var resultId = Rds.ExecuteScalar_response(
                         context: context,
                         selectIdentity: true,
@@ -690,8 +713,8 @@ namespace Implem.Pleasanter.Models
                                 setIdentity: true,
                                 param: Rds.ItemsParam()
                                     .ReferenceType("Results")
-                                    .Creator(idHash.Get(demoDefinition.Creator))
-                                    .Updator(idHash.Get(demoDefinition.Updator))
+                                    .Creator(creator)
+                                    .Updator(updator)
                                     .CreatedTime(demoDefinition.CreatedTime.DemoTime(
                                         context: context,
                                         demoModel: demoModel))
@@ -843,8 +866,8 @@ namespace Implem.Pleasanter.Models
                                         demoModel: demoModel,
                                         idHash: idHash,
                                         parentId: demoDefinition.Id))
-                                    .Creator(idHash.Get(demoDefinition.Creator))
-                                    .Updator(idHash.Get(demoDefinition.Updator))
+                                    .Creator(creator)
+                                    .Updator(updator)
                                     .CreatedTime(demoDefinition.CreatedTime.DemoTime(
                                         context: context,
                                         demoModel: demoModel))
