@@ -1348,6 +1348,7 @@ namespace Implem.Pleasanter.Models
                                     href: "#FieldSetStandard",
                                     text: Displays.Standard(context: context)),
                             _using: Def.TemplateDefinitionCollection
+                                .Where(o => o.Language == context.Language)
                                 .Any(o => o.Standard > 0))
                         .Li(
                             action: () => hb
@@ -1355,6 +1356,7 @@ namespace Implem.Pleasanter.Models
                                     href: "#FieldSetProject",
                                     text: Displays.Project(context: context)),
                             _using: Def.TemplateDefinitionCollection
+                                .Where(o => o.Language == context.Language)
                                 .Any(o => o.Project > 0))
                         .Li(
                             action: () => hb
@@ -1362,6 +1364,7 @@ namespace Implem.Pleasanter.Models
                                     href: "#FieldSetBusinessImprovement",
                                     text: Displays.BusinessImprovement(context: context)),
                             _using: Def.TemplateDefinitionCollection
+                                .Where(o => o.Language == context.Language)
                                 .Any(o => o.BusinessImprovement > 0))
                         .Li(
                             action: () => hb
@@ -1369,6 +1372,7 @@ namespace Implem.Pleasanter.Models
                                     href: "#FieldSetSales",
                                     text: Displays.Sales(context: context)),
                             _using: Def.TemplateDefinitionCollection
+                                .Where(o => o.Language == context.Language)
                                 .Any(o => o.Sales > 0))
                         .Li(
                             action: () => hb
@@ -1376,6 +1380,7 @@ namespace Implem.Pleasanter.Models
                                     href: "#FieldSetCustomer",
                                     text: Displays.Customer(context: context)),
                             _using: Def.TemplateDefinitionCollection
+                                .Where(o => o.Language == context.Language)
                                 .Any(o => o.Customer > 0))
                         .Li(
                             action: () => hb
@@ -1383,6 +1388,7 @@ namespace Implem.Pleasanter.Models
                                     href: "#FieldSetStore",
                                     text: Displays.Store(context: context)),
                             _using: Def.TemplateDefinitionCollection
+                                .Where(o => o.Language == context.Language)
                                 .Any(o => o.Store > 0))
                         .Li(
                             action: () => hb
@@ -1390,6 +1396,7 @@ namespace Implem.Pleasanter.Models
                                     href: "#FieldSetResearchAndDevelopment",
                                     text: Displays.ResearchAndDevelopment(context: context)),
                             _using: Def.TemplateDefinitionCollection
+                                .Where(o => o.Language == context.Language)
                                 .Any(o => o.ResearchAndDevelopment > 0))
                         .Li(
                             action: () => hb
@@ -1397,6 +1404,7 @@ namespace Implem.Pleasanter.Models
                                     href: "#FieldSetMarketing",
                                     text: Displays.Marketing(context: context)),
                             _using: Def.TemplateDefinitionCollection
+                                .Where(o => o.Language == context.Language)
                                 .Any(o => o.Marketing > 0))
                         .Li(
                             action: () => hb
@@ -1404,6 +1412,7 @@ namespace Implem.Pleasanter.Models
                                     href: "#FieldSetManufacture",
                                     text: Displays.Manufacture(context: context)),
                             _using: Def.TemplateDefinitionCollection
+                                .Where(o => o.Language == context.Language)
                                 .Any(o => o.Manufacture > 0))
                         .Li(
                             action: () => hb
@@ -1411,6 +1420,7 @@ namespace Implem.Pleasanter.Models
                                     href: "#FieldSetInformationSystem",
                                     text: Displays.InformationSystem(context: context)),
                             _using: Def.TemplateDefinitionCollection
+                                .Where(o => o.Language == context.Language)
                                 .Any(o => o.InformationSystem > 0))
                         .Li(
                             action: () => hb
@@ -1418,6 +1428,7 @@ namespace Implem.Pleasanter.Models
                                     href: "#FieldSetCorporatePlanning",
                                     text: Displays.CorporatePlanning(context: context)),
                             _using: Def.TemplateDefinitionCollection
+                                .Where(o => o.Language == context.Language)
                                 .Any(o => o.CorporatePlanning > 0))
                         .Li(
                             action: () => hb
@@ -1425,6 +1436,7 @@ namespace Implem.Pleasanter.Models
                                     href: "#FieldSetHumanResourcesAndGeneralAffairs",
                                     text: Displays.HumanResourcesAndGeneralAffairs(context: context)),
                             _using: Def.TemplateDefinitionCollection
+                                .Where(o => o.Language == context.Language)
                                 .Any(o => o.HumanResourcesAndGeneralAffairs > 0))
                         .Li(
                             action: () => hb
@@ -1432,6 +1444,7 @@ namespace Implem.Pleasanter.Models
                                     href: "#FieldSetEducation",
                                     text: Displays.Education(context: context)),
                             _using: Def.TemplateDefinitionCollection
+                                .Where(o => o.Language == context.Language)
                                 .Any(o => o.Education > 0))
                         .Li(
                             action: () => hb
@@ -1439,6 +1452,7 @@ namespace Implem.Pleasanter.Models
                                     href: "#FieldSetPurchase",
                                     text: Displays.Purchase(context: context)),
                             _using: Def.TemplateDefinitionCollection
+                                .Where(o => o.Language == context.Language)
                                 .Any(o => o.Purchase > 0))
                         .Li(
                             action: () => hb
@@ -1446,6 +1460,7 @@ namespace Implem.Pleasanter.Models
                                     href: "#FieldSetLogistics",
                                     text: Displays.Logistics(context: context)),
                             _using: Def.TemplateDefinitionCollection
+                                .Where(o => o.Language == context.Language)
                                 .Any(o => o.Logistics > 0))
                         .Li(
                             action: () => hb
@@ -1453,6 +1468,7 @@ namespace Implem.Pleasanter.Models
                                     href: "#FieldSetLegalAffairs",
                                     text: Displays.LegalAffairs(context: context)),
                             _using: Def.TemplateDefinitionCollection
+                                .Where(o => o.Language == context.Language)
                                 .Any(o => o.LegalAffairs > 0))
                         .Li(
                             action: () => hb
@@ -1460,6 +1476,7 @@ namespace Implem.Pleasanter.Models
                                     href: "#FieldSetProductList",
                                     text: Displays.ProductList(context: context)),
                             _using: Def.TemplateDefinitionCollection
+                                .Where(o => o.Language == context.Language)
                                 .Any(o => o.ProductList > 0))
                         .Li(
                             action: () => hb
@@ -1467,113 +1484,132 @@ namespace Implem.Pleasanter.Models
                                     href: "#FieldSetClassification",
                                     text: Displays.Classification(context: context)),
                             _using: Def.TemplateDefinitionCollection
+                                .Where(o => o.Language == context.Language)
                                 .Any(o => o.Classification > 0)))
                     .TemplateTab(
                         context: context,
                         name: "Standard",
                         templates: Def.TemplateDefinitionCollection
+                            .Where(o => o.Language == context.Language)
                             .Where(o => o.Standard > 0)
                             .OrderBy(o => o.Standard))
                     .TemplateTab(
                         context: context,
                         name: "Project",
                         templates: Def.TemplateDefinitionCollection
+                            .Where(o => o.Language == context.Language)
                             .Where(o => o.Project > 0)
                             .OrderBy(o => o.Project))
                     .TemplateTab(
                         context: context,
                         name: "BusinessImprovement",
                         templates: Def.TemplateDefinitionCollection
+                            .Where(o => o.Language == context.Language)
                             .Where(o => o.BusinessImprovement > 0)
                             .OrderBy(o => o.BusinessImprovement))
                     .TemplateTab(
                         context: context,
                         name: "Sales",
                         templates: Def.TemplateDefinitionCollection
+                            .Where(o => o.Language == context.Language)
                             .Where(o => o.Sales > 0)
                             .OrderBy(o => o.Sales))
                     .TemplateTab(
                         context: context,
                         name: "Customer",
                         templates: Def.TemplateDefinitionCollection
+                            .Where(o => o.Language == context.Language)
                             .Where(o => o.Customer > 0)
                             .OrderBy(o => o.Customer))
                     .TemplateTab(
                         context: context,
                         name: "Store",
                         templates: Def.TemplateDefinitionCollection
+                            .Where(o => o.Language == context.Language)
                             .Where(o => o.Store > 0)
                             .OrderBy(o => o.Store))
                     .TemplateTab(
                         context: context,
                         name: "ResearchAndDevelopment",
                         templates: Def.TemplateDefinitionCollection
+                            .Where(o => o.Language == context.Language)
                             .Where(o => o.ResearchAndDevelopment > 0)
                             .OrderBy(o => o.ResearchAndDevelopment))
                     .TemplateTab(
                         context: context,
                         name: "Marketing",
                         templates: Def.TemplateDefinitionCollection
+                            .Where(o => o.Language == context.Language)
                             .Where(o => o.Marketing > 0)
                             .OrderBy(o => o.Marketing))
                     .TemplateTab(
                         context: context,
                         name: "Manufacture",
                         templates: Def.TemplateDefinitionCollection
+                            .Where(o => o.Language == context.Language)
                             .Where(o => o.Manufacture > 0)
                             .OrderBy(o => o.Manufacture))
                     .TemplateTab(
                         context: context,
                         name: "InformationSystem",
                         templates: Def.TemplateDefinitionCollection
+                            .Where(o => o.Language == context.Language)
                             .Where(o => o.InformationSystem > 0)
                             .OrderBy(o => o.InformationSystem))
                     .TemplateTab(
                         context: context,
                         name: "CorporatePlanning",
                         templates: Def.TemplateDefinitionCollection
+                            .Where(o => o.Language == context.Language)
                             .Where(o => o.CorporatePlanning > 0)
                             .OrderBy(o => o.CorporatePlanning))
                     .TemplateTab(
                         context: context,
                         name: "HumanResourcesAndGeneralAffairs",
                         templates: Def.TemplateDefinitionCollection
+                            .Where(o => o.Language == context.Language)
                             .Where(o => o.HumanResourcesAndGeneralAffairs > 0)
                             .OrderBy(o => o.HumanResourcesAndGeneralAffairs))
                     .TemplateTab(
                         context: context,
                         name: "Education",
                         templates: Def.TemplateDefinitionCollection
+                            .Where(o => o.Language == context.Language)
                             .Where(o => o.Education > 0)
                             .OrderBy(o => o.Education))
                     .TemplateTab(
                         context: context,
                         name: "Purchase",
                         templates: Def.TemplateDefinitionCollection
+                            .Where(o => o.Language == context.Language)
                             .Where(o => o.Purchase > 0)
                             .OrderBy(o => o.Purchase))
                     .TemplateTab(
                         context: context,
                         name: "Logistics",
                         templates: Def.TemplateDefinitionCollection
+                            .Where(o => o.Language == context.Language)
                             .Where(o => o.Logistics > 0)
                             .OrderBy(o => o.Logistics))
                     .TemplateTab(
                         context: context,
                         name: "LegalAffairs",
                         templates: Def.TemplateDefinitionCollection
+                            .Where(o => o.Language == context.Language)
                             .Where(o => o.LegalAffairs > 0)
                             .OrderBy(o => o.LegalAffairs))
                     .TemplateTab(
                         context: context,
                         name: "ProductList",
                         templates: Def.TemplateDefinitionCollection
+                            .Where(o => o.Language == context.Language)
                             .Where(o => o.ProductList > 0)
                             .OrderBy(o => o.ProductList))
                     .TemplateTab(
                         context: context,
                         name: "Classification",
                         templates: Def.TemplateDefinitionCollection
+                            .Where(o => o.Language == context.Language)
                             .Where(o => o.Classification > 0)
                             .OrderBy(o => o.Classification)));
         }
