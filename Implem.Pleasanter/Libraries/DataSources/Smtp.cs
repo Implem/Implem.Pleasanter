@@ -6,7 +6,6 @@ using System;
 using System.Linq;
 using System.Net.Mail;
 using System.Threading.Tasks;
-
 namespace Implem.Pleasanter.Libraries.DataSources
 {
     public class Smtp
@@ -43,7 +42,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             Body = body;
         }
 
-        public void Send()
+        public void Send(Context context)
         {
             var task = Task.Run(() =>
             {
@@ -52,9 +51,18 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     using (var mailMessage = new MailMessage())
                     {
                         mailMessage.From = Addresses.From(From);
-                        Addresses.GetEnumerable(To).ForEach(to => mailMessage.To.Add(to));
-                        Addresses.GetEnumerable(Cc).ForEach(cc => mailMessage.CC.Add(cc));
-                        Addresses.GetEnumerable(Bcc).ForEach(bcc => mailMessage.Bcc.Add(bcc));
+                        Addresses.GetEnumerable(
+                            context: context,
+                            addresses: To)
+                                .ForEach(to => mailMessage.To.Add(to));
+                        Addresses.GetEnumerable(
+                            context: context,
+                            addresses: Cc)
+                                .ForEach(cc => mailMessage.CC.Add(cc));
+                        Addresses.GetEnumerable(
+                            context: context,
+                            addresses: Bcc)
+                                .ForEach(bcc => mailMessage.Bcc.Add(bcc));
                         mailMessage.Subject = Subject;
                         mailMessage.Body = Body;
                         using (var smtpClient = new SmtpClient())

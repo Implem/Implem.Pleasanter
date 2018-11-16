@@ -275,6 +275,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                 ? data.Select(o => o.Value).Max()
                 : 0;
             return hb.Table(
+                id: "Grid",
                 css: "grid fixed",
                 action: () => hb
                     .THead(action: () => hb

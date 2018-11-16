@@ -2120,8 +2120,11 @@ namespace Implem.Pleasanter.Models
             string mailAddress,
             out string data)
         {
-            var error = MailAddressValidators.BadMailAddress(mailAddress, out data);
-            if (!DefinitionAccessor.Parameters.Service.ShowProfiles)
+            var error = MailAddressValidators.BadMailAddress(
+                context: context,
+                addresses: mailAddress,
+                data: out data);
+            if (!Parameters.Service.ShowProfiles)
             {
                 return Error.Types.InvalidRequest;
             }
