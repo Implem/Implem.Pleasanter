@@ -1,0 +1,216 @@
+﻿<Window x:Class="Implem.SupportTools.SysLogViewer.View.DetailWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        mc:Ignorable="d"
+        Title="SysLog詳細" d:DesignHeight="1097.039">
+    
+    <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+
+            <Rectangle Grid.Row="0" Grid.Column="0" Fill="{DynamicResource {x:Static SystemColors.ControlBrushKey}}" Stroke="{DynamicResource {x:Static SystemColors.ActiveBorderBrushKey}}"/>
+            <Rectangle Grid.Row="1" Grid.Column="0" Fill="{DynamicResource {x:Static SystemColors.ControlBrushKey}}" Stroke="{DynamicResource {x:Static SystemColors.ActiveBorderBrushKey}}"/>
+            <Rectangle Grid.Row="2" Grid.Column="0" Fill="{DynamicResource {x:Static SystemColors.ControlBrushKey}}" Stroke="{DynamicResource {x:Static SystemColors.ActiveBorderBrushKey}}"/>
+            <Rectangle Grid.Row="3" Grid.Column="0" Fill="{DynamicResource {x:Static SystemColors.ControlBrushKey}}" Stroke="{DynamicResource {x:Static SystemColors.ActiveBorderBrushKey}}"/>
+            <Rectangle Grid.Row="4" Grid.Column="0" Fill="{DynamicResource {x:Static SystemColors.ControlBrushKey}}" Stroke="{DynamicResource {x:Static SystemColors.ActiveBorderBrushKey}}"/>
+            <Rectangle Grid.Row="5" Grid.Column="0" Fill="{DynamicResource {x:Static SystemColors.ControlBrushKey}}" Stroke="{DynamicResource {x:Static SystemColors.ActiveBorderBrushKey}}"/>
+            <Rectangle Grid.Row="6" Grid.Column="0" Fill="{DynamicResource {x:Static SystemColors.ControlBrushKey}}" Stroke="{DynamicResource {x:Static SystemColors.ActiveBorderBrushKey}}"/>
+            <Rectangle Grid.Row="7" Grid.Column="0" Fill="{DynamicResource {x:Static SystemColors.ControlBrushKey}}" Stroke="{DynamicResource {x:Static SystemColors.ActiveBorderBrushKey}}"/>
+            <Rectangle Grid.Row="8" Grid.Column="0" Fill="{DynamicResource {x:Static SystemColors.ControlBrushKey}}" Stroke="{DynamicResource {x:Static SystemColors.ActiveBorderBrushKey}}"/>
+            <Rectangle Grid.Row="9" Grid.Column="0" Fill="{DynamicResource {x:Static SystemColors.ControlBrushKey}}" Stroke="{DynamicResource {x:Static SystemColors.ActiveBorderBrushKey}}"/>
+            <Rectangle Grid.Row="10" Grid.Column="0" Fill="{DynamicResource {x:Static SystemColors.ControlBrushKey}}" Stroke="{DynamicResource {x:Static SystemColors.ActiveBorderBrushKey}}"/>
+            <Rectangle Grid.Row="11" Grid.Column="0" Fill="{DynamicResource {x:Static SystemColors.ControlBrushKey}}" Stroke="{DynamicResource {x:Static SystemColors.ActiveBorderBrushKey}}"/>
+            <Rectangle Grid.Row="12" Grid.Column="0" Fill="{DynamicResource {x:Static SystemColors.ControlBrushKey}}" Stroke="{DynamicResource {x:Static SystemColors.ActiveBorderBrushKey}}"/>
+            <Rectangle Grid.Row="13" Grid.Column="0" Fill="{DynamicResource {x:Static SystemColors.ControlBrushKey}}" Stroke="{DynamicResource {x:Static SystemColors.ActiveBorderBrushKey}}"/>
+            <Rectangle Grid.Row="14" Grid.Column="0" Fill="{DynamicResource {x:Static SystemColors.ControlBrushKey}}" Stroke="{DynamicResource {x:Static SystemColors.ActiveBorderBrushKey}}"/>
+            <Rectangle Grid.Row="15" Grid.Column="0" Fill="{DynamicResource {x:Static SystemColors.ControlBrushKey}}" Stroke="{DynamicResource {x:Static SystemColors.ActiveBorderBrushKey}}"/>
+            <Rectangle Grid.Row="16" Grid.Column="0" Fill="{DynamicResource {x:Static SystemColors.ControlBrushKey}}" Stroke="{DynamicResource {x:Static SystemColors.ActiveBorderBrushKey}}"/>
+            <Rectangle Grid.Row="17" Grid.Column="0" Fill="{DynamicResource {x:Static SystemColors.ControlBrushKey}}" Stroke="{DynamicResource {x:Static SystemColors.ActiveBorderBrushKey}}"/>
+            <Rectangle Grid.Row="18" Grid.Column="0" Fill="{DynamicResource {x:Static SystemColors.ControlBrushKey}}" Stroke="{DynamicResource {x:Static SystemColors.ActiveBorderBrushKey}}"/>
+            <Rectangle Grid.Row="19" Grid.Column="0" Fill="{DynamicResource {x:Static SystemColors.ControlBrushKey}}" Stroke="{DynamicResource {x:Static SystemColors.ActiveBorderBrushKey}}"/>
+            <Rectangle Grid.Row="20" Grid.Column="0" Fill="{DynamicResource {x:Static SystemColors.ControlBrushKey}}" Stroke="{DynamicResource {x:Static SystemColors.ActiveBorderBrushKey}}"/>
+            <Rectangle Grid.Row="21" Grid.Column="0" Fill="{DynamicResource {x:Static SystemColors.ControlBrushKey}}" Stroke="{DynamicResource {x:Static SystemColors.ActiveBorderBrushKey}}"/>
+            <Rectangle Grid.Row="22" Grid.Column="0" Fill="{DynamicResource {x:Static SystemColors.ControlBrushKey}}" Stroke="{DynamicResource {x:Static SystemColors.ActiveBorderBrushKey}}"/>
+            <Rectangle Grid.Row="23" Grid.Column="0" Fill="{DynamicResource {x:Static SystemColors.ControlBrushKey}}" Stroke="{DynamicResource {x:Static SystemColors.ActiveBorderBrushKey}}"/>
+            <Rectangle Grid.Row="24" Grid.Column="0" Fill="{DynamicResource {x:Static SystemColors.ControlBrushKey}}" Stroke="{DynamicResource {x:Static SystemColors.ActiveBorderBrushKey}}"/>
+            <Rectangle Grid.Row="25" Grid.Column="0" Fill="{DynamicResource {x:Static SystemColors.ControlBrushKey}}" Stroke="{DynamicResource {x:Static SystemColors.ActiveBorderBrushKey}}"/>
+            <Rectangle Grid.Row="26" Grid.Column="0" Fill="{DynamicResource {x:Static SystemColors.ControlBrushKey}}" Stroke="{DynamicResource {x:Static SystemColors.ActiveBorderBrushKey}}"/>
+            <Rectangle Grid.Row="27" Grid.Column="0" Fill="{DynamicResource {x:Static SystemColors.ControlBrushKey}}" Stroke="{DynamicResource {x:Static SystemColors.ActiveBorderBrushKey}}"/>
+            <Rectangle Grid.Row="28" Grid.Column="0" Fill="{DynamicResource {x:Static SystemColors.ControlBrushKey}}" Stroke="{DynamicResource {x:Static SystemColors.ActiveBorderBrushKey}}"/>
+            <Rectangle Grid.Row="29" Grid.Column="0" Fill="{DynamicResource {x:Static SystemColors.ControlBrushKey}}" Stroke="{DynamicResource {x:Static SystemColors.ActiveBorderBrushKey}}"/>
+            <Rectangle Grid.Row="30" Grid.Column="0" Fill="{DynamicResource {x:Static SystemColors.ControlBrushKey}}" Stroke="{DynamicResource {x:Static SystemColors.ActiveBorderBrushKey}}"/>
+            <Rectangle Grid.Row="31" Grid.Column="0" Fill="{DynamicResource {x:Static SystemColors.ControlBrushKey}}" Stroke="{DynamicResource {x:Static SystemColors.ActiveBorderBrushKey}}"/>
+            <Rectangle Grid.Row="32" Grid.Column="0" Fill="{DynamicResource {x:Static SystemColors.ControlBrushKey}}" Stroke="{DynamicResource {x:Static SystemColors.ActiveBorderBrushKey}}"/>
+            <Rectangle Grid.Row="33" Grid.Column="0" Fill="{DynamicResource {x:Static SystemColors.ControlBrushKey}}" Stroke="{DynamicResource {x:Static SystemColors.ActiveBorderBrushKey}}"/>
+            <Rectangle Grid.Row="34" Grid.Column="0" Fill="{DynamicResource {x:Static SystemColors.ControlBrushKey}}" Stroke="{DynamicResource {x:Static SystemColors.ActiveBorderBrushKey}}"/>
+            <Rectangle Grid.Row="35" Grid.Column="0" Fill="{DynamicResource {x:Static SystemColors.ControlBrushKey}}" Stroke="{DynamicResource {x:Static SystemColors.ActiveBorderBrushKey}}"/>
+            <Rectangle Grid.Row="36" Grid.Column="0" Fill="{DynamicResource {x:Static SystemColors.ControlBrushKey}}" Stroke="{DynamicResource {x:Static SystemColors.ActiveBorderBrushKey}}"/>
+            <Rectangle Grid.Row="37" Grid.Column="0" Fill="{DynamicResource {x:Static SystemColors.ControlBrushKey}}" Stroke="{DynamicResource {x:Static SystemColors.ActiveBorderBrushKey}}"/>
+            <Rectangle Grid.Row="38" Grid.Column="0" Fill="{DynamicResource {x:Static SystemColors.ControlBrushKey}}" Stroke="{DynamicResource {x:Static SystemColors.ActiveBorderBrushKey}}"/>
+            
+            <Label Grid.Row="0" Grid.Column="0">CreatedTime</Label>
+            <TextBox TextWrapping="Wrap" IsReadOnly="True" Grid.Row="0" Grid.Column="1" Text="{Binding Item.CreatedTime}"></TextBox>
+
+            <Label Grid.Row="1" Grid.Column="0">SysLogId</Label>
+            <TextBox TextWrapping="Wrap" IsReadOnly="True"  Grid.Row="1" Grid.Column="1" Text="{Binding Item.SysLogId}"></TextBox>
+
+            <Label Grid.Row="2" Grid.Column="0">Ver</Label>
+            <TextBox TextWrapping="Wrap" IsReadOnly="True"  Grid.Row="2" Grid.Column="1" Text="{Binding Item.Ver}"></TextBox>
+
+            <Label Grid.Row="3" Grid.Column="0">SysLogType</Label>
+            <TextBox TextWrapping="Wrap" IsReadOnly="True"  Grid.Row="3" Grid.Column="1" Text="{Binding Item.SysLogType}"></TextBox>
+
+            <Label Grid.Row="4" Grid.Column="0">OnAzure</Label>
+            <TextBox TextWrapping="Wrap" IsReadOnly="True"  Grid.Row="4" Grid.Column="1" Text="{Binding Item.OnAzure}"></TextBox>
+
+            <Label Grid.Row="5" Grid.Column="0">MachineName</Label>
+            <TextBox TextWrapping="Wrap" IsReadOnly="True"  Grid.Row="5" Grid.Column="1" Text="{Binding Item.MachineName}"></TextBox>
+
+            <Label Grid.Row="6" Grid.Column="0">ServiceName</Label>
+            <TextBox TextWrapping="Wrap" IsReadOnly="True"  Grid.Row="6" Grid.Column="1" Text="{Binding Item.ServiceName}"></TextBox>
+
+            <Label Grid.Row="7" Grid.Column="0">TenantName</Label>
+            <TextBox TextWrapping="Wrap" IsReadOnly="True"  Grid.Row="7" Grid.Column="1" Text="{Binding Item.TenantName}"></TextBox>
+
+            <Label Grid.Row="8" Grid.Column="0">Application</Label>
+            <TextBox TextWrapping="Wrap" IsReadOnly="True"  Grid.Row="8" Grid.Column="1" Text="{Binding Item.Application}"></TextBox>
+
+            <Label Grid.Row="9" Grid.Column="0">Class</Label>
+            <TextBox TextWrapping="Wrap" IsReadOnly="True"  Grid.Row="9" Grid.Column="1" Text="{Binding Item.Class}"></TextBox>
+
+            <Label Grid.Row="10" Grid.Column="0">Method</Label>
+            <TextBox TextWrapping="Wrap" IsReadOnly="True"  Grid.Row="10" Grid.Column="1" Text="{Binding Item.Method}"></TextBox>
+
+            <Label Grid.Row="11" Grid.Column="0">RequestData</Label>
+            <TextBox TextWrapping="Wrap" IsReadOnly="True"  Grid.Row="11" Grid.Column="1" Text="{Binding Item.RequestData}"></TextBox>
+
+            <Label Grid.Row="12" Grid.Column="0">HttpMethod</Label>
+            <TextBox TextWrapping="Wrap" IsReadOnly="True"  Grid.Row="12" Grid.Column="1" Text="{Binding Item.HttpMethod}"></TextBox>
+
+            <Label Grid.Row="13" Grid.Column="0">RequestSize</Label>
+            <TextBox TextWrapping="Wrap" IsReadOnly="True"  Grid.Row="13" Grid.Column="1" Text="{Binding Item.ResponseSize}"></TextBox>
+
+            <Label Grid.Row="14" Grid.Column="0">Elapsed</Label>
+            <TextBox TextWrapping="Wrap" IsReadOnly="True"  Grid.Row="14" Grid.Column="1" Text="{Binding Item.Elapsed}"></TextBox>
+
+            <Label Grid.Row="15" Grid.Column="0">ApplicationAge</Label>
+            <TextBox TextWrapping="Wrap" IsReadOnly="True"  Grid.Row="15" Grid.Column="1" Text="{Binding Item.ApplicationAge}"></TextBox>
+
+            <Label Grid.Row="16" Grid.Column="0">ApplicationRequestInterval</Label>
+            <TextBox TextWrapping="Wrap" IsReadOnly="True"  Grid.Row="16" Grid.Column="1" Text="{Binding Item.ApplicationRequestInterval}"></TextBox>
+
+            <Label Grid.Row="17" Grid.Column="0">SessionAge</Label>
+            <TextBox TextWrapping="Wrap" IsReadOnly="True"  Grid.Row="17" Grid.Column="1" Text="{Binding Item.SessionAge}"></TextBox>
+
+            <Label Grid.Row="18" Grid.Column="0">SessionRequestInterval</Label>
+            <TextBox TextWrapping="Wrap" IsReadOnly="True"  Grid.Row="18" Grid.Column="1" Text="{Binding Item.SessionRequestInterval}"></TextBox>
+
+            <Label Grid.Row="19" Grid.Column="0">WorkingSet64</Label>
+            <TextBox TextWrapping="Wrap" IsReadOnly="True"  Grid.Row="19" Grid.Column="1" Text="{Binding Item.WorkingSet64}"></TextBox>
+
+            <Label Grid.Row="20" Grid.Column="0">VirtualMemorySize64</Label>
+            <TextBox TextWrapping="Wrap" IsReadOnly="True"  Grid.Row="20" Grid.Column="1" Text="{Binding Item.VirtualMemorySize64}"></TextBox>
+
+            <Label Grid.Row="21" Grid.Column="0">ProcessId</Label>
+            <TextBox TextWrapping="Wrap" IsReadOnly="True"  Grid.Row="21" Grid.Column="1" Text="{Binding Item.ProcessId}"></TextBox>
+
+            <Label Grid.Row="22" Grid.Column="0">ProcessName</Label>
+            <TextBox TextWrapping="Wrap" IsReadOnly="True"  Grid.Row="22" Grid.Column="1" Text="{Binding Item.ProcessName}"></TextBox>
+
+            <Label Grid.Row="23" Grid.Column="0">BasePriority</Label>
+            <TextBox TextWrapping="Wrap" IsReadOnly="True"  Grid.Row="23" Grid.Column="1" Text="{Binding Item.BasePriority}"></TextBox>
+
+            <Label Grid.Row="24" Grid.Column="0">Url</Label>
+            <TextBox TextWrapping="Wrap" IsReadOnly="True"  Grid.Row="24" Grid.Column="1" Text="{Binding Item.Url}"></TextBox>
+
+            <Label Grid.Row="25" Grid.Column="0">UrlReferer</Label>
+            <TextBox TextWrapping="Wrap" IsReadOnly="True"  Grid.Row="25" Grid.Column="1" Text="{Binding Item.UrlReferer}"></TextBox>
+
+            <Label Grid.Row="26" Grid.Column="0">UserHostName</Label>
+            <TextBox TextWrapping="Wrap" IsReadOnly="True"  Grid.Row="26" Grid.Column="1" Text="{Binding Item.UserHostName}"></TextBox>
+
+            <Label Grid.Row="27" Grid.Column="0">UserHostAddress</Label>
+            <TextBox TextWrapping="Wrap" IsReadOnly="True"  Grid.Row="27" Grid.Column="1" Text="{Binding Item.UserHostAddress}"></TextBox>
+
+            <Label Grid.Row="28" Grid.Column="0">UserLanguage</Label>
+            <TextBox TextWrapping="Wrap" IsReadOnly="True"  Grid.Row="28" Grid.Column="1" Text="{Binding Item.UserLanguage}"></TextBox>
+
+            <Label Grid.Row="29" Grid.Column="0">UserAgent</Label>
+            <TextBox TextWrapping="Wrap" IsReadOnly="True"  Grid.Row="29" Grid.Column="1" Text="{Binding Item.UserAgent}"></TextBox>
+
+            <Label Grid.Row="30" Grid.Column="0">SessionGuid</Label>
+            <TextBox TextWrapping="Wrap" IsReadOnly="True"  Grid.Row="30" Grid.Column="1" Text="{Binding Item.SessionGuid}"></TextBox>
+
+            <Label Grid.Row="31" Grid.Column="0">ErrMessage</Label>
+            <TextBox TextWrapping="Wrap" IsReadOnly="True"  Grid.Row="31" Grid.Column="1" Text="{Binding Item.ErrMessage}"></TextBox>
+
+            <Label Grid.Row="32" Grid.Column="0">ErrStackTrace</Label>
+            <TextBox TextWrapping="Wrap" IsReadOnly="True"  Grid.Row="32" Grid.Column="1" Text="{Binding Item.ErrStackTrace}"></TextBox>
+
+            <Label Grid.Row="33" Grid.Column="0">InDebug</Label>
+            <TextBox TextWrapping="Wrap" IsReadOnly="True"  Grid.Row="33" Grid.Column="1" Text="{Binding Item.InDebug}"></TextBox>
+
+            <Label Grid.Row="34" Grid.Column="0">AssemblyVersion</Label>
+            <TextBox TextWrapping="Wrap" IsReadOnly="True"  Grid.Row="34" Grid.Column="1" Text="{Binding Item.AssemblyVersion}"></TextBox>
+
+            <Label Grid.Row="35" Grid.Column="0">Comments</Label>
+            <TextBox TextWrapping="Wrap" IsReadOnly="True"  Grid.Row="35" Grid.Column="1" Text="{Binding Item.Comments}"></TextBox>
+
+            <Label Grid.Row="36" Grid.Column="0">Creator</Label>
+            <TextBox TextWrapping="Wrap" IsReadOnly="True"  Grid.Row="36" Grid.Column="1" Text="{Binding Item.Creator}"></TextBox>
+
+            <Label Grid.Row="37" Grid.Column="0">Updator</Label>
+            <TextBox TextWrapping="Wrap" IsReadOnly="True"  Grid.Row="37" Grid.Column="1" Text="{Binding Item.Updator}"></TextBox>
+
+            <Label Grid.Row="38" Grid.Column="0">UpdatedTime</Label>
+            <TextBox TextWrapping="Wrap" IsReadOnly="True"  Grid.Row="38" Grid.Column="1" Text="{Binding Item.UpdatedTime}"></TextBox>
+
+        </Grid>
+    </ScrollViewer>
+</Window>
