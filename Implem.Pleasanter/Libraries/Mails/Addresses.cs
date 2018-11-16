@@ -6,6 +6,7 @@ using System.Linq;
 using System.Net.Mail;
 using System.Data;
 using Implem.Pleasanter.Libraries.Requests;
+using Implem.Libraries.DataSources.SqlServer;
 namespace Implem.Pleasanter.Libraries.Mails
 {
     public static class Addresses
@@ -31,9 +32,15 @@ namespace Implem.Pleasanter.Libraries.Mails
                     statements: Rds.SelectMailAddresses(
                         column: Rds.MailAddressesColumn()
                             .MailAddress(),
+                        join: new SqlJoinCollection(
+                            new SqlJoin(
+                                tableBracket: "[Users]",
+                                joinType: SqlJoin.JoinTypes.Inner,
+                                joinExpression: "[MailAddresses].[OwnerId]=[Users].[UserId]")),
                         where: Rds.MailAddressesWhere()
                             .OwnerType("Users")
-                            .OwnerId(userId)))
+                            .OwnerId(userId)
+                            .Users_TenantId(context.TenantId)))
                                 .AsEnumerable()
                                 .Select(o => o.String("MailAddress"))
                                 .ToList()
