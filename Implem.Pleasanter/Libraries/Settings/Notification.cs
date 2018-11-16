@@ -119,9 +119,11 @@ namespace Implem.Pleasanter.Libraries.Settings
                     if (Parameters.Notification.Mail)
                     {
                         var mailFrom = new System.Net.Mail.MailAddress(
-                            Addresses.BadAddress(from) == string.Empty
-                                ? from
-                                : Parameters.Mail.SupportFrom);
+                            Addresses.BadAddress(
+                                context: context,
+                                addresses: from) == string.Empty
+                                    ? from
+                                    : Parameters.Mail.SupportFrom);
                         new OutgoingMailModel()
                         {
                             Title = new Title(Prefix + title),
@@ -129,7 +131,9 @@ namespace Implem.Pleasanter.Libraries.Settings
                                 ? "\r\n\r\n{0}<{1}>".Params(mailFrom.DisplayName, mailFrom.Address)
                                 : string.Empty),
                             From = mailFrom,
-                            To = Address
+                            To = Addresses.GetEnumerable(
+                                context: context,
+                                addresses: Address).Join(",")
                         }.Send(context: context, ss: ss);
                     }
                     break;

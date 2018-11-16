@@ -161,7 +161,9 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             DateTime month,
             DateTime begin)
         {
-            return hb.Table(action: () => hb
+            return hb.Table(
+                id: "Grid",
+                action: () => hb
                 .THead(action: () => hb
                     .Tr(action: () =>
                     {

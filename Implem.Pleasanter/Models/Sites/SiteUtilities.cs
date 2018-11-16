@@ -6071,48 +6071,47 @@ namespace Implem.Pleasanter.Models
         public static HtmlBuilder EditNotificationBody(
             this HtmlBuilder hb, Context context, SiteSettings ss, IEnumerable<int> selected)
         {
-            return hb.TBody(action: () => ss
-                .Notifications?.ForEach(notification =>
-                {
-                    var beforeCondition = ss.Views?.Get(notification.BeforeCondition);
-                    var afterCondition = ss.Views?.Get(notification.AfterCondition);
-                    hb.Tr(
-                        css: "grid-row",
-                        attributes: new HtmlAttributes()
-                            .DataId(notification.Id.ToString()),
-                        action: () => hb
-                            .Td(action: () => hb
-                                .CheckBox(
-                                    controlCss: "select",
-                                    _checked: selected?
-                                        .Contains(notification.Id) == true))
-                            .Td(action: () => hb
-                                .Text(text: notification.Id.ToString()))
-                            .Td(action: () => hb
-                                .Text(text: Displays.Get(
+            return hb.TBody(action: () => ss.Notifications?.ForEach(notification =>
+            {
+                var beforeCondition = ss.Views?.Get(notification.BeforeCondition);
+                var afterCondition = ss.Views?.Get(notification.AfterCondition);
+                hb.Tr(
+                    css: "grid-row",
+                    attributes: new HtmlAttributes()
+                        .DataId(notification.Id.ToString()),
+                    action: () => hb
+                        .Td(action: () => hb
+                            .CheckBox(
+                                controlCss: "select",
+                                _checked: selected?
+                                    .Contains(notification.Id) == true))
+                        .Td(action: () => hb
+                            .Text(text: notification.Id.ToString()))
+                        .Td(action: () => hb
+                            .Text(text: Displays.Get(
+                                context: context,
+                                id: notification.Type.ToString())))
+                        .Td(action: () => hb
+                            .Text(text: notification.Prefix))
+                        .Td(action: () => hb
+                            .Text(text: notification.Address))
+                        .Td(action: () => hb
+                            .Text(text: notification.MonitorChangesColumns?
+                                .Select(columnName => ss.GetColumn(
                                     context: context,
-                                    id: notification.Type.ToString())))
-                            .Td(action: () => hb
-                                .Text(text: notification.Prefix))
-                            .Td(action: () => hb
-                                .Text(text: notification.Address))
-                            .Td(action: () => hb
-                                .Text(text: notification.MonitorChangesColumns?
-                                    .Select(columnName => ss.GetColumn(
-                                        context: context,
-                                        columnName: columnName).LabelText)
-                                    .Join(", ")))
-                            .Td(action: () => hb
-                                .Text(text: beforeCondition?.Name))
-                            .Td(action: () => hb
-                                .Text(text: beforeCondition != null && afterCondition != null
-                                    ? Displays.Get(
-                                        context: context,
-                                        id: notification.Expression.ToString())
-                                    : null))
-                            .Td(action: () => hb
-                                .Text(text: afterCondition?.Name)));
-                }));
+                                    columnName: columnName).LabelText)
+                                .Join(", ")))
+                        .Td(action: () => hb
+                            .Text(text: beforeCondition?.Name))
+                        .Td(action: () => hb
+                            .Text(text: beforeCondition != null && afterCondition != null
+                                ? Displays.Get(
+                                    context: context,
+                                    id: notification.Expression.ToString())
+                                : null))
+                        .Td(action: () => hb
+                            .Text(text: afterCondition?.Name)));
+            }));
         }
 
         /// <summary>

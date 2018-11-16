@@ -733,7 +733,7 @@ namespace Implem.Pleasanter.Models
                 bcc: Bcc,
                 subject: Title.Value,
                 body: Body)
-                    .Send();
+                    .Send(context: context);
         }
 
         /// <summary>
@@ -750,7 +750,7 @@ namespace Implem.Pleasanter.Models
                 bcc: Bcc,
                 subject: Title.Value,
                 body: Body)
-                    .Send();
+                    .Send(context: context);
         }
     }
 }

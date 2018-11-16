@@ -40,7 +40,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             Body = body;
         }
 
-        public void Send()
+        public void Send(Context context)
         {
             Task.Run(() =>
             {
@@ -48,9 +48,18 @@ namespace Implem.Pleasanter.Libraries.DataSources
                 {
                     var sendGridMessage = new SendGrid.SendGridMessage();
                     sendGridMessage.From = Addresses.From(From);
-                    Addresses.GetEnumerable(To).ForEach(to => sendGridMessage.AddTo(to));
-                    Addresses.GetEnumerable(Cc).ForEach(cc => sendGridMessage.AddCc(cc));
-                    Addresses.GetEnumerable(Bcc).ForEach(bcc => sendGridMessage.AddBcc(bcc));
+                    Addresses.GetEnumerable(
+                        context: context,
+                        addresses: To)
+                            .ForEach(to => sendGridMessage.AddTo(to));
+                    Addresses.GetEnumerable(
+                        context: context,
+                        addresses: Cc)
+                            .ForEach(cc => sendGridMessage.AddCc(cc));
+                    Addresses.GetEnumerable(
+                        context: context,
+                        addresses: Bcc)
+                            .ForEach(bcc => sendGridMessage.AddBcc(bcc));
                     sendGridMessage.Subject = Subject;
                     sendGridMessage.Text = Body;
                     new SendGrid.Web(new System.Net.NetworkCredential(

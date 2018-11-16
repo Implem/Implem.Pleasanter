@@ -68,9 +68,35 @@ namespace Implem.Pleasanter.Libraries.Settings
                 Notification.Types.LineGroup
             };
         }
-        
+
+        public static SettingList<Notification> GetNotifications(this SiteSettings ss, Context context)
+        {
+            var notifications = context.Forms.Get("Notifications")?
+                .Deserialize<SettingList<Notification>>()?
+                .Where(o => o.Enabled);
+            if (notifications != null)
+            {
+                notifications
+                    .Where(o => o.MonitorChangesColumns?.Any() != true)
+                    .ForEach(notification =>
+                        notification.MonitorChangesColumns = ss.EditorColumns);
+                return SettingList(notifications);
+            }
+            else
+            {
+                return SettingList(ss.Notifications.Where(o => o.Enabled));
+            }
+        }
+
+        private static SettingList<Notification> SettingList(IEnumerable<Notification> notifications)
+        {
+            var list = new SettingList<Notification>();
+            notifications.ForEach(notification => list.Add(notification));
+            return list;
+        }
+
         public static void CheckConditions(
-            this SettingList<Notification> notifications,
+            this List<Notification> notifications,
             List<View> views,
             bool before,
             DataSet dataSet)

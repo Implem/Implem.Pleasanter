@@ -782,14 +782,14 @@ namespace Implem.Pleasanter.Models
 
         private void CheckNotificationConditions(Context context, SiteSettings ss, bool before = false)
         {
-            if (ss.Notifications.Any())
+            if (ss.GetNotifications(context: context).Any())
             {
-                ss.Notifications?.CheckConditions(
+                ss.GetNotifications(context: context)?.CheckConditions(
                     views: ss.Views,
                     before: before,
                     dataSet: Rds.ExecuteDataSet(
                         context: context,
-                        statements: ss.Notifications.Select((o, i) =>
+                        statements: ss.GetNotifications(context: context).Select((o, i) =>
                             Rds.SelectWikis(
                                 column: Rds.WikisColumn().WikiId(),
                                 where: ss.Views?.Get(before
@@ -809,7 +809,7 @@ namespace Implem.Pleasanter.Models
             var url = Locations.ItemEditAbsoluteUri(
                 context: context,
                 id: WikiId);
-            ss.Notifications.Where(o => o.Enabled).ForEach(notification =>
+            ss.GetNotifications(context: context).ForEach(notification =>
             {
                 if (notification.HasRelatedUsers())
                 {
