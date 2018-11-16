@@ -72,7 +72,8 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                         .Meta(name: "viewport", content: Parameters.General.HtmlHeadViewport)
                         .LinkedStyles(context: context)
                         .Title(action: () => hb
-                            .Text(text: Parameters.General.HtmlTitle)))
+                            .Text(text: Parameters.General.HtmlTitle
+                                ?? Displays.ProductName(context: context))))
                     .Body(style: "visibility:hidden", action: action));
             }
             else
