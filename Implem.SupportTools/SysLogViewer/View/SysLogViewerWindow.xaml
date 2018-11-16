@@ -1,0 +1,81 @@
+﻿<UserControl x:Class="Implem.SupportTools.SysLogViewer.View.SysLogViewerWindow"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:componentModel="clr-namespace:System.ComponentModel;assembly=WindowsBase"
+             mc:Ignorable="d" 
+             Loaded="UserControl_Loaded"
+             Unloaded="UserControl_Unloaded"
+             d:DesignHeight="450" d:DesignWidth="800">
+    <UserControl.Resources>
+        <CollectionViewSource x:Key="listViewSource" Source="{Binding SysLogs}" Filter="CollectionViewSource_Filter">
+            <CollectionViewSource.SortDescriptions>
+                <componentModel:SortDescription PropertyName="CreatedTime" Direction="Descending"/>
+            </CollectionViewSource.SortDescriptions>
+        </CollectionViewSource>
+    </UserControl.Resources>
+    <Grid Margin="8">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto"/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="auto"/>
+            <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
+        <GroupBox Grid.Row="0" Grid.Column="0" Header="SysLogType" Padding="2">
+            <StackPanel Orientation="Horizontal">
+                <CheckBox Margin="2,4" VerticalAlignment="Center" IsChecked="{Binding IsInfoChecked}" Click="CheckBox_Click">Info</CheckBox>
+                <CheckBox Margin="2,4" VerticalAlignment="Center" IsChecked="{Binding IsWarningChecked}" Click="CheckBox_Click">Warning</CheckBox>
+                <CheckBox Margin="2,4" VerticalAlignment="Center" IsChecked="{Binding IsUserErrorChecked}" Click="CheckBox_Click">UserError</CheckBox>
+                <CheckBox Margin="2,4" VerticalAlignment="Center" IsChecked="{Binding IsSystemErrorChecked}" Click="CheckBox_Click">SystemError</CheckBox>
+                <CheckBox Margin="2,4" VerticalAlignment="Center" IsChecked="{Binding IsExceptionChecked}" Click="CheckBox_Click">Execption</CheckBox>
+            </StackPanel>
+        </GroupBox>
+        <GroupBox Grid.Row="0" Grid.Column="1" Header="Settings" Padding="2">
+            <StackPanel Orientation="Horizontal">
+                <Label VerticalAlignment="Center">取得件数</Label>
+                <TextBox VerticalAlignment="Center" TextAlignment="Right" Text="{Binding Count}" Width="80" Padding="2"></TextBox>
+                <Label VerticalAlignment="Center" Margin="8,0,0,0">更新間隔</Label>
+                <TextBox VerticalAlignment="Center" TextAlignment="Right" Text="{Binding Interval}" Width="80" Padding="2"></TextBox>
+                <Label VerticalAlignment="Center">(秒)</Label>
+                <Button Margin="8,0,0,0" VerticalAlignment="Center" Padding="2" Click="SettingButton_Click">設定変更</Button>
+            </StackPanel>
+        </GroupBox>
+        <ListView Grid.Row="1" Grid.ColumnSpan="2" x:Name="listView" ItemsSource="{Binding Source={StaticResource listViewSource}}" >
+            <ListView.ItemContainerStyle>
+                <Style TargetType="{x:Type ListViewItem}">
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding SysLogType}" Value="50">
+                            <Setter Property="Foreground" Value="DarkOrange"/>
+                        </DataTrigger>
+                        <DataTrigger Binding="{Binding SysLogType}" Value="60">
+                            <Setter Property="Foreground" Value="Red"/>
+                        </DataTrigger>
+                        <DataTrigger Binding="{Binding SysLogType}" Value="80">
+                            <Setter Property="Foreground" Value="Red"/>
+                        </DataTrigger>
+                        <DataTrigger Binding="{Binding SysLogType}" Value="90">
+                            <Setter Property="Foreground" Value="Red"/>
+                        </DataTrigger>
+                    </Style.Triggers>
+                    <EventSetter Event="MouseDoubleClick" Handler="ListView_MouseDoubleClick"/>
+                </Style>
+            </ListView.ItemContainerStyle>
+            <ListView.View>
+                <GridView>
+                    <GridViewColumn Header="CreatedTime" DisplayMemberBinding="{Binding CreatedTime, StringFormat='yyyy/mm/dd HH:mm:ss.fff'}"  />
+                    <GridViewColumn Header="SysLogType" DisplayMemberBinding="{Binding SysLogType}" />
+                    <GridViewColumn Header="Class" DisplayMemberBinding="{Binding Class}" />
+                    <GridViewColumn Header="Method" DisplayMemberBinding="{Binding Method}" />
+                    <GridViewColumn Header="RequestData" DisplayMemberBinding="{Binding RequestData}" />
+                    <GridViewColumn Header="HttpMethod" DisplayMemberBinding="{Binding HttpMethod}" />
+                    <GridViewColumn Header="Url" DisplayMemberBinding="{Binding Url}" />
+                    <GridViewColumn Header="UrlReferer" DisplayMemberBinding="{Binding UrlReferer}" />
+                    <GridViewColumn Header="ErrMessage" DisplayMemberBinding="{Binding ErrMessage}" />
+                </GridView>
+            </ListView.View>
+        </ListView>
+    </Grid>
+</UserControl>

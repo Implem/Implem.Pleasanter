@@ -15,6 +15,16 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Implem.ParameterAccessor", 
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Implem.DisplayAccessor", "Implem.DisplayAccessor\Implem.DisplayAccessor.csproj", "{68A8C5C4-DB19-4EDD-B1C2-7722E19E5D7A}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Implem.SupportTools", "Implem.SupportTools", "{0EFF5C9E-6550-4F35-BEEA-54A68DE0E284}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Implem.SupportTools.Common", "Implem.SupportTools\Common\Implem.SupportTools.Common.csproj", "{B1C1F0F2-4E12-49A8-88AC-CF54D00B12DC}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Implem.SupportTools", "Implem.SupportTools\Launcher\Implem.SupportTools.csproj", "{613EC0B0-00CD-47E2-A796-B76A6A34DD7A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Implem.SupportTools.MailTester", "Implem.SupportTools\MailTester\Implem.SupportTools.MailTester.csproj", "{4396F5AF-7C31-4DB2-AE89-7F409D7A8515}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Implem.SupportTools.SysLogViewer", "Implem.SupportTools\SysLogViewer\Implem.SupportTools.SysLogViewer.csproj", "{135C658B-BBBF-4BCE-9981-48BB4C7683D9}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		CD_ROM|Any CPU = CD_ROM|Any CPU
@@ -84,15 +94,61 @@ Global
 		{68A8C5C4-DB19-4EDD-B1C2-7722E19E5D7A}.Release|Any CPU.Build.0 = Release|Any CPU
 		{68A8C5C4-DB19-4EDD-B1C2-7722E19E5D7A}.SingleImage|Any CPU.ActiveCfg = Release|Any CPU
 		{68A8C5C4-DB19-4EDD-B1C2-7722E19E5D7A}.SingleImage|Any CPU.Build.0 = Release|Any CPU
+		{B1C1F0F2-4E12-49A8-88AC-CF54D00B12DC}.CD_ROM|Any CPU.ActiveCfg = Release|Any CPU
+		{B1C1F0F2-4E12-49A8-88AC-CF54D00B12DC}.CD_ROM|Any CPU.Build.0 = Release|Any CPU
+		{B1C1F0F2-4E12-49A8-88AC-CF54D00B12DC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B1C1F0F2-4E12-49A8-88AC-CF54D00B12DC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B1C1F0F2-4E12-49A8-88AC-CF54D00B12DC}.DVD-5|Any CPU.ActiveCfg = Debug|Any CPU
+		{B1C1F0F2-4E12-49A8-88AC-CF54D00B12DC}.DVD-5|Any CPU.Build.0 = Debug|Any CPU
+		{B1C1F0F2-4E12-49A8-88AC-CF54D00B12DC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B1C1F0F2-4E12-49A8-88AC-CF54D00B12DC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B1C1F0F2-4E12-49A8-88AC-CF54D00B12DC}.SingleImage|Any CPU.ActiveCfg = Release|Any CPU
+		{B1C1F0F2-4E12-49A8-88AC-CF54D00B12DC}.SingleImage|Any CPU.Build.0 = Release|Any CPU
+		{613EC0B0-00CD-47E2-A796-B76A6A34DD7A}.CD_ROM|Any CPU.ActiveCfg = Release|Any CPU
+		{613EC0B0-00CD-47E2-A796-B76A6A34DD7A}.CD_ROM|Any CPU.Build.0 = Release|Any CPU
+		{613EC0B0-00CD-47E2-A796-B76A6A34DD7A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{613EC0B0-00CD-47E2-A796-B76A6A34DD7A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{613EC0B0-00CD-47E2-A796-B76A6A34DD7A}.DVD-5|Any CPU.ActiveCfg = Debug|Any CPU
+		{613EC0B0-00CD-47E2-A796-B76A6A34DD7A}.DVD-5|Any CPU.Build.0 = Debug|Any CPU
+		{613EC0B0-00CD-47E2-A796-B76A6A34DD7A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{613EC0B0-00CD-47E2-A796-B76A6A34DD7A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{613EC0B0-00CD-47E2-A796-B76A6A34DD7A}.SingleImage|Any CPU.ActiveCfg = Release|Any CPU
+		{613EC0B0-00CD-47E2-A796-B76A6A34DD7A}.SingleImage|Any CPU.Build.0 = Release|Any CPU
+		{4396F5AF-7C31-4DB2-AE89-7F409D7A8515}.CD_ROM|Any CPU.ActiveCfg = Release|Any CPU
+		{4396F5AF-7C31-4DB2-AE89-7F409D7A8515}.CD_ROM|Any CPU.Build.0 = Release|Any CPU
+		{4396F5AF-7C31-4DB2-AE89-7F409D7A8515}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4396F5AF-7C31-4DB2-AE89-7F409D7A8515}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4396F5AF-7C31-4DB2-AE89-7F409D7A8515}.DVD-5|Any CPU.ActiveCfg = Debug|Any CPU
+		{4396F5AF-7C31-4DB2-AE89-7F409D7A8515}.DVD-5|Any CPU.Build.0 = Debug|Any CPU
+		{4396F5AF-7C31-4DB2-AE89-7F409D7A8515}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4396F5AF-7C31-4DB2-AE89-7F409D7A8515}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4396F5AF-7C31-4DB2-AE89-7F409D7A8515}.SingleImage|Any CPU.ActiveCfg = Release|Any CPU
+		{4396F5AF-7C31-4DB2-AE89-7F409D7A8515}.SingleImage|Any CPU.Build.0 = Release|Any CPU
+		{135C658B-BBBF-4BCE-9981-48BB4C7683D9}.CD_ROM|Any CPU.ActiveCfg = Release|Any CPU
+		{135C658B-BBBF-4BCE-9981-48BB4C7683D9}.CD_ROM|Any CPU.Build.0 = Release|Any CPU
+		{135C658B-BBBF-4BCE-9981-48BB4C7683D9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{135C658B-BBBF-4BCE-9981-48BB4C7683D9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{135C658B-BBBF-4BCE-9981-48BB4C7683D9}.DVD-5|Any CPU.ActiveCfg = Debug|Any CPU
+		{135C658B-BBBF-4BCE-9981-48BB4C7683D9}.DVD-5|Any CPU.Build.0 = Debug|Any CPU
+		{135C658B-BBBF-4BCE-9981-48BB4C7683D9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{135C658B-BBBF-4BCE-9981-48BB4C7683D9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{135C658B-BBBF-4BCE-9981-48BB4C7683D9}.SingleImage|Any CPU.ActiveCfg = Release|Any CPU
+		{135C658B-BBBF-4BCE-9981-48BB4C7683D9}.SingleImage|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{B1C1F0F2-4E12-49A8-88AC-CF54D00B12DC} = {0EFF5C9E-6550-4F35-BEEA-54A68DE0E284}
+		{613EC0B0-00CD-47E2-A796-B76A6A34DD7A} = {0EFF5C9E-6550-4F35-BEEA-54A68DE0E284}
+		{4396F5AF-7C31-4DB2-AE89-7F409D7A8515} = {0EFF5C9E-6550-4F35-BEEA-54A68DE0E284}
+		{135C658B-BBBF-4BCE-9981-48BB4C7683D9} = {0EFF5C9E-6550-4F35-BEEA-54A68DE0E284}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {6E97E664-D49F-4BFC-930F-F941C4996E2C}
 	EndGlobalSection
 	GlobalSection(TeamFoundationVersionControl) = preSolution
-		SccNumberOfProjects = 7
+		SccNumberOfProjects = 11
 		SccEnterpriseProvider = {4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}
 		SccTeamFoundationServer = https://implem.visualstudio.com/
 		SccLocalPath0 = .
@@ -114,5 +170,21 @@ Global
 		SccProjectUniqueName6 = Implem.Pleasanter\\Implem.Pleasanter.csproj
 		SccProjectName6 = Implem.Pleasanter
 		SccLocalPath6 = Implem.Pleasanter
+		SccProjectUniqueName7 = Implem.SupportTools\\Common\\Implem.SupportTools.Common.csproj
+		SccProjectTopLevelParentUniqueName7 = Implem.Pleasanter.sln
+		SccProjectName7 = Implem.SupportTools/Common
+		SccLocalPath7 = Implem.SupportTools\\Common
+		SccProjectUniqueName8 = Implem.SupportTools\\Launcher\\Implem.SupportTools.csproj
+		SccProjectTopLevelParentUniqueName8 = Implem.Pleasanter.sln
+		SccProjectName8 = Implem.SupportTools/Launcher
+		SccLocalPath8 = Implem.SupportTools\\Launcher
+		SccProjectUniqueName9 = Implem.SupportTools\\MailTester\\Implem.SupportTools.MailTester.csproj
+		SccProjectTopLevelParentUniqueName9 = Implem.Pleasanter.sln
+		SccProjectName9 = Implem.SupportTools/MailTester
+		SccLocalPath9 = Implem.SupportTools\\MailTester
+		SccProjectUniqueName10 = Implem.SupportTools\\SysLogViewer\\Implem.SupportTools.SysLogViewer.csproj
+		SccProjectTopLevelParentUniqueName10 = Implem.Pleasanter.sln
+		SccProjectName10 = Implem.SupportTools/SysLogViewer
+		SccLocalPath10 = Implem.SupportTools\\SysLogViewer
 	EndGlobalSection
 EndGlobal
