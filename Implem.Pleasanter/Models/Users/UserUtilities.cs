@@ -5291,7 +5291,10 @@ namespace Implem.Pleasanter.Models
         {
             if (Permissions.CanManageTenant(context: context))
             {
-                var view = Views.GetBySession(context: context, ss: ss);
+                var view = Views.GetBySession(
+                    context: context,
+                    ss: ss,
+                    setSession: false);
                 var where = view.Where(
                     context: context,
                     ss: ss,
@@ -5421,7 +5424,8 @@ namespace Implem.Pleasanter.Models
             {
                 var view = Views.GetBySession(
                     context: context,
-                    ss: ss);
+                    ss: ss,
+                    setSession: false);
                 var gridData = new GridData(
                     context: context,
                     ss: ss,
