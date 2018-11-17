@@ -68,7 +68,11 @@ $p.send = function ($control, formId, async) {
         if (!$form.valid()) {
             $p.setValidationError($form);
             $p.setErrorMessage('ValidationError');
-            $("html,body").animate({ scrollTop: $('.error:first').offset().top });
+            if (!$control.closest('.ui-dialog')) {
+                $("html,body").animate({
+                    scrollTop: $('.error:first').offset().top
+                });
+            }
             return false;
         }
         $p.after_validate($p.eventArgs(url, methodType, data, $control, async));
