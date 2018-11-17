@@ -17,8 +17,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                         .Class("dialog")
                         .Title(Displays.Edit(context: context)),
                     action: () => hb
-                        .Div(id: "EditInDialogBody")
-                        .P(css: "message-dialog"))
+                        .Div(id: "EditInDialogBody"))
 
                 : hb;
         }
@@ -45,10 +44,12 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                         .Hidden(
                             controlId: "EditorLoading",
                             value: "1")
+                        .P(css: "message-dialog")
                         .Div(css: "command-center", action: () => hb
                             .Button(
                                 text: Displays.Update(context: context),
-                                controlCss: "button-icon",
+                                controlCss: "button-icon validate",
+                                accessKey: "s",
                                 onClick: "$p.send($(this));",
                                 icon: "ui-icon-copy",
                                 action: "Update",
