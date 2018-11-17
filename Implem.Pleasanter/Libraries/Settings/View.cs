@@ -270,6 +270,8 @@ namespace Implem.Pleasanter.Libraries.Settings
             switch (context.Forms.Data("ControlId"))
             {
                 case "ViewFilters_Reset":
+                    Id = 0;
+                    Name = null;
                     Incomplete = null;
                     Own = null;
                     NearCompletionTime = null;

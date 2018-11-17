@@ -14,6 +14,7 @@ namespace Implem.Pleasanter.Libraries.Requests
             {
                 SetSession(
                     context: context,
+                    ss: ss,
                     view: view,
                     setSession: setSession);
                 return view;
@@ -24,6 +25,7 @@ namespace Implem.Pleasanter.Libraries.Requests
                     ?? new View(context: context, ss: ss);
                 SetSession(
                     context: context,
+                    ss: ss,
                     view: view,
                     setSession: setSession);
                 return view;
@@ -36,17 +38,20 @@ namespace Implem.Pleasanter.Libraries.Requests
             view.SetByForm(context: context, ss: ss);
             SetSession(
                 context: context,
+                ss: ss,
                 view: view,
                 setSession: setSession);
             return view;
         }
 
-        private static void SetSession(Context context, View view, bool setSession)
+        private static void SetSession(
+            Context context, SiteSettings ss, View view, bool setSession)
         {
             if (setSession)
             {
                 SessionUtilities.Set(
                     context: context,
+                    ss: ss,
                     key: "View",
                     view: view);
             }

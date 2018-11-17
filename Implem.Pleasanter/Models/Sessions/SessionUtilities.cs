@@ -178,12 +178,12 @@ namespace Implem.Pleasanter.Models
         /// <summary>
         /// Fixed:
         /// </summary>
-        public static void Set(Context context, string key, View view)
+        public static void Set(Context context, SiteSettings ss, string key, View view)
         {
             Set(
                 context: context,
                 key: key,
-                value: view.ToJson(),
+                value: view.GetRecordingData(ss: ss).ToJson(),
                 page: true);
         }
 
