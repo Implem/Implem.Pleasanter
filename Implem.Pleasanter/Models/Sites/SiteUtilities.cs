@@ -5587,7 +5587,9 @@ namespace Implem.Pleasanter.Models
                         controlId: "ViewFilterSelector",
                         fieldCss: "field-auto-thin",
                         controlCss: " always-send",
-                        optionCollection: ss.ViewFilterOptions(context: context))
+                        optionCollection: ss.ViewFilterOptions(
+                            context: context,
+                            view: view))
                     .Button(
                         controlId: "AddViewFilter",
                         controlCss: "button-icon",
