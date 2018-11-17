@@ -5,28 +5,27 @@ namespace Implem.Pleasanter.Libraries.Requests
 {
     public static class Views
     {
-        public static View GetBySession(Context context, SiteSettings ss)
+        public static View GetBySession(Context context, SiteSettings ss, bool setSession = true)
         {
             var view = !context.Ajax
                 ? context.QueryStrings.Data("View")?.Deserialize<View>()
                 : null;
-            var key = "View";
             if (view != null)
             {
-                SessionUtilities.Set(
+                SetSession(
                     context: context,
-                    key: key,
-                    view: view);
+                    view: view,
+                    setSession: setSession);
                 return view;
             }
             if (context.Forms.ControlId() == "ViewSelector")
             {
                 view = ss.Views?.Get(context.Forms.Int("ViewSelector"))
                     ?? new View(context: context, ss: ss);
-                SessionUtilities.Set(
+                SetSession(
                     context: context,
-                    key: key,
-                    view: view);
+                    view: view,
+                    setSession: setSession);
                 return view;
             }
             view = context.SessionData.Get("View")?.Deserialize<View>()
@@ -35,11 +34,22 @@ namespace Implem.Pleasanter.Libraries.Requests
                     context: context,
                     ss: ss);
             view.SetByForm(context: context, ss: ss);
-            SessionUtilities.Set(
+            SetSession(
                 context: context,
-                key: key,
-                view: view);
+                view: view,
+                setSession: setSession);
             return view;
+        }
+
+        private static void SetSession(Context context, View view, bool setSession)
+        {
+            if (setSession)
+            {
+                SessionUtilities.Set(
+                    context: context,
+                    key: "View",
+                    view: view);
+            }
         }
     }
 }

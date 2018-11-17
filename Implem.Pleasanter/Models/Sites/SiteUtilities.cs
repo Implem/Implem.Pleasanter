@@ -773,7 +773,8 @@ namespace Implem.Pleasanter.Models
             {
                 var view = Views.GetBySession(
                     context: context,
-                    ss: ss);
+                    ss: ss,
+                    setSession: false);
                 var gridData = new GridData(
                     context: context,
                     ss: ss,

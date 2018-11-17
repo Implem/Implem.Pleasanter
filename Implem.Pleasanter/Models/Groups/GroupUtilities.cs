@@ -878,7 +878,10 @@ namespace Implem.Pleasanter.Models
 
         private static List<int> GetSwitchTargets(Context context, SiteSettings ss, int groupId)
         {
-            var view = Views.GetBySession(context: context, ss: ss);
+            var view = Views.GetBySession(
+                context: context,
+                ss: ss,
+                setSession: false);
             var where = view.Where(context: context, ss: ss, where: Rds.GroupsWhere().TenantId(context.TenantId));
             var join = ss.Join(context: context);
             var switchTargets = Rds.ExecuteScalar_int(
@@ -991,7 +994,8 @@ namespace Implem.Pleasanter.Models
             {
                 var view = Views.GetBySession(
                     context: context,
-                    ss: ss);
+                    ss: ss,
+                    setSession: false);
                 var gridData = new GridData(
                     context: context,
                     ss: ss,
