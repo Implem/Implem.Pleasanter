@@ -1599,7 +1599,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                 {
                     hash.AddRange(ss.ColumnDefinitionHash.Values
                         .Where(o => o.FilterColumn > 0)
-                        .Where(o => !view.ColumnFilterHash.ContainsKey(o.ColumnName))
+                        .Where(o => view?.ColumnFilterHash?.ContainsKey(o.ColumnName) != true)
                         .OrderBy(o => o.FilterColumn)
                         .Select(o => ss.GetColumn(
                             context: context,
