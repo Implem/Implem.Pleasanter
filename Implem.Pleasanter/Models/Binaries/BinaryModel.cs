@@ -177,7 +177,8 @@ namespace Implem.Pleasanter.Models
             SessionUtilities.Set(
                 context: context,
                 key: "BinarySettings",
-                value: value);
+                value: value,
+                page: true);
         }
 
         public BinaryModel()
