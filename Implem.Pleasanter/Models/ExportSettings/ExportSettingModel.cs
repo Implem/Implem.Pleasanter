@@ -96,7 +96,8 @@ namespace Implem.Pleasanter.Models
             SessionUtilities.Set(
                 context: context,
                 key: "Title",
-                value: value);
+                value: value,
+                page: true);
         }
 
         public bool Session_AddHeader(Context context)
@@ -111,7 +112,8 @@ namespace Implem.Pleasanter.Models
             SessionUtilities.Set(
                 context: context,
                 key: "AddHeader",
-                value: value);
+                value: value,
+                page: true);
         }
 
         public ExportColumns Session_ExportColumns(Context context)
@@ -126,7 +128,8 @@ namespace Implem.Pleasanter.Models
             SessionUtilities.Set(
                 context: context,
                 key: "ExportColumns",
-                value: value);
+                value: value,
+                page: true);
         }
 
         public ExportSettingModel()

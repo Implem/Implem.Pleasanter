@@ -105,7 +105,8 @@ namespace Implem.Pleasanter.Models
             SessionUtilities.Set(
                 context: context,
                 key: "SiteSettings",
-                value: value);
+                value: value,
+                page: true);
         }
 
         public List<string> Session_MonitorChangesColumns(Context context)
@@ -120,7 +121,8 @@ namespace Implem.Pleasanter.Models
             SessionUtilities.Set(
                 context: context,
                 key: "MonitorChangesColumns",
-                value: value);
+                value: value,
+                page: true);
         }
 
         public List<string> Session_TitleColumns(Context context)
@@ -135,7 +137,8 @@ namespace Implem.Pleasanter.Models
             SessionUtilities.Set(
                 context: context,
                 key: "TitleColumns",
-                value: value);
+                value: value,
+                page: true);
         }
 
         public Export Session_Export(Context context)
@@ -150,7 +153,8 @@ namespace Implem.Pleasanter.Models
             SessionUtilities.Set(
                 context: context,
                 key: "Export",
-                value: value);
+                value: value,
+                page: true);
         }
 
         public string PropertyValue(Context context, string name)

@@ -1675,7 +1675,8 @@ namespace Implem.Pleasanter.Models
             SessionUtilities.Set(
                 context: context,
                 key: "UserSettings",
-                value: value);
+                value: value,
+                page: true);
         }
 
         public List<string> Session_MailAddresses(Context context)
@@ -1690,7 +1691,8 @@ namespace Implem.Pleasanter.Models
             SessionUtilities.Set(
                 context: context,
                 key: "MailAddresses",
-                value: value);
+                value: value,
+                page: true);
         }
 
         public List<int> SwitchTargets;
