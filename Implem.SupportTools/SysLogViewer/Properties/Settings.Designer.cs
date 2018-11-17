@@ -22,23 +22,5 @@ namespace Implem.SupportTools.SysLogViewer.Properties {
                 return defaultInstance;
             }
         }
-        
-        [global::System.Configuration.ApplicationScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("Settings\\SysLogViewer.json")]
-        public string SettingsPath {
-            get {
-                return ((string)(this["SettingsPath"]));
-            }
-        }
-        
-        [global::System.Configuration.ApplicationScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("App_Data\\Parameters\\Rds.json")]
-        public string ParamsRdsPath {
-            get {
-                return ((string)(this["ParamsRdsPath"]));
-            }
-        }
     }
 }

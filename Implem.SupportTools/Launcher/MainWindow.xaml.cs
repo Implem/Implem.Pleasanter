@@ -1,4 +1,7 @@
 ﻿using Implem.SupportTools.Common;
+using Implem.SupportTools.SysLogViewer.ViewModel;
+using System;
+using System.Diagnostics;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
@@ -10,14 +13,28 @@ namespace Implem.SupportTools
     /// </summary>
     public partial class MainWindow : Window
     {
+        private string pleasanterSettingsPath;
+
         private IObservableLogger<Log> logger;
         public MainWindow(IObservableLogger<Log> logger)
         {
             InitializeComponent();
             this.logger = logger;
             DataContext = new MainWindowViewModel(logger);
+
+            pleasanterSettingsPath = Environment.ExpandEnvironmentVariables(Properties.Settings.Default.PleasanterSettingsPath);
+            SetDebugPleasanterSettingsPath();
         }
 
+        [Conditional("DEBUG")]
+        private void SetDebugPleasanterSettingsPath()
+        {
+            if (!System.IO.Directory.Exists(pleasanterSettingsPath))
+            {
+                pleasanterSettingsPath = @".\App_Data";
+            }
+        }
+        
         private void MailTest_Click(object sender, RoutedEventArgs e)
         {
             var module = nameof(MailTester);
@@ -28,7 +45,7 @@ namespace Implem.SupportTools
             {
                 Owner = this,
                 Title = button.Content.ToString(),
-                DataContext = new MailTester.ViewModel.MailTesterWindowViewModel(logger),
+                DataContext = new MailTester.ViewModel.MailTesterWindowViewModel(logger, pleasanterSettingsPath),
                 Content = new MailTester.View.MailTesterWindow(),
                 Width = 800,
                 Height = 480,
@@ -54,15 +71,15 @@ namespace Implem.SupportTools
             {
                 Owner = this,
                 Title = (sender as Button).Content.ToString(),
-                DataContext = new SysLogViewer.ViewModel.SysLogViewerViewModel(logger),
+                DataContext = new SysLogViewerViewModel(logger, pleasanterSettingsPath),
                 Content = new SysLogViewer.View.SysLogViewerWindow(),
             };
 
-            logger.Info(module, module+ "Start >>>");
-            
+            logger.Info(module, module + "Start >>>");
+
             win.Closed += (_, __) =>
             {
-                
+
                 button.Click += SysLog_Click;
                 logger.Info(module, module + "End <<<");
             };

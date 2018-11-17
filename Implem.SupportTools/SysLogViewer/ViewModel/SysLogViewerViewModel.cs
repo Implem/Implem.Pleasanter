@@ -15,6 +15,11 @@ namespace Implem.SupportTools.SysLogViewer.ViewModel
 {
     public class SysLogViewerViewModel : BindableBase, IDisposable
     {
+        private readonly string pleasanterSettingsPath;
+        private readonly string rdsJsonPath;
+        private readonly string serviceJsonPath;
+        private readonly string sysLogViewerSettingsPath = "Settings\\SysLogViewer.json";
+
         private bool isInfoChecked = true;
         private bool isWarningChecked = true;
         private bool isUserErrorChecked = true;
@@ -36,24 +41,35 @@ namespace Implem.SupportTools.SysLogViewer.ViewModel
         public ushort Interval { get => interval; set => SetProperty(ref interval, value); }
 
         private readonly ILogger logger;
-        private readonly string connectionString = "Server=(local);Database=master;UID=sa;PWD=SetSaPWD;Connection Timeout=30;";
+        private readonly string connectionString = "";
+        private readonly string dbName = "";
 
-        public SysLogViewerViewModel(ILogger logger)
+        public SysLogViewerViewModel(ILogger logger, string pleasanterSettingsPath)
         {
             this.logger = logger;
-            if (File.Exists(Properties.Settings.Default.SettingsPath))
+            this.pleasanterSettingsPath = pleasanterSettingsPath;
+            rdsJsonPath = $@"{pleasanterSettingsPath}\\Parameters\\Rds.json";
+            serviceJsonPath = $@"{pleasanterSettingsPath}\\Parameters\\Service.json";
+
+            if (File.Exists(sysLogViewerSettingsPath))
             {
-                var json = File.ReadAllText(Properties.Settings.Default.SettingsPath);
+                var json = File.ReadAllText(sysLogViewerSettingsPath);
                 dynamic settings = JsonConvert.DeserializeObject(json);
 
                 count = settings?.acquiredRecords ?? 1000;
                 interval = settings?.refreshInterval ?? 1;
             }
-            if (File.Exists(Properties.Settings.Default.SettingsPath))
+            if (File.Exists(rdsJsonPath))
             {
-                var json = File.ReadAllText(Properties.Settings.Default.ParamsRdsPath);
+                var json = File.ReadAllText(rdsJsonPath);
                 dynamic rds = JsonConvert.DeserializeObject(json);
                 connectionString = rds?.SaConnectionString ?? connectionString;
+            }
+            if (File.Exists(serviceJsonPath))
+            {
+                var json = File.ReadAllText(serviceJsonPath);
+                dynamic service = JsonConvert.DeserializeObject(json);
+                dbName = service.Name ?? dbName;
             }
         }
 
@@ -63,7 +79,7 @@ namespace Implem.SupportTools.SysLogViewer.ViewModel
             SysLogs?.Clear();
             try
             {
-                using (var client = new PleasanterDbClient(connectionString))
+                using (var client = new PleasanterDbClient(connectionString, dbName))
                 {
                     var syslogs = await client.GetSysLogsAsync(Count);
 
@@ -89,7 +105,7 @@ namespace Implem.SupportTools.SysLogViewer.ViewModel
         {
             try
             {
-                using (var client = new PleasanterDbClient(connectionString))
+                using (var client = new PleasanterDbClient(connectionString, dbName))
                 {
                     var syslogs = await client.GetSysLogsAsync(lastCreatedTime);
                     if (syslogs.Any())

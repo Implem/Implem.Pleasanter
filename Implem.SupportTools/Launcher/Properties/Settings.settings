@@ -2,8 +2,8 @@
 <SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="Implem.SupportTools.Properties" GeneratedClassName="Settings">
   <Profiles />
   <Settings>
-    <Setting Name="SettingsPath" Type="System.String" Scope="Application">
-      <Value Profile="(Default)">Settings\SupportTools.json</Value>
+    <Setting Name="PleasanterSettingsPath" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">%SystemDrive%\inetpub\wwwroot\pleasanter\App_Data</Value>
     </Setting>
   </Settings>
 </SettingsFile>

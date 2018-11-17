@@ -22,23 +22,5 @@ namespace Implem.SupportTools.MailTester.Properties {
                 return defaultInstance;
             }
         }
-        
-        [global::System.Configuration.ApplicationScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("Settings\\MailTester.json")]
-        public string SettingsPath {
-            get {
-                return ((string)(this["SettingsPath"]));
-            }
-        }
-        
-        [global::System.Configuration.ApplicationScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("App_Data\\Parameters\\Mail.json")]
-        public string ParamsMailPath {
-            get {
-                return ((string)(this["ParamsMailPath"]));
-            }
-        }
     }
 }
