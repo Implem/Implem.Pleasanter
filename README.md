@@ -1,4 +1,3 @@
-# Implem.Pleasanter
 ![image](https://user-images.githubusercontent.com/12204265/48656589-f785b200-ea69-11e8-8278-3cf084ccbd27.png)
 
 ## Pleasanterとは
