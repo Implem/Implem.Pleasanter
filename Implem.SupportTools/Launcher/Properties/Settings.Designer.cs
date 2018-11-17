@@ -25,10 +25,10 @@ namespace Implem.SupportTools.Properties {
         
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("Settings\\SupportTools.json")]
-        public string SettingsPath {
+        [global::System.Configuration.DefaultSettingValueAttribute("%SystemDrive%\\inetpub\\wwwroot\\pleasanter\\App_Data")]
+        public string PleasanterSettingsPath {
             get {
-                return ((string)(this["SettingsPath"]));
+                return ((string)(this["PleasanterSettingsPath"]));
             }
         }
     }

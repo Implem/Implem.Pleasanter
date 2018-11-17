@@ -11,7 +11,11 @@ namespace Implem.SupportTools.MailTester.ViewModel
 {
     public class MailTesterWindowViewModel : BindableBase
     {
+        private readonly string pleasanterSettingsPath;
+        private readonly string mailTesterSettingsPath = "Settings\\MailTester.json";
+        private readonly string mailjsonPath = "";
         private readonly ILogger Logger;
+
         private string smtpHost;
         private int smtpPort;
         private string smtpUserName;
@@ -46,13 +50,15 @@ namespace Implem.SupportTools.MailTester.ViewModel
         public ICommand SendMailCommand { set; get; }
 
         
-        public MailTesterWindowViewModel(ILogger logger)
+        public MailTesterWindowViewModel(ILogger logger, string pleasanterSettingsPath)
         {
             Logger = logger;
+            this.pleasanterSettingsPath = pleasanterSettingsPath;
+            mailjsonPath = $@"{pleasanterSettingsPath}\Parameters\Mail.json";
 
-            if (File.Exists(Properties.Settings.Default.ParamsMailPath))
+            if (File.Exists(mailjsonPath))
             {
-                var json = File.ReadAllText(Properties.Settings.Default.ParamsMailPath);
+                var json = File.ReadAllText(mailjsonPath);
                 var mailSettings = JsonConvert.DeserializeObject<MailSettings>(json);
                 SmtpHost = mailSettings.SmtpHost;
                 SmtpPort = mailSettings.SmtpPort;
@@ -64,10 +70,10 @@ namespace Implem.SupportTools.MailTester.ViewModel
                 SupportFrom = mailSettings.SupportFrom;
                 InternalDomains = mailSettings.InternalDomains;
             }
-
-            if (File.Exists(Properties.Settings.Default.SettingsPath))
+            
+            if (File.Exists(mailTesterSettingsPath))
             {
-                var json = File.ReadAllText(Properties.Settings.Default.SettingsPath);
+                var json = File.ReadAllText(mailTesterSettingsPath);
                 var sendData = JsonConvert.DeserializeObject<SendData>(json);
                 To = sendData.To;
                 Cc = sendData.Cc;
@@ -121,7 +127,7 @@ namespace Implem.SupportTools.MailTester.ViewModel
                 InternalDomains = InternalDomains
             }, Formatting.Indented);
 
-            File.WriteAllText(Properties.Settings.Default.ParamsMailPath, mailjson);
+            File.WriteAllText(mailjsonPath, mailjson);
 
             var sendDataJson = JsonConvert.SerializeObject(new SendData()
             {
@@ -132,7 +138,7 @@ namespace Implem.SupportTools.MailTester.ViewModel
                 Body = Body
             });
 
-            File.WriteAllText(Properties.Settings.Default.SettingsPath, sendDataJson);
+            File.WriteAllText(mailjsonPath, sendDataJson);
             System.Diagnostics.Trace.Flush();
         }
     }

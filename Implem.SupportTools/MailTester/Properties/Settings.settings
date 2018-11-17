@@ -1,12 +1,5 @@
 ﻿<?xml version='1.0' encoding='utf-8'?>
-<SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="Implem.SupportTools.MailTester.Properties" GeneratedClassName="Settings">
+<SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)">
   <Profiles />
-  <Settings>
-    <Setting Name="SettingsPath" Type="System.String" Scope="Application">
-      <Value Profile="(Default)">Settings\MailTester.json</Value>
-    </Setting>
-    <Setting Name="ParamsMailPath" Type="System.String" Scope="Application">
-      <Value Profile="(Default)">App_Data\Parameters\Mail.json</Value>
-    </Setting>
-  </Settings>
+  <Settings />
 </SettingsFile>

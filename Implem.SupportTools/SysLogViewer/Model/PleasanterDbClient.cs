@@ -10,7 +10,8 @@ namespace Implem.SupportTools.SysLogViewer.Model
 {
     public class PleasanterDbClient : DbClient
     {
-        public PleasanterDbClient(string connectionString) : base(connectionString)
+        private string dbName = "Implem.Pleasanter";
+        public PleasanterDbClient(string connectionString, string dbName) : base(connectionString)
         {
             
         }
@@ -18,7 +19,7 @@ namespace Implem.SupportTools.SysLogViewer.Model
         public async Task<IEnumerable<SysLogModel>> GetSysLogsAsync(int count)
         {
             return await connection.QueryAsync<SysLogModel>(
-                $"SELECT Top {count} * FROM [Implem.Pleasanter].[dbo].[SysLogs] ORDER BY [CreatedTime] DESC");
+                $"SELECT Top {count} * FROM [{dbName}].[dbo].[SysLogs] ORDER BY [CreatedTime] DESC");
         }
 
         public async Task<IEnumerable<SysLogModel>> GetSysLogsAsync(DateTime lastCreatedTime)
@@ -27,7 +28,7 @@ namespace Implem.SupportTools.SysLogViewer.Model
 $@"SELECT 
     * 
 FROM 
-    [Implem.Pleasanter].[dbo].[SysLogs]
+    [{dbName}].[dbo].[SysLogs]
 WHERE
     [CreatedTime] > '{lastCreatedTime.ToString("yyyy-MM-dd HH:mm:ss.fff")}' 
 ORDER BY 

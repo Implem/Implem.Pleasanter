@@ -19,9 +19,9 @@ namespace Implem.SupportTools
             AppDomain.CurrentDomain.UnhandledException += CurrentDomain_UnhandledException;
 
             var logFilePath = "Logs\\Implem.SupportTools.log";
-            if (File.Exists(SupportTools.Properties.Settings.Default.SettingsPath))
+            if (File.Exists(SupportTools.Properties.Settings.Default.PleasanterSettingsPath))
             {
-                var json = File.ReadAllText(SupportTools.Properties.Settings.Default.SettingsPath);
+                var json = File.ReadAllText(SupportTools.Properties.Settings.Default.PleasanterSettingsPath);
                 dynamic settings = JsonConvert.DeserializeObject(json);
                 logFilePath = settings.logFilePath;
             }
