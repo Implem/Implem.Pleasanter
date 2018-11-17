@@ -1010,6 +1010,16 @@ namespace Implem.Pleasanter.Models
         /// <summary>
         /// Fixed:
         /// </summary>
+        private void SetSiteSettingsChoiceHash(Context context)
+        {
+            SiteSettings.SetLinkedSiteSettings(context: context);
+            SiteSettings.SetJoinedSsHash(context: context);
+            SiteSettings.SetChoiceHash(context: context);
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
         public string SetSiteSettings(Context context)
         {
             var invalidFormat = string.Empty;
@@ -1032,7 +1042,7 @@ namespace Implem.Pleasanter.Models
             SetSiteSettings(context: context, res: res);
             Session_SiteSettings(
                 context: context,
-                value: SiteSettings.ToJson());
+                value: SiteSettings.RecordingJson(context: context));
             return res
                 .SetMemory("formChanged", true)
                 .ToJson();
@@ -2171,6 +2181,7 @@ namespace Implem.Pleasanter.Models
         /// </summary>
         private void OpenViewDialog(Context context, ResponseCollection res, View view)
         {
+            SetSiteSettingsChoiceHash(context: context);
             res.Html("#ViewDialog", SiteUtilities.ViewDialog(
                 context: context,
                 ss: SiteSettings,
@@ -2183,6 +2194,7 @@ namespace Implem.Pleasanter.Models
         /// </summary>
         private void AddViewFilter(Context context, ResponseCollection res)
         {
+            SetSiteSettingsChoiceHash(context: context);
             var column = SiteSettings.GetColumn(
                 context: context,
                 columnName: context.Forms.Data("ViewFilterSelector"));

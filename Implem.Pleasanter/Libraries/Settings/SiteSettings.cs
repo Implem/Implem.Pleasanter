@@ -1588,7 +1588,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                             : join + "," + o.ColumnName).ToList());
         }
 
-        public Dictionary<string, string> ViewFilterOptions(Context context)
+        public Dictionary<string, string> ViewFilterOptions(Context context, View view)
         {
             var hash = new Dictionary<string, string>();
             JoinOptionHash?.ForEach(join =>
@@ -1599,8 +1599,11 @@ namespace Implem.Pleasanter.Libraries.Settings
                 {
                     hash.AddRange(ss.ColumnDefinitionHash.Values
                         .Where(o => o.FilterColumn > 0)
+                        .Where(o => !view.ColumnFilterHash.ContainsKey(o.ColumnName))
                         .OrderBy(o => o.FilterColumn)
-                        .Select(o => ss.GetColumn(context: context, columnName: o.ColumnName))
+                        .Select(o => ss.GetColumn(
+                            context: context,
+                            columnName: o.ColumnName))
                         .ToDictionary(
                             o => ColumnUtilities.ColumnName(join.Key, o.Name),
                             o => join.Value + " " + o.LabelText));
