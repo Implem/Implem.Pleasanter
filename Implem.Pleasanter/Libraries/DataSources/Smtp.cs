@@ -1,9 +1,9 @@
 ﻿using Implem.DefinitionAccessor;
+using Implem.Libraries.Utilities;
 using Implem.Pleasanter.Libraries.Mails;
 using Implem.Pleasanter.Libraries.Requests;
 using Implem.Pleasanter.Models;
 using System;
-using System.Linq;
 using System.Net.Mail;
 using System.Threading.Tasks;
 namespace Implem.Pleasanter.Libraries.DataSources

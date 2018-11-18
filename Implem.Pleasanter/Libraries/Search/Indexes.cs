@@ -231,7 +231,7 @@ namespace Implem.Pleasanter.Libraries.Search
         }
 
         private static SqlStatement[] Statements(
-            IList<KeyValuePair<string, int>> searchIndexCollection, long id, bool init)
+            IEnumerable<KeyValuePair<string, int>> searchIndexCollection, long id, bool init)
         {
             var statements = new List<SqlStatement>();
             if (init)
