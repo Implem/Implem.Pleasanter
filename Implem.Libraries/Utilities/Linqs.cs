@@ -6,6 +6,14 @@ namespace Implem.Libraries.Utilities
 {
     public static class Linqs
     {
+        public static void ForEach<T>(this IEnumerable<T> source, Action<T> action)
+        {
+            foreach (T element in source)
+            {
+                action(element);
+            }
+        }
+
         public static V Get<K, V>(this IDictionary<K, V> self, K key)
         {
             return key != null && self?.ContainsKey(key) == true
@@ -77,6 +85,18 @@ namespace Implem.Libraries.Utilities
         public static bool Any(this MatchCollection self)
         {
             return self?.Count > 0;
+        }
+
+        public static IEnumerable<IEnumerable<T>> Buffer<T>(this IEnumerable<T> source, int count)
+        {
+            IEnumerable<IEnumerable<T>> BufferImpl()
+            {
+                for (; source.Any(); source = source.Skip(count))
+                {
+                    yield return source.Take(count);
+                }
+            }
+            return BufferImpl();
         }
     }
 }

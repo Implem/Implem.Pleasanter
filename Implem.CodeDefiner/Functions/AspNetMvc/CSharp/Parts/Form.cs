@@ -1,4 +1,5 @@
 ﻿using Implem.DefinitionAccessor;
+using Implem.Libraries.Utilities;
 using System.Collections.Generic;
 using System.Linq;
 namespace Implem.CodeDefiner.Functions.AspNetMvc.CSharp.Parts
@@ -16,15 +17,15 @@ namespace Implem.CodeDefiner.Functions.AspNetMvc.CSharp.Parts
                 .Select(o => new { ModelName = o.ModelName, FormName = o.FormName })
                 .Distinct()
                 .ForEach(data =>
-            {
-                dataContainer.FormName = data.FormName;
-                Creators.SetCodeCollection(
-                    ref code,
-                    codeCollection,
-                    codeDefinition,
-                    dataContainer,
-                    () => ReplaceCode(ref code, codeDefinition, data.FormName, data.ModelName));
-            });
+                {
+                    dataContainer.FormName = data.FormName;
+                    Creators.SetCodeCollection(
+                        ref code,
+                        codeCollection,
+                        codeDefinition,
+                        dataContainer,
+                        () => ReplaceCode(ref code, codeDefinition, data.FormName, data.ModelName));
+                });
         }
 
         private static void ReplaceCode(

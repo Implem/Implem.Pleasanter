@@ -1,4 +1,5 @@
 ﻿using Implem.DefinitionAccessor;
+using Implem.Libraries.Utilities;
 using System.Data;
 using System.Linq;
 namespace Implem.CodeDefiner.Functions.SqlServer
