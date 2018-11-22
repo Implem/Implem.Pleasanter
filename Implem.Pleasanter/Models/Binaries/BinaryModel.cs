@@ -52,7 +52,7 @@ namespace Implem.Pleasanter.Models
         [NonSerialized] public string SavedExtension = string.Empty;
         [NonSerialized] public long SavedSize = 0;
         [NonSerialized] public string SavedContentType = string.Empty;
-        [NonSerialized] public string SavedBinarySettings = "[]";
+        [NonSerialized] public string SavedBinarySettings = "{}";
 
         public bool BinaryId_Updated(Context context, Column column = null)
         {

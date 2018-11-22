@@ -248,7 +248,7 @@ namespace Implem.Pleasanter.Models
         [NonSerialized] public bool SavedServiceManager = false;
         [NonSerialized] public bool SavedDisabled = false;
         [NonSerialized] public bool SavedDeveloper = false;
-        [NonSerialized] public string SavedUserSettings = "[]";
+        [NonSerialized] public string SavedUserSettings = "{}";
         [NonSerialized] public string SavedApiKey = string.Empty;
         [NonSerialized] public string SavedOldPassword = string.Empty;
         [NonSerialized] public string SavedChangedPassword = string.Empty;

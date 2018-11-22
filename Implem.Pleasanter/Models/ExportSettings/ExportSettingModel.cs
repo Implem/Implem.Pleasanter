@@ -34,7 +34,7 @@ namespace Implem.Pleasanter.Models
         [NonSerialized] public string SavedTitle = string.Empty;
         [NonSerialized] public long SavedExportSettingId = 0;
         [NonSerialized] public bool SavedAddHeader = true;
-        [NonSerialized] public string SavedExportColumns = "[]";
+        [NonSerialized] public string SavedExportColumns = "{}";
 
         public bool ReferenceType_Updated(Context context, Column column = null)
         {
