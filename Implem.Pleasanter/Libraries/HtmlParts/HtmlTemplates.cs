@@ -71,6 +71,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                         .Meta(name: "author", content: Parameters.General.HtmlHeadAuther)
                         .Meta(name: "viewport", content: Parameters.General.HtmlHeadViewport)
                         .LinkedStyles(context: context)
+                        .ExtendedStyles(context: context)
                         .Title(action: () => hb
                             .Text(text: Parameters.General.HtmlTitle
                                 ?? Displays.ProductName(context: context))))
