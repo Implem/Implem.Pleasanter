@@ -10,17 +10,16 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
 {
     public static class HtmlStyles
     {
-        public static string Get(Context context)
+        public static HtmlBuilder ExtendedStyles(this HtmlBuilder hb, Context context)
         {
-            return new HtmlBuilder()
+            return hb
                 .Link(
                     rel: "stylesheet",
                     href: Locations.Get(
                         context: context,
                         parts: "Resources/Styles?v="
                             + Parameters.ExtendedStyles.Join().Sha512Cng()),
-                    _using: Parameters.ExtendedStyles?.Any() == true)
-                .ToString();
+                    _using: Parameters.ExtendedStyles?.Any() == true);
         }
 
         public static HtmlBuilder Styles(

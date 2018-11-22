@@ -557,6 +557,7 @@
     <Content Include="App_Data\Parameters\ExtendedScripts\Sample.js.txt" />
     <Content Include="App_Data\Parameters\ExtendedSqls\Sample.json.txt" />
     <Content Include="App_Data\Parameters\ExtendedStyles\Sample.css.txt" />
+    <Content Include="App_Data\Parameters\ExtendedStyles\style.css" />
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
     <Content Include="Images\logo-version.png" />
