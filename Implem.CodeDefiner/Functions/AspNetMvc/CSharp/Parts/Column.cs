@@ -310,7 +310,14 @@ namespace Implem.CodeDefiner.Functions.AspNetMvc.CSharp.Parts
                     {
                         case ".ToJson()":
                         case ".RecordingJson()":
-                            return "\"[]\"";
+                            switch (columnDefinition.TypeCs)
+                            {
+                                case "List<long>":
+                                case "Attachments":
+                                    return "\"[]\"";
+                                default:
+                                    return "\"{}\"";
+                            }
                         default:
                             return DefaultData(columnDefinition, "string.Empty", bracket: true);
                     }
