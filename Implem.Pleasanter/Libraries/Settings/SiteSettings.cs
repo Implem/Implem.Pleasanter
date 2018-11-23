@@ -2738,7 +2738,7 @@ namespace Implem.Pleasanter.Libraries.Settings
         {
             var select = SearchIndexUtilities.Select(
                 context: context,
-                searchType: Destinations?.Get(link.SiteId)?.SearchType,
+                ss: Destinations?.Get(link.SiteId),
                 searchText: searchText,
                 siteIdList: link.SiteId.ToSingleList());
             var dataSet = Rds.ExecuteDataSet(

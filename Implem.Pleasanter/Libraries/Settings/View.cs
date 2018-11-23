@@ -1128,7 +1128,7 @@ namespace Implem.Pleasanter.Libraries.Settings
             if (Search.IsNullOrEmpty()) return;
             var select = SearchIndexUtilities.Select(
                 context: context,
-                searchType: ss.SearchType,
+                ss: ss,
                 searchText: Search,
                 siteIdList: ss.AllowedIntegratedSites != null
                     ? ss.AllowedIntegratedSites
