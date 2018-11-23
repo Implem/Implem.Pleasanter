@@ -305,27 +305,38 @@ namespace Implem.Pleasanter.Models
         /// </summary>
         public static SqlSelect Select(
             Context context,
-            SiteSettings.SearchTypes? searchType,
+            SiteSettings ss,
             string searchText,
             IEnumerable<long> siteIdList)
         {
-            switch (searchType)
+            if (ss.TableType != Sqls.TableTypes.Normal)
+            {
+                return Select(
+                    ss: ss,
+                    searchText: searchText,
+                    siteIdList: siteIdList,
+                    like: Rds.Items_FullText_WhereLike(forward: false));
+            }
+            switch (ss.SearchType)
             {
                 case SiteSettings.SearchTypes.PartialMatch:
                     return Select(
-                        searchText,
-                        siteIdList,
-                        Rds.Items_FullText_WhereLike(forward: false));
+                        ss: ss,
+                        searchText: searchText,
+                        siteIdList: siteIdList,
+                        like: Rds.Items_FullText_WhereLike(forward: false));
                 case SiteSettings.SearchTypes.MatchInFrontOfTitle:
                     return Select(
-                        searchText,
-                        siteIdList,
-                        Rds.Items_Title_WhereLike(forward: true));
+                        ss: ss,
+                        searchText: searchText,
+                        siteIdList: siteIdList,
+                        like: Rds.Items_Title_WhereLike(forward: true));
                 case SiteSettings.SearchTypes.BroadMatchOfTitle:
                     return Select(
-                        searchText,
-                        siteIdList,
-                        Rds.Items_Title_WhereLike(forward: false));
+                        ss: ss,
+                        searchText: searchText,
+                        siteIdList: siteIdList,
+                        like: Rds.Items_Title_WhereLike(forward: false));
                 default:
                     switch (Parameters.Search.Provider)
                     {
@@ -355,9 +366,10 @@ namespace Implem.Pleasanter.Models
         /// Fixed:
         /// </summary>
         public static SqlSelect Select(
-            string searchText, IEnumerable<long> siteIdList, string like)
+            SiteSettings ss, string searchText, IEnumerable<long> siteIdList, string like)
         {
             return Rds.SelectItems(
+                tableType: ss.TableType,
                 column: Rds.ItemsColumn().ReferenceId(),
                 where: Rds.ItemsWhere()
                     .SiteId_In(siteIdList)
