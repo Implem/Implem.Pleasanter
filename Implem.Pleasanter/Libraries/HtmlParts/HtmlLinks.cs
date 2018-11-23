@@ -96,11 +96,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
         {
             return Rds.SelectIssues(
                 dataTableName: "Issues" + "_" + direction + ss.SiteId,
-                column: IssuesLinkColumns(ss)
-                    .Add(
-                        "(select [title] from [items] where [ReferenceId]=[IssueId])",
-                        _as: "ItemTitle")
-                    .Add("'" + direction + "' as Direction"),
+                column: IssuesLinkColumns(ss).Add("'" + direction + "' as Direction"),
                 join: Rds.IssuesJoinDefault()
                     .Add(
                         tableName: "Sites",
@@ -120,7 +116,21 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             var column = Rds.IssuesColumn()
                 .SiteId()
                 .IssueId();
-            ss.LinkColumns.ForEach(columnName => column.IssuesColumn(columnName));
+            ss.LinkColumns?.ForEach(columnName =>
+            {
+                switch (columnName)
+                {
+                    case "Title":
+                        ss.TitleColumns?
+                            .Where(o => ss.LinkColumns?.Contains(o) != true)
+                            .ForEach(o =>
+                                column.IssuesColumn(o));
+                        break;
+                    default:
+                        column.IssuesColumn(columnName);
+                        break;
+                }
+            });
             return column;
         }
 
@@ -132,11 +142,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
         {
             return Rds.SelectResults(
                 dataTableName: "Results" + "_" + direction + ss.SiteId,
-                column: ResultsLinkColumns(ss)
-                    .Add(
-                        "(select [title] from [items] where [ReferenceId]=[ResultId])",
-                        _as: "ItemTitle")
-                    .Add("'" + direction + "' as Direction"),
+                column: ResultsLinkColumns(ss).Add("'" + direction + "' as Direction"),
                 join: Rds.ResultsJoinDefault()
                     .Add(
                         tableName: "Sites",
@@ -156,7 +162,21 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             var column = Rds.ResultsColumn()
                 .SiteId()
                 .ResultId();
-            ss.LinkColumns.ForEach(columnName => column.ResultsColumn(columnName));
+            ss.LinkColumns?.ForEach(columnName =>
+            {
+                switch (columnName)
+                {
+                    case "Title":
+                        ss.TitleColumns?
+                            .Where(o => ss.LinkColumns?.Contains(o) != true)
+                            .ForEach(o =>
+                                column.ResultsColumn(o));
+                        break;
+                    default:
+                        column.ResultsColumn(columnName);
+                        break;
+                }
+            });
             return column;
         }
 
