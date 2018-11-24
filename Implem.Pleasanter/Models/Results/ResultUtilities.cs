@@ -6743,7 +6743,7 @@ namespace Implem.Pleasanter.Models
                     context: context,
                     type: invalid);
             }
-            var api = context.FormString.Deserialize<Api>();
+            var api = context.RequestDataString.Deserialize<Api>();
             if (api == null)
             {
                 return ApiResults.Get(ApiResponses.BadRequest(context: context));
