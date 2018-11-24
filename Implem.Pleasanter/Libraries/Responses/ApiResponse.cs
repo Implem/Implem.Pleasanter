@@ -8,6 +8,10 @@ namespace Implem.Pleasanter.Libraries.Responses
         public int StatusCode;
         public string Message;
 
+        public ApiResponse()
+        {
+        }
+
         public ApiResponse(long id, int statusCode, string message)
         {
             Id = id;

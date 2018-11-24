@@ -6311,16 +6311,16 @@ namespace Implem.Pleasanter.Models
         /// </summary>
         public static System.Web.Mvc.ContentResult GetByApi(Context context, SiteSettings ss)
         {
-            var api = context.FormString.Deserialize<Api>();
+            var api = context.RequestDataString.Deserialize<Api>();
             if (api == null)
             {
                 return ApiResults.Get(ApiResponses.BadRequest(context: context));
             }
             var view = api?.View ?? new View();
             var siteId = view.ColumnFilterHash
-                .Where(f => f.Key == "SiteId")
-                .Select(f => f.Value)
-                .FirstOrDefault()?.ToLong();
+                ?.Where(f => f.Key == "SiteId")
+                ?.Select(f => f.Value)
+                ?.FirstOrDefault()?.ToLong();
             var siteModel = siteId.HasValue ? new SiteModel(context, siteId.Value) : null;
             if (siteModel != null)
             {
@@ -6353,9 +6353,9 @@ namespace Implem.Pleasanter.Models
                 .SqlWhereLike(
                     name: "SearchText",
                     searchText: view.ColumnFilterHash
-                    .Where(f => f.Key == "SearchText")
-                    .Select(f => f.Value)
-                    .FirstOrDefault(),
+                    ?.Where(f => f.Key == "SearchText")
+                    ?.Select(f => f.Value)
+                    ?.FirstOrDefault(),
                     clauseCollection: new List<string>()
                     {
                         Rds.Users_LoginId_WhereLike(),

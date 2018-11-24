@@ -59,18 +59,21 @@ namespace Implem.Pleasanter.Libraries.Requests
         public UserSettings UserSettings;
         public bool HasPrivilege;
         public ContractSettings ContractSettings = new ContractSettings();
-
+        public string ApiRequestBody;
+        public string RequestDataString { get => ApiRequestBody ?? FormString; }
         public Context(
             bool request = true,
             bool sessionStatus = true,
             bool sessionData = true,
-            bool user = true)
+            bool user = true,
+            string apiRequestBody = null)
         {
             Set(
                 request: request,
                 sessionStatus: sessionStatus,
                 setData: sessionData,
-                user: user);
+                user: user,
+                apiRequestBody: apiRequestBody);
         }
 
         public Context(int tenantId, int deptId = 0, int userId = 0, string language = null)
@@ -97,13 +100,15 @@ namespace Implem.Pleasanter.Libraries.Requests
             bool request = true,
             bool sessionStatus = true,
             bool setData = true,
-            bool user = true)
+            bool user = true,
+            string apiRequestBody = null)
         {
             if (request) SetRequests();
             if (sessionStatus) SetSessionStatuses();
+            ApiRequestBody = apiRequestBody;
             if (user && HasRoute())
             {
-                var api = FormString.Deserialize<Api>();
+                var api = RequestDataString.Deserialize<Api>();
                 if (api?.ApiKey.IsNullOrEmpty() == false)
                 {
                     var userModel = new UserModel().Get(
@@ -346,5 +351,6 @@ namespace Implem.Pleasanter.Libraries.Requests
                     break;
             }
         }
+        
     }
 }
