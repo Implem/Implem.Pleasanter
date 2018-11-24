@@ -41,6 +41,7 @@ namespace Implem.Pleasanter.Libraries.Requests
         public string Controller;
         public string Action;
         public long Id;
+        public long SiteId;
         public string Page;
         public string Server;
         public int TenantId;
@@ -328,17 +329,21 @@ namespace Implem.Pleasanter.Libraries.Requests
             ContractSettings.Deadline = dataRow?.DateTime("ContractDeadline");
         }
 
-        public void SetPage()
+        private void SetPage()
         {
-            var callerOfMethod = Action;
-            if (HasRoute())
+            switch (Controller)
             {
-                var path = AbsolutePath.ToLower()
-                    .Split('/').Where(o => o != string.Empty).ToList();
-                var methodIndex = path.IndexOf(callerOfMethod.ToLower());
-                Page = methodIndex != -1
-                    ? path.Take(methodIndex).Join("/")
-                    : path.Join("/");
+                case "items":
+                    SiteId = Rds.ExecuteScalar_long(
+                        context: this,
+                        statements: Rds.SelectItems(
+                            column: Rds.ItemsColumn().SiteId(),
+                            where: Rds.ItemsWhere().ReferenceId(Id)));
+                    Page = "items/" + SiteId;
+                    break;
+                default:
+                    Page = Controller;
+                    break;
             }
         }
     }
