@@ -1452,13 +1452,13 @@ namespace Implem.Pleasanter.Models
             }
             var view = api?.View ?? new View();
             var siteId = view.ColumnFilterHash
-                            ?.Where(f => f.Key == "SiteId")
-                            ?.Select(f => f.Value)
-                            ?.FirstOrDefault()?.ToLong();
+                ?.Where(f => f.Key == "SiteId")
+                ?.Select(f => f.Value)
+                ?.FirstOrDefault()?.ToLong();
             var userId = view.ColumnFilterHash
-                            ?.Where(f => f.Key == "UserId")
-                            ?.Select(f => f.Value)
-                            ?.FirstOrDefault()?.ToLong();
+                ?.Where(f => f.Key == "UserId")
+                ?.Select(f => f.Value)
+                ?.FirstOrDefault()?.ToLong();
             var siteModel = siteId.HasValue ? new SiteModel(context, siteId.Value) : null;
             if (siteModel != null)
             {
