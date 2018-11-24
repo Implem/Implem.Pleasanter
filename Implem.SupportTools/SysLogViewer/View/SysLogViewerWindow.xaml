@@ -22,6 +22,7 @@
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="auto"/>
+            <ColumnDefinition Width="auto"/>
             <ColumnDefinition/>
         </Grid.ColumnDefinitions>
         <GroupBox Grid.Row="0" Grid.Column="0" Header="SysLogType" Padding="2">
@@ -33,6 +34,7 @@
                 <CheckBox Margin="2,4" VerticalAlignment="Center" IsChecked="{Binding IsExceptionChecked}" Click="CheckBox_Click">Execption</CheckBox>
             </StackPanel>
         </GroupBox>
+        
         <GroupBox Grid.Row="0" Grid.Column="1" Header="Settings" Padding="2">
             <StackPanel Orientation="Horizontal">
                 <Label VerticalAlignment="Center">取得件数</Label>
@@ -43,7 +45,11 @@
                 <Button Margin="8,0,0,0" VerticalAlignment="Center" Padding="2" Click="SettingButton_Click">設定変更</Button>
             </StackPanel>
         </GroupBox>
-        <ListView Grid.Row="1" Grid.ColumnSpan="2" x:Name="listView" ItemsSource="{Binding Source={StaticResource listViewSource}}" >
+
+        <GroupBox Grid.Row="0" Grid.Column="2" Header="Output" Padding="2">
+            <Button Margin="8,0,0,0" VerticalAlignment="Center" HorizontalAlignment="Left" Padding="2" Click="SaveButton_Click">CSV出力...</Button>
+        </GroupBox>
+        <ListView Grid.Row="1" Grid.ColumnSpan="3" x:Name="listView" ItemsSource="{Binding Source={StaticResource listViewSource}}" >
             <ListView.ItemContainerStyle>
                 <Style TargetType="{x:Type ListViewItem}">
                     <Style.Triggers>

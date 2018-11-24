@@ -10,6 +10,7 @@ using Prism.Mvvm;
 using Implem.SupportTools.SysLogViewer.Model;
 using System.IO;
 using Newtonsoft.Json;
+using System.Threading;
 
 namespace Implem.SupportTools.SysLogViewer.ViewModel
 {
@@ -135,6 +136,16 @@ namespace Implem.SupportTools.SysLogViewer.ViewModel
                 case SysLogTypes.Execption: return IsExceptionChecked;
                 default: return true;
             }
+        }
+
+        public void StopTimer()
+        {
+            timer?.Change(Timeout.Infinite, Timeout.Infinite);
+        }
+
+        public void RestertTimer()
+        {
+            timer?.Change(interval * 1000, interval * 1000);
         }
 
         public void Dispose()
