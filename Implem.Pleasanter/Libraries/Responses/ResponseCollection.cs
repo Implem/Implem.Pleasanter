@@ -161,6 +161,13 @@ namespace Implem.Pleasanter.Libraries.Responses
                 : this;
         }
 
+        public ResponseCollection Events(string methodName, bool _using = true)
+        {
+            return !methodName.IsNullOrEmpty() && _using
+                ? Add("Events", methodName)
+                : this;
+        }
+
         public ResponseCollection WindowScrollTop(int value = 0, bool _using = true)
         {
             return _using ? Add("WindowScrollTop", null, value) : this;
