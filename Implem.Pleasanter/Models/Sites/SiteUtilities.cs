@@ -3976,11 +3976,6 @@ namespace Implem.Pleasanter.Models
                                         controlCss: "button-icon",
                                         onClick: "$p.moveColumns($(this),'Editor');",
                                         icon: "ui-icon-circle-triangle-w"))))
-                    .FieldCheckBox(
-                        controlId: "AllowEditingComments",
-                        fieldCss: "field-auto-thin both",
-                        labelText: Displays.AllowEditingComments(context: context),
-                        _checked: ss.AllowEditingComments == true)
                 .FieldSet(id: "RelatingColumnsSettingsEditor",
                     css: " enclosed",
                     legendText: Displays.RelatingColumnSettings(context: context),
@@ -4021,7 +4016,17 @@ namespace Implem.Pleasanter.Models
                             confirm: Displays.ConfirmDelete(context: context)))
                     .EditRelatingColumns(
                         context: context,
-                        ss: ss)));
+                        ss: ss))
+                    .FieldCheckBox(
+                        controlId: "AllowEditingComments",
+                        fieldCss: "field-auto-thin both",
+                        labelText: Displays.AllowEditingComments(context: context),
+                        _checked: ss.AllowEditingComments == true)
+                    .FieldCheckBox(
+                        controlId: "SwitchRecordWithAjax",
+                        fieldCss: "field-auto-thin",
+                        labelText: Displays.SwitchRecordWithAjax(context: context),
+                        _checked: ss.SwitchRecordWithAjax == true));
         }
 
         /// <summary>

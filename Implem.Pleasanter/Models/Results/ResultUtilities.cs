@@ -6743,7 +6743,7 @@ namespace Implem.Pleasanter.Models
                     context: context,
                     type: invalid);
             }
-            var api = context.RequestDataString.Deserialize<Api>();
+            var api = context.FormString.Deserialize<Api>();
             if (api == null)
             {
                 return ApiResults.Get(ApiResponses.BadRequest(context: context));
@@ -7122,17 +7122,23 @@ namespace Implem.Pleasanter.Models
             switch (error)
             {
                 case Error.Types.None:
-                    return EditorResponse(
-                        context: context,
-                        ss: ss,
-                        resultModel: resultModel,
-                        message: Messages.Copied(context: context),
-                        switchTargets: GetSwitchTargets(
+                    return ss.SwitchRecordWithAjax == true
+                        ? EditorResponse(
                             context: context,
                             ss: ss,
-                            resultId: resultModel.ResultId,
-                            siteId: resultModel.SiteId).Join())
-                                .ToJson();
+                            resultModel: resultModel,
+                            message: Messages.Copied(context: context),
+                            switchTargets: GetSwitchTargets(
+                                context: context,
+                                ss: ss,
+                                resultId: resultModel.ResultId,
+                                siteId: resultModel.SiteId).Join())
+                                    .ToJson()
+                        : new ResponseCollection()
+                            .Href(Locations.ItemEdit(
+                                context: context,
+                                id: resultModel.ResultId))
+                            .ToJson();
                 case Error.Types.Duplicated:
                     return Messages.ResponseDuplicated(
                         context: context,
@@ -7168,7 +7174,9 @@ namespace Implem.Pleasanter.Models
                 case Error.Types.None: break;
                 default: return invalid.MessageJson(context: context);
             }
-            var targetSs = SiteSettingsUtilities.Get(context: context, siteId: siteId);
+            var targetSs = SiteSettingsUtilities.Get(
+                context: context,
+                siteId: siteId);
             var error = resultModel.Move(
                 context: context,
                 ss: ss,
@@ -7176,11 +7184,23 @@ namespace Implem.Pleasanter.Models
             switch (error)
             {
                 case Error.Types.None:
-                    return new ResponseCollection()
-                        .Href(Locations.ItemEdit(
+                    return ss.SwitchRecordWithAjax == true
+                        ? EditorResponse(
                             context: context,
-                            id: resultModel.ResultId))
-                        .ToJson();
+                            ss: ss,
+                            resultModel: resultModel,
+                            message: Messages.Moved(context: context),
+                            switchTargets: GetSwitchTargets(
+                                context: context,
+                                ss: ss,
+                                resultId: resultModel.ResultId,
+                                siteId: resultModel.SiteId).Join())
+                                    .ToJson()
+                        : new ResponseCollection()
+                            .Href(Locations.ItemEdit(
+                                context: context,
+                                id: resultModel.ResultId))
+                            .ToJson();
                 case Error.Types.Duplicated:
                     return Messages.ResponseDuplicated(
                         context: context,

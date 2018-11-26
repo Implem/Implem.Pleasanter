@@ -4878,6 +4878,16 @@ namespace Implem.Pleasanter.Libraries.Responses
                 data: data);
         }
 
+        public static string SwitchRecordWithAjax(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "SwitchRecordWithAjax",
+                data: data);
+        }
+
         public static string SynchronizationCompleted(
             Context context,
             params string[] data)
