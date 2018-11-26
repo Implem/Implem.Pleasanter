@@ -13,7 +13,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             return hb
                 .Switcher(
                     context: context,
-                    ajax: !ss.Scripts.Any(o => o.Edit == true),
+                    ajax: ss.SwitchRecordWithAjax == true,
                     switcher: switcher)
                 .Button(
                     controlId: "Reload",

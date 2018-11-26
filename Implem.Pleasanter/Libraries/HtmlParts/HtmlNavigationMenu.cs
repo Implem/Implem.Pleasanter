@@ -175,7 +175,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                 "move",
                 "separate",
                 "history"
-            }.Contains(context.Action) || ss.Scripts?.Any() == true || ss.Styles.Any() == true;
+            }.Contains(context.Action) || ss.SwitchRecordWithAjax != true;
         }
 
         private static HtmlBuilder ViewModeMenu(
