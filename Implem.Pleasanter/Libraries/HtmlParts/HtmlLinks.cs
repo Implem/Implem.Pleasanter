@@ -122,7 +122,8 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                 {
                     case "Title":
                         ss.TitleColumns?
-                            .Where(o => ss.LinkColumns?.Contains(o) != true)
+                            .Where(o => o == "Title"
+                                || ss.LinkColumns?.Contains(o) != true)
                             .ForEach(o =>
                                 column.IssuesColumn(o));
                         break;
@@ -168,7 +169,8 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                 {
                     case "Title":
                         ss.TitleColumns?
-                            .Where(o => ss.LinkColumns?.Contains(o) != true)
+                            .Where(o => o == "Title"
+                                || ss.LinkColumns?.Contains(o) != true)
                             .ForEach(o =>
                                 column.ResultsColumn(o));
                         break;
