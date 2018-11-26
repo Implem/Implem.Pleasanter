@@ -63,10 +63,11 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                         script: userScript,
                         _using: context.ContractSettings.Script != false
                             && !userScript.IsNullOrEmpty())
+                    .OnEditorLoad(context: context)
                 : hb;
         }
 
-        public static HtmlBuilder Generals(this HtmlBuilder hb)
+        private static HtmlBuilder Generals(this HtmlBuilder hb)
         {
             if (!System.Diagnostics.Debugger.IsAttached)
             {
@@ -76,6 +77,18 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             {
                 BundleConfig.Generals().ForEach(path =>
                     hb.Script(src: VirtualPathUtility.ToAbsolute(path)));
+            }
+            return hb;
+        }
+
+        private static HtmlBuilder OnEditorLoad(this HtmlBuilder hb, Context context)
+        {
+            switch (context.Action)
+            {
+                case "new":
+                case "edit":
+                    hb.Script(script: "$p.execOnEditorLoad();");
+                    break;
             }
             return hb;
         }

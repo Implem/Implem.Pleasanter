@@ -5806,6 +5806,7 @@ namespace Implem.Pleasanter.Models
                         issueModel: issueModel,
                         editInDialog: editInDialog))
                     .Invoke("openEditorDialog")
+                    .Events("on_editor_load")
                 : new IssuesResponseCollection(issueModel)
                     .Invoke("clearDialogs")
                     .ReplaceAll("#MainContainer", Editor(context, ss, issueModel))
@@ -5813,7 +5814,8 @@ namespace Implem.Pleasanter.Models
                     .SetMemory("formChanged", false)
                     .Invoke("setCurrentIndex")
                     .Message(message)
-                    .ClearFormData();
+                    .ClearFormData()
+                    .Events("on_editor_load");
         }
 
         private static List<long> GetSwitchTargets(Context context, SiteSettings ss, long issueId, long siteId)

@@ -52,3 +52,7 @@ $p.search = function (searchWord, redirect, offset) {
         $p.searchWord = searchWord + offset;
     }
 }
+
+$p.execOnEditorLoad = function () {
+    if ($p.events.on_editor_load !== undefined) $p.events.on_editor_load();
+}
