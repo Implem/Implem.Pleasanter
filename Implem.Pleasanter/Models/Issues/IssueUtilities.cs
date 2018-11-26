@@ -7320,8 +7320,9 @@ namespace Implem.Pleasanter.Models
             switch (error)
             {
                 case Error.Types.None:
-                    return ss.SwitchRecordWithAjax == true
-                        ? EditorResponse(
+                    if (ss.SwitchRecordWithAjax == true)
+                    {
+                        return EditorResponse(
                             context: context,
                             ss: ss,
                             issueModel: issueModel,
@@ -7331,13 +7332,20 @@ namespace Implem.Pleasanter.Models
                                 ss: ss,
                                 issueId: issueModel.IssueId,
                                 siteId: issueModel.SiteId).Join())
-                                    .ToJson()
-                        : new ResponseCollection()
+                                    .ToJson();
+                    }
+                    else
+                    {
+                        SessionUtilities.Set(
+                            context: context,
+                            message: Messages.Copied(context: context));
+                        return new ResponseCollection()
                             .Response("id", issueModel.IssueId.ToString())
                             .Href(Locations.ItemEdit(
                                 context: context,
                                 id: issueModel.IssueId))
                             .ToJson();
+                    }
                 case Error.Types.Duplicated:
                     return Messages.ResponseDuplicated(
                         context: context,
@@ -7383,8 +7391,9 @@ namespace Implem.Pleasanter.Models
             switch (error)
             {
                 case Error.Types.None:
-                    return ss.SwitchRecordWithAjax == true
-                        ? EditorResponse(
+                    if (ss.SwitchRecordWithAjax == true)
+                    {
+                        return EditorResponse(
                             context: context,
                             ss: ss,
                             issueModel: issueModel,
@@ -7394,13 +7403,22 @@ namespace Implem.Pleasanter.Models
                                 ss: ss,
                                 issueId: issueModel.IssueId,
                                 siteId: issueModel.SiteId).Join())
-                                    .ToJson()
-                        : new ResponseCollection()
+                                    .ToJson();
+                    }
+                    else
+                    {
+                        SessionUtilities.Set(
+                            context: context,
+                            message: Messages.Moved(
+                                context: context,
+                                data: issueModel.Title.DisplayValue));
+                        return new ResponseCollection()
                             .Response("id", issueModel.IssueId.ToString())
                             .Href(Locations.ItemEdit(
                                 context: context,
                                 id: issueModel.IssueId))
                             .ToJson();
+                    }
                 case Error.Types.Duplicated:
                     return Messages.ResponseDuplicated(
                         context: context,
