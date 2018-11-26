@@ -309,7 +309,7 @@ namespace Implem.Pleasanter.Models
             string searchText,
             IEnumerable<long> siteIdList)
         {
-            if (ss.TableType != Sqls.TableTypes.Normal)
+            if (ss != null && ss.TableType != Sqls.TableTypes.Normal)
             {
                 return Select(
                     ss: ss,
@@ -317,7 +317,7 @@ namespace Implem.Pleasanter.Models
                     siteIdList: siteIdList,
                     like: Rds.Items_FullText_WhereLike(forward: false));
             }
-            switch (ss.SearchType)
+            switch (ss?.SearchType)
             {
                 case SiteSettings.SearchTypes.PartialMatch:
                     return Select(
