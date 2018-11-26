@@ -692,6 +692,7 @@ namespace Implem.Pleasanter.Models
                             context: context,
                             data: siteModel.Title.Value));
                     return new ResponseCollection()
+                        .Response("id", siteModel.SiteId.ToString())
                         .SetMemory("formChanged", false)
                         .Href(Locations.Edit(
                             context: context,

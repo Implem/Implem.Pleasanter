@@ -5356,6 +5356,7 @@ namespace Implem.Pleasanter.Models
                             context: context,
                             data: userModel.Title.Value));
                     return new ResponseCollection()
+                        .Response("id", userModel.UserId.ToString())
                         .SetMemory("formChanged", false)
                         .Href(Locations.Edit(
                             context: context,

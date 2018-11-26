@@ -5800,6 +5800,7 @@ namespace Implem.Pleasanter.Models
             var editInDialog = context.Forms.Bool("EditInDialog");
             return editInDialog
                 ? new IssuesResponseCollection(issueModel)
+                    .Response("id", issueModel.IssueId.ToString())
                     .Html("#EditInDialogBody", Editor(
                         context: context,
                         ss: ss,
@@ -5808,6 +5809,7 @@ namespace Implem.Pleasanter.Models
                     .Invoke("openEditorDialog")
                     .Events("on_editor_load")
                 : new IssuesResponseCollection(issueModel)
+                    .Response("id", issueModel.IssueId.ToString())
                     .Invoke("clearDialogs")
                     .ReplaceAll("#MainContainer", Editor(context, ss, issueModel))
                     .Val("#SwitchTargets", switchTargets, _using: switchTargets != null)
@@ -7030,6 +7032,7 @@ namespace Implem.Pleasanter.Models
                             context: context,
                             data: issueModel.Title.DisplayValue));
                     return new ResponseCollection()
+                        .Response("id", issueModel.IssueId.ToString())
                         .SetMemory("formChanged", false)
                         .Href(Locations.Edit(
                             context: context,

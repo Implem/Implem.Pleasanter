@@ -934,6 +934,7 @@ namespace Implem.Pleasanter.Models
                             context: context,
                             data: deptModel.Title.Value));
                     return new ResponseCollection()
+                        .Response("id", deptModel.DeptId.ToString())
                         .SetMemory("formChanged", false)
                         .Href(Locations.Edit(
                             context: context,
