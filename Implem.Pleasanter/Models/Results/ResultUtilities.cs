@@ -7140,6 +7140,7 @@ namespace Implem.Pleasanter.Models
                                 siteId: resultModel.SiteId).Join())
                                     .ToJson()
                         : new ResponseCollection()
+                            .Response("id", resultModel.ResultId.ToString())
                             .Href(Locations.ItemEdit(
                                 context: context,
                                 id: resultModel.ResultId))
@@ -7202,6 +7203,7 @@ namespace Implem.Pleasanter.Models
                                 siteId: resultModel.SiteId).Join())
                                     .ToJson()
                         : new ResponseCollection()
+                            .Response("id", resultModel.ResultId.ToString())
                             .Href(Locations.ItemEdit(
                                 context: context,
                                 id: resultModel.ResultId))
