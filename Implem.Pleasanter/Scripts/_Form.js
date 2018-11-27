@@ -86,3 +86,9 @@ $p.send = function ($control, formId, async) {
             async);
     }
 }
+
+$p.setFormChanged = function ($control) {
+    if (!$control.hasClass('not-set-form-changed')) {
+        $p.formChanged = true;
+    }
+}

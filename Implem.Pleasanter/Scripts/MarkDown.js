@@ -11,7 +11,7 @@ $p.showMarkDownViewer = function ($control) {
         $viewer.html($p.markup($control.val()));
         $p.resizeEditor($control, $viewer);
         $p.toggleEditor($viewer, false);
-        $p.formChanged = true;
+        $p.setFormChanged($control);
     }
 }
 
