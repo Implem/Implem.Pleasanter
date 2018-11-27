@@ -1,23 +1,25 @@
 ﻿$(function () {
     $(document).on('change', '[class^="control-"]:not(select[multiple])', function (e) {
-        if ($(this).hasClass('control-spinner')) {
-            if ($(this).val() === '' && $(this).hasClass('allow-blank')) {
-                $(this).val('');
-            } else if ($(this).val() === '' ||
-                $(this).val().match(/[^0-9\.]/g) ||
-                parseInt($(this).val()) < parseInt($(this).attr('data-min'))) {
-                $(this).val($(this).attr('data-min'));
-            } else if (parseInt($(this).val()) > parseInt($(this).attr('data-max'))) {
-                $(this).val($(this).attr('data-max'));
+        var $control = $(this);
+        if ($control.hasClass('control-spinner')) {
+            if ($control.val() === '' && $control.hasClass('allow-blank')) {
+                $control.val('');
+            } else if ($control.val() === '' ||
+                $control.val().match(/[^0-9\.]/g) ||
+                parseInt($control.val()) < parseInt($control.attr('data-min'))) {
+                $control.val($control.attr('data-min'));
+            } else if (parseInt($control.val()) > parseInt($control.attr('data-max'))) {
+                $control.val($control.attr('data-max'));
             }
-            $p.formChanged = true;
+            $p.setFormChanged($control);
         }
-        $p.setData($(this));
+        $p.setData($control);
         e.preventDefault();
     });
     $(document).on('spin', '.control-spinner', function (event, ui) {
-        $p.getData($(this))[this.id] = ui.value;
-        $p.formChanged = true;
+        var $control = $(this);
+        $p.getData($control)[this.id] = ui.value;
+        $p.setFormChanged($control);
     });
     $(document).on('change', '.control-checkbox.visible', function () {
         show(this.id.substring(7, this.id.length), $(this).prop('checked'));

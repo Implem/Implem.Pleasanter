@@ -18,7 +18,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     .FieldDropDown(
                         context: context,
                         controlId: "MoveTargets",
-                        controlCss: " always-send",
+                        controlCss: " always-send not-set-form-changed",
                         labelText: Displays.Destination(context: context),
                         optionCollection: new Dictionary<string, ControlData>())
                     .P(css: "message-dialog")
