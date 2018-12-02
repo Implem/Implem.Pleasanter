@@ -5346,6 +5346,13 @@ namespace Implem.Pleasanter.Models
                 case Error.Types.None: break;
                 default: return invalid.MessageJson(context: context);
             }
+            foreach (var policy in Parameters.Security.PasswordPolicies.Where(o => o.Enabled))
+            {
+                if (!context.Forms.Data("Users_Password").RegexExists(policy.Regex))
+                {
+                    return policy.ResponseMessage(context: context).ToJson();
+                }
+            }
             var error = userModel.Create(context: context, ss: ss);
             switch (error)
             {
@@ -5636,7 +5643,7 @@ namespace Implem.Pleasanter.Models
             }
             foreach (var policy in Parameters.Security.PasswordPolicies.Where(o => o.Enabled))
             {
-                if (!context.Forms.Get("Users_ChangedPassword").RegexExists(policy.Regex))
+                if (!context.Forms.Data("Users_ChangedPassword").RegexExists(policy.Regex))
                 {
                     return policy.ResponseMessage(context: context).ToJson();
                 }
@@ -5683,7 +5690,7 @@ namespace Implem.Pleasanter.Models
             }
             foreach (var policy in Parameters.Security.PasswordPolicies.Where(o => o.Enabled))
             {
-                if (!context.Forms.Get("Users_ChangedPassword").RegexExists(policy.Regex))
+                if (!context.Forms.Data("Users_ChangedPassword").RegexExists(policy.Regex))
                 {
                     return policy.ResponseMessage(context: context).ToJson();
                 }
@@ -5716,7 +5723,7 @@ namespace Implem.Pleasanter.Models
             }
             foreach(var policy in Parameters.Security.PasswordPolicies.Where(o => o.Enabled))
             {
-                if (!context.Forms.Get("Users_AfterResetPassword").RegexExists(policy.Regex))
+                if (!context.Forms.Data("Users_AfterResetPassword").RegexExists(policy.Regex))
                 {
                     return policy.ResponseMessage(context: context).ToJson();
                 }
