@@ -1361,6 +1361,7 @@
     <Content Include="App_Data\Displays\RebuildingCompleted.json" />
     <Content Include="App_Data\Displays\RebuildSearchIndexes.json" />
     <Content Include="App_Data\Displays\SwitchRecordWithAjax.json" />
+    <Content Include="App_Data\Displays\PasswordPolicyViolation.json" />
     <Content Include="Tools\BackgroundTasks.ps1" />
     <Content Include="Tools\SyncByLdap.ps1" />
     <Content Include="Views\Users\EditApi.cshtml" />
