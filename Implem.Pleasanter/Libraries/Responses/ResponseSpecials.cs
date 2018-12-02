@@ -3768,6 +3768,94 @@ namespace Implem.Pleasanter.Libraries.Responses
             return res.ValAndFormData("#Users_Disabled", value);
         }
 
+        public static UsersResponseCollection Lockout(
+            this UsersResponseCollection res,
+            Context context,
+            SiteSettings ss,
+            Column column = null)
+        {
+            return res.Val(
+                "#Users_Lockout",
+                res.UserModel.Lockout.ToResponse(
+                    context: context,
+                    ss: ss,
+                    column: column ?? ss.GetColumn(
+                        context: context,
+                        columnName: "Lockout")));
+        }
+
+        public static UsersResponseCollection Lockout(
+            this UsersResponseCollection res, Context context, string value)
+        {
+            return res.Val("#Users_Lockout", value);
+        }
+
+        public static UsersResponseCollection Lockout_FormData(
+            this UsersResponseCollection res,
+            Context context,
+            SiteSettings ss,
+            Column column = null)
+        {
+            return res.ValAndFormData(
+                "#Users_Lockout",
+                res.UserModel.Lockout.ToResponse(
+                    context: context,
+                    ss: ss,
+                    column: column ?? ss.GetColumn(
+                        context: context,
+                        columnName: "Lockout")));
+        }
+
+        public static UsersResponseCollection Lockout_FormData(
+            this UsersResponseCollection res, Context context, string value)
+        {
+            return res.ValAndFormData("#Users_Lockout", value);
+        }
+
+        public static UsersResponseCollection LockoutCounter(
+            this UsersResponseCollection res,
+            Context context,
+            SiteSettings ss,
+            Column column = null)
+        {
+            return res.Val(
+                "#Users_LockoutCounter",
+                res.UserModel.LockoutCounter.ToResponse(
+                    context: context,
+                    ss: ss,
+                    column: column ?? ss.GetColumn(
+                        context: context,
+                        columnName: "LockoutCounter")));
+        }
+
+        public static UsersResponseCollection LockoutCounter(
+            this UsersResponseCollection res, Context context, string value)
+        {
+            return res.Val("#Users_LockoutCounter", value);
+        }
+
+        public static UsersResponseCollection LockoutCounter_FormData(
+            this UsersResponseCollection res,
+            Context context,
+            SiteSettings ss,
+            Column column = null)
+        {
+            return res.ValAndFormData(
+                "#Users_LockoutCounter",
+                res.UserModel.LockoutCounter.ToResponse(
+                    context: context,
+                    ss: ss,
+                    column: column ?? ss.GetColumn(
+                        context: context,
+                        columnName: "LockoutCounter")));
+        }
+
+        public static UsersResponseCollection LockoutCounter_FormData(
+            this UsersResponseCollection res, Context context, string value)
+        {
+            return res.ValAndFormData("#Users_LockoutCounter", value);
+        }
+
         public static UsersResponseCollection OldPassword(
             this UsersResponseCollection res,
             Context context,

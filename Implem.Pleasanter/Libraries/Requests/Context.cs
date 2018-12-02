@@ -61,6 +61,7 @@ namespace Implem.Pleasanter.Libraries.Requests
         public ContractSettings ContractSettings = new ContractSettings();
         public string ApiRequestBody;
         public string RequestDataString { get => ApiRequestBody ?? FormString; }
+
         public Context(
             bool request = true,
             bool sessionStatus = true,
@@ -116,7 +117,8 @@ namespace Implem.Pleasanter.Libraries.Requests
                         ss: null,
                         where: Rds.UsersWhere()
                             .ApiKey(api.ApiKey)
-                            .Disabled(0));
+                            .Disabled(false)
+                            .Lockout(false));
                     Set(
                         userModel: userModel,
                         setData: setData);
@@ -128,7 +130,8 @@ namespace Implem.Pleasanter.Libraries.Requests
                         ss: null,
                         where: Rds.UsersWhere()
                             .LoginId(LoginId)
-                            .Disabled(0));
+                            .Disabled(false)
+                            .Lockout(false));
                     Set(
                         userModel: userModel,
                         setData: setData);

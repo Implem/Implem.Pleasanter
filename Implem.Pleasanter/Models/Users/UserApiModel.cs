@@ -30,6 +30,8 @@ namespace Implem.Pleasanter.Models
         public bool? TenantManager;
         public bool? ServiceManager;
         public bool? Disabled;
+        public bool? Lockout;
+        public int? LockoutCounter;
         public bool? Developer;
         public string UserSettings;
         public string ApiKey;

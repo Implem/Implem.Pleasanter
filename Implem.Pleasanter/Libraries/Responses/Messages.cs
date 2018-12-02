@@ -918,6 +918,15 @@ namespace Implem.Pleasanter.Libraries.Responses
                 css: "alert-error");
         }
 
+        public static Message UserLockout(Context context, params string[] data)
+        {
+            return Get(
+                text: Displays.UserLockout(
+                    context: context,
+                    data: data),
+                css: "alert-error");
+        }
+
         public static Message UsersLimit(Context context, params string[] data)
         {
             return Get(
@@ -1616,6 +1625,13 @@ namespace Implem.Pleasanter.Libraries.Responses
         public static ResponseCollection ResponseUserDisabled(Context context, params string[] data)
         {
             return ResponseMessage(UserDisabled(
+                context: context,
+                data: data));
+        }
+
+        public static ResponseCollection ResponseUserLockout(Context context, params string[] data)
+        {
+            return ResponseMessage(UserLockout(
                 context: context,
                 data: data));
         }

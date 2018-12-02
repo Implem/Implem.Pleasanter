@@ -51,6 +51,8 @@ namespace Implem.Pleasanter.Models
         public bool TenantManager = false;
         public bool ServiceManager = false;
         public bool Disabled = false;
+        public bool Lockout = false;
+        public int LockoutCounter = 0;
         public bool Developer = false;
         public UserSettings UserSettings = new UserSettings();
         public string ApiKey = string.Empty;
@@ -247,6 +249,8 @@ namespace Implem.Pleasanter.Models
         [NonSerialized] public bool SavedTenantManager = false;
         [NonSerialized] public bool SavedServiceManager = false;
         [NonSerialized] public bool SavedDisabled = false;
+        [NonSerialized] public bool SavedLockout = false;
+        [NonSerialized] public int SavedLockoutCounter = 0;
         [NonSerialized] public bool SavedDeveloper = false;
         [NonSerialized] public string SavedUserSettings = "{}";
         [NonSerialized] public string SavedApiKey = string.Empty;
@@ -549,6 +553,22 @@ namespace Implem.Pleasanter.Models
                 (column == null ||
                 column.DefaultInput.IsNullOrEmpty() ||
                 column.GetDefaultInput(context: context).ToBool() != Disabled);
+        }
+
+        public bool Lockout_Updated(Context context, Column column = null)
+        {
+            return Lockout != SavedLockout &&
+                (column == null ||
+                column.DefaultInput.IsNullOrEmpty() ||
+                column.GetDefaultInput(context: context).ToBool() != Lockout);
+        }
+
+        public bool LockoutCounter_Updated(Context context, Column column = null)
+        {
+            return LockoutCounter != SavedLockoutCounter &&
+                (column == null ||
+                column.DefaultInput.IsNullOrEmpty() ||
+                column.GetDefaultInput(context: context).ToInt() != LockoutCounter);
         }
 
         public bool Developer_Updated(Context context, Column column = null)
@@ -1822,6 +1842,8 @@ namespace Implem.Pleasanter.Models
                     case "TenantManager": data.TenantManager = TenantManager; break;
                     case "ServiceManager": data.ServiceManager = ServiceManager; break;
                     case "Disabled": data.Disabled = Disabled; break;
+                    case "Lockout": data.Lockout = Lockout; break;
+                    case "LockoutCounter": data.LockoutCounter = LockoutCounter; break;
                     case "Developer": data.Developer = Developer; break;
                     case "UserSettings": data.UserSettings = UserSettings.RecordingJson(); break;
                     case "ApiKey": data.ApiKey = ApiKey; break;
@@ -2138,6 +2160,8 @@ namespace Implem.Pleasanter.Models
             column.TenantManager(function: Sqls.Functions.SingleColumn); param.TenantManager();
             column.ServiceManager(function: Sqls.Functions.SingleColumn); param.ServiceManager();
             column.Disabled(function: Sqls.Functions.SingleColumn); param.Disabled();
+            column.Lockout(function: Sqls.Functions.SingleColumn); param.Lockout();
+            column.LockoutCounter(function: Sqls.Functions.SingleColumn); param.LockoutCounter();
             column.Developer(function: Sqls.Functions.SingleColumn); param.Developer();
             column.UserSettings(function: Sqls.Functions.SingleColumn); param.UserSettings();
             column.ApiKey(function: Sqls.Functions.SingleColumn); param.ApiKey();
@@ -2369,6 +2393,8 @@ namespace Implem.Pleasanter.Models
                     case "Users_NumberOfDenial": NumberOfDenial = context.Forms.Data(controlId).ToInt(); break;
                     case "Users_TenantManager": TenantManager = context.Forms.Data(controlId).ToBool(); break;
                     case "Users_Disabled": Disabled = context.Forms.Data(controlId).ToBool(); break;
+                    case "Users_Lockout": Lockout = context.Forms.Data(controlId).ToBool(); if (Lockout_Updated(context: context) && !Lockout) LockoutCounter = 0; break;
+                    case "Users_LockoutCounter": LockoutCounter = context.Forms.Data(controlId).ToInt(); break;
                     case "Users_ApiKey": ApiKey = context.Forms.Data(controlId).ToString(); break;
                     case "Users_OldPassword": OldPassword = context.Forms.Data(controlId).ToString().Sha512Cng(); break;
                     case "Users_ChangedPassword": ChangedPassword = context.Forms.Data(controlId).ToString().Sha512Cng(); break;
@@ -2560,6 +2586,8 @@ namespace Implem.Pleasanter.Models
             TenantManager = userModel.TenantManager;
             ServiceManager = userModel.ServiceManager;
             Disabled = userModel.Disabled;
+            Lockout = userModel.Lockout;
+            LockoutCounter = userModel.LockoutCounter;
             Developer = userModel.Developer;
             UserSettings = userModel.UserSettings;
             ApiKey = userModel.ApiKey;
@@ -2741,6 +2769,8 @@ namespace Implem.Pleasanter.Models
             if (data.NumberOfDenial != null) NumberOfDenial = data.NumberOfDenial.ToInt().ToInt();
             if (data.TenantManager != null) TenantManager = data.TenantManager.ToBool().ToBool();
             if (data.Disabled != null) Disabled = data.Disabled.ToBool().ToBool();
+            if (data.Lockout != null) Lockout = data.Lockout.ToBool().ToBool();
+            if (data.LockoutCounter != null) LockoutCounter = data.LockoutCounter.ToInt().ToInt();
             if (data.ApiKey != null) ApiKey = data.ApiKey.ToString().ToString();
             if (data.ClassA != null) ClassA = data.ClassA.ToString().ToString();
             if (data.ClassB != null) ClassB = data.ClassB.ToString().ToString();
@@ -3013,6 +3043,14 @@ namespace Implem.Pleasanter.Models
                         case "Disabled":
                             Disabled = dataRow[column.ColumnName].ToBool();
                             SavedDisabled = Disabled;
+                            break;
+                        case "Lockout":
+                            Lockout = dataRow[column.ColumnName].ToBool();
+                            SavedLockout = Lockout;
+                            break;
+                        case "LockoutCounter":
+                            LockoutCounter = dataRow[column.ColumnName].ToInt();
+                            SavedLockoutCounter = LockoutCounter;
                             break;
                         case "Developer":
                             Developer = dataRow[column.ColumnName].ToBool();
@@ -3608,6 +3646,8 @@ namespace Implem.Pleasanter.Models
                 TenantManager_Updated(context: context) ||
                 ServiceManager_Updated(context: context) ||
                 Disabled_Updated(context: context) ||
+                Lockout_Updated(context: context) ||
+                LockoutCounter_Updated(context: context) ||
                 Developer_Updated(context: context) ||
                 UserSettings_Updated(context: context) ||
                 ApiKey_Updated(context: context) ||
@@ -3843,11 +3883,15 @@ namespace Implem.Pleasanter.Models
             }
             if (Authenticate(context: context) && AllowedIpAddress())
             {
-                if (PasswordExpired())
+                if (Lockout)
+                {
+                    return UserLockout(context: context);
+                }
+                else if(PasswordExpired())
                 {
                     return OpenChangePasswordAtLoginDialog();
                 }
-                else
+                else 
                 {
                     return Allow(
                         context: context,
@@ -3989,7 +4033,36 @@ namespace Implem.Pleasanter.Models
                 where: Rds.UsersWhere()
                     .LoginId(loginId)
                     .Password(password)
-                    .Disabled(0));
+                    .Disabled(false));
+            if (Parameters.Security.LockoutCount > 0)
+            {
+                if (AccessStatus == Databases.AccessStatuses.Selected)
+                {
+                    if (!Lockout)
+                    {
+                        Rds.ExecuteNonQuery(
+                            context: context,
+                            statements: Rds.UpdateUsers(
+                                where: Rds.UsersWhere().LoginId(LoginId),
+                                param: Rds.UsersParam().LockoutCounter(0),
+                                addUpdatorParam: false,
+                                addUpdatedTimeParam: false));
+                    }
+                }
+                else
+                {
+                    Rds.ExecuteNonQuery(
+                        context: context,
+                        statements: Rds.UpdateUsers(
+                            where: Rds.UsersWhere().LoginId(LoginId),
+                            param: Rds.UsersParam()
+                                .Lockout(raw: "case when [Users].[LockoutCounter]+1>={0} then 1 else 0 end"
+                                    .Params(Parameters.Security.LockoutCount))
+                                .LockoutCounter(raw: "[Users].[LockoutCounter]+1"),
+                            addUpdatorParam: false,
+                            addUpdatedTimeParam: false));
+                }
+            }
             return AccessStatus == Databases.AccessStatuses.Selected;
         }
 
@@ -4028,7 +4101,7 @@ namespace Implem.Pleasanter.Models
         /// </summary>
         public string Allow(Context context, string returnUrl, bool atLogin = false)
         {
-            IncrementsNumberOfLogins(context, "NumberOfLogins");
+            IncrementsNumberOfLogins(context: context);
             SetFormsAuthentication(
                 context: context,
                 returnUrl: returnUrl);
@@ -4043,15 +4116,33 @@ namespace Implem.Pleasanter.Models
         /// <summary>
         /// Fixed:
         /// </summary>
-        private void IncrementsNumberOfLogins(Context context, string columnName)
+        private void IncrementsNumberOfLogins(Context context)
         {
             Rds.ExecuteNonQuery(
                 context: context,
                 statements: Rds.UpdateUsers(
                     where: Rds.UsersWhereDefault(this),
                     param: Rds.UsersParam()
-                        .NumberOfLogins(raw: $"[{columnName}] + 1")
-                        .LastLoginTime(DateTime.Now)));
+                        .NumberOfLogins(raw: "[Users].[NumberOfLogins]+1")
+                        .LastLoginTime(DateTime.Now),
+                    addUpdatorParam: false,
+                    addUpdatedTimeParam: false));
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        private void IncrementsNumberOfDenial(Context context)
+        {
+            Rds.ExecuteNonQuery(
+                context: context,
+                statements: Rds.UpdateUsers(
+                    where: Rds.UsersWhere().LoginId(LoginId),
+                    param: Rds.UsersParam()
+                        .NumberOfDenial(raw: "[Users].[NumberOfDenial]+1")
+                        .LastLoginTime(DateTime.Now),
+                    addUpdatorParam: false,
+                    addUpdatedTimeParam: false));
         }
 
         /// <summary>
@@ -4059,7 +4150,7 @@ namespace Implem.Pleasanter.Models
         /// </summary>
         private string Deny(Context context)
         {
-            IncrementsNumberOfLogins(context, "NumberOfDenial");
+            IncrementsNumberOfDenial(context: context);
             return Messages.ResponseAuthentication(context: context).Focus("#Password").ToJson();
         }
 
@@ -4068,8 +4159,16 @@ namespace Implem.Pleasanter.Models
         /// </summary>
         private string UserDisabled(Context context)
         {
-            IncrementsNumberOfLogins(context, "NumberOfDenial");
+            IncrementsNumberOfDenial(context: context);
             return Messages.ResponseUserDisabled(context: context).Focus("#Password").ToJson();
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        private string UserLockout(Context context)
+        {
+            return Messages.ResponseUserLockout(context: context).Focus("#Password").ToJson();
         }
 
         /// <summary>

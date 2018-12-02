@@ -912,6 +912,46 @@ namespace Implem.Pleasanter.Models
             return switchTargets;
         }
 
+        public static ResponseCollection FieldResponse(
+            this DeptsResponseCollection res,
+            Context context,
+            SiteSettings ss,
+            DeptModel deptModel)
+        {
+            var mine = deptModel.Mine(context: context);
+            ss.EditorColumns
+                .Select(columnName => ss.GetColumn(context: context, columnName: columnName))
+                .Where(column => column != null)
+                .ForEach(column =>
+                {
+                    switch (column.Name)
+                    {
+                        case "DeptId":
+                            res.Val(
+                                "#Depts_DeptId",
+                                deptModel.DeptId.ToResponse(context: context, ss: ss, column: column));
+                            break;
+                        case "DeptCode":
+                            res.Val(
+                                "#Depts_DeptCode",
+                                deptModel.DeptCode.ToResponse(context: context, ss: ss, column: column));
+                            break;
+                        case "DeptName":
+                            res.Val(
+                                "#Depts_DeptName",
+                                deptModel.DeptName.ToResponse(context: context, ss: ss, column: column));
+                            break;
+                        case "Body":
+                            res.Val(
+                                "#Depts_Body",
+                                deptModel.Body.ToResponse(context: context, ss: ss, column: column));
+                            break;
+                        default: break;
+                    }
+                });
+            return res;
+        }
+
         public static string Create(Context context, SiteSettings ss)
         {
             var deptModel = new DeptModel(context, ss, 0, setByForm: true);
@@ -1027,6 +1067,7 @@ namespace Implem.Pleasanter.Models
                 return res
                     .Ver(context: context, ss: ss)
                     .Timestamp(context: context, ss: ss)
+                    .FieldResponse(context: context, ss: ss, deptModel: deptModel)
                     .Val("#VerUp", false)
                     .Disabled("#VerUp", false)
                     .Html("#HeaderTitle", deptModel.Title.Value)

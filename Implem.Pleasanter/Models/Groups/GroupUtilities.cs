@@ -909,6 +909,46 @@ namespace Implem.Pleasanter.Models
             return switchTargets;
         }
 
+        public static ResponseCollection FieldResponse(
+            this GroupsResponseCollection res,
+            Context context,
+            SiteSettings ss,
+            GroupModel groupModel)
+        {
+            var mine = groupModel.Mine(context: context);
+            ss.EditorColumns
+                .Select(columnName => ss.GetColumn(context: context, columnName: columnName))
+                .Where(column => column != null)
+                .ForEach(column =>
+                {
+                    switch (column.Name)
+                    {
+                        case "TenantId":
+                            res.Val(
+                                "#Groups_TenantId",
+                                groupModel.TenantId.ToResponse(context: context, ss: ss, column: column));
+                            break;
+                        case "GroupId":
+                            res.Val(
+                                "#Groups_GroupId",
+                                groupModel.GroupId.ToResponse(context: context, ss: ss, column: column));
+                            break;
+                        case "GroupName":
+                            res.Val(
+                                "#Groups_GroupName",
+                                groupModel.GroupName.ToResponse(context: context, ss: ss, column: column));
+                            break;
+                        case "Body":
+                            res.Val(
+                                "#Groups_Body",
+                                groupModel.Body.ToResponse(context: context, ss: ss, column: column));
+                            break;
+                        default: break;
+                    }
+                });
+            return res;
+        }
+
         public static string Create(Context context, SiteSettings ss)
         {
             var groupModel = new GroupModel(context, ss, 0, setByForm: true);
@@ -1024,6 +1064,7 @@ namespace Implem.Pleasanter.Models
                 return res
                     .Ver(context: context, ss: ss)
                     .Timestamp(context: context, ss: ss)
+                    .FieldResponse(context: context, ss: ss, groupModel: groupModel)
                     .Val("#VerUp", false)
                     .Disabled("#VerUp", false)
                     .Html("#HeaderTitle", groupModel.Title.Value)

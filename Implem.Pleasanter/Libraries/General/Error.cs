@@ -65,6 +65,7 @@ namespace Implem.Pleasanter.Libraries.General
             Unauthorized,
             UpdateConflicts,
             UserDisabled,
+            UserLockout,
             UsersLimit
         }
 
@@ -303,6 +304,10 @@ namespace Implem.Pleasanter.Libraries.General
                         data: data);
                 case Types.UserDisabled:
                     return Messages.UserDisabled(
+                        context: context,
+                        data: data);
+                case Types.UserLockout:
+                    return Messages.UserLockout(
                         context: context,
                         data: data);
                 case Types.UsersLimit:

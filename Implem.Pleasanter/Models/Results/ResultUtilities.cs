@@ -5701,25 +5701,10 @@ namespace Implem.Pleasanter.Models
                 {
                     switch (column.Name)
                     {
-                        case "SiteId":
-                            res.Val(
-                                "#Results_SiteId",
-                                resultModel.SiteId.ToResponse(context: context, ss: ss, column: column));
-                            break;
-                        case "UpdatedTime":
-                            res.Val(
-                                "#Results_UpdatedTime",
-                                resultModel.UpdatedTime.ToResponse(context: context, ss: ss, column: column));
-                            break;
                         case "ResultId":
                             res.Val(
                                 "#Results_ResultId",
                                 resultModel.ResultId.ToResponse(context: context, ss: ss, column: column));
-                            break;
-                        case "Ver":
-                            res.Val(
-                                "#Results_Ver",
-                                resultModel.Ver.ToResponse(context: context, ss: ss, column: column));
                             break;
                         case "Title":
                             res.Val(
@@ -6395,26 +6380,6 @@ namespace Implem.Pleasanter.Models
                             res.Val(
                                 "#Results_CheckZ",
                                 resultModel.CheckZ);
-                            break;
-                        case "Comments":
-                            res.Val(
-                                "#Results_Comments",
-                                resultModel.Comments.ToResponse(context: context, ss: ss, column: column));
-                            break;
-                        case "Creator":
-                            res.Val(
-                                "#Results_Creator",
-                                resultModel.Creator.ToResponse(context: context, ss: ss, column: column));
-                            break;
-                        case "Updator":
-                            res.Val(
-                                "#Results_Updator",
-                                resultModel.Updator.ToResponse(context: context, ss: ss, column: column));
-                            break;
-                        case "CreatedTime":
-                            res.Val(
-                                "#Results_CreatedTime",
-                                resultModel.CreatedTime.ToResponse(context: context, ss: ss, column: column));
                             break;
                         case "AttachmentsA":
                             res.ReplaceAll(

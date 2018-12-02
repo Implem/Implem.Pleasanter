@@ -555,6 +555,7 @@ namespace Implem.DefinitionAccessor
                     case "Model_Utilities_Create": Code.Model_Utilities_Create = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_Create, definitionRow, CodeXls); break;
                     case "Model_Utilities_CreateParams": Code.Model_Utilities_CreateParams = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_CreateParams, definitionRow, CodeXls); break;
                     case "Model_Utilities_CreateParams_Sites": Code.Model_Utilities_CreateParams_Sites = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_CreateParams_Sites, definitionRow, CodeXls); break;
+                    case "Model_Utilities_Create_PasswordPolicies": Code.Model_Utilities_Create_PasswordPolicies = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_Create_PasswordPolicies, definitionRow, CodeXls); break;
                     case "Model_Utilities_CreatedResponse": Code.Model_Utilities_CreatedResponse = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_CreatedResponse, definitionRow, CodeXls); break;
                     case "Model_Utilities_CreatedResponse_Sites": Code.Model_Utilities_CreatedResponse_Sites = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_CreatedResponse_Sites, definitionRow, CodeXls); break;
                     case "Model_Utilities_CreateByApi": Code.Model_Utilities_CreateByApi = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_CreateByApi, definitionRow, CodeXls); break;
@@ -1417,6 +1418,8 @@ namespace Implem.DefinitionAccessor
                     case "Users_TenantManager": Column.Users_TenantManager = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Users_TenantManager, definitionRow, ColumnXls); break;
                     case "Users_ServiceManager": Column.Users_ServiceManager = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Users_ServiceManager, definitionRow, ColumnXls); break;
                     case "Users_Disabled": Column.Users_Disabled = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Users_Disabled, definitionRow, ColumnXls); break;
+                    case "Users_Lockout": Column.Users_Lockout = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Users_Lockout, definitionRow, ColumnXls); break;
+                    case "Users_LockoutCounter": Column.Users_LockoutCounter = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Users_LockoutCounter, definitionRow, ColumnXls); break;
                     case "Users_Developer": Column.Users_Developer = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Users_Developer, definitionRow, ColumnXls); break;
                     case "Users_UserSettings": Column.Users_UserSettings = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Users_UserSettings, definitionRow, ColumnXls); break;
                     case "Users_ApiKey": Column.Users_ApiKey = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Users_ApiKey, definitionRow, ColumnXls); break;
@@ -7409,6 +7412,7 @@ namespace Implem.DefinitionAccessor
         public string Model_Utilities_Create;
         public string Model_Utilities_CreateParams;
         public string Model_Utilities_CreateParams_Sites;
+        public string Model_Utilities_Create_PasswordPolicies;
         public string Model_Utilities_CreatedResponse;
         public string Model_Utilities_CreatedResponse_Sites;
         public string Model_Utilities_CreateByApi;
@@ -7965,6 +7969,7 @@ namespace Implem.DefinitionAccessor
         public CodeDefinition Model_Utilities_Create = new CodeDefinition();
         public CodeDefinition Model_Utilities_CreateParams = new CodeDefinition();
         public CodeDefinition Model_Utilities_CreateParams_Sites = new CodeDefinition();
+        public CodeDefinition Model_Utilities_Create_PasswordPolicies = new CodeDefinition();
         public CodeDefinition Model_Utilities_CreatedResponse = new CodeDefinition();
         public CodeDefinition Model_Utilities_CreatedResponse_Sites = new CodeDefinition();
         public CodeDefinition Model_Utilities_CreateByApi = new CodeDefinition();
@@ -8790,6 +8795,8 @@ namespace Implem.DefinitionAccessor
         public string Users_TenantManager;
         public string Users_ServiceManager;
         public string Users_Disabled;
+        public string Users_Lockout;
+        public string Users_LockoutCounter;
         public string Users_Developer;
         public string Users_UserSettings;
         public string Users_ApiKey;
@@ -9698,6 +9705,8 @@ namespace Implem.DefinitionAccessor
         public ColumnDefinition Users_TenantManager = new ColumnDefinition();
         public ColumnDefinition Users_ServiceManager = new ColumnDefinition();
         public ColumnDefinition Users_Disabled = new ColumnDefinition();
+        public ColumnDefinition Users_Lockout = new ColumnDefinition();
+        public ColumnDefinition Users_LockoutCounter = new ColumnDefinition();
         public ColumnDefinition Users_Developer = new ColumnDefinition();
         public ColumnDefinition Users_UserSettings = new ColumnDefinition();
         public ColumnDefinition Users_ApiKey = new ColumnDefinition();
