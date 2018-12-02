@@ -14,6 +14,7 @@ https://pleasanter.azurewebsites.net
 ## 資料
 * [紹介資料](https://pleasanter.org/downloads/pleasanterp.pdf)
 * [パンフレット](https://pleasanter.org/downloads/pleasanter.pdf)
+* [アプリ作成ガイド](https://pleasanter.org/downloads/hands-on1.pdf)
 
 ## 主な利用シーン
 * [問合せ管理](https://implem.co.jp/2017/08/19/1728/)
