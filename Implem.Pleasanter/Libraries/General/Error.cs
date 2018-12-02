@@ -50,6 +50,7 @@ namespace Implem.Pleasanter.Libraries.General
             OverTotalLimitSize,
             ParameterSyntaxError,
             PasswordNotChanged,
+            PasswordPolicyViolation,
             PermissionNotSelfChange,
             RequireMailAddresses,
             RequireTo,
@@ -242,6 +243,10 @@ namespace Implem.Pleasanter.Libraries.General
                         data: data);
                 case Types.PasswordNotChanged:
                     return Messages.PasswordNotChanged(
+                        context: context,
+                        data: data);
+                case Types.PasswordPolicyViolation:
+                    return Messages.PasswordPolicyViolation(
                         context: context,
                         data: data);
                 case Types.PermissionNotSelfChange:

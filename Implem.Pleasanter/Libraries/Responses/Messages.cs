@@ -1,5 +1,8 @@
-﻿using Implem.Pleasanter.Libraries.Html;
+﻿using Implem.Libraries.Utilities;
+using Implem.ParameterAccessor.Parts;
+using Implem.Pleasanter.Libraries.Html;
 using Implem.Pleasanter.Libraries.Requests;
+using System.Linq;
 namespace Implem.Pleasanter.Libraries.Responses
 {
     public static class Messages
@@ -13,6 +16,15 @@ namespace Implem.Pleasanter.Libraries.Responses
         private static ResponseCollection ResponseMessage(Message message)
         {
             return new ResponseCollection().Message(message);
+        }
+
+        public static ResponseCollection ResponseMessage(this PasswordPolicy policy, Context context)
+        {
+            return new ResponseCollection().Message(policy.Languages?.Any() == true
+                ? new Message(
+                    text: policy.Display(context: context),
+                    css: "alert-error")
+                : PasswordPolicyViolation(context: context));
         }
 
         public static Message AlreadyAdded(Context context, params string[] data)
@@ -676,6 +688,15 @@ namespace Implem.Pleasanter.Libraries.Responses
         {
             return Get(
                 text: Displays.PasswordNotChanged(
+                    context: context,
+                    data: data),
+                css: "alert-error");
+        }
+
+        public static Message PasswordPolicyViolation(Context context, params string[] data)
+        {
+            return Get(
+                text: Displays.PasswordPolicyViolation(
                     context: context,
                     data: data),
                 css: "alert-error");
@@ -1420,6 +1441,13 @@ namespace Implem.Pleasanter.Libraries.Responses
         public static ResponseCollection ResponsePasswordNotChanged(Context context, params string[] data)
         {
             return ResponseMessage(PasswordNotChanged(
+                context: context,
+                data: data));
+        }
+
+        public static ResponseCollection ResponsePasswordPolicyViolation(Context context, params string[] data)
+        {
+            return ResponseMessage(PasswordPolicyViolation(
                 context: context,
                 data: data));
         }

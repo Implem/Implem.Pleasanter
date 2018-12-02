@@ -1,4 +1,5 @@
 ﻿using Implem.Libraries.Utilities;
+using Implem.ParameterAccessor.Parts;
 using Implem.Pleasanter.Libraries.Requests;
 using System.Collections.Generic;
 using System.Linq;
@@ -36,6 +37,13 @@ namespace Implem.Pleasanter.Libraries.Responses
             return data?.Any() == true
                 ? screen.Params(data)
                 : screen;
+        }
+
+        public static string Display(this PasswordPolicy policy, Context context)
+        {
+            return policy.Languages.FirstOrDefault(o => o.Language == context.Language)?.Body
+                ?? policy.Languages.FirstOrDefault(o => o.Language.IsNullOrEmpty())?.Body
+                ?? policy.Languages.FirstOrDefault()?.Body;
         }
 
         public static string Add(
@@ -3795,6 +3803,16 @@ namespace Implem.Pleasanter.Libraries.Responses
             return Get(
                 context: context,
                 id: "PasswordNotChanged",
+                data: data);
+        }
+
+        public static string PasswordPolicyViolation(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "PasswordPolicyViolation",
                 data: data);
         }
 

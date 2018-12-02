@@ -46,6 +46,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Parameters.cs" />
+    <Compile Include="Parts\PasswordPolicy.cs" />
     <Compile Include="Parts\Session.cs" />
     <Compile Include="Parts\History.cs" />
     <Compile Include="Parts\Deleted.cs" />
@@ -74,6 +75,12 @@
     <Compile Include="Parts\Service.cs" />
     <Compile Include="Parts\Asset.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Implem.DisplayAccessor\Implem.DisplayAccessor.csproj">
+      <Project>{68a8c5c4-db19-4edd-b1c2-7722e19e5d7a}</Project>
+      <Name>Implem.DisplayAccessor</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

@@ -5634,6 +5634,13 @@ namespace Implem.Pleasanter.Models
                 case Error.Types.None: break;
                 default: return invalid.MessageJson(context: context);
             }
+            foreach (var policy in Parameters.Security.PasswordPolicies.Where(o => o.Enabled))
+            {
+                if (!context.Forms.Get("Users_ChangedPassword").RegexExists(policy.Regex))
+                {
+                    return policy.ResponseMessage(context: context).ToJson();
+                }
+            }
             var error = userModel.ChangePassword(context: context);
             return error.Has()
                 ? error.MessageJson(context: context)
@@ -5674,6 +5681,13 @@ namespace Implem.Pleasanter.Models
                 case Error.Types.None: break;
                 default: return invalid.MessageJson(context: context);
             }
+            foreach (var policy in Parameters.Security.PasswordPolicies.Where(o => o.Enabled))
+            {
+                if (!context.Forms.Get("Users_ChangedPassword").RegexExists(policy.Regex))
+                {
+                    return policy.ResponseMessage(context: context).ToJson();
+                }
+            }
             var error = userModel.ChangePasswordAtLogin(context: context);
             return error.Has()
                 ? error.MessageJson(context: context)
@@ -5699,6 +5713,13 @@ namespace Implem.Pleasanter.Models
             {
                 case Error.Types.None: break;
                 default: return invalid.MessageJson(context: context);
+            }
+            foreach(var policy in Parameters.Security.PasswordPolicies.Where(o => o.Enabled))
+            {
+                if (!context.Forms.Get("Users_AfterResetPassword").RegexExists(policy.Regex))
+                {
+                    return policy.ResponseMessage(context: context).ToJson();
+                }
             }
             var error = userModel.ResetPassword(context: context);
             return error.Has()
