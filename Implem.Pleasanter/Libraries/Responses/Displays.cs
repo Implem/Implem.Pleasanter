@@ -5356,6 +5356,16 @@ namespace Implem.Pleasanter.Libraries.Responses
                 data: data);
         }
 
+        public static string UserLockout(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "UserLockout",
+                data: data);
+        }
+
         public static string UsersLimit(
             Context context,
             params string[] data)
@@ -6913,6 +6923,26 @@ namespace Implem.Pleasanter.Libraries.Responses
             return Get(
                 context: context,
                 id: "Users_Disabled",
+                data: data);
+        }
+
+        public static string Users_Lockout(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "Users_Lockout",
+                data: data);
+        }
+
+        public static string Users_LockoutCounter(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "Users_LockoutCounter",
                 data: data);
         }
 

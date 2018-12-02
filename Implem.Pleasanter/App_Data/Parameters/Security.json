@@ -2,6 +2,7 @@
     "RequestLimit": 0,
     "PrivilegedUsers": null,
     "RevealUserDisabled": false,
+    "LockoutCount": 0,
     "PasswordPolicies": [
         {
             "Enabled": true,

@@ -627,25 +627,10 @@ namespace Implem.Pleasanter.Models
                 {
                     switch (column.Name)
                     {
-                        case "SiteId":
-                            res.Val(
-                                "#Wikis_SiteId",
-                                wikiModel.SiteId.ToResponse(context: context, ss: ss, column: column));
-                            break;
-                        case "UpdatedTime":
-                            res.Val(
-                                "#Wikis_UpdatedTime",
-                                wikiModel.UpdatedTime.ToResponse(context: context, ss: ss, column: column));
-                            break;
                         case "WikiId":
                             res.Val(
                                 "#Wikis_WikiId",
                                 wikiModel.WikiId.ToResponse(context: context, ss: ss, column: column));
-                            break;
-                        case "Ver":
-                            res.Val(
-                                "#Wikis_Ver",
-                                wikiModel.Ver.ToResponse(context: context, ss: ss, column: column));
                             break;
                         case "Title":
                             res.Val(
@@ -656,26 +641,6 @@ namespace Implem.Pleasanter.Models
                             res.Val(
                                 "#Wikis_Body",
                                 wikiModel.Body.ToResponse(context: context, ss: ss, column: column));
-                            break;
-                        case "Comments":
-                            res.Val(
-                                "#Wikis_Comments",
-                                wikiModel.Comments.ToResponse(context: context, ss: ss, column: column));
-                            break;
-                        case "Creator":
-                            res.Val(
-                                "#Wikis_Creator",
-                                wikiModel.Creator.ToResponse(context: context, ss: ss, column: column));
-                            break;
-                        case "Updator":
-                            res.Val(
-                                "#Wikis_Updator",
-                                wikiModel.Updator.ToResponse(context: context, ss: ss, column: column));
-                            break;
-                        case "CreatedTime":
-                            res.Val(
-                                "#Wikis_CreatedTime",
-                                wikiModel.CreatedTime.ToResponse(context: context, ss: ss, column: column));
                             break;
                         default: break;
                     }

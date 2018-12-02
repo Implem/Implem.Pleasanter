@@ -864,6 +864,12 @@ namespace Implem.Pleasanter.Libraries.Settings
                         case "Disabled":
                             sql.Users_Disabled(tableName: path, _as: _as);
                             break;
+                        case "Lockout":
+                            sql.Users_Lockout(tableName: path, _as: _as);
+                            break;
+                        case "LockoutCounter":
+                            sql.Users_LockoutCounter(tableName: path, _as: _as);
+                            break;
                         case "Developer":
                             sql.Users_Developer(tableName: path, _as: _as);
                             break;

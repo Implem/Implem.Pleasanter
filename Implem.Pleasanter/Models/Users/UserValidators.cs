@@ -193,6 +193,18 @@ namespace Implem.Pleasanter.Models
                             return Error.Types.HasNotPermission;
                         }
                         break;
+                    case "Lockout":
+                        if (userModel.Lockout_Updated(context: context, column: column))
+                        {
+                            return Error.Types.HasNotPermission;
+                        }
+                        break;
+                    case "LockoutCounter":
+                        if (userModel.LockoutCounter_Updated(context: context, column: column))
+                        {
+                            return Error.Types.HasNotPermission;
+                        }
+                        break;
                     case "ApiKey":
                         if (userModel.ApiKey_Updated(context: context, column: column))
                         {
@@ -1171,6 +1183,18 @@ namespace Implem.Pleasanter.Models
                         break;
                     case "Disabled":
                         if (userModel.Disabled_Updated(context: context))
+                        {
+                            return Error.Types.HasNotPermission;
+                        }
+                        break;
+                    case "Lockout":
+                        if (userModel.Lockout_Updated(context: context))
+                        {
+                            return Error.Types.HasNotPermission;
+                        }
+                        break;
+                    case "LockoutCounter":
+                        if (userModel.LockoutCounter_Updated(context: context))
                         {
                             return Error.Types.HasNotPermission;
                         }
