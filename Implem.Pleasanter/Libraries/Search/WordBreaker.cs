@@ -95,12 +95,6 @@ namespace Implem.Pleasanter.Libraries.Search
         {
             if (word != string.Empty)
             {
-                switch (type)
-                {
-                    case CharTypes.Hiragana:
-                        word = KanaEx.ToKatakana(word);
-                        break;
-                }
                 if (word.Length >= 2 && word.EndsWith("ー"))
                 {
                     word = word.Substring(0, word.Length - 1);
