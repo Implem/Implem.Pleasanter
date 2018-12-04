@@ -284,11 +284,11 @@ namespace Implem.DefinitionAccessor
             Def.SetViewModeDefinition();
             Def.SetDemoDefinition();
             Def.SetSqlDefinition();
-            SetDisplayAccessor();
             if (Parameters.Enterprise)
             {
                 SetExtendedColumnDefinitions();
             }
+            SetDisplayAccessor();
         }
 
         private static void SetExtendedColumnDefinitions()
