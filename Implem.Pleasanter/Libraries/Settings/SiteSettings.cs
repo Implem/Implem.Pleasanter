@@ -2655,80 +2655,21 @@ namespace Implem.Pleasanter.Libraries.Settings
                             .UseSearch == true)
                 .GroupBy(o => o.SiteId)
                 .Select(o => o.FirstOrDefault())
-                .ForEach(link =>
-                {
-                    var referenceType = Destinations?
+                .ForEach(link => LinkHash(
+                    context: context,
+                    searchText: searchText,
+                    selectedValues: selectedValues?.Select(o => o.ToLong()),
+                    link: link,
+                    hash: hash,
+                    offset: offset,
+                    noLimit: noLimit,
+                    referenceType: Destinations?
                         .Where(d => d.SiteId == link.SiteId)
                         .Select(d => d.ReferenceType)
-                        .FirstOrDefault();
-                    if (referenceType == "Wikis")
-                    {
-                        WikisLinkHash(
-                            context: context,
-                            searchText: searchText,
-                            selectedValues: selectedValues,
-                            link: link,
-                            hash: hash,
-                            offset: offset);
-                    }
-                    else
-                    {
-                        LinkHash(
-                            context: context,
-                            searchText: searchText,
-                            selectedValues: selectedValues?.Select(o => o.ToLong()),
-                            link: link,
-                            hash: hash,
-                            offset: offset,
-                            noLimit: noLimit,
-                            referenceType: referenceType,
-                            parentColumn: GetColumn(context: context, columnName: parentClass),
-                            parentId: parentId);
-                    }
-                });
+                        .FirstOrDefault(),
+                    parentColumn: GetColumn(context: context, columnName: parentClass),
+                    parentId: parentId));
             return hash;
-        }
-
-        private void WikisLinkHash(
-            Context context,
-            string searchText,
-            IEnumerable<string> selectedValues,
-            Link link,
-            Dictionary<string, List<string>> hash,
-            int offset)
-        {
-            var searchIndexes = searchText.SearchIndexes(context: context);
-            var dataRows = Rds.ExecuteScalar_string(
-                context: context,
-                statements: Rds.SelectWikis(
-                    column: Rds.WikisColumn().Body(),
-                    join: new SqlJoinCollection(
-                        new SqlJoin(
-                            tableBracket: "[Sites]",
-                            joinType: SqlJoin.JoinTypes.Inner,
-                            joinExpression: "[Wikis].[SiteId]=[Sites].[SiteId]")),
-                    where: Rds.WikisWhere()
-                        .SiteId(link.SiteId)
-                        .CanRead(context: context, idColumnBracket: "[Sites].[SiteId]")))
-                            .SplitReturn()
-                            .Where(o => o.Trim() != string.Empty)
-                            .GroupBy(o => o.Split_1st())
-                            .Select(o => o.First())
-                            .Where(o =>
-                                selectedValues?.Any() != true ||
-                                selectedValues.Any(p => p == o.Split_1st()))
-                            .ToDictionary(o => o, o => o.SearchIndexes(context: context))
-                            .Where(o =>
-                                searchIndexes?.Any() != true ||
-                                searchIndexes.All(p => o.Value.Any(q => q.Contains(p))))
-                            .AsEnumerable();
-            GetColumn(context: context, columnName: link.ColumnName)
-                .TotalCount = dataRows.Count();
-            hash.Add($"[[{link.SiteId}]]", dataRows
-                .Select(o => o.Key)
-                .Skip(offset)
-                .Take(Parameters.General.DropDownSearchPageSize)
-                .ToList());
         }
 
         private void LinkHash(
@@ -2806,9 +2747,9 @@ namespace Implem.Pleasanter.Libraries.Settings
         private static List<string> LinkValue(
             Context context, long siteId, EnumerableRowCollection<DataRow> dataRows)
         {
-            return dataRows.Any(o =>
-                o["SiteId"].ToLong() == siteId &&
-                o["ReferenceType"].ToString() == "Wikis")
+            return dataRows.Any(dataRow =>
+                dataRow.Long("SiteId") == siteId &&
+                dataRow.String("ReferenceType") == "Wikis")
                     ? Rds.ExecuteScalar_string(
                         context: context,
                         statements: Rds.SelectWikis(
