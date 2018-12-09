@@ -6,19 +6,19 @@
     "PasswordPolicies": [
         {
             "Enabled": true,
-            "Regex": ".{8,}",
+            "Regex": ".{6,}",
             "Languages": [
                 {
-                    "Body": "Please enter at least 8 characters for the password."
+                    "Body": "Please enter at least 6 characters for the password."
                 },
                 {
                     "Language": "ja",
-                    "Body": "パスワードは8文字以上を入力してください。"
+                    "Body": "パスワードは6文字以上を入力してください。"
                 }
             ]
         },
         {
-            "Enabled": true,
+            "Enabled": false,
             "Regex": "[a-z]+",
             "Languages": [
                 {
@@ -31,7 +31,7 @@
             ]
         },
         {
-            "Enabled": true,
+            "Enabled": false,
             "Regex": "[A-Z]+",
             "Languages": [
                 {
@@ -44,7 +44,7 @@
             ]
         },
         {
-            "Enabled": true,
+            "Enabled": false,
             "Regex": "[0-9]+",
             "Languages": [
                 {
@@ -57,7 +57,7 @@
             ]
         },
         {
-            "Enabled": true,
+            "Enabled": false,
             "Regex": "[^a-zA-Z0-9]+",
             "Languages": [
                 {
