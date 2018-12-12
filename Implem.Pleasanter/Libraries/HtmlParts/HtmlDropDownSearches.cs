@@ -6,7 +6,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
     public static class HtmlDropDownSearches
     {
         public static HtmlBuilder DropDownSearchDialog(
-            this HtmlBuilder hb, Context context, string controller, long id)
+            this HtmlBuilder hb, Context context, long id)
         {
             return hb.Div(
                 attributes: new HtmlAttributes()
@@ -16,9 +16,8 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     .Form(
                         attributes: new HtmlAttributes()
                             .Id("DropDownSearchDialogForm")
-                            .Action(Locations.Action(
+                            .Action(Locations.ItemAction(
                                 context: context,
-                                controller: controller,
                                 id: id)),
                         action: () => hb
                             .FieldSelectable(

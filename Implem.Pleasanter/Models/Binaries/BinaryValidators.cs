@@ -56,9 +56,46 @@ namespace Implem.Pleasanter.Models
         /// <summary>
         /// Fixed:
         /// </summary>
+        public static Error.Types OnUploadingTenantImage(
+            Context context, SiteSettings ss, byte[] bin)
+        {
+            if (!Permissions.CanManageTenant(context))
+            {
+                return Error.Types.HasNotPermission;
+            }
+            if (bin == null)
+            {
+                return Error.Types.SelectFile;
+            }
+            try
+            {
+                System.Drawing.Image.FromStream(new System.IO.MemoryStream(bin));
+            }
+            catch (System.Exception)
+            {
+                return Error.Types.IncorrectFileFormat;
+            }
+            return Error.Types.None;
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
         public static Error.Types OnDeletingSiteImage(Context context, SiteSettings ss)
         {
             if (!context.CanManageSite(ss: ss))
+            {
+                return Error.Types.HasNotPermission;
+            }
+            return Error.Types.None;
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        public static Error.Types OnDeletingTenantImage(Context context, SiteSettings ss)
+        {
+            if (!Permissions.CanManageTenant(context))
             {
                 return Error.Types.HasNotPermission;
             }

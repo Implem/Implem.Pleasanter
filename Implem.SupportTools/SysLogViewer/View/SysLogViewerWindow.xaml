@@ -71,7 +71,7 @@
             </ListView.ItemContainerStyle>
             <ListView.View>
                 <GridView>
-                    <GridViewColumn Header="CreatedTime" DisplayMemberBinding="{Binding CreatedTime, StringFormat='yyyy/mm/dd HH:mm:ss.fff'}"  />
+                    <GridViewColumn Header="CreatedTime" DisplayMemberBinding="{Binding CreatedTime, StringFormat='yyyy/MM/dd HH:mm:ss.fff'}"  />
                     <GridViewColumn Header="SysLogType" DisplayMemberBinding="{Binding SysLogType}" />
                     <GridViewColumn Header="Class" DisplayMemberBinding="{Binding Class}" />
                     <GridViewColumn Header="Method" DisplayMemberBinding="{Binding Method}" />

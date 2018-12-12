@@ -60,6 +60,40 @@ namespace Implem.Pleasanter.Models
         /// <summary>
         /// Fixed:
         /// </summary>
+        public static bool ExistsTenantImage(
+            Context context,
+            SiteSettings ss,
+            long referenceId,
+            Libraries.Images.ImageData.SizeTypes sizeType)
+        {
+            var invalid = BinaryValidators.OnGetting(
+                context: context,
+                ss: ss);
+            switch (invalid)
+            {
+                case Error.Types.None: break;
+                default: return false;
+            }
+            switch (Parameters.BinaryStorage.Provider)
+            {
+                case "Local":
+                    return new Libraries.Images.ImageData(
+                        referenceId, Libraries.Images.ImageData.Types.TenantImage)
+                            .Exists(sizeType);
+                default:
+                    return Rds.ExecuteScalar_int(
+                        context: context,
+                        statements: Rds.SelectBinaries(
+                            column: Rds.BinariesColumn().BinariesCount(),
+                            where: Rds.BinariesWhere()
+                                .ReferenceId(referenceId)
+                                .BinaryType("TenantImage"))) == 1;
+            }
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
         public static string SiteImagePrefix(
             Context context,
             SiteSettings ss,
@@ -75,6 +109,28 @@ namespace Implem.Pleasanter.Models
                 default: return string.Empty;
             }
             return new BinaryModel(referenceId).SiteImagePrefix(
+                context: context,
+                sizeType: sizeType);
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        public static string TenantImagePrefix(
+            Context context,
+            SiteSettings ss,
+            long referenceId,
+            Libraries.Images.ImageData.SizeTypes sizeType)
+        {
+            var invalid = BinaryValidators.OnGetting(
+                context: context,
+                ss: ss);
+            switch (invalid)
+            {
+                case Error.Types.None: break;
+                default: return string.Empty;
+            }
+            return new BinaryModel(referenceId).TenantImagePrefix(
                 context: context,
                 sizeType: sizeType);
         }
@@ -128,6 +184,26 @@ namespace Implem.Pleasanter.Models
         /// <summary>
         /// Fixed:
         /// </summary>
+        public static byte[] TenantImageLogo(Context context, TenantModel tenantModel)
+        {
+            var ss = SiteSettingsUtilities.TenantsSiteSettings(context);
+            var invalid = BinaryValidators.OnGetting(
+                context: context,
+                ss: ss);
+            switch (invalid)
+            {
+                case Error.Types.None: break;
+                default: return null;
+            }
+            return new BinaryModel(tenantModel.TenantId).TenantImage(
+                context: context,
+                sizeType: Libraries.Images.ImageData.SizeTypes.Logo,
+                column: Rds.BinariesColumn().Logo());
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
         public static string UpdateSiteImage(Context context, SiteModel siteModel)
         {
             siteModel.SiteSettings = SiteSettingsUtilities.Get(
@@ -154,18 +230,56 @@ namespace Implem.Pleasanter.Models
             {
                 return new ResponseCollection()
                     .Html(
-                        "#SiteImageIconContainer",
+                        "#TenantImageLogoContainer",
                         new HtmlBuilder().SiteImageIcon(
                             context: context,
                             ss: siteModel.SiteSettings,
-                            siteId: siteModel.SiteId))
+                            siteId: siteModel.TenantId))
                     .Html(
-                        "#SiteImageSettingsEditor",
+                        "#TenantImageSettingsEditor",
                         new HtmlBuilder().SiteImageSettingsEditor(
                             context: context,
                             ss: siteModel.SiteSettings))
                     .Message(Messages.FileUpdateCompleted(context: context))
                     .ToJson();
+            }
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        public static string UpdateTenantImage(Context context, TenantModel tenantModel)
+        {
+            var ss = SiteSettingsUtilities.TenantsSiteSettings(context);
+            var bin = context.PostedFiles.FirstOrDefault()?.Byte();
+            var invalid = BinaryValidators.OnUploadingTenantImage(
+                context: context,
+                ss: ss,
+                bin: bin);
+            switch (invalid)
+            {
+                case Error.Types.None: break;
+                default: return invalid.MessageJson(context: context);
+            }
+            var error = new BinaryModel(tenantModel.TenantId).UpdateTenantImage(
+                context: context, bin: bin);
+            if (error.Has())
+            {
+                return error.MessageJson(context: context);
+            }
+            else
+            {
+                return new ResponseCollection()
+                   .ReplaceAll(
+                       "#Logo",
+                       new HtmlBuilder().HeaderLogo(
+                           context: context))
+                   .ReplaceAll(
+                       "#TenantImageSettingsEditor",
+                       new HtmlBuilder().TenantImageSettingsEditor(
+                           context: context, tenantModel: tenantModel))
+                   .Message(Messages.FileUpdateCompleted(context: context))
+                   .ToJson();
             }
         }
 
@@ -208,6 +322,42 @@ namespace Implem.Pleasanter.Models
                             ss: siteModel.SiteSettings))
                     .Message(Messages.FileDeleteCompleted(context: context))
                     .ToJson();
+            }
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        public static string DeleteTenantImage(Context context, TenantModel tenantModel)
+        {
+            var ss = SiteSettingsUtilities.TenantsSiteSettings(context);
+            var invalid = BinaryValidators.OnDeletingTenantImage(
+                context: context,
+                ss: ss);
+            switch (invalid)
+            {
+                case Error.Types.None: break;
+                default: return invalid.MessageJson(context: context);
+            }
+            var error = new BinaryModel(tenantModel.TenantId)
+                .DeleteTenantImage(context: context);
+            if (error.Has())
+            {
+                return error.MessageJson(context: context);
+            }
+            else
+            {
+                return new ResponseCollection()
+                   .ReplaceAll(
+                       "#Logo",
+                       new HtmlBuilder().HeaderLogo(
+                           context: context))
+                   .ReplaceAll(
+                       "#TenantImageSettingsEditor",
+                       new HtmlBuilder().TenantImageSettingsEditor(
+                           context: context, tenantModel: tenantModel))
+                   .Message(Messages.FileDeleteCompleted(context: context))
+                   .ToJson();
             }
         }
 

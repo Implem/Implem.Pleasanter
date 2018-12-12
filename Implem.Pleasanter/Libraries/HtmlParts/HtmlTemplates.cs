@@ -73,8 +73,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                         .LinkedStyles(context: context)
                         .ExtendedStyles(context: context)
                         .Title(action: () => hb
-                            .Text(text: Parameters.General.HtmlTitle
-                                ?? Displays.ProductName(context: context))))
+                            .Text(text: HtmlTitle(context: context))))
                     .Body(style: "visibility:hidden", action: action));
             }
             else
@@ -82,6 +81,50 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                 action?.Invoke();
                 return hb;
             }
+        }
+
+        private static string HtmlTitle(Context context)
+        {
+            switch (context.Controller)
+            {
+                case "items":
+                case "publishes":
+                    if (context.TenantTitle == null)
+                    {
+                        return Parameters.General.HtmlTitle
+                            ?? Displays.ProductName(context: context);
+                    }
+                    else if (context.Id == 0)
+                    {
+                        return FormattedHtmlTitle(
+                            context: context,
+                            format: context.HtmlTitleTop);
+                    }
+                    else if (context.Id == context.SiteId)
+                    {
+                        return FormattedHtmlTitle(
+                            context: context,
+                            format: context.HtmlTitleSite);
+                    }
+                    else
+                    {
+                        return FormattedHtmlTitle(
+                            context: context,
+                            format: context.HtmlTitleRecord);
+                    }
+                default:
+                    return Parameters.General.HtmlTitle
+                        ?? Displays.ProductName(context: context);
+            }
+        }
+
+        private static string FormattedHtmlTitle(Context context, string format)
+        {
+            return format
+                .Replace("[ProductName]", Displays.ProductName(context: context))
+                .Replace("[TenantTitle]", context.TenantTitle)
+                .Replace("[SiteTitle]", context.SiteTitle)
+                .Replace("[RecordTitle]", context.RecordTitle);
         }
 
         public static HtmlBuilder MainContainer(
@@ -156,15 +199,16 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                             context: context,
                             ss: ss,
                             view: view,
-                            _using: useBreadcrumb));
-                    if (useTitle)
-                    {
-                        hb.Title(
+                            _using: useBreadcrumb))
+                        .Title(
                             context: context,
                             ss: ss,
                             siteId: siteId,
-                            text: title);
-                    }
+                            title: title,
+                            useTitle: useTitle)
+                        .PublishWarning(
+                            context: context,
+                            ss: ss);
                     action?.Invoke();
                     hb.Message(message: context.Message());
                 }
@@ -182,6 +226,39 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                             verType: Versions.VerTypes.Latest);
                 }
             });
+        }
+
+        private static HtmlBuilder Title(
+            this HtmlBuilder hb,
+            Context context,
+            SiteSettings ss,
+            long siteId,
+            string title,
+            bool useTitle)
+        {
+            return useTitle
+                ? hb.Title(
+                    context: context,
+                    ss: ss,
+                    siteId: siteId,
+                    text: title)
+                : hb;
+        }
+
+        private static HtmlBuilder PublishWarning(
+            this HtmlBuilder hb,
+            Context context,
+            SiteSettings ss)
+        {
+            return ss.Publish && context.Authenticated
+                ? hb.Div(id: "PublishWarning", action: () => hb
+                    .A(
+                        href: context.Controller == "items"
+                            ? context.Url.Replace("items","publishes")
+                            : context.Url.Replace("publishes", "items"),
+                        action: () => hb
+                            .Text(text: Displays.PublishWarning(context: context))))
+                : hb;
         }
 
         private static HtmlBuilder Message(this HtmlBuilder hb, Message message)

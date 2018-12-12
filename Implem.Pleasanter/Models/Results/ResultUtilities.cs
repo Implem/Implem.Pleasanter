@@ -93,7 +93,8 @@ namespace Implem.Pleasanter.Models
                                 context: context,
                                 ss: ss,
                                 siteId: ss.SiteId,
-                                verType: Versions.VerTypes.Latest)
+                                verType: Versions.VerTypes.Latest,
+                                backButton: !context.Publish)
                             .Div(css: "margin-bottom")
                             .Hidden(
                                 controlId: "TableName",
@@ -104,7 +105,6 @@ namespace Implem.Pleasanter.Models
                     .EditorDialog(context: context, ss: ss)
                     .DropDownSearchDialog(
                         context: context,
-                        controller: "items",
                         id: ss.SiteId)
                     .MoveDialog(context: context, bulk: true)
                     .ImportSettingsDialog(context: context)
@@ -3616,7 +3616,8 @@ namespace Implem.Pleasanter.Models
                                     .Id("FieldSetHistories")
                                     .DataAction("Histories")
                                     .DataMethod("post"),
-                                _using: resultModel.MethodType != BaseModel.MethodTypes.New)
+                                _using: resultModel.MethodType != BaseModel.MethodTypes.New
+                                    && !context.Publish)
                             .FieldSet(
                                 attributes: new HtmlAttributes()
                                     .Id("FieldSetRecordAccessControl")
@@ -3673,7 +3674,6 @@ namespace Implem.Pleasanter.Models
                     referenceVer: resultModel.Ver)
                 .DropDownSearchDialog(
                     context: context,
-                    controller: "items",
                     id: ss.SiteId)
                 .CopyDialog(
                     context: context,
@@ -3699,7 +3699,9 @@ namespace Implem.Pleasanter.Models
                     .A(
                         href: "#FieldSetGeneral",
                         text: Displays.General(context: context)))
-                .Li(_using: resultModel.MethodType != BaseModel.MethodTypes.New,
+                .Li(
+                    _using: resultModel.MethodType != BaseModel.MethodTypes.New
+                        && !context.Publish,
                     action: () => hb
                         .A(
                             href: "#FieldSetHistories",
@@ -6712,7 +6714,7 @@ namespace Implem.Pleasanter.Models
                     context: context,
                     type: invalid);
             }
-            var api = context.FormString.Deserialize<Api>();
+            var api = context.RequestDataString.Deserialize<Api>();
             if (api == null)
             {
                 return ApiResults.Get(ApiResponses.BadRequest(context: context));

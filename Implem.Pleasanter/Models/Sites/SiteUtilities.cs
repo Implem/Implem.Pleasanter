@@ -93,7 +93,8 @@ namespace Implem.Pleasanter.Models
                                 context: context,
                                 ss: ss,
                                 siteId: ss.SiteId,
-                                verType: Versions.VerTypes.Latest)
+                                verType: Versions.VerTypes.Latest,
+                                backButton: !context.Publish)
                             .Div(css: "margin-bottom")
                             .Hidden(
                                 controlId: "TableName",
@@ -104,7 +105,6 @@ namespace Implem.Pleasanter.Models
                     .EditorDialog(context: context, ss: ss)
                     .DropDownSearchDialog(
                         context: context,
-                        controller: "items",
                         id: ss.SiteId)
                     .MoveDialog(context: context, bulk: true)
                     .Div(attributes: new HtmlAttributes()
@@ -2336,7 +2336,13 @@ namespace Implem.Pleasanter.Models
                                         .A(
                                             href: "#ScriptsSettingsEditor",
                                             text: Displays.Scripts(context: context)),
-                                    _using: context.ContractSettings.Script != false);
+                                    _using: context.ContractSettings.Script != false)
+                                .Li(
+                                    action: () => hb
+                                        .A(
+                                            href: "#PublishSettingsEditor",
+                                            text: Displays.Publish(context: context)),
+                                    _using: context.ContractSettings.Publish != false);
                             break;
                     }
                     hb
@@ -3313,7 +3319,11 @@ namespace Implem.Pleasanter.Models
                             .MailSettingsEditor(context: context, ss: siteModel.SiteSettings)
                             .SiteIntegrationEditor(context: context, ss: siteModel.SiteSettings)
                             .StylesSettingsEditor(context: context, ss: siteModel.SiteSettings)
-                            .ScriptsSettingsEditor(context: context, ss: siteModel.SiteSettings);
+                            .ScriptsSettingsEditor(context: context, ss: siteModel.SiteSettings)
+                            .PublishSettingsEditor(
+                                context: context,
+                                ss: siteModel.SiteSettings,
+                                publish: siteModel.Publish);
                         break;
                 }
             }
@@ -7855,6 +7865,21 @@ namespace Implem.Pleasanter.Models
                             controlCss: "button-icon",
                             onClick: "$p.closeDialog($(this));",
                             icon: "ui-icon-cancel")));
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        private static HtmlBuilder PublishSettingsEditor(
+            this HtmlBuilder hb, Context context, SiteSettings ss, bool publish)
+        {
+            if (context.ContractSettings.Script == false) return hb;
+            return hb.FieldSet(id: "PublishSettingsEditor", action: () => hb
+                .FieldCheckBox(
+                    controlId: "Sites_Publish",
+                    fieldCss: "field-auto-thin",
+                    labelText: Displays.PublishToAnonymousUsers(context: context),
+                    _checked: publish));
         }
 
         /// <summary>

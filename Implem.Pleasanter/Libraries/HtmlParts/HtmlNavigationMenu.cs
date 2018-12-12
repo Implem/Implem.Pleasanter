@@ -23,7 +23,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             bool useNavigationMenu,
             bool useSearch)
         {
-            return errorType == Error.Types.None && useNavigationMenu
+            return errorType == Error.Types.None && useNavigationMenu && !context.Publish
                 ? hb.Nav(
                     id: "Navigations",
                     css: "ui-widget-header",
@@ -52,6 +52,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             var canManageSite = siteId != 0 && context.CanManageSite(ss: ss, site: true);
             var canManageDepts = Permissions.CanManageTenant(context: context);
             var canManageUsers = Permissions.CanManageTenant(context: context);
+            var canManageTenants = Permissions.CanManageTenant(context:context);
             var canManageTrashBox = CanManageTrashBox(context: context, ss: ss);
             return hb.Ul(
                 id: "NavigationMenu",
@@ -102,6 +103,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                 canManageDepts: canManageDepts,
                                 canManageGroups: canManageGroups,
                                 canManageUsers: canManageUsers,
+                                canManageTenants: canManageTenants,
                                 canManageTrashBox: canManageTrashBox),
                         _using:
                             canManageSite ||
@@ -213,6 +215,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             bool canManageDepts,
             bool canManageGroups,
             bool canManageUsers,
+            bool canManageTenants,
             bool canManageTrashBox)
         {
             return hb.Ul(
@@ -231,6 +234,17 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                         context: context,
                                         ss: ss))),
                         _using: canManageSite)
+                    .Li(
+                        action: () => hb
+                            .A(
+                                href: Locations.Edit(
+                                    context: context,
+                                    controller: "Tenants",
+                                    id: context.TenantId),
+                                action: () => hb
+                                    .Span(css: "ui-icon ui-icon-gear")
+                                    .Text(text: Displays.TenantAdmin(context: context))),
+                        _using: canManageTenants)
                     .Li(
                         action: () => hb
                             .A(

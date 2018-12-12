@@ -14,7 +14,8 @@ namespace Implem.Pleasanter.Filters
         {
             var context = new Context(
                 sessionStatus: false,
-                sessionData: false);
+                sessionData: false,
+                item: false);
             if (context.Controller != "errors" && Parameters.SyntaxErrors?.Any() == true)
             {
                 filterContext.Result = new RedirectResult(

@@ -27,6 +27,7 @@ namespace Implem.Pleasanter.Models
 
         public TenantCollection(
             Context context,
+            SiteSettings ss,
             SqlColumnCollection column = null,
             SqlJoinCollection join = null,
             SqlWhereCollection where = null,
@@ -42,7 +43,7 @@ namespace Implem.Pleasanter.Models
         {
             if (get)
             {
-                Set(context, Get(
+                Set(context, ss, Get(
                     context: context,
                     column: column,
                     join: join,
@@ -58,18 +59,18 @@ namespace Implem.Pleasanter.Models
             }
         }
 
-        public TenantCollection(Context context,EnumerableRowCollection<DataRow> dataRows)
+        public TenantCollection(Context context,SiteSettings ss,EnumerableRowCollection<DataRow> dataRows)
         {
-            Set(context, dataRows);
+            Set(context, ss, dataRows);
         }
 
-        private TenantCollection Set(Context context, EnumerableRowCollection<DataRow> dataRows)
+        private TenantCollection Set(Context context, SiteSettings ss,EnumerableRowCollection<DataRow> dataRows)
         {
             if (dataRows.Any())
             {
                 foreach (DataRow dataRow in dataRows)
                 {
-                    Add(new TenantModel(context, dataRow));
+                    Add(new TenantModel(context, ss, dataRow));
                 }
                 AccessStatus = Databases.AccessStatuses.Selected;
             }

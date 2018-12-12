@@ -14,14 +14,16 @@ namespace Implem.Pleasanter.Libraries.Images
 
         public enum Types : int
         {
-            SiteImage = 1
+            SiteImage = 1,
+            TenantImage = 2
         }
 
         public enum SizeTypes : int
         {
             Regular = 1,
             Thumbnail = 2,
-            Icon = 3
+            Icon = 3,
+            Logo = 4,
         }
 
         public ImageData(byte[] data, long referenceId, Types type)
@@ -55,9 +57,16 @@ namespace Implem.Pleasanter.Libraries.Images
 
         public void WriteToLocal()
         {
-            WriteToLocal(ReSize(SizeTypes.Regular), ReferenceId, Type, SizeTypes.Regular);
-            WriteToLocal(ReSize(SizeTypes.Thumbnail), ReferenceId, Type, SizeTypes.Thumbnail);
-            WriteToLocal(ReSize(SizeTypes.Icon), ReferenceId, Type, SizeTypes.Icon);
+            if (Type == Types.SiteImage)
+            {
+                WriteToLocal(ReSize(SizeTypes.Regular), ReferenceId, Type, SizeTypes.Regular);
+                WriteToLocal(ReSize(SizeTypes.Thumbnail), ReferenceId, Type, SizeTypes.Thumbnail);
+                WriteToLocal(ReSize(SizeTypes.Icon), ReferenceId, Type, SizeTypes.Icon);
+            }
+            else
+            {
+                WriteToLocal(ReSize(SizeTypes.Logo), ReferenceId, Type, SizeTypes.Logo);
+            }
         }
 
         private void WriteToLocal(Image image, long referenceId, Types type, SizeTypes sizeType)
@@ -67,9 +76,16 @@ namespace Implem.Pleasanter.Libraries.Images
 
         public void DeleteLocalFiles()
         {
-            Files.DeleteFile(Path(ReferenceId, Type, SizeTypes.Regular));
-            Files.DeleteFile(Path(ReferenceId, Type, SizeTypes.Thumbnail));
-            Files.DeleteFile(Path(ReferenceId, Type, SizeTypes.Icon));
+            if (Type == Types.SiteImage)
+            {
+                WriteToLocal(ReSize(SizeTypes.Regular), ReferenceId, Type, SizeTypes.Regular);
+                WriteToLocal(ReSize(SizeTypes.Thumbnail), ReferenceId, Type, SizeTypes.Thumbnail);
+                WriteToLocal(ReSize(SizeTypes.Icon), ReferenceId, Type, SizeTypes.Icon);
+            }
+            else
+            {
+                Files.DeleteFile(Path(ReferenceId, Type, SizeTypes.Logo));
+            }
         }
 
         private string Path(long referenceId, Types type, SizeTypes sizeType)
@@ -96,17 +112,19 @@ namespace Implem.Pleasanter.Libraries.Images
 
         private Image ReSize(SizeTypes sizeType)
         {
+            
             var size = (double)Size(sizeType);
-            var rate = Data.Width > Data.Height
+            var rate = (Data.Width > Data.Height) || (sizeType == SizeTypes.Logo)
                 ? size / Data.Height
                 : size / Data.Width;
+            
             if (rate != 1)
             {
                 var width = (Data.Width * rate).ToInt();
                 var height = (Data.Height * rate).ToInt();
-                var x = ((size - width) / 2).ToInt();
-                var y = ((size - height) / 2).ToInt();
-                var resizedImage = new Bitmap(size.ToInt(), size.ToInt());
+                var x = (sizeType == SizeTypes.Logo) ? 0 : ((size - width) / 2).ToInt();
+                var y = (sizeType == SizeTypes.Logo) ? 0 : ((size - height) / 2).ToInt();
+                var resizedImage = new Bitmap(width, height);
                 resizedImage.MakeTransparent();
                 using (var graphics = Graphics.FromImage(resizedImage))
                 {
@@ -128,6 +146,7 @@ namespace Implem.Pleasanter.Libraries.Images
                 case SizeTypes.Regular: return Parameters.General.ImageSizeRegular;
                 case SizeTypes.Thumbnail: return Parameters.General.ImageSizeThumbnail;
                 case SizeTypes.Icon: return Parameters.General.ImageSizeIcon;
+                case SizeTypes.Logo: return Parameters.General.ImageSizeLogo;
                 default: return Parameters.General.ImageSizeRegular;
             }
         }

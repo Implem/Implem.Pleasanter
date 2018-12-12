@@ -23,11 +23,13 @@ namespace Implem.Pleasanter.Libraries.Requests
         public bool Authenticated;
         public string SessionGuid = Guid.NewGuid().ToString().Replace("-", string.Empty);
         public Dictionary<string, string> SessionData = new Dictionary<string, string>();
+        public bool Publish;
         public QueryStrings QueryStrings = new QueryStrings();
         public Forms Forms = new Forms();
         public string FormStringRaw;
         public string FormString;
         public List<PostedFile> PostedFiles = new List<PostedFile>();
+        public bool HasRoute = RouteTable.Routes.Count != 0 && HttpContext.Current != null;
         public string HttpMethod;
         public bool Ajax;
         public bool Mobile;
@@ -40,11 +42,18 @@ namespace Implem.Pleasanter.Libraries.Requests
         public string Query;
         public string Controller;
         public string Action;
-        public long Id;
-        public long SiteId;
         public string Page;
         public string Server;
         public int TenantId;
+        public long SiteId;
+        public long Id;
+        public TenantModel.LogoTypes LogoType;
+        public string TenantTitle;
+        public string SiteTitle;
+        public string RecordTitle;
+        public string HtmlTitleTop;
+        public string HtmlTitleSite;
+        public string HtmlTitleRecord;
         public int DeptId;
         public int UserId;
         public string LoginId = HttpContext.Current?.User?.Identity.Name;
@@ -67,6 +76,7 @@ namespace Implem.Pleasanter.Libraries.Requests
             bool sessionStatus = true,
             bool sessionData = true,
             bool user = true,
+            bool item = true,
             string apiRequestBody = null)
         {
             Set(
@@ -74,6 +84,7 @@ namespace Implem.Pleasanter.Libraries.Requests
                 sessionStatus: sessionStatus,
                 setData: sessionData,
                 user: user,
+                item: item,
                 apiRequestBody: apiRequestBody);
         }
 
@@ -84,11 +95,12 @@ namespace Implem.Pleasanter.Libraries.Requests
             DeptId = deptId;
             UserId = userId;
             Language = language ?? Language;
-            UserHostAddress = HasRoute()
+            SetPublish();
+            UserHostAddress = HasRoute
                 ? HttpContext.Current?.Request?.UserHostAddress
                 : null;
+            SetTenantProperties();
             SetTenantCaches();
-            SetContractSettings();
         }
 
         public Context(HttpPostedFileBase[] files)
@@ -102,12 +114,102 @@ namespace Implem.Pleasanter.Libraries.Requests
             bool sessionStatus = true,
             bool setData = true,
             bool user = true,
+            bool item = true,
             string apiRequestBody = null)
         {
-            if (request) SetRequests();
-            if (sessionStatus) SetSessionStatuses();
             ApiRequestBody = apiRequestBody;
-            if (user && HasRoute())
+            if (request) SetRequests();
+            if (sessionStatus) SetSessionGuid();
+            if (item) SetItemProperties();
+            if (user) SetUserProperties(sessionStatus, setData);
+            SetTenantProperties();
+            SetPublish();
+            SetTenantCaches();
+        }
+
+        private void SetRequests()
+        {
+            if (HasRoute)
+            {
+                var request = HttpContext.Current.Request;
+                FormStringRaw = HttpContext.Current.Request.Form.ToString();
+                FormString = HttpUtility.UrlDecode(FormStringRaw, System.Text.Encoding.UTF8);
+                Ajax = new HttpRequestWrapper(request).IsAjaxRequest();
+                Mobile = request.Browser.IsMobileDevice;
+                RouteData = GetRouteData();
+                Server = request.Url.Scheme + "://" + request.Url.Authority;
+                ApplicationPath = request.ApplicationPath.EndsWith("/")
+                    ? request.ApplicationPath
+                    : request.ApplicationPath + "/";
+                AbsoluteUri = request.Url.AbsoluteUri;
+                AbsolutePath = request.Url.AbsolutePath;
+                Url = request.Url.ToString();
+                UrlReferrer = request.UrlReferrer?.ToString();
+                Query = request.Url.Query;
+                Controller = RouteData.Get("controller")?.ToLower() ?? string.Empty;
+                Action = RouteData.Get("action")?.ToLower() ?? string.Empty;
+                Id = RouteData.Get("id")?.ToLong() ?? 0;
+                UserHostName = request.UserHostName;
+                UserHostAddress = request.UserHostAddress;
+                UserAgent = request.UserAgent;
+            }
+        }
+
+        private void SetSessionGuid()
+        {
+            if (HttpContext.Current?.Session != null)
+            {
+                SessionGuid = HttpContext.Current?.Session.SessionID;
+            }
+        }
+
+        private void SetItemProperties()
+        {
+            if (HasRoute)
+            {
+                switch (Controller)
+                {
+                    case "items":
+                    case "publishes":
+                        Rds.ExecuteTable(
+                            context: this,
+                            statements: Rds.SelectItems(
+                                column: Rds.ItemsColumn()
+                                    .SiteId()
+                                    .ReferenceId()
+                                    .Title(),
+                                where: Rds.ItemsWhere()
+                                    .Or(or: Rds.ItemsWhere()
+                                        .ReferenceId(Id)
+                                        .ReferenceId(sub: Rds.SelectItems(
+                                            column: Rds.ItemsColumn().SiteId(),
+                                            where: Rds.ItemsWhere().ReferenceId(Id)))),
+                                distinct: true))
+                                    .AsEnumerable()
+                                    .ForEach(dataRow =>
+                                    {
+                                        if (dataRow.Long("SiteId") == dataRow.Long("ReferenceId"))
+                                        {
+                                            SiteId = dataRow.Long("ReferenceId");
+                                            SiteTitle = dataRow.String("Title");
+                                        }
+                                        else
+                                        {
+                                            RecordTitle = dataRow.String("Title");
+                                        }
+                                    });
+                        Page = Controller + "/" + SiteId;
+                        break;
+                    default:
+                        Page = Controller;
+                        break;
+                }
+            }
+        }
+
+        private void SetUserProperties(bool sessionStatus, bool setData)
+        {
+            if (HasRoute)
             {
                 var api = RequestDataString.Deserialize<Api>();
                 if (api?.ApiKey.IsNullOrEmpty() == false)
@@ -119,7 +221,7 @@ namespace Implem.Pleasanter.Libraries.Requests
                             .ApiKey(api.ApiKey)
                             .Disabled(false)
                             .Lockout(false));
-                    Set(
+                    SetUser(
                         userModel: userModel,
                         setData: setData);
                 }
@@ -132,7 +234,7 @@ namespace Implem.Pleasanter.Libraries.Requests
                             .LoginId(LoginId)
                             .Disabled(false)
                             .Lockout(false));
-                    Set(
+                    SetUser(
                         userModel: userModel,
                         setData: setData);
                 }
@@ -144,7 +246,7 @@ namespace Implem.Pleasanter.Libraries.Requests
             }
         }
 
-        private void Set(UserModel userModel, bool setData)
+        private void SetUser(UserModel userModel, bool setData)
         {
             if (userModel.AccessStatus == Databases.AccessStatuses.Selected)
             {
@@ -160,10 +262,39 @@ namespace Implem.Pleasanter.Libraries.Requests
                 TimeZoneInfo = userModel.TimeZoneInfo;
                 UserSettings = userModel.UserSettings;
                 HasPrivilege = Permissions.PrivilegedUsers(loginId: userModel.LoginId);
-                SetTenantCaches();
-                SetContractSettings();
-                SetPage();
                 if (setData) SetData();
+            }
+        }
+
+        private void SetTenantProperties()
+        {
+            if (HasRoute)
+            {
+                var dataRow = Rds.ExecuteTable(
+                    context: this,
+                    statements: Rds.SelectTenants(
+                        column: Rds.TenantsColumn()
+                            .Title()
+                            .ContractSettings()
+                            .ContractDeadline()
+                            .LogoType()
+                            .HtmlTitleTop()
+                            .HtmlTitleSite()
+                            .HtmlTitleRecord(),
+                        where: Rds.TenantsWhere().TenantId(TenantId)))
+                            .AsEnumerable()
+                            .FirstOrDefault();
+                if (dataRow != null)
+                {
+                    TenantTitle = dataRow.String("Title");
+                    ContractSettings = dataRow.String("ContractSettings").Deserialize<ContractSettings>()
+                        ?? ContractSettings;
+                    ContractSettings.Deadline = dataRow?.DateTime("ContractDeadline");
+                    LogoType = (TenantModel.LogoTypes)dataRow.Int("LogoType");
+                    HtmlTitleTop = dataRow.String("HtmlTitleTop");
+                    HtmlTitleSite = dataRow.String("HtmlTitleSite");
+                    HtmlTitleRecord = dataRow.String("HtmlTitleRecord");
+                }
             }
         }
 
@@ -216,14 +347,6 @@ namespace Implem.Pleasanter.Libraries.Requests
             return SessionData.Get("Message")?.Deserialize<Message>();
         }
 
-        private void SetSessionStatuses()
-        {
-            if (HttpContext.Current?.Session != null)
-            {
-                SessionGuid = HttpContext.Current?.Session.SessionID;
-            }
-        }
-
         public double SessionAge()
         {
             return (DateTime.Now - (SessionData.Get("StartTime")?.ToDateTime()
@@ -237,37 +360,36 @@ namespace Implem.Pleasanter.Libraries.Requests
                 ?? DateTime.Now)).TotalMilliseconds;
         }
 
-        private void SetRequests()
+        private void SetPublish()
         {
-            if (HasRoute())
+            if (HasRoute)
             {
-                var request = HttpContext.Current.Request;
-                FormStringRaw = HttpContext.Current.Request.Form.ToString();
-                FormString = HttpUtility.UrlDecode(FormStringRaw, System.Text.Encoding.UTF8);
-                Ajax = new HttpRequestWrapper(request).IsAjaxRequest();
-                Mobile = request.Browser.IsMobileDevice;
-                RouteData = GetRouteData();
-                Server = request.Url.Scheme + "://" + request.Url.Authority;
-                ApplicationPath = request.ApplicationPath.EndsWith("/")
-                    ? request.ApplicationPath
-                    : request.ApplicationPath + "/";
-                AbsoluteUri = request.Url.AbsoluteUri;
-                AbsolutePath = request.Url.AbsolutePath;
-                Url = request.Url.ToString();
-                UrlReferrer = request.UrlReferrer?.ToString();
-                Query = request.Url.Query;
-                Controller = RouteData.Get("controller")?.ToLower() ?? string.Empty;
-                Action = RouteData.Get("action")?.ToLower() ?? string.Empty;
-                Id = RouteData.Get("id")?.ToLong() ?? 0;
-                UserHostName = request.UserHostName;
-                UserHostAddress = request.UserHostAddress;
-                UserAgent = request.UserAgent;
+                if (Controller == "publishes")
+                {
+                    var dataRow = Rds.ExecuteTable(
+                        context: this,
+                        statements: Rds.SelectSites(
+                            column: Rds.SitesColumn()
+                                .TenantId()
+                                .Publish(),
+                            where: Rds.SitesWhere()
+                                .SiteId(sub: Rds.SelectItems(
+                                    column: Rds.ItemsColumn().SiteId(),
+                                    where: Rds.ItemsWhere().ReferenceId(Id)))))
+                                        .AsEnumerable()
+                                        .FirstOrDefault();
+                    Publish = dataRow.Bool("Publish");
+                    if (Publish)
+                    {
+                        TenantId = dataRow.Int("TenantId");
+                    }
+                }
             }
         }
 
         public Dictionary<string, string> GetRouteData()
         {
-            return HasRoute()
+            return HasRoute
                 ? RouteTable.Routes
                     .GetRouteData(new HttpContextWrapper(HttpContext.Current))?
                     .Values
@@ -284,7 +406,7 @@ namespace Implem.Pleasanter.Libraries.Requests
                 .Select(o => o.Split_1st())
                 .ToList();
             var language = string.Empty;
-            if (HasRoute())
+            if (HasRoute)
             {
                 language = QueryStrings.Data("Language");
                 if (!language.IsNullOrEmpty())
@@ -301,11 +423,6 @@ namespace Implem.Pleasanter.Libraries.Requests
                 : Parameters.Service?.DefaultLanguage;
         }
 
-        private static bool HasRoute()
-        {
-            return RouteTable.Routes.Count != 0 && HttpContext.Current != null;
-        }
-
         public void SetTenantCaches()
         {
             if (TenantId != 0 && !SiteInfo.TenantCaches.ContainsKey(TenantId))
@@ -320,40 +437,5 @@ namespace Implem.Pleasanter.Libraries.Requests
                 }
             }
         }
-
-        private void SetContractSettings()
-        {
-            var dataRow = Rds.ExecuteTable(
-                context: this,
-                statements: Rds.SelectTenants(
-                    column: Rds.TenantsColumn()
-                        .ContractSettings()
-                        .ContractDeadline(),
-                    where: Rds.TenantsWhere().TenantId(TenantId)))
-                        .AsEnumerable()
-                        .FirstOrDefault();
-            ContractSettings = dataRow?.String("ContractSettings").Deserialize<ContractSettings>()
-                ?? new ContractSettings();
-            ContractSettings.Deadline = dataRow?.DateTime("ContractDeadline");
-        }
-
-        private void SetPage()
-        {
-            switch (Controller)
-            {
-                case "items":
-                    SiteId = Rds.ExecuteScalar_long(
-                        context: this,
-                        statements: Rds.SelectItems(
-                            column: Rds.ItemsColumn().SiteId(),
-                            where: Rds.ItemsWhere().ReferenceId(Id)));
-                    Page = "items/" + SiteId;
-                    break;
-                default:
-                    Page = Controller;
-                    break;
-            }
-        }
-        
     }
 }

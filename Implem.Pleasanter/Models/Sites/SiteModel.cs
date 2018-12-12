@@ -28,6 +28,7 @@ namespace Implem.Pleasanter.Models
         public string ReferenceType = "Sites";
         public long ParentId = 0;
         public long InheritPermission = 0;
+        public bool Publish = false;
         public SiteCollection Ancestors = null;
         public int SiteMenu = 0;
         public List<string> MonitorChangesColumns = null;
@@ -47,6 +48,7 @@ namespace Implem.Pleasanter.Models
         [NonSerialized] public long SavedParentId = 0;
         [NonSerialized] public long SavedInheritPermission = 0;
         [NonSerialized] public string SavedSiteSettings = string.Empty;
+        [NonSerialized] public bool SavedPublish = false;
         [NonSerialized] public SiteCollection SavedAncestors = null;
         [NonSerialized] public int SavedSiteMenu = 0;
         [NonSerialized] public List<string> SavedMonitorChangesColumns = null;
@@ -91,6 +93,14 @@ namespace Implem.Pleasanter.Models
                 (column == null ||
                 column.DefaultInput.IsNullOrEmpty() ||
                 column.GetDefaultInput(context: context).ToString() != SiteSettings.RecordingJson(context: context));
+        }
+
+        public bool Publish_Updated(Context context, Column column = null)
+        {
+            return Publish != SavedPublish &&
+                (column == null ||
+                column.DefaultInput.IsNullOrEmpty() ||
+                column.GetDefaultInput(context: context).ToBool() != Publish);
         }
 
         public SiteSettings Session_SiteSettings(Context context)
@@ -172,6 +182,7 @@ namespace Implem.Pleasanter.Models
                 case "ParentId": return ParentId.ToString();
                 case "InheritPermission": return InheritPermission.ToString();
                 case "SiteSettings": return SiteSettings.RecordingJson(context: context);
+                case "Publish": return Publish.ToString();
                 case "Ancestors": return Ancestors.ToString();
                 case "SiteMenu": return SiteMenu.ToString();
                 case "MonitorChangesColumns": return MonitorChangesColumns.ToString();
@@ -226,6 +237,9 @@ namespace Implem.Pleasanter.Models
                         break;
                     case "SiteSettings":
                         hash.Add("SiteSettings", SiteSettings.RecordingJson(context: context));
+                        break;
+                    case "Publish":
+                        hash.Add("Publish", Publish.ToString());
                         break;
                     case "Ancestors":
                         hash.Add("Ancestors", Ancestors.ToString());
@@ -544,6 +558,7 @@ namespace Implem.Pleasanter.Models
             column.ParentId(function: Sqls.Functions.SingleColumn); param.ParentId();
             column.InheritPermission(function: Sqls.Functions.SingleColumn); param.InheritPermission();
             column.SiteSettings(function: Sqls.Functions.SingleColumn); param.SiteSettings();
+            column.Publish(function: Sqls.Functions.SingleColumn); param.Publish();
             column.Comments(function: Sqls.Functions.SingleColumn); param.Comments();
             column.Creator(function: Sqls.Functions.SingleColumn); param.Creator();
             column.Updator(function: Sqls.Functions.SingleColumn); param.Updator();
@@ -699,6 +714,7 @@ namespace Implem.Pleasanter.Models
                     case "Sites_Body": Body = context.Forms.Data(controlId).ToString(); break;
                     case "Sites_ReferenceType": ReferenceType = context.Forms.Data(controlId).ToString(); break;
                     case "Sites_InheritPermission": InheritPermission = context.Forms.Data(controlId).ToLong(); break;
+                    case "Sites_Publish": Publish = context.Forms.Data(controlId).ToBool(); break;
                     case "Sites_Timestamp": Timestamp = context.Forms.Data(controlId).ToString(); break;
                     case "Comments": Comments.Prepend(context: context, ss: ss, body: context.Forms.Data("Comments")); break;
                     case "VerUp": VerUp = context.Forms.Data(controlId).ToBool(); break;
@@ -732,6 +748,7 @@ namespace Implem.Pleasanter.Models
             ParentId = siteModel.ParentId;
             InheritPermission = siteModel.InheritPermission;
             SiteSettings = siteModel.SiteSettings;
+            Publish = siteModel.Publish;
             Ancestors = siteModel.Ancestors;
             SiteMenu = siteModel.SiteMenu;
             MonitorChangesColumns = siteModel.MonitorChangesColumns;
@@ -756,6 +773,7 @@ namespace Implem.Pleasanter.Models
             if (data.Body != null) Body = data.Body.ToString().ToString();
             if (data.ReferenceType != null) ReferenceType = data.ReferenceType.ToString().ToString();
             if (data.InheritPermission != null) InheritPermission = data.InheritPermission.ToLong().ToLong();
+            if (data.Publish != null) Publish = data.Publish.ToBool().ToBool();
             if (data.Comments != null) Comments.Prepend(context: context, ss: ss, body: data.Comments);
             if (data.VerUp != null) VerUp = data.VerUp.ToBool();
             SetSiteSettings(context: context);
@@ -857,6 +875,10 @@ namespace Implem.Pleasanter.Models
                             SiteSettings = GetSiteSettings(context: context, dataRow: dataRow);
                             SavedSiteSettings = SiteSettings.RecordingJson(context: context);
                             break;
+                        case "Publish":
+                            Publish = dataRow[column.ColumnName].ToBool();
+                            SavedPublish = Publish;
+                            break;
                         case "Comments":
                             Comments = dataRow[column.ColumnName].ToString().Deserialize<Comments>() ?? new Comments();
                             SavedComments = Comments.ToJson();
@@ -890,6 +912,7 @@ namespace Implem.Pleasanter.Models
                 ParentId_Updated(context: context) ||
                 InheritPermission_Updated(context: context) ||
                 SiteSettings_Updated(context: context) ||
+                Publish_Updated(context: context) ||
                 Comments_Updated(context: context) ||
                 Creator_Updated(context: context) ||
                 Updator_Updated(context: context);
@@ -922,7 +945,9 @@ namespace Implem.Pleasanter.Models
                 {
                     Rds.InsertItems(
                         setIdentity: true,
-                        param: Rds.ItemsParam().ReferenceType("Sites")),
+                        param: Rds.ItemsParam()
+                            .ReferenceType("Sites")
+                            .Title(Title.Value.MaxLength(1024))),
                     Rds.InsertSites(
                         param: Rds.SitesParam()
                             .SiteId(raw: Def.Sql.Identity)

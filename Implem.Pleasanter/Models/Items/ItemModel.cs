@@ -945,6 +945,10 @@ namespace Implem.Pleasanter.Models
             bool editor,
             bool multiple)
         {
+            column.SiteSettings.SetChoiceHash(
+                context: context,
+                columnName: column.ColumnName,
+                selectedValues: selected);
             var optionCollection = column?.EditChoices(
                 context: context,
                 addNotSet: true)?

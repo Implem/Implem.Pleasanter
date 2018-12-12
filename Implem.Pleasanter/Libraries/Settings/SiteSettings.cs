@@ -55,6 +55,8 @@ namespace Implem.Pleasanter.Libraries.Settings
         [NonSerialized]
         public Permissions.Types? ItemPermissionType;
         [NonSerialized]
+        public bool Publish;
+        [NonSerialized]
         public Databases.AccessStatuses AccessStatus;
         [NonSerialized]
         public Dictionary<string, Column> ColumnHash;
@@ -264,21 +266,43 @@ namespace Implem.Pleasanter.Libraries.Settings
             targets.AddRange(Destinations?.Select(o => o.InheritPermission) ?? new List<long>());
             targets.AddRange(Sources?.Select(o => o.InheritPermission) ?? new List<long>());
             var permissions = Permissions.Get(context: context, targets: targets.Distinct());
-            SetPermissions(this, permissions, referenceId);
-            Destinations?.ForEach(o => SetPermissions(o, permissions));
-            Sources?.ForEach(o => SetPermissions(o, permissions));
+            SetPermissions(
+                context: context,
+                ss: this,
+                permissions: permissions,
+                referenceId: referenceId);
+            Destinations?.ForEach(ss =>
+                SetPermissions(
+                    context: context,
+                    ss: ss,
+                    permissions: permissions));
+            Sources?.ForEach(ss => SetPermissions(
+                context: context,
+                ss: ss,
+                permissions: permissions));
         }
 
         private void SetPermissions(
-            SiteSettings ss, Dictionary<long, Permissions.Types> permissions, long referenceId = 0)
+            Context context,
+            SiteSettings ss,
+            Dictionary<long, Permissions.Types> permissions,
+            long referenceId = 0)
         {
-            if (permissions.ContainsKey(ss.InheritPermission))
+            if (context.Publish)
             {
-                ss.PermissionType = permissions[ss.InheritPermission];
+                ss.PermissionType = Permissions.Types.Read;
+                ss.ItemPermissionType = Permissions.Types.Read;
             }
-            if (referenceId != 0 && permissions.ContainsKey(referenceId))
+            else if (context.Controller != "publishes")
             {
-                ss.ItemPermissionType = permissions[referenceId];
+                if (permissions.ContainsKey(ss.InheritPermission))
+                {
+                    ss.PermissionType = permissions[ss.InheritPermission];
+                }
+                if (referenceId != 0 && permissions.ContainsKey(referenceId))
+                {
+                    ss.ItemPermissionType = permissions[referenceId];
+                }
             }
         }
 
@@ -306,7 +330,7 @@ namespace Implem.Pleasanter.Libraries.Settings
             {
                 Migrators.SiteSettingsMigrator.Migrate(this);
             }
-            Init(context: new Context());
+            Init(context: new Context(item: false));
         }
 
         [OnSerializing]
@@ -2392,17 +2416,23 @@ namespace Implem.Pleasanter.Libraries.Settings
             Links.RemoveAll(o => o.ColumnName == column.ColumnName);
             column.ChoicesText.SplitReturn()
                 .Select(o => o.Trim())
-                .Where(o => o.RegexExists(@"^\[\[[0-9]*\]\]$"))
-                .Select(o => o.RegexFirst("[0-9]+").ToLong())
-                .ForEach(siteId =>
+                .Where(o => o.RegexExists(@"^\[\[.+\]\]$"))
+                .Select(settings => new Link(
+                    columnName: column.ColumnName,
+                    settings: settings))
+                .Where(link => link.SiteId != 0)
+                .ForEach(link =>
                 {
                     column.Link = true;
-                    if (!Links.Any(o => o.ColumnName == column.ColumnName && o.SiteId == siteId))
+                    if (!Links.Any(o => o.ColumnName == column.ColumnName
+                        && o.SiteId == link.SiteId))
                     {
-                        if (new SiteModel(context: context, siteId: siteId)
-                            .AccessStatus == Databases.AccessStatuses.Selected)
+                        if (new SiteModel(
+                            context: context,
+                            siteId: link.SiteId)
+                                .AccessStatus == Databases.AccessStatuses.Selected)
                         {
-                            Links.Add(new Link(column.ColumnName, siteId));
+                            Links.Add(link);
                         }
                     }
                 });

@@ -33,6 +33,7 @@ namespace Implem.Pleasanter.Models
         public byte[] Bin = null;
         public byte[] Thumbnail = null;
         public byte[] Icon = null;
+        public byte[] Logo = null;
         public string FileName = string.Empty;
         public string Extension = string.Empty;
         public long Size = 0;
@@ -48,6 +49,7 @@ namespace Implem.Pleasanter.Models
         [NonSerialized] public byte[] SavedBin = null;
         [NonSerialized] public byte[] SavedThumbnail = null;
         [NonSerialized] public byte[] SavedIcon = null;
+        [NonSerialized] public byte[] SavedLogo = null;
         [NonSerialized] public string SavedFileName = string.Empty;
         [NonSerialized] public string SavedExtension = string.Empty;
         [NonSerialized] public long SavedSize = 0;
@@ -163,6 +165,11 @@ namespace Implem.Pleasanter.Models
         public bool Icon_Updated(Context context, Column column = null)
         {
             return Icon != SavedIcon && Icon != null;
+        }
+
+        public bool Logo_Updated(Context context, Column column = null)
+        {
+            return Logo != SavedLogo && Logo != null;
         }
 
         public BinarySettings Session_BinarySettings(Context context)
@@ -381,6 +388,7 @@ namespace Implem.Pleasanter.Models
             column.Bin(function: Sqls.Functions.SingleColumn); param.Bin();
             column.Thumbnail(function: Sqls.Functions.SingleColumn); param.Thumbnail();
             column.Icon(function: Sqls.Functions.SingleColumn); param.Icon();
+            column.Logo(function: Sqls.Functions.SingleColumn); param.Logo();
             column.FileName(function: Sqls.Functions.SingleColumn); param.FileName();
             column.Extension(function: Sqls.Functions.SingleColumn); param.Extension();
             column.Size(function: Sqls.Functions.SingleColumn); param.Size();
@@ -474,6 +482,7 @@ namespace Implem.Pleasanter.Models
             Bin = binaryModel.Bin;
             Thumbnail = binaryModel.Thumbnail;
             Icon = binaryModel.Icon;
+            Logo = binaryModel.Logo;
             FileName = binaryModel.FileName;
             Extension = binaryModel.Extension;
             Size = binaryModel.Size;
@@ -559,6 +568,10 @@ namespace Implem.Pleasanter.Models
                         case "Icon":
                             Icon = dataRow.Bytes("Bin");
                             SavedIcon = Icon;
+                            break;
+                        case "Logo":
+                            Logo = dataRow.Bytes("Bin");
+                            SavedLogo = Logo;
                             break;
                         case "FileName":
                             FileName = dataRow[column.ColumnName].ToString();
@@ -655,6 +668,31 @@ namespace Implem.Pleasanter.Models
         /// <summary>
         /// Fixed:
         /// </summary>
+        public string TenantImagePrefix(
+            Context context, Libraries.Images.ImageData.SizeTypes sizeType)
+        {
+            switch (Parameters.BinaryStorage.Provider)
+            {
+                case "Local":
+                    return new Libraries.Images.ImageData(
+                        ReferenceId, Libraries.Images.ImageData.Types.TenantImage)
+                            .UrlPrefix(sizeType);
+                default:
+                    return Rds.ExecuteScalar_datetime(
+                        context: context,
+                        statements: Rds.SelectBinaries(
+                            column: Rds.BinariesColumn()
+                                .UpdatedTime(function: Sqls.Functions.Max),
+                            where: Rds.BinariesWhere()
+                                .ReferenceId(ReferenceId)
+                                .BinaryType("TenantImage")))
+                                    .ToString("?yyyyMMddHHmmss");
+            }
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
         public byte[] SiteImage(
             Context context,
             Libraries.Images.ImageData.SizeTypes sizeType,
@@ -674,6 +712,31 @@ namespace Implem.Pleasanter.Models
                             where: Rds.BinariesWhere()
                                 .ReferenceId(ReferenceId)
                                 .BinaryType("SiteImage")));
+            }
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        public byte[] TenantImage(
+            Context context,
+            Libraries.Images.ImageData.SizeTypes sizeType,
+            SqlColumnCollection column)
+        {
+            switch (Parameters.BinaryStorage.Provider)
+            {
+                case "Local":
+                    return new Libraries.Images.ImageData(
+                        ReferenceId, Libraries.Images.ImageData.Types.TenantImage)
+                            .Read(sizeType);
+                default:
+                    return Rds.ExecuteScalar_bytes(
+                        context: context,
+                        statements: Rds.SelectBinaries(
+                            column: column,
+                            where: Rds.BinariesWhere()
+                                .ReferenceId(ReferenceId)
+                                .BinaryType("TenantImage")));
             }
         }
 
@@ -714,6 +777,37 @@ namespace Implem.Pleasanter.Models
         /// <summary>
         /// Fixed:
         /// </summary>
+        public Error.Types UpdateTenantImage(Context context, byte[] bin)
+        {
+            BinaryType = "TenantImage";
+            var imageData = new Libraries.Images.ImageData(
+                bin,
+                ReferenceId,
+                Libraries.Images.ImageData.Types.TenantImage);
+            switch (Parameters.BinaryStorage.Provider)
+            {
+                case "Local": imageData.WriteToLocal(); break;
+                default:
+                    Logo = imageData.ReSizeBytes(Libraries.Images.ImageData.SizeTypes.Logo);
+                    Rds.ExecuteNonQuery(
+                        context: context,
+                        transactional: true,
+                        statements: Rds.UpdateOrInsertBinaries(
+                            where: Rds.BinariesWhere()
+                                .ReferenceId(ReferenceId)
+                                .BinaryType("TenantImage"),
+                            param: Rds.BinariesParamDefault(
+                                context: context,
+                                binaryModel: this,
+                                setDefault: true)));
+                    break;
+            }
+            return Error.Types.None;
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
         public Error.Types DeleteSiteImage(Context context)
         {
             BinaryType = "SiteImage";
@@ -732,6 +826,32 @@ namespace Implem.Pleasanter.Models
                             where: Rds.BinariesWhere()
                                 .ReferenceId(ReferenceId)
                                 .BinaryType("SiteImage")));
+                    break;
+            }
+            return Error.Types.None;
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        public Error.Types DeleteTenantImage(Context context)
+        {
+            BinaryType = "TenantImage";
+            switch (Parameters.BinaryStorage.Provider)
+            {
+                case "Local":
+                    new Libraries.Images.ImageData(
+                        ReferenceId,
+                        Libraries.Images.ImageData.Types.TenantImage)
+                            .DeleteLocalFiles();
+                    break;
+                default:
+                    Rds.ExecuteNonQuery(
+                        context: context,
+                        statements: Rds.PhysicalDeleteBinaries(
+                            where: Rds.BinariesWhere()
+                                .ReferenceId(ReferenceId)
+                                .BinaryType("TenantImage")));
                     break;
             }
             return Error.Types.None;

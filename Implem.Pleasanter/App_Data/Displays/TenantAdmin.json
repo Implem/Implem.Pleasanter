@@ -1,0 +1,13 @@
+﻿{
+    "Id": "TenantAdmin",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Tenant administration"
+        },
+        {
+            "Language": "ja",
+            "Body": "テナントの管理"
+        }
+    ]
+}
