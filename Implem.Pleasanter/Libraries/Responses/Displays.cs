@@ -2216,6 +2216,16 @@ namespace Implem.Pleasanter.Libraries.Responses
                 data: data);
         }
 
+        public static string ImageAndText(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "ImageAndText",
+                data: data);
+        }
+
         public static string ImageLib(
             Context context,
             params string[] data)
@@ -2223,6 +2233,16 @@ namespace Implem.Pleasanter.Libraries.Responses
             return Get(
                 context: context,
                 id: "ImageLib",
+                data: data);
+        }
+
+        public static string ImageOnly(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "ImageOnly",
                 data: data);
         }
 
@@ -2873,6 +2893,16 @@ namespace Implem.Pleasanter.Libraries.Responses
             return Get(
                 context: context,
                 id: "Logistics",
+                data: data);
+        }
+
+        public static string LogoImage(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "LogoImage",
                 data: data);
         }
 
@@ -3996,6 +4026,36 @@ namespace Implem.Pleasanter.Libraries.Responses
                 data: data);
         }
 
+        public static string Publish(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "Publish",
+                data: data);
+        }
+
+        public static string PublishToAnonymousUsers(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "PublishToAnonymousUsers",
+                data: data);
+        }
+
+        public static string PublishWarning(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "PublishWarning",
+                data: data);
+        }
+
         public static string Purchase(
             Context context,
             params string[] data)
@@ -4976,6 +5036,26 @@ namespace Implem.Pleasanter.Libraries.Responses
                 data: data);
         }
 
+        public static string TenantAdmin(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "TenantAdmin",
+                data: data);
+        }
+
+        public static string TenantImageType(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "TenantImageType",
+                data: data);
+        }
+
         public static string Test(
             Context context,
             params string[] data)
@@ -5823,6 +5903,46 @@ namespace Implem.Pleasanter.Libraries.Responses
             return Get(
                 context: context,
                 id: "Tenants_ContractDeadline",
+                data: data);
+        }
+
+        public static string Tenants_LogoType(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "Tenants_LogoType",
+                data: data);
+        }
+
+        public static string Tenants_HtmlTitleTop(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "Tenants_HtmlTitleTop",
+                data: data);
+        }
+
+        public static string Tenants_HtmlTitleSite(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "Tenants_HtmlTitleSite",
+                data: data);
+        }
+
+        public static string Tenants_HtmlTitleRecord(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "Tenants_HtmlTitleRecord",
                 data: data);
         }
 
@@ -8926,6 +9046,16 @@ namespace Implem.Pleasanter.Libraries.Responses
                 data: data);
         }
 
+        public static string Sites_Publish(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "Sites_Publish",
+                data: data);
+        }
+
         public static string Sites_Ancestors(
             Context context,
             params string[] data)
@@ -9243,6 +9373,16 @@ namespace Implem.Pleasanter.Libraries.Responses
             return Get(
                 context: context,
                 id: "Binaries_Icon",
+                data: data);
+        }
+
+        public static string Binaries_Logo(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "Binaries_Logo",
                 data: data);
         }
 

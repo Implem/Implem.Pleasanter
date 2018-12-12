@@ -1,6 +1,7 @@
 ﻿using Implem.Libraries.Utilities;
 using Implem.Pleasanter.Libraries.Requests;
 using Implem.Pleasanter.Libraries.Responses;
+using Implem.Pleasanter.Libraries.Settings;
 using Implem.Pleasanter.Models;
 using System.Web;
 using System.Web.Mvc;
@@ -47,6 +48,24 @@ namespace Implem.Pleasanter.Controllers
             }
         }
 
+        [HttpGet]
+        [OutputCache(Duration = int.MaxValue, VaryByParam = "*", Location = OutputCacheLocation.Client)]
+        public ActionResult TenantImageLogo(string reference, long id)
+        {
+            var context = new Context();
+            if (reference.ToLower() == "tenants")
+            {
+                var bytes = BinaryUtilities.TenantImageLogo(
+                    context: context,
+                    tenantModel: new TenantModel(context: context,ss: SiteSettingsUtilities.TenantsSiteSettings(context)));
+                return new FileContentResult(bytes, "image/png");
+            }
+            else
+            {
+                return null;
+            }
+        }
+
         [HttpPost]
         public string UpdateSiteImage(string reference, long id, HttpPostedFileBase[] file)
         {
@@ -61,6 +80,25 @@ namespace Implem.Pleasanter.Controllers
             return json;
         }
 
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        [HttpPost]
+        public string UpdateTenantImage(string reference, long id, HttpPostedFileBase[] file)
+        {
+            var context = new Context(files: file);
+            var ss = SiteSettingsUtilities.TenantsSiteSettings(context);
+            var tenantModel = new TenantModel(context, ss).Get(context, ss);
+            var log = new SysLogModel(context: context);
+            var json = reference.ToLower() == "tenants"
+                ? BinaryUtilities.UpdateTenantImage(
+                    context: context,
+                    tenantModel: tenantModel)
+                : new ResponseCollection().ToJson();
+            log.Finish(context: context);
+            return json;
+        }
+
         [HttpDelete]
         public string DeleteSiteImage(string reference, long id)
         {
@@ -70,6 +108,22 @@ namespace Implem.Pleasanter.Controllers
                 ? BinaryUtilities.DeleteSiteImage(
                     context: context,
                     siteModel: new SiteModel(context: context, siteId: id))
+                : new ResponseCollection().ToJson();
+            log.Finish(context: context);
+            return json;
+        }
+
+        [HttpDelete]
+        public string DeleteTenantImage(string reference, long id)
+        {
+            var context = new Context();
+            var ss = SiteSettingsUtilities.TenantsSiteSettings(context);
+            var tenantModel = new TenantModel(context, ss).Get(context, ss);
+            var log = new SysLogModel(context: context);
+            var json = reference.ToLower() == "tenants"
+                ? BinaryUtilities.DeleteTenantImage(
+                    context: context,
+                    tenantModel: tenantModel )
                 : new ResponseCollection().ToJson();
             log.Finish(context: context);
             return json;

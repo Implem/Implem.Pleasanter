@@ -53,7 +53,9 @@ namespace Implem.Pleasanter.Libraries.Responses
                 context: context,
                 parts: new string[]
                 {
-                    "Items",
+                    context.Publish
+                        ? "Publishes"
+                        : "Items",
                     id.ToString(),
                     "Index"
                 });
@@ -112,7 +114,9 @@ namespace Implem.Pleasanter.Libraries.Responses
                 context: context,
                 parts: new string[]
                 {
-                    "Items",
+                    context.Publish
+                        ? "Publishes"
+                        : "Items",
                     id.ToString(),
                     "Edit"
                 });
@@ -205,7 +209,9 @@ namespace Implem.Pleasanter.Libraries.Responses
                     context: context,
                     parts: new string[]
                     {
-                        "Items",
+                        context.Publish
+                            ? "Publishes"
+                            : "Items",
                         id.ToString(),
                         "_action_"
                     })

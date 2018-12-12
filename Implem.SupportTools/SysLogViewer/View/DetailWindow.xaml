@@ -95,7 +95,7 @@
             <Rectangle Grid.Row="38" Grid.Column="0" Fill="{DynamicResource {x:Static SystemColors.ControlBrushKey}}" Stroke="{DynamicResource {x:Static SystemColors.ActiveBorderBrushKey}}"/>
             
             <Label Grid.Row="0" Grid.Column="0">CreatedTime</Label>
-            <TextBox TextWrapping="Wrap" IsReadOnly="True" Grid.Row="0" Grid.Column="1" Text="{Binding Item.CreatedTime}"></TextBox>
+            <TextBox TextWrapping="Wrap" IsReadOnly="True" Grid.Row="0" Grid.Column="1" Text="{Binding Item.CreatedTime, StringFormat='yyyy/MM/dd HH:mm:ss'}"></TextBox>
 
             <Label Grid.Row="1" Grid.Column="0">SysLogId</Label>
             <TextBox TextWrapping="Wrap" IsReadOnly="True"  Grid.Row="1" Grid.Column="1" Text="{Binding Item.SysLogId}"></TextBox>
@@ -209,7 +209,7 @@
             <TextBox TextWrapping="Wrap" IsReadOnly="True"  Grid.Row="37" Grid.Column="1" Text="{Binding Item.Updator}"></TextBox>
 
             <Label Grid.Row="38" Grid.Column="0">UpdatedTime</Label>
-            <TextBox TextWrapping="Wrap" IsReadOnly="True"  Grid.Row="38" Grid.Column="1" Text="{Binding Item.UpdatedTime}"></TextBox>
+            <TextBox TextWrapping="Wrap" IsReadOnly="True"  Grid.Row="38" Grid.Column="1" Text="{Binding Item.UpdatedTime, StringFormat='yyyy/MM/dd HH:mm:ss'}"></TextBox>
 
         </Grid>
     </ScrollViewer>

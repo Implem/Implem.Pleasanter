@@ -15,7 +15,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
         public static HtmlBuilder Breadcrumb(
             this HtmlBuilder hb, Context context, SiteSettings ss, View view, bool _using)
         {
-            if (!context.Authenticated || !_using)
+            if ((!context.Authenticated && !context.Publish) || !_using)
             {
                 return hb;
             }
@@ -34,6 +34,13 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                         ss: ss,
                         controller: context.Controller,
                         display: Displays.Depts(context: context));
+                case "tenants":
+                    return Breadcrumb(
+                        hb: hb,
+                        context: context,
+                        ss: ss,
+                        controller: context.Controller,
+                        display: Displays.Tenants(context: context));
                 case "groups":
                     return Permissions.CanManageTenant(context: context)
                         ? Breadcrumb(
@@ -79,6 +86,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                     context: context,
                                     ss: ss);
                     }
+                case "publishes":
                 case "items":
                     return hb
                         .CopyDirectUrlToClipboard(
@@ -88,7 +96,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                             context: context,
                             ss: ss);
                 case "permissions":
-                    return hb.Breadcrumb(context: context, ss: ss);
+                    return hb.Breadcrumb(context: context, ss: ss);    
                 default:
                     return hb;
             }
@@ -157,9 +165,12 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
         {
             return hb.Ul(id: "Breadcrumb", action: () =>
             {
-                hb.Li(
-                    href: Locations.Top(context: context),
-                    text: Displays.Top(context: context));
+                if (!context.Publish)
+                {
+                    hb.Li(
+                        href: Locations.Top(context: context),
+                        text: Displays.Top(context: context));
+                }
                 data?.ForEach(item => hb
                     .Li(
                         href: item.Key,

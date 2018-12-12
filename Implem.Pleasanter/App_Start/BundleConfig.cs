@@ -104,7 +104,8 @@ namespace Implem.Pleasanter
                 "~/Scripts/ViewMode.js",
                 "~/Scripts/_Show.js",
                 "~/Scripts/RelatingColumns.js",
-                "~/Scripts/FieldSelectable.js"
+                "~/Scripts/FieldSelectable.js",
+                "~/Scripts/Tenants.js"
             };
         }
 

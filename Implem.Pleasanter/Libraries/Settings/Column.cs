@@ -272,9 +272,12 @@ namespace Implem.Pleasanter.Libraries.Settings
                 default:
                     if (Linked())
                     {
-                        if (linkHash != null && linkHash.ContainsKey(line))
+                        var key = "[[" + new Link(
+                            columnName: ColumnName,
+                            settings: line).SiteId + "]]";
+                        if (linkHash != null && linkHash.ContainsKey(key))
                         {
-                            linkHash[line]
+                            linkHash.Get(key)?
                                 .ToDictionary(
                                     o => o.Split_1st(),
                                     o => Strings.CoalesceEmpty(o.Split_2nd(), o.Split_1st()))
@@ -712,6 +715,56 @@ namespace Implem.Pleasanter.Libraries.Settings
         {
             switch (tableName)
             {
+                case "Tenants":
+                    switch (columnName)
+                    {
+                        case "TenantId":
+                            sql.Tenants_TenantId(tableName: path, _as: _as);
+                            break;
+                        case "Ver":
+                            sql.Tenants_Ver(tableName: path, _as: _as);
+                            break;
+                        case "TenantName":
+                            sql.Tenants_TenantName(tableName: path, _as: _as);
+                            break;
+                        case "Body":
+                            sql.Tenants_Body(tableName: path, _as: _as);
+                            break;
+                        case "ContractSettings":
+                            sql.Tenants_ContractSettings(tableName: path, _as: _as);
+                            break;
+                        case "ContractDeadline":
+                            sql.Tenants_ContractDeadline(tableName: path, _as: _as);
+                            break;
+                        case "LogoType":
+                            sql.Tenants_LogoType(tableName: path, _as: _as);
+                            break;
+                        case "HtmlTitleTop":
+                            sql.Tenants_HtmlTitleTop(tableName: path, _as: _as);
+                            break;
+                        case "HtmlTitleSite":
+                            sql.Tenants_HtmlTitleSite(tableName: path, _as: _as);
+                            break;
+                        case "HtmlTitleRecord":
+                            sql.Tenants_HtmlTitleRecord(tableName: path, _as: _as);
+                            break;
+                        case "Comments":
+                            sql.Tenants_Comments(tableName: path, _as: _as);
+                            break;
+                        case "Creator":
+                            sql.Tenants_Creator(tableName: path, _as: _as);
+                            break;
+                        case "Updator":
+                            sql.Tenants_Updator(tableName: path, _as: _as);
+                            break;
+                        case "CreatedTime":
+                            sql.Tenants_CreatedTime(tableName: path, _as: _as);
+                            break;
+                        case "UpdatedTime":
+                            sql.Tenants_UpdatedTime(tableName: path, _as: _as);
+                            break;
+                    }
+                    break;
                 case "Depts":
                     switch (columnName)
                     {

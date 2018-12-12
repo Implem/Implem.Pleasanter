@@ -108,7 +108,11 @@ namespace Implem.Pleasanter.Libraries.Server
         public IEnumerable<SiteMenuElement> Breadcrumb(Context context, long siteId)
         {
             var ret = new List<SiteMenuElement>();
-            if (siteId != 0)
+            if (context.Publish)
+            {
+                ret.Add(Get(context: context, siteId: siteId));
+            }
+            else if (siteId != 0)
             {
                 var current = Get(context: context, siteId: siteId);
                 if (current != null)

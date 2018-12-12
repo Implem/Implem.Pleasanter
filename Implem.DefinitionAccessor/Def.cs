@@ -1308,6 +1308,10 @@ namespace Implem.DefinitionAccessor
                     case "Tenants_Body": Column.Tenants_Body = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Tenants_Body, definitionRow, ColumnXls); break;
                     case "Tenants_ContractSettings": Column.Tenants_ContractSettings = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Tenants_ContractSettings, definitionRow, ColumnXls); break;
                     case "Tenants_ContractDeadline": Column.Tenants_ContractDeadline = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Tenants_ContractDeadline, definitionRow, ColumnXls); break;
+                    case "Tenants_LogoType": Column.Tenants_LogoType = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Tenants_LogoType, definitionRow, ColumnXls); break;
+                    case "Tenants_HtmlTitleTop": Column.Tenants_HtmlTitleTop = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Tenants_HtmlTitleTop, definitionRow, ColumnXls); break;
+                    case "Tenants_HtmlTitleSite": Column.Tenants_HtmlTitleSite = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Tenants_HtmlTitleSite, definitionRow, ColumnXls); break;
+                    case "Tenants_HtmlTitleRecord": Column.Tenants_HtmlTitleRecord = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Tenants_HtmlTitleRecord, definitionRow, ColumnXls); break;
                     case "Demos_DemoId": Column.Demos_DemoId = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Demos_DemoId, definitionRow, ColumnXls); break;
                     case "Demos_TenantId": Column.Demos_TenantId = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Demos_TenantId, definitionRow, ColumnXls); break;
                     case "Demos_Title": Column.Demos_Title = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Demos_Title, definitionRow, ColumnXls); break;
@@ -1618,6 +1622,7 @@ namespace Implem.DefinitionAccessor
                     case "Sites_ParentId": Column.Sites_ParentId = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Sites_ParentId, definitionRow, ColumnXls); break;
                     case "Sites_InheritPermission": Column.Sites_InheritPermission = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Sites_InheritPermission, definitionRow, ColumnXls); break;
                     case "Sites_SiteSettings": Column.Sites_SiteSettings = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Sites_SiteSettings, definitionRow, ColumnXls); break;
+                    case "Sites_Publish": Column.Sites_Publish = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Sites_Publish, definitionRow, ColumnXls); break;
                     case "Sites_Ancestors": Column.Sites_Ancestors = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Sites_Ancestors, definitionRow, ColumnXls); break;
                     case "Sites_SiteMenu": Column.Sites_SiteMenu = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Sites_SiteMenu, definitionRow, ColumnXls); break;
                     case "Sites_MonitorChangesColumns": Column.Sites_MonitorChangesColumns = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Sites_MonitorChangesColumns, definitionRow, ColumnXls); break;
@@ -1650,6 +1655,7 @@ namespace Implem.DefinitionAccessor
                     case "Binaries_Bin": Column.Binaries_Bin = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Binaries_Bin, definitionRow, ColumnXls); break;
                     case "Binaries_Thumbnail": Column.Binaries_Thumbnail = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Binaries_Thumbnail, definitionRow, ColumnXls); break;
                     case "Binaries_Icon": Column.Binaries_Icon = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Binaries_Icon, definitionRow, ColumnXls); break;
+                    case "Binaries_Logo": Column.Binaries_Logo = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Binaries_Logo, definitionRow, ColumnXls); break;
                     case "Binaries_FileName": Column.Binaries_FileName = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Binaries_FileName, definitionRow, ColumnXls); break;
                     case "Binaries_Extension": Column.Binaries_Extension = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Binaries_Extension, definitionRow, ColumnXls); break;
                     case "Binaries_Size": Column.Binaries_Size = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Binaries_Size, definitionRow, ColumnXls); break;
@@ -2924,6 +2930,8 @@ namespace Implem.DefinitionAccessor
                     case "_sharp_TemplateDialog_space___space_div": Css._sharp_TemplateDialog_space___space_div = definitionRow[1].ToString(); SetCssTable(CssTable._sharp_TemplateDialog_space___space_div, definitionRow, CssXls); break;
                     case "_sharp_SearchField": Css._sharp_SearchField = definitionRow[1].ToString(); SetCssTable(CssTable._sharp_SearchField, definitionRow, CssXls); break;
                     case "_sharp_Search": Css._sharp_Search = definitionRow[1].ToString(); SetCssTable(CssTable._sharp_Search, definitionRow, CssXls); break;
+                    case "_sharp_PublishWarning": Css._sharp_PublishWarning = definitionRow[1].ToString(); SetCssTable(CssTable._sharp_PublishWarning, definitionRow, CssXls); break;
+                    case "_sharp_PublishWarning_space___space_a": Css._sharp_PublishWarning_space___space_a = definitionRow[1].ToString(); SetCssTable(CssTable._sharp_PublishWarning_space___space_a, definitionRow, CssXls); break;
                     case "_sharp_Application": Css._sharp_Application = definitionRow[1].ToString(); SetCssTable(CssTable._sharp_Application, definitionRow, CssXls); break;
                     case "_sharp_Application_space___space__dot_site_image_icon": Css._sharp_Application_space___space__dot_site_image_icon = definitionRow[1].ToString(); SetCssTable(CssTable._sharp_Application_space___space__dot_site_image_icon, definitionRow, CssXls); break;
                     case "_sharp_SiteImageIconContainer": Css._sharp_SiteImageIconContainer = definitionRow[1].ToString(); SetCssTable(CssTable._sharp_SiteImageIconContainer, definitionRow, CssXls); break;
@@ -8685,6 +8693,10 @@ namespace Implem.DefinitionAccessor
         public string Tenants_Body;
         public string Tenants_ContractSettings;
         public string Tenants_ContractDeadline;
+        public string Tenants_LogoType;
+        public string Tenants_HtmlTitleTop;
+        public string Tenants_HtmlTitleSite;
+        public string Tenants_HtmlTitleRecord;
         public string Demos_DemoId;
         public string Demos_TenantId;
         public string Demos_Title;
@@ -8995,6 +9007,7 @@ namespace Implem.DefinitionAccessor
         public string Sites_ParentId;
         public string Sites_InheritPermission;
         public string Sites_SiteSettings;
+        public string Sites_Publish;
         public string Sites_Ancestors;
         public string Sites_SiteMenu;
         public string Sites_MonitorChangesColumns;
@@ -9027,6 +9040,7 @@ namespace Implem.DefinitionAccessor
         public string Binaries_Bin;
         public string Binaries_Thumbnail;
         public string Binaries_Icon;
+        public string Binaries_Logo;
         public string Binaries_FileName;
         public string Binaries_Extension;
         public string Binaries_Size;
@@ -9595,6 +9609,10 @@ namespace Implem.DefinitionAccessor
         public ColumnDefinition Tenants_Body = new ColumnDefinition();
         public ColumnDefinition Tenants_ContractSettings = new ColumnDefinition();
         public ColumnDefinition Tenants_ContractDeadline = new ColumnDefinition();
+        public ColumnDefinition Tenants_LogoType = new ColumnDefinition();
+        public ColumnDefinition Tenants_HtmlTitleTop = new ColumnDefinition();
+        public ColumnDefinition Tenants_HtmlTitleSite = new ColumnDefinition();
+        public ColumnDefinition Tenants_HtmlTitleRecord = new ColumnDefinition();
         public ColumnDefinition Demos_DemoId = new ColumnDefinition();
         public ColumnDefinition Demos_TenantId = new ColumnDefinition();
         public ColumnDefinition Demos_Title = new ColumnDefinition();
@@ -9905,6 +9923,7 @@ namespace Implem.DefinitionAccessor
         public ColumnDefinition Sites_ParentId = new ColumnDefinition();
         public ColumnDefinition Sites_InheritPermission = new ColumnDefinition();
         public ColumnDefinition Sites_SiteSettings = new ColumnDefinition();
+        public ColumnDefinition Sites_Publish = new ColumnDefinition();
         public ColumnDefinition Sites_Ancestors = new ColumnDefinition();
         public ColumnDefinition Sites_SiteMenu = new ColumnDefinition();
         public ColumnDefinition Sites_MonitorChangesColumns = new ColumnDefinition();
@@ -9937,6 +9956,7 @@ namespace Implem.DefinitionAccessor
         public ColumnDefinition Binaries_Bin = new ColumnDefinition();
         public ColumnDefinition Binaries_Thumbnail = new ColumnDefinition();
         public ColumnDefinition Binaries_Icon = new ColumnDefinition();
+        public ColumnDefinition Binaries_Logo = new ColumnDefinition();
         public ColumnDefinition Binaries_FileName = new ColumnDefinition();
         public ColumnDefinition Binaries_Extension = new ColumnDefinition();
         public ColumnDefinition Binaries_Size = new ColumnDefinition();
@@ -10778,6 +10798,8 @@ namespace Implem.DefinitionAccessor
         public string _sharp_TemplateDialog_space___space_div;
         public string _sharp_SearchField;
         public string _sharp_Search;
+        public string _sharp_PublishWarning;
+        public string _sharp_PublishWarning_space___space_a;
         public string _sharp_Application;
         public string _sharp_Application_space___space__dot_site_image_icon;
         public string _sharp_SiteImageIconContainer;
@@ -11266,6 +11288,8 @@ namespace Implem.DefinitionAccessor
         public CssDefinition _sharp_TemplateDialog_space___space_div = new CssDefinition();
         public CssDefinition _sharp_SearchField = new CssDefinition();
         public CssDefinition _sharp_Search = new CssDefinition();
+        public CssDefinition _sharp_PublishWarning = new CssDefinition();
+        public CssDefinition _sharp_PublishWarning_space___space_a = new CssDefinition();
         public CssDefinition _sharp_Application = new CssDefinition();
         public CssDefinition _sharp_Application_space___space__dot_site_image_icon = new CssDefinition();
         public CssDefinition _sharp_SiteImageIconContainer = new CssDefinition();

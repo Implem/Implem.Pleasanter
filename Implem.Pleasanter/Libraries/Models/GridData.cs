@@ -178,6 +178,9 @@ namespace Implem.Pleasanter.Libraries.Models
         {
             switch (ss.ReferenceType)
             {
+                case "Tenants":
+                    statements.AddRange(Rds.TenantsAggregations(aggregations, join, where));
+                    break;
                 case "Depts":
                     statements.AddRange(Rds.DeptsAggregations(aggregations, join, where));
                     break;
@@ -224,6 +227,7 @@ namespace Implem.Pleasanter.Libraries.Models
                                 controlCss: "grid-check",
                                 _checked: checkAll,
                                 dataId: dataId));
+                        var tenants = new Dictionary<string, TenantModel>();
                         var depts = new Dictionary<string, DeptModel>();
                         var groups = new Dictionary<string, GroupModel>();
                         var users = new Dictionary<string, UserModel>();
@@ -236,6 +240,21 @@ namespace Implem.Pleasanter.Libraries.Models
                             var key = column.TableName();
                             switch (column.SiteSettings?.ReferenceType)
                             {
+                                case "Tenants":
+                                    if (!tenants.ContainsKey(key))
+                                    {
+                                        tenants.Add(key, new TenantModel(
+                                            context: context,
+                                            ss: column.SiteSettings,
+                                            dataRow: dataRow,
+                                            tableAlias: column.TableAlias));
+                                    }
+                                    hb.TdValue(
+                                        context: context,
+                                        ss: column.SiteSettings,
+                                        column: column,
+                                        tenantModel: tenants.Get(key));
+                                    break;
                                 case "Depts":
                                     if (!depts.ContainsKey(key))
                                     {

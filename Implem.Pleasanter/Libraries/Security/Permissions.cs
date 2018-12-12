@@ -336,6 +336,7 @@ namespace Implem.Pleasanter.Libraries.Security
             switch (context.Controller)
             {
                 case "depts":
+                case "tenants":
                     return CanManageTenant(context: context);
                 case "groups":
                     return CanReadGroup(context: context);
@@ -356,6 +357,8 @@ namespace Implem.Pleasanter.Libraries.Security
                     return CanManageTenant(context: context);
                 case "groups":
                     return CanEditGroup(context: context);
+                case "tenants":
+                    return false;
                 default:
                     return context.Can(ss: ss, type: Types.Create, site: site);
             }
@@ -366,6 +369,7 @@ namespace Implem.Pleasanter.Libraries.Security
             switch (context.Controller)
             {
                 case "depts":
+                case "tenants":
                     return CanManageTenant(context: context);
                 case "groups":
                     return CanEditGroup(context: context);
@@ -401,6 +405,8 @@ namespace Implem.Pleasanter.Libraries.Security
                 case "users":
                     return CanManageTenant(context: context)
                         && context.UserId != context.Id;
+                case "tenants":
+                    return false;
                 default:
                     if (ss.ReferenceType == "Sites")
                     {
@@ -425,6 +431,8 @@ namespace Implem.Pleasanter.Libraries.Security
                 case "users":
                     return CanManageTenant(context: context)
                         || context.UserId == context.Id;
+                case "tenants":
+                    return false;
                 default:
                     if (ss.ReferenceType == "Sites")
                     {

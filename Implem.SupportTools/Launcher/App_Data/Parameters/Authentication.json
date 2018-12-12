@@ -1,0 +1,35 @@
+﻿{
+  "Provider": "LDAP",
+  "ServiceId": null,
+  "ExtensionUrl": null,
+  "PasswordExpirationPeriod": 0,
+  "RejectUnregisteredUser": false,
+  "LdapParameters": [
+    {
+      "LdapSearchRoot": null,
+      "LdapSearchProperty": "sAMAccountName",
+      "NetBiosDomainName": null,
+      "LdapTenantId": 1,
+      "LdapDeptCode": null,
+      "LdapDeptCodePattern": null,
+      "LdapDeptName": null,
+      "LdapDeptNamePattern": null,
+      "LdapUserCode": null,
+      "LdapUserCodePattern": null,
+      "LdapFirstName": "givenName",
+      "LdapFirstNamePattern": null,
+      "LdapLastName": "sn",
+      "LdapLastNamePattern": null,
+      "LdapMailAddress": "mail",
+      "LdapMailAddressPattern": null,
+      "LdapSyncPatterns": [
+        "(&(ObjectCategory=User)(ObjectClass=Person))"
+      ],
+      "LdapExcludeAccountDisabled": true,
+      "AutoDisable": false,
+      "AutoEnable": false,
+      "LdapSyncUser": null,
+      "LdapSyncPassword": null
+    }
+  ]
+}

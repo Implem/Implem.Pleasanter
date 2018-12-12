@@ -29,12 +29,20 @@ namespace Implem.Pleasanter.Models
         public string Body = string.Empty;
         public ContractSettings ContractSettings = new ContractSettings();
         public DateTime ContractDeadline = 0.ToDateTime();
+        public LogoTypes LogoType = (LogoTypes)0;
+        public string HtmlTitleTop = "[ProductName]";
+        public string HtmlTitleSite = "[ProductName]";
+        public string HtmlTitleRecord = "[ProductName]";
         [NonSerialized] public int SavedTenantId = 0;
         [NonSerialized] public string SavedTenantName = string.Empty;
         [NonSerialized] public string SavedTitle = string.Empty;
         [NonSerialized] public string SavedBody = string.Empty;
         [NonSerialized] public string SavedContractSettings = string.Empty;
         [NonSerialized] public DateTime SavedContractDeadline = 0.ToDateTime();
+        [NonSerialized] public int SavedLogoType = 0;
+        [NonSerialized] public string SavedHtmlTitleTop = "[ProductName]";
+        [NonSerialized] public string SavedHtmlTitleSite = "[ProductName]";
+        [NonSerialized] public string SavedHtmlTitleRecord = "[ProductName]";
 
         public bool TenantId_Updated(Context context, Column column = null)
         {
@@ -76,6 +84,38 @@ namespace Implem.Pleasanter.Models
                 column.GetDefaultInput(context: context).ToString() != ContractSettings?.RecordingJson());
         }
 
+        public bool LogoType_Updated(Context context, Column column = null)
+        {
+            return LogoType.ToInt() != SavedLogoType &&
+                (column == null ||
+                column.DefaultInput.IsNullOrEmpty() ||
+                column.GetDefaultInput(context: context).ToInt() != LogoType.ToInt());
+        }
+
+        public bool HtmlTitleTop_Updated(Context context, Column column = null)
+        {
+            return HtmlTitleTop != SavedHtmlTitleTop && HtmlTitleTop != null &&
+                (column == null ||
+                column.DefaultInput.IsNullOrEmpty() ||
+                column.GetDefaultInput(context: context).ToString() != HtmlTitleTop);
+        }
+
+        public bool HtmlTitleSite_Updated(Context context, Column column = null)
+        {
+            return HtmlTitleSite != SavedHtmlTitleSite && HtmlTitleSite != null &&
+                (column == null ||
+                column.DefaultInput.IsNullOrEmpty() ||
+                column.GetDefaultInput(context: context).ToString() != HtmlTitleSite);
+        }
+
+        public bool HtmlTitleRecord_Updated(Context context, Column column = null)
+        {
+            return HtmlTitleRecord != SavedHtmlTitleRecord && HtmlTitleRecord != null &&
+                (column == null ||
+                column.DefaultInput.IsNullOrEmpty() ||
+                column.GetDefaultInput(context: context).ToString() != HtmlTitleRecord);
+        }
+
         public bool ContractDeadline_Updated(Context context, Column column = null)
         {
             return ContractDeadline != SavedContractDeadline &&
@@ -84,12 +124,15 @@ namespace Implem.Pleasanter.Models
                 column.DefaultTime().Date != ContractDeadline.Date);
         }
 
+        public List<int> SwitchTargets;
+
         public TenantModel()
         {
         }
 
         public TenantModel(
             Context context,
+            SiteSettings ss,
             bool setByForm = false,
             bool setByApi = false,
             MethodTypes methodType = MethodTypes.NotSet)
@@ -97,32 +140,40 @@ namespace Implem.Pleasanter.Models
             OnConstructing(context: context);
             Context = context;
             TenantId = context.TenantId;
+            if (setByForm) SetByForm(context: context, ss: ss);
+            if (setByApi) SetByApi(context: context, ss: ss);
             MethodType = methodType;
             OnConstructed(context: context);
         }
 
         public TenantModel(
             Context context,
+            SiteSettings ss,
+            int tenantId,
             bool clearSessions = false,
             bool setByForm = false,
             bool setByApi = false,
+            List<int> switchTargets = null,
             MethodTypes methodType = MethodTypes.NotSet)
         {
             OnConstructing(context: context);
             Context = context;
             TenantId = context.TenantId;
-            Get(context: context);
+            Get(context: context, ss: ss);
             if (clearSessions) ClearSessions(context: context);
+            if (setByForm) SetByForm(context: context, ss: ss);
+            if (setByApi) SetByApi(context: context, ss: ss);
+            SwitchTargets = switchTargets;
             MethodType = methodType;
             OnConstructed(context: context);
         }
 
-        public TenantModel(Context context, DataRow dataRow, string tableAlias = null)
+        public TenantModel(Context context, SiteSettings ss, DataRow dataRow, string tableAlias = null)
         {
             OnConstructing(context: context);
             Context = context;
             TenantId = context.TenantId;
-            if (dataRow != null) Set(context, dataRow, tableAlias);
+            if (dataRow != null) Set(context, ss, dataRow, tableAlias);
             OnConstructed(context: context);
         }
 
@@ -140,6 +191,7 @@ namespace Implem.Pleasanter.Models
 
         public TenantModel Get(
             Context context,
+            SiteSettings ss,
             Sqls.TableTypes tableType = Sqls.TableTypes.Normal,
             SqlColumnCollection column = null,
             SqlJoinCollection join = null,
@@ -149,7 +201,7 @@ namespace Implem.Pleasanter.Models
             bool distinct = false,
             int top = 0)
         {
-            Set(context, Rds.ExecuteTable(
+            Set(context, ss, Rds.ExecuteTable(
                 context: context,
                 statements: Rds.SelectTenants(
                     tableType: tableType,
@@ -163,6 +215,34 @@ namespace Implem.Pleasanter.Models
             return this;
         }
 
+        public TenantApiModel GetByApi(Context context, SiteSettings ss)
+        {
+            var data = new TenantApiModel();
+            ss.ReadableColumns(noJoined: true).ForEach(column =>
+            {
+                switch (column.ColumnName)
+                {
+                    case "TenantId": data.TenantId = TenantId; break;
+                    case "Ver": data.Ver = Ver; break;
+                    case "TenantName": data.TenantName = TenantName; break;
+                    case "Title": data.Title = Title.Value; break;
+                    case "Body": data.Body = Body; break;
+                    case "ContractSettings": data.ContractSettings = ContractSettings?.RecordingJson(); break;
+                    case "ContractDeadline": data.ContractDeadline = ContractDeadline.ToLocal(context: context); break;
+                    case "LogoType": data.LogoType = LogoType.ToInt(); break;
+                    case "HtmlTitleTop": data.HtmlTitleTop = HtmlTitleTop; break;
+                    case "HtmlTitleSite": data.HtmlTitleSite = HtmlTitleSite; break;
+                    case "HtmlTitleRecord": data.HtmlTitleRecord = HtmlTitleRecord; break;
+                    case "Creator": data.Creator = Creator.Id; break;
+                    case "Updator": data.Updator = Updator.Id; break;
+                    case "CreatedTime": data.CreatedTime = CreatedTime.Value.ToLocal(context: context); break;
+                    case "UpdatedTime": data.UpdatedTime = UpdatedTime.Value.ToLocal(context: context); break;
+                    case "Comments": data.Comments = Comments.ToLocal(context: context).ToJson(); break;
+                }
+            });
+            return data;
+        }
+
         public Error.Types Create(
             Context context,
             SiteSettings ss,
@@ -173,19 +253,20 @@ namespace Implem.Pleasanter.Models
         {
             TenantId = context.TenantId;
             var statements = new List<SqlStatement>();
-            CreateStatements(context, statements, tableType, param, otherInitValue);
+            CreateStatements(context, ss, statements, tableType, param, otherInitValue);
             var response = Rds.ExecuteScalar_response(
                 context: context,
                 transactional: true,
                 selectIdentity: true,
                 statements: statements.ToArray());
             TenantId = (response.Identity ?? TenantId).ToInt();
-            if (get) Get(context: context);
+            if (get) Get(context: context, ss: ss);
             return Error.Types.None;
         }
 
         public List<SqlStatement> CreateStatements(
             Context context,
+            SiteSettings ss,
             List<SqlStatement> statements,
             Sqls.TableTypes tableType = Sqls.TableTypes.Normal,
             SqlParamCollection param = null,
@@ -208,6 +289,8 @@ namespace Implem.Pleasanter.Models
         public Error.Types Update(
             Context context,
             SiteSettings ss,
+            IEnumerable<string> permissions = null,
+            bool permissionChanged = false,
             SqlParamCollection param = null,
             List<SqlStatement> additionalStatements = null,
             bool otherInitValue = false,
@@ -230,7 +313,7 @@ namespace Implem.Pleasanter.Models
                 transactional: true,
                 statements: statements.ToArray());
             if (response.Count == 0) return Error.Types.UpdateConflicts;
-            if (get) Get(context: context);
+            if (get) Get(context: context, ss: ss);
             return Error.Types.None;
         }
 
@@ -276,6 +359,10 @@ namespace Implem.Pleasanter.Models
             column.Body(function: Sqls.Functions.SingleColumn); param.Body();
             column.ContractSettings(function: Sqls.Functions.SingleColumn); param.ContractSettings();
             column.ContractDeadline(function: Sqls.Functions.SingleColumn); param.ContractDeadline();
+            column.LogoType(function: Sqls.Functions.SingleColumn); param.LogoType();
+            column.HtmlTitleTop(function: Sqls.Functions.SingleColumn); param.HtmlTitleTop();
+            column.HtmlTitleSite(function: Sqls.Functions.SingleColumn); param.HtmlTitleSite();
+            column.HtmlTitleRecord(function: Sqls.Functions.SingleColumn); param.HtmlTitleRecord();
             column.Comments(function: Sqls.Functions.SingleColumn); param.Comments();
             column.Creator(function: Sqls.Functions.SingleColumn); param.Creator();
             column.Updator(function: Sqls.Functions.SingleColumn); param.Updator();
@@ -290,6 +377,7 @@ namespace Implem.Pleasanter.Models
 
         public Error.Types UpdateOrCreate(
             Context context,
+            SiteSettings ss,
             SqlWhereCollection where = null,
             SqlParamCollection param = null)
         {
@@ -307,11 +395,11 @@ namespace Implem.Pleasanter.Models
                 selectIdentity: true,
                 statements: statements.ToArray());
             TenantId = (response.Identity ?? TenantId).ToInt();
-            Get(context: context);
+            Get(context: context, ss: ss);
             return Error.Types.None;
         }
 
-        public Error.Types Delete(Context context)
+        public Error.Types Delete(Context context, SiteSettings ss, bool notice = false)
         {
             var statements = new List<SqlStatement>();
             var where = Rds.TenantsWhere().TenantId(TenantId);
@@ -323,10 +411,15 @@ namespace Implem.Pleasanter.Models
                 context: context,
                 transactional: true,
                 statements: statements.ToArray());
+            var tenantHash = SiteInfo.TenantCaches.Get(context.TenantId)?.TenantHash;
+            if (tenantHash.Keys.Contains(TenantId))
+            {
+                tenantHash.Remove(TenantId);
+            }
             return Error.Types.None;
         }
 
-        public Error.Types Restore(Context context, int tenantId)
+        public Error.Types Restore(Context context, SiteSettings ss,int tenantId)
         {
             TenantId = tenantId;
             Rds.ExecuteNonQuery(
@@ -342,7 +435,7 @@ namespace Implem.Pleasanter.Models
         }
 
         public Error.Types PhysicalDelete(
-            Context context, Sqls.TableTypes tableType = Sqls.TableTypes.Normal)
+            Context context, SiteSettings ss,Sqls.TableTypes tableType = Sqls.TableTypes.Normal)
         {
             Rds.ExecuteNonQuery(
                 context: context,
@@ -353,6 +446,42 @@ namespace Implem.Pleasanter.Models
             return Error.Types.None;
         }
 
+        public void SetByForm(Context context, SiteSettings ss)
+        {
+            context.Forms.Keys.ForEach(controlId =>
+            {
+                switch (controlId)
+                {
+                    case "Tenants_TenantName": TenantName = context.Forms.Data(controlId).ToString(); break;
+                    case "Tenants_Title": Title = new Title(TenantId, context.Forms.Data(controlId)); break;
+                    case "Tenants_Body": Body = context.Forms.Data(controlId).ToString(); break;
+                    case "Tenants_ContractDeadline": ContractDeadline = context.Forms.Data(controlId).ToDateTime().ToUniversal(context: context); break;
+                    case "Tenants_LogoType": LogoType = (LogoTypes)context.Forms.Data(controlId).ToInt(); break;
+                    case "Tenants_HtmlTitleTop": HtmlTitleTop = context.Forms.Data(controlId).ToString(); break;
+                    case "Tenants_HtmlTitleSite": HtmlTitleSite = context.Forms.Data(controlId).ToString(); break;
+                    case "Tenants_HtmlTitleRecord": HtmlTitleRecord = context.Forms.Data(controlId).ToString(); break;
+                    case "Tenants_Timestamp": Timestamp = context.Forms.Data(controlId).ToString(); break;
+                    case "Comments": Comments.Prepend(context: context, ss: ss, body: context.Forms.Data("Comments")); break;
+                    case "VerUp": VerUp = context.Forms.Data(controlId).ToBool(); break;
+                    default:
+                        if (controlId.RegexExists("Comment[0-9]+"))
+                        {
+                            Comments.Update(
+                                context: context,
+                                ss: ss,
+                                commentId: controlId.Substring("Comment".Length).ToInt(),
+                                body: context.Forms.Data(controlId));
+                        }
+                        break;
+                }
+            });
+            if (context.Action == "deletecomment")
+            {
+                DeleteCommentId = context.Forms.ControlId().Split(',')._2nd().ToInt();
+                Comments.RemoveAll(o => o.CommentId == DeleteCommentId);
+            }
+        }
+
         public void SetByModel(TenantModel tenantModel)
         {
             TenantName = tenantModel.TenantName;
@@ -360,6 +489,10 @@ namespace Implem.Pleasanter.Models
             Body = tenantModel.Body;
             ContractSettings = tenantModel.ContractSettings;
             ContractDeadline = tenantModel.ContractDeadline;
+            LogoType = tenantModel.LogoType;
+            HtmlTitleTop = tenantModel.HtmlTitleTop;
+            HtmlTitleSite = tenantModel.HtmlTitleSite;
+            HtmlTitleRecord = tenantModel.HtmlTitleRecord;
             Comments = tenantModel.Comments;
             Creator = tenantModel.Creator;
             Updator = tenantModel.Updator;
@@ -369,21 +502,40 @@ namespace Implem.Pleasanter.Models
             Comments = tenantModel.Comments;
         }
 
+        public void SetByApi(Context context, SiteSettings ss)
+        {
+            var data = context.RequestDataString.Deserialize<TenantApiModel>();
+            if (data == null)
+            {
+                return;
+            }
+            if (data.TenantName != null) TenantName = data.TenantName.ToString().ToString();
+            if (data.Title != null) Title = new Title(data.Title.ToString());
+            if (data.Body != null) Body = data.Body.ToString().ToString();
+            if (data.ContractDeadline != null) ContractDeadline = data.ContractDeadline.ToDateTime().ToDateTime().ToUniversal(context: context);
+            if (data.LogoType != null) LogoType = (LogoTypes)data.LogoType.ToInt().ToInt();
+            if (data.HtmlTitleTop != null) HtmlTitleTop = data.HtmlTitleTop.ToString().ToString();
+            if (data.HtmlTitleSite != null) HtmlTitleSite = data.HtmlTitleSite.ToString().ToString();
+            if (data.HtmlTitleRecord != null) HtmlTitleRecord = data.HtmlTitleRecord.ToString().ToString();
+            if (data.Comments != null) Comments.Prepend(context: context, ss: ss, body: data.Comments);
+            if (data.VerUp != null) VerUp = data.VerUp.ToBool();
+        }
+
         private void SetBySession(Context context)
         {
         }
 
-        private void Set(Context context, DataTable dataTable)
+        private void Set(Context context, SiteSettings ss, DataTable dataTable)
         {
             switch (dataTable.Rows.Count)
             {
-                case 1: Set(context, dataTable.Rows[0]); break;
+                case 1: Set(context, ss, dataTable.Rows[0]); break;
                 case 0: AccessStatus = Databases.AccessStatuses.NotFound; break;
                 default: AccessStatus = Databases.AccessStatuses.Overlap; break;
             }
         }
 
-        private void Set(Context context, DataRow dataRow, string tableAlias = null)
+        private void Set(Context context, SiteSettings ss, DataRow dataRow, string tableAlias = null)
         {
             AccessStatus = Databases.AccessStatuses.Selected;
             foreach(DataColumn dataColumn in dataRow.Table.Columns)
@@ -424,6 +576,22 @@ namespace Implem.Pleasanter.Models
                             ContractDeadline = dataRow[column.ColumnName].ToDateTime();
                             SavedContractDeadline = ContractDeadline;
                             break;
+                        case "LogoType":
+                            LogoType = (LogoTypes)dataRow[column.ColumnName].ToInt();
+                            SavedLogoType = LogoType.ToInt();
+                            break;
+                        case "HtmlTitleTop":
+                            HtmlTitleTop = dataRow[column.ColumnName].ToString();
+                            SavedHtmlTitleTop = HtmlTitleTop;
+                            break;
+                        case "HtmlTitleSite":
+                            HtmlTitleSite = dataRow[column.ColumnName].ToString();
+                            SavedHtmlTitleSite = HtmlTitleSite;
+                            break;
+                        case "HtmlTitleRecord":
+                            HtmlTitleRecord = dataRow[column.ColumnName].ToString();
+                            SavedHtmlTitleRecord = HtmlTitleRecord;
+                            break;
                         case "Comments":
                             Comments = dataRow[column.ColumnName].ToString().Deserialize<Comments>() ?? new Comments();
                             SavedComments = Comments.ToJson();
@@ -460,9 +628,22 @@ namespace Implem.Pleasanter.Models
                 Body_Updated(context: context) ||
                 ContractSettings_Updated(context: context) ||
                 ContractDeadline_Updated(context: context) ||
+                LogoType_Updated(context: context) ||
+                HtmlTitleTop_Updated(context: context) ||
+                HtmlTitleSite_Updated(context: context) ||
+                HtmlTitleRecord_Updated(context: context) ||
                 Comments_Updated(context: context) ||
                 Creator_Updated(context: context) ||
                 Updator_Updated(context: context);
+        }
+
+        public List<string> Mine(Context context)
+        {
+            var mine = new List<string>();
+            var userId = context.UserId;
+            if (SavedCreator == userId) mine.Add("Creator");
+            if (SavedUpdator == userId) mine.Add("Updator");
+            return mine;
         }
 
         /// <summary>
@@ -471,6 +652,15 @@ namespace Implem.Pleasanter.Models
         private ContractSettings GetContractSettings(DataRow dataRow)
         {
             return null;
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        public enum LogoTypes
+        {
+            ImageOnly,
+            ImageAndTitle
         }
     }
 }

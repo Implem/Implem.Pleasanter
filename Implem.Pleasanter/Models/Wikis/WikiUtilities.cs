@@ -474,7 +474,9 @@ namespace Implem.Pleasanter.Models
                     .A(
                         href: "#FieldSetGeneral",
                         text: Displays.General(context: context)))
-                .Li(_using: wikiModel.MethodType != BaseModel.MethodTypes.New,
+                .Li(
+                    _using: wikiModel.MethodType != BaseModel.MethodTypes.New
+                        && !context.Publish,
                     action: () => hb
                         .A(
                             href: "#FieldSetHistories",

@@ -7,6 +7,7 @@ using Implem.Pleasanter.Libraries.Security;
 using Implem.Pleasanter.Libraries.Server;
 using Implem.Pleasanter.Libraries.Settings;
 using Implem.Pleasanter.Models;
+using System.Collections.Generic;
 using System.Linq;
 namespace Implem.Pleasanter.Libraries.HtmlParts
 {
@@ -19,10 +20,10 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             long linkId,
             BaseModel.MethodTypes methodType)
         {
-            var linkCollection = LinkCollection(context: context, ss: ss);
+            var links = Links(context: context, ss: ss);
             return
                 methodType != BaseModel.MethodTypes.New &&
-                linkCollection.Any()
+                links.Any()
                     ? hb.FieldSet(
                         css: " enclosed link-creations",
                         legendText: Displays.LinkCreations(context: context),
@@ -30,39 +31,59 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                             .LinkCreations(
                                 context: context,
                                 ss: ss,
-                                linkCollection: linkCollection,
+                                links: links,
                                 linkId: linkId))
                     : hb;
         }
 
-        private static LinkCollection LinkCollection(Context context, SiteSettings ss)
+        private static List<Link> Links(Context context, SiteSettings ss)
         {
             return new LinkCollection(
                 context: context,
                 column: Rds.LinksColumn()
                     .SourceId()
+                    .DestinationId()
                     .SiteTitle(),
                 where: Rds.LinksWhere()
                     .DestinationId(ss.SiteId)
                     .SiteId_In(ss.Sources?
                         .Where(currentSs => context.CanCreate(ss: currentSs))
-                        .Select(currentSs => currentSs.SiteId)));
+                        .Select(currentSs => currentSs.SiteId)))
+                            .Select(linkModel => GetLink(
+                                linkModel: linkModel,
+                                ss: ss.Sources.FirstOrDefault(o =>
+                                    o.SiteId == linkModel.SourceId)))
+                            .Where(o => o != null)
+                            .ToList();
+        }
+
+        private static Link GetLink(LinkModel linkModel, SiteSettings ss)
+        {
+            var link = ss?.Links
+                .Where(o => o.NoAddButton != true)
+                .FirstOrDefault(o => o.SiteId == linkModel.DestinationId);
+            if (link != null)
+            {
+                link.SiteTitle = linkModel.SiteTitle;
+                link.SourceId = linkModel.SourceId;
+            }
+            return link;
         }
 
         private static HtmlBuilder LinkCreations(
             this HtmlBuilder hb,
             Context context,
             SiteSettings ss,
-            LinkCollection linkCollection,
+            List<Link> links,
             long linkId)
         {
-            return hb.Div(action: () => linkCollection.ForEach(linkModel => hb
+            return hb.Div(action: () => links.ForEach(link => hb
                 .LinkCreationButton(
                     context: context,
                     ss: ss,
                     linkId: linkId,
-                    sourceId: linkModel.SourceId,
-                    text: linkModel.SiteTitle)));
+                    sourceId: link.SourceId,
+                    text: link.SiteTitle)));
         }
 
         private static HtmlBuilder LinkCreationButton(

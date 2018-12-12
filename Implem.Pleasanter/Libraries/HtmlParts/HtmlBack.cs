@@ -113,7 +113,9 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                                 context: context,
                                                 parts: new string[]
                                                 {
-                                                    "Items",
+                                                    context.Publish
+                                                        ? "Publishes"
+                                                        : "Items",
                                                     siteId.ToString(),
                                                     Requests.ViewModes.GetSessionData(
                                                         context: context,

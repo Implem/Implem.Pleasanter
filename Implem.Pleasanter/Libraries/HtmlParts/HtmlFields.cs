@@ -64,7 +64,9 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     context: context,
                     ss: ss,
                     column: column,
-                    columnPermissionType: columnPermissionType,
+                    columnPermissionType: context.Publish
+                        ? Permissions.ColumnPermissionTypes.Read
+                        : columnPermissionType,
                     controlId: !preview
                         ? column.Id
                         : null,

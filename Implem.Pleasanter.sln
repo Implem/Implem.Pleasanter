@@ -25,6 +25,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Implem.SupportTools.MailTes
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Implem.SupportTools.SysLogViewer", "Implem.SupportTools\SysLogViewer\Implem.SupportTools.SysLogViewer.csproj", "{135C658B-BBBF-4BCE-9981-48BB4C7683D9}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Implem.SupportTools.LdapSyncTester", "Implem.SupportTools\LdapSyncTester\Implem.SupportTools.LdapSyncTester.csproj", "{F7543D1C-61EF-4C68-94B3-AAD950CE2EC7}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		CD_ROM|Any CPU = CD_ROM|Any CPU
@@ -134,6 +136,16 @@ Global
 		{135C658B-BBBF-4BCE-9981-48BB4C7683D9}.Release|Any CPU.Build.0 = Release|Any CPU
 		{135C658B-BBBF-4BCE-9981-48BB4C7683D9}.SingleImage|Any CPU.ActiveCfg = Release|Any CPU
 		{135C658B-BBBF-4BCE-9981-48BB4C7683D9}.SingleImage|Any CPU.Build.0 = Release|Any CPU
+		{F7543D1C-61EF-4C68-94B3-AAD950CE2EC7}.CD_ROM|Any CPU.ActiveCfg = Release|Any CPU
+		{F7543D1C-61EF-4C68-94B3-AAD950CE2EC7}.CD_ROM|Any CPU.Build.0 = Release|Any CPU
+		{F7543D1C-61EF-4C68-94B3-AAD950CE2EC7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F7543D1C-61EF-4C68-94B3-AAD950CE2EC7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F7543D1C-61EF-4C68-94B3-AAD950CE2EC7}.DVD-5|Any CPU.ActiveCfg = Debug|Any CPU
+		{F7543D1C-61EF-4C68-94B3-AAD950CE2EC7}.DVD-5|Any CPU.Build.0 = Debug|Any CPU
+		{F7543D1C-61EF-4C68-94B3-AAD950CE2EC7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F7543D1C-61EF-4C68-94B3-AAD950CE2EC7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F7543D1C-61EF-4C68-94B3-AAD950CE2EC7}.SingleImage|Any CPU.ActiveCfg = Release|Any CPU
+		{F7543D1C-61EF-4C68-94B3-AAD950CE2EC7}.SingleImage|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -143,12 +155,13 @@ Global
 		{613EC0B0-00CD-47E2-A796-B76A6A34DD7A} = {0EFF5C9E-6550-4F35-BEEA-54A68DE0E284}
 		{4396F5AF-7C31-4DB2-AE89-7F409D7A8515} = {0EFF5C9E-6550-4F35-BEEA-54A68DE0E284}
 		{135C658B-BBBF-4BCE-9981-48BB4C7683D9} = {0EFF5C9E-6550-4F35-BEEA-54A68DE0E284}
+		{F7543D1C-61EF-4C68-94B3-AAD950CE2EC7} = {0EFF5C9E-6550-4F35-BEEA-54A68DE0E284}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {6E97E664-D49F-4BFC-930F-F941C4996E2C}
 	EndGlobalSection
 	GlobalSection(TeamFoundationVersionControl) = preSolution
-		SccNumberOfProjects = 11
+		SccNumberOfProjects = 12
 		SccEnterpriseProvider = {4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}
 		SccTeamFoundationServer = https://implem.visualstudio.com/
 		SccLocalPath0 = .
@@ -186,5 +199,9 @@ Global
 		SccProjectTopLevelParentUniqueName10 = Implem.Pleasanter.sln
 		SccProjectName10 = Implem.SupportTools/SysLogViewer
 		SccLocalPath10 = Implem.SupportTools\\SysLogViewer
+		SccProjectUniqueName11 = Implem.SupportTools\\LdapSyncTester\\Implem.SupportTools.LdapSyncTester.csproj
+		SccProjectTopLevelParentUniqueName11 = Implem.Pleasanter.sln
+		SccProjectName11 = Implem.SupportTools/LdapSyncTester
+		SccLocalPath11 = Implem.SupportTools\\LdapSyncTester
 	EndGlobalSection
 EndGlobal

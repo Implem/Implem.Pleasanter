@@ -334,6 +334,24 @@ pre{
     height:24px;
 }
 
+#PublishWarning{
+    width:100%;
+    display:block;
+    float:left;
+    margin:0px 10px 5px 0px;
+    padding:5px 10px;
+    background:red;
+    border-radius:5px;
+}
+
+#PublishWarning > a{
+    width:100%;
+    display:block;
+    float:left;
+    color:white;
+    text-decoration:none;
+}
+
 #Application{
     width:100%;
     float:left;

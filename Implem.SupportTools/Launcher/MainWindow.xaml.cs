@@ -86,6 +86,32 @@ namespace Implem.SupportTools
 
             win.Show();
         }
+
+        private void LdapSync_Click(object sender, RoutedEventArgs e)
+        {
+            var module = nameof(LdapSyncTester);
+            var button = (sender as Button);
+            button.Click -= LdapSync_Click;
+
+            var win = new Window()
+            {
+                Owner = this,
+                Title = (sender as Button).Content.ToString(),
+                DataContext = new LdapSyncTester.LdapSyncWindowViewModel(logger, pleasanterSettingsPath),
+                Content = new LdapSyncTester.LdapSyncTesterWindow(),
+            };
+
+            logger.Info(module, module + "Start >>>");
+
+            win.Closed += (_, __) =>
+            {
+
+                button.Click += LdapSync_Click;
+                logger.Info(module, module + "End <<<");
+            };
+
+            win.Show();
+        }
     }
 
 

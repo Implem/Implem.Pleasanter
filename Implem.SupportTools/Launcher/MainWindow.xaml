@@ -13,6 +13,7 @@
         <StackPanel Orientation="Horizontal">
             <Button HorizontalAlignment="Left" VerticalAlignment="Center" Click="MailTest_Click" Margin="4" Padding="2">メール送信テスト</Button>
             <Button HorizontalAlignment="Left" VerticalAlignment="Center" Click="SysLog_Click" Margin="4" Padding="2">SysLogビューア</Button>
+            <Button HorizontalAlignment="Left" VerticalAlignment="Center" Click="LdapSync_Click" Margin="4" Padding="2">LDAP同期テスト</Button>
         </StackPanel>
         <ListView Grid.Row="1" ItemsSource="{Binding Logs}"></ListView>
     </Grid>

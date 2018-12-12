@@ -32,6 +32,18 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                             .Li(css: "nav-site", action: () => hb
                                 .A(
                                     attributes: new HtmlAttributes()
+                                        .Href(Locations.Edit(
+                                            context: context,
+                                            controller: "Tenants",
+                                            id: context.TenantId)),
+                                    action: () => hb
+                                        .Div(action: () => hb
+                                            .Text(Displays.Tenants(context: context)))
+                                        .StackStyles()),
+                                _using: Permissions.CanManageTenant(context))
+                            .Li(css: "nav-site", action: () => hb
+                                .A(
+                                    attributes: new HtmlAttributes()
                                         .Href(Locations.Index(
                                             context: context,
                                             controller: "Depts")),
@@ -58,7 +70,8 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                     action: () => hb
                                         .Div(action: () => hb
                                             .Text(Displays.Users(context: context)))
-                                        .StackStyles()))))
+                                        .StackStyles()))
+                            ))
                     .MainCommands(
                         context: context,
                         ss: ss,

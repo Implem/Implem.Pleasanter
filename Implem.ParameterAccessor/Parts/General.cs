@@ -69,6 +69,7 @@ namespace Implem.ParameterAccessor.Parts
         public int ImageSizeRegular;
         public int ImageSizeThumbnail;
         public int ImageSizeIcon;
+        public int ImageSizeLogo;
         public decimal SearchConcordanceRate;
         public int SearchPageSize;
         public int DropDownSearchPageSize;

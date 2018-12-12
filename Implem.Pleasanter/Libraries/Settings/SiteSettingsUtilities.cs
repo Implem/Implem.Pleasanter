@@ -149,6 +149,8 @@ namespace Implem.Pleasanter.Libraries.Settings
                 ReferenceType = "Tenants"
             };
             ss.Init(context: context);
+            ss.SetChoiceHash(context: context, withLink: false);
+            ss.PermissionType = Permissions.Admins(context: context);
             return ss;
         }
 
@@ -364,6 +366,7 @@ namespace Implem.Pleasanter.Libraries.Settings
             ss.ReferenceType = "Sites";
             ss.ParentId = siteModel.ParentId;
             ss.InheritPermission = siteModel.InheritPermission;
+            ss.Publish = siteModel.Publish;
             ss.AccessStatus = siteModel.AccessStatus;
             ss.Init(context: context);
             ss.SetLinkedSiteSettings(context: context);
@@ -399,6 +402,7 @@ namespace Implem.Pleasanter.Libraries.Settings
             ss.ReferenceType = "Issues";
             ss.ParentId = siteModel.ParentId;
             ss.InheritPermission = siteModel.InheritPermission;
+            ss.Publish = siteModel.Publish;
             ss.AccessStatus = siteModel.AccessStatus;
             ss.Init(context: context);
             ss.SetLinkedSiteSettings(context: context);
@@ -436,6 +440,7 @@ namespace Implem.Pleasanter.Libraries.Settings
             ss.ReferenceType = "Results";
             ss.ParentId = siteModel.ParentId;
             ss.InheritPermission = siteModel.InheritPermission;
+            ss.Publish = siteModel.Publish;
             ss.AccessStatus = siteModel.AccessStatus;
             ss.Init(context: context);
             ss.SetLinkedSiteSettings(context: context);
@@ -473,6 +478,7 @@ namespace Implem.Pleasanter.Libraries.Settings
             ss.ReferenceType = "Wikis";
             ss.ParentId = siteModel.ParentId;
             ss.InheritPermission = siteModel.InheritPermission;
+            ss.Publish = siteModel.Publish;
             ss.AccessStatus = siteModel.AccessStatus;
             ss.Init(context: context);
             ss.SetLinkedSiteSettings(context: context);
