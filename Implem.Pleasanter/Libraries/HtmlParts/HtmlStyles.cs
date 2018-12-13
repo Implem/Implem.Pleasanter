@@ -66,7 +66,12 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     rel: "stylesheet")
                 .Link(
                     href: BundleTable.Bundles.ResolveBundleUrl("~/content/styles"),
-                    rel: "stylesheet");
+                    rel: "stylesheet")
+                .Link(
+                    href: Locations.Get(
+                        context: context,
+                        parts: "favicon.ico"),
+                    rel: "shortcut icon");
         }
     }
 }
