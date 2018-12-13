@@ -27,6 +27,16 @@ namespace Implem.Pleasanter.Controllers
         }
 
         [AllowAnonymous]
+        public ActionResult InvalidIpAddress()
+        {
+            var context = new Context();
+            ViewBag.HtmlBody = HtmlTemplates.Error(
+                context: context,
+                errorType: Error.Types.InvalidIpAddress);
+            return View();
+        }
+
+        [AllowAnonymous]
         public ActionResult BadRequest()
         {
             var context = new Context();

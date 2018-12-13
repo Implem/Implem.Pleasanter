@@ -2406,6 +2406,16 @@ namespace Implem.Pleasanter.Libraries.Responses
                 data: data);
         }
 
+        public static string InvalidIpAddress(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "InvalidIpAddress",
+                data: data);
+        }
+
         public static string InvalidRequest(
             Context context,
             params string[] data)

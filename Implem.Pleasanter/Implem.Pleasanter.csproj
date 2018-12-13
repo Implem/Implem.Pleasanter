@@ -1369,6 +1369,7 @@
     <Content Include="App_Data\Displays\LogoImage.json" />
     <Content Include="App_Data\Displays\ImageOnly.json" />
     <Content Include="App_Data\Displays\ImageAndText.json" />
+    <Content Include="App_Data\Displays\InvalidIpAddress.json" />
     <Content Include="Tools\BackgroundTasks.ps1" />
     <Content Include="Tools\SyncByLdap.ps1" />
     <Content Include="Views\Users\EditApi.cshtml" />
@@ -1378,6 +1379,7 @@
     <Content Include="Views\Tenants\Edit.cshtml" />
     <Content Include="Views\Publishes\Edit.cshtml" />
     <Content Include="Views\Publishes\Index.cshtml" />
+    <Content Include="Views\Errors\InvalidIpAddress.cshtml" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

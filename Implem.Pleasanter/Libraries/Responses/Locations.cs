@@ -275,6 +275,17 @@ namespace Implem.Pleasanter.Libraries.Responses
                 });
         }
 
+        public static string InvalidIpAddress(Context context)
+        {
+            return Get(
+                context: context,
+                parts: new string[]
+                {
+                    "Errors",
+                    "InvalidIpAddress"
+                });
+        }
+
         public static string ParameterSyntaxError(Context context)
         {
             return Get(
