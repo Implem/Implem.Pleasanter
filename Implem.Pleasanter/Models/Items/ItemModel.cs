@@ -1707,7 +1707,10 @@ namespace Implem.Pleasanter.Models
 
         public string Histories(Context context)
         {
-            SetSite(context: context, initSiteSettings: true);
+            SetSite(
+                context: context,
+                initSiteSettings: true,
+                tableType: Sqls.TableTypes.NormalAndHistory);
             switch (ReferenceType)
             {
                 case "Sites":
