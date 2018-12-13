@@ -93,7 +93,6 @@
     <Compile Include="Functions\SqlServer\Spid.cs" />
     <Compile Include="Functions\Web\Styles\CssCreator.cs" />
     <Compile Include="Functions\SqlServer\Configurator.cs" />
-    <Compile Include="Functions\SqlServer\DataImporter.cs" />
     <Compile Include="Functions\AspNetMvc\CSharp\MvcCreator.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Utilities\CodeWriter.cs" />

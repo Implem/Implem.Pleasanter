@@ -60,14 +60,6 @@ namespace Implem.DefinitionAccessor
                 : path;
         }
 
-        public static string Imports()
-        {
-            var path = Parameters.Path.Imports;
-            return path.IsNullOrEmpty()
-                ? Outputs("App_Data", "Imports")
-                : path;
-        }
-
         public static string Temp()
         {
             var path = Parameters.Path.Temp;
