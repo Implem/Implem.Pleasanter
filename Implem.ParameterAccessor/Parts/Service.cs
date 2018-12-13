@@ -8,7 +8,6 @@
         public string DefaultLanguage;
         public string AbsoluteUri;
         public bool RequireHttps;
-        public bool ImportData;
         public bool ShowTenantTitle;
         public bool ShowProfiles;
         public bool Demo;

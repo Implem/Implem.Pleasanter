@@ -702,13 +702,6 @@
   <ItemGroup>
     <Content Include="App_Data\Definitions\definition_Sql.xlsm" />
     <Content Include="App_Data\Definitions\definition_ViewMode.xlsm" />
-    <Content Include="App_Data\Imports\import_Depts.xlsx" />
-    <Content Include="App_Data\Imports\import_Issues.xlsx" />
-    <Content Include="App_Data\Imports\import_MailAddresses.xlsx" />
-    <Content Include="App_Data\Imports\import_Permissions.xlsx" />
-    <Content Include="App_Data\Imports\import_Sites.xlsx" />
-    <Content Include="App_Data\Imports\import_Tenants.xlsx" />
-    <Content Include="App_Data\Imports\import_Users.xlsx" />
     <Content Include="Views\Depts\Edit.cshtml" />
     <Content Include="Views\Depts\Index.cshtml" />
     <Content Include="Views\Depts\New.cshtml" />
