@@ -37,6 +37,7 @@ namespace Implem.Pleasanter.Libraries.General
             InternalServerError,
             InvalidCsvData,
             InvalidFormula,
+            InvalidIpAddress,
             InvalidRequest,
             ItemsLimit,
             LoginIdAlreadyUse,
@@ -192,6 +193,10 @@ namespace Implem.Pleasanter.Libraries.General
                         data: data);
                 case Types.InvalidFormula:
                     return Messages.InvalidFormula(
+                        context: context,
+                        data: data);
+                case Types.InvalidIpAddress:
+                    return Messages.InvalidIpAddress(
                         context: context,
                         data: data);
                 case Types.InvalidRequest:

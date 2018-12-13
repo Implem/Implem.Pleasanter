@@ -26,7 +26,7 @@ namespace Implem.Pleasanter.Filters
             {
                 Authentications.SignOut();
                 filterContext.Result = new RedirectResult(
-                    Locations.BadRequest(context: context));
+                    Locations.InvalidIpAddress(context: context));
                 return;
             }
             if (context.Authenticated

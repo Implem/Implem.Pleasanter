@@ -3881,9 +3881,13 @@ namespace Implem.Pleasanter.Models
             {
                 return Deny(context: context);
             }
-            if (Authenticate(context: context) && AllowedIpAddress())
+            if (Authenticate(context: context))
             {
-                if (Lockout)
+                if (!AllowedIpAddress())
+                {
+                    return InvalidIpAddress(context: context);
+                }
+                else if (Lockout)
                 {
                     return UserLockout(context: context);
                 }
@@ -4151,7 +4155,17 @@ namespace Implem.Pleasanter.Models
         private string Deny(Context context)
         {
             IncrementsNumberOfDenial(context: context);
-            return Messages.ResponseAuthentication(context: context).Focus("#Password").ToJson();
+            return Messages.ResponseAuthentication(context: context)
+                .Focus("#Password").ToJson();
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        private string InvalidIpAddress(Context context)
+        {
+            return Messages.ResponseInvalidIpAddress(context: context)
+                .Focus("#Password").ToJson();
         }
 
         /// <summary>
@@ -4160,7 +4174,8 @@ namespace Implem.Pleasanter.Models
         private string UserDisabled(Context context)
         {
             IncrementsNumberOfDenial(context: context);
-            return Messages.ResponseUserDisabled(context: context).Focus("#Password").ToJson();
+            return Messages.ResponseUserDisabled(context: context)
+                .Focus("#Password").ToJson();
         }
 
         /// <summary>
@@ -4168,7 +4183,8 @@ namespace Implem.Pleasanter.Models
         /// </summary>
         private string UserLockout(Context context)
         {
-            return Messages.ResponseUserLockout(context: context).Focus("#Password").ToJson();
+            return Messages.ResponseUserLockout(context: context)
+                .Focus("#Password").ToJson();
         }
 
         /// <summary>
