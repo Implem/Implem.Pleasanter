@@ -52,7 +52,8 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             var canManageSite = siteId != 0 && context.CanManageSite(ss: ss, site: true);
             var canManageDepts = Permissions.CanManageTenant(context: context);
             var canManageUsers = Permissions.CanManageTenant(context: context);
-            var canManageTenants = Permissions.CanManageTenant(context:context);
+            var canManageTenants = Permissions.CanManageTenant(context: context)
+                || context.UserSettings?.EnableManageTenant == true;
             var canManageTrashBox = CanManageTrashBox(context: context, ss: ss);
             return hb.Ul(
                 id: "NavigationMenu",

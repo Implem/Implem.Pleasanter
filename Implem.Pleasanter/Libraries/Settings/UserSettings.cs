@@ -6,6 +6,7 @@ namespace Implem.Pleasanter.Libraries.Settings
     [Serializable]
     public class UserSettings
     {
+        public bool? EnableManageTenant;
         public bool? DisableTopSiteCreation;
         public bool? DisableGroupAdmin;
 
