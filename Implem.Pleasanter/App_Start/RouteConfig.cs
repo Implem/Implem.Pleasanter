@@ -52,10 +52,9 @@ namespace Implem.Pleasanter
             );
             routes.MapRoute(
                 name: "Binaries",
-                url: "binaries/{guid}/{action}",
+                url: "{controller}/{guid}/{action}",
                 defaults: new
                 {
-                    Controller = "Binaries"
                 },
                 constraints: new
                 {
