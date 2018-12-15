@@ -2342,7 +2342,7 @@ namespace Implem.Pleasanter.Models
                                         .A(
                                             href: "#PublishSettingsEditor",
                                             text: Displays.Publish(context: context)),
-                                    _using: context.ContractSettings.Publish != false);
+                                    _using: context.ContractSettings.Extensions.Get("Publish"));
                             break;
                     }
                     hb
