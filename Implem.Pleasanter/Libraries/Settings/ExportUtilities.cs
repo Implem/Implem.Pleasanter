@@ -63,12 +63,13 @@ namespace Implem.Pleasanter.Libraries.Settings
                         context: context,
                         ss: ss,
                         data: data,
-                        where: view.Where(context: context, ss: ss),
+                        where: view.Where(
+                            context: context,
+                            ss: ss),
                         orderBy: view.OrderBy(
                             context: context,
-                            ss: ss,
-                            orderBy: Rds.IssuesOrderBy()
-                                .UpdatedTime(SqlOrderBy.Types.desc)),
+                            ss: ss)
+                                .Issues_UpdatedTime(SqlOrderBy.Types.desc),
                         export: export,
                         keys: keys,
                         keyColumns: keyColumns);
@@ -78,12 +79,13 @@ namespace Implem.Pleasanter.Libraries.Settings
                         context: context,
                         ss: ss,
                         data: data,
-                        where: view.Where(context: context, ss: ss),
+                        where: view.Where(
+                            context: context,
+                            ss: ss),
                         orderBy: view.OrderBy(
                             context: context,
-                            ss: ss,
-                            orderBy: Rds.ResultsOrderBy()
-                                .UpdatedTime(SqlOrderBy.Types.desc)),
+                            ss: ss)
+                                .Results_UpdatedTime(SqlOrderBy.Types.desc),
                         export: export,
                         keys: keys,
                         keyColumns: keyColumns);
