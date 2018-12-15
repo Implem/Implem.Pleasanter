@@ -67,8 +67,6 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                         context: context,
                         parts: new string[]
                         {
-                            "Tenants",
-                            context.TenantId.ToString(),
                             "Binaries",
                             "TenantImageLogo",
                             BinaryUtilities.TenantImagePrefix(

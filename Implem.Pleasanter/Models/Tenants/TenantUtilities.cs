@@ -487,7 +487,7 @@ namespace Implem.Pleasanter.Models
             tenantModel.SwitchTargets = GetSwitchTargets(
                 context: context,
                 ss: SiteSettingsUtilities.TenantsSiteSettings(context: context),
-                tenantId: tenantModel.TenantId);
+                tenantId: tenantId);
             return Editor(context: context, ss: ss, tenantModel: tenantModel);
         }
 

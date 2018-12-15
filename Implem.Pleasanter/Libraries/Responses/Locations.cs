@@ -96,6 +96,17 @@ namespace Implem.Pleasanter.Libraries.Responses
                 });
         }
 
+        public static string Edit(Context context, string controller)
+        {
+            return Get(
+                context: context,
+                parts: new string[]
+                {
+                    controller,
+                    "Edit"
+                });
+        }
+
         public static string Edit(Context context, string controller, long id)
         {
             return Get(

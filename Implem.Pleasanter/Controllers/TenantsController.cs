@@ -9,7 +9,7 @@ namespace Implem.Pleasanter.Controllers
     public class TenantsController : Controller
     {
         [AcceptVerbs(HttpVerbs.Get | HttpVerbs.Post)]
-        public ActionResult Edit(int id)
+        public ActionResult Edit()
         {
             var context = new Context();
             if (!Request.IsAjaxRequest())
@@ -18,7 +18,7 @@ namespace Implem.Pleasanter.Controllers
                 var html = TenantUtilities.Editor(
                     context: context,
                     ss: SiteSettingsUtilities.TenantsSiteSettings(context: context),
-                    tenantId: id,
+                    tenantId: context.TenantId,
                     clearSessions: true);
                 ViewBag.HtmlBody = html;
                 log.Finish(context: context, responseSize: html.Length);
@@ -30,21 +30,21 @@ namespace Implem.Pleasanter.Controllers
                 var json = TenantUtilities.EditorJson(
                     context: context,
                     ss: SiteSettingsUtilities.TenantsSiteSettings(context: context),
-                    tenantId: id);
+                    tenantId: context.TenantId);
                 log.Finish(context: context, responseSize: json.Length);
                 return Content(json);
             }
         }
 
         [HttpPut]
-        public string Update(int id)
+        public string Update()
         {
             var context = new Context();
             var log = new SysLogModel(context: context);
             var json = TenantUtilities.Update(
                 context: context,
                 ss: SiteSettingsUtilities.TenantsSiteSettings(context: context),
-                tenantId: id);
+                tenantId: context.TenantId);
             log.Finish(context: context, responseSize: json.Length);
             return json;
         }
