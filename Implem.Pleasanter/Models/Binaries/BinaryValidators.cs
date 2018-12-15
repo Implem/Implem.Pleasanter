@@ -59,7 +59,8 @@ namespace Implem.Pleasanter.Models
         public static Error.Types OnUploadingTenantImage(
             Context context, SiteSettings ss, byte[] bin)
         {
-            if (!Permissions.CanManageTenant(context))
+            if (!Permissions.CanManageTenant(context)
+                && context.UserSettings?.EnableManageTenant != true)
             {
                 return Error.Types.HasNotPermission;
             }
@@ -95,7 +96,8 @@ namespace Implem.Pleasanter.Models
         /// </summary>
         public static Error.Types OnDeletingTenantImage(Context context, SiteSettings ss)
         {
-            if (!Permissions.CanManageTenant(context))
+            if (!Permissions.CanManageTenant(context)
+                && context.UserSettings?.EnableManageTenant != true)
             {
                 return Error.Types.HasNotPermission;
             }

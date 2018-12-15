@@ -337,7 +337,8 @@ namespace Implem.Pleasanter.Libraries.Security
             {
                 case "depts":
                 case "tenants":
-                    return CanManageTenant(context: context);
+                    return CanManageTenant(context: context)
+                        || context.UserSettings?.EnableManageTenant == true;
                 case "groups":
                     return CanReadGroup(context: context);
                 case "users":
@@ -370,7 +371,8 @@ namespace Implem.Pleasanter.Libraries.Security
             {
                 case "depts":
                 case "tenants":
-                    return CanManageTenant(context: context);
+                    return CanManageTenant(context: context)
+                        || context.UserSettings?.EnableManageTenant == true;
                 case "groups":
                     return CanEditGroup(context: context);
                 case "users":
