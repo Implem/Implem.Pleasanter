@@ -25,7 +25,6 @@ namespace Implem.Pleasanter.Libraries.Settings
         public bool? Mail;
         public bool? Style;
         public bool? Script;
-        public bool? Publish;
         public bool? Api;
         public DateTime? Deadline;
         public Dictionary<string, bool> Extensions;

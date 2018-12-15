@@ -96,11 +96,11 @@ namespace Implem.Pleasanter.Libraries.Requests
             DeptId = deptId;
             UserId = userId;
             Language = language ?? Language;
-            SetPublish();
             UserHostAddress = HasRoute
                 ? HttpContext.Current?.Request?.UserHostAddress
                 : null;
             SetTenantProperties();
+            SetPublish();
             SetTenantCaches();
         }
 
@@ -364,7 +364,7 @@ namespace Implem.Pleasanter.Libraries.Requests
 
         private void SetPublish()
         {
-            if (HasRoute)
+            if (HasRoute && ContractSettings.Extensions.Get("Publish"))
             {
                 switch (Controller)
                 {
