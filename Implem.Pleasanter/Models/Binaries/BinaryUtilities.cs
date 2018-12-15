@@ -198,7 +198,7 @@ namespace Implem.Pleasanter.Models
             return new BinaryModel(tenantModel.TenantId).TenantImage(
                 context: context,
                 sizeType: Libraries.Images.ImageData.SizeTypes.Logo,
-                column: Rds.BinariesColumn().Logo());
+                column: Rds.BinariesColumn().Bin());
         }
 
         /// <summary>
