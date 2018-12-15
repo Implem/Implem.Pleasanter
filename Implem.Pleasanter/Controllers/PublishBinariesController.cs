@@ -48,20 +48,19 @@ namespace Implem.Pleasanter.Controllers
 
         [HttpGet]
         [OutputCache(Duration = int.MaxValue, VaryByParam = "*", Location = OutputCacheLocation.Client)]
-        public ActionResult TenantImageLogo(string reference, long id)
+        public ActionResult TenantImageLogo()
         {
             var context = new Context();
-            if (reference.ToLower() == "tenants")
-            {
-                var bytes = BinaryUtilities.TenantImageLogo(
+            var log = new SysLogModel(context: context);
+            var bytes = BinaryUtilities.TenantImageLogo(
+                context: context,
+                tenantModel: new TenantModel(
                     context: context,
-                    tenantModel: new TenantModel(context: context,ss: SiteSettingsUtilities.TenantsSiteSettings(context)));
-                return new FileContentResult(bytes, "image/png");
-            }
-            else
-            {
-                return null;
-            }
+                    ss: SiteSettingsUtilities.TenantsSiteSettings(context)));
+            log.Finish(
+                context: context,
+                responseSize: bytes.Length);
+            return new FileContentResult(bytes, "image/png");
         }
 
         [HttpGet]

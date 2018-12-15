@@ -240,8 +240,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                             .A(
                                 href: Locations.Edit(
                                     context: context,
-                                    controller: "Tenants",
-                                    id: context.TenantId),
+                                    controller: "Tenants"),
                                 action: () => hb
                                     .Span(css: "ui-icon ui-icon-gear")
                                     .Text(text: Displays.TenantAdmin(context: context))),
