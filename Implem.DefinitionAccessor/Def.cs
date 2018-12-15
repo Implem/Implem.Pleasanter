@@ -1655,7 +1655,6 @@ namespace Implem.DefinitionAccessor
                     case "Binaries_Bin": Column.Binaries_Bin = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Binaries_Bin, definitionRow, ColumnXls); break;
                     case "Binaries_Thumbnail": Column.Binaries_Thumbnail = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Binaries_Thumbnail, definitionRow, ColumnXls); break;
                     case "Binaries_Icon": Column.Binaries_Icon = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Binaries_Icon, definitionRow, ColumnXls); break;
-                    case "Binaries_Logo": Column.Binaries_Logo = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Binaries_Logo, definitionRow, ColumnXls); break;
                     case "Binaries_FileName": Column.Binaries_FileName = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Binaries_FileName, definitionRow, ColumnXls); break;
                     case "Binaries_Extension": Column.Binaries_Extension = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Binaries_Extension, definitionRow, ColumnXls); break;
                     case "Binaries_Size": Column.Binaries_Size = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Binaries_Size, definitionRow, ColumnXls); break;
@@ -9040,7 +9039,6 @@ namespace Implem.DefinitionAccessor
         public string Binaries_Bin;
         public string Binaries_Thumbnail;
         public string Binaries_Icon;
-        public string Binaries_Logo;
         public string Binaries_FileName;
         public string Binaries_Extension;
         public string Binaries_Size;
@@ -9956,7 +9954,6 @@ namespace Implem.DefinitionAccessor
         public ColumnDefinition Binaries_Bin = new ColumnDefinition();
         public ColumnDefinition Binaries_Thumbnail = new ColumnDefinition();
         public ColumnDefinition Binaries_Icon = new ColumnDefinition();
-        public ColumnDefinition Binaries_Logo = new ColumnDefinition();
         public ColumnDefinition Binaries_FileName = new ColumnDefinition();
         public ColumnDefinition Binaries_Extension = new ColumnDefinition();
         public ColumnDefinition Binaries_Size = new ColumnDefinition();

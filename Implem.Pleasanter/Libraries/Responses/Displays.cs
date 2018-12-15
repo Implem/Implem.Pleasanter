@@ -9386,16 +9386,6 @@ namespace Implem.Pleasanter.Libraries.Responses
                 data: data);
         }
 
-        public static string Binaries_Logo(
-            Context context,
-            params string[] data)
-        {
-            return Get(
-                context: context,
-                id: "Binaries_Logo",
-                data: data);
-        }
-
         public static string Binaries_FileName(
             Context context,
             params string[] data)

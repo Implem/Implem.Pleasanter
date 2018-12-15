@@ -33,7 +33,6 @@ namespace Implem.Pleasanter.Models
         public byte[] Bin = null;
         public byte[] Thumbnail = null;
         public byte[] Icon = null;
-        public byte[] Logo = null;
         public string FileName = string.Empty;
         public string Extension = string.Empty;
         public long Size = 0;
@@ -49,7 +48,6 @@ namespace Implem.Pleasanter.Models
         [NonSerialized] public byte[] SavedBin = null;
         [NonSerialized] public byte[] SavedThumbnail = null;
         [NonSerialized] public byte[] SavedIcon = null;
-        [NonSerialized] public byte[] SavedLogo = null;
         [NonSerialized] public string SavedFileName = string.Empty;
         [NonSerialized] public string SavedExtension = string.Empty;
         [NonSerialized] public long SavedSize = 0;
@@ -165,11 +163,6 @@ namespace Implem.Pleasanter.Models
         public bool Icon_Updated(Context context, Column column = null)
         {
             return Icon != SavedIcon && Icon != null;
-        }
-
-        public bool Logo_Updated(Context context, Column column = null)
-        {
-            return Logo != SavedLogo && Logo != null;
         }
 
         public BinarySettings Session_BinarySettings(Context context)
@@ -388,7 +381,6 @@ namespace Implem.Pleasanter.Models
             column.Bin(function: Sqls.Functions.SingleColumn); param.Bin();
             column.Thumbnail(function: Sqls.Functions.SingleColumn); param.Thumbnail();
             column.Icon(function: Sqls.Functions.SingleColumn); param.Icon();
-            column.Logo(function: Sqls.Functions.SingleColumn); param.Logo();
             column.FileName(function: Sqls.Functions.SingleColumn); param.FileName();
             column.Extension(function: Sqls.Functions.SingleColumn); param.Extension();
             column.Size(function: Sqls.Functions.SingleColumn); param.Size();
@@ -482,7 +474,6 @@ namespace Implem.Pleasanter.Models
             Bin = binaryModel.Bin;
             Thumbnail = binaryModel.Thumbnail;
             Icon = binaryModel.Icon;
-            Logo = binaryModel.Logo;
             FileName = binaryModel.FileName;
             Extension = binaryModel.Extension;
             Size = binaryModel.Size;
@@ -568,10 +559,6 @@ namespace Implem.Pleasanter.Models
                         case "Icon":
                             Icon = dataRow.Bytes("Bin");
                             SavedIcon = Icon;
-                            break;
-                        case "Logo":
-                            Logo = dataRow.Bytes("Bin");
-                            SavedLogo = Logo;
                             break;
                         case "FileName":
                             FileName = dataRow[column.ColumnName].ToString();
@@ -788,7 +775,7 @@ namespace Implem.Pleasanter.Models
             {
                 case "Local": imageData.WriteToLocal(); break;
                 default:
-                    Logo = imageData.ReSizeBytes(Libraries.Images.ImageData.SizeTypes.Logo);
+                    Bin = imageData.ReSizeBytes(Libraries.Images.ImageData.SizeTypes.Logo);
                     Rds.ExecuteNonQuery(
                         context: context,
                         transactional: true,
