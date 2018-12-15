@@ -21,7 +21,7 @@ namespace Implem.Pleasanter.Libraries.Requests
     public class Context
     {
         public bool Authenticated;
-        public string SessionGuid = Guid.NewGuid().ToString().Replace("-", string.Empty);
+        public string SessionGuid = Strings.NewGuid();
         public Dictionary<string, string> SessionData = new Dictionary<string, string>();
         public bool Publish;
         public QueryStrings QueryStrings = new QueryStrings();
@@ -47,6 +47,7 @@ namespace Implem.Pleasanter.Libraries.Requests
         public int TenantId;
         public long SiteId;
         public long Id;
+        public string Guid;
         public TenantModel.LogoTypes LogoType;
         public string TenantTitle;
         public string SiteTitle;
@@ -149,6 +150,7 @@ namespace Implem.Pleasanter.Libraries.Requests
                 Controller = RouteData.Get("controller")?.ToLower() ?? string.Empty;
                 Action = RouteData.Get("action")?.ToLower() ?? string.Empty;
                 Id = RouteData.Get("id")?.ToLong() ?? 0;
+                Guid = RouteData.Get("guid");
                 UserHostName = request.UserHostName;
                 UserHostAddress = request.UserHostAddress;
                 UserAgent = request.UserAgent;
@@ -364,25 +366,32 @@ namespace Implem.Pleasanter.Libraries.Requests
         {
             if (HasRoute)
             {
-                if (Controller == "publishes")
+                switch (Controller)
                 {
-                    var dataRow = Rds.ExecuteTable(
-                        context: this,
-                        statements: Rds.SelectSites(
-                            column: Rds.SitesColumn()
-                                .TenantId()
-                                .Publish(),
-                            where: Rds.SitesWhere()
-                                .SiteId(sub: Rds.SelectItems(
-                                    column: Rds.ItemsColumn().SiteId(),
-                                    where: Rds.ItemsWhere().ReferenceId(Id)))))
-                                        .AsEnumerable()
-                                        .FirstOrDefault();
-                    Publish = dataRow.Bool("Publish");
-                    if (Publish)
-                    {
-                        TenantId = dataRow.Int("TenantId");
-                    }
+                    case "publishes":
+                    case "publishbinaries":
+                        var dataRow = Rds.ExecuteTable(
+                            context: this,
+                            statements: Rds.SelectSites(
+                                column: Rds.SitesColumn()
+                                    .TenantId()
+                                    .Publish(),
+                                where: Rds.SitesWhere()
+                                    .SiteId(sub: Rds.SelectItems(
+                                        column: Rds.ItemsColumn().SiteId(),
+                                        where: Controller == "publishes"
+                                            ? Rds.ItemsWhere().ReferenceId(Id)
+                                            : Rds.ItemsWhere().ReferenceId(sub: Rds.SelectBinaries(
+                                                column: Rds.BinariesColumn().ReferenceId(),
+                                                where: Rds.BinariesWhere().Guid(Guid)))))))
+                                                    .AsEnumerable()
+                                                    .FirstOrDefault();
+                        Publish = dataRow.Bool("Publish");
+                        if (Publish)
+                        {
+                            TenantId = dataRow.Int("TenantId");
+                        }
+                        break;
                 }
             }
         }

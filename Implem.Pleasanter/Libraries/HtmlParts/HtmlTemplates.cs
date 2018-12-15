@@ -347,6 +347,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     .Hidden(controlId: "Language", value: context.Language)
                     .Hidden(controlId: "DeptId", value: context.DeptId.ToString())
                     .Hidden(controlId: "UserId", value: context.UserId.ToString())
+                    .Hidden(controlId: "Publish", value: "1", _using: context.Publish)
                 : hb;
         }
 

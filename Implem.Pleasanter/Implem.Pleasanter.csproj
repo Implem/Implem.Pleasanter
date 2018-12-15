@@ -213,6 +213,7 @@
     <Compile Include="Controllers\Api_GroupsController.cs" />
     <Compile Include="Controllers\Api_ItemsController.cs" />
     <Compile Include="Controllers\Api_UsersController.cs" />
+    <Compile Include="Controllers\PublishBinariesController.cs" />
     <Compile Include="Controllers\PublishesController.cs" />
     <Compile Include="Controllers\ReminderSchedulesController.cs" />
     <Compile Include="Controllers\BackgroundTasksController.cs" />

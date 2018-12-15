@@ -120,6 +120,20 @@
             $control.html($p.markup($control.html(), true));
             $control.addClass('applied');
         });
+        if ($('#Publish').length === 1) {
+            $('a').each(function () {
+                var $control = $(this);
+                if ($control.attr('href').indexOf('/binaries/') === 0) {
+                    $control.attr('href', $control.attr('href').replace('/binaries/', '/publishbinaries/'))
+                }
+            });
+            $('img').each(function () {
+                var $control = $(this);
+                if ($control.attr('src').indexOf('/binaries/') === 0) {
+                    $control.attr('src', $control.attr('src').replace('/binaries/', '/publishbinaries/'))
+                }
+            });
+        }
     }
     $p.apply();
 });
