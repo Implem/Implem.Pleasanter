@@ -7879,7 +7879,10 @@ namespace Implem.Pleasanter.Models
         private static HtmlBuilder PublishSettingsEditor(
             this HtmlBuilder hb, Context context, SiteSettings ss, bool publish)
         {
-            if (context.ContractSettings.Script == false) return hb;
+            if (context.ContractSettings.Extensions?.Get("Publish") != true)
+            {
+                return hb;
+            }
             return hb.FieldSet(id: "PublishSettingsEditor", action: () => hb
                 .FieldCheckBox(
                     controlId: "Sites_Publish",
