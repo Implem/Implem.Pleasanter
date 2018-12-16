@@ -1,5 +1,6 @@
 ﻿using Implem.DefinitionAccessor;
 using Implem.Libraries.Classes;
+using Implem.Libraries.DataSources.SqlServer;
 using Implem.Libraries.Utilities;
 using Implem.Pleasanter.Libraries.DataSources;
 using Implem.Pleasanter.Libraries.DataTypes;
@@ -124,7 +125,7 @@ namespace Implem.Pleasanter.Libraries.Requests
             if (item) SetItemProperties();
             if (user) SetUserProperties(sessionStatus, setData);
             SetTenantProperties();
-            SetPublish();
+            if (request) SetPublish();
             SetTenantCaches();
         }
 
@@ -289,8 +290,8 @@ namespace Implem.Pleasanter.Libraries.Requests
                 if (dataRow != null)
                 {
                     TenantTitle = dataRow.String("Title");
-                    ContractSettings = dataRow.String("ContractSettings").Deserialize<ContractSettings>()
-                        ?? ContractSettings;
+                    ContractSettings = dataRow.String("ContractSettings")
+                        .Deserialize<ContractSettings>() ?? ContractSettings;
                     ContractSettings.Deadline = dataRow?.DateTime("ContractDeadline");
                     LogoType = (TenantModel.LogoTypes)dataRow.Int("LogoType");
                     HtmlTitleTop = dataRow.String("HtmlTitleTop");
@@ -364,7 +365,7 @@ namespace Implem.Pleasanter.Libraries.Requests
 
         private void SetPublish()
         {
-            if (HasRoute && ContractSettings.Extensions.Get("Publish"))
+            if (HasRoute)
             {
                 switch (Controller)
                 {
@@ -375,7 +376,12 @@ namespace Implem.Pleasanter.Libraries.Requests
                             statements: Rds.SelectSites(
                                 column: Rds.SitesColumn()
                                     .TenantId()
-                                    .Publish(),
+                                    .Publish()
+                                    .Tenants_ContractSettings(),
+                                join: Rds.SitesJoin().Add(new SqlJoin(
+                                    tableBracket: "[Tenants]",
+                                    joinType: SqlJoin.JoinTypes.Inner,
+                                    joinExpression: "[Sites].[TenantId]=[Tenants].[TenantId]")),
                                 where: Rds.SitesWhere()
                                     .SiteId(sub: Rds.SelectItems(
                                         column: Rds.ItemsColumn().SiteId(),
@@ -386,10 +392,13 @@ namespace Implem.Pleasanter.Libraries.Requests
                                                 where: Rds.BinariesWhere().Guid(Guid)))))))
                                                     .AsEnumerable()
                                                     .FirstOrDefault();
-                        Publish = dataRow.Bool("Publish");
-                        if (Publish)
+                        var publish = dataRow.Bool("Publish");
+                        if (publish)
                         {
                             TenantId = dataRow.Int("TenantId");
+                            ContractSettings = dataRow.String("ContractSettings")
+                                .Deserialize<ContractSettings>() ?? ContractSettings;
+                            Publish = ContractSettings.Extensions.Get("Publish");
                         }
                         break;
                 }

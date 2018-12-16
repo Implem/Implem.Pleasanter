@@ -206,7 +206,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                             siteId: siteId,
                             title: title,
                             useTitle: useTitle)
-                        .PublishWarning(
+                        .Warnings(
                             context: context,
                             ss: ss);
                     action?.Invoke();
@@ -245,6 +245,15 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                 : hb;
         }
 
+        public static HtmlBuilder Warnings(
+            this HtmlBuilder hb, Context context, SiteSettings ss)
+        {
+            return hb.Div(id: "Warnings", action: () => hb
+                .PublishWarning(
+                    context: context,
+                    ss: ss));
+        }
+
         private static HtmlBuilder PublishWarning(
             this HtmlBuilder hb,
             Context context,
@@ -254,7 +263,13 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                 ? hb.Div(id: "PublishWarning", action: () => hb
                     .A(
                         href: context.Controller == "items"
-                            ? context.Url.Replace("items","publishes")
+                            ? context.Id == context.SiteId
+                                ? Locations.Get(
+                                    context,
+                                    "publishes",
+                                    context.SiteId.ToString(),
+                                    "index")
+                                : context.Url.Replace("items","publishes")
                             : context.Url.Replace("publishes", "items"),
                         action: () => hb
                             .Text(text: Displays.PublishWarning(context: context))))

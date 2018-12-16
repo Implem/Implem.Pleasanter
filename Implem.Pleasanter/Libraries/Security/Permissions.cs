@@ -177,11 +177,11 @@ namespace Implem.Pleasanter.Libraries.Security
         public static SqlWhereCollection CanRead(
             this SqlWhereCollection where,
             Context context,
-            string idColumnBracket)
+            string idColumnBracket,
+            bool _using = true)
         {
-            return context.HasPrivilege
+            return _using && !context.HasPrivilege
                 ? where
-                : where
                     .Sites_TenantId(context.TenantId)
                     .Or(or: new SqlWhereCollection()
                         .Add(
@@ -190,7 +190,8 @@ namespace Implem.Pleasanter.Libraries.Security
                         .Add(
                             tableName: null,
                             subLeft: CheckRecordPermission(idColumnBracket),
-                            _operator: null));
+                            _operator: null))
+                : where;
         }
 
         private static SqlWhereCollection CheckRecordPermission(
