@@ -26,42 +26,43 @@ namespace Implem.Libraries.Utilities
 
         public static bool Bool(this DataRow dataRow, string name)
         {
-            return dataRow.Table.Columns.Contains(name)
+            return dataRow?.Table.Columns.Contains(name) == true
                 ? dataRow[name].ToBool()
                 : false;
         }
 
         public static int Int(this DataRow dataRow, string name)
         {
-            return dataRow.Table.Columns.Contains(name)
+            return dataRow?.Table.Columns.Contains(name) == true
                 ? dataRow[name].ToInt()
                 : 0;
         }
 
         public static long Long(this DataRow dataRow, string name)
         {
-            return dataRow.Table.Columns.Contains(name)
+            return dataRow?.Table.Columns.Contains(name) == true
                 ? dataRow[name].ToLong()
                 : 0;
         }
 
         public static decimal Decimal(this DataRow dataRow, string name)
         {
-            return dataRow.Table.Columns.Contains(name)
+            return dataRow?.Table.Columns.Contains(name) == true
                 ? dataRow[name].ToDecimal()
                 : 0;
         }
 
         public static DateTime DateTime(this DataRow dataRow, string name)
         {
-            return dataRow.Table.Columns.Contains(name)
+            return dataRow?.Table.Columns.Contains(name) == true
                 ? dataRow[name].ToDateTime()
                 : System.DateTime.MinValue;
         }
 
         public static string String(this DataRow dataRow, string name)
         {
-            if (dataRow.Table.Columns.Contains(name) && dataRow[name] != DBNull.Value)
+            if (dataRow?.Table.Columns.Contains(name) == true
+                && dataRow[name] != DBNull.Value)
             {
                 switch (dataRow.Table.Columns[name].DataType.Name)
                 {
@@ -85,7 +86,7 @@ namespace Implem.Libraries.Utilities
 
         public static byte[] Bytes(this DataRow dataRow, string name)
         {
-            return dataRow.Table.Columns.Contains(name)
+            return dataRow?.Table.Columns.Contains(name) == true
                 ? dataRow[name] is DBNull 
                     ? null
                     : dataRow[name] as byte[]
@@ -94,7 +95,7 @@ namespace Implem.Libraries.Utilities
 
         public static object Object(this DataRow dataRow, string name)
         {
-            return dataRow.Table.Columns.Contains(name)
+            return dataRow?.Table.Columns.Contains(name) == true
                 ? dataRow.Field<object>(name) ?? null
                 : null;
         }
