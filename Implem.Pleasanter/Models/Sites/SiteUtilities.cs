@@ -744,8 +744,14 @@ namespace Implem.Pleasanter.Models
             {
                 case Error.Types.None:
                     var res = new SitesResponseCollection(siteModel);
-                    res.ReplaceAll("#Breadcrumb", new HtmlBuilder()
-                        .Breadcrumb(context: context, ss: ss));
+                    ss.Publish = siteModel.Publish;
+                    res
+                        .ReplaceAll("#Breadcrumb", new HtmlBuilder().Breadcrumb(
+                            context: context,
+                            ss: ss))
+                        .ReplaceAll("#Warnings", new HtmlBuilder().Warnings(
+                            context: context,
+                            ss: ss));
                     return ResponseByUpdate(res, context, siteModel)
                         .PrependComment(
                             context: context,

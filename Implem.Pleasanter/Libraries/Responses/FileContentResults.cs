@@ -37,7 +37,8 @@ namespace Implem.Pleasanter.Libraries.Responses
                         .Guid(guid)
                         .CanRead(
                             context: context,
-                            idColumnBracket: "[Binaries].[ReferenceId]")))
+                            idColumnBracket: "[Binaries].[ReferenceId]",
+                            _using: !context.Publish)))
                                 .AsEnumerable()
                                 .FirstOrDefault();
             return dataRow != null

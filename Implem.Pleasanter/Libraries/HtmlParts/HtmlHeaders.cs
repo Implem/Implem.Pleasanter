@@ -60,7 +60,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
         private static HtmlBuilder LogoImage(
             this HtmlBuilder hb, Context context, bool showTitle, bool existsTenantImage)
         {
-            return existsTenantImage
+            return existsTenantImage && !context.Publish
                 ? hb.Img(
                     id: "CorpLogo",
                     src: Locations.Get(
