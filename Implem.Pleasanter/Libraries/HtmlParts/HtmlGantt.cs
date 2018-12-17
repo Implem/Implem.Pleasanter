@@ -52,7 +52,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                         textType: HtmlTypes.TextTypes.DateTime,
                         fieldCss: "field-auto-thin",
                         controlId: "GanttStartDate",
-                        controlCss: " w100 auto-postback",
+                        controlCss: " w100 auto-postback always-send",
                         labelText: Displays.StartDate(context: context),
                         text: startDate.ToLocal(context: context).InRange()
                             ? startDate.ToLocal(context: context).ToString(
