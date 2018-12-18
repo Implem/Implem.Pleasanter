@@ -2929,6 +2929,8 @@ namespace Implem.DefinitionAccessor
                     case "_sharp_TemplateDialog_space___space_div": Css._sharp_TemplateDialog_space___space_div = definitionRow[1].ToString(); SetCssTable(CssTable._sharp_TemplateDialog_space___space_div, definitionRow, CssXls); break;
                     case "_sharp_SearchField": Css._sharp_SearchField = definitionRow[1].ToString(); SetCssTable(CssTable._sharp_SearchField, definitionRow, CssXls); break;
                     case "_sharp_Search": Css._sharp_Search = definitionRow[1].ToString(); SetCssTable(CssTable._sharp_Search, definitionRow, CssXls); break;
+                    case "_sharp_SwitchUserInfo": Css._sharp_SwitchUserInfo = definitionRow[1].ToString(); SetCssTable(CssTable._sharp_SwitchUserInfo, definitionRow, CssXls); break;
+                    case "_sharp_SwitchUserInfo_space___space_a": Css._sharp_SwitchUserInfo_space___space_a = definitionRow[1].ToString(); SetCssTable(CssTable._sharp_SwitchUserInfo_space___space_a, definitionRow, CssXls); break;
                     case "_sharp_PublishWarning": Css._sharp_PublishWarning = definitionRow[1].ToString(); SetCssTable(CssTable._sharp_PublishWarning, definitionRow, CssXls); break;
                     case "_sharp_PublishWarning_space___space_a": Css._sharp_PublishWarning_space___space_a = definitionRow[1].ToString(); SetCssTable(CssTable._sharp_PublishWarning_space___space_a, definitionRow, CssXls); break;
                     case "_sharp_Application": Css._sharp_Application = definitionRow[1].ToString(); SetCssTable(CssTable._sharp_Application, definitionRow, CssXls); break;
@@ -10795,6 +10797,8 @@ namespace Implem.DefinitionAccessor
         public string _sharp_TemplateDialog_space___space_div;
         public string _sharp_SearchField;
         public string _sharp_Search;
+        public string _sharp_SwitchUserInfo;
+        public string _sharp_SwitchUserInfo_space___space_a;
         public string _sharp_PublishWarning;
         public string _sharp_PublishWarning_space___space_a;
         public string _sharp_Application;
@@ -11285,6 +11289,8 @@ namespace Implem.DefinitionAccessor
         public CssDefinition _sharp_TemplateDialog_space___space_div = new CssDefinition();
         public CssDefinition _sharp_SearchField = new CssDefinition();
         public CssDefinition _sharp_Search = new CssDefinition();
+        public CssDefinition _sharp_SwitchUserInfo = new CssDefinition();
+        public CssDefinition _sharp_SwitchUserInfo_space___space_a = new CssDefinition();
         public CssDefinition _sharp_PublishWarning = new CssDefinition();
         public CssDefinition _sharp_PublishWarning_space___space_a = new CssDefinition();
         public CssDefinition _sharp_Application = new CssDefinition();
