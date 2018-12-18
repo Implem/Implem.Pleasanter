@@ -545,14 +545,10 @@ namespace Implem.Pleasanter.Models
                     attributes: new HtmlAttributes()
                         .Id("TenantForm")
                         .Class("main-form confirm-reload")
-                        .Action(tenantModel.TenantId != 0
-                            ? Locations.Action(
-                                context: context,
-                                controller: "Tenants",
-                                id: tenantModel.TenantId)
-                            : Locations.Action(
-                                context: context,
-                                controller: "Tenants")),
+                        .Action(Locations.Action(
+                            context: context,
+                            controller: "Tenants",
+                            id: tenantModel.TenantId)),
                     action: () => hb
                         .RecordHeader(
                             context: context,

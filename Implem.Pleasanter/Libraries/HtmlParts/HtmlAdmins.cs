@@ -34,8 +34,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                     attributes: new HtmlAttributes()
                                         .Href(Locations.Edit(
                                             context: context,
-                                            controller: "Tenants",
-                                            id: context.TenantId)),
+                                            controller: "Tenants")),
                                     action: () => hb
                                         .Div(action: () => hb
                                             .Text(Displays.Tenants(context: context)))
