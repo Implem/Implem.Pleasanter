@@ -3854,10 +3854,13 @@ namespace Implem.Pleasanter.Models
         public UserModel(Context context, SiteSettings ss, string loginId, bool setByForm = false)
         {
             if (setByForm) SetByForm(context: context, ss: ss);
-            Get(
-                context: context,
-                ss: ss,
-                where: Rds.UsersWhere().LoginId(loginId));
+            if (!loginId.IsNullOrEmpty())
+            {
+                Get(
+                    context: context,
+                    ss: ss,
+                    where: Rds.UsersWhere().LoginId(loginId));
+            }
         }
 
         /// <summary>

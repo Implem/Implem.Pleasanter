@@ -542,7 +542,8 @@ namespace Implem.Pleasanter.Libraries.Security
 
         public static bool PrivilegedUsers(string loginId)
         {
-            return Parameters.Security.PrivilegedUsers?.Contains(loginId) == true;
+            return loginId != null &&
+                Parameters.Security.PrivilegedUsers?.Contains(loginId) == true;
         }
     }
 }

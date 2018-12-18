@@ -22,6 +22,8 @@
         ConfirmSendMail_ja: 'メールを送信してもよろしいですか？',
         ConfirmSeparate: 'Are you sure you want to separate ?',
         ConfirmSeparate_ja: '分割してもよろしいですか？',
+        ConfirmSwitchUser: 'Are you sure you want to switch users?',
+        ConfirmSwitchUser_ja: '本当にユーザを切り替えますか？',
         ConfirmSynchronize: 'Are you sure you want to synchronize the data ?',
         ConfirmSynchronize_ja: 'データを同期してもよろしいですか？',
         DirectUrlCopied: 'Copied to Clipboard',

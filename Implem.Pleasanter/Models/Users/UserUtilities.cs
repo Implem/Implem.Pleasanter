@@ -5295,6 +5295,17 @@ namespace Implem.Pleasanter.Models
                         icon: "ui-icon-person",
                         selector: "#ResetPasswordDialog");
                 }
+                if (context.HasPrivilege)
+                {
+                    hb.Button(
+                        text: Displays.SwitchUser(context: context),
+                        controlCss: "button-icon",
+                        onClick: "$p.send($(this));",
+                        icon: "ui-icon-person",
+                        action: "SwitchUser",
+                        method: "post",
+                        confirm: "ConfirmSwitchUser");
+                }
             }
             return hb;
         }
@@ -7280,6 +7291,75 @@ namespace Implem.Pleasanter.Models
                         ss: ss))
                 }
             }.ToJson());
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        /// <returns></returns>
+        public static string SwitchUser(Context context)
+        {
+            var invalid = UserValidators.OnSwitchUser(context: context);
+            switch (invalid)
+            {
+                case Error.Types.None: break;
+                default: return HtmlTemplates.Error(context, invalid);
+            }
+            var userModel = new UserModel(
+                context: context,
+                ss: null,
+                userId: context.Controller == "users"
+                    ? context.Id.ToInt()
+                    : 0);
+            if (userModel.AccessStatus == Databases.AccessStatuses.Selected)
+            {
+                SessionUtilities.Set(
+                    context: context,
+                    key: "SwitchLoginId",
+                    value: userModel.LoginId);
+                context = new Context();
+                return new ResponseCollection()
+                    .ReplaceAll("#Warnings", new HtmlBuilder().Warnings(
+                        context: context,
+                        ss: null))
+                    .Message(Messages.UserSwitched(
+                        context: context,
+                        data: context.User.Name))
+                    .ToJson();
+            }
+            else
+            {
+                SessionUtilities.Remove(
+                    context: context,
+                    key: "SwitchLoginId",
+                    page: false);
+                return new ResponseCollection()
+                    .Message(Messages.InvalidRequest(context: context))
+                    .ToJson();
+            }
+        }
+
+        public static string ReturnOriginalUser(Context context)
+        {
+            var invalid = UserValidators.OnSwitchUser(context: context);
+            switch (invalid)
+            {
+                case Error.Types.None: break;
+                default: return HtmlTemplates.Error(context, invalid);
+            }
+            SessionUtilities.Remove(
+                context: context,
+                key: "SwitchLoginId",
+                page: false);
+            context = new Context();
+            return new ResponseCollection()
+                .ReplaceAll("#Warnings", new HtmlBuilder().Warnings(
+                    context: context,
+                    ss: null))
+                .Message(Messages.UserSwitched(
+                    context: context,
+                    data: context.User.Name))
+                .ToJson();
         }
     }
 }

@@ -945,6 +945,15 @@ namespace Implem.Pleasanter.Libraries.Responses
                 css: "alert-error");
         }
 
+        public static Message UserSwitched(Context context, params string[] data)
+        {
+            return Get(
+                text: Displays.UserSwitched(
+                    context: context,
+                    data: data),
+                css: "alert-success");
+        }
+
         public static ResponseCollection ResponseAlreadyAdded(Context context, params string[] data)
         {
             return ResponseMessage(AlreadyAdded(
@@ -1655,6 +1664,13 @@ namespace Implem.Pleasanter.Libraries.Responses
         public static ResponseCollection ResponseUsersLimit(Context context, params string[] data)
         {
             return ResponseMessage(UsersLimit(
+                context: context,
+                data: data));
+        }
+
+        public static ResponseCollection ResponseUserSwitched(Context context, params string[] data)
+        {
+            return ResponseMessage(UserSwitched(
                 context: context,
                 data: data));
         }
