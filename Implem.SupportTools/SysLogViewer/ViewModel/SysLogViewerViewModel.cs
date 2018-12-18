@@ -30,7 +30,9 @@ namespace Implem.SupportTools.SysLogViewer.ViewModel
         private ushort interval;
         private DateTime lastCreatedTime;
         private System.Threading.Timer timer;
-
+        private DateTime? startDate = DateTime.Today;
+        private DateTime? endDate = DateTime.Today;
+        private bool isRealTime = true;
 
         public ObservableCollection<SysLogModel> SysLogs { get; private set; } = new ObservableCollection<SysLogModel>();
         public bool IsInfoChecked { get => isInfoChecked; set => SetProperty(ref isInfoChecked, value); }
@@ -40,6 +42,9 @@ namespace Implem.SupportTools.SysLogViewer.ViewModel
         public bool IsExceptionChecked { get => isExceptionChecked; set => SetProperty(ref isExceptionChecked, value); }
         public ushort Count { get => count; set => SetProperty(ref count, value); }
         public ushort Interval { get => interval; set => SetProperty(ref interval, value); }
+        public DateTime? StartDate { get => startDate; set => SetProperty(ref startDate, value); }
+        public DateTime? EndDate { get => endDate; set => SetProperty(ref endDate, value); }
+        public bool IsRealTime { get => isRealTime; set => SetProperty(ref isRealTime, value); }
 
         private readonly ILogger logger;
         private readonly string connectionString = "";
@@ -76,24 +81,18 @@ namespace Implem.SupportTools.SysLogViewer.ViewModel
 
         public async Task GetSysLogsAsync(Dispatcher dispatcher)
         {
-            timer?.Dispose();
+            DisposeTimer();
             SysLogs?.Clear();
             try
             {
-                using (var client = new PleasanterDbClient(connectionString, dbName))
+                if (isRealTime)
                 {
-                    var syslogs = await client.GetSysLogsAsync(Count);
-
-                    SysLogs.AddRange(syslogs);
+                    await GetSyncLogsRealtimeAsync(dispatcher);
                 }
-
-                var lastItem = SysLogs.FirstOrDefault();
-                if (lastItem != null)
+                else
                 {
-                    lastCreatedTime = lastItem.CreatedTime;
+                    await GetSyncLogsPeriodAsync();
                 }
-
-                timer = new System.Threading.Timer(async state => await Timer_Callback(state), dispatcher, interval * 1000, interval * 1000);
             }
             catch (Exception e)
             {
@@ -101,6 +100,31 @@ namespace Implem.SupportTools.SysLogViewer.ViewModel
             }
         }
 
+        private async Task GetSyncLogsPeriodAsync()
+        {
+            using (var client = new PleasanterDbClient(connectionString, dbName))
+            {
+                var syslogs = await client.GetSysLogsAsync(Count,startDate, endDate);
+                SysLogs.AddRange(syslogs);
+            }
+        }
+
+        private async Task GetSyncLogsRealtimeAsync(Dispatcher dispatcher)
+        {
+            using (var client = new PleasanterDbClient(connectionString, dbName))
+            {
+                var syslogs = await client.GetSysLogsAsync(Count);
+                SysLogs.AddRange(syslogs);
+            }
+
+            var lastItem = SysLogs.FirstOrDefault();
+            if (lastItem != null)
+            {
+                lastCreatedTime = lastItem.CreatedTime;
+            }
+
+            timer = new Timer(async state => await Timer_Callback(state), dispatcher, interval * 1000, interval * 1000);
+        }
 
         public async Task Timer_Callback(object state)
         {
@@ -140,6 +164,7 @@ namespace Implem.SupportTools.SysLogViewer.ViewModel
 
         public void StopTimer()
         {
+            
             timer?.Change(Timeout.Infinite, Timeout.Infinite);
         }
 
@@ -150,10 +175,14 @@ namespace Implem.SupportTools.SysLogViewer.ViewModel
 
         public void Dispose()
         {
-            timer?.Dispose();
+            DisposeTimer();
             SysLogs.Clear();
         }
 
-
+        private void DisposeTimer()
+        {
+            timer?.Dispose();
+            timer = null;
+        }        
     }
 }

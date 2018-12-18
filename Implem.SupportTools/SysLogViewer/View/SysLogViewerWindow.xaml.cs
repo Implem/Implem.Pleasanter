@@ -89,5 +89,15 @@ namespace Implem.SupportTools.SysLogViewer.View
             window.ShowDialog();
 
         }
+
+        private async void TabControl_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            await VM?.GetSysLogsAsync(listView.Dispatcher);
+        }
+
+        private async void DatePicker_SelectedDateChanged(object sender, SelectionChangedEventArgs e)
+        {
+            await VM?.GetSysLogsAsync(listView.Dispatcher);
+        }
     }
 }
