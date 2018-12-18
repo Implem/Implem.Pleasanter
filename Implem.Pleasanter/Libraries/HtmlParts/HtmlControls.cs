@@ -69,6 +69,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                         .Type("text")
                         .Value(text)
                         .Placeholder(placeholder)
+                        .AutoComplete("off")
                         .OnChange(onChange)
                         .DataId(dataId)
                         .DataFormat(format)

@@ -234,6 +234,16 @@ namespace Implem.Pleasanter.Libraries.Html
             return this;
         }
 
+        public HtmlAttributes AutoComplete(string value, bool _using = true)
+        {
+            if (!value.IsNullOrEmpty() && _using)
+            {
+                Add("autocomplete");
+                Add(value);
+            }
+            return this;
+        }
+
         public HtmlAttributes AccessKey(string value, bool _using = true)
         {
             if (!value.IsNullOrEmpty() && _using)
