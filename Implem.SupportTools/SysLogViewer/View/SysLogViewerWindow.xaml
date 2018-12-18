@@ -25,24 +25,34 @@
             <ColumnDefinition Width="auto"/>
             <ColumnDefinition/>
         </Grid.ColumnDefinitions>
-        <GroupBox Grid.Row="0" Grid.Column="0" Header="SysLogType" Padding="2">
+        <TabControl Grid.Row="0" Grid.Column="0" Padding="2" SelectionChanged="TabControl_SelectionChanged">
+            <TabItem Header="リアルタイム" IsSelected="{Binding IsRealTime}">
+                <StackPanel Orientation="Horizontal">
+                    <Label VerticalAlignment="Center">取得件数</Label>
+                    <TextBox VerticalAlignment="Center" TextAlignment="Right" Text="{Binding Count}" Width="80" Padding="2"></TextBox>
+                    <Label VerticalAlignment="Center" Margin="8,0,0,0">更新間隔</Label>
+                    <TextBox VerticalAlignment="Center" TextAlignment="Right" Text="{Binding Interval}" Width="80" Padding="2"></TextBox>
+                    <Label VerticalAlignment="Center">(秒)</Label>
+                    <Button Margin="8,0,0,0" VerticalAlignment="Center" Padding="2" Click="SettingButton_Click">設定変更</Button>
+                </StackPanel>
+            </TabItem>
+            <TabItem Header="期間指定">
+                <StackPanel Orientation="Horizontal">
+                    <Label VerticalAlignment="Center">開始日</Label>
+                    <DatePicker SelectedDate="{Binding StartDate}" SelectedDateChanged="DatePicker_SelectedDateChanged"/>
+                    <Label VerticalAlignment="Center" Margin="8,0,0,0">終了日</Label>
+                    <DatePicker SelectedDate="{Binding EndDate}" SelectedDateChanged="DatePicker_SelectedDateChanged"/>
+                </StackPanel>
+            </TabItem>
+        </TabControl>
+
+        <GroupBox Grid.Row="0" Grid.Column="1" Header="SysLogType" Padding="2">
             <StackPanel Orientation="Horizontal">
                 <CheckBox Margin="2,4" VerticalAlignment="Center" IsChecked="{Binding IsInfoChecked}" Click="CheckBox_Click">Info</CheckBox>
                 <CheckBox Margin="2,4" VerticalAlignment="Center" IsChecked="{Binding IsWarningChecked}" Click="CheckBox_Click">Warning</CheckBox>
                 <CheckBox Margin="2,4" VerticalAlignment="Center" IsChecked="{Binding IsUserErrorChecked}" Click="CheckBox_Click">UserError</CheckBox>
                 <CheckBox Margin="2,4" VerticalAlignment="Center" IsChecked="{Binding IsSystemErrorChecked}" Click="CheckBox_Click">SystemError</CheckBox>
                 <CheckBox Margin="2,4" VerticalAlignment="Center" IsChecked="{Binding IsExceptionChecked}" Click="CheckBox_Click">Execption</CheckBox>
-            </StackPanel>
-        </GroupBox>
-        
-        <GroupBox Grid.Row="0" Grid.Column="1" Header="Settings" Padding="2">
-            <StackPanel Orientation="Horizontal">
-                <Label VerticalAlignment="Center">取得件数</Label>
-                <TextBox VerticalAlignment="Center" TextAlignment="Right" Text="{Binding Count}" Width="80" Padding="2"></TextBox>
-                <Label VerticalAlignment="Center" Margin="8,0,0,0">更新間隔</Label>
-                <TextBox VerticalAlignment="Center" TextAlignment="Right" Text="{Binding Interval}" Width="80" Padding="2"></TextBox>
-                <Label VerticalAlignment="Center">(秒)</Label>
-                <Button Margin="8,0,0,0" VerticalAlignment="Center" Padding="2" Click="SettingButton_Click">設定変更</Button>
             </StackPanel>
         </GroupBox>
 
