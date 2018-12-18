@@ -7339,6 +7339,9 @@ namespace Implem.Pleasanter.Models
             }
         }
 
+        /// <summary>
+        /// Fixed:
+        /// </summary>
         public static string ReturnOriginalUser(Context context)
         {
             var invalid = UserValidators.OnSwitchUser(context: context);
