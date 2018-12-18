@@ -35,12 +35,26 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                         controller: context.Controller,
                         display: Displays.Depts(context: context));
                 case "tenants":
-                    return Breadcrumb(
-                        hb: hb,
-                        context: context,
-                        ss: ss,
-                        controller: context.Controller,
-                        display: Displays.Tenants(context: context));
+                    return Permissions.CanManageTenant(context: context)
+                        ? Breadcrumb(
+                            hb: hb,
+                            context: context,
+                            ss: ss,
+                            controller: context.Controller,
+                            display: Displays.Tenants(context: context),
+                            action: "Edit")
+                        : (context.UserSettings?.EnableManageTenant == true)
+                            ? BreadcrumbWithoutAdmins(
+                                hb: hb,
+                                context: context,
+                                ss: ss,
+                                controller: context.Controller,
+                                display: Displays.Tenants(context: context),
+                                action: "Edit") 
+                            : Breadcrumb(
+                                hb: hb,
+                                context: context,
+                                ss: ss);
                 case "groups":
                     return Permissions.CanManageTenant(context: context)
                         ? Breadcrumb(
@@ -107,7 +121,8 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             Context context,
             SiteSettings ss,
             string controller,
-            string display = null)
+            string display = null,
+            string action = null)
         {
             return display != null
                 ? hb.Breadcrumb(context: context, ss: ss, data: new Dictionary<string, string>
@@ -119,9 +134,13 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                         Displays.Admin(context: context)
                     },
                     {
-                        Locations.Index(
-                            context: context,
-                            controller: controller),
+                        (action == "Edit")
+                            ? Locations.Edit(
+                                context: context,
+                                controller: controller)
+                            : Locations.Index(
+                                context: context,
+                                controller: controller),
                         display
                     }
                 })
@@ -134,6 +153,31 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                         Displays.Admin(context: context)
                     }
                 });
+        }
+
+        private static HtmlBuilder BreadcrumbWithoutAdmins(
+            HtmlBuilder hb,
+            Context context,
+            SiteSettings ss,
+            string controller,
+            string display = null,
+            string action = null)
+        {
+            return display != null
+                ? hb.Breadcrumb(context: context, ss: ss, data: new Dictionary<string, string>
+                {
+                    {
+                        (action == "Edit")
+                            ? Locations.Edit(
+                                context: context,
+                                controller: controller)
+                            : Locations.Index(
+                                context: context,
+                                controller: controller),
+                        display
+                    }
+                })
+                : hb.Breadcrumb(context: context, ss: ss);
         }
 
         public static HtmlBuilder Breadcrumb(this HtmlBuilder hb, Context context, SiteSettings ss)

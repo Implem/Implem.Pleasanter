@@ -2,7 +2,6 @@
 using Implem.Pleasanter.Libraries.Requests;
 using Implem.Pleasanter.Libraries.Responses;
 using Implem.Pleasanter.Libraries.Settings;
-using System.Linq;
 namespace Implem.Pleasanter.Libraries.HtmlParts
 {
     public static class HtmlRecordSwitchers
@@ -19,7 +18,9 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     controlId: "Reload",
                     text: Displays.Reload(context: context),
                     controlCss: "button-icon confirm-reload",
-                    onClick: "$p.get($(this));",
+                    onClick: context.Controller == "tenants"
+                        ? "location.reload();"
+                        : "$p.get($(this));",
                     icon: "ui-icon-refresh",
                     action: "Edit",
                     method: "post");
