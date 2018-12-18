@@ -2215,5 +2215,17 @@ namespace Implem.Pleasanter.Models
             }
             return Error.Types.None;
         }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        public static Error.Types OnSwitchUser(Context context)
+        {
+            if (!Permissions.PrivilegedUsers(context.LoginId))
+            {
+                return Error.Types.InvalidRequest;
+            }
+            return Error.Types.None;
+        }
     }
 }

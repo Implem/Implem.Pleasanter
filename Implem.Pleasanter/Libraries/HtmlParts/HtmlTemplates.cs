@@ -249,9 +249,28 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             this HtmlBuilder hb, Context context, SiteSettings ss)
         {
             return hb.Div(id: "Warnings", action: () => hb
+                .SwitchUserInfo(context: context)
                 .PublishWarning(
                     context: context,
                     ss: ss));
+        }
+
+        private static HtmlBuilder SwitchUserInfo(
+            this HtmlBuilder hb, Context context)
+        {
+            return context.SwitchUser
+                ? hb.Div(id: "SwitchUserInfo", action: () => hb
+                    .A(
+                        href: "javascript:$p.ajax('{0}','post',null,$('#SwitchUserInfo a'))".Params(
+                            Locations.Get(
+                                context,
+                                "Users",
+                                "ReturnOriginalUser")),
+                        attributes: new HtmlAttributes()
+                            .DataConfirm("ConfirmSwitchUser"),
+                        action: () => hb
+                            .Text(text: Displays.SwitchUserInfo(context: context))))
+                : hb;
         }
 
         private static HtmlBuilder PublishWarning(
@@ -259,7 +278,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             Context context,
             SiteSettings ss)
         {
-            return ss.Publish && context.Authenticated
+            return ss?.Publish == true && context.Authenticated
                 ? hb.Div(id: "PublishWarning", action: () => hb
                     .A(
                         href: context.Controller == "items"

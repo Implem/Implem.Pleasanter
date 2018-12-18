@@ -99,6 +99,7 @@ namespace Implem.Pleasanter
                 "~/Scripts/SubmitEvents.js",
                 "~/Scripts/Template.js",
                 "~/Scripts/TimeSeries.js",
+                "~/Scripts/Users.js",
                 "~/Scripts/Validator.js",
                 "~/Scripts/Video.js",
                 "~/Scripts/ViewMode.js",

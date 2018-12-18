@@ -22,6 +22,7 @@ namespace Implem.Pleasanter.Libraries.Requests
     public class Context
     {
         public bool Authenticated;
+        public bool SwitchUser;
         public string SessionGuid = Strings.NewGuid();
         public Dictionary<string, string> SessionData = new Dictionary<string, string>();
         public bool Publish;
@@ -214,45 +215,45 @@ namespace Implem.Pleasanter.Libraries.Requests
         {
             if (HasRoute)
             {
+                if (setData) SetData();
                 var api = RequestDataString.Deserialize<Api>();
                 if (api?.ApiKey.IsNullOrEmpty() == false)
                 {
-                    var userModel = new UserModel().Get(
-                        context: this,
-                        ss: null,
-                        where: Rds.UsersWhere()
-                            .ApiKey(api.ApiKey)
-                            .Disabled(false)
-                            .Lockout(false));
-                    SetUser(
-                        userModel: userModel,
-                        setData: setData);
+                    SetUser(userModel: GetUser(where: Rds.UsersWhere()
+                        .ApiKey(api.ApiKey)));
                 }
                 else if (!LoginId.IsNullOrEmpty())
                 {
-                    var userModel = new UserModel().Get(
-                        context: this,
-                        ss: null,
-                        where: Rds.UsersWhere()
-                            .LoginId(LoginId)
-                            .Disabled(false)
-                            .Lockout(false));
-                    SetUser(
-                        userModel: userModel,
-                        setData: setData);
+                    SetUser(userModel: GetUser(where: Rds.UsersWhere()
+                        .LoginId(Strings.CoalesceEmpty(
+                            Permissions.PrivilegedUsers(
+                                loginId: HttpContext.Current?.User?.Identity.Name)
+                                    ? SessionData.Get("SwitchLoginId")
+                                    : null,
+                            LoginId))));
                 }
                 else
                 {
-                    if (setData) SetData();
                     if (sessionStatus) Language = SessionLanguage();
                 }
             }
         }
 
-        private void SetUser(UserModel userModel, bool setData)
+        private UserModel GetUser(Rds.UsersWhereCollection where)
+        {
+            return new UserModel().Get(
+                context: this,
+                ss: null,
+                where: where
+                    .Disabled(false)
+                    .Lockout(false));
+        }
+
+        private void SetUser(UserModel userModel)
         {
             if (userModel.AccessStatus == Databases.AccessStatuses.Selected)
             {
+                SwitchUser = LoginId != userModel.LoginId;
                 Authenticated = true;
                 TenantId = userModel.TenantId;
                 DeptId = userModel.DeptId;
@@ -264,8 +265,7 @@ namespace Implem.Pleasanter.Libraries.Requests
                 Developer = userModel.Developer;
                 TimeZoneInfo = userModel.TimeZoneInfo;
                 UserSettings = userModel.UserSettings;
-                HasPrivilege = Permissions.PrivilegedUsers(loginId: userModel.LoginId);
-                if (setData) SetData();
+                HasPrivilege = Permissions.PrivilegedUsers(userModel.LoginId);
             }
         }
 
@@ -303,8 +303,8 @@ namespace Implem.Pleasanter.Libraries.Requests
 
         private void SetData()
         {
-            var request = HttpContext.Current.Request;
             SessionData = SessionUtilities.Get(this);
+            var request = HttpContext.Current.Request;
             request.QueryString.AllKeys
                 .Where(o => o != null)
                 .ForEach(key =>

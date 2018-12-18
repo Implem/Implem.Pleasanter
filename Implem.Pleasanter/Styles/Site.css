@@ -334,6 +334,25 @@ pre{
     height:24px;
 }
 
+#SwitchUserInfo{
+    width:100%;
+    display:block;
+    float:left;
+    margin:0px 10px 5px 0px;
+    padding:5px 10px;
+    color:white;
+    background-color:blue;
+    border-radius:7px;
+}
+
+#SwitchUserInfo > a{
+    width:100%;
+    display:block;
+    float:left;
+    color:white;
+    text-decoration:none;
+}
+
 #PublishWarning{
     width:100%;
     display:block;
@@ -341,7 +360,7 @@ pre{
     margin:0px 10px 5px 0px;
     padding:5px 10px;
     background:red;
-    border-radius:5px;
+    border-radius:7px;
 }
 
 #PublishWarning > a{

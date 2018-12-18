@@ -946,6 +946,16 @@ namespace Implem.Pleasanter.Libraries.Responses
                 data: data);
         }
 
+        public static string ConfirmSwitchUser(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "ConfirmSwitchUser",
+                data: data);
+        }
+
         public static string ConfirmSynchronize(
             Context context,
             params string[] data)
@@ -4976,6 +4986,26 @@ namespace Implem.Pleasanter.Libraries.Responses
                 data: data);
         }
 
+        public static string SwitchUser(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "SwitchUser",
+                data: data);
+        }
+
+        public static string SwitchUserInfo(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "SwitchUserInfo",
+                data: data);
+        }
+
         public static string SynchronizationCompleted(
             Context context,
             params string[] data)
@@ -5463,6 +5493,16 @@ namespace Implem.Pleasanter.Libraries.Responses
             return Get(
                 context: context,
                 id: "UsersLimit",
+                data: data);
+        }
+
+        public static string UserSwitched(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "UserSwitched",
                 data: data);
         }
 
