@@ -89,12 +89,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             {
                 case "items":
                 case "publishes":
-                    if (context.TenantTitle == null)
-                    {
-                        return Parameters.General.HtmlTitle
-                            ?? Displays.ProductName(context: context);
-                    }
-                    else if (context.Id == 0)
+                    if (context.Id == 0)
                     {
                         return FormattedHtmlTitle(
                             context: context,
@@ -120,11 +115,15 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
 
         private static string FormattedHtmlTitle(Context context, string format)
         {
-            return format
-                .Replace("[ProductName]", Displays.ProductName(context: context))
-                .Replace("[TenantTitle]", context.TenantTitle)
-                .Replace("[SiteTitle]", context.SiteTitle)
-                .Replace("[RecordTitle]", context.RecordTitle);
+            return Strings.CoalesceEmpty(
+                format?
+                    .Replace("[ProductName]", Displays.ProductName(context: context))
+                    .Replace("[TenantTitle]", context.TenantTitle)
+                    .Replace("[SiteTitle]", context.SiteTitle)
+                    .Replace("[RecordTitle]", context.RecordTitle),
+                context.TenantTitle,
+                Parameters.General.HtmlTitle,
+                Displays.ProductName(context: context));
         }
 
         public static HtmlBuilder MainContainer(
