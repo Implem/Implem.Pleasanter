@@ -39,7 +39,8 @@ namespace Implem.Pleasanter.Libraries.Responses
                         context: context,
                         ss: ss,
                         siteId: ss.SiteId,
-                        verType: Versions.VerTypes.Latest))
+                        verType: Versions.VerTypes.Latest,
+                        backButton: !context.Publish))
                 .Invoke(invoke)
                 .Message(message)
                 .LoadScroll(loadScroll)
