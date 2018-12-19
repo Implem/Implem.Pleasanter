@@ -1,3 +1,4 @@
+#[Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12
 while (1)
 {
     try
