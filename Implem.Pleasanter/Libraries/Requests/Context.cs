@@ -377,7 +377,10 @@ namespace Implem.Pleasanter.Libraries.Requests
                                 column: Rds.SitesColumn()
                                     .TenantId()
                                     .Publish()
-                                    .Tenants_ContractSettings(),
+                                    .Tenants_ContractSettings()
+                                    .Tenants_HtmlTitleTop()
+                                    .Tenants_HtmlTitleSite()
+                                    .Tenants_HtmlTitleRecord(),
                                 join: Rds.SitesJoin().Add(new SqlJoin(
                                     tableBracket: "[Tenants]",
                                     joinType: SqlJoin.JoinTypes.Inner,
@@ -395,10 +398,17 @@ namespace Implem.Pleasanter.Libraries.Requests
                         var publish = dataRow.Bool("Publish");
                         if (publish)
                         {
-                            TenantId = dataRow.Int("TenantId");
-                            ContractSettings = dataRow.String("ContractSettings")
+                            var cs= dataRow.String("ContractSettings")
                                 .Deserialize<ContractSettings>() ?? ContractSettings;
-                            Publish = ContractSettings.Extensions.Get("Publish");
+                            if (cs.Extensions.Get("Publish"))
+                            {
+                                TenantId = dataRow.Int("TenantId");
+                                Publish = true;
+                                ContractSettings = cs;
+                                HtmlTitleTop = dataRow.String("HtmlTitleTop");
+                                HtmlTitleSite = dataRow.String("HtmlTitleSite");
+                                HtmlTitleRecord = dataRow.String("HtmlTitleRecord");
+                            }
                         }
                         break;
                 }
