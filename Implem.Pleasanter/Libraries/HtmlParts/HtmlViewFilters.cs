@@ -348,7 +348,8 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                 labelText: Displays.Search(context: context),
                 text: view.Search,
                 method: "post",
-                _using: context.Controller == "items");
+                _using: context.Controller == "items"
+                    || context.Controller == "publishes");
         }
     }
 }
