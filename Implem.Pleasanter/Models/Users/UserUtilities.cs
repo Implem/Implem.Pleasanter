@@ -5295,7 +5295,7 @@ namespace Implem.Pleasanter.Models
                         icon: "ui-icon-person",
                         selector: "#ResetPasswordDialog");
                 }
-                if (context.HasPrivilege)
+                if (context.HasPrivilege && context.User.Id != userModel.UserId)
                 {
                     hb.Button(
                         text: Displays.SwitchUser(context: context),
