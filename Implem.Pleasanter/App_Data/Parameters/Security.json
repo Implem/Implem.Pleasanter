@@ -3,6 +3,7 @@
     "PrivilegedUsers": null,
     "RevealUserDisabled": false,
     "LockoutCount": 0,
+    "PasswordExpirationPeriod": 0,
     "PasswordPolicies": [
         {
             "Enabled": true,

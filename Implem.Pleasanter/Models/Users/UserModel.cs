@@ -3841,10 +3841,10 @@ namespace Implem.Pleasanter.Models
         /// </summary>
         private void PasswordExpirationPeriod(Context context)
         {
-            PasswordExpirationTime = Parameters.Authentication.PasswordExpirationPeriod != 0
+            PasswordExpirationTime = Parameters.Security.PasswordExpirationPeriod != 0
                 ? new Time(
                     context: context,
-                    value: DateTime.Today.AddDays(Parameters.Authentication.PasswordExpirationPeriod))
+                    value: DateTime.Today.AddDays(Parameters.Security.PasswordExpirationPeriod))
                 : PasswordExpirationTime;
         }
 
@@ -4286,7 +4286,7 @@ namespace Implem.Pleasanter.Models
             var param = Rds.UsersParam()
                 .Password(password)
                 .PasswordChangeTime(raw: "getdate()");
-            return Parameters.Authentication.PasswordExpirationPeriod > 0 || !changeAtLogin
+            return Parameters.Security.PasswordExpirationPeriod > 0 || !changeAtLogin
                 ? param.PasswordExpirationTime(PasswordExpirationTime.Value)
                 : param.PasswordExpirationTime(raw: "null");
         }
