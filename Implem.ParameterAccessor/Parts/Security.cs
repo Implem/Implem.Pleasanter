@@ -7,6 +7,7 @@ namespace Implem.ParameterAccessor.Parts
         public List<string> PrivilegedUsers;
         public bool RevealUserDisabled;
         public int LockoutCount;
+        public int PasswordExpirationPeriod;
         public List<PasswordPolicy> PasswordPolicies;
     }
 }
