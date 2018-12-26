@@ -843,6 +843,22 @@ namespace Implem.Pleasanter.Models
                 siteModel.Comments.Clear();
             }
             var error = siteModel.Create(context: context, otherInitValue: true);
+            if (siteModel.SiteSettings.Exports?.Any() == true)
+            {
+                siteModel.SiteSettings.Exports.ForEach(export =>
+                    export.Columns
+                        .Where(column => column.SiteId == context.SiteId)
+                        .ForEach(column => column.SiteId = siteModel.SiteId));
+                Rds.ExecuteNonQuery(
+                    context: context,
+                    statements: Rds.UpdateSites(
+                        where: Rds.SitesWhere()
+                            .TenantId(context.TenantId)
+                            .SiteId(siteModel.SiteId),
+                        param: Rds.SitesParam()
+                            .SiteSettings(siteModel.SiteSettings.RecordingJson(
+                                context: context))));
+            }
             return error.Has()
                 ? error.MessageJson(context: context)
                 : EditorResponse(
