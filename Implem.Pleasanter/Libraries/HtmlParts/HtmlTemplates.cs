@@ -260,12 +260,13 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             return context.SwitchUser
                 ? hb.Div(id: "SwitchUserInfo", action: () => hb
                     .A(
-                        href: "javascript:$p.ajax('{0}','post',null,$('#SwitchUserInfo a'))".Params(
-                            Locations.Get(
-                                context,
-                                "Users",
-                                "ReturnOriginalUser")),
+                        href: "#",
                         attributes: new HtmlAttributes()
+                            .OnClick("$p.ajax('{0}','post',null,$('#SwitchUserInfo a'));".Params(
+                                Locations.Get(
+                                    context,
+                                    "Users",
+                                    "ReturnOriginalUser")))
                             .DataConfirm("ConfirmSwitchUser"),
                         action: () => hb
                             .Text(text: Displays.SwitchUserInfo(context: context))))
