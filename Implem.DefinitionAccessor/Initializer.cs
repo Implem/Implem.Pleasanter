@@ -69,7 +69,6 @@ namespace Implem.DefinitionAccessor
         public static void SetParameters()
         {
             Parameters.Api = Read<ParameterAccessor.Parts.Api>();
-            Parameters.Asset = Read<ParameterAccessor.Parts.Asset>();
             Parameters.Authentication = Read<ParameterAccessor.Parts.Authentication>();
             Parameters.BackgroundTask = Read<ParameterAccessor.Parts.BackgroundTask>();
             Parameters.BinaryStorage = Read<ParameterAccessor.Parts.BinaryStorage>();

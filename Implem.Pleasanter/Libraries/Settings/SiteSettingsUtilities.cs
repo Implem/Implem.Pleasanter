@@ -11,6 +11,8 @@ namespace Implem.Pleasanter.Libraries.Settings
 {
     public static class SiteSettingsUtilities
     {
+        public const decimal Version = 1.014M;
+
         public static SiteSettings Get(
             Context context,
             long siteId,
