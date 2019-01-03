@@ -4417,10 +4417,8 @@ namespace Implem.Pleasanter.Models
         private static HtmlBuilder EditorColumnFormatProperties(
             this HtmlBuilder hb, Context context, Column column)
         {
-            var formats = Parameters.Formats
-                .Where(o => (o.Type & ParameterAccessor.Parts.Format.Types.NumColumn) > 0);
-            var format = formats.FirstOrDefault(o => o.String == column.Format);
-            var other = !column.Format.IsNullOrEmpty() && format == null;
+            var formats = Formats();
+            var custom = !column.Format.IsNullOrEmpty() && !formats.Keys.Contains(column.Format);
             return hb
                 .FieldDropDown(
                     context: context,
@@ -4428,21 +4426,19 @@ namespace Implem.Pleasanter.Models
                     controlCss: " not-send",
                     labelText: Displays.Format(context: context),
                     optionCollection: formats
-                        .ToDictionary(o => o.String, o => Displays.Get(
+                        .ToDictionary(o => o.Key, o => Displays.Get(
                             context: context,
-                            id: o.Name)),
-                    selectedValue: format != null
-                        ? format.String
-                        : other
-                            ? "\t"
-                            : string.Empty,
+                            id: o.Value)),
+                    selectedValue: custom
+                        ? "\t"
+                        : column.Format,
                     _using: !column.Id_Ver)
                 .FieldTextBox(
                     fieldId: "FormatField",
                     controlId: "Format",
-                    fieldCss: other ? string.Empty : " hidden",
+                    fieldCss: custom ? string.Empty : " hidden",
                     labelText: Displays.Custom(context: context),
-                    text: other
+                    text: custom
                         ? column.Format
                         : string.Empty);
         }
@@ -4522,6 +4518,19 @@ namespace Implem.Pleasanter.Models
                     fieldCss: " both",
                     labelText: Displays.TitleSeparator(context: context),
                     text: ss.TitleSeparator);
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        private static Dictionary<string, string> Formats()
+        {
+            return new Dictionary<string, string>()
+            {
+                { string.Empty, "Standard" },
+                { "C", "Currency" },
+                { "\t", "Custom" },
+            };
         }
 
         /// <summary>

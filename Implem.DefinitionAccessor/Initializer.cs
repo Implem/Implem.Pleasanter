@@ -78,7 +78,6 @@ namespace Implem.DefinitionAccessor
             Parameters.ExtendedSqls = ExtendedSqls();
             Parameters.ExtendedStyles = ExtendedStyles();
             Parameters.ExtendedScripts = ExtendedScripts();
-            Parameters.Formats = Read<ParameterAccessor.Parts.Formats>();
             Parameters.General = Read<ParameterAccessor.Parts.General>();
             Parameters.History = Read<ParameterAccessor.Parts.History>();
             Parameters.Mail = Read<ParameterAccessor.Parts.Mail>();
