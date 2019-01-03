@@ -2,6 +2,7 @@
 using Implem.Pleasanter.Libraries.Html;
 using Implem.Pleasanter.Libraries.Requests;
 using Implem.Pleasanter.Libraries.Responses;
+using Implem.Pleasanter.Libraries.Security;
 using System.Web;
 namespace Implem.Pleasanter.Libraries.HtmlParts
 {
@@ -44,7 +45,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                         ? referer
                         : Locations.Top(context: context);
                 case "tenants":
-                    return Locations.Top(context: context);
+                    return AdminsOrTop(context: context);
                 case "depts":
                 case "groups":
                 case "users":
@@ -64,9 +65,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                 ? referer
                                 : Locations.Top(context: context);
                         default:
-                            return Locations.Get(
-                                context: context,
-                                parts: "Admins");
+                            return AdminsOrTop(context: context);
                     }
                 default:
                     switch (referenceType)
@@ -134,6 +133,13 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                             }
                     }
             }
+        }
+
+        private static string AdminsOrTop(Context context)
+        {
+            return Permissions.CanManageTenant(context: context)
+                ? Locations.Admins(context: context)
+                : Locations.Top(context: context);
         }
     }
 }

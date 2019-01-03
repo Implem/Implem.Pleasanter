@@ -128,9 +128,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                 ? hb.Breadcrumb(context: context, ss: ss, data: new Dictionary<string, string>
                 {
                     {
-                        Locations.Index(
-                            context: context,
-                            controller: "Admins"),
+                        Locations.Admins(context: context),
                         Displays.Admin(context: context)
                     },
                     {
@@ -147,9 +145,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                 : hb.Breadcrumb(context: context, ss: ss, data: new Dictionary<string, string>
                 {
                     {
-                        Locations.Index(
-                            context: context,
-                            controller: "Admins"),
+                        Locations.Admins(context: context),
                         Displays.Admin(context: context)
                     }
                 });
