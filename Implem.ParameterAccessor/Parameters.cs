@@ -22,7 +22,6 @@ namespace Implem.DefinitionAccessor
         public static History History;
         public static Mail Mail;
         public static Notification Notification;
-        public static Path Path;
         public static Permissions Permissions;
         public static Rds Rds;
         public static Reminder Reminder;
