@@ -75,7 +75,6 @@ namespace Implem.DefinitionAccessor
             Parameters.BinaryStorage = Read<ParameterAccessor.Parts.BinaryStorage>();
             Parameters.CustomDefinitions = CustomDefinitionsHash();
             Parameters.Deleted = Read<ParameterAccessor.Parts.Deleted>();
-            Parameters.ExcludeColumns = Read<ParameterAccessor.Parts.ExcludeColumns>();
             Parameters.ExtendedColumnsSet = ExtendedColumnsSet();
             Parameters.ExtendedSqls = ExtendedSqls();
             Parameters.ExtendedStyles = ExtendedStyles();
