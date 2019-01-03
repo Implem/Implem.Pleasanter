@@ -866,10 +866,8 @@ namespace Implem.Pleasanter.Libraries.Settings
         private static Dictionary<string, ColumnDefinition> GetColumnDefinitionHash(
             string referenceType)
         {
-            var excludeColumns = Parameters.ExcludeColumns.Get(referenceType);
             return Def.ColumnDefinitionCollection
                 .Where(o => o.TableName == referenceType)
-                .Where(o => excludeColumns?.Contains(o.ColumnName) != true)
                 .ToDictionary(o => o.ColumnName, o => o);
         }
 

@@ -53,7 +53,6 @@
     <Compile Include="Parts\Authentication.cs" />
     <Compile Include="Parts\BackgroundTask.cs" />
     <Compile Include="Parts\BinaryStorage.cs" />
-    <Compile Include="Parts\ExcludeColumns.cs" />
     <Compile Include="Parts\ExtendedColumns.cs" />
     <Compile Include="Parts\ExtendedSql.cs" />
     <Compile Include="Parts\Format.cs" />
