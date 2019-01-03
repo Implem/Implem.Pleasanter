@@ -118,7 +118,6 @@ namespace Implem.Pleasanter.Libraries.Settings
                 case "syslogs": return SysLogsSiteSettings(context: context);
                 case "statuses": return StatusesSiteSettings(context: context);
                 case "reminderschedules": return ReminderSchedulesSiteSettings(context: context);
-                case "healths": return HealthsSiteSettings(context: context);
                 case "depts": return DeptsSiteSettings(context: context);
                 case "groups": return GroupsSiteSettings(context: context);
                 case "groupmembers": return GroupMembersSiteSettings(context: context);
@@ -199,16 +198,6 @@ namespace Implem.Pleasanter.Libraries.Settings
             var ss = new SiteSettings()
             {
                 ReferenceType = "ReminderSchedules"
-            };
-            ss.Init(context: context);
-            return ss;
-        }
-
-        public static SiteSettings HealthsSiteSettings(Context context)
-        {
-            var ss = new SiteSettings()
-            {
-                ReferenceType = "Healths"
             };
             ss.Init(context: context);
             return ss;

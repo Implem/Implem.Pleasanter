@@ -19,7 +19,6 @@ namespace Implem.DefinitionAccessor
         public static List<string> ExtendedScripts;
         public static Formats Formats;
         public static General General;
-        public static Health Health;
         public static History History;
         public static Mail Mail;
         public static Notification Notification;
