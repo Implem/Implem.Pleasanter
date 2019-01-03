@@ -1,6 +1,7 @@
 ﻿using Implem.DefinitionAccessor;
 using Implem.Libraries.Utilities;
 using Implem.Pleasanter.Libraries.Requests;
+using Implem.Pleasanter.Libraries.Security;
 using System.Linq;
 namespace Implem.Pleasanter.Libraries.Responses
 {
@@ -38,6 +39,13 @@ namespace Implem.Pleasanter.Libraries.Responses
                     "Users",
                     "Logout"
                 }); 
+        }
+
+        public static string Admins(Context context)
+        {
+            return Get(
+                context: context,
+                parts: "Admins");
         }
 
         public static string Index(Context context, string controller)
