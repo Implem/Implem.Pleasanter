@@ -133,8 +133,9 @@ namespace Implem.Pleasanter.Models
                         attributes: new HtmlAttributes()
                             .Id("GroupsForm")
                             .Class("main-form")
-                            .Action(Locations.ItemAction(
+                            .Action(Locations.Action(
                                 context: context,
+                                controller: context.Controller,
                                 id: ss.SiteId)),
                         action: () => hb
                             .ViewSelector(context: context, ss: ss, view: view)

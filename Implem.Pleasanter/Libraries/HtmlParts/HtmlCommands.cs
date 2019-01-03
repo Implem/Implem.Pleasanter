@@ -109,33 +109,13 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                 _using: deleteButton
                                     && context.CanDelete(ss: ss)
                                     && ss.IsSite(context: context));
-                        if (context.Controller == "items" && ss.ReferenceType != "Sites")
+                        switch (context.Controller)
                         {
-                            switch (context.Action)
-                            {
-                                case "index":
-                                    hb
-                                        .Button(
-                                            text: Displays.BulkMove(context: context),
-                                            controlCss: "button-icon open-dialog",
-                                            accessKey: "o",
-                                            onClick: "$p.moveTargets($(this));",
-                                            icon: "ui-icon-transferthick-e-w",
-                                            selector: "#MoveDialog",
-                                            action: "MoveTargets",
-                                            method: "get",
-                                            _using: context.CanUpdate(ss: ss))
-                                        .Button(
-                                            text: Displays.BulkDelete(context: context),
-                                            controlCss: "button-icon",
-                                            accessKey: "r",
-                                            onClick: "$p.send($(this));",
-                                            icon: "ui-icon-trash",
-                                            action: "BulkDelete",
-                                            method: "delete",
-                                            confirm: "ConfirmDelete",
-                                            _using: context.CanDelete(ss: ss))
-                                        .Button(
+                            case "users":
+                                switch (context.Action)
+                                {
+                                    case "index":
+                                        hb.Button(
                                             controlId: "EditImportSettings",
                                             text: Displays.Import(context: context),
                                             controlCss: "button-icon",
@@ -143,27 +123,68 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                             onClick: "$p.openImportSettingsDialog($(this));",
                                             icon: "ui-icon-arrowreturnthick-1-e",
                                             selector: "#ImportSettingsDialog",
-                                            _using: context.CanImport(ss: ss))
-                                        .Button(
-                                            text: Displays.Export(context: context),
-                                            controlCss: "button-icon",
-                                            accessKey: "x",
-                                            onClick: "$p.openExportSelectorDialog($(this));",
-                                            icon: "ui-icon-arrowreturnthick-1-w",
-                                            action: "OpenExportSelectorDialog",
-                                            method: "post",
-                                            _using: context.CanExport(ss: ss));
-                                    break;
-                                case "crosstab":
-                                    hb.Button(
-                                        text: Displays.Export(context: context),
-                                        controlCss: "button-icon",
-                                        accessKey: "x",
-                                        onClick: "$p.exportCrosstab();",
-                                        icon: "ui-icon-arrowreturnthick-1-w",
-                                        _using: context.CanExport(ss: ss));
-                                    break;
-                            }
+                                            _using: context.CanImport(ss: ss));
+                                        break;
+                                }
+                                break;
+                            case "items":
+                                if (ss.ReferenceType != "Sites")
+                                {
+                                    switch (context.Action)
+                                    {
+                                        case "index":
+                                            hb
+                                                .Button(
+                                                    text: Displays.BulkMove(context: context),
+                                                    controlCss: "button-icon open-dialog",
+                                                    accessKey: "o",
+                                                    onClick: "$p.moveTargets($(this));",
+                                                    icon: "ui-icon-transferthick-e-w",
+                                                    selector: "#MoveDialog",
+                                                    action: "MoveTargets",
+                                                    method: "get",
+                                                    _using: context.CanUpdate(ss: ss))
+                                                .Button(
+                                                    text: Displays.BulkDelete(context: context),
+                                                    controlCss: "button-icon",
+                                                    accessKey: "r",
+                                                    onClick: "$p.send($(this));",
+                                                    icon: "ui-icon-trash",
+                                                    action: "BulkDelete",
+                                                    method: "delete",
+                                                    confirm: "ConfirmDelete",
+                                                    _using: context.CanDelete(ss: ss))
+                                                .Button(
+                                                    controlId: "EditImportSettings",
+                                                    text: Displays.Import(context: context),
+                                                    controlCss: "button-icon",
+                                                    accessKey: "w",
+                                                    onClick: "$p.openImportSettingsDialog($(this));",
+                                                    icon: "ui-icon-arrowreturnthick-1-e",
+                                                    selector: "#ImportSettingsDialog",
+                                                    _using: context.CanImport(ss: ss))
+                                                .Button(
+                                                    text: Displays.Export(context: context),
+                                                    controlCss: "button-icon",
+                                                    accessKey: "x",
+                                                    onClick: "$p.openExportSelectorDialog($(this));",
+                                                    icon: "ui-icon-arrowreturnthick-1-w",
+                                                    action: "OpenExportSelectorDialog",
+                                                    method: "post",
+                                                    _using: context.CanExport(ss: ss));
+                                            break;
+                                        case "crosstab":
+                                            hb.Button(
+                                                text: Displays.Export(context: context),
+                                                controlCss: "button-icon",
+                                                accessKey: "x",
+                                                onClick: "$p.exportCrosstab();",
+                                                icon: "ui-icon-arrowreturnthick-1-w",
+                                                _using: context.CanExport(ss: ss));
+                                            break;
+                                    }
+                                }
+                                break;
                         }
                     }
                     extensions?.Invoke();

@@ -12,7 +12,8 @@ namespace Implem.Pleasanter.Libraries.Models
         public static string ColumnValidate(
             Context context,
             SiteSettings ss,
-            IEnumerable<string> headers, params string[] columnNames)
+            IEnumerable<string> headers,
+            params string[] columnNames)
         {
             foreach (var name in columnNames)
             {
