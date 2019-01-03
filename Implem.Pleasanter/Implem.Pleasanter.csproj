@@ -760,7 +760,6 @@
     <Content Include="App_Data\Parameters\BinaryStorage.json" />
     <Content Include="App_Data\Parameters\General.json" />
     <Content Include="App_Data\Parameters\Mail.json" />
-    <Content Include="App_Data\Parameters\Path.json" />
     <Content Include="App_Data\Parameters\Rds.json" />
     <Content Include="App_Data\Parameters\Service.json" />
     <Content Include="App_Data\Parameters\SysLog.json" />

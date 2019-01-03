@@ -46,42 +46,27 @@ namespace Implem.DefinitionAccessor
 
         public static string Definitions(string fileName = "")
         {
-            var path = Parameters.Path.Definitions;
-            return path.IsNullOrEmpty()
-                ? Outputs("App_Data", "Definitions") + fileName.IsNotEmpty("\\" + fileName)
-                : path;
+            return Outputs("App_Data", "Definitions") + fileName.IsNotEmpty("\\" + fileName);
         }
 
         public static string Displays()
         {
-            var path = Parameters.Path.Displays;
-            return path.IsNullOrEmpty()
-                ? Outputs("App_Data", "Displays")
-                : path;
+            return Outputs("App_Data", "Displays");
         }
 
         public static string Temp()
         {
-            var path = Parameters.Path.Temp;
-            return path.IsNullOrEmpty()
-                ? Path.Combine(Environments.CurrentDirectoryPath, "App_Data", "Temp")
-                : path;
+            return Path.Combine(Environments.CurrentDirectoryPath, "App_Data", "Temp");
         }
 
         public static string Logs()
         {
-            var path = Parameters.Path.Logs;
-            return path.IsNullOrEmpty()
-                ? Path.Combine(Environments.CurrentDirectoryPath, "App_Data", "Logs")
-                : path;
+            return Path.Combine(Environments.CurrentDirectoryPath, "App_Data", "Logs");
         }
 
         public static string Histories()
         {
-            var path = Parameters.Path.Histories;
-            return path.IsNullOrEmpty()
-                ? Path.Combine(Environments.CurrentDirectoryPath, "App_Data", "Histories")
-                : path;
+            return Path.Combine(Environments.CurrentDirectoryPath, "App_Data", "Histories");
         }
 
         public static string BinaryStorage()
