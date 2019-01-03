@@ -7134,6 +7134,110 @@ namespace Implem.Pleasanter.Models
         /// <summary>
         /// Fixed:
         /// </summary>
+        public static string OpenExportSelectorDialog(Context context, SiteSettings ss)
+        {
+            if (context.ContractSettings.Export == false)
+            {
+                return HtmlTemplates.Error(context, Error.Types.InvalidRequest);
+            }
+            var invalid = UserValidators.OnExporting(
+                context: context,
+                ss: ss);
+            switch (invalid)
+            {
+                case Error.Types.None: break;
+                default: return invalid.MessageJson(context: context);
+            }
+            return new ResponseCollection()
+                .Html(
+                    "#ExportSelectorDialog",
+                    new HtmlBuilder().ExportSelectorDialog(
+                        context: context,
+                        ss: ss))
+                .ToJson();
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        public static ResponseFile Export(Context context, SiteSettings ss)
+        {
+            if (context.ContractSettings.Export == false)
+            {
+                return null;
+            }
+            var invalid = UserValidators.OnExporting(
+                context: context,
+                ss: ss);
+            switch (invalid)
+            {
+                case Error.Types.None: break;
+                default: return null;
+            }
+            var export = ss.GetExport(context: context);
+            var view = Views.GetBySession(context: context, ss: ss);
+            var userCollection = new UserCollection(
+                context: context,
+                ss: ss,
+                where: view.Where(
+                    context: context,
+                    ss: ss),
+                orderBy: view.OrderBy(
+                    context: context,
+                    ss: ss));
+            var csv = new System.Text.StringBuilder();
+            if (export.Header == true)
+            {
+                csv.Append(
+                    export.Columns.Select(column =>
+                        "\"" + column.GetLabelText() + "\"").Join(","),
+                    ",",
+                    Displays.MailAddress(context: context),
+                    "\n");
+            }
+            new UserCollection(
+                context: context,
+                ss: ss,
+                where: view.Where(
+                    context: context,
+                    ss: ss),
+                orderBy: view.OrderBy(
+                    context: context,
+                    ss: ss))
+                        .ForEach(userModel =>
+                            csv.Append(
+                                export.Columns.Select(exportColumn =>
+                                    userModel.CsvData(
+                                        context: context,
+                                        ss: ss,
+                                        column: ss.GetColumn(
+                                            context: context,
+                                            columnName: exportColumn.ColumnName),
+                                        exportColumn: exportColumn,
+                                        mine: userModel.Mine(context: context))).Join(),
+                                ",",
+                                "\"" + Rds.ExecuteTable(
+                                    context: context,
+                                    statements: Rds.SelectMailAddresses(
+                                        column: Rds.MailAddressesColumn().MailAddress(),
+                                        where: Rds.MailAddressesWhere()
+                                            .OwnerId(userModel.UserId)
+                                            .OwnerType("Users")))
+                                                .AsEnumerable()
+                                                .Select(dataRow => dataRow.String("MailAddress"))
+                                                .Join() + "\"",
+                                "\n"));
+            return new ResponseFile(
+                fileContent: csv.ToString(),
+                fileDownloadName: ExportUtilities.FileName(
+                    context: context,
+                    ss: ss,
+                    name: export.Name));
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
         public static string ChangePassword(Context context, int userId)
         {
             var ss = SiteSettingsUtilities.UsersSiteSettings(context: context);

@@ -77,27 +77,6 @@ namespace Implem.Pleasanter.Controllers
             }
         }
 
-        [HttpGet]
-        public ActionResult Export(long id)
-        {
-            var context = new Context();
-            var log = new SysLogModel(context: context);
-            var responseFile = new ItemModel(
-                context: context,
-                referenceId: id)
-                    .Export(context: context);
-            if (responseFile != null)
-            {
-                log.Finish(context: context, responseSize: responseFile.Length);
-                return responseFile.ToFile();
-            }
-            else
-            {
-                log.Finish(context: context, responseSize: 0);
-                return null;
-            }
-        }
-
         [HttpPost]
         public string GridRows()
         {
@@ -196,6 +175,44 @@ namespace Implem.Pleasanter.Controllers
             var json = UserUtilities.Import(context: context);
             log.Finish(context: context, responseSize: json.Length);
             return json;
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        [HttpPost]
+        public string OpenExportSelectorDialog()
+        {
+            var context = new Context();
+            var log = new SysLogModel(context: context);
+            var json = UserUtilities.OpenExportSelectorDialog(
+                context: context,
+                ss: SiteSettingsUtilities.UsersSiteSettings(context: context));
+            log.Finish(context: context, responseSize: json.Length);
+            return json;
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        [HttpGet]
+        public ActionResult Export()
+        {
+            var context = new Context();
+            var log = new SysLogModel(context: context);
+            var responseFile = UserUtilities.Export(
+                context: context,
+                ss: SiteSettingsUtilities.UsersSiteSettings(context: context));
+            if (responseFile != null)
+            {
+                log.Finish(context: context, responseSize: responseFile.Length);
+                return responseFile.ToFile();
+            }
+            else
+            {
+                log.Finish(context: context, responseSize: 0);
+                return null;
+            }
         }
 
         /// <summary>

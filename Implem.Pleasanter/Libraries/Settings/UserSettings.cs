@@ -24,6 +24,11 @@ namespace Implem.Pleasanter.Libraries.Settings
             return us.ToJson();
         }
 
+        public string ToExport(Context context, Column column, ExportColumn exportColumn = null)
+        {
+            return null;
+        }
+
         public bool InitialValue(Context context)
         {
             return RecordingJson() == "[]";

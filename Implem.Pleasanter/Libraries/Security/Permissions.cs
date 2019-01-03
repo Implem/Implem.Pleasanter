@@ -466,8 +466,18 @@ namespace Implem.Pleasanter.Libraries.Security
 
         public static bool CanExport(this Context context, SiteSettings ss, bool site = false)
         {
-            return context.ContractSettings.Export != false
-                && context.Can(ss: ss, type: Types.Export, site: site);
+            if (context.ContractSettings.Import == false) return false;
+            switch (context.Controller)
+            {
+                case "tenants":
+                case "depts":
+                case "groups":
+                    return false;
+                case "users":
+                    return CanManageTenant(context: context);
+                default:
+                    return context.Can(ss: ss, type: Types.Import, site: site);
+            }
         }
 
         public static bool CanManageSite(this Context context, SiteSettings ss, bool site = false)

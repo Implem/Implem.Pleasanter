@@ -77,27 +77,6 @@ namespace Implem.Pleasanter.Controllers
             }
         }
 
-        [HttpGet]
-        public ActionResult Export(long id)
-        {
-            var context = new Context();
-            var log = new SysLogModel(context: context);
-            var responseFile = new ItemModel(
-                context: context,
-                referenceId: id)
-                    .Export(context: context);
-            if (responseFile != null)
-            {
-                log.Finish(context: context, responseSize: responseFile.Length);
-                return responseFile.ToFile();
-            }
-            else
-            {
-                log.Finish(context: context, responseSize: 0);
-                return null;
-            }
-        }
-
         [HttpPost]
         public string GridRows()
         {
