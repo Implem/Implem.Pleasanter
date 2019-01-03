@@ -6566,66 +6566,6 @@ namespace Implem.Pleasanter.Libraries.Responses
                 data: data);
         }
 
-        public static string Healths_HealthId(
-            Context context,
-            params string[] data)
-        {
-            return Get(
-                context: context,
-                id: "Healths_HealthId",
-                data: data);
-        }
-
-        public static string Healths_TenantCount(
-            Context context,
-            params string[] data)
-        {
-            return Get(
-                context: context,
-                id: "Healths_TenantCount",
-                data: data);
-        }
-
-        public static string Healths_UserCount(
-            Context context,
-            params string[] data)
-        {
-            return Get(
-                context: context,
-                id: "Healths_UserCount",
-                data: data);
-        }
-
-        public static string Healths_ItemCount(
-            Context context,
-            params string[] data)
-        {
-            return Get(
-                context: context,
-                id: "Healths_ItemCount",
-                data: data);
-        }
-
-        public static string Healths_ErrorCount(
-            Context context,
-            params string[] data)
-        {
-            return Get(
-                context: context,
-                id: "Healths_ErrorCount",
-                data: data);
-        }
-
-        public static string Healths_Elapsed(
-            Context context,
-            params string[] data)
-        {
-            return Get(
-                context: context,
-                id: "Healths_Elapsed",
-                data: data);
-        }
-
         public static string Depts_TenantId(
             Context context,
             params string[] data)
@@ -13236,86 +13176,6 @@ namespace Implem.Pleasanter.Libraries.Responses
                 data: data);
         }
 
-        public static string Healths_Ver(
-            Context context,
-            params string[] data)
-        {
-            return Get(
-                context: context,
-                id: "Healths_Ver",
-                data: data);
-        }
-
-        public static string Healths_Comments(
-            Context context,
-            params string[] data)
-        {
-            return Get(
-                context: context,
-                id: "Healths_Comments",
-                data: data);
-        }
-
-        public static string Healths_Creator(
-            Context context,
-            params string[] data)
-        {
-            return Get(
-                context: context,
-                id: "Healths_Creator",
-                data: data);
-        }
-
-        public static string Healths_Updator(
-            Context context,
-            params string[] data)
-        {
-            return Get(
-                context: context,
-                id: "Healths_Updator",
-                data: data);
-        }
-
-        public static string Healths_CreatedTime(
-            Context context,
-            params string[] data)
-        {
-            return Get(
-                context: context,
-                id: "Healths_CreatedTime",
-                data: data);
-        }
-
-        public static string Healths_UpdatedTime(
-            Context context,
-            params string[] data)
-        {
-            return Get(
-                context: context,
-                id: "Healths_UpdatedTime",
-                data: data);
-        }
-
-        public static string Healths_VerUp(
-            Context context,
-            params string[] data)
-        {
-            return Get(
-                context: context,
-                id: "Healths_VerUp",
-                data: data);
-        }
-
-        public static string Healths_Timestamp(
-            Context context,
-            params string[] data)
-        {
-            return Get(
-                context: context,
-                id: "Healths_Timestamp",
-                data: data);
-        }
-
         public static string Depts_Ver(
             Context context,
             params string[] data)
@@ -14933,16 +14793,6 @@ namespace Implem.Pleasanter.Libraries.Responses
             return Get(
                 context: context,
                 id: "ReminderSchedules",
-                data: data);
-        }
-
-        public static string Healths(
-            Context context,
-            params string[] data)
-        {
-            return Get(
-                context: context,
-                id: "Healths",
                 data: data);
         }
 

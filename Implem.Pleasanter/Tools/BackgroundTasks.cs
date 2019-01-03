@@ -5,7 +5,6 @@ using Implem.Pleasanter.Libraries.Responses;
 using Implem.Pleasanter.Models;
 using System;
 using System.Threading;
-using System.Web;
 namespace Implem.Pleasanter.Tools
 {
     public static class BackgroundTasks
@@ -15,7 +14,6 @@ namespace Implem.Pleasanter.Tools
         public static string Do(Context context)
         {
             var now = DateTime.Now;
-            HealthUtilities.Maintain(context: context);
             while ((DateTime.Now - now).Seconds <= Parameters.BackgroundTask.BackgroundTaskSpan)
             {
                 SysLogUtilities.Maintain(context: context);

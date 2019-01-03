@@ -472,10 +472,6 @@
     <Compile Include="Models\Groups\GroupModel.cs" />
     <Compile Include="Models\Groups\GroupUtilities.cs" />
     <Compile Include="Models\Groups\GroupValidators.cs" />
-    <Compile Include="Models\Healths\HealthCollection.cs" />
-    <Compile Include="Models\Healths\HealthModel.cs" />
-    <Compile Include="Models\Healths\HealthUtilities.cs" />
-    <Compile Include="Models\Healths\HealthValidators.cs" />
     <Compile Include="Models\Issues\IssueApiModel.cs" />
     <Compile Include="Models\Issues\IssueCollection.cs" />
     <Compile Include="Models\Issues\IssueModel.cs" />
@@ -1198,7 +1194,6 @@
     <Content Include="App_Data\Displays\AggregationView.json" />
     <Content Include="App_Data\Parameters\Security.json" />
     <Content Include="App_Data\Displays\BadRequest.json" />
-    <Content Include="App_Data\Parameters\Health.json" />
     <Content Include="App_Data\Displays\RequireTo.json" />
     <Content Include="App_Data\Displays\SortBy.json" />
     <Content Include="App_Data\Displays\SiteIntegration.json" />
