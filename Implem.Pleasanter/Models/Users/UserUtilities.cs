@@ -6442,6 +6442,85 @@ namespace Implem.Pleasanter.Models
             return EditorResponse(context, ss, userModel).ToJson();
         }
 
+        public static string BulkDelete(Context context, SiteSettings ss)
+        {
+            if (context.CanDelete(ss: ss))
+            {
+                var selector = new GridSelector(context: context);
+                var count = 0;
+                if (selector.All)
+                {
+                    count = BulkDelete(
+                        context: context,
+                        ss: ss,
+                        selected: selector.Selected,
+                        negative: true);
+                }
+                else
+                {
+                    if (selector.Selected.Any())
+                    {
+                        count = BulkDelete(
+                            context: context,
+                            ss: ss,
+                            selected: selector.Selected);
+                    }
+                    else
+                    {
+                        return Messages.ResponseSelectTargets(context: context).ToJson();
+                    }
+                }
+                Summaries.Synchronize(context: context, ss: ss);
+                return GridRows(
+                    context: context,
+                    ss: ss,
+                    clearCheck: true,
+                    message: Messages.BulkDeleted(
+                        context: context,
+                        data: count.ToString()));
+            }
+            else
+            {
+                return Messages.ResponseHasNotPermission(context: context).ToJson();
+            }
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        private static int BulkDelete(
+            Context context,
+            SiteSettings ss,
+            IEnumerable<long> selected,
+            bool negative = false)
+        {
+            var where = Views.GetBySession(context: context, ss: ss).Where(
+                context: context,
+                ss: ss,
+                where: Rds.UsersWhere()
+                    .TenantId(context.TenantId)
+                    .UserId_In(
+                        value: selected.Select(o => o.ToInt()),
+                        negative: negative,
+                        _using: selected.Any()));
+            return Rds.ExecuteScalar_response(
+                context: context,
+                transactional: true,
+                statements: new SqlStatement[]
+                {
+                    Rds.DeleteMailAddresses(
+                        where: Rds.MailAddressesWhere()
+                            .OwnerId_In(sub: Rds.SelectUsers(
+                                column: Rds.UsersColumn().UserId(),
+                                where: where))
+                            .OwnerType("Users")),
+                    Rds.DeleteUsers(
+                        where: where,
+                        countRecord: true)
+                })
+                    .Count.ToInt();
+        }
+
         /// <summary>
         /// Fixed:
         /// </summary>
