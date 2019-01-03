@@ -167,6 +167,21 @@ namespace Implem.Pleasanter.Controllers
         /// <summary>
         /// Fixed:
         /// </summary>
+        [HttpDelete]
+        public string BulkDelete(long id)
+        {
+            var context = new Context();
+            var log = new SysLogModel(context: context);
+            var json = UserUtilities.BulkDelete(
+                context: context,
+                ss: SiteSettingsUtilities.UsersSiteSettings(context: context));
+            log.Finish(context: context, responseSize: json.Length);
+            return json;
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
         [HttpPost]
         public string Import(long id, HttpPostedFileBase[] file)
         {
