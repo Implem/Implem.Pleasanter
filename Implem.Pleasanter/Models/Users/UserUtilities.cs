@@ -5239,17 +5239,17 @@ namespace Implem.Pleasanter.Models
                         icon: "ui-icon-person",
                         selector: "#ResetPasswordDialog");
                 }
-                if (context.HasPrivilege && context.User.Id != userModel.UserId)
-                {
-                    hb.Button(
-                        text: Displays.SwitchUser(context: context),
-                        controlCss: "button-icon",
-                        onClick: "$p.send($(this));",
-                        icon: "ui-icon-person",
-                        action: "SwitchUser",
-                        method: "post",
-                        confirm: "ConfirmSwitchUser");
-                }
+            }
+            if (context.HasPrivilege && context.User.Id != userModel.UserId)
+            {
+                hb.Button(
+                    text: Displays.SwitchUser(context: context),
+                    controlCss: "button-icon",
+                    onClick: "$p.send($(this));",
+                    icon: "ui-icon-person",
+                    action: "SwitchUser",
+                    method: "post",
+                    confirm: "ConfirmSwitchUser");
             }
             return hb;
         }
