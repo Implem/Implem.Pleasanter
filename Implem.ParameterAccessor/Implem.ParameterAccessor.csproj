@@ -55,8 +55,6 @@
     <Compile Include="Parts\BinaryStorage.cs" />
     <Compile Include="Parts\ExtendedColumns.cs" />
     <Compile Include="Parts\ExtendedSql.cs" />
-    <Compile Include="Parts\Format.cs" />
-    <Compile Include="Parts\Formats.cs" />
     <Compile Include="Parts\General.cs" />
     <Compile Include="Parts\Ldap.cs" />
     <Compile Include="Parts\LdapExtendedAttribute.cs" />

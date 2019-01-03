@@ -16,7 +16,6 @@ namespace Implem.DefinitionAccessor
         public static List<ExtendedSql> ExtendedSqls;
         public static List<string> ExtendedStyles;
         public static List<string> ExtendedScripts;
-        public static Formats Formats;
         public static General General;
         public static History History;
         public static Mail Mail;
