@@ -168,7 +168,7 @@ namespace Implem.Pleasanter.Libraries.Settings
 
         public void Init(Context context)
         {
-            Version = Parameters.Asset.SiteSettingsVersion;
+            Version = SiteSettingsUtilities.Version;
             NearCompletionTimeBeforeDays = NearCompletionTimeBeforeDays ??
                 Parameters.General.NearCompletionTimeBeforeDays;
             NearCompletionTimeAfterDays = NearCompletionTimeAfterDays ??
@@ -326,7 +326,7 @@ namespace Implem.Pleasanter.Libraries.Settings
         [OnDeserialized]
         private void OnDeserialized(StreamingContext streamingContext)
         {
-            if (Version != Parameters.Asset.SiteSettingsVersion)
+            if (Version != SiteSettingsUtilities.Version)
             {
                 Migrators.SiteSettingsMigrator.Migrate(this);
             }

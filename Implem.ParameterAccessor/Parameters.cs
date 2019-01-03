@@ -7,7 +7,6 @@ namespace Implem.DefinitionAccessor
         public static bool Enterprise = false;
         public static List<string> SyntaxErrors = new List<string>();
         public static Api Api;
-        public static Asset Asset;
         public static Authentication Authentication;
         public static BackgroundTask BackgroundTask;
         public static BinaryStorage BinaryStorage;

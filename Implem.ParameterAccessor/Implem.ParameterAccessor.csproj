@@ -70,7 +70,6 @@
     <Compile Include="Parts\SysLog.cs" />
     <Compile Include="Parts\Rds.cs" />
     <Compile Include="Parts\Service.cs" />
-    <Compile Include="Parts\Asset.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

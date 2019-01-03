@@ -763,7 +763,6 @@
     <Content Include="App_Data\Parameters\Rds.json" />
     <Content Include="App_Data\Parameters\Service.json" />
     <Content Include="App_Data\Parameters\SysLog.json" />
-    <Content Include="App_Data\Parameters\Asset.json" />
     <Content Include="App_Data\Displays\Add.json" />
     <Content Include="App_Data\Displays\AddPermission.json" />
     <Content Include="App_Data\Displays\Address.json" />
