@@ -23,83 +23,25 @@ namespace Implem.Pleasanter.Models
 {
     public static class UserUtilities
     {
-        /// <summary>
-        /// Fixed:
-        /// </summary>
         public static string Index(Context context, SiteSettings ss)
         {
-            var invalid = UserValidators.OnEntry(
-                context: context,
-                ss: ss);
-            switch (invalid)
-            {
-                case Error.Types.None: break;
-                default: return HtmlTemplates.Error(context, invalid);
-            }
             var hb = new HtmlBuilder();
             var view = Views.GetBySession(context: context, ss: ss);
             var gridData = GetGridData(context: context, ss: ss, view: view);
             var viewMode = ViewModes.GetSessionData(
                 context: context,
                 siteId: ss.SiteId);
-            return hb.Template(
+            return hb.ViewModeTemplate(
                 context: context,
                 ss: ss,
+                gridData: gridData,
                 view: view,
-                verType: Versions.VerTypes.Latest,
-                methodType: BaseModel.MethodTypes.Index,
-                referenceType: "Users",
-                script: JavaScripts.ViewMode(viewMode),
-                title: Displays.Users(context: context) + " - " + Displays.List(context: context),
-                action: () =>
-                {
-                    hb
-                        .Form(
-                            attributes: new HtmlAttributes()
-                                .Id("UserForm")
-                                .Class("main-form")
-                                .Action(Locations.Action(
-                                    context: context,
-                                    controller: "Users")),
-                            action: () => hb
-                                .ViewFilters(
-                                    context: context,
-                                    ss: ss,
-                                    view: view)
-                                .Aggregations(
-                                    context: context,
-                                    ss: ss,
-                                    aggregations: gridData.Aggregations)
-                                .Div(id: "ViewModeContainer", action: () => hb
-                                    .Grid(
-                                        context: context,
-                                        ss: ss,
-                                        gridData: gridData,
-                                        view: view))
-                                .MainCommands(
-                                    context: context,
-                                    ss: ss,
-                                    siteId: ss.SiteId,
-                                    verType: Versions.VerTypes.Latest)
-                                .Div(css: "margin-bottom")
-                                .Hidden(
-                                    controlId: "TableName",
-                                    value: "Users")
-                                .Hidden(
-                                    controlId: "BaseUrl",
-                                    value: Locations.BaseUrl(context: context))
-                                .Hidden(
-                                    controlId: "GridOffset",
-                                    value: Parameters.General.GridPageSize.ToString()))
-                        .Div(attributes: new HtmlAttributes()
-                            .Id("ImportSettingsDialog")
-                            .Class("dialog")
-                            .Title(Displays.Import(context: context)))
-                        .Div(attributes: new HtmlAttributes()
-                            .Id("ExportSettingsDialog")
-                            .Class("dialog")
-                            .Title(Displays.ExportSettings(context: context)));
-                }).ToString();
+                viewMode: viewMode,
+                viewModeBody: () => hb.Grid(
+                   context: context,
+                   gridData: gridData,
+                   ss: ss,
+                   view: view));
         }
 
         private static string ViewModeTemplate(
@@ -136,8 +78,9 @@ namespace Implem.Pleasanter.Models
                         attributes: new HtmlAttributes()
                             .Id("UsersForm")
                             .Class("main-form")
-                            .Action(Locations.ItemAction(
+                            .Action(Locations.Action(
                                 context: context,
+                                controller: context.Controller,
                                 id: ss.SiteId)),
                         action: () => hb
                             .ViewSelector(context: context, ss: ss, view: view)
@@ -161,6 +104,7 @@ namespace Implem.Pleasanter.Models
                                 controlId: "BaseUrl",
                                 value: Locations.BaseUrl(context: context)))
                     .MoveDialog(context: context, bulk: true)
+                    .ImportSettingsDialog(context: context)
                     .Div(attributes: new HtmlAttributes()
                         .Id("ExportSelectorDialog")
                         .Class("dialog")
@@ -6496,6 +6440,695 @@ namespace Implem.Pleasanter.Models
                 ? Versions.VerTypes.Latest
                 : Versions.VerTypes.History;
             return EditorResponse(context, ss, userModel).ToJson();
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        public static string Import(Context context)
+        {
+            var ss = SiteSettingsUtilities.UsersSiteSettings(context: context);
+            if (context.ContractSettings.Import == false)
+            {
+                return Messages.ResponseRestricted(context: context).ToJson();
+            }
+            if (!context.CanCreate(ss: ss))
+            {
+                return Messages.ResponseHasNotPermission(context: context).ToJson();
+            }
+            var res = new ResponseCollection();
+            Csv csv;
+            try
+            {
+                csv = new Csv(
+                    csv: context.PostedFiles.FirstOrDefault().Byte(),
+                    encoding: context.Forms.Data("Encoding"));
+            }
+            catch
+            {
+                return Messages.ResponseFailedReadFile(context: context).ToJson();
+            }
+            var count = csv.Rows.Count();
+            if (Parameters.General.ImportMax > 0 && Parameters.General.ImportMax < count)
+            {
+                return Error.Types.ImportMax.MessageJson(
+                    context: context,
+                    data: Parameters.General.ImportMax.ToString());
+            }
+            if (context.ContractSettings.ItemsLimit(context: context, siteId: ss.SiteId, number: count))
+            {
+                return Error.Types.ItemsLimit.MessageJson(context: context);
+            }
+            if (csv != null && count > 0)
+            {
+                var idColumn = -1;
+                var columnHash = new Dictionary<int, Column>();
+                var mailAddressHash = new Dictionary<string, string>();
+                csv.Headers.Select((o, i) => new { Header = o, Index = i }).ForEach(data =>
+                {
+                    var column = ss.Columns
+                        .Where(o => o.LabelText == data.Header)
+                        .FirstOrDefault();
+                    if (column?.ColumnName == "LoginId")
+                    {
+                        idColumn = data.Index;
+                    }
+                    if (column != null) columnHash.Add(data.Index, column);
+                });
+                var invalid = Imports.ColumnValidate(
+                    context: context,
+                    ss: ss,
+                    headers: columnHash.Values.Select(o => o.ColumnName),
+                    columnNames: new string[]
+                    {
+                        "LoginId",
+                        "Name"
+                    });
+                if (invalid != null) return invalid;
+                var userHash = new Dictionary<int, UserModel>();
+                csv.Rows.Select((o, i) => new { Row = o, Index = i }).ForEach(data =>
+                {
+                    var userModel = new UserModel();
+                    if (idColumn > -1)
+                    {
+                        var model = new UserModel(
+                            context: context,
+                            ss: ss,
+                            loginId: data.Row[idColumn]);
+                        if (model.AccessStatus == Databases.AccessStatuses.Selected)
+                        {
+                            userModel = model;
+                        }
+                    }
+                    columnHash.ForEach(column =>
+                    {
+                        var recordingData = ImportRecordingData(
+                            context: context,
+                            column: column.Value,
+                            value: data.Row[column.Key],
+                            inheritPermission: ss.InheritPermission);
+                        switch (column.Value.ColumnName)
+                        {
+                            case "TenantId":
+                                userModel.TenantId = recordingData.ToInt();
+                                break;
+                            case "UserId":
+                                userModel.UserId = recordingData.ToInt();
+                                break;
+                            case "LoginId":
+                                userModel.LoginId = recordingData;
+                                break;
+                            case "GlobalId":
+                                userModel.GlobalId = recordingData.ToString();
+                                break;
+                            case "Name":
+                                userModel.Name = recordingData.ToString();
+                                break;
+                            case "UserCode":
+                                userModel.UserCode = recordingData.ToString();
+                                break;
+                            case "Password":
+                                userModel.Password = recordingData.Sha512Cng();
+                                break;
+                            case "LastName":
+                                userModel.LastName = recordingData.ToString();
+                                break;
+                            case "FirstName":
+                                userModel.FirstName = recordingData.ToString();
+                                break;
+                            case "Birthday":
+                                userModel.Birthday.Value = recordingData.ToDateTime();
+                                break;
+                            case "Gender":
+                                userModel.Gender = recordingData.ToString();
+                                break;
+                            case "Language":
+                                userModel.Language = recordingData.ToString();
+                                break;
+                            case "TimeZone":
+                                userModel.TimeZone = recordingData.ToString();
+                                break;
+                            case "DeptId":
+                                userModel.DeptId = recordingData.ToInt();
+                                break;
+                            case "Body":
+                                userModel.Body = recordingData.ToString();
+                                break;
+                            case "PasswordExpirationTime":
+                                userModel.PasswordExpirationTime.Value = recordingData.ToDateTime();
+                                break;
+                            case "TenantManager":
+                                userModel.TenantManager = recordingData.ToBool();
+                                break;
+                            case "ServiceManager":
+                                userModel.ServiceManager = recordingData.ToBool();
+                                break;
+                            case "Disabled":
+                                userModel.Disabled = recordingData.ToBool();
+                                break;
+                            case "ApiKey":
+                                userModel.ApiKey = recordingData.ToString();
+                                break;
+                            case "MailAddresses":
+                                userModel.MailAddresses = recordingData.Split(',').ToList();
+                                break;
+                            case "ClassA":
+                                userModel.ClassA = recordingData.ToString();
+                                break;
+                            case "ClassB":
+                                userModel.ClassB = recordingData.ToString();
+                                break;
+                            case "ClassC":
+                                userModel.ClassC = recordingData.ToString();
+                                break;
+                            case "ClassD":
+                                userModel.ClassD = recordingData.ToString();
+                                break;
+                            case "ClassE":
+                                userModel.ClassE = recordingData.ToString();
+                                break;
+                            case "ClassF":
+                                userModel.ClassF = recordingData.ToString();
+                                break;
+                            case "ClassG":
+                                userModel.ClassG = recordingData.ToString();
+                                break;
+                            case "ClassH":
+                                userModel.ClassH = recordingData.ToString();
+                                break;
+                            case "ClassI":
+                                userModel.ClassI = recordingData.ToString();
+                                break;
+                            case "ClassJ":
+                                userModel.ClassJ = recordingData.ToString();
+                                break;
+                            case "ClassK":
+                                userModel.ClassK = recordingData.ToString();
+                                break;
+                            case "ClassL":
+                                userModel.ClassL = recordingData.ToString();
+                                break;
+                            case "ClassM":
+                                userModel.ClassM = recordingData.ToString();
+                                break;
+                            case "ClassN":
+                                userModel.ClassN = recordingData.ToString();
+                                break;
+                            case "ClassO":
+                                userModel.ClassO = recordingData.ToString();
+                                break;
+                            case "ClassP":
+                                userModel.ClassP = recordingData.ToString();
+                                break;
+                            case "ClassQ":
+                                userModel.ClassQ = recordingData.ToString();
+                                break;
+                            case "ClassR":
+                                userModel.ClassR = recordingData.ToString();
+                                break;
+                            case "ClassS":
+                                userModel.ClassS = recordingData.ToString();
+                                break;
+                            case "ClassT":
+                                userModel.ClassT = recordingData.ToString();
+                                break;
+                            case "ClassU":
+                                userModel.ClassU = recordingData.ToString();
+                                break;
+                            case "ClassV":
+                                userModel.ClassV = recordingData.ToString();
+                                break;
+                            case "ClassW":
+                                userModel.ClassW = recordingData.ToString();
+                                break;
+                            case "ClassX":
+                                userModel.ClassX = recordingData.ToString();
+                                break;
+                            case "ClassY":
+                                userModel.ClassY = recordingData.ToString();
+                                break;
+                            case "ClassZ":
+                                userModel.ClassZ = recordingData.ToString();
+                                break;
+                            case "NumA":
+                                userModel.NumA = recordingData.ToDecimal();
+                                break;
+                            case "NumB":
+                                userModel.NumB = recordingData.ToDecimal();
+                                break;
+                            case "NumC":
+                                userModel.NumC = recordingData.ToDecimal();
+                                break;
+                            case "NumD":
+                                userModel.NumD = recordingData.ToDecimal();
+                                break;
+                            case "NumE":
+                                userModel.NumE = recordingData.ToDecimal();
+                                break;
+                            case "NumF":
+                                userModel.NumF = recordingData.ToDecimal();
+                                break;
+                            case "NumG":
+                                userModel.NumG = recordingData.ToDecimal();
+                                break;
+                            case "NumH":
+                                userModel.NumH = recordingData.ToDecimal();
+                                break;
+                            case "NumI":
+                                userModel.NumI = recordingData.ToDecimal();
+                                break;
+                            case "NumJ":
+                                userModel.NumJ = recordingData.ToDecimal();
+                                break;
+                            case "NumK":
+                                userModel.NumK = recordingData.ToDecimal();
+                                break;
+                            case "NumL":
+                                userModel.NumL = recordingData.ToDecimal();
+                                break;
+                            case "NumM":
+                                userModel.NumM = recordingData.ToDecimal();
+                                break;
+                            case "NumN":
+                                userModel.NumN = recordingData.ToDecimal();
+                                break;
+                            case "NumO":
+                                userModel.NumO = recordingData.ToDecimal();
+                                break;
+                            case "NumP":
+                                userModel.NumP = recordingData.ToDecimal();
+                                break;
+                            case "NumQ":
+                                userModel.NumQ = recordingData.ToDecimal();
+                                break;
+                            case "NumR":
+                                userModel.NumR = recordingData.ToDecimal();
+                                break;
+                            case "NumS":
+                                userModel.NumS = recordingData.ToDecimal();
+                                break;
+                            case "NumT":
+                                userModel.NumT = recordingData.ToDecimal();
+                                break;
+                            case "NumU":
+                                userModel.NumU = recordingData.ToDecimal();
+                                break;
+                            case "NumV":
+                                userModel.NumV = recordingData.ToDecimal();
+                                break;
+                            case "NumW":
+                                userModel.NumW = recordingData.ToDecimal();
+                                break;
+                            case "NumX":
+                                userModel.NumX = recordingData.ToDecimal();
+                                break;
+                            case "NumY":
+                                userModel.NumY = recordingData.ToDecimal();
+                                break;
+                            case "NumZ":
+                                userModel.NumZ = recordingData.ToDecimal();
+                                break;
+                            case "DateA":
+                                userModel.DateA = recordingData.ToDateTime();
+                                break;
+                            case "DateB":
+                                userModel.DateB = recordingData.ToDateTime();
+                                break;
+                            case "DateC":
+                                userModel.DateC = recordingData.ToDateTime();
+                                break;
+                            case "DateD":
+                                userModel.DateD = recordingData.ToDateTime();
+                                break;
+                            case "DateE":
+                                userModel.DateE = recordingData.ToDateTime();
+                                break;
+                            case "DateF":
+                                userModel.DateF = recordingData.ToDateTime();
+                                break;
+                            case "DateG":
+                                userModel.DateG = recordingData.ToDateTime();
+                                break;
+                            case "DateH":
+                                userModel.DateH = recordingData.ToDateTime();
+                                break;
+                            case "DateI":
+                                userModel.DateI = recordingData.ToDateTime();
+                                break;
+                            case "DateJ":
+                                userModel.DateJ = recordingData.ToDateTime();
+                                break;
+                            case "DateK":
+                                userModel.DateK = recordingData.ToDateTime();
+                                break;
+                            case "DateL":
+                                userModel.DateL = recordingData.ToDateTime();
+                                break;
+                            case "DateM":
+                                userModel.DateM = recordingData.ToDateTime();
+                                break;
+                            case "DateN":
+                                userModel.DateN = recordingData.ToDateTime();
+                                break;
+                            case "DateO":
+                                userModel.DateO = recordingData.ToDateTime();
+                                break;
+                            case "DateP":
+                                userModel.DateP = recordingData.ToDateTime();
+                                break;
+                            case "DateQ":
+                                userModel.DateQ = recordingData.ToDateTime();
+                                break;
+                            case "DateR":
+                                userModel.DateR = recordingData.ToDateTime();
+                                break;
+                            case "DateS":
+                                userModel.DateS = recordingData.ToDateTime();
+                                break;
+                            case "DateT":
+                                userModel.DateT = recordingData.ToDateTime();
+                                break;
+                            case "DateU":
+                                userModel.DateU = recordingData.ToDateTime();
+                                break;
+                            case "DateV":
+                                userModel.DateV = recordingData.ToDateTime();
+                                break;
+                            case "DateW":
+                                userModel.DateW = recordingData.ToDateTime();
+                                break;
+                            case "DateX":
+                                userModel.DateX = recordingData.ToDateTime();
+                                break;
+                            case "DateY":
+                                userModel.DateY = recordingData.ToDateTime();
+                                break;
+                            case "DateZ":
+                                userModel.DateZ = recordingData.ToDateTime();
+                                break;
+                            case "DescriptionA":
+                                userModel.DescriptionA = recordingData.ToString();
+                                break;
+                            case "DescriptionB":
+                                userModel.DescriptionB = recordingData.ToString();
+                                break;
+                            case "DescriptionC":
+                                userModel.DescriptionC = recordingData.ToString();
+                                break;
+                            case "DescriptionD":
+                                userModel.DescriptionD = recordingData.ToString();
+                                break;
+                            case "DescriptionE":
+                                userModel.DescriptionE = recordingData.ToString();
+                                break;
+                            case "DescriptionF":
+                                userModel.DescriptionF = recordingData.ToString();
+                                break;
+                            case "DescriptionG":
+                                userModel.DescriptionG = recordingData.ToString();
+                                break;
+                            case "DescriptionH":
+                                userModel.DescriptionH = recordingData.ToString();
+                                break;
+                            case "DescriptionI":
+                                userModel.DescriptionI = recordingData.ToString();
+                                break;
+                            case "DescriptionJ":
+                                userModel.DescriptionJ = recordingData.ToString();
+                                break;
+                            case "DescriptionK":
+                                userModel.DescriptionK = recordingData.ToString();
+                                break;
+                            case "DescriptionL":
+                                userModel.DescriptionL = recordingData.ToString();
+                                break;
+                            case "DescriptionM":
+                                userModel.DescriptionM = recordingData.ToString();
+                                break;
+                            case "DescriptionN":
+                                userModel.DescriptionN = recordingData.ToString();
+                                break;
+                            case "DescriptionO":
+                                userModel.DescriptionO = recordingData.ToString();
+                                break;
+                            case "DescriptionP":
+                                userModel.DescriptionP = recordingData.ToString();
+                                break;
+                            case "DescriptionQ":
+                                userModel.DescriptionQ = recordingData.ToString();
+                                break;
+                            case "DescriptionR":
+                                userModel.DescriptionR = recordingData.ToString();
+                                break;
+                            case "DescriptionS":
+                                userModel.DescriptionS = recordingData.ToString();
+                                break;
+                            case "DescriptionT":
+                                userModel.DescriptionT = recordingData.ToString();
+                                break;
+                            case "DescriptionU":
+                                userModel.DescriptionU = recordingData.ToString();
+                                break;
+                            case "DescriptionV":
+                                userModel.DescriptionV = recordingData.ToString();
+                                break;
+                            case "DescriptionW":
+                                userModel.DescriptionW = recordingData.ToString();
+                                break;
+                            case "DescriptionX":
+                                userModel.DescriptionX = recordingData.ToString();
+                                break;
+                            case "DescriptionY":
+                                userModel.DescriptionY = recordingData.ToString();
+                                break;
+                            case "DescriptionZ":
+                                userModel.DescriptionZ = recordingData.ToString();
+                                break;
+                            case "CheckA":
+                                userModel.CheckA = recordingData.ToBool();
+                                break;
+                            case "CheckB":
+                                userModel.CheckB = recordingData.ToBool();
+                                break;
+                            case "CheckC":
+                                userModel.CheckC = recordingData.ToBool();
+                                break;
+                            case "CheckD":
+                                userModel.CheckD = recordingData.ToBool();
+                                break;
+                            case "CheckE":
+                                userModel.CheckE = recordingData.ToBool();
+                                break;
+                            case "CheckF":
+                                userModel.CheckF = recordingData.ToBool();
+                                break;
+                            case "CheckG":
+                                userModel.CheckG = recordingData.ToBool();
+                                break;
+                            case "CheckH":
+                                userModel.CheckH = recordingData.ToBool();
+                                break;
+                            case "CheckI":
+                                userModel.CheckI = recordingData.ToBool();
+                                break;
+                            case "CheckJ":
+                                userModel.CheckJ = recordingData.ToBool();
+                                break;
+                            case "CheckK":
+                                userModel.CheckK = recordingData.ToBool();
+                                break;
+                            case "CheckL":
+                                userModel.CheckL = recordingData.ToBool();
+                                break;
+                            case "CheckM":
+                                userModel.CheckM = recordingData.ToBool();
+                                break;
+                            case "CheckN":
+                                userModel.CheckN = recordingData.ToBool();
+                                break;
+                            case "CheckO":
+                                userModel.CheckO = recordingData.ToBool();
+                                break;
+                            case "CheckP":
+                                userModel.CheckP = recordingData.ToBool();
+                                break;
+                            case "CheckQ":
+                                userModel.CheckQ = recordingData.ToBool();
+                                break;
+                            case "CheckR":
+                                userModel.CheckR = recordingData.ToBool();
+                                break;
+                            case "CheckS":
+                                userModel.CheckS = recordingData.ToBool();
+                                break;
+                            case "CheckT":
+                                userModel.CheckT = recordingData.ToBool();
+                                break;
+                            case "CheckU":
+                                userModel.CheckU = recordingData.ToBool();
+                                break;
+                            case "CheckV":
+                                userModel.CheckV = recordingData.ToBool();
+                                break;
+                            case "CheckW":
+                                userModel.CheckW = recordingData.ToBool();
+                                break;
+                            case "CheckX":
+                                userModel.CheckX = recordingData.ToBool();
+                                break;
+                            case "CheckY":
+                                userModel.CheckY = recordingData.ToBool();
+                                break;
+                            case "CheckZ":
+                                userModel.CheckZ = recordingData.ToBool();
+                                break;
+                            case "LdapSearchRoot":
+                                userModel.LdapSearchRoot = recordingData.ToString();
+                                break;
+                            case "SynchronizedTime":
+                                userModel.SynchronizedTime = recordingData.ToDateTime();
+                                break;
+                            case "Comments":
+                                if (userModel.AccessStatus != Databases.AccessStatuses.Selected &&
+                                    !data.Row[column.Key].IsNullOrEmpty())
+                                {
+                                    userModel.Comments.Prepend(
+                                        context: context,
+                                        ss: ss,
+                                        body: data.Row[column.Key]);
+                                }
+                                break;
+                        }
+                    });
+                    userHash.Add(data.Index, userModel);
+                });
+                foreach (var userModel in userHash.Values)
+                {
+                    var badMailAddress = Libraries.Mails.Addresses.BadAddress(
+                        context: context,
+                        addresses: userModel.MailAddresses.Join());
+                    if (!badMailAddress.IsNullOrEmpty())
+                    {
+                        return Messages.ResponseBadMailAddress(
+                            context: context,
+                            data: badMailAddress).ToJson();
+                    }
+                }
+                var insertCount = 0;
+                var updateCount = 0;
+                foreach (var userModel in userHash.Values)
+                {
+                    if (userModel.AccessStatus == Databases.AccessStatuses.Selected)
+                    {
+                        var mailAddressUpdated = UpdateMailAddresses(context, userModel);
+                        userModel.VerUp = Versions.MustVerUp(
+                            context: context,
+                            baseModel: userModel);
+                        if (userModel.Updated(context: context))
+                        {
+                            var error = userModel.Update(
+                                context: context,
+                                ss: ss,
+                                get: false);
+                            switch (error)
+                            {
+                                case Error.Types.None:
+                                    break;
+                                default:
+                                    return error.MessageJson(context: context);
+                            }
+                            updateCount++;
+                        }
+                        else if (mailAddressUpdated)
+                        {
+                            updateCount++;
+                        }
+                    }
+                    else
+                    {
+                        var error = userModel.Create(
+                            context: context,
+                            ss: ss,
+                            get: false);
+                        switch (error)
+                        {
+                            case Error.Types.None:
+                                break;
+                            default:
+                                return error.MessageJson(context: context);
+                        }
+                        UpdateMailAddresses(context, userModel);
+                        insertCount++;
+                    }
+                }
+                return GridRows(
+                    context: context,
+                    ss: ss,
+                    res: res.WindowScrollTop(),
+                    message: Messages.Imported(
+                        context: context,
+                        data: new string[]
+                        {
+                            insertCount.ToString(),
+                            updateCount.ToString()
+                        }));
+            }
+            else
+            {
+                return Messages.ResponseFileNotFound(context: context).ToJson();
+            }
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        private static bool UpdateMailAddresses(Context context, UserModel userModel)
+        {
+            if (userModel.MailAddresses.Any())
+            {
+                var mailAddresses = userModel.MailAddresses
+                    .OrderBy(o => o)
+                    .Join();
+                var where = Rds.MailAddressesWhere()
+                    .OwnerId(userModel.UserId)
+                    .OwnerType("Users");
+                if (new MailAddressCollection(
+                    context: context,
+                    where: where)
+                        .Select(o => o.MailAddress)
+                        .OrderBy(o => o)
+                        .Join() != mailAddresses)
+                {
+                    var statements = new List<SqlStatement>()
+                            {
+                                Rds.PhysicalDeleteMailAddresses(where: where)
+                            };
+                    userModel.MailAddresses.ForEach(mailAddress =>
+                        statements.Add(Rds.InsertMailAddresses(param: Rds.MailAddressesParam()
+                            .OwnerId(userModel.UserId)
+                            .OwnerType("Users")
+                            .MailAddress(mailAddress))));
+                    Rds.ExecuteNonQuery(
+                        context: context,
+                        transactional: true,
+                        statements: statements.ToArray());
+                    return true;
+                }
+            }
+            return false;
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        private static string ImportRecordingData(
+            Context context, Column column, string value, long inheritPermission)
+        {
+            var recordingData = column.RecordingData(
+                context: context,
+                value: value,
+                siteId: inheritPermission);
+            return recordingData;
         }
 
         /// <summary>

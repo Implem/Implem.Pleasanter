@@ -35,7 +35,8 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                         fieldCss: "field-wide",
                         labelText: Displays.UpdatableImport(context: context),
                         _checked: false,
-                        controlCss: " always-send")
+                        controlCss: " always-send",
+                        _using: context.Controller == "items")
                     .P(css: "message-dialog")
                     .Div(
                         css: "command-center",

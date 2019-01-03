@@ -1,9 +1,9 @@
 ﻿using Implem.Pleasanter.Libraries.Requests;
 using Implem.Pleasanter.Libraries.Responses;
 using Implem.Pleasanter.Libraries.Security;
-using Implem.Pleasanter.Libraries.Server;
 using Implem.Pleasanter.Libraries.Settings;
 using Implem.Pleasanter.Models;
+using System.Web;
 using System.Web.Mvc;
 namespace Implem.Pleasanter.Controllers
 {
@@ -181,6 +181,19 @@ namespace Implem.Pleasanter.Controllers
                 context: context,
                 ss: SiteSettingsUtilities.UsersSiteSettings(context: context),
                 userId: id);
+            log.Finish(context: context, responseSize: json.Length);
+            return json;
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        [HttpPost]
+        public string Import(long id, HttpPostedFileBase[] file)
+        {
+            var context = new Context(files: file);
+            var log = new SysLogModel(context: context);
+            var json = UserUtilities.Import(context: context);
             log.Finish(context: context, responseSize: json.Length);
             return json;
         }
