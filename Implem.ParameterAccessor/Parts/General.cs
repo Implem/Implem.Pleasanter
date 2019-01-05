@@ -18,7 +18,6 @@ namespace Implem.ParameterAccessor.Parts
         public string HtmlContactUrl;
         public bool DisplayLogoText;
         public int SiteMenuHotSpan;
-        public int SiteCreatedSimultaneously;
         public int LimitWarning1;
         public int LimitWarning2;
         public int LimitWarning3;
