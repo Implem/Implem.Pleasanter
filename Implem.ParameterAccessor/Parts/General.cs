@@ -40,7 +40,6 @@ namespace Implem.ParameterAccessor.Parts
         public int WorkValueHeight;
         public int WorkValueTextTop;
         public int ProgressRateWidth;
-        public int ProgressRateHeight;
         public int ProgressRateItemHeight;
         public int ProgressRateTextTop;
         public int CalendarBegin;
@@ -51,8 +50,6 @@ namespace Implem.ParameterAccessor.Parts
         public int CrosstabXLimit;
         public int CrosstabYLimit;
         public int GanttLimit;
-        public int GanttItemMinHeight;
-        public int GanttItemMaxHeight;
         public int GanttPeriodMin;
         public int GanttPeriodMax;
         public int BurnDownLimit;
