@@ -5,7 +5,6 @@
     "DefaultLanguage": "ja",
     "AbsoluteUri": null,
     "RequireHttps": false,
-    "ShowTenantTitle": false,
     "ShowProfiles": true,
     "Demo": false,
     "DemoUsagePeriod": 30
