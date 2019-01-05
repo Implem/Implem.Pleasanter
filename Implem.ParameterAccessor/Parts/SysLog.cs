@@ -2,7 +2,6 @@
 {
     public class SysLog
     {
-        public bool Export;
         public int RetentionPeriod;
     }
 }
