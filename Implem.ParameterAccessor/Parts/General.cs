@@ -36,7 +36,6 @@ namespace Implem.ParameterAccessor.Parts
         public string SolutionBackupPath;
         public string SolutionBackupExcludeDirectories;
         public int SizeToUseTextArea;
-        public string ProjectModelRequire;
         public int CompletionCode;
         public int WorkValueHeight;
         public int WorkValueTextTop;
