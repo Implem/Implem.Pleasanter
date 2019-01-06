@@ -64,8 +64,8 @@ namespace Implem.ParameterAccessor.Parts
         public int ImageSizeLogo;
         public int DropDownSearchPageSize;
         public int SwitchTargetsLimit;
-        public int SeparateMax;
         public int SeparateMin;
+        public int SeparateMax;
         public int FirstDayOfWeek;
         public int FirstMonth;
         public int DateFilterMinSpan;
