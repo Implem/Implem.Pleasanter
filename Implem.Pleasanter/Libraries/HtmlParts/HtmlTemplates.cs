@@ -68,7 +68,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                         .Meta(charset: "utf-8")
                         .Meta(name: "keywords", content: Parameters.General.HtmlHeadKeywords)
                         .Meta(name: "description", content: Parameters.General.HtmlHeadDescription)
-                        .Meta(name: "author", content: Parameters.General.HtmlHeadAuther)
+                        .Meta(name: "author", content: "Implem Inc.")
                         .Meta(name: "viewport", content: Parameters.General.HtmlHeadViewport)
                         .LinkedStyles(context: context)
                         .ExtendedStyles(context: context)

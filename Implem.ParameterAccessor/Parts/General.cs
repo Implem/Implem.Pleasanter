@@ -6,11 +6,8 @@ namespace Implem.ParameterAccessor.Parts
         public string HtmlTitle;
         public string HtmlHeadKeywords;
         public string HtmlHeadDescription;
-        public string HtmlHeadAuther;
         public string HtmlHeadViewport;
         public string HtmlLogoText;
-        public string HtmlCopyright;
-        public string HtmlCopyrightUrl;
         public string HtmlPortalUrl;
         public string HtmlUsageGuideUrl;
         public string HtmlBlogUrl;

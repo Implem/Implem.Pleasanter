@@ -1,6 +1,4 @@
-﻿using Implem.DefinitionAccessor;
-using Implem.Libraries.Utilities;
-using Implem.Pleasanter.Libraries.Html;
+﻿using Implem.Pleasanter.Libraries.Html;
 using System;
 namespace Implem.Pleasanter.Libraries.HtmlParts
 {
@@ -11,9 +9,10 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             return hb.Footer(id: "Footer", action: () => hb
                 .P(action: () => hb
                     .A(
-                        attributes: new HtmlAttributes().Href(Parameters.General.HtmlCopyrightUrl),
+                        attributes: new HtmlAttributes().Href("https://implem.co.jp"),
                         action: () => hb
-                            .Raw(Parameters.General.HtmlCopyright.Params(DateTime.Now.Year)))));
+                            .Raw(text: "Copyright &copy; Implem Inc. 2014 - "
+                                + DateTime.Now.Year))));
         }
     }
 }

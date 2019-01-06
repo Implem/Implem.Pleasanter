@@ -49,10 +49,10 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                             .Div(action: () => hb
                                 .Span(action: () => hb
                                     .A(
-                                        href: Parameters.General.HtmlCopyrightUrl,
+                                        href: "https://implem.co.jp",
                                         action: () => hb
-                                            .Raw(text: Parameters.General.HtmlCopyright.Params(
-                                                DateTime.Now.Year))))))
+                                            .Raw(text: "Copyright &copy; Implem Inc. 2014 - "
+                                                + DateTime.Now.Year)))))
                         .MainCommands(
                             context: context,
                             ss: ss,
