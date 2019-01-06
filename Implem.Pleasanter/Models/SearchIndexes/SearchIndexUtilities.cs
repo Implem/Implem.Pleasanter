@@ -119,7 +119,7 @@ namespace Implem.Pleasanter.Models
                 searchText: context.QueryStrings.Data("text"),
                 dataTableName: "SearchResults",
                 offset: context.QueryStrings.Int("offset"),
-                pageSize: Parameters.General.SearchPageSize);
+                pageSize: Parameters.Search.PageSize);
             return MainContainer(
                 context: context,
                 text: context.QueryStrings.Data("text"),
@@ -140,7 +140,7 @@ namespace Implem.Pleasanter.Models
                 searchText: searchText,
                 dataTableName: "SearchResults",
                 offset: offset,
-                pageSize: Parameters.General.SearchPageSize);
+                pageSize: Parameters.Search.PageSize);
             var dataRows = dataSet?.Tables["SearchResults"].AsEnumerable();
             var res = new ResponseCollection();
             return offset == 0
@@ -167,8 +167,8 @@ namespace Implem.Pleasanter.Models
                         "#SearchOffset",
                         (dataRows != null &&
                         dataRows.Any() &&
-                        dataRows.Count() == Parameters.General.SearchPageSize
-                            ? offset + Parameters.General.SearchPageSize
+                        dataRows.Count() == Parameters.Search.PageSize
+                            ? offset + Parameters.Search.PageSize
                             : -1).ToString())
                     .ToJson();
         }
@@ -212,7 +212,7 @@ namespace Implem.Pleasanter.Models
                             dataRows: results))
                     .Hidden(
                         controlId: "SearchOffset",
-                        value: Parameters.General.SearchPageSize.ToString()));
+                        value: Parameters.Search.PageSize.ToString()));
         }
 
         /// <summary>
@@ -625,7 +625,7 @@ namespace Implem.Pleasanter.Models
         /// </summary>
         private static decimal Concordance(IEnumerable<string> searchIndexes)
         {
-            return Math.Ceiling(searchIndexes.Count() * Parameters.General.SearchConcordanceRate);
+            return Math.Ceiling(searchIndexes.Count() * Parameters.Search.ConcordanceRate);
         }
 
         /// <summary>

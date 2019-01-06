@@ -58,8 +58,6 @@
     "ImageSizeThumbnail": 50,
     "ImageSizeIcon": 26,
     "ImageSizeLogo": 32,
-    "SearchConcordanceRate": 0.7,
-    "SearchPageSize": 20,
     "DropDownSearchPageSize": 100,
     "SwitchTargetsLimit": 500,
     "SeparateMax": 10,

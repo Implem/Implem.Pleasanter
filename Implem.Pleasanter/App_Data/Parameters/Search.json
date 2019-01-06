@@ -1,5 +1,7 @@
 ﻿{
     "Provider": null,
     "SearchDocuments": false,
-    "CreateIndexes": true
+    "CreateIndexes": true,
+    "ConcordanceRate": 0.7,
+    "PageSize": 20
 }
