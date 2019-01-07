@@ -281,10 +281,6 @@ namespace Implem.Pleasanter.Libraries.Settings
                                 .ToDictionary(
                                     o => o.Split_1st(),
                                     o => Strings.CoalesceEmpty(o.Split_2nd(), o.Split_1st()))
-                                .Where(o => searchIndexes?.Any() != true ||
-                                    searchIndexes.All(p =>
-                                        o.Key.RegexLike(p).Any() ||
-                                        o.Value.RegexLike(p).Any()))
                                 .ForEach(o =>
                                     AddToChoiceHash(o.Key, o.Value));
                             LinkedChoiceHashCreated = true;
