@@ -14,7 +14,10 @@ namespace Implem.Pleasanter.Libraries.DataSources
 
         public Teams(Context _context, string _text)
         {
-            text = _text;
+            text = WebUtility.HtmlEncode(_text);
+            text = text
+                .Replace("\r\n", "<br>")
+                .Replace("\n", "<br>");
             context = _context;
         }
 
