@@ -311,7 +311,7 @@ namespace Implem.Pleasanter.Libraries.Server
 
         public static Dept Dept(int tenantId, int deptId)
         {
-            if (tenantId == 0)
+            if (tenantId == 0 || deptId == 0)
             {
                 return new Dept();
             }
