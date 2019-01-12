@@ -6,6 +6,13 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
     public static class HtmlHelpers
     {
         public static HtmlBuilder HtmlUser(
+            this HtmlBuilder hb, Context context, string text)
+        {
+            return hb.P(css: "user", action: () => hb
+                .Icon(iconCss: "ui-icon-person", text: text));
+        }
+
+        public static HtmlBuilder HtmlUser(
             this HtmlBuilder hb, Context context, int id)
         {
             return hb.P(css: "user", action: () => hb

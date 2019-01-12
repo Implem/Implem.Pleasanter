@@ -8326,12 +8326,6 @@ namespace Implem.Pleasanter.Models
                             case "Status":
                                 issueModel.Status.Value = recordingData.ToInt();
                                 break;
-                            case "Manager":
-                                issueModel.Manager.Id = recordingData.ToInt();
-                                break;
-                            case "Owner":
-                                issueModel.Owner.Id = recordingData.ToInt();
-                                break;
                             case "ClassA":
                                 issueModel.ClassA = recordingData.ToString();
                                 break;
@@ -8721,6 +8715,16 @@ namespace Implem.Pleasanter.Models
                                 break;
                             case "CheckZ":
                                 issueModel.CheckZ = recordingData.ToBool();
+                                break;
+                            case "Manager":
+                                issueModel.Manager = SiteInfo.User(
+                                    context: context,
+                                    userId: recordingData.ToInt());
+                                break;
+                            case "Owner":
+                                issueModel.Owner = SiteInfo.User(
+                                    context: context,
+                                    userId: recordingData.ToInt());
                                 break;
                             case "Comments":
                                 if (issueModel.AccessStatus != Databases.AccessStatuses.Selected &&

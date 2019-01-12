@@ -127,7 +127,7 @@ namespace Implem.Pleasanter.Libraries.DataTypes
                 ? hb.Td(action: () => hb
                     .HtmlUser(
                         context: context,
-                        id: Id))
+                        text: column.ChoiceHash.Get(Id.ToString())?.Text))
                 : hb.Td(action: () => { });
         }
 
