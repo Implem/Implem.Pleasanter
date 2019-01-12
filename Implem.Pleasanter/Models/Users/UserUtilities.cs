@@ -7315,7 +7315,7 @@ namespace Implem.Pleasanter.Models
                 fileDownloadName: ExportUtilities.FileName(
                     context: context,
                     ss: ss,
-                    name: export.Name));
+                    name: Displays.Users(context: context)));
         }
 
         /// <summary>
