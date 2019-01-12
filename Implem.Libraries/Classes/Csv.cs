@@ -1,5 +1,4 @@
-﻿using Microsoft.VisualBasic.FileIO;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.IO;
 using System.Text;
 namespace Implem.Libraries.Classes
@@ -13,42 +12,44 @@ namespace Implem.Libraries.Classes
         {
             switch (encoding)
             {
-                case "Shift-JIS": Construct(Encoding.Convert(
-                    Encoding.GetEncoding("Shift_JIS"), Encoding.UTF8, csv)); break;
-                default: Construct(csv); break;
+                case "Shift-JIS":
+                    Construct(Encoding.Convert(
+                        Encoding.GetEncoding("Shift_JIS"),
+                        Encoding.UTF8, csv));
+                    break;
+                default:
+                    Construct(csv);
+                    break;
             }
         }
 
         private void Construct(byte[] csv)
         {
-            var stream = new MemoryStream(csv);
-            var parser = new TextFieldParser(stream);
-            parser.TextFieldType = FieldType.Delimited;
-            parser.SetDelimiters(",");
-            var header = true;
-            while (parser.EndOfData == false)
+            using (var stream = new MemoryStream(csv))
+            using (var reader = new StreamReader(stream))
+            using (var data = new CsvHelper.CsvReader(reader))
             {
-                var fields = parser.ReadFields();
-                if (header)
+                data.Configuration.HasHeaderRecord = false;
+                var header = true;
+                while (data.Read())
                 {
-                    for (int i = 0; i < fields.Length; i++)
+                    if (header)
                     {
-                        Headers.Add(fields[i]);
+                        foreach (var value in data.Context.Record)
+                        {
+                            Headers.Add(value);
+                        }
+                        header = false;
                     }
-                    header = false;
-                }
-                else
-                {
-                    var row = new List<string>();
-                    for (int i = 0; i < fields.Length; i++)
+                    else
                     {
-                        row.Add(fields[i]);
+                        var row = new List<string>();
+                        foreach (var value in data.Context.Record)
+                        {
+                            row.Add(value);
+                        }
+                        Rows.Add(row);
                     }
-                    while (Headers.Count > row.Count)
-                    {
-                        row.Add(string.Empty);
-                    }
-                    Rows.Add(row);
                 }
             }
         }
