@@ -3846,6 +3846,16 @@ namespace Implem.Pleasanter.Libraries.Responses
                 data: data);
         }
 
+        public static string Password(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "Password",
+                data: data);
+        }
+
         public static string PasswordNotChanged(
             Context context,
             params string[] data)

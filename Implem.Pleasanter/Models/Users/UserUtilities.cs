@@ -6627,7 +6627,9 @@ namespace Implem.Pleasanter.Models
                                 userModel.UserCode = recordingData.ToString();
                                 break;
                             case "Password":
-                                userModel.Password = recordingData.Sha512Cng();
+                                userModel.Password = recordingData.IsNullOrEmpty()
+                                    ? userModel.Password
+                                    : recordingData.Sha512Cng();
                                 break;
                             case "LastName":
                                 userModel.LastName = recordingData.ToString();
@@ -7272,6 +7274,8 @@ namespace Implem.Pleasanter.Models
                         "\"" + column.GetLabelText() + "\"").Join(","),
                     ",",
                     Displays.MailAddress(context: context),
+                    ",",
+                    Displays.Password(context: context),
                     "\n");
             }
             new UserCollection(
@@ -7305,7 +7309,7 @@ namespace Implem.Pleasanter.Models
                                                 .AsEnumerable()
                                                 .Select(dataRow => dataRow.String("MailAddress"))
                                                 .Join() + "\"",
-                                "\n"));
+                                ",\"\"\n"));
             return new ResponseFile(
                 fileContent: csv.ToString(),
                 fileDownloadName: ExportUtilities.FileName(
