@@ -2879,7 +2879,10 @@ namespace Implem.Pleasanter.Libraries.Settings
 
         public List<ExportColumn> DefaultExportColumns(Context context)
         {
-            var columns = EditorColumns.Where(o => o != "Ver").ToList();
+            var columns = EditorColumns
+                .Concat(GridColumns)
+                .Where(o => o != "Ver")
+                .ToList();
             return ColumnDefinitionHash.ExportDefinitions()
                 .Where(o => columns.Contains(o.ColumnName) || o.ExportColumn)
                 .Select(o => new ExportColumn(
