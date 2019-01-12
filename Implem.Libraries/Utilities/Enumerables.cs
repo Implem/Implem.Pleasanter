@@ -19,9 +19,9 @@ namespace Implem.Libraries.Utilities
             return string.Join("\r\n", self);
         }
 
-        public static string JoinParam(this string self, params string[] list)
+        public static string JoinParam(this string separator, params string[] list)
         {
-            return string.Join(self, list);
+            return string.Join(separator, list?.Where(o => !o.IsNullOrEmpty()));
         }
 
         public static IEnumerable<IEnumerable<T>> Chunk<T>(this IEnumerable<T> self, int size)
