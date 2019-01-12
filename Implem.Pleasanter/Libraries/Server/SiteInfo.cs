@@ -340,11 +340,17 @@ namespace Implem.Pleasanter.Libraries.Server
                 userId: DataTypes.User.UserTypes.Anonymous.ToInt());
         }
 
-        public static string UserName(Context context, int userId, bool notSet = true)
+        public static string UserName(
+            Context context, int userId, bool notSet = true, bool showDeptName = false)
         {
-            var name = User(
+            var user = User(
                 context: context,
-                userId: userId).Name;
+                userId: userId);
+            var name = user?.Name != null
+                ? showDeptName
+                    ? user.Dept.Name + ")" + user.Name
+                    : user.Name
+                : null;
             return name != null
                 ? name
                 : notSet

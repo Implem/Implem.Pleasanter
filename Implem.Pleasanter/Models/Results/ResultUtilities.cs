@@ -8003,12 +8003,6 @@ namespace Implem.Pleasanter.Models
                             case "Status":
                                 resultModel.Status.Value = recordingData.ToInt();
                                 break;
-                            case "Manager":
-                                resultModel.Manager.Id = recordingData.ToInt();
-                                break;
-                            case "Owner":
-                                resultModel.Owner.Id = recordingData.ToInt();
-                                break;
                             case "ClassA":
                                 resultModel.ClassA = recordingData.ToString();
                                 break;
@@ -8398,6 +8392,16 @@ namespace Implem.Pleasanter.Models
                                 break;
                             case "CheckZ":
                                 resultModel.CheckZ = recordingData.ToBool();
+                                break;
+                            case "Manager":
+                                resultModel.Manager = SiteInfo.User(
+                                    context: context,
+                                    userId: recordingData.ToInt());
+                                break;
+                            case "Owner":
+                                resultModel.Owner = SiteInfo.User(
+                                    context: context,
+                                    userId: recordingData.ToInt());
                                 break;
                             case "Comments":
                                 if (resultModel.AccessStatus != Databases.AccessStatuses.Selected &&

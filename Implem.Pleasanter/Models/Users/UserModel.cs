@@ -6524,12 +6524,12 @@ namespace Implem.Pleasanter.Models
         /// </summary>
         public HtmlBuilder Td(HtmlBuilder hb, Context context, Column column)
         {
-            return UserId != 0 ?
-                hb.Td(action: () => hb
+            return UserId != 0
+                ? hb.Td(action: () => hb
                     .HtmlUser(
                         context: context,
-                        id: UserId)) :
-                hb.Td(action: () => { });
+                        text: column.ChoiceHash.Get(UserId.ToString())?.Text))
+                : hb.Td(action: () => { });
         }
 
         /// <summary>

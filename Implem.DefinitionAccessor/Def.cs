@@ -388,6 +388,7 @@ namespace Implem.DefinitionAccessor
                     case "Model_IfDuplicatedStatements_ColumnCases": Code.Model_IfDuplicatedStatements_ColumnCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_IfDuplicatedStatements_ColumnCases, definitionRow, CodeXls); break;
                     case "Model_SetDefault": Code.Model_SetDefault = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_SetDefault, definitionRow, CodeXls); break;
                     case "Model_SetDefault_ColumnCases": Code.Model_SetDefault_ColumnCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_SetDefault_ColumnCases, definitionRow, CodeXls); break;
+                    case "Model_SetDefault_UserColumnCases": Code.Model_SetDefault_UserColumnCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_SetDefault_UserColumnCases, definitionRow, CodeXls); break;
                     case "Model_SetDefault_AttachmentsColumnCases": Code.Model_SetDefault_AttachmentsColumnCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_SetDefault_AttachmentsColumnCases, definitionRow, CodeXls); break;
                     case "Model_SetDefault_DateTimeColumnCases": Code.Model_SetDefault_DateTimeColumnCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_SetDefault_DateTimeColumnCases, definitionRow, CodeXls); break;
                     case "Model_SetDefault_CompletionTimeColumnCases": Code.Model_SetDefault_CompletionTimeColumnCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_SetDefault_CompletionTimeColumnCases, definitionRow, CodeXls); break;
@@ -603,7 +604,8 @@ namespace Implem.DefinitionAccessor
                     case "Model_Utilities_PhysicalDelete_Sites": Code.Model_Utilities_PhysicalDelete_Sites = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_PhysicalDelete_Sites, definitionRow, CodeXls); break;
                     case "Model_Utilities_PhysicalDelete_Items": Code.Model_Utilities_PhysicalDelete_Items = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_PhysicalDelete_Items, definitionRow, CodeXls); break;
                     case "Model_Utilities_Import": Code.Model_Utilities_Import = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_Import, definitionRow, CodeXls); break;
-                    case "Model_Utilities_ImportCases": Code.Model_Utilities_ImportCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_ImportCases, definitionRow, CodeXls); break;
+                    case "Model_Utilities_ImportColumnCases": Code.Model_Utilities_ImportColumnCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_ImportColumnCases, definitionRow, CodeXls); break;
+                    case "Model_Utilities_ImportUserColumnCases": Code.Model_Utilities_ImportUserColumnCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_ImportUserColumnCases, definitionRow, CodeXls); break;
                     case "Model_Utilities_ImportValidatorHeaders": Code.Model_Utilities_ImportValidatorHeaders = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_ImportValidatorHeaders, definitionRow, CodeXls); break;
                     case "Model_Utilities_ImportValidatorCases": Code.Model_Utilities_ImportValidatorCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_ImportValidatorCases, definitionRow, CodeXls); break;
                     case "Model_Utilities_Export": Code.Model_Utilities_Export = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_Export, definitionRow, CodeXls); break;
@@ -7240,6 +7242,7 @@ namespace Implem.DefinitionAccessor
         public string Model_IfDuplicatedStatements_ColumnCases;
         public string Model_SetDefault;
         public string Model_SetDefault_ColumnCases;
+        public string Model_SetDefault_UserColumnCases;
         public string Model_SetDefault_AttachmentsColumnCases;
         public string Model_SetDefault_DateTimeColumnCases;
         public string Model_SetDefault_CompletionTimeColumnCases;
@@ -7455,7 +7458,8 @@ namespace Implem.DefinitionAccessor
         public string Model_Utilities_PhysicalDelete_Sites;
         public string Model_Utilities_PhysicalDelete_Items;
         public string Model_Utilities_Import;
-        public string Model_Utilities_ImportCases;
+        public string Model_Utilities_ImportColumnCases;
+        public string Model_Utilities_ImportUserColumnCases;
         public string Model_Utilities_ImportValidatorHeaders;
         public string Model_Utilities_ImportValidatorCases;
         public string Model_Utilities_Export;
@@ -7797,6 +7801,7 @@ namespace Implem.DefinitionAccessor
         public CodeDefinition Model_IfDuplicatedStatements_ColumnCases = new CodeDefinition();
         public CodeDefinition Model_SetDefault = new CodeDefinition();
         public CodeDefinition Model_SetDefault_ColumnCases = new CodeDefinition();
+        public CodeDefinition Model_SetDefault_UserColumnCases = new CodeDefinition();
         public CodeDefinition Model_SetDefault_AttachmentsColumnCases = new CodeDefinition();
         public CodeDefinition Model_SetDefault_DateTimeColumnCases = new CodeDefinition();
         public CodeDefinition Model_SetDefault_CompletionTimeColumnCases = new CodeDefinition();
@@ -8012,7 +8017,8 @@ namespace Implem.DefinitionAccessor
         public CodeDefinition Model_Utilities_PhysicalDelete_Sites = new CodeDefinition();
         public CodeDefinition Model_Utilities_PhysicalDelete_Items = new CodeDefinition();
         public CodeDefinition Model_Utilities_Import = new CodeDefinition();
-        public CodeDefinition Model_Utilities_ImportCases = new CodeDefinition();
+        public CodeDefinition Model_Utilities_ImportColumnCases = new CodeDefinition();
+        public CodeDefinition Model_Utilities_ImportUserColumnCases = new CodeDefinition();
         public CodeDefinition Model_Utilities_ImportValidatorHeaders = new CodeDefinition();
         public CodeDefinition Model_Utilities_ImportValidatorCases = new CodeDefinition();
         public CodeDefinition Model_Utilities_Export = new CodeDefinition();

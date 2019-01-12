@@ -6970,12 +6970,6 @@ namespace Implem.Pleasanter.Models
                 case "Status":
                     Status.Value = column.GetDefaultInput(context: context).ToInt();
                     break;
-                case "Manager":
-                    Manager.Id = column.GetDefaultInput(context: context).ToInt();
-                    break;
-                case "Owner":
-                    Owner.Id = column.GetDefaultInput(context: context).ToInt();
-                    break;
                 case "ClassA":
                     ClassA = column.GetDefaultInput(context: context).ToString();
                     break;
@@ -7290,6 +7284,16 @@ namespace Implem.Pleasanter.Models
                     break;
                 case "Timestamp":
                     Timestamp = column.GetDefaultInput(context: context).ToString();
+                    break;
+                case "Manager":
+                    Manager = SiteInfo.User(
+                        context: context,
+                        userId: column.GetDefaultInput(context: context).ToInt());
+                    break;
+                case "Owner":
+                    Owner = SiteInfo.User(
+                        context: context,
+                        userId: column.GetDefaultInput(context: context).ToInt());
                     break;
                 case "AttachmentsA":
                     AttachmentsA = new Attachments();
