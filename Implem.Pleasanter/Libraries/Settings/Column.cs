@@ -238,18 +238,20 @@ namespace Implem.Pleasanter.Libraries.Settings
                     break;
                 case "[[Users]]":
                     SiteInfo.SiteUsers(context: context, siteId: siteId)?
-                        .Where(userId => !SiteInfo.User(
+                        .Select(userId => SiteInfo.User(
                             context: context,
-                            userId: userId).Disabled)
+                            userId: userId))
+                        .Where(user => !user.Disabled)
+                        .Where(user => searchIndexes?.Any() != true
+                            || searchIndexes.All(p => " ".JoinParam(
+                                user.UserCode,
+                                user.Name,
+                                user.LoginId,
+                                user.Dept.Code,
+                                user.Dept.Name).RegexLike(p).Any()))
                         .ToDictionary(
-                            userId => userId.ToString(),
-                            userId => SiteInfo.UserName(
-                                context: context,
-                                userId: userId))
-                        .Where(o => searchIndexes?.Any() != true ||
-                            searchIndexes.All(p =>
-                                o.Key.RegexLike(p).Any() ||
-                                o.Value.RegexLike(p).Any()))
+                            user => user.Id.ToString(),
+                            user => user.Name)
                         .ForEach(o => AddToChoiceHash(o.Key, o.Value));
                     break;
                 case "[[Users*]]":
