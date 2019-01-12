@@ -7257,15 +7257,6 @@ namespace Implem.Pleasanter.Models
             }
             var export = ss.GetExport(context: context);
             var view = Views.GetBySession(context: context, ss: ss);
-            var userCollection = new UserCollection(
-                context: context,
-                ss: ss,
-                where: view.Where(
-                    context: context,
-                    ss: ss),
-                orderBy: view.OrderBy(
-                    context: context,
-                    ss: ss));
             var csv = new System.Text.StringBuilder();
             if (export.Header == true)
             {
