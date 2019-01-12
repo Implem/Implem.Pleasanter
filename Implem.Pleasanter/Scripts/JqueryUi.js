@@ -123,13 +123,13 @@
         if ($('#Publish').length === 1) {
             $('a').each(function () {
                 var $control = $(this);
-                if ($control.attr('href').indexOf('/binaries/') === 0) {
+                if ($control.attr('href').indexOf('/binaries/') !== -1) {
                     $control.attr('href', $control.attr('href').replace('/binaries/', '/publishbinaries/'))
                 }
             });
             $('img').each(function () {
                 var $control = $(this);
-                if ($control.attr('src').indexOf('/binaries/') === 0) {
+                if ($control.attr('src').indexOf('/binaries/') !== -1) {
                     $control.attr('src', $control.attr('src').replace('/binaries/', '/publishbinaries/'))
                 }
             });
