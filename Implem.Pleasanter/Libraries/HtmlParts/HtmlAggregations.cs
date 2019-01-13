@@ -14,7 +14,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
     public static class HtmlAggregations
     {
         public static HtmlBuilder Aggregations(
-            this HtmlBuilder hb, Context context, SiteSettings ss, Aggregations aggregations)
+            this HtmlBuilder hb, Context context, SiteSettings ss, View view)
         {
             return !Reduced(context: context, siteId: ss.SiteId)
                 ? hb.Div(
@@ -24,7 +24,13 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                             context: context,
                             id: "ReduceAggregations",
                             icon: "ui-icon-close")
-                        .Contents(context: context, ss: ss, aggregations: aggregations))
+                        .Contents(
+                            context: context,
+                            ss: ss,
+                            aggregations: new Aggregations(
+                                context: context,
+                                ss: ss,
+                                view: view)))
                 : hb.Div(
                     id: "Aggregations",
                     css: "reduced",

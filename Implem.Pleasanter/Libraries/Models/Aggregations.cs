@@ -14,13 +14,29 @@ namespace Implem.Pleasanter.Libraries.Models
         public int OverdueCount;
         public IEnumerable<Aggregation> AggregationCollection;
 
-        public void Set(
+        public Aggregations(Context context, SiteSettings ss, View view)
+        {
+            Set(
+                context: context,
+                ss: ss,
+                dataSet: Rds.ExecuteDataSet(
+                    context: context,
+                    statements: Rds.Aggregations(
+                        ss: ss,
+                        join: ss.Join(
+                            context: context,
+                            withColumn: true),
+                        where: view.Where(
+                            context: context,
+                            ss: ss)).ToArray()));
+        }
+
+        private void Set(
             Context context,
             SiteSettings ss,
-            DataSet dataSet,
-            IEnumerable<Aggregation> aggregationCollection)
+            DataSet dataSet)
         {
-            AggregationCollection = aggregationCollection;
+            AggregationCollection = ss.Aggregations;
             TotalCount = Rds.Count(dataSet);
             if (dataSet.Tables.Contains("OverdueCount") &&
                 dataSet.Tables["OverdueCount"].Rows.Count == 1)

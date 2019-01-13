@@ -66,7 +66,7 @@ namespace Implem.Pleasanter.Models
                                 .Aggregations(
                                     context: context,
                                     ss: ss,
-                                    aggregations: gridData.Aggregations)
+                                    view: view)
                                 .Div(id: "ViewModeContainer", action: () => hb
                                     .Grid(
                                         context: context,
@@ -103,10 +103,10 @@ namespace Implem.Pleasanter.Models
             this HtmlBuilder hb,
             Context context,
             SiteSettings ss,
-            GridData gridData,
             View view,
             string viewMode,
-            Action viewModeBody)
+            Action viewModeBody,
+            Aggregations aggregations = null)
         {
             var invalid = DeptValidators.OnEntry(
                 context: context,
@@ -138,12 +138,18 @@ namespace Implem.Pleasanter.Models
                                 controller: context.Controller,
                                 id: ss.SiteId)),
                         action: () => hb
-                            .ViewSelector(context: context, ss: ss, view: view)
-                            .ViewFilters(context: context, ss: ss, view: view)
+                            .ViewSelector(
+                                context: context,
+                                ss: ss,
+                                view: view)
+                            .ViewFilters(
+                                context: context,
+                                ss: ss,
+                                view: view)
                             .Aggregations(
                                 context: context,
                                 ss: ss,
-                                aggregations: gridData.Aggregations)
+                                view: view)
                             .Div(id: "ViewModeContainer", action: () => viewModeBody())
                             .MainCommands(
                                 context: context,
@@ -175,7 +181,6 @@ namespace Implem.Pleasanter.Models
                     context: context,
                     ss: ss,
                     view: view,
-                    gridData: gridData,
                     invoke: "setGrid",
                     body: new HtmlBuilder()
                         .Grid(
@@ -196,9 +201,7 @@ namespace Implem.Pleasanter.Models
                 view: view,
                 where: Rds.DeptsWhere().TenantId(context.TenantId),
                 offset: offset,
-                pageSize: ss.GridPageSize.ToInt(),
-                countRecord: true,
-                aggregations: ss.Aggregations);
+                pageSize: ss.GridPageSize.ToInt());
         }
 
         private static HtmlBuilder Grid(
@@ -229,7 +232,7 @@ namespace Implem.Pleasanter.Models
                     value: ss.GridNextOffset(
                         0,
                         gridData.DataRows.Count(),
-                        gridData.Aggregations.TotalCount)
+                        gridData.TotalCount)
                             .ToString())
                 .Button(
                     controlId: "ViewSorter",
@@ -268,10 +271,12 @@ namespace Implem.Pleasanter.Models
                     .CopyDirectUrlToClipboard(
                         context: context,
                         view: view))
-                .ReplaceAll("#Aggregations", new HtmlBuilder().Aggregations(
-                    context: context,
-                    ss: ss,
-                    aggregations: gridData.Aggregations),
+                .ReplaceAll(
+                    "#Aggregations",
+                    new HtmlBuilder().Aggregations(
+                        context: context,
+                        ss: ss,
+                        view: view),
                     _using: offset == 0)
                 .Append("#Grid", new HtmlBuilder().GridRows(
                     context: context,
@@ -284,7 +289,7 @@ namespace Implem.Pleasanter.Models
                 .Val("#GridOffset", ss.GridNextOffset(
                     offset,
                     gridData.DataRows.Count(),
-                    gridData.Aggregations.TotalCount))
+                    gridData.TotalCount))
                 .Paging("#Grid")
                 .Message(message)
                 .ToJson();
