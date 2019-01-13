@@ -1926,6 +1926,15 @@ namespace Implem.Pleasanter.Libraries.Settings
                         context: context, columnName: o.ColumnName).LabelText)));
         }
 
+        public Dictionary<string, string> CalendarTimePeriodOptions(Context context)
+        {
+            return new Dictionary<string, string>
+            {
+                { "Yearly", Displays.Year(context: context) },
+                { "Monthly", Displays.Month(context: context) }
+            };
+        }
+
         public Dictionary<string, string> CalendarColumnOptions(Context context)
         {
             var hash = new Dictionary<string, string>();
