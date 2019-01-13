@@ -31,7 +31,6 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             return hb.Div(id: "Calendar", css: "both", action: () => hb
                 .FieldDropDown(
                     context: context,
-                    fieldId: "CalendarTimePeriodField",
                     controlId: "CalendarTimePeriod",
                     fieldCss: "field-auto-thin",
                     controlCss: " auto-postback",

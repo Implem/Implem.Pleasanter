@@ -5819,11 +5819,18 @@ namespace Implem.Pleasanter.Models
                 ? hb.FieldSet(id: "ViewCalendarTab", action: () => hb
                     .FieldDropDown(
                         context: context,
+                        controlId: "CalendarTimePeriod",
+                        fieldCss: "field-auto-thin",
+                        labelText: Displays.Period(context: context),
+                        optionCollection: ss.CalendarTimePeriodOptions(context: context),
+                        selectedValue: view.GetCalendarTimePeriod(ss: ss))
+                    .FieldDropDown(
+                        context: context,
                         controlId: "CalendarFromTo",
                         fieldCss: "field-auto-thin",
                         labelText: Displays.Column(context: context),
                         optionCollection: ss.CalendarColumnOptions(context: context),
-                        selectedValue: view.GetCalendarFromTo(ss)))
+                        selectedValue: view.GetCalendarFromTo(ss: ss)))
                 : hb;
         }
 
