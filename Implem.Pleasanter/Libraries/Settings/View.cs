@@ -29,6 +29,7 @@ namespace Implem.Pleasanter.Libraries.Settings
         public Dictionary<string, string> ColumnFilterHash;
         public string Search;
         public Dictionary<string, SqlOrderBy.Types> ColumnSorterHash;
+        public string CalendarTimePeriod;
         public string CalendarFromTo;
         public DateTime? CalendarMonth;
         public string CrosstabGroupByX;
@@ -76,11 +77,20 @@ namespace Implem.Pleasanter.Libraries.Settings
         {
         }
 
+        public string GetCalendarTimePeriod(SiteSettings ss)
+        {
+            if (CalendarTimePeriod.IsNullOrEmpty())
+            {
+                CalendarTimePeriod = Definition(ss, "Calendar")?.Option1;
+            }
+            return CalendarTimePeriod;
+        }
+
         public string GetCalendarFromTo(SiteSettings ss)
         {
             if (CalendarFromTo.IsNullOrEmpty())
             {
-                CalendarFromTo = Definition(ss, "Calendar")?.Option1;
+                CalendarFromTo = Definition(ss, "Calendar")?.Option2;
             }
             return CalendarFromTo;
         }
@@ -332,6 +342,11 @@ namespace Implem.Pleasanter.Libraries.Settings
                         SetSorters(
                             context: context,
                             ss: ss);
+                        break;
+                    case "CalendarTimePeriod":
+                        CalendarTimePeriod = String(
+                            context: context,
+                            controlId: controlId);
                         break;
                     case "CalendarFromTo":
                         CalendarFromTo = String(
@@ -654,6 +669,10 @@ namespace Implem.Pleasanter.Libraries.Settings
             if (!Search.IsNullOrEmpty())
             {
                 view.Search = Search;
+            }
+            if (!CalendarTimePeriod.IsNullOrEmpty())
+            {
+                view.CalendarTimePeriod = CalendarTimePeriod;
             }
             if (!CalendarFromTo.IsNullOrEmpty())
             {

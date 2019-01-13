@@ -19,6 +19,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             this HtmlBuilder hb,
             Context context,
             SiteSettings ss,
+            string timePeriod,
             Column fromColumn,
             Column toColumn,
             DateTime month,
@@ -28,6 +29,16 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             long changedItemId)
         {
             return hb.Div(id: "Calendar", css: "both", action: () => hb
+                .FieldDropDown(
+                    context: context,
+                    fieldId: "CalendarTimePeriodField",
+                    controlId: "CalendarTimePeriod",
+                    fieldCss: "field-auto-thin",
+                    controlCss: " auto-postback",
+                    labelText: Displays.Period(context: context),
+                    optionCollection: ss.CalendarTimePeriodOptions(context: context),
+                    selectedValue: timePeriod,
+                    method: "post")
                 .FieldDropDown(
                     context: context,
                     controlId: "CalendarFromTo",
@@ -74,6 +85,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                         .CalendarBody(
                             context: context,
                             ss: ss,
+                            timePeriod: timePeriod,
                             fromColumn: fromColumn,
                             toColumn: toColumn,
                             month: month,
@@ -103,6 +115,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             this HtmlBuilder hb,
             Context context,
             SiteSettings ss,
+            string timePeriod,
             Column fromColumn,
             Column toColumn,
             DateTime month,
@@ -115,9 +128,10 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                 .Hidden(
                     controlId: "CalendarCanUpdate",
                     value: (
-                        !fromColumn.RecordedTime &&
-                        fromColumn.EditorReadOnly != true &&
-                        fromColumn.CanUpdate).ToOneOrZeroString())
+                        !fromColumn.RecordedTime
+                        && fromColumn.EditorReadOnly != true
+                        && fromColumn.CanUpdate
+                        && timePeriod == "Monthly").ToOneOrZeroString())
                 .Hidden(
                     controlId: "CalendarPrevious",
                     value: Times.PreviousMonth(
@@ -150,6 +164,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                             changedItemId: changedItemId))
                     .CalendarBodyTable(
                         context: context,
+                        timePeriod: timePeriod,
                         month: month,
                         begin: begin)
                 : hb;
@@ -158,12 +173,67 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
         private static HtmlBuilder CalendarBodyTable(
             this HtmlBuilder hb,
             Context context,
+            string timePeriod,
             DateTime month,
             DateTime begin)
         {
-            return hb.Table(
-                id: "Grid",
-                action: () => hb
+            switch (timePeriod)
+            {
+                case "Yearly":
+                    return hb.YearlyTable(
+                        context: context,
+                        month: month,
+                        begin: begin);
+                case "Monthly":
+                    return hb.MonthlyTable(
+                        context: context,
+                        month: month,
+                        begin: begin);
+                default:
+                    return hb;
+            }
+        }
+
+        private static HtmlBuilder YearlyTable(
+            this HtmlBuilder hb, Context context, DateTime month, DateTime begin)
+        {
+            return hb.Table(id: "Grid", action: () => hb
+                .THead(action: () => hb
+                    .Tr(action: () =>
+                    {
+                        for (var x = 0; x < 12; x++)
+                        {
+                            var date = begin.AddMonths(x);
+                            hb.Th(action: () => hb
+                                .A(
+                                    css: "calendar-to-monthly",
+                                    href: "javascript:void(0);",
+                                    attributes: new HtmlAttributes()
+                                        .DataId(date.ToString()),
+                                    action: () => hb
+                                        .Text(text: date.ToString(
+                                            "Y", context.CultureInfo()))));
+                        }
+                    }))
+                .TBody(action: () =>
+                {
+                    for (var x = 0; x < 12; x++)
+                    {
+                        var date = begin.AddMonths(x);
+                        hb.Td(
+                            attributes: new HtmlAttributes()
+                                .Class("container")
+                                .DataId(date.ToString("yyyy/M/d")),
+                            action: () => hb
+                                .Div());
+                    }
+                }));
+        }
+
+        private static HtmlBuilder MonthlyTable(
+            this HtmlBuilder hb, Context context, DateTime month, DateTime begin)
+        {
+            return hb.Table(id: "Grid", action: () => hb
                 .THead(action: () => hb
                     .Tr(action: () =>
                     {

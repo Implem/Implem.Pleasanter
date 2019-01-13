@@ -6,73 +6,121 @@
 }
 
 $p.setCalendar = function () {
+    $('#Calendar .container > div > div:not(.day)').remove();
     var data = JSON.parse($('#CalendarJson').val());
     var hash = {};
-    $('#Calendar .container > div > div:not(.day)').remove();
-    data.forEach(function (element) {
-        var begin = new Date($('#Calendar .container:first').attr('data-id'));
-        var end = new Date($('#Calendar .container:last').attr('data-id'));
-        var current = new Date(element.From) > begin
-            ? new Date(element.From)
-            : begin;
-        rank = Rank(hash, $p.shortDateString(current));
-        addItem(hash, element, current);
-        if (element.To !== undefined) {
-            current.setDate(current.getDate() + 1);
-            var to = new Date(element.To) < end
-                ? new Date(element.To)
-                : end;
-            while ($p.shortDate(to) >= $p.shortDate(current)) {
-                if (current.getDay() === 1) {
-                    rank = Rank(hash, $p.shortDateString(current));
-                }
-                addItem(
-                    hash,
-                    element,
-                    current,
-                    current.getDay() !== 1,
-                    rank);
-                current.setDate(current.getDate() + 1);
-            }
-        }
-    });
+    var begin = new Date($('#Calendar .container:first').attr('data-id'));
+    var end = new Date($('#Calendar .container:last').attr('data-id'));
+    switch ($('#CalendarTimePeriod').val()) {
+        case 'Yearly':
+            setYearly(data, hash, begin, end);
+            break;
+        case 'Monthly':
+            setMonthly(data, hash, begin, end);
+            break;
+    }
 
-    if ($('#CalendarCanUpdate').val() === '1') {
-        $('#Calendar .item').draggable({
-            revert: 'invalid',
-            start: function () {
-                $(this).parent().droppable({
-                    disabled: true
-                });
-            },
-            helper: function () {
-                return $('<div />')
-                    .addClass('dragging')
-                    .append($('<div />')
-                        .append($(this).text()));
+    function setYearly(data, hash, begin, end) {
+        data.forEach(function (element) {
+            var current = $p.beginningMonth(new Date(element.From))
+            if (current < begin) {
+                current = new Date(begin);
             }
-        });
-        $('#Calendar .container').droppable({
-            hoverClass: 'hover',
-            tolerance: 'intersect',
-            drop: function (e, ui) {
-                var $control = $(ui.draggable);
-                var from = new Date($control.attr('data-from'));
-                var target = new Date($(this).attr('data-id'));
-                var data = $p.getData($('.main-form'));
-                var fromTo = $('#CalendarFromTo').val().split('-');
-                var prefix = $('#TableName').val() + '_';
-                data.Id = $control.attr('data-id');
-                data[prefix + fromTo[0]] = margeTime(target, from);
-                if ($control.attr('data-to') !== undefined) {
-                    var diff = $p.dateDiff('d', target, $p.shortDate(from));
-                    var to = $p.dateAdd('d', diff, new Date($control.attr('data-to')));
-                    data[prefix + fromTo[1]] = margeTime(to);
+            rank = Rank(hash, $p.shortDateString(current));
+            addItem(
+                hash,
+                element,
+                current,
+                undefined,
+                undefined,
+                1);
+            if (element.To !== undefined) {
+                current.setMonth(current.getMonth() + 1);
+                var to = new Date(element.To);
+                if (to > end) {
+                    to = end;
                 }
-                $p.saveScroll();
-                $p.send($('#CalendarBody'));
+                while ($p.shortDate(to) >= $p.shortDate(current)) {
+                    addItem(
+                        hash,
+                        element,
+                        current,
+                        1,
+                        rank);
+                    current.setMonth(current.getMonth() + 1);
+                }
             }
         });
+    }
+
+    function setMonthly(data, hash, begin, end) {
+        data.forEach(function (element) {
+            var current = new Date(element.From);
+            if (current < begin) {
+                current = new Date(begin);
+            }
+            rank = Rank(hash, $p.shortDateString(current));
+            addItem(
+                hash,
+                element,
+                current);
+            if (element.To !== undefined) {
+                current.setDate(current.getDate() + 1);
+                var to = new Date(element.To);
+                if (to > end) {
+                    to = end;
+                }
+                while ($p.shortDate(to) >= $p.shortDate(current)) {
+                    if (current.getDay() === 1) {
+                        rank = Rank(hash, $p.shortDateString(current));
+                    }
+                    addItem(
+                        hash,
+                        element,
+                        current,
+                        current.getDay() !== 1,
+                        rank);
+                    current.setDate(current.getDate() + 1);
+                }
+            }
+        });
+        if ($('#CalendarCanUpdate').val() === '1') {
+            $('#Calendar .item').draggable({
+                revert: 'invalid',
+                start: function () {
+                    $(this).parent().droppable({
+                        disabled: true
+                    });
+                },
+                helper: function () {
+                    return $('<div />')
+                        .addClass('dragging')
+                        .append($('<div />')
+                            .append($(this).text()));
+                }
+            });
+            $('#Calendar .container').droppable({
+                hoverClass: 'hover',
+                tolerance: 'intersect',
+                drop: function (e, ui) {
+                    var $control = $(ui.draggable);
+                    var from = new Date($control.attr('data-from'));
+                    var target = new Date($(this).attr('data-id'));
+                    var data = $p.getData($('.main-form'));
+                    var fromTo = $('#CalendarFromTo').val().split('-');
+                    var prefix = $('#TableName').val() + '_';
+                    data.Id = $control.attr('data-id');
+                    data[prefix + fromTo[0]] = margeTime(target, from);
+                    if ($control.attr('data-to') !== undefined) {
+                        var diff = $p.dateDiff('d', target, $p.shortDate(from));
+                        var to = $p.dateAdd('d', diff, new Date($control.attr('data-to')));
+                        data[prefix + fromTo[1]] = margeTime(to);
+                    }
+                    $p.saveScroll();
+                    $p.send($('#CalendarBody'));
+                }
+            });
+        }
     }
 
     function Rank(hash, id) {
@@ -82,7 +130,7 @@ $p.setCalendar = function () {
         return hash[id];
     }
 
-    function addItem(hash, element, current, sub, rank) {
+    function addItem(hash, element, current, sub, rank, yearly) {
         var id = $p.shortDateString(current);
         var $cell = $('[data-id="' + id + '"] > div');
         while (Rank(hash, id) < rank) {
@@ -111,8 +159,18 @@ $p.setCalendar = function () {
                 if (sub) {
                     return '';
                 }
-                if (element.To === undefined) {
+                else if (element.To === undefined) {
                     return width - margin;
+                }
+                else if (yearly) {
+                    var diff = 0;
+                    var month = new Date(current);
+                    month.setMonth(month.getMonth() + 1);
+                    while (month <= new Date(element.To)) {
+                        diff++;
+                        month.setMonth(month.getMonth() + 1);
+                    }
+                    return (width * (diff + 1)) - margin;
                 } else {
                     var diff = $p.dateDiff(
                         'd',

@@ -8631,6 +8631,7 @@ namespace Implem.Pleasanter.Models
             var viewMode = ViewModes.GetSessionData(
                 context: context,
                 siteId: ss.SiteId);
+            var timePeriod = view.GetCalendarTimePeriod(ss: ss);
             var fromColumn = ss.GetColumn(
                 context: context,
                 columnName: view.GetCalendarFromColumn(ss));
@@ -8642,10 +8643,12 @@ namespace Implem.Pleasanter.Models
                 : DateTime.Now;
             var begin = Calendars.BeginDate(
                 context: context,
-                date: month);
+                date: month,
+                timePeriod: timePeriod);
             var end = Calendars.EndDate(
                 context: context,
-                date: month);
+                date: month,
+                timePeriod: timePeriod);
             var dataRows = CalendarDataRows(
                 context: context,
                 ss: ss,
@@ -8654,10 +8657,12 @@ namespace Implem.Pleasanter.Models
                 toColumn: toColumn,
                 begin: Calendars.BeginDate(
                     context: context,
-                    date: month),
+                    date: month,
+                    timePeriod: timePeriod),
                 end: Calendars.EndDate(
                     context: context,
-                    date: month));
+                    date: month,
+                    timePeriod: timePeriod));
             var inRange = dataRows.Count() <= Parameters.General.CalendarLimit;
             if (!inRange)
             {
@@ -8676,6 +8681,7 @@ namespace Implem.Pleasanter.Models
                     .Calendar(
                         context: context,
                         ss: ss,
+                        timePeriod: timePeriod,
                         fromColumn: fromColumn,
                         toColumn: toColumn,
                         month: month,
@@ -8734,6 +8740,7 @@ namespace Implem.Pleasanter.Models
             }
             var view = Views.GetBySession(context: context, ss: ss);
             var bodyOnly = context.Forms.ControlId().StartsWith("Calendar");
+            var timePeriod = view.GetCalendarTimePeriod(ss: ss);
             var fromColumn = ss.GetColumn(
                 context: context,
                 columnName: view.GetCalendarFromColumn(ss));
@@ -8745,10 +8752,12 @@ namespace Implem.Pleasanter.Models
                 : DateTime.Now;
             var begin = Calendars.BeginDate(
                 context: context,
-                date: month);
+                date: month,
+                timePeriod: timePeriod);
             var end = Calendars.EndDate(
                 context: context,
-                date: month);
+                date: month,
+                timePeriod: timePeriod);
             var dataRows = CalendarDataRows(
                 context: context,
                 ss: ss,
@@ -8757,10 +8766,12 @@ namespace Implem.Pleasanter.Models
                 toColumn: toColumn,
                 begin: Calendars.BeginDate(
                     context: context,
-                    date: month),
+                    date: month,
+                    timePeriod: timePeriod),
                 end: Calendars.EndDate(
                     context: context,
-                    date: month));
+                    date: month,
+                    timePeriod: timePeriod));
             return dataRows.Count() <= Parameters.General.CalendarLimit
                 ? new ResponseCollection()
                     .ViewMode(
@@ -8776,6 +8787,7 @@ namespace Implem.Pleasanter.Models
                             .Calendar(
                                 context: context,
                                 ss: ss,
+                                timePeriod: timePeriod,
                                 fromColumn: fromColumn,
                                 toColumn: toColumn,
                                 month: month,
@@ -8799,6 +8811,7 @@ namespace Implem.Pleasanter.Models
                             .Calendar(
                                 context: context,
                                 ss: ss,
+                                timePeriod: timePeriod,
                                 fromColumn: fromColumn,
                                 toColumn: toColumn,
                                 month: month,
@@ -8850,6 +8863,7 @@ namespace Implem.Pleasanter.Models
             this HtmlBuilder hb,
             Context context,
             SiteSettings ss,
+            string timePeriod,
             Column fromColumn,
             Column toColumn,
             DateTime month,
@@ -8863,6 +8877,7 @@ namespace Implem.Pleasanter.Models
                 ? hb.Calendar(
                     context: context,
                     ss: ss,
+                    timePeriod: timePeriod,
                     fromColumn: fromColumn,
                     toColumn: toColumn,
                     month: month,
@@ -8873,6 +8888,7 @@ namespace Implem.Pleasanter.Models
                 : hb.CalendarBody(
                     context: context,
                     ss: ss,
+                    timePeriod: timePeriod,
                     fromColumn: fromColumn,
                     toColumn: toColumn,
                     month: month,

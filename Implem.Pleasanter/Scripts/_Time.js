@@ -17,6 +17,11 @@ $p.shortDate = function (date) {
     return new Date($p.shortDateString(date));
 }
 
+$p.beginningMonth = function (date) {
+    if (date === undefined) date = new Date();
+    return new Date(date.getFullYear() + '/' + (date.getMonth() + 1) + '/1');
+}
+
 $p.shortDateString = function (date) {
     if (date === undefined) date = new Date();
     return date.getFullYear() + '/' + (date.getMonth() + 1) + '/' + date.getDate();
