@@ -251,7 +251,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                             settings: line,
                             searchIndexes: searchIndexes);
                     }
-                    if (Linked())
+                    else if (Linked())
                     {
                         var key = "[[" + new Link(
                             columnName: ColumnName,
