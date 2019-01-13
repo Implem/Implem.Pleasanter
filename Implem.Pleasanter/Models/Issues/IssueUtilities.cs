@@ -34,7 +34,6 @@ namespace Implem.Pleasanter.Models
             return hb.ViewModeTemplate(
                 context: context,
                 ss: ss,
-                gridData: gridData,
                 view: view,
                 viewMode: viewMode,
                 viewModeBody: () => hb.Grid(
@@ -48,10 +47,10 @@ namespace Implem.Pleasanter.Models
             this HtmlBuilder hb,
             Context context,
             SiteSettings ss,
-            GridData gridData,
             View view,
             string viewMode,
-            Action viewModeBody)
+            Action viewModeBody,
+            Aggregations aggregations = null)
         {
             var invalid = IssueValidators.OnEntry(
                 context: context,
@@ -83,12 +82,18 @@ namespace Implem.Pleasanter.Models
                                 controller: context.Controller,
                                 id: ss.SiteId)),
                         action: () => hb
-                            .ViewSelector(context: context, ss: ss, view: view)
-                            .ViewFilters(context: context, ss: ss, view: view)
+                            .ViewSelector(
+                                context: context,
+                                ss: ss,
+                                view: view)
+                            .ViewFilters(
+                                context: context,
+                                ss: ss,
+                                view: view)
                             .Aggregations(
                                 context: context,
                                 ss: ss,
-                                aggregations: gridData.Aggregations)
+                                view: view)
                             .Div(id: "ViewModeContainer", action: () => viewModeBody())
                             .MainCommands(
                                 context: context,
@@ -125,7 +130,6 @@ namespace Implem.Pleasanter.Models
                     context: context,
                     ss: ss,
                     view: view,
-                    gridData: gridData,
                     invoke: "setGrid",
                     body: new HtmlBuilder()
                         .Grid(
@@ -145,9 +149,7 @@ namespace Implem.Pleasanter.Models
                 ss: ss,
                 view: view,
                 offset: offset,
-                pageSize: ss.GridPageSize.ToInt(),
-                countRecord: true,
-                aggregations: ss.Aggregations);
+                pageSize: ss.GridPageSize.ToInt());
         }
 
         private static HtmlBuilder Grid(
@@ -178,7 +180,7 @@ namespace Implem.Pleasanter.Models
                     value: ss.GridNextOffset(
                         0,
                         gridData.DataRows.Count(),
-                        gridData.Aggregations.TotalCount)
+                        gridData.TotalCount)
                             .ToString())
                 .Button(
                     controlId: "ViewSorter",
@@ -217,10 +219,12 @@ namespace Implem.Pleasanter.Models
                     .CopyDirectUrlToClipboard(
                         context: context,
                         view: view))
-                .ReplaceAll("#Aggregations", new HtmlBuilder().Aggregations(
-                    context: context,
-                    ss: ss,
-                    aggregations: gridData.Aggregations),
+                .ReplaceAll(
+                    "#Aggregations",
+                    new HtmlBuilder().Aggregations(
+                        context: context,
+                        ss: ss,
+                        view: view),
                     _using: offset == 0)
                 .Append("#Grid", new HtmlBuilder().GridRows(
                     context: context,
@@ -233,7 +237,7 @@ namespace Implem.Pleasanter.Models
                 .Val("#GridOffset", ss.GridNextOffset(
                     offset,
                     gridData.DataRows.Count(),
-                    gridData.Aggregations.TotalCount))
+                    gridData.TotalCount))
                 .Paging("#Grid")
                 .Message(message)
                 .ToJson();
@@ -312,7 +316,6 @@ namespace Implem.Pleasanter.Models
             return hb.ViewModeTemplate(
                 context: context,
                 ss: ss,
-                gridData: gridData,
                 view: view,
                 viewMode: viewMode,
                 viewModeBody: () => hb
@@ -334,7 +337,6 @@ namespace Implem.Pleasanter.Models
                     context: context,
                     ss: ss,
                     view: view,
-                    gridData: gridData,
                     invoke: "setGrid",
                     body: new HtmlBuilder()
                         .TrashBoxCommands(context: context, ss: ss)
@@ -8910,7 +8912,6 @@ namespace Implem.Pleasanter.Models
                 default: return null;
             }
             var view = Views.GetBySession(context: context, ss: ss);
-            var gridData = GetGridData(context: context, ss: ss, view: view);
             var viewMode = ViewModes.GetSessionData(
                 context: context,
                 siteId: ss.SiteId);
@@ -8969,8 +8970,6 @@ namespace Implem.Pleasanter.Models
             }
             var hb = new HtmlBuilder();
             var view = Views.GetBySession(context: context, ss: ss);
-            var gridData = GetGridData(
-                context: context, ss: ss, view: view);
             var viewMode = ViewModes.GetSessionData(
                 context: context,
                 siteId: ss.SiteId);
@@ -9013,7 +9012,6 @@ namespace Implem.Pleasanter.Models
             return hb.ViewModeTemplate(
                 context: context,
                 ss: ss,
-                gridData: gridData,
                 view: view,
                 viewMode: viewMode,
                 viewModeBody: () => hb
@@ -9077,7 +9075,6 @@ namespace Implem.Pleasanter.Models
                 return Messages.ResponseHasNotPermission(context: context).ToJson();
             }
             var view = Views.GetBySession(context: context, ss: ss);
-            var gridData = GetGridData(context: context, ss: ss, view: view);
             var bodyOnly = context.Forms.ControlId().StartsWith("Calendar");
             var fromColumn = ss.GetColumn(
                 context: context,
@@ -9112,7 +9109,6 @@ namespace Implem.Pleasanter.Models
                         context: context,
                         ss: ss,
                         view: view,
-                        gridData: gridData,
                         invoke: "setCalendar",
                         message: message,
                         loadScroll: update,
@@ -9136,7 +9132,6 @@ namespace Implem.Pleasanter.Models
                         context: context,
                         ss: ss,
                         view: view,
-                        gridData: gridData,
                         message: Messages.TooManyCases(
                             context: context,
                             data: Parameters.General.CalendarLimit.ToString()),
@@ -9237,7 +9232,6 @@ namespace Implem.Pleasanter.Models
             }
             var hb = new HtmlBuilder();
             var view = Views.GetBySession(context: context, ss: ss);
-            var gridData = GetGridData(context: context, ss: ss, view: view);
             var viewMode = ViewModes.GetSessionData(
                 context: context,
                 siteId: ss.SiteId);
@@ -9297,7 +9291,6 @@ namespace Implem.Pleasanter.Models
             return hb.ViewModeTemplate(
                 context: context,
                 ss: ss,
-                gridData: gridData,
                 view: view,
                 viewMode: viewMode,
                 viewModeBody: () => hb
@@ -9323,7 +9316,6 @@ namespace Implem.Pleasanter.Models
                 return Messages.ResponseHasNotPermission(context: context).ToJson();
             }
             var view = Views.GetBySession(context: context, ss: ss);
-            var gridData = GetGridData(context: context, ss: ss, view: view);
             var viewMode = ViewModes.GetSessionData(
                 context: context,
                 siteId: ss.SiteId);
@@ -9371,7 +9363,6 @@ namespace Implem.Pleasanter.Models
                         context: context,
                         ss: ss,
                         view: view,
-                        gridData: gridData,
                         invoke: "setCrosstab",
                         bodyOnly: bodyOnly,
                         bodySelector: "#CrosstabBody",
@@ -9406,7 +9397,6 @@ namespace Implem.Pleasanter.Models
                         context: context,
                         ss: ss,
                         view: view,
-                        gridData: gridData,
                         message: !inRangeX
                             ? Messages.TooManyColumnCases(
                                 context: context,
@@ -9565,7 +9555,6 @@ namespace Implem.Pleasanter.Models
             }
             var hb = new HtmlBuilder();
             var view = Views.GetBySession(context: context, ss: ss);
-            var gridData = GetGridData(context: context, ss: ss, view: view);
             var viewMode = ViewModes.GetSessionData(
                 context: context,
                 siteId: ss.SiteId);
@@ -9597,7 +9586,6 @@ namespace Implem.Pleasanter.Models
             return hb.ViewModeTemplate(
                 context: context,
                 ss: ss,
-                gridData: gridData,
                 view: view,
                 viewMode: viewMode,
                 viewModeBody: () => hb
@@ -9622,7 +9610,6 @@ namespace Implem.Pleasanter.Models
                 return Messages.ResponseHasNotPermission(context: context).ToJson();
             }
             var view = Views.GetBySession(context: context, ss: ss);
-            var gridData = GetGridData(context: context, ss: ss, view: view);
             var bodyOnly = context.Forms.ControlId().StartsWith("Gantt");
             var range = new Libraries.ViewModes.GanttRange(
                 context: context,
@@ -9649,7 +9636,6 @@ namespace Implem.Pleasanter.Models
                         context: context,
                         ss: ss,
                         view: view,
-                        gridData: gridData,
                         invoke: "drawGantt",
                         bodyOnly: bodyOnly,
                         bodySelector: "#GanttBody",
@@ -9675,7 +9661,6 @@ namespace Implem.Pleasanter.Models
                         context: context,
                         ss: ss,
                         view: view,
-                        gridData: gridData,
                         message: Messages.TooManyCases(
                             context: context,
                             data: Parameters.General.GanttLimit.ToString()),
@@ -9778,12 +9763,14 @@ namespace Implem.Pleasanter.Models
             }
             var hb = new HtmlBuilder();
             var view = Views.GetBySession(context: context, ss: ss);
-            var gridData = GetGridData(context: context, ss: ss, view: view);
             var viewMode = ViewModes.GetSessionData(
                 context: context,
                 siteId: ss.SiteId);
-            var inRange = gridData.Aggregations.TotalCount <=
-                Parameters.General.BurnDownLimit;
+            var inRange = InRange(
+                context: context,
+                ss: ss,
+                view: view,
+                limit: Parameters.General.BurnDownLimit);
             if (!inRange)
             {
                 SessionUtilities.Set(
@@ -9795,7 +9782,6 @@ namespace Implem.Pleasanter.Models
             return hb.ViewModeTemplate(
                 context: context,
                 ss: ss,
-                gridData: gridData,
                 view: view,
                 viewMode: viewMode,
                 viewModeBody: () =>
@@ -9818,35 +9804,45 @@ namespace Implem.Pleasanter.Models
             {
                 return Messages.ResponseHasNotPermission(context: context).ToJson();
             }
-            var view = Views.GetBySession(context: context, ss: ss);
-            var gridData = GetGridData(context: context, ss: ss, view: view);
-            return gridData.Aggregations.TotalCount <= Parameters.General.BurnDownLimit
-                ? new ResponseCollection()
-                    .ViewMode(
-                        context: context,
-                        ss: ss,
-                        view: view,
-                        gridData: gridData,
-                        invoke: "drawBurnDown",
-                        body: new HtmlBuilder()
-                            .BurnDown(
-                                context: context,
-                                ss: ss,
-                                dataRows: BurnDownDataRows(context: context, ss: ss, view: view),
-                                ownerLabelText: ss.GetColumn(context: context, columnName: "Owner").GridLabelText,
-                                column: ss.GetColumn(context: context, columnName: "WorkValue")))
-                    .ToJson()
-                : new ResponseCollection()
-                    .ViewMode(
-                        context: context,
-                        ss: ss,
-                        view: view,
-                        gridData: gridData,
-                        message: Messages.TooManyCases(
+            var view = Views.GetBySession(
+                context: context,
+                ss: ss);
+            return InRange(
+                context: context,
+                ss: ss,
+                view: view,
+                limit: Parameters.General.BurnDownLimit)
+                    ? new ResponseCollection()
+                        .ViewMode(
                             context: context,
-                            data: Parameters.General.BurnDownLimit.ToString()),
-                        body: new HtmlBuilder())
-                    .ToJson();
+                            ss: ss,
+                            view: view,
+                            invoke: "drawBurnDown",
+                            body: new HtmlBuilder()
+                                .BurnDown(
+                                    context: context,
+                                    ss: ss,
+                                    dataRows: BurnDownDataRows(
+                                        context: context,
+                                        ss: ss,
+                                        view: view),
+                                    ownerLabelText: ss.GetColumn(
+                                        context: context,
+                                        columnName: "Owner").GridLabelText,
+                                    column: ss.GetColumn(
+                                        context: context,
+                                        columnName: "WorkValue")))
+                        .ToJson()
+                    : new ResponseCollection()
+                        .ViewMode(
+                            context: context,
+                            ss: ss,
+                            view: view,
+                            message: Messages.TooManyCases(
+                                context: context,
+                                data: Parameters.General.BurnDownLimit.ToString()),
+                            body: new HtmlBuilder())
+                        .ToJson();
         }
 
         public static string BurnDownRecordDetails(Context context, SiteSettings ss)
@@ -9863,10 +9859,16 @@ namespace Implem.Pleasanter.Models
                             ss: ss,
                             view: Views.GetBySession(context: context, ss: ss)))
                                 .Where(o => o.UpdatedTime == date),
-                    progressRateColumn: ss.GetColumn(context: context, columnName: "ProgressRate"),
-                    statusColumn: ss.GetColumn(context: context, columnName: "Status"),
+                    progressRateColumn: ss.GetColumn(
+                        context: context,
+                        columnName: "ProgressRate"),
+                    statusColumn: ss.GetColumn(
+                        context: context,
+                        columnName: "Status"),
                     colspan: context.Forms.Int("BurnDownColspan"),
-                    unit: ss.GetColumn(context: context, columnName: "WorkValue").Unit)).ToJson();
+                    unit: ss.GetColumn(
+                        context: context,
+                        columnName: "WorkValue").Unit)).ToJson();
         }
 
         private static EnumerableRowCollection<DataRow> BurnDownDataRows(
@@ -9927,12 +9929,14 @@ namespace Implem.Pleasanter.Models
             }
             var hb = new HtmlBuilder();
             var view = Views.GetBySession(context: context, ss: ss);
-            var gridData = GetGridData(context: context, ss: ss, view: view);
             var viewMode = ViewModes.GetSessionData(
                 context: context,
                 siteId: ss.SiteId);
-            var inRange = gridData.Aggregations.TotalCount <=
-                Parameters.General.TimeSeriesLimit;
+            var inRange = InRange(
+                context: context,
+                ss: ss,
+                view: view,
+                limit: Parameters.General.TimeSeriesLimit);
             if (!inRange)
             {
                 SessionUtilities.Set(
@@ -9944,7 +9948,6 @@ namespace Implem.Pleasanter.Models
             return hb.ViewModeTemplate(
                 context: context,
                 ss: ss,
-                gridData: gridData,
                 view: view,
                 viewMode: viewMode,
                 viewModeBody: () => hb
@@ -9963,45 +9966,46 @@ namespace Implem.Pleasanter.Models
                 return Messages.ResponseHasNotPermission(context: context).ToJson();
             }
             var view = Views.GetBySession(context: context, ss: ss);
-            var gridData = GetGridData(context: context, ss: ss, view: view);
             var bodyOnly = context.Forms.ControlId().StartsWith("TimeSeries");
-            return gridData.Aggregations.TotalCount <= Parameters.General.TimeSeriesLimit
-                ? new ResponseCollection()
-                    .ViewMode(
-                        context: context,
-                        ss: ss,
-                        view: view,
-                        gridData: gridData,
-                        invoke: "drawTimeSeries",
-                        bodyOnly: bodyOnly,
-                        bodySelector: "#TimeSeriesBody",
-                        body: new HtmlBuilder()
-                            .TimeSeries(
-                                context: context,
-                                ss: ss,
-                                view: view,
-                                bodyOnly: bodyOnly,
-                                inRange: true))
-                    .ToJson()
-                : new ResponseCollection()
-                    .ViewMode(
-                        context: context,
-                        ss: ss,
-                        view: view,
-                        gridData: gridData,
-                        message: Messages.TooManyCases(
+            return InRange(
+                context: context,
+                ss: ss,
+                view: view,
+                limit: Parameters.General.TimeSeriesLimit)
+                    ? new ResponseCollection()
+                        .ViewMode(
                             context: context,
-                            data: Parameters.General.TimeSeriesLimit.ToString()),
-                        bodyOnly: bodyOnly,
-                        bodySelector: "#TimeSeriesBody",
-                        body: new HtmlBuilder()
-                            .TimeSeries(
+                            ss: ss,
+                            view: view,
+                            invoke: "drawTimeSeries",
+                            bodyOnly: bodyOnly,
+                            bodySelector: "#TimeSeriesBody",
+                            body: new HtmlBuilder()
+                                .TimeSeries(
+                                    context: context,
+                                    ss: ss,
+                                    view: view,
+                                    bodyOnly: bodyOnly,
+                                    inRange: true))
+                        .ToJson()
+                    : new ResponseCollection()
+                        .ViewMode(
+                            context: context,
+                            ss: ss,
+                            view: view,
+                            message: Messages.TooManyCases(
                                 context: context,
-                                ss: ss,
-                                view: view,
-                                bodyOnly: bodyOnly,
-                                inRange: false))
-                    .ToJson();
+                                data: Parameters.General.TimeSeriesLimit.ToString()),
+                            bodyOnly: bodyOnly,
+                            bodySelector: "#TimeSeriesBody",
+                            body: new HtmlBuilder()
+                                .TimeSeries(
+                                    context: context,
+                                    ss: ss,
+                                    view: view,
+                                    bodyOnly: bodyOnly,
+                                    inRange: false))
+                        .ToJson();
         }
 
         private static HtmlBuilder TimeSeries(
@@ -10085,12 +10089,14 @@ namespace Implem.Pleasanter.Models
             }
             var hb = new HtmlBuilder();
             var view = Views.GetBySession(context: context, ss: ss);
-            var gridData = GetGridData(context: context, ss: ss, view: view);
             var viewMode = ViewModes.GetSessionData(
                 context: context,
                 siteId: ss.SiteId);
-            var inRange = gridData.Aggregations.TotalCount <=
-                Parameters.General.KambanLimit;
+            var inRange = InRange(
+                context: context,
+                ss: ss,
+                view: view,
+                limit: Parameters.General.KambanLimit);
             if (!inRange)
             {
                 SessionUtilities.Set(
@@ -10102,7 +10108,6 @@ namespace Implem.Pleasanter.Models
             return hb.ViewModeTemplate(
                 context: context,
                 ss: ss,
-                gridData: gridData,
                 view: view,
                 viewMode: viewMode,
                 viewModeBody: () => hb
@@ -10121,45 +10126,46 @@ namespace Implem.Pleasanter.Models
                 return Messages.ResponseHasNotPermission(context: context).ToJson();
             }
             var view = Views.GetBySession(context: context, ss: ss);
-            var gridData = GetGridData(context: context, ss: ss, view: view);
             var bodyOnly = context.Forms.ControlId().StartsWith("Kamban");
-            return gridData.Aggregations.TotalCount <= Parameters.General.KambanLimit
-                ? new ResponseCollection()
-                    .ViewMode(
-                        context: context,
-                        ss: ss,
-                        view: view,
-                        gridData: gridData,
-                        invoke: "setKamban",
-                        bodyOnly: bodyOnly,
-                        bodySelector: "#KambanBody",
-                        body: new HtmlBuilder()
-                            .Kamban(
-                                context: context,
-                                ss: ss,
-                                view: view,
-                                bodyOnly: bodyOnly,
-                                changedItemId: context.Forms.Long("KambanId")))
-                    .ToJson()
-                : new ResponseCollection()
-                    .ViewMode(
-                        context: context,
-                        ss: ss,
-                        view: view,
-                        gridData: gridData,
-                        message: Messages.TooManyCases(
+            return InRange(
+                context: context,
+                ss: ss,
+                view: view,
+                limit: Parameters.General.KambanLimit)
+                    ? new ResponseCollection()
+                        .ViewMode(
                             context: context,
-                            data: Parameters.General.KambanLimit.ToString()),
-                        bodyOnly: bodyOnly,
-                        bodySelector: "#KambanBody",
-                        body: new HtmlBuilder()
-                            .Kamban(
+                            ss: ss,
+                            view: view,
+                            invoke: "setKamban",
+                            bodyOnly: bodyOnly,
+                            bodySelector: "#KambanBody",
+                            body: new HtmlBuilder()
+                                .Kamban(
+                                    context: context,
+                                    ss: ss,
+                                    view: view,
+                                    bodyOnly: bodyOnly,
+                                    changedItemId: context.Forms.Long("KambanId")))
+                        .ToJson()
+                    : new ResponseCollection()
+                        .ViewMode(
+                            context: context,
+                            ss: ss,
+                            view: view,
+                            message: Messages.TooManyCases(
                                 context: context,
-                                ss: ss,
-                                view: view,
-                                bodyOnly: bodyOnly,
-                                inRange: false))
-                    .ToJson();
+                                data: Parameters.General.KambanLimit.ToString()),
+                            bodyOnly: bodyOnly,
+                            bodySelector: "#KambanBody",
+                            body: new HtmlBuilder()
+                                .Kamban(
+                                    context: context,
+                                    ss: ss,
+                                    view: view,
+                                    bodyOnly: bodyOnly,
+                                    inRange: false))
+                        .ToJson();
         }
 
         private static HtmlBuilder Kamban(
@@ -10293,14 +10299,12 @@ namespace Implem.Pleasanter.Models
             }
             var hb = new HtmlBuilder();
             var view = Views.GetBySession(context: context, ss: ss);
-            var gridData = GetGridData(context: context, ss: ss, view: view);
             var viewMode = ViewModes.GetSessionData(
                 context: context,
                 siteId: ss.SiteId);
             return hb.ViewModeTemplate(
                 context: context,
                 ss: ss,
-                gridData: gridData,
                 view: view,
                 viewMode: viewMode,
                 viewModeBody: () => hb
@@ -10318,14 +10322,12 @@ namespace Implem.Pleasanter.Models
                 return Messages.ResponseHasNotPermission(context: context).ToJson();
             }
             var view = Views.GetBySession(context: context, ss: ss);
-            var gridData = GetGridData(context: context, ss: ss, view: view);
             var bodyOnly = context.Forms.ControlId().StartsWith("ImageLib");
             return new ResponseCollection()
                 .ViewMode(
                     context: context,
                     ss: ss,
                     view: view,
-                    gridData: gridData,
                     invoke: "setImageLib",
                     bodyOnly: bodyOnly,
                     bodySelector: "#ImageLibBody",
@@ -10417,6 +10419,15 @@ namespace Implem.Pleasanter.Models
                 issues.ForEach(issueModel => issueModel
                     .SetTitle(context: context, ss: ss));
             }
+        }
+
+        private static bool InRange(Context context, SiteSettings ss, View view, int limit)
+        {
+            return Rds.ExecuteScalar_int(
+                context: context,
+                statements: Rds.SelectIssues(
+                    column: Rds.IssuesColumn().IssuesCount(),
+                    where: view.Where(context: context, ss: ss))) <= limit;
         }
     }
 }

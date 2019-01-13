@@ -15,7 +15,7 @@ namespace Implem.Pleasanter.Libraries.Models
     {
         public Databases.AccessStatuses AccessStatus = Databases.AccessStatuses.Initialized;
         public EnumerableRowCollection<DataRow> DataRows;
-        public Aggregations Aggregations = new Aggregations();
+        public int TotalCount;
 
         public GridData(
             Context context,
@@ -26,9 +26,7 @@ namespace Implem.Pleasanter.Libraries.Models
             SqlWhereCollection where = null,
             int top = 0,
             int offset = 0,
-            int pageSize = 0,
-            bool countRecord = false,
-            IEnumerable<Aggregation> aggregations = null)
+            int pageSize = 0)
         {
             Get(
                 context: context,
@@ -39,9 +37,7 @@ namespace Implem.Pleasanter.Libraries.Models
                 where: where,
                 top: top,
                 offset: offset,
-                pageSize: pageSize,
-                countRecord: countRecord,
-                aggregations: aggregations);
+                pageSize: pageSize);
         }
 
         private void Get(
@@ -54,9 +50,7 @@ namespace Implem.Pleasanter.Libraries.Models
             int top = 0,
             int offset = 0,
             int pageSize = 0,
-            bool history = false,
-            bool countRecord = false,
-            IEnumerable<Aggregation> aggregations = null)
+            bool history = false)
         {
             column = column ?? SqlColumnCollection(ss, GridColumns(
                 context: context,
@@ -78,27 +72,14 @@ namespace Implem.Pleasanter.Libraries.Models
                     top: top,
                     offset: offset,
                     pageSize: pageSize,
-                    countRecord: countRecord)
+                    countRecord: true)
             };
-            if (aggregations != null)
-            {
-                SetAggregations(
-                    ss: ss,
-                    aggregations: aggregations,
-                    join: join,
-                    where: where,
-                    statements: statements);
-            }
             var dataSet = Rds.ExecuteDataSet(
                 context: context,
                 transactional: false,
                 statements: statements.ToArray());
-            Aggregations.Set(
-                context: context,
-                ss: ss,
-                dataSet: dataSet,
-                aggregationCollection: aggregations);
             DataRows = dataSet.Tables["Main"].AsEnumerable();
+            TotalCount = Rds.Count(dataSet);
             ss.SetChoiceHash(DataRows);
         }
 
@@ -167,42 +148,6 @@ namespace Implem.Pleasanter.Libraries.Models
             columns.Add(ss.GetColumn(
                 context: context,
                 columnName: tableAlias + "Updator"));
-        }
-
-        private static void SetAggregations(
-            SiteSettings ss,
-            IEnumerable<Aggregation> aggregations,
-            SqlJoinCollection join,
-            SqlWhereCollection where,
-            List<SqlStatement> statements)
-        {
-            switch (ss.ReferenceType)
-            {
-                case "Tenants":
-                    statements.AddRange(Rds.TenantsAggregations(aggregations, join, where));
-                    break;
-                case "Depts":
-                    statements.AddRange(Rds.DeptsAggregations(aggregations, join, where));
-                    break;
-                case "Groups":
-                    statements.AddRange(Rds.GroupsAggregations(aggregations, join, where));
-                    break;
-                case "Users":
-                    statements.AddRange(Rds.UsersAggregations(aggregations, join, where));
-                    break;
-                case "Sites":
-                    statements.AddRange(Rds.SitesAggregations(aggregations, join, where));
-                    break;
-                case "Issues":
-                    statements.AddRange(Rds.IssuesAggregations(aggregations, join, where));
-                    break;
-                case "Results":
-                    statements.AddRange(Rds.ResultsAggregations(aggregations, join, where));
-                    break;
-                case "Wikis":
-                    statements.AddRange(Rds.WikisAggregations(aggregations, join, where));
-                    break;
-            }
         }
 
         public HtmlBuilder TBody(

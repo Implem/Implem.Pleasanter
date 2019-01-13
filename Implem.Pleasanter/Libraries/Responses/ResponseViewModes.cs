@@ -12,7 +12,6 @@ namespace Implem.Pleasanter.Libraries.Responses
             Context context,
             SiteSettings ss,
             View view,
-            GridData gridData,
             string invoke = null,
             Message message = null,
             bool loadScroll = false,
@@ -33,7 +32,7 @@ namespace Implem.Pleasanter.Libraries.Responses
                     .Aggregations(
                         context: context,
                         ss: ss,
-                        aggregations: gridData.Aggregations))
+                        view: view))
                 .ReplaceAll("#MainCommandsContainer", new HtmlBuilder()
                     .MainCommands(
                         context: context,
