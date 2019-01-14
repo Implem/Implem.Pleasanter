@@ -766,14 +766,25 @@ namespace Implem.Pleasanter.Libraries.Settings
 
         private void SetGeneralsWhere(Context context, SiteSettings ss, SqlWhereCollection where)
         {
-            if (Incomplete == true)
+            if (Incomplete == true && ss.HasAllColumns(
+                context: context,
+                parts: new string[]
+                {
+                    "Status"
+                }))
             {
                 where.Add(
                     tableName: ss.ReferenceType,
                     columnBrackets: "[Status]".ToSingleArray(),
                     _operator: "<" + Parameters.General.CompletionCode);
             }
-            if (Own == true)
+            if (Own == true && ss.HasAllColumns(
+                context: context,
+                parts: new string[]
+                {
+                    "Manager",
+                    "Owner"
+                }))
             {
                 where.Add(
                     tableName: ss.ReferenceType,
@@ -781,7 +792,12 @@ namespace Implem.Pleasanter.Libraries.Settings
                     name: "_U",
                     value: context.UserId);
             }
-            if (NearCompletionTime == true)
+            if (NearCompletionTime == true && ss.HasAllColumns(
+                context: context,
+                parts: new string[]
+                {
+                    "CompletionTime"
+                }))
             {
                 where.Add(
                     tableName: ss.ReferenceType,
@@ -794,7 +810,14 @@ namespace Implem.Pleasanter.Libraries.Settings
                             .AddMilliseconds(Parameters.Rds.MinimumTime * -1)
                             .ToString("yyyy/M/d H:m:s.fff")));
             }
-            if (Delay == true)
+            if (Delay == true && ss.HasAllColumns(
+                context: context,
+                parts: new string[]
+                {
+                    "Status",
+                    "ProgressRate",
+                    "CompletionTime"
+                }))
             {
                 where
                     .Add(
@@ -809,7 +832,13 @@ namespace Implem.Pleasanter.Libraries.Settings
                         raw: Def.Sql.ProgressRateDelay
                             .Replace("#TableName#", ss.ReferenceType));
             }
-            if (Overdue == true)
+            if (Overdue == true && ss.HasAllColumns(
+                context: context,
+                parts: new string[]
+                {
+                    "Status",
+                    "CompletionTime"
+                }))
             {
                 where
                     .Add(

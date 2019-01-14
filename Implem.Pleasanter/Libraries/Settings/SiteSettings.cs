@@ -1366,6 +1366,13 @@ namespace Implem.Pleasanter.Libraries.Settings
             return column;
         }
 
+        public bool HasAllColumns(Context context, params string[] parts)
+        {
+            return parts.All(columnName => GetColumn(
+                context: context,
+                columnName: columnName) != null);
+        }
+
         private Column AddJoinedColumn(Context context, string columnName)
         {
             var columnNameInfo = new ColumnNameInfo(columnName);
