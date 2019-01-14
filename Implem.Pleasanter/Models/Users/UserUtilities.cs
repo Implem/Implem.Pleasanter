@@ -7278,7 +7278,8 @@ namespace Implem.Pleasanter.Models
                 ss: ss,
                 where: view.Where(
                     context: context,
-                    ss: ss),
+                    ss: ss,
+                    where: Rds.UsersWhere().TenantId(context.TenantId)),
                 orderBy: view.OrderBy(
                     context: context,
                     ss: ss))
