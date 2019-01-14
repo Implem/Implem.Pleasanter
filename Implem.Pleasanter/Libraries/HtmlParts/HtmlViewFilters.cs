@@ -2,12 +2,10 @@
 using Implem.Pleasanter.Libraries.Html;
 using Implem.Pleasanter.Libraries.Requests;
 using Implem.Pleasanter.Libraries.Responses;
-using Implem.Pleasanter.Libraries.Server;
 using Implem.Pleasanter.Libraries.Settings;
 using Implem.Pleasanter.Models;
 using System.Collections.Generic;
 using System.Linq;
-using System.Web;
 namespace Implem.Pleasanter.Libraries.HtmlParts
 {
     public static class HtmlViewFilters
@@ -121,7 +119,8 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                 _checked: view.Incomplete == true,
                 method: "post",
                 labelPositionIsRight: true,
-                _using: Visible(ss, "Status"));
+                _using: view.HasIncompleteColumns(context: context, ss: ss)
+                    && Visible(ss, "Status"));
         }
 
         private static HtmlBuilder Own(
@@ -135,7 +134,8 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                 _checked: view.Own == true,
                 method: "post",
                 labelPositionIsRight: true,
-                _using: Visible(ss, "Manager") || Visible(ss, "Owner"));
+                _using: view.HasOwnColumns(context: context, ss: ss)
+                    && (Visible(ss, "Manager") || Visible(ss, "Owner")));
         }
 
         private static HtmlBuilder NearCompletionTime(
@@ -149,7 +149,8 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                 _checked: view.NearCompletionTime == true,
                 method: "post",
                 labelPositionIsRight: true,
-                _using: Visible(ss, "CompletionTime"));
+                _using: view.HasNearCompletionTimeColumns(context: context, ss: ss)
+                    && Visible(ss, "CompletionTime"));
         }
 
         private static HtmlBuilder Delay(
@@ -163,7 +164,8 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                 _checked: view.Delay == true,
                 method: "post",
                 labelPositionIsRight: true,
-                _using: Visible(ss, "ProgressRate"));
+                _using: view.HasDelayColumns(context: context, ss: ss)
+                    && Visible(ss, "ProgressRate"));
         }
 
         private static HtmlBuilder Limit(
@@ -177,7 +179,8 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                 _checked: view.Overdue == true,
                 method: "post",
                 labelPositionIsRight: true,
-                _using: Visible(ss, "CompletionTime"));
+                _using: view.HasOverdueColumns(context: context, ss: ss)
+                    && Visible(ss, "CompletionTime"));
         }
 
         private static bool Visible(Column column)
