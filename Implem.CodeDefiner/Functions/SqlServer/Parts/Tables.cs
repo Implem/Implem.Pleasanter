@@ -11,7 +11,7 @@ namespace Implem.CodeDefiner.Functions.SqlServer.Parts
         internal static void CreateTable(
             string generalTableName,
             string sourceTableName,
-            bool old,
+            Sqls.TableTypes tableType,
             IEnumerable<ColumnDefinition> columnDefinitionCollection,
             IEnumerable<IndexInfo> tableIndexCollection,
             EnumerableRowCollection<DataRow> rdsColumnCollection,
@@ -27,7 +27,7 @@ namespace Implem.CodeDefiner.Functions.SqlServer.Parts
                 Sqls.SqlParamCollection());
             sqlStatement.CreateColumn(sourceTableName, columnDefinitionCollection);
             sqlStatement.CreatePk(sourceTableName, columnDefinitionCollection, tableIndexCollection);
-            sqlStatement.CreateIx(generalTableName, sourceTableName, old, columnDefinitionCollection);
+            sqlStatement.CreateIx(generalTableName, sourceTableName, tableType, columnDefinitionCollection);
             sqlStatement.CreateDefault(tableNameTemp, columnDefinitionCollection, rdsColumnCollection);
             sqlStatement.DropConstraint(sourceTableName, tableIndexCollection);
             sqlStatement.CommandText = sqlStatement.CommandText.Replace("#TableName#", tableNameTemp);
@@ -37,7 +37,7 @@ namespace Implem.CodeDefiner.Functions.SqlServer.Parts
         internal static void MigrateTable(
             string generalTableName,
             string sourceTableName,
-            bool old,
+            Sqls.TableTypes tableType,
             IEnumerable<ColumnDefinition> columnDefinitionCollection,
             IEnumerable<IndexInfo> tableIndexCollection)
         {
@@ -46,7 +46,7 @@ namespace Implem.CodeDefiner.Functions.SqlServer.Parts
             CreateTable(
                 generalTableName,
                 sourceTableName,
-                old,
+                tableType,
                 columnDefinitionCollection,
                 tableIndexCollection,
                 null,
@@ -131,7 +131,7 @@ namespace Implem.CodeDefiner.Functions.SqlServer.Parts
         internal static bool HasChanges(
             string generalTableName,
             string sourceTableName,
-            bool old,
+            Sqls.TableTypes tableType,
             IEnumerable<ColumnDefinition> columnDefinitionCollection,
             EnumerableRowCollection<DataRow> rdsColumnCollection)
         {
@@ -145,7 +145,7 @@ namespace Implem.CodeDefiner.Functions.SqlServer.Parts
                 return
                     Columns.HasChanges(sourceTableName, columnDefinitionCollection, rdsColumnCollection) ||
                     Constraints.HasChanges(sourceTableName, columnDefinitionCollection) ||
-                    Indexes.HasChanges(generalTableName, sourceTableName, old, columnDefinitionCollection);
+                    Indexes.HasChanges(generalTableName, sourceTableName, tableType, columnDefinitionCollection);
             }
         }
 

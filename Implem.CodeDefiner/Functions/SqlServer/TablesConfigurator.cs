@@ -1,5 +1,6 @@
 ﻿using Implem.CodeDefiner.Functions.SqlServer.Parts;
 using Implem.DefinitionAccessor;
+using Implem.Libraries.DataSources.SqlServer;
 using Implem.Libraries.Utilities;
 using System.Collections.Generic;
 using System.Data;
@@ -31,24 +32,24 @@ namespace Implem.CodeDefiner.Functions.SqlServer
             ConfigureTablePart(
                 generalTableName,
                 generalTableName,
-                false,
+                Sqls.TableTypes.Normal,
                 columnDefinitionCollection);
             ConfigureTablePart(
                 generalTableName,
                 deletedTableName,
-                false,
+                Sqls.TableTypes.Deleted,
                 columnDefinitionCollection);
             ConfigureTablePart(
                 generalTableName,
                 historyTableName,
-                true,
+                Sqls.TableTypes.History,
                 columnDefinitionHistoryCollection);
         }
 
         private static void ConfigureTablePart(
             string generalTableName,
             string sourceTableName,
-            bool old,
+            Sqls.TableTypes tableType,
             IEnumerable<ColumnDefinition> columnDefinitionCollection)
         {
             if (!Tables.Exists(sourceTableName))
@@ -56,9 +57,9 @@ namespace Implem.CodeDefiner.Functions.SqlServer
                 Tables.CreateTable(
                     generalTableName,
                     sourceTableName,
-                    old,
+                    tableType,
                     columnDefinitionCollection,
-                    Indexes.IndexInfoCollection(generalTableName, sourceTableName, old),
+                    Indexes.IndexInfoCollection(generalTableName, sourceTableName, tableType),
                     Columns.Get(sourceTableName));
             }
             else
@@ -66,16 +67,16 @@ namespace Implem.CodeDefiner.Functions.SqlServer
                 if (Tables.HasChanges(
                     generalTableName,
                     sourceTableName,
-                    old,
+                    tableType,
                     columnDefinitionCollection,
                     Columns.Get(sourceTableName)))
                 {
                     Tables.MigrateTable(
                         generalTableName,
                         sourceTableName,
-                        old,
+                        tableType,
                         columnDefinitionCollection,
-                        Indexes.IndexInfoCollection(generalTableName, sourceTableName, old));
+                        Indexes.IndexInfoCollection(generalTableName, sourceTableName, tableType));
                 }
             }
         }

@@ -9,85 +9,118 @@ namespace Implem.CodeDefiner.Functions.SqlServer.Parts
     internal static class Indexes
     {
         internal static IEnumerable<IndexInfo> IndexInfoCollection(
-            string generalTableName, string sourceTableName, bool old)
+            string generalTableName, string sourceTableName, Sqls.TableTypes tableType)
         {
             var tableIndexCollection = new List<IndexInfo>();
-            if (!old)
+            switch (tableType)
             {
-                if (Def.ColumnDefinitionCollection.Any(o =>
-                    o.TableName == generalTableName && o.Pk > 0))
-                {
-                    tableIndexCollection.Add(new IndexInfo(
-                        sourceTableName,
-                        IndexInfo.Types.Pk,
-                        "Pk",
-                        Def.ColumnDefinitionCollection
-                            .Where(o => o.TableName == generalTableName)
-                            .Where(o => o.Pk > 0)
-                            .OrderBy(o => o.Pk)
-                            .Select(o => new IndexInfo.Column(
-                                o.ColumnName, o.Pk, o.PkOrderBy))
-                            .ToList()));
-                }
-                if (Def.ColumnDefinitionCollection.Any(o => o.TableName == generalTableName && o.Ix1 > 0))
-                {
-                    tableIndexCollection.Add(new IndexInfo(
-                        sourceTableName,
-                        IndexInfo.Types.Ix,
-                        "Ix1",
-                        Def.ColumnDefinitionCollection
-                            .Where(o => o.TableName == generalTableName)
-                            .Where(o => o.Ix1 > 0)
-                            .OrderBy(o => o.Ix1)
-                            .Select(o => new IndexInfo.Column(o.ColumnName, o.Ix1, o.Ix1OrderBy, o.Unique))
-                            .ToList()));
-                }
-                if (Def.ColumnDefinitionCollection.Any(o => o.TableName == generalTableName && o.Ix2 > 0))
-                {
-                    tableIndexCollection.Add(new IndexInfo(
-                        sourceTableName,
-                        IndexInfo.Types.Ix,
-                        "Ix2",
-                        Def.ColumnDefinitionCollection
-                            .Where(o => o.TableName == generalTableName)
-                            .Where(o => o.Ix2 > 0)
-                            .OrderBy(o => o.Ix2)
-                            .Select(o => new IndexInfo.Column(o.ColumnName, o.Ix2, o.Ix2OrderBy, o.Unique))
-                            .ToList()));
-                }
-                if (Def.ColumnDefinitionCollection.Any(o => o.TableName == generalTableName && o.Ix3 > 0))
-                {
-                    tableIndexCollection.Add(new IndexInfo(
-                        sourceTableName,
-                        IndexInfo.Types.Ix,
-                        "Ix3",
-                        Def.ColumnDefinitionCollection
-                            .Where(o => o.TableName == generalTableName)
-                            .Where(o => o.Ix3 > 0)
-                            .OrderBy(o => o.Ix3)
-                            .Select(o => new IndexInfo.Column(o.ColumnName, o.Ix3, o.Ix3OrderBy, o.Unique))
-                            .ToList()));
-                }
-            }
-            else
-            {
-                if (Def.ColumnDefinitionCollection.Any(o => o.TableName == generalTableName && o.Pk > 0))
-                {
-                    tableIndexCollection.Add(new IndexInfo(
-                        sourceTableName,
-                        IndexInfo.Types.Pk,
-                        "PkHistory",
-                        Def.ColumnDefinitionCollection
-                            .Where(o => o.TableName == generalTableName)
-                            .Where(o => o.History > 0)
-                            .Where(o => o.PkHistory > 0)
-                            .OrderBy(o => o.PkHistory)
-                            .Select(o => new IndexInfo.Column(
-                                o.ColumnName, o.PkHistory, o.PkHistoryOrderBy))
-                            .ToList()));
-                }
+                case Sqls.TableTypes.Normal:
+                    General(generalTableName, sourceTableName, tableIndexCollection);
+                    Unique(generalTableName, tableIndexCollection);
+                    break;
+                case Sqls.TableTypes.Deleted:
+                    General(generalTableName, sourceTableName, tableIndexCollection);
+                    break;
+                case Sqls.TableTypes.History:
+                    History(generalTableName, sourceTableName, tableIndexCollection);
+                    break;
             }
             return tableIndexCollection;
+        }
+
+        private static void General(
+            string generalTableName, string sourceTableName, List<IndexInfo> tableIndexCollection)
+        {
+            if (Def.ColumnDefinitionCollection.Any(o =>
+                o.TableName == generalTableName && o.Pk > 0))
+            {
+                tableIndexCollection.Add(new IndexInfo(
+                    sourceTableName,
+                    IndexInfo.Types.Pk,
+                    "Pk",
+                    Def.ColumnDefinitionCollection
+                        .Where(o => o.TableName == generalTableName)
+                        .Where(o => o.Pk > 0)
+                        .OrderBy(o => o.Pk)
+                        .Select(o => new IndexInfo.Column(
+                            o.ColumnName, o.Pk, o.PkOrderBy))
+                        .ToList()));
+            }
+            if (Def.ColumnDefinitionCollection.Any(o => o.TableName == generalTableName && o.Ix1 > 0))
+            {
+                tableIndexCollection.Add(new IndexInfo(
+                    sourceTableName,
+                    IndexInfo.Types.Ix,
+                    "Ix1",
+                    Def.ColumnDefinitionCollection
+                        .Where(o => o.TableName == generalTableName)
+                        .Where(o => o.Ix1 > 0)
+                        .OrderBy(o => o.Ix1)
+                        .Select(o => new IndexInfo.Column(o.ColumnName, o.Ix1, o.Ix1OrderBy, o.Unique))
+                        .ToList()));
+            }
+            if (Def.ColumnDefinitionCollection.Any(o => o.TableName == generalTableName && o.Ix2 > 0))
+            {
+                tableIndexCollection.Add(new IndexInfo(
+                    sourceTableName,
+                    IndexInfo.Types.Ix,
+                    "Ix2",
+                    Def.ColumnDefinitionCollection
+                        .Where(o => o.TableName == generalTableName)
+                        .Where(o => o.Ix2 > 0)
+                        .OrderBy(o => o.Ix2)
+                        .Select(o => new IndexInfo.Column(o.ColumnName, o.Ix2, o.Ix2OrderBy, o.Unique))
+                        .ToList()));
+            }
+            if (Def.ColumnDefinitionCollection.Any(o => o.TableName == generalTableName && o.Ix3 > 0))
+            {
+                tableIndexCollection.Add(new IndexInfo(
+                    sourceTableName,
+                    IndexInfo.Types.Ix,
+                    "Ix3",
+                    Def.ColumnDefinitionCollection
+                        .Where(o => o.TableName == generalTableName)
+                        .Where(o => o.Ix3 > 0)
+                        .OrderBy(o => o.Ix3)
+                        .Select(o => new IndexInfo.Column(o.ColumnName, o.Ix3, o.Ix3OrderBy, o.Unique))
+                        .ToList()));
+            }
+        }
+
+        private static void Unique(string generalTableName, List<IndexInfo> tableIndexCollection)
+        {
+            Def.ColumnDefinitionCollection
+                .Where(o => o.TableName == generalTableName)
+                .Where(o => o.Pk == 0)
+                .Where(o => o.Unique)
+                .Select(o => o.ColumnName)
+                .ForEach(columnName =>
+                    tableIndexCollection.Add(new IndexInfo(
+                        generalTableName,
+                        IndexInfo.Types.Ix,
+                        "Unique",
+                        new IndexInfo.Column(
+                            columnName, 1, "asc", unique: true).ToSingleList())));
+        }
+
+        private static void History(
+            string generalTableName, string sourceTableName, List<IndexInfo> tableIndexCollection)
+        {
+            if (Def.ColumnDefinitionCollection.Any(o => o.TableName == generalTableName && o.Pk > 0))
+            {
+                tableIndexCollection.Add(new IndexInfo(
+                    sourceTableName,
+                    IndexInfo.Types.Pk,
+                    "PkHistory",
+                    Def.ColumnDefinitionCollection
+                        .Where(o => o.TableName == generalTableName)
+                        .Where(o => o.History > 0)
+                        .Where(o => o.PkHistory > 0)
+                        .OrderBy(o => o.PkHistory)
+                        .Select(o => new IndexInfo.Column(
+                            o.ColumnName, o.PkHistory, o.PkHistoryOrderBy))
+                        .ToList()));
+            }
         }
 
         public static IEnumerable<string> Get(string sourceTableName)
@@ -103,10 +136,10 @@ namespace Implem.CodeDefiner.Functions.SqlServer.Parts
         internal static bool HasChanges(
             string generalTableName,
             string sourceTableName,
-            bool old,
+            Sqls.TableTypes tableType,
             IEnumerable<ColumnDefinition> columnDefinitionCollection)
         {
-            return IndexInfoCollection(generalTableName, sourceTableName, old)
+            return IndexInfoCollection(generalTableName, sourceTableName, tableType)
                 .Select(o => o.IndexName())
                 .Distinct()
                 .OrderBy(o => o)
@@ -158,10 +191,10 @@ namespace Implem.CodeDefiner.Functions.SqlServer.Parts
             this SqlStatement sqlStatement,
             string generalTableName,
             string sourceTableName,
-            bool old,
+            Sqls.TableTypes tableType,
             IEnumerable<ColumnDefinition> columnDefinitionCollection)
         {
-            IndexInfoCollection(generalTableName, sourceTableName, old)
+            IndexInfoCollection(generalTableName, sourceTableName, tableType)
                 .Where(o => o.Type == IndexInfo.Types.Ix)
                 .ForEach(tableIndex => 
                     sqlStatement.CreateIx(sourceTableName, columnDefinitionCollection, tableIndex));
