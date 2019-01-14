@@ -766,25 +766,16 @@ namespace Implem.Pleasanter.Libraries.Settings
 
         private void SetGeneralsWhere(Context context, SiteSettings ss, SqlWhereCollection where)
         {
-            if (Incomplete == true && ss.HasAllColumns(
+            if (Incomplete == true && HasIncompleteColumns(
                 context: context,
-                parts: new string[]
-                {
-                    "Status"
-                }))
+                ss: ss))
             {
                 where.Add(
                     tableName: ss.ReferenceType,
                     columnBrackets: "[Status]".ToSingleArray(),
                     _operator: "<" + Parameters.General.CompletionCode);
             }
-            if (Own == true && ss.HasAllColumns(
-                context: context,
-                parts: new string[]
-                {
-                    "Manager",
-                    "Owner"
-                }))
+            if (Own == true && HasOwnColumns(context, ss))
             {
                 where.Add(
                     tableName: ss.ReferenceType,
@@ -792,12 +783,9 @@ namespace Implem.Pleasanter.Libraries.Settings
                     name: "_U",
                     value: context.UserId);
             }
-            if (NearCompletionTime == true && ss.HasAllColumns(
+            if (NearCompletionTime == true && HasNearCompletionTimeColumns(
                 context: context,
-                parts: new string[]
-                {
-                    "CompletionTime"
-                }))
+                ss: ss))
             {
                 where.Add(
                     tableName: ss.ReferenceType,
@@ -810,14 +798,9 @@ namespace Implem.Pleasanter.Libraries.Settings
                             .AddMilliseconds(Parameters.Rds.MinimumTime * -1)
                             .ToString("yyyy/M/d H:m:s.fff")));
             }
-            if (Delay == true && ss.HasAllColumns(
+            if (Delay == true && HasDelayColumns(
                 context: context,
-                parts: new string[]
-                {
-                    "Status",
-                    "ProgressRate",
-                    "CompletionTime"
-                }))
+                ss: ss))
             {
                 where
                     .Add(
@@ -832,13 +815,9 @@ namespace Implem.Pleasanter.Libraries.Settings
                         raw: Def.Sql.ProgressRateDelay
                             .Replace("#TableName#", ss.ReferenceType));
             }
-            if (Overdue == true && ss.HasAllColumns(
+            if (Overdue == true && HasOverdueColumns(
                 context: context,
-                parts: new string[]
-                {
-                    "Status",
-                    "CompletionTime"
-                }))
+                ss: ss))
             {
                 where
                     .Add(
@@ -851,6 +830,60 @@ namespace Implem.Pleasanter.Libraries.Settings
                         columnBrackets: "[CompletionTime]".ToSingleArray(),
                         _operator: "<getdate()");
             }
+        }
+
+        public bool HasIncompleteColumns(Context context, SiteSettings ss)
+        {
+            return ss.HasAllColumns(
+                context: context,
+                parts: new string[]
+                {
+                    "Status"
+                });
+        }
+
+        public bool HasOwnColumns(Context context, SiteSettings ss)
+        {
+            return ss.HasAllColumns(
+                context: context,
+                parts: new string[]
+                {
+                    "Manager",
+                    "Owner"
+                });
+        }
+
+        public bool HasNearCompletionTimeColumns(Context context, SiteSettings ss)
+        {
+            return ss.HasAllColumns(
+                context: context,
+                parts: new string[]
+                {
+                    "CompletionTime"
+                });
+        }
+
+        public bool HasDelayColumns(Context context, SiteSettings ss)
+        {
+            return ss.HasAllColumns(
+                context: context,
+                parts: new string[]
+                {
+                    "Status",
+                    "ProgressRate",
+                    "CompletionTime"
+                });
+        }
+
+        public bool HasOverdueColumns(Context context, SiteSettings ss)
+        {
+            return ss.HasAllColumns(
+                context: context,
+                parts: new string[]
+                {
+                    "Status",
+                    "CompletionTime"
+                });
         }
 
         private void SetColumnsWhere(Context context, SiteSettings ss, SqlWhereCollection where)

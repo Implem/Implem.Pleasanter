@@ -5601,31 +5601,36 @@ namespace Implem.Pleasanter.Models
                         fieldCss: "field-auto-thin",
                         labelText: Displays.Incomplete(context: context),
                         _checked: view.Incomplete == true,
-                        labelPositionIsRight: true)
+                        labelPositionIsRight: true,
+                        _using: view.HasIncompleteColumns(context: context, ss: ss))
                     .FieldCheckBox(
                         controlId: "ViewFilters_Own",
                         fieldCss: "field-auto-thin",
                         labelText: Displays.Own(context: context),
                         _checked: view.Own == true,
-                        labelPositionIsRight: true)
+                        labelPositionIsRight: true,
+                        _using: view.HasOwnColumns(context: context, ss: ss))
                     .FieldCheckBox(
                         controlId: "ViewFilters_NearCompletionTime",
                         fieldCss: "field-auto-thin",
                         labelText: Displays.NearCompletionTime(context: context),
                         _checked: view.NearCompletionTime == true,
-                        labelPositionIsRight: true)
+                        labelPositionIsRight: true,
+                        _using: view.HasNearCompletionTimeColumns(context: context, ss: ss))
                     .FieldCheckBox(
                         controlId: "ViewFilters_Delay",
                         fieldCss: "field-auto-thin",
                         labelText: Displays.Delay(context: context),
                         _checked: view.Delay == true,
-                        labelPositionIsRight: true)
+                        labelPositionIsRight: true,
+                        _using: view.HasDelayColumns(context: context, ss: ss))
                     .FieldCheckBox(
                         controlId: "ViewFilters_Overdue",
                         fieldCss: "field-auto-thin",
                         labelText: Displays.Overdue(context: context),
                         _checked: view.Overdue == true,
-                        labelPositionIsRight: true)
+                        labelPositionIsRight: true,
+                        _using: view.HasOverdueColumns(context: context, ss: ss))
                     .FieldTextBox(
                         controlId: "ViewFilters_Search",
                         fieldCss: "field-auto-thin",
