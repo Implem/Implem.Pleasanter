@@ -9725,8 +9725,8 @@ namespace Implem.Pleasanter.Models
         {
             return Rds.ExecuteScalar_int(
                 context: context,
-                statements: Rds.SelectIssues(
-                    column: Rds.IssuesColumn().IssuesCount(),
+                statements: Rds.SelectResults(
+                    column: Rds.ResultsColumn().ResultsCount(),
                     where: view.Where(context: context, ss: ss))) <= limit;
         }
     }
