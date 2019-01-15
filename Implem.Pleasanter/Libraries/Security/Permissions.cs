@@ -476,7 +476,7 @@ namespace Implem.Pleasanter.Libraries.Security
                 case "users":
                     return CanManageTenant(context: context);
                 default:
-                    return context.Can(ss: ss, type: Types.Import, site: site);
+                    return context.Can(ss: ss, type: Types.Export, site: site);
             }
         }
 
