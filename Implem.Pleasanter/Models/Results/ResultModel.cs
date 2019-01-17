@@ -10416,6 +10416,7 @@ namespace Implem.Pleasanter.Models
                     }
                 }
             }
+            SetTitle(context: context, ss: ss);
         }
 
         public bool Updated(Context context)
