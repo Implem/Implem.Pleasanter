@@ -670,6 +670,17 @@ namespace Implem.Pleasanter.Models
             }
         }
 
+        public string LinkTable(Context context)
+        {
+            return new ResponseCollection()
+                .ReplaceAll("#" + context.Forms.Data("TableId"), new HtmlBuilder()
+                    .LinkTable(
+                        context: context,
+                        siteId: context.Forms.Long("TableSiteId"),
+                        dataTableName: context.Forms.ControlId()))
+                .ToJson();
+        }
+
         public string Import(Context context)
         {
             SetSite(context: context);

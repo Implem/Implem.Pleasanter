@@ -37,7 +37,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                             hb.Th(css: "sortable", action: () => hb
                                 .Div(
                                     attributes: new HtmlAttributes()
-                                        .Id("ViewSorters__" + column.ColumnName)
+                                        .DataId("ViewSorters__" + column.ColumnName)
                                         .Add("data-order-type", OrderBy(
                                             view, column.ColumnName))
                                         .DataAction(action)

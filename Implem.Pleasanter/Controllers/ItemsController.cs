@@ -240,6 +240,16 @@ namespace Implem.Pleasanter.Controllers
         }
 
         [HttpPost]
+        public string LinkTable(long id)
+        {
+            var context = new Context();
+            var log = new SysLogModel(context: context);
+            var json = new ItemModel(context: context, referenceId: id).LinkTable(context: context);
+            log.Finish(context: context, responseSize: json.Length);
+            return json;
+        }
+
+        [HttpPost]
         public string Import(long id, HttpPostedFileBase[] file)
         {
             var context = new Context(files: file);

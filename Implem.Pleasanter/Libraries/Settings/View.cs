@@ -277,7 +277,7 @@ namespace Implem.Pleasanter.Libraries.Settings
         {
             var columnFilterPrefix = "ViewFilters__";
             var columnSorterPrefix = "ViewSorters__";
-            switch (context.Forms.Data("ControlId"))
+            switch (context.Forms.ControlId())
             {
                 case "ViewFilters_Reset":
                     Id = 0;
@@ -293,190 +293,192 @@ namespace Implem.Pleasanter.Libraries.Settings
                 case "ViewSorters_Reset":
                     ColumnSorterHash = null;
                     break;
-            }
-            foreach (string controlId in context.Forms.Keys)
-            {
-                switch (controlId)
-                {
-                    case "ViewName":
-                        Name = String(
-                            context: context,
-                            controlId: controlId);
-                        break;
-                    case "ViewGridColumnsAll":
-                        GridColumns = String(
-                            context: context,
-                            controlId: controlId).Deserialize<List<string>>();
-                        break;
-                    case "ViewFilters_Incomplete":
-                        Incomplete = Bool(
-                            context: context,
-                            controlId: controlId);
-                        break;
-                    case "ViewFilters_Own":
-                        Own = Bool(
-                            context: context,
-                            controlId: controlId);
-                        break;
-                    case "ViewFilters_NearCompletionTime":
-                        NearCompletionTime = Bool(
-                            context: context,
-                            controlId: controlId);
-                        break;
-                    case "ViewFilters_Delay":
-                        Delay = Bool(
-                            context: context,
-                            controlId: controlId);
-                        break;
-                    case "ViewFilters_Overdue":
-                        Overdue = Bool(
-                            context: context,
-                            controlId: controlId);
-                        break;
-                    case "ViewFilters_Search":
-                        Search = String(
-                            context: context,
-                            controlId: controlId);
-                        break;
-                    case "ViewSorters":
-                        SetSorters(
-                            context: context,
-                            ss: ss);
-                        break;
-                    case "CalendarTimePeriod":
-                        CalendarTimePeriod = String(
-                            context: context,
-                            controlId: controlId);
-                        break;
-                    case "CalendarFromTo":
-                        CalendarFromTo = String(
-                            context: context,
-                            controlId: controlId);
-                        break;
-                    case "CalendarMonth":
-                        CalendarMonth = Time(
-                            context: context,
-                            controlId: controlId);
-                        break;
-                    case "CrosstabGroupByX":
-                        CrosstabGroupByX = String(
-                            context: context,
-                            controlId: controlId);
-                        break;
-                    case "CrosstabGroupByY":
-                        CrosstabGroupByY = String(
-                            context: context,
-                            controlId: controlId);
-                        break;
-                    case "CrosstabColumns":
-                        CrosstabColumns = String(
-                            context: context,
-                            controlId: controlId);
-                        break;
-                    case "CrosstabAggregateType":
-                        CrosstabAggregateType = String(
-                            context: context,
-                            controlId: controlId);
-                        break;
-                    case "CrosstabValue":
-                        CrosstabValue = String(
-                            context: context,
-                            controlId: controlId);
-                        break;
-                    case "CrosstabTimePeriod":
-                        CrosstabTimePeriod = String(
-                            context: context,
-                            controlId: controlId);
-                        break;
-                    case "CrosstabMonth":
-                        CrosstabMonth = Time(
-                            context: context,
-                            controlId: controlId);
-                        break;
-                    case "GanttGroupBy":
-                        GanttGroupBy = String(
-                            context: context,
-                            controlId: controlId);
-                        break;
-                    case "GanttSortBy":
-                        GanttSortBy = String(
-                            context: context,
-                            controlId: controlId);
-                        break;
-                    case "GanttPeriod":
-                        GanttPeriod = context.Forms.Int(controlId);
-                        break;
-                    case "GanttStartDate":
-                        GanttStartDate = Time(
-                            context: context,
-                            controlId: controlId)
-                                .ToDateTime()
-                                .ToUniversal(context: context);
-                        break;
-                    case "TimeSeriesGroupBy":
-                        TimeSeriesGroupBy = String(
-                            context: context,
-                            controlId: controlId);
-                        break;
-                    case "TimeSeriesAggregateType":
-                        TimeSeriesAggregateType = String(
-                            context: context,
-                            controlId: controlId);
-                        break;
-                    case "TimeSeriesValue":
-                        TimeSeriesValue = String(
-                            context: context,
-                            controlId: controlId);
-                        break;
-                    case "KambanGroupByX":
-                        KambanGroupByX = String(
-                            context: context,
-                            controlId: controlId);
-                        break;
-                    case "KambanGroupByY":
-                        KambanGroupByY = String(
-                            context: context,
-                            controlId: controlId);
-                        break;
-                    case "KambanAggregateType":
-                        KambanAggregateType = String(
-                            context: context,
-                            controlId: controlId);
-                        break;
-                    case "KambanValue":
-                        KambanValue = String(
-                            context: context,
-                            controlId: controlId);
-                        break;
-                    case "KambanColumns":
-                        KambanColumns = context.Forms.Int(controlId);
-                        break;
-                    case "KambanAggregationView":
-                        KambanAggregationView = Bool(
-                            context: context,
-                            controlId: controlId);
-                        break;
-                    default:
-                        if (controlId.StartsWith(columnFilterPrefix))
+                default:
+                    foreach (string controlId in context.Forms.Keys)
+                    {
+                        switch (controlId)
                         {
-                            AddColumnFilterHash(
-                                context: context,
-                                ss: ss,
-                                columnName: controlId.Substring(columnFilterPrefix.Length),
-                                value: context.Forms.Data(controlId));
+                            case "ViewName":
+                                Name = String(
+                                    context: context,
+                                    controlId: controlId);
+                                break;
+                            case "ViewGridColumnsAll":
+                                GridColumns = String(
+                                    context: context,
+                                    controlId: controlId).Deserialize<List<string>>();
+                                break;
+                            case "ViewFilters_Incomplete":
+                                Incomplete = Bool(
+                                    context: context,
+                                    controlId: controlId);
+                                break;
+                            case "ViewFilters_Own":
+                                Own = Bool(
+                                    context: context,
+                                    controlId: controlId);
+                                break;
+                            case "ViewFilters_NearCompletionTime":
+                                NearCompletionTime = Bool(
+                                    context: context,
+                                    controlId: controlId);
+                                break;
+                            case "ViewFilters_Delay":
+                                Delay = Bool(
+                                    context: context,
+                                    controlId: controlId);
+                                break;
+                            case "ViewFilters_Overdue":
+                                Overdue = Bool(
+                                    context: context,
+                                    controlId: controlId);
+                                break;
+                            case "ViewFilters_Search":
+                                Search = String(
+                                    context: context,
+                                    controlId: controlId);
+                                break;
+                            case "ViewSorters":
+                                SetSorters(
+                                    context: context,
+                                    ss: ss);
+                                break;
+                            case "CalendarTimePeriod":
+                                CalendarTimePeriod = String(
+                                    context: context,
+                                    controlId: controlId);
+                                break;
+                            case "CalendarFromTo":
+                                CalendarFromTo = String(
+                                    context: context,
+                                    controlId: controlId);
+                                break;
+                            case "CalendarMonth":
+                                CalendarMonth = Time(
+                                    context: context,
+                                    controlId: controlId);
+                                break;
+                            case "CrosstabGroupByX":
+                                CrosstabGroupByX = String(
+                                    context: context,
+                                    controlId: controlId);
+                                break;
+                            case "CrosstabGroupByY":
+                                CrosstabGroupByY = String(
+                                    context: context,
+                                    controlId: controlId);
+                                break;
+                            case "CrosstabColumns":
+                                CrosstabColumns = String(
+                                    context: context,
+                                    controlId: controlId);
+                                break;
+                            case "CrosstabAggregateType":
+                                CrosstabAggregateType = String(
+                                    context: context,
+                                    controlId: controlId);
+                                break;
+                            case "CrosstabValue":
+                                CrosstabValue = String(
+                                    context: context,
+                                    controlId: controlId);
+                                break;
+                            case "CrosstabTimePeriod":
+                                CrosstabTimePeriod = String(
+                                    context: context,
+                                    controlId: controlId);
+                                break;
+                            case "CrosstabMonth":
+                                CrosstabMonth = Time(
+                                    context: context,
+                                    controlId: controlId);
+                                break;
+                            case "GanttGroupBy":
+                                GanttGroupBy = String(
+                                    context: context,
+                                    controlId: controlId);
+                                break;
+                            case "GanttSortBy":
+                                GanttSortBy = String(
+                                    context: context,
+                                    controlId: controlId);
+                                break;
+                            case "GanttPeriod":
+                                GanttPeriod = context.Forms.Int(controlId);
+                                break;
+                            case "GanttStartDate":
+                                GanttStartDate = Time(
+                                    context: context,
+                                    controlId: controlId)
+                                        .ToDateTime()
+                                        .ToUniversal(context: context);
+                                break;
+                            case "TimeSeriesGroupBy":
+                                TimeSeriesGroupBy = String(
+                                    context: context,
+                                    controlId: controlId);
+                                break;
+                            case "TimeSeriesAggregateType":
+                                TimeSeriesAggregateType = String(
+                                    context: context,
+                                    controlId: controlId);
+                                break;
+                            case "TimeSeriesValue":
+                                TimeSeriesValue = String(
+                                    context: context,
+                                    controlId: controlId);
+                                break;
+                            case "KambanGroupByX":
+                                KambanGroupByX = String(
+                                    context: context,
+                                    controlId: controlId);
+                                break;
+                            case "KambanGroupByY":
+                                KambanGroupByY = String(
+                                    context: context,
+                                    controlId: controlId);
+                                break;
+                            case "KambanAggregateType":
+                                KambanAggregateType = String(
+                                    context: context,
+                                    controlId: controlId);
+                                break;
+                            case "KambanValue":
+                                KambanValue = String(
+                                    context: context,
+                                    controlId: controlId);
+                                break;
+                            case "KambanColumns":
+                                KambanColumns = context.Forms.Int(controlId);
+                                break;
+                            case "KambanAggregationView":
+                                KambanAggregationView = Bool(
+                                    context: context,
+                                    controlId: controlId);
+                                break;
+                            default:
+                                if (controlId.StartsWith(columnFilterPrefix))
+                                {
+                                    AddColumnFilterHash(
+                                        context: context,
+                                        ss: ss,
+                                        columnName: controlId.Substring(columnFilterPrefix.Length),
+                                        value: context.Forms.Data(controlId));
+                                }
+                                else if (controlId.StartsWith(columnSorterPrefix))
+                                {
+                                    AddColumnSorterHash(
+                                        context: context,
+                                        ss: ss,
+                                        columnName: controlId.Substring(columnSorterPrefix.Length),
+                                        value: OrderByType(context.Forms.Data(controlId)));
+                                }
+                                break;
                         }
-                        else if (controlId.StartsWith(columnSorterPrefix))
-                        {
-                            AddColumnSorterHash(
-                                context: context,
-                                ss: ss,
-                                columnName: controlId.Substring(columnSorterPrefix.Length),
-                                value: OrderByType(context.Forms.Data(controlId)));
-                        }
-                        break;
-                }
+                    }
+                    KambanColumns = KambanColumns ?? Parameters.General.KambanColumns;
+                    break;
             }
-            KambanColumns = KambanColumns ?? Parameters.General.KambanColumns;
         }
 
         private bool? Bool(Context context, string controlId)

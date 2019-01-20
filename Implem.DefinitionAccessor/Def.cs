@@ -752,6 +752,7 @@ namespace Implem.DefinitionAccessor
                     case "HtmlLinks": Code.HtmlLinks = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.HtmlLinks, definitionRow, CodeXls); break;
                     case "HtmlLinks_DataSetTableCases": Code.HtmlLinks_DataSetTableCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.HtmlLinks_DataSetTableCases, definitionRow, CodeXls); break;
                     case "HtmlLinks_SelectStatementTableCases": Code.HtmlLinks_SelectStatementTableCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.HtmlLinks_SelectStatementTableCases, definitionRow, CodeXls); break;
+                    case "HtmlLinks_DataRowsTableCases": Code.HtmlLinks_DataRowsTableCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.HtmlLinks_DataRowsTableCases, definitionRow, CodeXls); break;
                     case "HtmlLinks_TableCases": Code.HtmlLinks_TableCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.HtmlLinks_TableCases, definitionRow, CodeXls); break;
                     case "FormulaUtilities": Code.FormulaUtilities = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.FormulaUtilities, definitionRow, CodeXls); break;
                     case "FormulaUtilities_TableCases": Code.FormulaUtilities_TableCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.FormulaUtilities_TableCases, definitionRow, CodeXls); break;
@@ -7608,6 +7609,7 @@ namespace Implem.DefinitionAccessor
         public string HtmlLinks;
         public string HtmlLinks_DataSetTableCases;
         public string HtmlLinks_SelectStatementTableCases;
+        public string HtmlLinks_DataRowsTableCases;
         public string HtmlLinks_TableCases;
         public string FormulaUtilities;
         public string FormulaUtilities_TableCases;
@@ -8169,6 +8171,7 @@ namespace Implem.DefinitionAccessor
         public CodeDefinition HtmlLinks = new CodeDefinition();
         public CodeDefinition HtmlLinks_DataSetTableCases = new CodeDefinition();
         public CodeDefinition HtmlLinks_SelectStatementTableCases = new CodeDefinition();
+        public CodeDefinition HtmlLinks_DataRowsTableCases = new CodeDefinition();
         public CodeDefinition HtmlLinks_TableCases = new CodeDefinition();
         public CodeDefinition FormulaUtilities = new CodeDefinition();
         public CodeDefinition FormulaUtilities_TableCases = new CodeDefinition();

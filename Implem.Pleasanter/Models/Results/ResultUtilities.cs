@@ -183,11 +183,6 @@ namespace Implem.Pleasanter.Models
                         gridData.TotalCount)
                             .ToString())
                 .Button(
-                    controlId: "ViewSorter",
-                    controlCss: "hidden",
-                    action: action,
-                    method: "post")
-                .Button(
                     controlId: "ViewSorters_Reset",
                     controlCss: "hidden",
                     action: action,
