@@ -677,6 +677,7 @@ namespace Implem.Pleasanter.Models
                     .LinkTable(
                         context: context,
                         siteId: context.Forms.Long("TableSiteId"),
+                        direction: context.Forms.Data("Direction"),
                         dataTableName: context.Forms.ControlId()))
                 .ToJson();
         }

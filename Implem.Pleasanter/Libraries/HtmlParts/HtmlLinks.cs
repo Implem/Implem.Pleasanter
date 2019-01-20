@@ -296,9 +296,8 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                             dataSet: dataSet,
                             ss: currentSs,
                             dataTableName: dataTableName),
-                        dataTableName: dataTableName,
-                        caption: Displays.LinkDestinations(context: context),
-                        sort: false);
+                        direction: "Destination",
+                        dataTableName: dataTableName);
                 });
                 ss.Sources.ForEach(currentSs =>
                 {
@@ -316,9 +315,8 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                             dataSet: dataSet,
                             ss: currentSs,
                             dataTableName: dataTableName),
-                        dataTableName: dataTableName,
-                        caption: Displays.LinkSources(context: context),
-                        sort: true);
+                        direction: "Source",
+                        dataTableName: dataTableName);
                 });
                 hb.Button(
                     controlId: "ViewSorters_Reset",
@@ -337,7 +335,11 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
         }
 
         private static EnumerableRowCollection<DataRow> DataRows(
-            Context context, SiteSettings ss, View view, long id)
+            Context context,
+            SiteSettings ss,
+            View view,
+            string direction,
+            long id)
         {
             switch (ss.ReferenceType)
             {
@@ -349,7 +351,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                             ss: ss,
                             view: view,
                             id: id,
-                            direction: "Source"))
+                            direction: direction))
                                 .AsEnumerable();
                 case "Results":
                     return Rds.ExecuteTable(
@@ -359,7 +361,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                             ss: ss,
                             view: view,
                             id: id,
-                            direction: "Source"))
+                            direction: direction))
                                 .AsEnumerable();
                 default:
                     return null;
@@ -367,7 +369,11 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
         }
 
         public static HtmlBuilder LinkTable(
-            this HtmlBuilder hb, Context context, long siteId, string dataTableName)
+            this HtmlBuilder hb,
+            Context context,
+            long siteId,
+            string direction,
+            string dataTableName)
         {
             var ss = SiteSettingsUtilities.Get(
                 context: context,
@@ -385,10 +391,10 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     context: context,
                     ss: ss,
                     view: view,
+                    direction: direction,
                     id: context.Id),
-                dataTableName: DataTableName(ss: ss, direction: "Source"),
-                caption: Displays.LinkSources(context: context),
-                sort: true);
+                direction: direction,
+                dataTableName: dataTableName);
         }
 
         private static HtmlBuilder LinkTable(
@@ -397,15 +403,15 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             SiteSettings ss,
             View view,
             EnumerableRowCollection<DataRow> dataRows,
-            string dataTableName,
-            string caption,
-            bool sort)
+            string direction,
+            string dataTableName)
         {
             return hb.Table(
                 id: dataTableName,
                 css: "grid",
                 attributes: new HtmlAttributes()
                     .DataId(ss.SiteId.ToString())
+                    .DataName(direction)
                     .DataValue("back")
                     .DataAction("LinkTable")
                     .DataMethod("post"),
@@ -429,7 +435,9 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                 issueCollection.SetLinks(context: context, ss: ss);
                                 hb
                                     .Caption(caption: "{0} : {1} - {2} {3}".Params(
-                                        caption,
+                                        Caption(
+                                            context: context,
+                                            direction: direction),
                                         siteMenu.Breadcrumb(context: context, siteId: ss.SiteId)
                                             .Select(o => o.Title)
                                             .Join(" > "),
@@ -440,7 +448,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                             context: context,
                                             columns: columns,
                                             view: view,
-                                            sort: sort,
+                                            sort: true,
                                             checkRow: false,
                                             action: "LinkTable"))
                                     .TBody(action: () => issueCollection
@@ -470,7 +478,9 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                 resultCollection.SetLinks(context: context, ss: ss);
                                 hb
                                     .Caption(caption: "{0} : {1} - {2} {3}".Params(
-                                        caption,
+                                        Caption(
+                                            context: context,
+                                            direction: direction),
                                         siteMenu.Breadcrumb(context: context, siteId: ss.SiteId)
                                             .Select(o => o.Title)
                                             .Join(" > "),
@@ -481,7 +491,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                             context: context,
                                             columns: columns,
                                             view: view,
-                                            sort: sort,
+                                            sort: true,
                                             checkRow: false,
                                             action: "LinkTable"))
                                     .TBody(action: () => resultCollection
@@ -506,6 +516,19 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                         }
                     }
                 });
+        }
+
+        private static string Caption(Context context, string direction)
+        {
+            switch (direction)
+            {
+                case "Destination":
+                    return Displays.LinkDestinations(context: context);
+                case "Source":
+                    return Displays.LinkSources(context: context);
+                default:
+                    return null;
+            }
         }
     }
 }

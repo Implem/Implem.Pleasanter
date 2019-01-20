@@ -116,6 +116,7 @@ $(function () {
         var $control = $(this);
         var $grid = $control.closest('.grid');
         var data = $p.getData($control);
+        data.Direction = $grid.attr('data-name');
         data.TableId = $grid.attr('id');
         data.TableSiteId = $grid.attr('data-id');
         $grid.find('[data-id^="ViewSorters_"]').each(function () {
@@ -133,6 +134,7 @@ $(function () {
         var $grid = $control.closest('.grid');
         var data = $p.getData($control);
         data[$control.attr('data-id')] = type;
+        data.Direction = $grid.attr('data-name');
         data.TableId = $grid.attr('id');
         data.TableSiteId = $grid.attr('data-id');
         $p.send($grid);
