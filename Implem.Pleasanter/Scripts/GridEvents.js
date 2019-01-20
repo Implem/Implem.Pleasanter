@@ -76,7 +76,7 @@ $(function () {
     $(document).on('mouseenter', 'th.sortable', function () {
         timer = setTimeout(function ($control) {
             $control.append($('<ul/>')
-                .attr('data-target', '#' + $control.children('div').attr('id'))
+                .attr('data-target', '[data-id="' + $control.children('div').attr('data-id') + '"]')
                 .addClass('menu-sort')
                     .addMenu('ui-icon-triangle-1-n', 'Asc')
                     .addMenu('ui-icon-triangle-1-s', 'Desc')
@@ -110,31 +110,35 @@ $(function () {
         }
     });
     $(document).on('click', '.menu-sort > li.sort', function (e) {
-        var $control = $($(this).parent().attr('data-target'));
-        var data = $p.getData($control);
-        data[$control.attr('id')] = $(this).attr('data-order-type');
-        $p.send($('#ViewSorter'));
-        delete data[$control.attr('id')];
-        e.stopPropagation();
+        sort($($(this).parent().attr('data-target')), $(this).attr('data-order-type'));
     });
     $(document).on('click', '.menu-sort > li.reset', function (e) {
-        var data = $p.getData($(this));
-        $('[id^="ViewSorters_"]').each(function () {
-            data[this.id] = '';
+        var $control = $(this);
+        var $grid = $control.closest('.grid');
+        var data = $p.getData($control);
+        data.TableId = $grid.attr('id');
+        data.TableSiteId = $grid.attr('data-id');
+        $grid.find('[data-id^="ViewSorters_"]').each(function () {
+            delete data[$(this).attr('data-id')];
         });
         $p.send($('#ViewSorters_Reset'));
-        $('[id^="ViewSorters_"]').each(function () {
-            delete data[this.id];
-        });
         e.stopPropagation();
     });
     $(document).on('click', 'th.sortable', function () {
         var $control = $(this).find('div');
-        var data = $p.getData($control);
-        data[$control.attr('id')] = $control.attr('data-order-type');
-        $p.send($control);
-        delete data[$control.attr('id')];
+        sort($control, $control.attr('data-order-type'))
     });
+
+    function sort($control, type) {
+        var $grid = $control.closest('.grid');
+        var data = $p.getData($control);
+        data[$control.attr('data-id')] = type;
+        data.TableId = $grid.attr('id');
+        data.TableSiteId = $grid.attr('data-id');
+        $p.send($grid);
+        delete data[$control.attr('id')];
+        e.stopPropagation();
+    }
 });
 $(function () {
     var timer;

@@ -76,6 +76,7 @@ namespace Implem.Pleasanter.Libraries.Settings
         public int? GridPageSize;
         public int? GridView;
         public bool? EditInDialog;
+        public int? LinkTableView;
         public int? FirstDayOfWeek;
         public int? FirstMonth;
         public List<string> GridColumns;
@@ -376,6 +377,10 @@ namespace Implem.Pleasanter.Libraries.Settings
             if (EditInDialog == true)
             {
                 ss.EditInDialog = EditInDialog;
+            }
+            if (LinkTableView != 0)
+            {
+                ss.LinkTableView = LinkTableView;
             }
             if (FirstDayOfWeek != param.FirstDayOfWeek)
             {
@@ -1471,6 +1476,19 @@ namespace Implem.Pleasanter.Libraries.Settings
                 .ToList();
         }
 
+        public IEnumerable<Column> GetLinkTableColumns(
+            Context context, View view = null, bool checkPermission = false)
+        {
+            return (view?.GridColumns ?? LinkColumns)
+                .Select(columnName => GetColumn(context: context, columnName: columnName))
+                .Where(column => column != null)
+                .Where(column => !column.Joined)
+                .AllowedColumns(checkPermission: checkPermission)
+                .Where(o => context.ContractSettings.Attachments()
+                    || o.ControlType != "Attachments")
+                .ToList();
+        }
+
         public IEnumerable<Column> GetFilterColumns(Context context, bool checkPermission = false)
         {
             return FilterColumns
@@ -2188,6 +2206,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                 case "GridPageSize": GridPageSize = value.ToInt(); break;
                 case "GridView": GridView = value.ToInt(); break;
                 case "EditInDialog": EditInDialog = value.ToBool(); break;
+                case "LinkTableView": LinkTableView = value.ToInt(); break;
                 case "FirstDayOfWeek": FirstDayOfWeek = value.ToInt(); break;
                 case "FirstMonth": FirstMonth = value.ToInt(); break;
                 case "AllowEditingComments": AllowEditingComments = value.ToBool(); break;

@@ -1,6 +1,7 @@
 ﻿using Implem.Libraries.Utilities;
 using Implem.Pleasanter.Libraries.Settings;
 using Implem.Pleasanter.Models;
+using System.Linq;
 namespace Implem.Pleasanter.Libraries.Requests
 {
     public static class Views
@@ -32,10 +33,10 @@ namespace Implem.Pleasanter.Libraries.Requests
             }
             view = context.SessionData.Get("View")?.Deserialize<View>()
                 ?? ss.Views?.Get(ss.GridView)
-                ?? new View(
-                    context: context,
-                    ss: ss);
-            view.SetByForm(context: context, ss: ss);
+                ?? new View();
+            view.SetByForm(
+                context: context,
+                ss: ss);
             SetSession(
                 context: context,
                 ss: ss,
@@ -44,15 +45,50 @@ namespace Implem.Pleasanter.Libraries.Requests
             return view;
         }
 
+        public static View GetBySession(
+            Context context,
+            SiteSettings ss,
+            string dataTableName,
+            bool setSession = false)
+        {
+            var key = "View_" + dataTableName;
+            var view = context.SessionData.Get(key)?.Deserialize<View>();
+            if (view == null)
+            {
+                view = ss.Views.Get(ss.LinkTableView);
+                if (view != null && view.GridColumns?.Any() != true)
+                {
+                    view.GridColumns = ss.GridColumns;
+                }
+            }
+            if (view == null)
+            {
+                view = new View();
+            }
+            if (setSession)
+            {
+                view.SetByForm(
+                    context: context,
+                    ss: ss);
+                SetSession(
+                    context: context,
+                    ss: ss,
+                    view: view,
+                    setSession: true,
+                    key: key);
+            }
+            return view;
+        }
+
         private static void SetSession(
-            Context context, SiteSettings ss, View view, bool setSession)
+            Context context, SiteSettings ss, View view, bool setSession, string key = "View")
         {
             if (setSession)
             {
                 SessionUtilities.Set(
                     context: context,
                     ss: ss,
-                    key: "View",
+                    key: key,
                     view: view);
             }
         }

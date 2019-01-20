@@ -18,8 +18,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
         public static HtmlBuilder Links(
             this HtmlBuilder hb, Context context, SiteSettings ss, long id)
         {
-            var targets = Targets(context: context, linkId: id);
-            var dataSet = DataSet(context: context, ss: ss, targets: targets);
+            var dataSet = DataSet(context: context, ss: ss, id: id);
             return Contains(ss, dataSet)
                 ? hb.FieldSet(
                     css: " enclosed",
@@ -28,59 +27,69 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                         .Links(
                             context: context,
                             ss: ss,
-                            targets: targets,
                             dataSet: dataSet))
                 : hb;
         }
 
-        private static EnumerableRowCollection<DataRow> Targets(Context context, long linkId)
-        {
-            return Rds.ExecuteTable(
-                context: context,
-                statements: new SqlStatement[]
-                {
-                    Rds.SelectLinks(
-                        column: Rds.LinksColumn()
-                            .SourceId(_as: "Id")
-                            .Add("'Source' as [Direction]"),
-                        where: Rds.LinksWhere().DestinationId(linkId)),
-                    Rds.SelectLinks(
-                        unionType: Sqls.UnionTypes.UnionAll,
-                        column: Rds.LinksColumn()
-                            .DestinationId(_as: "Id")
-                            .Add("'Destination' as [Direction]"),
-                        where: Rds.LinksWhere().SourceId(linkId))
-                }).AsEnumerable();
-        }
-
-        private static DataSet DataSet(
-            Context context, SiteSettings ss, EnumerableRowCollection<DataRow> targets)
+        private static DataSet DataSet(Context context, SiteSettings ss, long id)
         {
             var statements = new List<SqlStatement>();
-            ss.Sources.ForEach(currentSs =>
-                statements.Add(SelectIssues(
-                    context: context,
-                    ss: currentSs,
-                    targets: targets,
-                    direction: "Source")));
-            ss.Destinations.ForEach(currentSs =>
-                statements.Add(SelectIssues(
-                    context: context,
-                    ss: currentSs,
-                    targets: targets,
-                    direction: "Destination")));
-            ss.Sources.ForEach(currentSs =>
-                statements.Add(SelectResults(
-                    context: context,
-                    ss: currentSs,
-                    targets: targets,
-                    direction: "Source")));
-            ss.Destinations.ForEach(currentSs =>
-                statements.Add(SelectResults(
-                    context: context,
-                    ss: currentSs,
-                    targets: targets,
-                    direction: "Destination")));
+            ss.Sources
+                .Where(currentSs => currentSs.ReferenceType == "Issues")
+                .ForEach(currentSs =>
+                    statements.Add(SelectIssues(
+                        context: context,
+                        ss: currentSs,
+                        view: Views.GetBySession(
+                            context: context,
+                            ss: currentSs,
+                            dataTableName: DataTableName(
+                                ss: currentSs,
+                                direction: "Source")),
+                        id: id,
+                        direction: "Source")));
+            ss.Destinations
+                .Where(currentSs => currentSs.ReferenceType == "Issues")
+                .ForEach(currentSs =>
+                    statements.Add(SelectIssues(
+                        context: context,
+                        ss: currentSs,
+                        view: Views.GetBySession(
+                            context: context,
+                            ss: currentSs,
+                            dataTableName: DataTableName(
+                                ss: currentSs,
+                                direction: "Destination")),
+                        id: id,
+                        direction: "Destination")));
+            ss.Sources
+                .Where(currentSs => currentSs.ReferenceType == "Results")
+                .ForEach(currentSs =>
+                    statements.Add(SelectResults(
+                        context: context,
+                        ss: currentSs,
+                        view: Views.GetBySession(
+                            context: context,
+                            ss: currentSs,
+                            dataTableName: DataTableName(
+                                ss: currentSs,
+                                direction: "Source")),
+                        id: id,
+                        direction: "Source")));
+            ss.Destinations
+                .Where(currentSs => currentSs.ReferenceType == "Results")
+                .ForEach(currentSs =>
+                    statements.Add(SelectResults(
+                        context: context,
+                        ss: currentSs,
+                        view: Views.GetBySession(
+                            context: context,
+                            ss: currentSs,
+                            dataTableName: DataTableName(
+                                ss: currentSs,
+                                direction: "Destination")),
+                        id: id,
+                        direction: "Destination")));
             return statements.Any()
                 ? Rds.ExecuteDataSet(
                     context: context,
@@ -91,12 +100,19 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
         private static SqlStatement SelectIssues(
             Context context,
             SiteSettings ss,
-            EnumerableRowCollection<DataRow> targets,
+            View view,
+            long id,
             string direction)
         {
             return Rds.SelectIssues(
-                dataTableName: "Issues" + "_" + direction + ss.SiteId,
-                column: IssuesLinkColumns(ss).Add("'" + direction + "' as Direction"),
+                dataTableName: DataTableName(
+                    ss: ss,
+                    direction: direction),
+                column: IssuesLinkColumns(
+                    context: context,
+                    ss: ss,
+                    view: view,
+                    direction: direction),
                 join: Rds.IssuesJoinDefault()
                     .Add(
                         tableName: "Sites",
@@ -104,26 +120,36 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                         joinExpression: "[Sites].[SiteId]=[Issues].[SiteId]"),
                 where: Rds.IssuesWhere()
                     .SiteId(ss.SiteId)
-                    .IssueId_In(targets
-                        .Where(o => o["Direction"].ToString() == direction)
-                        .Select(o => o["Id"].ToLong()))
-                    .CanRead(context: context, idColumnBracket: "[Issues].[IssueId]"),
-                orderBy: Rds.IssuesOrderBy().UpdatedTime(SqlOrderBy.Types.desc));
+                    .IssueId_In(sub: Targets(
+                        context: context,
+                        id: id,
+                        direction: direction))
+                    .CanRead(context: context, idColumnBracket: "[Issues].[IssueId]")
+                    .Sites_TenantId(context.TenantId),
+                orderBy: view.OrderBy(
+                    context: context,
+                    ss: ss));
         }
 
-        public static Rds.IssuesColumnCollection IssuesLinkColumns(SiteSettings ss)
+        public static Rds.IssuesColumnCollection IssuesLinkColumns(
+            Context context, SiteSettings ss, View view, string direction)
         {
             var column = Rds.IssuesColumn()
                 .SiteId()
                 .IssueId();
-            ss.LinkColumns?.ForEach(columnName =>
+            var linkTableColumns = ss.GetLinkTableColumns(
+                context: context,
+                view: view)
+                    .Select(o => o.ColumnName)
+                    .ToList();
+            linkTableColumns.ForEach(columnName =>
             {
                 switch (columnName)
                 {
                     case "Title":
                         ss.TitleColumns?
                             .Where(o => o == "Title"
-                                || ss.LinkColumns?.Contains(o) != true)
+                                || linkTableColumns.Contains(o) != true)
                             .ForEach(o =>
                                 column.IssuesColumn(o));
                         break;
@@ -132,18 +158,25 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                         break;
                 }
             });
-            return column;
+            return column.Add("'" + direction + "' as Direction");
         }
 
         private static SqlStatement SelectResults(
             Context context,
             SiteSettings ss,
-            EnumerableRowCollection<DataRow> targets,
+            View view,
+            long id,
             string direction)
         {
             return Rds.SelectResults(
-                dataTableName: "Results" + "_" + direction + ss.SiteId,
-                column: ResultsLinkColumns(ss).Add("'" + direction + "' as Direction"),
+                dataTableName: DataTableName(
+                    ss: ss,
+                    direction: direction),
+                column: ResultsLinkColumns(
+                    context: context,
+                    ss: ss,
+                    view: view,
+                    direction: direction),
                 join: Rds.ResultsJoinDefault()
                     .Add(
                         tableName: "Sites",
@@ -151,26 +184,36 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                         joinExpression: "[Sites].[SiteId]=[Results].[SiteId]"),
                 where: Rds.ResultsWhere()
                     .SiteId(ss.SiteId)
-                    .ResultId_In(targets
-                        .Where(o => o["Direction"].ToString() == direction)
-                        .Select(o => o["Id"].ToLong()))
-                    .CanRead(context: context, idColumnBracket: "[Results].[ResultId]"),
-                orderBy: Rds.ResultsOrderBy().UpdatedTime(SqlOrderBy.Types.desc));
+                    .ResultId_In(sub: Targets(
+                        context: context,
+                        id: id,
+                        direction: direction))
+                    .CanRead(context: context, idColumnBracket: "[Results].[ResultId]")
+                    .Sites_TenantId(context.TenantId),
+                orderBy: view.OrderBy(
+                    context: context,
+                    ss: ss));
         }
 
-        public static Rds.ResultsColumnCollection ResultsLinkColumns(SiteSettings ss)
+        public static Rds.ResultsColumnCollection ResultsLinkColumns(
+            Context context, SiteSettings ss, View view, string direction)
         {
             var column = Rds.ResultsColumn()
                 .SiteId()
                 .ResultId();
-            ss.LinkColumns?.ForEach(columnName =>
+            var linkTableColumns = ss.GetLinkTableColumns(
+                context: context,
+                view: view)
+                    .Select(o => o.ColumnName)
+                    .ToList();
+            linkTableColumns.ForEach(columnName =>
             {
                 switch (columnName)
                 {
                     case "Title":
                         ss.TitleColumns?
                             .Where(o => o == "Title"
-                                || ss.LinkColumns?.Contains(o) != true)
+                                || linkTableColumns.Contains(o) != true)
                             .ForEach(o =>
                                 column.ResultsColumn(o));
                         break;
@@ -179,7 +222,25 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                         break;
                 }
             });
-            return column;
+            return column.Add("'" + direction + "' as Direction");
+        }
+
+        private static SqlSelect Targets(
+            Context context, long id, string direction)
+        {
+            switch (direction)
+            {
+                case "Destination":
+                    return Rds.SelectLinks(
+                        column: Rds.LinksColumn().DestinationId(),
+                        where: Rds.LinksWhere().SourceId(id));
+                case "Source":
+                    return Rds.SelectLinks(
+                        column: Rds.LinksColumn().SourceId(),
+                        where: Rds.LinksWhere().DestinationId(id));
+                default:
+                    return null;
+            }
         }
 
         private static bool Contains(SiteSettings ss, DataSet dataSet)
@@ -194,9 +255,11 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
         {
             foreach (var ss in ssList)
             {
-                if (dataSet?.Tables[ss.ReferenceType + "_" + direction + ss.SiteId]?
-                    .AsEnumerable()
-                    .Where(o => o["SiteId"].ToLong() == ss.SiteId).Any() == true)
+                if (dataSet?.Tables[DataTableName(
+                    ss: ss,
+                    direction: direction)]?
+                        .AsEnumerable()
+                        .Where(dataRow => dataRow.Long("SiteId") == ss.SiteId).Any() == true)
                 {
                     return true;
                 };
@@ -204,49 +267,158 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             return false;
         }
 
+        private static string DataTableName(SiteSettings ss, string direction)
+        {
+            return ss.ReferenceType + "_" + direction + ss.SiteId;
+        }
+
         private static HtmlBuilder Links(
             this HtmlBuilder hb,
             Context context,
             SiteSettings ss,
-            EnumerableRowCollection<DataRow> targets,
             DataSet dataSet)
         {
-            return hb.Div(action: () => hb
-                .LinkTables(
-                    context: context,
-                    ssList: ss.Destinations,
-                    dataSet: dataSet,
-                    direction: "Destination",
-                    caption: Displays.LinkDestinations(context: context))
-                .LinkTables(
-                    context: context,
-                    ssList: ss.Sources,
-                    dataSet: dataSet,
-                    direction: "Source",
-                    caption: Displays.LinkSources(context: context)));
+            return hb.Div(action: () =>
+            {
+                ss.Destinations.ForEach(currentSs =>
+                {
+                    var dataTableName = DataTableName(
+                        ss: currentSs,
+                        direction: "Destination");
+                    hb.LinkTable(
+                        context: context,
+                        ss: currentSs,
+                        view: Views.GetBySession(
+                            context: context,
+                            ss: currentSs,
+                            dataTableName: dataTableName),
+                        dataRows: DataRows(
+                            dataSet: dataSet,
+                            ss: currentSs,
+                            dataTableName: dataTableName),
+                        dataTableName: dataTableName,
+                        caption: Displays.LinkDestinations(context: context),
+                        sort: false);
+                });
+                ss.Sources.ForEach(currentSs =>
+                {
+                    var dataTableName = DataTableName(
+                        ss: currentSs,
+                        direction: "Source");
+                    hb.LinkTable(
+                        context: context,
+                        ss: currentSs,
+                        view: Views.GetBySession(
+                            context: context,
+                            ss: currentSs,
+                            dataTableName: dataTableName),
+                        dataRows: DataRows(
+                            dataSet: dataSet,
+                            ss: currentSs,
+                            dataTableName: dataTableName),
+                        dataTableName: dataTableName,
+                        caption: Displays.LinkSources(context: context),
+                        sort: true);
+                });
+                hb.Button(
+                    controlId: "ViewSorters_Reset",
+                    controlCss: "hidden",
+                    action: "LinkTable",
+                    method: "post");
+            });
         }
 
-        private static HtmlBuilder LinkTables(
+        private static EnumerableRowCollection<DataRow> DataRows(
+            DataSet dataSet, SiteSettings ss, string dataTableName)
+        {
+            return dataSet.Tables[dataTableName]?
+                .AsEnumerable()
+                .Where(dataRow => dataRow.Long("SiteId") == ss.SiteId);
+        }
+
+        private static EnumerableRowCollection<DataRow> DataRows(
+            Context context, SiteSettings ss, View view, long id)
+        {
+            switch (ss.ReferenceType)
+            {
+                case "Issues":
+                    return Rds.ExecuteTable(
+                        context: context,
+                        statements: SelectIssues(
+                            context: context,
+                            ss: ss,
+                            view: view,
+                            id: id,
+                            direction: "Source"))
+                                .AsEnumerable();
+                case "Results":
+                    return Rds.ExecuteTable(
+                        context: context,
+                        statements: SelectResults(
+                            context: context,
+                            ss: ss,
+                            view: view,
+                            id: id,
+                            direction: "Source"))
+                                .AsEnumerable();
+                default:
+                    return null;
+            }
+        }
+
+        public static HtmlBuilder LinkTable(
+            this HtmlBuilder hb, Context context, long siteId, string dataTableName)
+        {
+            var ss = SiteSettingsUtilities.Get(
+                context: context,
+                siteId: siteId);
+            var view = Views.GetBySession(
+                context: context,
+                ss: ss,
+                dataTableName: dataTableName,
+                setSession: true);
+            return hb.LinkTable(
+                context: context,
+                ss: ss,
+                view: view,
+                dataRows: DataRows(
+                    context: context,
+                    ss: ss,
+                    view: view,
+                    id: context.Id),
+                dataTableName: DataTableName(ss: ss, direction: "Source"),
+                caption: Displays.LinkSources(context: context),
+                sort: true);
+        }
+
+        private static HtmlBuilder LinkTable(
             this HtmlBuilder hb,
             Context context,
-            IEnumerable<SiteSettings> ssList,
-            DataSet dataSet,
-            string direction,
-            string caption)
+            SiteSettings ss,
+            View view,
+            EnumerableRowCollection<DataRow> dataRows,
+            string dataTableName,
+            string caption,
+            bool sort)
         {
-            ssList.ForEach(ss => hb.Table(
+            return hb.Table(
+                id: dataTableName,
                 css: "grid",
-                attributes: new HtmlAttributes().DataValue("back"),
+                attributes: new HtmlAttributes()
+                    .DataId(ss.SiteId.ToString())
+                    .DataValue("back")
+                    .DataAction("LinkTable")
+                    .DataMethod("post"),
                 action: () =>
                 {
-                    var dataRows = dataSet.Tables[ss.ReferenceType + "_" + direction + ss.SiteId]?
-                        .AsEnumerable()
-                        .Where(o => o["SiteId"].ToLong() == ss.SiteId);
                     var siteMenu = SiteInfo.TenantCaches.Get(context.TenantId)?.SiteMenu;
                     if (dataRows != null && dataRows.Any())
                     {
                         ss.SetColumnAccessControls(context: context);
-                        var columns = ss.GetLinkColumns(context: context, checkPermission: true);
+                        var columns = ss.GetLinkTableColumns(
+                            context: context,
+                            view: view,
+                            checkPermission: true);
                         switch (ss.ReferenceType)
                         {
                             case "Issues":
@@ -267,8 +439,10 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                         .GridHeader(
                                             context: context,
                                             columns: columns,
-                                            sort: false,
-                                            checkRow: false))
+                                            view: view,
+                                            sort: sort,
+                                            checkRow: false,
+                                            action: "LinkTable"))
                                     .TBody(action: () => issueCollection
                                         .ForEach(issueModel =>
                                         {
@@ -306,8 +480,10 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                         .GridHeader(
                                             context: context,
                                             columns: columns,
-                                            sort: false,
-                                            checkRow: false))
+                                            view: view,
+                                            sort: sort,
+                                            checkRow: false,
+                                            action: "LinkTable"))
                                     .TBody(action: () => resultCollection
                                         .ForEach(resultModel =>
                                         {
@@ -329,8 +505,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                 break;
                         }
                     }
-                }));
-            return hb;
+                });
         }
     }
 }

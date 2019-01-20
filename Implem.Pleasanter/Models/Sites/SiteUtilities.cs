@@ -183,11 +183,6 @@ namespace Implem.Pleasanter.Models
                         gridData.TotalCount)
                             .ToString())
                 .Button(
-                    controlId: "ViewSorter",
-                    controlCss: "hidden",
-                    action: action,
-                    method: "post")
-                .Button(
                     controlId: "ViewSorters_Reset",
                     controlCss: "hidden",
                     action: action,
@@ -4618,7 +4613,16 @@ namespace Implem.Pleasanter.Models
                                         text: Displays.ToEnable(context: context),
                                         controlCss: "button-icon",
                                         onClick: "$p.moveColumns($(this),'Link');",
-                                        icon: "ui-icon-circle-triangle-w")))));
+                                        icon: "ui-icon-circle-triangle-w"))))
+                .FieldDropDown(
+                    context: context,
+                    controlId: "LinkTableView",
+                    fieldCss: "field-auto-thin",
+                    labelText: Displays.DefaultView(context: context),
+                    optionCollection: ss.ViewSelectableOptions(),
+                    selectedValue: ss.LinkTableView?.ToString(),
+                    insertBlank: true,
+                    _using: ss.Views?.Any() == true));
         }
 
         /// <summary>
