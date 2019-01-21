@@ -1368,6 +1368,7 @@
     <Content Include="App_Data\Displays\ConfirmSwitchUser.json" />
     <Content Include="App_Data\Displays\Updated.json" />
     <Content Include="App_Data\Displays\Password.json" />
+    <Content Include="App_Data\Displays\DatabaseSize.json" />
     <Content Include="Tools\BackgroundTasks.ps1" />
     <Content Include="Tools\SyncByLdap.ps1" />
     <Content Include="Views\Users\EditApi.cshtml" />

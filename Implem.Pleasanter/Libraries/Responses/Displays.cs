@@ -1206,6 +1206,16 @@ namespace Implem.Pleasanter.Libraries.Responses
                 data: data);
         }
 
+        public static string DatabaseSize(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "DatabaseSize",
+                data: data);
+        }
+
         public static string DataStorageDestination(
             Context context,
             params string[] data)
