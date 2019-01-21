@@ -1,5 +1,7 @@
 ﻿using Implem.DefinitionAccessor;
+using Implem.Libraries.DataSources.SqlServer;
 using Implem.Libraries.Utilities;
+using Implem.Pleasanter.Libraries.DataSources;
 using Implem.Pleasanter.Libraries.Html;
 using Implem.Pleasanter.Libraries.Models;
 using Implem.Pleasanter.Libraries.Requests;
@@ -7,6 +9,8 @@ using Implem.Pleasanter.Libraries.Responses;
 using Implem.Pleasanter.Libraries.Settings;
 using Implem.Pleasanter.Models;
 using System;
+using System.Data;
+using System.Linq;
 namespace Implem.Pleasanter.Libraries.HtmlParts
 {
     public static class HtmlAssemblyVersions
@@ -15,6 +19,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
         {
             var ss = new SiteSettings();
             var plan = context.ContractSettings.DisplayName;
+            var databaseSize = DatabaseSize(context: context);
             return hb
                 .Template(
                     context: context,
@@ -46,6 +51,14 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                     .Span(action: () => hb
                                         .Text(text: plan + Displays.Plan(context: context))),
                                 _using: !plan.IsNullOrEmpty())
+
+                            .Div(
+                                action: () => hb
+                                    .Span(action: () => hb
+                                        .Text(text: Displays.DatabaseSize(
+                                            context: context,
+                                            data: databaseSize.ToString()))),
+                                _using: context.HasPrivilege && databaseSize != null)
                             .Div(action: () => hb
                                 .Span(action: () => hb
                                     .A(
@@ -59,6 +72,25 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                             siteId: 0,
                             verType: Versions.VerTypes.Latest))
                 .ToString();
+        }
+
+        private static string DatabaseSize(Context context)
+        {
+            try
+            {
+                return Rds.ExecuteTable(
+                    context: context,
+                    connectionString: Parameters.Rds.OwnerConnectionString,
+                    statements: new SqlStatement(
+                        commandText: Def.Sql.Spaceused))
+                            .AsEnumerable()
+                            .FirstOrDefault()
+                            .String("database_size");
+            }
+            catch (Exception)
+            {
+                return null;
+            }
         }
     }
 }

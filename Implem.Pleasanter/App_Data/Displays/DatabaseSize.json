@@ -1,0 +1,13 @@
+﻿{
+    "Id": "DatabaseSize",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Database size {0}"
+        },
+        {
+            "Language": "ja",
+            "Body": "データベース使用量 {0}"
+        }
+    ]
+}
