@@ -61,6 +61,7 @@ namespace Implem.Pleasanter
             BundleConfig.RegisterBundles(BundleTable.Bundles);
             ViewEngines.Engines.Clear();
             ViewEngines.Engines.Add(new RazorViewEngine());
+            Saml.RegisterSamlConfiguration();
         }
 
         protected void Application_End()

@@ -113,5 +113,15 @@ namespace Implem.Pleasanter.Controllers
                 return Content(Error.Types.InternalServerError.MessageJson(context: context));
             }
         }
+
+        [AllowAnonymous]
+        public ActionResult LoginIdAlreadyUse()
+        {
+            var context = new Context();
+            ViewBag.HtmlBody = HtmlTemplates.Error(
+                context: context,
+                errorType: Error.Types.LoginIdAlreadyUse);
+            return View();
+        }
     }
 }

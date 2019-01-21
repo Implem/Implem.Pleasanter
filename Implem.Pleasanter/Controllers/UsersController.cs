@@ -5,6 +5,10 @@ using Implem.Pleasanter.Libraries.Settings;
 using Implem.Pleasanter.Models;
 using System.Web;
 using System.Web.Mvc;
+using Implem.DefinitionAccessor;
+using Implem.Libraries.Utilities;
+using Implem.Pleasanter.Libraries.DataSources;
+using System.Security.Claims;
 namespace Implem.Pleasanter.Controllers
 {
     [Authorize]
@@ -235,7 +239,7 @@ namespace Implem.Pleasanter.Controllers
         /// </summary>
         [AllowAnonymous]
         [HttpGet]
-        public ActionResult Login(string returnUrl)
+        public ActionResult Login(string returnUrl, string ssocode = "")
         {
             var context = new Context();
             var log = new SysLogModel(context: context);
@@ -248,6 +252,21 @@ namespace Implem.Pleasanter.Controllers
                 log.Finish(context: context);
                 return base.Redirect(Locations.Top(context: context));
             }
+            if (Parameters.Authentication.Provider == "SAML")
+            {
+                var tenant = new TenantModel().Get(
+                    context: context,
+                    ss: SiteSettingsUtilities.TenantsSiteSettings(context), 
+                    where: Rds.TenantsWhere().Comments(ssocode));
+                if (tenant.AccessStatus == Databases.AccessStatuses.Selected)
+                {
+                    var redirectUrl = Saml.SetIdpConfiguration(context, tenant.TenantId);
+                    if (redirectUrl != null)
+                    {
+                        return new RedirectResult(redirectUrl);
+                    }
+                }
+            }
             var html = UserUtilities.HtmlLogin(
                 context: context,
                 returnUrl: returnUrl,
@@ -257,6 +276,75 @@ namespace Implem.Pleasanter.Controllers
             ViewBag.HtmlBody = html;
             log.Finish(context: context, responseSize: html.Length);
             return View();
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        public ActionResult SamlLogin()
+        {
+            var context = new Context();
+            if (HttpContext.User?.Identity?.AuthenticationType == "Federation"
+                && HttpContext.User?.Identity?.IsAuthenticated == true)
+            {
+                Authentications.SignOut();
+                var loginId = ClaimsPrincipal.Current.FindFirst(ClaimTypes.NameIdentifier);
+                var firstName = string.Empty;
+                var lastName = string.Empty;
+                var tenantManager = false;
+                foreach(var claim in ClaimsPrincipal.Current.Claims)
+                {
+                    switch (claim.Type)
+                    {
+                        case "FirstName":
+                            firstName = claim.Value;
+                            break;
+                        case "LastName":
+                            lastName = claim.Value;
+                            break;
+                        case "TenantManager":
+                            tenantManager = claim.Value.ToLower() == "true" ? true : false;
+                            break;
+                    }
+                }
+                var ssocode = loginId.Issuer.TrimEnd('/').Substring(loginId.Issuer.TrimEnd('/').LastIndexOf('/') + 1);
+                var tenant = new TenantModel().Get(
+                    context: context,
+                    ss:SiteSettingsUtilities.TenantsSiteSettings(context), 
+                    where: Rds.TenantsWhere().Comments(ssocode));
+                try
+                {
+                    Saml.UpdateOrInsert(
+                        context: context,
+                        tenantId: tenant.TenantId,
+                        loginId: loginId.Value,
+                        name: lastName + "　" + firstName,
+                        mailAddress: loginId.Value,
+                        tenantManager: tenantManager,
+                        synchronizedTime: System.DateTime.Now);
+                }
+                catch (System.Data.SqlClient.SqlException e)
+                {
+                    if (e.Number == 2601)
+                    {
+                        return new RedirectResult(Locations.LoginIdAlreadyUse(context: context));
+                    }
+                    throw;
+                }
+                var user = new UserModel().Get(
+                    context: context,
+                    ss: null,
+                    where: Rds.UsersWhere()
+                        .TenantId(tenant.TenantId)
+                        .LoginId(loginId.Value)
+                        .Disabled(0));
+                if (user.AccessStatus == Databases.AccessStatuses.Selected)
+                {
+                    user.Allow(context: context, returnUrl: Locations.Top(context), createPersistentCookie: true);
+                    return new RedirectResult(Locations.Top(context));
+                }
+            }
+            return new RedirectResult(Locations.Login(context));
         }
 
         /// <summary>
