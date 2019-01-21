@@ -22,7 +22,8 @@ conn.Execute "BACKUP DATABASE " & _
              "SKIP, " & _
              "NOREWIND, " & _
              "NOUNLOAD, " & _
-             "STATS=10"
+             "STATS=10;"
+conn.Execute "DBCC SHRINKDATABASE(N'Implem.Pleasanter');"
 conn.Close
 Set conn = Nothing
 
