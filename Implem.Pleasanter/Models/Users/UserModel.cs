@@ -6114,7 +6114,8 @@ namespace Implem.Pleasanter.Models
                 {
                     return Allow(
                         context: context,
-                        returnUrl: returnUrl);
+                        returnUrl: returnUrl,
+                        createPersistentCookie: context.Forms.Bool("Users_RememberMe"));
                 }
             }
             else
@@ -6189,6 +6190,21 @@ namespace Implem.Pleasanter.Models
                             where: Rds.UsersWhere()
                                 .TenantId(user.TenantId)
                                 .UserId(user.Id));
+                    }
+                    break;
+                case "SAML":
+                    ret = GetByCredentials(
+                        context: context,
+                        loginId: LoginId,
+                        password: Password,
+                        tenantId: context.Forms.Int("SelectedTenantId"));
+                    if (ret)
+                    {
+                        context = new Context(tenantId: TenantId);
+                        if (context.ContractSettings?.AllowOriginalLogin == 0 && TenantManager == false)
+                        {
+                            ret = false;
+                        }
                     }
                     break;
                 default:
@@ -6318,12 +6334,17 @@ namespace Implem.Pleasanter.Models
         /// <summary>
         /// Fixed:
         /// </summary>
-        public string Allow(Context context, string returnUrl, bool atLogin = false)
+        public string Allow(
+            Context context,
+            string returnUrl,
+            bool atLogin = false,
+            bool createPersistentCookie = false)
         {
             IncrementsNumberOfLogins(context: context);
             SetFormsAuthentication(
                 context: context,
-                returnUrl: returnUrl);
+                returnUrl: returnUrl,
+                createPersistentCookie: createPersistentCookie);
             return new UsersResponseCollection(this)
                 .CloseDialog(_using: atLogin)
                 .Message(Messages.LoginIn(context: context))
@@ -6425,11 +6446,12 @@ namespace Implem.Pleasanter.Models
         /// <summary>
         /// Fixed:
         /// </summary>
-        public void SetFormsAuthentication(Context context, string returnUrl)
+        public void SetFormsAuthentication(
+            Context context, string returnUrl, bool createPersistentCookie)
         {
             System.Web.Security.FormsAuthentication.SetAuthCookie(
                 userName: LoginId,
-                createPersistentCookie: context.Forms.Bool("Users_RememberMe"));
+                createPersistentCookie: createPersistentCookie);
             Libraries.Initializers.StatusesInitializer.Initialize(new Context(
                 tenantId: TenantId,
                 deptId: DeptId,

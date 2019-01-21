@@ -96,6 +96,12 @@
       <HintPath>..\packages\StackExchange.Redis.StrongName.1.1.608\lib\net45\StackExchange.Redis.StrongName.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="Sustainsys.Saml2, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Sustainsys.Saml2.1.0.0\lib\net45\Sustainsys.Saml2.dll</HintPath>
+    </Reference>
+    <Reference Include="Sustainsys.Saml2.Mvc, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Sustainsys.Saml2.Mvc.1.0.0\lib\net45\Sustainsys.Saml2.Mvc.dll</HintPath>
+    </Reference>
     <Reference Include="System">
       <Private>True</Private>
     </Reference>
@@ -109,6 +115,8 @@
     <Reference Include="System.Drawing">
       <Private>True</Private>
     </Reference>
+    <Reference Include="System.IdentityModel" />
+    <Reference Include="System.identitymodel.services" />
     <Reference Include="System.IO.Compression" />
     <Reference Include="System.Net.Http.Formatting, Version=5.2.3.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.AspNet.WebApi.Client.5.2.3\lib\net45\System.Net.Http.Formatting.dll</HintPath>
@@ -237,6 +245,7 @@
     <Compile Include="Interfaces\IConvertable.cs" />
     <Compile Include="Interfaces\ISettingListItem.cs" />
     <Compile Include="Libraries\DataSources\Line.cs" />
+    <Compile Include="Libraries\DataSources\Saml.cs" />
     <Compile Include="Libraries\DataSources\Teams.cs" />
     <Compile Include="Libraries\Extensions\FormatExtension.cs" />
     <Compile Include="Libraries\Extensions\InitialValueExtensions.cs" />
@@ -1367,8 +1376,9 @@
     <Content Include="App_Data\Displays\SwitchUserInfo.json" />
     <Content Include="App_Data\Displays\ConfirmSwitchUser.json" />
     <Content Include="App_Data\Displays\Updated.json" />
+
     <Content Include="App_Data\Displays\Password.json" />
-    <Content Include="App_Data\Displays\DatabaseSize.json" />
+
     <Content Include="Tools\BackgroundTasks.ps1" />
     <Content Include="Tools\SyncByLdap.ps1" />
     <Content Include="Views\Users\EditApi.cshtml" />
@@ -1379,6 +1389,7 @@
     <Content Include="Views\Publishes\Edit.cshtml" />
     <Content Include="Views\Publishes\Index.cshtml" />
     <Content Include="Views\Errors\InvalidIpAddress.cshtml" />
+    <Content Include="Views\Errors\LoginIdAlradyUse.cshtml" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

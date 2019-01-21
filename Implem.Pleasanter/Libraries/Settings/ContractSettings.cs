@@ -29,6 +29,10 @@ namespace Implem.Pleasanter.Libraries.Settings
         public DateTime? Deadline;
         public Dictionary<string, bool> Extensions;
         public List<string> AllowIpAddresses;
+        public string SamlCompanyCode;
+        public string SamlThumbprint;
+        public string SamlLoginUrl;
+        public int? AllowOriginalLogin;
 
         public ContractSettings()
         {

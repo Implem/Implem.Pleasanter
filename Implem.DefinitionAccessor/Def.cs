@@ -260,6 +260,7 @@ namespace Implem.DefinitionAccessor
                     case "Def_DefinitionClass_DefinitionTable": Code.Def_DefinitionClass_DefinitionTable = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Def_DefinitionClass_DefinitionTable, definitionRow, CodeXls); break;
                     case "Controller": Code.Controller = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Controller, definitionRow, CodeXls); break;
                     case "Controller_Groups": Code.Controller_Groups = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Controller_Groups, definitionRow, CodeXls); break;
+                    case "Controller_Users": Code.Controller_Users = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Controller_Users, definitionRow, CodeXls); break;
                     case "Base": Code.Base = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Base, definitionRow, CodeXls); break;
                     case "Base_Property": Code.Base_Property = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Base_Property, definitionRow, CodeXls); break;
                     case "Base_PropertyCalc": Code.Base_PropertyCalc = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Base_PropertyCalc, definitionRow, CodeXls); break;
@@ -7118,6 +7119,7 @@ namespace Implem.DefinitionAccessor
         public string Def_DefinitionClass_DefinitionTable;
         public string Controller;
         public string Controller_Groups;
+        public string Controller_Users;
         public string Base;
         public string Base_Property;
         public string Base_PropertyCalc;
@@ -7680,6 +7682,7 @@ namespace Implem.DefinitionAccessor
         public CodeDefinition Def_DefinitionClass_DefinitionTable = new CodeDefinition();
         public CodeDefinition Controller = new CodeDefinition();
         public CodeDefinition Controller_Groups = new CodeDefinition();
+        public CodeDefinition Controller_Users = new CodeDefinition();
         public CodeDefinition Base = new CodeDefinition();
         public CodeDefinition Base_Property = new CodeDefinition();
         public CodeDefinition Base_PropertyCalc = new CodeDefinition();

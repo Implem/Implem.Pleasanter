@@ -875,5 +875,25 @@ namespace Implem.Pleasanter.Models
                                 referenceId: tenantModel.TenantId,
                                 sizeType: Libraries.Images.ImageData.SizeTypes.Logo)));
         }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        public static ContractSettings GetContractSettings(Context context, int tenantId)
+        {
+            var dataRow = Rds.ExecuteTable(
+                context: context,
+                statements: Rds.SelectTenants(
+                    column: Rds.TenantsColumn()
+                        .ContractSettings()
+                        .ContractDeadline(),
+                    where: Rds.TenantsWhere().TenantId(tenantId)))
+                        .AsEnumerable()
+                        .FirstOrDefault();
+            var contractSettings = dataRow?.String("ContractSettings").Deserialize<ContractSettings>()
+                ?? new ContractSettings();
+            contractSettings.Deadline = dataRow?.DateTime("ContractDeadline");
+            return contractSettings;
+        }
     }
 }

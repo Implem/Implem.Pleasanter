@@ -305,6 +305,17 @@ namespace Implem.Pleasanter.Libraries.Responses
                 });
         }
 
+        public static string LoginIdAlreadyUse(Context context)
+        {
+            return Get(
+                context: context,
+                parts: new string[]
+                {
+                    "Errors",
+                    "LoginIdAlreadyUse"
+                });
+        }
+
         public static string ParameterSyntaxError(Context context)
         {
             return Get(
