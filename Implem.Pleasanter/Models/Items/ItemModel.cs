@@ -672,13 +672,14 @@ namespace Implem.Pleasanter.Models
 
         public string LinkTable(Context context)
         {
+            var dataTableName = context.Forms.Data("TableId");
             return new ResponseCollection()
-                .ReplaceAll("#" + context.Forms.Data("TableId"), new HtmlBuilder()
+                .ReplaceAll("#" + dataTableName, new HtmlBuilder()
                     .LinkTable(
                         context: context,
                         siteId: context.Forms.Long("TableSiteId"),
                         direction: context.Forms.Data("Direction"),
-                        dataTableName: context.Forms.ControlId()))
+                        dataTableName: dataTableName))
                 .ToJson();
         }
 
