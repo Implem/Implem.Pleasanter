@@ -118,14 +118,18 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                         tableName: "Sites",
                         joinType: SqlJoin.JoinTypes.Inner,
                         joinExpression: "[Sites].[SiteId]=[Issues].[SiteId]"),
-                where: Rds.IssuesWhere()
-                    .SiteId(ss.SiteId)
-                    .IssueId_In(sub: Targets(
-                        context: context,
-                        id: id,
-                        direction: direction))
-                    .CanRead(context: context, idColumnBracket: "[Issues].[IssueId]")
-                    .Sites_TenantId(context.TenantId),
+                where: view.Where(
+                    context: context,
+                    ss: ss,
+                    where: Rds.IssuesWhere()
+                        .IssueId_In(sub: Targets(
+                            context: context,
+                            id: id,
+                            direction: direction))
+                        .CanRead(
+                            context: context,
+                            idColumnBracket: "[Issues].[IssueId]")
+                        .Sites_TenantId(context.TenantId)),
                 orderBy: view.OrderBy(
                     context: context,
                     ss: ss));
@@ -182,14 +186,18 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                         tableName: "Sites",
                         joinType: SqlJoin.JoinTypes.Inner,
                         joinExpression: "[Sites].[SiteId]=[Results].[SiteId]"),
-                where: Rds.ResultsWhere()
-                    .SiteId(ss.SiteId)
-                    .ResultId_In(sub: Targets(
-                        context: context,
-                        id: id,
-                        direction: direction))
-                    .CanRead(context: context, idColumnBracket: "[Results].[ResultId]")
-                    .Sites_TenantId(context.TenantId),
+                where: view.Where(
+                    context: context,
+                    ss: ss,
+                    where: Rds.ResultsWhere()
+                        .ResultId_In(sub: Targets(
+                            context: context,
+                            id: id,
+                            direction: direction))
+                        .CanRead(
+                            context: context,
+                            idColumnBracket: "[Results].[ResultId]")
+                        .Sites_TenantId(context.TenantId)),
                 orderBy: view.OrderBy(
                     context: context,
                     ss: ss));
