@@ -1,10 +1,12 @@
 ﻿using Implem.Libraries.Classes;
+using Implem.Libraries.DataSources.Interfaces;
 using Implem.Libraries.Utilities;
+using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 namespace Implem.Libraries.DataSources.SqlServer
 {
-    public class SqlGroupByCollection : ListEx<SqlGroupBy>
+    public class SqlGroupByCollection : ListEx<SqlGroupBy>, IJoin
     {
         public SqlGroupByCollection(params SqlGroupBy[] sqlGroupByCollection)
         {
@@ -27,6 +29,15 @@ namespace Implem.Libraries.DataSources.SqlServer
                         columnBracket: o.ColumnBracket))
                             .Join(), " ");
             }
+        }
+
+        public List<string> JoinTableNames()
+        {
+            return this
+                .Select(o => o.TableName)
+                .Where(o => o?.Contains("~") == true)
+                .Distinct()
+                .ToList();
         }
     }
 }

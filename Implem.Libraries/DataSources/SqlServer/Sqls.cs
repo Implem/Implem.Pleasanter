@@ -91,13 +91,14 @@ namespace Implem.Libraries.DataSources.SqlServer
 
         public static SqlWhereCollection SqlWhereLike(
             this SqlWhereCollection self,
+            string tableName,
             string name,
             string searchText,
             List<string> clauseCollection)
         {
             var searchTextCollection = SearchTextCollection(searchText);
             return self.Add(
-                tableName: null,
+                tableName: tableName,
                 name: name,
                 value: searchTextCollection,
                 raw: $"(@{name}#ParamCount#_#CommandCount# = '' or (" +

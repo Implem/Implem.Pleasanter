@@ -1,5 +1,6 @@
 ﻿using Implem.DefinitionAccessor;
 using Implem.Libraries.Classes;
+using Implem.Libraries.DataSources.Interfaces;
 using Implem.Libraries.DataSources.SqlServer;
 using Implem.Libraries.Utilities;
 using Implem.Pleasanter.Libraries.DataSources;
@@ -369,6 +370,7 @@ namespace Implem.Pleasanter.Models
                             .TenantId(context.TenantId)
                             .DeptId(_operator: ">0")
                             .SqlWhereLike(
+                                tableName: "Depts",
                                 name: "SearchText",
                                 searchText: searchText,
                                 clauseCollection: new List<string>()
@@ -385,6 +387,7 @@ namespace Implem.Pleasanter.Models
                             .TenantId(context.TenantId)
                             .GroupId(_operator: ">0")
                             .SqlWhereLike(
+                                tableName: "Groups",
                                 name: "SearchText",
                                 searchText: searchText,
                                 clauseCollection: new List<string>()
@@ -407,6 +410,7 @@ namespace Implem.Pleasanter.Models
                             .TenantId(context.TenantId)
                             .UserId(_operator: ">0")
                             .SqlWhereLike(
+                                tableName: null,
                                 name: "SearchText",
                                 searchText: searchText,
                                 clauseCollection: new List<string>()

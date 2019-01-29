@@ -1,4 +1,6 @@
 ﻿using Implem.DefinitionAccessor;
+using Implem.Libraries.Classes;
+using Implem.Libraries.DataSources.Interfaces;
 using Implem.Libraries.DataSources.SqlServer;
 using Implem.Libraries.Utilities;
 using Implem.Pleasanter.Libraries.DataSources;
@@ -3096,25 +3098,72 @@ namespace Implem.Pleasanter.Libraries.Settings
                 .ToList();
         }
 
-        public SqlJoinCollection Join(
-            Context context, bool withColumn = false, List<string> columns = null)
+        public SqlJoinCollection Join(Context context, params IJoin[] join)
         {
-            return SqlJoinCollection(context: context, columns: (withColumn
-                ? Arrays.Concat(GridColumns, FilterColumns, UseSearchTitleColumns(), columns)
-                : Arrays.Concat(GridColumns, FilterColumns, UseSearchTitleColumns(), columns))
-                    .Where(o => o?.Contains(",") == true)
-                    .Select(columnName => GetColumn(context: context, columnName: columnName))
+            return SqlJoinCollection(
+                context: context,
+                tableNames: join
+                    .SelectMany(o => o.JoinTableNames())
+                    .Distinct()
                     .ToList());
         }
 
-        public SqlJoinCollection SqlJoinCollection(Context context, IEnumerable<Column> columns)        {
-            return new SqlJoinCollection(columns
+        public SqlJoinCollection SqlJoinCollection(Context context, List<string> tableNames)
+        {
+            return new SqlJoinCollection(tableNames
                 .Where(o => o != null)
-                .SelectMany(o => o.SqlJoinCollection(context: context, ss: this))
+                .Distinct()
+                .SelectMany(o => SqlJoinCollection(context: context, tableAlias: o))
                 .OrderBy(o => o.JoinExpression.Length)
                 .GroupBy(o => o.JoinExpression)
                 .Select(o => o.First())
                 .ToArray());
+        }
+
+        private SqlJoinCollection SqlJoinCollection(Context context, string tableAlias)
+        {
+            var sql = new SqlJoinCollection();
+            var left = new List<string>();
+            var path = new List<string>();
+            foreach (var part in tableAlias.Split('-'))
+            {
+                var siteId = part.Split_2nd('~').ToLong();
+                var currentSs = JoinedSsHash?.Get(siteId);
+                var tableName = currentSs?.ReferenceType;
+                var name = currentSs?.GetColumn(
+                    context: context,
+                    columnName: part.Split_1st('~'))?.Name;
+                path.Add(part);
+                var alias = path.Join("-");
+                if (tableName != null && name != null)
+                {
+                    sql.Add(new SqlJoin(
+                        tableBracket: "[" + tableName + "]",
+                        joinType: SqlJoin.JoinTypes.LeftOuter,
+                        joinExpression: JoinExpression(
+                            left.Any()
+                                ? left.Join("-")
+                                : ReferenceType,
+                            tableName,
+                            name,
+                            alias,
+                            siteId),
+                        _as: alias));
+                    left.Add(part);
+                }
+                else
+                {
+                    break;
+                }
+            }
+            return sql;
+        }
+
+        private string JoinExpression(
+            string left, string tableName, string name, string alias, long siteId)
+        {
+            return "[{2}].[SiteId]={4} and try_cast([{0}].[{1}] as bigint)=[{2}].[{3}]"
+                .Params(left, name, alias, Rds.IdColumn(tableName), siteId);
         }
 
         private List<string> UseSearchTitleColumns(bool titleOnly = false)

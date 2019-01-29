@@ -252,7 +252,7 @@ namespace Implem.Pleasanter.Controllers
                 log.Finish(context: context);
                 return base.Redirect(Locations.Top(context: context));
             }
-            if (Parameters.Authentication.Provider == "SAML")
+            if ((Parameters.Authentication.Provider == "SAML") && (ssocode != string.Empty))
             {
                 var tenant = new TenantModel().Get(
                     context: context,
@@ -266,6 +266,7 @@ namespace Implem.Pleasanter.Controllers
                         return new RedirectResult(redirectUrl);
                     }
                 }
+                return new RedirectResult(Locations.InvalidSsoCode(context));
             }
             var html = UserUtilities.HtmlLogin(
                 context: context,
@@ -307,6 +308,12 @@ namespace Implem.Pleasanter.Controllers
                             break;
                     }
                 }
+                var space = (string.IsNullOrEmpty(lastName) || string.IsNullOrEmpty(firstName)) ? string.Empty : "　";
+                var name = lastName + space + firstName;
+                if(name == string.Empty)
+                {
+                    return new RedirectResult(Locations.EmptyUserName(context: context));
+                }
                 var ssocode = loginId.Issuer.TrimEnd('/').Substring(loginId.Issuer.TrimEnd('/').LastIndexOf('/') + 1);
                 var tenant = new TenantModel().Get(
                     context: context,
@@ -318,7 +325,7 @@ namespace Implem.Pleasanter.Controllers
                         context: context,
                         tenantId: tenant.TenantId,
                         loginId: loginId.Value,
-                        name: lastName + "　" + firstName,
+                        name: name,
                         mailAddress: loginId.Value,
                         tenantManager: tenantManager,
                         synchronizedTime: System.DateTime.Now);
@@ -336,15 +343,26 @@ namespace Implem.Pleasanter.Controllers
                     ss: null,
                     where: Rds.UsersWhere()
                         .TenantId(tenant.TenantId)
-                        .LoginId(loginId.Value)
-                        .Disabled(0));
+                        .LoginId(loginId.Value));
                 if (user.AccessStatus == Databases.AccessStatuses.Selected)
                 {
+                    if (user.Disabled)
+                    {
+                        return new RedirectResult(Locations.UserDisabled(context: context));
+                    }
+                    if (user.Lockout)
+                    {
+                        return new RedirectResult(Locations.UserLockout(context: context));
+                    }
                     user.Allow(context: context, returnUrl: Locations.Top(context), createPersistentCookie: true);
                     return new RedirectResult(Locations.Top(context));
                 }
+                else
+                {
+                    return new RedirectResult(Locations.SamlLoginFailed(context: context));
+                }
             }
-            return new RedirectResult(Locations.Login(context));
+            return new RedirectResult(Locations.SamlLoginFailed(context: context));
         }
 
         /// <summary>

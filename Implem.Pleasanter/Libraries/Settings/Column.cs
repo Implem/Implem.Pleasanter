@@ -645,55 +645,6 @@ namespace Implem.Pleasanter.Libraries.Settings
             return sql;
         }
 
-        public SqlJoinCollection SqlJoinCollection(Context context, SiteSettings ss)
-        {
-            var sql = new SqlJoinCollection();
-            if (!TableAlias.IsNullOrEmpty())
-            {
-                var left = new List<string>();
-                var path = new List<string>();
-                foreach (var part in TableAlias.Split('-'))
-                {
-                    var siteId = part.Split_2nd('~').ToLong();
-                    var currentSs = ss.JoinedSsHash?.Get(siteId);
-                    var tableName = currentSs?.ReferenceType;
-                    var name = currentSs?.GetColumn(
-                        context: context,
-                        columnName: part.Split_1st('~'))?.Name;
-                    path.Add(part);
-                    var alias = path.Join("-");
-                    if (tableName != null && name != null)
-                    {
-                        sql.Add(new SqlJoin(
-                            tableBracket: "[" + tableName + "]",
-                            joinType: SqlJoin.JoinTypes.LeftOuter,
-                            joinExpression: JoinExpression(
-                                left.Any()
-                                    ? left.Join("-")
-                                    : ss.ReferenceType,
-                                tableName,
-                                name,
-                                alias,
-                                siteId),
-                            _as: alias));
-                        left.Add(part);
-                    }
-                    else
-                    {
-                        break;
-                    }
-                }
-            }
-            return sql;
-        }
-
-        private static string JoinExpression(
-            string left, string tableName, string name, string alias, long siteId)
-        {
-            return "[{2}].[SiteId]={4} and try_cast([{0}].[{1}] as bigint)=[{2}].[{3}]"
-                .Params(left, name, alias, Rds.IdColumn(tableName), siteId);
-        }
-
         public SqlStatement IfDuplicatedStatement(
             SqlParamCollection param, long siteId, long referenceId)
         {

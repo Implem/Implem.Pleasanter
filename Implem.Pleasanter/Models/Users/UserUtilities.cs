@@ -1,5 +1,6 @@
 ﻿using Implem.DefinitionAccessor;
 using Implem.Libraries.Classes;
+using Implem.Libraries.DataSources.Interfaces;
 using Implem.Libraries.DataSources.SqlServer;
 using Implem.Libraries.Utilities;
 using Implem.Pleasanter.Libraries.DataSources;
@@ -6441,12 +6442,32 @@ namespace Implem.Pleasanter.Models
             return EditorResponse(context, ss, userModel).ToJson();
         }
 
+        /// <summary>
+        /// Fixed:
+        /// </summary>
         public static string BulkDelete(Context context, SiteSettings ss)
         {
             if (context.CanDelete(ss: ss))
             {
                 var selector = new GridSelector(context: context);
                 var count = 0;
+                if(selector.All == false && selector.Selected.Any() == false)
+                {
+                    return Messages.ResponseSelectTargets(context: context).ToJson();
+                }
+                if (Rds.ExecuteScalar_int(
+                    context: context,
+                    statements: Rds.SelectUsers(
+                        column: Rds.UsersColumn().UsersCount(),
+                        where: BulkDeleteWhere(
+                            context: context,
+                            ss: ss,
+                            selected: selector.Selected,
+                            negative: selector.All)
+                                .Users_UserId(context.UserId))) == 1)
+                {
+                    return Messages.ResponseUserNotSelfDelete(context: context).ToJson();
+                }
                 if (selector.All)
                 {
                     count = BulkDelete(
@@ -6457,17 +6478,10 @@ namespace Implem.Pleasanter.Models
                 }
                 else
                 {
-                    if (selector.Selected.Any())
-                    {
-                        count = BulkDelete(
-                            context: context,
-                            ss: ss,
-                            selected: selector.Selected);
-                    }
-                    else
-                    {
-                        return Messages.ResponseSelectTargets(context: context).ToJson();
-                    }
+                    count = BulkDelete(
+                        context: context,
+                        ss: ss,
+                        selected: selector.Selected);
                 }
                 Summaries.Synchronize(context: context, ss: ss);
                 return GridRows(
@@ -6493,15 +6507,11 @@ namespace Implem.Pleasanter.Models
             IEnumerable<long> selected,
             bool negative = false)
         {
-            var where = Views.GetBySession(context: context, ss: ss).Where(
+            var where = BulkDeleteWhere(
                 context: context,
                 ss: ss,
-                where: Rds.UsersWhere()
-                    .TenantId(context.TenantId)
-                    .UserId_In(
-                        value: selected.Select(o => o.ToInt()),
-                        negative: negative,
-                        _using: selected.Any()));
+                selected: selected,
+                negative: negative);
             return Rds.ExecuteScalar_response(
                 context: context,
                 transactional: true,
@@ -6518,6 +6528,26 @@ namespace Implem.Pleasanter.Models
                         countRecord: true)
                 })
                     .Count.ToInt();
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        private static SqlWhereCollection BulkDeleteWhere(
+            Context context,
+            SiteSettings ss,
+            IEnumerable<long> selected,
+            bool negative)
+        {
+            return Views.GetBySession(context: context, ss: ss).Where(
+                context: context,
+                ss: ss,
+                where: Rds.UsersWhere()
+                    .TenantId(context.TenantId)
+                    .UserId_In(
+                        value: selected.Select(o => o.ToInt()),
+                        negative: negative,
+                        _using: selected.Any()));
         }
 
         /// <summary>
@@ -8067,6 +8097,7 @@ namespace Implem.Pleasanter.Models
                 where: view.Where(context: context, ss: ss)
                 .Users_TenantId(context.TenantId)
                 .SqlWhereLike(
+                    tableName: null,
                     name: "SearchText",
                     searchText: view.ColumnFilterHash
                     ?.Where(f => f.Key == "SearchText")

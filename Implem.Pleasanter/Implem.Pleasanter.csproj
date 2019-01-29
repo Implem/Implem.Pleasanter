@@ -1376,9 +1376,12 @@
     <Content Include="App_Data\Displays\SwitchUserInfo.json" />
     <Content Include="App_Data\Displays\ConfirmSwitchUser.json" />
     <Content Include="App_Data\Displays\Updated.json" />
-
     <Content Include="App_Data\Displays\Password.json" />
-
+    <Content Include="App_Data\Displays\DatabaseSize.json" />
+    <Content Include="App_Data\Displays\EmptyUserName.json" />
+    <Content Include="App_Data\Displays\InvalidSsoCode.json" />
+    <Content Include="App_Data\Displays\SamlLoginFailed.json" />
+    <Content Include="App_Data\Displays\UserNotSelfDelete.json" />
     <Content Include="Tools\BackgroundTasks.ps1" />
     <Content Include="Tools\SyncByLdap.ps1" />
     <Content Include="Views\Users\EditApi.cshtml" />
@@ -1389,7 +1392,12 @@
     <Content Include="Views\Publishes\Edit.cshtml" />
     <Content Include="Views\Publishes\Index.cshtml" />
     <Content Include="Views\Errors\InvalidIpAddress.cshtml" />
-    <Content Include="Views\Errors\LoginIdAlradyUse.cshtml" />
+    <Content Include="Views\Errors\LoginIdAlreadyUse.cshtml" />
+    <Content Include="Views\Errors\InvalidSsoCode.cshtml" />
+    <Content Include="Views\Errors\UserLockout.cshtml" />
+    <Content Include="Views\Errors\UserDisabled.cshtml" />
+    <Content Include="Views\Errors\SamlLoginFailed.cshtml" />
+    <Content Include="Views\Errors\EmptyUserName.cshtml" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

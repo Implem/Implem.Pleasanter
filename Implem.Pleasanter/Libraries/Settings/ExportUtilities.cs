@@ -174,13 +174,21 @@ namespace Implem.Pleasanter.Libraries.Settings
         {
             ss.SetColumnAccessControls(context: context);
             var keyColumn = keyColumns.Get(ss.SiteId);
+            var column = IssuesColumn(ss, export, ss.GetColumn(
+                context: context,
+                columnName: keyColumn));
             var issueHash = new IssueCollection(
                 context: context,
                 ss: ss,
-                column: IssuesColumn(ss, export, ss.GetColumn(
+                column: column,
+                join: ss.Join(
                     context: context,
-                    columnName: keyColumn)),
-                join: ss.Join(context: context, withColumn: true),
+                    join: new Implem.Libraries.DataSources.Interfaces.IJoin[]
+                    {
+                        column,
+                        where,
+                        orderBy
+                    }),
                 where: where,
                 orderBy: orderBy)
                     .ToDictionary(o => o.IssueId, o => o);
@@ -255,13 +263,21 @@ namespace Implem.Pleasanter.Libraries.Settings
         {
             ss.SetColumnAccessControls(context: context);
             var keyColumn = keyColumns.Get(ss.SiteId);
+            var column = ResultsColumn(ss, export, ss.GetColumn(
+                context: context,
+                columnName: keyColumn));
             var resultHash = new ResultCollection(
                 context: context,
                 ss: ss,
-                column: ResultsColumn(ss, export, ss.GetColumn(
+                column: column,
+                join: ss.Join(
                     context: context,
-                    columnName: keyColumn)),
-                join: ss.Join(context: context, withColumn: true),
+                    join: new Implem.Libraries.DataSources.Interfaces.IJoin[]
+                    {
+                        column,
+                        where,
+                        orderBy
+                    }),
                 where: where,
                 orderBy: orderBy)
                     .ToDictionary(o => o.ResultId, o => o);

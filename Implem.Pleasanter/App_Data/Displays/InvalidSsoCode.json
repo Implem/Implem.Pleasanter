@@ -1,0 +1,13 @@
+﻿{
+    "Id": "InvalidSsoCode",
+    "Type": 240,
+    "Languages": [
+        {
+            "Body": "Invalid ssocode specified."
+        },
+        {
+            "Language": "ja",
+            "Body": "使用できないssocodeが指定されました。"
+        }
+    ]
+}

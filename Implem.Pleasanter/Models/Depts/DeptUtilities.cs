@@ -1,5 +1,6 @@
 ﻿using Implem.DefinitionAccessor;
 using Implem.Libraries.Classes;
+using Implem.Libraries.DataSources.Interfaces;
 using Implem.Libraries.DataSources.SqlServer;
 using Implem.Libraries.Utilities;
 using Implem.Pleasanter.Libraries.DataSources;
@@ -890,7 +891,9 @@ namespace Implem.Pleasanter.Models
                 ss: ss,
                 setSession: false);
             var where = view.Where(context: context, ss: ss, where: Rds.DeptsWhere().TenantId(context.TenantId));
-            var join = ss.Join(context: context);
+            var join = ss.Join(
+                context: context,
+                join: where);
             var switchTargets = Rds.ExecuteScalar_int(
                 context: context,
                 statements: Rds.SelectDepts(
@@ -1293,6 +1296,7 @@ namespace Implem.Pleasanter.Models
                 where: view.Where(context: context, ss: ss)
                 .Depts_TenantId(context.TenantId)
                 .SqlWhereLike(
+                    tableName: "Depts",
                     name: "SearchText",
                     searchText: view.ColumnFilterHash
                     ?.Where(f => f.Key == "SearchText")

@@ -758,11 +758,23 @@ namespace Implem.Pleasanter.Libraries.Settings
             bool checkPermission = true)
         {
             if (where == null) where = new SqlWhereCollection();
-            SetGeneralsWhere(context: context, ss: ss, where: where);
-            SetColumnsWhere(context: context, ss: ss, where: where);
-            SetSearchWhere(context: context, ss: ss, where: where);
+            SetGeneralsWhere(
+                context: context,
+                ss: ss,
+                where: where);
+            SetColumnsWhere(
+                context: context,
+                ss: ss,
+                where: where);
+            SetSearchWhere(
+                context: context,
+                ss: ss,
+                where: where);
             Permissions.SetCanReadWhere(
-                context: context, ss: ss, where: where, checkPermission: checkPermission);
+                context: context,
+                ss: ss,
+                where: where,
+                checkPermission: checkPermission);
             return where;
         }
 
@@ -1135,6 +1147,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                 {
                     var name = Strings.NewGuid();
                     where.SqlWhereLike(
+                        tableName: column.TableName(),
                         name: name,
                         searchText: value,
                         clauseCollection: "([{0}].[{1}] like '%' + @{2}#ParamCount#_#CommandCount# + '%')"

@@ -1,5 +1,6 @@
 ﻿using Implem.DefinitionAccessor;
 using Implem.Libraries.Classes;
+using Implem.Libraries.DataSources.Interfaces;
 using Implem.Libraries.DataSources.SqlServer;
 using Implem.Libraries.Utilities;
 using Implem.Pleasanter.Libraries.DataSources;
@@ -885,7 +886,9 @@ namespace Implem.Pleasanter.Models
                 ss: ss,
                 setSession: false);
             var where = view.Where(context: context, ss: ss, where: Rds.GroupsWhere().TenantId(context.TenantId));
-            var join = ss.Join(context: context);
+            var join = ss.Join(
+                context: context,
+                join: where);
             var switchTargets = Rds.ExecuteScalar_int(
                 context: context,
                 statements: Rds.SelectGroups(
@@ -1397,6 +1400,7 @@ namespace Implem.Pleasanter.Models
                                         .Select(o => o.Split_2nd().ToInt()),
                                     negative: true)
                                 .SqlWhereLike(
+                                    tableName: "Groups",
                                     name: "SearchText",
                                     searchText: searchText,
                                     clauseCollection: new List<string>()
@@ -1425,6 +1429,7 @@ namespace Implem.Pleasanter.Models
                                         .Select(o => o.Split_2nd().ToInt()),
                                     negative: true)
                                 .SqlWhereLike(
+                                    tableName: null,
                                     name: "SearchText",
                                     searchText: searchText,
                                     clauseCollection: new List<string>()
@@ -1533,6 +1538,7 @@ namespace Implem.Pleasanter.Models
                 where: view.Where(context: context, ss: ss)
                 .Groups_TenantId(context.TenantId)
                 .SqlWhereLike(
+                    tableName: "Groups",
                     name: "SearchText",
                     searchText: view.ColumnFilterHash
                     ?.Where(f => f.Key == "SearchText")

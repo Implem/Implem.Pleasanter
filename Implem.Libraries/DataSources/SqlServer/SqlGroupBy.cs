@@ -2,13 +2,13 @@
 {
     public class SqlGroupBy
     {
-        public string ColumnBracket;
         public string TableName;
+        public string ColumnBracket;
 
         public SqlGroupBy(string columnBracket, string tableName)
         {
-            ColumnBracket = columnBracket;
             TableName = tableName;
+            ColumnBracket = columnBracket;
         }
     }
 }

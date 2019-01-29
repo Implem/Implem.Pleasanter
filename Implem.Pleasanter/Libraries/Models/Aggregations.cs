@@ -16,6 +16,9 @@ namespace Implem.Pleasanter.Libraries.Models
 
         public Aggregations(Context context, SiteSettings ss, View view)
         {
+            var where = view.Where(
+                context: context,
+                ss: ss);
             Set(
                 context: context,
                 ss: ss,
@@ -25,10 +28,8 @@ namespace Implem.Pleasanter.Libraries.Models
                         ss: ss,
                         join: ss.Join(
                             context: context,
-                            withColumn: true),
-                        where: view.Where(
-                            context: context,
-                            ss: ss)).ToArray()));
+                            join: where),
+                        where: where).ToArray()));
         }
 
         private void Set(
