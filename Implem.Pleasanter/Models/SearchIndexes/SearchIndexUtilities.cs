@@ -1,5 +1,6 @@
 ﻿using Implem.DefinitionAccessor;
 using Implem.Libraries.Classes;
+using Implem.Libraries.DataSources.Interfaces;
 using Implem.Libraries.DataSources.SqlServer;
 using Implem.Libraries.Utilities;
 using Implem.Pleasanter.Libraries.DataSources;
@@ -374,6 +375,7 @@ namespace Implem.Pleasanter.Models
                 where: Rds.ItemsWhere()
                     .SiteId_In(siteIdList)
                     .SqlWhereLike(
+                        tableName: null,
                         name: "SearchText",
                         searchText: searchText,
                         clauseCollection: like.ToSingleList()));

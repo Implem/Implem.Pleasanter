@@ -1,11 +1,13 @@
 ﻿using Implem.Libraries.Classes;
+using Implem.Libraries.DataSources.Interfaces;
 using Implem.Libraries.Utilities;
+using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.Linq;
 using System.Text;
 namespace Implem.Libraries.DataSources.SqlServer
 {
-    public class SqlColumnCollection : ListEx<SqlColumn>
+    public class SqlColumnCollection : ListEx<SqlColumn>, IJoin
     {
         public SqlColumnCollection(params SqlColumn[] sqlColumnCollection)
         {
@@ -83,6 +85,15 @@ namespace Implem.Libraries.DataSources.SqlServer
             {
                 commandText.Append("top ", top.ToString(), " ");
             }
+        }
+
+        public List<string> JoinTableNames()
+        {
+            return this
+                .Select(o => o.TableName)
+                .Where(o => o?.Contains("~") == true)
+                .Distinct()
+                .ToList();
         }
     }
 }

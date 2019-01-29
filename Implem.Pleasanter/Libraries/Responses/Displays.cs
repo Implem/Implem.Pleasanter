@@ -1686,6 +1686,16 @@ namespace Implem.Pleasanter.Libraries.Responses
                 data: data);
         }
 
+        public static string EmptyUserName(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "EmptyUserName",
+                data: data);
+        }
+
         public static string Enabled(
             Context context,
             params string[] data)
@@ -2443,6 +2453,16 @@ namespace Implem.Pleasanter.Libraries.Responses
             return Get(
                 context: context,
                 id: "InvalidRequest",
+                data: data);
+        }
+
+        public static string InvalidSsoCode(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "InvalidSsoCode",
                 data: data);
         }
 
@@ -4416,6 +4436,16 @@ namespace Implem.Pleasanter.Libraries.Responses
                 data: data);
         }
 
+        public static string SamlLoginFailed(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "SamlLoginFailed",
+                data: data);
+        }
+
         public static string SamplesDisplayed(
             Context context,
             params string[] data)
@@ -5503,6 +5533,16 @@ namespace Implem.Pleasanter.Libraries.Responses
             return Get(
                 context: context,
                 id: "UserLockout",
+                data: data);
+        }
+
+        public static string UserNotSelfDelete(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "UserNotSelfDelete",
                 data: data);
         }
 

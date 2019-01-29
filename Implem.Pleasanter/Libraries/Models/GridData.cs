@@ -1,4 +1,5 @@
-﻿using Implem.Libraries.DataSources.SqlServer;
+﻿using Implem.Libraries.DataSources.Interfaces;
+using Implem.Libraries.DataSources.SqlServer;
 using Implem.Libraries.Utilities;
 using Implem.Pleasanter.Libraries.DataSources;
 using Implem.Pleasanter.Libraries.Html;
@@ -56,9 +57,14 @@ namespace Implem.Pleasanter.Libraries.Models
                 context: context,
                 view: view,
                 ss: ss));
-            join = join ?? ss.Join(context: context, withColumn: true);
-            where = view.Where(context: context, ss: ss, where: where);
-            var orderBy = view.OrderBy(context: context, ss: ss, pageSize: pageSize);
+            where = view.Where(
+                context: context,
+                ss: ss,
+                where: where);
+            var orderBy = view.OrderBy(
+                context: context,
+                ss: ss,
+                pageSize: pageSize);
             var statements = new List<SqlStatement>
             {
                 Rds.Select(
@@ -66,7 +72,14 @@ namespace Implem.Pleasanter.Libraries.Models
                     tableType: ss.TableType,
                     dataTableName: "Main",
                     column: column,
-                    join: join,
+                    join: join ?? ss.Join(
+                        context: context,
+                        join: new IJoin[]
+                        {
+                            column,
+                            where,
+                            orderBy
+                        }),
                     where: where,
                     orderBy: orderBy,
                     top: top,

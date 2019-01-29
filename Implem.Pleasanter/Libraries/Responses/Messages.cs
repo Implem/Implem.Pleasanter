@@ -342,6 +342,15 @@ namespace Implem.Pleasanter.Libraries.Responses
                 css: "alert-error");
         }
 
+        public static Message EmptyUserName(Context context, params string[] data)
+        {
+            return Get(
+                text: Displays.EmptyUserName(
+                    context: context,
+                    data: data),
+                css: "alert-error");
+        }
+
         public static Message Expired(Context context, params string[] data)
         {
             return Get(
@@ -553,6 +562,15 @@ namespace Implem.Pleasanter.Libraries.Responses
         {
             return Get(
                 text: Displays.InvalidRequest(
+                    context: context,
+                    data: data),
+                css: "alert-error");
+        }
+
+        public static Message InvalidSsoCode(Context context, params string[] data)
+        {
+            return Get(
+                text: Displays.InvalidSsoCode(
                     context: context,
                     data: data),
                 css: "alert-error");
@@ -792,6 +810,15 @@ namespace Implem.Pleasanter.Libraries.Responses
                 css: "alert-error");
         }
 
+        public static Message SamlLoginFailed(Context context, params string[] data)
+        {
+            return Get(
+                text: Displays.SamlLoginFailed(
+                    context: context,
+                    data: data),
+                css: "alert-error");
+        }
+
         public static Message SelectFile(Context context, params string[] data)
         {
             return Get(
@@ -931,6 +958,15 @@ namespace Implem.Pleasanter.Libraries.Responses
         {
             return Get(
                 text: Displays.UserLockout(
+                    context: context,
+                    data: data),
+                css: "alert-error");
+        }
+
+        public static Message UserNotSelfDelete(Context context, params string[] data)
+        {
+            return Get(
+                text: Displays.UserNotSelfDelete(
                     context: context,
                     data: data),
                 css: "alert-error");
@@ -1199,6 +1235,13 @@ namespace Implem.Pleasanter.Libraries.Responses
                 data: data));
         }
 
+        public static ResponseCollection ResponseEmptyUserName(Context context, params string[] data)
+        {
+            return ResponseMessage(EmptyUserName(
+                context: context,
+                data: data));
+        }
+
         public static ResponseCollection ResponseExpired(Context context, params string[] data)
         {
             return ResponseMessage(Expired(
@@ -1363,6 +1406,13 @@ namespace Implem.Pleasanter.Libraries.Responses
         public static ResponseCollection ResponseInvalidRequest(Context context, params string[] data)
         {
             return ResponseMessage(InvalidRequest(
+                context: context,
+                data: data));
+        }
+
+        public static ResponseCollection ResponseInvalidSsoCode(Context context, params string[] data)
+        {
+            return ResponseMessage(InvalidSsoCode(
                 context: context,
                 data: data));
         }
@@ -1549,6 +1599,13 @@ namespace Implem.Pleasanter.Libraries.Responses
                 data: data));
         }
 
+        public static ResponseCollection ResponseSamlLoginFailed(Context context, params string[] data)
+        {
+            return ResponseMessage(SamlLoginFailed(
+                context: context,
+                data: data));
+        }
+
         public static ResponseCollection ResponseSelectFile(Context context, params string[] data)
         {
             return ResponseMessage(SelectFile(
@@ -1657,6 +1714,13 @@ namespace Implem.Pleasanter.Libraries.Responses
         public static ResponseCollection ResponseUserLockout(Context context, params string[] data)
         {
             return ResponseMessage(UserLockout(
+                context: context,
+                data: data));
+        }
+
+        public static ResponseCollection ResponseUserNotSelfDelete(Context context, params string[] data)
+        {
+            return ResponseMessage(UserNotSelfDelete(
                 context: context,
                 data: data));
         }

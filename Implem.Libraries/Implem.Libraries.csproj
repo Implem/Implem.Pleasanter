@@ -95,6 +95,7 @@
     <Compile Include="Classes\TimePeriod.cs" />
     <Compile Include="Classes\TextData.cs" />
     <Compile Include="Classes\Csv.cs" />
+    <Compile Include="DataSources\Interfaces\IJoin.cs" />
     <Compile Include="DataSources\SqlServer\SqlJoin.cs" />
     <Compile Include="DataSources\SqlServer\SqlJoinCollection.cs" />
     <Compile Include="DataSources\SqlServer\SqlColumnCollection.cs" />

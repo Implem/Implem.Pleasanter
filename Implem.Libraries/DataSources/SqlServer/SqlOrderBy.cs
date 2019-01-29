@@ -2,9 +2,9 @@
 {
     public class SqlOrderBy
     {
+        public string TableName;
         public string ColumnBracket;
         public Types OrderType;
-        public string TableName;
         public Sqls.Functions Function;
 
         public enum Types
@@ -20,9 +20,9 @@
             string tableName = null,
             Sqls.Functions function = Sqls.Functions.None)
         {
+            TableName = tableName;
             ColumnBracket = columnBracket;
             OrderType = orderType;
-            TableName = tableName;
             Function = function;
         }
 

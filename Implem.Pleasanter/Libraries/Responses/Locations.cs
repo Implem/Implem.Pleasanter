@@ -316,6 +316,61 @@ namespace Implem.Pleasanter.Libraries.Responses
                 });
         }
 
+        public static string UserLockout(Context context)
+        {
+            return Get(
+                context: context,
+                parts: new string[]
+                {
+                    "Errors",
+                    "UserLockout"
+                });
+        }
+
+        public static string UserDisabled(Context context)
+        {
+            return Get(
+                context: context,
+                parts: new string[]
+                {
+                    "Errors",
+                    "UserDisabled"
+                });
+        }
+
+        public static string SamlLoginFailed(Context context)
+        {
+            return Get(
+                context: context,
+                parts: new string[]
+                {
+                    "Errors",
+                    "SamlLoginFailed"
+                });
+        }
+
+        public static string InvalidSsoCode(Context context)
+        {
+            return Get(
+                context: context,
+                parts: new string[]
+                {
+                    "Errors",
+                    "InvalidSsoCode"
+                });
+        }
+
+        public static string EmptyUserName(Context context)
+        {
+            return Get(
+                context: context,
+                parts: new string[]
+                {
+                    "Errors",
+                    "EmptyUserName"
+                });
+        }
+
         public static string ParameterSyntaxError(Context context)
         {
             return Get(

@@ -24,6 +24,7 @@ namespace Implem.Pleasanter.Libraries.General
             DefinitionNotFound,
             DeleteConflicts,
             Duplicated,
+            EmptyUserName,
             Expired,
             ExternalMailAddress,
             FailedReadFile,
@@ -39,6 +40,7 @@ namespace Implem.Pleasanter.Libraries.General
             InvalidFormula,
             InvalidIpAddress,
             InvalidRequest,
+            InvalidSsoCode,
             ItemsLimit,
             LoginIdAlreadyUse,
             MailAddressHasNotSet,
@@ -56,6 +58,7 @@ namespace Implem.Pleasanter.Libraries.General
             RequireMailAddresses,
             RequireTo,
             Restricted,
+            SamlLoginFailed,
             SelectFile,
             SelectOne,
             SelectTargets,
@@ -67,6 +70,7 @@ namespace Implem.Pleasanter.Libraries.General
             UpdateConflicts,
             UserDisabled,
             UserLockout,
+            UserNotSelfDelete,
             UsersLimit
         }
 
@@ -143,6 +147,10 @@ namespace Implem.Pleasanter.Libraries.General
                     return Messages.Duplicated(
                         context: context,
                         data: data);
+                case Types.EmptyUserName:
+                    return Messages.EmptyUserName(
+                        context: context,
+                        data: data);
                 case Types.Expired:
                     return Messages.Expired(
                         context: context,
@@ -201,6 +209,10 @@ namespace Implem.Pleasanter.Libraries.General
                         data: data);
                 case Types.InvalidRequest:
                     return Messages.InvalidRequest(
+                        context: context,
+                        data: data);
+                case Types.InvalidSsoCode:
+                    return Messages.InvalidSsoCode(
                         context: context,
                         data: data);
                 case Types.ItemsLimit:
@@ -271,6 +283,10 @@ namespace Implem.Pleasanter.Libraries.General
                     return Messages.Restricted(
                         context: context,
                         data: data);
+                case Types.SamlLoginFailed:
+                    return Messages.SamlLoginFailed(
+                        context: context,
+                        data: data);
                 case Types.SelectFile:
                     return Messages.SelectFile(
                         context: context,
@@ -313,6 +329,10 @@ namespace Implem.Pleasanter.Libraries.General
                         data: data);
                 case Types.UserLockout:
                     return Messages.UserLockout(
+                        context: context,
+                        data: data);
+                case Types.UserNotSelfDelete:
+                    return Messages.UserNotSelfDelete(
                         context: context,
                         data: data);
                 case Types.UsersLimit:

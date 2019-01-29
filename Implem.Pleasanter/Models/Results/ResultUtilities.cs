@@ -1,5 +1,6 @@
 ﻿using Implem.DefinitionAccessor;
 using Implem.Libraries.Classes;
+using Implem.Libraries.DataSources.Interfaces;
 using Implem.Libraries.DataSources.SqlServer;
 using Implem.Libraries.Utilities;
 using Implem.Pleasanter.Libraries.DataSources;
@@ -5661,7 +5662,9 @@ namespace Implem.Pleasanter.Models
                 ss: ss,
                 setSession: false);
             var where = view.Where(context: context, ss: ss);
-            var join = ss.Join(context: context);
+            var join = ss.Join(
+                context: context,
+                join: where);
             var switchTargets = Rds.ExecuteScalar_int(
                 context: context,
                 statements: Rds.SelectResults(
@@ -7599,20 +7602,23 @@ namespace Implem.Pleasanter.Models
             long siteId,
             GridSelector selector)
         {
+            var where = Views.GetBySession(context: context, ss: ss).Where(
+                context: context,
+                ss: ss,
+                where: Rds.ResultsWhere()
+                    .SiteId(ss.SiteId)
+                    .ResultId_In(
+                        value: selector.Selected,
+                        negative: selector.All,
+                        _using: selector.Selected.Any()));
             return Rds.ExecuteScalar_int(
                 context: context,
                 statements: Rds.SelectResults(
                     column: Rds.ResultsColumn().ResultsCount(),
-                    join: ss.Join(context: context),
-                    where: Views.GetBySession(context: context, ss: ss).Where(
+                    join: ss.Join(
                         context: context,
-                        ss: ss,
-                        where: Rds.ResultsWhere()
-                            .SiteId(ss.SiteId)
-                            .ResultId_In(
-                                value: selector.Selected,
-                                negative: selector.All,
-                                _using: selector.Selected.Any()))));
+                        join: where),
+                    where: where));
         }
 
         private static int BulkMove(
@@ -8827,10 +8833,11 @@ namespace Implem.Pleasanter.Models
             DateTime begin,
             DateTime end)
         {
-            var where = Rds.ResultsWhere();
+            var where = new SqlWhereCollection();
             if (toColumn == null)
             {
                 where.Add(
+                    tableName: "Results",
                     raw: $"[Results].[{fromColumn.ColumnName}] between '{begin}' and '{end}'");
             }
             else
@@ -8840,6 +8847,7 @@ namespace Implem.Pleasanter.Models
                     .Add(raw: $"[Results].[{toColumn.ColumnName}] between '{begin}' and '{end}'")
                     .Add(raw: $"[Results].[{fromColumn.ColumnName}]<='{begin}' and [Results].[{toColumn.ColumnName}]>='{end}'"));
             }
+            where = view.Where(context: context, ss: ss, where: where);
             return Rds.ExecuteTable(
                 context: context,
                 statements: Rds.SelectResults(
@@ -8849,8 +8857,10 @@ namespace Implem.Pleasanter.Models
                         .ResultsColumn(toColumn?.ColumnName, _as: "To")
                         .UpdatedTime()
                         .ItemTitle(ss.ReferenceType, Rds.IdColumn(ss.ReferenceType)),
-                    join: ss.Join(context: context),
-                    where: view.Where(context: context, ss: ss, where: where)))
+                    join: ss.Join(
+                        context: context,
+                        join: where),
+                    where: where))
                         .AsEnumerable();
         }
 
@@ -9117,31 +9127,39 @@ namespace Implem.Pleasanter.Models
             DateTime month)
         {
             EnumerableRowCollection<DataRow> dataRows;
-            var join = ss.Join(
-                context: context,
-                columns: Libraries.ViewModes.CrosstabUtilities
-                    .JoinColumns(view, groupByX, groupByY, columns, value));
             if (groupByX?.TypeName != "datetime")
             {
+                var column = Rds.ResultsColumn()
+                    .Add(ss, groupByX)
+                    .CrosstabColumns(
+                        context: context,
+                        ss: ss,
+                        view: view,
+                        groupByY: groupByY,
+                        columns: columns,
+                        value: value,
+                        aggregateType: aggregateType);
+                var where = view.Where(
+                    context: context,
+                    ss: ss);
+                var groupBy = Rds.ResultsGroupBy()
+                    .Add(ss, groupByX)
+                    .Add(ss, groupByY);
                 dataRows = Rds.ExecuteTable(
                     context: context,
                     statements: Rds.SelectResults(
-                        column: Rds.ResultsColumn()
-                            .Add(ss, groupByX)
-                            .CrosstabColumns(
-                                context: context,
-                                ss: ss,
-                                view: view,
-                                groupByY: groupByY,
-                                columns: columns,
-                                value: value,
-                                aggregateType: aggregateType),
-                        join: join,
-                        where: view.Where(context: context, ss: ss),
-                        groupBy: Rds.ResultsGroupBy()
-                            .Add(ss, groupByX)
-                            .Add(ss, groupByY)))
-                                .AsEnumerable();
+                        column: column,
+                        join: ss.Join(
+                            context: context,
+                            join: new IJoin[]
+                            {
+                                column,
+                                where,
+                                groupBy
+                            }),
+                        where: where,
+                        groupBy: groupBy))
+                            .AsEnumerable();
             }
             else
             {
@@ -9150,33 +9168,43 @@ namespace Implem.Pleasanter.Models
                     ss: ss,
                     column: groupByX,
                     timePeriod: timePeriod);
+                var column = Rds.ResultsColumn()
+                    .Add(dateGroup, _as: groupByX.ColumnName)
+                    .CrosstabColumns(
+                        context: context,
+                        ss: ss,
+                        view: view,
+                        groupByY: groupByY,
+                        columns: columns,
+                        value: value,
+                        aggregateType: aggregateType);
+                var where = view.Where(
+                    context: context,
+                    ss: ss,
+                    where: Libraries.ViewModes.CrosstabUtilities.Where(
+                        context: context,
+                        ss: ss,
+                        column: groupByX,
+                        timePeriod: timePeriod,
+                        month: month));
+                var groupBy = Rds.ResultsGroupBy()
+                    .Add(dateGroup)
+                    .Add(ss, groupByY);
                 dataRows = Rds.ExecuteTable(
                     context: context,
                     statements: Rds.SelectResults(
-                        column: Rds.ResultsColumn()
-                            .Add(dateGroup, _as: groupByX.ColumnName)
-                            .CrosstabColumns(
-                                context: context,
-                                ss: ss,
-                                view: view,
-                                groupByY: groupByY,
-                                columns: columns,
-                                value: value,
-                                aggregateType: aggregateType),
-                        join: join,
-                        where: view.Where(
+                        column: column,
+                        join: ss.Join(
                             context: context,
-                            ss: ss,
-                            where: Libraries.ViewModes.CrosstabUtilities.Where(
-                                context: context,
-                                ss: ss,
-                                column: groupByX,
-                                timePeriod: timePeriod,
-                                month: month)),
-                        groupBy: Rds.ResultsGroupBy()
-                            .Add(dateGroup)
-                            .Add(ss, groupByY)))
-                                .AsEnumerable();
+                            join: new IJoin[]
+                            {
+                                column,
+                                where,
+                                groupBy
+                            }),
+                        where: where,
+                        groupBy: groupBy))
+                            .AsEnumerable();
             }
             ss.SetChoiceHash(dataRows);
             return dataRows;
@@ -9354,18 +9382,26 @@ namespace Implem.Pleasanter.Models
         {
             if (groupBy != null && value != null)
             {
+                var column = Rds.ResultsColumn()
+                    .ResultId(_as: "Id")
+                    .Ver()
+                    .UpdatedTime()
+                    .Add(ss: ss, column: groupBy)
+                    .Add(ss: ss, column: value);
+                var where = view.Where(context: context, ss: ss);
                 var dataRows = Rds.ExecuteTable(
                     context: context,
                     statements: Rds.SelectResults(
                         tableType: Sqls.TableTypes.NormalAndHistory,
-                        column: Rds.ResultsColumn()
-                            .ResultId(_as: "Id")
-                            .Ver()
-                            .UpdatedTime()
-                            .Add(ss: ss, column: groupBy)
-                            .Add(ss: ss, column: value),
-                        join: ss.Join(context: context),
-                        where: view.Where(context: context, ss: ss)))
+                        column: column,
+                        join: ss.Join(
+                            context: context,
+                            join: new IJoin[]
+                                {
+                                    column,
+                                    where
+                                }),
+                        where: where))
                             .AsEnumerable();
                 ss.SetChoiceHash(dataRows);
                 return dataRows;
@@ -9536,16 +9572,25 @@ namespace Implem.Pleasanter.Models
             Column groupByY,
             Column value)
         {
+            var column = Rds.ResultsColumn()
+                .ResultId()
+                .ItemTitle(ss.ReferenceType, Rds.IdColumn(ss.ReferenceType))
+                .Add(ss: ss, column: groupByX)
+                .Add(ss: ss, column: groupByY)
+                .Add(ss: ss, column: value);
+            var where = view.Where(context: context, ss: ss);
             return Rds.ExecuteTable(
                 context: context,
                 statements: Rds.SelectResults(
-                    column: Rds.ResultsColumn()
-                        .ResultId()
-                        .ItemTitle(ss.ReferenceType, Rds.IdColumn(ss.ReferenceType))
-                        .Add(ss: ss, column: groupByX)
-                        .Add(ss: ss, column: groupByY)
-                        .Add(ss: ss, column: value),
-                    where: view.Where(context: context, ss: ss)))
+                    column: column,
+                    join: ss.Join(
+                        context: context,
+                        join: new IJoin[]
+                        {
+                            column,
+                            where
+                        }),
+                    where: where))
                         .AsEnumerable()
                         .Select(o => new Libraries.ViewModes.KambanElement()
                         {
@@ -9718,11 +9763,18 @@ namespace Implem.Pleasanter.Models
 
         private static bool InRange(Context context, SiteSettings ss, View view, int limit)
         {
+            var where = view.Where(context: context, ss: ss);
             return Rds.ExecuteScalar_int(
                 context: context,
                 statements: Rds.SelectResults(
                     column: Rds.ResultsColumn().ResultsCount(),
-                    where: view.Where(context: context, ss: ss))) <= limit;
+                    join: ss.Join(
+                        context: context,
+                        join: new IJoin[]
+                        {
+                            where
+                        }),
+                    where: where)) <= limit;
         }
     }
 }

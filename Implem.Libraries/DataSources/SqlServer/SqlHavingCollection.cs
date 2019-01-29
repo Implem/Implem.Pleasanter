@@ -1,11 +1,13 @@
 ﻿using Implem.Libraries.Classes;
+using Implem.Libraries.DataSources.Interfaces;
 using Implem.Libraries.Utilities;
+using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.Linq;
 using System.Text;
 namespace Implem.Libraries.DataSources.SqlServer
 {
-    public class SqlHavingCollection : ListEx<SqlHaving>
+    public class SqlHavingCollection : ListEx<SqlHaving>, IJoin
     {
         public string Clause = "having ";
         public string MultiClauseOperator = " and ";
@@ -70,6 +72,15 @@ namespace Implem.Libraries.DataSources.SqlServer
         public void Prefix(string prefix)
         {
             ForEach(o => o.TableName += prefix);
+        }
+
+        public List<string> JoinTableNames()
+        {
+            return this
+                .Select(o => o.TableName)
+                .Where(o => o?.Contains("~") == true)
+                .Distinct()
+                .ToList();
         }
     }
 }

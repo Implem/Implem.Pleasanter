@@ -1,10 +1,12 @@
 ﻿using Implem.Libraries.Classes;
+using Implem.Libraries.DataSources.Interfaces;
 using Implem.Libraries.Utilities;
+using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 namespace Implem.Libraries.DataSources.SqlServer
 {
-    public class SqlOrderByCollection : ListEx<SqlOrderBy>
+    public class SqlOrderByCollection : ListEx<SqlOrderBy>, IJoin
     {
         public SqlOrderByCollection(params SqlOrderBy[] sqlOrderByCollection)
         {
@@ -55,6 +57,15 @@ namespace Implem.Libraries.DataSources.SqlServer
                         " rows only ");
                 }
             }
+        }
+
+        public List<string> JoinTableNames()
+        {
+            return this
+                .Select(o => o.TableName)
+                .Where(o => o?.Contains("~") == true)
+                .Distinct()
+                .ToList();
         }
     }
 }

@@ -123,5 +123,57 @@ namespace Implem.Pleasanter.Controllers
                 errorType: Error.Types.LoginIdAlreadyUse);
             return View();
         }
+
+        [AllowAnonymous]
+        public ActionResult UserLockout()
+        {
+            var context = new Context();
+            ViewBag.HtmlBody = HtmlTemplates.Error(
+                context: context,
+                errorType: Error.Types.UserLockout);
+            return View();
+        }
+
+        [AllowAnonymous]
+        public ActionResult UserDisabled()
+        {
+            var context = new Context();
+            ViewBag.HtmlBody = HtmlTemplates.Error(
+                context: context,
+                errorType: Error.Types.UserDisabled);
+            return View();
+        }
+
+        [AllowAnonymous]
+        public ActionResult SamlLoginFailed
+()
+        {
+            var context = new Context();
+            ViewBag.HtmlBody = HtmlTemplates.Error(
+                context: context,
+                errorType: Error.Types.SamlLoginFailed
+);
+            return View();
+        }
+
+        [AllowAnonymous]
+        public ActionResult InvalidSsoCode()
+        {
+            var context = new Context();
+            ViewBag.HtmlBody = HtmlTemplates.Error(
+                context: context,
+                errorType: Error.Types.InvalidSsoCode);
+            return View();
+        }
+
+        [AllowAnonymous]
+        public ActionResult EmptyUserName()
+        {
+            var context = new Context();
+            ViewBag.HtmlBody = HtmlTemplates.Error(
+                context: context,
+                errorType: Error.Types.EmptyUserName);
+            return View();
+        }
     }
 }

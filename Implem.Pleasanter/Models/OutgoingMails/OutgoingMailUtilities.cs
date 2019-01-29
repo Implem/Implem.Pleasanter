@@ -1,5 +1,6 @@
 ﻿using Implem.DefinitionAccessor;
 using Implem.Libraries.Classes;
+using Implem.Libraries.DataSources.Interfaces;
 using Implem.Libraries.DataSources.SqlServer;
 using Implem.Libraries.Utilities;
 using Implem.Pleasanter.Libraries.DataSources;
@@ -589,6 +590,7 @@ namespace Implem.Pleasanter.Models
         {
             return self
                 .SqlWhereLike(
+                    tableName: null,
                     name: "SearchText",
                     searchText: searchText,
                     clauseCollection: new List<string>()

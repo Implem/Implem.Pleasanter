@@ -1,4 +1,5 @@
-﻿using Implem.Libraries.DataSources.SqlServer;
+﻿using Implem.Libraries.DataSources.Interfaces;
+using Implem.Libraries.DataSources.SqlServer;
 using Implem.Libraries.Utilities;
 using Implem.Pleasanter.Libraries.DataSources;
 using Implem.Pleasanter.Libraries.Html;
@@ -104,35 +105,45 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             long id,
             string direction)
         {
+            var column = IssuesLinkColumns(
+                context: context,
+                ss: ss,
+                view: view,
+                direction: direction);
+            var where = view.Where(
+                context: context,
+                ss: ss,
+                where: Rds.IssuesWhere()
+                    .IssueId_In(sub: Targets(
+                        context: context,
+                        id: id,
+                        direction: direction))
+                    .CanRead(
+                        context: context,
+                        idColumnBracket: "[Issues].[IssueId]")
+                    .Sites_TenantId(context.TenantId));
+            var orderBy = view.OrderBy(
+                context: context,
+                ss: ss);
             return Rds.SelectIssues(
                 dataTableName: DataTableName(
                     ss: ss,
                     direction: direction),
-                column: IssuesLinkColumns(
+                column: column,
+                join: ss.Join(
                     context: context,
-                    ss: ss,
-                    view: view,
-                    direction: direction),
-                join: Rds.IssuesJoinDefault()
-                    .Add(
-                        tableName: "Sites",
-                        joinType: SqlJoin.JoinTypes.Inner,
-                        joinExpression: "[Sites].[SiteId]=[Issues].[SiteId]"),
-                where: view.Where(
-                    context: context,
-                    ss: ss,
-                    where: Rds.IssuesWhere()
-                        .IssueId_In(sub: Targets(
-                            context: context,
-                            id: id,
-                            direction: direction))
-                        .CanRead(
-                            context: context,
-                            idColumnBracket: "[Issues].[IssueId]")
-                        .Sites_TenantId(context.TenantId)),
-                orderBy: view.OrderBy(
-                    context: context,
-                    ss: ss));
+                    join: new IJoin[]
+                    {
+                        column,
+                        where,
+                        orderBy
+                    })
+                        .Add(
+                            tableName: "Sites",
+                            joinType: SqlJoin.JoinTypes.Inner,
+                            joinExpression: "[Sites].[SiteId]=[Issues].[SiteId]"),
+                where: where,
+                orderBy: orderBy);
         }
 
         public static Rds.IssuesColumnCollection IssuesLinkColumns(
@@ -172,35 +183,45 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             long id,
             string direction)
         {
+            var column = ResultsLinkColumns(
+                context: context,
+                ss: ss,
+                view: view,
+                direction: direction);
+            var where = view.Where(
+                context: context,
+                ss: ss,
+                where: Rds.ResultsWhere()
+                    .ResultId_In(sub: Targets(
+                        context: context,
+                        id: id,
+                        direction: direction))
+                    .CanRead(
+                        context: context,
+                        idColumnBracket: "[Results].[ResultId]")
+                    .Sites_TenantId(context.TenantId));
+            var orderBy = view.OrderBy(
+                context: context,
+                ss: ss);
             return Rds.SelectResults(
                 dataTableName: DataTableName(
                     ss: ss,
                     direction: direction),
-                column: ResultsLinkColumns(
+                column: column,
+                join: ss.Join(
                     context: context,
-                    ss: ss,
-                    view: view,
-                    direction: direction),
-                join: Rds.ResultsJoinDefault()
-                    .Add(
-                        tableName: "Sites",
-                        joinType: SqlJoin.JoinTypes.Inner,
-                        joinExpression: "[Sites].[SiteId]=[Results].[SiteId]"),
-                where: view.Where(
-                    context: context,
-                    ss: ss,
-                    where: Rds.ResultsWhere()
-                        .ResultId_In(sub: Targets(
-                            context: context,
-                            id: id,
-                            direction: direction))
-                        .CanRead(
-                            context: context,
-                            idColumnBracket: "[Results].[ResultId]")
-                        .Sites_TenantId(context.TenantId)),
-                orderBy: view.OrderBy(
-                    context: context,
-                    ss: ss));
+                    join: new IJoin[]
+                    {
+                        column,
+                        where,
+                        orderBy
+                    })
+                        .Add(
+                            tableName: "Sites",
+                            joinType: SqlJoin.JoinTypes.Inner,
+                            joinExpression: "[Sites].[SiteId]=[Results].[SiteId]"),
+                where: where,
+                orderBy: orderBy);
         }
 
         public static Rds.ResultsColumnCollection ResultsLinkColumns(
