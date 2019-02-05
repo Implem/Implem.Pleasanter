@@ -4920,6 +4920,7 @@ namespace Implem.Pleasanter.Models
                                 controlCss: " auto-postback always-send",
                                 labelText: Displays.Sites(context: context),
                                 optionCollection: destinationSiteHash,
+                                selectedValue: summary.SiteId.ToString(),
                                 action: "SetSiteSettings",
                                 method: "post")
                             .SummaryDestinationColumn(
@@ -6884,7 +6885,7 @@ namespace Implem.Pleasanter.Models
                                 controlCss: " always-send send-all",
                                 labelText: Displays.CurrentSettings(context: context),
                                 listItemCollection: ExportUtilities
-                                    .CurrentColumnOptions(export.Columns),
+                                    .ColumnOptions(export.Columns),
                                 commandOptionPositionIsTop: true,
                                 commandOptionAction: () => hb
                                     .Div(css: "command-center", action: () => hb

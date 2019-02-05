@@ -3,11 +3,11 @@
     "Type": 240,
     "Languages": [
         {
-            "Body": "Invalid ssocode specified."
+            "Body": "The specified ssocode can not be used."
         },
         {
             "Language": "ja",
-            "Body": "使用できないssocodeが指定されました。"
+            "Body": "指定されたssocodeは使用できません。"
         }
     ]
 }

@@ -585,6 +585,15 @@ namespace Implem.Pleasanter.Libraries.Responses
                 css: "alert-error");
         }
 
+        public static Message JoeAccountCheck(Context context, params string[] data)
+        {
+            return Get(
+                text: Displays.JoeAccountCheck(
+                    context: context,
+                    data: data),
+                css: "alert-error");
+        }
+
         public static Message LinkCreated(Context context, params string[] data)
         {
             return Get(
@@ -1420,6 +1429,13 @@ namespace Implem.Pleasanter.Libraries.Responses
         public static ResponseCollection ResponseItemsLimit(Context context, params string[] data)
         {
             return ResponseMessage(ItemsLimit(
+                context: context,
+                data: data));
+        }
+
+        public static ResponseCollection ResponseJoeAccountCheck(Context context, params string[] data)
+        {
+            return ResponseMessage(JoeAccountCheck(
                 context: context,
                 data: data));
         }

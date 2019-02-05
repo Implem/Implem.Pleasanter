@@ -24,6 +24,10 @@ namespace Implem.SupportTools.SysLogViewer.View
         private async void UserControl_Loaded(object sender, RoutedEventArgs e)
         {
             await VM?.GetSysLogsAsync(listView.Dispatcher);
+
+            tabControl.SelectionChanged += TabControl_SelectionChanged;
+            startDatePicker.SelectedDateChanged += DatePicker_SelectedDateChanged;
+            endDatePicker.SelectedDateChanged += DatePicker_SelectedDateChanged;
         }
 
         private void CollectionViewSource_Filter(object sender, FilterEventArgs e)

@@ -25,7 +25,7 @@
             <ColumnDefinition Width="auto"/>
             <ColumnDefinition/>
         </Grid.ColumnDefinitions>
-        <TabControl Grid.Row="0" Grid.Column="0" Padding="2" SelectionChanged="TabControl_SelectionChanged">
+        <TabControl x:Name="tabControl" Grid.Row="0" Grid.Column="0" Padding="2" >
             <TabItem Header="リアルタイム" IsSelected="{Binding IsRealTime}">
                 <StackPanel Orientation="Horizontal">
                     <Label VerticalAlignment="Center">取得件数</Label>
@@ -39,9 +39,9 @@
             <TabItem Header="期間指定">
                 <StackPanel Orientation="Horizontal">
                     <Label VerticalAlignment="Center">開始日</Label>
-                    <DatePicker SelectedDate="{Binding StartDate}" SelectedDateChanged="DatePicker_SelectedDateChanged"/>
+                    <DatePicker x:Name="startDatePicker" SelectedDate="{Binding StartDate}" />
                     <Label VerticalAlignment="Center" Margin="8,0,0,0">終了日</Label>
-                    <DatePicker SelectedDate="{Binding EndDate}" SelectedDateChanged="DatePicker_SelectedDateChanged"/>
+                    <DatePicker x:Name="endDatePicker" SelectedDate="{Binding EndDate}" />
                 </StackPanel>
             </TabItem>
         </TabControl>

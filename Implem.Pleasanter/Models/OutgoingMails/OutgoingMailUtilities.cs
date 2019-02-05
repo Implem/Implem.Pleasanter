@@ -397,7 +397,9 @@ namespace Implem.Pleasanter.Models
         /// </summary>
         private static string Location(Context context)
         {
-            var location = context.AbsoluteUri.ToLower();
+            var location = (Parameters.Service.AbsoluteUri == null 
+                ? context.AbsoluteUri
+                : Parameters.Service.AbsoluteUri + context.AbsolutePath).ToLower();
             return location.Substring(0, location.IndexOf("/outgoingmails"));
         }
 

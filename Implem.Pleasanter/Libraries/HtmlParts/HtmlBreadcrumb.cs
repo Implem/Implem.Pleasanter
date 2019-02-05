@@ -1,4 +1,5 @@
-﻿using Implem.Libraries.Utilities;
+﻿using Implem.DefinitionAccessor;
+using Implem.Libraries.Utilities;
 using Implem.Pleasanter.Libraries.Html;
 using Implem.Pleasanter.Libraries.Requests;
 using Implem.Pleasanter.Libraries.Responses;
@@ -270,7 +271,18 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             {
                 queryString["View"] = view.ToJson();
             }
-            return new System.UriBuilder(context.AbsoluteUri)
+            var url = Parameters.Service.AbsoluteUri == null
+                    ? context.AbsoluteUri
+                    : Parameters.Service.AbsoluteUri + context.AbsolutePath;
+            switch (context.Action)
+            {
+                case "gridrows":
+                    url = url.Replace("gridrows", "index");
+                    break;
+                default:
+                    break;
+            }
+            return new System.UriBuilder(url)
             {
                 Query = queryString.ToString()
             }.ToString();
