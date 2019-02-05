@@ -161,10 +161,10 @@ namespace Implem.Pleasanter.Libraries.Responses
                 : this;
         }
 
-        public ResponseCollection Events(string methodName, bool _using = true)
+        public ResponseCollection Events(string target, bool _using = true)
         {
-            return !methodName.IsNullOrEmpty() && _using
-                ? Add("Events", methodName)
+            return !target.IsNullOrEmpty() && _using
+                ? Add("Events", target)
                 : this;
         }
 

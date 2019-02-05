@@ -2837,7 +2837,7 @@ namespace Implem.Pleasanter.Models
                     Export.Id = SiteSettings.Exports.MaxOrDefault(o => o.Id) + 1;
                     Export.Name = context.Forms.Data("ExportName");
                     Export.Header = context.Forms.Bool("ExportHeader");
-                    Export.Join = context.Forms.Data("ExportJoin").Deserialize<Join>();
+                    Export.Join = context.Forms.Data("ExportJoin").Deserialize<Join>() ?? new Join(new List<Link>());
                     SiteSettings.Exports.Add(Export);
                     SetExportsResponseCollection(context: context, res: res);
                 }
@@ -2887,7 +2887,7 @@ namespace Implem.Pleasanter.Models
                     export.Update(
                         context.Forms.Data("ExportName"),
                         context.Forms.Bool("ExportHeader"),
-                        context.Forms.Data("ExportJoin").Deserialize<Join>(),
+                        context.Forms.Data("ExportJoin").Deserialize<Join>() ?? new Join(new List<Link>()),
                         columns);
                     SetExportsResponseCollection(context: context, res: res);
                 }
@@ -2968,11 +2968,11 @@ namespace Implem.Pleasanter.Models
             res
                 .Html("#ExportColumns", new HtmlBuilder()
                     .SelectableItems(listItemCollection: ExportUtilities
-                        .CurrentColumnOptions(current)))
+                        .ColumnOptions(current)))
                 .SetFormData("ExportColumns", "[]")
                 .Html("#ExportSourceColumns", new HtmlBuilder()
                     .SelectableItems(listItemCollection: ExportUtilities
-                        .SourceColumnOptions(sources)))
+                        .ColumnOptions(sources)))
                 .SetFormData("ExportSourceColumns", "[]");
         }
 
@@ -2998,7 +2998,7 @@ namespace Implem.Pleasanter.Models
             res
                 .Html("#ExportSourceColumns", new HtmlBuilder()
                     .SelectableItems(listItemCollection: ExportUtilities
-                        .SourceColumnOptions(sources)))
+                        .ColumnOptions(sources)))
                 .SetFormData("ExportSourceColumns", "[]");
         }
 
@@ -3048,8 +3048,8 @@ namespace Implem.Pleasanter.Models
                 var selectedNewId = "";
                 context.Forms.List("ExportColumnsAll").ForEach(o =>
                 {
-                    var exp = o.Deserialize<ExportColumn>() ?? Export.Columns.Where(c => c.Id.ToString() == o).FirstOrDefault();
-                    if (exp.Id.ToString() == selected[0]) selectedNewId = id.ToString();
+                    var exp = o.Deserialize<ExportColumn>() ?? Export.Columns.Where(c => c.ToJson() == o).FirstOrDefault();
+                    if (exp.ToJson() == selected[0]) selectedNewId = id.ToString();
                     columns.Add(new ExportColumn()
                     {
                         SiteId = exp.SiteId,
@@ -3064,6 +3064,9 @@ namespace Implem.Pleasanter.Models
                 });
                 Export.Columns = columns;
                 SiteSettings.SetExport(context: context, export: Export);
+                Session_Export(
+                    context: context,
+                    value: Export.ToJson());
                 var column = Export.Columns.FirstOrDefault(o =>
                     o.Id.ToString() == selectedNewId);
                 if (column == null)
@@ -3126,10 +3129,13 @@ namespace Implem.Pleasanter.Models
                         context.Forms.Data("ExportColumnLabelText"),
                         (ExportColumn.Types)context.Forms.Int("ExportColumnType"),
                         context.Forms.Data("ExportFormat"));
+                    Session_Export(
+                        context: context,
+                        value: Export.ToJson());
                     res
                         .Html("#ExportColumns", new HtmlBuilder().SelectableItems(
                             listItemCollection: ExportUtilities
-                                .CurrentColumnOptions(Export.Columns),
+                                .ColumnOptions(Export.Columns),
                             selectedValueTextCollection: selected))
                         .SetFormData("ExportColumns", selected.ToJson())
                         .CloseDialog("#ExportColumnsDialog");

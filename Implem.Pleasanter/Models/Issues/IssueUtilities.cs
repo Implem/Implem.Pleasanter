@@ -138,6 +138,7 @@ namespace Implem.Pleasanter.Models
                             ss: ss,
                             gridData: gridData,
                             view: view))
+                .Events("on_grid_load")
                 .ToJson();
         }
 

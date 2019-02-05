@@ -42,6 +42,7 @@ namespace Implem.Pleasanter.Libraries.General
             InvalidRequest,
             InvalidSsoCode,
             ItemsLimit,
+            JoeAccountCheck,
             LoginIdAlreadyUse,
             MailAddressHasNotSet,
             NoLinks,
@@ -217,6 +218,10 @@ namespace Implem.Pleasanter.Libraries.General
                         data: data);
                 case Types.ItemsLimit:
                     return Messages.ItemsLimit(
+                        context: context,
+                        data: data);
+                case Types.JoeAccountCheck:
+                    return Messages.JoeAccountCheck(
                         context: context,
                         data: data);
                 case Types.LoginIdAlreadyUse:

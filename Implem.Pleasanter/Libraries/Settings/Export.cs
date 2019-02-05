@@ -66,7 +66,7 @@ namespace Implem.Pleasanter.Libraries.Settings
             export.Id = Id;
             export.Name = Name;
             export.Header = Header == true ? null : Header;
-            export.Join = Join?.Any() == true ? Join : null;
+            export.Join = Join?.Any() == true ? Join : new Join(new List<Link>());
             export.Columns = new List<ExportColumn>();
             Columns?.ForEach(column => export.Columns.Add(column.GetRecordingData()));
             return export;

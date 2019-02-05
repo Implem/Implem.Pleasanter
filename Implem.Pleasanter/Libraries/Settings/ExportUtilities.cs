@@ -12,22 +12,14 @@ namespace Implem.Pleasanter.Libraries.Settings
 {
     public static class ExportUtilities
     {
-        public static Dictionary<string, ControlData> CurrentColumnOptions(
+        public static Dictionary<string, ControlData> ColumnOptions(
             IEnumerable<ExportColumn> columns)
         {
             return columns.ToDictionary(
-                o => o.Id.ToString(),
+                o => new { SiteId = o.SiteId, Id=o.Id, ColumnName = o.ColumnName, LabelText = o.LabelText, Type = o.Type }.ToJson(),
                 o => new ControlData(o.GetLabelText(withSiteTitle: true)));
         }
-
-        public static Dictionary<string, ControlData> SourceColumnOptions(
-            IEnumerable<ExportColumn> columns)
-        {
-            return columns.ToDictionary(
-                o => new { SiteId = o.SiteId, ColumnName = o.ColumnName }.ToJson(),
-                o => new ControlData(o.GetLabelText(withSiteTitle: true)));
-        }
-
+        
         public static Dictionary<string, ControlData> SourceColumnOptions(
             Context context, SiteSettings ss, Join join, string searchText = null)
         {
@@ -44,7 +36,7 @@ namespace Implem.Pleasanter.Libraries.Settings
             sources.AddRange(ss.ExportColumns(
                 context: context,
                 searchText: searchText));
-            return SourceColumnOptions(sources);
+            return ColumnOptions(sources);
         }
 
         public static ResponseFile Csv(Context context, SiteSettings ss, Export export)

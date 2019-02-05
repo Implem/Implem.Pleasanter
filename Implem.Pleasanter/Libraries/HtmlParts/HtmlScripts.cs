@@ -87,7 +87,10 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             {
                 case "new":
                 case "edit":
-                    hb.Script(script: "$p.execOnEditorLoad();");
+                    hb.Script(script: "$p.execEvents('on_editor_load','');");
+                    break;
+                case "index":
+                    hb.Script(script: "$p.execEvents('on_grid_load','');");
                     break;
             }
             return hb;

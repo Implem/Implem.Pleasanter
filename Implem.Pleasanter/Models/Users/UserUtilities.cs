@@ -6165,6 +6165,11 @@ namespace Implem.Pleasanter.Models
                 case Error.Types.None: break;
                 default: return invalid.MessageJson(context: context);
             }
+            if(Parameters.Security.JoeAccountCheck 
+                && context.Forms.Data("Users_Password") == context.Forms.Data("Users_LoginId"))
+            {
+                return Error.Types.JoeAccountCheck.MessageJson(context: context);
+            }
             foreach (var policy in Parameters.Security.PasswordPolicies.Where(o => o.Enabled))
             {
                 if (!context.Forms.Data("Users_Password").RegexExists(policy.Regex))
@@ -7358,6 +7363,11 @@ namespace Implem.Pleasanter.Models
                 case Error.Types.None: break;
                 default: return invalid.MessageJson(context: context);
             }
+            if (Parameters.Security.JoeAccountCheck
+                && context.Forms.Data("Users_ChangedPassword") == userModel.LoginId)
+            {
+                return Error.Types.JoeAccountCheck.MessageJson(context: context);
+            }
             foreach (var policy in Parameters.Security.PasswordPolicies.Where(o => o.Enabled))
             {
                 if (!context.Forms.Data("Users_ChangedPassword").RegexExists(policy.Regex))
@@ -7405,6 +7415,11 @@ namespace Implem.Pleasanter.Models
                 case Error.Types.None: break;
                 default: return invalid.MessageJson(context: context);
             }
+            if (Parameters.Security.JoeAccountCheck
+                && context.Forms.Data("Users_ChangedPassword") == userModel.LoginId)
+            {
+                return Error.Types.JoeAccountCheck.MessageJson(context: context);
+            }
             foreach (var policy in Parameters.Security.PasswordPolicies.Where(o => o.Enabled))
             {
                 if (!context.Forms.Data("Users_ChangedPassword").RegexExists(policy.Regex))
@@ -7437,6 +7452,11 @@ namespace Implem.Pleasanter.Models
             {
                 case Error.Types.None: break;
                 default: return invalid.MessageJson(context: context);
+            }
+            if (Parameters.Security.JoeAccountCheck
+                && context.Forms.Data("Users_AfterResetPassword") == userModel.LoginId)
+            {
+                return Error.Types.JoeAccountCheck.MessageJson(context: context);
             }
             foreach(var policy in Parameters.Security.PasswordPolicies.Where(o => o.Enabled))
             {

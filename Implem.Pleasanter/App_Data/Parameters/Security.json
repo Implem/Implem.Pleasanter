@@ -4,6 +4,7 @@
     "RevealUserDisabled": false,
     "LockoutCount": 0,
     "PasswordExpirationPeriod": 0,
+    "JoeAccountCheck": true,
     "PasswordPolicies": [
         {
             "Enabled": true,

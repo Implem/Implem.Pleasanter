@@ -39,16 +39,13 @@ namespace Implem.Pleasanter.Libraries.DataSources
             {
                 return;
             }
-
             var statements = new List<SqlStatement>();
-
             var param = Rds.UsersParam()
                 .TenantId(tenantId)
                 .LoginId(loginId)
                 .Name(name)
                 .TenantManager(tenantManager)
                 .SynchronizedTime(synchronizedTime);
-
             statements.Add(Rds.UpdateOrInsertUsers(
                 param: param,
                 where: Rds.UsersWhere().TenantId(tenantId).LoginId(loginId),
@@ -127,10 +124,8 @@ namespace Implem.Pleasanter.Libraries.DataSources
                             }
                             else
                             {
-
                                 newProvider = provider;
                                 newCert = provider.SigningCertificate;
-
                                 WriteIdPSettings(contractSettings?.SamlLoginUrl, contractSettings?.SamlThumbprint, idp, newProvider, newCert);
                                 try
                                 {
@@ -138,18 +133,15 @@ namespace Implem.Pleasanter.Libraries.DataSources
                                     var options = new Options(spOptions);
                                     SustainsysSaml2Section.Current.IdentityProviders.RegisterIdentityProviders(options);
                                     SustainsysSaml2Section.Current.Federations.RegisterFederations(options);
-
                                     var optionsFromConfiguration = typeof(Options).GetField("optionsFromConfiguration",
                                         System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Static);
                                     optionsFromConfiguration.SetValue(null, new Lazy<Options>(() => options, true));
-
                                 }
                                 catch
                                 {
                                     WriteIdPSettings(signOnUrl, findValue, idp, newProvider, newCert);
                                     throw;
                                 }
-
                             }
                         }
                         else
@@ -216,6 +208,12 @@ namespace Implem.Pleasanter.Libraries.DataSources
                 if (certs.Count != 1)
                 {
                     new SysLogModel(context, $"Invalid SAML certificate. (Thumbrint={findValue})");
+                    return false;
+                }
+                var today = DateTime.Today;
+                if (certs[0].NotBefore.Date >  today|| certs[0].NotAfter.Date < today)
+                {
+                    new SysLogModel(context, $"Certificate expired ({certs[0].NotBefore.ToString("yyyy/MM/dd")} - {certs[0].NotAfter.ToString("yyyy/MM/dd")})");
                     return false;
                 }
             }

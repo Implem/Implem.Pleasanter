@@ -2476,6 +2476,16 @@ namespace Implem.Pleasanter.Libraries.Responses
                 data: data);
         }
 
+        public static string JoeAccountCheck(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "JoeAccountCheck",
+                data: data);
+        }
+
         public static string Kamban(
             Context context,
             params string[] data)

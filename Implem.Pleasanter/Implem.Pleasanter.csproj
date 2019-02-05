@@ -1382,6 +1382,7 @@
     <Content Include="App_Data\Displays\InvalidSsoCode.json" />
     <Content Include="App_Data\Displays\SamlLoginFailed.json" />
     <Content Include="App_Data\Displays\UserNotSelfDelete.json" />
+    <Content Include="App_Data\Displays\JoeAccountCheck.json" />
     <Content Include="Tools\BackgroundTasks.ps1" />
     <Content Include="Tools\SyncByLdap.ps1" />
     <Content Include="Views\Users\EditApi.cshtml" />
