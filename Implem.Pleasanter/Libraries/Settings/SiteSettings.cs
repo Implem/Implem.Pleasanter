@@ -3103,6 +3103,7 @@ namespace Implem.Pleasanter.Libraries.Settings
             return SqlJoinCollection(
                 context: context,
                 tableNames: join
+                    .Where(o => o != null)
                     .SelectMany(o => o.JoinTableNames())
                     .Distinct()
                     .ToList());
