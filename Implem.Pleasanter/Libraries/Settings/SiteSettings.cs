@@ -2541,41 +2541,42 @@ namespace Implem.Pleasanter.Libraries.Settings
                     context: context,
                     siteIdList: siteIdList,
                     searchSiteIdList: searchSiteIdList,
-                    all: all)
+                    all: all,
+                    searchIndexes: null)
                 : null;
             SetUseSearch(context: context, searchSiteIdList: searchSiteIdList);
             SetChoiceHash(
                 context: context,
                 columnName: null,
-                searchText: null,
+                searchIndexes: null,
                 linkHash: linkHash);
             Destinations?.ForEach(ss => ss.SetChoiceHash(
                 context: context,
                 columnName: null,
-                searchText: null,
+                searchIndexes: null,
                 linkHash: linkHash));
             Sources?.ForEach(ss => ss.SetChoiceHash(
                 context: context,
                 columnName: null,
-                searchText: null,
+                searchIndexes: null,
                 linkHash: linkHash));
         }
 
         public void SetChoiceHash(
             Context context,
             string columnName,
-            string searchText = null,
+            List<string> searchIndexes = null,
             IEnumerable<string> selectedValues = null,
             bool noLimit = false)
         {
             SetChoiceHash(
                 context: context,
                 columnName: columnName,
-                searchText: searchText,
+                searchIndexes: searchIndexes,
                 linkHash: LinkHash(
                     context: context,
                     columnName: columnName,
-                    searchText: searchText,
+                    searchIndexes: searchIndexes,
                     selectedValues: selectedValues,
                     noLimit: noLimit));
         }
@@ -2583,7 +2584,7 @@ namespace Implem.Pleasanter.Libraries.Settings
         public void SetChoiceHash(
             Context context,
             string columnName,
-            string searchText,
+            List<string> searchIndexes,
             Dictionary<string, List<string>> linkHash)
         {
             Columns?
@@ -2594,15 +2595,15 @@ namespace Implem.Pleasanter.Libraries.Settings
                         context: context,
                         siteId: InheritPermission,
                         linkHash: linkHash,
-                        searchIndexes: searchText
-                            .SearchIndexes(context: context)));
+                        searchIndexes: searchIndexes));
         }
 
         private Dictionary<string, List<string>> LinkHash(
             Context context,
             List<long> siteIdList,
             List<long> searchSiteIdList,
-            bool all)
+            bool all,
+            List<string> searchIndexes)
         {
             var dataRows = Rds.ExecuteTable(
                 context: context,
@@ -2640,7 +2641,8 @@ namespace Implem.Pleasanter.Libraries.Settings
                     siteId => LinkValue(
                         context: context,
                         siteId: siteId,
-                        dataRows: dataRows.Where(dataRow => dataRow.Long("SiteId") == siteId)));
+                        dataRows: dataRows.Where(dataRow => dataRow.Long("SiteId") == siteId),
+                        searchIndexes: searchIndexes));
         }
 
         private List<long> LinkHashTargetSiteIdList(
@@ -2702,7 +2704,7 @@ namespace Implem.Pleasanter.Libraries.Settings
         public Dictionary<string, List<string>> LinkHash(
             Context context,
             string columnName,
-            string searchText = null,
+            List<string> searchIndexes = null,
             bool searchColumnOnly = true,
             IEnumerable<string> selectedValues = null,
             int offset = 0,
@@ -2722,7 +2724,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                 .Select(o => o.FirstOrDefault())
                 .ForEach(link => LinkHash(
                     context: context,
-                    searchText: searchText,
+                    searchIndexes: searchIndexes,
                     selectedValues: selectedValues?.Select(o => o.ToLong()),
                     link: link,
                     hash: hash,
@@ -2739,8 +2741,8 @@ namespace Implem.Pleasanter.Libraries.Settings
 
         private void LinkHash(
             Context context,
-            string searchText,
             IEnumerable<long> selectedValues,
+            List<string> searchIndexes,
             Link link,
             Dictionary<string, List<string>> hash,
             int offset,
@@ -2752,7 +2754,7 @@ namespace Implem.Pleasanter.Libraries.Settings
             var select = SearchIndexUtilities.Select(
                 context: context,
                 ss: Destinations?.Get(link.SiteId),
-                searchText: searchText,
+                searchText: searchIndexes?.Join(" "),
                 siteIdList: link.SiteId.ToSingleList());
             var dataSet = Rds.ExecuteDataSet(
                 context: context,
@@ -2805,12 +2807,16 @@ namespace Implem.Pleasanter.Libraries.Settings
                 hash.Add($"[[{link.SiteId}]]", LinkValue(
                     context: context,
                     siteId: link.SiteId,
-                    dataRows: dataRows));
+                    dataRows: dataRows,
+                    searchIndexes: searchIndexes));
             }
         }
 
         private static List<string> LinkValue(
-            Context context, long siteId, EnumerableRowCollection<DataRow> dataRows)
+            Context context,
+            long siteId,
+            EnumerableRowCollection<DataRow> dataRows,
+            List<string> searchIndexes)
         {
             return dataRows.Any(dataRow =>
                 dataRow.Long("SiteId") == siteId &&
@@ -2824,6 +2830,10 @@ namespace Implem.Pleasanter.Libraries.Settings
                                 .Where(o => o.Trim() != string.Empty)
                                 .GroupBy(o => o.Split_1st())
                                 .Select(o => o.First())
+                                .Where(o => searchIndexes?.Any() != true
+                                    || searchIndexes.All(p =>
+                                        o.Split_1st().RegexLike(p).Any()
+                                        || o.Split_2nd().RegexLike(p).Any()))
                                 .ToList()
                     : dataRows
                         .Where(dataRow => dataRow.Long("SiteId") == siteId)
