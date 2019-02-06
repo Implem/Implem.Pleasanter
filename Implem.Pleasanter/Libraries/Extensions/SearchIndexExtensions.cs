@@ -271,7 +271,7 @@ namespace Implem.Pleasanter.Libraries.Extensions
             }
         }
 
-        public static IEnumerable<string> SearchIndexes(
+        public static List<string> SearchIndexes(
             this string self, Context context, bool createIndex = false)
         {
             return new Search.WordBreaker(self, createIndex).Results

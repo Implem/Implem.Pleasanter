@@ -926,6 +926,7 @@ namespace Implem.Pleasanter.Models
                     controlId.StartsWith("ViewFilters__")
                         ? "ViewFilters__".Length
                         : (ss.ReferenceType + "_").Length));
+            var searchIndexes = searchText.SearchIndexes(context: context);
             if (column?.Linked() == true)
             {
                 column?.SetChoiceHash(
@@ -934,18 +935,18 @@ namespace Implem.Pleasanter.Models
                     linkHash: column.SiteSettings.LinkHash(
                         context: context,
                         columnName: column.Name,
-                        searchText: searchText,
+                        searchIndexes: searchIndexes,
                         offset: offset,
                         parentClass: parentClass,
                         parentId: parentId),
-                    searchIndexes: searchText.SearchIndexes(context: context));
+                    searchIndexes: searchIndexes);
             }
             else
             {
                 ss.SetChoiceHash(
                     context: context,
                     columnName: column?.ColumnName,
-                    searchText: context.Forms.Data("DropDownSearchText"));
+                    searchIndexes: searchIndexes);
             }
             return column;
         }
@@ -958,10 +959,6 @@ namespace Implem.Pleasanter.Models
             bool editor,
             bool multiple)
         {
-            column.SiteSettings.SetChoiceHash(
-                context: context,
-                columnName: column.ColumnName,
-                selectedValues: selected);
             var optionCollection = column?.EditChoices(
                 context: context,
                 addNotSet: true)?
