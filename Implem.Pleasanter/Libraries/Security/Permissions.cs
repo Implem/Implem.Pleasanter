@@ -361,6 +361,8 @@ namespace Implem.Pleasanter.Libraries.Security
                     return CanManageTenant(context: context);
                 case "groups":
                     return CanEditGroup(context: context);
+                case "versions":
+                    return false;
                 default:
                     return context.Can(ss: ss, type: Types.Create, site: site);
             }
