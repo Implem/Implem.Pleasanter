@@ -104,14 +104,15 @@ namespace Implem.Libraries.DataSources.SqlServer
                 .Where(o => o != null)
                 .Select(o => o.TableName)
                 .Where(o => o?.Contains("~") == true)
-                .Distinct()
                 .ToList();
             this
                 .Where(o => o != null)
                 .Select(o => o.Or)
                 .Where(o => o != null)
                 .ForEach(o => data.AddRange(o.JoinTableNames()));
-            return data;
+            return data
+                .Distinct()
+                .ToList();
         }
     }
 }
