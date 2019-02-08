@@ -19,7 +19,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                 o => new { SiteId = o.SiteId, Id=o.Id, ColumnName = o.ColumnName, LabelText = o.LabelText, Type = o.Type }.ToJson(),
                 o => new ControlData(o.GetLabelText(withSiteTitle: true)));
         }
-        
+
         public static Dictionary<string, ControlData> SourceColumnOptions(
             Context context, SiteSettings ss, Join join, string searchText = null)
         {
