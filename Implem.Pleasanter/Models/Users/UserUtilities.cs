@@ -6265,6 +6265,7 @@ namespace Implem.Pleasanter.Models
                     where: Rds.UsersWhere().UserId(userModel.UserId));
                 var columns = ss.GetGridColumns(
                     context: context,
+                    view: view,
                     checkPermission: true);
                 return res
                     .ReplaceAll(
