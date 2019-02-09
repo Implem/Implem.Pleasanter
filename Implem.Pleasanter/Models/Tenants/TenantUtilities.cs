@@ -658,6 +658,7 @@ namespace Implem.Pleasanter.Models
                     where: Rds.TenantsWhere().TenantId(tenantModel.TenantId));
                 var columns = ss.GetGridColumns(
                     context: context,
+                    view: view,
                     checkPermission: true);
                 return res
                     .ReplaceAll(

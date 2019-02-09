@@ -1049,6 +1049,7 @@ namespace Implem.Pleasanter.Models
                     where: Rds.GroupsWhere().GroupId(groupModel.GroupId));
                 var columns = ss.GetGridColumns(
                     context: context,
+                    view: view,
                     checkPermission: true);
                 return res
                     .ReplaceAll(

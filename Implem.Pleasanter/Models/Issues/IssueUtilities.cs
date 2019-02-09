@@ -7153,6 +7153,7 @@ namespace Implem.Pleasanter.Models
                     where: Rds.IssuesWhere().IssueId(issueModel.IssueId));
                 var columns = ss.GetGridColumns(
                     context: context,
+                    view: view,
                     checkPermission: true);
                 return res
                     .ReplaceAll(

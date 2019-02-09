@@ -1054,6 +1054,7 @@ namespace Implem.Pleasanter.Models
                     where: Rds.DeptsWhere().DeptId(deptModel.DeptId));
                 var columns = ss.GetGridColumns(
                     context: context,
+                    view: view,
                     checkPermission: true);
                 return res
                     .ReplaceAll(

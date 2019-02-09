@@ -6960,6 +6960,7 @@ namespace Implem.Pleasanter.Models
                     where: Rds.ResultsWhere().ResultId(resultModel.ResultId));
                 var columns = ss.GetGridColumns(
                     context: context,
+                    view: view,
                     checkPermission: true);
                 return res
                     .ReplaceAll(
