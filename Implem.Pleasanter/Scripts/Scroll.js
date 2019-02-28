@@ -19,7 +19,6 @@ $p.paging = function (selector) {
         if ($(window).scrollTop() + $(window).height() >= $control.offset().top + $control.height()) {
             if ($offset.val() !== '-1') {
                 $p.setData($offset);
-                $offset.val(-1);
                 $p.send($control);
             }
         }

@@ -419,7 +419,6 @@
     <Compile Include="Libraries\Requests\Views.cs" />
     <Compile Include="Libraries\Requests\ViewModes.cs" />
     <Compile Include="Libraries\Requests\Forms.cs" />
-    <Compile Include="Libraries\Requests\DataViewGrid.cs" />
     <Compile Include="Libraries\Requests\QueryStrings.cs" />
     <Compile Include="Libraries\Responses\ControlData.cs" />
     <Compile Include="Libraries\Responses\ResponseViews.cs" />

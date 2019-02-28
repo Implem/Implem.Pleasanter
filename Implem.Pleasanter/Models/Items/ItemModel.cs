@@ -1014,7 +1014,7 @@ namespace Implem.Pleasanter.Models
                             context: context,
                             referenceId: ReferenceId,
                             setSiteIntegration: true),
-                        offset: DataViewGrid.Offset(context: context));
+                        offset: context.Forms.Int("GridOffset"));
                 case "Results":
                     return ResultUtilities.GridRows(
                         context: context,
@@ -1022,7 +1022,7 @@ namespace Implem.Pleasanter.Models
                             context: context,
                             referenceId: ReferenceId,
                             setSiteIntegration: true),
-                        offset: DataViewGrid.Offset(context: context));
+                        offset: context.Forms.Int("GridOffset"));
                 default:
                     return Messages.ResponseNotFound(context: context).ToJson();
             }
@@ -1041,7 +1041,7 @@ namespace Implem.Pleasanter.Models
                             referenceId: ReferenceId,
                             setSiteIntegration: true,
                             tableType: Sqls.TableTypes.Deleted),
-                        offset: DataViewGrid.Offset(context: context),
+                        offset: context.Forms.Int("GridOffset"),
                         action: "TrashBoxGridRows");
                 case "Results":
                     return ResultUtilities.GridRows(
@@ -1051,7 +1051,7 @@ namespace Implem.Pleasanter.Models
                             referenceId: ReferenceId,
                             setSiteIntegration: true,
                             tableType: Sqls.TableTypes.Deleted),
-                        offset: DataViewGrid.Offset(context: context),
+                        offset: context.Forms.Int("GridOffset"),
                         action: "TrashBoxGridRows");
                 default:
                     return Messages.ResponseNotFound(context: context).ToJson();
