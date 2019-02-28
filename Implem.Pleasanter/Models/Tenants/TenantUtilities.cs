@@ -488,9 +488,17 @@ namespace Implem.Pleasanter.Models
                 ss: ss,
                 setSession: false);
             var where = view.Where(context: context, ss: ss, where: Rds.TenantsWhere().TenantId(context.TenantId));
+            var orderBy = view.OrderBy(
+                context: context,
+                ss: ss)
+                    .Tenants_UpdatedTime(SqlOrderBy.Types.desc);
             var join = ss.Join(
                 context: context,
-                join: where);
+                join: new IJoin[]
+                {
+                    where,
+                    orderBy
+                });
             var switchTargets = Rds.ExecuteScalar_int(
                 context: context,
                 statements: Rds.SelectTenants(
@@ -503,11 +511,10 @@ namespace Implem.Pleasanter.Models
                                 column: Rds.TenantsColumn().TenantId(),
                                 join: join,
                                 where: where,
-                                orderBy: view.OrderBy(context: context, ss: ss)
-                                    .Tenants_UpdatedTime(SqlOrderBy.Types.desc)))
-                                        .AsEnumerable()
-                                        .Select(o => o["TenantId"].ToInt())
-                                        .ToList()
+                                orderBy: orderBy))
+                                    .AsEnumerable()
+                                    .Select(o => o["TenantId"].ToInt())
+                                    .ToList()
                         : new List<int>();
             if (!switchTargets.Contains(tenantId))
             {
