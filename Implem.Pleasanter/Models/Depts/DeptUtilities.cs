@@ -259,6 +259,7 @@ namespace Implem.Pleasanter.Models
                 offset: offset);
             return (res ?? new ResponseCollection())
                 .Remove(".grid tr", _using: offset == 0)
+                .ClearFormData("GridOffset")
                 .ClearFormData("GridCheckAll", _using: clearCheck)
                 .ClearFormData("GridUnCheckedItems", _using: clearCheck)
                 .ClearFormData("GridCheckedItems", _using: clearCheck)
@@ -1245,7 +1246,7 @@ namespace Implem.Pleasanter.Models
             return GridRows(
                 context: context,
                 ss: SiteSettingsUtilities.DeptsSiteSettings(context: context),
-                offset: DataViewGrid.Offset(context: context));
+                offset: context.Forms.Int("GridOffset"));
         }
 
         /// <summary>
