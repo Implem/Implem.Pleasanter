@@ -5830,9 +5830,17 @@ namespace Implem.Pleasanter.Models
                 ss: ss,
                 setSession: false);
             var where = view.Where(context: context, ss: ss);
+            var orderBy = view.OrderBy(
+                context: context,
+                ss: ss)
+                    .Issues_UpdatedTime(SqlOrderBy.Types.desc);
             var join = ss.Join(
                 context: context,
-                join: where);
+                join: new IJoin[]
+                {
+                    where,
+                    orderBy
+                });
             var switchTargets = Rds.ExecuteScalar_int(
                 context: context,
                 statements: Rds.SelectIssues(
@@ -5845,11 +5853,10 @@ namespace Implem.Pleasanter.Models
                                 column: Rds.IssuesColumn().IssueId(),
                                 join: join,
                                 where: where,
-                                orderBy: view.OrderBy(context: context, ss: ss)
-                                    .Issues_UpdatedTime(SqlOrderBy.Types.desc)))
-                                        .AsEnumerable()
-                                        .Select(o => o["IssueId"].ToLong())
-                                        .ToList()
+                                orderBy: orderBy))
+                                    .AsEnumerable()
+                                    .Select(o => o["IssueId"].ToLong())
+                                    .ToList()
                         : new List<long>();
             if (!switchTargets.Contains(issueId))
             {
