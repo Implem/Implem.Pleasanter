@@ -81,11 +81,11 @@ namespace Implem.Pleasanter.Libraries.DataSources
             var context = new Context(request: false, sessionStatus: false, sessionData: false, user: false);
             foreach (var tenant in new TenantCollection(context, SiteSettingsUtilities.TenantsSiteSettings(context)))
             {
-                SetIdpConfiguration(context, tenant.TenantId);
+                SetIdpConfiguration(context, tenant.TenantId, true);
             }
         }
 
-        public static string SetIdpConfiguration(Context context, int tenantId)
+        public static string SetIdpConfiguration(Context context, int tenantId, bool startup = false)
         {
             var contractSettings = TenantUtilities.GetContractSettings(context, tenantId);
             if (contractSettings == null
@@ -136,6 +136,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                                     var optionsFromConfiguration = typeof(Options).GetField("optionsFromConfiguration",
                                         System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Static);
                                     optionsFromConfiguration.SetValue(null, new Lazy<Options>(() => options, true));
+                                    Sustainsys.Saml2.Mvc.Saml2Controller.Options = Options.FromConfiguration;
                                 }
                                 catch
                                 {
@@ -150,6 +151,17 @@ namespace Implem.Pleasanter.Libraries.DataSources
                             newCert = new CertificateElement();
                             WriteIdPSettings(contractSettings?.SamlLoginUrl, contractSettings?.SamlThumbprint, idp, newProvider, newCert);
                             AddIdP(section, newProvider);
+                            if (startup == false)
+                            {
+                                var spOptions = new SPOptions(SustainsysSaml2Section.Current);
+                                var options = new Options(spOptions);
+                                SustainsysSaml2Section.Current.IdentityProviders.RegisterIdentityProviders(options);
+                                SustainsysSaml2Section.Current.Federations.RegisterFederations(options);
+                                var optionsFromConfiguration = typeof(Options).GetField("optionsFromConfiguration",
+                                    System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Static);
+                                optionsFromConfiguration.SetValue(null, new Lazy<Options>(() => options, true));
+                                Sustainsys.Saml2.Mvc.Saml2Controller.Options = Options.FromConfiguration;
+                            }
                         }
                     }
                     finally
