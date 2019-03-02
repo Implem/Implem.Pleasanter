@@ -99,7 +99,7 @@ namespace Implem.Pleasanter.Libraries.Requests
             UserId = userId;
             Language = language ?? Language;
             UserHostAddress = HasRoute
-                ? HttpContext.Current?.Request?.UserHostAddress
+                ? GetUserHostAddress(HttpContext.Current.Request)
                 : null;
             SetTenantProperties();
             SetPublish();
@@ -154,7 +154,7 @@ namespace Implem.Pleasanter.Libraries.Requests
                 Id = RouteData.Get("id")?.ToLong() ?? 0;
                 Guid = RouteData.Get("guid");
                 UserHostName = request.UserHostName;
-                UserHostAddress = request.UserHostAddress;
+                UserHostAddress = GetUserHostAddress(request);
                 UserAgent = request.UserAgent;
             }
         }
@@ -261,7 +261,7 @@ namespace Implem.Pleasanter.Libraries.Requests
                 Dept = SiteInfo.Dept(tenantId: TenantId, deptId: DeptId);
                 User = SiteInfo.User(context: this, userId: UserId);
                 Language = userModel.Language;
-                UserHostAddress = HttpContext.Current?.Request?.UserHostAddress;
+                UserHostAddress = GetUserHostAddress(HttpContext.Current.Request);
                 Developer = userModel.Developer;
                 TimeZoneInfo = userModel.TimeZoneInfo;
                 UserSettings = userModel.UserSettings;
@@ -464,6 +464,21 @@ namespace Implem.Pleasanter.Libraries.Requests
                 {
                 }
             }
+        }
+
+        private string GetUserHostAddress(HttpRequest request)
+        {
+            var address = request?.Headers["X-Forwarded-For"]?.Split(',')?.FirstOrDefault();
+            if (address == null)
+            {
+                return request?.UserHostAddress;
+            }
+            if (address.StartsWith("["))
+            {
+                return address.Trim('[', ']');
+            }
+            var n = address.IndexOf(":");
+            return (n > 0) ? address.Substring(0, n) : address;
         }
     }
 }
