@@ -1,6 +1,7 @@
 ﻿$p.openOutgoingMailDialog = function ($control) {
     var error = 0;
     if ($('#OutgoingMails_Title').length === 0) {
+        $p.getData($('#OutgoingMailsForm')).ItemUrl = '/' + $('#Controller').val() + '/' + $('#Id').val();
         error = $p.syncSend($control, 'OutgoingMailsForm');
     }
     if (error === 0) {

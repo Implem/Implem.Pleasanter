@@ -271,9 +271,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             {
                 queryString["View"] = view.ToJson();
             }
-            var url = Parameters.Service.AbsoluteUri == null
-                    ? context.AbsoluteUri
-                    : Parameters.Service.AbsoluteUri + context.AbsolutePath;
+            var url = Locations.AbsoluteDirectUri(context);
             switch (context.Action)
             {
                 case "gridrows":

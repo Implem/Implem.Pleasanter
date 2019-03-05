@@ -164,6 +164,21 @@ namespace Implem.Pleasanter.Libraries.Responses
                         parts: path));
         }
 
+        public static string OutGoingMailAbsoluteUri(Context context)
+        {
+            var itemUrl = context.Forms.Get("ItemUrl");
+            return Parameters.Service.AbsoluteUri != null
+                ? $"{Parameters.Service.AbsoluteUri}{itemUrl}"
+                : context.AbsoluteUri.Substring(0, context.AbsoluteUri.IndexOf("/outgoingmails"));
+        }
+
+        public static string AbsoluteDirectUri(Context context)
+        {
+            return Parameters.Service.AbsoluteUri != null
+                ? $"{Parameters.Service.AbsoluteUri}/{context.Controller}/{context.Id}/index"
+                : context.AbsoluteUri;
+        }
+
         public static string ItemView(Context context, long id, string action)
         {
             return Get(
