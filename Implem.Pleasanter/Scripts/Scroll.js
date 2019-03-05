@@ -19,6 +19,7 @@ $p.paging = function (selector) {
         if ($(window).scrollTop() + $(window).height() >= $control.offset().top + $control.height()) {
             if ($offset.val() !== '-1') {
                 $p.setData($offset);
+                $offset.val('-1');
                 $p.send($control);
             }
         }
@@ -34,8 +35,8 @@ $p.setPaging = function (controlId) {
         var scrollPosition = height + scrollTop;
         var $offset = $('#' + controlId + 'Offset');
         if ((scrollHeight - scrollPosition) / scrollHeight <= 0 && $offset.val() !== '-1') {
-            $p.send($('#' + controlId));
             $offset.val('-1');
+            $p.send($('#' + controlId));
         }
     });
 }
