@@ -637,6 +637,7 @@ namespace Implem.Pleasanter.Models
                             ss: ss,
                             deptModel: deptModel)
                         .Hidden(controlId: "TableName", value: "Depts")
+                        .Hidden(controlId: "Controller", value: context.Controller)
                         .Hidden(controlId: "Id", value: deptModel.DeptId.ToString());
                 }).ToString();
         }

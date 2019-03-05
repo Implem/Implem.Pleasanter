@@ -253,6 +253,7 @@ namespace Implem.Pleasanter.Models
                             ss: ss,
                             tenantModel: tenantModel)
                         .Hidden(controlId: "TableName", value: "Tenants")
+                        .Hidden(controlId: "Controller", value: context.Controller)
                         .Hidden(controlId: "Id", value: tenantModel.TenantId.ToString());
                 }).ToString();
         }

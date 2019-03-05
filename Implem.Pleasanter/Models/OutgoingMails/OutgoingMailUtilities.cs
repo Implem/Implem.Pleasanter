@@ -295,7 +295,7 @@ namespace Implem.Pleasanter.Models
                         icon: "ui-icon-cancel"))
                 .Hidden(
                     controlId: "OutgoingMails_Location",
-                    value: Location(context: context))
+                    value: Locations.OutGoingMailAbsoluteUri(context: context))
                 .Hidden(
                     controlId: "OutgoingMails_Reply",
                     value: outgoingMailModel.AccessStatus == Databases.AccessStatuses.Selected
@@ -345,7 +345,7 @@ namespace Implem.Pleasanter.Models
         {
             return outgoingMailModel.AccessStatus == Databases.AccessStatuses.Selected
                 ? Displays.OriginalMessage(context: context).Params(
-                    Location(context: context),
+                    Locations.OutGoingMailAbsoluteUri(context: context),
                     outgoingMailModel.From,
                     outgoingMailModel.SentTime.DisplayValue.ToString(
                         Displays.Get(
@@ -390,17 +390,6 @@ namespace Implem.Pleasanter.Models
                 }
             }
             return mailDefault;
-        }
-
-        /// <summary>
-        /// Fixed:
-        /// </summary>
-        private static string Location(Context context)
-        {
-            var location = (Parameters.Service.AbsoluteUri == null 
-                ? context.AbsoluteUri
-                : Parameters.Service.AbsoluteUri + context.AbsolutePath).ToLower();
-            return location.Substring(0, location.IndexOf("/outgoingmails"));
         }
 
         /// <summary>

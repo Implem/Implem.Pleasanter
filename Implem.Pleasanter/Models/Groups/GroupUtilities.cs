@@ -628,6 +628,7 @@ namespace Implem.Pleasanter.Models
                             ss: ss,
                             groupModel: groupModel)
                         .Hidden(controlId: "TableName", value: "Groups")
+                        .Hidden(controlId: "Controller", value: context.Controller)
                         .Hidden(controlId: "Id", value: groupModel.GroupId.ToString());
                 }).ToString();
         }

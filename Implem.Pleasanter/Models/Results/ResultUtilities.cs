@@ -3560,6 +3560,7 @@ namespace Implem.Pleasanter.Models
                             ss: ss,
                             resultModel: resultModel)
                         .Hidden(controlId: "TableName", value: "Results")
+                        .Hidden(controlId: "Controller", value: context.Controller)
                         .Hidden(controlId: "Id", value: resultModel.ResultId.ToString())
                         .Hidden(controlId: "TriggerRelatingColumns", value: Jsons.ToJson(ss.RelatingColumns))
                         .Hidden(controlId: "DropDownSearchPageSize", value: Parameters.General.DropDownSearchPageSize.ToString()))
@@ -6713,7 +6714,7 @@ namespace Implem.Pleasanter.Models
 
         public static System.Web.Mvc.ContentResult GetByApi(Context context, SiteSettings ss)
         {
-            var invalid = IssueValidators.OnEntry(
+            var invalid = ResultValidators.OnEntry(
                 context: context,
                 ss: ss,
                 api: true);

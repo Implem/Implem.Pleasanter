@@ -355,6 +355,7 @@ namespace Implem.Pleasanter.Models
                             ss: ss,
                             wikiModel: wikiModel)
                         .Hidden(controlId: "TableName", value: "Wikis")
+                        .Hidden(controlId: "Controller", value: context.Controller)
                         .Hidden(controlId: "Id", value: wikiModel.WikiId.ToString())
                         .Hidden(controlId: "TriggerRelatingColumns", value: Jsons.ToJson(ss.RelatingColumns))
                         .Hidden(controlId: "DropDownSearchPageSize", value: Parameters.General.DropDownSearchPageSize.ToString()))
