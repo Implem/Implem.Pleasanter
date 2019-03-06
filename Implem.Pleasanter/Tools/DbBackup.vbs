@@ -1,5 +1,6 @@
 Option Explicit
-Dim conn, server, db, uid, pwd, path
+Dim conn, timeout, server, db, uid, pwd, path
+timeout =    3600
 server =     "(local)"
 db =         "Implem.Pleasanter"
 uid =        "sa"
@@ -8,6 +9,7 @@ path =       "c:\Backup\" & _
              Replace(Replace(Replace(Now(), "/", ""), " ", "_"), ":", "") & _
              ".bak"
 Set conn =   WScript.CreateObject("ADODB.Connection")
+conn.CommandTimeout = timeout
 conn.Open (  "Driver={SQL Server};" & _
              "Server=" & server & ";" & _
              "Database=" & db & ";" & _
