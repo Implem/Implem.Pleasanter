@@ -37,7 +37,7 @@ namespace Implem.Pleasanter.Libraries.Settings
             return dataRow != null
                 ? dataRow["SiteSettings"]
                     .ToString()
-                    .Deserialize<SiteSettings>() ??
+                    .DeserializeSiteSettings(context: context) ??
                         Get(
                             context: context,
                             referenceType: dataRow.String("ReferenceType"),
@@ -522,7 +522,7 @@ namespace Implem.Pleasanter.Libraries.Settings
             {
                 var ss = dataRow
                     .String("SiteSettings")
-                    .Deserialize<SiteSettings>() ?? new SiteSettings();
+                    .DeserializeSiteSettings(context: context) ?? new SiteSettings();
                 ss.SiteId = siteId;
                 ss.Title = dataRow.String("Title");
                 ss.InheritPermission = dataRow.Long("InheritPermission");
@@ -532,6 +532,25 @@ namespace Implem.Pleasanter.Libraries.Settings
             {
                 return null;
             }
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        public static SiteSettings DeserializeSiteSettings(this string json, Context context)
+        {
+            var ss = !json.IsNullOrEmpty()
+                ? json.Deserialize<SiteSettings>()
+                : null;
+            if (ss != null)
+            {
+                if (ss.Version != Version)
+                {
+                    Migrators.SiteSettingsMigrator.Migrate(ss);
+                }
+                ss.Init(context: context);
+            }
+            return ss;
         }
 
         /// <summary>

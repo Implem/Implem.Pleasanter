@@ -1709,7 +1709,7 @@ namespace Implem.Pleasanter.Models
                 return Error.Types.NotFound.MessageJson(context: context);
             }
             var templateSs = templateDefinition.SiteSettingsTemplate
-                .Deserialize<SiteSettings>();
+                .DeserializeSiteSettings(context: context);
             if (templateSs == null)
             {
                 return Error.Types.NotFound.MessageJson(context: context);
@@ -2930,7 +2930,7 @@ namespace Implem.Pleasanter.Models
             Context context, TemplateDefinition template, string controlId)
         {
             var hb = new HtmlBuilder();
-            var ss = template.SiteSettingsTemplate.Deserialize<SiteSettings>();
+            var ss = template.SiteSettingsTemplate.DeserializeSiteSettings(context: context);
             ss.Init(context: context);
             ss.SetChoiceHash(context: context, withLink: false);
             var html = string.Empty;
