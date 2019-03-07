@@ -106,7 +106,7 @@ namespace Implem.Pleasanter.Models
         public SiteSettings Session_SiteSettings(Context context)
         {
             return context.SessionData.Get("SiteSettings") != null
-                ? context.SessionData.Get("SiteSettings")?.ToString().Deserialize<SiteSettings>() ?? new SiteSettings(context: context, referenceType: ReferenceType)
+                ? context.SessionData.Get("SiteSettings")?.ToString().DeserializeSiteSettings(context: context) ?? new SiteSettings(context: context, referenceType: ReferenceType)
                 : SiteSettings;
         }
 
@@ -1006,7 +1006,7 @@ namespace Implem.Pleasanter.Models
         /// </summary>
         private SiteSettings GetSiteSettings(Context context, DataRow dataRow)
         {
-            return dataRow.String("SiteSettings").Deserialize<SiteSettings>() ??
+            return dataRow.String("SiteSettings").DeserializeSiteSettings(context: context) ??
                 new SiteSettings(context: context, referenceType: ReferenceType);
         }
 

@@ -1,10 +1,8 @@
 ﻿using Implem.DefinitionAccessor;
-using Implem.Libraries.Classes;
 using Implem.Libraries.DataSources.Interfaces;
 using Implem.Libraries.DataSources.SqlServer;
 using Implem.Libraries.Utilities;
 using Implem.Pleasanter.Libraries.DataSources;
-using Implem.Pleasanter.Libraries.Extensions;
 using Implem.Pleasanter.Libraries.General;
 using Implem.Pleasanter.Libraries.HtmlParts;
 using Implem.Pleasanter.Libraries.Requests;
@@ -16,7 +14,6 @@ using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
-using System.Runtime.Serialization;
 using System.Text.RegularExpressions;
 namespace Implem.Pleasanter.Libraries.Settings
 {
@@ -324,21 +321,6 @@ namespace Implem.Pleasanter.Libraries.Settings
                 ssList.Add(ss);
             });
             return ssList;
-        }
-
-        [OnDeserialized]
-        private void OnDeserialized(StreamingContext streamingContext)
-        {
-            if (Version != SiteSettingsUtilities.Version)
-            {
-                Migrators.SiteSettingsMigrator.Migrate(this);
-            }
-            Init(context: new Context(item: false));
-        }
-
-        [OnSerializing]
-        private void OnSerializing(StreamingContext streamingContext)
-        {
         }
 
         public bool IsSite(Context context)
@@ -3054,7 +3036,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                                             o => o["SiteId"].ToLong(),
                                             o => o["SiteSettings"]
                                                 .ToString()
-                                                .Deserialize<SiteSettings>());
+                                                .DeserializeSiteSettings(context: context));
                     }
                     column.ChoicesText = column.ChoicesText.Replace(
                         "[[Integration]]", AllowedIntegratedSites
