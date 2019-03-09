@@ -959,6 +959,14 @@ namespace Implem.Pleasanter.Models
             bool editor,
             bool multiple)
         {
+            if (selected.Any() &&
+                !selected.All(o => column.ChoiceHash.ContainsKey(o)))
+            {
+                column.SiteSettings.SetChoiceHash(
+                    context: context,
+                    columnName: column.ColumnName,
+                    selectedValues: selected);
+            }
             var optionCollection = column?.EditChoices(
                 context: context,
                 addNotSet: true)?
