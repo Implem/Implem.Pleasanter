@@ -163,7 +163,8 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                                     selector: "#MoveDialog",
                                                     action: "MoveTargets",
                                                     method: "get",
-                                                    _using: context.CanUpdate(ss: ss))
+                                                    _using: context.CanUpdate(ss: ss)
+                                                        && !ss.GridColumnsHasSources())
                                                 .Button(
                                                     text: Displays.BulkDelete(context: context),
                                                     controlCss: "button-icon",
@@ -173,7 +174,8 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                                     action: "BulkDelete",
                                                     method: "delete",
                                                     confirm: "ConfirmDelete",
-                                                    _using: context.CanDelete(ss: ss))
+                                                    _using: context.CanDelete(ss: ss)
+                                                        && !ss.GridColumnsHasSources())
                                                 .Button(
                                                     controlId: "EditImportSettings",
                                                     text: Displays.Import(context: context),

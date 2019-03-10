@@ -267,13 +267,15 @@ namespace Implem.Pleasanter.Models
                             view: view,
                             sort: false,
                             checkAll: checkAll,
-                            action: action))
+                            action: action,
+                            checkRow: !ss.GridColumnsHasSources()))
                 .TBody(action: () => gridData.TBody(
                     hb: hb,
                     context: context,
                     ss: ss,
                     columns: columns,
-                    checkAll: checkAll));
+                    checkAll: checkAll,
+                    checkRow: !ss.GridColumnsHasSources()));
         }
 
         private static SqlColumnCollection GridSqlColumnCollection(

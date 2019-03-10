@@ -3473,5 +3473,10 @@ namespace Implem.Pleasanter.Libraries.Settings
                     .FirstOrDefault())
                 .SingleOrDefault();
         }
+
+        public bool GridColumnsHasSources()
+        {
+            return GridColumns?.Any(o => o.Contains("~~")) == true;
+        }
     }
 }
