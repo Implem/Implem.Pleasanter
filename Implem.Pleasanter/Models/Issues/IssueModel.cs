@@ -8229,7 +8229,7 @@ namespace Implem.Pleasanter.Models
         private void SynchronizeSourceSummary(
             Context context, SiteSettings ss, bool force = false)
         {
-            ss.Sources.ForEach(sourceSs =>
+            ss.Sources.Values.ForEach(sourceSs =>
                 sourceSs.Summaries
                     .Where(o => ss.Views?.Get(o.DestinationCondition) != null || force)
                     .ForEach(summary =>

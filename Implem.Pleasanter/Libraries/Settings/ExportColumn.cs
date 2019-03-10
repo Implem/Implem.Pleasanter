@@ -6,7 +6,6 @@ namespace Implem.Pleasanter.Libraries.Settings
     [Serializable]
     public class ExportColumn
     {
-        public long SiteId;
         public int Id;
         public string ColumnName;
         public string LabelText;
@@ -16,18 +15,19 @@ namespace Implem.Pleasanter.Libraries.Settings
         public string SiteTitle;
         [NonSerialized]
         public Column Column;
+        // compatibility Version 1.014
+        public long? SiteId;
 
         public ExportColumn()
         {
         }
 
-        public ExportColumn(Context context, SiteSettings ss, string columnName, int id = 0)
+        public ExportColumn(Context context, Column column, int id = 0)
         {
             Id = id;
-            SiteId = ss.SiteId;
-            SiteTitle = ss.Title;
-            ColumnName = columnName;
-            Init(context: context, ss: ss);
+            SiteTitle = column.SiteSettings.Title;
+            ColumnName = column.ColumnName;
+            Column = column;
         }
 
         public enum Types
@@ -35,13 +35,6 @@ namespace Implem.Pleasanter.Libraries.Settings
             Value,
             Text,
             TextMini
-        }
-
-        public void Init(Context context, SiteSettings ss)
-        {
-            SiteId = ss.SiteId;
-            SiteTitle = ss.Title;
-            Column = ss.GetColumn(context: context, columnName: ColumnName);
         }
 
         public string GetColumnLabelText()
@@ -81,7 +74,6 @@ namespace Implem.Pleasanter.Libraries.Settings
         public ExportColumn GetRecordingData()
         {
             var exportColumn = new ExportColumn();
-            exportColumn.SiteId = SiteId;
             exportColumn.Id = Id;
             exportColumn.ColumnName = ColumnName;
             if (LabelText != Column?.LabelText)

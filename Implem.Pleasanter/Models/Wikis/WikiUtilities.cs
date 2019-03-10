@@ -718,7 +718,6 @@ namespace Implem.Pleasanter.Models
                     where: Rds.WikisWhere().WikiId(wikiModel.WikiId));
                 var columns = ss.GetGridColumns(
                     context: context,
-                    view: view,
                     checkPermission: true);
                 return res
                     .ReplaceAll(

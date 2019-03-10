@@ -1,0 +1,13 @@
+﻿{
+    "Id": "ExportTypes",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Export types"
+        },
+        {
+            "Language": "ja",
+            "Body": "エクスポートの種類"
+        }
+    ]
+}

@@ -303,6 +303,17 @@ namespace Implem.Pleasanter.Models
             return sqlColumnCollection;
         }
 
+        private static SqlWhereCollection SelectedWhere(
+            Context context, SiteSettings ss)
+        {
+            var selector = new GridSelector(context: context);
+            return !selector.Nothing
+                ? Rds.SitesWhere().SiteId_In(
+                    value: selector.Selected.Select(o => o.ToLong()),
+                    negative: selector.All)
+                : null;
+        }
+
         public static string TrashBox(Context context, SiteSettings ss)
         {
             var hb = new HtmlBuilder();
@@ -789,7 +800,6 @@ namespace Implem.Pleasanter.Models
                     where: Rds.SitesWhere().SiteId(siteModel.SiteId));
                 var columns = ss.GetGridColumns(
                     context: context,
-                    view: view,
                     checkPermission: true);
                 return res
                     .ReplaceAll(
@@ -846,10 +856,6 @@ namespace Implem.Pleasanter.Models
             var error = siteModel.Create(context: context, otherInitValue: true);
             if (siteModel.SiteSettings.Exports?.Any() == true)
             {
-                siteModel.SiteSettings.Exports.ForEach(export =>
-                    export.Columns
-                        .Where(column => column.SiteId == context.SiteId)
-                        .ForEach(column => column.SiteId = siteModel.SiteId));
                 Rds.ExecuteNonQuery(
                     context: context,
                     statements: Rds.UpdateSites(
@@ -3497,7 +3503,7 @@ namespace Implem.Pleasanter.Models
                                     controlId: "GridJoin",
                                     fieldCss: "w150",
                                     controlCss: " auto-postback always-send",
-                                    optionCollection: ss.JoinOptionHash,
+                                    optionCollection: ss.JoinOptions(),
                                     addSelectedValue: false,
                                     action: "SetSiteSettings",
                                     method: "post"))));
@@ -3660,7 +3666,7 @@ namespace Implem.Pleasanter.Models
                                         controlId: "FilterJoin",
                                         fieldCss: "w150",
                                         controlCss: " auto-postback always-send",
-                                        optionCollection: ss.JoinOptionHash,
+                                        optionCollection: ss.JoinOptions(),
                                         addSelectedValue: false,
                                         action: "SetSiteSettings",
                                         method: "post"))))
@@ -4896,7 +4902,8 @@ namespace Implem.Pleasanter.Models
             Context context, SiteSettings ss, string controlId, Summary summary)
         {
             var hb = new HtmlBuilder();
-            var destinationSiteHash = ss.Destinations?
+            var destinationSiteHash = ss.Destinations
+                ?.Values
                 .ToDictionary(o => o.SiteId.ToString(), o => o.Title);
             var destinationSs = ss.Destinations?.Get(summary.SiteId);
             return hb.Form(
@@ -5590,7 +5597,7 @@ namespace Implem.Pleasanter.Models
                                         controlId: "ViewGridJoin",
                                         fieldCss: "w150",
                                         controlCss: " auto-postback always-send",
-                                        optionCollection: ss.JoinOptionHash,
+                                        optionCollection: ss.JoinOptions(),
                                         addSelectedValue: false,
                                         action: "SetSiteSettings",
                                         method: "post")))));
@@ -6753,7 +6760,6 @@ namespace Implem.Pleasanter.Models
         /// </summary>
         public static HtmlBuilder EditExport(this HtmlBuilder hb, Context context, SiteSettings ss)
         {
-            ss.SetExports(context: context);
             var selected = context.Forms.Data("EditExport").Deserialize<IEnumerable<int>>();
             return hb.Table(
                 id: "EditExport",
@@ -6769,6 +6775,7 @@ namespace Implem.Pleasanter.Models
                         ss: ss,
                         selected: selected)
                     .EditExportBody(
+                        context: context,
                         ss: ss,
                         selected: selected,
                         tables: ss.ExportJoinOptions(context: context)));
@@ -6795,7 +6802,7 @@ namespace Implem.Pleasanter.Models
                     .Th(action: () => hb
                         .Text(text: Displays.Name(context: context)))
                     .Th(action: () => hb
-                        .Text(text: Displays.Tables(context: context)))
+                        .Text(text: Displays.ExportTypes(context: context)))
                     .Th(action: () => hb
                         .Text(text: Displays.OutputHeader(context: context)))));
         }
@@ -6805,6 +6812,7 @@ namespace Implem.Pleasanter.Models
         /// </summary>
         public static HtmlBuilder EditExportBody(
             this HtmlBuilder hb,
+            Context context,
             SiteSettings ss,
             IEnumerable<int> selected,
             Dictionary<string, string> tables)
@@ -6826,11 +6834,13 @@ namespace Implem.Pleasanter.Models
                             .Td(action: () => hb
                                 .Text(text: export.Name))
                             .Td(action: () => hb
-                                .Text(text: tables.Get(export.Join.ToJson())))
+                                .Text(text: Displays.Get(
+                                    context: context,
+                                    id: export.Type.ToString())))
                             .Td(action: () => hb
                                 .Span(
                                     css: "ui-icon ui-icon-circle-check",
-                                    _using: export.Header == true)))));
+                                    _using: export.Header != false)))));
         }
 
         /// <summary>
@@ -6840,6 +6850,9 @@ namespace Implem.Pleasanter.Models
             Context context, SiteSettings ss, string controlId, Export export)
         {
             var hb = new HtmlBuilder();
+            export.SetColumns(
+                context: context,
+                ss: ss);
             return hb.Form(
                 attributes: new HtmlAttributes()
                     .Id("ExportForm")
@@ -6859,22 +6872,28 @@ namespace Implem.Pleasanter.Models
                         labelText: Displays.Name(context: context),
                         text: export.Name,
                         validateRequired: true)
+                    .FieldDropDown(
+                        context: context,
+                        controlId: "ExportType",
+                        controlCss: " always-send",
+                        labelText: Displays.ExportTypes(context: context),
+                        optionCollection: new Dictionary<string, string>
+                        {
+                            {
+                                Export.Types.Csv.ToInt().ToString(),
+                                Displays.Csv(context: context)
+                            },
+                            {
+                                Export.Types.Json.ToInt().ToString(),
+                                Displays.Json(context: context)
+                            },
+                        },
+                        selectedValue: export.Type.ToInt().ToString())
                     .FieldCheckBox(
                         controlId: "ExportHeader",
                         controlCss: " always-send",
                         labelText: Displays.OutputHeader(context: context),
                         _checked: export.Header == true)
-                    .FieldDropDown(
-                        context: context,
-                        controlId: "ExportJoin",
-                        fieldCss: " field-wide",
-                        controlCss: " auto-postback always-send",
-                        labelText: Displays.Tables(context: context),
-                        optionCollection: ss.ExportJoinOptions(context: context),
-                        selectedValue: export.Join.ToJson(),
-                        addSelectedValue: false,
-                        action: "SetSiteSettings",
-                        method: "post")
                     .FieldSet(
                         css: " enclosed",
                         legendText: Displays.ExportColumns(context: context),
@@ -6924,10 +6943,7 @@ namespace Implem.Pleasanter.Models
                                 controlWrapperCss: " h300",
                                 labelText: Displays.OptionList(context: context),
                                 listItemCollection: ExportUtilities
-                                    .SourceColumnOptions(
-                                        context: context,
-                                        ss: ss,
-                                        join: export.Join),
+                                    .ColumnOptions(ss.ExportColumns(context: context)),
                                 commandOptionPositionIsTop: true,
                                 commandOptionAction: () => hb
                                     .Div(css: "command-left", action: () => hb
@@ -6937,13 +6953,15 @@ namespace Implem.Pleasanter.Models
                                             controlCss: "button-icon",
                                             onClick: "$p.moveColumns($(this),'Export',true);",
                                             icon: "ui-icon-circle-triangle-w")
-                                        .Span(css: "ui-icon ui-icon-search")
-                                        .TextBox(
-                                            controlId: "SearchExportColumns",
-                                            controlCss: " auto-postback w100",
-                                            placeholder: Displays.Search(context: context),
-                                            action: "SetSiteSettings",
-                                            method: "post"))))
+                                    .FieldDropDown(
+                                        context: context,
+                                        controlId: "ExportJoin",
+                                        fieldCss: "w150",
+                                        controlCss: " auto-postback always-send",
+                                        optionCollection: ss.JoinOptions(),
+                                        addSelectedValue: false,
+                                        action: "SetSiteSettings",
+                                        method: "post"))))
                     .P(css: "message-dialog")
                     .Div(css: "command-center", action: () => hb
                         .Button(

@@ -7,10 +7,11 @@ namespace Implem.Pleasanter.Libraries.Requests
     {
         public bool All;
         public List<long> Selected;
+        public bool Nothing;
 
         public GridSelector(Context context)
         {
-            All = context.Forms.Bool("GridCheckAll");
+            All = context.RequestData("GridCheckAll").ToBool();
             Selected = All
                 ? Get(
                     context: context,
@@ -18,11 +19,12 @@ namespace Implem.Pleasanter.Libraries.Requests
                 : Get(
                     context: context,
                     name: "GridCheckedItems");
+            Nothing = !All && !Selected.Any();
         }
 
         private static List<long> Get(Context context, string name)
         {
-            return context.Forms.Data(name)
+            return context.RequestData(name)
                 .Split(',')
                 .Select(o => o.ToLong())
                 .Where(o => o != 0)

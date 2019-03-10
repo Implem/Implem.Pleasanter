@@ -317,7 +317,7 @@ namespace Implem.Pleasanter.Libraries.Security
             List<string> mine)
         {
             return columnAccessControls?
-                .FirstOrDefault(o => o.ColumnName == column.ColumnName)?
+                .FirstOrDefault(o => o.ColumnName == column.Name)?
                 .Allowed(
                     context: context,
                     ss: ss,

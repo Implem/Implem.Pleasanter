@@ -243,6 +243,7 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Interfaces\IConvertable.cs" />
+    <Compile Include="Interfaces\IExportModel.cs" />
     <Compile Include="Interfaces\ISettingListItem.cs" />
     <Compile Include="Libraries\DataSources\Line.cs" />
     <Compile Include="Libraries\DataSources\Saml.cs" />
@@ -295,6 +296,7 @@
     <Compile Include="Libraries\HtmlParts\HtmlSiteMenu.cs" />
     <Compile Include="Libraries\Initializers\ParametersInitializer.cs" />
     <Compile Include="Libraries\Initializers\StatusesInitializer.cs" />
+    <Compile Include="Libraries\Migrators\SiteSettings\Version1_015.cs" />
     <Compile Include="Libraries\Migrators\SiteSettings\Version1_014.cs" />
     <Compile Include="Libraries\Migrators\SiteSettings\Version1_013.cs" />
     <Compile Include="Libraries\Migrators\SiteSettings\Version1_012.cs" />
@@ -311,6 +313,8 @@
     <Compile Include="Libraries\Migrators\SiteSettings\Version1_005.cs" />
     <Compile Include="Libraries\Models\GridData.cs" />
     <Compile Include="Libraries\Models\ImageLibData.cs" />
+    <Compile Include="Libraries\Models\JsonExport.cs" />
+    <Compile Include="Libraries\Models\JsonExportColumn.cs" />
     <Compile Include="Libraries\Requests\Api.cs" />
     <Compile Include="Libraries\Requests\Calendars.cs" />
     <Compile Include="Libraries\Requests\GridSelector.cs" />
@@ -330,6 +334,7 @@
     <Compile Include="Libraries\Server\TenantCache.cs" />
     <Compile Include="Libraries\Server\UpdateMonitor.cs" />
     <Compile Include="Libraries\Requests\Context.cs" />
+    <Compile Include="Libraries\Settings\JoinStack.cs" />
     <Compile Include="Libraries\Settings\RelatingColumn.cs" />
     <Compile Include="Libraries\Settings\Reminder.cs" />
     <Compile Include="Libraries\Settings\ColumnAccessControl.cs" />
@@ -482,6 +487,7 @@
     <Compile Include="Models\Groups\GroupValidators.cs" />
     <Compile Include="Models\Issues\IssueApiModel.cs" />
     <Compile Include="Models\Issues\IssueCollection.cs" />
+    <Compile Include="Models\Issues\IssueExportModel.cs" />
     <Compile Include="Models\Issues\IssueModel.cs" />
     <Compile Include="Models\Issues\IssueUtilities.cs" />
     <Compile Include="Models\Issues\IssueValidators.cs" />
@@ -519,6 +525,7 @@
     <Compile Include="Models\ReminderSchedules\ReminderScheduleValidators.cs" />
     <Compile Include="Models\Results\ResultApiModel.cs" />
     <Compile Include="Models\Results\ResultCollection.cs" />
+    <Compile Include="Models\Results\ResultExportModel.cs" />
     <Compile Include="Models\Results\ResultModel.cs" />
     <Compile Include="Models\Results\ResultUtilities.cs" />
     <Compile Include="Models\Results\ResultValidators.cs" />
@@ -1382,6 +1389,8 @@
     <Content Include="App_Data\Displays\SamlLoginFailed.json" />
     <Content Include="App_Data\Displays\UserNotSelfDelete.json" />
     <Content Include="App_Data\Displays\JoeAccountCheck.json" />
+    <Content Include="App_Data\Displays\Json.json" />
+    <Content Include="App_Data\Displays\ExportTypes.json" />
     <Content Include="Tools\BackgroundTasks.ps1" />
     <Content Include="Tools\SyncByLdap.ps1" />
     <Content Include="Views\Users\EditApi.cshtml" />

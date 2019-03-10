@@ -138,7 +138,6 @@ namespace Implem.Pleasanter.Models
                             ss: ss,
                             gridData: gridData,
                             view: view))
-                .Events("on_grid_load")
                 .ToJson();
         }
 
@@ -301,6 +300,17 @@ namespace Implem.Pleasanter.Models
                     .Distinct().ForEach(column =>
                         sqlColumnCollection.ResultsColumn(column));
             return sqlColumnCollection;
+        }
+
+        private static SqlWhereCollection SelectedWhere(
+            Context context, SiteSettings ss)
+        {
+            var selector = new GridSelector(context: context);
+            return !selector.Nothing
+                ? Rds.ResultsWhere().ResultId_In(
+                    value: selector.Selected.Select(o => o.ToLong()),
+                    negative: selector.All)
+                : null;
         }
 
         public static string TrashBox(Context context, SiteSettings ss)
@@ -6740,7 +6750,9 @@ namespace Implem.Pleasanter.Models
                     SqlJoin.JoinTypes.Inner,
                     "[Results].[ResultId]=[Items].[ReferenceId]")),
                 where: view.Where(context: context, ss: ss),
-                orderBy: view.OrderBy(context: context, ss: ss, pageSize: pageSize),
+                orderBy: view.OrderBy(
+                    context: context,
+                    ss: ss),
                 offset: api.Offset,
                 pageSize: pageSize,
                 countRecord: true);
@@ -6969,7 +6981,6 @@ namespace Implem.Pleasanter.Models
                     where: Rds.ResultsWhere().ResultId(resultModel.ResultId));
                 var columns = ss.GetGridColumns(
                     context: context,
-                    view: view,
                     checkPermission: true);
                 return res
                     .ReplaceAll(
@@ -7550,14 +7561,22 @@ namespace Implem.Pleasanter.Models
 
         public static string BulkMove(Context context, SiteSettings ss)
         {
-            var siteId = context.Forms.Long("MoveTargets");
-            var selector = new GridSelector(context: context);
-            var count = BulkMoveCount(
+            var where = SelectedWhere(
                 context: context,
-                ss: ss,
+                ss: ss);
+            if (where == null)
+            {
+                return Messages.ResponseSelectTargets(context: context).ToJson();
+            }
+            var siteId = context.Forms.Long("MoveTargets");
+            if (context.ContractSettings.ItemsLimit(
+                context: context,
                 siteId: siteId,
-                selector: selector);
-            if (context.ContractSettings.ItemsLimit(context: context, siteId: siteId, number: count))
+                number: BulkMoveCount(
+                    context: context,
+                    ss: ss,
+                    siteId: siteId,
+                    where: where)))
             {
                 return Error.Types.ItemsLimit.MessageJson(context: context);
             }
@@ -7569,29 +7588,17 @@ namespace Implem.Pleasanter.Models
                     siteId: siteId,
                     referenceId: siteId)))
             {
-                if (selector.All)
-                {
-                    count = BulkMove(
+                var count = BulkMove(
+                    context: context,
+                    ss: ss,
+                    siteId: siteId,
+                    where: Views.GetBySession(
                         context: context,
-                        ss: ss,
-                        siteId: siteId,
-                        selector: selector);
-                }
-                else
-                {
-                    if (selector.Selected.Any())
-                    {
-                        count = BulkMove(
-                            context: context,
-                            ss: ss,
-                            siteId: siteId,
-                            selector: selector);
-                    }
-                    else
-                    {
-                        return Messages.ResponseSelectTargets(context: context).ToJson();
-                    }
-                }
+                        ss: ss)
+                            .Where(
+                                context: context,
+                                ss: ss,
+                                where: where));
                 Summaries.Synchronize(context: context, ss: ss);
                 return GridRows(
                     context: context,
@@ -7611,17 +7618,8 @@ namespace Implem.Pleasanter.Models
             Context context,
             SiteSettings ss,
             long siteId,
-            GridSelector selector)
+            SqlWhereCollection where)
         {
-            var where = Views.GetBySession(context: context, ss: ss).Where(
-                context: context,
-                ss: ss,
-                where: Rds.ResultsWhere()
-                    .SiteId(ss.SiteId)
-                    .ResultId_In(
-                        value: selector.Selected,
-                        negative: selector.All,
-                        _using: selector.Selected.Any()));
             return Rds.ExecuteScalar_int(
                 context: context,
                 statements: Rds.SelectResults(
@@ -7636,7 +7634,7 @@ namespace Implem.Pleasanter.Models
             Context context,
             SiteSettings ss,
             long siteId,
-            GridSelector selector)
+            SqlWhereCollection where)
         {
             return Rds.ExecuteScalar_response(
                 context: context,
@@ -7644,15 +7642,7 @@ namespace Implem.Pleasanter.Models
                 statements: new SqlStatement[]
                 {
                     Rds.UpdateResults(
-                        where: Views.GetBySession(context: context, ss: ss).Where(
-                            context: context,
-                            ss: ss,
-                            where: Rds.ResultsWhere()
-                                .SiteId(ss.SiteId)
-                                .ResultId_In(
-                                    value: selector.Selected,
-                                    negative: selector.All,
-                                    _using: selector.Selected.Any())),
+                        where: where,
                         param: Rds.ResultsParam().SiteId(siteId),
                         countRecord: true),
                     Rds.UpdateItems(
@@ -7670,30 +7660,23 @@ namespace Implem.Pleasanter.Models
         {
             if (context.CanDelete(ss: ss))
             {
-                var selector = new GridSelector(context: context);
-                var count = 0;
-                if (selector.All)
+                var where = SelectedWhere(
+                    context: context,
+                    ss: ss);
+                if (where == null)
                 {
-                    count = BulkDelete(
+                    return Messages.ResponseSelectTargets(context: context).ToJson();
+                }
+                var count = BulkDelete(
+                    context: context,
+                    ss: ss,
+                    where: Views.GetBySession(
                         context: context,
-                        ss: ss,
-                        selected: selector.Selected,
-                        negative: true);
-                }
-                else
-                {
-                    if (selector.Selected.Any())
-                    {
-                        count = BulkDelete(
-                            context: context,
-                            ss: ss,
-                            selected: selector.Selected);
-                    }
-                    else
-                    {
-                        return Messages.ResponseSelectTargets(context: context).ToJson();
-                    }
-                }
+                        ss: ss)
+                            .Where(
+                                context: context,
+                                ss: ss,
+                                where: where));
                 Summaries.Synchronize(context: context, ss: ss);
                 return GridRows(
                     context: context,
@@ -7712,20 +7695,13 @@ namespace Implem.Pleasanter.Models
         private static int BulkDelete(
             Context context,
             SiteSettings ss,
-            IEnumerable<long> selected,
-            bool negative = false)
+            SqlWhereCollection where)
         {
-            var where = Views.GetBySession(context: context, ss: ss).Where(
-                context: context,
-                ss: ss,
-                where: Rds.ResultsWhere()
-                    .SiteId(ss.SiteId)
-                    .ResultId_In(
-                        value: selected,
-                        negative: negative,
-                        _using: selected.Any()));
             var sub = Rds.SelectResults(
                 column: Rds.ResultsColumn().ResultId(),
+                join: ss.Join(
+                    context: context,
+                    join: where),
                 where: where);
             var statements = new List<SqlStatement>();
             statements.OnBulkDeletingExtendedSqls(ss.SiteId);
@@ -8561,12 +8537,15 @@ namespace Implem.Pleasanter.Models
                 case Error.Types.None: break;
                 default: return null;
             }
-            return ExportUtilities.Csv(
+            return ExportUtilities.Export(
                 context: context,
                 ss: ss,
                 export: ss.GetExport(
                     context: context,
-                    id: context.QueryStrings.Int("id")));
+                    id: context.QueryStrings.Int("id")),
+                where: SelectedWhere(
+                    context: context,
+                    ss: ss));
         }
 
         public static ResponseFile ExportCrosstab(

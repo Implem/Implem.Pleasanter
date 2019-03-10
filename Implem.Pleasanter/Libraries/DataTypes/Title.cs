@@ -54,9 +54,9 @@ namespace Implem.Pleasanter.Libraries.DataTypes
                         path: Rds.DataColumnName(column, o.ColumnName)))
                     .Where(o => !o.IsNullOrEmpty())
                     .Join(ss.TitleSeparator);
-            DisplayValue = displayValue != string.Empty
-                ? displayValue
-                : Displays.NoTitle(context: context);
+            DisplayValue = GetNoTitle(
+                context: context,
+                displayValue: displayValue);
         }
 
         public Title(Context context, SiteSettings ss, long id, Dictionary<string, string> data)
@@ -71,9 +71,20 @@ namespace Implem.Pleasanter.Libraries.DataTypes
                     data: data))
                 .Where(o => !o.IsNullOrEmpty())
                 .Join(ss.TitleSeparator);
-            DisplayValue = displayValue != string.Empty
-                ? displayValue
-                : Displays.NoTitle(context: context);
+            DisplayValue = GetNoTitle(
+                context: context,
+                displayValue: displayValue);
+        }
+
+        public Title(long id, string value)
+        {
+            Id = id;
+            Value = value;
+        }
+
+        public Title(string value)
+        {
+            Value = value;
         }
 
         private string GetDisplayValue(
@@ -159,15 +170,22 @@ namespace Implem.Pleasanter.Libraries.DataTypes
             }
         }
 
-        public Title(long id, string value)
+        private string GetNoTitle(Context context, string displayValue)
         {
-            Id = id;
-            Value = value;
-        }
-
-        public Title(string value)
-        {
-            Value = value;
+            if (!displayValue.IsNullOrEmpty())
+            {
+                return displayValue;
+            }
+            else
+            {
+                switch (context.Action)
+                {
+                    case "export":
+                        return string.Empty;
+                    default:
+                        return Displays.NoTitle(context: context);
+                }
+            }
         }
 
         public string ToControl(Context context, SiteSettings ss, Column column)

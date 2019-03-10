@@ -46,13 +46,13 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     .SiteTitle(),
                 where: Rds.LinksWhere()
                     .DestinationId(ss.SiteId)
-                    .SiteId_In(ss.Sources?
+                    .SiteId_In(ss.Sources
+                        ?.Values
                         .Where(currentSs => context.CanCreate(ss: currentSs))
                         .Select(currentSs => currentSs.SiteId)))
                             .Select(linkModel => GetLink(
                                 linkModel: linkModel,
-                                ss: ss.Sources.FirstOrDefault(o =>
-                                    o.SiteId == linkModel.SourceId)))
+                                ss: ss.Sources.Get(linkModel.SourceId)))
                             .Where(o => o != null)
                             .ToList();
         }

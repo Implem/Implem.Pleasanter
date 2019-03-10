@@ -518,7 +518,6 @@ namespace Implem.DefinitionAccessor
                     case "Model_Utilities_EditorDialog": Code.Model_Utilities_EditorDialog = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_EditorDialog, definitionRow, CodeXls); break;
                     case "Model_Utilities_DropDownSearchDialog": Code.Model_Utilities_DropDownSearchDialog = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_DropDownSearchDialog, definitionRow, CodeXls); break;
                     case "Model_Utilities_ImportSettings": Code.Model_Utilities_ImportSettings = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_ImportSettings, definitionRow, CodeXls); break;
-                    case "Model_Utilities_OnGridLoad": Code.Model_Utilities_OnGridLoad = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_OnGridLoad, definitionRow, CodeXls); break;
                     case "Model_Utilities_WhereTenantId": Code.Model_Utilities_WhereTenantId = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_WhereTenantId, definitionRow, CodeXls); break;
                     case "Model_Utilities_Index_NoSort": Code.Model_Utilities_Index_NoSort = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_Index_NoSort, definitionRow, CodeXls); break;
                     case "Model_Utilities_GridRows_OnClick": Code.Model_Utilities_GridRows_OnClick = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_GridRows_OnClick, definitionRow, CodeXls); break;
@@ -559,7 +558,6 @@ namespace Implem.DefinitionAccessor
                     case "Model_Utilities_Create": Code.Model_Utilities_Create = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_Create, definitionRow, CodeXls); break;
                     case "Model_Utilities_CreateParams": Code.Model_Utilities_CreateParams = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_CreateParams, definitionRow, CodeXls); break;
                     case "Model_Utilities_CreateParams_Sites": Code.Model_Utilities_CreateParams_Sites = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_CreateParams_Sites, definitionRow, CodeXls); break;
-                    case "Model_Utilities_Create_JoeAccount": Code.Model_Utilities_Create_JoeAccount = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_Create_JoeAccount, definitionRow, CodeXls); break;
                     case "Model_Utilities_Create_PasswordPolicies": Code.Model_Utilities_Create_PasswordPolicies = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_Create_PasswordPolicies, definitionRow, CodeXls); break;
                     case "Model_Utilities_CreatedResponse": Code.Model_Utilities_CreatedResponse = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_CreatedResponse, definitionRow, CodeXls); break;
                     case "Model_Utilities_CreatedResponse_Sites": Code.Model_Utilities_CreatedResponse_Sites = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_CreatedResponse_Sites, definitionRow, CodeXls); break;
@@ -648,6 +646,13 @@ namespace Implem.DefinitionAccessor
                     case "Model_ApiPropertyCases": Code.Model_ApiPropertyCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_ApiPropertyCases, definitionRow, CodeXls); break;
                     case "Model_ApiPropertyNullType": Code.Model_ApiPropertyNullType = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_ApiPropertyNullType, definitionRow, CodeXls); break;
                     case "Model_ApiItemTitle": Code.Model_ApiItemTitle = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_ApiItemTitle, definitionRow, CodeXls); break;
+                    case "Model_Export": Code.Model_Export = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Export, definitionRow, CodeXls); break;
+                    case "Model_ExportItemTitle": Code.Model_ExportItemTitle = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_ExportItemTitle, definitionRow, CodeXls); break;
+                    case "Model_ExportPropertyCases": Code.Model_ExportPropertyCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_ExportPropertyCases, definitionRow, CodeXls); break;
+                    case "Model_ExportPropertyNullType": Code.Model_ExportPropertyNullType = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_ExportPropertyNullType, definitionRow, CodeXls); break;
+                    case "Model_ExportClassPropertyCases": Code.Model_ExportClassPropertyCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_ExportClassPropertyCases, definitionRow, CodeXls); break;
+                    case "Model_ExportSet": Code.Model_ExportSet = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_ExportSet, definitionRow, CodeXls); break;
+                    case "Model_ExportDestinationColumnCases": Code.Model_ExportDestinationColumnCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_ExportDestinationColumnCases, definitionRow, CodeXls); break;
                     case "Rds": Code.Rds = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Rds, definitionRow, CodeXls); break;
                     case "Rds_IdColumnCases": Code.Rds_IdColumnCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Rds_IdColumnCases, definitionRow, CodeXls); break;
                     case "Rds_SqlStatement": Code.Rds_SqlStatement = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Rds_SqlStatement, definitionRow, CodeXls); break;
@@ -729,10 +734,6 @@ namespace Implem.DefinitionAccessor
                     case "Indexes_CreateTableCases": Code.Indexes_CreateTableCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Indexes_CreateTableCases, definitionRow, CodeXls); break;
                     case "ItemsInitializer": Code.ItemsInitializer = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.ItemsInitializer, definitionRow, CodeXls); break;
                     case "ItemsInitializer_InitItems": Code.ItemsInitializer_InitItems = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.ItemsInitializer_InitItems, definitionRow, CodeXls); break;
-                    case "ExportUtilities": Code.ExportUtilities = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.ExportUtilities, definitionRow, CodeXls); break;
-                    case "ExportUtilities_TableCases": Code.ExportUtilities_TableCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.ExportUtilities_TableCases, definitionRow, CodeXls); break;
-                    case "ExportUtilities_LinkedTableCases": Code.ExportUtilities_LinkedTableCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.ExportUtilities_LinkedTableCases, definitionRow, CodeXls); break;
-                    case "ExportUtilities_Data": Code.ExportUtilities_Data = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.ExportUtilities_Data, definitionRow, CodeXls); break;
                     case "Column": Code.Column = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Column, definitionRow, CodeXls); break;
                     case "Column_TableCases": Code.Column_TableCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Column_TableCases, definitionRow, CodeXls); break;
                     case "Column_ColumnCases": Code.Column_ColumnCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Column_ColumnCases, definitionRow, CodeXls); break;
@@ -763,7 +764,9 @@ namespace Implem.DefinitionAccessor
                     case "GridData": Code.GridData = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.GridData, definitionRow, CodeXls); break;
                     case "GridData_ModelHash": Code.GridData_ModelHash = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.GridData_ModelHash, definitionRow, CodeXls); break;
                     case "GridData_Td": Code.GridData_Td = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.GridData_Td, definitionRow, CodeXls); break;
-                    case "GridData_Td_SiteSettings": Code.GridData_Td_SiteSettings = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.GridData_Td_SiteSettings, definitionRow, CodeXls); break;
+                    case "GridData_Csv": Code.GridData_Csv = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.GridData_Csv, definitionRow, CodeXls); break;
+                    case "GridData_Json": Code.GridData_Json = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.GridData_Json, definitionRow, CodeXls); break;
+                    case "GridData_SiteSettings": Code.GridData_SiteSettings = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.GridData_SiteSettings, definitionRow, CodeXls); break;
                     case "Summaries": Code.Summaries = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Summaries, definitionRow, CodeXls); break;
                     case "Summaries_SynchronizeCases": Code.Summaries_SynchronizeCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Summaries_SynchronizeCases, definitionRow, CodeXls); break;
                     case "Summaries_SynchronizeTables": Code.Summaries_SynchronizeTables = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Summaries_SynchronizeTables, definitionRow, CodeXls); break;
@@ -1120,6 +1123,16 @@ namespace Implem.DefinitionAccessor
                                 definitionRow["ExcludeDefaultCs"].ToString();
                             newCodeDefinition.SavedExcludeDefaultCs = newCodeDefinition.ExcludeDefaultCs;
                             break;
+                        case "Class":
+                            newCodeDefinition.Class = customDefinitionRow.Get("Class")?.ToBool() ??
+                                definitionRow["Class"].ToBool();
+                            newCodeDefinition.SavedClass = newCodeDefinition.Class;
+                            break;
+                        case "NotClass":
+                            newCodeDefinition.NotClass = customDefinitionRow.Get("NotClass")?.ToBool() ??
+                                definitionRow["NotClass"].ToBool();
+                            newCodeDefinition.SavedNotClass = newCodeDefinition.NotClass;
+                            break;
                         case "History":
                             newCodeDefinition.History = customDefinitionRow.Get("History")?.ToBool() ??
                                 definitionRow["History"].ToBool();
@@ -1260,6 +1273,8 @@ namespace Implem.DefinitionAccessor
             if (definitionRow.ContainsKey("ExcludeTypeCs")) { definition.ExcludeTypeCs = definitionRow["ExcludeTypeCs"].ToString(); definition.SavedExcludeTypeCs = definition.ExcludeTypeCs; }
             if (definitionRow.ContainsKey("IncludeDefaultCs")) { definition.IncludeDefaultCs = definitionRow["IncludeDefaultCs"].ToString(); definition.SavedIncludeDefaultCs = definition.IncludeDefaultCs; }
             if (definitionRow.ContainsKey("ExcludeDefaultCs")) { definition.ExcludeDefaultCs = definitionRow["ExcludeDefaultCs"].ToString(); definition.SavedExcludeDefaultCs = definition.ExcludeDefaultCs; }
+            if (definitionRow.ContainsKey("Class")) { definition.Class = definitionRow["Class"].ToBool(); definition.SavedClass = definition.Class; }
+            if (definitionRow.ContainsKey("NotClass")) { definition.NotClass = definitionRow["NotClass"].ToBool(); definition.SavedNotClass = definition.NotClass; }
             if (definitionRow.ContainsKey("History")) { definition.History = definitionRow["History"].ToBool(); definition.SavedHistory = definition.History; }
             if (definitionRow.ContainsKey("PkHistory")) { definition.PkHistory = definitionRow["PkHistory"].ToBool(); definition.SavedPkHistory = definition.PkHistory; }
             if (definitionRow.ContainsKey("ControlType")) { definition.ControlType = definitionRow["ControlType"].ToString(); definition.SavedControlType = definition.ControlType; }
@@ -2462,6 +2477,11 @@ namespace Implem.DefinitionAccessor
                                 definitionRow["Required"].ToBool();
                             newColumnDefinition.SavedRequired = newColumnDefinition.Required;
                             break;
+                        case "Class":
+                            newColumnDefinition.Class = customDefinitionRow.Get("Class")?.ToBool() ??
+                                definitionRow["Class"].ToBool();
+                            newColumnDefinition.SavedClass = newColumnDefinition.Class;
+                            break;
                         case "ReadAccessControl":
                             newColumnDefinition.ReadAccessControl = customDefinitionRow.Get("ReadAccessControl")?.ToString() ??
                                 definitionRow["ReadAccessControl"].ToString();
@@ -2802,6 +2822,7 @@ namespace Implem.DefinitionAccessor
             if (definitionRow.ContainsKey("Like")) { definition.Like = definitionRow["Like"].ToBool(); definition.SavedLike = definition.Like; }
             if (definitionRow.ContainsKey("WhereSpecial")) { definition.WhereSpecial = definitionRow["WhereSpecial"].ToBool(); definition.SavedWhereSpecial = definition.WhereSpecial; }
             if (definitionRow.ContainsKey("Required")) { definition.Required = definitionRow["Required"].ToBool(); definition.SavedRequired = definition.Required; }
+            if (definitionRow.ContainsKey("Class")) { definition.Class = definitionRow["Class"].ToBool(); definition.SavedClass = definition.Class; }
             if (definitionRow.ContainsKey("ReadAccessControl")) { definition.ReadAccessControl = definitionRow["ReadAccessControl"].ToString(); definition.SavedReadAccessControl = definition.ReadAccessControl; }
             if (definitionRow.ContainsKey("CreateAccessControl")) { definition.CreateAccessControl = definitionRow["CreateAccessControl"].ToString(); definition.SavedCreateAccessControl = definition.CreateAccessControl; }
             if (definitionRow.ContainsKey("UpdateAccessControl")) { definition.UpdateAccessControl = definitionRow["UpdateAccessControl"].ToString(); definition.SavedUpdateAccessControl = definition.UpdateAccessControl; }
@@ -6326,6 +6347,8 @@ namespace Implem.DefinitionAccessor
                         case "ExcludeTypeCs": codeDefinition.ExcludeTypeCs = optionValue.ToString(); break;
                         case "IncludeDefaultCs": codeDefinition.IncludeDefaultCs = optionValue.ToString(); break;
                         case "ExcludeDefaultCs": codeDefinition.ExcludeDefaultCs = optionValue.ToString(); break;
+                        case "Class": codeDefinition.Class = optionValue.ToBool(); break;
+                        case "NotClass": codeDefinition.NotClass = optionValue.ToBool(); break;
                         case "History": codeDefinition.History = optionValue.ToBool(); break;
                         case "PkHistory": codeDefinition.PkHistory = optionValue.ToBool(); break;
                         case "ControlType": codeDefinition.ControlType = optionValue.ToString(); break;
@@ -6405,6 +6428,7 @@ namespace Implem.DefinitionAccessor
                         case "Like": columnDefinition.Like = optionValue.ToBool(); break;
                         case "WhereSpecial": columnDefinition.WhereSpecial = optionValue.ToBool(); break;
                         case "Required": columnDefinition.Required = optionValue.ToBool(); break;
+                        case "Class": columnDefinition.Class = optionValue.ToBool(); break;
                         case "ReadAccessControl": columnDefinition.ReadAccessControl = optionValue.ToString(); break;
                         case "CreateAccessControl": columnDefinition.CreateAccessControl = optionValue.ToString(); break;
                         case "UpdateAccessControl": columnDefinition.UpdateAccessControl = optionValue.ToString(); break;
@@ -6837,6 +6861,8 @@ namespace Implem.DefinitionAccessor
         public string ExcludeTypeCs; public string SavedExcludeTypeCs;
         public string IncludeDefaultCs; public string SavedIncludeDefaultCs;
         public string ExcludeDefaultCs; public string SavedExcludeDefaultCs;
+        public bool Class; public bool SavedClass;
+        public bool NotClass; public bool SavedNotClass;
         public bool History; public bool SavedHistory;
         public bool PkHistory; public bool SavedPkHistory;
         public string ControlType; public string SavedControlType;
@@ -6919,6 +6945,8 @@ namespace Implem.DefinitionAccessor
             if (propertyCollection.ContainsKey("ExcludeTypeCs")) ExcludeTypeCs = propertyCollection["ExcludeTypeCs"].ToString(); else ExcludeTypeCs = string.Empty;
             if (propertyCollection.ContainsKey("IncludeDefaultCs")) IncludeDefaultCs = propertyCollection["IncludeDefaultCs"].ToString(); else IncludeDefaultCs = string.Empty;
             if (propertyCollection.ContainsKey("ExcludeDefaultCs")) ExcludeDefaultCs = propertyCollection["ExcludeDefaultCs"].ToString(); else ExcludeDefaultCs = string.Empty;
+            if (propertyCollection.ContainsKey("Class")) Class = propertyCollection["Class"].ToBool(); else Class = false;
+            if (propertyCollection.ContainsKey("NotClass")) NotClass = propertyCollection["NotClass"].ToBool(); else NotClass = false;
             if (propertyCollection.ContainsKey("History")) History = propertyCollection["History"].ToBool(); else History = false;
             if (propertyCollection.ContainsKey("PkHistory")) PkHistory = propertyCollection["PkHistory"].ToBool(); else PkHistory = false;
             if (propertyCollection.ContainsKey("ControlType")) ControlType = propertyCollection["ControlType"].ToString(); else ControlType = string.Empty;
@@ -7001,6 +7029,8 @@ namespace Implem.DefinitionAccessor
                     case "ExcludeTypeCs": return ExcludeTypeCs;
                     case "IncludeDefaultCs": return IncludeDefaultCs;
                     case "ExcludeDefaultCs": return ExcludeDefaultCs;
+                    case "Class": return Class;
+                    case "NotClass": return NotClass;
                     case "History": return History;
                     case "PkHistory": return PkHistory;
                     case "ControlType": return ControlType;
@@ -7083,6 +7113,8 @@ namespace Implem.DefinitionAccessor
             ExcludeTypeCs = SavedExcludeTypeCs;
             IncludeDefaultCs = SavedIncludeDefaultCs;
             ExcludeDefaultCs = SavedExcludeDefaultCs;
+            Class = SavedClass;
+            NotClass = SavedNotClass;
             History = SavedHistory;
             PkHistory = SavedPkHistory;
             ControlType = SavedControlType;
@@ -7379,7 +7411,6 @@ namespace Implem.DefinitionAccessor
         public string Model_Utilities_EditorDialog;
         public string Model_Utilities_DropDownSearchDialog;
         public string Model_Utilities_ImportSettings;
-        public string Model_Utilities_OnGridLoad;
         public string Model_Utilities_WhereTenantId;
         public string Model_Utilities_Index_NoSort;
         public string Model_Utilities_GridRows_OnClick;
@@ -7420,7 +7451,6 @@ namespace Implem.DefinitionAccessor
         public string Model_Utilities_Create;
         public string Model_Utilities_CreateParams;
         public string Model_Utilities_CreateParams_Sites;
-        public string Model_Utilities_Create_JoeAccount;
         public string Model_Utilities_Create_PasswordPolicies;
         public string Model_Utilities_CreatedResponse;
         public string Model_Utilities_CreatedResponse_Sites;
@@ -7509,6 +7539,13 @@ namespace Implem.DefinitionAccessor
         public string Model_ApiPropertyCases;
         public string Model_ApiPropertyNullType;
         public string Model_ApiItemTitle;
+        public string Model_Export;
+        public string Model_ExportItemTitle;
+        public string Model_ExportPropertyCases;
+        public string Model_ExportPropertyNullType;
+        public string Model_ExportClassPropertyCases;
+        public string Model_ExportSet;
+        public string Model_ExportDestinationColumnCases;
         public string Rds;
         public string Rds_IdColumnCases;
         public string Rds_SqlStatement;
@@ -7590,10 +7627,6 @@ namespace Implem.DefinitionAccessor
         public string Indexes_CreateTableCases;
         public string ItemsInitializer;
         public string ItemsInitializer_InitItems;
-        public string ExportUtilities;
-        public string ExportUtilities_TableCases;
-        public string ExportUtilities_LinkedTableCases;
-        public string ExportUtilities_Data;
         public string Column;
         public string Column_TableCases;
         public string Column_ColumnCases;
@@ -7624,7 +7657,9 @@ namespace Implem.DefinitionAccessor
         public string GridData;
         public string GridData_ModelHash;
         public string GridData_Td;
-        public string GridData_Td_SiteSettings;
+        public string GridData_Csv;
+        public string GridData_Json;
+        public string GridData_SiteSettings;
         public string Summaries;
         public string Summaries_SynchronizeCases;
         public string Summaries_SynchronizeTables;
@@ -7944,7 +7979,6 @@ namespace Implem.DefinitionAccessor
         public CodeDefinition Model_Utilities_EditorDialog = new CodeDefinition();
         public CodeDefinition Model_Utilities_DropDownSearchDialog = new CodeDefinition();
         public CodeDefinition Model_Utilities_ImportSettings = new CodeDefinition();
-        public CodeDefinition Model_Utilities_OnGridLoad = new CodeDefinition();
         public CodeDefinition Model_Utilities_WhereTenantId = new CodeDefinition();
         public CodeDefinition Model_Utilities_Index_NoSort = new CodeDefinition();
         public CodeDefinition Model_Utilities_GridRows_OnClick = new CodeDefinition();
@@ -7985,7 +8019,6 @@ namespace Implem.DefinitionAccessor
         public CodeDefinition Model_Utilities_Create = new CodeDefinition();
         public CodeDefinition Model_Utilities_CreateParams = new CodeDefinition();
         public CodeDefinition Model_Utilities_CreateParams_Sites = new CodeDefinition();
-        public CodeDefinition Model_Utilities_Create_JoeAccount = new CodeDefinition();
         public CodeDefinition Model_Utilities_Create_PasswordPolicies = new CodeDefinition();
         public CodeDefinition Model_Utilities_CreatedResponse = new CodeDefinition();
         public CodeDefinition Model_Utilities_CreatedResponse_Sites = new CodeDefinition();
@@ -8074,6 +8107,13 @@ namespace Implem.DefinitionAccessor
         public CodeDefinition Model_ApiPropertyCases = new CodeDefinition();
         public CodeDefinition Model_ApiPropertyNullType = new CodeDefinition();
         public CodeDefinition Model_ApiItemTitle = new CodeDefinition();
+        public CodeDefinition Model_Export = new CodeDefinition();
+        public CodeDefinition Model_ExportItemTitle = new CodeDefinition();
+        public CodeDefinition Model_ExportPropertyCases = new CodeDefinition();
+        public CodeDefinition Model_ExportPropertyNullType = new CodeDefinition();
+        public CodeDefinition Model_ExportClassPropertyCases = new CodeDefinition();
+        public CodeDefinition Model_ExportSet = new CodeDefinition();
+        public CodeDefinition Model_ExportDestinationColumnCases = new CodeDefinition();
         public CodeDefinition Rds = new CodeDefinition();
         public CodeDefinition Rds_IdColumnCases = new CodeDefinition();
         public CodeDefinition Rds_SqlStatement = new CodeDefinition();
@@ -8155,10 +8195,6 @@ namespace Implem.DefinitionAccessor
         public CodeDefinition Indexes_CreateTableCases = new CodeDefinition();
         public CodeDefinition ItemsInitializer = new CodeDefinition();
         public CodeDefinition ItemsInitializer_InitItems = new CodeDefinition();
-        public CodeDefinition ExportUtilities = new CodeDefinition();
-        public CodeDefinition ExportUtilities_TableCases = new CodeDefinition();
-        public CodeDefinition ExportUtilities_LinkedTableCases = new CodeDefinition();
-        public CodeDefinition ExportUtilities_Data = new CodeDefinition();
         public CodeDefinition Column = new CodeDefinition();
         public CodeDefinition Column_TableCases = new CodeDefinition();
         public CodeDefinition Column_ColumnCases = new CodeDefinition();
@@ -8189,7 +8225,9 @@ namespace Implem.DefinitionAccessor
         public CodeDefinition GridData = new CodeDefinition();
         public CodeDefinition GridData_ModelHash = new CodeDefinition();
         public CodeDefinition GridData_Td = new CodeDefinition();
-        public CodeDefinition GridData_Td_SiteSettings = new CodeDefinition();
+        public CodeDefinition GridData_Csv = new CodeDefinition();
+        public CodeDefinition GridData_Json = new CodeDefinition();
+        public CodeDefinition GridData_SiteSettings = new CodeDefinition();
         public CodeDefinition Summaries = new CodeDefinition();
         public CodeDefinition Summaries_SynchronizeCases = new CodeDefinition();
         public CodeDefinition Summaries_SynchronizeTables = new CodeDefinition();
@@ -8283,6 +8321,7 @@ namespace Implem.DefinitionAccessor
         public bool Like; public bool SavedLike;
         public bool WhereSpecial; public bool SavedWhereSpecial;
         public bool Required; public bool SavedRequired;
+        public bool Class; public bool SavedClass;
         public string ReadAccessControl; public string SavedReadAccessControl;
         public string CreateAccessControl; public string SavedCreateAccessControl;
         public string UpdateAccessControl; public string SavedUpdateAccessControl;
@@ -8397,6 +8436,7 @@ namespace Implem.DefinitionAccessor
             if (propertyCollection.ContainsKey("Like")) Like = propertyCollection["Like"].ToBool(); else Like = false;
             if (propertyCollection.ContainsKey("WhereSpecial")) WhereSpecial = propertyCollection["WhereSpecial"].ToBool(); else WhereSpecial = false;
             if (propertyCollection.ContainsKey("Required")) Required = propertyCollection["Required"].ToBool(); else Required = false;
+            if (propertyCollection.ContainsKey("Class")) Class = propertyCollection["Class"].ToBool(); else Class = false;
             if (propertyCollection.ContainsKey("ReadAccessControl")) ReadAccessControl = propertyCollection["ReadAccessControl"].ToString(); else ReadAccessControl = string.Empty;
             if (propertyCollection.ContainsKey("CreateAccessControl")) CreateAccessControl = propertyCollection["CreateAccessControl"].ToString(); else CreateAccessControl = string.Empty;
             if (propertyCollection.ContainsKey("UpdateAccessControl")) UpdateAccessControl = propertyCollection["UpdateAccessControl"].ToString(); else UpdateAccessControl = string.Empty;
@@ -8511,6 +8551,7 @@ namespace Implem.DefinitionAccessor
                     case "Like": return Like;
                     case "WhereSpecial": return WhereSpecial;
                     case "Required": return Required;
+                    case "Class": return Class;
                     case "ReadAccessControl": return ReadAccessControl;
                     case "CreateAccessControl": return CreateAccessControl;
                     case "UpdateAccessControl": return UpdateAccessControl;
@@ -8625,6 +8666,7 @@ namespace Implem.DefinitionAccessor
             Like = SavedLike;
             WhereSpecial = SavedWhereSpecial;
             Required = SavedRequired;
+            Class = SavedClass;
             ReadAccessControl = SavedReadAccessControl;
             CreateAccessControl = SavedCreateAccessControl;
             UpdateAccessControl = SavedUpdateAccessControl;

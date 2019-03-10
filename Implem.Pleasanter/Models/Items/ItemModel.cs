@@ -738,7 +738,8 @@ namespace Implem.Pleasanter.Models
                         ss: Site.IssuesSiteSettings(
                             context: context,
                             referenceId: ReferenceId,
-                            setSiteIntegration: true),
+                            setSiteIntegration: true,
+                            setAllChoices: true),
                         siteModel: Site);
                 case "Results":
                     return ResultUtilities.Export(
@@ -746,7 +747,8 @@ namespace Implem.Pleasanter.Models
                         ss: Site.ResultsSiteSettings(
                             context: context,
                             referenceId: ReferenceId,
-                            setSiteIntegration: true),
+                            setSiteIntegration: true,
+                            setAllChoices: true),
                         siteModel: Site);
                 default:
                     return null;
