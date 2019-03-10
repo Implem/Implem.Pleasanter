@@ -32,8 +32,7 @@ namespace Implem.Pleasanter.Libraries.Models
                     .Binaries_BinaryType("Images");
             var orderBy = view.OrderBy(
                 context: context,
-                ss: ss,
-                pageSize: pageSize);
+                ss: ss);
             var joinExpression = $"[Binaries].[ReferenceId]=[{ss.ReferenceType}].{idColumnBracket}";
             var dataSet = Rds.ExecuteDataSet(
                 context: context,

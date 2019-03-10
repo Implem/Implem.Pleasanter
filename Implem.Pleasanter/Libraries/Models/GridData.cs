@@ -1,12 +1,14 @@
 ﻿using Implem.Libraries.DataSources.Interfaces;
 using Implem.Libraries.DataSources.SqlServer;
 using Implem.Libraries.Utilities;
+using Implem.Pleasanter.Interfaces;
 using Implem.Pleasanter.Libraries.DataSources;
 using Implem.Pleasanter.Libraries.Html;
 using Implem.Pleasanter.Libraries.HtmlParts;
 using Implem.Pleasanter.Libraries.Requests;
 using Implem.Pleasanter.Libraries.Settings;
 using Implem.Pleasanter.Models;
+using Newtonsoft.Json;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
@@ -63,8 +65,7 @@ namespace Implem.Pleasanter.Libraries.Models
                 where: where);
             var orderBy = view.OrderBy(
                 context: context,
-                ss: ss,
-                pageSize: pageSize);
+                ss: ss);
             var statements = new List<SqlStatement>
             {
                 Rds.Select(
@@ -113,7 +114,7 @@ namespace Implem.Pleasanter.Libraries.Models
                 view: view,
                 checkPermission: true).ToList();
             columns
-                .GroupBy(o => o.SiteId)
+                .GroupBy(o => o.TableAlias)
                 .Select(o => o.First())
                 .ToList()
                 .ForEach(o => AddDefaultColumns(
@@ -140,6 +141,13 @@ namespace Implem.Pleasanter.Libraries.Models
             SiteSettings currentSs,
             string tableAlias, List<Column> columns)
         {
+            var idColumn = Rds.IdColumn(currentSs.ReferenceType);
+            if (currentSs.ColumnHash.ContainsKey(idColumn))
+            {
+                columns.Add(ss.GetColumn(
+                    context: context,
+                    columnName: tableAlias + idColumn));
+            }
             if (currentSs.ColumnHash.ContainsKey("SiteId"))
             {
                 columns.Add(ss.GetColumn(
@@ -322,6 +330,223 @@ namespace Implem.Pleasanter.Libraries.Models
                     });
             });
             return hb;
+        }
+
+        public System.Text.StringBuilder Csv(
+            Context context,
+            SiteSettings ss,
+            System.Text.StringBuilder csv,
+            IEnumerable<ExportColumn> exportColumns)
+        {
+            var idColumn = Rds.IdColumn(ss.ReferenceType);
+            DataRows.ForEach(dataRow =>
+            {
+                var dataId = dataRow.Long(idColumn).ToString();
+                var data = new List<string>();
+                var tenants = new Dictionary<string, TenantModel>();
+                var depts = new Dictionary<string, DeptModel>();
+                var groups = new Dictionary<string, GroupModel>();
+                var users = new Dictionary<string, UserModel>();
+                var sites = new Dictionary<string, SiteModel>();
+                var issues = new Dictionary<string, IssueModel>();
+                var results = new Dictionary<string, ResultModel>();
+                var wikis = new Dictionary<string, WikiModel>();
+                exportColumns.ForEach(exportColumn =>
+                {
+                    var column = exportColumn.Column;
+                    var key = column.TableName();
+                    switch (column.SiteSettings?.ReferenceType)
+                    {
+                        case "Users":
+                            if (!users.ContainsKey(key))
+                            {
+                                users.Add(key, new UserModel(
+                                    context: context,
+                                    ss: column.SiteSettings,
+                                    dataRow: dataRow,
+                                    tableAlias: column.TableAlias));
+                            }
+                            data.Add(users.Get(key).CsvData(
+                                context: context,
+                                ss: column.SiteSettings,
+                                column: column,
+                                exportColumn: exportColumn,
+                                mine: users.Get(key).Mine(context: context)));
+                            break;
+                        case "Issues":
+                            if (!issues.ContainsKey(key))
+                            {
+                                issues.Add(key, new IssueModel(
+                                    context: context,
+                                    ss: column.SiteSettings,
+                                    dataRow: dataRow,
+                                    tableAlias: column.TableAlias));
+                            }
+                            data.Add(issues.Get(key).CsvData(
+                                context: context,
+                                ss: column.SiteSettings,
+                                column: column,
+                                exportColumn: exportColumn,
+                                mine: issues.Get(key).Mine(context: context)));
+                            break;
+                        case "Results":
+                            if (!results.ContainsKey(key))
+                            {
+                                results.Add(key, new ResultModel(
+                                    context: context,
+                                    ss: column.SiteSettings,
+                                    dataRow: dataRow,
+                                    tableAlias: column.TableAlias));
+                            }
+                            data.Add(results.Get(key).CsvData(
+                                context: context,
+                                ss: column.SiteSettings,
+                                column: column,
+                                exportColumn: exportColumn,
+                                mine: results.Get(key).Mine(context: context)));
+                            break;
+                    }
+                });
+                csv.Append(data.Join(","), "\n");
+            });
+            return csv;
+        }
+
+        public string Json(
+            Context context,
+            SiteSettings ss,
+            Export export)
+        {
+            var data = new JsonExport();
+            var idColumn = Rds.IdColumn(ss.ReferenceType);
+            if (export.Header == true)
+            {
+                data.Header = new List<JsonExportColumn>();
+                export.Columns
+                    .Where(o => o.Column.CanRead)
+                    .ForEach(exportColumn =>
+                    {
+                        if (!data.Header.Any(o => o.SiteId == exportColumn.Column.SiteId))
+                        {
+                            data.Header.Add(new JsonExportColumn(
+                                siteId: exportColumn.Column.SiteId,
+                                siteTitle: exportColumn.SiteTitle));
+                        }
+                        data.Header.FirstOrDefault(o => o.SiteId == exportColumn.Column.SiteId)
+                            ?.Columns.AddIfNotConainsKey(
+                                exportColumn.Column.Name,
+                                exportColumn.GetLabelText());
+                    });
+            }
+            data.Body = new List<IExportModel>();
+            DataRows
+                .GroupBy(o => o.Long(idColumn))
+                .Select(o => o.ToList())
+                .ForEach(dataRows =>
+                {
+                    data.Body.Add(JsonStacks(
+                        context: context,
+                        ss: ss,
+                        idColumn: idColumn,
+                        dataRows: dataRows));
+                });
+            return data.ToJson(formatting: Formatting.Indented);
+        }
+
+        private IExportModel JsonStacks(
+            Context context,
+            SiteSettings ss,
+            string idColumn,
+            List<DataRow> dataRows,
+            string tableAlias = null)
+        {
+            IExportModel exportModel = null;
+            switch (ss.ReferenceType)
+            {
+                case "Issues":
+                    exportModel = new IssueExportModel(
+                        context: context,
+                        ss: ss,
+                        dataRow: dataRows.First(),
+                        tableAlias: tableAlias);
+                    break;
+                case "Results":
+                    exportModel = new ResultExportModel(
+                        context: context,
+                        ss: ss,
+                        dataRow: dataRows.First(),
+                        tableAlias: tableAlias);
+                    break;
+            }
+            SetDestinations(
+                context: context,
+                ss: ss,
+                exportModel: exportModel,
+                dataRows: dataRows);
+            SetSources(
+                context: context,
+                ss: ss,
+                exportModel: exportModel,
+                dataRows: dataRows);
+            return exportModel;
+        }
+
+        private void SetDestinations(
+            Context context,
+            SiteSettings ss,
+            IExportModel exportModel,
+            List<DataRow> dataRows)
+        {
+            ss.Destinations?.Values.ForEach(currentSs =>
+            {
+                currentSs.JoinStacks.ForEach(joinStack =>
+                {
+                    var tableAlias = joinStack.TableName();
+                    var idColumn = tableAlias + "," + Rds.IdColumn(currentSs.ReferenceType);
+                    dataRows
+                        .GroupBy(o => o.Long(idColumn))
+                        .Where(o => o.Key > 0)
+                        .Select(o => o.ToList())
+                        .ForEach(groupedDataRows =>
+                        {
+                            exportModel.AddDestination(
+                                exportModel: JsonStacks(
+                                    context: context,
+                                    ss: currentSs,
+                                    idColumn: idColumn,
+                                    dataRows: groupedDataRows,
+                                    tableAlias: tableAlias),
+                                columnName: joinStack.ColumnName);
+                        });
+                });
+            });
+        }
+
+        private void SetSources(
+            Context context,
+            SiteSettings ss,
+            IExportModel exportModel,
+            List<DataRow> dataRows)
+        {
+            ss.Sources?.Values.ForEach(currentSs =>
+            {
+                var tableAlias = currentSs.JoinStacks.First().TableName();
+                var idColumn = tableAlias + "," + Rds.IdColumn(currentSs.ReferenceType);
+                dataRows
+                    .GroupBy(o => o.Long(idColumn))
+                    .Where(o => o.Key > 0)
+                    .Select(o => o.ToList())
+                    .ForEach(groupedDataRows =>
+                    {
+                        exportModel.AddSource(
+                            exportModel: JsonStacks(
+                                context: context,
+                                ss: currentSs,
+                                idColumn: idColumn,
+                                dataRows: groupedDataRows,
+                                tableAlias: tableAlias));
+                    });
+            });
         }
     }
 }

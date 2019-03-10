@@ -1016,7 +1016,6 @@ namespace Implem.Pleasanter.Models
         public void SetSiteSettingsPropertiesBySession(Context context)
         {
             SiteSettings = Session_SiteSettings(context: context);
-            SiteSettings.InheritPermission = InheritPermission;
             SetSiteSettingsProperties(context: context);
         }
 
@@ -1031,19 +1030,11 @@ namespace Implem.Pleasanter.Models
                     context: context, siteId: SiteId);
             }
             SiteSettings.SiteId = SiteId;
-            SiteSettings.ParentId = ParentId;
             SiteSettings.Title = Title.Value;
+            SiteSettings.ParentId = ParentId;
+            SiteSettings.InheritPermission = InheritPermission;
             SiteSettings.AccessStatus = AccessStatus;
-        }
-
-        /// <summary>
-        /// Fixed:
-        /// </summary>
-        private void SetSiteSettingsChoiceHash(Context context)
-        {
             SiteSettings.SetLinkedSiteSettings(context: context);
-            SiteSettings.SetJoinedSsHash(context: context);
-            SiteSettings.SetChoiceHash(context: context);
         }
 
         /// <summary>
@@ -1083,7 +1074,6 @@ namespace Implem.Pleasanter.Models
         private void SetSiteSettings(Context context, ResponseCollection res)
         {
             var controlId = context.Forms.ControlId();
-            SiteSettings.SetJoinedSsHash(context: context);
             switch (controlId)
             {
                 case "OpenGridColumnDialog":
@@ -1343,11 +1333,6 @@ namespace Implem.Pleasanter.Models
                     break;
                 case "ExportJoin":
                     SetExportColumnsSelectable(
-                        context: context,
-                        res: res);
-                    break;
-                case "SearchExportColumns":
-                    SetExportColumnsSelectableBySearch(
                         context: context,
                         res: res);
                     break;
@@ -1867,7 +1852,6 @@ namespace Implem.Pleasanter.Models
         /// </summary>
         private void OpenSummaryDialog(Context context, ResponseCollection res, string controlId)
         {
-            SiteSettings.SetLinkedSiteSettings(context: context);
             if (SiteSettings.Destinations?.Any() != true)
             {
                 res.Message(Messages.NoLinks(context: context));
@@ -1879,7 +1863,11 @@ namespace Implem.Pleasanter.Models
                     OpenSummaryDialog(
                         context: context,
                         res: res,
-                        summary: new Summary(SiteSettings.Destinations.FirstOrDefault().SiteId));
+                        summary: new Summary(SiteSettings
+                            .Destinations
+                            .Values
+                            .FirstOrDefault()
+                            .SiteId));
                 }
                 else
                 {
@@ -1949,7 +1937,6 @@ namespace Implem.Pleasanter.Models
         /// </summary>
         private void AddSummary(Context context, ResponseCollection res)
         {
-            SiteSettings.SetLinkedSiteSettings(context: context);
             var siteId = context.Forms.Long("SummarySiteId");
             var destinationSs = SiteSettings.Destinations.Get(siteId);
             int? destinationCondition = context.Forms.Int("SummaryDestinationCondition");
@@ -1982,7 +1969,6 @@ namespace Implem.Pleasanter.Models
         /// </summary>
         private void UpdateSummary(Context context, ResponseCollection res)
         {
-            SiteSettings.SetLinkedSiteSettings(context: context);
             var siteId = context.Forms.Long("SummarySiteId");
             var destinationSs = SiteSettings.Destinations.Get(siteId);
             int? destinationCondition = context.Forms.Int("SummaryDestinationCondition");
@@ -2210,7 +2196,7 @@ namespace Implem.Pleasanter.Models
         /// </summary>
         private void OpenViewDialog(Context context, ResponseCollection res, View view)
         {
-            SetSiteSettingsChoiceHash(context: context);
+            SiteSettings.SetChoiceHash(context: context);
             res.Html("#ViewDialog", SiteUtilities.ViewDialog(
                 context: context,
                 ss: SiteSettings,
@@ -2223,7 +2209,7 @@ namespace Implem.Pleasanter.Models
         /// </summary>
         private void AddViewFilter(Context context, ResponseCollection res)
         {
-            SetSiteSettingsChoiceHash(context: context);
+            SiteSettings.SetChoiceHash(context: context);
             var column = SiteSettings.GetColumn(
                 context: context,
                 columnName: context.Forms.Data("ViewFilterSelector"));
@@ -2748,7 +2734,6 @@ namespace Implem.Pleasanter.Models
         /// </summary>
         private void OpenExportDialog(Context context, ResponseCollection res, string controlId)
         {
-            SiteSettings.SetExports(context: context);
             if (controlId == "NewExport")
             {
                 OpenExportDialog(context: context, res: res, export: new Export(SiteSettings
@@ -2763,8 +2748,9 @@ namespace Implem.Pleasanter.Models
                 }
                 else
                 {
-                    SiteSettingsUtilities.Get(
-                        context: context, siteModel: this, referenceId: SiteId);
+                    export.SetColumns(
+                        context: context,
+                        ss: SiteSettings);
                     OpenExportDialog(context: context, res: res, export: export);
                 }
             }
@@ -2803,7 +2789,6 @@ namespace Implem.Pleasanter.Models
             }
             else
             {
-                SiteSettings.SetExports(context: context);
                 Export = Session_Export(context: context);
                 if (Export == null && controlId == "EditExport")
                 {
@@ -2811,7 +2796,9 @@ namespace Implem.Pleasanter.Models
                 }
                 else
                 {
-                    SiteSettings.SetExport(context: context, export: Export);
+                    Export.SetColumns(
+                        context: context,
+                        ss: SiteSettings);
                     int id = 1;
                     var columns = new List<ExportColumn>();
                     context.Forms.List("ExportColumnsAll").ForEach(o =>
@@ -2823,7 +2810,6 @@ namespace Implem.Pleasanter.Models
                                 .FirstOrDefault();
                         columns.Add(new ExportColumn()
                         {
-                            SiteId = exp.SiteId,
                             Id = id++,
                             ColumnName = exp.ColumnName,
                             LabelText = exp.LabelText,
@@ -2836,8 +2822,8 @@ namespace Implem.Pleasanter.Models
                     Export.Columns = columns;
                     Export.Id = SiteSettings.Exports.MaxOrDefault(o => o.Id) + 1;
                     Export.Name = context.Forms.Data("ExportName");
+                    Export.Type = (Export.Types)context.Forms.Int("ExportType");
                     Export.Header = context.Forms.Bool("ExportHeader");
-                    Export.Join = context.Forms.Data("ExportJoin").Deserialize<Join>() ?? new Join(new List<Link>());
                     SiteSettings.Exports.Add(Export);
                     SetExportsResponseCollection(context: context, res: res);
                 }
@@ -2862,7 +2848,6 @@ namespace Implem.Pleasanter.Models
                 }
                 else
                 {
-                    SiteSettings.SetExports(context: context);
                     int id = 1;
                     var columns = new List<ExportColumn>();
                     context.Forms.List("ExportColumnsAll").ForEach(o =>
@@ -2874,7 +2859,6 @@ namespace Implem.Pleasanter.Models
                                 .FirstOrDefault();
                         columns.Add(new ExportColumn()
                         {
-                            SiteId = exp.SiteId,
                             Id = id++,
                             ColumnName = exp.ColumnName,
                             LabelText = exp.LabelText,
@@ -2884,11 +2868,14 @@ namespace Implem.Pleasanter.Models
                             Column = exp.Column
                         });
                     });
+                    export.SetColumns(
+                        context: context,
+                        ss: SiteSettings);
                     export.Update(
-                        context.Forms.Data("ExportName"),
-                        context.Forms.Bool("ExportHeader"),
-                        context.Forms.Data("ExportJoin").Deserialize<Join>() ?? new Join(new List<Link>()),
-                        columns);
+                        name: context.Forms.Data("ExportName"),
+                        type: (Export.Types)context.Forms.Int("ExportType"),
+                        header: context.Forms.Bool("ExportHeader"),
+                        columns: columns);
                     SetExportsResponseCollection(context: context, res: res);
                 }
             }
@@ -2943,62 +2930,13 @@ namespace Implem.Pleasanter.Models
         /// </summary>
         private void SetExportColumnsSelectable(Context context, ResponseCollection res)
         {
-            SiteSettings.SetExports(context: context);
-            var join = context.Forms.Data("ExportJoin").Deserialize<Join>();
-            var searchText = context.Forms.Data("SearchExportColumns");
-            var current = new List<ExportColumn>();
-            var sources = new List<ExportColumn>();
-            var allows = join?
-                .Where(o => SiteSettings.JoinedSsHash?.ContainsKey(o.SiteId) == true)
-                .ToList();
-            allows?.Reverse();
-            allows?.ForEach(link =>
-            {
-                var ss = SiteSettings.JoinedSsHash.Get(link.SiteId);
-                current.AddRange(ss.DefaultExportColumns(context: context));
-                sources.AddRange(ss.ExportColumns(
-                    context: context, searchText: searchText));
-            });
-            current.AddRange(SiteSettings.DefaultExportColumns(context: context));
-            sources.AddRange(SiteSettings.ExportColumns(
-                context: context, searchText: searchText));
-            Session_Export(
-                context: context,
-                value: new Export(current).ToJson());
-            res
-                .Html("#ExportColumns", new HtmlBuilder()
-                    .SelectableItems(listItemCollection: ExportUtilities
-                        .ColumnOptions(current)))
-                .SetFormData("ExportColumns", "[]")
-                .Html("#ExportSourceColumns", new HtmlBuilder()
-                    .SelectableItems(listItemCollection: ExportUtilities
-                        .ColumnOptions(sources)))
-                .SetFormData("ExportSourceColumns", "[]");
-        }
-
-        /// <summary>
-        /// Fixed:
-        /// </summary>
-        private void SetExportColumnsSelectableBySearch(Context context, ResponseCollection res)
-        {
-            SiteSettings.SetExports(context: context);
-            var join = context.Forms.Data("ExportJoin").Deserialize<Join>();
-            var searchText = context.Forms.Data("SearchExportColumns");
-            var sources = new List<ExportColumn>();
-            var allows = join?
-                .Where(o => SiteSettings.JoinedSsHash?.ContainsKey(o.SiteId) == true)
-                .ToList();
-            allows?.Reverse();
-            allows?.ForEach(link => sources.AddRange(SiteSettings
-                .JoinedSsHash
-                .Get(link.SiteId)
-                .ExportColumns(context: context, searchText: searchText)));
-            sources.AddRange(SiteSettings.ExportColumns(
-                context: context, searchText: searchText));
+            var join = context.Forms.Data("ExportJoin");
             res
                 .Html("#ExportSourceColumns", new HtmlBuilder()
                     .SelectableItems(listItemCollection: ExportUtilities
-                        .ColumnOptions(sources)))
+                        .ColumnOptions(columns: SiteSettings.ExportColumns(
+                            context: context,
+                            join: join))))
                 .SetFormData("ExportSourceColumns", "[]");
         }
 
@@ -3034,7 +2972,6 @@ namespace Implem.Pleasanter.Models
             Context context, ResponseCollection res, string controlId)
         {
             Export = Session_Export(context: context);
-            SiteSettings.SetExport(context: context, export: Export);
             var selected = context.Forms.List("ExportColumns");
             if (selected.Count() != 1)
             {
@@ -3042,28 +2979,29 @@ namespace Implem.Pleasanter.Models
             }
             else
             {
-                SiteSettings.SetExports(context: context);
                 int id = 1;
                 var columns = new List<ExportColumn>();
                 var selectedNewId = "";
                 context.Forms.List("ExportColumnsAll").ForEach(o =>
                 {
-                    var exp = o.Deserialize<ExportColumn>() ?? Export.Columns.Where(c => c.ToJson() == o).FirstOrDefault();
-                    if (exp.ToJson() == selected[0]) selectedNewId = id.ToString();
+                    var export = o.Deserialize<ExportColumn>()
+                        ?? Export.Columns.Where(c => c.ToJson() == o).FirstOrDefault();
+                    if (export.ToJson() == selected[0]) selectedNewId = id.ToString();
                     columns.Add(new ExportColumn()
                     {
-                        SiteId = exp.SiteId,
                         Id = id++,
-                        ColumnName = exp.ColumnName,
-                        LabelText = exp.LabelText,
-                        Type = exp.Type,
-                        Format = exp.Format,
-                        SiteTitle = exp.SiteTitle,
-                        Column = exp.Column
+                        ColumnName = export.ColumnName,
+                        LabelText = export.LabelText,
+                        Type = export.Type,
+                        Format = export.Format,
+                        SiteTitle = export.SiteTitle,
+                        Column = export.Column
                     });
                 });
                 Export.Columns = columns;
-                SiteSettings.SetExport(context: context, export: Export);
+                Export.SetColumns(
+                    context: context,
+                    ss: SiteSettings);
                 Session_Export(
                     context: context,
                     value: Export.ToJson());
@@ -3115,7 +3053,9 @@ namespace Implem.Pleasanter.Models
             else
             {
                 Export = Session_Export(context: context);
-                SiteSettings.SetExport(context: context, export: Export);
+                Export.SetColumns(
+                    context: context,
+                    ss: SiteSettings);
                 var column = Export.Columns.FirstOrDefault(o =>
                     o.Id == context.Forms.Int("ExportColumnId"));
                 if (column == null)

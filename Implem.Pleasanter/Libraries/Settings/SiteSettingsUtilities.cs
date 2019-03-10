@@ -11,7 +11,7 @@ namespace Implem.Pleasanter.Libraries.Settings
 {
     public static class SiteSettingsUtilities
     {
-        public const decimal Version = 1.014M;
+        public const decimal Version = 1.015M;
 
         public static SiteSettings Get(
             Context context,
@@ -35,13 +35,11 @@ namespace Implem.Pleasanter.Libraries.Settings
         public static SiteSettings Get(Context context, DataRow dataRow)
         {
             return dataRow != null
-                ? dataRow["SiteSettings"]
-                    .ToString()
-                    .DeserializeSiteSettings(context: context) ??
-                        Get(
-                            context: context,
-                            referenceType: dataRow.String("ReferenceType"),
-                            siteId: dataRow.Long("SiteId"))
+                ? dataRow.String("SiteSettings").DeserializeSiteSettings(context: context)
+                    ?? Get(
+                        context: context,
+                        referenceType: dataRow.String("ReferenceType"),
+                        siteId: dataRow.Long("SiteId"))
                 : null;
         }
 
@@ -362,7 +360,6 @@ namespace Implem.Pleasanter.Libraries.Settings
             ss.Init(context: context);
             ss.SetLinkedSiteSettings(context: context);
             ss.SetPermissions(context: context, referenceId: referenceId);
-            ss.SetJoinedSsHash(context: context);
             if (setSiteIntegration) ss.SetSiteIntegration(context: context);
             return ss;
         }
@@ -398,7 +395,6 @@ namespace Implem.Pleasanter.Libraries.Settings
             ss.Init(context: context);
             ss.SetLinkedSiteSettings(context: context);
             ss.SetPermissions(context: context, referenceId: referenceId);
-            ss.SetJoinedSsHash(context: context);
             if (setSiteIntegration) ss.SetSiteIntegration(context: context);
             ss.SetChoiceHash(context: context, all: setAllChoices);
             return ss;
@@ -436,7 +432,6 @@ namespace Implem.Pleasanter.Libraries.Settings
             ss.Init(context: context);
             ss.SetLinkedSiteSettings(context: context);
             ss.SetPermissions(context: context, referenceId: referenceId);
-            ss.SetJoinedSsHash(context: context);
             if (setSiteIntegration) ss.SetSiteIntegration(context: context);
             ss.SetChoiceHash(context: context, all: setAllChoices);
             return ss;
@@ -474,7 +469,6 @@ namespace Implem.Pleasanter.Libraries.Settings
             ss.Init(context: context);
             ss.SetLinkedSiteSettings(context: context);
             ss.SetPermissions(context: context, referenceId: referenceId);
-            ss.SetJoinedSsHash(context: context);
             ss.SetChoiceHash(context: context, all: setAllChoices);
             return ss;
         }

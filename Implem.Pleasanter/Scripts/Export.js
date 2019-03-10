@@ -9,8 +9,12 @@
 }
 
 $p.export = function () {
-    location.href = $('.main-form').attr('action').replace('_action_', 'export') + '?id=' +
-        $('#ExportId').val();
+    var data = $p.getData($('.main-form'));
+    location.href = $('.main-form').attr('action').replace('_action_', 'export')
+        + '?id=' + $('#ExportId').val()
+        + '&GridCheckAll=' + data.GridCheckAll
+        + '&GridUnCheckedItems=' + data.GridUnCheckedItems
+        + '&GridCheckedItems=' + data.GridCheckedItems;
     $p.closeDialog($('#ExportSelectorDialog'));
 }
 

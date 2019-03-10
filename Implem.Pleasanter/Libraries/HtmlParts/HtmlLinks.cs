@@ -36,6 +36,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
         {
             var statements = new List<SqlStatement>();
             ss.Sources
+                .Values
                 .Where(currentSs => currentSs.ReferenceType == "Issues")
                 .ForEach(currentSs =>
                     statements.Add(SelectIssues(
@@ -50,6 +51,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                         id: id,
                         direction: "Source")));
             ss.Destinations
+                .Values
                 .Where(currentSs => currentSs.ReferenceType == "Issues")
                 .ForEach(currentSs =>
                     statements.Add(SelectIssues(
@@ -64,6 +66,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                         id: id,
                         direction: "Destination")));
             ss.Sources
+                .Values
                 .Where(currentSs => currentSs.ReferenceType == "Results")
                 .ForEach(currentSs =>
                     statements.Add(SelectResults(
@@ -78,6 +81,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                         id: id,
                         direction: "Source")));
             ss.Destinations
+                .Values
                 .Where(currentSs => currentSs.ReferenceType == "Results")
                 .ForEach(currentSs =>
                     statements.Add(SelectResults(
@@ -274,8 +278,20 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
 
         private static bool Contains(SiteSettings ss, DataSet dataSet)
         {
-            if (Contains(dataSet, ss.Destinations, "Destination")) return true;
-            if (Contains(dataSet, ss.Sources, "Source")) return true;
+            if (Contains(
+                dataSet: dataSet,
+                ssList: ss.Destinations.Values,
+                direction: "Destination"))
+            {
+                return true;
+            }
+            if (Contains(
+                dataSet: dataSet,
+                ssList: ss.Sources.Values,
+                direction: "Source"))
+            {
+                return true;
+            }
             return false;
         }
 
@@ -309,7 +325,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
         {
             return hb.Div(action: () =>
             {
-                ss.Destinations.ForEach(currentSs =>
+                ss.Destinations.Values.ForEach(currentSs =>
                 {
                     var dataTableName = DataTableName(
                         ss: currentSs,
@@ -328,7 +344,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                         direction: "Destination",
                         dataTableName: dataTableName);
                 });
-                ss.Sources.ForEach(currentSs =>
+                ss.Sources.Values.ForEach(currentSs =>
                 {
                     var dataTableName = DataTableName(
                         ss: currentSs,

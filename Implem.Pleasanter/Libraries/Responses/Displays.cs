@@ -1786,6 +1786,16 @@ namespace Implem.Pleasanter.Libraries.Responses
                 data: data);
         }
 
+        public static string ExportTypes(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "ExportTypes",
+                data: data);
+        }
+
         public static string Expression(
             Context context,
             params string[] data)
@@ -2483,6 +2493,16 @@ namespace Implem.Pleasanter.Libraries.Responses
             return Get(
                 context: context,
                 id: "JoeAccountCheck",
+                data: data);
+        }
+
+        public static string Json(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "Json",
                 data: data);
         }
 

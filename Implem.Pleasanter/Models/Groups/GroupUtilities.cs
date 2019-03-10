@@ -363,6 +363,17 @@ namespace Implem.Pleasanter.Models
             return sqlColumnCollection;
         }
 
+        private static SqlWhereCollection SelectedWhere(
+            Context context, SiteSettings ss)
+        {
+            var selector = new GridSelector(context: context);
+            return !selector.Nothing
+                ? Rds.GroupsWhere().GroupId_In(
+                    value: selector.Selected.Select(o => o.ToInt()),
+                    negative: selector.All)
+                : null;
+        }
+
         public static HtmlBuilder TdValue(
             this HtmlBuilder hb,
             Context context,
@@ -1058,7 +1069,6 @@ namespace Implem.Pleasanter.Models
                     where: Rds.GroupsWhere().GroupId(groupModel.GroupId));
                 var columns = ss.GetGridColumns(
                     context: context,
-                    view: view,
                     checkPermission: true);
                 return res
                     .ReplaceAll(
@@ -1567,7 +1577,9 @@ namespace Implem.Pleasanter.Models
                     where: Rds.GroupMembersWhere().UserId(userId).GroupId(raw: "[Groups].[GroupId]").Add(raw: "[Groups].[GroupId]>0")),
                     _operator: ">0",
                     _using: userId.HasValue),
-                orderBy: view.OrderBy(context: context, ss: ss, pageSize: pageSize),
+                orderBy: view.OrderBy(
+                    context: context,
+                    ss: ss),
                 offset: api.Offset,
                 pageSize: pageSize,
                 countRecord: true);

@@ -259,12 +259,12 @@ namespace Implem.Pleasanter.Libraries.Settings
         {
             return tableAlias.IsNullOrEmpty()
                 ? siteId
-                : tableAlias.Split('-').Last().Split_2nd('~').ToLong();
+                : GetSiteIdByTableAlias(tableAlias);
         }
 
         public static long GetSiteIdByTableAlias(string tableAlias)
         {
-            return tableAlias.Split('-').Last().Split_2nd('~').ToLong();
+            return tableAlias.Split('-').Last().Split('~').Last().ToLong();
         }
     }
 }

@@ -626,22 +626,22 @@ namespace Implem.Pleasanter.Libraries.Settings
         public SqlColumnCollection LinkedSqlColumnCollection(
             SiteSettings ss, SqlColumnCollection sql)
         {
-            var link = SiteSettings.Links?
-                .FirstOrDefault(o => o.ColumnName == Name);
-            if (link != null)
-            {
-                if (ss.JoinedSsHash?.ContainsKey(link.SiteId) == true)
+            SiteSettings.Links?
+                .Where(o => o.ColumnName == Name)
+                .ForEach(link =>
                 {
-                    sql.Add(
-                        sub: Rds.SelectItems(
-                            column: Rds.ItemsColumn().Title(),
-                            where: Rds.ItemsWhere()
-                                .SiteId(raw: link.SiteId.ToString())
-                                .ReferenceId(raw: "try_cast([{0}].[{1}] as bigint)"
-                                    .Params(TableName(), link.ColumnName))),
-                        _as: "Linked__" + ColumnName);
-                }
-            }
+                    if (ss.JoinedSsHash.Get(link.SiteId) != null)
+                    {
+                        sql.Add(
+                            sub: Rds.SelectItems(
+                                column: Rds.ItemsColumn().Title(),
+                                where: Rds.ItemsWhere()
+                                    .SiteId(raw: link.SiteId.ToString())
+                                    .ReferenceId(raw: "try_cast([{0}].[{1}] as bigint)"
+                                        .Params(TableName(), link.ColumnName))),
+                            _as: "Linked__" + ColumnName);
+                    }
+                });
             return sql;
         }
 

@@ -137,6 +137,7 @@ namespace Implem.Pleasanter.Libraries.Requests
                 var request = HttpContext.Current.Request;
                 FormStringRaw = HttpContext.Current.Request.Form.ToString();
                 FormString = HttpUtility.UrlDecode(FormStringRaw, System.Text.Encoding.UTF8);
+                HttpMethod = request.HttpMethod;
                 Ajax = new HttpRequestWrapper(request).IsAjaxRequest();
                 Mobile = request.Browser.IsMobileDevice;
                 RouteData = GetRouteData();
@@ -479,6 +480,13 @@ namespace Implem.Pleasanter.Libraries.Requests
             }
             var n = address.IndexOf(":");
             return (n > 0) ? address.Substring(0, n) : address;
+        }
+
+        public string RequestData(string name)
+        {
+            return HttpMethod == "GET"
+                ? QueryStrings.Data(name)
+                : Forms.Data(name);
         }
     }
 }

@@ -303,6 +303,17 @@ namespace Implem.Pleasanter.Models
             return sqlColumnCollection;
         }
 
+        private static SqlWhereCollection SelectedWhere(
+            Context context, SiteSettings ss)
+        {
+            var selector = new GridSelector(context: context);
+            return !selector.Nothing
+                ? Rds.UsersWhere().UserId_In(
+                    value: selector.Selected.Select(o => o.ToInt()),
+                    negative: selector.All)
+                : null;
+        }
+
         public static HtmlBuilder TdValue(
             this HtmlBuilder hb,
             Context context,
@@ -6167,11 +6178,6 @@ namespace Implem.Pleasanter.Models
                 case Error.Types.None: break;
                 default: return invalid.MessageJson(context: context);
             }
-            if(Parameters.Security.JoeAccountCheck 
-                && context.Forms.Data("Users_Password") == context.Forms.Data("Users_LoginId"))
-            {
-                return Error.Types.JoeAccountCheck.MessageJson(context: context);
-            }
             foreach (var policy in Parameters.Security.PasswordPolicies.Where(o => o.Enabled))
             {
                 if (!context.Forms.Data("Users_Password").RegexExists(policy.Regex))
@@ -6267,7 +6273,6 @@ namespace Implem.Pleasanter.Models
                     where: Rds.UsersWhere().UserId(userModel.UserId));
                 var columns = ss.GetGridColumns(
                     context: context,
-                    view: view,
                     checkPermission: true);
                 return res
                     .ReplaceAll(
@@ -6504,6 +6509,37 @@ namespace Implem.Pleasanter.Models
             {
                 return Messages.ResponseHasNotPermission(context: context).ToJson();
             }
+        }
+
+        private static int BulkDelete(
+            Context context,
+            SiteSettings ss,
+            SqlWhereCollection where)
+        {
+            var sub = Rds.SelectUsers(
+                column: Rds.UsersColumn().UserId(),
+                join: ss.Join(
+                    context: context,
+                    join: where),
+                where: where);
+            var statements = new List<SqlStatement>();
+            statements.OnBulkDeletingExtendedSqls(ss.SiteId);
+            statements.Add(Rds.DeleteItems(
+                where: Rds.ItemsWhere()
+                    .ReferenceId_In(sub: sub)));
+            statements.Add(Rds.DeleteBinaries(
+                where: Rds.BinariesWhere()
+                    .TenantId(context.TenantId)
+                    .ReferenceId_In(sub: sub)));
+            statements.Add(Rds.DeleteUsers(
+                where: where, 
+                countRecord: true));
+            statements.OnBulkDeletedExtendedSqls(ss.SiteId);
+            return Rds.ExecuteScalar_response(
+                context: context,
+                transactional: true,
+                statements: statements.ToArray())
+                    .Count.ToInt();
         }
 
         /// <summary>
@@ -8136,7 +8172,9 @@ namespace Implem.Pleasanter.Models
                         Rds.Depts_DeptName_WhereLike(),
                         Rds.Depts_Body_WhereLike()
                     }),
-                orderBy: view.OrderBy(context: context, ss: ss, pageSize: pageSize),
+                orderBy: view.OrderBy(
+                    context: context,
+                    ss: ss),
                 offset: api.Offset,
                 pageSize: pageSize,
                 countRecord: true);

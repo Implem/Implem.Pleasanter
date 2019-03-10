@@ -1187,8 +1187,7 @@ namespace Implem.Pleasanter.Libraries.Settings
         public SqlOrderByCollection OrderBy(
             Context context,
             SiteSettings ss,
-            SqlOrderByCollection orderBy = null,
-            int pageSize = 0)
+            SqlOrderByCollection orderBy = null)
         {
             orderBy = orderBy ?? new SqlOrderByCollection();
             if (ColumnSorterHash?.Any() == true)
@@ -1211,7 +1210,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                     }
                 });
             }
-            return pageSize > 0 && orderBy?.Any() != true
+            return orderBy?.Any() != true
                 ? new SqlOrderByCollection().Add(
                     tableName: ss.ReferenceType,
                     columnBracket: "[UpdatedTime]",

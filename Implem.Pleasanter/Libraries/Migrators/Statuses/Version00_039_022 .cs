@@ -32,14 +32,16 @@ namespace Implem.Pleasanter.Libraries.Migrators.Statuses
                     id: ss.Exports.Any()
                         ? ss.Exports.Max(o => o.Id) + 1
                         : 1,
+                    type: Export.Types.Csv,
                     name: exportSettingModel.Title.Value,
                     header: exportSettingModel.AddHeader,
                     columns: exportSettingModel.ExportColumns.Columns
                         .Where(o => o.Value)
                         .Select((o, i) => new ExportColumn(
                             context: context,
-                            ss: ss,
-                            columnName: o.Key,
+                            column: ss.GetColumn(
+                                context: context,
+                                columnName: o.Key),
                             id: i + 1))
                         .ToList()));
                 Rds.ExecuteNonQuery(

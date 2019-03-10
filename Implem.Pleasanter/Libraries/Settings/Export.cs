@@ -1,4 +1,5 @@
 ﻿using Implem.Pleasanter.Interfaces;
+using Implem.Pleasanter.Libraries.Requests;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,20 +8,34 @@ namespace Implem.Pleasanter.Libraries.Settings
     [Serializable]
     public class Export : ISettingListItem
     {
+        public enum Types : int
+        {
+            Csv = 0,
+            Json = 1
+        }
+
         public int Id { get; set; }
         public string Name;
         public bool? Header;
-        public Join Join;
         public List<ExportColumn> Columns;
+        public Types Type;
+        // compatibility Version 1.014
+        public Join Join;
 
         public Export()
         {
         }
 
-        public Export(int id, string name, bool header, List<ExportColumn> columns)
+        public Export(
+            int id,
+            string name,
+            Types type,
+            bool header,
+            List<ExportColumn> columns)
         {
             Id = id;
             Name = name;
+            Type = type;
             Header = header;
             Columns = new List<ExportColumn>();
             columns.ForEach(column =>
@@ -41,15 +56,31 @@ namespace Implem.Pleasanter.Libraries.Settings
             });
         }
 
+        public void SetColumns(Context context, SiteSettings ss)
+        {
+            Header = Header ?? true;
+            Columns.ForEach(exportColumn =>
+            {
+                var column = ss.GetColumn(
+                    context: context,
+                    columnName: exportColumn.ColumnName);
+                if (column != null)
+                {
+                    exportColumn.Column = column;
+                    exportColumn.SiteTitle = ss.GetJoinedSs(column.TableName()).Title;
+                }
+            });
+        }
+
         public void Update(
             string name,
+            Types type,
             bool header,
-            Join join,
             List<ExportColumn> columns)
         {
             Name = name;
+            Type = type;
             Header = header;
-            Join = join;
             Columns = columns;
         }
 
@@ -66,8 +97,8 @@ namespace Implem.Pleasanter.Libraries.Settings
             export.Id = Id;
             export.Name = Name;
             export.Header = Header == true ? null : Header;
-            export.Join = Join?.Any() == true ? Join : new Join(new List<Link>());
             export.Columns = new List<ExportColumn>();
+            export.Type = Type;
             Columns?.ForEach(column => export.Columns.Add(column.GetRecordingData()));
             return export;
         }
