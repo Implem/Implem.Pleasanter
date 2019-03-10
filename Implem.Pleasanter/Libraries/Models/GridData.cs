@@ -171,167 +171,6 @@ namespace Implem.Pleasanter.Libraries.Models
                 columnName: tableAlias + "Updator"));
         }
 
-        public HtmlBuilder TBody(
-            HtmlBuilder hb,
-            Context context,
-            SiteSettings ss,
-            IEnumerable<Column> columns,
-            bool checkAll)
-        {
-            var idColumn = Rds.IdColumn(ss.ReferenceType);
-            DataRows.ForEach(dataRow =>
-            {
-                var dataId = dataRow.Long(idColumn).ToString();
-                hb.Tr(
-                    attributes: new HtmlAttributes()
-                        .Class("grid-row")
-                        .DataId(dataId),
-                    action: () =>
-                    {
-                        hb.Td(action: () => hb
-                            .CheckBox(
-                                controlCss: "grid-check",
-                                _checked: checkAll,
-                                dataId: dataId));
-                        var tenants = new Dictionary<string, TenantModel>();
-                        var depts = new Dictionary<string, DeptModel>();
-                        var groups = new Dictionary<string, GroupModel>();
-                        var users = new Dictionary<string, UserModel>();
-                        var sites = new Dictionary<string, SiteModel>();
-                        var issues = new Dictionary<string, IssueModel>();
-                        var results = new Dictionary<string, ResultModel>();
-                        var wikis = new Dictionary<string, WikiModel>();
-                        columns.ForEach(column =>
-                        {
-                            var key = column.TableName();
-                            switch (column.SiteSettings?.ReferenceType)
-                            {
-                                case "Tenants":
-                                    if (!tenants.ContainsKey(key))
-                                    {
-                                        tenants.Add(key, new TenantModel(
-                                            context: context,
-                                            ss: column.SiteSettings,
-                                            dataRow: dataRow,
-                                            tableAlias: column.TableAlias));
-                                    }
-                                    hb.TdValue(
-                                        context: context,
-                                        ss: column.SiteSettings,
-                                        column: column,
-                                        tenantModel: tenants.Get(key));
-                                    break;
-                                case "Depts":
-                                    if (!depts.ContainsKey(key))
-                                    {
-                                        depts.Add(key, new DeptModel(
-                                            context: context,
-                                            ss: column.SiteSettings,
-                                            dataRow: dataRow,
-                                            tableAlias: column.TableAlias));
-                                    }
-                                    hb.TdValue(
-                                        context: context,
-                                        ss: column.SiteSettings,
-                                        column: column,
-                                        deptModel: depts.Get(key));
-                                    break;
-                                case "Groups":
-                                    if (!groups.ContainsKey(key))
-                                    {
-                                        groups.Add(key, new GroupModel(
-                                            context: context,
-                                            ss: column.SiteSettings,
-                                            dataRow: dataRow,
-                                            tableAlias: column.TableAlias));
-                                    }
-                                    hb.TdValue(
-                                        context: context,
-                                        ss: column.SiteSettings,
-                                        column: column,
-                                        groupModel: groups.Get(key));
-                                    break;
-                                case "Users":
-                                    if (!users.ContainsKey(key))
-                                    {
-                                        users.Add(key, new UserModel(
-                                            context: context,
-                                            ss: column.SiteSettings,
-                                            dataRow: dataRow,
-                                            tableAlias: column.TableAlias));
-                                    }
-                                    hb.TdValue(
-                                        context: context,
-                                        ss: column.SiteSettings,
-                                        column: column,
-                                        userModel: users.Get(key));
-                                    break;
-                                case "Sites":
-                                    if (!sites.ContainsKey(key))
-                                    {
-                                        sites.Add(key, new SiteModel(
-                                            context: context,
-                                            dataRow: dataRow,
-                                            tableAlias: column.TableAlias));
-                                    }
-                                    hb.TdValue(
-                                        context: context,
-                                        ss: column.SiteSettings,
-                                        column: column,
-                                        siteModel: sites.Get(key));
-                                    break;
-                                case "Issues":
-                                    if (!issues.ContainsKey(key))
-                                    {
-                                        issues.Add(key, new IssueModel(
-                                            context: context,
-                                            ss: column.SiteSettings,
-                                            dataRow: dataRow,
-                                            tableAlias: column.TableAlias));
-                                    }
-                                    hb.TdValue(
-                                        context: context,
-                                        ss: column.SiteSettings,
-                                        column: column,
-                                        issueModel: issues.Get(key));
-                                    break;
-                                case "Results":
-                                    if (!results.ContainsKey(key))
-                                    {
-                                        results.Add(key, new ResultModel(
-                                            context: context,
-                                            ss: column.SiteSettings,
-                                            dataRow: dataRow,
-                                            tableAlias: column.TableAlias));
-                                    }
-                                    hb.TdValue(
-                                        context: context,
-                                        ss: column.SiteSettings,
-                                        column: column,
-                                        resultModel: results.Get(key));
-                                    break;
-                                case "Wikis":
-                                    if (!wikis.ContainsKey(key))
-                                    {
-                                        wikis.Add(key, new WikiModel(
-                                            context: context,
-                                            ss: column.SiteSettings,
-                                            dataRow: dataRow,
-                                            tableAlias: column.TableAlias));
-                                    }
-                                    hb.TdValue(
-                                        context: context,
-                                        ss: column.SiteSettings,
-                                        column: column,
-                                        wikiModel: wikis.Get(key));
-                                    break;
-                            }
-                        });
-                    });
-            });
-            return hb;
-        }
-
         public System.Text.StringBuilder Csv(
             Context context,
             SiteSettings ss,
@@ -547,6 +386,171 @@ namespace Implem.Pleasanter.Libraries.Models
                                 tableAlias: tableAlias));
                     });
             });
+        }
+
+        public HtmlBuilder TBody(
+            HtmlBuilder hb,
+            Context context,
+            SiteSettings ss,
+            IEnumerable<Column> columns,
+            bool checkAll,
+            bool checkRow = true)
+        {
+            var idColumn = Rds.IdColumn(ss.ReferenceType);
+            DataRows.ForEach(dataRow =>
+            {
+                var dataId = dataRow.Long(idColumn).ToString();
+                hb.Tr(
+                    attributes: new HtmlAttributes()
+                        .Class("grid-row")
+                        .DataId(dataId),
+                    action: () =>
+                    {
+                        if (checkRow)
+                        {
+                            hb.Td(action: () => hb
+                                .CheckBox(
+                                    controlCss: "grid-check",
+                                    _checked: checkAll,
+                                    dataId: dataId));
+                        }
+                        var tenants = new Dictionary<string, TenantModel>();
+                        var depts = new Dictionary<string, DeptModel>();
+                        var groups = new Dictionary<string, GroupModel>();
+                        var users = new Dictionary<string, UserModel>();
+                        var sites = new Dictionary<string, SiteModel>();
+                        var issues = new Dictionary<string, IssueModel>();
+                        var results = new Dictionary<string, ResultModel>();
+                        var wikis = new Dictionary<string, WikiModel>();
+                        columns.ForEach(column =>
+                        {
+                            var key = column.TableName();
+                            switch (column.SiteSettings?.ReferenceType)
+                            {
+                                case "Tenants":
+                                    if (!tenants.ContainsKey(key))
+                                    {
+                                        tenants.Add(key, new TenantModel(
+                                            context: context,
+                                            ss: column.SiteSettings,
+                                            dataRow: dataRow,
+                                            tableAlias: column.TableAlias));
+                                    }
+                                    hb.TdValue(
+                                        context: context,
+                                        ss: column.SiteSettings,
+                                        column: column,
+                                        tenantModel: tenants.Get(key));
+                                    break;
+                                case "Depts":
+                                    if (!depts.ContainsKey(key))
+                                    {
+                                        depts.Add(key, new DeptModel(
+                                            context: context,
+                                            ss: column.SiteSettings,
+                                            dataRow: dataRow,
+                                            tableAlias: column.TableAlias));
+                                    }
+                                    hb.TdValue(
+                                        context: context,
+                                        ss: column.SiteSettings,
+                                        column: column,
+                                        deptModel: depts.Get(key));
+                                    break;
+                                case "Groups":
+                                    if (!groups.ContainsKey(key))
+                                    {
+                                        groups.Add(key, new GroupModel(
+                                            context: context,
+                                            ss: column.SiteSettings,
+                                            dataRow: dataRow,
+                                            tableAlias: column.TableAlias));
+                                    }
+                                    hb.TdValue(
+                                        context: context,
+                                        ss: column.SiteSettings,
+                                        column: column,
+                                        groupModel: groups.Get(key));
+                                    break;
+                                case "Users":
+                                    if (!users.ContainsKey(key))
+                                    {
+                                        users.Add(key, new UserModel(
+                                            context: context,
+                                            ss: column.SiteSettings,
+                                            dataRow: dataRow,
+                                            tableAlias: column.TableAlias));
+                                    }
+                                    hb.TdValue(
+                                        context: context,
+                                        ss: column.SiteSettings,
+                                        column: column,
+                                        userModel: users.Get(key));
+                                    break;
+                                case "Sites":
+                                    if (!sites.ContainsKey(key))
+                                    {
+                                        sites.Add(key, new SiteModel(
+                                            context: context,
+                                            dataRow: dataRow,
+                                            tableAlias: column.TableAlias));
+                                    }
+                                    hb.TdValue(
+                                        context: context,
+                                        ss: column.SiteSettings,
+                                        column: column,
+                                        siteModel: sites.Get(key));
+                                    break;
+                                case "Issues":
+                                    if (!issues.ContainsKey(key))
+                                    {
+                                        issues.Add(key, new IssueModel(
+                                            context: context,
+                                            ss: column.SiteSettings,
+                                            dataRow: dataRow,
+                                            tableAlias: column.TableAlias));
+                                    }
+                                    hb.TdValue(
+                                        context: context,
+                                        ss: column.SiteSettings,
+                                        column: column,
+                                        issueModel: issues.Get(key));
+                                    break;
+                                case "Results":
+                                    if (!results.ContainsKey(key))
+                                    {
+                                        results.Add(key, new ResultModel(
+                                            context: context,
+                                            ss: column.SiteSettings,
+                                            dataRow: dataRow,
+                                            tableAlias: column.TableAlias));
+                                    }
+                                    hb.TdValue(
+                                        context: context,
+                                        ss: column.SiteSettings,
+                                        column: column,
+                                        resultModel: results.Get(key));
+                                    break;
+                                case "Wikis":
+                                    if (!wikis.ContainsKey(key))
+                                    {
+                                        wikis.Add(key, new WikiModel(
+                                            context: context,
+                                            ss: column.SiteSettings,
+                                            dataRow: dataRow,
+                                            tableAlias: column.TableAlias));
+                                    }
+                                    hb.TdValue(
+                                        context: context,
+                                        ss: column.SiteSettings,
+                                        column: column,
+                                        wikiModel: wikis.Get(key));
+                                    break;
+                            }
+                        });
+                    });
+            });
+            return hb;
         }
     }
 }
