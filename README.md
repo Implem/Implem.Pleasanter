@@ -73,5 +73,6 @@ https://pleasanter.azurewebsites.net
 [株式会社インプリム](https://implem.co.jp)
 
 ## HAYATO
+キャラクター  
 ![HAYATO](https://user-images.githubusercontent.com/12204265/54112024-9d4d9a00-4428-11e9-87a0-1423e403f300.png)
 
