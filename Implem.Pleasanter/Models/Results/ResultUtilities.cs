@@ -9122,7 +9122,10 @@ namespace Implem.Pleasanter.Models
             if (groupByX?.TypeName != "datetime")
             {
                 var column = Rds.ResultsColumn()
-                    .Add(ss, groupByX)
+                    .Add(
+                        context: context,
+                        ss: ss,
+                        column: groupByX)
                     .CrosstabColumns(
                         context: context,
                         ss: ss,
@@ -9216,9 +9219,11 @@ namespace Implem.Pleasanter.Models
             {
                 return self
                     .Add(
+                        context: context,
                         ss: ss,
                         column: groupByY)
                     .Add(
+                        context: context,
                         ss: ss,
                         column: value,
                         _as: "Value",
@@ -9228,6 +9233,7 @@ namespace Implem.Pleasanter.Models
             {
                 columns.ForEach(column =>
                     self.Add(
+                        context: context,
                         ss: ss,
                         column: column,
                         _as: column.ColumnName,
@@ -9378,8 +9384,14 @@ namespace Implem.Pleasanter.Models
                     .ResultId(_as: "Id")
                     .Ver()
                     .UpdatedTime()
-                    .Add(ss: ss, column: groupBy)
-                    .Add(ss: ss, column: value);
+                    .Add(
+                        context: context,
+                        ss: ss,
+                        column: groupBy)
+                    .Add(
+                        context: context,
+                        ss: ss,
+                        column: value);
                 var where = view.Where(context: context, ss: ss);
                 var dataRows = Rds.ExecuteTable(
                     context: context,
@@ -9567,9 +9579,18 @@ namespace Implem.Pleasanter.Models
             var column = Rds.ResultsColumn()
                 .ResultId()
                 .ItemTitle(ss.ReferenceType, Rds.IdColumn(ss.ReferenceType))
-                .Add(ss: ss, column: groupByX)
-                .Add(ss: ss, column: groupByY)
-                .Add(ss: ss, column: value);
+                .Add(
+                    context: context,
+                    ss: ss,
+                    column: groupByX)
+                .Add(
+                    context: context,
+                    ss: ss,
+                    column: groupByY)
+                .Add(
+                    context: context,
+                    ss: ss,
+                    column: value);
             var where = view.Where(context: context, ss: ss);
             return Rds.ExecuteTable(
                 context: context,

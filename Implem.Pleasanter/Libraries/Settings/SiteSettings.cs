@@ -232,6 +232,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                             .InheritPermission()
                             .SiteSettings(),
                         where: Rds.SitesWhere()
+                            .TenantId(context.TenantId)
                             .SiteId_In(sub: Rds.SelectLinks(
                                 column: Rds.LinksColumn().DestinationId(),
                                 where: Rds.LinksWhere().SourceId(SiteId)))
@@ -247,6 +248,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                             .InheritPermission()
                             .SiteSettings(),
                         where: Rds.SitesWhere()
+                            .TenantId(context.TenantId)
                             .SiteId_In(sub: Rds.SelectLinks(
                                 column: Rds.LinksColumn().SourceId(),
                                 where: Rds.LinksWhere().DestinationId(SiteId)))
@@ -371,27 +373,22 @@ namespace Implem.Pleasanter.Libraries.Settings
             targets.AddRange(Sources
                 ?.Values
                 .Select(o => o.InheritPermission) ?? new List<long>());
-            var permissions = Permissions.Get(context: context, targets: targets.Distinct());
             SetPermissions(
                 context: context,
                 ss: this,
-                permissions: permissions,
                 referenceId: referenceId);
             Destinations?.Values.ForEach(ss =>
                 SetPermissions(
                     context: context,
-                    ss: ss,
-                    permissions: permissions));
+                    ss: ss));
             Sources?.Values.ForEach(ss => SetPermissions(
                 context: context,
-                ss: ss,
-                permissions: permissions));
+                ss: ss));
         }
 
         private void SetPermissions(
             Context context,
             SiteSettings ss,
-            Dictionary<long, Permissions.Types> permissions,
             long referenceId = 0)
         {
             if (context.Publish)
@@ -401,13 +398,13 @@ namespace Implem.Pleasanter.Libraries.Settings
             }
             else if (context.Controller != "publishes")
             {
-                if (permissions.ContainsKey(ss.InheritPermission))
+                if (context.PermissionHash?.ContainsKey(ss.InheritPermission) == true)
                 {
-                    ss.PermissionType = permissions[ss.InheritPermission];
+                    ss.PermissionType = context.PermissionHash[ss.InheritPermission];
                 }
-                if (referenceId != 0 && permissions.ContainsKey(referenceId))
+                if (referenceId != 0 && context.PermissionHash?.ContainsKey(referenceId) == true)
                 {
-                    ss.ItemPermissionType = permissions[referenceId];
+                    ss.ItemPermissionType = context.PermissionHash[referenceId];
                 }
             }
         }

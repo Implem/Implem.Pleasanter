@@ -604,7 +604,7 @@ namespace Implem.Pleasanter.Libraries.Settings
             return DefaultInput;
         }
 
-        public SqlColumnCollection SqlColumnCollection(SiteSettings ss)
+        public SqlColumnCollection SqlColumnCollection(Context context, SiteSettings ss)
         {
             var sql = new SqlColumnCollection();
             var tableName = Strings.CoalesceEmpty(JoinTableName, SiteSettings.ReferenceType);
@@ -619,18 +619,21 @@ namespace Implem.Pleasanter.Libraries.Settings
                 _as: Joined
                     ? ColumnName
                     : null);
-            LinkedSqlColumnCollection(ss, sql);
+            LinkedSqlColumnCollection(
+                context: context,
+                ss: ss,
+                sql: sql);
             return sql;
         }
 
         public SqlColumnCollection LinkedSqlColumnCollection(
-            SiteSettings ss, SqlColumnCollection sql)
+            Context context, SiteSettings ss, SqlColumnCollection sql)
         {
             SiteSettings.Links?
                 .Where(o => o.ColumnName == Name)
                 .ForEach(link =>
                 {
-                    if (ss.JoinedSsHash.Get(link.SiteId) != null)
+                    if (context.PermissionHash?.ContainsKey(link.SiteId) == true)
                     {
                         sql.Add(
                             sub: Rds.SelectItems(

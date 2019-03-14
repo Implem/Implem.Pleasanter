@@ -55,10 +55,13 @@ namespace Implem.Pleasanter.Libraries.Models
             int pageSize = 0,
             bool history = false)
         {
-            column = column ?? SqlColumnCollection(ss, GridColumns(
-                context: context,
-                view: view,
-                ss: ss));
+            column = column ?? SqlColumnCollection(
+                context: context, 
+                ss: ss,
+                columns: GridColumns(
+                    context: context,
+                    view: view,
+                    ss: ss));
             where = view.Where(
                 context: context,
                 ss: ss,
@@ -98,10 +101,12 @@ namespace Implem.Pleasanter.Libraries.Models
         }
 
         private static SqlColumnCollection SqlColumnCollection(
-            SiteSettings ss, IEnumerable<Column> columns)
+            Context context, SiteSettings ss, IEnumerable<Column> columns)
         {
             return new SqlColumnCollection(columns
-                .SelectMany(column => column.SqlColumnCollection(ss))
+                .SelectMany(column => column.SqlColumnCollection(
+                    context: context,
+                    ss: ss))
                 .GroupBy(o => o.ColumnBracket + o.As)
                 .Select(o => o.First())
                 .ToArray());
