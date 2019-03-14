@@ -84,18 +84,23 @@ namespace Implem.Pleasanter.Libraries.Security
             Update
         }
 
-        public static Dictionary<long, Types> Get(Context context, IEnumerable<long> targets)
+        public static Dictionary<long, Types> Get(Context context)
         {
             return Hash(
                 dataRows: Rds.ExecuteTable(
                     context: context,
-                    statements: Rds.SelectPermissions(
+                    statements: Rds.SelectSites(
                         distinct: true,
-                        column: Rds.PermissionsColumn()
-                            .ReferenceId()
-                            .PermissionType(),
-                        where: Rds.PermissionsWhere()
-                            .ReferenceId_In(targets.Where(o => o != 0))
+                        column: Rds.SitesColumn()
+                            .SiteId(_as: "ReferenceId")
+                            .Permissions_PermissionType(),
+                        join: Rds.SitesJoinDefault()
+                            .Add(new SqlJoin(
+                                tableBracket: "[Permissions]",
+                                joinType: SqlJoin.JoinTypes.Inner,
+                                joinExpression: "[Permissions].[ReferenceId]=[Sites].[InheritPermission]")),
+                        where: Rds.SitesWhere()
+                            .TenantId(context.TenantId)
                             .Or(Rds.PermissionsWhere()
                                 .GroupId_In(sub: Rds.SelectGroupMembers(
                                     column: Rds.GroupMembersColumn().GroupId(),
@@ -234,23 +239,20 @@ namespace Implem.Pleasanter.Libraries.Security
         private static Dictionary<long, Types> Hash(EnumerableRowCollection<DataRow> dataRows)
         {
             var hash = dataRows
-                .Select(o => o["ReferenceId"].ToLong())
+                .Select(o => o.Long("ReferenceId"))
                 .Distinct()
                 .ToDictionary(o => o, o => Types.NotSet);
             dataRows.ForEach(dataRow =>
             {
-                var key = dataRow["ReferenceId"].ToLong();
-                hash[key] |= (Types)dataRow["PermissionType"].ToLong();
+                var key = dataRow.Long("ReferenceId");
+                hash[key] |= (Types)dataRow.Long("PermissionType");
             });
             return hash;
         }
 
         public static Types Get(Context context, long siteId)
         {
-            var data = Get(context: context, targets: siteId.ToSingleList());
-            return data.Count() == 1
-                ? data.First().Value
-                : Types.NotSet;
+            return context.PermissionHash.Get(siteId);
         }
 
         public static bool Can(Context context, long siteId, Types type)

@@ -49,6 +49,7 @@ namespace Implem.Pleasanter.Libraries.Requests
         public int TenantId;
         public long SiteId;
         public long Id;
+        public Dictionary<long, Permissions.Types> PermissionHash;
         public string Guid;
         public TenantModel.LogoTypes LogoType;
         public string TenantTitle;
@@ -103,6 +104,7 @@ namespace Implem.Pleasanter.Libraries.Requests
                 : null;
             SetTenantProperties();
             SetPublish();
+            SetPermissions();
             SetTenantCaches();
         }
 
@@ -127,6 +129,7 @@ namespace Implem.Pleasanter.Libraries.Requests
             if (user) SetUserProperties(sessionStatus, setData);
             SetTenantProperties();
             if (request) SetPublish();
+            if (request) SetPermissions();
             SetTenantCaches();
         }
 
@@ -450,6 +453,11 @@ namespace Implem.Pleasanter.Libraries.Requests
             return types.Contains(language)
                 ? language
                 : Parameters.Service?.DefaultLanguage;
+        }
+
+        private void SetPermissions()
+        {
+            PermissionHash = Permissions.Get(context: this);
         }
 
         public void SetTenantCaches()

@@ -206,13 +206,22 @@ namespace Implem.Pleasanter.Libraries.Settings
         {
             var orderByColumn = ss.GetColumn(context: context, columnName: Column);
             var column = new SqlColumnCollection()
-                .Add(ss, ss.GetColumn(
+                .Add(
                     context: context,
-                    columnName: Rds.IdColumn(ss.ReferenceType)))
-                .Add(ss, orderByColumn)
+                    ss: ss,
+                    column: ss.GetColumn(
+                        context: context,
+                        columnName: Rds.IdColumn(ss.ReferenceType)))
+                .Add(
+                    context: context,
+                    ss: ss,
+                    column: orderByColumn)
                 .ItemTitle(ss.ReferenceType, Rds.IdColumn(ss.ReferenceType));
             var columns = ss.IncludedColumns(Line).ToList();
-            columns.ForEach(o => column.Add(ss, o));
+            columns.ForEach(o => column.Add(
+                context: context,
+                ss: ss,
+                column: o));
             if (columns.Any(o => o.ColumnName == "Status"))
             {
                 columns.Add(ss.GetColumn(context: context, columnName: "Status"));
