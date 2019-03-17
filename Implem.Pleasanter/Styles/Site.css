@@ -148,7 +148,7 @@ td{
 }
 
 pre{
-    line-height:1.2em;
+    line-height:1.5em;
     font-family:Terminal;
     word-wrap:break-word;
     word-break:break-all;
@@ -1851,7 +1851,7 @@ pre{
 
 .md{
     float:left;
-    line-height:1.2em;
+    line-height:1.5em;
     font-family:Terminal;
     word-wrap:break-word;
     word-break:break-all;
@@ -2781,7 +2781,7 @@ h3.title-header{
 }
 
 .ui-widget textarea{
-    line-height:1.2em;
+    line-height:1.5em;
     font-family:Terminal;
 }
 
