@@ -666,15 +666,18 @@ namespace Implem.Pleasanter.Models
         /// </summary>
         public void Update(Context context, bool writeSqlToDebugLog)
         {
-            Rds.ExecuteNonQuery(
-                context: context,
-                transactional: true,
-                writeSqlToDebugLog: writeSqlToDebugLog,
-                statements: Rds.UpdateSysLogs(
-                    where: Rds.SysLogsWhereDefault(this),
-                    param: Rds.SysLogsParamDefault(
-                        context: context,
-                        sysLogModel: this)));
+            if (Parameters.SysLog.NotLoggingIp?.Contains(UserHostAddress) != true)
+            {
+                Rds.ExecuteNonQuery(
+                    context: context,
+                    transactional: true,
+                    writeSqlToDebugLog: writeSqlToDebugLog,
+                    statements: Rds.UpdateSysLogs(
+                        where: Rds.SysLogsWhereDefault(this),
+                        param: Rds.SysLogsParamDefault(
+                            context: context,
+                            sysLogModel: this)));
+            }
         }
 
         /// <summary>
@@ -745,15 +748,18 @@ namespace Implem.Pleasanter.Models
         {
             StartTime = DateTime.Now;
             SetProperties(context: context);
-            SysLogId = Rds.ExecuteScalar_response(
-                context: context,
-                selectIdentity: true,
-                statements: Rds.InsertSysLogs(
-                    setIdentity: true,
-                    param: Rds.SysLogsParamDefault(
-                        context: context,
-                        sysLogModel: this)))
-                            .Identity.ToLong();
+            if (Parameters.SysLog.NotLoggingIp?.Contains(UserHostAddress) != true)
+            {
+                SysLogId = Rds.ExecuteScalar_response(
+                    context: context,
+                    selectIdentity: true,
+                    statements: Rds.InsertSysLogs(
+                        setIdentity: true,
+                        param: Rds.SysLogsParamDefault(
+                            context: context,
+                            sysLogModel: this)))
+                                .Identity.ToLong();
+            }
         }
 
         /// <summary>
