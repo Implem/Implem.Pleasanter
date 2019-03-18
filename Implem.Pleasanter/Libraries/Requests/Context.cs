@@ -312,11 +312,11 @@ namespace Implem.Pleasanter.Libraries.Requests
             request.QueryString.AllKeys
                 .Where(o => o != null)
                 .ForEach(key =>
-                    QueryStrings.Add(key, request.QueryString[key]));
+                    QueryStrings.AddIfNotConainsKey(key, request.QueryString[key]));
             request.Form.AllKeys
                 .Where(o => o != null)
                 .ForEach(key =>
-                    Forms.Add(key, request.Form[key]));
+                    Forms.AddIfNotConainsKey(key, request.Form[key]));
         }
 
         private void SetPostedFiles(HttpPostedFileBase[] files)
