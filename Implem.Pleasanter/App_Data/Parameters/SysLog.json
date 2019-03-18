@@ -1,3 +1,4 @@
 ﻿{
-    "RetentionPeriod": 90
+    "RetentionPeriod": 90,
+    "NotLoggingIp": null
 }
