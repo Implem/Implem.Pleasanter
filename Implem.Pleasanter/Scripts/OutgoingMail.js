@@ -1,7 +1,9 @@
 ﻿$p.openOutgoingMailDialog = function ($control) {
     var error = 0;
     if ($('#OutgoingMails_Title').length === 0) {
-        $p.getData($('#OutgoingMailsForm')).ItemUrl = '/' + $('#Controller').val() + '/' + $('#Id').val();
+        var data = $p.getData($('#OutgoingMailsForm'));
+        data.Controller = $('#Controller').val();
+        data.Id = $('#Id').val();
         error = $p.syncSend($control, 'OutgoingMailsForm');
     }
     if (error === 0) {
@@ -28,7 +30,10 @@ $p.openOutgoingMailReplyDialog = function ($control) {
 }
 
 $p.sendMail = function ($control) {
-    $p.getData($('#OutgoingMailForm')).Ver = $('._Ver')[0].innerHTML;
+    var data = $p.getData($('#OutgoingMailForm'));
+    data.Ver = $('._Ver')[0].innerHTML;
+    data.Controller = $('#Controller').val();
+    data.Id = $('#Id').val();
     $p.send($control);
 }
 

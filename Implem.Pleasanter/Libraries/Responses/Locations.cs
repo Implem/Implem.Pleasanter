@@ -166,9 +166,10 @@ namespace Implem.Pleasanter.Libraries.Responses
 
         public static string OutGoingMailAbsoluteUri(Context context)
         {
-            var itemUrl = context.Forms.Get("ItemUrl");
+            var controller = context.Forms.Get("Controller");
+            var id = context.Forms.Get("Id");
             return Parameters.Service.AbsoluteUri != null
-                ? $"{Parameters.Service.AbsoluteUri}{itemUrl}"
+                ? $"{Parameters.Service.AbsoluteUri}/{controller}/{id}"
                 : context.AbsoluteUri.Substring(0, context.AbsoluteUri.IndexOf("/outgoingmails"));
         }
 
