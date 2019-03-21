@@ -6177,20 +6177,11 @@ namespace Implem.Pleasanter.Models
                     }
                     break;
                 case "Extension":
-                    var user = Extension.Authenticate(
+                    ret = Extension.Authenticate(
                         context: context,
                         loginId: LoginId,
-                        password: Password);
-                    ret = user != null;
-                    if (ret)
-                    {
-                        Get(
-                            context: context,
-                            ss: SiteSettingsUtilities.UsersSiteSettings(context: context),
-                            where: Rds.UsersWhere()
-                                .TenantId(user.TenantId)
-                                .UserId(user.Id));
-                    }
+                        password: Password,
+                        userModel: this);
                     break;
                 case "SAML":
                     ret = GetByCredentials(
