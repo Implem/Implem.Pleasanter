@@ -10,7 +10,6 @@ using Implem.Pleasanter.Libraries.Settings;
 using Implem.Pleasanter.Models;
 using System;
 using System.Net;
-
 namespace Implem.Pleasanter.Libraries.HtmlParts
 {
     public static class HtmlTemplates
