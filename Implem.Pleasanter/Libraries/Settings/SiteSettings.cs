@@ -272,7 +272,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                     joinedSsHash: joinedSsHash,
                     joinStacks: JoinStacks,
                     links: Links,
-                    previously: previously ?? SiteId.ToSingleList());
+                    previously: previously);
             }
             if (sources)
             {
@@ -283,7 +283,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                     joinedSsHash: joinedSsHash,
                     joinStacks: JoinStacks,
                     links: Links,
-                    previously: previously ?? SiteId.ToSingleList());
+                    previously: previously);
             }
             if (destinations && sources)
             {
@@ -302,7 +302,8 @@ namespace Implem.Pleasanter.Libraries.Settings
         {
             var hash = new Dictionary<long, SiteSettings>();
             dataSet.Tables[direction].AsEnumerable()
-                .Where(dataRow => !previously.Contains(dataRow.Long("SiteId")))
+                .Where(dataRow => previously?.Contains(dataRow.Long("SiteId")) != true)
+                .ToList()
                 .ForEach(dataRow =>
                 {
                     var ss = SiteSettingsUtilities.Get(context: context, dataRow: dataRow);
@@ -312,6 +313,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                     ss.ParentId = dataRow.Long("ParentId");
                     ss.InheritPermission = dataRow.Long("InheritPermission");
                     ss.Linked = true;
+                    if (previously == null) previously = new List<long>();
                     previously.Add(ss.SiteId);
                     switch (direction)
                     {
