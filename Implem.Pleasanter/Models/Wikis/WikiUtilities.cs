@@ -344,6 +344,7 @@ namespace Implem.Pleasanter.Models
                     title: wikiModel.MethodType == BaseModel.MethodTypes.New
                         ? Displays.New(context: context)
                         : wikiModel.Title.DisplayValue,
+                    body: wikiModel.Body,
                     useTitle: ss.TitleColumns?.Any(o => ss.EditorColumns.Contains(o)) == true,
                     userScript: ss.EditorScripts(
                         context: context, methodType: wikiModel.MethodType),

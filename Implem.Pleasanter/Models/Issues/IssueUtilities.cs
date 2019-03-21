@@ -3652,6 +3652,7 @@ namespace Implem.Pleasanter.Models
                     title: issueModel.MethodType == BaseModel.MethodTypes.New
                         ? Displays.New(context: context)
                         : issueModel.Title.DisplayValue,
+                    body: issueModel.Body,
                     useTitle: ss.TitleColumns?.Any(o => ss.EditorColumns.Contains(o)) == true,
                     userScript: ss.EditorScripts(
                         context: context, methodType: issueModel.MethodType),
