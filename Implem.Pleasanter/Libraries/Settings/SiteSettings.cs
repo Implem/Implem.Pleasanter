@@ -2573,7 +2573,6 @@ namespace Implem.Pleasanter.Libraries.Settings
                     all: all,
                     searchIndexes: null)
                 : null;
-            SetUseSearch(context: context, searchSiteIdList: searchSiteIdList);
             SetChoiceHash(
                 context: context,
                 columnName: null,
@@ -2699,17 +2698,6 @@ namespace Implem.Pleasanter.Libraries.Settings
                 ?.Values
                 .SelectMany(o => o.Links.Select(p => p.SiteId)) ?? new List<long>());
             return siteIdList.Distinct().ToList();
-        }
-
-        private void SetUseSearch(Context context, List<long> searchSiteIdList)
-        {
-            searchSiteIdList
-                .ForEach(siteId =>
-                    Links
-                        .Where(o => o.SiteId == siteId)
-                        .Select(o => GetColumn(context: context, columnName: o.ColumnName))
-                        .ForEach(column =>
-                            column.UseSearch = true));
         }
 
         private static List<long> SearchSiteIdList(Context context, List<long> siteIdList)

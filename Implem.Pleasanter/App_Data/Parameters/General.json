@@ -58,7 +58,7 @@
     "ImageSizeThumbnail": 50,
     "ImageSizeIcon": 26,
     "ImageSizeLogo": 32,
-    "DropDownSearchPageSize": 100,
+    "DropDownSearchPageSize": 500,
     "SwitchTargetsLimit": 500,
     "SeparateMin": 2,
     "SeparateMax": 10,
