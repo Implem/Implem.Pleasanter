@@ -9,6 +9,8 @@ using Implem.Pleasanter.Libraries.Responses;
 using Implem.Pleasanter.Libraries.Settings;
 using Implem.Pleasanter.Models;
 using System;
+using System.Net;
+
 namespace Implem.Pleasanter.Libraries.HtmlParts
 {
     public static class HtmlTemplates
@@ -25,6 +27,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             string referenceType = null,
             string siteReferenceType = null,
             string title = null,
+            string body = null,
             bool useBreadcrumb = true,
             bool useTitle = true,
             bool useSearch = true,
@@ -34,30 +37,44 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             string userStyle = null,
             Action action = null)
         {
-            return hb.Container(context: context, action: () => hb
-                .MainContainer(
-                    context: context,
-                    ss: ss,
-                    view: view,
-                    verType: verType,
-                    methodType: methodType,
-                    siteId: siteId,
-                    parentId: parentId,
-                    referenceType: referenceType,
-                    siteReferenceType: siteReferenceType,
-                    title: title,
-                    useBreadcrumb: useBreadcrumb,
-                    useTitle: useTitle,
-                    useSearch: useSearch,
-                    useNavigationMenu: useNavigationMenu,
-                    action: action)
-                .HiddenData(context: context)
-                .VideoDialog(context: context, ss: ss)
-                .Styles(context: context, ss: ss, userStyle: userStyle)
-                .Scripts(context: context, ss: ss, script: script, userScript: userScript));
+            return hb.Container(
+                context: context,
+                body: body,
+                action: () => hb
+                    .MainContainer(
+                        context: context,
+                        ss: ss,
+                        view: view,
+                        verType: verType,
+                        methodType: methodType,
+                        siteId: siteId,
+                        parentId: parentId,
+                        referenceType: referenceType,
+                        siteReferenceType: siteReferenceType,
+                        title: title,
+                        useBreadcrumb: useBreadcrumb,
+                        useTitle: useTitle,
+                        useSearch: useSearch,
+                        useNavigationMenu: useNavigationMenu,
+                        action: action)
+                    .HiddenData(context: context)
+                    .VideoDialog(context: context, ss: ss)
+                    .Styles(
+                        context: context,
+                        ss: ss,
+                        userStyle: userStyle)
+                    .Scripts(
+                        context: context,
+                        ss: ss,
+                        script: script,
+                        userScript: userScript));
         }
 
-        private static HtmlBuilder Container(this HtmlBuilder hb, Context context, Action action)
+        private static HtmlBuilder Container(
+            this HtmlBuilder hb,
+            Context context,
+            string body,
+            Action action)
         {
             if (!context.Ajax)
             {
@@ -67,7 +84,11 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                         .Meta(httpEquiv: "content-language", content: context.Language)
                         .Meta(charset: "utf-8")
                         .Meta(name: "keywords", content: Parameters.General.HtmlHeadKeywords)
-                        .Meta(name: "description", content: Parameters.General.HtmlHeadDescription)
+                        .Meta(
+                            name: "description",
+                            content: Strings.CoalesceEmpty(
+                                WebUtility.HtmlEncode(body),
+                                Parameters.General.HtmlHeadDescription))
                         .Meta(name: "author", content: "Implem Inc.")
                         .Meta(name: "viewport", content: Parameters.General.HtmlHeadViewport)
                         .LinkedStyles(context: context)
@@ -390,27 +411,34 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
         {
             var hb = new HtmlBuilder();
             var ss = new SiteSettings();
-            return hb.Container(context: context, action: () => hb
-                .MainContainer(
-                    context: context,
-                    ss: ss,
-                    view: null,
-                    verType: Versions.VerTypes.Latest,
-                    methodType: BaseModel.MethodTypes.NotSet,
-                    messageData: messageData,
-                    siteId: 0,
-                    parentId: 0,
-                    referenceType: null,
-                    siteReferenceType: null,
-                    title: null,
-                    errorType: errorType,
-                    useBreadcrumb: false,
-                    useTitle: false,
-                    useNavigationMenu: true)
-                .HiddenData(context: context)
-                .Styles(context: context, ss: ss)
-                .Scripts(context: context, ss: ss))
-                    .ToString();
+            return hb.Container(
+                context: context,
+                body: null,
+                action: () => hb
+                    .MainContainer(
+                        context: context,
+                        ss: ss,
+                        view: null,
+                        verType: Versions.VerTypes.Latest,
+                        methodType: BaseModel.MethodTypes.NotSet,
+                        messageData: messageData,
+                        siteId: 0,
+                        parentId: 0,
+                        referenceType: null,
+                        siteReferenceType: null,
+                        title: null,
+                        errorType: errorType,
+                        useBreadcrumb: false,
+                        useTitle: false,
+                        useNavigationMenu: true)
+                    .HiddenData(context: context)
+                    .Styles(
+                        context: context,
+                        ss: ss)
+                    .Scripts(
+                        context: context,
+                        ss: ss))
+                            .ToString();
         }
     }
 }
