@@ -679,6 +679,10 @@ namespace Implem.Pleasanter.Libraries.Settings
             {
                 view.CalendarFromTo = CalendarFromTo;
             }
+            if (CalendarMonth?.InRange() == true)
+            {
+                view.CalendarMonth = CalendarMonth;
+            }
             if (!CrosstabGroupByX.IsNullOrEmpty())
             {
                 view.CrosstabGroupByX = CrosstabGroupByX;
