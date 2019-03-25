@@ -1635,6 +1635,8 @@ namespace Implem.DefinitionAccessor
                     case "Sites_TenantId": Column.Sites_TenantId = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Sites_TenantId, definitionRow, ColumnXls); break;
                     case "Sites_SiteId": Column.Sites_SiteId = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Sites_SiteId, definitionRow, ColumnXls); break;
                     case "Sites_Title": Column.Sites_Title = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Sites_Title, definitionRow, ColumnXls); break;
+                    case "Sites_GridGuide": Column.Sites_GridGuide = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Sites_GridGuide, definitionRow, ColumnXls); break;
+                    case "Sites_EditorGuide": Column.Sites_EditorGuide = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Sites_EditorGuide, definitionRow, ColumnXls); break;
                     case "Sites_ReferenceType": Column.Sites_ReferenceType = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Sites_ReferenceType, definitionRow, ColumnXls); break;
                     case "Sites_ParentId": Column.Sites_ParentId = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Sites_ParentId, definitionRow, ColumnXls); break;
                     case "Sites_InheritPermission": Column.Sites_InheritPermission = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Sites_InheritPermission, definitionRow, ColumnXls); break;
@@ -9051,6 +9053,8 @@ namespace Implem.DefinitionAccessor
         public string Sites_TenantId;
         public string Sites_SiteId;
         public string Sites_Title;
+        public string Sites_GridGuide;
+        public string Sites_EditorGuide;
         public string Sites_ReferenceType;
         public string Sites_ParentId;
         public string Sites_InheritPermission;
@@ -9952,6 +9956,8 @@ namespace Implem.DefinitionAccessor
         public ColumnDefinition Sites_TenantId = new ColumnDefinition();
         public ColumnDefinition Sites_SiteId = new ColumnDefinition();
         public ColumnDefinition Sites_Title = new ColumnDefinition();
+        public ColumnDefinition Sites_GridGuide = new ColumnDefinition();
+        public ColumnDefinition Sites_EditorGuide = new ColumnDefinition();
         public ColumnDefinition Sites_ReferenceType = new ColumnDefinition();
         public ColumnDefinition Sites_ParentId = new ColumnDefinition();
         public ColumnDefinition Sites_InheritPermission = new ColumnDefinition();

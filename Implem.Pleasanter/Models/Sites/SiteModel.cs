@@ -25,6 +25,8 @@ namespace Implem.Pleasanter.Models
     {
         public SiteSettings SiteSettings;
         public int TenantId = 0;
+        public string GridGuide = string.Empty;
+        public string EditorGuide = string.Empty;
         public string ReferenceType = "Sites";
         public long ParentId = 0;
         public long InheritPermission = 0;
@@ -44,6 +46,8 @@ namespace Implem.Pleasanter.Models
         }
 
         [NonSerialized] public int SavedTenantId = 0;
+        [NonSerialized] public string SavedGridGuide = string.Empty;
+        [NonSerialized] public string SavedEditorGuide = string.Empty;
         [NonSerialized] public string SavedReferenceType = "Sites";
         [NonSerialized] public long SavedParentId = 0;
         [NonSerialized] public long SavedInheritPermission = 0;
@@ -61,6 +65,22 @@ namespace Implem.Pleasanter.Models
                 (column == null ||
                 column.DefaultInput.IsNullOrEmpty() ||
                 column.GetDefaultInput(context: context).ToInt() != TenantId);
+        }
+
+        public bool GridGuide_Updated(Context context, Column column = null)
+        {
+            return GridGuide != SavedGridGuide && GridGuide != null &&
+                (column == null ||
+                column.DefaultInput.IsNullOrEmpty() ||
+                column.GetDefaultInput(context: context).ToString() != GridGuide);
+        }
+
+        public bool EditorGuide_Updated(Context context, Column column = null)
+        {
+            return EditorGuide != SavedEditorGuide && EditorGuide != null &&
+                (column == null ||
+                column.DefaultInput.IsNullOrEmpty() ||
+                column.GetDefaultInput(context: context).ToString() != EditorGuide);
         }
 
         public bool ReferenceType_Updated(Context context, Column column = null)
@@ -178,6 +198,8 @@ namespace Implem.Pleasanter.Models
                 case "Title": return Title.Value;
                 case "Body": return Body;
                 case "TitleBody": return TitleBody.ToString();
+                case "GridGuide": return GridGuide;
+                case "EditorGuide": return EditorGuide;
                 case "ReferenceType": return ReferenceType;
                 case "ParentId": return ParentId.ToString();
                 case "InheritPermission": return InheritPermission.ToString();
@@ -225,6 +247,12 @@ namespace Implem.Pleasanter.Models
                         break;
                     case "TitleBody":
                         hash.Add("TitleBody", TitleBody.ToString());
+                        break;
+                    case "GridGuide":
+                        hash.Add("GridGuide", GridGuide);
+                        break;
+                    case "EditorGuide":
+                        hash.Add("EditorGuide", EditorGuide);
                         break;
                     case "ReferenceType":
                         hash.Add("ReferenceType", ReferenceType);
@@ -554,6 +582,8 @@ namespace Implem.Pleasanter.Models
             column.Ver(function: Sqls.Functions.SingleColumn); param.Ver();
             column.Title(function: Sqls.Functions.SingleColumn); param.Title();
             column.Body(function: Sqls.Functions.SingleColumn); param.Body();
+            column.GridGuide(function: Sqls.Functions.SingleColumn); param.GridGuide();
+            column.EditorGuide(function: Sqls.Functions.SingleColumn); param.EditorGuide();
             column.ReferenceType(function: Sqls.Functions.SingleColumn); param.ReferenceType();
             column.ParentId(function: Sqls.Functions.SingleColumn); param.ParentId();
             column.InheritPermission(function: Sqls.Functions.SingleColumn); param.InheritPermission();
@@ -712,6 +742,8 @@ namespace Implem.Pleasanter.Models
                 {
                     case "Sites_Title": Title = new Title(SiteId, context.Forms.Data(controlId)); break;
                     case "Sites_Body": Body = context.Forms.Data(controlId).ToString(); break;
+                    case "Sites_GridGuide": GridGuide = context.Forms.Data(controlId).ToString(); break;
+                    case "Sites_EditorGuide": EditorGuide = context.Forms.Data(controlId).ToString(); break;
                     case "Sites_ReferenceType": ReferenceType = context.Forms.Data(controlId).ToString(); break;
                     case "Sites_InheritPermission": InheritPermission = context.Forms.Data(controlId).ToLong(); break;
                     case "Sites_Publish": Publish = context.Forms.Data(controlId).ToBool(); break;
@@ -744,6 +776,8 @@ namespace Implem.Pleasanter.Models
             UpdatedTime = siteModel.UpdatedTime;
             Title = siteModel.Title;
             Body = siteModel.Body;
+            GridGuide = siteModel.GridGuide;
+            EditorGuide = siteModel.EditorGuide;
             ReferenceType = siteModel.ReferenceType;
             ParentId = siteModel.ParentId;
             InheritPermission = siteModel.InheritPermission;
@@ -771,6 +805,8 @@ namespace Implem.Pleasanter.Models
             }
             if (data.Title != null) Title = new Title(SiteId, data.Title);
             if (data.Body != null) Body = data.Body.ToString().ToString();
+            if (data.GridGuide != null) GridGuide = data.GridGuide.ToString().ToString();
+            if (data.EditorGuide != null) EditorGuide = data.EditorGuide.ToString().ToString();
             if (data.ReferenceType != null) ReferenceType = data.ReferenceType.ToString().ToString();
             if (data.InheritPermission != null) InheritPermission = data.InheritPermission.ToLong().ToLong();
             if (data.Publish != null) Publish = data.Publish.ToBool().ToBool();
@@ -859,6 +895,14 @@ namespace Implem.Pleasanter.Models
                             Body = dataRow[column.ColumnName].ToString();
                             SavedBody = Body;
                             break;
+                        case "GridGuide":
+                            GridGuide = dataRow[column.ColumnName].ToString();
+                            SavedGridGuide = GridGuide;
+                            break;
+                        case "EditorGuide":
+                            EditorGuide = dataRow[column.ColumnName].ToString();
+                            SavedEditorGuide = EditorGuide;
+                            break;
                         case "ReferenceType":
                             ReferenceType = dataRow[column.ColumnName].ToString();
                             SavedReferenceType = ReferenceType;
@@ -908,6 +952,8 @@ namespace Implem.Pleasanter.Models
                 Ver_Updated(context: context) ||
                 Title_Updated(context: context) ||
                 Body_Updated(context: context) ||
+                GridGuide_Updated(context: context) ||
+                EditorGuide_Updated(context: context) ||
                 ReferenceType_Updated(context: context) ||
                 ParentId_Updated(context: context) ||
                 InheritPermission_Updated(context: context) ||

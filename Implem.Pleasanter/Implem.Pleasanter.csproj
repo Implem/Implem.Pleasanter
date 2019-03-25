@@ -290,6 +290,7 @@
     <Compile Include="Libraries\HtmlParts\HtmlCrosstab.cs" />
     <Compile Include="Libraries\HtmlParts\HtmlEditor.cs" />
     <Compile Include="Libraries\HtmlParts\HtmlExport.cs" />
+    <Compile Include="Libraries\HtmlParts\HtmlGuides.cs" />
     <Compile Include="Libraries\HtmlParts\HtmlTrashBoxCommands.cs" />
     <Compile Include="Libraries\HtmlParts\HtmlHistoryCommands.cs" />
     <Compile Include="Libraries\HtmlParts\HtmlImageLib.cs" />
@@ -1391,6 +1392,7 @@
     <Content Include="App_Data\Displays\JoeAccountCheck.json" />
     <Content Include="App_Data\Displays\Json.json" />
     <Content Include="App_Data\Displays\ExportTypes.json" />
+    <Content Include="App_Data\Displays\MenuGuide.json" />
     <Content Include="Tools\BackgroundTasks.ps1" />
     <Content Include="Tools\SyncByLdap.ps1" />
     <Content Include="Views\Users\EditApi.cshtml" />

@@ -3297,6 +3297,26 @@ namespace Implem.Pleasanter.Models
                         text: siteModel.Body,
                         mobile: context.Mobile,
                         _using: siteModel.ReferenceType != "Wikis")
+                    .FieldMarkDown(
+                        context: context,
+                        ss: ss,
+                        controlId: "Sites_GridGuide",
+                        fieldCss: "field-wide",
+                        labelText: ss.ReferenceType == "Sites"
+                            ? Displays.MenuGuide(context: context)
+                            : Displays.Sites_GridGuide(context: context),
+                        text: siteModel.GridGuide,
+                        mobile: context.Mobile,
+                        _using: siteModel.ReferenceType != "Wikis")
+                    .FieldMarkDown(
+                        context: context,
+                        ss: ss,
+                        controlId: "Sites_EditorGuide",
+                        fieldCss: "field-wide",
+                        labelText: Displays.Sites_EditorGuide(context: context),
+                        text: siteModel.EditorGuide,
+                        mobile: context.Mobile,
+                        _using: ss.ReferenceType != "Sites")
                     .Field(
                         controlId: "Sites_ReferenceType",
                         labelText: Displays.Sites_ReferenceType(context: context),
