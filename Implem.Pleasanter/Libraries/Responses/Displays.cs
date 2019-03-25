@@ -3206,6 +3206,16 @@ namespace Implem.Pleasanter.Libraries.Responses
                 data: data);
         }
 
+        public static string MenuGuide(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "MenuGuide",
+                data: data);
+        }
+
         public static string Min(
             Context context,
             params string[] data)
@@ -9083,6 +9093,26 @@ namespace Implem.Pleasanter.Libraries.Responses
             return Get(
                 context: context,
                 id: "Sites_Title",
+                data: data);
+        }
+
+        public static string Sites_GridGuide(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "Sites_GridGuide",
+                data: data);
+        }
+
+        public static string Sites_EditorGuide(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "Sites_EditorGuide",
                 data: data);
         }
 

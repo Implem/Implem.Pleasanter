@@ -352,6 +352,8 @@ namespace Implem.Pleasanter.Libraries.Settings
             ss.SiteId = siteModel.SiteId;
             ss.ReferenceId = referenceId;
             ss.Title = siteModel.Title.Value;
+            ss.GridGuide = siteModel.GridGuide;
+            ss.EditorGuide = siteModel.EditorGuide;
             ss.ReferenceType = "Sites";
             ss.ParentId = siteModel.ParentId;
             ss.InheritPermission = siteModel.InheritPermission;
@@ -387,6 +389,8 @@ namespace Implem.Pleasanter.Libraries.Settings
             ss.SiteId = siteModel.SiteId;
             ss.ReferenceId = referenceId;
             ss.Title = siteModel.Title.Value;
+            ss.GridGuide = siteModel.GridGuide;
+            ss.EditorGuide = siteModel.EditorGuide;
             ss.ReferenceType = "Issues";
             ss.ParentId = siteModel.ParentId;
             ss.InheritPermission = siteModel.InheritPermission;
@@ -424,6 +428,8 @@ namespace Implem.Pleasanter.Libraries.Settings
             ss.SiteId = siteModel.SiteId;
             ss.ReferenceId = referenceId;
             ss.Title = siteModel.Title.Value;
+            ss.GridGuide = siteModel.GridGuide;
+            ss.EditorGuide = siteModel.EditorGuide;
             ss.ReferenceType = "Results";
             ss.ParentId = siteModel.ParentId;
             ss.InheritPermission = siteModel.InheritPermission;
@@ -461,6 +467,8 @@ namespace Implem.Pleasanter.Libraries.Settings
             ss.SiteId = siteModel.SiteId;
             ss.ReferenceId = referenceId;
             ss.Title = siteModel.Title.Value;
+            ss.GridGuide = siteModel.GridGuide;
+            ss.EditorGuide = siteModel.EditorGuide;
             ss.ReferenceType = "Wikis";
             ss.ParentId = siteModel.ParentId;
             ss.InheritPermission = siteModel.InheritPermission;

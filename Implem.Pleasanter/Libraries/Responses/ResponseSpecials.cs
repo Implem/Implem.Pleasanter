@@ -11666,6 +11666,94 @@ namespace Implem.Pleasanter.Libraries.Responses
             return res.ValAndFormData("#Sites_Body", value);
         }
 
+        public static SitesResponseCollection GridGuide(
+            this SitesResponseCollection res,
+            Context context,
+            SiteSettings ss,
+            Column column = null)
+        {
+            return res.Val(
+                "#Sites_GridGuide",
+                res.SiteModel.GridGuide.ToResponse(
+                    context: context,
+                    ss: ss,
+                    column: column ?? ss.GetColumn(
+                        context: context,
+                        columnName: "GridGuide")));
+        }
+
+        public static SitesResponseCollection GridGuide(
+            this SitesResponseCollection res, Context context, string value)
+        {
+            return res.Val("#Sites_GridGuide", value);
+        }
+
+        public static SitesResponseCollection GridGuide_FormData(
+            this SitesResponseCollection res,
+            Context context,
+            SiteSettings ss,
+            Column column = null)
+        {
+            return res.ValAndFormData(
+                "#Sites_GridGuide",
+                res.SiteModel.GridGuide.ToResponse(
+                    context: context,
+                    ss: ss,
+                    column: column ?? ss.GetColumn(
+                        context: context,
+                        columnName: "GridGuide")));
+        }
+
+        public static SitesResponseCollection GridGuide_FormData(
+            this SitesResponseCollection res, Context context, string value)
+        {
+            return res.ValAndFormData("#Sites_GridGuide", value);
+        }
+
+        public static SitesResponseCollection EditorGuide(
+            this SitesResponseCollection res,
+            Context context,
+            SiteSettings ss,
+            Column column = null)
+        {
+            return res.Val(
+                "#Sites_EditorGuide",
+                res.SiteModel.EditorGuide.ToResponse(
+                    context: context,
+                    ss: ss,
+                    column: column ?? ss.GetColumn(
+                        context: context,
+                        columnName: "EditorGuide")));
+        }
+
+        public static SitesResponseCollection EditorGuide(
+            this SitesResponseCollection res, Context context, string value)
+        {
+            return res.Val("#Sites_EditorGuide", value);
+        }
+
+        public static SitesResponseCollection EditorGuide_FormData(
+            this SitesResponseCollection res,
+            Context context,
+            SiteSettings ss,
+            Column column = null)
+        {
+            return res.ValAndFormData(
+                "#Sites_EditorGuide",
+                res.SiteModel.EditorGuide.ToResponse(
+                    context: context,
+                    ss: ss,
+                    column: column ?? ss.GetColumn(
+                        context: context,
+                        columnName: "EditorGuide")));
+        }
+
+        public static SitesResponseCollection EditorGuide_FormData(
+            this SitesResponseCollection res, Context context, string value)
+        {
+            return res.ValAndFormData("#Sites_EditorGuide", value);
+        }
+
         public static SitesResponseCollection ReferenceType(
             this SitesResponseCollection res,
             Context context,

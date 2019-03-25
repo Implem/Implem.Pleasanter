@@ -44,6 +44,10 @@ namespace Implem.Pleasanter.Libraries.Settings
         [NonSerialized]
         public string Title;
         [NonSerialized]
+        public string GridGuide;
+        [NonSerialized]
+        public string EditorGuide;
+        [NonSerialized]
         public long ParentId;
         [NonSerialized]
         public Sqls.TableTypes TableType = Sqls.TableTypes.Normal;
@@ -227,6 +231,8 @@ namespace Implem.Pleasanter.Libraries.Settings
                         column: Rds.SitesColumn()
                             .SiteId()
                             .Title()
+                            .GridGuide()
+                            .EditorGuide()
                             .ReferenceType()
                             .ParentId()
                             .InheritPermission()
@@ -243,6 +249,8 @@ namespace Implem.Pleasanter.Libraries.Settings
                         column: Rds.SitesColumn()
                             .SiteId()
                             .Title()
+                            .GridGuide()
+                            .EditorGuide()
                             .ReferenceType()
                             .ParentId()
                             .InheritPermission()
@@ -309,6 +317,8 @@ namespace Implem.Pleasanter.Libraries.Settings
                     var ss = SiteSettingsUtilities.Get(context: context, dataRow: dataRow);
                     ss.SiteId = dataRow.Long("SiteId");
                     ss.Title = dataRow.String("Title");
+                    ss.GridGuide = dataRow.String("GridGuide");
+                    ss.EditorGuide = dataRow.String("EditorGuide");
                     ss.ReferenceType = dataRow.String("ReferenceType");
                     ss.ParentId = dataRow.Long("ParentId");
                     ss.InheritPermission = dataRow.Long("InheritPermission");

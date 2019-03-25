@@ -10,6 +10,8 @@ namespace Implem.Pleasanter.Models
         public int? Ver;
         public string Title;
         public string Body;
+        public string GridGuide;
+        public string EditorGuide;
         public string ReferenceType;
         public long? ParentId;
         public long? InheritPermission;

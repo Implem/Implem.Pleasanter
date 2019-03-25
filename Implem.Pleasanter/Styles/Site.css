@@ -230,6 +230,19 @@ pre{
     margin:0px 0px 0px 8px;
 }
 
+#Guide > div{
+    width:100%;
+    display:block;
+    float:left;
+    margin:0px 0px 5px 0px;
+    padding:5px 10px;
+    background:lightgoldenrodyellow;
+    border:solid 1px silver;
+    position:relative;
+    clear:both;
+    border-radius:5px;
+}
+
 #CopyToClipboards > .display-control{
     float:left;
     cursor:pointer;
