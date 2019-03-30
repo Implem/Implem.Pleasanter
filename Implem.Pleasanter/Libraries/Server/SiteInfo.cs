@@ -318,7 +318,7 @@ namespace Implem.Pleasanter.Libraries.Server
             return TenantCaches.Get(tenantId)?.DeptHash?
                 .Where(o => o.Key == deptId)
                 .Select(o => o.Value)
-                .FirstOrDefault();
+                .FirstOrDefault() ?? new Dept();
         }
 
         public static User User(Context context, int userId)
