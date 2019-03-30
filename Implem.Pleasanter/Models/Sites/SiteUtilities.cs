@@ -2202,6 +2202,19 @@ namespace Implem.Pleasanter.Models
                     switch (siteModel.ReferenceType)
                     {
                         case "Sites":
+                            hb
+                                .Li(
+                                    action: () => hb
+                                        .A(
+                                            href: "#StylesSettingsEditor",
+                                            text: Displays.Styles(context: context)),
+                                    _using: context.ContractSettings.Style != false)
+                                .Li(
+                                    action: () => hb
+                                        .A(
+                                            href: "#ScriptsSettingsEditor",
+                                            text: Displays.Scripts(context: context)),
+                                    _using: context.ContractSettings.Script != false);
                             break;
                         case "Wikis":
                             hb
@@ -3338,6 +3351,9 @@ namespace Implem.Pleasanter.Models
                 switch (siteModel.ReferenceType)
                 {
                     case "Sites":
+                        hb
+                            .StylesSettingsEditor(context: context, ss: siteModel.SiteSettings)
+                            .ScriptsSettingsEditor(context: context, ss: siteModel.SiteSettings);
                         break;
                     case "Wikis":
                         hb
@@ -7522,6 +7538,10 @@ namespace Implem.Pleasanter.Models
                 (style.All == true
                     ? " hidden"
                     : string.Empty);
+            var enclosedCss = " enclosed" +
+                (ss.ReferenceType == "Sites"
+                    ? " hidden"
+                    : string.Empty);
             return hb.Form(
                 attributes: new HtmlAttributes()
                     .Id("StyleForm")
@@ -7550,7 +7570,7 @@ namespace Implem.Pleasanter.Models
                         labelText: Displays.Style(context: context),
                         text: style.Body)
                     .FieldSet(
-                        css: " enclosed",
+                        css: enclosedCss,
                         legendText: Displays.OutputDestination(context: context),
                         action: () => hb
                             .FieldCheckBox(
@@ -7838,6 +7858,10 @@ namespace Implem.Pleasanter.Models
                 (script.All == true
                     ? " hidden"
                     : string.Empty);
+            var enclosedCss = " enclosed" +
+                (ss.ReferenceType == "Sites"
+                    ? " hidden"
+                    : string.Empty);
             return hb.Form(
                 attributes: new HtmlAttributes()
                     .Id("ScriptForm")
@@ -7866,7 +7890,7 @@ namespace Implem.Pleasanter.Models
                         labelText: Displays.Script(context: context),
                         text: script.Body)
                     .FieldSet(
-                        css: " enclosed",
+                        css: enclosedCss,
                         legendText: Displays.OutputDestination(context: context),
                         action: () => hb
                             .FieldCheckBox(
