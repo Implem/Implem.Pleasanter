@@ -89,18 +89,20 @@ namespace Implem.Pleasanter.Libraries.Security
             return Hash(
                 dataRows: Rds.ExecuteTable(
                     context: context,
-                    statements: Rds.SelectSites(
+                    statements: Rds.SelectPermissions(
                         distinct: true,
-                        column: Rds.SitesColumn()
-                            .SiteId(_as: "ReferenceId")
-                            .Permissions_PermissionType(),
+                        column: Rds.PermissionsColumn()
+                            .ReferenceId()
+                            .PermissionType(),
                         join: Rds.SitesJoinDefault()
                             .Add(new SqlJoin(
-                                tableBracket: "[Permissions]",
-                                joinType: SqlJoin.JoinTypes.Inner,
+                                tableBracket: "[Sites]",
+                                joinType: SqlJoin.JoinTypes.LeftOuter,
                                 joinExpression: "[Permissions].[ReferenceId]=[Sites].[InheritPermission]")),
-                        where: Rds.SitesWhere()
-                            .TenantId(context.TenantId)
+                        where: Rds.PermissionsWhere()
+                            .Or(Rds.PermissionsWhere()
+                                .ReferenceId(context.Id)
+                                .Sites_TenantId(context.TenantId))
                             .Or(Rds.PermissionsWhere()
                                 .GroupId_In(sub: Rds.SelectGroupMembers(
                                     column: Rds.GroupMembersColumn().GroupId(),
