@@ -22,7 +22,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             Column groupByY,
             string aggregateType,
             Column value,
-            int? columns,
+            int columns,
             bool aggregationView,
             IEnumerable<KambanElement> data,
             bool inRange)
@@ -79,7 +79,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                             Parameters.General.KambanMinColumns,
                             Parameters.General.KambanMaxColumns)
                                 .ToDictionary(o => o.ToString(), o => o.ToString()),
-                        selectedValue: columns?.ToString(),
+                        selectedValue: columns.ToString(),
                         method: "post")
                     .FieldCheckBox(
                         controlId: "KambanAggregationView",
@@ -112,7 +112,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             Column groupByY,
             string aggregateType,
             Column value,
-            int? columns,
+            int columns,
             bool aggregationView,
             IEnumerable<KambanElement> data,
             long changedItemId = 0,
@@ -133,7 +133,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     context: context,
                     insertBlank: true,
                     view: view)
-                        .Chunk(columns.ToInt())
+                        .Chunk(columns)
                         .ForEach(choicesX => hb
                             .Table(
                                 context: context,

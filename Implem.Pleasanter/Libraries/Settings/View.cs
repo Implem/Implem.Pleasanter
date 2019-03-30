@@ -68,7 +68,6 @@ namespace Implem.Pleasanter.Libraries.Settings
         [OnDeserialized]
         private void OnDeserialized(StreamingContext streamingContext)
         {
-            KambanColumns = KambanColumns ?? Parameters.General.KambanColumns;
         }
 
         [OnSerializing]
@@ -264,6 +263,11 @@ namespace Implem.Pleasanter.Libraries.Settings
                     : options.FirstOrDefault().Key;
             }
             return KambanValue;
+        }
+
+        public int GetKambanColumns()
+        {
+            return KambanColumns ?? Parameters.General.KambanColumns;
         }
 
         private ViewModeDefinition Definition(SiteSettings ss, string name)
@@ -475,7 +479,6 @@ namespace Implem.Pleasanter.Libraries.Settings
                                 break;
                         }
                     }
-                    KambanColumns = KambanColumns ?? Parameters.General.KambanColumns;
                     break;
             }
         }
@@ -743,7 +746,7 @@ namespace Implem.Pleasanter.Libraries.Settings
             {
                 view.KambanValue = KambanValue;
             }
-            if (KambanColumns != Parameters.General.KambanColumns)
+            if (KambanColumns != null && KambanColumns != Parameters.General.KambanColumns)
             {
                 view.KambanColumns = KambanColumns;
             }

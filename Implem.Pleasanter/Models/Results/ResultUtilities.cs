@@ -9535,6 +9535,7 @@ namespace Implem.Pleasanter.Models
                 context: context,
                 columnName: view.GetKambanValue(ss));
             var aggregationView = view.KambanAggregationView ?? false;
+            var columns = view.GetKambanColumns();
             var data = KambanData(
                 context: context,
                 ss: ss,
@@ -9551,7 +9552,7 @@ namespace Implem.Pleasanter.Models
                     groupByY: groupByY,
                     aggregateType: aggregateType,
                     value: value,
-                    columns: view.KambanColumns,
+                    columns: columns,
                     aggregationView: aggregationView,
                     data: data,
                     inRange: inRange)
@@ -9563,7 +9564,7 @@ namespace Implem.Pleasanter.Models
                     groupByY: groupByY,
                     aggregateType: aggregateType,
                     value: value,
-                    columns: view.KambanColumns,
+                    columns: columns,
                     aggregationView: aggregationView,
                     data: data,
                     changedItemId: changedItemId,
