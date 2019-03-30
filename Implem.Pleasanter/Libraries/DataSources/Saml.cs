@@ -79,9 +79,13 @@ namespace Implem.Pleasanter.Libraries.DataSources
         {
             if (Parameters.Authentication.Provider != "SAML") { return; }
             var context = new Context(request: false, sessionStatus: false, sessionData: false, user: false);
-            foreach (var tenant in new TenantCollection(context, SiteSettingsUtilities.TenantsSiteSettings(context)))
+            foreach (var tenant in new TenantCollection(context, SiteSettingsUtilities.TenantsSiteSettings(context),
+                where: Rds.TenantsWhere()
+                    .Comments(_operator: " is not null")
+                    .Comments("", _operator:"<>")))
             {
                 SetIdpConfiguration(context, tenant.TenantId, true);
+                new SysLogModel(context, "SetIdpConfiguration:" + "[" + tenant.TenantId + "]" + tenant.Title);
             }
         }
 
