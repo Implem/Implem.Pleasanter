@@ -304,15 +304,16 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             return ss?.Publish == true && context.Authenticated
                 ? hb.Div(id: "PublishWarning", action: () => hb
                     .A(
-                        href: context.Controller == "items"
-                            ? context.Id == context.SiteId
-                                ? Locations.Get(
-                                    context,
-                                    "publishes",
-                                    context.SiteId.ToString(),
-                                    "index")
-                                : context.Url.Replace("items","publishes")
-                            : context.Url.Replace("publishes", "items"),
+                        href: (Parameters.Service.AbsoluteUri != null
+                            ? Parameters.Service.AbsoluteUri + "/"
+                            : context.ApplicationPath)
+                                + (context.Controller == "items"
+                                    ? "publishes"
+                                    : "items")
+                                + "/"
+                                + context.Id
+                                + "/"
+                                + context.Action,
                         action: () => hb
                             .Text(text: Displays.PublishWarning(context: context))))
                 : hb;
