@@ -6056,7 +6056,7 @@ namespace Implem.Pleasanter.Models
                             Parameters.General.KambanMinColumns,
                             Parameters.General.KambanMaxColumns)
                                 .ToDictionary(o => o.ToString(), o => o.ToString()),
-                        selectedValue: view.KambanColumns?.ToString())
+                        selectedValue: view.GetKambanColumns().ToString())
                     .FieldCheckBox(
                         controlId: "KambanAggregationView",
                         fieldCss: "field-auto-thin",
