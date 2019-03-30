@@ -492,7 +492,7 @@ namespace Implem.Pleasanter.Models
                     .Add(raw: FullTextWhere(words))
                     .Add(
                         raw: Def.Sql.CanRead,
-                        _using: !context.HasPrivilege)
+                        _using: !context.HasPrivilege && !context.Publish)
                     .Add(
                         raw: "[Items].[SiteId] in ({0})".Params(siteIdList?.Join()),
                         _using: siteIdList?.Any() == true),
