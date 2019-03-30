@@ -43,7 +43,7 @@ namespace Implem.Pleasanter.Models
             {
                 case BaseModel.MethodTypes.Edit:
                     return
-                        context.CanRead(ss: ss)&&
+                        context.CanRead(ss: ss) &&
                         wikiModel.AccessStatus != Databases.AccessStatuses.NotFound
                             ? Error.Types.None
                             : Error.Types.NotFound;        

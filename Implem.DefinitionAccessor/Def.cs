@@ -2930,6 +2930,7 @@ namespace Implem.DefinitionAccessor
                     case "_sharp_Breadcrumb_space__dot_item": Css._sharp_Breadcrumb_space__dot_item = definitionRow[1].ToString(); SetCssTable(CssTable._sharp_Breadcrumb_space__dot_item, definitionRow, CssXls); break;
                     case "_sharp_Breadcrumb_space__dot_item_dot_trashbox": Css._sharp_Breadcrumb_space__dot_item_dot_trashbox = definitionRow[1].ToString(); SetCssTable(CssTable._sharp_Breadcrumb_space__dot_item_dot_trashbox, definitionRow, CssXls); break;
                     case "_sharp_Breadcrumb_space__dot_separator": Css._sharp_Breadcrumb_space__dot_separator = definitionRow[1].ToString(); SetCssTable(CssTable._sharp_Breadcrumb_space__dot_separator, definitionRow, CssXls); break;
+                    case "_sharp_Guide_space___space_div": Css._sharp_Guide_space___space_div = definitionRow[1].ToString(); SetCssTable(CssTable._sharp_Guide_space___space_div, definitionRow, CssXls); break;
                     case "_sharp_CopyToClipboards_space___space__dot_display_control": Css._sharp_CopyToClipboards_space___space__dot_display_control = definitionRow[1].ToString(); SetCssTable(CssTable._sharp_CopyToClipboards_space___space__dot_display_control, definitionRow, CssXls); break;
                     case "_sharp_Header": Css._sharp_Header = definitionRow[1].ToString(); SetCssTable(CssTable._sharp_Header, definitionRow, CssXls); break;
                     case "_sharp_Navigations": Css._sharp_Navigations = definitionRow[1].ToString(); SetCssTable(CssTable._sharp_Navigations, definitionRow, CssXls); break;
@@ -10812,6 +10813,7 @@ namespace Implem.DefinitionAccessor
         public string _sharp_Breadcrumb_space__dot_item;
         public string _sharp_Breadcrumb_space__dot_item_dot_trashbox;
         public string _sharp_Breadcrumb_space__dot_separator;
+        public string _sharp_Guide_space___space_div;
         public string _sharp_CopyToClipboards_space___space__dot_display_control;
         public string _sharp_Header;
         public string _sharp_Navigations;
@@ -11304,6 +11306,7 @@ namespace Implem.DefinitionAccessor
         public CssDefinition _sharp_Breadcrumb_space__dot_item = new CssDefinition();
         public CssDefinition _sharp_Breadcrumb_space__dot_item_dot_trashbox = new CssDefinition();
         public CssDefinition _sharp_Breadcrumb_space__dot_separator = new CssDefinition();
+        public CssDefinition _sharp_Guide_space___space_div = new CssDefinition();
         public CssDefinition _sharp_CopyToClipboards_space___space__dot_display_control = new CssDefinition();
         public CssDefinition _sharp_Header = new CssDefinition();
         public CssDefinition _sharp_Navigations = new CssDefinition();
