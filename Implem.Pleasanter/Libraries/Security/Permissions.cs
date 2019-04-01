@@ -86,37 +86,35 @@ namespace Implem.Pleasanter.Libraries.Security
 
         public static Dictionary<long, Types> Get(Context context)
         {
-            return context.SiteId > 0
-                ? Hash(
-                    dataRows: Rds.ExecuteTable(
-                    context: context,
-                    statements: new SqlStatement[]
-                    {
-                        Rds.SelectSites(
-                            distinct: true,
-                            column: Rds.SitesColumn()
-                                .SiteId(_as: "ReferenceId")
-                                .Permissions_PermissionType(),
-                            join: Rds.SitesJoinDefault()
-                                .Add(new SqlJoin(
-                                    tableBracket: "[Permissions]",
-                                    joinType: SqlJoin.JoinTypes.Inner,
-                                    joinExpression: "[Permissions].[ReferenceId]=[Sites].[InheritPermission]")),
-                            where: Rds.SitesWhere()
-                                .TenantId(context.TenantId)
-                                .PermissionsWhere()),
-                        Rds.SelectPermissions(
-                            column: Rds.PermissionsColumn()
-                                .ReferenceId()
-                                .PermissionType(),
-                            where: Rds.PermissionsWhere()
-                                .ReferenceId(context.Id)
-                                .PermissionsWhere(),
-                            unionType: Sqls.UnionTypes.UnionAll,
-                            _using: context.Id > 0 && context.Id != context.SiteId),
-                    })
-                        .AsEnumerable())
-                : new Dictionary<long, Types>();
+            return Hash(
+                dataRows: Rds.ExecuteTable(
+                context: context,
+                statements: new SqlStatement[]
+                {
+                    Rds.SelectSites(
+                        distinct: true,
+                        column: Rds.SitesColumn()
+                            .SiteId(_as: "ReferenceId")
+                            .Permissions_PermissionType(),
+                        join: Rds.SitesJoinDefault()
+                            .Add(new SqlJoin(
+                                tableBracket: "[Permissions]",
+                                joinType: SqlJoin.JoinTypes.Inner,
+                                joinExpression: "[Permissions].[ReferenceId]=[Sites].[InheritPermission]")),
+                        where: Rds.SitesWhere()
+                            .TenantId(context.TenantId)
+                            .PermissionsWhere()),
+                    Rds.SelectPermissions(
+                        column: Rds.PermissionsColumn()
+                            .ReferenceId()
+                            .PermissionType(),
+                        where: Rds.PermissionsWhere()
+                            .ReferenceId(context.Id)
+                            .PermissionsWhere(),
+                        unionType: Sqls.UnionTypes.UnionAll,
+                        _using: context.Id > 0 && context.Id != context.SiteId),
+                })
+                    .AsEnumerable());
         }
 
         public static SqlWhereCollection SetCanReadWhere(
