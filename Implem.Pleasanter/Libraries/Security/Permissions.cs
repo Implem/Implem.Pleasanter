@@ -86,30 +86,37 @@ namespace Implem.Pleasanter.Libraries.Security
 
         public static Dictionary<long, Types> Get(Context context)
         {
-            return Hash(
-                dataRows: Rds.ExecuteTable(
+            return context.SiteId > 0
+                ? Hash(
+                    dataRows: Rds.ExecuteTable(
                     context: context,
-                    statements: Rds.SelectPermissions(
-                        distinct: true,
-                        column: Rds.PermissionsColumn()
-                            .ReferenceId()
-                            .PermissionType(),
-                        join: Rds.SitesJoinDefault()
-                            .Add(new SqlJoin(
-                                tableBracket: "[Sites]",
-                                joinType: SqlJoin.JoinTypes.LeftOuter,
-                                joinExpression: "[Permissions].[ReferenceId]=[Sites].[InheritPermission]")),
-                        where: Rds.PermissionsWhere()
-                            .Or(Rds.PermissionsWhere()
+                    statements: new SqlStatement[]
+                    {
+                        Rds.SelectSites(
+                            distinct: true,
+                            column: Rds.SitesColumn()
+                                .SiteId(_as: "ReferenceId")
+                                .Permissions_PermissionType(),
+                            join: Rds.SitesJoinDefault()
+                                .Add(new SqlJoin(
+                                    tableBracket: "[Permissions]",
+                                    joinType: SqlJoin.JoinTypes.Inner,
+                                    joinExpression: "[Permissions].[ReferenceId]=[Sites].[InheritPermission]")),
+                            where: Rds.SitesWhere()
+                                .TenantId(context.TenantId)
+                                .PermissionsWhere()),
+                        Rds.SelectPermissions(
+                            column: Rds.PermissionsColumn()
+                                .ReferenceId()
+                                .PermissionType(),
+                            where: Rds.PermissionsWhere()
                                 .ReferenceId(context.Id)
-                                .Sites_TenantId(context.TenantId))
-                            .Or(Rds.PermissionsWhere()
-                                .GroupId_In(sub: Rds.SelectGroupMembers(
-                                    column: Rds.GroupMembersColumn().GroupId(),
-                                    where: Rds.GroupMembersWhere()
-                                        .Add(raw: DeptOrUser("GroupMembers"))))
-                                .Add(raw: DeptOrUser("Permissions")))))
-                                    .AsEnumerable());
+                                .PermissionsWhere(),
+                            unionType: Sqls.UnionTypes.UnionAll,
+                            _using: context.SiteId > 0 && context.Id != context.SiteId),
+                    })
+                        .AsEnumerable())
+                : new Dictionary<long, Types>();
         }
 
         public static SqlWhereCollection SetCanReadWhere(
@@ -224,12 +231,17 @@ namespace Implem.Pleasanter.Libraries.Security
                                 .SiteId_In(siteIdList)),
                         _using: siteIdList?.Any() == true)
                     .PermissionType(_operator: " & 1 = 1")
-                    .Or(Rds.PermissionsWhere()
-                        .GroupId_In(sub: Rds.SelectGroupMembers(
-                            column: Rds.GroupMembersColumn().GroupId(),
-                            where: Rds.GroupMembersWhere()
-                                .Add(raw: DeptOrUser("GroupMembers"))))
-                        .Add(raw: DeptOrUser("Permissions"))));
+                    .PermissionsWhere());
+        }
+
+        private static SqlWhereCollection PermissionsWhere(this SqlWhereCollection where)
+        {
+            return where.Or(Rds.PermissionsWhere()
+                .GroupId_In(sub: Rds.SelectGroupMembers(
+                    column: Rds.GroupMembersColumn().GroupId(),
+                    where: Rds.GroupMembersWhere()
+                        .Add(raw: DeptOrUser("GroupMembers"))))
+                .Add(raw: DeptOrUser("Permissions")));
         }
 
         public static string DeptOrUser(string tableName)
