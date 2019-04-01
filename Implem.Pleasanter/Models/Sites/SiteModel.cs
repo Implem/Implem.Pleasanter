@@ -1077,6 +1077,7 @@ namespace Implem.Pleasanter.Models
             }
             SiteSettings.SiteId = SiteId;
             SiteSettings.Title = Title.Value;
+            SiteSettings.Body = Body;
             SiteSettings.ParentId = ParentId;
             SiteSettings.InheritPermission = InheritPermission;
             SiteSettings.AccessStatus = AccessStatus;

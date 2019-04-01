@@ -44,6 +44,8 @@ namespace Implem.Pleasanter.Libraries.Settings
         [NonSerialized]
         public string Title;
         [NonSerialized]
+        public string Body;
+        [NonSerialized]
         public string GridGuide;
         [NonSerialized]
         public string EditorGuide;
@@ -231,6 +233,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                         column: Rds.SitesColumn()
                             .SiteId()
                             .Title()
+                            .Body()
                             .GridGuide()
                             .EditorGuide()
                             .ReferenceType()
@@ -249,6 +252,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                         column: Rds.SitesColumn()
                             .SiteId()
                             .Title()
+                            .Body()
                             .GridGuide()
                             .EditorGuide()
                             .ReferenceType()
@@ -317,6 +321,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                     var ss = SiteSettingsUtilities.Get(context: context, dataRow: dataRow);
                     ss.SiteId = dataRow.Long("SiteId");
                     ss.Title = dataRow.String("Title");
+                    ss.Body = dataRow.String("Body");
                     ss.GridGuide = dataRow.String("GridGuide");
                     ss.EditorGuide = dataRow.String("EditorGuide");
                     ss.ReferenceType = dataRow.String("ReferenceType");

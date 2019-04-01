@@ -85,9 +85,10 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                         .Meta(name: "keywords", content: Parameters.General.HtmlHeadKeywords)
                         .Meta(
                             name: "description",
-                            content: Strings.CoalesceEmpty(
-                                WebUtility.HtmlEncode(body),
-                                Parameters.General.HtmlHeadDescription))
+                            content: WebUtility.HtmlEncode(
+                                Strings.CoalesceEmpty(
+                                    body,
+                                    Parameters.General.HtmlHeadDescription)))
                         .Meta(name: "author", content: "Implem Inc.")
                         .Meta(name: "viewport", content: Parameters.General.HtmlHeadViewport)
                         .LinkedStyles(context: context)
