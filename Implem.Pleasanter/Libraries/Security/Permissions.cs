@@ -113,7 +113,7 @@ namespace Implem.Pleasanter.Libraries.Security
                                 .ReferenceId(context.Id)
                                 .PermissionsWhere(),
                             unionType: Sqls.UnionTypes.UnionAll,
-                            _using: context.SiteId > 0 && context.Id != context.SiteId),
+                            _using: context.Id > 0 && context.Id != context.SiteId),
                     })
                         .AsEnumerable())
                 : new Dictionary<long, Types>();
