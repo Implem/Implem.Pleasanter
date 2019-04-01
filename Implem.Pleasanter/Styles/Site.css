@@ -2316,9 +2316,12 @@ pre{
     overflow:hidden;
 }
 
-.grid-title-body > .title + .body{
+.grid-title-body > .body{
     width:100%;
-    margin:8px 0px 0px 10px;
+}
+
+.grid-title-body > .title + .body{
+    padding:8px 0px 0px 10px;
 }
 
 .links{
