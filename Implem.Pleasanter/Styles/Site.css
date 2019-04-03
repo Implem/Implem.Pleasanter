@@ -932,6 +932,7 @@ pre{
 }
 
 #ImageLib .item .image{
+    width:100%;
     float:left;
     margin:5px 0px 0px 0px;
 }
