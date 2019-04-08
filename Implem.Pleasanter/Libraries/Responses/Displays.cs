@@ -216,6 +216,16 @@ namespace Implem.Pleasanter.Libraries.Responses
                 data: data);
         }
 
+        public static string AllUsers(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "AllUsers",
+                data: data);
+        }
+
         public static string AlreadyAdded(
             Context context,
             params string[] data)

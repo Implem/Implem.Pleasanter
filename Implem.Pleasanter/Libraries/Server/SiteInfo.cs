@@ -327,6 +327,15 @@ namespace Implem.Pleasanter.Libraries.Server
             {
                 return new User();
             }
+            if (userId == -1)
+            {
+                return new User()
+                {
+                    TenantId = context.TenantId,
+                    Id = -1,
+                    Name = Displays.AllUsers(context: context)
+                };
+            }
             return TenantCaches.Get(context.TenantId)?.UserHash?
                 .Where(o => o.Key == userId)
                 .Select(o => o.Value)
