@@ -68,7 +68,8 @@ namespace Implem.Pleasanter.Models
                                 .Page(offset)
                                 .ListItemCollection(
                                     context: context,
-                                    ss: siteModel.SiteSettings)))
+                                    ss: siteModel.SiteSettings,
+                                    withType: false)))
                         .Val("#SourcePermissionsOffset", Paging.NextOffset(
                             offset, permissions.Count(), Parameters.Permissions.PageSize)
                                 .ToString())
@@ -227,7 +228,8 @@ namespace Implem.Pleasanter.Models
                             .Page(offset)
                             .ListItemCollection(
                                 context: context,
-                                ss: ss),
+                                ss: ss,
+                                withType: false),
                         offset: offset,
                         totalCount: sourcePermissions.Count())
                 : hb;
@@ -357,7 +359,14 @@ namespace Implem.Pleasanter.Models
             List<Permission> currentPermissions,
             int offset = 0)
         {
-            var sourceCollection = new List<Permission>();
+            var sourceCollection = new List<Permission>()
+            {
+                new Permission(
+                    ss: ss,
+                    name: "User",
+                    id: -1,
+                    source: true)
+            };
             Rds.ExecuteTable(
                 context: context,
                 statements: new SqlStatement[]

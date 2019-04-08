@@ -1393,6 +1393,7 @@
     <Content Include="App_Data\Displays\Json.json" />
     <Content Include="App_Data\Displays\ExportTypes.json" />
     <Content Include="App_Data\Displays\MenuGuide.json" />
+    <Content Include="App_Data\Displays\AllUsers.json" />
     <Content Include="Tools\BackgroundTasks.ps1" />
     <Content Include="Tools\SyncByLdap.ps1" />
     <Content Include="Views\Users\EditApi.cshtml" />

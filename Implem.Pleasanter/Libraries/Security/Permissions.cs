@@ -244,7 +244,7 @@ namespace Implem.Pleasanter.Libraries.Security
 
         public static string DeptOrUser(string tableName)
         {
-            return "((@_D <> 0 and [{0}].[DeptId]=@_D) or(@_U <> 0 and [{0}].[UserId]=@_U))"
+            return "((@_D<>0 and [{0}].[DeptId]=@_D)or(@_U<>0 and [{0}].[UserId]=@_U)or([{0}].[UserId]=-1))"
                 .Params(tableName);
         }
 
