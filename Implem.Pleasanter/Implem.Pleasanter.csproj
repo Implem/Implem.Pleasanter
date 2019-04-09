@@ -600,6 +600,7 @@
     <Content Include="Scripts\Tenants.js" />
     <Content Include="Scripts\Users.js" />
     <Content Include="Scripts\_Api.js" />
+    <Content Include="Scripts\_Elements.js" />
     <Content Include="Scripts\_Event.js" />
     <Content Include="Scripts\Grid.js" />
     <Content Include="Scripts\ImageLibEvents.js" />
