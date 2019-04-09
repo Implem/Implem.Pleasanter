@@ -3480,5 +3480,23 @@ namespace Implem.Pleasanter.Libraries.Settings
         {
             return GridColumns?.Any(o => o.Contains("~~")) == true;
         }
+
+        public string ColumnsJson()
+        {
+            return Columns
+                ?.Where(column => 
+                    GridColumns.Contains(column.ColumnName)
+                    || EditorColumns.Contains(column.ColumnName)
+                    || TitleColumns.Contains(column.ColumnName)
+                    || LinkColumns.Contains(column.ColumnName)
+                    || HistoryColumns.Contains(column.ColumnName)
+                    || column.LabelText != column.LabelTextDefault)
+                .Select(column => new
+                {
+                    ColumnName = column.ColumnName,
+                    LabelText = column.LabelText
+                })
+                .ToJson();
+        }
     }
 }
