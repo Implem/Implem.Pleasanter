@@ -56,8 +56,12 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                         useSearch: useSearch,
                         useNavigationMenu: useNavigationMenu,
                         action: action)
-                    .HiddenData(context: context)
-                    .VideoDialog(context: context, ss: ss)
+                    .HiddenData(
+                        context: context,
+                        ss: ss)
+                    .VideoDialog(
+                        context: context,
+                        ss: ss)
                     .Styles(
                         context: context,
                         ss: ss,
@@ -398,7 +402,8 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                 : hb;
         }
 
-        private static HtmlBuilder HiddenData(this HtmlBuilder hb, Context context)
+        private static HtmlBuilder HiddenData(
+            this HtmlBuilder hb, Context context, SiteSettings ss = null)
         {
             return !context.Ajax
                 ? hb
@@ -407,6 +412,17 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     .Hidden(controlId: "DeptId", value: context.DeptId.ToString())
                     .Hidden(controlId: "UserId", value: context.UserId.ToString())
                     .Hidden(controlId: "Publish", value: "1", _using: context.Publish)
+                    .HiddenSiteSettings(context: context, ss: ss)
+                : hb;
+        }
+
+        private static HtmlBuilder HiddenSiteSettings(
+            this HtmlBuilder hb, Context context, SiteSettings ss)
+        {
+            return context.Authenticated && context.Controller == "items"
+                ? hb
+                    .Hidden(controlId: "ReferenceType", value: ss?.ReferenceType)
+                    .Hidden(controlId: "Columns", value: ss?.ColumnsJson())
                 : hb;
         }
 
