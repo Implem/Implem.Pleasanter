@@ -163,6 +163,10 @@ namespace Implem.Pleasanter.Models
             View view,
             string action = "GridRows")
         {
+            var columns = ss.GetGridColumns(
+                context: context,
+                view: view,
+                checkPermission: true);
             return hb
                 .Table(
                     attributes: new HtmlAttributes()
@@ -176,6 +180,7 @@ namespace Implem.Pleasanter.Models
                             context: context,
                             ss: ss,
                             gridData: gridData,
+                            columns: columns,
                             view: view,
                             action: action))
                 .Hidden(
@@ -185,6 +190,9 @@ namespace Implem.Pleasanter.Models
                         gridData.DataRows.Count(),
                         gridData.TotalCount)
                             .ToString())
+                .Hidden(
+                    controlId: "GridColumns",
+                    value: columns.Select(o => o.ColumnName).ToJson())
                 .Button(
                     controlId: "ViewSorters_Reset",
                     controlCss: "hidden",
@@ -207,6 +215,10 @@ namespace Implem.Pleasanter.Models
                 ss: ss,
                 view: view,
                 offset: offset);
+            var columns = ss.GetGridColumns(
+                context: context,
+                view: view,
+                checkPermission: true);
             return (res ?? new ResponseCollection())
                 .Remove(".grid tr", _using: offset == 0)
                 .ClearFormData("GridOffset")
@@ -229,6 +241,7 @@ namespace Implem.Pleasanter.Models
                     context: context,
                     ss: ss,
                     gridData: gridData,
+                    columns: columns,
                     view: view,
                     addHeader: offset == 0,
                     clearCheck: clearCheck,
@@ -237,6 +250,7 @@ namespace Implem.Pleasanter.Models
                     offset,
                     gridData.DataRows.Count(),
                     gridData.TotalCount))
+                .Val("#GridColumns", columns.Select(o => o.ColumnName).ToJson())
                 .Paging("#Grid")
                 .Message(message)
                 .ToJson();
@@ -247,6 +261,7 @@ namespace Implem.Pleasanter.Models
             Context context,
             SiteSettings ss,
             GridData gridData,
+            List<Column> columns,
             View view,
             bool addHeader = true,
             bool clearCheck = false,
@@ -255,10 +270,6 @@ namespace Implem.Pleasanter.Models
             var checkAll = clearCheck
                 ? false
                 : context.Forms.Bool("GridCheckAll");
-            var columns = ss.GetGridColumns(
-                context: context,
-                view: view,
-                checkPermission: true);
             return hb
                 .THead(
                     _using: addHeader,
