@@ -34,22 +34,26 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     {
                         if (sort)
                         {
-                            hb.Th(css: "sortable", action: () => hb
-                                .Div(
-                                    attributes: new HtmlAttributes()
-                                        .DataId("ViewSorters__" + column.ColumnName)
-                                        .Add("data-order-type", OrderBy(
-                                            view, column.ColumnName))
-                                        .DataAction(action)
-                                        .DataMethod("post"),
-                                    action: () => hb
-                                        .Span(action: () => hb
-                                            .Text(text: Displays.Get(
-                                                context: context,
-                                                id: column.GridLabelText)))
-                                        .SortIcon(
-                                            view: view,
-                                            key: column.ColumnName)));
+                            hb.Th(
+                                css: "sortable",
+                                attributes: new HtmlAttributes()
+                                    .DataName(column.ColumnName),
+                                action: () => hb
+                                    .Div(
+                                        attributes: new HtmlAttributes()
+                                            .DataId("ViewSorters__" + column.ColumnName)
+                                            .Add("data-order-type", OrderBy(
+                                                view, column.ColumnName))
+                                            .DataAction(action)
+                                            .DataMethod("post"),
+                                        action: () => hb
+                                            .Span(action: () => hb
+                                                .Text(text: Displays.Get(
+                                                    context: context,
+                                                    id: column.GridLabelText)))
+                                            .SortIcon(
+                                                view: view,
+                                                key: column.ColumnName)));
                         }
                         else
                         {
