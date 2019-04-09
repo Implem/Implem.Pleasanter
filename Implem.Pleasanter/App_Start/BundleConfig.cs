@@ -26,6 +26,7 @@ namespace Implem.Pleasanter
                 "~/Scripts/_Api.js",
                 "~/Scripts/_Data.js",
                 "~/Scripts/_Dispatch.js",
+                "~/Scripts/_Elements.js",
                 "~/Scripts/_Event.js",
                 "~/Scripts/_Form.js",
                 "~/Scripts/_Time.js",
