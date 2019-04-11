@@ -19,7 +19,7 @@ $p.getGridRow = function (id) {
 }
 
 $p.getGridCell = function (id, name) {
-    return $('#Grid > tbody > tr[data-id="' + id + '"] td:nth-child(' + $p.getGridColumnIndex(name) + ')');
+    return $('#Grid > tbody > tr[data-id="' + id + '"] td:nth-child(' + ($p.getGridColumnIndex(name) + 1) + ')');
 }
 
 $p.getGridColumnIndex = function (name) {
