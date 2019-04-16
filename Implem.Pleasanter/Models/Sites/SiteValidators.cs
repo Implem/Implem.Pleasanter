@@ -1,4 +1,5 @@
-﻿using Implem.Libraries.Utilities;
+﻿using Implem.DefinitionAccessor;
+using Implem.Libraries.Utilities;
 using Implem.Pleasanter.Libraries.General;
 using Implem.Pleasanter.Libraries.Requests;
 using Implem.Pleasanter.Libraries.Security;
@@ -171,10 +172,11 @@ namespace Implem.Pleasanter.Models
 
         private static bool Authenticate(Context context)
         {
-            return Authentications.Windows() || Authentications.Try(
-                context: context,
-                loginId: context.Forms.Data("Users_LoginId"),
-                password: context.Forms.Data("Users_Password").Sha512Cng());
+            return Authentications.SSO() 
+                || Authentications.Try(
+                    context: context,
+                    loginId: context.Forms.Data("Users_LoginId"),
+                    password: context.Forms.Data("Users_Password").Sha512Cng());
         }
 
         public static Error.Types OnRestoring(Context context)

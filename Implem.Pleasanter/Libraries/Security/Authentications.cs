@@ -1,4 +1,5 @@
-﻿using Implem.Pleasanter.Libraries.Requests;
+﻿using Implem.DefinitionAccessor;
+using Implem.Pleasanter.Libraries.Requests;
 using Implem.Pleasanter.Libraries.Server;
 using Implem.Pleasanter.Libraries.Settings;
 using Implem.Pleasanter.Models;
@@ -40,6 +41,11 @@ namespace Implem.Pleasanter.Libraries.Security
         {
             return ((AuthenticationSection)ConfigurationManager
                 .GetSection("system.web/authentication")).Mode.ToString() == "Windows";
+        }
+
+        public static bool SSO()
+        {
+            return Windows() || Parameters.Authentication.Provider == "SAML";
         }
     }
 }
