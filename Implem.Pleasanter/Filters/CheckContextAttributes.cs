@@ -24,7 +24,7 @@ namespace Implem.Pleasanter.Filters
             if (context.Authenticated
                 && !context.ContractSettings.AllowedIpAddress(context.UserHostAddress))
             {
-                Authentications.SignOut();
+                Authentications.SignOut(context: context);
                 filterContext.Result = new RedirectResult(
                     Locations.InvalidIpAddress(context: context));
                 return;
@@ -32,7 +32,7 @@ namespace Implem.Pleasanter.Filters
             if (context.Authenticated
                 && context.ContractSettings.OverDeadline(context: context))
             {
-                Authentications.SignOut();
+                Authentications.SignOut(context: context);
                 filterContext.Result = new RedirectResult(
                     Locations.Login(context: context) + "?expired=1");
                 return;
@@ -48,7 +48,7 @@ namespace Implem.Pleasanter.Filters
                     }
                     else
                     {
-                        Authentications.SignOut();
+                        Authentications.SignOut(context: context);
                         filterContext.Result = new RedirectResult(
                             Locations.Login(context: context));
                         return;

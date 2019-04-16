@@ -29,11 +29,11 @@ namespace Implem.Pleasanter.Libraries.Security
                     .Authenticate(context: context);
         }
 
-        public static void SignOut()
+        public static void SignOut(Context context)
         {
             FormsAuthentication.SignOut();
             FederatedAuthentication.SessionAuthenticationModule?.DeleteSessionTokenCookie();
-            HttpContext.Current.Session.Abandon();
+            SessionUtilities.Abandon(context: context);
         }
 
         public static bool Windows()
