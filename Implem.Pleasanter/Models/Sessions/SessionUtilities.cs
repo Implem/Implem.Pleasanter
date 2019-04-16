@@ -213,5 +213,30 @@ namespace Implem.Pleasanter.Models
                         .Key(key)
                         .Page(context.Page, _using: page)));
         }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        private static void RemoveAll(Context context)
+        {
+            Rds.ExecuteNonQuery(
+                context: context,
+                statements: Rds.PhysicalDeleteSessions(
+                    where: Rds.SessionsWhere()
+                        .SessionGuid(context.SessionGuid)));
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        public static void Abandon(Context context)
+        {
+            var current = System.Web.HttpContext.Current;
+            current.Session.Clear();
+            current.Session.Abandon();
+            current.Response.Cookies.Add(
+                new System.Web.HttpCookie("ASP.NET_SessionId", string.Empty));
+            RemoveAll(context: context);
+        }
     }
 }

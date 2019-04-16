@@ -247,7 +247,7 @@ namespace Implem.Pleasanter.Controllers
             {
                 if (context.QueryStrings.Bool("new"))
                 {
-                    Authentications.SignOut();
+                    Authentications.SignOut(context: context);
                 }
                 log.Finish(context: context);
                 return base.Redirect(Locations.Top(context: context));
@@ -288,7 +288,7 @@ namespace Implem.Pleasanter.Controllers
             if (HttpContext.User?.Identity?.AuthenticationType == "Federation"
                 && HttpContext.User?.Identity?.IsAuthenticated == true)
             {
-                Authentications.SignOut();
+                Authentications.SignOut(context: context);
                 var loginId = ClaimsPrincipal.Current.FindFirst(ClaimTypes.NameIdentifier);
                 var firstName = string.Empty;
                 var lastName = string.Empty;
@@ -388,7 +388,7 @@ namespace Implem.Pleasanter.Controllers
         {
             var context = new Context();
             var log = new SysLogModel(context: context);
-            Authentications.SignOut();
+            Authentications.SignOut(context: context);
             var url = Locations.Login(context: context);
             log.Finish(context: context);
             return Redirect(url);
