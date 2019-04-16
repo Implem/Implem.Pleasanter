@@ -8033,12 +8033,12 @@ namespace Implem.Pleasanter.Models
                     .FieldTextBox(
                         controlId: "Users_LoginId",
                         labelText: Displays.Users_LoginId(context: context),
-                        _using: !Authentications.Windows())
+                        _using: !Authentications.SSO())
                     .FieldTextBox(
                         textType: HtmlTypes.TextTypes.Password,
                         controlId: "Users_Password",
                         labelText: Displays.Users_Password(context: context),
-                        _using: !Authentications.Windows())
+                        _using: !Authentications.SSO())
                     .P(css: "message-dialog")
                     .Div(css: "command-center", action: () => hb
                         .Button(
