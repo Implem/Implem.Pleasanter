@@ -642,7 +642,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                                     .SiteId(raw: link.SiteId.ToString())
                                     .ReferenceId(raw: "try_cast([{0}].[{1}] as bigint)"
                                         .Params(TableName(), link.ColumnName))),
-                            _as: "Linked__" + ColumnName);
+                            _as: $"Linked__{ColumnName}_{link.SiteId}");
                     }
                 });
             return sql;

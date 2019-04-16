@@ -2521,12 +2521,12 @@ namespace Implem.Pleasanter.Libraries.Settings
 
         public void SetChoiceHash(EnumerableRowCollection<DataRow> dataRows)
         {
-            var columns = dataRows.Columns();
+            var dataColumns = dataRows.Columns()
+                .Where(columnName => columnName.StartsWith("Linked__"))
+                .ToList();
             Columns
-                .Where(o => !Aggregations.Any(p => p.GroupBy == o.ColumnName))
-                .Where(o => columns.Contains("Linked__" + o.ColumnName))
                 .Where(o => o.Linked())
-                .Where(o => o.ChoiceHash.Any() == false)
+                .Where(o => dataColumns.Any(p => p.StartsWith($"Linked__{o.ColumnName}_")))
                 .ForEach(column =>
                 {
                     column.ChoiceHash = new Dictionary<string, Choice>();
@@ -2538,7 +2538,12 @@ namespace Implem.Pleasanter.Libraries.Settings
                                 dataRow.String(column.ColumnName),
                                 new Choice(
                                     dataRow.String(column.ColumnName),
-                                    dataRow.String("Linked__" + column.ColumnName))));
+                                    Strings.CoalesceEmpty(
+                                        dataColumns
+                                            .Where(columnName => columnName
+                                                .StartsWith($"Linked__{column.ColumnName}_"))
+                                            .Select(columnName => dataRow
+                                                .String(columnName)).ToArray()))));
                     column.LinkedChoiceHashCreated = true;
                 });
         }
