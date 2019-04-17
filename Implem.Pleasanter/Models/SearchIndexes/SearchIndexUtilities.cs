@@ -546,10 +546,31 @@ namespace Implem.Pleasanter.Models
             if (word != katakana) data.Add(katakana);
             if (word != hiragana) data.Add(hiragana);
             return "(" + data
-                .SelectMany(o => new List<string> { o, o + "*" })
+                .SelectMany(part => new List<string>
+                {
+                    part,
+                    ForwardMatchSearch(part: part)
+                })
+                .Where(o => o != null)
                 .Distinct()
                 .Select(o => "\"" + o + "\"")
                 .Join(" or ") + ")";
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        private static string ForwardMatchSearch(string part)
+        {
+            var separators = "!#$%&()*+,-./:<=>?@[\\]^_`{|}~";
+            foreach (var separator in separators)
+            {
+                if ( part.Split(separator).Any(o => o.RegexExists("^[0-9]$")))
+                {
+                    return null;
+                }
+            }
+            return part + "*";
         }
 
         /// <summary>
