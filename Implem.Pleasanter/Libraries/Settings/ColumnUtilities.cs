@@ -39,6 +39,21 @@ namespace Implem.Pleasanter.Libraries.Settings
             };
         }
 
+        public enum DateFilterSetMode : int
+        {
+            Default = 1,
+            Range = 2
+        }
+
+        public static Dictionary<string, string> DateFilterSetModeOptions(Context context)
+        {
+            return new Dictionary<string, string>
+            {
+                { DateFilterSetMode.Default.ToInt().ToString(), Displays.DateFilterSetModeDefault(context: context) },
+                { DateFilterSetMode.Range.ToInt().ToString(), Displays.DateFilterSetModeRange(context: context) }
+            };
+        }
+
         public static IEnumerable<ColumnDefinition> GridDefinitions(
             this Dictionary<string, ColumnDefinition> definitions,
             Context context,

@@ -1105,14 +1105,46 @@ namespace Implem.Pleasanter.Libraries.Settings
             return param.Any(o => o != "\t")
                 ? new SqlWhere(
                     tableName: column.TableName(),
-                    raw: param.Select(range =>
-                        "#TableBracket#.[{0}] between '{1}' and '{2}'".Params(
-                            column.Name,
-                            range.Split_1st().ToDateTime().ToUniversal(context: context)
-                                .ToString("yyyy/M/d H:m:s"),
-                            range.Split_2nd().ToDateTime().ToUniversal(context: context)
-                                .ToString("yyyy/M/d H:m:s.fff"))).Join(" or "))
+                    raw: param.Select(range => {
+                        var from = range.Split_1st();
+                        var to = range.Split_2nd();
+                        if (!from.IsNullOrEmpty() && !to.IsNullOrEmpty())
+                        {
+                            return "#TableBracket#.[{0}] between '{1}' and '{2}'".Params(
+                                column.Name,
+                                ConvertDateTimeParam(from, column).ToUniversal(context: context)
+                                    .ToString("yyyy/M/d H:m:s"),
+                                ConvertDateTimeParam(to, column).ToDateTime().ToUniversal(context: context)
+                                    .ToString("yyyy/M/d H:m:s.fff"));
+                        }
+                        else if (to.IsNullOrEmpty())
+                        {
+                            return "#TableBracket#.[{0}] >= '{1}'".Params(
+                                column.Name,
+                                ConvertDateTimeParam(from, column).ToDateTime().ToUniversal(context: context)
+                                    .ToString("yyyy/M/d H:m:s"));
+                        }
+                        else
+                        {
+                            return "#TableBracket#.[{0}] <= '{1}'".Params(
+                                column.Name,
+                                ConvertDateTimeParam(to, column).ToDateTime().ToUniversal(context: context)
+                                    .ToString("yyyy/M/d H:m:s.fff"));
+                        }
+                    }).Join(" or "))
                 : null;
+        }
+
+        private DateTime ConvertDateTimeParam(string dateTimeString, Column column)
+        {
+            var dt = dateTimeString.ToDateTime();
+            switch (column.ColumnName)
+            {
+                case "CompletionTime":
+                    return column.DateTimepicker() ? dt : dt.AddDays(1);
+                default:
+                    return dt;
+            }
         }
 
         private SqlWhere CsDateTimeColumnsWhereNull(

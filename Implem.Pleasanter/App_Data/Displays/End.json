@@ -1,0 +1,13 @@
+﻿{
+    "Id": "End",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "End"
+        },
+        {
+            "Language": "ja",
+            "Body": "終了"
+        }
+    ]
+}

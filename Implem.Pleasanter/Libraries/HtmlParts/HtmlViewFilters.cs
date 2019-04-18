@@ -4,6 +4,7 @@ using Implem.Pleasanter.Libraries.Requests;
 using Implem.Pleasanter.Libraries.Responses;
 using Implem.Pleasanter.Libraries.Settings;
 using Implem.Pleasanter.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 namespace Implem.Pleasanter.Libraries.HtmlParts
@@ -25,7 +26,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                             .Reset(context: context)
                             .Incomplete(
                                 context: context,
-                                ss: ss, 
+                                ss: ss,
                                 view: view)
                             .Own(
                                 context: context,
@@ -195,6 +196,15 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                 ss.EditorColumns.Contains(columnName);
         }
 
+        internal static string GetDisplayDateFilterRange(string value, bool timepicker)
+        {
+            if (value.IsNullOrEmpty()) return value;
+            var dts = value.Trim('[', '"', ']').Split(new[] { ',' });
+            var s = (dts.Length > 0) ? (timepicker ? dts[0] : dts[0].Split(' ').FirstOrDefault()) : "";
+            var e = (dts.Length > 1) ? (timepicker ? dts[1] : dts[1].Split(' ').FirstOrDefault()) : "";
+            return s + " - " + e;
+        }
+
         private static HtmlBuilder Columns(
             this HtmlBuilder hb, Context context, SiteSettings ss, View view)
         {
@@ -222,12 +232,40 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                 : column.NumFilterOptions(context: context));
                         break;
                     case Types.CsDateTime:
-                        hb.DropDown(
-                            context: context,
-                            ss: ss,
-                            column: column,
-                            view: view,
-                            optionCollection: column.DateFilterOptions(context: context));
+                        if (column.DateFilterSetMode == ColumnUtilities.DateFilterSetMode.Default)
+                        {
+                            hb.DropDown(
+                                context: context,
+                                ss: ss,
+                                column: column,
+                                view: view,
+                                optionCollection: column.DateFilterOptions(context: context));
+                        }
+                        else
+                        {
+                            hb.FieldTextBox(
+                                controlId: "ViewFilters__" + column.ColumnName + "_Display_",
+                                fieldCss: "field-auto-thin",
+                                controlCss: (column.UseSearch == true ? " search" : string.Empty),
+                                labelText: Displays.Get(
+                                    context: context,
+                                    id: column.GridLabelText),
+                                labelTitle: ss.LabelTitle(column),
+                                text: GetDisplayDateFilterRange(view.ColumnFilter(column.ColumnName),column.DateTimepicker()),
+                                method: "post",
+                                attributes: new Dictionary<string, string>
+                                {
+                                    ["onfocus"] = $"$p.setDateRangeDialog($(this),'{Displays.DateRange(context)}','{Displays.Start(context)}'," +
+                                        $"'{Displays.End(context)}','{Displays.OK(context)}','{Displays.Cancel(context)}','{Displays.Clear(context)}'," +
+                                        $"{column.DateTimepicker().ToString().ToLower()})"
+                                },
+                                _using: Visible(column) || column.RecordedTime)
+                            .Hidden(attributes: new HtmlAttributes()
+                                .Id( "ViewFilters__" + column.ColumnName)
+                                .Class(column.UseSearch == true ? " search" : string.Empty)
+                                .DataMethod("post")
+                                .Value(view.ColumnFilter(column.ColumnName)));
+                        }
                         break;
                     case Types.CsString:
                         if (column.HasChoices())
@@ -354,5 +392,5 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                 _using: context.Controller == "items"
                     || context.Controller == "publishes");
         }
-    }
+    }   
 }

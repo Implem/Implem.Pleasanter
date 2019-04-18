@@ -52,6 +52,7 @@ namespace Implem.Pleasanter.Libraries.Settings
         public decimal? NumFilterMin;
         public decimal? NumFilterMax;
         public decimal? NumFilterStep;
+        public ColumnUtilities.DateFilterSetMode? DateFilterSetMode;
         public int? DateFilterMinSpan;
         public int? DateFilterMaxSpan;
         public bool? DateFilterFy;

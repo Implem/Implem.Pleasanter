@@ -80,4 +80,11 @@
                 .find('input');
         }
     });
+    $(document).on('change', '#DateFilterSetMode', function () {
+        if ($('#DateFilterSetMode').val() === '1') {
+            $('#FilterColumnSettingField').removeClass('hidden');
+        } else {
+            $('#FilterColumnSettingField').addClass('hidden');
+        }
+    });
 });

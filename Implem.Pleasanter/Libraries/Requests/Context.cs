@@ -165,10 +165,8 @@ namespace Implem.Pleasanter.Libraries.Requests
 
         private void SetSessionGuid()
         {
-            if (HttpContext.Current?.Session != null)
-            {
-                SessionGuid = HttpContext.Current?.Session.SessionID;
-            }
+            SessionGuid = HttpContext.Current?.Request?.Cookies["ASP.NET_SessionId"]?.Value
+                ?? SessionGuid;
         }
 
         private void SetItemProperties()
@@ -307,7 +305,9 @@ namespace Implem.Pleasanter.Libraries.Requests
 
         private void SetData()
         {
-            SessionData = SessionUtilities.Get(this);
+            SessionData = SessionUtilities.Get(
+                context: this, 
+                includeUserArea: Controller == "sessions");
             var request = HttpContext.Current.Request;
             request.QueryString.AllKeys
                 .Where(o => o != null)

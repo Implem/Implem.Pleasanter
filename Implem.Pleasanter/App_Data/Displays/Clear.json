@@ -1,0 +1,13 @@
+﻿{
+    "Id": "Clear",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Clear"
+        },
+        {
+            "Language": "ja",
+            "Body": "クリア"
+        }
+    ]
+}

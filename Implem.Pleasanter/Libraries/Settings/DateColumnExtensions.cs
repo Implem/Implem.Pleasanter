@@ -15,11 +15,6 @@ namespace Implem.Pleasanter.Libraries.Settings
             var now = DateTime.Now.ToLocal(context: context);
             var min = Min(column, now);
             var max = Max(column, now);
-            var diff = 0;
-            switch (column.ColumnName)
-            {
-                case "CompletionTime": diff = 1; break;
-            }
             if (!column.Required)
             {
                 hash.Add("\t", new ControlData(Displays.NotSet(context: context)));
@@ -34,7 +29,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                         now: now,
                         current: now.AddMonths(m),
                         recordedTime: column.RecordedTime,
-                        diff: diff);
+                        diff: 0);
                 }
             }
             if (column.DateFilterHalf == true)
@@ -47,7 +42,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                         now: now,
                         current:  now.AddMonths(m),
                         recordedTime: column.RecordedTime,
-                        diff: diff);
+                        diff: 0);
                 }
             }
             if (column.DateFilterQuarter == true)
@@ -60,7 +55,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                         now: now,
                         current: now.AddMonths(m),
                         recordedTime: column.RecordedTime,
-                        diff: diff);
+                        diff: 0);
                 }
             }
             if (column.DateFilterMonth == true)
@@ -73,7 +68,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                         now: now,
                         current: now.AddMonths(m),
                         recordedTime: column.RecordedTime,
-                        diff: diff);
+                        diff: 0);
                 }
             }
             return hash;

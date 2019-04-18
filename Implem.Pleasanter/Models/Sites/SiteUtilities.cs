@@ -191,6 +191,9 @@ namespace Implem.Pleasanter.Models
                         gridData.TotalCount)
                             .ToString())
                 .Hidden(
+                    controlId: "GridRowIds",
+                    value: gridData.DataRows.Select(g => g.Long("SiteId")).ToJson())
+                .Hidden(
                     controlId: "GridColumns",
                     value: columns.Select(o => o.ColumnName).ToJson())
                 .Button(
@@ -250,6 +253,7 @@ namespace Implem.Pleasanter.Models
                     offset,
                     gridData.DataRows.Count(),
                     gridData.TotalCount))
+                .Val("#GridRowIds", gridData.DataRows.Select(g => g.Long("SiteId")).ToJson())
                 .Val("#GridColumns", columns.Select(o => o.ColumnName).ToJson())
                 .Paging("#Grid")
                 .Message(message)
@@ -3767,86 +3771,102 @@ namespace Implem.Pleasanter.Models
         public static HtmlBuilder FilterColumnDialog(
             this HtmlBuilder hb, Context context, SiteSettings ss, Column column)
         {
-            hb.FieldSet(
-                css: " enclosed",
-                legendText: column.LabelText,
-                action: () =>
-                {
-                    switch (column.TypeName.CsTypeSummary())
+            hb
+                .FieldSet(
+                    css: " enclosed",
+                    legendText: Displays.DateFilterSetMode(context: context),
+                    action: () => hb.FieldDropDown(
+                         context: context,
+                         controlId: "DateFilterSetMode",
+                         fieldCss: "field-auto-thin",
+                         optionCollection: ColumnUtilities.DateFilterSetModeOptions(context),
+                         selectedValue: (column.DateFilterSetMode == ColumnUtilities.DateFilterSetMode.Range)
+                             ? ColumnUtilities.DateFilterSetMode.Range.ToInt().ToString()
+                             : ColumnUtilities.DateFilterSetMode.Default.ToInt().ToString()),
+                    _using: column.TypeName.CsTypeSummary() == Types.CsDateTime)
+                .FieldSet(
+                    id: "FilterColumnSettingField",
+                    css: column.DateFilterSetMode == ColumnUtilities.DateFilterSetMode.Default 
+                        ? " enclosed"
+                        : " enclosed hidden",
+                    legendText: column.LabelText,
+                    action: () =>
                     {
-                        case Types.CsBool:
-                            hb.FieldDropDown(
-                                context: context,
-                                controlId: "CheckFilterControlType",
-                                fieldCss: "field-auto-thin",
-                                labelText: Displays.ControlType(context: context),
-                                optionCollection: ColumnUtilities
-                                    .CheckFilterControlTypeOptions(context: context),
-                                selectedValue: column.CheckFilterControlType.ToInt().ToString());
-                            break;
-                        case Types.CsNumeric:
-                            hb
-                                .FieldTextBox(
-                                    controlId: "NumFilterMin",
+                        switch (column.TypeName.CsTypeSummary())
+                        {
+                            case Types.CsBool:
+                                hb.FieldDropDown(
+                                    context: context,
+                                    controlId: "CheckFilterControlType",
                                     fieldCss: "field-auto-thin",
-                                    labelText: Displays.Min(context: context),
-                                    text: column.NumFilterMin.TrimEndZero(),
-                                    validateRequired: true,
-                                    validateNumber: true)
-                                .FieldTextBox(
-                                    controlId: "NumFilterMax",
-                                    fieldCss: "field-auto-thin",
-                                    labelText: Displays.Max(context: context),
-                                    text: column.NumFilterMax.TrimEndZero(),
-                                    validateRequired: true,
-                                    validateNumber: true)
-                                .FieldTextBox(
-                                    controlId: "NumFilterStep",
-                                    fieldCss: "field-auto-thin",
-                                    labelText: Displays.Step(context: context),
-                                    text: column.NumFilterStep.TrimEndZero(),
-                                    validateRequired: true,
-                                    validateNumber: true);
-                            break;
-                        case Types.CsDateTime:
-                            hb
-                                .FieldTextBox(
-                                    controlId: "DateFilterMinSpan",
-                                    fieldCss: "field-auto-thin",
-                                    labelText: Displays.Min(context: context),
-                                    text: column.DateFilterMinSpan.ToString(),
-                                    validateRequired: true,
-                                    validateNumber: true)
-                                .FieldTextBox(
-                                    controlId: "DateFilterMaxSpan",
-                                    fieldCss: "field-auto-thin",
-                                    labelText: Displays.Max(context: context),
-                                    text: column.DateFilterMaxSpan.ToString(),
-                                    validateRequired: true,
-                                    validateNumber: true)
-                                .FieldCheckBox(
-                                    controlId: "DateFilterFy",
-                                    fieldCss: "field-auto-thin",
-                                    labelText: Displays.UseFy(context: context),
-                                    _checked: column.DateFilterFy == true)
-                                .FieldCheckBox(
-                                    controlId: "DateFilterHalf",
-                                    fieldCss: "field-auto-thin",
-                                    labelText: Displays.UseHalf(context: context),
-                                    _checked: column.DateFilterHalf == true)
-                                .FieldCheckBox(
-                                    controlId: "DateFilterQuarter",
-                                    fieldCss: "field-auto-thin",
-                                    labelText: Displays.UseQuarter(context: context),
-                                    _checked: column.DateFilterQuarter == true)
-                                .FieldCheckBox(
-                                    controlId: "DateFilterMonth",
-                                    fieldCss: "field-auto-thin",
-                                    labelText: Displays.UseMonth(context: context),
-                                    _checked: column.DateFilterMonth == true);
-                            break;
-                    }
-                });
+                                    labelText: Displays.ControlType(context: context),
+                                    optionCollection: ColumnUtilities
+                                        .CheckFilterControlTypeOptions(context: context),
+                                    selectedValue: column.CheckFilterControlType.ToInt().ToString());
+                                break;
+                            case Types.CsNumeric:
+                                hb
+                                    .FieldTextBox(
+                                        controlId: "NumFilterMin",
+                                        fieldCss: "field-auto-thin",
+                                        labelText: Displays.Min(context: context),
+                                        text: column.NumFilterMin.TrimEndZero(),
+                                        validateRequired: true,
+                                        validateNumber: true)
+                                    .FieldTextBox(
+                                        controlId: "NumFilterMax",
+                                        fieldCss: "field-auto-thin",
+                                        labelText: Displays.Max(context: context),
+                                        text: column.NumFilterMax.TrimEndZero(),
+                                        validateRequired: true,
+                                        validateNumber: true)
+                                    .FieldTextBox(
+                                        controlId: "NumFilterStep",
+                                        fieldCss: "field-auto-thin",
+                                        labelText: Displays.Step(context: context),
+                                        text: column.NumFilterStep.TrimEndZero(),
+                                        validateRequired: true,
+                                        validateNumber: true);
+                                break;
+                            case Types.CsDateTime:
+                                hb
+                                    .FieldTextBox(
+                                        controlId: "DateFilterMinSpan",
+                                        fieldCss: "field-auto-thin",
+                                        labelText: Displays.Min(context: context),
+                                        text: column.DateFilterMinSpan.ToString(),
+                                        validateRequired: true,
+                                        validateNumber: true)
+                                    .FieldTextBox(
+                                        controlId: "DateFilterMaxSpan",
+                                        fieldCss: "field-auto-thin",
+                                        labelText: Displays.Max(context: context),
+                                        text: column.DateFilterMaxSpan.ToString(),
+                                        validateRequired: true,
+                                        validateNumber: true)
+                                    .FieldCheckBox(
+                                        controlId: "DateFilterFy",
+                                        fieldCss: "field-auto-thin",
+                                        labelText: Displays.UseFy(context: context),
+                                        _checked: column.DateFilterFy == true)
+                                    .FieldCheckBox(
+                                        controlId: "DateFilterHalf",
+                                        fieldCss: "field-auto-thin",
+                                        labelText: Displays.UseHalf(context: context),
+                                        _checked: column.DateFilterHalf == true)
+                                    .FieldCheckBox(
+                                        controlId: "DateFilterQuarter",
+                                        fieldCss: "field-auto-thin",
+                                        labelText: Displays.UseQuarter(context: context),
+                                        _checked: column.DateFilterQuarter == true)
+                                    .FieldCheckBox(
+                                        controlId: "DateFilterMonth",
+                                        fieldCss: "field-auto-thin",
+                                        labelText: Displays.UseMonth(context: context),
+                                        _checked: column.DateFilterMonth == true);
+                                break;
+                        }
+                    });
             return hb
                 .Hidden(
                     controlId: "FilterColumnName",
@@ -5779,17 +5799,33 @@ namespace Implem.Pleasanter.Models
                             return hb;
                     }
                 case Types.CsDateTime:
-                    return hb.FieldDropDown(
-                        context: context,
-                        controlId: controlId,
-                        fieldCss: "field-auto-thin",
-                        controlCss: " auto-postback",
-                        labelText: column.LabelText,
-                        labelTitle: labelTitle,
-                        optionCollection: column.DateFilterOptions(context: context),
-                        selectedValue: value,
-                        multiple: true,
-                        addSelectedValue: false);
+                    return column.DateFilterSetMode == ColumnUtilities.DateFilterSetMode.Default
+                        ? hb.FieldDropDown(
+                            context: context,
+                            controlId: controlId,
+                            fieldCss: "field-auto-thin",
+                            controlCss: " auto-postback",
+                            labelText: column.LabelText,
+                            labelTitle: labelTitle,
+                            optionCollection: column.DateFilterOptions(context: context),
+                            selectedValue: value,
+                            multiple: true,
+                            addSelectedValue: false)
+                        : hb.FieldTextBox(
+                            controlId: controlId + "_Display_",
+                            fieldCss: "field-auto-thin",
+                            labelText: column.LabelText,
+                            labelTitle: labelTitle,
+                            text: HtmlViewFilters.GetDisplayDateFilterRange(value,column.DateTimepicker()),
+                            attributes: new Dictionary<string, string>
+                            {
+                                ["onfocus"] = $"$p.setDateRangeDialog($(this),'{Displays.DateRange(context)}','{Displays.Start(context)}'," +
+                                    $"'{Displays.End(context)}','{Displays.OK(context)}','{Displays.Cancel(context)}','{Displays.Clear(context)}'," +
+                                    $"{column.DateTimepicker().ToString().ToLower()})"
+                            })
+                            .Hidden(attributes: new HtmlAttributes()
+                                .Id("ViewFilters__" + column.ColumnName)
+                                .Value(value));
                 case Types.CsNumeric:
                     return hb.FieldDropDown(
                         context: context,
