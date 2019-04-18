@@ -631,7 +631,8 @@ namespace Implem.Pleasanter.Libraries.Settings
             Context context, SiteSettings ss, SqlColumnCollection sql)
         {
             SiteSettings.Links?
-                .Where(o => o.ColumnName == Name)
+                .Where(link => link.ColumnName == Name)
+                .Where(link => ss.JoinedSsHash.ContainsKey(link.SiteId))
                 .ForEach(link =>
                 {
                     if (context.PermissionHash?.ContainsKey(link.SiteId) == true)
