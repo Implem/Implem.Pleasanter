@@ -216,6 +216,7 @@
     <Compile Include="Controllers\Api\DeptsController.cs" />
     <Compile Include="Controllers\Api\GroupsController.cs" />
     <Compile Include="Controllers\Api\ItemsController.cs" />
+    <Compile Include="Controllers\Api\SessionsController.cs" />
     <Compile Include="Controllers\Api\UsersController.cs" />
     <Compile Include="Controllers\Api_DeptsController.cs" />
     <Compile Include="Controllers\Api_GroupsController.cs" />
@@ -316,6 +317,7 @@
     <Compile Include="Libraries\Models\ImageLibData.cs" />
     <Compile Include="Libraries\Models\JsonExport.cs" />
     <Compile Include="Libraries\Models\JsonExportColumn.cs" />
+    <Compile Include="Libraries\Requests\SessionApi.cs" />
     <Compile Include="Libraries\Requests\Api.cs" />
     <Compile Include="Libraries\Requests\Calendars.cs" />
     <Compile Include="Libraries\Requests\GridSelector.cs" />
@@ -595,6 +597,7 @@
     <Content Include="Scripts\Clipboard.js" />
     <Content Include="Scripts\ColumnAccessControl.js" />
     <Content Include="Scripts\FieldSelectable.js" />
+    <Content Include="Scripts\SetDateRangeDialog.js" />
     <Content Include="Scripts\RelatingColumns.js" />
     <Content Include="Scripts\Tenants.js" />
     <Content Include="Scripts\Users.js" />
@@ -1394,6 +1397,14 @@
     <Content Include="App_Data\Displays\ExportTypes.json" />
     <Content Include="App_Data\Displays\MenuGuide.json" />
     <Content Include="App_Data\Displays\AllUsers.json" />
+    <Content Include="App_Data\Displays\DateFilterSetMode.json" />
+    <Content Include="App_Data\Displays\DateFilterSetModeDefault.json" />
+    <Content Include="App_Data\Displays\DateFilterSetModeRange.json" />
+    <Content Include="App_Data\Displays\End.json" />
+    <Content Include="App_Data\Displays\DateRange.json" />
+    <Content Include="App_Data\Displays\Start.json" />
+    <Content Include="App_Data\Displays\OK.json" />
+    <Content Include="App_Data\Displays\Clear.json" />
     <Content Include="Tools\BackgroundTasks.ps1" />
     <Content Include="Tools\SyncByLdap.ps1" />
     <Content Include="Views\Users\EditApi.cshtml" />

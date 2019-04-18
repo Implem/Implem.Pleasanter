@@ -28,11 +28,13 @@ namespace Implem.Pleasanter.Models
         public string Page = string.Empty;
         public string Value = string.Empty;
         public bool ReadOnce = false;
+        public bool UserArea = false;
         [NonSerialized] public string SavedSessionGuid = string.Empty;
         [NonSerialized] public string SavedKey = string.Empty;
         [NonSerialized] public string SavedPage = string.Empty;
         [NonSerialized] public string SavedValue = string.Empty;
         [NonSerialized] public bool SavedReadOnce = false;
+        [NonSerialized] public bool SavedUserArea = false;
 
         public bool SessionGuid_Updated(Context context, Column column = null)
         {
@@ -72,6 +74,14 @@ namespace Implem.Pleasanter.Models
                 (column == null ||
                 column.DefaultInput.IsNullOrEmpty() ||
                 column.GetDefaultInput(context: context).ToBool() != ReadOnce);
+        }
+
+        public bool UserArea_Updated(Context context, Column column = null)
+        {
+            return UserArea != SavedUserArea &&
+                (column == null ||
+                column.DefaultInput.IsNullOrEmpty() ||
+                column.GetDefaultInput(context: context).ToBool() != UserArea);
         }
 
         public SessionModel(Context context, DataRow dataRow, string tableAlias = null)
@@ -126,6 +136,7 @@ namespace Implem.Pleasanter.Models
             Page = sessionModel.Page;
             Value = sessionModel.Value;
             ReadOnce = sessionModel.ReadOnce;
+            UserArea = sessionModel.UserArea;
             Comments = sessionModel.Comments;
             Creator = sessionModel.Creator;
             Updator = sessionModel.Updator;
@@ -188,6 +199,10 @@ namespace Implem.Pleasanter.Models
                             ReadOnce = dataRow[column.ColumnName].ToBool();
                             SavedReadOnce = ReadOnce;
                             break;
+                        case "UserArea":
+                            UserArea = dataRow[column.ColumnName].ToBool();
+                            SavedUserArea = UserArea;
+                            break;
                         case "Ver":
                             Ver = dataRow[column.ColumnName].ToInt();
                             SavedVer = Ver;
@@ -226,6 +241,7 @@ namespace Implem.Pleasanter.Models
                 Page_Updated(context: context) ||
                 Value_Updated(context: context) ||
                 ReadOnce_Updated(context: context) ||
+                UserArea_Updated(context: context) ||
                 Ver_Updated(context: context) ||
                 Comments_Updated(context: context) ||
                 Creator_Updated(context: context) ||

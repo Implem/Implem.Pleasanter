@@ -192,6 +192,9 @@ namespace Implem.Pleasanter.Models
                         gridData.TotalCount)
                             .ToString())
                 .Hidden(
+                    controlId: "GridRowIds",
+                    value: gridData.DataRows.Select(g => g.Long("UserId")).ToJson())
+                .Hidden(
                     controlId: "GridColumns",
                     value: columns.Select(o => o.ColumnName).ToJson())
                 .Button(
@@ -251,6 +254,7 @@ namespace Implem.Pleasanter.Models
                     offset,
                     gridData.DataRows.Count(),
                     gridData.TotalCount))
+                .Val("#GridRowIds", gridData.DataRows.Select(g => g.Long("UserId")).ToJson())
                 .Val("#GridColumns", columns.Select(o => o.ColumnName).ToJson())
                 .Paging("#Grid")
                 .Message(message)

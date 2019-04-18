@@ -1348,6 +1348,7 @@ namespace Implem.DefinitionAccessor
                     case "Sessions_Page": Column.Sessions_Page = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Sessions_Page, definitionRow, ColumnXls); break;
                     case "Sessions_Value": Column.Sessions_Value = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Sessions_Value, definitionRow, ColumnXls); break;
                     case "Sessions_ReadOnce": Column.Sessions_ReadOnce = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Sessions_ReadOnce, definitionRow, ColumnXls); break;
+                    case "Sessions_UserArea": Column.Sessions_UserArea = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Sessions_UserArea, definitionRow, ColumnXls); break;
                     case "SysLogs_CreatedTime": Column.SysLogs_CreatedTime = definitionRow[1].ToString(); SetColumnTable(ColumnTable.SysLogs_CreatedTime, definitionRow, ColumnXls); break;
                     case "SysLogs_SysLogId": Column.SysLogs_SysLogId = definitionRow[1].ToString(); SetColumnTable(ColumnTable.SysLogs_SysLogId, definitionRow, ColumnXls); break;
                     case "SysLogs_StartTime": Column.SysLogs_StartTime = definitionRow[1].ToString(); SetColumnTable(ColumnTable.SysLogs_StartTime, definitionRow, ColumnXls); break;
@@ -8768,6 +8769,7 @@ namespace Implem.DefinitionAccessor
         public string Sessions_Page;
         public string Sessions_Value;
         public string Sessions_ReadOnce;
+        public string Sessions_UserArea;
         public string SysLogs_CreatedTime;
         public string SysLogs_SysLogId;
         public string SysLogs_StartTime;
@@ -9671,6 +9673,7 @@ namespace Implem.DefinitionAccessor
         public ColumnDefinition Sessions_Page = new ColumnDefinition();
         public ColumnDefinition Sessions_Value = new ColumnDefinition();
         public ColumnDefinition Sessions_ReadOnce = new ColumnDefinition();
+        public ColumnDefinition Sessions_UserArea = new ColumnDefinition();
         public ColumnDefinition SysLogs_CreatedTime = new ColumnDefinition();
         public ColumnDefinition SysLogs_SysLogId = new ColumnDefinition();
         public ColumnDefinition SysLogs_StartTime = new ColumnDefinition();

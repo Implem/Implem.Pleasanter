@@ -892,6 +892,11 @@ namespace Implem.Pleasanter.Libraries.Settings
                         enabled = true;
                         newColumn.NumFilterStep = column.NumFilterStep;
                     }
+                    if (column.DateFilterSetMode != ColumnUtilities.DateFilterSetMode.Default)
+                    {
+                        enabled = true;
+                        newColumn.DateFilterSetMode = column.DateFilterSetMode;
+                    }
                     if (column.DateFilterMinSpan != Parameters.General.DateFilterMinSpan)
                     {
                         enabled = true;
@@ -1172,6 +1177,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                 column.NumFilterMin = column.NumFilterMin ?? columnDefinition.NumFilterMin;
                 column.NumFilterMax = column.NumFilterMax ?? columnDefinition.NumFilterMax;
                 column.NumFilterStep = column.NumFilterStep ?? columnDefinition.NumFilterStep;
+                column.DateFilterSetMode = column.DateFilterSetMode ?? ColumnUtilities.DateFilterSetMode.Default;
                 column.DateFilterMinSpan = column.DateFilterMinSpan ?? Parameters.General.DateFilterMinSpan;
                 column.DateFilterMaxSpan = column.DateFilterMaxSpan ?? Parameters.General.DateFilterMaxSpan;
                 column.DateFilterFy = column.DateFilterFy ?? true;
@@ -2406,6 +2412,8 @@ namespace Implem.Pleasanter.Libraries.Settings
                 case "NumFilterMin": column.NumFilterMin = value.ToDecimal(); break;
                 case "NumFilterMax": column.NumFilterMax = value.ToDecimal(); break;
                 case "NumFilterStep": column.NumFilterStep = value.ToDecimal(); break;
+                case "DateFilterSetMode": column.DateFilterSetMode =
+                        (ColumnUtilities.DateFilterSetMode)value.ToInt(); break;
                 case "DateFilterMinSpan": column.DateFilterMinSpan = value.ToInt(); break;
                 case "DateFilterMaxSpan": column.DateFilterMaxSpan = value.ToInt(); break;
                 case "DateFilterFy": column.DateFilterFy = value.ToBool(); break;
