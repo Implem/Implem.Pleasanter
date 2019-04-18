@@ -182,7 +182,8 @@ namespace Implem.Pleasanter.Libraries.Security
                                             .UserId(raw: userRaw))
                                         .Add(raw: "[Permissions].[GroupId]>0")),
                                 _operator: ">0")
-                            .UserId(raw: userRaw))),
+                            .UserId(raw: userRaw)
+                            .UserId(-1))),
                 _operator: ">0");
         }
 
