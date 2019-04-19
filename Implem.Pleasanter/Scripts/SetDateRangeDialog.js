@@ -60,10 +60,10 @@
             var setval = "";
             var dispval = "";
             if (sdval || edval) {
-                dispval = `${sdval} - ${edval}`;
+                dispval = sdval + "-" + edval;
                 if (!timepicker && sdval) { sdval += " 00:00:00.000"; }
                 if (!timepicker && edval) { edval += " 23:59:59.997"; }
-                setval = `["${sdval},${edval}"]`;
+                setval = '["' + sdval + ',' + edval + '"]';
             }
             $control.val(dispval);
             $p.set($target, setval);
