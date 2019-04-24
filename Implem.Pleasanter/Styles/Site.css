@@ -1864,6 +1864,7 @@ pre{
 }
 
 .md{
+    width:100%;
     float:left;
     line-height:1.5em;
     font-family:Terminal;
@@ -1931,6 +1932,7 @@ pre{
 }
 
 .md hr{
+    float:none;
     clear:both;
 }
 
