@@ -11,26 +11,29 @@
 }
 
 $p.execEvents = function (event, args) {
-    exec(event);
+    var result = exec(event);
     if (args.$control) {
-        exec(event + '_' + args.$control.attr('id'));
-        exec(event + '_' + args.$control.attr('data-action'));
+        result = exec(event + '_' + args.$control.attr('id')) && result;
+        result = exec(event + '_' + args.$control.attr('data-action')) && result;
     }
+    return result;
     function exec(name) {
-        if ($p.events[name] !== undefined) $p.events[name](args);
+        if ($p.events[name] !== undefined) {
+            return ($p.events[name](args) === false) ? false : true;
+        }
     }
 }
 
 $p.before_validate = function (args) {
-    $p.execEvents('before_validate', args);
+    return $p.execEvents('before_validate', args);
 }
 
 $p.after_validate = function (args) {
-    $p.execEvents('after_validate', args);
+    return $p.execEvents('after_validate', args);
 }
 
 $p.before_send = function (args) {
-    $p.execEvents('before_send', args);
+    return $p.execEvents('before_send', args);
 }
 
 $p.after_send = function (args) {
