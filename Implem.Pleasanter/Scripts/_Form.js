@@ -63,7 +63,9 @@ $p.send = function ($control, formId, async) {
         $p.setMustData($form, action);
     }
     if ($control.hasClass('validate')) {
-        $p.before_validate($p.eventArgs(url, methodType, data, $control, async));
+        if ($p.before_validate($p.eventArgs(url, methodType, data, $control, async)) === false) {
+            return false;
+        }
         $form.validate();
         if (!$form.valid()) {
             $p.setValidationError($form);
@@ -75,7 +77,9 @@ $p.send = function ($control, formId, async) {
             }
             return false;
         }
-        $p.after_validate($p.eventArgs(url, methodType, data, $control, async));
+        if ($p.after_validate($p.eventArgs(url, methodType, data, $control, async)) === false) {
+            return false;
+        }
     }
     if (methodType !== undefined) {
         return $p.ajax(

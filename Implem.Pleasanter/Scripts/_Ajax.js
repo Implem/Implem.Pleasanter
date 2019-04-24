@@ -1,5 +1,7 @@
 ﻿$p.ajax = function (url, methodType, data, $control, async) {
-    $p.before_send($p.eventArgs(url, methodType, data, $control, async));
+    if ($p.before_send($p.eventArgs(url, methodType, data, $control, async)) === false) {
+        return false;
+    }
     if ($control) {
         var _confirm = $control.attr('data-confirm');
         if (_confirm !== undefined) {
