@@ -506,15 +506,22 @@ namespace Implem.Pleasanter.Models
                 Deleted = false
             }));
             var hb = new HtmlBuilder();
+            var fieldId = controlId + "Field";
             return new ResponseCollection()
-                .ReplaceAll($"#{controlId}Field", new HtmlBuilder()
-                    .Field(
+                .ReplaceAll("#" + fieldId, new HtmlBuilder()
+                    .FieldAttachments(
                         context: context,
-                        ss: ss,
-                        column: column,
+                        fieldId: fieldId,
+                        controlId: controlId,
+                        columnName: column.ColumnName,
+                        fieldCss: column.FieldCss,
+                        fieldDescription: column.Description,
+                        controlCss: column.ControlCss,
+                        labelText: column.LabelText,
                         value: attachments.ToJson(),
-                        columnPermissionType: column
-                            .ColumnPermissionType(context: context)))
+                        placeholder: column.LabelText,
+                        readOnly: column.ColumnPermissionType(context: context)
+                            != Permissions.ColumnPermissionTypes.Update))
                 .SetData("#" + controlId)
                 .ToJson();
         }
