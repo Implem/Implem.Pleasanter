@@ -6428,313 +6428,469 @@ namespace Implem.Pleasanter.Models
                             res.ReplaceAll(
                                 "#Results_AttachmentsAField",
                                 new HtmlBuilder()
-                                    .Field(
+                                    .FieldAttachments(
                                         context: context,
-                                        ss: ss,
-                                        column: column,
+                                        fieldId: "Results_AttachmentsAField",
+                                        controlId: "Results_AttachmentsA",
+                                        columnName: column.ColumnName,
+                                        fieldCss: column.FieldCss,
+                                        fieldDescription: column.Description,
+                                        controlCss: column.ControlCss,
+                                        labelText: column.LabelText,
                                         value: resultModel.AttachmentsA.ToJson(),
-                                        columnPermissionType: column.ColumnPermissionType(
-                                            context: context)));
+                                        placeholder: column.LabelText,
+                                        readOnly: column.ColumnPermissionType(context: context)
+                                            != Permissions.ColumnPermissionTypes.Update));
                             break;
                         case "AttachmentsB":
                             res.ReplaceAll(
                                 "#Results_AttachmentsBField",
                                 new HtmlBuilder()
-                                    .Field(
+                                    .FieldAttachments(
                                         context: context,
-                                        ss: ss,
-                                        column: column,
+                                        fieldId: "Results_AttachmentsBField",
+                                        controlId: "Results_AttachmentsB",
+                                        columnName: column.ColumnName,
+                                        fieldCss: column.FieldCss,
+                                        fieldDescription: column.Description,
+                                        controlCss: column.ControlCss,
+                                        labelText: column.LabelText,
                                         value: resultModel.AttachmentsB.ToJson(),
-                                        columnPermissionType: column.ColumnPermissionType(
-                                            context: context)));
+                                        placeholder: column.LabelText,
+                                        readOnly: column.ColumnPermissionType(context: context)
+                                            != Permissions.ColumnPermissionTypes.Update));
                             break;
                         case "AttachmentsC":
                             res.ReplaceAll(
                                 "#Results_AttachmentsCField",
                                 new HtmlBuilder()
-                                    .Field(
+                                    .FieldAttachments(
                                         context: context,
-                                        ss: ss,
-                                        column: column,
+                                        fieldId: "Results_AttachmentsCField",
+                                        controlId: "Results_AttachmentsC",
+                                        columnName: column.ColumnName,
+                                        fieldCss: column.FieldCss,
+                                        fieldDescription: column.Description,
+                                        controlCss: column.ControlCss,
+                                        labelText: column.LabelText,
                                         value: resultModel.AttachmentsC.ToJson(),
-                                        columnPermissionType: column.ColumnPermissionType(
-                                            context: context)));
+                                        placeholder: column.LabelText,
+                                        readOnly: column.ColumnPermissionType(context: context)
+                                            != Permissions.ColumnPermissionTypes.Update));
                             break;
                         case "AttachmentsD":
                             res.ReplaceAll(
                                 "#Results_AttachmentsDField",
                                 new HtmlBuilder()
-                                    .Field(
+                                    .FieldAttachments(
                                         context: context,
-                                        ss: ss,
-                                        column: column,
+                                        fieldId: "Results_AttachmentsDField",
+                                        controlId: "Results_AttachmentsD",
+                                        columnName: column.ColumnName,
+                                        fieldCss: column.FieldCss,
+                                        fieldDescription: column.Description,
+                                        controlCss: column.ControlCss,
+                                        labelText: column.LabelText,
                                         value: resultModel.AttachmentsD.ToJson(),
-                                        columnPermissionType: column.ColumnPermissionType(
-                                            context: context)));
+                                        placeholder: column.LabelText,
+                                        readOnly: column.ColumnPermissionType(context: context)
+                                            != Permissions.ColumnPermissionTypes.Update));
                             break;
                         case "AttachmentsE":
                             res.ReplaceAll(
                                 "#Results_AttachmentsEField",
                                 new HtmlBuilder()
-                                    .Field(
+                                    .FieldAttachments(
                                         context: context,
-                                        ss: ss,
-                                        column: column,
+                                        fieldId: "Results_AttachmentsEField",
+                                        controlId: "Results_AttachmentsE",
+                                        columnName: column.ColumnName,
+                                        fieldCss: column.FieldCss,
+                                        fieldDescription: column.Description,
+                                        controlCss: column.ControlCss,
+                                        labelText: column.LabelText,
                                         value: resultModel.AttachmentsE.ToJson(),
-                                        columnPermissionType: column.ColumnPermissionType(
-                                            context: context)));
+                                        placeholder: column.LabelText,
+                                        readOnly: column.ColumnPermissionType(context: context)
+                                            != Permissions.ColumnPermissionTypes.Update));
                             break;
                         case "AttachmentsF":
                             res.ReplaceAll(
                                 "#Results_AttachmentsFField",
                                 new HtmlBuilder()
-                                    .Field(
+                                    .FieldAttachments(
                                         context: context,
-                                        ss: ss,
-                                        column: column,
+                                        fieldId: "Results_AttachmentsFField",
+                                        controlId: "Results_AttachmentsF",
+                                        columnName: column.ColumnName,
+                                        fieldCss: column.FieldCss,
+                                        fieldDescription: column.Description,
+                                        controlCss: column.ControlCss,
+                                        labelText: column.LabelText,
                                         value: resultModel.AttachmentsF.ToJson(),
-                                        columnPermissionType: column.ColumnPermissionType(
-                                            context: context)));
+                                        placeholder: column.LabelText,
+                                        readOnly: column.ColumnPermissionType(context: context)
+                                            != Permissions.ColumnPermissionTypes.Update));
                             break;
                         case "AttachmentsG":
                             res.ReplaceAll(
                                 "#Results_AttachmentsGField",
                                 new HtmlBuilder()
-                                    .Field(
+                                    .FieldAttachments(
                                         context: context,
-                                        ss: ss,
-                                        column: column,
+                                        fieldId: "Results_AttachmentsGField",
+                                        controlId: "Results_AttachmentsG",
+                                        columnName: column.ColumnName,
+                                        fieldCss: column.FieldCss,
+                                        fieldDescription: column.Description,
+                                        controlCss: column.ControlCss,
+                                        labelText: column.LabelText,
                                         value: resultModel.AttachmentsG.ToJson(),
-                                        columnPermissionType: column.ColumnPermissionType(
-                                            context: context)));
+                                        placeholder: column.LabelText,
+                                        readOnly: column.ColumnPermissionType(context: context)
+                                            != Permissions.ColumnPermissionTypes.Update));
                             break;
                         case "AttachmentsH":
                             res.ReplaceAll(
                                 "#Results_AttachmentsHField",
                                 new HtmlBuilder()
-                                    .Field(
+                                    .FieldAttachments(
                                         context: context,
-                                        ss: ss,
-                                        column: column,
+                                        fieldId: "Results_AttachmentsHField",
+                                        controlId: "Results_AttachmentsH",
+                                        columnName: column.ColumnName,
+                                        fieldCss: column.FieldCss,
+                                        fieldDescription: column.Description,
+                                        controlCss: column.ControlCss,
+                                        labelText: column.LabelText,
                                         value: resultModel.AttachmentsH.ToJson(),
-                                        columnPermissionType: column.ColumnPermissionType(
-                                            context: context)));
+                                        placeholder: column.LabelText,
+                                        readOnly: column.ColumnPermissionType(context: context)
+                                            != Permissions.ColumnPermissionTypes.Update));
                             break;
                         case "AttachmentsI":
                             res.ReplaceAll(
                                 "#Results_AttachmentsIField",
                                 new HtmlBuilder()
-                                    .Field(
+                                    .FieldAttachments(
                                         context: context,
-                                        ss: ss,
-                                        column: column,
+                                        fieldId: "Results_AttachmentsIField",
+                                        controlId: "Results_AttachmentsI",
+                                        columnName: column.ColumnName,
+                                        fieldCss: column.FieldCss,
+                                        fieldDescription: column.Description,
+                                        controlCss: column.ControlCss,
+                                        labelText: column.LabelText,
                                         value: resultModel.AttachmentsI.ToJson(),
-                                        columnPermissionType: column.ColumnPermissionType(
-                                            context: context)));
+                                        placeholder: column.LabelText,
+                                        readOnly: column.ColumnPermissionType(context: context)
+                                            != Permissions.ColumnPermissionTypes.Update));
                             break;
                         case "AttachmentsJ":
                             res.ReplaceAll(
                                 "#Results_AttachmentsJField",
                                 new HtmlBuilder()
-                                    .Field(
+                                    .FieldAttachments(
                                         context: context,
-                                        ss: ss,
-                                        column: column,
+                                        fieldId: "Results_AttachmentsJField",
+                                        controlId: "Results_AttachmentsJ",
+                                        columnName: column.ColumnName,
+                                        fieldCss: column.FieldCss,
+                                        fieldDescription: column.Description,
+                                        controlCss: column.ControlCss,
+                                        labelText: column.LabelText,
                                         value: resultModel.AttachmentsJ.ToJson(),
-                                        columnPermissionType: column.ColumnPermissionType(
-                                            context: context)));
+                                        placeholder: column.LabelText,
+                                        readOnly: column.ColumnPermissionType(context: context)
+                                            != Permissions.ColumnPermissionTypes.Update));
                             break;
                         case "AttachmentsK":
                             res.ReplaceAll(
                                 "#Results_AttachmentsKField",
                                 new HtmlBuilder()
-                                    .Field(
+                                    .FieldAttachments(
                                         context: context,
-                                        ss: ss,
-                                        column: column,
+                                        fieldId: "Results_AttachmentsKField",
+                                        controlId: "Results_AttachmentsK",
+                                        columnName: column.ColumnName,
+                                        fieldCss: column.FieldCss,
+                                        fieldDescription: column.Description,
+                                        controlCss: column.ControlCss,
+                                        labelText: column.LabelText,
                                         value: resultModel.AttachmentsK.ToJson(),
-                                        columnPermissionType: column.ColumnPermissionType(
-                                            context: context)));
+                                        placeholder: column.LabelText,
+                                        readOnly: column.ColumnPermissionType(context: context)
+                                            != Permissions.ColumnPermissionTypes.Update));
                             break;
                         case "AttachmentsL":
                             res.ReplaceAll(
                                 "#Results_AttachmentsLField",
                                 new HtmlBuilder()
-                                    .Field(
+                                    .FieldAttachments(
                                         context: context,
-                                        ss: ss,
-                                        column: column,
+                                        fieldId: "Results_AttachmentsLField",
+                                        controlId: "Results_AttachmentsL",
+                                        columnName: column.ColumnName,
+                                        fieldCss: column.FieldCss,
+                                        fieldDescription: column.Description,
+                                        controlCss: column.ControlCss,
+                                        labelText: column.LabelText,
                                         value: resultModel.AttachmentsL.ToJson(),
-                                        columnPermissionType: column.ColumnPermissionType(
-                                            context: context)));
+                                        placeholder: column.LabelText,
+                                        readOnly: column.ColumnPermissionType(context: context)
+                                            != Permissions.ColumnPermissionTypes.Update));
                             break;
                         case "AttachmentsM":
                             res.ReplaceAll(
                                 "#Results_AttachmentsMField",
                                 new HtmlBuilder()
-                                    .Field(
+                                    .FieldAttachments(
                                         context: context,
-                                        ss: ss,
-                                        column: column,
+                                        fieldId: "Results_AttachmentsMField",
+                                        controlId: "Results_AttachmentsM",
+                                        columnName: column.ColumnName,
+                                        fieldCss: column.FieldCss,
+                                        fieldDescription: column.Description,
+                                        controlCss: column.ControlCss,
+                                        labelText: column.LabelText,
                                         value: resultModel.AttachmentsM.ToJson(),
-                                        columnPermissionType: column.ColumnPermissionType(
-                                            context: context)));
+                                        placeholder: column.LabelText,
+                                        readOnly: column.ColumnPermissionType(context: context)
+                                            != Permissions.ColumnPermissionTypes.Update));
                             break;
                         case "AttachmentsN":
                             res.ReplaceAll(
                                 "#Results_AttachmentsNField",
                                 new HtmlBuilder()
-                                    .Field(
+                                    .FieldAttachments(
                                         context: context,
-                                        ss: ss,
-                                        column: column,
+                                        fieldId: "Results_AttachmentsNField",
+                                        controlId: "Results_AttachmentsN",
+                                        columnName: column.ColumnName,
+                                        fieldCss: column.FieldCss,
+                                        fieldDescription: column.Description,
+                                        controlCss: column.ControlCss,
+                                        labelText: column.LabelText,
                                         value: resultModel.AttachmentsN.ToJson(),
-                                        columnPermissionType: column.ColumnPermissionType(
-                                            context: context)));
+                                        placeholder: column.LabelText,
+                                        readOnly: column.ColumnPermissionType(context: context)
+                                            != Permissions.ColumnPermissionTypes.Update));
                             break;
                         case "AttachmentsO":
                             res.ReplaceAll(
                                 "#Results_AttachmentsOField",
                                 new HtmlBuilder()
-                                    .Field(
+                                    .FieldAttachments(
                                         context: context,
-                                        ss: ss,
-                                        column: column,
+                                        fieldId: "Results_AttachmentsOField",
+                                        controlId: "Results_AttachmentsO",
+                                        columnName: column.ColumnName,
+                                        fieldCss: column.FieldCss,
+                                        fieldDescription: column.Description,
+                                        controlCss: column.ControlCss,
+                                        labelText: column.LabelText,
                                         value: resultModel.AttachmentsO.ToJson(),
-                                        columnPermissionType: column.ColumnPermissionType(
-                                            context: context)));
+                                        placeholder: column.LabelText,
+                                        readOnly: column.ColumnPermissionType(context: context)
+                                            != Permissions.ColumnPermissionTypes.Update));
                             break;
                         case "AttachmentsP":
                             res.ReplaceAll(
                                 "#Results_AttachmentsPField",
                                 new HtmlBuilder()
-                                    .Field(
+                                    .FieldAttachments(
                                         context: context,
-                                        ss: ss,
-                                        column: column,
+                                        fieldId: "Results_AttachmentsPField",
+                                        controlId: "Results_AttachmentsP",
+                                        columnName: column.ColumnName,
+                                        fieldCss: column.FieldCss,
+                                        fieldDescription: column.Description,
+                                        controlCss: column.ControlCss,
+                                        labelText: column.LabelText,
                                         value: resultModel.AttachmentsP.ToJson(),
-                                        columnPermissionType: column.ColumnPermissionType(
-                                            context: context)));
+                                        placeholder: column.LabelText,
+                                        readOnly: column.ColumnPermissionType(context: context)
+                                            != Permissions.ColumnPermissionTypes.Update));
                             break;
                         case "AttachmentsQ":
                             res.ReplaceAll(
                                 "#Results_AttachmentsQField",
                                 new HtmlBuilder()
-                                    .Field(
+                                    .FieldAttachments(
                                         context: context,
-                                        ss: ss,
-                                        column: column,
+                                        fieldId: "Results_AttachmentsQField",
+                                        controlId: "Results_AttachmentsQ",
+                                        columnName: column.ColumnName,
+                                        fieldCss: column.FieldCss,
+                                        fieldDescription: column.Description,
+                                        controlCss: column.ControlCss,
+                                        labelText: column.LabelText,
                                         value: resultModel.AttachmentsQ.ToJson(),
-                                        columnPermissionType: column.ColumnPermissionType(
-                                            context: context)));
+                                        placeholder: column.LabelText,
+                                        readOnly: column.ColumnPermissionType(context: context)
+                                            != Permissions.ColumnPermissionTypes.Update));
                             break;
                         case "AttachmentsR":
                             res.ReplaceAll(
                                 "#Results_AttachmentsRField",
                                 new HtmlBuilder()
-                                    .Field(
+                                    .FieldAttachments(
                                         context: context,
-                                        ss: ss,
-                                        column: column,
+                                        fieldId: "Results_AttachmentsRField",
+                                        controlId: "Results_AttachmentsR",
+                                        columnName: column.ColumnName,
+                                        fieldCss: column.FieldCss,
+                                        fieldDescription: column.Description,
+                                        controlCss: column.ControlCss,
+                                        labelText: column.LabelText,
                                         value: resultModel.AttachmentsR.ToJson(),
-                                        columnPermissionType: column.ColumnPermissionType(
-                                            context: context)));
+                                        placeholder: column.LabelText,
+                                        readOnly: column.ColumnPermissionType(context: context)
+                                            != Permissions.ColumnPermissionTypes.Update));
                             break;
                         case "AttachmentsS":
                             res.ReplaceAll(
                                 "#Results_AttachmentsSField",
                                 new HtmlBuilder()
-                                    .Field(
+                                    .FieldAttachments(
                                         context: context,
-                                        ss: ss,
-                                        column: column,
+                                        fieldId: "Results_AttachmentsSField",
+                                        controlId: "Results_AttachmentsS",
+                                        columnName: column.ColumnName,
+                                        fieldCss: column.FieldCss,
+                                        fieldDescription: column.Description,
+                                        controlCss: column.ControlCss,
+                                        labelText: column.LabelText,
                                         value: resultModel.AttachmentsS.ToJson(),
-                                        columnPermissionType: column.ColumnPermissionType(
-                                            context: context)));
+                                        placeholder: column.LabelText,
+                                        readOnly: column.ColumnPermissionType(context: context)
+                                            != Permissions.ColumnPermissionTypes.Update));
                             break;
                         case "AttachmentsT":
                             res.ReplaceAll(
                                 "#Results_AttachmentsTField",
                                 new HtmlBuilder()
-                                    .Field(
+                                    .FieldAttachments(
                                         context: context,
-                                        ss: ss,
-                                        column: column,
+                                        fieldId: "Results_AttachmentsTField",
+                                        controlId: "Results_AttachmentsT",
+                                        columnName: column.ColumnName,
+                                        fieldCss: column.FieldCss,
+                                        fieldDescription: column.Description,
+                                        controlCss: column.ControlCss,
+                                        labelText: column.LabelText,
                                         value: resultModel.AttachmentsT.ToJson(),
-                                        columnPermissionType: column.ColumnPermissionType(
-                                            context: context)));
+                                        placeholder: column.LabelText,
+                                        readOnly: column.ColumnPermissionType(context: context)
+                                            != Permissions.ColumnPermissionTypes.Update));
                             break;
                         case "AttachmentsU":
                             res.ReplaceAll(
                                 "#Results_AttachmentsUField",
                                 new HtmlBuilder()
-                                    .Field(
+                                    .FieldAttachments(
                                         context: context,
-                                        ss: ss,
-                                        column: column,
+                                        fieldId: "Results_AttachmentsUField",
+                                        controlId: "Results_AttachmentsU",
+                                        columnName: column.ColumnName,
+                                        fieldCss: column.FieldCss,
+                                        fieldDescription: column.Description,
+                                        controlCss: column.ControlCss,
+                                        labelText: column.LabelText,
                                         value: resultModel.AttachmentsU.ToJson(),
-                                        columnPermissionType: column.ColumnPermissionType(
-                                            context: context)));
+                                        placeholder: column.LabelText,
+                                        readOnly: column.ColumnPermissionType(context: context)
+                                            != Permissions.ColumnPermissionTypes.Update));
                             break;
                         case "AttachmentsV":
                             res.ReplaceAll(
                                 "#Results_AttachmentsVField",
                                 new HtmlBuilder()
-                                    .Field(
+                                    .FieldAttachments(
                                         context: context,
-                                        ss: ss,
-                                        column: column,
+                                        fieldId: "Results_AttachmentsVField",
+                                        controlId: "Results_AttachmentsV",
+                                        columnName: column.ColumnName,
+                                        fieldCss: column.FieldCss,
+                                        fieldDescription: column.Description,
+                                        controlCss: column.ControlCss,
+                                        labelText: column.LabelText,
                                         value: resultModel.AttachmentsV.ToJson(),
-                                        columnPermissionType: column.ColumnPermissionType(
-                                            context: context)));
+                                        placeholder: column.LabelText,
+                                        readOnly: column.ColumnPermissionType(context: context)
+                                            != Permissions.ColumnPermissionTypes.Update));
                             break;
                         case "AttachmentsW":
                             res.ReplaceAll(
                                 "#Results_AttachmentsWField",
                                 new HtmlBuilder()
-                                    .Field(
+                                    .FieldAttachments(
                                         context: context,
-                                        ss: ss,
-                                        column: column,
+                                        fieldId: "Results_AttachmentsWField",
+                                        controlId: "Results_AttachmentsW",
+                                        columnName: column.ColumnName,
+                                        fieldCss: column.FieldCss,
+                                        fieldDescription: column.Description,
+                                        controlCss: column.ControlCss,
+                                        labelText: column.LabelText,
                                         value: resultModel.AttachmentsW.ToJson(),
-                                        columnPermissionType: column.ColumnPermissionType(
-                                            context: context)));
+                                        placeholder: column.LabelText,
+                                        readOnly: column.ColumnPermissionType(context: context)
+                                            != Permissions.ColumnPermissionTypes.Update));
                             break;
                         case "AttachmentsX":
                             res.ReplaceAll(
                                 "#Results_AttachmentsXField",
                                 new HtmlBuilder()
-                                    .Field(
+                                    .FieldAttachments(
                                         context: context,
-                                        ss: ss,
-                                        column: column,
+                                        fieldId: "Results_AttachmentsXField",
+                                        controlId: "Results_AttachmentsX",
+                                        columnName: column.ColumnName,
+                                        fieldCss: column.FieldCss,
+                                        fieldDescription: column.Description,
+                                        controlCss: column.ControlCss,
+                                        labelText: column.LabelText,
                                         value: resultModel.AttachmentsX.ToJson(),
-                                        columnPermissionType: column.ColumnPermissionType(
-                                            context: context)));
+                                        placeholder: column.LabelText,
+                                        readOnly: column.ColumnPermissionType(context: context)
+                                            != Permissions.ColumnPermissionTypes.Update));
                             break;
                         case "AttachmentsY":
                             res.ReplaceAll(
                                 "#Results_AttachmentsYField",
                                 new HtmlBuilder()
-                                    .Field(
+                                    .FieldAttachments(
                                         context: context,
-                                        ss: ss,
-                                        column: column,
+                                        fieldId: "Results_AttachmentsYField",
+                                        controlId: "Results_AttachmentsY",
+                                        columnName: column.ColumnName,
+                                        fieldCss: column.FieldCss,
+                                        fieldDescription: column.Description,
+                                        controlCss: column.ControlCss,
+                                        labelText: column.LabelText,
                                         value: resultModel.AttachmentsY.ToJson(),
-                                        columnPermissionType: column.ColumnPermissionType(
-                                            context: context)));
+                                        placeholder: column.LabelText,
+                                        readOnly: column.ColumnPermissionType(context: context)
+                                            != Permissions.ColumnPermissionTypes.Update));
                             break;
                         case "AttachmentsZ":
                             res.ReplaceAll(
                                 "#Results_AttachmentsZField",
                                 new HtmlBuilder()
-                                    .Field(
+                                    .FieldAttachments(
                                         context: context,
-                                        ss: ss,
-                                        column: column,
+                                        fieldId: "Results_AttachmentsZField",
+                                        controlId: "Results_AttachmentsZ",
+                                        columnName: column.ColumnName,
+                                        fieldCss: column.FieldCss,
+                                        fieldDescription: column.Description,
+                                        controlCss: column.ControlCss,
+                                        labelText: column.LabelText,
                                         value: resultModel.AttachmentsZ.ToJson(),
-                                        columnPermissionType: column.ColumnPermissionType(
-                                            context: context)));
+                                        placeholder: column.LabelText,
+                                        readOnly: column.ColumnPermissionType(context: context)
+                                            != Permissions.ColumnPermissionTypes.Update));
                             break;
                         default: break;
                     }
