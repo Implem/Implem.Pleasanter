@@ -112,7 +112,7 @@ $p.setMustData = function ($form, action) {
 }
 
 $p.clearData = function (target, data, type) {
-    if (data === null) {
+    if (!data) {
         data = $p.getData($('.main-form'))
     }
     if (target === undefined) {
