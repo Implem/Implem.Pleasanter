@@ -111,6 +111,7 @@ $(function () {
     });
     $(document).on('click', '.menu-sort > li.sort', function (e) {
         sort($($(this).parent().attr('data-target')), $(this).attr('data-order-type'));
+        e.stopPropagation();
     });
     $(document).on('click', '.menu-sort > li.reset', function (e) {
         var $control = $(this);
@@ -125,9 +126,10 @@ $(function () {
         $p.send($('#ViewSorters_Reset'));
         e.stopPropagation();
     });
-    $(document).on('click', 'th.sortable', function () {
+    $(document).on('click', 'th.sortable', function (e) {
         var $control = $(this).find('div');
         sort($control, $control.attr('data-order-type'))
+        e.stopPropagation();
     });
 
     function sort($control, type) {
@@ -139,7 +141,6 @@ $(function () {
         data.TableSiteId = $grid.attr('data-id');
         $p.send($grid);
         delete data[$control.attr('id')];
-        e.stopPropagation();
     }
 });
 $(function () {
