@@ -1,6 +1,8 @@
 ﻿$(function () {
     $(window).on('popstate', function (e) {
-        $p.ajax(e.originalEvent.currentTarget.location, 'post');
+        if (e.originalEvent.currentTarget.location.pathname !== $('#BaseUrl').val() + $('#Id').val()) {
+            $p.ajax(e.originalEvent.currentTarget.location, 'post');
+        }
     });
     $p.setSwitchTargets();
     var $control = $('#BackUrl');
