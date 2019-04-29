@@ -3416,6 +3416,16 @@ namespace Implem.Pleasanter.Libraries.Responses
                 data: data);
         }
 
+        public static string MoveTargetsSettings(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "MoveTargetsSettings",
+                data: data);
+        }
+
         public static string MoveUp(
             Context context,
             params string[] data)

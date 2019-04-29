@@ -2286,6 +2286,10 @@ namespace Implem.Pleasanter.Models
                                         text: Displays.Histories(context: context)))
                                 .Li(action: () => hb
                                     .A(
+                                        href: "#MoveSettingsEditor",
+                                        text: Displays.Move(context: context)))
+                                .Li(action: () => hb
+                                    .A(
                                         href: "#SummariesSettingsEditor",
                                         text: Displays.Summaries(context: context)))
                                 .Li(action: () => hb
@@ -3386,6 +3390,7 @@ namespace Implem.Pleasanter.Models
                             .EditorSettingsEditor(context: context, ss: siteModel.SiteSettings)
                             .LinksSettingsEditor(context: context, ss: siteModel.SiteSettings)
                             .HistoriesSettingsEditor(context: context, ss: siteModel.SiteSettings)
+                            .MoveSettingsEditor(context: context, ss: siteModel.SiteSettings)
                             .SummariesSettingsEditor(context: context, ss: siteModel.SiteSettings)
                             .FormulasSettingsEditor(context: context, ss: siteModel.SiteSettings)
                             .ViewsSettingsEditor(context: context, ss: siteModel.SiteSettings)
@@ -4761,6 +4766,65 @@ namespace Implem.Pleasanter.Models
                                         text: Displays.ToEnable(context: context),
                                         controlCss: "button-icon",
                                         onClick: "$p.moveColumns($(this),'History');",
+                                        icon: "ui-icon-circle-triangle-w")))));
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        private static HtmlBuilder MoveSettingsEditor(
+            this HtmlBuilder hb, Context context, SiteSettings ss)
+        {
+            return hb.FieldSet(id: "MoveSettingsEditor", action: () => hb
+                .FieldSet(
+                    css: " enclosed",
+                    legendText: Displays.MoveTargetsSettings(context: context),
+                    action: () => hb
+                        .FieldSelectable(
+                            controlId: "MoveTargetsColumns",
+                            fieldCss: "field-vertical",
+                            controlContainerCss: "container-selectable",
+                            controlWrapperCss: " h350",
+                            controlCss: " always-send send-all",
+                            labelText: Displays.CurrentSettings(context: context),
+                            listItemCollection: ss.MoveTargetsSelectableOptions(context: context),
+                            commandOptionPositionIsTop: true,
+                            commandOptionAction: () => hb
+                                .Div(css: "command-center", action: () => hb
+                                    .Button(
+                                        controlId: "MoveUpMoveTargetsColumns",
+                                        text: Displays.MoveUp(context: context),
+                                        controlCss: "button-icon",
+                                        onClick: "$p.moveColumns($(this),'MoveTargets');",
+                                        icon: "ui-icon-circle-triangle-n")
+                                    .Button(
+                                        controlId: "MoveDownMoveTargetsColumns",
+                                        text: Displays.MoveDown(context: context),
+                                        controlCss: "button-icon",
+                                        onClick: "$p.moveColumns($(this),'MoveTargets');",
+                                        icon: "ui-icon-circle-triangle-s")
+                                    .Button(
+                                        controlId: "ToDisableMoveTargetsColumns",
+                                        text: Displays.ToDisable(context: context),
+                                        controlCss: "button-icon",
+                                        onClick: "$p.moveColumns($(this),'MoveTargets');",
+                                        icon: "ui-icon-circle-triangle-e")))
+                        .FieldSelectable(
+                            controlId: "MoveTargetsSourceColumns",
+                            fieldCss: "field-vertical",
+                            controlContainerCss: "container-selectable",
+                            controlWrapperCss: " h350",
+                            labelText: Displays.OptionList(context: context),
+                            listItemCollection: ss.MoveTargetsSelectableOptions(
+                                context: context, enabled: false),
+                            commandOptionPositionIsTop: true,
+                            commandOptionAction: () => hb
+                                .Div(css: "command-center", action: () => hb
+                                    .Button(
+                                        controlId: "ToEnableMoveTargetsColumns",
+                                        text: Displays.ToEnable(context: context),
+                                        controlCss: "button-icon",
+                                        onClick: "$p.moveColumns($(this),'MoveTargets');",
                                         icon: "ui-icon-circle-triangle-w")))));
         }
 
