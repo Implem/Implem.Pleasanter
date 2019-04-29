@@ -90,6 +90,7 @@ namespace Implem.Pleasanter.Libraries.Settings
         public List<string> TitleColumns;
         public List<string> LinkColumns;
         public List<string> HistoryColumns;
+        public List<long> MoveTargets;
         public List<Column> Columns;
         public List<Aggregation> Aggregations;
         public List<Link> Links;
@@ -552,6 +553,10 @@ namespace Implem.Pleasanter.Libraries.Settings
             if (!HistoryColumns.SequenceEqual(DefaultHistoryColumns(context: context)))
             {
                 ss.HistoryColumns = HistoryColumns;
+            }
+            if (MoveTargets?.Any() == true)
+            {
+                ss.MoveTargets = MoveTargets;
             }
             Aggregations?.ForEach(aggregations =>
             {
@@ -1809,6 +1814,54 @@ namespace Implem.Pleasanter.Libraries.Settings
                         .Select(o => o.ColumnName).ToList());
         }
 
+        public Dictionary<string, ControlData> MoveTargetsSelectableOptions(
+            Context context, bool enabled = true)
+        {
+            var options = MoveTargetsOptions(sites: Rds.ExecuteTable(
+                context: context,
+                statements: new SqlStatement(
+                    commandText: Def.Sql.MoveTarget,
+                    param: Rds.SitesParam()
+                        .TenantId(context.TenantId)
+                        .ReferenceType(ReferenceType)
+                        .SiteId(SiteId)
+                        .Add(name: "HasPrivilege", value: context.HasPrivilege)))
+                            .AsEnumerable());
+            return enabled
+                ? MoveTargets?.Any() == true
+                    ? options
+                        .Where(o => MoveTargets.Contains(o.Key.ToLong()))
+                        .ToDictionary(o => o.Key, o => o.Value)
+                    : null
+                : options
+                    .Where(o => MoveTargets?.Contains(o.Key.ToLong()) != true)
+                    .ToDictionary(o => o.Key, o => o.Value);
+        }
+
+        private Dictionary<string, ControlData> MoveTargetsOptions(IEnumerable<DataRow> sites)
+        {
+            var targets = new Dictionary<string, ControlData>();
+            sites
+                .Where(dataRow => dataRow.String("ReferenceType") == ReferenceType)
+                .ForEach(dataRow =>
+                {
+                    var current = dataRow;
+                    var titles = new List<string>()
+                    {
+                        current.String("Title")
+                    };
+                    while (sites.Any(o => o.Long("SiteId") == current.Long("ParentId")))
+                    {
+                        current = sites.First(o => o.Long("SiteId") == current.Long("ParentId"));
+                        titles.Insert(0, current.String("Title"));
+                    }
+                    targets.Add(
+                        dataRow.String("SiteId"),
+                        new ControlData(titles.Join(" / ")));
+                });
+            return targets;
+        }
+
         public Dictionary<string, ControlData> FormulaTargetSelectableOptions()
         {
             return Columns
@@ -2290,6 +2343,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                 case "TitleColumnsAll": TitleColumns = context.Forms.List(propertyName); break;
                 case "LinkColumnsAll": LinkColumns = context.Forms.List(propertyName); break;
                 case "HistoryColumnsAll": HistoryColumns = context.Forms.List(propertyName); break;
+                case "MoveTargetsColumnsAll": MoveTargets = context.Forms.LongList(propertyName); break;
                 case "ViewsAll":
                     Views = Views?.Join(context.Forms.List(propertyName).Select((val, key) => new { Key = key, Val = val }), v => v.Id, l => l.Val.ToInt(),
                         (v, l) => new { Views = v, OrderNo = l.Key })

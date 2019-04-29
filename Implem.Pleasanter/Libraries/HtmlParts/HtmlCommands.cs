@@ -5,6 +5,7 @@ using Implem.Pleasanter.Libraries.Responses;
 using Implem.Pleasanter.Libraries.Security;
 using Implem.Pleasanter.Libraries.Settings;
 using System;
+using System.Linq;
 namespace Implem.Pleasanter.Libraries.HtmlParts
 {
     public static class HtmlCommands
@@ -77,7 +78,9 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                 selector: "#MoveDialog",
                                 action: "MoveTargets",
                                 method: "get",
-                                _using: moveButton && context.CanUpdate(ss: ss))
+                                _using: moveButton
+                                    && ss.MoveTargets?.Any() == true
+                                    && context.CanUpdate(ss: ss))
                             .Button(
                                 controlId: "EditOutgoingMail",
                                 text: Displays.Mail(context: context),
@@ -163,7 +166,8 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                                     selector: "#MoveDialog",
                                                     action: "MoveTargets",
                                                     method: "get",
-                                                    _using: context.CanUpdate(ss: ss)
+                                                    _using: ss.MoveTargets?.Any() == true
+                                                        && context.CanUpdate(ss: ss)
                                                         && !ss.GridColumnsHasSources())
                                                 .Button(
                                                     text: Displays.BulkDelete(context: context),

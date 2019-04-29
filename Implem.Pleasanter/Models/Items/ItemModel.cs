@@ -1363,46 +1363,10 @@ namespace Implem.Pleasanter.Models
             return new ResponseCollection().Html("#MoveTargets", new HtmlBuilder()
                 .OptionCollection(
                     context: context,
-                    optionCollection: MoveTargets(
+                    optionCollection: Site.SiteSettings.MoveTargetsSelectableOptions(
                         context: context,
-                        sites: Rds.ExecuteTable(
-                            context: context,
-                            statements: new SqlStatement(
-                                commandText: Def.Sql.MoveTarget,
-                                param: Rds.SitesParam()
-                                    .TenantId(context.TenantId)
-                                    .ReferenceType(Site.ReferenceType)
-                                    .SiteId(Site.SiteId)
-                                    .Add(name: "HasPrivilege", value: context.HasPrivilege)))
-                                        .AsEnumerable())))
-                                            .ToJson();
-        }
-
-        private Dictionary<string, ControlData> MoveTargets(
-            Context context, IEnumerable<DataRow> sites)
-        {
-            var moveTargets = new Dictionary<string, ControlData>();
-            sites
-                .Where(dataRow => dataRow.String("ReferenceType") == Site.ReferenceType)
-                .ForEach(dataRow =>
-                {
-                    var current = dataRow;
-                    var titles = new List<string>()
-                    {
-                        current.String("Title")
-                    };
-                    while(sites.Any(o =>
-                        o.Long("SiteId") == current.Long("ParentId")))
-                        {
-                            current = sites.First(o =>
-                                o.Long("SiteId") == current.Long("ParentId"));
-                            titles.Insert(0, current.String("Title"));
-                        }
-                    moveTargets.Add(
-                        dataRow.String("SiteId"),
-                        new ControlData(titles.Join(" / ")));
-                });
-            return moveTargets;
+                        enabled: true)))
+                            .ToJson();
         }
 
         public string Move(Context context)
