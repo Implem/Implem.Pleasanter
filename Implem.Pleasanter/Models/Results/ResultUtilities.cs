@@ -7283,13 +7283,9 @@ namespace Implem.Pleasanter.Models
             {
                 resultModel.Comments.Clear();
             }
-            ss.Columns
-                .Where(column => column.CopyByDefault == true
-                    || column.TypeCs == "Attachments")
-                .ForEach(column => resultModel.SetDefault(
-                    context: context,
-                    ss: ss,
-                    column: column));
+            resultModel.SetDefaultAttachments(
+                context: context,
+                ss: ss);
             var error = resultModel.Create(
                 context, ss, forceSynchronizeSourceSummary: true, otherInitValue: true);
             switch (error)

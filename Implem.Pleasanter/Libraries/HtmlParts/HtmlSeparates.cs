@@ -28,7 +28,14 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
         {
             var max = Parameters.General.SeparateMax;
             var min = Parameters.General.SeparateMin;
-            var column = ss.GetColumn(context: context, columnName: "WorkValue");
+            var column = ss.GetColumn(
+                context: context,
+                columnName: "WorkValue");
+            column = new Column()
+            {
+                EditorReadOnly = true,
+                Unit = column.Unit
+            };
             return hb.Div(id: "SeparateSettings", action: () => hb
                 .FieldSpinner(
                     controlId: "SeparateNumber",
@@ -57,7 +64,10 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                         fieldCss: "field-auto-thin",
                         controlCss: " w100",
                         labelText: Displays.WorkValue(context: context) + "-1",
-                        text: workValue.ToControl(context: context, ss: ss, column: column),
+                        text: workValue.ToControl(
+                            context: context,
+                            ss: ss,
+                            column: column),
                         dataValue: workValue.ToString())
                     .Hidden(
                         controlId: "WorkValueUnit",

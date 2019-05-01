@@ -7476,13 +7476,9 @@ namespace Implem.Pleasanter.Models
             {
                 issueModel.Comments.Clear();
             }
-            ss.Columns
-                .Where(column => column.CopyByDefault == true
-                    || column.TypeCs == "Attachments")
-                .ForEach(column => issueModel.SetDefault(
-                    context: context,
-                    ss: ss,
-                    column: column));
+            issueModel.SetDefaultAttachments(
+                context: context,
+                ss: ss);
             var error = issueModel.Create(
                 context, ss, forceSynchronizeSourceSummary: true, otherInitValue: true);
             switch (error)
@@ -7962,7 +7958,10 @@ namespace Implem.Pleasanter.Models
         public static string Separate(Context context, SiteSettings ss, long issueId)
         {
             var number = context.Forms.Int("SeparateNumber");
-            if (context.ContractSettings.ItemsLimit(context: context, siteId: ss.SiteId, number: number - 1))
+            if (context.ContractSettings.ItemsLimit(
+                context: context,
+                siteId: ss.SiteId,
+                number: number - 1))
             {
                 return Error.Types.ItemsLimit.MessageJson(context: context);
             }
@@ -7981,38 +7980,51 @@ namespace Implem.Pleasanter.Models
             }
             if (number >= 2)
             {
-                var idHash = new Dictionary<int, long> { { 1, issueModel.IssueId } };
+                var hash = new Dictionary<int, IssueModel>
+                {
+                    {
+                        1,
+                        new IssueModel(
+                            context: context,
+                            ss: ss,
+                            issueId: issueModel.IssueId)
+                    }
+                };
                 var ver = issueModel.Ver;
-                var timestampHash = new Dictionary<int, string> { { 1, issueModel.Timestamp } };
                 var comments = issueModel.Comments.ToJson();
                 for (var index = 2; index <= number; index++)
                 {
+                    issueModel.SetDefaultAttachments(
+                        context: context,
+                        ss: ss);
                     issueModel.IssueId = 0;
                     issueModel.Create(
                         context: context,
                         ss: ss,
-                        otherInitValue: true);
-                    idHash.Add(index, issueModel.IssueId);
-                    timestampHash.Add(index, issueModel.Timestamp);
+                        otherInitValue: true,
+                        get: false);
+                    hash.Add(index, new IssueModel(
+                        context: context,
+                        ss: ss,
+                        issueId: issueModel.IssueId));
                 }
                 var addCommentCollection = new List<string>();
-                addCommentCollection.AddRange(idHash.Select(o => "[{0}]({1}{2})  ".Params(
+                addCommentCollection.AddRange(hash.Select(o => "[{0}]({1}{2})  ".Params(
                     context.Forms.Data("SeparateTitle_" + o.Key),
                     context.Server,
                     Locations.ItemEdit(
                         context: context,
-                        id: o.Value))));
+                        id: o.Value.IssueId))));
                 var addComment = "[md]\n{0}  \n{1}".Params(
                     Displays.Separated(context: context),
                     addCommentCollection.Join("\n"));
                 for (var index = number; index >= 1; index--)
                 {
                     var source = index == 1;
-                    issueModel.IssueId = idHash[index];
+                    issueModel = hash[index];
                     issueModel.Ver = source
                         ? ver
                         : 1;
-                    issueModel.Timestamp = timestampHash[index];
                     issueModel.Title.Value = context.Forms.Data("SeparateTitle_" + index);
                     issueModel.WorkValue.Value = source
                         ? context.Forms.Decimal(

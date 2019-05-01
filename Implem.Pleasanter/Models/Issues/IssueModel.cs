@@ -7126,6 +7126,17 @@ namespace Implem.Pleasanter.Models
                 .ForEach(column => SetDefault(context: context, ss: ss, column: column));
         }
 
+        public void SetDefaultAttachments(Context context, SiteSettings ss)
+        {
+            ss.Columns
+                .Where(column => column.CopyByDefault == true
+                    || column.TypeCs == "Attachments")
+                .ForEach(column => SetDefault(
+                    context: context,
+                    ss: ss,
+                    column: column));
+        }
+
         public void SetDefault(Context context, SiteSettings ss, Column column)
         {
             switch (column.ColumnName)
