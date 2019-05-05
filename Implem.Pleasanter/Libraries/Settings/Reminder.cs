@@ -216,7 +216,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                     context: context,
                     ss: ss,
                     column: orderByColumn)
-                .ItemTitle(ss.ReferenceType, Rds.IdColumn(ss.ReferenceType));
+                .ItemTitle(ss.ReferenceType);
             var columns = ss.IncludedColumns(Line).ToList();
             columns.ForEach(o => column.Add(
                 context: context,

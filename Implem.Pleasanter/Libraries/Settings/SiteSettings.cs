@@ -2584,29 +2584,36 @@ namespace Implem.Pleasanter.Libraries.Settings
         public void SetChoiceHash(EnumerableRowCollection<DataRow> dataRows)
         {
             var dataColumns = dataRows.Columns()
-                .Where(columnName => columnName.StartsWith("Linked__"))
+                .Where(columnName => columnName.EndsWith(",ItemTitle"))
                 .ToList();
             Columns
-                .Where(o => o.Linked())
-                .Where(o => dataColumns.Any(p => p.StartsWith($"Linked__{o.ColumnName}_")))
+                .Where(column => column.Linked())
                 .ForEach(column =>
                 {
-                    column.ChoiceHash = new Dictionary<string, Choice>();
+                    if (column.ChoiceHash == null)
+                    {
+                        column.ChoiceHash = new Dictionary<string, Choice>();
+                    }
+                    var links = column.SiteSettings.Links
+                        .Where(link => column.Name == link.ColumnName)
+                        .Select(link => link.LinkedTableName() + ",ItemTitle")
+                        .ToList();
                     dataRows
                         .GroupBy(o => o.Long(column.ColumnName))
                         .Select(o => o.First())
                         .ForEach(dataRow =>
-                            column.ChoiceHash.Add(
+                            column.ChoiceHash.AddIfNotConainsKey(
                                 dataRow.String(column.ColumnName),
                                 new Choice(
                                     dataRow.String(column.ColumnName),
                                     Strings.CoalesceEmpty(
                                         dataColumns
-                                            .Where(columnName => columnName
-                                                .StartsWith($"Linked__{column.ColumnName}_"))
-                                            .Select(columnName => dataRow
-                                                .String(columnName)).ToArray()))));
-                    column.LinkedChoiceHashCreated = true;
+                                            .Where(columnName =>
+                                                links.Any(link =>
+                                                    columnName.EndsWith(link)))
+                                            .Select(columnName =>
+                                                dataRow.String(columnName))
+                                                    .ToArray()))));
                 });
         }
 
@@ -2646,14 +2653,10 @@ namespace Implem.Pleasanter.Libraries.Settings
         public void SetChoiceHash(Context context, bool withLink = true, bool all = false)
         {
             var siteIdList = LinkedSiteIdList();
-            var searchSiteIdList = SearchSiteIdList(
-                context: context,
-                siteIdList: siteIdList);
             var linkHash = withLink
                 ? LinkHash(
                     context: context,
                     siteIdList: siteIdList,
-                    searchSiteIdList: searchSiteIdList,
                     all: all,
                     searchIndexes: null)
                 : null;
@@ -2713,10 +2716,15 @@ namespace Implem.Pleasanter.Libraries.Settings
         private Dictionary<string, List<string>> LinkHash(
             Context context,
             List<long> siteIdList,
-            List<long> searchSiteIdList,
             bool all,
             List<string> searchIndexes)
         {
+            var notUseSearchSiteIdList = Links
+                .Where(o => siteIdList.Contains(o.SiteId))
+                .Where(o => Columns.Any(p => p.ColumnName == o.ColumnName && p.UseSearch != true))
+                .Select(o => o.SiteId)
+                .Distinct()
+                .ToList();
             var dataRows = Rds.ExecuteTable(
                 context: context,
                 statements: Rds.SelectItems(
@@ -2734,17 +2742,14 @@ namespace Implem.Pleasanter.Libraries.Settings
                         .ReferenceType("Sites", _operator: "<>")
                         .SiteId_In(siteIdList)
                         .CanRead(context: context, idColumnBracket: "[Items].[ReferenceId]")
-                        .Or(
-                            or: Rds.ItemsWhere()
-                                .ReferenceType("Wikis")
-                                .SiteId_In(
-                                    LinkHashTargetSiteIdList(
-                                        siteIdList: siteIdList,
-                                        searchSiteIdList: searchSiteIdList,
-                                        all: all)),
-                            _using: searchSiteIdList.Any()),
-                    orderBy: Rds.ItemsOrderBy()
-                        .Title())).AsEnumerable();
+                        .Or(or: Rds.ItemsWhere()
+                            .ReferenceType("Wikis")
+                            .SiteId_In(notUseSearchSiteIdList)),
+                    orderBy: Rds.ItemsOrderBy().Title(),
+                    top: all
+                        ? 0
+                        : Parameters.General.DropDownSearchPageSize))
+                            .AsEnumerable();
             return dataRows
                 .Select(dataRow => dataRow.Long("SiteId"))
                 .Distinct()
@@ -2757,21 +2762,6 @@ namespace Implem.Pleasanter.Libraries.Settings
                         searchIndexes: searchIndexes));
         }
 
-        private List<long> LinkHashTargetSiteIdList(
-            List<long> siteIdList,
-            List<long> searchSiteIdList,
-            bool all)
-        {
-            return siteIdList
-                .Where(siteId =>
-                    all ||
-                    !searchSiteIdList.Contains(siteId) ||
-                    Links.Any(p =>
-                        p.SiteId == siteId &&
-                        Aggregations.Any(q => q.GroupBy == p.ColumnName)))
-                .ToList();
-        }
-
         private List<long> LinkedSiteIdList()
         {
             var siteIdList = Links.Select(o => o.SiteId).ToList();
@@ -2782,26 +2772,6 @@ namespace Implem.Pleasanter.Libraries.Settings
                 ?.Values
                 .SelectMany(o => o.Links.Select(p => p.SiteId)) ?? new List<long>());
             return siteIdList.Distinct().ToList();
-        }
-
-        private static List<long> SearchSiteIdList(Context context, List<long> siteIdList)
-        {
-            return Rds.ExecuteTable(
-                context: context,
-                statements: Rds.SelectItems(
-                    column: Rds.ItemsColumn().SiteId(),
-                    join: new SqlJoinCollection(
-                        new SqlJoin(
-                            tableBracket: "[Sites]",
-                            joinType: SqlJoin.JoinTypes.Inner,
-                            joinExpression: "[Items].[SiteId]=[Sites].[SiteId]")),
-                    where: Rds.ItemsWhere().SiteId_In(siteIdList),
-                    groupBy: Rds.ItemsGroupBy().SiteId(),
-                    having: Rds.ItemsHaving().ItemsCount(
-                        Parameters.General.DropDownSearchPageSize, _operator: ">")))
-                            .AsEnumerable()
-                            .Select(dataRow => dataRow.Long("SiteId"))
-                            .ToList();
         }
 
         public Dictionary<string, List<string>> LinkHash(
@@ -3224,19 +3194,21 @@ namespace Implem.Pleasanter.Libraries.Settings
 
         public SqlJoinCollection SqlJoinCollection(Context context, List<string> tableNames)
         {
-            return new SqlJoinCollection(tableNames
+            var join = new SqlJoinCollection(tableNames
                 .Where(o => o != null)
                 .Distinct()
+                .OrderBy(o => o.Length)
                 .SelectMany(o => SqlJoinCollection(context: context, tableAlias: o))
-                .OrderBy(o => o.JoinExpression.Length)
                 .GroupBy(o => o.JoinExpression)
                 .Select(o => o.First())
                 .ToArray());
+            join.ItemJoin(tableName: ReferenceType);
+            return join;
         }
 
         private SqlJoinCollection SqlJoinCollection(Context context, string tableAlias)
         {
-            var sql = new SqlJoinCollection();
+            var join = new SqlJoinCollection();
             var left = new List<string>();
             var leftTableName = ReferenceType;
             var leftAlias = ReferenceType;
@@ -3253,19 +3225,26 @@ namespace Implem.Pleasanter.Libraries.Settings
                 var alias = path.Join("-");
                 if (tableName != null && name != null)
                 {
-                    sql.Add(new SqlJoin(
-                        tableBracket: "[" + tableName + "]",
+                    join.Add(
+                        tableName: "Items",
                         joinType: SqlJoin.JoinTypes.LeftOuter,
-                        joinExpression: JoinExpression(
+                        joinExpression: ItemsJoinExpression(
                             left: left.Any()
                                 ? left.Join("-")
                                 : ReferenceType,
-                            tableName: tableName,
                             leftTableName: leftTableName,
                             leftAlias: leftAlias,
                             name: name,
                             alias: alias,
                             siteId: siteId),
+                        _as: alias + "_Items");
+                    join.Add(new SqlJoin(
+                        tableBracket: "[" + tableName + "]",
+                        joinType: SqlJoin.JoinTypes.LeftOuter,
+                        joinExpression: JoinExpression(
+                            tableName: tableName,
+                            name: name,
+                            alias: alias),
                         _as: alias));
                     left.Add(part);
                     leftTableName = tableName;
@@ -3276,12 +3255,11 @@ namespace Implem.Pleasanter.Libraries.Settings
                     break;
                 }
             }
-            return sql;
+            return join;
         }
 
-        private string JoinExpression(
+        private string ItemsJoinExpression(
             string left,
-            string tableName,
             string leftTableName,
             string leftAlias,
             string name,
@@ -3289,27 +3267,18 @@ namespace Implem.Pleasanter.Libraries.Settings
             long siteId)
         {
             return alias.Contains("~~")
-                ? "[{0}].[SiteId]={4} and try_cast([{0}].[{1}] as bigint)=[{2}].[{3}]"
-                    .Params(alias, name, leftAlias, Rds.IdColumn(leftTableName), siteId)
-                : "[{2}].[SiteId]={4} and try_cast([{0}].[{1}] as bigint)=[{2}].[{3}]"
-                    .Params(left, name, alias, Rds.IdColumn(tableName), siteId);
+                ? $"[{leftAlias}].[{Rds.IdColumn(leftTableName)}]=[{alias}_Items].[ReferenceId]"
+                : $"try_cast([{left}].[{name}] as bigint)=[{alias}_Items].[ReferenceId] and [{alias}_Items].[SiteId]={siteId}";
         }
 
-        private List<string> UseSearchTitleColumns(bool titleOnly = false)
+        private string JoinExpression(
+            string tableName,
+            string name,
+            string alias)
         {
-            return Columns
-                .Select(column => new
-                {
-                    Link = column.SiteSettings?.Links
-                        .FirstOrDefault(p => p.ColumnName == column.Name),
-                    Column = column
-                })
-                .Where(o => o.Link != null)
-                .Select(o => (!o.Column.TableAlias.IsNullOrEmpty()
-                    ? o.Column.TableAlias + "-"
-                    : string.Empty) +
-                        o.Link.ColumnName + $"~{o.Link.SiteId},Title")
-                .ToList();
+            return alias.Contains("~~")
+                ? $"[{alias}_Items].[ReferenceId]=try_cast([{alias}].[{name}] as bigint)"
+                : $"[{alias}_Items].[ReferenceId]=[{alias}].[{Rds.IdColumn(tableName)}]";
         }
 
         public string LabelTitle(Context context, string columnName)

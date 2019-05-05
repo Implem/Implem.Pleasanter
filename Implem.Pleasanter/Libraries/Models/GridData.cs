@@ -6,6 +6,7 @@ using Implem.Pleasanter.Libraries.DataSources;
 using Implem.Pleasanter.Libraries.Html;
 using Implem.Pleasanter.Libraries.HtmlParts;
 using Implem.Pleasanter.Libraries.Requests;
+using Implem.Pleasanter.Libraries.Security;
 using Implem.Pleasanter.Libraries.Settings;
 using Implem.Pleasanter.Models;
 using Newtonsoft.Json;
@@ -52,16 +53,12 @@ namespace Implem.Pleasanter.Libraries.Models
             SqlWhereCollection where = null,
             int top = 0,
             int offset = 0,
-            int pageSize = 0,
-            bool history = false)
+            int pageSize = 0)
         {
-            column = column ?? SqlColumnCollection(
-                context: context, 
-                ss: ss,
-                columns: GridColumns(
-                    context: context,
-                    view: view,
-                    ss: ss));
+            column = column ?? SqlColumnCollection(columns: GridColumns(
+                context: context,
+                view: view,
+                ss: ss));
             where = view.Where(
                 context: context,
                 ss: ss,
@@ -97,16 +94,13 @@ namespace Implem.Pleasanter.Libraries.Models
                 statements: statements.ToArray());
             DataRows = dataSet.Tables["Main"].AsEnumerable();
             TotalCount = Rds.Count(dataSet);
-            ss.SetChoiceHash(DataRows);
+            ss.SetChoiceHash(dataRows: DataRows);
         }
 
-        private static SqlColumnCollection SqlColumnCollection(
-            Context context, SiteSettings ss, IEnumerable<Column> columns)
+        private static SqlColumnCollection SqlColumnCollection(IEnumerable<Column> columns)
         {
             return new SqlColumnCollection(columns
-                .SelectMany(column => column.SqlColumnCollection(
-                    context: context,
-                    ss: ss))
+                .SelectMany(column => column.SqlColumnCollection())
                 .GroupBy(o => o.ColumnBracket + o.As)
                 .Select(o => o.First())
                 .ToArray());
@@ -116,8 +110,7 @@ namespace Implem.Pleasanter.Libraries.Models
         {
             var columns = ss.GetGridColumns(
                 context: context,
-                view: view,
-                checkPermission: true).ToList();
+                view: view).ToList();
             columns
                 .GroupBy(o => o.TableAlias)
                 .Select(o => o.First())
@@ -127,7 +120,7 @@ namespace Implem.Pleasanter.Libraries.Models
                     ss: ss,
                     currentSs: o.SiteSettings,
                     tableAlias: o.Joined
-                        ? o.TableAlias + ","
+                        ? o.TableAlias
                         : string.Empty,
                     columns: columns));
             columns = columns
@@ -137,6 +130,9 @@ namespace Implem.Pleasanter.Libraries.Models
                 .ToList();
             return columns
                 .Where(o => o != null)
+                .GroupBy(o => o.ColumnName)
+                .Select(o => o.First())
+                .AllowedColumns(checkPermission: true)
                 .ToList();
         }
 
@@ -149,31 +145,70 @@ namespace Implem.Pleasanter.Libraries.Models
             var idColumn = Rds.IdColumn(currentSs.ReferenceType);
             if (currentSs.ColumnHash.ContainsKey(idColumn))
             {
-                columns.Add(ss.GetColumn(
+                columns.Add(GetColumn(
                     context: context,
-                    columnName: tableAlias + idColumn));
+                    ss:ss,
+                    tableAlias: tableAlias,
+                    columnName: idColumn));
             }
             if (currentSs.ColumnHash.ContainsKey("SiteId"))
             {
-                columns.Add(ss.GetColumn(
+                columns.Add(GetColumn(
                     context: context,
-                    columnName: tableAlias + "SiteId"));
+                    ss: ss,
+                    tableAlias: tableAlias,
+                    columnName: "SiteId"));
             }
             currentSs.TitleColumns
                 .Where(o => currentSs.ColumnHash.ContainsKey(o))
                 .ForEach(name =>
-                    columns.Add(ss.GetColumn(
+                    columns.Add(GetColumn(
                         context: context,
-                        columnName: tableAlias + name)));
-            columns.Add(ss.GetColumn(
+                        ss: ss,
+                        tableAlias: tableAlias,
+                        columnName: name)));
+            currentSs.Links.ForEach(link =>
+                columns.Add(GetColumn(
+                    context: context,
+                    ss: ss,
+                    tableAlias: (!tableAlias.IsNullOrEmpty()
+                        ? tableAlias + "-"
+                        : string.Empty)
+                            + link.LinkedTableName(),
+                    columnName: "Title")));
+            columns.Add(GetColumn(
                 context: context,
-                columnName: tableAlias + Rds.IdColumn(currentSs.ReferenceType)));
-            columns.Add(ss.GetColumn(
+                ss: ss,
+                tableAlias: tableAlias,
+                columnName: Rds.IdColumn(currentSs.ReferenceType)));
+            columns.Add(GetColumn(
                 context: context,
-                columnName: tableAlias + "Creator"));
-            columns.Add(ss.GetColumn(
+                ss: ss,
+                tableAlias: tableAlias,
+                columnName: "Creator"));
+            columns.Add(GetColumn(
                 context: context,
-                columnName: tableAlias + "Updator"));
+                ss: ss,
+                tableAlias: tableAlias,
+                columnName: "Updator"));
+        }
+
+        private static Column GetColumn(
+            Context context, SiteSettings ss, string tableAlias, string columnName)
+        {
+            return ss.GetColumn(
+                context: context,
+                columnName: ColumnName(
+                    tableAlias: tableAlias,
+                    columnName: columnName));
+        }
+
+        private static string ColumnName(string tableAlias, string columnName)
+        {
+            return (tableAlias.IsNullOrEmpty()
+                ? string.Empty
+                : tableAlias + ",")
+                    + columnName;
         }
 
         public System.Text.StringBuilder Csv(
