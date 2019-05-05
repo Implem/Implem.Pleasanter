@@ -148,8 +148,6 @@ namespace Implem.Pleasanter.Libraries.Settings
         public bool Joined;
         [NonSerialized]
         public bool Linking;
-        [NonSerialized]
-        public bool LinkedChoiceHashCreated;
         // compatibility
         public bool? GridVisible;
         public bool? FilterVisible;
@@ -265,7 +263,6 @@ namespace Implem.Pleasanter.Libraries.Settings
                                     o => Strings.CoalesceEmpty(o.Split_2nd(), o.Split_1st()))
                                 .ForEach(o =>
                                     AddToChoiceHash(o.Key, o.Value));
-                            LinkedChoiceHashCreated = true;
                         }
                     }
                     else if (TypeName != "bit")
@@ -362,7 +359,6 @@ namespace Implem.Pleasanter.Libraries.Settings
         public Dictionary<string, ControlData> EditChoices(
             Context context,
             bool insertBlank = false,
-            bool shorten = false,
             bool addNotSet = false,
             View view = null)
         {
@@ -373,10 +369,6 @@ namespace Implem.Pleasanter.Libraries.Settings
                     ? "0"
                     : string.Empty;
             if (!HasChoices()) return hash;
-            if (Linked() && !LinkedChoiceHashCreated)
-            {
-                SetChoiceHash(context: context);
-            }
             if (addNotSet && !Required)
             {
                 hash.Add("\t", new ControlData(Displays.NotSet(context: context)));
@@ -605,14 +597,13 @@ namespace Implem.Pleasanter.Libraries.Settings
             return DefaultInput;
         }
 
-        public SqlColumnCollection SqlColumnCollection(Context context, SiteSettings ss)
+        public SqlColumnCollection SqlColumnCollection()
         {
             var sql = new SqlColumnCollection();
             var tableName = Strings.CoalesceEmpty(JoinTableName, SiteSettings.ReferenceType);
             SelectColumns(
                 sql: sql,
                 tableName: tableName,
-                tableType: ss.TableType,
                 columnName: Name,
                 path: Joined
                     ? TableAlias
@@ -620,33 +611,6 @@ namespace Implem.Pleasanter.Libraries.Settings
                 _as: Joined
                     ? ColumnName
                     : null);
-            LinkedSqlColumnCollection(
-                context: context,
-                ss: ss,
-                sql: sql);
-            return sql;
-        }
-
-        public SqlColumnCollection LinkedSqlColumnCollection(
-            Context context, SiteSettings ss, SqlColumnCollection sql)
-        {
-            SiteSettings.Links?
-                .Where(link => link.ColumnName == Name)
-                .Where(link => ss.JoinedSsHash.ContainsKey(link.SiteId))
-                .ForEach(link =>
-                {
-                    if (context.PermissionHash?.ContainsKey(link.SiteId) == true)
-                    {
-                        sql.Add(
-                            sub: Rds.SelectItems(
-                                column: Rds.ItemsColumn().Title(),
-                                where: Rds.ItemsWhere()
-                                    .SiteId(raw: link.SiteId.ToString())
-                                    .ReferenceId(raw: "try_cast([{0}].[{1}] as bigint)"
-                                        .Params(TableName(), link.ColumnName))),
-                            _as: $"Linked__{ColumnName}_{link.SiteId}");
-                    }
-                });
             return sql;
         }
 
@@ -692,7 +656,6 @@ namespace Implem.Pleasanter.Libraries.Settings
         private void SelectColumns(
             SqlColumnCollection sql,
             string tableName,
-            Sqls.TableTypes tableType,
             string columnName,
             string path,
             string _as)
@@ -1872,8 +1835,6 @@ namespace Implem.Pleasanter.Libraries.Settings
                                 .Issues_Title(tableName: path, _as: _as)
                                 .ItemTitle(
                                     tableName: path,
-                                    tableType: tableType,
-                                    idColumn: Rds.IdColumn(SiteSettings.ReferenceType),
                                     _as: Joined
                                         ? path + ",ItemTitle"
                                         : "ItemTitle");
@@ -2400,8 +2361,6 @@ namespace Implem.Pleasanter.Libraries.Settings
                                 .Results_Title(tableName: path, _as: _as)
                                 .ItemTitle(
                                     tableName: path,
-                                    tableType: tableType,
-                                    idColumn: Rds.IdColumn(SiteSettings.ReferenceType),
                                     _as: Joined
                                         ? path + ",ItemTitle"
                                         : "ItemTitle");

@@ -9378,7 +9378,7 @@ namespace Implem.Pleasanter.Models
                         .IssuesColumn(fromColumn.ColumnName, _as: "From")
                         .IssuesColumn(toColumn?.ColumnName, _as: "To")
                         .UpdatedTime()
-                        .ItemTitle(ss.ReferenceType, Rds.IdColumn(ss.ReferenceType)),
+                        .ItemTitle(ss.ReferenceType),
                     join: ss.Join(
                         context: context,
                         join: where),
@@ -9731,7 +9731,7 @@ namespace Implem.Pleasanter.Models
                         groupBy: groupBy))
                             .AsEnumerable();
             }
-            ss.SetChoiceHash(dataRows);
+            ss.SetChoiceHash(dataRows: dataRows);
             return dataRows;
         }
 
@@ -9967,7 +9967,7 @@ namespace Implem.Pleasanter.Models
                         .Updator()
                         .CreatedTime()
                         .UpdatedTime()
-                        .ItemTitle(ss.ReferenceType, Rds.IdColumn(ss.ReferenceType))
+                        .ItemTitle(ss.ReferenceType)
                         .Add(
                             context: context,
                             ss: ss,
@@ -10318,7 +10318,7 @@ namespace Implem.Pleasanter.Models
                                 }),
                         where: where))
                             .AsEnumerable();
-                ss.SetChoiceHash(dataRows);
+                ss.SetChoiceHash(dataRows: dataRows);
                 return dataRows;
             }
             else
@@ -10490,7 +10490,7 @@ namespace Implem.Pleasanter.Models
         {
             var column = Rds.IssuesColumn()
                 .IssueId()
-                .ItemTitle(ss.ReferenceType, Rds.IdColumn(ss.ReferenceType))
+                .ItemTitle(ss.ReferenceType)
                 .Add(
                     context: context,
                     ss: ss,

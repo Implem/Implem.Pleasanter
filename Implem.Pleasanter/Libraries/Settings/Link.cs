@@ -53,6 +53,11 @@ namespace Implem.Pleasanter.Libraries.Settings
                 });
         }
 
+        public string LinkedTableName()
+        {
+            return $"{ColumnName}~{SiteId}";
+        }
+
         public Link GetRecordingData()
         {
             var link = new Link();

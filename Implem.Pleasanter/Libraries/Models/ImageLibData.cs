@@ -24,7 +24,7 @@ namespace Implem.Pleasanter.Libraries.Models
                     columnBracket: idColumnBracket,
                     tableName: ss.ReferenceType,
                     _as: "Id")
-                .ItemTitle(ss.ReferenceType, Rds.IdColumn(ss.ReferenceType))
+                .ItemTitle(ss.ReferenceType)
                 .Add(tableName: "Binaries", columnBracket: "[Guid]");
             var where = view.Where(
                 context: context,

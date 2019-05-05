@@ -24,6 +24,25 @@ namespace Implem.Pleasanter.Models
 {
     public static class ItemUtilities
     {
+        public static SqlJoinCollection ItemJoin(
+            this SqlJoinCollection join, string tableName)
+        {
+            switch (tableName)
+            {
+                case "Sites":
+                case "Issues":
+                case "Results":
+                case "Wikis":
+                    return join.Add(
+                        tableName: "Items",
+                        joinType: SqlJoin.JoinTypes.Inner,
+                        joinExpression: $"[{tableName}].[{Rds.IdColumn(tableName)}]=[{tableName}_Items].[ReferenceId]",
+                        _as: tableName + "_Items");
+                default:
+                    return join;
+            }
+        }
+
         public static void UpdateTitles(Context context, long siteId, long id)
         {
             UpdateTitles(

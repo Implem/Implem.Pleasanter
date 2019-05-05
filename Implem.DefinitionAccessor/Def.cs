@@ -625,6 +625,8 @@ namespace Implem.DefinitionAccessor
                     case "Model_Utilities_SetNoticeParam": Code.Model_Utilities_SetNoticeParam = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_SetNoticeParam, definitionRow, CodeXls); break;
                     case "Model_Utilities_SearchIndexes": Code.Model_Utilities_SearchIndexes = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_SearchIndexes, definitionRow, CodeXls); break;
                     case "Model_Utilities_SearchIndexes_TableCases": Code.Model_Utilities_SearchIndexes_TableCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_SearchIndexes_TableCases, definitionRow, CodeXls); break;
+                    case "Model_Utilities_ItemJoin": Code.Model_Utilities_ItemJoin = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_ItemJoin, definitionRow, CodeXls); break;
+                    case "Model_Utilities_ItemJoinCases": Code.Model_Utilities_ItemJoinCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_ItemJoinCases, definitionRow, CodeXls); break;
                     case "Model_Utilities_ItemTitle": Code.Model_Utilities_ItemTitle = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_ItemTitle, definitionRow, CodeXls); break;
                     case "Model_Utilities_SetItemTitle_TableCases": Code.Model_Utilities_SetItemTitle_TableCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_SetItemTitle_TableCases, definitionRow, CodeXls); break;
                     case "Model_Utilities_SetItemTitle": Code.Model_Utilities_SetItemTitle = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_SetItemTitle, definitionRow, CodeXls); break;
@@ -7523,6 +7525,8 @@ namespace Implem.DefinitionAccessor
         public string Model_Utilities_SetNoticeParam;
         public string Model_Utilities_SearchIndexes;
         public string Model_Utilities_SearchIndexes_TableCases;
+        public string Model_Utilities_ItemJoin;
+        public string Model_Utilities_ItemJoinCases;
         public string Model_Utilities_ItemTitle;
         public string Model_Utilities_SetItemTitle_TableCases;
         public string Model_Utilities_SetItemTitle;
@@ -8091,6 +8095,8 @@ namespace Implem.DefinitionAccessor
         public CodeDefinition Model_Utilities_SetNoticeParam = new CodeDefinition();
         public CodeDefinition Model_Utilities_SearchIndexes = new CodeDefinition();
         public CodeDefinition Model_Utilities_SearchIndexes_TableCases = new CodeDefinition();
+        public CodeDefinition Model_Utilities_ItemJoin = new CodeDefinition();
+        public CodeDefinition Model_Utilities_ItemJoinCases = new CodeDefinition();
         public CodeDefinition Model_Utilities_ItemTitle = new CodeDefinition();
         public CodeDefinition Model_Utilities_SetItemTitle_TableCases = new CodeDefinition();
         public CodeDefinition Model_Utilities_SetItemTitle = new CodeDefinition();
