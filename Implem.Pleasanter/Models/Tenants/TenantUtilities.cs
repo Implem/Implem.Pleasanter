@@ -401,16 +401,26 @@ namespace Implem.Pleasanter.Models
                         .ToControl(context: context, ss: ss, column: title),
                             columnPermissionType: title.ColumnPermissionType(context: context))
                 .FieldDropDown(
-                        context: context,
-                        controlId: "Tenants_LogoType",
-                        controlCss: " always-send",
-                        labelText: Displays.TenantImageType(context),
-                        optionCollection: new Dictionary<string, string>()
-                        {
-                            [TenantModel.LogoTypes.ImageOnly.ToInt().ToString()] = Displays.ImageOnly(context),
-                            [TenantModel.LogoTypes.ImageAndTitle.ToInt().ToString()] = Displays.ImageAndText(context)
-                        }
-                        , selectedValue: tenantModel.LogoType.ToInt().ToString())
+                    context: context,
+                    controlId: "Tenants_LogoType",
+                    controlCss: " always-send",
+                    labelText: Displays.TenantImageType(context),
+                    optionCollection: new Dictionary<string, string>()
+                    {
+                        [TenantModel.LogoTypes.ImageOnly.ToInt().ToString()] = Displays.ImageOnly(context),
+                        [TenantModel.LogoTypes.ImageAndTitle.ToInt().ToString()] = Displays.ImageAndText(context)
+                    }
+                    , selectedValue: tenantModel.LogoType.ToInt().ToString())
+                .FieldSet(
+                    id: "PermissionsField",
+                    css: " enclosed",
+                    legendText: Displays.Permissions(context: context),
+                    action: () => hb
+                        .FieldCheckBox(
+                            controlId: "Tenants_DisableAllUsersPermission",
+                            fieldCss: "field-auto-thin",
+                            _checked: tenantModel.DisableAllUsersPermission,
+                            labelText: Displays.Tenants_DisableAllUsersPermission(context: context)))
                 .TenantImageSettingsEditor(context, tenantModel)
                 .FieldSet(
                     id: "HtmlTitleSettingsField",

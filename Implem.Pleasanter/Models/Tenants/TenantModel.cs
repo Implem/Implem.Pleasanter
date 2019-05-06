@@ -29,6 +29,7 @@ namespace Implem.Pleasanter.Models
         public string Body = string.Empty;
         public ContractSettings ContractSettings = new ContractSettings();
         public DateTime ContractDeadline = 0.ToDateTime();
+        public bool DisableAllUsersPermission = false;
         public LogoTypes LogoType = (LogoTypes)0;
         public string HtmlTitleTop = "[ProductName]";
         public string HtmlTitleSite = "[ProductName]";
@@ -39,6 +40,7 @@ namespace Implem.Pleasanter.Models
         [NonSerialized] public string SavedBody = string.Empty;
         [NonSerialized] public string SavedContractSettings = string.Empty;
         [NonSerialized] public DateTime SavedContractDeadline = 0.ToDateTime();
+        [NonSerialized] public bool SavedDisableAllUsersPermission = false;
         [NonSerialized] public int SavedLogoType = 0;
         [NonSerialized] public string SavedHtmlTitleTop = "[ProductName]";
         [NonSerialized] public string SavedHtmlTitleSite = "[ProductName]";
@@ -82,6 +84,14 @@ namespace Implem.Pleasanter.Models
                 (column == null ||
                 column.DefaultInput.IsNullOrEmpty() ||
                 column.GetDefaultInput(context: context).ToString() != ContractSettings?.RecordingJson());
+        }
+
+        public bool DisableAllUsersPermission_Updated(Context context, Column column = null)
+        {
+            return DisableAllUsersPermission != SavedDisableAllUsersPermission &&
+                (column == null ||
+                column.DefaultInput.IsNullOrEmpty() ||
+                column.GetDefaultInput(context: context).ToBool() != DisableAllUsersPermission);
         }
 
         public bool LogoType_Updated(Context context, Column column = null)
@@ -229,6 +239,7 @@ namespace Implem.Pleasanter.Models
                     case "Body": data.Body = Body; break;
                     case "ContractSettings": data.ContractSettings = ContractSettings?.RecordingJson(); break;
                     case "ContractDeadline": data.ContractDeadline = ContractDeadline.ToLocal(context: context); break;
+                    case "DisableAllUsersPermission": data.DisableAllUsersPermission = DisableAllUsersPermission; break;
                     case "LogoType": data.LogoType = LogoType.ToInt(); break;
                     case "HtmlTitleTop": data.HtmlTitleTop = HtmlTitleTop; break;
                     case "HtmlTitleSite": data.HtmlTitleSite = HtmlTitleSite; break;
@@ -359,6 +370,7 @@ namespace Implem.Pleasanter.Models
             column.Body(function: Sqls.Functions.SingleColumn); param.Body();
             column.ContractSettings(function: Sqls.Functions.SingleColumn); param.ContractSettings();
             column.ContractDeadline(function: Sqls.Functions.SingleColumn); param.ContractDeadline();
+            column.DisableAllUsersPermission(function: Sqls.Functions.SingleColumn); param.DisableAllUsersPermission();
             column.LogoType(function: Sqls.Functions.SingleColumn); param.LogoType();
             column.HtmlTitleTop(function: Sqls.Functions.SingleColumn); param.HtmlTitleTop();
             column.HtmlTitleSite(function: Sqls.Functions.SingleColumn); param.HtmlTitleSite();
@@ -456,6 +468,7 @@ namespace Implem.Pleasanter.Models
                     case "Tenants_Title": Title = new Title(TenantId, context.Forms.Data(controlId)); break;
                     case "Tenants_Body": Body = context.Forms.Data(controlId).ToString(); break;
                     case "Tenants_ContractDeadline": ContractDeadline = context.Forms.Data(controlId).ToDateTime().ToUniversal(context: context); break;
+                    case "Tenants_DisableAllUsersPermission": DisableAllUsersPermission = context.Forms.Data(controlId).ToBool(); break;
                     case "Tenants_LogoType": LogoType = (LogoTypes)context.Forms.Data(controlId).ToInt(); break;
                     case "Tenants_HtmlTitleTop": HtmlTitleTop = context.Forms.Data(controlId).ToString(); break;
                     case "Tenants_HtmlTitleSite": HtmlTitleSite = context.Forms.Data(controlId).ToString(); break;
@@ -489,6 +502,7 @@ namespace Implem.Pleasanter.Models
             Body = tenantModel.Body;
             ContractSettings = tenantModel.ContractSettings;
             ContractDeadline = tenantModel.ContractDeadline;
+            DisableAllUsersPermission = tenantModel.DisableAllUsersPermission;
             LogoType = tenantModel.LogoType;
             HtmlTitleTop = tenantModel.HtmlTitleTop;
             HtmlTitleSite = tenantModel.HtmlTitleSite;
@@ -513,6 +527,7 @@ namespace Implem.Pleasanter.Models
             if (data.Title != null) Title = new Title(data.Title.ToString());
             if (data.Body != null) Body = data.Body.ToString().ToString();
             if (data.ContractDeadline != null) ContractDeadline = data.ContractDeadline.ToDateTime().ToDateTime().ToUniversal(context: context);
+            if (data.DisableAllUsersPermission != null) DisableAllUsersPermission = data.DisableAllUsersPermission.ToBool().ToBool();
             if (data.LogoType != null) LogoType = (LogoTypes)data.LogoType.ToInt().ToInt();
             if (data.HtmlTitleTop != null) HtmlTitleTop = data.HtmlTitleTop.ToString().ToString();
             if (data.HtmlTitleSite != null) HtmlTitleSite = data.HtmlTitleSite.ToString().ToString();
@@ -576,6 +591,10 @@ namespace Implem.Pleasanter.Models
                             ContractDeadline = dataRow[column.ColumnName].ToDateTime();
                             SavedContractDeadline = ContractDeadline;
                             break;
+                        case "DisableAllUsersPermission":
+                            DisableAllUsersPermission = dataRow[column.ColumnName].ToBool();
+                            SavedDisableAllUsersPermission = DisableAllUsersPermission;
+                            break;
                         case "LogoType":
                             LogoType = (LogoTypes)dataRow[column.ColumnName].ToInt();
                             SavedLogoType = LogoType.ToInt();
@@ -628,6 +647,7 @@ namespace Implem.Pleasanter.Models
                 Body_Updated(context: context) ||
                 ContractSettings_Updated(context: context) ||
                 ContractDeadline_Updated(context: context) ||
+                DisableAllUsersPermission_Updated(context: context) ||
                 LogoType_Updated(context: context) ||
                 HtmlTitleTop_Updated(context: context) ||
                 HtmlTitleSite_Updated(context: context) ||
