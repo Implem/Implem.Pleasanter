@@ -83,7 +83,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                 {
                     stacks.Add(Next);
                 }
-                Next.Stacks(stacks);
+                Next.Stacks(stacks, reverce);
             }
             return stacks;
         }
