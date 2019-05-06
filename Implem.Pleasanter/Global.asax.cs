@@ -26,9 +26,7 @@ namespace Implem.Pleasanter
             Context context = ApplicationStartContext();
             var log = new SysLogModel(context: context);
             UsersInitializer.Initialize(context: context);
-            ItemsInitializer.Initialize(context: context);
             StatusesMigrator.Migrate(context: context);
-            SiteSettingsMigrator.Migrate(context: context);
             StatusesInitializer.Initialize(context: context);
             SetConfigrations();
             SiteInfo.Reflesh(context: context);
