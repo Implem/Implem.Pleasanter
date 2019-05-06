@@ -6,10 +6,7 @@ using Implem.Pleasanter.Libraries.Migrators;
 using Implem.Pleasanter.Libraries.Requests;
 using Implem.Pleasanter.Libraries.Security;
 using Implem.Pleasanter.Libraries.Server;
-using Implem.Pleasanter.Libraries.Settings;
 using Implem.Pleasanter.Models;
-using System.Data;
-using System.Linq;
 using System.Reflection;
 using System.Web;
 using System.Web.Http;
@@ -137,21 +134,6 @@ namespace Implem.Pleasanter
                 && !context.LoginId.IsNullOrEmpty()
                 && (!Parameters.Authentication.RejectUnregisteredUser
                 || context.Authenticated);
-        }
-
-        private static UserModel GetUser(Context context)
-        {
-            return new UserModel(
-                context: context,
-                ss: SiteSettingsUtilities.UsersSiteSettings(context: context),
-                dataRow: Rds.ExecuteTable(
-                    context: context,
-                    statements: Rds.SelectUsers(
-                        column: Rds.UsersDefaultColumns(),
-                        join: Rds.UsersJoinDefault(),
-                        where: Rds.UsersWhere().LoginId(context.LoginId)))
-                            .AsEnumerable()
-                            .FirstOrDefault());
         }
     }
 }
