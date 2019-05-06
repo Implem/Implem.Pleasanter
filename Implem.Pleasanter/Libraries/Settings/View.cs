@@ -1259,50 +1259,10 @@ namespace Implem.Pleasanter.Libraries.Settings
         private void SetSearchWhere(Context context, SiteSettings ss, SqlWhereCollection where)
         {
             if (Search.IsNullOrEmpty()) return;
-            var select = SearchIndexUtilities.Select(
-                context: context,
+            where.FullTextWhere(
                 ss: ss,
-                searchText: Search,
-                siteIdList: ss.AllowedIntegratedSites != null
-                    ? ss.AllowedIntegratedSites
-                    : new List<long> { ss.SiteId });
-            if (select != null)
-            {
-                switch (ss.ReferenceType)
-                {
-                    case "Issues":
-                        where.Add(
-                            tableName: ss.ReferenceType,
-                            columnBrackets: "[IssueId]".ToSingleArray(),
-                            name: "IssueId",
-                            _operator: " in ",
-                            sub: select,
-                            subPrefix: false);
-                        break;
-                    case "Results":
-                        where.Add(
-                            tableName: ss.ReferenceType,
-                            columnBrackets: "[ResultId]".ToSingleArray(),
-                            name: "ResultId",
-                            _operator: " in ",
-                            sub: select,
-                            subPrefix: false);
-                        break;
-                    case "Wikis":
-                        where.Add(
-                            tableName: ss.ReferenceType,
-                            columnBrackets: "[WikiId]".ToSingleArray(),
-                            name: "WikiId",
-                            _operator: " in ",
-                            sub: select,
-                            subPrefix: false);
-                        break;
-                }
-            }
-            else
-            {
-                where.Add(tableName: null, raw: "0=1");
-            }
+                tableName: ss.ReferenceType,
+                searchText: Search);
         }
     }
 }
