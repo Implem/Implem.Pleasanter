@@ -49,7 +49,6 @@ namespace Implem.Libraries.DataSources.SqlServer
             Raw = raw;
             Or = or;
             Using = _using;
-            Or?.Where(o => o != null).ForEach(o => o.Name += "_or");
         }
 
         public string Sql(

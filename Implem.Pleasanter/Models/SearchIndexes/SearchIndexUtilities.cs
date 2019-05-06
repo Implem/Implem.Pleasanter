@@ -384,6 +384,81 @@ namespace Implem.Pleasanter.Models
         /// <summary>
         /// Fixed:
         /// </summary>
+        public static SqlWhereCollection FullTextWhere(
+            this SqlWhereCollection where,
+            SiteSettings ss,
+            string tableName,
+            string searchText)
+        {
+            if (ss != null && ss.TableType != Sqls.TableTypes.Normal)
+            {
+                return where.Add(Rds.ItemsWhere().SqlWhereLike(
+                    tableName: tableName + "_Items",
+                    name: "SearchText",
+                    searchText: searchText,
+                    clauseCollection: Rds.Items_FullText_WhereLike(
+                        tableName: tableName + "_Items",
+                        forward: false)
+                            .ToSingleList()));
+            }
+            switch (ss?.SearchType)
+            {
+                case SiteSettings.SearchTypes.PartialMatch:
+                    return where.Add(Rds.ItemsWhere().SqlWhereLike(
+                        tableName: tableName + "_Items",
+                        name: "SearchText",
+                        searchText: searchText,
+                        clauseCollection: Rds.Items_FullText_WhereLike(
+                            tableName: tableName + "_Items",
+                            forward: false)
+                                .ToSingleList()));
+                case SiteSettings.SearchTypes.MatchInFrontOfTitle:
+                    return where.Add(Rds.ItemsWhere().SqlWhereLike(
+                        tableName: tableName + "_Items",
+                        name: "SearchText",
+                        searchText: searchText,
+                        clauseCollection: Rds.Items_Title_WhereLike(
+                            tableName: tableName + "_Items",
+                            forward: true)
+                                .ToSingleList()));
+                case SiteSettings.SearchTypes.BroadMatchOfTitle:
+                    return where.Add(Rds.ItemsWhere().SqlWhereLike(
+                        tableName: tableName + "_Items",
+                        name: "SearchText",
+                        searchText: searchText,
+                        clauseCollection: Rds.Items_Title_WhereLike(
+                            tableName: tableName + "_Items",
+                            forward: false)
+                                .ToSingleList()));
+                default:
+                    switch (Parameters.Search.Provider)
+                    {
+                        case "FullText":
+                            var words = Words(searchText);
+                            if (words?.Any() != true) return where;
+                            where.Add(new SqlWhere(
+                                name: "SearchText",
+                                value: words,
+                                raw: FullTextWhere(
+                                    words: words,
+                                    itemsTableName: tableName + "_Items")));
+                            return where;
+                        default:
+                            return where.Add(Rds.ItemsWhere().SqlWhereLike(
+                                tableName: tableName + "_Items",
+                                name: "SearchText",
+                                searchText: searchText,
+                                clauseCollection: Rds.Items_FullText_WhereLike(
+                                    tableName: tableName + "_Items",
+                                    forward: false)
+                                        .ToSingleList()));
+                    }
+            }
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
         public static DataSet Get(
             Context context,
             string searchText,
@@ -506,13 +581,13 @@ namespace Implem.Pleasanter.Models
         /// <summary>
         /// Fixed:
         /// </summary>
-        private static string FullTextWhere(List<string> words)
+        private static string FullTextWhere(List<string> words, string itemsTableName = "Items")
         {
             var contains = new List<string>();
             for (var count = 0; count < words.Count(); count++)
             {
-                var item = $"(contains([FullText], @SearchText{count}_Param#CommandCount#))";
-                var binary = $"(exists(select * from [Binaries] where [Binaries].[ReferenceId]=[Items].[ReferenceId] and contains([Bin], @SearchText{count}_Param#CommandCount#)))";
+                var item = $"(contains([{itemsTableName}].[FullText], @SearchText{count}_#CommandCount#))";
+                var binary = $"(exists(select * from [Binaries] where [Binaries].[ReferenceId]=[{itemsTableName}].[ReferenceId] and contains([Bin], @SearchText{count}_#CommandCount#)))";
                 contains.Add(Parameters.Search.SearchDocuments
                     ? $"({item} or {binary})"
                     : item);

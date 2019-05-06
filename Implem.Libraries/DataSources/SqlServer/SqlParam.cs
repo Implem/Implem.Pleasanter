@@ -24,20 +24,12 @@ namespace Implem.Libraries.DataSources.SqlServer
         {
             ColumnBracket = columnBracket;
             Name = name;
-            VariableName = name + "_Param";
+            VariableName = name + "_";
             Value = Correct(value);
             Sub = sub;
             Raw = raw;
             Using = _using;
             Updating = updating;
-        }
-
-        public SqlParam(
-            string name,
-            object value)
-        {
-            VariableName = name;
-            Value = Correct(value);
         }
 
         private object Correct(object self)
