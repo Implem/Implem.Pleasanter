@@ -1422,6 +1422,9 @@
     <Content Include="Views\Errors\UserDisabled.cshtml" />
     <Content Include="Views\Errors\SamlLoginFailed.cshtml" />
     <Content Include="Views\Errors\EmptyUserName.cshtml" />
+    <Content Include="Views\_ViewStart.cshtml" />
+    <Content Include="Views\Admins\InitializeItems.cshtml" />
+    <Content Include="Views\Admins\MigrateSiteSettings.cshtml" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

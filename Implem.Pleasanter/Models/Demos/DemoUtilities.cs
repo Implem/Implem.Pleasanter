@@ -190,7 +190,6 @@ namespace Implem.Pleasanter.Models
                 statements: Rds.UpdateDemos(
                     param: Rds.DemosParam().Initialized(true),
                     where: Rds.DemosWhere().Passphrase(demoModel.Passphrase)));
-            Libraries.Migrators.SiteSettingsMigrator.Migrate(context: context);
         }
 
         /// <summary>

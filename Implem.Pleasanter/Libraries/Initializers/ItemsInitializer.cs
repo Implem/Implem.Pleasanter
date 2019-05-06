@@ -15,6 +15,7 @@ namespace Implem.Pleasanter.Libraries.Initializers
     {
         public static void Initialize(Context context)
         {
+            if (!context.HasPrivilege) return;
             var sqlExists = "exists (select * from {0} where {1}={2})";
             Rds.ExecuteNonQuery(
                 context: context,

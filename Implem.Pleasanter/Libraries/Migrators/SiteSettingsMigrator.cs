@@ -29,17 +29,20 @@ namespace Implem.Pleasanter.Libraries.Migrators
 
         public static void Migrate(Context context)
         {
-            Rds.ExecuteTable(
-                context: context,
-                statements: Rds.SelectSites(
-                    column: Rds.SitesColumn()
-                        .SiteId()
-                        .SiteSettings())).AsEnumerable().ForEach(dataRow =>
-                            MigrateSiteSettingsFormat(
-                                context: context,
-                                ss: dataRow.String("SiteSettings")
-                                    .DeserializeSiteSettings(context: context),
-                                siteId: dataRow.Long("SiteId")));
+            if (context.HasPrivilege)
+            {
+                Rds.ExecuteTable(
+                    context: context,
+                    statements: Rds.SelectSites(
+                        column: Rds.SitesColumn()
+                            .SiteId()
+                            .SiteSettings())).AsEnumerable().ForEach(dataRow =>
+                                MigrateSiteSettingsFormat(
+                                    context: context,
+                                    ss: dataRow.String("SiteSettings")
+                                        .DeserializeSiteSettings(context: context),
+                                    siteId: dataRow.Long("SiteId")));
+            }
         }
 
         private static void MigrateSiteSettingsFormat(
