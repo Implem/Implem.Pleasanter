@@ -140,7 +140,8 @@ namespace Implem.Pleasanter.Libraries.Models
             Context context,
             SiteSettings ss,
             SiteSettings currentSs,
-            string tableAlias, List<Column> columns)
+            string tableAlias,
+            List<Column> columns)
         {
             var idColumn = Rds.IdColumn(currentSs.ReferenceType);
             if (currentSs.ColumnHash.ContainsKey(idColumn))
@@ -167,15 +168,20 @@ namespace Implem.Pleasanter.Libraries.Models
                         ss: ss,
                         tableAlias: tableAlias,
                         columnName: name)));
-            currentSs.Links.ForEach(link =>
-                columns.Add(GetColumn(
-                    context: context,
-                    ss: ss,
-                    tableAlias: (!tableAlias.IsNullOrEmpty()
-                        ? tableAlias + "-"
-                        : string.Empty)
-                            + link.LinkedTableName(),
-                    columnName: "Title")));
+            currentSs.Links
+                .Where(link => columns.Any(p =>
+                    (!tableAlias.IsNullOrEmpty()
+                        ? tableAlias + ","
+                        : string.Empty) + link.ColumnName == p?.ColumnName))
+                .ForEach(link =>
+                    columns.Add(GetColumn(
+                        context: context,
+                        ss: ss,
+                        tableAlias: (!tableAlias.IsNullOrEmpty()
+                            ? tableAlias + "-"
+                            : string.Empty)
+                                + link.LinkedTableName(),
+                        columnName: "Title")));
             columns.Add(GetColumn(
                 context: context,
                 ss: ss,
