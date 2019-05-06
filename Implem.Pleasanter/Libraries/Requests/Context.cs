@@ -55,6 +55,7 @@ namespace Implem.Pleasanter.Libraries.Requests
         public string TenantTitle;
         public string SiteTitle;
         public string RecordTitle;
+        public bool DisableAllUsersPermission;
         public string HtmlTitleTop;
         public string HtmlTitleSite;
         public string HtmlTitleRecord;
@@ -283,6 +284,7 @@ namespace Implem.Pleasanter.Libraries.Requests
                             .ContractSettings()
                             .ContractDeadline()
                             .LogoType()
+                            .DisableAllUsersPermission()
                             .HtmlTitleTop()
                             .HtmlTitleSite()
                             .HtmlTitleRecord(),
@@ -296,6 +298,7 @@ namespace Implem.Pleasanter.Libraries.Requests
                         .Deserialize<ContractSettings>() ?? ContractSettings;
                     ContractSettings.Deadline = dataRow?.DateTime("ContractDeadline");
                     LogoType = (TenantModel.LogoTypes)dataRow.Int("LogoType");
+                    DisableAllUsersPermission = dataRow.Bool("DisableAllUsersPermission");
                     HtmlTitleTop = dataRow.String("HtmlTitleTop");
                     HtmlTitleSite = dataRow.String("HtmlTitleSite");
                     HtmlTitleRecord = dataRow.String("HtmlTitleRecord");

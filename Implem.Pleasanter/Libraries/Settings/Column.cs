@@ -683,6 +683,9 @@ namespace Implem.Pleasanter.Libraries.Settings
                         case "ContractDeadline":
                             sql.Tenants_ContractDeadline(tableName: path, _as: _as);
                             break;
+                        case "DisableAllUsersPermission":
+                            sql.Tenants_DisableAllUsersPermission(tableName: path, _as: _as);
+                            break;
                         case "LogoType":
                             sql.Tenants_LogoType(tableName: path, _as: _as);
                             break;

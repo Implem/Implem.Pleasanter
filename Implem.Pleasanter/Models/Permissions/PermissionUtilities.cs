@@ -359,14 +359,15 @@ namespace Implem.Pleasanter.Models
             List<Permission> currentPermissions,
             int offset = 0)
         {
-            var sourceCollection = new List<Permission>()
+            var sourceCollection = new List<Permission>();
+            if (!context.DisableAllUsersPermission)
             {
-                new Permission(
+                sourceCollection.Add(new Permission(
                     ss: ss,
                     name: "User",
                     id: -1,
-                    source: true)
-            };
+                    source: true));
+            }
             Rds.ExecuteTable(
                 context: context,
                 statements: new SqlStatement[]

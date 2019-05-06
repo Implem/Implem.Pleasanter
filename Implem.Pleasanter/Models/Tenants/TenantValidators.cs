@@ -93,6 +93,12 @@ namespace Implem.Pleasanter.Models
                             return Error.Types.HasNotPermission;
                         }
                         break;
+                    case "DisableAllUsersPermission":
+                        if (tenantModel.DisableAllUsersPermission_Updated(context: context, column: column))
+                        {
+                            return Error.Types.HasNotPermission;
+                        }
+                        break;
                     case "LogoType":
                         if (tenantModel.LogoType_Updated(context: context, column: column))
                         {
@@ -172,6 +178,12 @@ namespace Implem.Pleasanter.Models
                         break;
                     case "ContractDeadline":
                         if (tenantModel.ContractDeadline_Updated(context: context))
+                        {
+                            return Error.Types.HasNotPermission;
+                        }
+                        break;
+                    case "DisableAllUsersPermission":
+                        if (tenantModel.DisableAllUsersPermission_Updated(context: context))
                         {
                             return Error.Types.HasNotPermission;
                         }

@@ -11,6 +11,7 @@ namespace Implem.Pleasanter.Models
         public string Body;
         public string ContractSettings;
         public DateTime? ContractDeadline;
+        public bool? DisableAllUsersPermission;
         public int? LogoType;
         public string HtmlTitleTop;
         public string HtmlTitleSite;
