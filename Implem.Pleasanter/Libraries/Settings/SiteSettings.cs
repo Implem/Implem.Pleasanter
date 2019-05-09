@@ -3204,7 +3204,9 @@ namespace Implem.Pleasanter.Libraries.Settings
                 .GroupBy(o => o.JoinExpression)
                 .Select(o => o.First())
                 .ToArray());
-            join.ItemJoin(tableName: ReferenceType);
+            join.ItemJoin(
+                tableName: ReferenceType,
+                tableType: TableType);
             return join;
         }
 
