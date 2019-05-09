@@ -25,7 +25,9 @@ namespace Implem.Pleasanter.Models
     public static class ItemUtilities
     {
         public static SqlJoinCollection ItemJoin(
-            this SqlJoinCollection join, string tableName)
+            this SqlJoinCollection join,
+            Sqls.TableTypes tableType,
+            string tableName)
         {
             switch (tableName)
             {
@@ -33,8 +35,18 @@ namespace Implem.Pleasanter.Models
                 case "Issues":
                 case "Results":
                 case "Wikis":
+                    var tableTypeName = string.Empty;
+                    switch (tableType)
+                    {
+                        case Sqls.TableTypes.History:
+                            tableTypeName = "_history";
+                            break;
+                        case Sqls.TableTypes.Deleted:
+                            tableTypeName = "_deleted";
+                            break;
+                    }
                     return join.Add(
-                        tableName: "Items",
+                        tableName: "Items" + tableTypeName,
                         joinType: SqlJoin.JoinTypes.Inner,
                         joinExpression: $"[{tableName}].[{Rds.IdColumn(tableName)}]=[{tableName}_Items].[ReferenceId]",
                         _as: tableName + "_Items");
