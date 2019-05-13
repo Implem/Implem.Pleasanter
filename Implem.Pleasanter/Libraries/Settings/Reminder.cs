@@ -235,6 +235,9 @@ namespace Implem.Pleasanter.Libraries.Settings
                     tableName: ss.ReferenceType,
                     dataTableName: "Main",
                     column: column,
+                    join: new SqlJoinCollection().ItemJoin(
+                        tableType: Sqls.TableTypes.Normal,
+                        tableName: ss.ReferenceType),
                     where: view.Where(context: context, ss: ss, checkPermission: false)
                         .Add(
                             tableName: ss.ReferenceType,
