@@ -35,6 +35,18 @@ $p.openFilterColumnDialog = function ($control) {
     $p.openSiteSettingsDialog($control, '#FilterColumnDialog');
 }
 
+$p.openAggregationDetailsDialog = function ($control) {
+    $p.data.AggregationDetailsForm = {};
+    $p.openSiteSettingsDialog($control, '#AggregationDetailsDialog', '420px');
+}
+
+$p.setAggregationDetails = function ($control) {
+    $p.setData($('#AggregationType'));
+    $p.setData($('#AggregationTarget'));
+    $p.setData($('#SelectedAggregation'));
+    $p.send($control);
+}
+
 $p.openEditorColumnDialog = function ($control) {
     $p.data.EditorColumnForm = {};
     $p.openSiteSettingsDialog($control, '#EditorColumnDialog');
@@ -125,15 +137,6 @@ $p.openStyleDialog = function ($control) {
 
 $p.setStyle = function ($control) {
     $p.setData($('#EditStyle'), $p.getData($control));
-    $p.send($control);
-}
-
-$p.setAggregationDetails = function ($control) {
-    var data = $p.getData($control);
-    data.AggregationType = $('#AggregationType').val();
-    data.AggregationTarget = $('#AggregationTarget').val();
-    $p.clearMessage();
-    $('.ui-dialog-content').dialog('close');
     $p.send($control);
 }
 

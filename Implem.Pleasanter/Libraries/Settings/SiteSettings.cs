@@ -2339,6 +2339,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                 case "UpdateColumnAccessControlAll": SetUpdateColumnAccessControl(value); break;
                 case "GridColumnsAll": GridColumns = context.Forms.List(propertyName); break;
                 case "FilterColumnsAll": FilterColumns = context.Forms.List(propertyName); break;
+                case "AggregationDestinationAll": Aggregations = GetAggregations(context: context); break;
                 case "EditorColumnsAll": EditorColumns = context.Forms.List(propertyName); break;
                 case "TitleColumnsAll": TitleColumns = context.Forms.List(propertyName); break;
                 case "LinkColumnsAll": LinkColumns = context.Forms.List(propertyName); break;
@@ -2354,57 +2355,61 @@ namespace Implem.Pleasanter.Libraries.Settings
             }
         }
 
-        public void SetAggregations(
+        public List<Aggregation> GetAggregations(Context context)
+        {
+            var id = 1;
+            var aggregations = new List<Aggregation>();
+            context.Forms.List("AggregationDestinationAll").ForEach(a =>
+            {
+                var aggrigation = Aggregations
+                    .Where(o => o.Id == a.ToInt())
+                    .FirstOrDefault();
+                if (aggrigation != null)
+                {
+                    aggregations.Add(new Aggregation()
+                    {
+                        Id = id++,
+                        GroupBy = aggrigation.GroupBy,
+                        Type = aggrigation.Type,
+                        Target = aggrigation.Target,
+                        Data = aggrigation.Data
+                    });
+                }
+            });
+            return aggregations;
+        }
+
+        public List<string> SetAggregations(
             string controlId,
-            IEnumerable<string> selectedColumns,
-            IEnumerable<string> selectedSourceColumns)
+            List<string> selected,
+            List<string> selectedSources)
         {
             switch (controlId)
             {
                 case "AddAggregations":
-                    var idCollection = new List<string>();
-                    selectedSourceColumns.ForEach(groupBy =>
+                    var added = new List<string>();
+                    selectedSources.ForEach(groupBy =>
                     {
                         var id = Aggregations.Count > 0
                             ? Aggregations.Max(o => o.Id) + 1
                             : 1;
-                        idCollection.Add(id.ToString());
+                        added.Add(id.ToString());
                         Aggregations.Add(new Aggregation(id, groupBy));
                     });
-                    selectedColumns = idCollection;
-                    selectedSourceColumns = null;
-                    break;
+                    return added;
                 case "DeleteAggregations":
-                    Aggregations
-                        .RemoveAll(o => selectedColumns.Contains(o.Id.ToString()));
-                    selectedSourceColumns = selectedColumns;
-                    selectedColumns = null;
-                    break;
-                case "MoveUpAggregations":
-                case "MoveDownAggregations":
-                    var order = Aggregations.Select(o => o.Id.ToString()).ToArray();
-                    if (controlId == "MoveDownAggregations") Array.Reverse(order);
-                    order.Select((o, i) => new { Id = o, Index = i }).ForEach(data =>
-                    {
-                        if (selectedColumns.Contains(data.Id) &&
-                            data.Index > 0 &&
-                            !selectedColumns.Contains(order[data.Index - 1]))
-                        {
-                            order = Arrays.Swap(order, data.Index, data.Index - 1);
-                        }
-                    });
-                    if (controlId == "MoveDownAggregations") Array.Reverse(order);
-                    Aggregations = order.ToList().Select(id => Aggregations
-                        .FirstOrDefault(o => o.Id.ToString() == id)).ToList();
-                    break;
+                    Aggregations.RemoveAll(o =>
+                        selected.Contains(o.Id.ToString()));
+                    return null;
+                default:
+                    return selected;
             }
         }
 
         public void SetAggregationDetails(
             Aggregation.Types type,
             string target,
-            IEnumerable<string> selectedColumns,
-            IEnumerable<string> selectedSourceColumns)
+            IEnumerable<string> selectedColumns)
         {
             Aggregations
                 .Where(o => selectedColumns.Contains(o.Id.ToString()))
