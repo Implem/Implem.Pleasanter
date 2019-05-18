@@ -2607,7 +2607,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                         .GroupBy(o => o.Long(column.ColumnName))
                         .Select(o => o.First())
                         .ForEach(dataRow =>
-                            column.ChoiceHash.AddIfNotConainsKey(
+                            column.ChoiceHash.AddOrUpdate(
                                 dataRow.String(column.ColumnName),
                                 new Choice(
                                     dataRow.String(column.ColumnName),
