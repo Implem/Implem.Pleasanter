@@ -3184,6 +3184,10 @@ namespace Implem.Pleasanter.Models
                     .Class("dialog")
                     .Title(Displays.AdvancedSetting(context: context)))
                 .Div(attributes: new HtmlAttributes()
+                    .Id("AggregationDetailsDialog")
+                    .Class("dialog")
+                    .Title(Displays.AdvancedSetting(context: context)))
+                .Div(attributes: new HtmlAttributes()
                     .Id("EditorColumnDialog")
                     .Class("dialog")
                     .Title(Displays.AdvancedSetting(context: context)))
@@ -3489,8 +3493,7 @@ namespace Implem.Pleasanter.Models
                     controlId: "EditInDialog",
                     fieldCss: "field-auto-thin",
                     labelText: Displays.EditInDialog(context: context),
-                    _checked: ss.EditInDialog == true)
-                .AggregationDetailsDialog(context: context, ss: ss));
+                    _checked: ss.EditInDialog == true));
         }
 
         /// <summary>
@@ -3930,11 +3933,13 @@ namespace Implem.Pleasanter.Models
                                         onClick: "$p.moveColumnsById($(this),'AggregationDestination','',false,true);",
                                         icon: "ui-icon-circle-triangle-n")
                                     .Button(
-                                        text: Displays.AdvancedSetting(context: context),
+                                        controlId: "OpenAggregationDetailsDialog",
                                         controlCss: "button-icon open-dialog",
-                                        onClick: "$p.openDialog($(this), '.main-form');",
+                                        text: Displays.AdvancedSetting(context: context),
+                                        onClick: "$p.openAggregationDetailsDialog($(this));",
                                         icon: "ui-icon-gear",
-                                        selector: "#AggregationDetailsDialog")
+                                        action: "SetSiteSettings",
+                                        method: "put")
                                     .Button(
                                         controlId: "DeleteAggregations",
                                         controlCss: "button-icon",
@@ -3968,13 +3973,14 @@ namespace Implem.Pleasanter.Models
         /// Fixed:
         /// </summary>
         public static HtmlBuilder AggregationDetailsDialog(
-            this HtmlBuilder hb, Context context, SiteSettings ss)
+            this HtmlBuilder hb, Context context, SiteSettings ss, Aggregation aggregation)
         {
-            return hb.Div(
+            return hb.Form(
                 attributes: new HtmlAttributes()
-                    .Id("AggregationDetailsDialog")
-                    .Class("dialog")
-                    .Title(Displays.AggregationDetails(context: context)),
+                    .Id("AggregationDetailsForm")
+                    .Action(Locations.ItemAction(
+                        context: context,
+                        id: ss.SiteId)),
                 action: () => hb
                     .FieldDropDown(
                         context: context,
@@ -3985,11 +3991,14 @@ namespace Implem.Pleasanter.Models
                             { "Count", Displays.Count(context: context) },
                             { "Total", Displays.Total(context: context) },
                             { "Average", Displays.Average(context: context) }
-                        })
+                        },
+                        selectedValue: aggregation.Type.ToString())
                     .FieldDropDown(
                         context: context,
                         controlId: "AggregationTarget",
-                        fieldCss: " hidden togglable",
+                        fieldCss: " togglable" + (aggregation.Type == Aggregation.Types.Count
+                            ? " hidden"
+                            : string.Empty),
                         labelText: Displays.AggregationTarget(context: context),
                         optionCollection: Def.ColumnDefinitionCollection
                             .Where(o => o.TableName == ss.ReferenceType)
@@ -3999,7 +4008,11 @@ namespace Implem.Pleasanter.Models
                                 o => o.ColumnName,
                                 o => ss.GetColumn(
                                     context: context,
-                                    columnName: o.ColumnName).LabelText))
+                                    columnName: o.ColumnName).LabelText),
+                        selectedValue: aggregation.Target)
+                    .Hidden(
+                        controlId: "SelectedAggregation",
+                        value: aggregation.Id.ToString())
                     .P(css: "message-dialog")
                     .Div(css: "command-center", action: () => hb
                         .Button(

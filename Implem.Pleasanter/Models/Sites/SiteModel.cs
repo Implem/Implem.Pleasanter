@@ -1153,6 +1153,11 @@ namespace Implem.Pleasanter.Models
                         context: context,
                         res: res);
                     break;
+                case "OpenAggregationDetailsDialog":
+                    OpenAggregationDetailsDialog(
+                        context: context,
+                        res: res);
+                    break;
                 case "AddAggregations":
                 case "DeleteAggregations":
                     SetAggregations(
@@ -1698,34 +1703,44 @@ namespace Implem.Pleasanter.Models
         /// <summary>
         /// Fixed:
         /// </summary>
+        private void OpenAggregationDetailsDialog(Context context, ResponseCollection res)
+        {
+            var selectedColumns = context.Forms.List("AggregationDestination");
+            if (selectedColumns.Count() != 1)
+            {
+                res.Message(Messages.SelectOne(context: context));
+            }
+            else
+            {
+                var aggregation = SiteSettings.Aggregations
+                    .FirstOrDefault(o => o.Id == selectedColumns.First().ToLong());
+                if (aggregation == null)
+                {
+                    res.Message(Messages.NotFound(context: context));
+                }
+                else
+                {
+                    res.Html(
+                        "#AggregationDetailsDialog",
+                        new HtmlBuilder().AggregationDetailsDialog(
+                            context: context,
+                            ss: SiteSettings,
+                            aggregation: aggregation));
+                }
+            }
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
         private void SetAggregations(Context context, ResponseCollection res, string controlId)
         {
             var selectedColumns = context.Forms.List("AggregationDestination");
             var selectedSourceColumns = context.Forms.List("AggregationSource");
             if (selectedColumns.Any() || selectedSourceColumns.Any())
             {
-                int id = 1;
-                List<Libraries.Settings.Aggregation> aggregations = new List<Libraries.Settings.Aggregation>();
-                List<string> refactSelectedColumns = new List<string>();
-                context.Forms.List("AggregationDestinationAll").ForEach(a =>
-                {
-                    var aggrigation = SiteSettings.Aggregations.Where(o => o.Id == a.ToInt()).FirstOrDefault();
-                    if (selectedColumns.Contains(aggrigation.Id.ToString()))
-                    {
-                        refactSelectedColumns.Add(id.ToString());
-                    }
-                    aggregations.Add(new Libraries.Settings.Aggregation()
-                    {
-                        Id = id++,
-                        GroupBy = aggrigation.GroupBy,
-                        Type = aggrigation.Type,
-                        Target = aggrigation.Target,
-                        Data = aggrigation.Data
-                    });
-                });
-                SiteSettings.Aggregations = aggregations;
-                selectedColumns = refactSelectedColumns;
-                SiteSettings.SetAggregations(
+                SiteSettings.Aggregations = SiteSettings.GetAggregations(context: context);
+                selectedColumns = SiteSettings.SetAggregations(
                     controlId,
                     selectedColumns,
                     selectedSourceColumns);
@@ -1749,43 +1764,26 @@ namespace Implem.Pleasanter.Models
             var target = type != Aggregation.Types.Count
                 ? context.Forms.Data("AggregationTarget")
                 : string.Empty;
-            var selectedColumns = context.Forms.List("AggregationDestination");
-            var selectedSourceColumns = context.Forms.List("AggregationSource");
-            if (selectedColumns.Any() || selectedSourceColumns.Any())
+            var id = context.Forms.Long("SelectedAggregation");
+            var aggregation = SiteSettings.Aggregations
+                .FirstOrDefault(o => o.Id == id);
+            if (aggregation == null)
             {
-                int id = 1;
-                List<Aggregation> aggregations = new List<Aggregation>();
-                List<string> refactSelectedColumns = new List<string>();
-                context.Forms.List("AggregationDestinationAll").ForEach(a =>
-                {
-                    var aggrigation = SiteSettings.Aggregations.Where(o => o.Id == a.ToInt()).FirstOrDefault();
-                    if (selectedColumns.Contains(aggrigation.Id.ToString()))
-                    {
-                        refactSelectedColumns.Add(id.ToString());
-                    }
-                    aggregations.Add(new Aggregation()
-                    {
-                        Id = id++,
-                        GroupBy = aggrigation.GroupBy,
-                        Type = aggrigation.Type,
-                        Target = aggrigation.Target,
-                        Data = aggrigation.Data
-                    });
-                });
-                SiteSettings.Aggregations = aggregations;
-                selectedColumns = refactSelectedColumns;
-                SiteSettings.SetAggregationDetails(
-                    type,
-                    target,
-                    selectedColumns,
-                    selectedSourceColumns);
+                res.Message(Messages.NotFound(context: context));
+            }
+            else
+            {
+                aggregation.Type = type;
+                aggregation.Target = type != Aggregation.Types.Count
+                    ? target
+                    : null;
                 res
                     .Html("#AggregationDestination", new HtmlBuilder()
                         .SelectableItems(
                             listItemCollection: SiteSettings
                                 .AggregationDestination(context: context),
-                            selectedValueTextCollection: selectedColumns))
-                    .SetFormData("AggregationDestination", selectedColumns?.ToJson());
+                            selectedValueTextCollection: id.ToString().ToSingleList()))
+                    .CloseDialog();
             }
         }
 
