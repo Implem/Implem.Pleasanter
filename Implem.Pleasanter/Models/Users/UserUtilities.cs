@@ -8286,5 +8286,165 @@ namespace Implem.Pleasanter.Models
                     data: context.User.Name))
                 .ToJson();
         }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        public static System.Web.Mvc.ContentResult CreateByApi(Context context, SiteSettings ss)
+        {
+            if (context.ContractSettings.UsersLimit(context: context))
+            {
+                return ApiResults.Error(
+                    context: context,
+                    type: Error.Types.UsersLimit);
+            }
+            var userModel = new UserModel(context, ss, 0, setByApi: true);
+            var invalid = UserValidators.OnCreating(
+                context: context,
+                ss: ss,
+                userModel: userModel,
+                api: true);
+            switch (invalid)
+            {
+                case Error.Types.None: break;
+                default: return ApiResults.Error(
+                    context: context,
+                    type: invalid);
+            }
+            foreach (var policy in Parameters.Security.PasswordPolicies.Where(o => o.Enabled))
+            {
+                if(!userModel.Password.RegexExists(policy.Regex))
+                {
+                    return ApiResults.Error(
+                        context: context,
+                        type: Error.Types.PasswordPolicyViolation);
+                }
+            }
+            foreach(var column in ss.Columns
+                .Where(o => o.ValidateRequired ?? false )
+                .Where(o => typeof(UserApiModel).GetField(o.ColumnName) != null))
+            {
+                if (userModel.GetType().GetField(column.ColumnName).GetValue(userModel).ToString().IsNullOrEmpty())
+                {
+                    return ApiResults.Error(
+                        context: context,
+                        type: Error.Types.NotRequiredColumn,
+                        data: column.ColumnName);
+                }
+            }
+            var error = userModel.Create(context: context, ss: ss);
+            switch (error)
+            {
+                case Error.Types.None:
+                    return ApiResults.Success(
+                        userModel.UserId,
+                        Displays.Created(
+                            context: context,
+                            data: userModel.Title.Value));
+                default:
+                    return ApiResults.Error(
+                        context: context,
+                        type: error);
+            }
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        public static System.Web.Mvc.ContentResult UpdateByApi(Context context, SiteSettings ss, int userId)
+        {
+            var userModel = new UserModel(context, ss, userId: userId, setByApi: true);
+            if (userModel.AccessStatus != Databases.AccessStatuses.Selected)
+            {
+                return ApiResults.Get(ApiResponses.NotFound(context: context));
+            }
+            var invalid = UserValidators.OnUpdating(
+                context: context,
+                ss: ss,
+                userModel: userModel,
+                api: true);
+            switch (invalid)
+            {
+                case Error.Types.None: break;
+                default:
+                    return ApiResults.Error(
+                       context: context,
+                       type: invalid);
+            }
+            foreach (var policy in Parameters.Security.PasswordPolicies.Where(o => o.Enabled))
+            {
+                if (userModel.Password_Updated(context: context) && !userModel.Password.RegexExists(policy.Regex))
+                {
+                    return ApiResults.Error(
+                        context: context,
+                        type: Error.Types.PasswordPolicyViolation);
+                }
+            }
+            foreach (var column in ss.Columns
+                .Where(o => o.ValidateRequired ?? false)
+                .Where(o => typeof(UserApiModel).GetField(o.ColumnName) != null))
+            {
+                if (userModel.GetType().GetField(column.ColumnName).GetValue(userModel).ToString().IsNullOrEmpty())
+                {
+                    return ApiResults.Error(
+                        context: context,
+                        type: Error.Types.NotRequiredColumn,
+                        data: column.ColumnName);
+                }
+            }
+            var error = userModel.Update(context: context, ss: ss);
+            switch (error)
+            {
+                case Error.Types.None:
+                    return ApiResults.Success(
+                        userModel.UserId,
+                        Displays.Updated(
+                            context: context,
+                            data: userModel.Title.Value));
+                default:
+                    return ApiResults.Error(
+                        context: context,
+                        type: error);
+            }
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        public static System.Web.Mvc.ContentResult DeleteByApi(Context context, SiteSettings ss, int userId)
+        {
+            var userModel = new UserModel(context, ss, userId: userId, setByApi: true);
+            if (userModel.AccessStatus != Databases.AccessStatuses.Selected)
+            {
+                return ApiResults.Get(ApiResponses.NotFound(context: context));
+            }
+            var invalid = UserValidators.OnDeleting(
+                context: context,
+                ss: ss,
+                userModel: userModel,
+                api: true);
+            switch (invalid)
+            {
+                case Error.Types.None: break;
+                default:
+                    return ApiResults.Error(
+                       context: context,
+                       type: invalid);
+            }
+            var error = userModel.Delete(context: context, ss: ss);
+            switch (error)
+            {
+                case Error.Types.None:
+                    return ApiResults.Success(
+                        userModel.UserId,
+                        Displays.Deleted(
+                            context: context,
+                            data: userModel.Title.Value));
+                default:
+                    return ApiResults.Error(
+                        context: context,
+                        type: error);
+            }
+        }
     }
 }

@@ -4058,7 +4058,6 @@ namespace Implem.Pleasanter.Models
                     case "LockoutCounter": data.LockoutCounter = LockoutCounter; break;
                     case "Developer": data.Developer = Developer; break;
                     case "UserSettings": data.UserSettings = UserSettings.RecordingJson(); break;
-                    case "ApiKey": data.ApiKey = ApiKey; break;
                     case "ClassA": data.ClassA = ClassA; break;
                     case "ClassB": data.ClassB = ClassB; break;
                     case "ClassC": data.ClassC = ClassC; break;
@@ -4983,7 +4982,6 @@ namespace Implem.Pleasanter.Models
             if (data.Disabled != null) Disabled = data.Disabled.ToBool().ToBool();
             if (data.Lockout != null) Lockout = data.Lockout.ToBool().ToBool();
             if (data.LockoutCounter != null) LockoutCounter = data.LockoutCounter.ToInt().ToInt();
-            if (data.ApiKey != null) ApiKey = data.ApiKey.ToString().ToString();
             if (data.ClassA != null) ClassA = data.ClassA.ToString().ToString();
             if (data.ClassB != null) ClassB = data.ClassB.ToString().ToString();
             if (data.ClassC != null) ClassC = data.ClassC.ToString().ToString();
@@ -6623,6 +6621,38 @@ namespace Implem.Pleasanter.Models
             return UserUtilities.GetByApi(
                 context: context,
                 ss: SiteSettingsUtilities.ApiUsersSiteSettings(context));
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        public System.Web.Mvc.ContentResult CreateByApi(Context context)
+        {
+            return UserUtilities.CreateByApi(
+                context: context,
+                ss: SiteSettingsUtilities.ApiUsersSiteSettings(context));
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        public System.Web.Mvc.ContentResult UpdateByApi(Context context, int userId)
+        {
+            return UserUtilities.UpdateByApi(
+                context: context,
+                ss: SiteSettingsUtilities.ApiUsersSiteSettings(context),
+                userId: userId);
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        public System.Web.Mvc.ContentResult DeleteByApi(Context context, int userId)
+        {
+            return UserUtilities.DeleteByApi(
+                context: context,
+                ss: SiteSettingsUtilities.ApiUsersSiteSettings(context),
+                userId: userId);
         }
     }
 }

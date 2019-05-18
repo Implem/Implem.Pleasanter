@@ -34,7 +34,6 @@ namespace Implem.Pleasanter.Models
         public int? LockoutCounter;
         public bool? Developer;
         public string UserSettings;
-        public string ApiKey;
         public string ClassA;
         public string ClassB;
         public string ClassC;

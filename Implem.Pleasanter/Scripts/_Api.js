@@ -24,3 +24,32 @@ $p.apiExec = function (url, args) {
         .fail(args.fail)
         .always(args.always);
 }
+
+$p.apiUsersUrl = function (action, id) {
+    switch (action) {
+        case 'get':
+        case 'create':
+            return $('#ApplicationPath').val() + 'api/users/' + action;
+            break;
+        case 'update':
+        case 'delete':
+            return $('#ApplicationPath').val() + 'api/users/' + id + '/' + action;
+            break;
+    }
+}
+
+$p.apiUsersGet = function (args) {
+    $p.apiExec($p.apiUsersUrl('get'), args);
+}
+
+$p.apiUsersCreate = function (args) {
+    $p.apiExec($p.apiUsersUrl('create'), args);
+}
+
+$p.apiUsersUpdate = function (args) {
+    $p.apiExec($p.apiUsersUrl('update', args.id), args);
+}
+
+$p.apiUsersDelete = function (args) {
+    $p.apiExec($p.apiUsersUrl('delete', args.id), args);
+}
