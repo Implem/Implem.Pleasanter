@@ -1250,19 +1250,6 @@ namespace Implem.Pleasanter.Libraries.Settings
             return null;
         }
 
-        private string LanguagesLabelText(Context context, string labelText)
-        {
-            var hash = labelText?.Deserialize<Dictionary<string, string>>();
-            if (hash != null)
-            {
-                return hash.Get(context.Language) ?? hash.Get("");
-            }
-            else
-            {
-                return labelText;
-            }
-        }
-
         private void UpdateColumnHash()
         {
             ColumnHash = Columns
