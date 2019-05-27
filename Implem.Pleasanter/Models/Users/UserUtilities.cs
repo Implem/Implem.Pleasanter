@@ -5272,7 +5272,9 @@ namespace Implem.Pleasanter.Models
                         selector: "#ResetPasswordDialog");
                 }
             }
-            if (context.HasPrivilege && context.User.Id != userModel.UserId)
+            if (context.HasPrivilege
+                && context.User.Id != userModel.UserId
+                && !userModel.Disabled)
             {
                 hb.Button(
                     text: Displays.SwitchUser(context: context),
@@ -8221,18 +8223,20 @@ namespace Implem.Pleasanter.Models
         /// <returns></returns>
         public static string SwitchUser(Context context)
         {
-            var invalid = UserValidators.OnSwitchUser(context: context);
-            switch (invalid)
-            {
-                case Error.Types.None: break;
-                default: return HtmlTemplates.Error(context, invalid);
-            }
             var userModel = new UserModel(
                 context: context,
                 ss: null,
                 userId: context.Controller == "users"
                     ? context.Id.ToInt()
                     : 0);
+            var invalid = UserValidators.OnSwitchUser(
+                context: context,
+                userModel: userModel);
+            switch (invalid)
+            {
+                case Error.Types.None: break;
+                default: return invalid.MessageJson(context: context);
+            }
             if (userModel.AccessStatus == Databases.AccessStatuses.Selected)
             {
                 SessionUtilities.Set(
@@ -8266,11 +8270,11 @@ namespace Implem.Pleasanter.Models
         /// </summary>
         public static string ReturnOriginalUser(Context context)
         {
-            var invalid = UserValidators.OnSwitchUser(context: context);
+            var invalid = UserValidators.OnReturnSwitchUser(context: context);
             switch (invalid)
             {
                 case Error.Types.None: break;
-                default: return HtmlTemplates.Error(context, invalid);
+                default: return invalid.MessageJson(context: context);
             }
             SessionUtilities.Remove(
                 context: context,

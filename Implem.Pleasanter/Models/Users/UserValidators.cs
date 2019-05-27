@@ -2219,7 +2219,23 @@ namespace Implem.Pleasanter.Models
         /// <summary>
         /// Fixed:
         /// </summary>
-        public static Error.Types OnSwitchUser(Context context)
+        public static Error.Types OnSwitchUser(Context context, UserModel userModel)
+        {
+            if (!Permissions.PrivilegedUsers(context.LoginId))
+            {
+                return Error.Types.InvalidRequest;
+            }
+            if (userModel.Disabled)
+            {
+                return Error.Types.InvalidRequest;
+            }
+            return Error.Types.None;
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        public static Error.Types OnReturnSwitchUser(Context context)
         {
             if (!Permissions.PrivilegedUsers(context.LoginId))
             {
