@@ -2072,7 +2072,7 @@ namespace Implem.Pleasanter.Libraries.Settings
             Context context, bool datetime = false)
         {
             var hash = new Dictionary<string, string>();
-            JoinOptions().ForEach(join =>
+            JoinOptions(sources: false).ForEach(join =>
             {
                 var siteId = ColumnUtilities.GetSiteIdByTableAlias(join.Key, SiteId);
                 var ss = JoinedSsHash.Get(siteId);
@@ -2237,7 +2237,10 @@ namespace Implem.Pleasanter.Libraries.Settings
                 .ToDictionary(o => o.ColumnName, o => o.GridLabelText);
         }
 
-        public Dictionary<string, string> JoinOptions(SiteSettings ss = null)
+        public Dictionary<string, string> JoinOptions(
+            SiteSettings ss = null,
+            bool destinations = true,
+            bool sources = true)
         {
             var hash = new Dictionary<string, string>();
             if (ss == null)
@@ -2252,10 +2255,16 @@ namespace Implem.Pleasanter.Libraries.Settings
                         joinStack.TableName(),
                         joinStack.DisplayName(currentTitle: Title)));
             }
-            ss.Destinations?.Values.ForEach(currentSs =>
-                hash.AddRange(JoinOptions(ss: currentSs)));
-            ss.Sources?.Values.ForEach(currentSs =>
-                hash.AddRange(JoinOptions(ss: currentSs)));
+            if (destinations)
+            {
+                ss.Destinations?.Values.ForEach(currentSs =>
+                    hash.AddRange(JoinOptions(ss: currentSs)));
+            }
+            if (sources)
+            {
+                ss.Sources?.Values.ForEach(currentSs =>
+                    hash.AddRange(JoinOptions(ss: currentSs)));
+            }
             return hash;
         }
 

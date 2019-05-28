@@ -9294,10 +9294,7 @@ namespace Implem.Pleasanter.Models
             if (groupByX?.TypeName != "datetime")
             {
                 var column = Rds.ResultsColumn()
-                    .Add(
-                        context: context,
-                        ss: ss,
-                        column: groupByX)
+                    .WithItemTitle(column: groupByX)
                     .CrosstabColumns(
                         context: context,
                         ss: ss,
@@ -9310,8 +9307,8 @@ namespace Implem.Pleasanter.Models
                     context: context,
                     ss: ss);
                 var groupBy = Rds.ResultsGroupBy()
-                    .Add(ss, groupByX)
-                    .Add(ss, groupByY);
+                    .WithItemTitle(column: groupByX)
+                    .WithItemTitle(column: groupByY);
                 dataRows = Rds.ExecuteTable(
                     context: context,
                     statements: Rds.SelectResults(
@@ -9356,7 +9353,7 @@ namespace Implem.Pleasanter.Models
                         month: month));
                 var groupBy = Rds.ResultsGroupBy()
                     .Add(dateGroup)
-                    .Add(ss, groupByY);
+                    .WithItemTitle(column: groupByY);
                 dataRows = Rds.ExecuteTable(
                     context: context,
                     statements: Rds.SelectResults(
@@ -9390,13 +9387,8 @@ namespace Implem.Pleasanter.Models
             if (view.CrosstabGroupByY != "Columns")
             {
                 return self
+                    .WithItemTitle(column: groupByY)
                     .Add(
-                        context: context,
-                        ss: ss,
-                        column: groupByY)
-                    .Add(
-                        context: context,
-                        ss: ss,
                         column: value,
                         _as: "Value",
                         function: Sqls.Function(aggregateType));
@@ -9405,8 +9397,6 @@ namespace Implem.Pleasanter.Models
             {
                 columns.ForEach(column =>
                     self.Add(
-                        context: context,
-                        ss: ss,
                         column: column,
                         _as: column.ColumnName,
                         function: Sqls.Function(aggregateType)));
@@ -9556,14 +9546,8 @@ namespace Implem.Pleasanter.Models
                     .ResultId(_as: "Id")
                     .Ver()
                     .UpdatedTime()
-                    .Add(
-                        context: context,
-                        ss: ss,
-                        column: groupBy)
-                    .Add(
-                        context: context,
-                        ss: ss,
-                        column: value);
+                    .Add(column: groupBy)
+                    .Add(column: value);
                 var where = view.Where(context: context, ss: ss);
                 var dataRows = Rds.ExecuteTable(
                     context: context,
@@ -9752,18 +9736,9 @@ namespace Implem.Pleasanter.Models
             var column = Rds.ResultsColumn()
                 .ResultId()
                 .ItemTitle(ss.ReferenceType)
-                .Add(
-                    context: context,
-                    ss: ss,
-                    column: groupByX)
-                .Add(
-                    context: context,
-                    ss: ss,
-                    column: groupByY)
-                .Add(
-                    context: context,
-                    ss: ss,
-                    column: value);
+                .Add(column: groupByX)
+                .Add(column: groupByY)
+                .Add(column: value);
             var where = view.Where(context: context, ss: ss);
             return Rds.ExecuteTable(
                 context: context,

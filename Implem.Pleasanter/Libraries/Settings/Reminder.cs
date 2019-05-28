@@ -206,29 +206,22 @@ namespace Implem.Pleasanter.Libraries.Settings
         {
             var orderByColumn = ss.GetColumn(context: context, columnName: Column);
             var column = new SqlColumnCollection()
-                .Add(
+                .Add(column: ss.GetColumn(
                     context: context,
-                    ss: ss,
-                    column: ss.GetColumn(
-                        context: context,
-                        columnName: Rds.IdColumn(ss.ReferenceType)))
-                .Add(
-                    context: context,
-                    ss: ss,
-                    column: orderByColumn)
+                    columnName: Rds.IdColumn(ss.ReferenceType)))
+                .Add(column: orderByColumn)
                 .ItemTitle(ss.ReferenceType);
             var columns = ss.IncludedColumns(Line).ToList();
-            columns.ForEach(o => column.Add(
-                context: context,
-                ss: ss,
-                column: o));
+            columns.ForEach(o => column.Add(column: o));
             if (columns.Any(o => o.ColumnName == "Status"))
             {
                 columns.Add(ss.GetColumn(context: context, columnName: "Status"));
             }
             var view = ss.Views?.Get(Condition) ?? new View();
             var orderBy = new SqlOrderByCollection()
-                .Add(ss, orderByColumn, SqlOrderBy.Types.desc);
+                .Add(
+                    column: orderByColumn,
+                    orderType: SqlOrderBy.Types.desc);
             var dataSet = Rds.ExecuteDataSet(
                 context: context,
                 statements: Rds.Select(
@@ -258,8 +251,10 @@ namespace Implem.Pleasanter.Libraries.Settings
                                 _operator: "<'{0}'".Params(
                                     DateTime.Now.ToLocal(context: context).Date),
                                 _using: SendCompletedInPast == true)),
-                    orderBy: new SqlOrderByCollection().Add(ss, ss.GetColumn(
-                        context: context, columnName: Column)),
+                    orderBy: new SqlOrderByCollection()
+                        .Add(column: ss.GetColumn(
+                            context: context,
+                            columnName: Column)),
                     pageSize: Parameters.Reminder.Limit,
                     countRecord: true));
             return dataSet;

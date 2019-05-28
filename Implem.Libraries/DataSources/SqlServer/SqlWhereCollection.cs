@@ -102,7 +102,7 @@ namespace Implem.Libraries.DataSources.SqlServer
         {
             var data = this
                 .Where(o => o != null)
-                .Select(o => o.TableName)
+                .Select(o => o.TableName.CutEnd("_Items"))
                 .Where(o => o?.Contains("~") == true)
                 .ToList();
             this
