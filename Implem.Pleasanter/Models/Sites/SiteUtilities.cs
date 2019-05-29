@@ -3931,7 +3931,7 @@ namespace Implem.Pleasanter.Models
                                         controlCss: "button-icon",
                                         text: Displays.MoveDown(context: context),
                                         onClick: "$p.moveColumnsById($(this),'AggregationDestination','',false,true);",
-                                        icon: "ui-icon-circle-triangle-n")
+                                        icon: "ui-icon-circle-triangle-s")
                                     .Button(
                                         controlId: "OpenAggregationDetailsDialog",
                                         controlCss: "button-icon open-dialog",
