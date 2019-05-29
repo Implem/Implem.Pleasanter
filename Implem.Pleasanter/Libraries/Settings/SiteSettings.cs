@@ -2598,22 +2598,25 @@ namespace Implem.Pleasanter.Libraries.Settings
                         .Where(link => column.Name == link.ColumnName)
                         .Select(link => link.LinkedTableName() + ",ItemTitle")
                         .ToList();
-                    dataRows
-                        .GroupBy(o => o.Long(column.ColumnName))
-                        .Select(o => o.First())
-                        .ForEach(dataRow =>
-                            column.ChoiceHash.AddOrUpdate(
-                                dataRow.String(column.ColumnName),
-                                new Choice(
+                    if (dataColumns.Any(o => links.Any(p => o.EndsWith(p))))
+                    {
+                        dataRows
+                            .GroupBy(o => o.Long(column.ColumnName))
+                            .Select(o => o.First())
+                            .ForEach(dataRow =>
+                                column.ChoiceHash.AddOrUpdate(
                                     dataRow.String(column.ColumnName),
-                                    Strings.CoalesceEmpty(
-                                        dataColumns
-                                            .Where(columnName =>
-                                                links.Any(link =>
-                                                    columnName.EndsWith(link)))
-                                            .Select(columnName =>
-                                                dataRow.String(columnName))
-                                                    .ToArray()))));
+                                    new Choice(
+                                        dataRow.String(column.ColumnName),
+                                        Strings.CoalesceEmpty(
+                                            dataColumns
+                                                .Where(columnName =>
+                                                    links.Any(link =>
+                                                        columnName.EndsWith(link)))
+                                                .Select(columnName =>
+                                                    dataRow.String(columnName))
+                                                        .ToArray()))));
+                    }
                 });
         }
 
