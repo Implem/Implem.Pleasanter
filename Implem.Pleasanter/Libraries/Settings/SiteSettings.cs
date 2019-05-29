@@ -3249,7 +3249,8 @@ namespace Implem.Pleasanter.Libraries.Settings
                         joinExpression: JoinExpression(
                             tableName: tableName,
                             name: name,
-                            alias: alias),
+                            alias: alias,
+                            siteId: siteId),
                         _as: alias));
                     left.Add(part);
                     leftTableName = tableName;
@@ -3279,10 +3280,11 @@ namespace Implem.Pleasanter.Libraries.Settings
         private string JoinExpression(
             string tableName,
             string name,
-            string alias)
+            string alias,
+            long siteId)
         {
             return alias.Contains("~~")
-                ? $"[{alias}_Items].[ReferenceId]=try_cast([{alias}].[{name}] as bigint)"
+                ? $"[{alias}_Items].[ReferenceId]=try_cast([{alias}].[{name}] as bigint) and [{alias}].[SiteId]={siteId}"
                 : $"[{alias}_Items].[ReferenceId]=[{alias}].[{Rds.IdColumn(tableName)}]";
         }
 
