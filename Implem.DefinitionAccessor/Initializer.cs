@@ -279,7 +279,7 @@ namespace Implem.DefinitionAccessor
             Def.SetViewModeDefinition();
             Def.SetDemoDefinition();
             Def.SetSqlDefinition();
-            if (Parameters.Enterprise)
+            if (Parameters.CommercialLicense())
             {
                 SetExtendedColumnDefinitions();
             }

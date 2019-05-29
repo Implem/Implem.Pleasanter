@@ -1,10 +1,11 @@
 ﻿using Implem.ParameterAccessor.Parts;
+using System;
 using System.Collections.Generic;
 namespace Implem.DefinitionAccessor
 {
     public static class Parameters
     {
-        public static bool Enterprise = false;
+        public static License.License License = new License.License();
         public static List<string> SyntaxErrors = new List<string>();
         public static Api Api;
         public static Authentication Authentication;
@@ -28,5 +29,20 @@ namespace Implem.DefinitionAccessor
         public static Service Service;
         public static Session Session;
         public static SysLog SysLog;
+
+        public static bool CommercialLicense()
+        {
+            return License.Check();
+        }
+
+        public static DateTime Deadline()
+        {
+            return License.Deadline;
+        }
+
+        public static string Licensee()
+        {
+            return License.Licensee;
+        }
     }
 }

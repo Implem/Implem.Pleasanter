@@ -176,6 +176,16 @@ namespace Implem.Pleasanter.Libraries.Responses
                 data: data);
         }
 
+        public static string AGPL(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "AGPL",
+                data: data);
+        }
+
         public static string All(
             Context context,
             params string[] data)
@@ -853,6 +863,16 @@ namespace Implem.Pleasanter.Libraries.Responses
             return Get(
                 context: context,
                 id: "CommentUpdated",
+                data: data);
+        }
+
+        public static string CommercialLicense(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "CommercialLicense",
                 data: data);
         }
 
@@ -2623,6 +2643,16 @@ namespace Implem.Pleasanter.Libraries.Responses
             return Get(
                 context: context,
                 id: "LessThan",
+                data: data);
+        }
+
+        public static string License(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "License",
                 data: data);
         }
 
