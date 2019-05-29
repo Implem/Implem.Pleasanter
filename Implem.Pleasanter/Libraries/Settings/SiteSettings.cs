@@ -2353,7 +2353,6 @@ namespace Implem.Pleasanter.Libraries.Settings
 
         public List<Aggregation> GetAggregations(Context context)
         {
-            var id = 1;
             var aggregations = new List<Aggregation>();
             context.Forms.List("AggregationDestinationAll").ForEach(a =>
             {
@@ -2364,7 +2363,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                 {
                     aggregations.Add(new Aggregation()
                     {
-                        Id = id++,
+                        Id = aggrigation.Id,
                         GroupBy = aggrigation.GroupBy,
                         Type = aggrigation.Type,
                         Target = aggrigation.Target,
