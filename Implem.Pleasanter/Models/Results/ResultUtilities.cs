@@ -9294,7 +9294,9 @@ namespace Implem.Pleasanter.Models
             if (groupByX?.TypeName != "datetime")
             {
                 var column = Rds.ResultsColumn()
-                    .WithItemTitle(column: groupByX)
+                    .WithItemTitle(
+                        ss: ss,
+                        column: groupByX)
                     .CrosstabColumns(
                         context: context,
                         ss: ss,
@@ -9307,8 +9309,12 @@ namespace Implem.Pleasanter.Models
                     context: context,
                     ss: ss);
                 var groupBy = Rds.ResultsGroupBy()
-                    .WithItemTitle(column: groupByX)
-                    .WithItemTitle(column: groupByY);
+                    .WithItemTitle(
+                        ss: ss,
+                        column: groupByX)
+                    .WithItemTitle(
+                        ss: ss,
+                        column: groupByY);
                 dataRows = Rds.ExecuteTable(
                     context: context,
                     statements: Rds.SelectResults(
@@ -9353,7 +9359,9 @@ namespace Implem.Pleasanter.Models
                         month: month));
                 var groupBy = Rds.ResultsGroupBy()
                     .Add(dateGroup)
-                    .WithItemTitle(column: groupByY);
+                    .WithItemTitle(
+                        ss: ss,
+                        column: groupByY);
                 dataRows = Rds.ExecuteTable(
                     context: context,
                     statements: Rds.SelectResults(
@@ -9387,7 +9395,9 @@ namespace Implem.Pleasanter.Models
             if (view.CrosstabGroupByY != "Columns")
             {
                 return self
-                    .WithItemTitle(column: groupByY)
+                    .WithItemTitle(
+                        ss: ss,
+                        column: groupByY)
                     .Add(
                         column: value,
                         _as: "Value",
