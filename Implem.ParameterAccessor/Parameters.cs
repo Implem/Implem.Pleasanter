@@ -19,6 +19,7 @@ namespace Implem.DefinitionAccessor
         public static List<string> ExtendedScripts;
         public static General General;
         public static History History;
+        public static ParameterAccessor.Parts.Version Version;
         public static Mail Mail;
         public static Notification Notification;
         public static Permissions Permissions;
@@ -35,7 +36,7 @@ namespace Implem.DefinitionAccessor
             return License.Check();
         }
 
-        public static DateTime Deadline()
+        public static DateTime LicenseDeadline()
         {
             return License.Deadline;
         }

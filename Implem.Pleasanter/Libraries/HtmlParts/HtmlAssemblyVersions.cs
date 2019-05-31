@@ -53,6 +53,22 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                             .Div(
                                 action: () => hb
                                     .Span(action: () => hb
+                                        .Text(text: Displays.LicenseDeadline(context: context)))
+                                    .Span(action: () => hb
+                                        .Text(text: Parameters.LicenseDeadline().ToString("yyyy/MM/dd"))),
+                                _using: Parameters.CommercialLicense()
+                                    && Parameters.Version.ShowDeadline)
+                            .Div(
+                                action: () => hb
+                                    .Span(action: () => hb
+                                        .Text(text: Displays.Licensee(context: context)))
+                                    .Span(action: () => hb
+                                        .Text(text: Parameters.Licensee())),
+                                _using: Parameters.CommercialLicense()
+                                    && Parameters.Version.ShowLicensee)
+                            .Div(
+                                action: () => hb
+                                    .Span(action: () => hb
                                         .Text(text: plan + Displays.Plan(context: context))),
                                 _using: !plan.IsNullOrEmpty())
                             .Div(

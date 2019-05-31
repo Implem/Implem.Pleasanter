@@ -2656,6 +2656,26 @@ namespace Implem.Pleasanter.Libraries.Responses
                 data: data);
         }
 
+        public static string LicenseDeadline(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "LicenseDeadline",
+                data: data);
+        }
+
+        public static string Licensee(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "Licensee",
+                data: data);
+        }
+
         public static string LimitAfterDay(
             Context context,
             params string[] data)
