@@ -1,0 +1,13 @@
+﻿{
+    "Id": "LicenseDeadline",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "License deadline"
+        },
+        {
+            "Language": "ja",
+            "Body": "ライセンス期限"
+        }
+    ]
+}
