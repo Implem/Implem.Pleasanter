@@ -659,17 +659,11 @@ namespace Implem.Pleasanter.Models
                 title: deptModel.MethodType == BaseModel.MethodTypes.New
                     ? Displays.Depts(context: context) + " - " + Displays.New(context: context)
                     : deptModel.Title.Value,
-                action: () =>
-                {
-                    hb
-                        .Editor(
-                            context: context,
-                            ss: ss,
-                            deptModel: deptModel)
-                        .Hidden(controlId: "TableName", value: "Depts")
-                        .Hidden(controlId: "Controller", value: context.Controller)
-                        .Hidden(controlId: "Id", value: deptModel.DeptId.ToString());
-                }).ToString();
+                action: () => hb
+                    .Editor(
+                        context: context,
+                        ss: ss,
+                        deptModel: deptModel)).ToString();
         }
 
         private static HtmlBuilder Editor(
