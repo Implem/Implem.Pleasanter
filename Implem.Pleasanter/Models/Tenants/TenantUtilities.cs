@@ -245,17 +245,11 @@ namespace Implem.Pleasanter.Models
                 title: tenantModel.MethodType == BaseModel.MethodTypes.New
                     ? Displays.Tenants(context: context) + " - " + Displays.New(context: context)
                     : tenantModel.Title.Value,
-                action: () =>
-                {
-                    hb
-                        .Editor(
-                            context: context,
-                            ss: ss,
-                            tenantModel: tenantModel)
-                        .Hidden(controlId: "TableName", value: "Tenants")
-                        .Hidden(controlId: "Controller", value: context.Controller)
-                        .Hidden(controlId: "Id", value: tenantModel.TenantId.ToString());
-                }).ToString();
+                action: () => hb
+                    .Editor(
+                        context: context,
+                        ss: ss,
+                        tenantModel: tenantModel)).ToString();
         }
 
         /// <summary>

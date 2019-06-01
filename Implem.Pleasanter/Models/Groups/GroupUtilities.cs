@@ -650,17 +650,11 @@ namespace Implem.Pleasanter.Models
                 title: groupModel.MethodType == BaseModel.MethodTypes.New
                     ? Displays.Groups(context: context) + " - " + Displays.New(context: context)
                     : groupModel.Title.Value,
-                action: () =>
-                {
-                    hb
-                        .Editor(
-                            context: context,
-                            ss: ss,
-                            groupModel: groupModel)
-                        .Hidden(controlId: "TableName", value: "Groups")
-                        .Hidden(controlId: "Controller", value: context.Controller)
-                        .Hidden(controlId: "Id", value: groupModel.GroupId.ToString());
-                }).ToString();
+                action: () => hb
+                    .Editor(
+                        context: context,
+                        ss: ss,
+                        groupModel: groupModel)).ToString();
         }
 
         /// <summary>

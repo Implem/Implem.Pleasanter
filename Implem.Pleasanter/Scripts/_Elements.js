@@ -1,4 +1,16 @@
-﻿$p.getColumnName = function (name) {
+﻿$p.id = function () {
+    return $('#Id').val();
+}
+
+$p.siteId = function (title) {
+    return title === undefined
+        ? $('#SiteId').val()
+        : JSON.parse($('#JoinedSites').val()).find(data => {
+            return data.Title === title;
+        }).SiteId;
+}
+
+$p.getColumnName = function (name) {
     var data = JSON.parse($('#Columns').val()).filter(function (column) {
         return column.LabelText === name || column.ColumnName === name
     });
@@ -24,4 +36,8 @@ $p.getGridCell = function (id, name) {
 
 $p.getGridColumnIndex = function (name) {
     return $('#Grid > thead > tr > th').index($('#Grid > thead > tr > th[data-name="' + $p.getColumnName(name) + '"]'));
+}
+
+$p.on = function (events, name, func) {
+    $(document).on(events, '#' + $p.getControl(name).attr('id'), func);
 }

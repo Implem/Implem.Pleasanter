@@ -3276,17 +3276,11 @@ namespace Implem.Pleasanter.Models
                 title: userModel.MethodType == BaseModel.MethodTypes.New
                     ? Displays.Users(context: context) + " - " + Displays.New(context: context)
                     : userModel.Title.Value,
-                action: () =>
-                {
-                    hb
-                        .Editor(
-                            context: context,
-                            ss: ss,
-                            userModel: userModel)
-                        .Hidden(controlId: "TableName", value: "Users")
-                        .Hidden(controlId: "Controller", value: context.Controller)
-                        .Hidden(controlId: "Id", value: userModel.UserId.ToString());
-                }).ToString();
+                action: () => hb
+                    .Editor(
+                        context: context,
+                        ss: ss,
+                        userModel: userModel)).ToString();
         }
 
         /// <summary>

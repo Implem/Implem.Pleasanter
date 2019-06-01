@@ -9,6 +9,7 @@ using Implem.Pleasanter.Libraries.Responses;
 using Implem.Pleasanter.Libraries.Settings;
 using Implem.Pleasanter.Models;
 using System;
+using System.Linq;
 using System.Net;
 namespace Implem.Pleasanter.Libraries.HtmlParts
 {
@@ -412,6 +413,18 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     .Hidden(controlId: "DeptId", value: context.DeptId.ToString())
                     .Hidden(controlId: "UserId", value: context.UserId.ToString())
                     .Hidden(controlId: "Publish", value: "1", _using: context.Publish)
+                    .Hidden(controlId: "TableName", value: ss.ReferenceType)
+                    .Hidden(controlId: "Controller", value: context.Controller)
+                    .Hidden(controlId: "Id", value: context.Id.ToString())
+                    .Hidden(controlId: "SiteId", value: ss.SiteId.ToString())
+                    .Hidden(controlId: "JoinedSites", value: ss.JoinedSsHash
+                        ?.Select(o => new
+                        {
+                            SiteId = o.Key,
+                            o.Value.ReferenceType,
+                            o.Value.Title
+                        })
+                        .ToJson())
                     .HiddenSiteSettings(context: context, ss: ss)
                 : hb;
         }
