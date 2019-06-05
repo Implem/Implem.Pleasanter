@@ -77,7 +77,7 @@ namespace Implem.CodeDefiner.Functions.AspNetMvc.CSharp.Parts
                         break;
                 }
             }
-            if (codeDefinition.ReplaceOld != string.Empty)
+            if (!codeDefinition.ReplaceOld.IsNullOrEmpty())
             {
                 code = code.Replace(codeDefinition.ReplaceOld, codeDefinition.ReplaceNew);
             }

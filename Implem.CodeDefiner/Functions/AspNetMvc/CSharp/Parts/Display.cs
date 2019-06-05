@@ -33,7 +33,7 @@ namespace Implem.CodeDefiner.Functions.AspNetMvc.CSharp.Parts
             DisplayAccessor.DisplayElement element)
         {
             if (!codeDefinition.DisplayLanguages && !element.Language.IsNullOrEmpty()) return true;
-            if (codeDefinition.DisplayType != string.Empty && !codeDefinition.DisplayType.Split(',').Contains(display.Type.ToString())) return true;
+            if (!codeDefinition.DisplayType.IsNullOrEmpty() && !codeDefinition.DisplayType.Split(',').Contains(display.Type.ToString())) return true;
             if (codeDefinition.ClientScript && display.ClientScript != true) return true;
             return false;
         }

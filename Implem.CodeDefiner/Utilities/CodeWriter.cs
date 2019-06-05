@@ -6,9 +6,9 @@ namespace Implem.CodeDefiner.Utilities
     {
         internal static void Write(string codePath, string newCode, string existingCode = "")
         {
-            if (existingCode == string.Empty || newCode != existingCode)
+            if (existingCode.IsNullOrEmpty() || newCode != existingCode)
             {
-                if (existingCode != string.Empty)
+                if (!existingCode.IsNullOrEmpty())
                 {
                     CodeHistories.Create(codePath);
                 }

@@ -36,7 +36,8 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                             && context.CanManageSite(ss: ss)),
                 _using: (Parameters.History.Restore || Parameters.History.PhysicalDelete)
                     && context.Controller == "items"
-                    && (context.CanUpdate(ss: ss) || context.CanManageSite(ss: ss)));
+                    && (context.CanUpdate(ss: ss) || context.CanManageSite(ss: ss))
+                    && !ss.Locked());
         }
     }
 }

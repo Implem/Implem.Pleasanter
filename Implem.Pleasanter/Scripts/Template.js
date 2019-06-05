@@ -1,5 +1,5 @@
 ﻿$p.templates = function ($control) {
-    $p.send($control, 'SitesForm');
+    $p.send($control, 'MainForm');
 }
 
 $p.setTemplate = function () {

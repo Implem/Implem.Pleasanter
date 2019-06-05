@@ -283,6 +283,7 @@
     <Compile Include="Libraries\DataTypes\User.cs" />
     <Compile Include="Libraries\DataTypes\WorkValue.cs" />
     <Compile Include="Libraries\General\AssemblyVersion.cs" />
+    <Compile Include="Libraries\General\ErrorData.cs" />
     <Compile Include="Libraries\General\Log.cs" />
     <Compile Include="Libraries\General\Logs.cs" />
     <Compile Include="Libraries\HtmlParts\HtmlAssemblyVersions.cs" />
@@ -298,6 +299,7 @@
     <Compile Include="Libraries\HtmlParts\HtmlSiteMenu.cs" />
     <Compile Include="Libraries\Initializers\ParametersInitializer.cs" />
     <Compile Include="Libraries\Initializers\StatusesInitializer.cs" />
+    <Compile Include="Libraries\Migrators\SiteSettings\Version1_016.cs" />
     <Compile Include="Libraries\Migrators\SiteSettings\Version1_015.cs" />
     <Compile Include="Libraries\Migrators\SiteSettings\Version1_014.cs" />
     <Compile Include="Libraries\Migrators\SiteSettings\Version1_013.cs" />
@@ -320,11 +322,14 @@
     <Compile Include="Libraries\Requests\SessionApi.cs" />
     <Compile Include="Libraries\Requests\Api.cs" />
     <Compile Include="Libraries\Requests\Calendars.cs" />
+    <Compile Include="Libraries\Requests\FormData.cs" />
+    <Compile Include="Libraries\Requests\FormDataSet.cs" />
     <Compile Include="Libraries\Requests\GridSelector.cs" />
     <Compile Include="Libraries\DataSources\File.cs" />
     <Compile Include="Libraries\Requests\PostedFile.cs" />
     <Compile Include="Libraries\Resources\JavaScripts.cs" />
     <Compile Include="Libraries\Resources\Css.cs" />
+    <Compile Include="Libraries\Responses\Actions.cs" />
     <Compile Include="Libraries\Responses\ApiResponse.cs" />
     <Compile Include="Libraries\Responses\ApiResponses.cs" />
     <Compile Include="Libraries\Responses\ApiResults.cs" />
@@ -539,6 +544,7 @@
     <Compile Include="Models\Sessions\SessionModel.cs" />
     <Compile Include="Models\Sessions\SessionUtilities.cs" />
     <Compile Include="Models\Sessions\SessionValidators.cs" />
+    <Compile Include="Models\Shared\_BaseApiModel.cs" />
     <Compile Include="Models\Sites\SiteApiModel.cs" />
     <Compile Include="Models\Sites\SiteCollection.cs" />
     <Compile Include="Models\Sites\SiteModel.cs" />
@@ -1160,7 +1166,7 @@
     <Content Include="App_Data\Displays\CreateColumnAccessControl.json" />
     <Content Include="App_Data\Displays\RecordAccessControl.json" />
     <Content Include="App_Data\Displays\SiteAccessControl.json" />
-    <Content Include="App_Data\Displays\ConfirmReload.json" />
+    <Content Include="App_Data\Displays\ConfirmUnload.json" />
     <Content Include="App_Data\Displays\Support.json" />
     <Content Include="App_Data\Displays\YmdDatePickerFormat.json" />
     <Content Include="App_Data\Displays\YmdhmDatePickerFormat.json" />
@@ -1398,21 +1404,41 @@
     <Content Include="App_Data\Displays\ExportTypes.json" />
     <Content Include="App_Data\Displays\MenuGuide.json" />
     <Content Include="App_Data\Displays\AllUsers.json" />
+    <Content Include="App_Data\Displays\BulkUpdated.json" />
+    <Content Include="App_Data\Displays\Clear.json" />
     <Content Include="App_Data\Displays\DateFilterSetMode.json" />
     <Content Include="App_Data\Displays\DateFilterSetModeDefault.json" />
     <Content Include="App_Data\Displays\DateFilterSetModeRange.json" />
-    <Content Include="App_Data\Displays\End.json" />
     <Content Include="App_Data\Displays\DateRange.json" />
+    <Content Include="App_Data\Displays\EditInGrid.json" />
+    <Content Include="App_Data\Displays\EditMode.json" />
+    <Content Include="App_Data\Displays\End.json" />
+    <Content Include="App_Data\Displays\GridEditorTypes.json" />
+    <Content Include="App_Data\Displays\ListMode.json" />
+    <Content Include="App_Data\Displays\OK.json" />
     <Content Include="App_Data\Displays\Start.json" />
     <Content Include="App_Data\Displays\OK.json" />
     <Content Include="App_Data\Displays\Clear.json" />
+    <Content Include="App_Data\Displays\UnlockTable.json" />
+    <Content Include="App_Data\Displays\ShowHistory.json" />
     <Content Include="App_Data\Displays\MoveTargetsSettings.json" />
     <Content Include="App_Data\Displays\CommercialLicense.json" />
     <Content Include="App_Data\Displays\License.json" />
     <Content Include="App_Data\Displays\AGPL.json" />
-    <Content Include="App_Data\Parameters\Version.json" />
+    <Content Include="App_Data\Displays\CopyToNew.json" />
+    <Content Include="App_Data\Displays\ForceUnlockTable.json" />
     <Content Include="App_Data\Displays\LicenseDeadline.json" />
     <Content Include="App_Data\Displays\Licensee.json" />
+    <Content Include="App_Data\Displays\LockTable.json" />
+    <Content Include="App_Data\Displays\LockWarning.json" />
+    <Content Include="App_Data\Parameters\Version.json" />
+    <Content Include="App_Data\Parameters\ExtendedColumnDefinitions\Attachments.json" />
+    <Content Include="App_Data\Parameters\ExtendedColumnDefinitions\Check.json" />
+    <Content Include="App_Data\Parameters\ExtendedColumnDefinitions\Class.json" />
+    <Content Include="App_Data\Parameters\ExtendedColumnDefinitions\Date.json" />
+    <Content Include="App_Data\Parameters\ExtendedColumnDefinitions\Description.json" />
+    <Content Include="App_Data\Parameters\ExtendedColumnDefinitions\Num.json" />
+    <Content Include="App_Data\Displays\HistoryOnGrid.json" />
     <Content Include="Tools\BackgroundTasks.ps1" />
     <Content Include="Tools\SyncByLdap.ps1" />
     <Content Include="Views\Users\EditApi.cshtml" />
@@ -1430,8 +1456,7 @@
     <Content Include="Views\Errors\SamlLoginFailed.cshtml" />
     <Content Include="Views\Errors\EmptyUserName.cshtml" />
     <Content Include="Views\_ViewStart.cshtml" />
-    <Content Include="Views\Admins\InitializeItems.cshtml" />
-    <Content Include="Views\Admins\MigrateSiteSettings.cshtml" />
+    <Content Include="Views\Items\EditOnGrid.cshtml" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

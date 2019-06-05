@@ -18,7 +18,7 @@ namespace Implem.CodeDefiner.Functions.SqlServer.Parts
             string tableNameTemp = "")
         {
             Consoles.Write(sourceTableName, Consoles.Types.Info);
-            if (tableNameTemp == string.Empty)
+            if (tableNameTemp.IsNullOrEmpty())
             {
                 tableNameTemp = sourceTableName;
             }
@@ -28,7 +28,7 @@ namespace Implem.CodeDefiner.Functions.SqlServer.Parts
             sqlStatement.CreateColumn(sourceTableName, columnDefinitionCollection);
             sqlStatement.CreatePk(sourceTableName, columnDefinitionCollection, tableIndexCollection);
             sqlStatement.CreateIx(generalTableName, sourceTableName, tableType, columnDefinitionCollection);
-            sqlStatement.CreateDefault(tableNameTemp, columnDefinitionCollection, rdsColumnCollection);
+            sqlStatement.CreateDefault(tableNameTemp, columnDefinitionCollection);
             sqlStatement.DropConstraint(sourceTableName, tableIndexCollection);
             sqlStatement.CommandText = sqlStatement.CommandText.Replace("#TableName#", tableNameTemp);
             Def.SqlIoByAdmin(transactional: true).ExecuteNonQuery(sqlStatement);
@@ -84,16 +84,16 @@ namespace Implem.CodeDefiner.Functions.SqlServer.Parts
             columnDefinitionCollection.ForEach(columnDefinition =>
             {
                 var destinationColumnNameBracket = columnDefinition.ColumnName.SqlBracket();
-                var destinationColumnNameHistoryBracket = columnDefinition.OldColumnName.SqlBracket();
+                var destinationColumnNameHistoryBracket = columnDefinition.OldColumnName?.SqlBracket();
                 if (!Columns.Get(sourceTableName).Any(
                     o => o["ColumnName"].ToString() == columnDefinition.ColumnName))
                 {
-                    if (columnDefinition.OldColumnName != string.Empty)
+                    if (!columnDefinition.OldColumnName.IsNullOrEmpty())
                     {
                         destinationColumnCollection.Add(destinationColumnNameBracket);
                         sourceColumnCollection.Add(destinationColumnNameHistoryBracket);
                     }
-                    else if (columnDefinition.Default == string.Empty && !columnDefinition.Nullable)
+                    else if (columnDefinition.Default.IsNullOrEmpty() && !columnDefinition.Nullable)
                     {
                         destinationColumnCollection.Add(destinationColumnNameBracket);
                         switch (columnDefinition.TypeName.CsTypeSummary())

@@ -6,6 +6,7 @@ namespace Implem.Libraries.DataSources.SqlServer
 {
     public class SqlStatement
     {
+        public string DataTableName;
         public string CommandText = string.Empty;
         public Sqls.TableTypes TableType = Sqls.TableTypes.Normal;
         public string TableBracket = string.Empty;
@@ -20,8 +21,7 @@ namespace Implem.Libraries.DataSources.SqlServer
         public SqlHavingCollection SqlHavingCollection = new SqlHavingCollection();
         public bool AddUpdatorParam = true;
         public bool AddUpdatedTimeParam = true;
-        public bool SetIdentity;
-        public bool CountRecord;
+        public bool SelectIdentity;
         public string If;
         public bool Not = false;
         public bool Terminate = true;
@@ -40,9 +40,10 @@ namespace Implem.Libraries.DataSources.SqlServer
             SqlParamCollection = param;
         }
 
-        public SqlStatement(string commandText)
+        public SqlStatement(string commandText, string dataTableName = null)
         {
             CommandText = commandText;
+            DataTableName = dataTableName;
         }
 
         public virtual void BuildCommandText(
@@ -193,20 +194,11 @@ namespace Implem.Libraries.DataSources.SqlServer
             }
         }
 
-        protected void Build_SetIdentity(
-            StringBuilder commandText, bool selectIdentity, int? commandCount)
+        protected void Build_SelectIdentity(StringBuilder commandText)
         {
-            if (selectIdentity)
+            if (SelectIdentity)
             {
-                commandText.Append("set @_I = @@identity;\n");
-            }
-        }
-
-        protected void Build_CountRecord(StringBuilder commandText)
-        {
-            if (CountRecord)
-            {
-                commandText.Append("select '{\"Count\":' + convert(nvarchar,@@rowcount) + '}';\n");
+                commandText.Append(Sqls.SelectIdentity);
             }
         }
 

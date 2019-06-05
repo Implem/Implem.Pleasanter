@@ -1,4 +1,7 @@
 ﻿$(function () {
+    $(document).on('mouseenter', '#Search', function () {
+        $(this).prop('disabled', false);
+    });
     $(document).on('change', '#Search', function () {
         $p.search($(this).val(), $(this).hasClass('redirect'));
     });

@@ -13,10 +13,12 @@ namespace Implem.Pleasanter.Libraries.DataTypes
         {
         }
 
-        public TitleBody(long id, string title, string displayValue, string body)
+        public TitleBody(long id, int ver, bool isHistory, string title, string displayValue, string body)
         {
             Id = id;
+            Ver = ver;
             Value = title;
+            IsHistory = isHistory;
             DisplayValue = displayValue;
             Body = body;
         }

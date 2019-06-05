@@ -1,0 +1,13 @@
+﻿{
+    "Id": "CopyToNew",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Copy to new"
+        },
+        {
+            "Language": "ja",
+            "Body": "コピーして作成"
+        }
+    ]
+}

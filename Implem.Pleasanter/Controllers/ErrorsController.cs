@@ -17,7 +17,7 @@ namespace Implem.Pleasanter.Controllers
             {
                 ViewBag.HtmlBody = HtmlTemplates.Error(
                     context: context,
-                    errorType: Error.Types.ApplicationError);
+                    errorData: new ErrorData(type: Error.Types.ApplicationError));
                 return View();
             }
             else
@@ -32,7 +32,7 @@ namespace Implem.Pleasanter.Controllers
             var context = new Context();
             ViewBag.HtmlBody = HtmlTemplates.Error(
                 context: context,
-                errorType: Error.Types.InvalidIpAddress);
+                errorData: new ErrorData(type: Error.Types.InvalidIpAddress));
             return View();
         }
 
@@ -45,7 +45,7 @@ namespace Implem.Pleasanter.Controllers
             {
                 ViewBag.HtmlBody = HtmlTemplates.Error(
                     context: context,
-                    errorType: Error.Types.BadRequest);
+                    errorData: new ErrorData(type: Error.Types.BadRequest));
                 return View();
             }
             else
@@ -63,7 +63,7 @@ namespace Implem.Pleasanter.Controllers
             {
                 ViewBag.HtmlBody = HtmlTemplates.Error(
                     context: context,
-                    errorType: Error.Types.NotFound);
+                    errorData: new ErrorData(type: Error.Types.NotFound));
                 return View();
             }
             else
@@ -84,7 +84,7 @@ namespace Implem.Pleasanter.Controllers
             {
                 ViewBag.HtmlBody = HtmlTemplates.Error(
                     context: context,
-                    errorType: Error.Types.ParameterSyntaxError,
+                    errorData: new ErrorData(type: Error.Types.ParameterSyntaxError),
                     messageData: messageData);
                 return View();
             }
@@ -105,7 +105,7 @@ namespace Implem.Pleasanter.Controllers
             {
                 ViewBag.HtmlBody = HtmlTemplates.Error(
                     context: context,
-                    errorType: Error.Types.InternalServerError);
+                    errorData: new ErrorData(type: Error.Types.InternalServerError));
                 return View();
             }
             else
@@ -120,7 +120,7 @@ namespace Implem.Pleasanter.Controllers
             var context = new Context();
             ViewBag.HtmlBody = HtmlTemplates.Error(
                 context: context,
-                errorType: Error.Types.LoginIdAlreadyUse);
+                errorData: new ErrorData(type: Error.Types.LoginIdAlreadyUse));
             return View();
         }
 
@@ -130,7 +130,7 @@ namespace Implem.Pleasanter.Controllers
             var context = new Context();
             ViewBag.HtmlBody = HtmlTemplates.Error(
                 context: context,
-                errorType: Error.Types.UserLockout);
+                errorData: new ErrorData(type: Error.Types.UserLockout));
             return View();
         }
 
@@ -140,7 +140,7 @@ namespace Implem.Pleasanter.Controllers
             var context = new Context();
             ViewBag.HtmlBody = HtmlTemplates.Error(
                 context: context,
-                errorType: Error.Types.UserDisabled);
+                errorData: new ErrorData(type: Error.Types.UserDisabled));
             return View();
         }
 
@@ -151,8 +151,7 @@ namespace Implem.Pleasanter.Controllers
             var context = new Context();
             ViewBag.HtmlBody = HtmlTemplates.Error(
                 context: context,
-                errorType: Error.Types.SamlLoginFailed
-);
+                errorData: new ErrorData(type: Error.Types.SamlLoginFailed));
             return View();
         }
 
@@ -162,7 +161,7 @@ namespace Implem.Pleasanter.Controllers
             var context = new Context();
             ViewBag.HtmlBody = HtmlTemplates.Error(
                 context: context,
-                errorType: Error.Types.InvalidSsoCode);
+                errorData: new ErrorData(type: Error.Types.InvalidSsoCode));
             return View();
         }
 
@@ -172,7 +171,7 @@ namespace Implem.Pleasanter.Controllers
             var context = new Context();
             ViewBag.HtmlBody = HtmlTemplates.Error(
                 context: context,
-                errorType: Error.Types.EmptyUserName);
+                errorData: new ErrorData(type: Error.Types.EmptyUserName));
             return View();
         }
     }

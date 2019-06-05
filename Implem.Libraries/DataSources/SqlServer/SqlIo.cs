@@ -1,5 +1,6 @@
 ﻿using Implem.Libraries.Utilities;
 using System;
+using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
 using System.Linq;
@@ -22,11 +23,6 @@ namespace Implem.Libraries.DataSources.SqlServer
             SqlContainer = sqlContainer;
         }
 
-        public void AddSqlStatement(SqlStatement sqlStatement)
-        {
-            SqlContainer.SqlStatementCollection.Add(sqlStatement);
-        }
-
         private void SetCommand()
         {
             SetCommandUserParams();
@@ -47,37 +43,24 @@ namespace Implem.Libraries.DataSources.SqlServer
 
         private void SetCommandText()
         {
-            if (SqlContainer.SqlStatementCollection.Any(o => o.SetIdentity))
-            {
-                CommandText.Append("declare @_I bigint;\n");
-            }
-            if (SqlContainer.SqlStatementCollection.Count == 1)
-            {
-                SqlContainer.SqlStatementCollection[0].BuildCommandText(
-                    SqlContainer, SqlCommand, CommandText);
-                SelectIdentity();
-            }
-            else
-            {
-                SqlContainer.SqlStatementCollection
-                    .Select((o, i) => new { Method = o, Count = i + 1 })
-                    .ForEach(data =>
-                        data.Method.BuildCommandText(
-                            SqlContainer,
-                            SqlCommand,
-                            CommandText,
-                            data.Count));
-                SelectIdentity();
-                SetTransaction();
-            }
-        }
-
-        private void SelectIdentity()
-        {
-            if (SqlContainer.SelectIdentity)
-            {
-                CommandText.Append(Sqls.SelectIdentity);
-            }
+            CommandText.Append(
+                "declare @_I bigint;\n",
+                "declare @_C int;\n");
+            SqlContainer.SqlStatementCollection
+                .Select((o, i) => new
+                {
+                    Statement = o,
+                    Count = SqlContainer.SqlStatementCollection.Count > 1
+                        ? (int?)(i + 1)
+                        : null
+                })
+                .ForEach(data =>
+                    data.Statement.BuildCommandText(
+                        sqlContainer: SqlContainer,
+                        sqlCommand: SqlCommand,
+                        commandText: CommandText,
+                        commandCount: data.Count));
+            SetTransaction();
         }
 
         private void SetTransaction()
@@ -146,6 +129,24 @@ namespace Implem.Libraries.DataSources.SqlServer
             });
             Clear();
             return dataSet;
+        }
+
+        public List<SqlResponse> ExecuteDataSet_responses()
+        {
+            var responses = new List<SqlResponse>();
+            foreach(DataTable dataTable in ExecuteDataSet().Tables)
+            {
+                if (dataTable.Rows.Count == 1)
+                {
+                    var response = dataTable.Rows[0][0].ToString().Deserialize<SqlResponse>();
+                    if (response != null)
+                    {
+                        response.DataTableName = dataTable.TableName;
+                        responses.Add(response);
+                    }
+                }
+            }
+            return responses;
         }
 
         private void Try(Action action)

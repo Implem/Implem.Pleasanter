@@ -32,8 +32,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                             context: context,
                             ss: ss,
                             siteId: siteId,
-                            referenceType: referenceType,
-                            useNavigationMenu: useNavigationMenu)
+                            referenceType: referenceType)
                         .Search(
                             context: context,
                             _using: useSearch))
@@ -45,8 +44,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             Context context,
             SiteSettings ss,
             long siteId,
-            string referenceType,
-            bool useNavigationMenu)
+            string referenceType)
         {
             var canManageGroups = context.UserSettings?.DisableGroupAdmin != true;
             var canManageSite = siteId != 0 && context.CanManageSite(ss: ss, site: true);
@@ -161,7 +159,6 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                         .ViewModeMenu(
                             context: context,
                             siteId: ss.SiteId,
-                            referenceType: ss.ReferenceType,
                             action: action,
                             postBack: PostBack(context: context, ss: ss)));
             });
@@ -185,7 +182,6 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             this HtmlBuilder hb,
             Context context,
             long siteId,
-            string referenceType,
             string action,
             bool postBack)
         {
@@ -235,6 +231,10 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                         context: context,
                                         ss: ss))),
                         _using: canManageSite)
+                    .LockTableMenu(
+                        context: context,
+                        ss: ss,
+                        canManageSite: canManageSite)
                     .Li(
                         action: () => hb
                             .A(
@@ -301,6 +301,59 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                 default:
                     return null;
             }
+        }
+
+        private static HtmlBuilder LockTableMenu(
+            this HtmlBuilder hb,
+            Context context,
+            SiteSettings ss,
+            bool canManageSite)
+        {
+            if (ss.IsTable())
+            {
+                if (!ss.Locked())
+                {
+                    return hb.Li(action: () => hb
+                        .A(
+                            href: "javascript:void(0);",
+                            attributes: new HtmlAttributes()
+                                .OnClick("$p.send($(this),'MainForm');")
+                                .DataAction("LockTable")
+                                .DataMethod("post"),
+                            action: () => hb
+                                .Span(css: "ui-icon ui-icon-locked")
+                                .Text(text: Displays.LockTable(context: context))),
+                        _using: canManageSite);
+                }
+                else if (ss.LockedUser.Id == context.UserId)
+                {
+                    return hb.Li(action: () => hb
+                        .A(
+                            href: "javascript:void(0);",
+                            attributes: new HtmlAttributes()
+                                .OnClick("$p.send($(this),'MainForm');")
+                                .DataAction("UnlockTable")
+                                .DataMethod("post"),
+                            action: () => hb
+                                .Span(css: "ui-icon ui-icon-unlocked")
+                                .Text(text: Displays.UnlockTable(context: context))));
+                }
+                else if (context.HasPrivilege)
+                {
+                    return hb.Li(action: () => hb
+                        .A(
+                            href: "javascript:void(0);",
+                            attributes: new HtmlAttributes()
+                                .OnClick("$p.send($(this),'MainForm');")
+                                .DataAction("ForceUnlockTable")
+                                .DataMethod("post"),
+                        action: () => hb
+                            .Span(css: "ui-icon ui-icon-unlocked")
+                            .Text(text: Displays.ForceUnlockTable(context: context))),
+                        _using: canManageSite);
+                }
+            }
+            return hb;
         }
 
         private static HtmlBuilder AccountMenu(this HtmlBuilder hb, Context context)
@@ -390,7 +443,8 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                         .TextBox(
                             controlId: "Search",
                             controlCss: " w150 redirect",
-                            placeholder: Displays.Search(context: context)))
+                            placeholder: Displays.Search(context: context),
+                            disabled: true))
                 : hb;
         }
 
@@ -399,6 +453,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             return (Parameters.Deleted.Restore || Parameters.Deleted.PhysicalDelete)
                 && context.Controller == "items"
                 && context.CanManageSite(ss: ss)
+                && !ss.Locked()
                 && (context.Id != 0 || context.HasPrivilege);
         }
     }

@@ -74,6 +74,7 @@ namespace Implem.DefinitionAccessor
             Parameters.BinaryStorage = Read<ParameterAccessor.Parts.BinaryStorage>();
             Parameters.CustomDefinitions = CustomDefinitionsHash();
             Parameters.Deleted = Read<ParameterAccessor.Parts.Deleted>();
+            Parameters.ExtendedColumnDefinitions = ExtendedColumnDefinitions();
             Parameters.ExtendedColumnsSet = ExtendedColumnsSet();
             Parameters.ExtendedSqls = ExtendedSqls();
             Parameters.ExtendedStyles = ExtendedStyles();
@@ -133,6 +134,25 @@ namespace Implem.DefinitionAccessor
                 foreach (var sub in dir.GetDirectories())
                 {
                     hash = CustomDefinitionsHash(sub.FullName, hash);
+                }
+            }
+            return hash;
+        }
+
+        private static Dictionary<string, string> ExtendedColumnDefinitions()
+        {
+            var hash = new Dictionary<string, string>();
+            var path = Path.Combine(
+                Environments.CurrentDirectoryPath,
+                "App_Data",
+                "Parameters",
+                "ExtendedColumnDefinitions");
+            var dir = new DirectoryInfo(path);
+            if (dir.Exists)
+            {
+                foreach (var file in dir.GetFiles("*.json"))
+                {
+                    hash.Add(Files.FileNameOnly(file.Name), Files.Read(file.FullName));
                 }
             }
             return hash;
@@ -280,14 +300,52 @@ namespace Implem.DefinitionAccessor
             Def.SetViewModeDefinition();
             Def.SetDemoDefinition();
             Def.SetSqlDefinition();
+            SetExtendedColumnDefinitions();
             if (Parameters.CommercialLicense())
             {
-                SetExtendedColumnDefinitions();
+                SetExtendedColumns();
             }
             SetDisplayAccessor();
         }
 
         private static void SetExtendedColumnDefinitions()
+        {
+            var tableNames = new List<string>()
+            {
+                "Users",
+                "Issues",
+                "Results"
+            };
+            var types = new List<string>()
+            {
+                "Class",
+                "Num",
+                "Date",
+                "Description",
+                "Check",
+                "Attachments"
+            };
+            var prefixs = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+            tableNames.ForEach(tableName =>
+            {
+                types.ForEach(type =>
+                {
+                    prefixs.ForEach(prefix =>
+                    {
+                        Def.ColumnDefinitionCollection.Add(ColumnDefinition(
+                            tableName: tableName,
+                            label: null,
+                            type: type,
+                            prefix: prefix.ToString()));
+                        Def.ExtendedColumnTypes.AddIfNotConainsKey(
+                            key: type + prefix,
+                            value: type);
+                    });
+                });
+            });
+        }
+
+        private static void SetExtendedColumns()
         {
             Parameters.ExtendedColumnsSet.ForEach(extendedColumns =>
             {
@@ -304,19 +362,15 @@ namespace Implem.DefinitionAccessor
                 {
                     for (var i = 1; i <= part.Value; i++)
                     {
-                        var id = string.Format("{0:D3}", i);
-                        var columnName = part.Key + id;
-                        var def = Def.ColumnDefinitionCollection
-                            .Where(o => o.TableName == extendedColumns.ReferenceType)
-                            .FirstOrDefault(o => o.ColumnName == part.Key + "A")
-                            .Copy();
-                        def.Id = $"{extendedColumns.TableName}_{columnName}";
-                        def.TableName = extendedColumns.TableName;
-                        def.Label = extendedColumns.Label ?? def.Label;
-                        def.ColumnName = columnName;
-                        def.LabelText = def.LabelText.Substring(
-                            0, def.LabelText.Length - 1) + id;
-                        Def.ColumnDefinitionCollection.Add(def);
+                        var prefix = string.Format("{0:D3}", i);
+                        Def.ColumnDefinitionCollection.Add(ColumnDefinition(
+                            tableName: extendedColumns.TableName,
+                            label: extendedColumns.Label,
+                            type: part.Key,
+                            prefix: prefix));
+                        Def.ExtendedColumnTypes.AddIfNotConainsKey(
+                            key: part.Key + prefix,
+                            value: part.Key);
                     }
                 });
                 Def.ColumnDefinitionCollection.RemoveAll(def =>
@@ -324,6 +378,52 @@ namespace Implem.DefinitionAccessor
                         .Select(columnName => $"{extendedColumns.TableName}_{columnName}")
                         .Contains(def.Id) == true);
             });
+        }
+
+        private static ColumnDefinition ColumnDefinition(
+            string tableName,
+            string label,
+            string type,
+            string prefix)
+        {
+            var def = ColumnDefinitionDefault(type: type);
+            var columnName = type + prefix;
+            def.Id = $"{tableName}_{columnName}";
+            def.ModelName = Def.ColumnDefinitionCollection
+                .FirstOrDefault(o => o.TableName == tableName).ModelName;
+            def.TableName = tableName;
+            def.Label = label ?? def.Label;
+            def.ColumnName = columnName;
+            def.LabelText = def.LabelText + prefix;
+            return def;
+        }
+
+        private static ColumnDefinition ColumnDefinitionDefault(string type)
+        {
+            var columnDefinition = Parameters.ExtendedColumnDefinitions
+                .Get(type)
+                .Deserialize<ColumnDefinition>();
+            switch (type)
+            {
+                case "Class":
+                    break;
+                case "Num":
+                    columnDefinition.ByForm = "ss.GetColumn(context: context, columnName: \"#ColumnName#\").Round(value.ToDecimal(context.CultureInfo()))";
+                    columnDefinition.ByApi= "ss.GetColumn(context: context, columnName: \"#ColumnName#\").Round(data.#ColumnName#.ToDecimal())";
+                    break;
+                case "Date":
+                    break;
+                case "Description":
+                    break;
+                case "Check":
+                    break;
+                case "Attachments":
+                    columnDefinition.RecordingData = ".RecordingJson()";
+                    columnDefinition.ByForm = "value.Deserialize<Attachments>()";
+                    columnDefinition.ByDataRow = "dataRow.String(column.ColumnName).Deserialize<Attachments>() ?? new Attachments()";
+                    break;
+            }
+            return columnDefinition;
         }
 
         public static XlsIo DefinitionFile(string fileName)
@@ -420,6 +520,7 @@ namespace Implem.DefinitionAccessor
             Displays.DisplayHash = DisplayHash();
             Def.ColumnDefinitionCollection
                 .Where(o => !o.Base)
+                .Where(o => o.ExtendedColumnType.IsNullOrEmpty())
                 .Select(o => new
                 {
                     o.Id,

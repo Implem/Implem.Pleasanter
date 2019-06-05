@@ -3,29 +3,28 @@ using Implem.Libraries.Utilities;
 using Implem.Pleasanter.Libraries.General;
 using Implem.Pleasanter.Libraries.Requests;
 using Implem.Pleasanter.Libraries.Security;
-using Implem.Pleasanter.Libraries.Server;
 using Implem.Pleasanter.Libraries.Settings;
 using System.Linq;
 namespace Implem.Pleasanter.Models
 {
     public static class BinaryValidators
     {
-        public static Error.Types OnGetting(Context context, SiteSettings ss)
+        public static ErrorData OnGetting(Context context, SiteSettings ss)
         {
             if (!context.HasPermission(ss: ss))
             {
-                return Error.Types.HasNotPermission;
+                return new ErrorData(type: Error.Types.HasNotPermission);
             }
-            return Error.Types.None;
+            return new ErrorData(type: Error.Types.None);
         }
 
-        public static Error.Types OnUpdating(Context context, SiteSettings ss)
+        public static ErrorData OnUpdating(Context context, SiteSettings ss)
         {
             if (!context.CanManageSite(ss: ss))
             {
-                return Error.Types.HasNotPermission;
+                return new ErrorData(type: Error.Types.HasNotPermission);
             }
-            return Error.Types.None;
+            return new ErrorData(type: Error.Types.None);
         }
 
         /// <summary>

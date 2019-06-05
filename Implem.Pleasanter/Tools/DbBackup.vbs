@@ -30,6 +30,7 @@ conn.Close
 Set conn = Nothing
 
 'Delete backup data more than 8 days ago
+'Dim wsh
 'Set wsh = CreateObject("WScript.Shell")
 'wsh.Run "forfiles /p C:\Backup /d -8 /c ""cmd /c del @path"""
 'Set wsh = Nothing

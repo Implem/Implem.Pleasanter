@@ -23,9 +23,10 @@ namespace Implem.CodeDefiner.Functions.SqlServer
             var columnDefinitionCollection = Def.ColumnDefinitionCollection
                 .Where(o => o.TableName == generalTableName)
                 .Where(o => !o.NotUpdate)
-                .Where(o => o.JoinTableName == string.Empty)
-                .Where(o => o.Calc == string.Empty)
-                .OrderBy(o => o.No);
+                .Where(o => o.JoinTableName.IsNullOrEmpty())
+                .Where(o => o.Calc.IsNullOrEmpty())
+                .OrderBy(o => o.No)
+                .ToList();
             var columnDefinitionHistoryCollection = columnDefinitionCollection
                 .Where(o => o.History > 0)
                 .OrderBy(o => o.History);

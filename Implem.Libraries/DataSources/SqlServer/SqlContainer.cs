@@ -17,18 +17,30 @@ namespace Implem.Libraries.DataSources.SqlServer
         public bool Transactional = false;
         public bool SelectIdentity = false;
         public bool WriteSqlToDebugLog = true;
-        public List<string> DataTableNames = new List<string>();
 
         public SqlDataAdapter SqlDataAdapter(SqlCommand sqlCommand)
         {
-            var sqlDataAdapter = new SqlDataAdapter(sqlCommand);
+            var adapter = new SqlDataAdapter(sqlCommand);
             var number = string.Empty;
-            DataTableNames.Select((o, i) => new { TableName = o, Index = i }).ForEach(data =>
-            {
-                if (data.Index != 0) number = data.Index.ToString();
-                sqlDataAdapter.TableMappings.Add("Table" + number, data.TableName);
-            });
-            return sqlDataAdapter;
+            SqlStatementCollection
+                .Where(statement => statement.Using)
+                .Where(statement => !statement.DataTableName.IsNullOrEmpty())
+                .Select((o, i) => new
+                {
+                    Statement = o,
+                    Index = i
+                })
+                .ForEach(data =>
+                {
+                    if (data.Index != 0)
+                    {
+                        number = data.Index.ToString();
+                    }
+                    adapter.TableMappings.Add(
+                        sourceTable: "Table" + number,
+                        dataSetTable: data.Statement.DataTableName);
+                });
+            return adapter;
         }
     }
 }

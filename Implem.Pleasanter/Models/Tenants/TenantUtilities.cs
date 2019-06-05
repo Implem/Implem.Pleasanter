@@ -134,7 +134,102 @@ namespace Implem.Pleasanter.Models
                                     context: context,
                                     column: column,
                                     value: string.Empty);
-                    default: return hb;
+                    default:
+                        switch (Def.ExtendedColumnTypes.Get(column.Name))
+                        {
+                            case "Class":
+                                return ss.ReadColumnAccessControls.Allowed(
+                                    context: context,
+                                    ss: ss,
+                                    column: column,
+                                    type: ss.PermissionType,
+                                    mine: mine)
+                                        ? hb.Td(
+                                            context: context,
+                                            column: column,
+                                            value: tenantModel.Class(columnName: column.Name))
+                                        : hb.Td(
+                                            context: context,
+                                            column: column,
+                                            value: string.Empty);
+                            case "Num":
+                                return ss.ReadColumnAccessControls.Allowed(
+                                    context: context,
+                                    ss: ss,
+                                    column: column,
+                                    type: ss.PermissionType,
+                                    mine: mine)
+                                        ? hb.Td(
+                                            context: context,
+                                            column: column,
+                                            value: tenantModel.Num(columnName: column.Name))
+                                        : hb.Td(
+                                            context: context,
+                                            column: column,
+                                            value: string.Empty);
+                            case "Date":
+                                return ss.ReadColumnAccessControls.Allowed(
+                                    context: context,
+                                    ss: ss,
+                                    column: column,
+                                    type: ss.PermissionType,
+                                    mine: mine)
+                                        ? hb.Td(
+                                            context: context,
+                                            column: column,
+                                            value: tenantModel.Date(columnName: column.Name))
+                                        : hb.Td(
+                                            context: context,
+                                            column: column,
+                                            value: string.Empty);
+                            case "Description":
+                                return ss.ReadColumnAccessControls.Allowed(
+                                    context: context,
+                                    ss: ss,
+                                    column: column,
+                                    type: ss.PermissionType,
+                                    mine: mine)
+                                        ? hb.Td(
+                                            context: context,
+                                            column: column,
+                                            value: tenantModel.Description(columnName: column.Name))
+                                        : hb.Td(
+                                            context: context,
+                                            column: column,
+                                            value: string.Empty);
+                            case "Check":
+                                return ss.ReadColumnAccessControls.Allowed(
+                                    context: context,
+                                    ss: ss,
+                                    column: column,
+                                    type: ss.PermissionType,
+                                    mine: mine)
+                                        ? hb.Td(
+                                            context: context,
+                                            column: column,
+                                            value: tenantModel.Check(columnName: column.Name))
+                                        : hb.Td(
+                                            context: context,
+                                            column: column,
+                                            value: string.Empty);
+                            case "Attachments":
+                                return ss.ReadColumnAccessControls.Allowed(
+                                    context: context,
+                                    ss: ss,
+                                    column: column,
+                                    type: ss.PermissionType,
+                                    mine: mine)
+                                        ? hb.Td(
+                                            context: context,
+                                            column: column,
+                                            value: tenantModel.Attachments(columnName: column.Name))
+                                        : hb.Td(
+                                            context: context,
+                                            column: column,
+                                            value: string.Empty);
+                            default:
+                                return hb;
+                        }
                 }
             }
         }
@@ -169,6 +264,41 @@ namespace Implem.Pleasanter.Models
                     case "UpdatedTime": value = tenantModel.UpdatedTime.GridText(
                         context: context,
                         column: column); break;
+                    default:
+                        switch (Def.ExtendedColumnTypes.Get(column.Name))
+                        {
+                            case "Class":
+                                value = tenantModel.Class(columnName: column.Name).GridText(
+                                    context: context,
+                                    column: column);
+                                break;
+                            case "Num":
+                                value = tenantModel.Num(columnName: column.Name).GridText(
+                                    context: context,
+                                    column: column);
+                                break;
+                            case "Date":
+                                value = tenantModel.Date(columnName: column.Name).GridText(
+                                    context: context,
+                                    column: column);
+                                break;
+                            case "Description":
+                                value = tenantModel.Description(columnName: column.Name).GridText(
+                                    context: context,
+                                    column: column);
+                                break;
+                            case "Check":
+                                value = tenantModel.Check(columnName: column.Name).GridText(
+                                    context: context,
+                                    column: column);
+                                break;
+                            case "Attachments":
+                                value = tenantModel.Attachments(columnName: column.Name).GridText(
+                                    context: context,
+                                    column: column);
+                                break;
+                        }
+                        break;
                 }
                 gridDesign = gridDesign.Replace("[" + column.ColumnName + "]", value);
             });
@@ -226,10 +356,12 @@ namespace Implem.Pleasanter.Models
                 context: context,
                 ss: ss,
                 tenantModel: tenantModel);
-            switch (invalid)
+            switch (invalid.Type)
             {
                 case Error.Types.None: break;
-                default: return HtmlTemplates.Error(context, invalid);
+                default: return HtmlTemplates.Error(
+                    context: context,
+                    errorData: invalid);
             }
             var hb = new HtmlBuilder();
             ss.SetColumnAccessControls(
@@ -267,7 +399,7 @@ namespace Implem.Pleasanter.Models
                 .Form(
                     attributes: new HtmlAttributes()
                         .Id("TenantForm")
-                        .Class("main-form confirm-reload")
+                        .Class("main-form confirm-unload")
                         .Action(Locations.Action(
                             context: context,
                             controller: "Tenants",
@@ -302,9 +434,7 @@ namespace Implem.Pleasanter.Models
                             .MainCommands(
                                 context: context,
                                 ss: ss,
-                                siteId: 0,
                                 verType: tenantModel.VerType,
-                                referenceId: tenantModel.TenantId,
                                 updateButton: true,
                                 mailButton: true,
                                 deleteButton: true,
@@ -444,6 +574,95 @@ namespace Implem.Pleasanter.Models
                             columnPermissionType: htmlTitleRecord.ColumnPermissionType(context: context))));
         }
 
+        public static void Field(
+            this HtmlBuilder hb,
+            Context context,
+            SiteSettings ss,
+            TenantModel tenantModel,
+            Column column,
+            bool controlOnly = false,
+            bool alwaysSend = false,
+            string idSuffix = null,
+            bool preview = false)
+        {
+            var value = tenantModel.ControlValue(
+                context: context,
+                ss: ss,
+                column: column);
+            if (value != null)
+            {
+                hb.Field(
+                    context: context,
+                    ss: ss,
+                    column: column,
+                    methodType: tenantModel.MethodType,
+                    value: value,
+                    columnPermissionType: column.ColumnPermissionType(context: context),
+                    controlOnly: controlOnly,
+                    alwaysSend: alwaysSend,
+                    idSuffix: idSuffix,
+                    preview: preview);
+            }
+        }
+
+        public static string ControlValue(
+            this TenantModel tenantModel,
+            Context context,
+            SiteSettings ss,
+            Column column)
+        {
+            switch (column.Name)
+            {
+                case "Ver":
+                    return tenantModel.Ver
+                        .ToControl(
+                            context: context,
+                            ss: ss,
+                            column: column);
+                default:
+                    switch (Def.ExtendedColumnTypes.Get(column.Name))
+                    {
+                        case "Class":
+                            return tenantModel.Class(columnName: column.Name)
+                                .ToControl(
+                                    context: context,
+                                    ss: ss,
+                                    column: column);
+                        case "Num":
+                            return tenantModel.Num(columnName: column.Name)
+                                .ToControl(
+                                    context: context,
+                                    ss: ss,
+                                    column: column);
+                        case "Date":
+                            return tenantModel.Date(columnName: column.Name)
+                                .ToControl(
+                                    context: context,
+                                    ss: ss,
+                                    column: column);
+                        case "Description":
+                            return tenantModel.Description(columnName: column.Name)
+                                .ToControl(
+                                    context: context,
+                                    ss: ss,
+                                    column: column);
+                        case "Check":
+                            return tenantModel.Check(columnName: column.Name)
+                                .ToControl(
+                                    context: context,
+                                    ss: ss,
+                                    column: column);
+                        case "Attachments":
+                            return tenantModel.Attachments(columnName: column.Name)
+                                .ToControl(
+                                    context: context,
+                                    ss: ss,
+                                    column: column);
+                        default: return null;
+                    }
+            }
+        }
+
         private static HtmlBuilder MainCommandExtensions(
             this HtmlBuilder hb,
             Context context,
@@ -528,67 +747,151 @@ namespace Implem.Pleasanter.Models
             return switchTargets;
         }
 
-        /// <summary>
-        /// Fixed:
-        /// </summary>
         public static ResponseCollection FieldResponse(
-            this TenantsResponseCollection res,
+            this ResponseCollection res,
             Context context,
             SiteSettings ss,
-            TenantModel tenantModel)
+            TenantModel tenantModel,
+            string idSuffix = null)
         {
-            var title = ss.GetColumn(context, "Title");
-            if (title != null)
-            {
-                res.Val(
-                    "#Tenants_Title",
-                    tenantModel.Title.ToResponse(context: context, ss: ss, column: title));
-            }
-            var logoType = ss.GetColumn(context, "LogoType");
-            if (logoType != null)
-            {
-                res.Val(
-                    "#Tenants_LogoType",
-                    tenantModel.LogoType.ToInt().ToResponse(context: context, ss: ss, column: logoType));
-            }
-            var htmlTitleTop = ss.GetColumn(context, "HtmlTitleTop");
-            if (htmlTitleTop != null)
-            {
-                res.Val(
-                    "#Tenants_HtmlTitleTop",
-                    tenantModel.HtmlTitleTop.ToResponse(context: context, ss: ss, column: htmlTitleTop));
-            }
-            var htmlTitleSite = ss.GetColumn(context, "HtmlTitleSite");
-            if (htmlTitleSite != null)
-            {
-                res.Val(
-                    "#Tenants_HtmlTitleSite",
-                    tenantModel.HtmlTitleSite.ToResponse(context: context, ss: ss, column: htmlTitleSite));
-            }
-            var htmlTitleRecord = ss.GetColumn(context, "HtmlTitleRecord");
-            if (htmlTitleRecord != null)
-            {
-                res.Val(
-                    "#Tenants_HtmlTitleRecord",
-                    tenantModel.HtmlTitleRecord.ToResponse(context: context, ss: ss, column: htmlTitleRecord));
-            }
+            var mine = tenantModel.Mine(context: context);
+            ss.EditorColumns
+                .Select(columnName => ss.GetColumn(
+                    context: context,
+                    columnName: columnName))
+                .Where(column => column != null)
+                .ForEach(column =>
+                {
+                    switch (column.Name)
+                    {
+                        case "TenantName":
+                            res.Val(
+                                "#Tenants_TenantName" + idSuffix,
+                                tenantModel.TenantName.ToResponse(context: context, ss: ss, column: column));
+                            break;
+                        case "Title":
+                            res.Val(
+                                "#Tenants_Title" + idSuffix,
+                                tenantModel.Title.ToResponse(context: context, ss: ss, column: column));
+                            break;
+                        case "Body":
+                            res.Val(
+                                "#Tenants_Body" + idSuffix,
+                                tenantModel.Body.ToResponse(context: context, ss: ss, column: column));
+                            break;
+                        case "ContractDeadline":
+                            res.Val(
+                                "#Tenants_ContractDeadline" + idSuffix,
+                                tenantModel.ContractDeadline.ToResponse(context: context, ss: ss, column: column));
+                            break;
+                        case "DisableAllUsersPermission":
+                            res.Val(
+                                "#Tenants_DisableAllUsersPermission" + idSuffix,
+                                tenantModel.DisableAllUsersPermission);
+                            break;
+                        case "LogoType":
+                            res.Val(
+                                "#Tenants_LogoType" + idSuffix,
+                                tenantModel.LogoType.ToResponse(context: context, ss: ss, column: column));
+                            break;
+                        case "HtmlTitleTop":
+                            res.Val(
+                                "#Tenants_HtmlTitleTop" + idSuffix,
+                                tenantModel.HtmlTitleTop.ToResponse(context: context, ss: ss, column: column));
+                            break;
+                        case "HtmlTitleSite":
+                            res.Val(
+                                "#Tenants_HtmlTitleSite" + idSuffix,
+                                tenantModel.HtmlTitleSite.ToResponse(context: context, ss: ss, column: column));
+                            break;
+                        case "HtmlTitleRecord":
+                            res.Val(
+                                "#Tenants_HtmlTitleRecord" + idSuffix,
+                                tenantModel.HtmlTitleRecord.ToResponse(context: context, ss: ss, column: column));
+                            break;
+                        default:
+                            switch (Def.ExtendedColumnTypes.Get(column.Name))
+                            {
+                                case "Class":
+                                    res.Val(
+                                        $"#Tenants_{column.Name}{idSuffix}",
+                                        tenantModel.Class(columnName: column.Name).ToResponse(
+                                            context: context,
+                                            ss: ss,
+                                            column: column));
+                                    break;
+                                case "Num":
+                                    res.Val(
+                                        $"#Tenants_{column.Name}{idSuffix}",
+                                        tenantModel.Num(columnName: column.Name).ToResponse(
+                                            context: context,
+                                            ss: ss,
+                                            column: column));
+                                    break;
+                                case "Date":
+                                    res.Val(
+                                        $"#Tenants_{column.Name}{idSuffix}",
+                                        tenantModel.Date(columnName: column.Name).ToResponse(
+                                            context: context,
+                                            ss: ss,
+                                            column: column));
+                                    break;
+                                case "Description":
+                                    res.Val(
+                                        $"#Tenants_{column.Name}{idSuffix}",
+                                        tenantModel.Description(columnName: column.Name).ToResponse(
+                                            context: context,
+                                            ss: ss,
+                                            column: column));
+                                    break;
+                                case "Check":
+                                    res.Val(
+                                        $"#Tenants_{column.Name}{idSuffix}",
+                                        tenantModel.Check(columnName: column.Name));
+                                    break;
+                                case "Attachments":
+                                    res.ReplaceAll(
+                                        $"#Tenants_{column.Name}Field",
+                                        new HtmlBuilder()
+                                            .FieldAttachments(
+                                                context: context,
+                                                fieldId: $"Tenants_{column.Name}Field",
+                                                controlId: $"Tenants_{column.Name}",
+                                                columnName: column.ColumnName,
+                                                fieldCss: column.FieldCss,
+                                                fieldDescription: column.Description,
+                                                controlCss: column.ControlCss,
+                                                labelText: column.LabelText,
+                                                value: tenantModel.Attachments(columnName: column.Name).ToJson(),
+                                                placeholder: column.LabelText,
+                                                readOnly: column.ColumnPermissionType(context: context)
+                                                    != Permissions.ColumnPermissionTypes.Update));
+                                    break;
+                            }
+                            break;
+                    }
+                });
             return res;
         }
 
         public static string Create(Context context, SiteSettings ss)
         {
-            var tenantModel = new TenantModel(context, ss, 0, setByForm: true);
+            var tenantModel = new TenantModel(
+                context: context,
+                ss: ss,
+                tenantId: 0,
+                formData: context.Forms);
             var invalid = TenantValidators.OnCreating(
                 context: context,
                 ss: ss,
                 tenantModel: tenantModel);
-            switch (invalid)
+            switch (invalid.Type)
             {
                 case Error.Types.None: break;
-                default: return invalid.MessageJson(context: context);
+                default: return invalid.Type.MessageJson(context: context);
             }
-            var error = tenantModel.Create(context: context, ss: ss);
-            switch (error)
+            var errorData = tenantModel.Create(context: context, ss: ss);
+            switch (errorData.Type)
             {
                 case Error.Types.None:
                     SessionUtilities.Set(
@@ -607,29 +910,32 @@ namespace Implem.Pleasanter.Models
                                 : tenantModel.TenantId))
                         .ToJson();
                 default:
-                    return error.MessageJson(context: context);
+                    return errorData.Type.MessageJson(context: context);
             }
         }
 
         public static string Update(Context context, SiteSettings ss, int tenantId)
         {
             var tenantModel = new TenantModel(
-                context: context, ss: ss, tenantId: tenantId, setByForm: true);
+                context: context,
+                ss: ss,
+                tenantId: tenantId,
+                formData: context.Forms);
             var invalid = TenantValidators.OnUpdating(
                 context: context,
                 ss: ss,
                 tenantModel: tenantModel);
-            switch (invalid)
+            switch (invalid.Type)
             {
                 case Error.Types.None: break;
-                default: return invalid.MessageJson(context: context);
+                default: return invalid.Type.MessageJson(context: context);
             }
             if (tenantModel.AccessStatus != Databases.AccessStatuses.Selected)
             {
                 return Messages.ResponseDeleteConflicts(context: context).ToJson();
             }
-            var error = tenantModel.Update(context: context, ss: ss);
-            switch (error)
+            var errorData = tenantModel.Update(context: context, ss: ss);
+            switch (errorData.Type)
             {
                 case Error.Types.None:
                     var res = new TenantsResponseCollection(tenantModel);
@@ -647,7 +953,7 @@ namespace Implem.Pleasanter.Models
                         data: tenantModel.Updator.Name)
                             .ToJson();
                 default:
-                    return error.MessageJson(context: context);
+                    return errorData.Type.MessageJson(context: context);
             }
         }
 
@@ -667,17 +973,19 @@ namespace Implem.Pleasanter.Models
                     context: context,
                     ss: ss,
                     view: view,
+                    tableType: Sqls.TableTypes.Normal,
                     where: Rds.TenantsWhere().TenantId(tenantModel.TenantId));
                 var columns = ss.GetGridColumns(
                     context: context,
+                    view: view,
                     checkPermission: true);
                 return res
                     .ReplaceAll(
-                        $"[data-id=\"{tenantModel.TenantId}\"]",
-                        gridData.TBody(
-                            hb: new HtmlBuilder(),
+                        $"[data-id=\"{tenantModel.TenantId}\"][data-latest]",
+                        new HtmlBuilder().GridRows(
                             context: context,
                             ss: ss,
+                            dataRows: gridData.DataRows,
                             columns: columns,
                             checkAll: false))
                     .CloseDialog()
@@ -719,13 +1027,13 @@ namespace Implem.Pleasanter.Models
                 context: context,
                 ss: ss,
                 tenantModel: tenantModel);
-            switch (invalid)
+            switch (invalid.Type)
             {
                 case Error.Types.None: break;
-                default: return invalid.MessageJson(context: context);
+                default: return invalid.Type.MessageJson(context: context);
             }
-            var error = tenantModel.Delete(context: context, ss: ss);
-            switch (error)
+            var errorData = tenantModel.Delete(context: context, ss: ss);
+            switch (errorData.Type)
             {
                 case Error.Types.None:
                     SessionUtilities.Set(
@@ -741,7 +1049,7 @@ namespace Implem.Pleasanter.Models
                             controller: "Tenants"));
                     return res.ToJson();
                 default:
-                    return error.MessageJson(context: context);
+                    return errorData.Type.MessageJson(context: context);
             }
         }
 
@@ -766,6 +1074,7 @@ namespace Implem.Pleasanter.Models
                         .THead(action: () => hb
                             .GridHeader(
                                 context: context,
+                                ss: ss,
                                 columns: columns,
                                 sort: false,
                                 checkRow: true))
@@ -829,7 +1138,8 @@ namespace Implem.Pleasanter.Models
             var sqlColumn = new Rds.TenantsColumnCollection()
                 .TenantId()
                 .Ver();
-            columns.ForEach(column => sqlColumn.TenantsColumn(column.ColumnName));
+            columns.ForEach(column =>
+                sqlColumn.TenantsColumn(columnName: column.ColumnName));
             return sqlColumn;
         }
 
@@ -849,7 +1159,65 @@ namespace Implem.Pleasanter.Models
             tenantModel.VerType = context.Forms.Bool("Latest")
                 ? Versions.VerTypes.Latest
                 : Versions.VerTypes.History;
-            return EditorResponse(context, ss, tenantModel).ToJson();
+            return EditorResponse(context, ss, tenantModel)
+                .PushState("History", Locations.Get(
+                    context: context,
+                    parts: new string[]
+                    {
+                        "Items",
+                        tenantId.ToString() 
+                            + (tenantModel.VerType == Versions.VerTypes.History
+                                ? "?ver=" + context.Forms.Int("Ver") 
+                                : string.Empty)
+                    }))
+                .ToJson();
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        public static ResponseCollection FieldResponse(
+            this TenantsResponseCollection res,
+            Context context,
+            SiteSettings ss,
+            TenantModel tenantModel)
+        {
+            var title = ss.GetColumn(context, "Title");
+            if (title != null)
+            {
+                res.Val(
+                    "#Tenants_Title",
+                    tenantModel.Title.ToResponse(context: context, ss: ss, column: title));
+            }
+            var logoType = ss.GetColumn(context, "LogoType");
+            if (logoType != null)
+            {
+                res.Val(
+                    "#Tenants_LogoType",
+                    tenantModel.LogoType.ToInt().ToResponse(context: context, ss: ss, column: logoType));
+            }
+            var htmlTitleTop = ss.GetColumn(context, "HtmlTitleTop");
+            if (htmlTitleTop != null)
+            {
+                res.Val(
+                    "#Tenants_HtmlTitleTop",
+                    tenantModel.HtmlTitleTop.ToResponse(context: context, ss: ss, column: htmlTitleTop));
+            }
+            var htmlTitleSite = ss.GetColumn(context, "HtmlTitleSite");
+            if (htmlTitleSite != null)
+            {
+                res.Val(
+                    "#Tenants_HtmlTitleSite",
+                    tenantModel.HtmlTitleSite.ToResponse(context: context, ss: ss, column: htmlTitleSite));
+            }
+            var htmlTitleRecord = ss.GetColumn(context, "HtmlTitleRecord");
+            if (htmlTitleRecord != null)
+            {
+                res.Val(
+                    "#Tenants_HtmlTitleRecord",
+                    tenantModel.HtmlTitleRecord.ToResponse(context: context, ss: ss, column: htmlTitleRecord));
+            }
+            return res;
         }
 
         /// <summary>

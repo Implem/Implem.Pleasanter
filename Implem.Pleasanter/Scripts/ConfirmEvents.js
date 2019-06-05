@@ -1,13 +1,13 @@
 ﻿$(function () {
     $(document).on(
         'change',
-        'form.confirm-reload input, form.confirm-reload select, form.confirm-reload textarea',
+        '.confirm-unload input, .confirm-unload select, .confirm-unload textarea',
         function () {
             $p.setFormChanged($(this));
         });
     $(window).bind("beforeunload", function () {
-        if ($p.formChanged && $('#Editor').length === 1) {
-            return $p.display('ConfirmReload');
+        if ($p.formChanged) {
+            return $p.display('ConfirmUnload');
         }
     });
 });

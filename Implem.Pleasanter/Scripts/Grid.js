@@ -13,6 +13,30 @@ $p.openEditorDialog = function (id) {
     });
 }
 
+$p.editOnGrid = function ($control, val) {
+    if (val === 0) {
+        if (!$p.confirmReload()) return false;
+    }
+    $('#EditOnGrid').val(val);
+    $p.send($control);
+}
+
+$p.newOnGrid = function ($control) {
+    $p.send($control, 'MainForm');
+    $(window).scrollTop(0);
+}
+
+$p.copyRow = function ($control) {
+    $p.getData($control).OriginalId = $control.closest('.grid-row').attr('data-id');
+    $p.send($control);
+    $(window).scrollTop(0);
+}
+
+$p.cancelNewRow = function ($control) {
+    $p.getData($control).CancelRowId = $control.closest('.grid-row').attr('data-id');
+    $p.send($control);
+}
+
 $(function () {
     if ($("#Grid").length == 0) return;
     var TBLHD = TBLHD || {};
@@ -118,10 +142,13 @@ $(function () {
         TBLHD.cssCopy(TBLHD.$clone, TBLHD.$thead);
     }
     TBLHD.observer = new MutationObserver(function (records) {
+        if (records.some(function (value) {
+            return value.target.className === 'menu-sort';
+        })) { return;}
         TBLHD.createClone();
     });
     TBLHD.observer.observe(
-        document.getElementById("Application"),
+        document.getElementById("ViewModeContainer"),
         {
             attributes: true,
             attributeOldValue: true,

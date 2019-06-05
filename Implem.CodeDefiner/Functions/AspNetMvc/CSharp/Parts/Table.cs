@@ -41,13 +41,14 @@ namespace Implem.CodeDefiner.Functions.AspNetMvc.CSharp.Parts
             if (codeDefinition.ItemOnly && !columns.Any(o => o.ItemId > 0)) return true;
             if (codeDefinition.NotItem && columns.Any(o => o.ItemId > 0)) return true;
             if (codeDefinition.GenericUi && !columns.Any(o => o.GenericUi)) return true;
+            if (codeDefinition.NotGenericUi && columns.Any(o => o.GenericUi)) return true;
             if (codeDefinition.UpdateMonitor && !columns.Any(o => o.UpdateMonitor)) return true;
             if (codeDefinition.HasIdentity && !columns.Any(o => o.Identity)) return true;
             if (codeDefinition.HasNotIdentity && columns.Any(o => o.Identity)) return true;
-            if (codeDefinition.HasTableNameId && tableName.CsTypeIdColumn() == string.Empty) return true;
-            if (codeDefinition.HasNotTableNameId && tableName.CsTypeIdColumn() != string.Empty) return true;
+            if (codeDefinition.HasTableNameId && tableName.CsTypeIdColumn().IsNullOrEmpty()) return true;
+            if (codeDefinition.HasNotTableNameId && !tableName.CsTypeIdColumn().IsNullOrEmpty()) return true;
             if (codeDefinition.Exclude.Split(',').Contains(tableName)) return true;
-            if (codeDefinition.Include != string.Empty && !codeDefinition.Include.Split(',').Contains(tableName)) return true;
+            if (!codeDefinition.Include.IsNullOrEmpty() && !codeDefinition.Include.Split(',').Contains(tableName)) return true;
             return false;
         }
 
@@ -80,7 +81,7 @@ namespace Implem.CodeDefiner.Functions.AspNetMvc.CSharp.Parts
                         break;
                 }
             }
-            if (codeDefinition.ReplaceOld != string.Empty)
+            if (!codeDefinition.ReplaceOld.IsNullOrEmpty())
             {
                 code = code.Replace(codeDefinition.ReplaceOld, codeDefinition.ReplaceNew);
             }

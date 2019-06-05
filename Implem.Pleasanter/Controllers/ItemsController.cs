@@ -218,6 +218,36 @@ namespace Implem.Pleasanter.Controllers
             }
         }
 
+        [HttpPost]
+        public ActionResult NewOnGrid(long id = 0)
+        {
+            var context = new Context();
+            var log = new SysLogModel(context: context);
+            var json = new ItemModel(
+                context: context,
+                referenceId: id)
+                    .NewOnGrid(context: context);
+            log.Finish(
+                context: context,
+                responseSize: json.Length);
+            return Content(json);
+        }
+
+        [HttpPost]
+        public ActionResult CancelNewRow(long id = 0)
+        {
+            var context = new Context();
+            var log = new SysLogModel(context: context);
+            var json = new ItemModel(
+                context: context,
+                referenceId: id)
+                    .CancelNewRow(context: context);
+            log.Finish(
+                context: context,
+                responseSize: json.Length);
+            return Content(json);
+        }
+
         [AcceptVerbs(HttpVerbs.Get | HttpVerbs.Post)]
         public ActionResult Edit(long id)
         {
@@ -351,8 +381,58 @@ namespace Implem.Pleasanter.Controllers
         {
             var context = new Context();
             var log = new SysLogModel(context: context);
-            var json = new ItemModel(context: context, referenceId: id).GridRows(context: context);
-            log.Finish(context: context, responseSize: json.Length);
+            var json = new ItemModel(
+                context: context,
+                referenceId: id)
+                    .GridRows(context: context);
+            log.Finish(
+                context: context,
+                responseSize: json.Length);
+            return json;
+        }
+
+        [HttpPost]
+        public string EditOnGrid(long id)
+        {
+            var context = new Context();
+            var log = new SysLogModel(context: context);
+            var json = new ItemModel(
+                context: context,
+                referenceId: id)
+                    .GridRows(context: context);
+            log.Finish(
+                context: context,
+                responseSize: json.Length);
+            return json;
+        }
+
+        [HttpPost]
+        public string ReloadRow(long id)
+        {
+            var context = new Context();
+            var log = new SysLogModel(context: context);
+            var json = new ItemModel(
+                context: context,
+                referenceId: id)
+                    .ReloadRow(context: context);
+            log.Finish(
+                context: context,
+                responseSize: json.Length);
+            return json;
+        }
+
+        [HttpPost]
+        public string CopyRow(long id)
+        {
+            var context = new Context();
+            var log = new SysLogModel(context: context);
+            var json = new ItemModel(
+                context: context,
+                referenceId: id)
+                    .CopyRow(context: context);
+            log.Finish(
+                context: context,
+                responseSize: json.Length);
             return json;
         }
 
@@ -431,8 +511,28 @@ namespace Implem.Pleasanter.Controllers
         {
             var context = new Context();
             var log = new SysLogModel(context: context);
-            var json = new ItemModel(context: context, referenceId: id).Update(context: context);
-            log.Finish(context: context, responseSize: json.Length);
+            var json = new ItemModel(
+                context: context,
+                referenceId: id)
+                    .Update(context: context);
+            log.Finish(
+                context: context,
+                responseSize: json.Length);
+            return json;
+        }
+
+        [HttpPost]
+        public string BulkUpdate(long id)
+        {
+            var context = new Context();
+            var log = new SysLogModel(context: context);
+            var json = new ItemModel(
+                context: context,
+                referenceId: id)
+                    .BulkUpdate(context: context);
+            log.Finish(
+                context: context,
+                responseSize: json.Length);
             return json;
         }
 
@@ -814,6 +914,51 @@ namespace Implem.Pleasanter.Controllers
             var log = new SysLogModel(context: context);
             var json = new ItemModel(context: context, referenceId: id).SynchronizeFormulas(context: context);
             log.Finish(context: context, responseSize: json.Length);
+            return json;
+        }
+
+        [HttpPost]
+        public string LockTable(long id)
+        {
+            var context = new Context();
+            var log = new SysLogModel(context: context);
+            var json = new ItemModel(
+                context: context,
+                referenceId: id)
+                    .LockTable(context: context);
+            log.Finish(
+                context: context,
+                responseSize: json.Length);
+            return json;
+        }
+
+        [HttpPost]
+        public string UnlockTable(long id)
+        {
+            var context = new Context();
+            var log = new SysLogModel(context: context);
+            var json = new ItemModel(
+                context: context,
+                referenceId: id)
+                    .UnlockTable(context: context);
+            log.Finish(
+                context: context,
+                responseSize: json.Length);
+            return json;
+        }
+
+        [HttpPost]
+        public string ForceUnlockTable(long id)
+        {
+            var context = new Context();
+            var log = new SysLogModel(context: context);
+            var json = new ItemModel(
+                context: context,
+                referenceId: id)
+                    .ForceUnlockTable(context: context);
+            log.Finish(
+                context: context,
+                responseSize: json.Length);
             return json;
         }
     }

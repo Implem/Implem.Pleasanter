@@ -658,23 +658,23 @@ namespace Implem.Pleasanter.Models
                 ss: ss,
                 outgoingMailModel: outgoingMailModel,
                 data: out invalidMailAddress);
-            switch (invalid)
+            switch (invalid.Type)
             {
                 case Error.Types.None:
                     break;
                 case Error.Types.BadMailAddress:
                 case Error.Types.ExternalMailAddress:
-                    return invalid.MessageJson(
+                    return invalid.Type.MessageJson(
                         context: context,
                         data: invalidMailAddress);
                 default:
-                    return invalid.MessageJson(context: context);
+                    return invalid.Type.MessageJson(context: context);
             }
             var error = outgoingMailModel.Send(
                 context: context,
                 ss: ss);
-            return error.Has()
-                ? error.MessageJson(context: context)
+            return error.Type.Has()
+                ? error.Type.MessageJson(context: context)
                 : new OutgoingMailsResponseCollection(outgoingMailModel)
                     .CloseDialog()
                     .ClearFormData()

@@ -73,6 +73,7 @@ namespace Implem.Pleasanter.Libraries.Requests
         public UserSettings UserSettings;
         public bool HasPrivilege;
         public ContractSettings ContractSettings = new ContractSettings();
+        public decimal ApiVersion;
         public string ApiRequestBody;
         public string RequestDataString { get => ApiRequestBody ?? FormString; }
 
@@ -222,6 +223,7 @@ namespace Implem.Pleasanter.Libraries.Requests
                 var api = RequestDataString.Deserialize<Api>();
                 if (api?.ApiKey.IsNullOrEmpty() == false)
                 {
+                    ApiVersion = api.ApiVersion;
                     SetUser(userModel: GetUser(where: Rds.UsersWhere()
                         .ApiKey(api.ApiKey)));
                 }

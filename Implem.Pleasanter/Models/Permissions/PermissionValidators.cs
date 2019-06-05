@@ -3,7 +3,6 @@ using Implem.Libraries.Utilities;
 using Implem.Pleasanter.Libraries.General;
 using Implem.Pleasanter.Libraries.Requests;
 using Implem.Pleasanter.Libraries.Security;
-using Implem.Pleasanter.Libraries.Server;
 using Implem.Pleasanter.Libraries.Settings;
 using System.Linq;
 namespace Implem.Pleasanter.Models
@@ -13,25 +12,25 @@ namespace Implem.Pleasanter.Models
         /// <summary>
         /// Fixed:
         /// </summary>
-        public static Error.Types OnUpdating(Context context, SiteSettings ss)
+        public static ErrorData OnUpdating(Context context, SiteSettings ss)
         {
             if (!context.CanManagePermission(ss: ss))
             {
-                return Error.Types.HasNotPermission;
+                return new ErrorData(type: Error.Types.HasNotPermission);
             }
             foreach (var key in context.Forms.Keys)
             {
                 switch (key)
                 {
                     case "InheritPermission":
-                        var type = SiteValidators.InheritPermission(
+                        var errorData = SiteValidators.InheritPermission(
                             context: context,
                             ss: ss);
-                        if (type != Error.Types.None) return type;
+                        if (errorData.Type != Error.Types.None) return errorData;
                         break;
                 }
             }
-            return Error.Types.None;
+            return new ErrorData(type: Error.Types.None);
         }
     }
 }

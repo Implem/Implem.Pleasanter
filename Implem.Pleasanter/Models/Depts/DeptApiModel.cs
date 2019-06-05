@@ -1,20 +1,24 @@
-﻿using System;
+﻿using Implem.Pleasanter.Models.Shared;
+using System;
 namespace Implem.Pleasanter.Models
 {
     [Serializable]
-    public class DeptApiModel
+    public class DeptApiModel : _BaseApiModel
     {
-        public int? TenantId;
-        public int? DeptId;
-        public int? Ver;
-        public string DeptCode;
-        public string DeptName;
-        public string Body;
-        public string Comments;
-        public int? Creator;
-        public int? Updator;
-        public DateTime? CreatedTime;
-        public DateTime? UpdatedTime;
-        public bool? VerUp;
+        public int? TenantId { get; set; }
+        public int? DeptId { get; set; }
+        public int? Ver { get; set; }
+        public string DeptCode { get; set; }
+        public string DeptName { get; set; }
+        public string Body { get; set; }
+        public string Comments { get; set; }
+        public int? Creator { get; set; }
+        public int? Updator { get; set; }
+        public DateTime? CreatedTime { get; set; }
+        public DateTime? UpdatedTime { get; set; }
+
+        public DeptApiModel()
+        {
+        }
     }
 }

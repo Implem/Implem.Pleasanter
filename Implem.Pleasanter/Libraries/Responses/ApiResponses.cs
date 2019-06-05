@@ -11,15 +11,15 @@ namespace Implem.Pleasanter.Libraries.Responses
             return new ApiResponse(id, 200, message);
         }
 
-        public static ApiResponse Error(Context context, Error.Types type, params string[] data)
+        public static ApiResponse Error(Context context, ErrorData errorData, params string[] data)
         {
             return new ApiResponse(500, data?.Any() == true
                 ? Displays.Get(
                     context: context,
-                    id: type.ToString()).Params(data)
+                    id: errorData.Type.ToString()).Params(data)
                 : Displays.Get(
                     context: context,
-                    id: type.ToString()));
+                    id: errorData.Type.ToString()));
         }
 
         public static ApiResponse BadRequest(Context context)

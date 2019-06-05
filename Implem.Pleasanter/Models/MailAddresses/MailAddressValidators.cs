@@ -3,7 +3,6 @@ using Implem.Libraries.Utilities;
 using Implem.Pleasanter.Libraries.General;
 using Implem.Pleasanter.Libraries.Requests;
 using Implem.Pleasanter.Libraries.Security;
-using Implem.Pleasanter.Libraries.Server;
 using Implem.Pleasanter.Libraries.Settings;
 using System.Linq;
 namespace Implem.Pleasanter.Models
@@ -13,7 +12,7 @@ namespace Implem.Pleasanter.Models
         /// <summary>
         /// Fixed:
         /// </summary>
-        public static Error.Types BadMailAddress(
+        public static ErrorData BadMailAddress(
             Context context, string addresses, out string data)
         {
             data = Libraries.Mails.Addresses.BadAddress(
@@ -21,15 +20,15 @@ namespace Implem.Pleasanter.Models
                 addresses: addresses);
             if (data != string.Empty)
             {
-                return Error.Types.BadMailAddress;
+                return new ErrorData(type: Error.Types.BadMailAddress);
             }
-            return Error.Types.None;
+            return new ErrorData(type: Error.Types.None);
         }
 
         /// <summary>
         /// Fixed:
         /// </summary>
-        public static Error.Types ExternalMailAddress(
+        public static ErrorData ExternalMailAddress(
             Context context, string addresses, out string data)
         {
             data = Libraries.Mails.Addresses.ExternalMailAddress(
@@ -37,9 +36,9 @@ namespace Implem.Pleasanter.Models
                 addresses: addresses);
             if (data != string.Empty)
             {
-                return Error.Types.ExternalMailAddress;
+                return new ErrorData(type: Error.Types.ExternalMailAddress);
             }
-            return Error.Types.None;
+            return new ErrorData(type: Error.Types.None);
         }
     }
 }

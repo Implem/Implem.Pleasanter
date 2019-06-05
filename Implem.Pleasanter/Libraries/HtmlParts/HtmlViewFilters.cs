@@ -4,7 +4,6 @@ using Implem.Pleasanter.Libraries.Requests;
 using Implem.Pleasanter.Libraries.Responses;
 using Implem.Pleasanter.Libraries.Settings;
 using Implem.Pleasanter.Models;
-using System;
 using System.Collections.Generic;
 using System.Linq;
 namespace Implem.Pleasanter.Libraries.HtmlParts
@@ -14,7 +13,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
         public static HtmlBuilder ViewFilters(
             this HtmlBuilder hb, Context context, SiteSettings ss, View view)
         {
-            return ss.ReferenceType != "Sites"
+            return ss.ReferenceType != "Sites" && ss.UseFiltersArea == true
                 ? !Reduced(context: context, siteId: ss.SiteId)
                     ? hb.Div(
                         id: "ViewFilters",
@@ -210,110 +209,162 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
         {
             ss.GetFilterColumns(context: context, checkPermission: true).ForEach(column =>
             {
-                switch (column.TypeName.CsTypeSummary())
-                {
-                    case Types.CsBool:
-                        hb.CheckBox(
-                            context: context,
-                            ss: ss,
-                            column: column,
-                            view: view);
-                        break;
-                    case Types.CsNumeric:
-                        hb.DropDown(
-                            context: context,
-                            ss: ss,
-                            column: column,
-                            view: view,
-                            optionCollection: column.HasChoices()
-                                ? column.EditChoices(
-                                    context: context,
-                                    addNotSet: true)
-                                : column.NumFilterOptions(context: context));
-                        break;
-                    case Types.CsDateTime:
-                        if (column.DateFilterSetMode == ColumnUtilities.DateFilterSetMode.Default)
-                        {
-                            hb.DropDown(
-                                context: context,
-                                ss: ss,
-                                column: column,
-                                view: view,
-                                optionCollection: column.DateFilterOptions(context: context));
-                        }
-                        else
-                        {
-                            hb.FieldTextBox(
-                                controlId: "ViewFilters__" + column.ColumnName + "_Display_",
-                                fieldCss: "field-auto-thin",
-                                controlCss: (column.UseSearch == true ? " search" : string.Empty),
-                                labelText: Displays.Get(
-                                    context: context,
-                                    id: column.GridLabelText),
-                                labelTitle: ss.LabelTitle(column),
-                                text: GetDisplayDateFilterRange(view.ColumnFilter(column.ColumnName),column.DateTimepicker()),
-                                method: "post",
-                                attributes: new Dictionary<string, string>
-                                {
-                                    ["onfocus"] = $"$p.setDateRangeDialog($(this),'{Displays.DateRange(context)}','{Displays.Start(context)}'," +
-                                        $"'{Displays.End(context)}','{Displays.OK(context)}','{Displays.Cancel(context)}','{Displays.Clear(context)}'," +
-                                        $"{column.DateTimepicker().ToString().ToLower()})"
-                                },
-                                _using: Visible(column) || column.RecordedTime)
-                            .Hidden(attributes: new HtmlAttributes()
-                                .Id( "ViewFilters__" + column.ColumnName)
-                                .Class(column.UseSearch == true ? " search" : string.Empty)
-                                .DataMethod("post")
-                                .Value(view.ColumnFilter(column.ColumnName)));
-                        }
-                        break;
-                    case Types.CsString:
-                        if (column.HasChoices())
-                        {
-                            var currentSs = column.SiteSettings;
-                            if (view.ColumnFilterHash?.ContainsKey(column.ColumnName) == true &&
-                                column.UseSearch == true &&
-                                currentSs.Links?.Any(o =>
-                                    o.ColumnName == column.ColumnName) == true)
-                            {
-                                currentSs.SetChoiceHash(
-                                    context: context,
-                                    columnName: column?.ColumnName,
-                                    selectedValues: view.ColumnFilter(column.ColumnName)
-                                        .Deserialize<List<string>>());
-                            }
-                            hb.DropDown(
-                                context: context,
-                                ss: ss,
-                                column: column,
-                                view: view,
-                                optionCollection: column.EditChoices(
-                                    context: context,
-                                    addNotSet: true));
-                        }
-                        else if (Visible(column))
-                        {
-                            hb.FieldTextBox(
-                                controlId: "ViewFilters__" + column.ColumnName,
-                                fieldCss: "field-auto-thin",
-                                controlCss: " auto-postback",
-                                labelText: Displays.Get(
-                                    context: context,
-                                    id: column.GridLabelText),
-                                labelTitle: ss.LabelTitle(column),
-                                text: view.ColumnFilter(column.ColumnName),
-                                method: "post");
-                        }
-                        break;
-                    default:
-                        break;
-                }
+                Column(hb, context, ss, view, column);
             });
             return hb;
         }
 
+        internal static HtmlBuilder ViewFiltersColumnOnGrid(this HtmlBuilder hb, Context context, SiteSettings ss, View view, Column column)
+        {
+            Column(hb: hb,
+                context: context,
+                ss: ss,
+                view: view,
+                column: column,
+                onGridHeader: true);
+            return hb;
+        }
+
+        private static void Column(HtmlBuilder hb, Context context, SiteSettings ss, View view, Column column, bool onGridHeader = false)
+        {
+            var idPrefix = onGridHeader ? "ViewFiltersOnGridHeader__" : "ViewFilters__";
+            var action = onGridHeader ? "GridRows" : null;
+            var controlOnly = onGridHeader;
+            switch (column.TypeName.CsTypeSummary())
+            {
+                case Types.CsBool:
+                    hb.CheckBox(
+                        context: context,
+                        ss: ss,
+                        column: column,
+                        view: view,
+                        idPrefix: idPrefix,
+                        action: action,
+                        controlOnly: controlOnly);
+                    break;
+                case Types.CsNumeric:
+                    if (Visible(column))
+                    {
+                        hb.DropDown(
+                        context: context,
+                        ss: ss,
+                        column: column,
+                        view: view,
+                        optionCollection: column.HasChoices()
+                            ? column.EditChoices(
+                                context: context,
+                                addNotSet: true)
+                            : column.NumFilterOptions(context: context),
+                        idPrefix: idPrefix,
+                        controlOnly: controlOnly,
+                        action: action);
+                    }
+                    break;
+                case Types.CsDateTime:
+                    if (column.DateFilterSetMode == ColumnUtilities.DateFilterSetMode.Default)
+                    {
+                        if (Visible(column) || column.RecordedTime)
+                        {
+                            hb.DropDown(
+                                context: context,
+                                ss: ss,
+                                column: column,
+                                view: view,
+                                optionCollection: column.DateFilterOptions(context: context),
+                                idPrefix: idPrefix,
+                                controlOnly: controlOnly,
+                                action: action);
+                        }
+                    }
+                    else
+                    {
+                        hb.FieldTextBox(
+                            controlId: idPrefix + column.ColumnName + "_Display_",
+                            fieldCss: "field-auto-thin",
+                            controlCss: (column.UseSearch == true ? " search" : string.Empty),
+                            labelText: Displays.Get(
+                                context: context,
+                                id: column.GridLabelText),
+                            labelTitle: ss.LabelTitle(column),
+                            controlOnly: controlOnly,
+                            action: action,
+                            text: GetDisplayDateFilterRange(view.ColumnFilter(column.ColumnName), column.DateTimepicker()),
+                            method: "post",
+                            attributes: new Dictionary<string, string>
+                            {
+                                ["onfocus"] = $"$p.setDateRangeDialog($(this),'{Displays.DateRange(context)}','{Displays.Start(context)}'," +
+                                    $"'{Displays.End(context)}','{Displays.OK(context)}','{Displays.Cancel(context)}','{Displays.Clear(context)}'," +
+                                    $"{column.DateTimepicker().ToString().ToLower()})"
+                            },
+                            _using: Visible(column) || column.RecordedTime)
+                        .Hidden(attributes: new HtmlAttributes()
+                            .Id(idPrefix + column.ColumnName)
+                            .Class(column.UseSearch == true ? " search" : string.Empty)
+                            .DataMethod("post")
+                            .DataAction(action)
+                            .Value(view.ColumnFilter(column.ColumnName)));
+                    }
+                    break;
+                case Types.CsString:
+                    if (column.HasChoices())
+                    {
+                        var currentSs = column.SiteSettings;
+                        if (view.ColumnFilterHash?.ContainsKey(column.ColumnName) == true &&
+                            column.UseSearch == true &&
+                            currentSs.Links?.Any(o =>
+                                o.ColumnName == column.ColumnName) == true)
+                        {
+                            currentSs.SetChoiceHash(
+                                context: context,
+                                columnName: column?.ColumnName,
+                                selectedValues: view.ColumnFilter(column.ColumnName)
+                                    .Deserialize<List<string>>());
+                        }
+                        if (Visible(column))
+                        {
+                            hb.DropDown(
+                            context: context,
+                            ss: ss,
+                            column: column,
+                            view: view,
+                            optionCollection: column.EditChoices(
+                                context: context,
+                                addNotSet: true),
+                            idPrefix: idPrefix,
+                            controlOnly: controlOnly,
+                            action: action);
+                        }
+                    }
+                    else if (Visible(column))
+                    {
+                        hb.FieldTextBox(
+                            controlId: idPrefix + column.ColumnName,
+                            fieldCss: "field-auto-thin",
+                            controlCss: " auto-postback",
+                            labelText: Displays.Get(
+                                context: context,
+                                id: column.GridLabelText),
+                            labelTitle: ss.LabelTitle(column),
+                            controlOnly: controlOnly,
+                            action: action,
+                            text: view.ColumnFilter(column.ColumnName),
+                            method: "post");
+                    }
+                    break;
+                default:
+                    break;
+            }
+        }
+
         private static HtmlBuilder CheckBox(
-            this HtmlBuilder hb, Context context, SiteSettings ss, Column column, View view)
+            this HtmlBuilder hb,
+            Context context,
+            SiteSettings ss,
+            Column column,
+            View view,
+            string idPrefix = "ViewFilters__",
+            string action = null,
+            bool controlOnly = false)
         {
             var currentSs = column.SiteSettings;
             if (currentSs.GridColumns.Contains(column.ColumnName) ||
@@ -323,25 +374,29 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                 {
                     case ColumnUtilities.CheckFilterControlTypes.OnOnly:
                         return hb.FieldCheckBox(
-                            controlId: "ViewFilters__" + column.ColumnName,
+                            controlId: idPrefix + column.ColumnName,
                             fieldCss: "field-auto-thin",
                             controlCss: " auto-postback",
                             labelText: Displays.Get(
                                 context: context,
                                 id: column.GridLabelText),
                             labelTitle: ss.LabelTitle(column),
+                            controlOnly: controlOnly,
+                            action: action,
                             _checked: view.ColumnFilter(column.ColumnName).ToBool(),
                             method: "post");
                     case ColumnUtilities.CheckFilterControlTypes.OnAndOff:
                         return hb.FieldDropDown(
                             context: context,
-                            controlId: "ViewFilters__" + column.ColumnName,
+                            controlId: idPrefix + column.ColumnName,
                             fieldCss: "field-auto-thin",
                             controlCss: " auto-postback",
                             labelText: Displays.Get(
                                 context: context,
                                 id: column.GridLabelText),
                             labelTitle: ss.LabelTitle(column),
+                            controlOnly: controlOnly,
+                            action: action,
                             optionCollection: ColumnUtilities
                                 .CheckFilterTypeOptions(context: context),
                             selectedValue: view.ColumnFilter(column.ColumnName),
@@ -359,11 +414,14 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             SiteSettings ss,
             Column column,
             View view,
-            Dictionary<string, ControlData> optionCollection)
+            Dictionary<string, ControlData> optionCollection,
+            string idPrefix = "ViewFilters__",
+            string action = null,
+            bool controlOnly = false)
         {
             return hb.FieldDropDown(
                 context: context,
-                controlId: "ViewFilters__" + column.ColumnName,
+                controlId: idPrefix + column.ColumnName,
                 fieldCss: "field-auto-thin",
                 controlCss: " auto-postback" + (column.UseSearch == true
                     ? " search"
@@ -372,12 +430,13 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     context: context,
                     id: column.GridLabelText),
                 labelTitle: ss.LabelTitle(column),
+                controlOnly: controlOnly,
+                action: action,
                 optionCollection: optionCollection,
                 selectedValue: view.ColumnFilter(column.ColumnName),
                 multiple: true,
                 addSelectedValue: false,
-                method: "post",
-                _using: Visible(column) || column.RecordedTime);
+                method: "post");
         }
 
         private static HtmlBuilder Search(this HtmlBuilder hb, Context context, View view)

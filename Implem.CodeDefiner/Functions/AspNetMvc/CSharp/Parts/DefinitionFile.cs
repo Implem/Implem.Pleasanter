@@ -48,7 +48,7 @@ namespace Implem.CodeDefiner.Functions.AspNetMvc.CSharp.Parts
                         break;
                 }
             }
-            if (codeDefinition.ReplaceOld != string.Empty)
+            if (!codeDefinition.ReplaceOld.IsNullOrEmpty())
             {
                 code = code.Replace(codeDefinition.ReplaceOld, codeDefinition.ReplaceNew);
             }
@@ -78,7 +78,7 @@ namespace Implem.CodeDefiner.Functions.AspNetMvc.CSharp.Parts
         private static bool CheckExcludeConditionsByDefName(
             CodeDefinition codeDefinition, DataContainer dataContainer)
         {
-            return codeDefinition.Include != string.Empty &&
+            return !codeDefinition.Include.IsNullOrEmpty() &&
                 !codeDefinition.Include.Split(',').Contains(dataContainer.DefinitionName);
         }
     }

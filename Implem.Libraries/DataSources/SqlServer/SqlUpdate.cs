@@ -36,7 +36,6 @@ namespace Implem.Libraries.DataSources.SqlServer
                 sqlCommand: sqlCommand,
                 commandCount: commandCount);
             AddTermination(commandText: commandText);
-            Build_CountRecord(commandText: commandText);
             Build_EndIf(commandText: commandText);
         }
 

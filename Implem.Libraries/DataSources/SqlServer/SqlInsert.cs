@@ -20,12 +20,18 @@ namespace Implem.Libraries.DataSources.SqlServer
             int? commandCount = null)
         {
             if (!Using) return;
-            Build_If(commandText);
-            Build_InsertStatement(sqlContainer, sqlCommand, commandText, commandCount);
-            Build_SetIdentity(commandText, SetIdentity, commandCount);
-            AddParams_Param(sqlCommand, commandCount);
-            AddTermination(commandText);
-            Build_EndIf(commandText);
+            Build_If(commandText: commandText);
+            Build_InsertStatement(
+                sqlContainer: sqlContainer,
+                sqlCommand: sqlCommand,
+                commandText: commandText,
+                commandCount: commandCount);
+            Build_SelectIdentity(commandText: commandText);
+            AddParams_Param(
+                sqlCommand: sqlCommand,
+                commandCount: commandCount);
+            AddTermination(commandText: commandText);
+            Build_EndIf(commandText: commandText);
         }
 
         private void Build_InsertStatement(

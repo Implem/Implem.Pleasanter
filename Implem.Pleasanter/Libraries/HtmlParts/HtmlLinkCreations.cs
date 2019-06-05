@@ -96,7 +96,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
         {
             return hb.Button(
                 attributes: new HtmlAttributes()
-                    .Class("button button-icon confirm-reload")
+                    .Class("button button-icon confirm-unload")
                     .OnClick("$p.new($(this));")
                     .Title(SiteInfo.TenantCaches.Get(context.TenantId)?
                         .SiteMenu

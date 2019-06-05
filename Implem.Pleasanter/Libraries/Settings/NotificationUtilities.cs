@@ -69,23 +69,43 @@ namespace Implem.Pleasanter.Libraries.Settings
             };
         }
 
-        public static SettingList<Notification> GetNotifications(this SiteSettings ss, Context context)
+        public static List<Notification> Get(SiteSettings ss, Context context)
         {
-            var notifications = context.Forms.Get("Notifications")?
-                .Deserialize<SettingList<Notification>>()?
-                .Where(o => o.Enabled);
-            if (notifications != null)
+            var notifications = context.Forms.Get("Notifications")
+                ?.Deserialize<SettingList<Notification>>()
+                    ?? ss.Notifications;
+            notifications
+                .Select((o, i) => new { Index = i, Notification = o })
+                .ForEach(data =>
+                {
+                    data.Notification.Index = data.Index;
+                    data.Notification.MonitorChangesColumns = data.Notification.MonitorChangesColumns
+                        ?? ss.EditorColumns;
+                });
+            return notifications;
+        }
+
+        public static List<Notification> MeetConditions(
+            SiteSettings ss, List<Notification> before, List<Notification> after)
+        {
+            var data = new List<Notification>();
+            if (before != null)
             {
-                notifications
-                    .Where(o => o.MonitorChangesColumns?.Any() != true)
-                    .ForEach(notification =>
-                        notification.MonitorChangesColumns = ss.EditorColumns);
-                return SettingList(notifications);
+                data.AddRange(before);
             }
-            else
+            if (after != null)
             {
-                return SettingList(ss.Notifications.Where(o => o.Enabled));
+                data.AddRange(after);
             }
+            return data
+                .Where(o => data.Where(p => p.Index == o.Index).Count() == 2
+                    || (data.Where(p => p.Index == o.Index).Count() == 1
+                        && o.Expression == Notification.Expressions.Or
+                        && (ss.Views?.Any(p => p.Id == o.BeforeCondition) == true
+                            && ss.Views?.Any(p => p.Id == o.AfterCondition) == true)))
+                .GroupBy(o => o.Index)
+                .Select(o => o.First())
+                .ToList();
         }
 
         private static SettingList<Notification> SettingList(IEnumerable<Notification> notifications)
@@ -95,40 +115,38 @@ namespace Implem.Pleasanter.Libraries.Settings
             return list;
         }
 
-        public static void CheckConditions(
+        public static List<Notification> Get(
             this List<Notification> notifications,
             List<View> views,
             bool before,
             DataSet dataSet)
         {
-            notifications
-                .Select((o, i) => new
-                {
-                    Notification = o,
-                    Exists = dataSet.Tables[i].Rows.Count == 1
-                })
-                .ForEach(o =>
-                {
-                    if (before)
-                    {
-                        o.Notification.Enabled = o.Exists;
-                    }
-                    else if (views?.Get(o.Notification.AfterCondition) != null)
-                    {
-                        if (views?.Get(o.Notification.BeforeCondition) == null)
-                        {
-                            o.Notification.Enabled = o.Exists;
-                        }
-                        else if (o.Notification.Expression == Notification.Expressions.And)
-                        {
-                            o.Notification.Enabled &= o.Exists;
-                        }
-                        else
-                        {
-                            o.Notification.Enabled |= o.Exists;
-                        }
-                    }
-                });
+            return notifications
+                .Where(notification => dataSet.Tables[ notification.ToJson().Sha512Cng()].Rows.Count == 1 )
+                .ToList();
+
+                //.ForEach(o =>
+                //{
+                //    if (before)
+                //    {
+                //        o.Notification.Enabled = o.Exists;
+                //    }
+                //    else if (views?.Get(o.Notification.AfterCondition) != null)
+                //    {
+                //        if (views?.Get(o.Notification.BeforeCondition) == null)
+                //        {
+                //            o.Notification.Enabled = o.Exists;
+                //        }
+                //        else if (o.Notification.Expression == Notification.Expressions.And)
+                //        {
+                //            o.Notification.Enabled &= o.Exists;
+                //        }
+                //        else
+                //        {
+                //            o.Notification.Enabled |= o.Exists;
+                //        }
+                //    }
+                //});
         }
     }
 }

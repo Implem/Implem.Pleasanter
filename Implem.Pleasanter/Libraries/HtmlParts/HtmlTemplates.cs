@@ -250,7 +250,6 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                         .MainCommands(
                             context: context,
                             ss: ss,
-                            siteId: siteId,
                             verType: Versions.VerTypes.Latest);
                 }
             });
@@ -280,7 +279,10 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                 .SwitchUserInfo(context: context)
                 .PublishWarning(
                     context: context,
-                    ss: ss));
+                    ss: ss))
+                .LockWarning(
+                    context: context,
+                    ss: ss);
         }
 
         private static HtmlBuilder SwitchUserInfo(
@@ -322,6 +324,24 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                 + context.Action,
                         action: () => hb
                             .Text(text: Displays.PublishWarning(context: context))))
+                : hb;
+        }
+
+        private static HtmlBuilder LockWarning(
+            this HtmlBuilder hb,
+            Context context,
+            SiteSettings ss)
+        {
+            return !context.Publish && ss?.Locked() == true
+                ? hb.Div(id: "LockedWarning", action: () => hb
+                    .Div(action: () => hb
+                        .Text(text: Displays.LockWarning(
+                            context: context,
+                            data: new string[]
+                            {
+                                ss.LockedUser.Name,
+                                ss.LockedTime.DisplayValue.ToString(context.CultureInfo())
+                            }))))
                 : hb;
         }
 
@@ -440,7 +460,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
         }
 
         public static string Error(
-            Context context, Error.Types errorType, string[] messageData = null)
+            Context context, ErrorData errorData, string[] messageData = null)
         {
             var hb = new HtmlBuilder();
             var ss = new SiteSettings();
@@ -460,7 +480,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                         referenceType: null,
                         siteReferenceType: null,
                         title: null,
-                        errorType: errorType,
+                        errorType: errorData.Type,
                         useBreadcrumb: false,
                         useTitle: false,
                         useNavigationMenu: true)

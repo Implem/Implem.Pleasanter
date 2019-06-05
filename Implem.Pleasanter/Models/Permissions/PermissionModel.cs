@@ -31,14 +31,14 @@ namespace Implem.Pleasanter.Models
         public string GroupName = string.Empty;
         public string Name = string.Empty;
         public Permissions.Types PermissionType = (Permissions.Types)31;
-        [NonSerialized] public long SavedReferenceId = 0;
-        [NonSerialized] public int SavedDeptId = 0;
-        [NonSerialized] public int SavedGroupId = 0;
-        [NonSerialized] public int SavedUserId = 0;
-        [NonSerialized] public string SavedDeptName = string.Empty;
-        [NonSerialized] public string SavedGroupName = string.Empty;
-        [NonSerialized] public string SavedName = string.Empty;
-        [NonSerialized] public long SavedPermissionType = 31;
+        public long SavedReferenceId = 0;
+        public int SavedDeptId = 0;
+        public int SavedGroupId = 0;
+        public int SavedUserId = 0;
+        public string SavedDeptName = string.Empty;
+        public string SavedGroupName = string.Empty;
+        public string SavedName = string.Empty;
+        public long SavedPermissionType = 31;
 
         public bool ReferenceId_Updated(Context context, Column column = null)
         {
@@ -80,11 +80,20 @@ namespace Implem.Pleasanter.Models
                 column.GetDefaultInput(context: context).ToLong() != PermissionType.ToLong());
         }
 
-        public PermissionModel(Context context, DataRow dataRow, string tableAlias = null)
+        public PermissionModel(
+            Context context,
+            DataRow dataRow,
+            string tableAlias = null)
         {
             OnConstructing(context: context);
             Context = context;
-            if (dataRow != null) Set(context, dataRow, tableAlias);
+            if (dataRow != null)
+            {
+                Set(
+                    context: context,
+                    dataRow: dataRow,
+                    tableAlias: tableAlias);
+            }
             OnConstructed(context: context);
         }
 
@@ -142,6 +151,12 @@ namespace Implem.Pleasanter.Models
             UpdatedTime = permissionModel.UpdatedTime;
             VerUp = permissionModel.VerUp;
             Comments = permissionModel.Comments;
+            ClassHash = permissionModel.ClassHash;
+            NumHash = permissionModel.NumHash;
+            DateHash = permissionModel.DateHash;
+            DescriptionHash = permissionModel.DescriptionHash;
+            CheckHash = permissionModel.CheckHash;
+            AttachmentsHash = permissionModel.AttachmentsHash;
         }
 
         private void SetBySession(Context context)
@@ -236,7 +251,64 @@ namespace Implem.Pleasanter.Models
                             UpdatedTime = new Time(context, dataRow, column.ColumnName); Timestamp = dataRow.Field<DateTime>(column.ColumnName).ToString("yyyy/M/d H:m:s.fff");
                             SavedUpdatedTime = UpdatedTime.Value;
                             break;
-                        case "IsHistory": VerType = dataRow[column.ColumnName].ToBool() ? Versions.VerTypes.History : Versions.VerTypes.Latest; break;
+                        case "IsHistory":
+                            VerType = dataRow.Bool(column.ColumnName)
+                                ? Versions.VerTypes.History
+                                : Versions.VerTypes.Latest; break;
+                        default:
+                            switch (Def.ExtendedColumnTypes.Get(column.Name))
+                            {
+                                case "Class":
+                                    Class(
+                                        columnName: column.Name,
+                                        value: dataRow[column.ColumnName].ToString());
+                                    SavedClass(
+                                        columnName: column.Name,
+                                        value: Class(columnName: column.Name));
+                                    break;
+                                case "Num":
+                                    Num(
+                                        columnName: column.Name,
+                                        value: dataRow[column.ColumnName].ToDecimal());
+                                    SavedNum(
+                                        columnName: column.Name,
+                                        value: Num(columnName: column.Name));
+                                    break;
+                                case "Date":
+                                    Date(
+                                        columnName: column.Name,
+                                        value: dataRow[column.ColumnName].ToDateTime());
+                                    SavedDate(
+                                        columnName: column.Name,
+                                        value: Date(columnName: column.Name));
+                                    break;
+                                case "Description":
+                                    Description(
+                                        columnName: column.Name,
+                                        value: dataRow[column.ColumnName].ToString());
+                                    SavedDescription(
+                                        columnName: column.Name,
+                                        value: Description(columnName: column.Name));
+                                    break;
+                                case "Check":
+                                    Check(
+                                        columnName: column.Name,
+                                        value: dataRow[column.ColumnName].ToBool());
+                                    SavedCheck(
+                                        columnName: column.Name,
+                                        value: Check(columnName: column.Name));
+                                    break;
+                                case "Attachments":
+                                    Attachments(
+                                        columnName: column.Name,
+                                        value: dataRow[column.ColumnName].ToString()
+                                            .Deserialize<Attachments>() ?? new Attachments());
+                                    SavedAttachments(
+                                        columnName: column.Name,
+                                        value: Attachments(columnName: column.Name).ToJson());
+                                    break;
+                            }
+                            break;
                     }
                 }
             }
@@ -244,16 +316,16 @@ namespace Implem.Pleasanter.Models
 
         public bool Updated(Context context)
         {
-            return
-                ReferenceId_Updated(context: context) ||
-                DeptId_Updated(context: context) ||
-                GroupId_Updated(context: context) ||
-                UserId_Updated(context: context) ||
-                Ver_Updated(context: context) ||
-                PermissionType_Updated(context: context) ||
-                Comments_Updated(context: context) ||
-                Creator_Updated(context: context) ||
-                Updator_Updated(context: context);
+            return Updated()
+                || ReferenceId_Updated(context: context)
+                || DeptId_Updated(context: context)
+                || GroupId_Updated(context: context)
+                || UserId_Updated(context: context)
+                || Ver_Updated(context: context)
+                || PermissionType_Updated(context: context)
+                || Comments_Updated(context: context)
+                || Creator_Updated(context: context)
+                || Updator_Updated(context: context);
         }
 
         /// <summary>
