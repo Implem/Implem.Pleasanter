@@ -36,6 +36,10 @@ namespace Implem.Pleasanter.Libraries.Settings
                             from: num,
                             to: num + step - Minimum(column));
                     }
+                    else
+                    {
+                        break;
+                    }
                 }
                 if (data.Count < Parameters.General.DropDownSearchPageSize)
                 {
