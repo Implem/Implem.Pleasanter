@@ -222,28 +222,29 @@ namespace Implem.Pleasanter.Libraries.DataTypes
                 column.Joined
                     || column.SiteSettings.Linked
                     || column.SiteSettings?.IntegratedSites?.Any() == true
-                    ? "back=1"
-                    : string.Empty,
+                       ? "back=1"
+                       : string.Empty,
                 IsHistory
                     ? "ver=" + Ver
                     : string.Empty
-            }.Where(s=>s != string.Empty).Join("&");
-            
-            switch (column.SiteSettings.TableType)
+            }
+                .Where(s => s != string.Empty)
+                .Join("&");
+            if (column.SiteSettings.TableType == Sqls.TableTypes.Normal
+                && Id > 0)
             {
-                case Sqls.TableTypes.Normal:
-                    hb.A(
-                        href: Locations.ItemEdit(
-                            context: context,
-                            id: Id)
-                            + ((queryString == string.Empty)
-                                ? string.Empty
-                                : "?" + queryString),
-                        text: DisplayValue);
-                    break;
-                default:
-                    hb.Text(text: DisplayValue);
-                    break;
+                hb.A(
+                    href: Locations.ItemEdit(
+                        context: context,
+                        id: Id)
+                        + ((queryString == string.Empty)
+                            ? string.Empty
+                            : "?" + queryString),
+                    text: DisplayValue);
+            }
+            else
+            {
+                hb.Text(text: DisplayValue);
             }
         }
 
