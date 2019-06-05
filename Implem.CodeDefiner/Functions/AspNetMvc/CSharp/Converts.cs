@@ -38,7 +38,7 @@ namespace Implem.CodeDefiner.Functions.AspNetMvc.CSharp
         internal static string ByForm(this string code, ColumnDefinition columnDefinition)
         {
             var placeholder = Placeholder(code, "#ByForm#");
-            return columnDefinition.ByForm != string.Empty
+            return !columnDefinition.ByForm.IsNullOrEmpty()
                 ? code.Replace(placeholder, columnDefinition.ByForm)
                 : code.ConvertType("#ByForm#", columnDefinition);
         }
@@ -46,7 +46,7 @@ namespace Implem.CodeDefiner.Functions.AspNetMvc.CSharp
         internal static string ByApi(this string code, ColumnDefinition columnDefinition)
         {
             var placeholder = Placeholder(code, "#ByApi#");
-            return columnDefinition.ByApi != string.Empty
+            return !columnDefinition.ByApi.IsNullOrEmpty()
                 ? code.Replace(placeholder, columnDefinition.ByApi)
                 : code.ConvertType("#ByApi#", columnDefinition);
         }
@@ -54,7 +54,7 @@ namespace Implem.CodeDefiner.Functions.AspNetMvc.CSharp
         internal static string ByDataRow(this string code, ColumnDefinition columnDefinition)
         {
             var placeholder = Placeholder(code, "#ByDataRow#");
-            return columnDefinition.ByDataRow != string.Empty
+            return !columnDefinition.ByDataRow.IsNullOrEmpty()
                 ? code.Replace(placeholder, columnDefinition.ByDataRow)
                 : code.ConvertType("#ByDataRow#", columnDefinition);
         }
@@ -62,7 +62,7 @@ namespace Implem.CodeDefiner.Functions.AspNetMvc.CSharp
         internal static string BySession(this string code, ColumnDefinition columnDefinition)
         {
             var placeholder = Placeholder(code, "#BySession#");
-            return columnDefinition.BySession != string.Empty
+            return !columnDefinition.BySession.IsNullOrEmpty()
                 ? code.Replace(placeholder, columnDefinition.BySession)
                 : columnDefinition.TypeCs.IsNullOrEmpty()
                     ? code.Replace(placeholder, Variable(placeholder)
@@ -126,7 +126,7 @@ namespace Implem.CodeDefiner.Functions.AspNetMvc.CSharp
         private static string CreateObjectByForm(
             ColumnDefinition columnDefinition, string additionalArguments = "")
         {
-            return "new {0}({1}context.Forms.Data(controlId){2}{3})".Params(
+            return "new {0}({1}value{2}{3})".Params(
                 columnDefinition.TypeCs,
                 columnDefinition.TypeCs == "Time"
                     ? "context, "
@@ -179,7 +179,7 @@ namespace Implem.CodeDefiner.Functions.AspNetMvc.CSharp
             ColumnDefinition columnDefinition, string codeVariable)
         {
             return codeVariable + " as " + columnDefinition.TypeCs +
-                (columnDefinition.DefaultCs != string.Empty && columnDefinition.DefaultCs != "null"
+                (!columnDefinition.DefaultCs.IsNullOrEmpty() && columnDefinition.DefaultCs != "null"
                     ? " ?? " + columnDefinition.DefaultCs
                     : string.Empty);
         }

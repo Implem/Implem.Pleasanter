@@ -27,7 +27,7 @@ namespace Implem.Pleasanter.Libraries.Settings
         public int AfterCondition;
         public Expressions Expression;
         [NonSerialized]
-        public bool Enabled = true;
+        public int Index;
 
         public enum Types : int
         {

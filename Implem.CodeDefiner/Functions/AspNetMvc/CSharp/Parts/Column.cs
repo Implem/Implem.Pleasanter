@@ -42,10 +42,10 @@ namespace Implem.CodeDefiner.Functions.AspNetMvc.CSharp.Parts
             DataContainer dataContainer)
         {
             if (!Table.CheckExclude(codeDefinition, dataContainer.TableName) ||
-                dataContainer.TableName == string.Empty)
+                dataContainer.TableName.IsNullOrEmpty())
             {
                 var code = Creators.Create(codeDefinition, dataContainer);
-                if (dataContainer.ColumnName != string.Empty)
+                if (!dataContainer.ColumnName.IsNullOrEmpty())
                 {
                     var columnDefinition = Def.ColumnDefinitionCollection.First(o =>
                          o.TableName == dataContainer.TableName &&
@@ -67,9 +67,10 @@ namespace Implem.CodeDefiner.Functions.AspNetMvc.CSharp.Parts
             CodeDefinition codeDefinition,
             ColumnDefinition columnDefinition)
         {
-            if (codeDefinition.NotJoin && columnDefinition.JoinTableName != string.Empty) return true;
-            if (codeDefinition.Join && columnDefinition.JoinTableName == string.Empty) return true;
-            if (codeDefinition.JoinExpression && columnDefinition.JoinExpression == string.Empty) return true;
+            if (!columnDefinition.ExtendedColumnType.IsNullOrEmpty()) return true;
+            if (codeDefinition.NotJoin && !columnDefinition.JoinTableName.IsNullOrEmpty()) return true;
+            if (codeDefinition.Join && columnDefinition.JoinTableName.IsNullOrEmpty()) return true;
+            if (codeDefinition.JoinExpression && columnDefinition.JoinExpression.IsNullOrEmpty()) return true;
             if (codeDefinition.Pk && columnDefinition.Pk == 0) return true;
             if (codeDefinition.NotPk && columnDefinition.Pk != 0) return true;
             if (codeDefinition.Session && !columnDefinition.Session) return true;
@@ -77,7 +78,7 @@ namespace Implem.CodeDefiner.Functions.AspNetMvc.CSharp.Parts
             if (codeDefinition.NotIdentity && columnDefinition.Identity) return true;
             if (codeDefinition.Unique && !columnDefinition.Unique) return true;
             if (codeDefinition.NotUnique && columnDefinition.Unique) return true;
-            if (codeDefinition.NotDefault && columnDefinition.Default != string.Empty) return true;
+            if (codeDefinition.NotDefault && !columnDefinition.Default.IsNullOrEmpty()) return true;
             if (codeDefinition.ItemId &&
                 Def.ExistsModel(columnDefinition.ModelName, o => o.ItemId > 0) &&
                 columnDefinition.ColumnName != columnDefinition.ModelName + "Id")
@@ -86,31 +87,31 @@ namespace Implem.CodeDefiner.Functions.AspNetMvc.CSharp.Parts
                 Def.ExistsModel(columnDefinition.ModelName, o => o.ItemId > 0) &&
                 columnDefinition.ColumnName == columnDefinition.ModelName + "Id")
                 return true;
-            if (codeDefinition.Calc && columnDefinition.Calc == string.Empty) return true;
-            if (codeDefinition.NotCalc && columnDefinition.Calc != string.Empty) return true;
+            if (codeDefinition.Calc && columnDefinition.Calc.IsNullOrEmpty()) return true;
+            if (codeDefinition.NotCalc && !columnDefinition.Calc.IsNullOrEmpty()) return true;
             if (codeDefinition.NotWhereSpecial && columnDefinition.WhereSpecial) return true;
             if (codeDefinition.SearchIndex && columnDefinition.SearchIndexPriority == 0) return true;
-            if (codeDefinition.NotByForm && columnDefinition.ByForm != string.Empty) return true;
+            if (codeDefinition.NotByForm && !columnDefinition.ByForm.IsNullOrEmpty()) return true;
             if (codeDefinition.Form && columnDefinition.NotForm) return true;
             if (codeDefinition.Select && columnDefinition.NotSelect) return true;
             if (codeDefinition.Update && columnDefinition.NotUpdate) return true;
-            if (codeDefinition.SelectColumns && columnDefinition.SelectColumns == string.Empty) return true;
-            if (codeDefinition.NotSelectColumn && columnDefinition.SelectColumns != string.Empty) return true;
-            if (codeDefinition.ComputeColumn && columnDefinition.ComputeColumn == string.Empty) return true;
-            if (codeDefinition.NotSelectColumn && columnDefinition.ComputeColumn != string.Empty) return true;
+            if (codeDefinition.SelectColumns && columnDefinition.SelectColumns.IsNullOrEmpty()) return true;
+            if (codeDefinition.NotSelectColumn && !columnDefinition.SelectColumns.IsNullOrEmpty()) return true;
+            if (codeDefinition.ComputeColumn && columnDefinition.ComputeColumn.IsNullOrEmpty()) return true;
+            if (codeDefinition.NotSelectColumn && !columnDefinition.ComputeColumn.IsNullOrEmpty()) return true;
             if (codeDefinition.Aggregatable && !columnDefinition.Aggregatable) return true;
             if (codeDefinition.Computable && !columnDefinition.Computable) return true;
-            if (codeDefinition.Include != string.Empty && !codeDefinition.Include.Split(',').Contains(columnDefinition.ColumnName)) return true;
-            if (codeDefinition.Exclude != string.Empty && codeDefinition.Exclude.Split(',').Contains(columnDefinition.ColumnName)) return true;
-            if (codeDefinition.IncludeTypeName != string.Empty && !codeDefinition.IncludeTypeName.Split(',').Contains(columnDefinition.TypeName)) return true;
-            if (codeDefinition.ExcludeTypeName != string.Empty && codeDefinition.ExcludeTypeName.Split(',').Contains(columnDefinition.TypeName)) return true;
-            if (codeDefinition.IncludeTypeCs != string.Empty && !codeDefinition.IncludeTypeCs.Split(',').Contains(columnDefinition.TypeCs)) return true;
-            if (codeDefinition.ExcludeTypeCs != string.Empty && codeDefinition.ExcludeTypeCs.Split(',').Contains(columnDefinition.TypeCs)) return true;
-            if (codeDefinition.IncludeDefaultCs != string.Empty && !codeDefinition.IncludeDefaultCs.Split(',').Contains(columnDefinition.DefaultCs)) return true;
-            if (codeDefinition.ExcludeDefaultCs != string.Empty && codeDefinition.ExcludeDefaultCs.Split(',').Contains(columnDefinition.DefaultCs)) return true;
+            if (!codeDefinition.Include.IsNullOrEmpty() && !codeDefinition.Include.Split(',').Contains(columnDefinition.ColumnName)) return true;
+            if (!codeDefinition.Exclude.IsNullOrEmpty() && codeDefinition.Exclude.Split(',').Contains(columnDefinition.ColumnName)) return true;
+            if (!codeDefinition.IncludeTypeName.IsNullOrEmpty() && !codeDefinition.IncludeTypeName.Split(',').Contains(columnDefinition.TypeName)) return true;
+            if (!codeDefinition.ExcludeTypeName.IsNullOrEmpty() && codeDefinition.ExcludeTypeName.Split(',').Contains(columnDefinition.TypeName)) return true;
+            if (!codeDefinition.IncludeTypeCs.IsNullOrEmpty() && !codeDefinition.IncludeTypeCs.Split(',').Contains(columnDefinition.TypeCs)) return true;
+            if (!codeDefinition.ExcludeTypeCs.IsNullOrEmpty() && codeDefinition.ExcludeTypeCs.Split(',').Contains(columnDefinition.TypeCs)) return true;
+            if (!codeDefinition.IncludeDefaultCs.IsNullOrEmpty() && !codeDefinition.IncludeDefaultCs.Split(',').Contains(columnDefinition.DefaultCs)) return true;
+            if (!codeDefinition.ExcludeDefaultCs.IsNullOrEmpty() && codeDefinition.ExcludeDefaultCs.Split(',').Contains(columnDefinition.DefaultCs)) return true;
             if (codeDefinition.Class && !columnDefinition.Class) return true;
             if (codeDefinition.NotClass && columnDefinition.Class) return true;
-            if (codeDefinition.NotTypeCs && columnDefinition.TypeCs != string.Empty) return true;
+            if (codeDefinition.NotTypeCs && !columnDefinition.TypeCs.IsNullOrEmpty()) return true;
             if (codeDefinition.History && columnDefinition.History == 0) return true;
             if (codeDefinition.PkHistory && columnDefinition.PkHistory == 0) return true;
             if (codeDefinition.GridColumn && columnDefinition.GridColumn == 0) return true;
@@ -121,11 +122,14 @@ namespace Implem.CodeDefiner.Functions.AspNetMvc.CSharp.Parts
             if (codeDefinition.NotUserColumn && columnDefinition.UserColumn) return true;
             if (codeDefinition.EnumColumn && !columnDefinition.EnumColumn) return true;
             if (codeDefinition.Exclude.Split(',').Contains(columnDefinition.ColumnName)) return true;
-            if (codeDefinition.NotItem && Def.ExistsTable(columnDefinition.TableName, o => o.ItemId > 0)) return true;
+            if (codeDefinition.ExtendedColumn && columnDefinition.ExtendedColumnType.IsNullOrEmpty()) return true;
+            if (codeDefinition.NotExtendedColumn && !columnDefinition.ExtendedColumnType.IsNullOrEmpty()) return true;
             if (codeDefinition.ItemOnly && !Def.ExistsTable(columnDefinition.TableName, o => o.ItemId > 0)) return true;
+            if (codeDefinition.NotItem && Def.ExistsTable(columnDefinition.TableName, o => o.ItemId > 0)) return true;
             if (codeDefinition.GenericUi && !Def.ExistsTable(columnDefinition.TableName, o => o.GenericUi)) return true;
+            if (codeDefinition.NotGenericUi && Def.ExistsTable(columnDefinition.TableName, o => o.GenericUi)) return true;
             if (codeDefinition.UpdateMonitor && !Def.ExistsTable(columnDefinition.TableName, o => o.UpdateMonitor)) return true;
-            if (codeDefinition.ControlType != string.Empty && codeDefinition.ControlType != columnDefinition.ControlType) return true;
+            if (!codeDefinition.ControlType.IsNullOrEmpty() && codeDefinition.ControlType != columnDefinition.ControlType) return true;
             if (codeDefinition.Null && !columnDefinition.Nullable) return true;
             if (codeDefinition.NotNull && columnDefinition.Nullable) return true;
             if (codeDefinition.Like && !columnDefinition.Like) return true;
@@ -241,8 +245,8 @@ namespace Implem.CodeDefiner.Functions.AspNetMvc.CSharp.Parts
                         break;
                     case "Calc":
                         code = code.Replace("#Calc#", columnDefinition.Calc
-                            .Replace("#TableName#", columnDefinition.TableName)
-                            .Replace("#ModelName#", columnDefinition.ModelName));
+                            ?.Replace("#TableName#", columnDefinition.TableName)
+                            ?.Replace("#ModelName#", columnDefinition.ModelName));
                         break;
                     case "ColumnCount":
                         code = code.Replace("#ColumnCount#", columnCount.ToString());
@@ -256,7 +260,7 @@ namespace Implem.CodeDefiner.Functions.AspNetMvc.CSharp.Parts
                         break;
                 }
             }
-            if (codeDefinition.ReplaceOld != string.Empty)
+            if (!codeDefinition.ReplaceOld.IsNullOrEmpty())
             {
                 code = code.Replace(codeDefinition.ReplaceOld, codeDefinition.ReplaceNew);
             }
@@ -351,7 +355,7 @@ namespace Implem.CodeDefiner.Functions.AspNetMvc.CSharp.Parts
                             return "null";
                         }
                     }
-                    else if (columnDefinition.DefaultCs != string.Empty)
+                    else if (!columnDefinition.DefaultCs.IsNullOrEmpty())
                     {
                         return columnDefinition.DefaultCs;
                     }

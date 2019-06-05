@@ -27,10 +27,10 @@ namespace Implem.Pleasanter.Models
         public int DeptId = 0;
         public int UserId = 0;
         public bool Admin = false;
-        [NonSerialized] public int SavedGroupId = 0;
-        [NonSerialized] public int SavedDeptId = 0;
-        [NonSerialized] public int SavedUserId = 0;
-        [NonSerialized] public bool SavedAdmin = false;
+        public int SavedGroupId = 0;
+        public int SavedDeptId = 0;
+        public int SavedUserId = 0;
+        public bool SavedAdmin = false;
 
         public bool GroupId_Updated(Context context, Column column = null)
         {
@@ -64,11 +64,20 @@ namespace Implem.Pleasanter.Models
                 column.GetDefaultInput(context: context).ToBool() != Admin);
         }
 
-        public GroupMemberModel(Context context, DataRow dataRow, string tableAlias = null)
+        public GroupMemberModel(
+            Context context,
+            DataRow dataRow,
+            string tableAlias = null)
         {
             OnConstructing(context: context);
             Context = context;
-            if (dataRow != null) Set(context, dataRow, tableAlias);
+            if (dataRow != null)
+            {
+                Set(
+                    context: context,
+                    dataRow: dataRow,
+                    tableAlias: tableAlias);
+            }
             OnConstructed(context: context);
         }
 
@@ -122,6 +131,12 @@ namespace Implem.Pleasanter.Models
             UpdatedTime = groupMemberModel.UpdatedTime;
             VerUp = groupMemberModel.VerUp;
             Comments = groupMemberModel.Comments;
+            ClassHash = groupMemberModel.ClassHash;
+            NumHash = groupMemberModel.NumHash;
+            DateHash = groupMemberModel.DateHash;
+            DescriptionHash = groupMemberModel.DescriptionHash;
+            CheckHash = groupMemberModel.CheckHash;
+            AttachmentsHash = groupMemberModel.AttachmentsHash;
         }
 
         private void SetBySession(Context context)
@@ -197,7 +212,64 @@ namespace Implem.Pleasanter.Models
                             UpdatedTime = new Time(context, dataRow, column.ColumnName); Timestamp = dataRow.Field<DateTime>(column.ColumnName).ToString("yyyy/M/d H:m:s.fff");
                             SavedUpdatedTime = UpdatedTime.Value;
                             break;
-                        case "IsHistory": VerType = dataRow[column.ColumnName].ToBool() ? Versions.VerTypes.History : Versions.VerTypes.Latest; break;
+                        case "IsHistory":
+                            VerType = dataRow.Bool(column.ColumnName)
+                                ? Versions.VerTypes.History
+                                : Versions.VerTypes.Latest; break;
+                        default:
+                            switch (Def.ExtendedColumnTypes.Get(column.Name))
+                            {
+                                case "Class":
+                                    Class(
+                                        columnName: column.Name,
+                                        value: dataRow[column.ColumnName].ToString());
+                                    SavedClass(
+                                        columnName: column.Name,
+                                        value: Class(columnName: column.Name));
+                                    break;
+                                case "Num":
+                                    Num(
+                                        columnName: column.Name,
+                                        value: dataRow[column.ColumnName].ToDecimal());
+                                    SavedNum(
+                                        columnName: column.Name,
+                                        value: Num(columnName: column.Name));
+                                    break;
+                                case "Date":
+                                    Date(
+                                        columnName: column.Name,
+                                        value: dataRow[column.ColumnName].ToDateTime());
+                                    SavedDate(
+                                        columnName: column.Name,
+                                        value: Date(columnName: column.Name));
+                                    break;
+                                case "Description":
+                                    Description(
+                                        columnName: column.Name,
+                                        value: dataRow[column.ColumnName].ToString());
+                                    SavedDescription(
+                                        columnName: column.Name,
+                                        value: Description(columnName: column.Name));
+                                    break;
+                                case "Check":
+                                    Check(
+                                        columnName: column.Name,
+                                        value: dataRow[column.ColumnName].ToBool());
+                                    SavedCheck(
+                                        columnName: column.Name,
+                                        value: Check(columnName: column.Name));
+                                    break;
+                                case "Attachments":
+                                    Attachments(
+                                        columnName: column.Name,
+                                        value: dataRow[column.ColumnName].ToString()
+                                            .Deserialize<Attachments>() ?? new Attachments());
+                                    SavedAttachments(
+                                        columnName: column.Name,
+                                        value: Attachments(columnName: column.Name).ToJson());
+                                    break;
+                            }
+                            break;
                     }
                 }
             }
@@ -205,15 +277,15 @@ namespace Implem.Pleasanter.Models
 
         public bool Updated(Context context)
         {
-            return
-                GroupId_Updated(context: context) ||
-                DeptId_Updated(context: context) ||
-                UserId_Updated(context: context) ||
-                Ver_Updated(context: context) ||
-                Admin_Updated(context: context) ||
-                Comments_Updated(context: context) ||
-                Creator_Updated(context: context) ||
-                Updator_Updated(context: context);
+            return Updated()
+                || GroupId_Updated(context: context)
+                || DeptId_Updated(context: context)
+                || UserId_Updated(context: context)
+                || Ver_Updated(context: context)
+                || Admin_Updated(context: context)
+                || Comments_Updated(context: context)
+                || Creator_Updated(context: context)
+                || Updator_Updated(context: context);
         }
     }
 }

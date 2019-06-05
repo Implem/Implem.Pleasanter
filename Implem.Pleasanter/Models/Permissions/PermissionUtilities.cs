@@ -37,7 +37,7 @@ namespace Implem.Pleasanter.Models
             var siteModel = new SiteModel(
                 context: context,
                 siteId: itemModel.SiteId,
-                setByForm: true);
+                formData: context.Forms);
             siteModel.SiteSettings = SiteSettingsUtilities.Get(
                 context: context,
                 siteModel: siteModel,
@@ -45,10 +45,10 @@ namespace Implem.Pleasanter.Models
             var invalid = PermissionValidators.OnUpdating(
                 context: context,
                 ss: siteModel.SiteSettings);
-            switch (invalid)
+            switch (invalid.Type)
             {
                 case Error.Types.None: break;
-                default: return invalid.MessageJson(context: context);
+                default: return invalid.Type.MessageJson(context: context);
             }
             var hb = new HtmlBuilder();
             var permissions = SourceCollection(
@@ -474,8 +474,7 @@ namespace Implem.Pleasanter.Models
         /// <summary>
         /// Fixed:
         /// </summary>
-        public static void CreatePermissions(
-            this List<SqlStatement> statements,
+        public static List<SqlInsert> InsertStatements(
             Context context,
             SiteSettings ss,
             Dictionary<string, User> users)
@@ -531,10 +530,11 @@ namespace Implem.Pleasanter.Models
                         break;
                 }
             });
-            statements.AddRange(insertSet
+            return insertSet
                 .OrderByDescending(o => o.PermissionType)
                 .GroupBy(o => o.DeptId + "," + o.GroupId + "," + o.UserId)
-                .Select(o => Insert(o.First())));
+                .Select(o => Insert(o.First()))
+                .ToList();
         }
 
         /// <summary>
@@ -613,7 +613,7 @@ namespace Implem.Pleasanter.Models
             var siteModel = new SiteModel(
                 context: context,
                 siteId: itemModel.SiteId,
-                setByForm: true);
+                formData: context.Forms);
             siteModel.SiteSettings = SiteSettingsUtilities.Get(
                 context: context,
                 siteModel: siteModel,
@@ -621,10 +621,10 @@ namespace Implem.Pleasanter.Models
             var invalid = PermissionValidators.OnUpdating(
                 context: context,
                 ss: siteModel.SiteSettings);
-            switch (invalid)
+            switch (invalid.Type)
             {
                 case Error.Types.None: break;
-                default: return invalid.MessageJson(context: context);
+                default: return invalid.Type.MessageJson(context: context);
             }
             var res = new ResponseCollection();
             var selectedCurrentPermissions = context.Forms.List("CurrentPermissions");
@@ -827,7 +827,7 @@ namespace Implem.Pleasanter.Models
             var siteModel = new SiteModel(
                 context: context,
                 siteId: itemModel.SiteId,
-                setByForm: true);
+                formData: context.Forms);
             siteModel.SiteSettings = SiteSettingsUtilities.Get(
                 context: context,
                 siteModel: siteModel,
@@ -835,10 +835,10 @@ namespace Implem.Pleasanter.Models
             var invalid = PermissionValidators.OnUpdating(
                 context: context,
                 ss: siteModel.SiteSettings);
-            switch (invalid)
+            switch (invalid.Type)
             {
                 case Error.Types.None: break;
-                default: return invalid.MessageJson(context: context);
+                default: return invalid.Type.MessageJson(context: context);
             }
             var res = new ResponseCollection();
             var currentPermissions = CurrentPermissions(
@@ -885,7 +885,7 @@ namespace Implem.Pleasanter.Models
             var siteModel = new SiteModel(
                 context: context,
                 siteId: itemModel.SiteId,
-                setByForm: true);
+                formData: context.Forms);
             siteModel.SiteSettings = SiteSettingsUtilities.Get(
                 context: context,
                 siteModel: siteModel,
@@ -1228,7 +1228,7 @@ namespace Implem.Pleasanter.Models
             var siteModel = new SiteModel(
                 context: context,
                 siteId: itemModel.SiteId,
-                setByForm: true);
+                formData: context.Forms);
             siteModel.SiteSettings = SiteSettingsUtilities.Get(
                 context: context,
                 siteModel: siteModel,
@@ -1236,10 +1236,10 @@ namespace Implem.Pleasanter.Models
             var invalid = PermissionValidators.OnUpdating(
                 context: context,
                 ss: siteModel.SiteSettings);
-            switch (invalid)
+            switch (invalid.Type)
             {
                 case Error.Types.None: break;
-                default: return invalid.MessageJson(context: context);
+                default: return invalid.Type.MessageJson(context: context);
             }
             var res = new ResponseCollection();
             var selectedCurrentPermissionForCreating = context.Forms.List("CurrentPermissionForCreating");
@@ -1524,7 +1524,7 @@ namespace Implem.Pleasanter.Models
             var siteModel = new SiteModel(
                 context: context,
                 siteId: itemModel.SiteId,
-                setByForm: true);
+                formData: context.Forms);
             siteModel.SiteSettings = SiteSettingsUtilities.Get(
                 context: context,
                 siteModel: siteModel,
@@ -1532,10 +1532,10 @@ namespace Implem.Pleasanter.Models
             var invalid = PermissionValidators.OnUpdating(
                 context: context,
                 ss: siteModel.SiteSettings);
-            switch (invalid)
+            switch (invalid.Type)
             {
                 case Error.Types.None: break;
-                default: return invalid.MessageJson(context: context);
+                default: return invalid.Type.MessageJson(context: context);
             }
             var res = new ResponseCollection();
             var type = context.Forms.Data("ColumnAccessControlType");
@@ -1889,7 +1889,7 @@ namespace Implem.Pleasanter.Models
             var siteModel = new SiteModel(
                 context: context,
                 siteId: itemModel.SiteId,
-                setByForm: true);
+                formData: context.Forms);
             siteModel.SiteSettings = SiteSettingsUtilities.Get(
                 context: context,
                 siteModel: siteModel,
@@ -1897,10 +1897,10 @@ namespace Implem.Pleasanter.Models
             var invalid = PermissionValidators.OnUpdating(
                 context: context,
                 ss: siteModel.SiteSettings);
-            switch (invalid)
+            switch (invalid.Type)
             {
                 case Error.Types.None: break;
-                default: return invalid.MessageJson(context: context);
+                default: return invalid.Type.MessageJson(context: context);
             }
             var res = new ResponseCollection();
             var currentPermissions = CurrentColumnAccessControlAll(context: context);

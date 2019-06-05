@@ -68,42 +68,42 @@ namespace Implem.Pleasanter.Models
             }
         }
 
-        [NonSerialized] public long SavedSysLogId = 0;
-        [NonSerialized] public DateTime SavedStartTime = 0.ToDateTime();
-        [NonSerialized] public DateTime SavedEndTime = 0.ToDateTime();
-        [NonSerialized] public int SavedSysLogType = 10;
-        [NonSerialized] public bool SavedOnAzure = false;
-        [NonSerialized] public string SavedMachineName = string.Empty;
-        [NonSerialized] public string SavedServiceName = string.Empty;
-        [NonSerialized] public string SavedTenantName = string.Empty;
-        [NonSerialized] public string SavedApplication = string.Empty;
-        [NonSerialized] public string SavedClass = string.Empty;
-        [NonSerialized] public string SavedMethod = string.Empty;
-        [NonSerialized] public string SavedRequestData = string.Empty;
-        [NonSerialized] public string SavedHttpMethod = string.Empty;
-        [NonSerialized] public int SavedRequestSize = 0;
-        [NonSerialized] public int SavedResponseSize = 0;
-        [NonSerialized] public double SavedElapsed = 0;
-        [NonSerialized] public double SavedApplicationAge = 0;
-        [NonSerialized] public double SavedApplicationRequestInterval = 0;
-        [NonSerialized] public double SavedSessionAge = 0;
-        [NonSerialized] public double SavedSessionRequestInterval = 0;
-        [NonSerialized] public long SavedWorkingSet64 = 0;
-        [NonSerialized] public long SavedVirtualMemorySize64 = 0;
-        [NonSerialized] public int SavedProcessId = 0;
-        [NonSerialized] public string SavedProcessName = string.Empty;
-        [NonSerialized] public int SavedBasePriority = 0;
-        [NonSerialized] public string SavedUrl = string.Empty;
-        [NonSerialized] public string SavedUrlReferer = string.Empty;
-        [NonSerialized] public string SavedUserHostName = string.Empty;
-        [NonSerialized] public string SavedUserHostAddress = string.Empty;
-        [NonSerialized] public string SavedUserLanguage = string.Empty;
-        [NonSerialized] public string SavedUserAgent = string.Empty;
-        [NonSerialized] public string SavedSessionGuid = string.Empty;
-        [NonSerialized] public string SavedErrMessage = string.Empty;
-        [NonSerialized] public string SavedErrStackTrace = string.Empty;
-        [NonSerialized] public bool SavedInDebug = false;
-        [NonSerialized] public string SavedAssemblyVersion = string.Empty;
+        public long SavedSysLogId = 0;
+        public DateTime SavedStartTime = 0.ToDateTime();
+        public DateTime SavedEndTime = 0.ToDateTime();
+        public int SavedSysLogType = 10;
+        public bool SavedOnAzure = false;
+        public string SavedMachineName = string.Empty;
+        public string SavedServiceName = string.Empty;
+        public string SavedTenantName = string.Empty;
+        public string SavedApplication = string.Empty;
+        public string SavedClass = string.Empty;
+        public string SavedMethod = string.Empty;
+        public string SavedRequestData = string.Empty;
+        public string SavedHttpMethod = string.Empty;
+        public int SavedRequestSize = 0;
+        public int SavedResponseSize = 0;
+        public double SavedElapsed = 0;
+        public double SavedApplicationAge = 0;
+        public double SavedApplicationRequestInterval = 0;
+        public double SavedSessionAge = 0;
+        public double SavedSessionRequestInterval = 0;
+        public long SavedWorkingSet64 = 0;
+        public long SavedVirtualMemorySize64 = 0;
+        public int SavedProcessId = 0;
+        public string SavedProcessName = string.Empty;
+        public int SavedBasePriority = 0;
+        public string SavedUrl = string.Empty;
+        public string SavedUrlReferer = string.Empty;
+        public string SavedUserHostName = string.Empty;
+        public string SavedUserHostAddress = string.Empty;
+        public string SavedUserLanguage = string.Empty;
+        public string SavedUserAgent = string.Empty;
+        public string SavedSessionGuid = string.Empty;
+        public string SavedErrMessage = string.Empty;
+        public string SavedErrStackTrace = string.Empty;
+        public bool SavedInDebug = false;
+        public string SavedAssemblyVersion = string.Empty;
 
         public bool SysLogId_Updated(Context context, Column column = null)
         {
@@ -377,11 +377,20 @@ namespace Implem.Pleasanter.Models
                 column.GetDefaultInput(context: context).ToString() != AssemblyVersion);
         }
 
-        public SysLogModel(Context context, DataRow dataRow, string tableAlias = null)
+        public SysLogModel(
+            Context context,
+            DataRow dataRow,
+            string tableAlias = null)
         {
             OnConstructing(context: context);
             Context = context;
-            if (dataRow != null) Set(context, dataRow, tableAlias);
+            if (dataRow != null)
+            {
+                Set(
+                    context: context,
+                    dataRow: dataRow,
+                    tableAlias: tableAlias);
+            }
             OnConstructed(context: context);
         }
 
@@ -612,7 +621,64 @@ namespace Implem.Pleasanter.Models
                             UpdatedTime = new Time(context, dataRow, column.ColumnName); Timestamp = dataRow.Field<DateTime>(column.ColumnName).ToString("yyyy/M/d H:m:s.fff");
                             SavedUpdatedTime = UpdatedTime.Value;
                             break;
-                        case "IsHistory": VerType = dataRow[column.ColumnName].ToBool() ? Versions.VerTypes.History : Versions.VerTypes.Latest; break;
+                        case "IsHistory":
+                            VerType = dataRow.Bool(column.ColumnName)
+                                ? Versions.VerTypes.History
+                                : Versions.VerTypes.Latest; break;
+                        default:
+                            switch (Def.ExtendedColumnTypes.Get(column.Name))
+                            {
+                                case "Class":
+                                    Class(
+                                        columnName: column.Name,
+                                        value: dataRow[column.ColumnName].ToString());
+                                    SavedClass(
+                                        columnName: column.Name,
+                                        value: Class(columnName: column.Name));
+                                    break;
+                                case "Num":
+                                    Num(
+                                        columnName: column.Name,
+                                        value: dataRow[column.ColumnName].ToDecimal());
+                                    SavedNum(
+                                        columnName: column.Name,
+                                        value: Num(columnName: column.Name));
+                                    break;
+                                case "Date":
+                                    Date(
+                                        columnName: column.Name,
+                                        value: dataRow[column.ColumnName].ToDateTime());
+                                    SavedDate(
+                                        columnName: column.Name,
+                                        value: Date(columnName: column.Name));
+                                    break;
+                                case "Description":
+                                    Description(
+                                        columnName: column.Name,
+                                        value: dataRow[column.ColumnName].ToString());
+                                    SavedDescription(
+                                        columnName: column.Name,
+                                        value: Description(columnName: column.Name));
+                                    break;
+                                case "Check":
+                                    Check(
+                                        columnName: column.Name,
+                                        value: dataRow[column.ColumnName].ToBool());
+                                    SavedCheck(
+                                        columnName: column.Name,
+                                        value: Check(columnName: column.Name));
+                                    break;
+                                case "Attachments":
+                                    Attachments(
+                                        columnName: column.Name,
+                                        value: dataRow[column.ColumnName].ToString()
+                                            .Deserialize<Attachments>() ?? new Attachments());
+                                    SavedAttachments(
+                                        columnName: column.Name,
+                                        value: Attachments(columnName: column.Name).ToJson());
+                                    break;
+                            }
+                            break;
                     }
                 }
             }
@@ -620,45 +686,45 @@ namespace Implem.Pleasanter.Models
 
         public bool Updated(Context context)
         {
-            return
-                SysLogId_Updated(context: context) ||
-                Ver_Updated(context: context) ||
-                SysLogType_Updated(context: context) ||
-                OnAzure_Updated(context: context) ||
-                MachineName_Updated(context: context) ||
-                ServiceName_Updated(context: context) ||
-                TenantName_Updated(context: context) ||
-                Application_Updated(context: context) ||
-                Class_Updated(context: context) ||
-                Method_Updated(context: context) ||
-                RequestData_Updated(context: context) ||
-                HttpMethod_Updated(context: context) ||
-                RequestSize_Updated(context: context) ||
-                ResponseSize_Updated(context: context) ||
-                Elapsed_Updated(context: context) ||
-                ApplicationAge_Updated(context: context) ||
-                ApplicationRequestInterval_Updated(context: context) ||
-                SessionAge_Updated(context: context) ||
-                SessionRequestInterval_Updated(context: context) ||
-                WorkingSet64_Updated(context: context) ||
-                VirtualMemorySize64_Updated(context: context) ||
-                ProcessId_Updated(context: context) ||
-                ProcessName_Updated(context: context) ||
-                BasePriority_Updated(context: context) ||
-                Url_Updated(context: context) ||
-                UrlReferer_Updated(context: context) ||
-                UserHostName_Updated(context: context) ||
-                UserHostAddress_Updated(context: context) ||
-                UserLanguage_Updated(context: context) ||
-                UserAgent_Updated(context: context) ||
-                SessionGuid_Updated(context: context) ||
-                ErrMessage_Updated(context: context) ||
-                ErrStackTrace_Updated(context: context) ||
-                InDebug_Updated(context: context) ||
-                AssemblyVersion_Updated(context: context) ||
-                Comments_Updated(context: context) ||
-                Creator_Updated(context: context) ||
-                Updator_Updated(context: context);
+            return Updated()
+                || SysLogId_Updated(context: context)
+                || Ver_Updated(context: context)
+                || SysLogType_Updated(context: context)
+                || OnAzure_Updated(context: context)
+                || MachineName_Updated(context: context)
+                || ServiceName_Updated(context: context)
+                || TenantName_Updated(context: context)
+                || Application_Updated(context: context)
+                || Class_Updated(context: context)
+                || Method_Updated(context: context)
+                || RequestData_Updated(context: context)
+                || HttpMethod_Updated(context: context)
+                || RequestSize_Updated(context: context)
+                || ResponseSize_Updated(context: context)
+                || Elapsed_Updated(context: context)
+                || ApplicationAge_Updated(context: context)
+                || ApplicationRequestInterval_Updated(context: context)
+                || SessionAge_Updated(context: context)
+                || SessionRequestInterval_Updated(context: context)
+                || WorkingSet64_Updated(context: context)
+                || VirtualMemorySize64_Updated(context: context)
+                || ProcessId_Updated(context: context)
+                || ProcessName_Updated(context: context)
+                || BasePriority_Updated(context: context)
+                || Url_Updated(context: context)
+                || UrlReferer_Updated(context: context)
+                || UserHostName_Updated(context: context)
+                || UserHostAddress_Updated(context: context)
+                || UserLanguage_Updated(context: context)
+                || UserAgent_Updated(context: context)
+                || SessionGuid_Updated(context: context)
+                || ErrMessage_Updated(context: context)
+                || ErrStackTrace_Updated(context: context)
+                || InDebug_Updated(context: context)
+                || AssemblyVersion_Updated(context: context)
+                || Comments_Updated(context: context)
+                || Creator_Updated(context: context)
+                || Updator_Updated(context: context);
         }
 
         /// <summary>
@@ -754,11 +820,11 @@ namespace Implem.Pleasanter.Models
                     context: context,
                     selectIdentity: true,
                     statements: Rds.InsertSysLogs(
-                        setIdentity: true,
+                        selectIdentity: true,
                         param: Rds.SysLogsParamDefault(
                             context: context,
                             sysLogModel: this)))
-                                .Identity.ToLong();
+                                .Id.ToLong();
             }
         }
 

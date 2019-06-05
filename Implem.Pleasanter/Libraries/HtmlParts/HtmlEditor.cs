@@ -10,7 +10,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
         public static HtmlBuilder EditorDialog(
             this HtmlBuilder hb, Context context, SiteSettings ss)
         {
-            return ss.EditInDialog == true
+            return ss.GridEditorType == SiteSettings.GridEditorTypes.Dialog
                 ? hb.Div(
                     attributes: new HtmlAttributes()
                         .Id("EditorDialog")
@@ -23,7 +23,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
         }
 
         public static HtmlBuilder DialogEditorForm(
-            this HtmlBuilder hb, Context context, long siteId, long referenceId, Action action)
+            this HtmlBuilder hb, Context context, SiteSettings ss, long siteId, long referenceId, bool isHistory, Action action)
         {
             return hb.Form(
                 attributes: new HtmlAttributes()
@@ -44,7 +44,11 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                         .Hidden(
                             controlId: "EditorLoading",
                             value: "1")
-                        .P(css: "message-dialog")
+                        .P(css: "message-dialog",action: ()=> hb
+                            .Notes(
+                                context:context,
+                                ss:ss,
+                                verType: isHistory? Models.Versions.VerTypes.History: Models.Versions.VerTypes.Latest))
                         .Div(css: "command-center", action: () => hb
                             .Button(
                                 text: Displays.Update(context: context),
@@ -53,7 +57,8 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                 onClick: "$p.send($(this));",
                                 icon: "ui-icon-copy",
                                 action: "Update",
-                                method: "put")
+                                method: "put",
+                                _using: !isHistory)
                             .Button(
                                 text: Displays.Cancel(context: context),
                                 controlCss: "button-icon",

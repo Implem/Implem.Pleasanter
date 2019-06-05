@@ -12,11 +12,11 @@ namespace Implem.Pleasanter.Libraries.Responses
             return Get(ApiResponses.Success(id, message));
         }
 
-        public static ContentResult Error(Context context, Error.Types type, params string[] data)
+        public static ContentResult Error(Context context, ErrorData errorData, params string[] data)
         {
             return Get(ApiResponses.Error(
                 context: context,
-                type: type,
+                errorData: errorData,
                 data: data));
         }
 

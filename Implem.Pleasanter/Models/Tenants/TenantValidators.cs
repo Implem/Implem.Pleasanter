@@ -3,41 +3,40 @@ using Implem.Libraries.Utilities;
 using Implem.Pleasanter.Libraries.General;
 using Implem.Pleasanter.Libraries.Requests;
 using Implem.Pleasanter.Libraries.Security;
-using Implem.Pleasanter.Libraries.Server;
 using Implem.Pleasanter.Libraries.Settings;
 using System.Linq;
 namespace Implem.Pleasanter.Models
 {
     public static class TenantValidators
     {
-        public static Error.Types OnEntry(Context context, SiteSettings ss, bool api = false)
+        public static ErrorData OnEntry(Context context, SiteSettings ss, bool api = false)
         {
             if (api && (context.ContractSettings.Api == false || !Parameters.Api.Enabled))
             {
-                return Error.Types.InvalidRequest;
+                return new ErrorData(type: Error.Types.InvalidRequest);
             }
             return context.HasPermission(ss: ss)
-                ? Error.Types.None
-                : Error.Types.HasNotPermission;
+                ? new ErrorData(type: Error.Types.None)
+                : new ErrorData(type: Error.Types.HasNotPermission);
         }
 
-        public static Error.Types OnReading(Context context, SiteSettings ss, bool api = false)
+        public static ErrorData OnReading(Context context, SiteSettings ss, bool api = false)
         {
             if (api && (context.ContractSettings.Api == false || !Parameters.Api.Enabled))
             {
-                return Error.Types.InvalidRequest;
+                return new ErrorData(type: Error.Types.InvalidRequest);
             }
             return context.CanRead(ss: ss)
-                ? Error.Types.None
-                : Error.Types.HasNotPermission;
+                ? new ErrorData(type: Error.Types.None)
+                : new ErrorData(type: Error.Types.HasNotPermission);
         }
 
-        public static Error.Types OnEditing(
+        public static ErrorData OnEditing(
             Context context, SiteSettings ss, TenantModel tenantModel, bool api = false)
         {
             if (api && (context.ContractSettings.Api == false || !Parameters.Api.Enabled))
             {
-                return Error.Types.InvalidRequest;
+                return new ErrorData(type: Error.Types.InvalidRequest);
             }
             switch (tenantModel.MethodType)
             {
@@ -45,27 +44,27 @@ namespace Implem.Pleasanter.Models
                     return
                         context.CanRead(ss: ss) &&
                         tenantModel.AccessStatus != Databases.AccessStatuses.NotFound
-                            ? Error.Types.None
-                            : Error.Types.NotFound;        
+                            ? new ErrorData(type: Error.Types.None)
+                            : new ErrorData(type: Error.Types.NotFound);
                 case BaseModel.MethodTypes.New:
                     return context.CanCreate(ss: ss)
-                        ? Error.Types.None
-                        : Error.Types.HasNotPermission;
+                        ? new ErrorData(type: Error.Types.None)
+                        : new ErrorData(type: Error.Types.HasNotPermission);
                 default:
-                    return Error.Types.NotFound;
+                    return new ErrorData(type: Error.Types.NotFound);
             }
         }
 
-        public static Error.Types OnCreating(
+        public static ErrorData OnCreating(
             Context context, SiteSettings ss, TenantModel tenantModel, bool api = false)
         {
             if (api && (context.ContractSettings.Api == false || !Parameters.Api.Enabled))
             {
-                return Error.Types.InvalidRequest;
+                return new ErrorData(type: Error.Types.InvalidRequest);
             }
             if (!context.CanCreate(ss: ss))
             {
-                return Error.Types.HasNotPermission;
+                return new ErrorData(type: Error.Types.HasNotPermission);
             }
             ss.SetColumnAccessControls(context: context, mine: tenantModel.Mine(context: context));
             foreach (var column in ss.Columns
@@ -78,78 +77,137 @@ namespace Implem.Pleasanter.Models
                     case "TenantName":
                         if (tenantModel.TenantName_Updated(context: context, column: column))
                         {
-                            return Error.Types.HasNotPermission;
+                            return new ErrorData(type: Error.Types.HasNotPermission);
                         }
                         break;
                     case "Title":
                         if (tenantModel.Title_Updated(context: context, column: column))
                         {
-                            return Error.Types.HasNotPermission;
+                            return new ErrorData(type: Error.Types.HasNotPermission);
                         }
                         break;
                     case "Body":
                         if (tenantModel.Body_Updated(context: context, column: column))
                         {
-                            return Error.Types.HasNotPermission;
+                            return new ErrorData(type: Error.Types.HasNotPermission);
                         }
                         break;
                     case "DisableAllUsersPermission":
                         if (tenantModel.DisableAllUsersPermission_Updated(context: context, column: column))
                         {
-                            return Error.Types.HasNotPermission;
+                            return new ErrorData(type: Error.Types.HasNotPermission);
                         }
                         break;
                     case "LogoType":
                         if (tenantModel.LogoType_Updated(context: context, column: column))
                         {
-                            return Error.Types.HasNotPermission;
+                            return new ErrorData(type: Error.Types.HasNotPermission);
                         }
                         break;
                     case "HtmlTitleTop":
                         if (tenantModel.HtmlTitleTop_Updated(context: context, column: column))
                         {
-                            return Error.Types.HasNotPermission;
+                            return new ErrorData(type: Error.Types.HasNotPermission);
                         }
                         break;
                     case "HtmlTitleSite":
                         if (tenantModel.HtmlTitleSite_Updated(context: context, column: column))
                         {
-                            return Error.Types.HasNotPermission;
+                            return new ErrorData(type: Error.Types.HasNotPermission);
                         }
                         break;
                     case "HtmlTitleRecord":
                         if (tenantModel.HtmlTitleRecord_Updated(context: context, column: column))
                         {
-                            return Error.Types.HasNotPermission;
+                            return new ErrorData(type: Error.Types.HasNotPermission);
                         }
                         break;
                     case "ContractDeadline":
                         if (tenantModel.ContractDeadline_Updated(context: context, column: column))
                         {
-                            return Error.Types.HasNotPermission;
+                            return new ErrorData(type: Error.Types.HasNotPermission);
                         }
                         break;
                     case "Comments":
                         if (!ss.GetColumn(context: context, columnName: "Comments").CanUpdate)
                         {
-                            return Error.Types.HasNotPermission;
+                            return new ErrorData(type: Error.Types.HasNotPermission);
+                        }
+                        break;
+                    default:
+                        switch (Def.ExtendedColumnTypes.Get(column.Name))
+                        {
+                            case "Class":
+                                if (tenantModel.Class_Updated(
+                                    columnName: column.Name,
+                                    context: context,
+                                    column: column))
+                                {
+                                    return new ErrorData(type: Error.Types.HasNotPermission);
+                                }
+                                break;
+                            case "Num":
+                                if (tenantModel.Num_Updated(
+                                    columnName: column.Name,
+                                    context: context,
+                                    column: column))
+                                {
+                                    return new ErrorData(type: Error.Types.HasNotPermission);
+                                }
+                                break;
+                            case "Date":
+                                if (tenantModel.Date_Updated(
+                                    columnName: column.Name,
+                                    context: context,
+                                    column: column))
+                                {
+                                    return new ErrorData(type: Error.Types.HasNotPermission);
+                                }
+                                break;
+                            case "Description":
+                                if (tenantModel.Description_Updated(
+                                    columnName: column.Name,
+                                    context: context,
+                                    column: column))
+                                {
+                                    return new ErrorData(type: Error.Types.HasNotPermission);
+                                }
+                                break;
+                            case "Check":
+                                if (tenantModel.Check_Updated(
+                                    columnName: column.Name,
+                                    context: context,
+                                    column: column))
+                                {
+                                    return new ErrorData(type: Error.Types.HasNotPermission);
+                                }
+                                break;
+                            case "Attachments":
+                                if (tenantModel.Attachments_Updated(
+                                    columnName: column.Name,
+                                    context: context,
+                                    column: column))
+                                {
+                                    return new ErrorData(type: Error.Types.HasNotPermission);
+                                }
+                                break;
                         }
                         break;
                 }
             }
-            return Error.Types.None;
+            return new ErrorData(type: Error.Types.None);
         }
 
-        public static Error.Types OnUpdating(
+        public static ErrorData OnUpdating(
             Context context, SiteSettings ss, TenantModel tenantModel, bool api = false)
         {
             if (api && (context.ContractSettings.Api == false || !Parameters.Api.Enabled))
             {
-                return Error.Types.InvalidRequest;
+                return new ErrorData(type: Error.Types.InvalidRequest);
             }
             if (!context.CanUpdate(ss: ss))
             {
-                return Error.Types.HasNotPermission;
+                return new ErrorData(type: Error.Types.HasNotPermission);
             }
             ss.SetColumnAccessControls(context: context, mine: tenantModel.Mine(context: context));
             foreach (var column in ss.Columns
@@ -161,100 +219,159 @@ namespace Implem.Pleasanter.Models
                     case "TenantName":
                         if (tenantModel.TenantName_Updated(context: context))
                         {
-                            return Error.Types.HasNotPermission;
+                            return new ErrorData(type: Error.Types.HasNotPermission);
                         }
                         break;
                     case "Title":
                         if (tenantModel.Title_Updated(context: context))
                         {
-                            return Error.Types.HasNotPermission;
+                            return new ErrorData(type: Error.Types.HasNotPermission);
                         }
                         break;
                     case "Body":
                         if (tenantModel.Body_Updated(context: context))
                         {
-                            return Error.Types.HasNotPermission;
+                            return new ErrorData(type: Error.Types.HasNotPermission);
                         }
                         break;
                     case "ContractDeadline":
                         if (tenantModel.ContractDeadline_Updated(context: context))
                         {
-                            return Error.Types.HasNotPermission;
+                            return new ErrorData(type: Error.Types.HasNotPermission);
                         }
                         break;
                     case "DisableAllUsersPermission":
                         if (tenantModel.DisableAllUsersPermission_Updated(context: context))
                         {
-                            return Error.Types.HasNotPermission;
+                            return new ErrorData(type: Error.Types.HasNotPermission);
                         }
                         break;
                     case "LogoType":
                         if (tenantModel.LogoType_Updated(context: context))
                         {
-                            return Error.Types.HasNotPermission;
+                            return new ErrorData(type: Error.Types.HasNotPermission);
                         }
                         break;
                     case "HtmlTitleTop":
                         if (tenantModel.HtmlTitleTop_Updated(context: context))
                         {
-                            return Error.Types.HasNotPermission;
+                            return new ErrorData(type: Error.Types.HasNotPermission);
                         }
                         break;
                     case "HtmlTitleSite":
                         if (tenantModel.HtmlTitleSite_Updated(context: context))
                         {
-                            return Error.Types.HasNotPermission;
+                            return new ErrorData(type: Error.Types.HasNotPermission);
                         }
                         break;
                     case "HtmlTitleRecord":
                         if (tenantModel.HtmlTitleRecord_Updated(context: context))
                         {
-                            return Error.Types.HasNotPermission;
+                            return new ErrorData(type: Error.Types.HasNotPermission);
                         }
                         break;
                     case "Comments":
                         if (!ss.GetColumn(context: context, columnName: "Comments").CanUpdate)
                         {
-                            return Error.Types.HasNotPermission;
+                            return new ErrorData(type: Error.Types.HasNotPermission);
+                        }
+                        break;
+                    default:
+                        switch (Def.ExtendedColumnTypes.Get(column.Name))
+                        {
+                            case "Class":
+                                if (tenantModel.Class_Updated(
+                                    columnName: column.Name,
+                                    context: context,
+                                    column: column))
+                                {
+                                    return new ErrorData(type: Error.Types.HasNotPermission);
+                                }
+                                break;
+                            case "Num":
+                                if (tenantModel.Num_Updated(
+                                    columnName: column.Name,
+                                    context: context,
+                                    column: column))
+                                {
+                                    return new ErrorData(type: Error.Types.HasNotPermission);
+                                }
+                                break;
+                            case "Date":
+                                if (tenantModel.Date_Updated(
+                                    columnName: column.Name,
+                                    context: context,
+                                    column: column))
+                                {
+                                    return new ErrorData(type: Error.Types.HasNotPermission);
+                                }
+                                break;
+                            case "Description":
+                                if (tenantModel.Description_Updated(
+                                    columnName: column.Name,
+                                    context: context,
+                                    column: column))
+                                {
+                                    return new ErrorData(type: Error.Types.HasNotPermission);
+                                }
+                                break;
+                            case "Check":
+                                if (tenantModel.Check_Updated(
+                                    columnName: column.Name,
+                                    context: context,
+                                    column: column))
+                                {
+                                    return new ErrorData(type: Error.Types.HasNotPermission);
+                                }
+                                break;
+                            case "Attachments":
+                                if (tenantModel.Attachments_Updated(
+                                    columnName: column.Name,
+                                    context: context,
+                                    column: column))
+                                {
+                                    return new ErrorData(type: Error.Types.HasNotPermission);
+                                }
+                                break;
                         }
                         break;
                 }
             }
-            return Error.Types.None;
+            return new ErrorData(type: Error.Types.None);
         }
 
-        public static Error.Types OnDeleting(
+        public static ErrorData OnDeleting(
             Context context, SiteSettings ss, TenantModel tenantModel, bool api = false)
         {
             if (api && (context.ContractSettings.Api == false || !Parameters.Api.Enabled))
             {
-                return Error.Types.InvalidRequest;
+                return new ErrorData(type: Error.Types.InvalidRequest);
             }
             return context.CanDelete(ss: ss)
-                ? Error.Types.None
-                : Error.Types.HasNotPermission;
+                ? new ErrorData(type: Error.Types.None)
+                : new ErrorData(type: Error.Types.HasNotPermission);
         }
 
-        public static Error.Types OnRestoring(Context context, bool api = false)
+        public static ErrorData OnRestoring(Context context, bool api = false)
         {
             if (api && (context.ContractSettings.Api == false || !Parameters.Api.Enabled))
             {
-                return Error.Types.InvalidRequest;
+                return new ErrorData(type: Error.Types.InvalidRequest);
             }
             return Permissions.CanManageTenant(context: context)
-                ? Error.Types.None
-                : Error.Types.HasNotPermission;
+                ? new ErrorData(type: Error.Types.None)
+                : new ErrorData(type: Error.Types.HasNotPermission);
         }
 
-        public static Error.Types OnExporting(Context context, SiteSettings ss, bool api = false)
+        public static ErrorData OnExporting(Context context, SiteSettings ss, bool api = false)
         {
             if (api && (context.ContractSettings.Api == false || !Parameters.Api.Enabled))
             {
-                return Error.Types.InvalidRequest;
+                return new ErrorData(type: Error.Types.InvalidRequest);
             }
             return context.CanExport(ss: ss)
-                ? Error.Types.None
-                : Error.Types.HasNotPermission;
+                ? new ErrorData(type: Error.Types.None)
+                : new ErrorData(type: Error.Types.HasNotPermission);
         }
     }
 }

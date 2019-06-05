@@ -134,6 +134,43 @@
                 }
             });
         }
+        replaceMenu();
+    };
+    function replaceMenu() {
+        var $header;
+        var $menu = $('[id^=GridHeaderMenu__]:visible');
+        if (!$menu.length) {
+            return;
+        }
+        var dataName = $menu.attr('id').replace('GridHeaderMenu__', '');
+        $header = $("body > thead:visible > tr > th.sortable[data-name='" + dataName + "']");
+        if ($header.length) {
+            if ($(".menu-sort:visible").length) {
+                $(".menu-sort:visible").hide();
+            }
+            if ($('.ui-multiselect-close:visible').length) {
+                $('.ui-multiselect-close:visible').click();
+            }
+        } else {
+            $header = $("table > thead > tr > th.sortable[data-name='" + dataName + "']");
+            if (!$header.length) {
+                return;
+            }
+            $menu.css('width', '');
+            $menu.css('position', 'absolute')
+                .css('top', $header.position().top + $header.outerHeight())
+                .css('left', $header.position().left)
+                .outerWidth($header.outerWidth() > $menuSort.outerWidth()
+                    ? $header.outerWidth()
+                    : $menuSort.outerWidth());
+        }
+        
+        var $multiSelect = $('.ui-multiselect-menu:visible');
+        var $control = $("[id='ViewFiltersOnGridHeader__" + dataName + "_ms']");
+        if ($multiSelect.length && $control.length) {
+            $multiSelect.css('top', $control.offset().top + $control.outerHeight())
+                .css('left', $control.offset().left);
+        }
     }
     $p.apply();
 });

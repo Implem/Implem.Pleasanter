@@ -15,7 +15,7 @@ namespace Implem.CodeDefiner.Functions.AspNetMvc.CSharp
             Def.CodeDefinitionCollection.Where(o => o.Source == "Def").ForEach(codeDefinition =>
             {
                 var code = Creators.Create(codeDefinition, new DataContainer("DefinitionFile"));
-                if (code != string.Empty)
+                if (!code.IsNullOrEmpty())
                 {
                     Merger.Merge(codeDefinition.OutputPath, code, codeDefinition.MergeToExisting);
                 }

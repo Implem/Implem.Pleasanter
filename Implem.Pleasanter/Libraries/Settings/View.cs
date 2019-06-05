@@ -55,6 +55,7 @@ namespace Implem.Pleasanter.Libraries.Settings
         public string KambanGroupBy;
         // compatibility Version 1.012
         public string CalendarColumn;
+        public bool? ShowHistory;
 
         public View()
         {
@@ -279,6 +280,7 @@ namespace Implem.Pleasanter.Libraries.Settings
         public void SetByForm(Context context, SiteSettings ss)
         {
             var columnFilterPrefix = "ViewFilters__";
+            var columnFilterOnGridPrefix = "ViewFiltersOnGridHeader__";
             var columnSorterPrefix = "ViewSorters__";
             switch (context.Forms.ControlId())
             {
@@ -292,6 +294,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                     Overdue = null;
                     ColumnFilterHash = null;
                     Search = null;
+                    ShowHistory = null;
                     break;
                 case "ViewSorters_Reset":
                     ColumnSorterHash = null;
@@ -333,6 +336,11 @@ namespace Implem.Pleasanter.Libraries.Settings
                                 break;
                             case "ViewFilters_Overdue":
                                 Overdue = Bool(
+                                    context: context,
+                                    controlId: controlId);
+                                break;
+                            case "ViewFilters_ShowHistory":
+                                ShowHistory = Bool(
                                     context: context,
                                     controlId: controlId);
                                 break;
@@ -466,6 +474,14 @@ namespace Implem.Pleasanter.Libraries.Settings
                                         context: context,
                                         ss: ss,
                                         columnName: controlId.Substring(columnFilterPrefix.Length),
+                                        value: context.Forms.Data(controlId));
+                                }
+                                else if (controlId.StartsWith(columnFilterOnGridPrefix))
+                                {
+                                    AddColumnFilterHash(
+                                        context: context,
+                                        ss: ss,
+                                        columnName: controlId.Substring(columnFilterOnGridPrefix.Length),
                                         value: context.Forms.Data(controlId));
                                 }
                                 else if (controlId.StartsWith(columnSorterPrefix))
@@ -753,6 +769,10 @@ namespace Implem.Pleasanter.Libraries.Settings
             if (KambanAggregationView == true)
             {
                 view.KambanAggregationView = KambanAggregationView;
+            }
+            if (ShowHistory == true)
+            {
+                view.ShowHistory = true;
             }
             return view;
         }

@@ -14,9 +14,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             this HtmlBuilder hb,
             Context context,
             SiteSettings ss,
-            long siteId,
             Versions.VerTypes verType,
-            long referenceId = 0,
             bool backButton = true,
             bool updateButton = false,
             bool copyButton = false,
@@ -151,7 +149,28 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                 }
                                 break;
                             case "items":
-                                if (ss.ReferenceType != "Sites")
+                                if (context.Forms.Bool("EditOnGrid"))
+                                {
+                                    hb
+                                        .Button(
+                                            text: Displays.Update(context: context),
+                                            controlCss: "button-icon validate",
+                                            accessKey: "s",
+                                            onClick: "$p.send($(this));",
+                                            icon: "ui-icon-disk",
+                                            action: "BulkUpdate",
+                                            method: "post",
+                                            _using: context.CanRead(ss: ss))
+                                        .Button(
+                                            text: Displays.ListMode(context: context),
+                                            controlCss: "button-icon",
+                                            onClick: "$p.editOnGrid($(this),0);",
+                                            icon: "ui-icon-arrowreturnthick-1-w",
+                                            action: "Index",
+                                            method: "post",
+                                            _using: context.CanRead(ss: ss));
+                                }
+                                else if (ss.ReferenceType != "Sites")
                                 {
                                     switch (context.Action)
                                     {
@@ -197,7 +216,18 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                                     icon: "ui-icon-arrowreturnthick-1-w",
                                                     action: "OpenExportSelectorDialog",
                                                     method: "post",
-                                                    _using: context.CanExport(ss: ss));
+                                                    _using: context.CanExport(ss: ss))
+                                                .Button(
+                                                    text: Displays.EditMode(context: context),
+                                                    controlCss: "button-icon",
+                                                    onClick: "$p.editOnGrid($(this),1);",
+                                                    icon: "ui-icon-arrowreturnthick-1-w",
+                                                    action: "Index",
+                                                    method: "post",
+                                                    _using: ss.GridEditorType == SiteSettings.GridEditorTypes.Grid
+                                                        && context.CanUpdate(ss: ss)
+                                                        && !ss.GridColumnsHasSources()
+                                                        && ss.IntegratedSites?.Any() != true);
                                             break;
                                         case "crosstab":
                                             hb.Button(

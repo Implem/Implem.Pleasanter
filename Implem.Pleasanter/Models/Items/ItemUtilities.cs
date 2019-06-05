@@ -24,6 +24,22 @@ namespace Implem.Pleasanter.Models
 {
     public static class ItemUtilities
     {
+        public static ResponseCollection ClearItemDataResponse(
+            Context context, SiteSettings ss, long id)
+        {
+            var formDataSet = new FormDataSet(
+                context: context,
+                ss: ss);
+            var res = new ResponseCollection().ClearFormData("Id");
+            formDataSet
+                .Where(o => !o.Suffix.IsNullOrEmpty())
+                .Where(o => o.Id == id)
+                .ForEach(formData =>
+                    formData.Data.Keys.ForEach(controlId =>
+                        res.ClearFormData(controlId + formData.Suffix)));
+            return res;
+        }
+
         public static SqlJoinCollection ItemJoin(
             this SqlJoinCollection join,
             Sqls.TableTypes tableType,
@@ -162,6 +178,8 @@ namespace Implem.Pleasanter.Models
                         context: context,
                         ss: ss,
                         id: issueModel.IssueId,
+                        ver: issueModel.Ver,
+                        isHistory: issueModel.VerType == Versions.VerTypes.History, 
                         data: issueModel.PropertyValues(
                             context: context,
                             names: ss.TitleColumns)));
@@ -193,7 +211,8 @@ namespace Implem.Pleasanter.Models
             var column = Rds.IssuesColumn()
                 .IssueId()
                 .Title();
-            ss.TitleColumns.ForEach(o => column.IssuesColumn(o));
+            ss.TitleColumns.ForEach(columnName =>
+                column.IssuesColumn(columnName: columnName));
             return idList?.Any() == true
                 ? idList
                     .Chunk(100)
@@ -238,6 +257,8 @@ namespace Implem.Pleasanter.Models
                         context: context,
                         ss: ss,
                         id: resultModel.ResultId,
+                        ver: resultModel.Ver,
+                        isHistory: resultModel.VerType == Versions.VerTypes.History, 
                         data: resultModel.PropertyValues(
                             context: context,
                             names: ss.TitleColumns)));
@@ -269,7 +290,8 @@ namespace Implem.Pleasanter.Models
             var column = Rds.ResultsColumn()
                 .ResultId()
                 .Title();
-            ss.TitleColumns.ForEach(o => column.ResultsColumn(o));
+            ss.TitleColumns.ForEach(columnName =>
+                column.ResultsColumn(columnName: columnName));
             return idList?.Any() == true
                 ? idList
                     .Chunk(100)
@@ -314,6 +336,8 @@ namespace Implem.Pleasanter.Models
                         context: context,
                         ss: ss,
                         id: wikiModel.WikiId,
+                        ver: wikiModel.Ver,
+                        isHistory: wikiModel.VerType == Versions.VerTypes.History, 
                         data: wikiModel.PropertyValues(
                             context: context,
                             names: ss.TitleColumns)));
@@ -345,7 +369,8 @@ namespace Implem.Pleasanter.Models
             var column = Rds.WikisColumn()
                 .WikiId()
                 .Title();
-            ss.TitleColumns.ForEach(o => column.WikisColumn(o));
+            ss.TitleColumns.ForEach(columnName =>
+                column.WikisColumn(columnName: columnName));
             return idList?.Any() == true
                 ? idList
                     .Chunk(100)

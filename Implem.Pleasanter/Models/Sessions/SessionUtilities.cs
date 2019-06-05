@@ -325,7 +325,7 @@ namespace Implem.Pleasanter.Models
             }
             catch
             {
-                return ApiResults.Get(ApiResponses.Error(context, Error.Types.InternalServerError));
+                return ApiResults.Get(ApiResponses.Error(context, new ErrorData(Error.Types.InternalServerError)));
             }
             return ApiResults.Get(new
             {
@@ -361,7 +361,7 @@ namespace Implem.Pleasanter.Models
             }
             catch
             {
-                return ApiResults.Get(ApiResponses.Error(context, Error.Types.InternalServerError));
+                return ApiResults.Get(ApiResponses.Error(context, new ErrorData(Error.Types.InternalServerError)));
             }
             return ApiResults.Get(new
             {

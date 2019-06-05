@@ -36,7 +36,7 @@ namespace Implem.Pleasanter.Models
             var invalid = BinaryValidators.OnGetting(
                 context: context,
                 ss: ss);
-            switch (invalid)
+            switch (invalid.Type)
             {
                 case Error.Types.None: break;
                 default: return false;
@@ -70,7 +70,7 @@ namespace Implem.Pleasanter.Models
             var invalid = BinaryValidators.OnGetting(
                 context: context,
                 ss: ss);
-            switch (invalid)
+            switch (invalid.Type)
             {
                 case Error.Types.None: break;
                 default: return false;
@@ -104,7 +104,7 @@ namespace Implem.Pleasanter.Models
             var invalid = BinaryValidators.OnGetting(
                 context: context,
                 ss: ss);
-            switch (invalid)
+            switch (invalid.Type)
             {
                 case Error.Types.None: break;
                 default: return string.Empty;
@@ -126,7 +126,7 @@ namespace Implem.Pleasanter.Models
             var invalid = BinaryValidators.OnGetting(
                 context: context,
                 ss: ss);
-            switch (invalid)
+            switch (invalid.Type)
             {
                 case Error.Types.None: break;
                 default: return string.Empty;
@@ -148,7 +148,7 @@ namespace Implem.Pleasanter.Models
             var invalid = BinaryValidators.OnGetting(
                 context: context,
                 ss: siteModel.SiteSettings);
-            switch (invalid)
+            switch (invalid.Type)
             {
                 case Error.Types.None: break;
                 default: return null;
@@ -171,7 +171,7 @@ namespace Implem.Pleasanter.Models
             var invalid = BinaryValidators.OnGetting(
                 context: context,
                 ss: siteModel.SiteSettings);
-            switch (invalid)
+            switch (invalid.Type)
             {
                 case Error.Types.None: break;
                 default: return null;
@@ -191,7 +191,7 @@ namespace Implem.Pleasanter.Models
             var invalid = BinaryValidators.OnGetting(
                 context: context,
                 ss: ss);
-            switch (invalid)
+            switch (invalid.Type)
             {
                 case Error.Types.None: break;
                 default: return null;

@@ -1,0 +1,13 @@
+﻿{
+    "Id": "BulkUpdated",
+    "Type": 210,
+    "Languages": [
+        {
+            "Body": "{0} it was updated."
+        },
+        {
+            "Language": "ja",
+            "Body": "{0} 件 更新しました。"
+        }
+    ]
+}

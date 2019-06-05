@@ -40,14 +40,14 @@ namespace Implem.CodeDefiner.Functions.AspNetMvc.CSharp.Parts
         private static string ColumnNameAlias(
             ColumnDefinition columnDefinition, string prefix = "")
         {
-            return columnDefinition.ComputeColumn != string.Empty || prefix != string.Empty
+            return !columnDefinition.ComputeColumn.IsNullOrEmpty() || !prefix.IsNullOrEmpty()
                 ? " as " + "[" + columnDefinition.ColumnName + prefix + "]"
                 : string.Empty;
         }
 
         internal static string TableNameAlias(ColumnDefinition columnDefinition)
         {
-            return columnDefinition.JoinTableName != string.Empty
+            return !columnDefinition.JoinTableName.IsNullOrEmpty()
                 ? columnDefinition.JoinTableName
                 : columnDefinition.TableName;
         }
@@ -108,11 +108,7 @@ namespace Implem.CodeDefiner.Functions.AspNetMvc.CSharp.Parts
                     case "Columns":
                         code = code.Replace(
                             "#Columns#",
-                            Columns(
-                                columnDefinition,
-                                tableNameAlias,
-                                columnNameAlias,
-                                selectColumnAlias: true));
+                            Columns(columnDefinition));
                         break;
                     case "OrderByColumns":
                         code = code.Replace(
@@ -129,14 +125,14 @@ namespace Implem.CodeDefiner.Functions.AspNetMvc.CSharp.Parts
                     case "As":
                         code = code.Replace(
                             "#As#",
-                            columnDefinition.ComputeColumn != string.Empty
+                            !columnDefinition.ComputeColumn.IsNullOrEmpty()
                                 ? "\"" + columnDefinition.ColumnName + "\""
                                 : "null");
                         break;
                     case "JoinTableName":
                         code = code.Replace(
                             "#JoinTableName#",
-                            columnDefinition.JoinTableName != string.Empty
+                            !columnDefinition.JoinTableName.IsNullOrEmpty()
                                 ? columnDefinition.JoinTableName
                                 : columnDefinition.TableName);
                         break;
@@ -160,7 +156,7 @@ namespace Implem.CodeDefiner.Functions.AspNetMvc.CSharp.Parts
                         break;
                 }
             }
-            if (codeDefinition.ReplaceOld != string.Empty)
+            if (!codeDefinition.ReplaceOld.IsNullOrEmpty())
             {
                 code = code.Replace(codeDefinition.ReplaceOld, codeDefinition.ReplaceNew);
             }
@@ -170,7 +166,7 @@ namespace Implem.CodeDefiner.Functions.AspNetMvc.CSharp.Parts
             ColumnDefinition columnDefinition,
             string tableNameAlias)
         {
-            return columnDefinition.OrderByColumns == string.Empty
+            return columnDefinition.OrderByColumns.IsNullOrEmpty()
                 ? "\"" + ColumnBracket(columnDefinition) + "\""
                 : columnDefinition.OrderByColumns.Split(',')
                     .Select(o => "\"" + o
@@ -184,21 +180,17 @@ namespace Implem.CodeDefiner.Functions.AspNetMvc.CSharp.Parts
             string columnNameAlias = "",
             bool selectColumnAlias = true)
         {
-            return columnDefinition.SelectColumns == string.Empty
-                ? columnDefinition.ComputeColumn == string.Empty
+            return columnDefinition.SelectColumns.IsNullOrEmpty()
+                ? columnDefinition.ComputeColumn.IsNullOrEmpty()
                     ? ColumnBracket(columnDefinition, tableNameAlias, columnNameAlias)
                     : ComputeColumn(columnDefinition, string.Empty, tableNameAlias, columnNameAlias)
                 : SelectColumns(columnDefinition, tableNameAlias, selectColumnAlias);
         }
 
-        private static string Columns(
-            ColumnDefinition columnDefinition,
-            string tableNameAlias,
-            string columnNameAlias = "",
-            bool selectColumnAlias = true)
+        private static string Columns(ColumnDefinition columnDefinition)
         {
             return columnDefinition.SelectColumns
-                .Split(',')
+                ?.Split(',')
                 .Select(o => "\"" + o.RegexFirst("[a-zA-Z0-9]+") + "\"")
                 .Join(", ");
         }
@@ -224,7 +216,7 @@ namespace Implem.CodeDefiner.Functions.AspNetMvc.CSharp.Parts
 
         private static string ColumnBracket(ColumnDefinition columnDefinition)
         {
-            return columnDefinition.ComputeColumn != string.Empty
+            return !columnDefinition.ComputeColumn.IsNullOrEmpty()
                 ? columnDefinition.ComputeColumn
                 : "[" + columnDefinition.ColumnName + "]";
         }
@@ -237,14 +229,14 @@ namespace Implem.CodeDefiner.Functions.AspNetMvc.CSharp.Parts
         {
             var column = ComputeColumn(columnDefinition, tableNameAlias)
                 .ReplaceTableName(columnDefinition, tableNameAlias);
-            return method != string.Empty
+            return !method.IsNullOrEmpty()
                 ? "\"" + method + "(" + column + ")\"" + ColumnNameAliasCode(columnNameAlias)
                 : "\"" + column + "\"" + ColumnNameAliasCode(columnNameAlias);
         }
 
         private static string ColumnNameAliasCode(string columnNameAlias)
         {
-            return columnNameAlias != string.Empty
+            return !columnNameAlias.IsNullOrEmpty()
                 ? " + (!_as.IsNullOrEmpty() ? \" as [\" + _as + \"]\" : \"" + columnNameAlias + "\")"
                 : string.Empty;
         }
@@ -252,7 +244,7 @@ namespace Implem.CodeDefiner.Functions.AspNetMvc.CSharp.Parts
         internal static string ComputeColumn(
             ColumnDefinition columnDefinition, string tableNameAlias)
         {
-            return columnDefinition.ComputeColumn != string.Empty
+            return !columnDefinition.ComputeColumn.IsNullOrEmpty()
                 ? columnDefinition.ComputeColumn
                     .ReplaceTableName(columnDefinition, tableNameAlias)
                 : ColumnName(columnDefinition, tableNameAlias);

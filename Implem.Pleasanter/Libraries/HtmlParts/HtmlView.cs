@@ -13,7 +13,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
         {
             return hb.FieldDropDown(
                 context: context,
-                fieldId: "ViewSelectorField",
+                fieldId: "_ViewSelectorField",
                 controlId: "ViewSelector",
                 controlCss: " auto-postback",
                 labelText: Displays.DataView(context: context),

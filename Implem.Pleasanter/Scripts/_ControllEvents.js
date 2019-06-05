@@ -18,7 +18,9 @@
     });
     $(document).on('spin', '.control-spinner', function (event, ui) {
         var $control = $(this);
-        $p.getData($control)[this.id] = ui.value;
+        var data = $p.getData($control);
+        data[this.id] = ui.value;
+        $p.setGridTimestamp($control, data);
         $p.setFormChanged($control);
     });
     $(document).on('change', '.control-checkbox.visible', function () {

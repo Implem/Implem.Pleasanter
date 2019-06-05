@@ -34,10 +34,10 @@ namespace Implem.CodeDefiner.Functions.AspNetMvc.CSharp.Parts
             string formName,
             string modelName)
         {
-            code = code.Replace("#FormName#", formName != string.Empty
+            code = code.Replace("#FormName#", !formName.IsNullOrEmpty()
                 ? formName
                 : modelName + "Form");
-            if (codeDefinition.ReplaceOld != string.Empty)
+            if (!codeDefinition.ReplaceOld.IsNullOrEmpty())
             {
                 code = code.Replace(codeDefinition.ReplaceOld, codeDefinition.ReplaceNew);
             }

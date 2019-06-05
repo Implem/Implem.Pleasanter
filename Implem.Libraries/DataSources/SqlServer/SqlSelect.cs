@@ -5,7 +5,6 @@ namespace Implem.Libraries.DataSources.SqlServer
 {
     public class SqlSelect : SqlStatement
     {
-        public string DataTableName;
         public string As;
         public bool Distinct;
         public int Top;
@@ -67,7 +66,6 @@ namespace Implem.Libraries.DataSources.SqlServer
                 case Sqls.TableTypes.All:
                     AddTableTypeColumn("Normal");
                     BuildNormal(sqlContainer, sqlCommand, commandText, commandCount);
-                    DataTableName = null;
                     BuildDeleted(
                         sqlContainer,
                         sqlCommand,
@@ -102,7 +100,6 @@ namespace Implem.Libraries.DataSources.SqlServer
                 tableType: Sqls.TableTypes.History,
                 unionType: unionType,
                 orderBy: true,
-                countRecord: CountRecord,
                 commandCount: commandCount);
         }
 
@@ -120,9 +117,7 @@ namespace Implem.Libraries.DataSources.SqlServer
                 tableType: Sqls.TableTypes.Normal,
                 unionType: Sqls.UnionTypes.None,
                 orderBy: false,
-                countRecord: false,
                 commandCount: commandCount);
-            DataTableName = null;
             BuildDeleted(
                 sqlContainer,
                 sqlCommand,
@@ -145,9 +140,7 @@ namespace Implem.Libraries.DataSources.SqlServer
                 tableType: Sqls.TableTypes.Normal,
                 unionType: Sqls.UnionTypes.None,
                 orderBy: false,
-                countRecord: false,
                 commandCount: commandCount);
-            DataTableName = null;
             AddTableTypeColumn("History");
             BuildHistoryWithoutFlag(
                 sqlContainer,
@@ -172,7 +165,6 @@ namespace Implem.Libraries.DataSources.SqlServer
                 tableType: Sqls.TableTypes.Deleted,
                 unionType: unionType,
                 orderBy: true,
-                countRecord: CountRecord,
                 commandCount: commandCount);
         }
 
@@ -189,7 +181,6 @@ namespace Implem.Libraries.DataSources.SqlServer
                 tableType: Sqls.TableTypes.Normal,
                 unionType: UnionType,
                 orderBy: true,
-                countRecord: CountRecord,
                 commandCount: commandCount);
         }
 
@@ -225,11 +216,9 @@ namespace Implem.Libraries.DataSources.SqlServer
             Sqls.TableTypes tableType,
             Sqls.UnionTypes unionType,
             bool orderBy,
-            bool countRecord,
             int? commandCount)
         {
             if (!Using) return;
-            if (!DataTableName.IsNullOrEmpty()) sqlContainer.DataTableNames.Add(DataTableName);
             AddUnion(commandText, unionType);
             SqlColumnCollection?.BuildCommandText(
                 sqlContainer: sqlContainer,
@@ -263,28 +252,6 @@ namespace Implem.Libraries.DataSources.SqlServer
                     commandCount: commandCount);
             }
             AddTermination(commandText);
-            if (countRecord)
-            {
-                sqlContainer.DataTableNames.Add("Count");
-                commandText.Append("select count(*) from ( select 1 as [c] ");
-                commandText.Append(from);
-                SqlJoinCollection?.BuildCommandText(commandText: commandText);
-                SqlWhereCollection?.BuildCommandText(
-                    sqlContainer: sqlContainer,
-                    sqlCommand: sqlCommand,
-                    commandText: commandText,
-                    commandCount: commandCount,
-                    select: true);
-                SqlGroupByCollection?.BuildCommandText(
-                    commandText: commandText);
-                SqlHavingCollection?.BuildCommandText(
-                    sqlContainer: sqlContainer,
-                    sqlCommand: sqlCommand,
-                    commandText: commandText,
-                    commandCount: commandCount);
-                commandText.Append(") as [table_count]");
-                AddTermination(commandText);
-            }
             AddParams_Where(sqlCommand, commandCount);
             AddParams_Having(sqlCommand, commandCount);
             AddParams_Paging(sqlCommand, commandCount);

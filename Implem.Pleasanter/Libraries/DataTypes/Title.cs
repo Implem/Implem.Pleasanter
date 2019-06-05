@@ -19,6 +19,8 @@ namespace Implem.Pleasanter.Libraries.DataTypes
     public class Title : IConvertable
     {
         public long Id;
+        public int Ver;
+        public bool IsHistory = false;
         public string Value = string.Empty;
         public string DisplayValue;
         public List<string> PartCollection;
@@ -30,6 +32,8 @@ namespace Implem.Pleasanter.Libraries.DataTypes
         public Title(DataRow dataRow, string name)
         {
             Id = dataRow.Long(name);
+            Ver = dataRow.Int("Ver");
+            IsHistory = dataRow.Bool("IsHistory");
             Value = dataRow.String("Title");
             DisplayValue = Value;
         }
@@ -41,6 +45,7 @@ namespace Implem.Pleasanter.Libraries.DataTypes
                 ? column.TableAlias + ","
                 : string.Empty) +
                     Rds.IdColumn(ss.ReferenceType));
+            Ver = dataRow.Int("Ver");
             Value = dataRow.String(Rds.DataColumnName(column, "Title"));
             var itemTitlePath = Rds.DataColumnName(column, "ItemTitle");
             var displayValue = dataRow.Table.Columns.Contains(itemTitlePath)
@@ -59,9 +64,11 @@ namespace Implem.Pleasanter.Libraries.DataTypes
                 displayValue: displayValue);
         }
 
-        public Title(Context context, SiteSettings ss, long id, Dictionary<string, string> data)
+        public Title(Context context, SiteSettings ss, long id, int ver, bool isHistory, Dictionary<string, string> data)
         {
             Id = id;
+            Ver = ver;
+            IsHistory = isHistory;
             Value = data.Get("Title");
             var displayValue = ss.GetTitleColumns(context: context)?
                 .Select(column => GetDisplayValue(
@@ -211,6 +218,17 @@ namespace Implem.Pleasanter.Libraries.DataTypes
 
         protected void TdTitle(HtmlBuilder hb, Context context, Column column)
         {
+            var queryString = new[] {
+                column.Joined
+                    || column.SiteSettings.Linked
+                    || column.SiteSettings?.IntegratedSites?.Any() == true
+                    ? "back=1"
+                    : string.Empty,
+                IsHistory
+                    ? "ver=" + Ver
+                    : string.Empty
+            }.Where(s=>s != string.Empty).Join("&");
+            
             switch (column.SiteSettings.TableType)
             {
                 case Sqls.TableTypes.Normal:
@@ -218,11 +236,9 @@ namespace Implem.Pleasanter.Libraries.DataTypes
                         href: Locations.ItemEdit(
                             context: context,
                             id: Id)
-                                + (column.Joined
-                                    || column.SiteSettings.Linked
-                                    || column.SiteSettings?.IntegratedSites?.Any() == true
-                                        ? "?back=1"
-                                        : string.Empty),
+                            + ((queryString == string.Empty)
+                                ? string.Empty
+                                : "?" + queryString),
                         text: DisplayValue);
                     break;
                 default:

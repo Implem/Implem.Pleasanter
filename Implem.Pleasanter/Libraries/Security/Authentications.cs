@@ -1,6 +1,5 @@
 ﻿using Implem.DefinitionAccessor;
 using Implem.Pleasanter.Libraries.Requests;
-using Implem.Pleasanter.Libraries.Server;
 using Implem.Pleasanter.Libraries.Settings;
 using Implem.Pleasanter.Models;
 using System.Configuration;
@@ -17,7 +16,7 @@ namespace Implem.Pleasanter.Libraries.Security
             return new UserModel(
                 context: context,
                 ss: SiteSettingsUtilities.UsersSiteSettings(context: context),
-                setByForm: true)
+                formData: context.Forms)
                     .Authenticate(context: context, returnUrl: returnUrl);
         }
 
@@ -26,7 +25,7 @@ namespace Implem.Pleasanter.Libraries.Security
             return new UserModel(
                 context: context,
                 ss: SiteSettingsUtilities.UsersSiteSettings(context: context),
-                setByForm: true)
+                formData: context.Forms)
                     .Authenticate(context: context);
         }
 

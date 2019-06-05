@@ -50,7 +50,7 @@ namespace Implem.CodeDefiner.Functions.AspNetMvc.CSharp
             Def.CodeDefinitionCollection
                 .Where(o => target.IsNullOrEmpty() || o.Id == target)
                 .Where(o => o.Source == "Mvc")
-                .Where(o => o.RepeatType == string.Empty)
+                .Where(o => o.RepeatType.IsNullOrEmpty())
                 .ForEach(codeDefinition =>
                     Merger.Merge(
                         Directories.Outputs(codeDefinition.OutputPath),

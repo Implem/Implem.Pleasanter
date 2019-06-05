@@ -22,7 +22,6 @@ $p.openDropDownSearchDialog = function ($control) {
     $('#DropDownSearchResults').empty();
     $target.val(id);
     $text.val('');
-    $('#DropDownSearchOnEditor').val($control.closest('#FieldSetGeneral').length === 1);
     $('#DropDownSearchMultiple').val($control.attr('multiple') === 'multiple');
     $($('#DropDownSearchDialog')).dialog({
         title: $('label[for="' + id + '"]').text(),

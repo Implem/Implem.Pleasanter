@@ -34,29 +34,36 @@ namespace Implem.Pleasanter.Libraries.Models
                 context: context,
                 ss: ss);
             var joinExpression = $"[Binaries].[ReferenceId]=[{ss.ReferenceType}].{idColumnBracket}";
+            var join = ss.Join(
+                context: context,
+                join: new IJoin[]
+                {
+                    column,
+                    where,
+                    orderBy
+                })
+                    .Add(
+                        tableName: "Binaries",
+                        joinType: SqlJoin.JoinTypes.Inner,
+                        joinExpression: joinExpression);
             var dataSet = Rds.ExecuteDataSet(
                 context: context,
-                statements: Rds.Select(
-                    tableName: ss.ReferenceType,
-                    dataTableName: "Main",
-                    column: column,
-                    join: ss.Join(
-                        context: context,
-                        join: new IJoin[]
-                        {
-                            column,
-                            where,
-                            orderBy
-                        })
-                            .Add(
-                                tableName: "Binaries",
-                                joinType: SqlJoin.JoinTypes.Inner,
-                                joinExpression: joinExpression),
-                    where: where,
-                    orderBy: orderBy,
-                    offset: offset,
-                    pageSize: pageSize,
-                    countRecord: true));
+                statements: new SqlStatement[]
+                {
+                    Rds.Select(
+                        tableName: ss.ReferenceType,
+                        dataTableName: "Main",
+                        column: column,
+                        join: join,
+                        where: where,
+                        orderBy: orderBy,
+                        offset: offset,
+                        pageSize: pageSize),
+                    Rds.SelectCount(
+                        tableName: ss.ReferenceType,
+                        join: join,
+                        where: where)
+                });
             DataRows = dataSet.Tables["Main"].AsEnumerable();
             TotalCount = Rds.Count(dataSet);
         }

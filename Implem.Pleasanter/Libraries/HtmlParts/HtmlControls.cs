@@ -19,11 +19,14 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             string controlCss = null,
             string text = null,
             string placeholder = null,
-            string onChange = null,
             string format = null,
             bool timepicker = false,
+            bool disabled = false,
+            bool alwaysSend = false,
             string accept = null,
             string dataId = null,
+            string onChange = null,
+            string autoComplete = null,
             bool validateRequired = false,
             bool validateNumber = false,
             decimal validateMinNumber = 0,
@@ -47,8 +50,11 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                         .Type("text")
                         .Value(text)
                         .Placeholder(placeholder)
-                        .OnChange(onChange)
+                        .Disabled(disabled)
+                        .DataAlwaysSend(alwaysSend)
                         .DataId(dataId)
+                        .OnChange(onChange)
+                        .AutoComplete(autoComplete)
                         .DataValidateRequired(validateRequired)
                         .DataValidateNumber(validateNumber)
                         .DataValidateMinNumber(
@@ -69,9 +75,11 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                         .Type("text")
                         .Value(text)
                         .Placeholder(placeholder)
-                        .AutoComplete("off")
-                        .OnChange(onChange)
+                        .Disabled(disabled)
+                        .DataAlwaysSend(alwaysSend)
                         .DataId(dataId)
+                        .OnChange(onChange)
+                        .AutoComplete(autoComplete ?? "off")
                         .DataFormat(format)
                         .DataTimepicker(timepicker)
                         .DataValidateRequired(validateRequired)
@@ -89,8 +97,11 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                             .Id(controlId)
                             .Class(Css.Class("control-textarea", controlCss))
                             .Placeholder(placeholder)
-                            .OnChange(onChange)
+                            .Disabled(disabled)
+                            .DataAlwaysSend(alwaysSend)
                             .DataId(dataId)
+                            .OnChange(onChange)
+                            .AutoComplete(autoComplete)
                             .DataValidateRequired(validateRequired)
                             .DataValidateNumber(validateNumber)
                             .DataValidateDate(validateDate)
@@ -109,8 +120,11 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                         .Type("password")
                         .Value(text)
                         .Placeholder(placeholder)
-                        .OnChange(onChange)
+                        .Disabled(disabled)
+                        .DataAlwaysSend(alwaysSend)
                         .DataId(dataId)
+                        .OnChange(onChange)
+                        .AutoComplete(autoComplete)
                         .DataValidateRequired(validateRequired)
                         .DataValidateNumber(validateNumber)
                         .DataValidateDate(validateDate)
@@ -125,9 +139,12 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                         .Type("file")
                         .Value(text)
                         .Placeholder(placeholder)
-                        .OnChange(onChange)
                         .Accept(accept)
+                        .Disabled(disabled)
+                        .DataAlwaysSend(alwaysSend)
                         .DataId(dataId)
+                        .OnChange(onChange)
+                        .AutoComplete(autoComplete)
                         .DataValidateRequired(validateRequired)
                         .DataValidateNumber(validateNumber)
                         .DataValidateDate(validateDate)
@@ -152,6 +169,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             bool readOnly = false,
             bool allowImage = true,
             bool mobile = false,
+            bool alwaysSend = false,
             bool validateRequired = false,
             Dictionary<string, string> attributes = null,
             bool preview = false,
@@ -180,6 +198,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                         : string.Empty),
                                 controlCss))
                             .Placeholder(placeholder)
+                            .DataAlwaysSend(alwaysSend)
                             .DataValidateRequired(validateRequired, _using: !readOnly)
                             .Add(attributes),
                         action: () => hb
@@ -259,6 +278,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             bool addSelectedValue = true,
             bool insertBlank = false,
             bool disabled = false,
+            bool alwaysSend = false,
             string onChange = null,
             bool validateRequired = false,
             string action = null,
@@ -282,6 +302,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                         .DataId(srcId)
                         .Multiple(multiple)
                         .Disabled(disabled)
+                        .DataAlwaysSend(alwaysSend)
                         .OnChange(onChange)
                         .DataValidateRequired(validateRequired)
                         .DataAction(action)
@@ -429,6 +450,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             decimal max = -1,
             decimal step = -1,
             int width = -1,
+            bool alwaysSend = false,
             string onChange = null,
             string action = null,
             string method = null,
@@ -446,6 +468,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     .DataMax(max, _using: max != -1)
                     .DataStep(step, _using: step != -1)
                     .DataWidth(width, _using: width != -1)
+                    .DataAlwaysSend(alwaysSend)
                     .OnChange(onChange)
                     .DataAction(action)
                     .DataMethod(method))
@@ -459,6 +482,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             string labelText = null,
             bool _checked = false,
             bool disabled = false,
+            bool alwaysSend = false,
             string dataId = null,
             string onChange = null,
             string action = null,
@@ -472,6 +496,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     .Class(Css.Class("control-checkbox", controlCss))
                     .Type("checkbox")
                     .Disabled(disabled)
+                    .DataAlwaysSend(alwaysSend)
                     .DataId(dataId)
                     .OnChange(onChange)
                     .DataAction(action)
@@ -497,6 +522,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             decimal max = -1,
             decimal step = -1,
             string unit = null,
+            bool alwaysSend = false,
             string action = null,
             string method = null,
             bool _using = true)
@@ -513,6 +539,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                         attributes: new HtmlAttributes()
                             .Id(controlId).DataAction(action)
                             .Class(Css.Class("control-slider", controlCss))
+                            .DataAlwaysSend(alwaysSend)
                             .DataAction(action)
                             .DataMethod(method),
                         action: () => hb
@@ -528,6 +555,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             string controlId = null,
             string text = null,
             string controlCss = null,
+            string title = null,
             string accessKey = null,
             string onClick = null,
             string href = null,
@@ -546,6 +574,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                         .Id(controlId)
                         .Class("button " + controlCss)
                         .Type(type)
+                        .Title(title)
                         .AccessKey(accessKey)
                         .OnClick(onClick + href.IsNotEmpty("location.href='" + href + "';"))
                         .DataId(dataId)
@@ -597,6 +626,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             string css = null,
             string value = null,
             string rawValue = null,
+            bool alwaysSend = false,
             bool _using = true)
         {
             return _using
@@ -605,7 +635,8 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     .Class(css)
                     .Type("hidden")
                     .Value(value)
-                    .RawValue(rawValue))
+                    .RawValue(rawValue)
+                    .DataAlwaysSend(alwaysSend))
                 : hb;
         }
 

@@ -1,13 +1,18 @@
 ﻿$p.id = function () {
-    return $('#Id').val();
+    return parseInt($('#Id').val());
 }
 
 $p.siteId = function (title) {
-    return title === undefined
-        ? $('#SiteId').val()
-        : JSON.parse($('#JoinedSites').val()).find(data => {
+    if (title === undefined) {
+        return parseInt($('#SiteId').val());
+    } else {
+        var sites = JSON.parse($('#JoinedSites').val()).filter(function (data) {
             return data.Title === title;
-        }).SiteId;
+        });
+        return sites.length > 0
+            ? sites[0].SiteId
+            : undefined
+    }
 }
 
 $p.getColumnName = function (name) {
@@ -30,8 +35,8 @@ $p.getGridRow = function (id) {
     return $('#Grid > tbody > tr[data-id="' + id + '"]');
 }
 
-$p.getGridCell = function (id, name) {
-    return $('#Grid > tbody > tr[data-id="' + id + '"] td:nth-child(' + ($p.getGridColumnIndex(name) + 1) + ')');
+$p.getGridCell = function (id, name, excludeHistory) {
+    return $('#Grid > tbody > tr[data-id="' + id + '"]' + (excludeHistory? ':not([data-history])' : '') + ' td:nth-child(' + ($p.getGridColumnIndex(name) + 1) + ')');
 }
 
 $p.getGridColumnIndex = function (name) {

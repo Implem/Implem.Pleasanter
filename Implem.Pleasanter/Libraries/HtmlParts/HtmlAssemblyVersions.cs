@@ -88,7 +88,6 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                         .MainCommands(
                             context: context,
                             ss: ss,
-                            siteId: 0,
                             verType: Versions.VerTypes.Latest))
                 .ToString();
         }

@@ -354,6 +354,16 @@ namespace Implem.Pleasanter.Libraries.Html
             return this;
         }
 
+        public HtmlAttributes DataTimeStamp(string value, bool _using = true)
+        {
+            if (!value.IsNullOrEmpty() && _using)
+            {
+                Add("data-time-stamp");
+                Add(value);
+            }
+            return this;
+        }
+
         public HtmlAttributes DataType(string value, bool _using = true)
         {
             if (!value.IsNullOrEmpty() && _using)
@@ -420,6 +430,16 @@ namespace Implem.Pleasanter.Libraries.Html
             {
                 Add("data-value");
                 Add(HttpUtility.HtmlEncode(value));
+            }
+            return this;
+        }
+
+        public HtmlAttributes DataAlwaysSend(bool value, bool _using = true)
+        {
+            if (value)
+            {
+                Add("data-always-send");
+                Add("1");
             }
             return this;
         }

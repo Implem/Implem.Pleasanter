@@ -47,20 +47,26 @@
                 } else {
                     var func = $grid.attr('data-func');
                     var dataId = $(this).closest('.grid-row').attr('data-id');
+                    var dataVer = $(this).closest('.grid-row').attr('data-ver');
+                    var dataHistory = $(this).closest('.grid-row').attr('data-history');
                     if (func) {
                         $p.getData($grid)[$grid.attr('data-name')] = dataId;
                         $p[func]($grid);
                     }
                     else {
+                        var paramVer = dataHistory ? '?ver=' + dataVer : '';
+                        var paramBack = paramVer ? '&back=1' : '?back=1';
                         if ($('#EditorDialog').length === 1) {
                             var data = {};
                             data.EditInDialog = true;
-                            url = $('#BaseUrl').val() + dataId;
+                            url = $('#BaseUrl').val() + dataId
+                                + paramVer;
                             $p.ajax(url, 'post', data);
                         } else {
-                            location.href = $('#BaseUrl').val() + dataId +
-                                ($grid.attr('data-value') === 'back'
-                                    ? '?back=1'
+                            location.href = $('#BaseUrl').val() + dataId
+                                + paramVer
+                                + ($grid.attr('data-value') === 'back'
+                                    ? paramBack
                                     : '');
                         }
                     }
@@ -71,42 +77,59 @@
         }
     });
 });
+
 $(function () {
     var timer;
-    $(document).on('mouseenter', 'th.sortable', function () {
+    $(document).on('mouseenter', 'table > thead > tr > th.sortable', function () {
+        clearTimeout(timer);
+        if ($(".menu-sort:visible").length) {
+            $(".menu-sort:visible").hide();
+        }
+        if ($('.ui-multiselect-close:visible').length) {
+            $('.ui-multiselect-close:visible').click();
+        }
         timer = setTimeout(function ($control) {
-            $control.append($('<ul/>')
-                .attr('data-target', '[data-id="' + $control.children('div').attr('data-id') + '"]')
-                .addClass('menu-sort')
-                    .addMenu('ui-icon-triangle-1-n', 'Asc')
-                    .addMenu('ui-icon-triangle-1-s', 'Desc')
-                    .addMenu('ui-icon-close', 'Release')
-                    .addMenuReset());
-            $('.menu-sort')
+            var dataName = $control.attr('data-name');
+            $menuSort = $(".menu-sort[id='GridHeaderMenu__" + dataName + "']");
+            $menuSort.css('width', '');
+            $menuSort
+                .css('position', 'absolute')
                 .css('top', $control.position().top + $control.outerHeight())
                 .css('left', $control.position().left)
-                .outerWidth($control.outerWidth());
+                .outerWidth($control.outerWidth() > $menuSort.outerWidth()
+                    ? $control.outerWidth()
+                    : $menuSort.outerWidth())
+                .show();
+        }, 700, $(this));
+    });
+    $(document).on('mouseenter', 'body > thead > tr > th.sortable', function () {
+        clearTimeout(timer);
+        if ($(".menu-sort:visible").length) {
+            $(".menu-sort:visible").hide();
+        }
+        if ($('.ui-multiselect-close:visible').length) {
+            $('.ui-multiselect-close:visible').click();
+        }
+        timer = setTimeout(function ($control) {   
+            var dataName = $control.attr('data-name');
+            $menuSort = $(".menu-sort[id='GridHeaderMenu__" + dataName+ "']");
+            $menuSort.css('width', '');
+            $menuSort
+                .css('position', 'fixed')
+                .css('top', $control.position().top + $control.outerHeight())
+                .css('left', $control.position().left + $control.offsetParent().offset().left - window.pageXOffset)
+                .outerWidth($control.outerWidth() > $menuSort.outerWidth()
+                    ? $control.outerWidth()
+                    : $menuSort.outerWidth())
+                .show();
         }, 700, $(this));
     });
     $(document).on('mouseleave', 'th.sortable', function () {
         clearTimeout(timer);
-        $('.menu-sort').remove();
     });
-    $.fn.extend({
-        addMenu: function (iconCss, orderType) {
-            $(this).append($('<li/>')
-                .addClass('sort')
-                .attr('data-order-type', orderType.toLowerCase())
-                .append($('<span/>').addClass('ui-icon ' + iconCss))
-                .append($('<span/>').text($p.display('Order' + orderType))));
-            return $(this);
-        },
-        addMenuReset: function () {
-            $(this).append($('<li/>')
-                .addClass('reset')
-                .append($('<span/>').addClass('ui-icon ui-icon-power'))
-                .append($('<span/>').text($p.display('ResetOrder'))));
-            return $(this);
+    $(document).on('mouseleave', '.menu-sort', function () {
+        if (!$('.ui-multiselect-menu:visible').length) {
+            $('.menu-sort:visible').hide();
         }
     });
     $(document).on('click', '.menu-sort > li.sort', function (e) {
@@ -120,7 +143,7 @@ $(function () {
         data.Direction = $grid.attr('data-name');
         data.TableId = $grid.attr('id');
         data.TableSiteId = $grid.attr('data-id');
-        $grid.find('[data-id^="ViewSorters_"]').each(function () {
+        $('[data-id^="ViewSorters_"]').each(function () {
             delete data[$(this).attr('data-id')];
         });
         $p.send($('#ViewSorters_Reset'));
@@ -128,7 +151,7 @@ $(function () {
     });
     $(document).on('click', 'th.sortable', function (e) {
         var $control = $(this).find('div');
-        sort($control, $control.attr('data-order-type'))
+        sort($control, $control.attr('data-order-type'));
         e.stopPropagation();
     });
 
@@ -143,6 +166,7 @@ $(function () {
         delete data[$control.attr('id')];
     }
 });
+
 $(function () {
     var timer;
     $(document).on('mouseenter', '.grid-row .grid-title-body, .grid-row .comment', function () {

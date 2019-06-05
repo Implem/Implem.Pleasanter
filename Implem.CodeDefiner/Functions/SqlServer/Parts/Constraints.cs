@@ -21,7 +21,7 @@ namespace Implem.CodeDefiner.Functions.SqlServer.Parts
         {
             return
                 columnDefinitionCollection
-                    .Where(o => o.Default != string.Empty)
+                    .Where(o => !o.Default.IsNullOrEmpty())
                     .Where(o => !(sourceTableName.EndsWith("_history") && o.ColumnName == "Ver"))
                     .OrderBy(o => o.ColumnName)
                     .Select(o => o.ColumnName + "," + DefaultDefinition(o))
@@ -37,12 +37,11 @@ namespace Implem.CodeDefiner.Functions.SqlServer.Parts
             this SqlStatement sqlStatement,
             string sourceTableName,
             IEnumerable<ColumnDefinition> columnDefinitionCollection,
-            EnumerableRowCollection<DataRow> rdsColumnCollection,
             string tableNameTemp = "")
         {
             sqlStatement.CommandText = sqlStatement.CommandText.Replace(
                 "#Defaults#", Def.Sql.DeleteDefault + columnDefinitionCollection
-                    .Where(o => o.Default != string.Empty)
+                    .Where(o => !o.Default.IsNullOrEmpty())
                     .Where(o => !(sourceTableName.EndsWith("_history") && o.ColumnName == "Ver"))
                     .Select(o => Sql_Create(Def.Sql.CreateDefault, Strings.CoalesceEmpty(tableNameTemp, sourceTableName), o))
                     .JoinReturn());
@@ -64,7 +63,7 @@ namespace Implem.CodeDefiner.Functions.SqlServer.Parts
                 case Types.CsString:
                     return "('" + columnDefinition.Default + "')";
                 case Types.CsDateTime:
-                    if (columnDefinition.Default.ToLower() == "now")
+                    if (columnDefinition.Default?.ToLower() == "now")
                     {
                         return "(getdate())";
                     }

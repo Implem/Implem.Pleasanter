@@ -35,7 +35,10 @@ $p.set = function ($control, val) {
 $p.setData = function ($control, data) {
     var controlId = $control.attr('id');
     if (!$control.hasClass('not-send')) {
-        if (data === undefined) data = $p.getData($control);
+        if (data === undefined) {
+            data = $p.getData($control);
+        }
+        $p.setGridTimestamp($control, data);
         switch ($control.prop('type')) {
             case 'checkbox':
                 data[controlId] = $control.prop('checked');
@@ -94,6 +97,13 @@ $p.setData = function ($control, data) {
     }
 }
 
+$p.setGridTimestamp = function ($control, data) {
+    var timestamp = $control.closest('.grid-row').find('.timestamp');
+    if (timestamp.length === 1) {
+        data[timestamp.attr('id')] = timestamp.val();
+    }
+}
+
 $p.setAndSend = function (selector, $control) {
     $p.setData($(selector));
     $p.send($control);
@@ -105,7 +115,7 @@ $p.setMustData = function ($form, action) {
             $p.setData($(this));
         });
     } else {
-        $form.find('.always-send').each(function () {
+        $form.find('.always-send,[data-always-send="1"]').each(function () {
             $p.setData($(this));
         });
     }

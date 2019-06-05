@@ -478,6 +478,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                     .THead(action: () => hb
                                         .GridHeader(
                                             context: context,
+                                            ss: ss,
                                             columns: columns,
                                             view: view,
                                             sort: true,
@@ -521,6 +522,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                     .THead(action: () => hb
                                         .GridHeader(
                                             context: context,
+                                            ss: ss,
                                             columns: columns,
                                             view: view,
                                             sort: true,

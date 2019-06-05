@@ -27,8 +27,13 @@ namespace Implem.Pleasanter.Models
         public static string Index(Context context, SiteSettings ss)
         {
             var hb = new HtmlBuilder();
-            var view = Views.GetBySession(context: context, ss: ss);
-            var gridData = GetGridData(context: context, ss: ss, view: view);
+            var view = Views.GetBySession(
+                context: context,
+                ss: ss);
+            var gridData = GetGridData(
+                context: context,
+                ss: ss,
+                view: view);
             var viewMode = ViewModes.GetSessionData(
                 context: context,
                 siteId: ss.SiteId);
@@ -50,16 +55,17 @@ namespace Implem.Pleasanter.Models
             SiteSettings ss,
             View view,
             string viewMode,
-            Action viewModeBody,
-            Aggregations aggregations = null)
+            Action viewModeBody)
         {
             var invalid = UserValidators.OnEntry(
                 context: context,
                 ss: ss);
-            switch (invalid)
+            switch (invalid.Type)
             {
                 case Error.Types.None: break;
-                default: return HtmlTemplates.Error(context, invalid);
+                default: return HtmlTemplates.Error(
+                    context: context,
+                    errorData: invalid);
             }
             return hb.Template(
                 context: context,
@@ -70,24 +76,26 @@ namespace Implem.Pleasanter.Models
                 siteId: ss.SiteId,
                 parentId: ss.ParentId,
                 referenceType: "Users",
-                body: ss.Body,
                 script: JavaScripts.ViewMode(viewMode),
                 userScript: ss.ViewModeScripts(context: context),
                 userStyle: ss.ViewModeStyles(context: context),
                 action: () => hb
                     .Form(
                         attributes: new HtmlAttributes()
-                            .Id("UsersForm")
+                            .Id("MainForm")
                             .Class("main-form")
                             .Action(Locations.Action(
                                 context: context,
                                 controller: context.Controller,
                                 id: ss.SiteId)),
                         action: () => hb
-                            .ViewSelector(
-                                context: context,
-                                ss: ss,
-                                view: view)
+                            .Div(
+                                id: "ViewSelectorField", 
+                                action: ()=> hb
+                                    .ViewSelector(
+                                        context: context,
+                                        ss: ss,
+                                        view: view))
                             .ViewFilters(
                                 context: context,
                                 ss: ss,
@@ -100,7 +108,6 @@ namespace Implem.Pleasanter.Models
                             .MainCommands(
                                 context: context,
                                 ss: ss,
-                                siteId: ss.SiteId,
                                 verType: Versions.VerTypes.Latest,
                                 backButton: !context.Publish)
                             .Div(css: "margin-bottom")
@@ -109,7 +116,15 @@ namespace Implem.Pleasanter.Models
                                 value: "Users")
                             .Hidden(
                                 controlId: "BaseUrl",
-                                value: Locations.BaseUrl(context: context)))
+                                value: Locations.BaseUrl(context: context))
+                            .Hidden(
+                                controlId: "EditOnGrid",
+                                css: "always-send",
+                                value: context.Forms.Data("EditOnGrid"))
+                            .Hidden(
+                                controlId: "NewRowId",
+                                css: "always-send",
+                                value: context.Forms.Data("NewRowId")))
                     .MoveDialog(context: context, bulk: true)
                     .ImportSettingsDialog(context: context)
                     .Div(attributes: new HtmlAttributes()
@@ -129,13 +144,13 @@ namespace Implem.Pleasanter.Models
                     ss: ss,
                     view: view,
                     invoke: "setGrid",
+                    editOnGrid: context.Forms.Bool("EditOnGrid"),
                     body: new HtmlBuilder()
                         .Grid(
                             context: context,
                             ss: ss,
                             gridData: gridData,
                             view: view))
-                .Events("on_grid_load")
                 .ToJson();
         }
 
@@ -172,7 +187,7 @@ namespace Implem.Pleasanter.Models
                 .Table(
                     attributes: new HtmlAttributes()
                         .Id("Grid")
-                        .Class(ss.GridCss())
+                        .Class(ss.GridCss(context: context))
                         .DataValue("back", _using: ss?.IntegratedSites?.Any() == true)
                         .DataAction(action)
                         .DataMethod("post"),
@@ -184,6 +199,11 @@ namespace Implem.Pleasanter.Models
                             columns: columns,
                             view: view,
                             action: action))
+                .GridHeaderMenus(
+                    context: context,
+                    ss: ss,
+                    view: view,
+                    columns: columns)
                 .Hidden(
                     controlId: "GridOffset",
                     value: ss.GridNextOffset(
@@ -241,13 +261,21 @@ namespace Implem.Pleasanter.Models
                         ss: ss,
                         view: view),
                     _using: offset == 0)
+                .ReplaceAll(
+                    "#ViewFilters",
+                    new HtmlBuilder()
+                        .ViewFilters(
+                            context: context,
+                            ss: ss,
+                            view: view),
+                    _using: context.Forms.ControlId().StartsWith("ViewFiltersOnGridHeader__"))
                 .Append("#Grid", new HtmlBuilder().GridRows(
                     context: context,
                     ss: ss,
                     gridData: gridData,
                     columns: columns,
                     view: view,
-                    addHeader: offset == 0,
+                    offset: offset,
                     clearCheck: clearCheck,
                     action: action))
                 .Val("#GridOffset", ss.GridNextOffset(
@@ -268,58 +296,34 @@ namespace Implem.Pleasanter.Models
             GridData gridData,
             List<Column> columns,
             View view,
-            bool addHeader = true,
+            int offset = 0,
             bool clearCheck = false,
             string action = "GridRows")
         {
+            var checkRow = !ss.GridColumnsHasSources();
             var checkAll = clearCheck
                 ? false
                 : context.Forms.Bool("GridCheckAll");
             return hb
                 .THead(
-                    _using: addHeader,
+                    _using: offset == 0,
                     action: () => hb
                         .GridHeader(
                             context: context,
+                            ss: ss,
                             columns: columns, 
                             view: view,
+                            checkRow: checkRow,
                             checkAll: checkAll,
-                            action: action,
-                            checkRow: !ss.GridColumnsHasSources()))
-                .TBody(action: () => gridData.TBody(
-                    hb: hb,
-                    context: context,
-                    ss: ss,
-                    columns: columns,
-                    checkAll: checkAll,
-                    checkRow: !ss.GridColumnsHasSources()));
-        }
-
-        private static SqlColumnCollection GridSqlColumnCollection(
-            Context context, SiteSettings ss)
-        {
-            var sqlColumnCollection = Rds.UsersColumn();
-            new List<string> { "UserId", "Creator", "Updator" }
-                .Concat(ss.GridColumns)
-                .Concat(ss.IncludedColumns())
-                .Concat(ss.GetUseSearchLinks(context: context).Select(o => o.ColumnName))
-                .Concat(ss.TitleColumns)
-                    .Distinct().ForEach(column =>
-                        sqlColumnCollection.UsersColumn(column));
-            return sqlColumnCollection;
-        }
-
-        private static SqlColumnCollection DefaultSqlColumns(
-            Context context, SiteSettings ss)
-        {
-            var sqlColumnCollection = Rds.UsersColumn();
-            new List<string> { "UserId", "Creator", "Updator" }
-                .Concat(ss.IncludedColumns())
-                .Concat(ss.GetUseSearchLinks(context: context).Select(o => o.ColumnName))
-                .Concat(ss.TitleColumns)
-                    .Distinct().ForEach(column =>
-                        sqlColumnCollection.UsersColumn(column));
-            return sqlColumnCollection;
+                            action: action))
+                .TBody(action: () => hb
+                    .GridRows(
+                        context: context,
+                        ss: ss,
+                        dataRows: gridData.DataRows,
+                        columns: columns,
+                        checkAll: checkAll,
+                        checkRow: checkRow));
         }
 
         private static SqlWhereCollection SelectedWhere(
@@ -331,6 +335,49 @@ namespace Implem.Pleasanter.Models
                     value: selector.Selected.Select(o => o.ToInt()),
                     negative: selector.All)
                 : null;
+        }
+
+        public static string ReloadRow(Context context, SiteSettings ss, long userId)
+        {
+            ss.SetColumnAccessControls(context: context);
+            var view = Views.GetBySession(
+                context: context,
+                ss: ss);
+            var dataRow = new GridData(
+                context: context,
+                ss: ss,
+                view: view,
+                tableType: Sqls.TableTypes.Normal,
+                where: Rds.UsersWhere().UserId(userId))
+                    .DataRows
+                    .FirstOrDefault();
+            var res = ItemUtilities.ClearItemDataResponse(
+                context: context,
+                ss: ss,
+                id: userId);
+            return dataRow == null
+                ? res
+                    .Remove($"[data-id=\"{userId}\"][data-latest]")
+                    .Message(
+                        message: Messages.NotFound(context: context),
+                        target: "row_" + userId)
+                    .ToJson()
+                : res
+                    .ReplaceAll(
+                        $"[data-id=\"{dataRow.Long("UserId")}\"][data-latest]",
+                        new HtmlBuilder().Tr(
+                            context: context,
+                            ss: ss,
+                            dataRow: dataRow,
+                            columns: ss.GetGridColumns(
+                                context: context,
+                                view: view,
+                                checkPermission: true),
+                            checkAll: false,
+                            editRow: true,
+                            checkRow: false,
+                            idColumn: "UserId"))
+                    .ToJson();
         }
 
         public static HtmlBuilder TdValue(
@@ -668,1956 +715,6 @@ namespace Implem.Pleasanter.Models
                                     context: context,
                                     column: column,
                                     value: string.Empty);
-                    case "ClassA":
-                        return ss.ReadColumnAccessControls.Allowed(
-                            context: context,
-                            ss: ss,
-                            column: column,
-                            type: ss.PermissionType,
-                            mine: mine)
-                                ? hb.Td(
-                                    context: context,
-                                    column: column,
-                                    value: userModel.ClassA)
-                                : hb.Td(
-                                    context: context,
-                                    column: column,
-                                    value: string.Empty);
-                    case "ClassB":
-                        return ss.ReadColumnAccessControls.Allowed(
-                            context: context,
-                            ss: ss,
-                            column: column,
-                            type: ss.PermissionType,
-                            mine: mine)
-                                ? hb.Td(
-                                    context: context,
-                                    column: column,
-                                    value: userModel.ClassB)
-                                : hb.Td(
-                                    context: context,
-                                    column: column,
-                                    value: string.Empty);
-                    case "ClassC":
-                        return ss.ReadColumnAccessControls.Allowed(
-                            context: context,
-                            ss: ss,
-                            column: column,
-                            type: ss.PermissionType,
-                            mine: mine)
-                                ? hb.Td(
-                                    context: context,
-                                    column: column,
-                                    value: userModel.ClassC)
-                                : hb.Td(
-                                    context: context,
-                                    column: column,
-                                    value: string.Empty);
-                    case "ClassD":
-                        return ss.ReadColumnAccessControls.Allowed(
-                            context: context,
-                            ss: ss,
-                            column: column,
-                            type: ss.PermissionType,
-                            mine: mine)
-                                ? hb.Td(
-                                    context: context,
-                                    column: column,
-                                    value: userModel.ClassD)
-                                : hb.Td(
-                                    context: context,
-                                    column: column,
-                                    value: string.Empty);
-                    case "ClassE":
-                        return ss.ReadColumnAccessControls.Allowed(
-                            context: context,
-                            ss: ss,
-                            column: column,
-                            type: ss.PermissionType,
-                            mine: mine)
-                                ? hb.Td(
-                                    context: context,
-                                    column: column,
-                                    value: userModel.ClassE)
-                                : hb.Td(
-                                    context: context,
-                                    column: column,
-                                    value: string.Empty);
-                    case "ClassF":
-                        return ss.ReadColumnAccessControls.Allowed(
-                            context: context,
-                            ss: ss,
-                            column: column,
-                            type: ss.PermissionType,
-                            mine: mine)
-                                ? hb.Td(
-                                    context: context,
-                                    column: column,
-                                    value: userModel.ClassF)
-                                : hb.Td(
-                                    context: context,
-                                    column: column,
-                                    value: string.Empty);
-                    case "ClassG":
-                        return ss.ReadColumnAccessControls.Allowed(
-                            context: context,
-                            ss: ss,
-                            column: column,
-                            type: ss.PermissionType,
-                            mine: mine)
-                                ? hb.Td(
-                                    context: context,
-                                    column: column,
-                                    value: userModel.ClassG)
-                                : hb.Td(
-                                    context: context,
-                                    column: column,
-                                    value: string.Empty);
-                    case "ClassH":
-                        return ss.ReadColumnAccessControls.Allowed(
-                            context: context,
-                            ss: ss,
-                            column: column,
-                            type: ss.PermissionType,
-                            mine: mine)
-                                ? hb.Td(
-                                    context: context,
-                                    column: column,
-                                    value: userModel.ClassH)
-                                : hb.Td(
-                                    context: context,
-                                    column: column,
-                                    value: string.Empty);
-                    case "ClassI":
-                        return ss.ReadColumnAccessControls.Allowed(
-                            context: context,
-                            ss: ss,
-                            column: column,
-                            type: ss.PermissionType,
-                            mine: mine)
-                                ? hb.Td(
-                                    context: context,
-                                    column: column,
-                                    value: userModel.ClassI)
-                                : hb.Td(
-                                    context: context,
-                                    column: column,
-                                    value: string.Empty);
-                    case "ClassJ":
-                        return ss.ReadColumnAccessControls.Allowed(
-                            context: context,
-                            ss: ss,
-                            column: column,
-                            type: ss.PermissionType,
-                            mine: mine)
-                                ? hb.Td(
-                                    context: context,
-                                    column: column,
-                                    value: userModel.ClassJ)
-                                : hb.Td(
-                                    context: context,
-                                    column: column,
-                                    value: string.Empty);
-                    case "ClassK":
-                        return ss.ReadColumnAccessControls.Allowed(
-                            context: context,
-                            ss: ss,
-                            column: column,
-                            type: ss.PermissionType,
-                            mine: mine)
-                                ? hb.Td(
-                                    context: context,
-                                    column: column,
-                                    value: userModel.ClassK)
-                                : hb.Td(
-                                    context: context,
-                                    column: column,
-                                    value: string.Empty);
-                    case "ClassL":
-                        return ss.ReadColumnAccessControls.Allowed(
-                            context: context,
-                            ss: ss,
-                            column: column,
-                            type: ss.PermissionType,
-                            mine: mine)
-                                ? hb.Td(
-                                    context: context,
-                                    column: column,
-                                    value: userModel.ClassL)
-                                : hb.Td(
-                                    context: context,
-                                    column: column,
-                                    value: string.Empty);
-                    case "ClassM":
-                        return ss.ReadColumnAccessControls.Allowed(
-                            context: context,
-                            ss: ss,
-                            column: column,
-                            type: ss.PermissionType,
-                            mine: mine)
-                                ? hb.Td(
-                                    context: context,
-                                    column: column,
-                                    value: userModel.ClassM)
-                                : hb.Td(
-                                    context: context,
-                                    column: column,
-                                    value: string.Empty);
-                    case "ClassN":
-                        return ss.ReadColumnAccessControls.Allowed(
-                            context: context,
-                            ss: ss,
-                            column: column,
-                            type: ss.PermissionType,
-                            mine: mine)
-                                ? hb.Td(
-                                    context: context,
-                                    column: column,
-                                    value: userModel.ClassN)
-                                : hb.Td(
-                                    context: context,
-                                    column: column,
-                                    value: string.Empty);
-                    case "ClassO":
-                        return ss.ReadColumnAccessControls.Allowed(
-                            context: context,
-                            ss: ss,
-                            column: column,
-                            type: ss.PermissionType,
-                            mine: mine)
-                                ? hb.Td(
-                                    context: context,
-                                    column: column,
-                                    value: userModel.ClassO)
-                                : hb.Td(
-                                    context: context,
-                                    column: column,
-                                    value: string.Empty);
-                    case "ClassP":
-                        return ss.ReadColumnAccessControls.Allowed(
-                            context: context,
-                            ss: ss,
-                            column: column,
-                            type: ss.PermissionType,
-                            mine: mine)
-                                ? hb.Td(
-                                    context: context,
-                                    column: column,
-                                    value: userModel.ClassP)
-                                : hb.Td(
-                                    context: context,
-                                    column: column,
-                                    value: string.Empty);
-                    case "ClassQ":
-                        return ss.ReadColumnAccessControls.Allowed(
-                            context: context,
-                            ss: ss,
-                            column: column,
-                            type: ss.PermissionType,
-                            mine: mine)
-                                ? hb.Td(
-                                    context: context,
-                                    column: column,
-                                    value: userModel.ClassQ)
-                                : hb.Td(
-                                    context: context,
-                                    column: column,
-                                    value: string.Empty);
-                    case "ClassR":
-                        return ss.ReadColumnAccessControls.Allowed(
-                            context: context,
-                            ss: ss,
-                            column: column,
-                            type: ss.PermissionType,
-                            mine: mine)
-                                ? hb.Td(
-                                    context: context,
-                                    column: column,
-                                    value: userModel.ClassR)
-                                : hb.Td(
-                                    context: context,
-                                    column: column,
-                                    value: string.Empty);
-                    case "ClassS":
-                        return ss.ReadColumnAccessControls.Allowed(
-                            context: context,
-                            ss: ss,
-                            column: column,
-                            type: ss.PermissionType,
-                            mine: mine)
-                                ? hb.Td(
-                                    context: context,
-                                    column: column,
-                                    value: userModel.ClassS)
-                                : hb.Td(
-                                    context: context,
-                                    column: column,
-                                    value: string.Empty);
-                    case "ClassT":
-                        return ss.ReadColumnAccessControls.Allowed(
-                            context: context,
-                            ss: ss,
-                            column: column,
-                            type: ss.PermissionType,
-                            mine: mine)
-                                ? hb.Td(
-                                    context: context,
-                                    column: column,
-                                    value: userModel.ClassT)
-                                : hb.Td(
-                                    context: context,
-                                    column: column,
-                                    value: string.Empty);
-                    case "ClassU":
-                        return ss.ReadColumnAccessControls.Allowed(
-                            context: context,
-                            ss: ss,
-                            column: column,
-                            type: ss.PermissionType,
-                            mine: mine)
-                                ? hb.Td(
-                                    context: context,
-                                    column: column,
-                                    value: userModel.ClassU)
-                                : hb.Td(
-                                    context: context,
-                                    column: column,
-                                    value: string.Empty);
-                    case "ClassV":
-                        return ss.ReadColumnAccessControls.Allowed(
-                            context: context,
-                            ss: ss,
-                            column: column,
-                            type: ss.PermissionType,
-                            mine: mine)
-                                ? hb.Td(
-                                    context: context,
-                                    column: column,
-                                    value: userModel.ClassV)
-                                : hb.Td(
-                                    context: context,
-                                    column: column,
-                                    value: string.Empty);
-                    case "ClassW":
-                        return ss.ReadColumnAccessControls.Allowed(
-                            context: context,
-                            ss: ss,
-                            column: column,
-                            type: ss.PermissionType,
-                            mine: mine)
-                                ? hb.Td(
-                                    context: context,
-                                    column: column,
-                                    value: userModel.ClassW)
-                                : hb.Td(
-                                    context: context,
-                                    column: column,
-                                    value: string.Empty);
-                    case "ClassX":
-                        return ss.ReadColumnAccessControls.Allowed(
-                            context: context,
-                            ss: ss,
-                            column: column,
-                            type: ss.PermissionType,
-                            mine: mine)
-                                ? hb.Td(
-                                    context: context,
-                                    column: column,
-                                    value: userModel.ClassX)
-                                : hb.Td(
-                                    context: context,
-                                    column: column,
-                                    value: string.Empty);
-                    case "ClassY":
-                        return ss.ReadColumnAccessControls.Allowed(
-                            context: context,
-                            ss: ss,
-                            column: column,
-                            type: ss.PermissionType,
-                            mine: mine)
-                                ? hb.Td(
-                                    context: context,
-                                    column: column,
-                                    value: userModel.ClassY)
-                                : hb.Td(
-                                    context: context,
-                                    column: column,
-                                    value: string.Empty);
-                    case "ClassZ":
-                        return ss.ReadColumnAccessControls.Allowed(
-                            context: context,
-                            ss: ss,
-                            column: column,
-                            type: ss.PermissionType,
-                            mine: mine)
-                                ? hb.Td(
-                                    context: context,
-                                    column: column,
-                                    value: userModel.ClassZ)
-                                : hb.Td(
-                                    context: context,
-                                    column: column,
-                                    value: string.Empty);
-                    case "NumA":
-                        return ss.ReadColumnAccessControls.Allowed(
-                            context: context,
-                            ss: ss,
-                            column: column,
-                            type: ss.PermissionType,
-                            mine: mine)
-                                ? hb.Td(
-                                    context: context,
-                                    column: column,
-                                    value: userModel.NumA)
-                                : hb.Td(
-                                    context: context,
-                                    column: column,
-                                    value: string.Empty);
-                    case "NumB":
-                        return ss.ReadColumnAccessControls.Allowed(
-                            context: context,
-                            ss: ss,
-                            column: column,
-                            type: ss.PermissionType,
-                            mine: mine)
-                                ? hb.Td(
-                                    context: context,
-                                    column: column,
-                                    value: userModel.NumB)
-                                : hb.Td(
-                                    context: context,
-                                    column: column,
-                                    value: string.Empty);
-                    case "NumC":
-                        return ss.ReadColumnAccessControls.Allowed(
-                            context: context,
-                            ss: ss,
-                            column: column,
-                            type: ss.PermissionType,
-                            mine: mine)
-                                ? hb.Td(
-                                    context: context,
-                                    column: column,
-                                    value: userModel.NumC)
-                                : hb.Td(
-                                    context: context,
-                                    column: column,
-                                    value: string.Empty);
-                    case "NumD":
-                        return ss.ReadColumnAccessControls.Allowed(
-                            context: context,
-                            ss: ss,
-                            column: column,
-                            type: ss.PermissionType,
-                            mine: mine)
-                                ? hb.Td(
-                                    context: context,
-                                    column: column,
-                                    value: userModel.NumD)
-                                : hb.Td(
-                                    context: context,
-                                    column: column,
-                                    value: string.Empty);
-                    case "NumE":
-                        return ss.ReadColumnAccessControls.Allowed(
-                            context: context,
-                            ss: ss,
-                            column: column,
-                            type: ss.PermissionType,
-                            mine: mine)
-                                ? hb.Td(
-                                    context: context,
-                                    column: column,
-                                    value: userModel.NumE)
-                                : hb.Td(
-                                    context: context,
-                                    column: column,
-                                    value: string.Empty);
-                    case "NumF":
-                        return ss.ReadColumnAccessControls.Allowed(
-                            context: context,
-                            ss: ss,
-                            column: column,
-                            type: ss.PermissionType,
-                            mine: mine)
-                                ? hb.Td(
-                                    context: context,
-                                    column: column,
-                                    value: userModel.NumF)
-                                : hb.Td(
-                                    context: context,
-                                    column: column,
-                                    value: string.Empty);
-                    case "NumG":
-                        return ss.ReadColumnAccessControls.Allowed(
-                            context: context,
-                            ss: ss,
-                            column: column,
-                            type: ss.PermissionType,
-                            mine: mine)
-                                ? hb.Td(
-                                    context: context,
-                                    column: column,
-                                    value: userModel.NumG)
-                                : hb.Td(
-                                    context: context,
-                                    column: column,
-                                    value: string.Empty);
-                    case "NumH":
-                        return ss.ReadColumnAccessControls.Allowed(
-                            context: context,
-                            ss: ss,
-                            column: column,
-                            type: ss.PermissionType,
-                            mine: mine)
-                                ? hb.Td(
-                                    context: context,
-                                    column: column,
-                                    value: userModel.NumH)
-                                : hb.Td(
-                                    context: context,
-                                    column: column,
-                                    value: string.Empty);
-                    case "NumI":
-                        return ss.ReadColumnAccessControls.Allowed(
-                            context: context,
-                            ss: ss,
-                            column: column,
-                            type: ss.PermissionType,
-                            mine: mine)
-                                ? hb.Td(
-                                    context: context,
-                                    column: column,
-                                    value: userModel.NumI)
-                                : hb.Td(
-                                    context: context,
-                                    column: column,
-                                    value: string.Empty);
-                    case "NumJ":
-                        return ss.ReadColumnAccessControls.Allowed(
-                            context: context,
-                            ss: ss,
-                            column: column,
-                            type: ss.PermissionType,
-                            mine: mine)
-                                ? hb.Td(
-                                    context: context,
-                                    column: column,
-                                    value: userModel.NumJ)
-                                : hb.Td(
-                                    context: context,
-                                    column: column,
-                                    value: string.Empty);
-                    case "NumK":
-                        return ss.ReadColumnAccessControls.Allowed(
-                            context: context,
-                            ss: ss,
-                            column: column,
-                            type: ss.PermissionType,
-                            mine: mine)
-                                ? hb.Td(
-                                    context: context,
-                                    column: column,
-                                    value: userModel.NumK)
-                                : hb.Td(
-                                    context: context,
-                                    column: column,
-                                    value: string.Empty);
-                    case "NumL":
-                        return ss.ReadColumnAccessControls.Allowed(
-                            context: context,
-                            ss: ss,
-                            column: column,
-                            type: ss.PermissionType,
-                            mine: mine)
-                                ? hb.Td(
-                                    context: context,
-                                    column: column,
-                                    value: userModel.NumL)
-                                : hb.Td(
-                                    context: context,
-                                    column: column,
-                                    value: string.Empty);
-                    case "NumM":
-                        return ss.ReadColumnAccessControls.Allowed(
-                            context: context,
-                            ss: ss,
-                            column: column,
-                            type: ss.PermissionType,
-                            mine: mine)
-                                ? hb.Td(
-                                    context: context,
-                                    column: column,
-                                    value: userModel.NumM)
-                                : hb.Td(
-                                    context: context,
-                                    column: column,
-                                    value: string.Empty);
-                    case "NumN":
-                        return ss.ReadColumnAccessControls.Allowed(
-                            context: context,
-                            ss: ss,
-                            column: column,
-                            type: ss.PermissionType,
-                            mine: mine)
-                                ? hb.Td(
-                                    context: context,
-                                    column: column,
-                                    value: userModel.NumN)
-                                : hb.Td(
-                                    context: context,
-                                    column: column,
-                                    value: string.Empty);
-                    case "NumO":
-                        return ss.ReadColumnAccessControls.Allowed(
-                            context: context,
-                            ss: ss,
-                            column: column,
-                            type: ss.PermissionType,
-                            mine: mine)
-                                ? hb.Td(
-                                    context: context,
-                                    column: column,
-                                    value: userModel.NumO)
-                                : hb.Td(
-                                    context: context,
-                                    column: column,
-                                    value: string.Empty);
-                    case "NumP":
-                        return ss.ReadColumnAccessControls.Allowed(
-                            context: context,
-                            ss: ss,
-                            column: column,
-                            type: ss.PermissionType,
-                            mine: mine)
-                                ? hb.Td(
-                                    context: context,
-                                    column: column,
-                                    value: userModel.NumP)
-                                : hb.Td(
-                                    context: context,
-                                    column: column,
-                                    value: string.Empty);
-                    case "NumQ":
-                        return ss.ReadColumnAccessControls.Allowed(
-                            context: context,
-                            ss: ss,
-                            column: column,
-                            type: ss.PermissionType,
-                            mine: mine)
-                                ? hb.Td(
-                                    context: context,
-                                    column: column,
-                                    value: userModel.NumQ)
-                                : hb.Td(
-                                    context: context,
-                                    column: column,
-                                    value: string.Empty);
-                    case "NumR":
-                        return ss.ReadColumnAccessControls.Allowed(
-                            context: context,
-                            ss: ss,
-                            column: column,
-                            type: ss.PermissionType,
-                            mine: mine)
-                                ? hb.Td(
-                                    context: context,
-                                    column: column,
-                                    value: userModel.NumR)
-                                : hb.Td(
-                                    context: context,
-                                    column: column,
-                                    value: string.Empty);
-                    case "NumS":
-                        return ss.ReadColumnAccessControls.Allowed(
-                            context: context,
-                            ss: ss,
-                            column: column,
-                            type: ss.PermissionType,
-                            mine: mine)
-                                ? hb.Td(
-                                    context: context,
-                                    column: column,
-                                    value: userModel.NumS)
-                                : hb.Td(
-                                    context: context,
-                                    column: column,
-                                    value: string.Empty);
-                    case "NumT":
-                        return ss.ReadColumnAccessControls.Allowed(
-                            context: context,
-                            ss: ss,
-                            column: column,
-                            type: ss.PermissionType,
-                            mine: mine)
-                                ? hb.Td(
-                                    context: context,
-                                    column: column,
-                                    value: userModel.NumT)
-                                : hb.Td(
-                                    context: context,
-                                    column: column,
-                                    value: string.Empty);
-                    case "NumU":
-                        return ss.ReadColumnAccessControls.Allowed(
-                            context: context,
-                            ss: ss,
-                            column: column,
-                            type: ss.PermissionType,
-                            mine: mine)
-                                ? hb.Td(
-                                    context: context,
-                                    column: column,
-                                    value: userModel.NumU)
-                                : hb.Td(
-                                    context: context,
-                                    column: column,
-                                    value: string.Empty);
-                    case "NumV":
-                        return ss.ReadColumnAccessControls.Allowed(
-                            context: context,
-                            ss: ss,
-                            column: column,
-                            type: ss.PermissionType,
-                            mine: mine)
-                                ? hb.Td(
-                                    context: context,
-                                    column: column,
-                                    value: userModel.NumV)
-                                : hb.Td(
-                                    context: context,
-                                    column: column,
-                                    value: string.Empty);
-                    case "NumW":
-                        return ss.ReadColumnAccessControls.Allowed(
-                            context: context,
-                            ss: ss,
-                            column: column,
-                            type: ss.PermissionType,
-                            mine: mine)
-                                ? hb.Td(
-                                    context: context,
-                                    column: column,
-                                    value: userModel.NumW)
-                                : hb.Td(
-                                    context: context,
-                                    column: column,
-                                    value: string.Empty);
-                    case "NumX":
-                        return ss.ReadColumnAccessControls.Allowed(
-                            context: context,
-                            ss: ss,
-                            column: column,
-                            type: ss.PermissionType,
-                            mine: mine)
-                                ? hb.Td(
-                                    context: context,
-                                    column: column,
-                                    value: userModel.NumX)
-                                : hb.Td(
-                                    context: context,
-                                    column: column,
-                                    value: string.Empty);
-                    case "NumY":
-                        return ss.ReadColumnAccessControls.Allowed(
-                            context: context,
-                            ss: ss,
-                            column: column,
-                            type: ss.PermissionType,
-                            mine: mine)
-                                ? hb.Td(
-                                    context: context,
-                                    column: column,
-                                    value: userModel.NumY)
-                                : hb.Td(
-                                    context: context,
-                                    column: column,
-                                    value: string.Empty);
-                    case "NumZ":
-                        return ss.ReadColumnAccessControls.Allowed(
-                            context: context,
-                            ss: ss,
-                            column: column,
-                            type: ss.PermissionType,
-                            mine: mine)
-                                ? hb.Td(
-                                    context: context,
-                                    column: column,
-                                    value: userModel.NumZ)
-                                : hb.Td(
-                                    context: context,
-                                    column: column,
-                                    value: string.Empty);
-                    case "DateA":
-                        return ss.ReadColumnAccessControls.Allowed(
-                            context: context,
-                            ss: ss,
-                            column: column,
-                            type: ss.PermissionType,
-                            mine: mine)
-                                ? hb.Td(
-                                    context: context,
-                                    column: column,
-                                    value: userModel.DateA)
-                                : hb.Td(
-                                    context: context,
-                                    column: column,
-                                    value: string.Empty);
-                    case "DateB":
-                        return ss.ReadColumnAccessControls.Allowed(
-                            context: context,
-                            ss: ss,
-                            column: column,
-                            type: ss.PermissionType,
-                            mine: mine)
-                                ? hb.Td(
-                                    context: context,
-                                    column: column,
-                                    value: userModel.DateB)
-                                : hb.Td(
-                                    context: context,
-                                    column: column,
-                                    value: string.Empty);
-                    case "DateC":
-                        return ss.ReadColumnAccessControls.Allowed(
-                            context: context,
-                            ss: ss,
-                            column: column,
-                            type: ss.PermissionType,
-                            mine: mine)
-                                ? hb.Td(
-                                    context: context,
-                                    column: column,
-                                    value: userModel.DateC)
-                                : hb.Td(
-                                    context: context,
-                                    column: column,
-                                    value: string.Empty);
-                    case "DateD":
-                        return ss.ReadColumnAccessControls.Allowed(
-                            context: context,
-                            ss: ss,
-                            column: column,
-                            type: ss.PermissionType,
-                            mine: mine)
-                                ? hb.Td(
-                                    context: context,
-                                    column: column,
-                                    value: userModel.DateD)
-                                : hb.Td(
-                                    context: context,
-                                    column: column,
-                                    value: string.Empty);
-                    case "DateE":
-                        return ss.ReadColumnAccessControls.Allowed(
-                            context: context,
-                            ss: ss,
-                            column: column,
-                            type: ss.PermissionType,
-                            mine: mine)
-                                ? hb.Td(
-                                    context: context,
-                                    column: column,
-                                    value: userModel.DateE)
-                                : hb.Td(
-                                    context: context,
-                                    column: column,
-                                    value: string.Empty);
-                    case "DateF":
-                        return ss.ReadColumnAccessControls.Allowed(
-                            context: context,
-                            ss: ss,
-                            column: column,
-                            type: ss.PermissionType,
-                            mine: mine)
-                                ? hb.Td(
-                                    context: context,
-                                    column: column,
-                                    value: userModel.DateF)
-                                : hb.Td(
-                                    context: context,
-                                    column: column,
-                                    value: string.Empty);
-                    case "DateG":
-                        return ss.ReadColumnAccessControls.Allowed(
-                            context: context,
-                            ss: ss,
-                            column: column,
-                            type: ss.PermissionType,
-                            mine: mine)
-                                ? hb.Td(
-                                    context: context,
-                                    column: column,
-                                    value: userModel.DateG)
-                                : hb.Td(
-                                    context: context,
-                                    column: column,
-                                    value: string.Empty);
-                    case "DateH":
-                        return ss.ReadColumnAccessControls.Allowed(
-                            context: context,
-                            ss: ss,
-                            column: column,
-                            type: ss.PermissionType,
-                            mine: mine)
-                                ? hb.Td(
-                                    context: context,
-                                    column: column,
-                                    value: userModel.DateH)
-                                : hb.Td(
-                                    context: context,
-                                    column: column,
-                                    value: string.Empty);
-                    case "DateI":
-                        return ss.ReadColumnAccessControls.Allowed(
-                            context: context,
-                            ss: ss,
-                            column: column,
-                            type: ss.PermissionType,
-                            mine: mine)
-                                ? hb.Td(
-                                    context: context,
-                                    column: column,
-                                    value: userModel.DateI)
-                                : hb.Td(
-                                    context: context,
-                                    column: column,
-                                    value: string.Empty);
-                    case "DateJ":
-                        return ss.ReadColumnAccessControls.Allowed(
-                            context: context,
-                            ss: ss,
-                            column: column,
-                            type: ss.PermissionType,
-                            mine: mine)
-                                ? hb.Td(
-                                    context: context,
-                                    column: column,
-                                    value: userModel.DateJ)
-                                : hb.Td(
-                                    context: context,
-                                    column: column,
-                                    value: string.Empty);
-                    case "DateK":
-                        return ss.ReadColumnAccessControls.Allowed(
-                            context: context,
-                            ss: ss,
-                            column: column,
-                            type: ss.PermissionType,
-                            mine: mine)
-                                ? hb.Td(
-                                    context: context,
-                                    column: column,
-                                    value: userModel.DateK)
-                                : hb.Td(
-                                    context: context,
-                                    column: column,
-                                    value: string.Empty);
-                    case "DateL":
-                        return ss.ReadColumnAccessControls.Allowed(
-                            context: context,
-                            ss: ss,
-                            column: column,
-                            type: ss.PermissionType,
-                            mine: mine)
-                                ? hb.Td(
-                                    context: context,
-                                    column: column,
-                                    value: userModel.DateL)
-                                : hb.Td(
-                                    context: context,
-                                    column: column,
-                                    value: string.Empty);
-                    case "DateM":
-                        return ss.ReadColumnAccessControls.Allowed(
-                            context: context,
-                            ss: ss,
-                            column: column,
-                            type: ss.PermissionType,
-                            mine: mine)
-                                ? hb.Td(
-                                    context: context,
-                                    column: column,
-                                    value: userModel.DateM)
-                                : hb.Td(
-                                    context: context,
-                                    column: column,
-                                    value: string.Empty);
-                    case "DateN":
-                        return ss.ReadColumnAccessControls.Allowed(
-                            context: context,
-                            ss: ss,
-                            column: column,
-                            type: ss.PermissionType,
-                            mine: mine)
-                                ? hb.Td(
-                                    context: context,
-                                    column: column,
-                                    value: userModel.DateN)
-                                : hb.Td(
-                                    context: context,
-                                    column: column,
-                                    value: string.Empty);
-                    case "DateO":
-                        return ss.ReadColumnAccessControls.Allowed(
-                            context: context,
-                            ss: ss,
-                            column: column,
-                            type: ss.PermissionType,
-                            mine: mine)
-                                ? hb.Td(
-                                    context: context,
-                                    column: column,
-                                    value: userModel.DateO)
-                                : hb.Td(
-                                    context: context,
-                                    column: column,
-                                    value: string.Empty);
-                    case "DateP":
-                        return ss.ReadColumnAccessControls.Allowed(
-                            context: context,
-                            ss: ss,
-                            column: column,
-                            type: ss.PermissionType,
-                            mine: mine)
-                                ? hb.Td(
-                                    context: context,
-                                    column: column,
-                                    value: userModel.DateP)
-                                : hb.Td(
-                                    context: context,
-                                    column: column,
-                                    value: string.Empty);
-                    case "DateQ":
-                        return ss.ReadColumnAccessControls.Allowed(
-                            context: context,
-                            ss: ss,
-                            column: column,
-                            type: ss.PermissionType,
-                            mine: mine)
-                                ? hb.Td(
-                                    context: context,
-                                    column: column,
-                                    value: userModel.DateQ)
-                                : hb.Td(
-                                    context: context,
-                                    column: column,
-                                    value: string.Empty);
-                    case "DateR":
-                        return ss.ReadColumnAccessControls.Allowed(
-                            context: context,
-                            ss: ss,
-                            column: column,
-                            type: ss.PermissionType,
-                            mine: mine)
-                                ? hb.Td(
-                                    context: context,
-                                    column: column,
-                                    value: userModel.DateR)
-                                : hb.Td(
-                                    context: context,
-                                    column: column,
-                                    value: string.Empty);
-                    case "DateS":
-                        return ss.ReadColumnAccessControls.Allowed(
-                            context: context,
-                            ss: ss,
-                            column: column,
-                            type: ss.PermissionType,
-                            mine: mine)
-                                ? hb.Td(
-                                    context: context,
-                                    column: column,
-                                    value: userModel.DateS)
-                                : hb.Td(
-                                    context: context,
-                                    column: column,
-                                    value: string.Empty);
-                    case "DateT":
-                        return ss.ReadColumnAccessControls.Allowed(
-                            context: context,
-                            ss: ss,
-                            column: column,
-                            type: ss.PermissionType,
-                            mine: mine)
-                                ? hb.Td(
-                                    context: context,
-                                    column: column,
-                                    value: userModel.DateT)
-                                : hb.Td(
-                                    context: context,
-                                    column: column,
-                                    value: string.Empty);
-                    case "DateU":
-                        return ss.ReadColumnAccessControls.Allowed(
-                            context: context,
-                            ss: ss,
-                            column: column,
-                            type: ss.PermissionType,
-                            mine: mine)
-                                ? hb.Td(
-                                    context: context,
-                                    column: column,
-                                    value: userModel.DateU)
-                                : hb.Td(
-                                    context: context,
-                                    column: column,
-                                    value: string.Empty);
-                    case "DateV":
-                        return ss.ReadColumnAccessControls.Allowed(
-                            context: context,
-                            ss: ss,
-                            column: column,
-                            type: ss.PermissionType,
-                            mine: mine)
-                                ? hb.Td(
-                                    context: context,
-                                    column: column,
-                                    value: userModel.DateV)
-                                : hb.Td(
-                                    context: context,
-                                    column: column,
-                                    value: string.Empty);
-                    case "DateW":
-                        return ss.ReadColumnAccessControls.Allowed(
-                            context: context,
-                            ss: ss,
-                            column: column,
-                            type: ss.PermissionType,
-                            mine: mine)
-                                ? hb.Td(
-                                    context: context,
-                                    column: column,
-                                    value: userModel.DateW)
-                                : hb.Td(
-                                    context: context,
-                                    column: column,
-                                    value: string.Empty);
-                    case "DateX":
-                        return ss.ReadColumnAccessControls.Allowed(
-                            context: context,
-                            ss: ss,
-                            column: column,
-                            type: ss.PermissionType,
-                            mine: mine)
-                                ? hb.Td(
-                                    context: context,
-                                    column: column,
-                                    value: userModel.DateX)
-                                : hb.Td(
-                                    context: context,
-                                    column: column,
-                                    value: string.Empty);
-                    case "DateY":
-                        return ss.ReadColumnAccessControls.Allowed(
-                            context: context,
-                            ss: ss,
-                            column: column,
-                            type: ss.PermissionType,
-                            mine: mine)
-                                ? hb.Td(
-                                    context: context,
-                                    column: column,
-                                    value: userModel.DateY)
-                                : hb.Td(
-                                    context: context,
-                                    column: column,
-                                    value: string.Empty);
-                    case "DateZ":
-                        return ss.ReadColumnAccessControls.Allowed(
-                            context: context,
-                            ss: ss,
-                            column: column,
-                            type: ss.PermissionType,
-                            mine: mine)
-                                ? hb.Td(
-                                    context: context,
-                                    column: column,
-                                    value: userModel.DateZ)
-                                : hb.Td(
-                                    context: context,
-                                    column: column,
-                                    value: string.Empty);
-                    case "DescriptionA":
-                        return ss.ReadColumnAccessControls.Allowed(
-                            context: context,
-                            ss: ss,
-                            column: column,
-                            type: ss.PermissionType,
-                            mine: mine)
-                                ? hb.Td(
-                                    context: context,
-                                    column: column,
-                                    value: userModel.DescriptionA)
-                                : hb.Td(
-                                    context: context,
-                                    column: column,
-                                    value: string.Empty);
-                    case "DescriptionB":
-                        return ss.ReadColumnAccessControls.Allowed(
-                            context: context,
-                            ss: ss,
-                            column: column,
-                            type: ss.PermissionType,
-                            mine: mine)
-                                ? hb.Td(
-                                    context: context,
-                                    column: column,
-                                    value: userModel.DescriptionB)
-                                : hb.Td(
-                                    context: context,
-                                    column: column,
-                                    value: string.Empty);
-                    case "DescriptionC":
-                        return ss.ReadColumnAccessControls.Allowed(
-                            context: context,
-                            ss: ss,
-                            column: column,
-                            type: ss.PermissionType,
-                            mine: mine)
-                                ? hb.Td(
-                                    context: context,
-                                    column: column,
-                                    value: userModel.DescriptionC)
-                                : hb.Td(
-                                    context: context,
-                                    column: column,
-                                    value: string.Empty);
-                    case "DescriptionD":
-                        return ss.ReadColumnAccessControls.Allowed(
-                            context: context,
-                            ss: ss,
-                            column: column,
-                            type: ss.PermissionType,
-                            mine: mine)
-                                ? hb.Td(
-                                    context: context,
-                                    column: column,
-                                    value: userModel.DescriptionD)
-                                : hb.Td(
-                                    context: context,
-                                    column: column,
-                                    value: string.Empty);
-                    case "DescriptionE":
-                        return ss.ReadColumnAccessControls.Allowed(
-                            context: context,
-                            ss: ss,
-                            column: column,
-                            type: ss.PermissionType,
-                            mine: mine)
-                                ? hb.Td(
-                                    context: context,
-                                    column: column,
-                                    value: userModel.DescriptionE)
-                                : hb.Td(
-                                    context: context,
-                                    column: column,
-                                    value: string.Empty);
-                    case "DescriptionF":
-                        return ss.ReadColumnAccessControls.Allowed(
-                            context: context,
-                            ss: ss,
-                            column: column,
-                            type: ss.PermissionType,
-                            mine: mine)
-                                ? hb.Td(
-                                    context: context,
-                                    column: column,
-                                    value: userModel.DescriptionF)
-                                : hb.Td(
-                                    context: context,
-                                    column: column,
-                                    value: string.Empty);
-                    case "DescriptionG":
-                        return ss.ReadColumnAccessControls.Allowed(
-                            context: context,
-                            ss: ss,
-                            column: column,
-                            type: ss.PermissionType,
-                            mine: mine)
-                                ? hb.Td(
-                                    context: context,
-                                    column: column,
-                                    value: userModel.DescriptionG)
-                                : hb.Td(
-                                    context: context,
-                                    column: column,
-                                    value: string.Empty);
-                    case "DescriptionH":
-                        return ss.ReadColumnAccessControls.Allowed(
-                            context: context,
-                            ss: ss,
-                            column: column,
-                            type: ss.PermissionType,
-                            mine: mine)
-                                ? hb.Td(
-                                    context: context,
-                                    column: column,
-                                    value: userModel.DescriptionH)
-                                : hb.Td(
-                                    context: context,
-                                    column: column,
-                                    value: string.Empty);
-                    case "DescriptionI":
-                        return ss.ReadColumnAccessControls.Allowed(
-                            context: context,
-                            ss: ss,
-                            column: column,
-                            type: ss.PermissionType,
-                            mine: mine)
-                                ? hb.Td(
-                                    context: context,
-                                    column: column,
-                                    value: userModel.DescriptionI)
-                                : hb.Td(
-                                    context: context,
-                                    column: column,
-                                    value: string.Empty);
-                    case "DescriptionJ":
-                        return ss.ReadColumnAccessControls.Allowed(
-                            context: context,
-                            ss: ss,
-                            column: column,
-                            type: ss.PermissionType,
-                            mine: mine)
-                                ? hb.Td(
-                                    context: context,
-                                    column: column,
-                                    value: userModel.DescriptionJ)
-                                : hb.Td(
-                                    context: context,
-                                    column: column,
-                                    value: string.Empty);
-                    case "DescriptionK":
-                        return ss.ReadColumnAccessControls.Allowed(
-                            context: context,
-                            ss: ss,
-                            column: column,
-                            type: ss.PermissionType,
-                            mine: mine)
-                                ? hb.Td(
-                                    context: context,
-                                    column: column,
-                                    value: userModel.DescriptionK)
-                                : hb.Td(
-                                    context: context,
-                                    column: column,
-                                    value: string.Empty);
-                    case "DescriptionL":
-                        return ss.ReadColumnAccessControls.Allowed(
-                            context: context,
-                            ss: ss,
-                            column: column,
-                            type: ss.PermissionType,
-                            mine: mine)
-                                ? hb.Td(
-                                    context: context,
-                                    column: column,
-                                    value: userModel.DescriptionL)
-                                : hb.Td(
-                                    context: context,
-                                    column: column,
-                                    value: string.Empty);
-                    case "DescriptionM":
-                        return ss.ReadColumnAccessControls.Allowed(
-                            context: context,
-                            ss: ss,
-                            column: column,
-                            type: ss.PermissionType,
-                            mine: mine)
-                                ? hb.Td(
-                                    context: context,
-                                    column: column,
-                                    value: userModel.DescriptionM)
-                                : hb.Td(
-                                    context: context,
-                                    column: column,
-                                    value: string.Empty);
-                    case "DescriptionN":
-                        return ss.ReadColumnAccessControls.Allowed(
-                            context: context,
-                            ss: ss,
-                            column: column,
-                            type: ss.PermissionType,
-                            mine: mine)
-                                ? hb.Td(
-                                    context: context,
-                                    column: column,
-                                    value: userModel.DescriptionN)
-                                : hb.Td(
-                                    context: context,
-                                    column: column,
-                                    value: string.Empty);
-                    case "DescriptionO":
-                        return ss.ReadColumnAccessControls.Allowed(
-                            context: context,
-                            ss: ss,
-                            column: column,
-                            type: ss.PermissionType,
-                            mine: mine)
-                                ? hb.Td(
-                                    context: context,
-                                    column: column,
-                                    value: userModel.DescriptionO)
-                                : hb.Td(
-                                    context: context,
-                                    column: column,
-                                    value: string.Empty);
-                    case "DescriptionP":
-                        return ss.ReadColumnAccessControls.Allowed(
-                            context: context,
-                            ss: ss,
-                            column: column,
-                            type: ss.PermissionType,
-                            mine: mine)
-                                ? hb.Td(
-                                    context: context,
-                                    column: column,
-                                    value: userModel.DescriptionP)
-                                : hb.Td(
-                                    context: context,
-                                    column: column,
-                                    value: string.Empty);
-                    case "DescriptionQ":
-                        return ss.ReadColumnAccessControls.Allowed(
-                            context: context,
-                            ss: ss,
-                            column: column,
-                            type: ss.PermissionType,
-                            mine: mine)
-                                ? hb.Td(
-                                    context: context,
-                                    column: column,
-                                    value: userModel.DescriptionQ)
-                                : hb.Td(
-                                    context: context,
-                                    column: column,
-                                    value: string.Empty);
-                    case "DescriptionR":
-                        return ss.ReadColumnAccessControls.Allowed(
-                            context: context,
-                            ss: ss,
-                            column: column,
-                            type: ss.PermissionType,
-                            mine: mine)
-                                ? hb.Td(
-                                    context: context,
-                                    column: column,
-                                    value: userModel.DescriptionR)
-                                : hb.Td(
-                                    context: context,
-                                    column: column,
-                                    value: string.Empty);
-                    case "DescriptionS":
-                        return ss.ReadColumnAccessControls.Allowed(
-                            context: context,
-                            ss: ss,
-                            column: column,
-                            type: ss.PermissionType,
-                            mine: mine)
-                                ? hb.Td(
-                                    context: context,
-                                    column: column,
-                                    value: userModel.DescriptionS)
-                                : hb.Td(
-                                    context: context,
-                                    column: column,
-                                    value: string.Empty);
-                    case "DescriptionT":
-                        return ss.ReadColumnAccessControls.Allowed(
-                            context: context,
-                            ss: ss,
-                            column: column,
-                            type: ss.PermissionType,
-                            mine: mine)
-                                ? hb.Td(
-                                    context: context,
-                                    column: column,
-                                    value: userModel.DescriptionT)
-                                : hb.Td(
-                                    context: context,
-                                    column: column,
-                                    value: string.Empty);
-                    case "DescriptionU":
-                        return ss.ReadColumnAccessControls.Allowed(
-                            context: context,
-                            ss: ss,
-                            column: column,
-                            type: ss.PermissionType,
-                            mine: mine)
-                                ? hb.Td(
-                                    context: context,
-                                    column: column,
-                                    value: userModel.DescriptionU)
-                                : hb.Td(
-                                    context: context,
-                                    column: column,
-                                    value: string.Empty);
-                    case "DescriptionV":
-                        return ss.ReadColumnAccessControls.Allowed(
-                            context: context,
-                            ss: ss,
-                            column: column,
-                            type: ss.PermissionType,
-                            mine: mine)
-                                ? hb.Td(
-                                    context: context,
-                                    column: column,
-                                    value: userModel.DescriptionV)
-                                : hb.Td(
-                                    context: context,
-                                    column: column,
-                                    value: string.Empty);
-                    case "DescriptionW":
-                        return ss.ReadColumnAccessControls.Allowed(
-                            context: context,
-                            ss: ss,
-                            column: column,
-                            type: ss.PermissionType,
-                            mine: mine)
-                                ? hb.Td(
-                                    context: context,
-                                    column: column,
-                                    value: userModel.DescriptionW)
-                                : hb.Td(
-                                    context: context,
-                                    column: column,
-                                    value: string.Empty);
-                    case "DescriptionX":
-                        return ss.ReadColumnAccessControls.Allowed(
-                            context: context,
-                            ss: ss,
-                            column: column,
-                            type: ss.PermissionType,
-                            mine: mine)
-                                ? hb.Td(
-                                    context: context,
-                                    column: column,
-                                    value: userModel.DescriptionX)
-                                : hb.Td(
-                                    context: context,
-                                    column: column,
-                                    value: string.Empty);
-                    case "DescriptionY":
-                        return ss.ReadColumnAccessControls.Allowed(
-                            context: context,
-                            ss: ss,
-                            column: column,
-                            type: ss.PermissionType,
-                            mine: mine)
-                                ? hb.Td(
-                                    context: context,
-                                    column: column,
-                                    value: userModel.DescriptionY)
-                                : hb.Td(
-                                    context: context,
-                                    column: column,
-                                    value: string.Empty);
-                    case "DescriptionZ":
-                        return ss.ReadColumnAccessControls.Allowed(
-                            context: context,
-                            ss: ss,
-                            column: column,
-                            type: ss.PermissionType,
-                            mine: mine)
-                                ? hb.Td(
-                                    context: context,
-                                    column: column,
-                                    value: userModel.DescriptionZ)
-                                : hb.Td(
-                                    context: context,
-                                    column: column,
-                                    value: string.Empty);
-                    case "CheckA":
-                        return ss.ReadColumnAccessControls.Allowed(
-                            context: context,
-                            ss: ss,
-                            column: column,
-                            type: ss.PermissionType,
-                            mine: mine)
-                                ? hb.Td(
-                                    context: context,
-                                    column: column,
-                                    value: userModel.CheckA)
-                                : hb.Td(
-                                    context: context,
-                                    column: column,
-                                    value: string.Empty);
-                    case "CheckB":
-                        return ss.ReadColumnAccessControls.Allowed(
-                            context: context,
-                            ss: ss,
-                            column: column,
-                            type: ss.PermissionType,
-                            mine: mine)
-                                ? hb.Td(
-                                    context: context,
-                                    column: column,
-                                    value: userModel.CheckB)
-                                : hb.Td(
-                                    context: context,
-                                    column: column,
-                                    value: string.Empty);
-                    case "CheckC":
-                        return ss.ReadColumnAccessControls.Allowed(
-                            context: context,
-                            ss: ss,
-                            column: column,
-                            type: ss.PermissionType,
-                            mine: mine)
-                                ? hb.Td(
-                                    context: context,
-                                    column: column,
-                                    value: userModel.CheckC)
-                                : hb.Td(
-                                    context: context,
-                                    column: column,
-                                    value: string.Empty);
-                    case "CheckD":
-                        return ss.ReadColumnAccessControls.Allowed(
-                            context: context,
-                            ss: ss,
-                            column: column,
-                            type: ss.PermissionType,
-                            mine: mine)
-                                ? hb.Td(
-                                    context: context,
-                                    column: column,
-                                    value: userModel.CheckD)
-                                : hb.Td(
-                                    context: context,
-                                    column: column,
-                                    value: string.Empty);
-                    case "CheckE":
-                        return ss.ReadColumnAccessControls.Allowed(
-                            context: context,
-                            ss: ss,
-                            column: column,
-                            type: ss.PermissionType,
-                            mine: mine)
-                                ? hb.Td(
-                                    context: context,
-                                    column: column,
-                                    value: userModel.CheckE)
-                                : hb.Td(
-                                    context: context,
-                                    column: column,
-                                    value: string.Empty);
-                    case "CheckF":
-                        return ss.ReadColumnAccessControls.Allowed(
-                            context: context,
-                            ss: ss,
-                            column: column,
-                            type: ss.PermissionType,
-                            mine: mine)
-                                ? hb.Td(
-                                    context: context,
-                                    column: column,
-                                    value: userModel.CheckF)
-                                : hb.Td(
-                                    context: context,
-                                    column: column,
-                                    value: string.Empty);
-                    case "CheckG":
-                        return ss.ReadColumnAccessControls.Allowed(
-                            context: context,
-                            ss: ss,
-                            column: column,
-                            type: ss.PermissionType,
-                            mine: mine)
-                                ? hb.Td(
-                                    context: context,
-                                    column: column,
-                                    value: userModel.CheckG)
-                                : hb.Td(
-                                    context: context,
-                                    column: column,
-                                    value: string.Empty);
-                    case "CheckH":
-                        return ss.ReadColumnAccessControls.Allowed(
-                            context: context,
-                            ss: ss,
-                            column: column,
-                            type: ss.PermissionType,
-                            mine: mine)
-                                ? hb.Td(
-                                    context: context,
-                                    column: column,
-                                    value: userModel.CheckH)
-                                : hb.Td(
-                                    context: context,
-                                    column: column,
-                                    value: string.Empty);
-                    case "CheckI":
-                        return ss.ReadColumnAccessControls.Allowed(
-                            context: context,
-                            ss: ss,
-                            column: column,
-                            type: ss.PermissionType,
-                            mine: mine)
-                                ? hb.Td(
-                                    context: context,
-                                    column: column,
-                                    value: userModel.CheckI)
-                                : hb.Td(
-                                    context: context,
-                                    column: column,
-                                    value: string.Empty);
-                    case "CheckJ":
-                        return ss.ReadColumnAccessControls.Allowed(
-                            context: context,
-                            ss: ss,
-                            column: column,
-                            type: ss.PermissionType,
-                            mine: mine)
-                                ? hb.Td(
-                                    context: context,
-                                    column: column,
-                                    value: userModel.CheckJ)
-                                : hb.Td(
-                                    context: context,
-                                    column: column,
-                                    value: string.Empty);
-                    case "CheckK":
-                        return ss.ReadColumnAccessControls.Allowed(
-                            context: context,
-                            ss: ss,
-                            column: column,
-                            type: ss.PermissionType,
-                            mine: mine)
-                                ? hb.Td(
-                                    context: context,
-                                    column: column,
-                                    value: userModel.CheckK)
-                                : hb.Td(
-                                    context: context,
-                                    column: column,
-                                    value: string.Empty);
-                    case "CheckL":
-                        return ss.ReadColumnAccessControls.Allowed(
-                            context: context,
-                            ss: ss,
-                            column: column,
-                            type: ss.PermissionType,
-                            mine: mine)
-                                ? hb.Td(
-                                    context: context,
-                                    column: column,
-                                    value: userModel.CheckL)
-                                : hb.Td(
-                                    context: context,
-                                    column: column,
-                                    value: string.Empty);
-                    case "CheckM":
-                        return ss.ReadColumnAccessControls.Allowed(
-                            context: context,
-                            ss: ss,
-                            column: column,
-                            type: ss.PermissionType,
-                            mine: mine)
-                                ? hb.Td(
-                                    context: context,
-                                    column: column,
-                                    value: userModel.CheckM)
-                                : hb.Td(
-                                    context: context,
-                                    column: column,
-                                    value: string.Empty);
-                    case "CheckN":
-                        return ss.ReadColumnAccessControls.Allowed(
-                            context: context,
-                            ss: ss,
-                            column: column,
-                            type: ss.PermissionType,
-                            mine: mine)
-                                ? hb.Td(
-                                    context: context,
-                                    column: column,
-                                    value: userModel.CheckN)
-                                : hb.Td(
-                                    context: context,
-                                    column: column,
-                                    value: string.Empty);
-                    case "CheckO":
-                        return ss.ReadColumnAccessControls.Allowed(
-                            context: context,
-                            ss: ss,
-                            column: column,
-                            type: ss.PermissionType,
-                            mine: mine)
-                                ? hb.Td(
-                                    context: context,
-                                    column: column,
-                                    value: userModel.CheckO)
-                                : hb.Td(
-                                    context: context,
-                                    column: column,
-                                    value: string.Empty);
-                    case "CheckP":
-                        return ss.ReadColumnAccessControls.Allowed(
-                            context: context,
-                            ss: ss,
-                            column: column,
-                            type: ss.PermissionType,
-                            mine: mine)
-                                ? hb.Td(
-                                    context: context,
-                                    column: column,
-                                    value: userModel.CheckP)
-                                : hb.Td(
-                                    context: context,
-                                    column: column,
-                                    value: string.Empty);
-                    case "CheckQ":
-                        return ss.ReadColumnAccessControls.Allowed(
-                            context: context,
-                            ss: ss,
-                            column: column,
-                            type: ss.PermissionType,
-                            mine: mine)
-                                ? hb.Td(
-                                    context: context,
-                                    column: column,
-                                    value: userModel.CheckQ)
-                                : hb.Td(
-                                    context: context,
-                                    column: column,
-                                    value: string.Empty);
-                    case "CheckR":
-                        return ss.ReadColumnAccessControls.Allowed(
-                            context: context,
-                            ss: ss,
-                            column: column,
-                            type: ss.PermissionType,
-                            mine: mine)
-                                ? hb.Td(
-                                    context: context,
-                                    column: column,
-                                    value: userModel.CheckR)
-                                : hb.Td(
-                                    context: context,
-                                    column: column,
-                                    value: string.Empty);
-                    case "CheckS":
-                        return ss.ReadColumnAccessControls.Allowed(
-                            context: context,
-                            ss: ss,
-                            column: column,
-                            type: ss.PermissionType,
-                            mine: mine)
-                                ? hb.Td(
-                                    context: context,
-                                    column: column,
-                                    value: userModel.CheckS)
-                                : hb.Td(
-                                    context: context,
-                                    column: column,
-                                    value: string.Empty);
-                    case "CheckT":
-                        return ss.ReadColumnAccessControls.Allowed(
-                            context: context,
-                            ss: ss,
-                            column: column,
-                            type: ss.PermissionType,
-                            mine: mine)
-                                ? hb.Td(
-                                    context: context,
-                                    column: column,
-                                    value: userModel.CheckT)
-                                : hb.Td(
-                                    context: context,
-                                    column: column,
-                                    value: string.Empty);
-                    case "CheckU":
-                        return ss.ReadColumnAccessControls.Allowed(
-                            context: context,
-                            ss: ss,
-                            column: column,
-                            type: ss.PermissionType,
-                            mine: mine)
-                                ? hb.Td(
-                                    context: context,
-                                    column: column,
-                                    value: userModel.CheckU)
-                                : hb.Td(
-                                    context: context,
-                                    column: column,
-                                    value: string.Empty);
-                    case "CheckV":
-                        return ss.ReadColumnAccessControls.Allowed(
-                            context: context,
-                            ss: ss,
-                            column: column,
-                            type: ss.PermissionType,
-                            mine: mine)
-                                ? hb.Td(
-                                    context: context,
-                                    column: column,
-                                    value: userModel.CheckV)
-                                : hb.Td(
-                                    context: context,
-                                    column: column,
-                                    value: string.Empty);
-                    case "CheckW":
-                        return ss.ReadColumnAccessControls.Allowed(
-                            context: context,
-                            ss: ss,
-                            column: column,
-                            type: ss.PermissionType,
-                            mine: mine)
-                                ? hb.Td(
-                                    context: context,
-                                    column: column,
-                                    value: userModel.CheckW)
-                                : hb.Td(
-                                    context: context,
-                                    column: column,
-                                    value: string.Empty);
-                    case "CheckX":
-                        return ss.ReadColumnAccessControls.Allowed(
-                            context: context,
-                            ss: ss,
-                            column: column,
-                            type: ss.PermissionType,
-                            mine: mine)
-                                ? hb.Td(
-                                    context: context,
-                                    column: column,
-                                    value: userModel.CheckX)
-                                : hb.Td(
-                                    context: context,
-                                    column: column,
-                                    value: string.Empty);
-                    case "CheckY":
-                        return ss.ReadColumnAccessControls.Allowed(
-                            context: context,
-                            ss: ss,
-                            column: column,
-                            type: ss.PermissionType,
-                            mine: mine)
-                                ? hb.Td(
-                                    context: context,
-                                    column: column,
-                                    value: userModel.CheckY)
-                                : hb.Td(
-                                    context: context,
-                                    column: column,
-                                    value: string.Empty);
-                    case "CheckZ":
-                        return ss.ReadColumnAccessControls.Allowed(
-                            context: context,
-                            ss: ss,
-                            column: column,
-                            type: ss.PermissionType,
-                            mine: mine)
-                                ? hb.Td(
-                                    context: context,
-                                    column: column,
-                                    value: userModel.CheckZ)
-                                : hb.Td(
-                                    context: context,
-                                    column: column,
-                                    value: string.Empty);
                     case "LdapSearchRoot":
                         return ss.ReadColumnAccessControls.Allowed(
                             context: context,
@@ -2723,7 +820,102 @@ namespace Implem.Pleasanter.Models
                                     context: context,
                                     column: column,
                                     value: string.Empty);
-                    default: return hb;
+                    default:
+                        switch (Def.ExtendedColumnTypes.Get(column.Name))
+                        {
+                            case "Class":
+                                return ss.ReadColumnAccessControls.Allowed(
+                                    context: context,
+                                    ss: ss,
+                                    column: column,
+                                    type: ss.PermissionType,
+                                    mine: mine)
+                                        ? hb.Td(
+                                            context: context,
+                                            column: column,
+                                            value: userModel.Class(columnName: column.Name))
+                                        : hb.Td(
+                                            context: context,
+                                            column: column,
+                                            value: string.Empty);
+                            case "Num":
+                                return ss.ReadColumnAccessControls.Allowed(
+                                    context: context,
+                                    ss: ss,
+                                    column: column,
+                                    type: ss.PermissionType,
+                                    mine: mine)
+                                        ? hb.Td(
+                                            context: context,
+                                            column: column,
+                                            value: userModel.Num(columnName: column.Name))
+                                        : hb.Td(
+                                            context: context,
+                                            column: column,
+                                            value: string.Empty);
+                            case "Date":
+                                return ss.ReadColumnAccessControls.Allowed(
+                                    context: context,
+                                    ss: ss,
+                                    column: column,
+                                    type: ss.PermissionType,
+                                    mine: mine)
+                                        ? hb.Td(
+                                            context: context,
+                                            column: column,
+                                            value: userModel.Date(columnName: column.Name))
+                                        : hb.Td(
+                                            context: context,
+                                            column: column,
+                                            value: string.Empty);
+                            case "Description":
+                                return ss.ReadColumnAccessControls.Allowed(
+                                    context: context,
+                                    ss: ss,
+                                    column: column,
+                                    type: ss.PermissionType,
+                                    mine: mine)
+                                        ? hb.Td(
+                                            context: context,
+                                            column: column,
+                                            value: userModel.Description(columnName: column.Name))
+                                        : hb.Td(
+                                            context: context,
+                                            column: column,
+                                            value: string.Empty);
+                            case "Check":
+                                return ss.ReadColumnAccessControls.Allowed(
+                                    context: context,
+                                    ss: ss,
+                                    column: column,
+                                    type: ss.PermissionType,
+                                    mine: mine)
+                                        ? hb.Td(
+                                            context: context,
+                                            column: column,
+                                            value: userModel.Check(columnName: column.Name))
+                                        : hb.Td(
+                                            context: context,
+                                            column: column,
+                                            value: string.Empty);
+                            case "Attachments":
+                                return ss.ReadColumnAccessControls.Allowed(
+                                    context: context,
+                                    ss: ss,
+                                    column: column,
+                                    type: ss.PermissionType,
+                                    mine: mine)
+                                        ? hb.Td(
+                                            context: context,
+                                            column: column,
+                                            value: userModel.Attachments(columnName: column.Name))
+                                        : hb.Td(
+                                            context: context,
+                                            column: column,
+                                            value: string.Empty);
+                            default:
+                                return hb;
+                        }
                 }
             }
         }
@@ -2803,396 +995,6 @@ namespace Implem.Pleasanter.Models
                     case "LockoutCounter": value = userModel.LockoutCounter.GridText(
                         context: context,
                         column: column); break;
-                    case "ClassA": value = userModel.ClassA.GridText(
-                        context: context,
-                        column: column); break;
-                    case "ClassB": value = userModel.ClassB.GridText(
-                        context: context,
-                        column: column); break;
-                    case "ClassC": value = userModel.ClassC.GridText(
-                        context: context,
-                        column: column); break;
-                    case "ClassD": value = userModel.ClassD.GridText(
-                        context: context,
-                        column: column); break;
-                    case "ClassE": value = userModel.ClassE.GridText(
-                        context: context,
-                        column: column); break;
-                    case "ClassF": value = userModel.ClassF.GridText(
-                        context: context,
-                        column: column); break;
-                    case "ClassG": value = userModel.ClassG.GridText(
-                        context: context,
-                        column: column); break;
-                    case "ClassH": value = userModel.ClassH.GridText(
-                        context: context,
-                        column: column); break;
-                    case "ClassI": value = userModel.ClassI.GridText(
-                        context: context,
-                        column: column); break;
-                    case "ClassJ": value = userModel.ClassJ.GridText(
-                        context: context,
-                        column: column); break;
-                    case "ClassK": value = userModel.ClassK.GridText(
-                        context: context,
-                        column: column); break;
-                    case "ClassL": value = userModel.ClassL.GridText(
-                        context: context,
-                        column: column); break;
-                    case "ClassM": value = userModel.ClassM.GridText(
-                        context: context,
-                        column: column); break;
-                    case "ClassN": value = userModel.ClassN.GridText(
-                        context: context,
-                        column: column); break;
-                    case "ClassO": value = userModel.ClassO.GridText(
-                        context: context,
-                        column: column); break;
-                    case "ClassP": value = userModel.ClassP.GridText(
-                        context: context,
-                        column: column); break;
-                    case "ClassQ": value = userModel.ClassQ.GridText(
-                        context: context,
-                        column: column); break;
-                    case "ClassR": value = userModel.ClassR.GridText(
-                        context: context,
-                        column: column); break;
-                    case "ClassS": value = userModel.ClassS.GridText(
-                        context: context,
-                        column: column); break;
-                    case "ClassT": value = userModel.ClassT.GridText(
-                        context: context,
-                        column: column); break;
-                    case "ClassU": value = userModel.ClassU.GridText(
-                        context: context,
-                        column: column); break;
-                    case "ClassV": value = userModel.ClassV.GridText(
-                        context: context,
-                        column: column); break;
-                    case "ClassW": value = userModel.ClassW.GridText(
-                        context: context,
-                        column: column); break;
-                    case "ClassX": value = userModel.ClassX.GridText(
-                        context: context,
-                        column: column); break;
-                    case "ClassY": value = userModel.ClassY.GridText(
-                        context: context,
-                        column: column); break;
-                    case "ClassZ": value = userModel.ClassZ.GridText(
-                        context: context,
-                        column: column); break;
-                    case "NumA": value = userModel.NumA.GridText(
-                        context: context,
-                        column: column); break;
-                    case "NumB": value = userModel.NumB.GridText(
-                        context: context,
-                        column: column); break;
-                    case "NumC": value = userModel.NumC.GridText(
-                        context: context,
-                        column: column); break;
-                    case "NumD": value = userModel.NumD.GridText(
-                        context: context,
-                        column: column); break;
-                    case "NumE": value = userModel.NumE.GridText(
-                        context: context,
-                        column: column); break;
-                    case "NumF": value = userModel.NumF.GridText(
-                        context: context,
-                        column: column); break;
-                    case "NumG": value = userModel.NumG.GridText(
-                        context: context,
-                        column: column); break;
-                    case "NumH": value = userModel.NumH.GridText(
-                        context: context,
-                        column: column); break;
-                    case "NumI": value = userModel.NumI.GridText(
-                        context: context,
-                        column: column); break;
-                    case "NumJ": value = userModel.NumJ.GridText(
-                        context: context,
-                        column: column); break;
-                    case "NumK": value = userModel.NumK.GridText(
-                        context: context,
-                        column: column); break;
-                    case "NumL": value = userModel.NumL.GridText(
-                        context: context,
-                        column: column); break;
-                    case "NumM": value = userModel.NumM.GridText(
-                        context: context,
-                        column: column); break;
-                    case "NumN": value = userModel.NumN.GridText(
-                        context: context,
-                        column: column); break;
-                    case "NumO": value = userModel.NumO.GridText(
-                        context: context,
-                        column: column); break;
-                    case "NumP": value = userModel.NumP.GridText(
-                        context: context,
-                        column: column); break;
-                    case "NumQ": value = userModel.NumQ.GridText(
-                        context: context,
-                        column: column); break;
-                    case "NumR": value = userModel.NumR.GridText(
-                        context: context,
-                        column: column); break;
-                    case "NumS": value = userModel.NumS.GridText(
-                        context: context,
-                        column: column); break;
-                    case "NumT": value = userModel.NumT.GridText(
-                        context: context,
-                        column: column); break;
-                    case "NumU": value = userModel.NumU.GridText(
-                        context: context,
-                        column: column); break;
-                    case "NumV": value = userModel.NumV.GridText(
-                        context: context,
-                        column: column); break;
-                    case "NumW": value = userModel.NumW.GridText(
-                        context: context,
-                        column: column); break;
-                    case "NumX": value = userModel.NumX.GridText(
-                        context: context,
-                        column: column); break;
-                    case "NumY": value = userModel.NumY.GridText(
-                        context: context,
-                        column: column); break;
-                    case "NumZ": value = userModel.NumZ.GridText(
-                        context: context,
-                        column: column); break;
-                    case "DateA": value = userModel.DateA.GridText(
-                        context: context,
-                        column: column); break;
-                    case "DateB": value = userModel.DateB.GridText(
-                        context: context,
-                        column: column); break;
-                    case "DateC": value = userModel.DateC.GridText(
-                        context: context,
-                        column: column); break;
-                    case "DateD": value = userModel.DateD.GridText(
-                        context: context,
-                        column: column); break;
-                    case "DateE": value = userModel.DateE.GridText(
-                        context: context,
-                        column: column); break;
-                    case "DateF": value = userModel.DateF.GridText(
-                        context: context,
-                        column: column); break;
-                    case "DateG": value = userModel.DateG.GridText(
-                        context: context,
-                        column: column); break;
-                    case "DateH": value = userModel.DateH.GridText(
-                        context: context,
-                        column: column); break;
-                    case "DateI": value = userModel.DateI.GridText(
-                        context: context,
-                        column: column); break;
-                    case "DateJ": value = userModel.DateJ.GridText(
-                        context: context,
-                        column: column); break;
-                    case "DateK": value = userModel.DateK.GridText(
-                        context: context,
-                        column: column); break;
-                    case "DateL": value = userModel.DateL.GridText(
-                        context: context,
-                        column: column); break;
-                    case "DateM": value = userModel.DateM.GridText(
-                        context: context,
-                        column: column); break;
-                    case "DateN": value = userModel.DateN.GridText(
-                        context: context,
-                        column: column); break;
-                    case "DateO": value = userModel.DateO.GridText(
-                        context: context,
-                        column: column); break;
-                    case "DateP": value = userModel.DateP.GridText(
-                        context: context,
-                        column: column); break;
-                    case "DateQ": value = userModel.DateQ.GridText(
-                        context: context,
-                        column: column); break;
-                    case "DateR": value = userModel.DateR.GridText(
-                        context: context,
-                        column: column); break;
-                    case "DateS": value = userModel.DateS.GridText(
-                        context: context,
-                        column: column); break;
-                    case "DateT": value = userModel.DateT.GridText(
-                        context: context,
-                        column: column); break;
-                    case "DateU": value = userModel.DateU.GridText(
-                        context: context,
-                        column: column); break;
-                    case "DateV": value = userModel.DateV.GridText(
-                        context: context,
-                        column: column); break;
-                    case "DateW": value = userModel.DateW.GridText(
-                        context: context,
-                        column: column); break;
-                    case "DateX": value = userModel.DateX.GridText(
-                        context: context,
-                        column: column); break;
-                    case "DateY": value = userModel.DateY.GridText(
-                        context: context,
-                        column: column); break;
-                    case "DateZ": value = userModel.DateZ.GridText(
-                        context: context,
-                        column: column); break;
-                    case "DescriptionA": value = userModel.DescriptionA.GridText(
-                        context: context,
-                        column: column); break;
-                    case "DescriptionB": value = userModel.DescriptionB.GridText(
-                        context: context,
-                        column: column); break;
-                    case "DescriptionC": value = userModel.DescriptionC.GridText(
-                        context: context,
-                        column: column); break;
-                    case "DescriptionD": value = userModel.DescriptionD.GridText(
-                        context: context,
-                        column: column); break;
-                    case "DescriptionE": value = userModel.DescriptionE.GridText(
-                        context: context,
-                        column: column); break;
-                    case "DescriptionF": value = userModel.DescriptionF.GridText(
-                        context: context,
-                        column: column); break;
-                    case "DescriptionG": value = userModel.DescriptionG.GridText(
-                        context: context,
-                        column: column); break;
-                    case "DescriptionH": value = userModel.DescriptionH.GridText(
-                        context: context,
-                        column: column); break;
-                    case "DescriptionI": value = userModel.DescriptionI.GridText(
-                        context: context,
-                        column: column); break;
-                    case "DescriptionJ": value = userModel.DescriptionJ.GridText(
-                        context: context,
-                        column: column); break;
-                    case "DescriptionK": value = userModel.DescriptionK.GridText(
-                        context: context,
-                        column: column); break;
-                    case "DescriptionL": value = userModel.DescriptionL.GridText(
-                        context: context,
-                        column: column); break;
-                    case "DescriptionM": value = userModel.DescriptionM.GridText(
-                        context: context,
-                        column: column); break;
-                    case "DescriptionN": value = userModel.DescriptionN.GridText(
-                        context: context,
-                        column: column); break;
-                    case "DescriptionO": value = userModel.DescriptionO.GridText(
-                        context: context,
-                        column: column); break;
-                    case "DescriptionP": value = userModel.DescriptionP.GridText(
-                        context: context,
-                        column: column); break;
-                    case "DescriptionQ": value = userModel.DescriptionQ.GridText(
-                        context: context,
-                        column: column); break;
-                    case "DescriptionR": value = userModel.DescriptionR.GridText(
-                        context: context,
-                        column: column); break;
-                    case "DescriptionS": value = userModel.DescriptionS.GridText(
-                        context: context,
-                        column: column); break;
-                    case "DescriptionT": value = userModel.DescriptionT.GridText(
-                        context: context,
-                        column: column); break;
-                    case "DescriptionU": value = userModel.DescriptionU.GridText(
-                        context: context,
-                        column: column); break;
-                    case "DescriptionV": value = userModel.DescriptionV.GridText(
-                        context: context,
-                        column: column); break;
-                    case "DescriptionW": value = userModel.DescriptionW.GridText(
-                        context: context,
-                        column: column); break;
-                    case "DescriptionX": value = userModel.DescriptionX.GridText(
-                        context: context,
-                        column: column); break;
-                    case "DescriptionY": value = userModel.DescriptionY.GridText(
-                        context: context,
-                        column: column); break;
-                    case "DescriptionZ": value = userModel.DescriptionZ.GridText(
-                        context: context,
-                        column: column); break;
-                    case "CheckA": value = userModel.CheckA.GridText(
-                        context: context,
-                        column: column); break;
-                    case "CheckB": value = userModel.CheckB.GridText(
-                        context: context,
-                        column: column); break;
-                    case "CheckC": value = userModel.CheckC.GridText(
-                        context: context,
-                        column: column); break;
-                    case "CheckD": value = userModel.CheckD.GridText(
-                        context: context,
-                        column: column); break;
-                    case "CheckE": value = userModel.CheckE.GridText(
-                        context: context,
-                        column: column); break;
-                    case "CheckF": value = userModel.CheckF.GridText(
-                        context: context,
-                        column: column); break;
-                    case "CheckG": value = userModel.CheckG.GridText(
-                        context: context,
-                        column: column); break;
-                    case "CheckH": value = userModel.CheckH.GridText(
-                        context: context,
-                        column: column); break;
-                    case "CheckI": value = userModel.CheckI.GridText(
-                        context: context,
-                        column: column); break;
-                    case "CheckJ": value = userModel.CheckJ.GridText(
-                        context: context,
-                        column: column); break;
-                    case "CheckK": value = userModel.CheckK.GridText(
-                        context: context,
-                        column: column); break;
-                    case "CheckL": value = userModel.CheckL.GridText(
-                        context: context,
-                        column: column); break;
-                    case "CheckM": value = userModel.CheckM.GridText(
-                        context: context,
-                        column: column); break;
-                    case "CheckN": value = userModel.CheckN.GridText(
-                        context: context,
-                        column: column); break;
-                    case "CheckO": value = userModel.CheckO.GridText(
-                        context: context,
-                        column: column); break;
-                    case "CheckP": value = userModel.CheckP.GridText(
-                        context: context,
-                        column: column); break;
-                    case "CheckQ": value = userModel.CheckQ.GridText(
-                        context: context,
-                        column: column); break;
-                    case "CheckR": value = userModel.CheckR.GridText(
-                        context: context,
-                        column: column); break;
-                    case "CheckS": value = userModel.CheckS.GridText(
-                        context: context,
-                        column: column); break;
-                    case "CheckT": value = userModel.CheckT.GridText(
-                        context: context,
-                        column: column); break;
-                    case "CheckU": value = userModel.CheckU.GridText(
-                        context: context,
-                        column: column); break;
-                    case "CheckV": value = userModel.CheckV.GridText(
-                        context: context,
-                        column: column); break;
-                    case "CheckW": value = userModel.CheckW.GridText(
-                        context: context,
-                        column: column); break;
-                    case "CheckX": value = userModel.CheckX.GridText(
-                        context: context,
-                        column: column); break;
-                    case "CheckY": value = userModel.CheckY.GridText(
-                        context: context,
-                        column: column); break;
-                    case "CheckZ": value = userModel.CheckZ.GridText(
-                        context: context,
-                        column: column); break;
                     case "LdapSearchRoot": value = userModel.LdapSearchRoot.GridText(
                         context: context,
                         column: column); break;
@@ -3214,6 +1016,41 @@ namespace Implem.Pleasanter.Models
                     case "UpdatedTime": value = userModel.UpdatedTime.GridText(
                         context: context,
                         column: column); break;
+                    default:
+                        switch (Def.ExtendedColumnTypes.Get(column.Name))
+                        {
+                            case "Class":
+                                value = userModel.Class(columnName: column.Name).GridText(
+                                    context: context,
+                                    column: column);
+                                break;
+                            case "Num":
+                                value = userModel.Num(columnName: column.Name).GridText(
+                                    context: context,
+                                    column: column);
+                                break;
+                            case "Date":
+                                value = userModel.Date(columnName: column.Name).GridText(
+                                    context: context,
+                                    column: column);
+                                break;
+                            case "Description":
+                                value = userModel.Description(columnName: column.Name).GridText(
+                                    context: context,
+                                    column: column);
+                                break;
+                            case "Check":
+                                value = userModel.Check(columnName: column.Name).GridText(
+                                    context: context,
+                                    column: column);
+                                break;
+                            case "Attachments":
+                                value = userModel.Attachments(columnName: column.Name).GridText(
+                                    context: context,
+                                    column: column);
+                                break;
+                        }
+                        break;
                 }
                 gridDesign = gridDesign.Replace("[" + column.ColumnName + "]", value);
             });
@@ -3226,7 +1063,9 @@ namespace Implem.Pleasanter.Models
         {
             if (context.ContractSettings.UsersLimit(context: context))
             {
-                return HtmlTemplates.Error(context, Error.Types.UsersLimit);
+                return HtmlTemplates.Error(
+                    context: context,
+                    errorData: new ErrorData(type: Error.Types.UsersLimit));
             }
             return Editor(context: context, ss: ss, userModel: new UserModel(
                 context: context,
@@ -3257,10 +1096,12 @@ namespace Implem.Pleasanter.Models
                 context: context,
                 ss: ss,
                 userModel: userModel);
-            switch (invalid)
+            switch (invalid.Type)
             {
                 case Error.Types.None: break;
-                default: return HtmlTemplates.Error(context, invalid);
+                default: return HtmlTemplates.Error(
+                    context: context,
+                    errorData: invalid);
             }
             var hb = new HtmlBuilder();
             ss.SetColumnAccessControls(
@@ -3299,8 +1140,8 @@ namespace Implem.Pleasanter.Models
             return hb.Div(id: "Editor", action: () => hb
                 .Form(
                     attributes: new HtmlAttributes()
-                        .Id("UserForm")
-                        .Class("main-form confirm-reload")
+                        .Id("MainForm")
+                        .Class("main-form confirm-unload")
                         .Action(userModel.UserId != 0
                             ? Locations.Action(
                                 context: context,
@@ -3343,9 +1184,7 @@ namespace Implem.Pleasanter.Models
                             .MainCommands(
                                 context: context,
                                 ss: ss,
-                                siteId: 0,
                                 verType: userModel.VerType,
-                                referenceId: userModel.UserId,
                                 updateButton: true,
                                 mailButton: true,
                                 deleteButton: true,
@@ -3430,1793 +1269,12 @@ namespace Implem.Pleasanter.Models
             bool preview = false)
         {
             ss.GetEditorColumns(context: context).ForEach(column =>
-            {
-                switch (column.Name)
-                {
-                    case "UserId":
-                        hb.Field(
-                            context: context,
-                            ss: ss,
-                            column: column,
-                            methodType: userModel.MethodType,
-                            value: userModel.UserId
-                                .ToControl(context: context, ss: ss, column: column),
-                            columnPermissionType: column.ColumnPermissionType(context: context),
-                            preview: preview);
-                        break;
-                    case "Ver":
-                        hb.Field(
-                            context: context,
-                            ss: ss,
-                            column: column,
-                            methodType: userModel.MethodType,
-                            value: userModel.Ver
-                                .ToControl(context: context, ss: ss, column: column),
-                            columnPermissionType: column.ColumnPermissionType(context: context),
-                            preview: preview);
-                        break;
-                    case "LoginId":
-                        hb.Field(
-                            context: context,
-                            ss: ss,
-                            column: column,
-                            methodType: userModel.MethodType,
-                            value: userModel.LoginId
-                                .ToControl(context: context, ss: ss, column: column),
-                            columnPermissionType: column.ColumnPermissionType(context: context),
-                            preview: preview);
-                        break;
-                    case "Name":
-                        hb.Field(
-                            context: context,
-                            ss: ss,
-                            column: column,
-                            methodType: userModel.MethodType,
-                            value: userModel.Name
-                                .ToControl(context: context, ss: ss, column: column),
-                            columnPermissionType: column.ColumnPermissionType(context: context),
-                            preview: preview);
-                        break;
-                    case "UserCode":
-                        hb.Field(
-                            context: context,
-                            ss: ss,
-                            column: column,
-                            methodType: userModel.MethodType,
-                            value: userModel.UserCode
-                                .ToControl(context: context, ss: ss, column: column),
-                            columnPermissionType: column.ColumnPermissionType(context: context),
-                            preview: preview);
-                        break;
-                    case "Password":
-                        hb.Field(
-                            context: context,
-                            ss: ss,
-                            column: column,
-                            methodType: userModel.MethodType,
-                            value: userModel.Password
-                                .ToControl(context: context, ss: ss, column: column),
-                            columnPermissionType: column.ColumnPermissionType(context: context),
-                            preview: preview);
-                        break;
-                    case "PasswordValidate":
-                        hb.Field(
-                            context: context,
-                            ss: ss,
-                            column: column,
-                            methodType: userModel.MethodType,
-                            value: userModel.PasswordValidate
-                                .ToControl(context: context, ss: ss, column: column),
-                            columnPermissionType: column.ColumnPermissionType(context: context),
-                            preview: preview);
-                        break;
-                    case "PasswordDummy":
-                        hb.Field(
-                            context: context,
-                            ss: ss,
-                            column: column,
-                            methodType: userModel.MethodType,
-                            value: userModel.PasswordDummy
-                                .ToControl(context: context, ss: ss, column: column),
-                            columnPermissionType: column.ColumnPermissionType(context: context),
-                            preview: preview);
-                        break;
-                    case "RememberMe":
-                        hb.Field(
-                            context: context,
-                            ss: ss,
-                            column: column,
-                            methodType: userModel.MethodType,
-                            value: userModel.RememberMe
-                                .ToControl(context: context, ss: ss, column: column),
-                            columnPermissionType: column.ColumnPermissionType(context: context),
-                            preview: preview);
-                        break;
-                    case "Birthday":
-                        hb.Field(
-                            context: context,
-                            ss: ss,
-                            column: column,
-                            methodType: userModel.MethodType,
-                            value: userModel.Birthday
-                                .ToControl(context: context, ss: ss, column: column),
-                            columnPermissionType: column.ColumnPermissionType(context: context),
-                            preview: preview);
-                        break;
-                    case "Gender":
-                        hb.Field(
-                            context: context,
-                            ss: ss,
-                            column: column,
-                            methodType: userModel.MethodType,
-                            value: userModel.Gender
-                                .ToControl(context: context, ss: ss, column: column),
-                            columnPermissionType: column.ColumnPermissionType(context: context),
-                            preview: preview);
-                        break;
-                    case "Language":
-                        hb.Field(
-                            context: context,
-                            ss: ss,
-                            column: column,
-                            methodType: userModel.MethodType,
-                            value: userModel.Language
-                                .ToControl(context: context, ss: ss, column: column),
-                            columnPermissionType: column.ColumnPermissionType(context: context),
-                            preview: preview);
-                        break;
-                    case "TimeZone":
-                        hb.Field(
-                            context: context,
-                            ss: ss,
-                            column: column,
-                            methodType: userModel.MethodType,
-                            value: userModel.TimeZone
-                                .ToControl(context: context, ss: ss, column: column),
-                            columnPermissionType: column.ColumnPermissionType(context: context),
-                            preview: preview);
-                        break;
-                    case "DeptId":
-                        hb.Field(
-                            context: context,
-                            ss: ss,
-                            column: column,
-                            methodType: userModel.MethodType,
-                            value: userModel.DeptId
-                                .ToControl(context: context, ss: ss, column: column),
-                            columnPermissionType: column.ColumnPermissionType(context: context),
-                            preview: preview);
-                        break;
-                    case "Body":
-                        hb.Field(
-                            context: context,
-                            ss: ss,
-                            column: column,
-                            methodType: userModel.MethodType,
-                            value: userModel.Body
-                                .ToControl(context: context, ss: ss, column: column),
-                            columnPermissionType: column.ColumnPermissionType(context: context),
-                            preview: preview);
-                        break;
-                    case "LastLoginTime":
-                        hb.Field(
-                            context: context,
-                            ss: ss,
-                            column: column,
-                            methodType: userModel.MethodType,
-                            value: userModel.LastLoginTime
-                                .ToControl(context: context, ss: ss, column: column),
-                            columnPermissionType: column.ColumnPermissionType(context: context),
-                            preview: preview);
-                        break;
-                    case "PasswordExpirationTime":
-                        hb.Field(
-                            context: context,
-                            ss: ss,
-                            column: column,
-                            methodType: userModel.MethodType,
-                            value: userModel.PasswordExpirationTime
-                                .ToControl(context: context, ss: ss, column: column),
-                            columnPermissionType: column.ColumnPermissionType(context: context),
-                            preview: preview);
-                        break;
-                    case "PasswordChangeTime":
-                        hb.Field(
-                            context: context,
-                            ss: ss,
-                            column: column,
-                            methodType: userModel.MethodType,
-                            value: userModel.PasswordChangeTime
-                                .ToControl(context: context, ss: ss, column: column),
-                            columnPermissionType: column.ColumnPermissionType(context: context),
-                            preview: preview);
-                        break;
-                    case "NumberOfLogins":
-                        hb.Field(
-                            context: context,
-                            ss: ss,
-                            column: column,
-                            methodType: userModel.MethodType,
-                            value: userModel.NumberOfLogins
-                                .ToControl(context: context, ss: ss, column: column),
-                            columnPermissionType: column.ColumnPermissionType(context: context),
-                            preview: preview);
-                        break;
-                    case "NumberOfDenial":
-                        hb.Field(
-                            context: context,
-                            ss: ss,
-                            column: column,
-                            methodType: userModel.MethodType,
-                            value: userModel.NumberOfDenial
-                                .ToControl(context: context, ss: ss, column: column),
-                            columnPermissionType: column.ColumnPermissionType(context: context),
-                            preview: preview);
-                        break;
-                    case "TenantManager":
-                        hb.Field(
-                            context: context,
-                            ss: ss,
-                            column: column,
-                            methodType: userModel.MethodType,
-                            value: userModel.TenantManager
-                                .ToControl(context: context, ss: ss, column: column),
-                            columnPermissionType: column.ColumnPermissionType(context: context),
-                            preview: preview);
-                        break;
-                    case "Disabled":
-                        hb.Field(
-                            context: context,
-                            ss: ss,
-                            column: column,
-                            methodType: userModel.MethodType,
-                            value: userModel.Disabled
-                                .ToControl(context: context, ss: ss, column: column),
-                            columnPermissionType: column.ColumnPermissionType(context: context),
-                            preview: preview);
-                        break;
-                    case "Lockout":
-                        hb.Field(
-                            context: context,
-                            ss: ss,
-                            column: column,
-                            methodType: userModel.MethodType,
-                            value: userModel.Lockout
-                                .ToControl(context: context, ss: ss, column: column),
-                            columnPermissionType: column.ColumnPermissionType(context: context),
-                            preview: preview);
-                        break;
-                    case "LockoutCounter":
-                        hb.Field(
-                            context: context,
-                            ss: ss,
-                            column: column,
-                            methodType: userModel.MethodType,
-                            value: userModel.LockoutCounter
-                                .ToControl(context: context, ss: ss, column: column),
-                            columnPermissionType: column.ColumnPermissionType(context: context),
-                            preview: preview);
-                        break;
-                    case "OldPassword":
-                        hb.Field(
-                            context: context,
-                            ss: ss,
-                            column: column,
-                            methodType: userModel.MethodType,
-                            value: userModel.OldPassword
-                                .ToControl(context: context, ss: ss, column: column),
-                            columnPermissionType: column.ColumnPermissionType(context: context),
-                            preview: preview);
-                        break;
-                    case "ChangedPassword":
-                        hb.Field(
-                            context: context,
-                            ss: ss,
-                            column: column,
-                            methodType: userModel.MethodType,
-                            value: userModel.ChangedPassword
-                                .ToControl(context: context, ss: ss, column: column),
-                            columnPermissionType: column.ColumnPermissionType(context: context),
-                            preview: preview);
-                        break;
-                    case "ChangedPasswordValidator":
-                        hb.Field(
-                            context: context,
-                            ss: ss,
-                            column: column,
-                            methodType: userModel.MethodType,
-                            value: userModel.ChangedPasswordValidator
-                                .ToControl(context: context, ss: ss, column: column),
-                            columnPermissionType: column.ColumnPermissionType(context: context),
-                            preview: preview);
-                        break;
-                    case "AfterResetPassword":
-                        hb.Field(
-                            context: context,
-                            ss: ss,
-                            column: column,
-                            methodType: userModel.MethodType,
-                            value: userModel.AfterResetPassword
-                                .ToControl(context: context, ss: ss, column: column),
-                            columnPermissionType: column.ColumnPermissionType(context: context),
-                            preview: preview);
-                        break;
-                    case "AfterResetPasswordValidator":
-                        hb.Field(
-                            context: context,
-                            ss: ss,
-                            column: column,
-                            methodType: userModel.MethodType,
-                            value: userModel.AfterResetPasswordValidator
-                                .ToControl(context: context, ss: ss, column: column),
-                            columnPermissionType: column.ColumnPermissionType(context: context),
-                            preview: preview);
-                        break;
-                    case "DemoMailAddress":
-                        hb.Field(
-                            context: context,
-                            ss: ss,
-                            column: column,
-                            methodType: userModel.MethodType,
-                            value: userModel.DemoMailAddress
-                                .ToControl(context: context, ss: ss, column: column),
-                            columnPermissionType: column.ColumnPermissionType(context: context),
-                            preview: preview);
-                        break;
-                    case "ClassA":
-                        hb.Field(
-                            context: context,
-                            ss: ss,
-                            column: column,
-                            methodType: userModel.MethodType,
-                            value: userModel.ClassA
-                                .ToControl(context: context, ss: ss, column: column),
-                            columnPermissionType: column.ColumnPermissionType(context: context),
-                            preview: preview);
-                        break;
-                    case "ClassB":
-                        hb.Field(
-                            context: context,
-                            ss: ss,
-                            column: column,
-                            methodType: userModel.MethodType,
-                            value: userModel.ClassB
-                                .ToControl(context: context, ss: ss, column: column),
-                            columnPermissionType: column.ColumnPermissionType(context: context),
-                            preview: preview);
-                        break;
-                    case "ClassC":
-                        hb.Field(
-                            context: context,
-                            ss: ss,
-                            column: column,
-                            methodType: userModel.MethodType,
-                            value: userModel.ClassC
-                                .ToControl(context: context, ss: ss, column: column),
-                            columnPermissionType: column.ColumnPermissionType(context: context),
-                            preview: preview);
-                        break;
-                    case "ClassD":
-                        hb.Field(
-                            context: context,
-                            ss: ss,
-                            column: column,
-                            methodType: userModel.MethodType,
-                            value: userModel.ClassD
-                                .ToControl(context: context, ss: ss, column: column),
-                            columnPermissionType: column.ColumnPermissionType(context: context),
-                            preview: preview);
-                        break;
-                    case "ClassE":
-                        hb.Field(
-                            context: context,
-                            ss: ss,
-                            column: column,
-                            methodType: userModel.MethodType,
-                            value: userModel.ClassE
-                                .ToControl(context: context, ss: ss, column: column),
-                            columnPermissionType: column.ColumnPermissionType(context: context),
-                            preview: preview);
-                        break;
-                    case "ClassF":
-                        hb.Field(
-                            context: context,
-                            ss: ss,
-                            column: column,
-                            methodType: userModel.MethodType,
-                            value: userModel.ClassF
-                                .ToControl(context: context, ss: ss, column: column),
-                            columnPermissionType: column.ColumnPermissionType(context: context),
-                            preview: preview);
-                        break;
-                    case "ClassG":
-                        hb.Field(
-                            context: context,
-                            ss: ss,
-                            column: column,
-                            methodType: userModel.MethodType,
-                            value: userModel.ClassG
-                                .ToControl(context: context, ss: ss, column: column),
-                            columnPermissionType: column.ColumnPermissionType(context: context),
-                            preview: preview);
-                        break;
-                    case "ClassH":
-                        hb.Field(
-                            context: context,
-                            ss: ss,
-                            column: column,
-                            methodType: userModel.MethodType,
-                            value: userModel.ClassH
-                                .ToControl(context: context, ss: ss, column: column),
-                            columnPermissionType: column.ColumnPermissionType(context: context),
-                            preview: preview);
-                        break;
-                    case "ClassI":
-                        hb.Field(
-                            context: context,
-                            ss: ss,
-                            column: column,
-                            methodType: userModel.MethodType,
-                            value: userModel.ClassI
-                                .ToControl(context: context, ss: ss, column: column),
-                            columnPermissionType: column.ColumnPermissionType(context: context),
-                            preview: preview);
-                        break;
-                    case "ClassJ":
-                        hb.Field(
-                            context: context,
-                            ss: ss,
-                            column: column,
-                            methodType: userModel.MethodType,
-                            value: userModel.ClassJ
-                                .ToControl(context: context, ss: ss, column: column),
-                            columnPermissionType: column.ColumnPermissionType(context: context),
-                            preview: preview);
-                        break;
-                    case "ClassK":
-                        hb.Field(
-                            context: context,
-                            ss: ss,
-                            column: column,
-                            methodType: userModel.MethodType,
-                            value: userModel.ClassK
-                                .ToControl(context: context, ss: ss, column: column),
-                            columnPermissionType: column.ColumnPermissionType(context: context),
-                            preview: preview);
-                        break;
-                    case "ClassL":
-                        hb.Field(
-                            context: context,
-                            ss: ss,
-                            column: column,
-                            methodType: userModel.MethodType,
-                            value: userModel.ClassL
-                                .ToControl(context: context, ss: ss, column: column),
-                            columnPermissionType: column.ColumnPermissionType(context: context),
-                            preview: preview);
-                        break;
-                    case "ClassM":
-                        hb.Field(
-                            context: context,
-                            ss: ss,
-                            column: column,
-                            methodType: userModel.MethodType,
-                            value: userModel.ClassM
-                                .ToControl(context: context, ss: ss, column: column),
-                            columnPermissionType: column.ColumnPermissionType(context: context),
-                            preview: preview);
-                        break;
-                    case "ClassN":
-                        hb.Field(
-                            context: context,
-                            ss: ss,
-                            column: column,
-                            methodType: userModel.MethodType,
-                            value: userModel.ClassN
-                                .ToControl(context: context, ss: ss, column: column),
-                            columnPermissionType: column.ColumnPermissionType(context: context),
-                            preview: preview);
-                        break;
-                    case "ClassO":
-                        hb.Field(
-                            context: context,
-                            ss: ss,
-                            column: column,
-                            methodType: userModel.MethodType,
-                            value: userModel.ClassO
-                                .ToControl(context: context, ss: ss, column: column),
-                            columnPermissionType: column.ColumnPermissionType(context: context),
-                            preview: preview);
-                        break;
-                    case "ClassP":
-                        hb.Field(
-                            context: context,
-                            ss: ss,
-                            column: column,
-                            methodType: userModel.MethodType,
-                            value: userModel.ClassP
-                                .ToControl(context: context, ss: ss, column: column),
-                            columnPermissionType: column.ColumnPermissionType(context: context),
-                            preview: preview);
-                        break;
-                    case "ClassQ":
-                        hb.Field(
-                            context: context,
-                            ss: ss,
-                            column: column,
-                            methodType: userModel.MethodType,
-                            value: userModel.ClassQ
-                                .ToControl(context: context, ss: ss, column: column),
-                            columnPermissionType: column.ColumnPermissionType(context: context),
-                            preview: preview);
-                        break;
-                    case "ClassR":
-                        hb.Field(
-                            context: context,
-                            ss: ss,
-                            column: column,
-                            methodType: userModel.MethodType,
-                            value: userModel.ClassR
-                                .ToControl(context: context, ss: ss, column: column),
-                            columnPermissionType: column.ColumnPermissionType(context: context),
-                            preview: preview);
-                        break;
-                    case "ClassS":
-                        hb.Field(
-                            context: context,
-                            ss: ss,
-                            column: column,
-                            methodType: userModel.MethodType,
-                            value: userModel.ClassS
-                                .ToControl(context: context, ss: ss, column: column),
-                            columnPermissionType: column.ColumnPermissionType(context: context),
-                            preview: preview);
-                        break;
-                    case "ClassT":
-                        hb.Field(
-                            context: context,
-                            ss: ss,
-                            column: column,
-                            methodType: userModel.MethodType,
-                            value: userModel.ClassT
-                                .ToControl(context: context, ss: ss, column: column),
-                            columnPermissionType: column.ColumnPermissionType(context: context),
-                            preview: preview);
-                        break;
-                    case "ClassU":
-                        hb.Field(
-                            context: context,
-                            ss: ss,
-                            column: column,
-                            methodType: userModel.MethodType,
-                            value: userModel.ClassU
-                                .ToControl(context: context, ss: ss, column: column),
-                            columnPermissionType: column.ColumnPermissionType(context: context),
-                            preview: preview);
-                        break;
-                    case "ClassV":
-                        hb.Field(
-                            context: context,
-                            ss: ss,
-                            column: column,
-                            methodType: userModel.MethodType,
-                            value: userModel.ClassV
-                                .ToControl(context: context, ss: ss, column: column),
-                            columnPermissionType: column.ColumnPermissionType(context: context),
-                            preview: preview);
-                        break;
-                    case "ClassW":
-                        hb.Field(
-                            context: context,
-                            ss: ss,
-                            column: column,
-                            methodType: userModel.MethodType,
-                            value: userModel.ClassW
-                                .ToControl(context: context, ss: ss, column: column),
-                            columnPermissionType: column.ColumnPermissionType(context: context),
-                            preview: preview);
-                        break;
-                    case "ClassX":
-                        hb.Field(
-                            context: context,
-                            ss: ss,
-                            column: column,
-                            methodType: userModel.MethodType,
-                            value: userModel.ClassX
-                                .ToControl(context: context, ss: ss, column: column),
-                            columnPermissionType: column.ColumnPermissionType(context: context),
-                            preview: preview);
-                        break;
-                    case "ClassY":
-                        hb.Field(
-                            context: context,
-                            ss: ss,
-                            column: column,
-                            methodType: userModel.MethodType,
-                            value: userModel.ClassY
-                                .ToControl(context: context, ss: ss, column: column),
-                            columnPermissionType: column.ColumnPermissionType(context: context),
-                            preview: preview);
-                        break;
-                    case "ClassZ":
-                        hb.Field(
-                            context: context,
-                            ss: ss,
-                            column: column,
-                            methodType: userModel.MethodType,
-                            value: userModel.ClassZ
-                                .ToControl(context: context, ss: ss, column: column),
-                            columnPermissionType: column.ColumnPermissionType(context: context),
-                            preview: preview);
-                        break;
-                    case "NumA":
-                        hb.Field(
-                            context: context,
-                            ss: ss,
-                            column: column,
-                            methodType: userModel.MethodType,
-                            value: userModel.NumA
-                                .ToControl(context: context, ss: ss, column: column),
-                            columnPermissionType: column.ColumnPermissionType(context: context),
-                            preview: preview);
-                        break;
-                    case "NumB":
-                        hb.Field(
-                            context: context,
-                            ss: ss,
-                            column: column,
-                            methodType: userModel.MethodType,
-                            value: userModel.NumB
-                                .ToControl(context: context, ss: ss, column: column),
-                            columnPermissionType: column.ColumnPermissionType(context: context),
-                            preview: preview);
-                        break;
-                    case "NumC":
-                        hb.Field(
-                            context: context,
-                            ss: ss,
-                            column: column,
-                            methodType: userModel.MethodType,
-                            value: userModel.NumC
-                                .ToControl(context: context, ss: ss, column: column),
-                            columnPermissionType: column.ColumnPermissionType(context: context),
-                            preview: preview);
-                        break;
-                    case "NumD":
-                        hb.Field(
-                            context: context,
-                            ss: ss,
-                            column: column,
-                            methodType: userModel.MethodType,
-                            value: userModel.NumD
-                                .ToControl(context: context, ss: ss, column: column),
-                            columnPermissionType: column.ColumnPermissionType(context: context),
-                            preview: preview);
-                        break;
-                    case "NumE":
-                        hb.Field(
-                            context: context,
-                            ss: ss,
-                            column: column,
-                            methodType: userModel.MethodType,
-                            value: userModel.NumE
-                                .ToControl(context: context, ss: ss, column: column),
-                            columnPermissionType: column.ColumnPermissionType(context: context),
-                            preview: preview);
-                        break;
-                    case "NumF":
-                        hb.Field(
-                            context: context,
-                            ss: ss,
-                            column: column,
-                            methodType: userModel.MethodType,
-                            value: userModel.NumF
-                                .ToControl(context: context, ss: ss, column: column),
-                            columnPermissionType: column.ColumnPermissionType(context: context),
-                            preview: preview);
-                        break;
-                    case "NumG":
-                        hb.Field(
-                            context: context,
-                            ss: ss,
-                            column: column,
-                            methodType: userModel.MethodType,
-                            value: userModel.NumG
-                                .ToControl(context: context, ss: ss, column: column),
-                            columnPermissionType: column.ColumnPermissionType(context: context),
-                            preview: preview);
-                        break;
-                    case "NumH":
-                        hb.Field(
-                            context: context,
-                            ss: ss,
-                            column: column,
-                            methodType: userModel.MethodType,
-                            value: userModel.NumH
-                                .ToControl(context: context, ss: ss, column: column),
-                            columnPermissionType: column.ColumnPermissionType(context: context),
-                            preview: preview);
-                        break;
-                    case "NumI":
-                        hb.Field(
-                            context: context,
-                            ss: ss,
-                            column: column,
-                            methodType: userModel.MethodType,
-                            value: userModel.NumI
-                                .ToControl(context: context, ss: ss, column: column),
-                            columnPermissionType: column.ColumnPermissionType(context: context),
-                            preview: preview);
-                        break;
-                    case "NumJ":
-                        hb.Field(
-                            context: context,
-                            ss: ss,
-                            column: column,
-                            methodType: userModel.MethodType,
-                            value: userModel.NumJ
-                                .ToControl(context: context, ss: ss, column: column),
-                            columnPermissionType: column.ColumnPermissionType(context: context),
-                            preview: preview);
-                        break;
-                    case "NumK":
-                        hb.Field(
-                            context: context,
-                            ss: ss,
-                            column: column,
-                            methodType: userModel.MethodType,
-                            value: userModel.NumK
-                                .ToControl(context: context, ss: ss, column: column),
-                            columnPermissionType: column.ColumnPermissionType(context: context),
-                            preview: preview);
-                        break;
-                    case "NumL":
-                        hb.Field(
-                            context: context,
-                            ss: ss,
-                            column: column,
-                            methodType: userModel.MethodType,
-                            value: userModel.NumL
-                                .ToControl(context: context, ss: ss, column: column),
-                            columnPermissionType: column.ColumnPermissionType(context: context),
-                            preview: preview);
-                        break;
-                    case "NumM":
-                        hb.Field(
-                            context: context,
-                            ss: ss,
-                            column: column,
-                            methodType: userModel.MethodType,
-                            value: userModel.NumM
-                                .ToControl(context: context, ss: ss, column: column),
-                            columnPermissionType: column.ColumnPermissionType(context: context),
-                            preview: preview);
-                        break;
-                    case "NumN":
-                        hb.Field(
-                            context: context,
-                            ss: ss,
-                            column: column,
-                            methodType: userModel.MethodType,
-                            value: userModel.NumN
-                                .ToControl(context: context, ss: ss, column: column),
-                            columnPermissionType: column.ColumnPermissionType(context: context),
-                            preview: preview);
-                        break;
-                    case "NumO":
-                        hb.Field(
-                            context: context,
-                            ss: ss,
-                            column: column,
-                            methodType: userModel.MethodType,
-                            value: userModel.NumO
-                                .ToControl(context: context, ss: ss, column: column),
-                            columnPermissionType: column.ColumnPermissionType(context: context),
-                            preview: preview);
-                        break;
-                    case "NumP":
-                        hb.Field(
-                            context: context,
-                            ss: ss,
-                            column: column,
-                            methodType: userModel.MethodType,
-                            value: userModel.NumP
-                                .ToControl(context: context, ss: ss, column: column),
-                            columnPermissionType: column.ColumnPermissionType(context: context),
-                            preview: preview);
-                        break;
-                    case "NumQ":
-                        hb.Field(
-                            context: context,
-                            ss: ss,
-                            column: column,
-                            methodType: userModel.MethodType,
-                            value: userModel.NumQ
-                                .ToControl(context: context, ss: ss, column: column),
-                            columnPermissionType: column.ColumnPermissionType(context: context),
-                            preview: preview);
-                        break;
-                    case "NumR":
-                        hb.Field(
-                            context: context,
-                            ss: ss,
-                            column: column,
-                            methodType: userModel.MethodType,
-                            value: userModel.NumR
-                                .ToControl(context: context, ss: ss, column: column),
-                            columnPermissionType: column.ColumnPermissionType(context: context),
-                            preview: preview);
-                        break;
-                    case "NumS":
-                        hb.Field(
-                            context: context,
-                            ss: ss,
-                            column: column,
-                            methodType: userModel.MethodType,
-                            value: userModel.NumS
-                                .ToControl(context: context, ss: ss, column: column),
-                            columnPermissionType: column.ColumnPermissionType(context: context),
-                            preview: preview);
-                        break;
-                    case "NumT":
-                        hb.Field(
-                            context: context,
-                            ss: ss,
-                            column: column,
-                            methodType: userModel.MethodType,
-                            value: userModel.NumT
-                                .ToControl(context: context, ss: ss, column: column),
-                            columnPermissionType: column.ColumnPermissionType(context: context),
-                            preview: preview);
-                        break;
-                    case "NumU":
-                        hb.Field(
-                            context: context,
-                            ss: ss,
-                            column: column,
-                            methodType: userModel.MethodType,
-                            value: userModel.NumU
-                                .ToControl(context: context, ss: ss, column: column),
-                            columnPermissionType: column.ColumnPermissionType(context: context),
-                            preview: preview);
-                        break;
-                    case "NumV":
-                        hb.Field(
-                            context: context,
-                            ss: ss,
-                            column: column,
-                            methodType: userModel.MethodType,
-                            value: userModel.NumV
-                                .ToControl(context: context, ss: ss, column: column),
-                            columnPermissionType: column.ColumnPermissionType(context: context),
-                            preview: preview);
-                        break;
-                    case "NumW":
-                        hb.Field(
-                            context: context,
-                            ss: ss,
-                            column: column,
-                            methodType: userModel.MethodType,
-                            value: userModel.NumW
-                                .ToControl(context: context, ss: ss, column: column),
-                            columnPermissionType: column.ColumnPermissionType(context: context),
-                            preview: preview);
-                        break;
-                    case "NumX":
-                        hb.Field(
-                            context: context,
-                            ss: ss,
-                            column: column,
-                            methodType: userModel.MethodType,
-                            value: userModel.NumX
-                                .ToControl(context: context, ss: ss, column: column),
-                            columnPermissionType: column.ColumnPermissionType(context: context),
-                            preview: preview);
-                        break;
-                    case "NumY":
-                        hb.Field(
-                            context: context,
-                            ss: ss,
-                            column: column,
-                            methodType: userModel.MethodType,
-                            value: userModel.NumY
-                                .ToControl(context: context, ss: ss, column: column),
-                            columnPermissionType: column.ColumnPermissionType(context: context),
-                            preview: preview);
-                        break;
-                    case "NumZ":
-                        hb.Field(
-                            context: context,
-                            ss: ss,
-                            column: column,
-                            methodType: userModel.MethodType,
-                            value: userModel.NumZ
-                                .ToControl(context: context, ss: ss, column: column),
-                            columnPermissionType: column.ColumnPermissionType(context: context),
-                            preview: preview);
-                        break;
-                    case "DateA":
-                        hb.Field(
-                            context: context,
-                            ss: ss,
-                            column: column,
-                            methodType: userModel.MethodType,
-                            value: userModel.DateA
-                                .ToControl(context: context, ss: ss, column: column),
-                            columnPermissionType: column.ColumnPermissionType(context: context),
-                            preview: preview);
-                        break;
-                    case "DateB":
-                        hb.Field(
-                            context: context,
-                            ss: ss,
-                            column: column,
-                            methodType: userModel.MethodType,
-                            value: userModel.DateB
-                                .ToControl(context: context, ss: ss, column: column),
-                            columnPermissionType: column.ColumnPermissionType(context: context),
-                            preview: preview);
-                        break;
-                    case "DateC":
-                        hb.Field(
-                            context: context,
-                            ss: ss,
-                            column: column,
-                            methodType: userModel.MethodType,
-                            value: userModel.DateC
-                                .ToControl(context: context, ss: ss, column: column),
-                            columnPermissionType: column.ColumnPermissionType(context: context),
-                            preview: preview);
-                        break;
-                    case "DateD":
-                        hb.Field(
-                            context: context,
-                            ss: ss,
-                            column: column,
-                            methodType: userModel.MethodType,
-                            value: userModel.DateD
-                                .ToControl(context: context, ss: ss, column: column),
-                            columnPermissionType: column.ColumnPermissionType(context: context),
-                            preview: preview);
-                        break;
-                    case "DateE":
-                        hb.Field(
-                            context: context,
-                            ss: ss,
-                            column: column,
-                            methodType: userModel.MethodType,
-                            value: userModel.DateE
-                                .ToControl(context: context, ss: ss, column: column),
-                            columnPermissionType: column.ColumnPermissionType(context: context),
-                            preview: preview);
-                        break;
-                    case "DateF":
-                        hb.Field(
-                            context: context,
-                            ss: ss,
-                            column: column,
-                            methodType: userModel.MethodType,
-                            value: userModel.DateF
-                                .ToControl(context: context, ss: ss, column: column),
-                            columnPermissionType: column.ColumnPermissionType(context: context),
-                            preview: preview);
-                        break;
-                    case "DateG":
-                        hb.Field(
-                            context: context,
-                            ss: ss,
-                            column: column,
-                            methodType: userModel.MethodType,
-                            value: userModel.DateG
-                                .ToControl(context: context, ss: ss, column: column),
-                            columnPermissionType: column.ColumnPermissionType(context: context),
-                            preview: preview);
-                        break;
-                    case "DateH":
-                        hb.Field(
-                            context: context,
-                            ss: ss,
-                            column: column,
-                            methodType: userModel.MethodType,
-                            value: userModel.DateH
-                                .ToControl(context: context, ss: ss, column: column),
-                            columnPermissionType: column.ColumnPermissionType(context: context),
-                            preview: preview);
-                        break;
-                    case "DateI":
-                        hb.Field(
-                            context: context,
-                            ss: ss,
-                            column: column,
-                            methodType: userModel.MethodType,
-                            value: userModel.DateI
-                                .ToControl(context: context, ss: ss, column: column),
-                            columnPermissionType: column.ColumnPermissionType(context: context),
-                            preview: preview);
-                        break;
-                    case "DateJ":
-                        hb.Field(
-                            context: context,
-                            ss: ss,
-                            column: column,
-                            methodType: userModel.MethodType,
-                            value: userModel.DateJ
-                                .ToControl(context: context, ss: ss, column: column),
-                            columnPermissionType: column.ColumnPermissionType(context: context),
-                            preview: preview);
-                        break;
-                    case "DateK":
-                        hb.Field(
-                            context: context,
-                            ss: ss,
-                            column: column,
-                            methodType: userModel.MethodType,
-                            value: userModel.DateK
-                                .ToControl(context: context, ss: ss, column: column),
-                            columnPermissionType: column.ColumnPermissionType(context: context),
-                            preview: preview);
-                        break;
-                    case "DateL":
-                        hb.Field(
-                            context: context,
-                            ss: ss,
-                            column: column,
-                            methodType: userModel.MethodType,
-                            value: userModel.DateL
-                                .ToControl(context: context, ss: ss, column: column),
-                            columnPermissionType: column.ColumnPermissionType(context: context),
-                            preview: preview);
-                        break;
-                    case "DateM":
-                        hb.Field(
-                            context: context,
-                            ss: ss,
-                            column: column,
-                            methodType: userModel.MethodType,
-                            value: userModel.DateM
-                                .ToControl(context: context, ss: ss, column: column),
-                            columnPermissionType: column.ColumnPermissionType(context: context),
-                            preview: preview);
-                        break;
-                    case "DateN":
-                        hb.Field(
-                            context: context,
-                            ss: ss,
-                            column: column,
-                            methodType: userModel.MethodType,
-                            value: userModel.DateN
-                                .ToControl(context: context, ss: ss, column: column),
-                            columnPermissionType: column.ColumnPermissionType(context: context),
-                            preview: preview);
-                        break;
-                    case "DateO":
-                        hb.Field(
-                            context: context,
-                            ss: ss,
-                            column: column,
-                            methodType: userModel.MethodType,
-                            value: userModel.DateO
-                                .ToControl(context: context, ss: ss, column: column),
-                            columnPermissionType: column.ColumnPermissionType(context: context),
-                            preview: preview);
-                        break;
-                    case "DateP":
-                        hb.Field(
-                            context: context,
-                            ss: ss,
-                            column: column,
-                            methodType: userModel.MethodType,
-                            value: userModel.DateP
-                                .ToControl(context: context, ss: ss, column: column),
-                            columnPermissionType: column.ColumnPermissionType(context: context),
-                            preview: preview);
-                        break;
-                    case "DateQ":
-                        hb.Field(
-                            context: context,
-                            ss: ss,
-                            column: column,
-                            methodType: userModel.MethodType,
-                            value: userModel.DateQ
-                                .ToControl(context: context, ss: ss, column: column),
-                            columnPermissionType: column.ColumnPermissionType(context: context),
-                            preview: preview);
-                        break;
-                    case "DateR":
-                        hb.Field(
-                            context: context,
-                            ss: ss,
-                            column: column,
-                            methodType: userModel.MethodType,
-                            value: userModel.DateR
-                                .ToControl(context: context, ss: ss, column: column),
-                            columnPermissionType: column.ColumnPermissionType(context: context),
-                            preview: preview);
-                        break;
-                    case "DateS":
-                        hb.Field(
-                            context: context,
-                            ss: ss,
-                            column: column,
-                            methodType: userModel.MethodType,
-                            value: userModel.DateS
-                                .ToControl(context: context, ss: ss, column: column),
-                            columnPermissionType: column.ColumnPermissionType(context: context),
-                            preview: preview);
-                        break;
-                    case "DateT":
-                        hb.Field(
-                            context: context,
-                            ss: ss,
-                            column: column,
-                            methodType: userModel.MethodType,
-                            value: userModel.DateT
-                                .ToControl(context: context, ss: ss, column: column),
-                            columnPermissionType: column.ColumnPermissionType(context: context),
-                            preview: preview);
-                        break;
-                    case "DateU":
-                        hb.Field(
-                            context: context,
-                            ss: ss,
-                            column: column,
-                            methodType: userModel.MethodType,
-                            value: userModel.DateU
-                                .ToControl(context: context, ss: ss, column: column),
-                            columnPermissionType: column.ColumnPermissionType(context: context),
-                            preview: preview);
-                        break;
-                    case "DateV":
-                        hb.Field(
-                            context: context,
-                            ss: ss,
-                            column: column,
-                            methodType: userModel.MethodType,
-                            value: userModel.DateV
-                                .ToControl(context: context, ss: ss, column: column),
-                            columnPermissionType: column.ColumnPermissionType(context: context),
-                            preview: preview);
-                        break;
-                    case "DateW":
-                        hb.Field(
-                            context: context,
-                            ss: ss,
-                            column: column,
-                            methodType: userModel.MethodType,
-                            value: userModel.DateW
-                                .ToControl(context: context, ss: ss, column: column),
-                            columnPermissionType: column.ColumnPermissionType(context: context),
-                            preview: preview);
-                        break;
-                    case "DateX":
-                        hb.Field(
-                            context: context,
-                            ss: ss,
-                            column: column,
-                            methodType: userModel.MethodType,
-                            value: userModel.DateX
-                                .ToControl(context: context, ss: ss, column: column),
-                            columnPermissionType: column.ColumnPermissionType(context: context),
-                            preview: preview);
-                        break;
-                    case "DateY":
-                        hb.Field(
-                            context: context,
-                            ss: ss,
-                            column: column,
-                            methodType: userModel.MethodType,
-                            value: userModel.DateY
-                                .ToControl(context: context, ss: ss, column: column),
-                            columnPermissionType: column.ColumnPermissionType(context: context),
-                            preview: preview);
-                        break;
-                    case "DateZ":
-                        hb.Field(
-                            context: context,
-                            ss: ss,
-                            column: column,
-                            methodType: userModel.MethodType,
-                            value: userModel.DateZ
-                                .ToControl(context: context, ss: ss, column: column),
-                            columnPermissionType: column.ColumnPermissionType(context: context),
-                            preview: preview);
-                        break;
-                    case "DescriptionA":
-                        hb.Field(
-                            context: context,
-                            ss: ss,
-                            column: column,
-                            methodType: userModel.MethodType,
-                            value: userModel.DescriptionA
-                                .ToControl(context: context, ss: ss, column: column),
-                            columnPermissionType: column.ColumnPermissionType(context: context),
-                            preview: preview);
-                        break;
-                    case "DescriptionB":
-                        hb.Field(
-                            context: context,
-                            ss: ss,
-                            column: column,
-                            methodType: userModel.MethodType,
-                            value: userModel.DescriptionB
-                                .ToControl(context: context, ss: ss, column: column),
-                            columnPermissionType: column.ColumnPermissionType(context: context),
-                            preview: preview);
-                        break;
-                    case "DescriptionC":
-                        hb.Field(
-                            context: context,
-                            ss: ss,
-                            column: column,
-                            methodType: userModel.MethodType,
-                            value: userModel.DescriptionC
-                                .ToControl(context: context, ss: ss, column: column),
-                            columnPermissionType: column.ColumnPermissionType(context: context),
-                            preview: preview);
-                        break;
-                    case "DescriptionD":
-                        hb.Field(
-                            context: context,
-                            ss: ss,
-                            column: column,
-                            methodType: userModel.MethodType,
-                            value: userModel.DescriptionD
-                                .ToControl(context: context, ss: ss, column: column),
-                            columnPermissionType: column.ColumnPermissionType(context: context),
-                            preview: preview);
-                        break;
-                    case "DescriptionE":
-                        hb.Field(
-                            context: context,
-                            ss: ss,
-                            column: column,
-                            methodType: userModel.MethodType,
-                            value: userModel.DescriptionE
-                                .ToControl(context: context, ss: ss, column: column),
-                            columnPermissionType: column.ColumnPermissionType(context: context),
-                            preview: preview);
-                        break;
-                    case "DescriptionF":
-                        hb.Field(
-                            context: context,
-                            ss: ss,
-                            column: column,
-                            methodType: userModel.MethodType,
-                            value: userModel.DescriptionF
-                                .ToControl(context: context, ss: ss, column: column),
-                            columnPermissionType: column.ColumnPermissionType(context: context),
-                            preview: preview);
-                        break;
-                    case "DescriptionG":
-                        hb.Field(
-                            context: context,
-                            ss: ss,
-                            column: column,
-                            methodType: userModel.MethodType,
-                            value: userModel.DescriptionG
-                                .ToControl(context: context, ss: ss, column: column),
-                            columnPermissionType: column.ColumnPermissionType(context: context),
-                            preview: preview);
-                        break;
-                    case "DescriptionH":
-                        hb.Field(
-                            context: context,
-                            ss: ss,
-                            column: column,
-                            methodType: userModel.MethodType,
-                            value: userModel.DescriptionH
-                                .ToControl(context: context, ss: ss, column: column),
-                            columnPermissionType: column.ColumnPermissionType(context: context),
-                            preview: preview);
-                        break;
-                    case "DescriptionI":
-                        hb.Field(
-                            context: context,
-                            ss: ss,
-                            column: column,
-                            methodType: userModel.MethodType,
-                            value: userModel.DescriptionI
-                                .ToControl(context: context, ss: ss, column: column),
-                            columnPermissionType: column.ColumnPermissionType(context: context),
-                            preview: preview);
-                        break;
-                    case "DescriptionJ":
-                        hb.Field(
-                            context: context,
-                            ss: ss,
-                            column: column,
-                            methodType: userModel.MethodType,
-                            value: userModel.DescriptionJ
-                                .ToControl(context: context, ss: ss, column: column),
-                            columnPermissionType: column.ColumnPermissionType(context: context),
-                            preview: preview);
-                        break;
-                    case "DescriptionK":
-                        hb.Field(
-                            context: context,
-                            ss: ss,
-                            column: column,
-                            methodType: userModel.MethodType,
-                            value: userModel.DescriptionK
-                                .ToControl(context: context, ss: ss, column: column),
-                            columnPermissionType: column.ColumnPermissionType(context: context),
-                            preview: preview);
-                        break;
-                    case "DescriptionL":
-                        hb.Field(
-                            context: context,
-                            ss: ss,
-                            column: column,
-                            methodType: userModel.MethodType,
-                            value: userModel.DescriptionL
-                                .ToControl(context: context, ss: ss, column: column),
-                            columnPermissionType: column.ColumnPermissionType(context: context),
-                            preview: preview);
-                        break;
-                    case "DescriptionM":
-                        hb.Field(
-                            context: context,
-                            ss: ss,
-                            column: column,
-                            methodType: userModel.MethodType,
-                            value: userModel.DescriptionM
-                                .ToControl(context: context, ss: ss, column: column),
-                            columnPermissionType: column.ColumnPermissionType(context: context),
-                            preview: preview);
-                        break;
-                    case "DescriptionN":
-                        hb.Field(
-                            context: context,
-                            ss: ss,
-                            column: column,
-                            methodType: userModel.MethodType,
-                            value: userModel.DescriptionN
-                                .ToControl(context: context, ss: ss, column: column),
-                            columnPermissionType: column.ColumnPermissionType(context: context),
-                            preview: preview);
-                        break;
-                    case "DescriptionO":
-                        hb.Field(
-                            context: context,
-                            ss: ss,
-                            column: column,
-                            methodType: userModel.MethodType,
-                            value: userModel.DescriptionO
-                                .ToControl(context: context, ss: ss, column: column),
-                            columnPermissionType: column.ColumnPermissionType(context: context),
-                            preview: preview);
-                        break;
-                    case "DescriptionP":
-                        hb.Field(
-                            context: context,
-                            ss: ss,
-                            column: column,
-                            methodType: userModel.MethodType,
-                            value: userModel.DescriptionP
-                                .ToControl(context: context, ss: ss, column: column),
-                            columnPermissionType: column.ColumnPermissionType(context: context),
-                            preview: preview);
-                        break;
-                    case "DescriptionQ":
-                        hb.Field(
-                            context: context,
-                            ss: ss,
-                            column: column,
-                            methodType: userModel.MethodType,
-                            value: userModel.DescriptionQ
-                                .ToControl(context: context, ss: ss, column: column),
-                            columnPermissionType: column.ColumnPermissionType(context: context),
-                            preview: preview);
-                        break;
-                    case "DescriptionR":
-                        hb.Field(
-                            context: context,
-                            ss: ss,
-                            column: column,
-                            methodType: userModel.MethodType,
-                            value: userModel.DescriptionR
-                                .ToControl(context: context, ss: ss, column: column),
-                            columnPermissionType: column.ColumnPermissionType(context: context),
-                            preview: preview);
-                        break;
-                    case "DescriptionS":
-                        hb.Field(
-                            context: context,
-                            ss: ss,
-                            column: column,
-                            methodType: userModel.MethodType,
-                            value: userModel.DescriptionS
-                                .ToControl(context: context, ss: ss, column: column),
-                            columnPermissionType: column.ColumnPermissionType(context: context),
-                            preview: preview);
-                        break;
-                    case "DescriptionT":
-                        hb.Field(
-                            context: context,
-                            ss: ss,
-                            column: column,
-                            methodType: userModel.MethodType,
-                            value: userModel.DescriptionT
-                                .ToControl(context: context, ss: ss, column: column),
-                            columnPermissionType: column.ColumnPermissionType(context: context),
-                            preview: preview);
-                        break;
-                    case "DescriptionU":
-                        hb.Field(
-                            context: context,
-                            ss: ss,
-                            column: column,
-                            methodType: userModel.MethodType,
-                            value: userModel.DescriptionU
-                                .ToControl(context: context, ss: ss, column: column),
-                            columnPermissionType: column.ColumnPermissionType(context: context),
-                            preview: preview);
-                        break;
-                    case "DescriptionV":
-                        hb.Field(
-                            context: context,
-                            ss: ss,
-                            column: column,
-                            methodType: userModel.MethodType,
-                            value: userModel.DescriptionV
-                                .ToControl(context: context, ss: ss, column: column),
-                            columnPermissionType: column.ColumnPermissionType(context: context),
-                            preview: preview);
-                        break;
-                    case "DescriptionW":
-                        hb.Field(
-                            context: context,
-                            ss: ss,
-                            column: column,
-                            methodType: userModel.MethodType,
-                            value: userModel.DescriptionW
-                                .ToControl(context: context, ss: ss, column: column),
-                            columnPermissionType: column.ColumnPermissionType(context: context),
-                            preview: preview);
-                        break;
-                    case "DescriptionX":
-                        hb.Field(
-                            context: context,
-                            ss: ss,
-                            column: column,
-                            methodType: userModel.MethodType,
-                            value: userModel.DescriptionX
-                                .ToControl(context: context, ss: ss, column: column),
-                            columnPermissionType: column.ColumnPermissionType(context: context),
-                            preview: preview);
-                        break;
-                    case "DescriptionY":
-                        hb.Field(
-                            context: context,
-                            ss: ss,
-                            column: column,
-                            methodType: userModel.MethodType,
-                            value: userModel.DescriptionY
-                                .ToControl(context: context, ss: ss, column: column),
-                            columnPermissionType: column.ColumnPermissionType(context: context),
-                            preview: preview);
-                        break;
-                    case "DescriptionZ":
-                        hb.Field(
-                            context: context,
-                            ss: ss,
-                            column: column,
-                            methodType: userModel.MethodType,
-                            value: userModel.DescriptionZ
-                                .ToControl(context: context, ss: ss, column: column),
-                            columnPermissionType: column.ColumnPermissionType(context: context),
-                            preview: preview);
-                        break;
-                    case "CheckA":
-                        hb.Field(
-                            context: context,
-                            ss: ss,
-                            column: column,
-                            methodType: userModel.MethodType,
-                            value: userModel.CheckA
-                                .ToControl(context: context, ss: ss, column: column),
-                            columnPermissionType: column.ColumnPermissionType(context: context),
-                            preview: preview);
-                        break;
-                    case "CheckB":
-                        hb.Field(
-                            context: context,
-                            ss: ss,
-                            column: column,
-                            methodType: userModel.MethodType,
-                            value: userModel.CheckB
-                                .ToControl(context: context, ss: ss, column: column),
-                            columnPermissionType: column.ColumnPermissionType(context: context),
-                            preview: preview);
-                        break;
-                    case "CheckC":
-                        hb.Field(
-                            context: context,
-                            ss: ss,
-                            column: column,
-                            methodType: userModel.MethodType,
-                            value: userModel.CheckC
-                                .ToControl(context: context, ss: ss, column: column),
-                            columnPermissionType: column.ColumnPermissionType(context: context),
-                            preview: preview);
-                        break;
-                    case "CheckD":
-                        hb.Field(
-                            context: context,
-                            ss: ss,
-                            column: column,
-                            methodType: userModel.MethodType,
-                            value: userModel.CheckD
-                                .ToControl(context: context, ss: ss, column: column),
-                            columnPermissionType: column.ColumnPermissionType(context: context),
-                            preview: preview);
-                        break;
-                    case "CheckE":
-                        hb.Field(
-                            context: context,
-                            ss: ss,
-                            column: column,
-                            methodType: userModel.MethodType,
-                            value: userModel.CheckE
-                                .ToControl(context: context, ss: ss, column: column),
-                            columnPermissionType: column.ColumnPermissionType(context: context),
-                            preview: preview);
-                        break;
-                    case "CheckF":
-                        hb.Field(
-                            context: context,
-                            ss: ss,
-                            column: column,
-                            methodType: userModel.MethodType,
-                            value: userModel.CheckF
-                                .ToControl(context: context, ss: ss, column: column),
-                            columnPermissionType: column.ColumnPermissionType(context: context),
-                            preview: preview);
-                        break;
-                    case "CheckG":
-                        hb.Field(
-                            context: context,
-                            ss: ss,
-                            column: column,
-                            methodType: userModel.MethodType,
-                            value: userModel.CheckG
-                                .ToControl(context: context, ss: ss, column: column),
-                            columnPermissionType: column.ColumnPermissionType(context: context),
-                            preview: preview);
-                        break;
-                    case "CheckH":
-                        hb.Field(
-                            context: context,
-                            ss: ss,
-                            column: column,
-                            methodType: userModel.MethodType,
-                            value: userModel.CheckH
-                                .ToControl(context: context, ss: ss, column: column),
-                            columnPermissionType: column.ColumnPermissionType(context: context),
-                            preview: preview);
-                        break;
-                    case "CheckI":
-                        hb.Field(
-                            context: context,
-                            ss: ss,
-                            column: column,
-                            methodType: userModel.MethodType,
-                            value: userModel.CheckI
-                                .ToControl(context: context, ss: ss, column: column),
-                            columnPermissionType: column.ColumnPermissionType(context: context),
-                            preview: preview);
-                        break;
-                    case "CheckJ":
-                        hb.Field(
-                            context: context,
-                            ss: ss,
-                            column: column,
-                            methodType: userModel.MethodType,
-                            value: userModel.CheckJ
-                                .ToControl(context: context, ss: ss, column: column),
-                            columnPermissionType: column.ColumnPermissionType(context: context),
-                            preview: preview);
-                        break;
-                    case "CheckK":
-                        hb.Field(
-                            context: context,
-                            ss: ss,
-                            column: column,
-                            methodType: userModel.MethodType,
-                            value: userModel.CheckK
-                                .ToControl(context: context, ss: ss, column: column),
-                            columnPermissionType: column.ColumnPermissionType(context: context),
-                            preview: preview);
-                        break;
-                    case "CheckL":
-                        hb.Field(
-                            context: context,
-                            ss: ss,
-                            column: column,
-                            methodType: userModel.MethodType,
-                            value: userModel.CheckL
-                                .ToControl(context: context, ss: ss, column: column),
-                            columnPermissionType: column.ColumnPermissionType(context: context),
-                            preview: preview);
-                        break;
-                    case "CheckM":
-                        hb.Field(
-                            context: context,
-                            ss: ss,
-                            column: column,
-                            methodType: userModel.MethodType,
-                            value: userModel.CheckM
-                                .ToControl(context: context, ss: ss, column: column),
-                            columnPermissionType: column.ColumnPermissionType(context: context),
-                            preview: preview);
-                        break;
-                    case "CheckN":
-                        hb.Field(
-                            context: context,
-                            ss: ss,
-                            column: column,
-                            methodType: userModel.MethodType,
-                            value: userModel.CheckN
-                                .ToControl(context: context, ss: ss, column: column),
-                            columnPermissionType: column.ColumnPermissionType(context: context),
-                            preview: preview);
-                        break;
-                    case "CheckO":
-                        hb.Field(
-                            context: context,
-                            ss: ss,
-                            column: column,
-                            methodType: userModel.MethodType,
-                            value: userModel.CheckO
-                                .ToControl(context: context, ss: ss, column: column),
-                            columnPermissionType: column.ColumnPermissionType(context: context),
-                            preview: preview);
-                        break;
-                    case "CheckP":
-                        hb.Field(
-                            context: context,
-                            ss: ss,
-                            column: column,
-                            methodType: userModel.MethodType,
-                            value: userModel.CheckP
-                                .ToControl(context: context, ss: ss, column: column),
-                            columnPermissionType: column.ColumnPermissionType(context: context),
-                            preview: preview);
-                        break;
-                    case "CheckQ":
-                        hb.Field(
-                            context: context,
-                            ss: ss,
-                            column: column,
-                            methodType: userModel.MethodType,
-                            value: userModel.CheckQ
-                                .ToControl(context: context, ss: ss, column: column),
-                            columnPermissionType: column.ColumnPermissionType(context: context),
-                            preview: preview);
-                        break;
-                    case "CheckR":
-                        hb.Field(
-                            context: context,
-                            ss: ss,
-                            column: column,
-                            methodType: userModel.MethodType,
-                            value: userModel.CheckR
-                                .ToControl(context: context, ss: ss, column: column),
-                            columnPermissionType: column.ColumnPermissionType(context: context),
-                            preview: preview);
-                        break;
-                    case "CheckS":
-                        hb.Field(
-                            context: context,
-                            ss: ss,
-                            column: column,
-                            methodType: userModel.MethodType,
-                            value: userModel.CheckS
-                                .ToControl(context: context, ss: ss, column: column),
-                            columnPermissionType: column.ColumnPermissionType(context: context),
-                            preview: preview);
-                        break;
-                    case "CheckT":
-                        hb.Field(
-                            context: context,
-                            ss: ss,
-                            column: column,
-                            methodType: userModel.MethodType,
-                            value: userModel.CheckT
-                                .ToControl(context: context, ss: ss, column: column),
-                            columnPermissionType: column.ColumnPermissionType(context: context),
-                            preview: preview);
-                        break;
-                    case "CheckU":
-                        hb.Field(
-                            context: context,
-                            ss: ss,
-                            column: column,
-                            methodType: userModel.MethodType,
-                            value: userModel.CheckU
-                                .ToControl(context: context, ss: ss, column: column),
-                            columnPermissionType: column.ColumnPermissionType(context: context),
-                            preview: preview);
-                        break;
-                    case "CheckV":
-                        hb.Field(
-                            context: context,
-                            ss: ss,
-                            column: column,
-                            methodType: userModel.MethodType,
-                            value: userModel.CheckV
-                                .ToControl(context: context, ss: ss, column: column),
-                            columnPermissionType: column.ColumnPermissionType(context: context),
-                            preview: preview);
-                        break;
-                    case "CheckW":
-                        hb.Field(
-                            context: context,
-                            ss: ss,
-                            column: column,
-                            methodType: userModel.MethodType,
-                            value: userModel.CheckW
-                                .ToControl(context: context, ss: ss, column: column),
-                            columnPermissionType: column.ColumnPermissionType(context: context),
-                            preview: preview);
-                        break;
-                    case "CheckX":
-                        hb.Field(
-                            context: context,
-                            ss: ss,
-                            column: column,
-                            methodType: userModel.MethodType,
-                            value: userModel.CheckX
-                                .ToControl(context: context, ss: ss, column: column),
-                            columnPermissionType: column.ColumnPermissionType(context: context),
-                            preview: preview);
-                        break;
-                    case "CheckY":
-                        hb.Field(
-                            context: context,
-                            ss: ss,
-                            column: column,
-                            methodType: userModel.MethodType,
-                            value: userModel.CheckY
-                                .ToControl(context: context, ss: ss, column: column),
-                            columnPermissionType: column.ColumnPermissionType(context: context),
-                            preview: preview);
-                        break;
-                    case "CheckZ":
-                        hb.Field(
-                            context: context,
-                            ss: ss,
-                            column: column,
-                            methodType: userModel.MethodType,
-                            value: userModel.CheckZ
-                                .ToControl(context: context, ss: ss, column: column),
-                            columnPermissionType: column.ColumnPermissionType(context: context),
-                            preview: preview);
-                        break;
-                    case "LdapSearchRoot":
-                        hb.Field(
-                            context: context,
-                            ss: ss,
-                            column: column,
-                            methodType: userModel.MethodType,
-                            value: userModel.LdapSearchRoot
-                                .ToControl(context: context, ss: ss, column: column),
-                            columnPermissionType: column.ColumnPermissionType(context: context),
-                            preview: preview);
-                        break;
-                    case "SynchronizedTime":
-                        hb.Field(
-                            context: context,
-                            ss: ss,
-                            column: column,
-                            methodType: userModel.MethodType,
-                            value: userModel.SynchronizedTime
-                                .ToControl(context: context, ss: ss, column: column),
-                            columnPermissionType: column.ColumnPermissionType(context: context),
-                            preview: preview);
-                        break;
-                }
-            });
+                hb.Field(
+                    context: context,
+                    ss: ss,
+                    userModel: userModel,
+                    column: column,
+                    preview: preview));
             if (!preview)
             {
                 hb.VerUpCheckBox(
@@ -5225,6 +1283,281 @@ namespace Implem.Pleasanter.Models
                     baseModel: userModel);
             }
             return hb;
+        }
+
+        public static void Field(
+            this HtmlBuilder hb,
+            Context context,
+            SiteSettings ss,
+            UserModel userModel,
+            Column column,
+            bool controlOnly = false,
+            bool alwaysSend = false,
+            string idSuffix = null,
+            bool preview = false)
+        {
+            var value = userModel.ControlValue(
+                context: context,
+                ss: ss,
+                column: column);
+            if (value != null)
+            {
+                hb.Field(
+                    context: context,
+                    ss: ss,
+                    column: column,
+                    methodType: userModel.MethodType,
+                    value: value,
+                    columnPermissionType: column.ColumnPermissionType(context: context),
+                    controlOnly: controlOnly,
+                    alwaysSend: alwaysSend,
+                    idSuffix: idSuffix,
+                    preview: preview);
+            }
+        }
+
+        public static string ControlValue(
+            this UserModel userModel,
+            Context context,
+            SiteSettings ss,
+            Column column)
+        {
+            switch (column.Name)
+            {
+                case "UserId":
+                    return userModel.UserId
+                        .ToControl(
+                            context: context,
+                            ss: ss,
+                            column: column);
+                case "Ver":
+                    return userModel.Ver
+                        .ToControl(
+                            context: context,
+                            ss: ss,
+                            column: column);
+                case "LoginId":
+                    return userModel.LoginId
+                        .ToControl(
+                            context: context,
+                            ss: ss,
+                            column: column);
+                case "Name":
+                    return userModel.Name
+                        .ToControl(
+                            context: context,
+                            ss: ss,
+                            column: column);
+                case "UserCode":
+                    return userModel.UserCode
+                        .ToControl(
+                            context: context,
+                            ss: ss,
+                            column: column);
+                case "Password":
+                    return userModel.Password
+                        .ToControl(
+                            context: context,
+                            ss: ss,
+                            column: column);
+                case "PasswordValidate":
+                    return userModel.PasswordValidate
+                        .ToControl(
+                            context: context,
+                            ss: ss,
+                            column: column);
+                case "PasswordDummy":
+                    return userModel.PasswordDummy
+                        .ToControl(
+                            context: context,
+                            ss: ss,
+                            column: column);
+                case "RememberMe":
+                    return userModel.RememberMe
+                        .ToControl(
+                            context: context,
+                            ss: ss,
+                            column: column);
+                case "Birthday":
+                    return userModel.Birthday
+                        .ToControl(
+                            context: context,
+                            ss: ss,
+                            column: column);
+                case "Gender":
+                    return userModel.Gender
+                        .ToControl(
+                            context: context,
+                            ss: ss,
+                            column: column);
+                case "Language":
+                    return userModel.Language
+                        .ToControl(
+                            context: context,
+                            ss: ss,
+                            column: column);
+                case "TimeZone":
+                    return userModel.TimeZone
+                        .ToControl(
+                            context: context,
+                            ss: ss,
+                            column: column);
+                case "DeptId":
+                    return userModel.DeptId
+                        .ToControl(
+                            context: context,
+                            ss: ss,
+                            column: column);
+                case "Body":
+                    return userModel.Body
+                        .ToControl(
+                            context: context,
+                            ss: ss,
+                            column: column);
+                case "LastLoginTime":
+                    return userModel.LastLoginTime
+                        .ToControl(
+                            context: context,
+                            ss: ss,
+                            column: column);
+                case "PasswordExpirationTime":
+                    return userModel.PasswordExpirationTime
+                        .ToControl(
+                            context: context,
+                            ss: ss,
+                            column: column);
+                case "PasswordChangeTime":
+                    return userModel.PasswordChangeTime
+                        .ToControl(
+                            context: context,
+                            ss: ss,
+                            column: column);
+                case "NumberOfLogins":
+                    return userModel.NumberOfLogins
+                        .ToControl(
+                            context: context,
+                            ss: ss,
+                            column: column);
+                case "NumberOfDenial":
+                    return userModel.NumberOfDenial
+                        .ToControl(
+                            context: context,
+                            ss: ss,
+                            column: column);
+                case "TenantManager":
+                    return userModel.TenantManager
+                        .ToControl(
+                            context: context,
+                            ss: ss,
+                            column: column);
+                case "Disabled":
+                    return userModel.Disabled
+                        .ToControl(
+                            context: context,
+                            ss: ss,
+                            column: column);
+                case "Lockout":
+                    return userModel.Lockout
+                        .ToControl(
+                            context: context,
+                            ss: ss,
+                            column: column);
+                case "LockoutCounter":
+                    return userModel.LockoutCounter
+                        .ToControl(
+                            context: context,
+                            ss: ss,
+                            column: column);
+                case "OldPassword":
+                    return userModel.OldPassword
+                        .ToControl(
+                            context: context,
+                            ss: ss,
+                            column: column);
+                case "ChangedPassword":
+                    return userModel.ChangedPassword
+                        .ToControl(
+                            context: context,
+                            ss: ss,
+                            column: column);
+                case "ChangedPasswordValidator":
+                    return userModel.ChangedPasswordValidator
+                        .ToControl(
+                            context: context,
+                            ss: ss,
+                            column: column);
+                case "AfterResetPassword":
+                    return userModel.AfterResetPassword
+                        .ToControl(
+                            context: context,
+                            ss: ss,
+                            column: column);
+                case "AfterResetPasswordValidator":
+                    return userModel.AfterResetPasswordValidator
+                        .ToControl(
+                            context: context,
+                            ss: ss,
+                            column: column);
+                case "DemoMailAddress":
+                    return userModel.DemoMailAddress
+                        .ToControl(
+                            context: context,
+                            ss: ss,
+                            column: column);
+                case "LdapSearchRoot":
+                    return userModel.LdapSearchRoot
+                        .ToControl(
+                            context: context,
+                            ss: ss,
+                            column: column);
+                case "SynchronizedTime":
+                    return userModel.SynchronizedTime
+                        .ToControl(
+                            context: context,
+                            ss: ss,
+                            column: column);
+                default:
+                    switch (Def.ExtendedColumnTypes.Get(column.Name))
+                    {
+                        case "Class":
+                            return userModel.Class(columnName: column.Name)
+                                .ToControl(
+                                    context: context,
+                                    ss: ss,
+                                    column: column);
+                        case "Num":
+                            return userModel.Num(columnName: column.Name)
+                                .ToControl(
+                                    context: context,
+                                    ss: ss,
+                                    column: column);
+                        case "Date":
+                            return userModel.Date(columnName: column.Name)
+                                .ToControl(
+                                    context: context,
+                                    ss: ss,
+                                    column: column);
+                        case "Description":
+                            return userModel.Description(columnName: column.Name)
+                                .ToControl(
+                                    context: context,
+                                    ss: ss,
+                                    column: column);
+                        case "Check":
+                            return userModel.Check(columnName: column.Name)
+                                .ToControl(
+                                    context: context,
+                                    ss: ss,
+                                    column: column);
+                        case "Attachments":
+                            return userModel.Attachments(columnName: column.Name)
+                                .ToControl(
+                                    context: context,
+                                    ss: ss,
+                                    column: column);
+                        default: return null;
+                    }
+            }
         }
 
         /// <summary>
@@ -5267,8 +1600,8 @@ namespace Implem.Pleasanter.Models
                 }
             }
             if (context.HasPrivilege
-                && context.User.Id != userModel.UserId
-                && !userModel.Disabled)
+               && context.User.Id != userModel.UserId
+               && !userModel.Disabled)
             {
                 hb.Button(
                     text: Displays.SwitchUser(context: context),
@@ -5373,14 +1706,17 @@ namespace Implem.Pleasanter.Models
         }
 
         public static ResponseCollection FieldResponse(
-            this UsersResponseCollection res,
+            this ResponseCollection res,
             Context context,
             SiteSettings ss,
-            UserModel userModel)
+            UserModel userModel,
+            string idSuffix = null)
         {
             var mine = userModel.Mine(context: context);
             ss.EditorColumns
-                .Select(columnName => ss.GetColumn(context: context, columnName: columnName))
+                .Select(columnName => ss.GetColumn(
+                    context: context,
+                    columnName: columnName))
                 .Where(column => column != null)
                 .ForEach(column =>
                 {
@@ -5388,790 +1724,199 @@ namespace Implem.Pleasanter.Models
                     {
                         case "UserId":
                             res.Val(
-                                "#Users_UserId",
+                                "#Users_UserId" + idSuffix,
                                 userModel.UserId.ToResponse(context: context, ss: ss, column: column));
                             break;
                         case "LoginId":
                             res.Val(
-                                "#Users_LoginId",
+                                "#Users_LoginId" + idSuffix,
                                 userModel.LoginId.ToResponse(context: context, ss: ss, column: column));
                             break;
                         case "GlobalId":
                             res.Val(
-                                "#Users_GlobalId",
+                                "#Users_GlobalId" + idSuffix,
                                 userModel.GlobalId.ToResponse(context: context, ss: ss, column: column));
                             break;
                         case "Name":
                             res.Val(
-                                "#Users_Name",
+                                "#Users_Name" + idSuffix,
                                 userModel.Name.ToResponse(context: context, ss: ss, column: column));
                             break;
                         case "UserCode":
                             res.Val(
-                                "#Users_UserCode",
+                                "#Users_UserCode" + idSuffix,
                                 userModel.UserCode.ToResponse(context: context, ss: ss, column: column));
                             break;
                         case "Password":
                             res.Val(
-                                "#Users_Password",
+                                "#Users_Password" + idSuffix,
                                 userModel.Password.ToResponse(context: context, ss: ss, column: column));
                             break;
                         case "LastName":
                             res.Val(
-                                "#Users_LastName",
+                                "#Users_LastName" + idSuffix,
                                 userModel.LastName.ToResponse(context: context, ss: ss, column: column));
                             break;
                         case "FirstName":
                             res.Val(
-                                "#Users_FirstName",
+                                "#Users_FirstName" + idSuffix,
                                 userModel.FirstName.ToResponse(context: context, ss: ss, column: column));
                             break;
                         case "Birthday":
                             res.Val(
-                                "#Users_Birthday",
+                                "#Users_Birthday" + idSuffix,
                                 userModel.Birthday.ToResponse(context: context, ss: ss, column: column));
                             break;
                         case "Gender":
                             res.Val(
-                                "#Users_Gender",
+                                "#Users_Gender" + idSuffix,
                                 userModel.Gender.ToResponse(context: context, ss: ss, column: column));
                             break;
                         case "Language":
                             res.Val(
-                                "#Users_Language",
+                                "#Users_Language" + idSuffix,
                                 userModel.Language.ToResponse(context: context, ss: ss, column: column));
                             break;
                         case "TimeZone":
                             res.Val(
-                                "#Users_TimeZone",
+                                "#Users_TimeZone" + idSuffix,
                                 userModel.TimeZone.ToResponse(context: context, ss: ss, column: column));
                             break;
                         case "DeptId":
                             res.Val(
-                                "#Users_DeptId",
+                                "#Users_DeptId" + idSuffix,
                                 userModel.DeptId.ToResponse(context: context, ss: ss, column: column));
                             break;
                         case "FirstAndLastNameOrder":
                             res.Val(
-                                "#Users_FirstAndLastNameOrder",
+                                "#Users_FirstAndLastNameOrder" + idSuffix,
                                 userModel.FirstAndLastNameOrder.ToResponse(context: context, ss: ss, column: column));
                             break;
                         case "Body":
                             res.Val(
-                                "#Users_Body",
+                                "#Users_Body" + idSuffix,
                                 userModel.Body.ToResponse(context: context, ss: ss, column: column));
                             break;
                         case "LastLoginTime":
                             res.Val(
-                                "#Users_LastLoginTime",
+                                "#Users_LastLoginTime" + idSuffix,
                                 userModel.LastLoginTime.ToResponse(context: context, ss: ss, column: column));
                             break;
                         case "PasswordExpirationTime":
                             res.Val(
-                                "#Users_PasswordExpirationTime",
+                                "#Users_PasswordExpirationTime" + idSuffix,
                                 userModel.PasswordExpirationTime.ToResponse(context: context, ss: ss, column: column));
                             break;
                         case "PasswordChangeTime":
                             res.Val(
-                                "#Users_PasswordChangeTime",
+                                "#Users_PasswordChangeTime" + idSuffix,
                                 userModel.PasswordChangeTime.ToResponse(context: context, ss: ss, column: column));
                             break;
                         case "NumberOfLogins":
                             res.Val(
-                                "#Users_NumberOfLogins",
+                                "#Users_NumberOfLogins" + idSuffix,
                                 userModel.NumberOfLogins.ToResponse(context: context, ss: ss, column: column));
                             break;
                         case "NumberOfDenial":
                             res.Val(
-                                "#Users_NumberOfDenial",
+                                "#Users_NumberOfDenial" + idSuffix,
                                 userModel.NumberOfDenial.ToResponse(context: context, ss: ss, column: column));
                             break;
                         case "TenantManager":
                             res.Val(
-                                "#Users_TenantManager",
+                                "#Users_TenantManager" + idSuffix,
                                 userModel.TenantManager);
                             break;
                         case "Disabled":
                             res.Val(
-                                "#Users_Disabled",
+                                "#Users_Disabled" + idSuffix,
                                 userModel.Disabled);
                             break;
                         case "Lockout":
                             res.Val(
-                                "#Users_Lockout",
+                                "#Users_Lockout" + idSuffix,
                                 userModel.Lockout);
                             break;
                         case "LockoutCounter":
                             res.Val(
-                                "#Users_LockoutCounter",
+                                "#Users_LockoutCounter" + idSuffix,
                                 userModel.LockoutCounter.ToResponse(context: context, ss: ss, column: column));
                             break;
                         case "ApiKey":
                             res.Val(
-                                "#Users_ApiKey",
+                                "#Users_ApiKey" + idSuffix,
                                 userModel.ApiKey.ToResponse(context: context, ss: ss, column: column));
-                            break;
-                        case "ClassA":
-                            res.Val(
-                                "#Users_ClassA",
-                                userModel.ClassA.ToResponse(context: context, ss: ss, column: column));
-                            break;
-                        case "ClassB":
-                            res.Val(
-                                "#Users_ClassB",
-                                userModel.ClassB.ToResponse(context: context, ss: ss, column: column));
-                            break;
-                        case "ClassC":
-                            res.Val(
-                                "#Users_ClassC",
-                                userModel.ClassC.ToResponse(context: context, ss: ss, column: column));
-                            break;
-                        case "ClassD":
-                            res.Val(
-                                "#Users_ClassD",
-                                userModel.ClassD.ToResponse(context: context, ss: ss, column: column));
-                            break;
-                        case "ClassE":
-                            res.Val(
-                                "#Users_ClassE",
-                                userModel.ClassE.ToResponse(context: context, ss: ss, column: column));
-                            break;
-                        case "ClassF":
-                            res.Val(
-                                "#Users_ClassF",
-                                userModel.ClassF.ToResponse(context: context, ss: ss, column: column));
-                            break;
-                        case "ClassG":
-                            res.Val(
-                                "#Users_ClassG",
-                                userModel.ClassG.ToResponse(context: context, ss: ss, column: column));
-                            break;
-                        case "ClassH":
-                            res.Val(
-                                "#Users_ClassH",
-                                userModel.ClassH.ToResponse(context: context, ss: ss, column: column));
-                            break;
-                        case "ClassI":
-                            res.Val(
-                                "#Users_ClassI",
-                                userModel.ClassI.ToResponse(context: context, ss: ss, column: column));
-                            break;
-                        case "ClassJ":
-                            res.Val(
-                                "#Users_ClassJ",
-                                userModel.ClassJ.ToResponse(context: context, ss: ss, column: column));
-                            break;
-                        case "ClassK":
-                            res.Val(
-                                "#Users_ClassK",
-                                userModel.ClassK.ToResponse(context: context, ss: ss, column: column));
-                            break;
-                        case "ClassL":
-                            res.Val(
-                                "#Users_ClassL",
-                                userModel.ClassL.ToResponse(context: context, ss: ss, column: column));
-                            break;
-                        case "ClassM":
-                            res.Val(
-                                "#Users_ClassM",
-                                userModel.ClassM.ToResponse(context: context, ss: ss, column: column));
-                            break;
-                        case "ClassN":
-                            res.Val(
-                                "#Users_ClassN",
-                                userModel.ClassN.ToResponse(context: context, ss: ss, column: column));
-                            break;
-                        case "ClassO":
-                            res.Val(
-                                "#Users_ClassO",
-                                userModel.ClassO.ToResponse(context: context, ss: ss, column: column));
-                            break;
-                        case "ClassP":
-                            res.Val(
-                                "#Users_ClassP",
-                                userModel.ClassP.ToResponse(context: context, ss: ss, column: column));
-                            break;
-                        case "ClassQ":
-                            res.Val(
-                                "#Users_ClassQ",
-                                userModel.ClassQ.ToResponse(context: context, ss: ss, column: column));
-                            break;
-                        case "ClassR":
-                            res.Val(
-                                "#Users_ClassR",
-                                userModel.ClassR.ToResponse(context: context, ss: ss, column: column));
-                            break;
-                        case "ClassS":
-                            res.Val(
-                                "#Users_ClassS",
-                                userModel.ClassS.ToResponse(context: context, ss: ss, column: column));
-                            break;
-                        case "ClassT":
-                            res.Val(
-                                "#Users_ClassT",
-                                userModel.ClassT.ToResponse(context: context, ss: ss, column: column));
-                            break;
-                        case "ClassU":
-                            res.Val(
-                                "#Users_ClassU",
-                                userModel.ClassU.ToResponse(context: context, ss: ss, column: column));
-                            break;
-                        case "ClassV":
-                            res.Val(
-                                "#Users_ClassV",
-                                userModel.ClassV.ToResponse(context: context, ss: ss, column: column));
-                            break;
-                        case "ClassW":
-                            res.Val(
-                                "#Users_ClassW",
-                                userModel.ClassW.ToResponse(context: context, ss: ss, column: column));
-                            break;
-                        case "ClassX":
-                            res.Val(
-                                "#Users_ClassX",
-                                userModel.ClassX.ToResponse(context: context, ss: ss, column: column));
-                            break;
-                        case "ClassY":
-                            res.Val(
-                                "#Users_ClassY",
-                                userModel.ClassY.ToResponse(context: context, ss: ss, column: column));
-                            break;
-                        case "ClassZ":
-                            res.Val(
-                                "#Users_ClassZ",
-                                userModel.ClassZ.ToResponse(context: context, ss: ss, column: column));
-                            break;
-                        case "NumA":
-                            res.Val(
-                                "#Users_NumA",
-                                userModel.NumA.ToResponse(context: context, ss: ss, column: column));
-                            break;
-                        case "NumB":
-                            res.Val(
-                                "#Users_NumB",
-                                userModel.NumB.ToResponse(context: context, ss: ss, column: column));
-                            break;
-                        case "NumC":
-                            res.Val(
-                                "#Users_NumC",
-                                userModel.NumC.ToResponse(context: context, ss: ss, column: column));
-                            break;
-                        case "NumD":
-                            res.Val(
-                                "#Users_NumD",
-                                userModel.NumD.ToResponse(context: context, ss: ss, column: column));
-                            break;
-                        case "NumE":
-                            res.Val(
-                                "#Users_NumE",
-                                userModel.NumE.ToResponse(context: context, ss: ss, column: column));
-                            break;
-                        case "NumF":
-                            res.Val(
-                                "#Users_NumF",
-                                userModel.NumF.ToResponse(context: context, ss: ss, column: column));
-                            break;
-                        case "NumG":
-                            res.Val(
-                                "#Users_NumG",
-                                userModel.NumG.ToResponse(context: context, ss: ss, column: column));
-                            break;
-                        case "NumH":
-                            res.Val(
-                                "#Users_NumH",
-                                userModel.NumH.ToResponse(context: context, ss: ss, column: column));
-                            break;
-                        case "NumI":
-                            res.Val(
-                                "#Users_NumI",
-                                userModel.NumI.ToResponse(context: context, ss: ss, column: column));
-                            break;
-                        case "NumJ":
-                            res.Val(
-                                "#Users_NumJ",
-                                userModel.NumJ.ToResponse(context: context, ss: ss, column: column));
-                            break;
-                        case "NumK":
-                            res.Val(
-                                "#Users_NumK",
-                                userModel.NumK.ToResponse(context: context, ss: ss, column: column));
-                            break;
-                        case "NumL":
-                            res.Val(
-                                "#Users_NumL",
-                                userModel.NumL.ToResponse(context: context, ss: ss, column: column));
-                            break;
-                        case "NumM":
-                            res.Val(
-                                "#Users_NumM",
-                                userModel.NumM.ToResponse(context: context, ss: ss, column: column));
-                            break;
-                        case "NumN":
-                            res.Val(
-                                "#Users_NumN",
-                                userModel.NumN.ToResponse(context: context, ss: ss, column: column));
-                            break;
-                        case "NumO":
-                            res.Val(
-                                "#Users_NumO",
-                                userModel.NumO.ToResponse(context: context, ss: ss, column: column));
-                            break;
-                        case "NumP":
-                            res.Val(
-                                "#Users_NumP",
-                                userModel.NumP.ToResponse(context: context, ss: ss, column: column));
-                            break;
-                        case "NumQ":
-                            res.Val(
-                                "#Users_NumQ",
-                                userModel.NumQ.ToResponse(context: context, ss: ss, column: column));
-                            break;
-                        case "NumR":
-                            res.Val(
-                                "#Users_NumR",
-                                userModel.NumR.ToResponse(context: context, ss: ss, column: column));
-                            break;
-                        case "NumS":
-                            res.Val(
-                                "#Users_NumS",
-                                userModel.NumS.ToResponse(context: context, ss: ss, column: column));
-                            break;
-                        case "NumT":
-                            res.Val(
-                                "#Users_NumT",
-                                userModel.NumT.ToResponse(context: context, ss: ss, column: column));
-                            break;
-                        case "NumU":
-                            res.Val(
-                                "#Users_NumU",
-                                userModel.NumU.ToResponse(context: context, ss: ss, column: column));
-                            break;
-                        case "NumV":
-                            res.Val(
-                                "#Users_NumV",
-                                userModel.NumV.ToResponse(context: context, ss: ss, column: column));
-                            break;
-                        case "NumW":
-                            res.Val(
-                                "#Users_NumW",
-                                userModel.NumW.ToResponse(context: context, ss: ss, column: column));
-                            break;
-                        case "NumX":
-                            res.Val(
-                                "#Users_NumX",
-                                userModel.NumX.ToResponse(context: context, ss: ss, column: column));
-                            break;
-                        case "NumY":
-                            res.Val(
-                                "#Users_NumY",
-                                userModel.NumY.ToResponse(context: context, ss: ss, column: column));
-                            break;
-                        case "NumZ":
-                            res.Val(
-                                "#Users_NumZ",
-                                userModel.NumZ.ToResponse(context: context, ss: ss, column: column));
-                            break;
-                        case "DateA":
-                            res.Val(
-                                "#Users_DateA",
-                                userModel.DateA.ToResponse(context: context, ss: ss, column: column));
-                            break;
-                        case "DateB":
-                            res.Val(
-                                "#Users_DateB",
-                                userModel.DateB.ToResponse(context: context, ss: ss, column: column));
-                            break;
-                        case "DateC":
-                            res.Val(
-                                "#Users_DateC",
-                                userModel.DateC.ToResponse(context: context, ss: ss, column: column));
-                            break;
-                        case "DateD":
-                            res.Val(
-                                "#Users_DateD",
-                                userModel.DateD.ToResponse(context: context, ss: ss, column: column));
-                            break;
-                        case "DateE":
-                            res.Val(
-                                "#Users_DateE",
-                                userModel.DateE.ToResponse(context: context, ss: ss, column: column));
-                            break;
-                        case "DateF":
-                            res.Val(
-                                "#Users_DateF",
-                                userModel.DateF.ToResponse(context: context, ss: ss, column: column));
-                            break;
-                        case "DateG":
-                            res.Val(
-                                "#Users_DateG",
-                                userModel.DateG.ToResponse(context: context, ss: ss, column: column));
-                            break;
-                        case "DateH":
-                            res.Val(
-                                "#Users_DateH",
-                                userModel.DateH.ToResponse(context: context, ss: ss, column: column));
-                            break;
-                        case "DateI":
-                            res.Val(
-                                "#Users_DateI",
-                                userModel.DateI.ToResponse(context: context, ss: ss, column: column));
-                            break;
-                        case "DateJ":
-                            res.Val(
-                                "#Users_DateJ",
-                                userModel.DateJ.ToResponse(context: context, ss: ss, column: column));
-                            break;
-                        case "DateK":
-                            res.Val(
-                                "#Users_DateK",
-                                userModel.DateK.ToResponse(context: context, ss: ss, column: column));
-                            break;
-                        case "DateL":
-                            res.Val(
-                                "#Users_DateL",
-                                userModel.DateL.ToResponse(context: context, ss: ss, column: column));
-                            break;
-                        case "DateM":
-                            res.Val(
-                                "#Users_DateM",
-                                userModel.DateM.ToResponse(context: context, ss: ss, column: column));
-                            break;
-                        case "DateN":
-                            res.Val(
-                                "#Users_DateN",
-                                userModel.DateN.ToResponse(context: context, ss: ss, column: column));
-                            break;
-                        case "DateO":
-                            res.Val(
-                                "#Users_DateO",
-                                userModel.DateO.ToResponse(context: context, ss: ss, column: column));
-                            break;
-                        case "DateP":
-                            res.Val(
-                                "#Users_DateP",
-                                userModel.DateP.ToResponse(context: context, ss: ss, column: column));
-                            break;
-                        case "DateQ":
-                            res.Val(
-                                "#Users_DateQ",
-                                userModel.DateQ.ToResponse(context: context, ss: ss, column: column));
-                            break;
-                        case "DateR":
-                            res.Val(
-                                "#Users_DateR",
-                                userModel.DateR.ToResponse(context: context, ss: ss, column: column));
-                            break;
-                        case "DateS":
-                            res.Val(
-                                "#Users_DateS",
-                                userModel.DateS.ToResponse(context: context, ss: ss, column: column));
-                            break;
-                        case "DateT":
-                            res.Val(
-                                "#Users_DateT",
-                                userModel.DateT.ToResponse(context: context, ss: ss, column: column));
-                            break;
-                        case "DateU":
-                            res.Val(
-                                "#Users_DateU",
-                                userModel.DateU.ToResponse(context: context, ss: ss, column: column));
-                            break;
-                        case "DateV":
-                            res.Val(
-                                "#Users_DateV",
-                                userModel.DateV.ToResponse(context: context, ss: ss, column: column));
-                            break;
-                        case "DateW":
-                            res.Val(
-                                "#Users_DateW",
-                                userModel.DateW.ToResponse(context: context, ss: ss, column: column));
-                            break;
-                        case "DateX":
-                            res.Val(
-                                "#Users_DateX",
-                                userModel.DateX.ToResponse(context: context, ss: ss, column: column));
-                            break;
-                        case "DateY":
-                            res.Val(
-                                "#Users_DateY",
-                                userModel.DateY.ToResponse(context: context, ss: ss, column: column));
-                            break;
-                        case "DateZ":
-                            res.Val(
-                                "#Users_DateZ",
-                                userModel.DateZ.ToResponse(context: context, ss: ss, column: column));
-                            break;
-                        case "DescriptionA":
-                            res.Val(
-                                "#Users_DescriptionA",
-                                userModel.DescriptionA.ToResponse(context: context, ss: ss, column: column));
-                            break;
-                        case "DescriptionB":
-                            res.Val(
-                                "#Users_DescriptionB",
-                                userModel.DescriptionB.ToResponse(context: context, ss: ss, column: column));
-                            break;
-                        case "DescriptionC":
-                            res.Val(
-                                "#Users_DescriptionC",
-                                userModel.DescriptionC.ToResponse(context: context, ss: ss, column: column));
-                            break;
-                        case "DescriptionD":
-                            res.Val(
-                                "#Users_DescriptionD",
-                                userModel.DescriptionD.ToResponse(context: context, ss: ss, column: column));
-                            break;
-                        case "DescriptionE":
-                            res.Val(
-                                "#Users_DescriptionE",
-                                userModel.DescriptionE.ToResponse(context: context, ss: ss, column: column));
-                            break;
-                        case "DescriptionF":
-                            res.Val(
-                                "#Users_DescriptionF",
-                                userModel.DescriptionF.ToResponse(context: context, ss: ss, column: column));
-                            break;
-                        case "DescriptionG":
-                            res.Val(
-                                "#Users_DescriptionG",
-                                userModel.DescriptionG.ToResponse(context: context, ss: ss, column: column));
-                            break;
-                        case "DescriptionH":
-                            res.Val(
-                                "#Users_DescriptionH",
-                                userModel.DescriptionH.ToResponse(context: context, ss: ss, column: column));
-                            break;
-                        case "DescriptionI":
-                            res.Val(
-                                "#Users_DescriptionI",
-                                userModel.DescriptionI.ToResponse(context: context, ss: ss, column: column));
-                            break;
-                        case "DescriptionJ":
-                            res.Val(
-                                "#Users_DescriptionJ",
-                                userModel.DescriptionJ.ToResponse(context: context, ss: ss, column: column));
-                            break;
-                        case "DescriptionK":
-                            res.Val(
-                                "#Users_DescriptionK",
-                                userModel.DescriptionK.ToResponse(context: context, ss: ss, column: column));
-                            break;
-                        case "DescriptionL":
-                            res.Val(
-                                "#Users_DescriptionL",
-                                userModel.DescriptionL.ToResponse(context: context, ss: ss, column: column));
-                            break;
-                        case "DescriptionM":
-                            res.Val(
-                                "#Users_DescriptionM",
-                                userModel.DescriptionM.ToResponse(context: context, ss: ss, column: column));
-                            break;
-                        case "DescriptionN":
-                            res.Val(
-                                "#Users_DescriptionN",
-                                userModel.DescriptionN.ToResponse(context: context, ss: ss, column: column));
-                            break;
-                        case "DescriptionO":
-                            res.Val(
-                                "#Users_DescriptionO",
-                                userModel.DescriptionO.ToResponse(context: context, ss: ss, column: column));
-                            break;
-                        case "DescriptionP":
-                            res.Val(
-                                "#Users_DescriptionP",
-                                userModel.DescriptionP.ToResponse(context: context, ss: ss, column: column));
-                            break;
-                        case "DescriptionQ":
-                            res.Val(
-                                "#Users_DescriptionQ",
-                                userModel.DescriptionQ.ToResponse(context: context, ss: ss, column: column));
-                            break;
-                        case "DescriptionR":
-                            res.Val(
-                                "#Users_DescriptionR",
-                                userModel.DescriptionR.ToResponse(context: context, ss: ss, column: column));
-                            break;
-                        case "DescriptionS":
-                            res.Val(
-                                "#Users_DescriptionS",
-                                userModel.DescriptionS.ToResponse(context: context, ss: ss, column: column));
-                            break;
-                        case "DescriptionT":
-                            res.Val(
-                                "#Users_DescriptionT",
-                                userModel.DescriptionT.ToResponse(context: context, ss: ss, column: column));
-                            break;
-                        case "DescriptionU":
-                            res.Val(
-                                "#Users_DescriptionU",
-                                userModel.DescriptionU.ToResponse(context: context, ss: ss, column: column));
-                            break;
-                        case "DescriptionV":
-                            res.Val(
-                                "#Users_DescriptionV",
-                                userModel.DescriptionV.ToResponse(context: context, ss: ss, column: column));
-                            break;
-                        case "DescriptionW":
-                            res.Val(
-                                "#Users_DescriptionW",
-                                userModel.DescriptionW.ToResponse(context: context, ss: ss, column: column));
-                            break;
-                        case "DescriptionX":
-                            res.Val(
-                                "#Users_DescriptionX",
-                                userModel.DescriptionX.ToResponse(context: context, ss: ss, column: column));
-                            break;
-                        case "DescriptionY":
-                            res.Val(
-                                "#Users_DescriptionY",
-                                userModel.DescriptionY.ToResponse(context: context, ss: ss, column: column));
-                            break;
-                        case "DescriptionZ":
-                            res.Val(
-                                "#Users_DescriptionZ",
-                                userModel.DescriptionZ.ToResponse(context: context, ss: ss, column: column));
-                            break;
-                        case "CheckA":
-                            res.Val(
-                                "#Users_CheckA",
-                                userModel.CheckA);
-                            break;
-                        case "CheckB":
-                            res.Val(
-                                "#Users_CheckB",
-                                userModel.CheckB);
-                            break;
-                        case "CheckC":
-                            res.Val(
-                                "#Users_CheckC",
-                                userModel.CheckC);
-                            break;
-                        case "CheckD":
-                            res.Val(
-                                "#Users_CheckD",
-                                userModel.CheckD);
-                            break;
-                        case "CheckE":
-                            res.Val(
-                                "#Users_CheckE",
-                                userModel.CheckE);
-                            break;
-                        case "CheckF":
-                            res.Val(
-                                "#Users_CheckF",
-                                userModel.CheckF);
-                            break;
-                        case "CheckG":
-                            res.Val(
-                                "#Users_CheckG",
-                                userModel.CheckG);
-                            break;
-                        case "CheckH":
-                            res.Val(
-                                "#Users_CheckH",
-                                userModel.CheckH);
-                            break;
-                        case "CheckI":
-                            res.Val(
-                                "#Users_CheckI",
-                                userModel.CheckI);
-                            break;
-                        case "CheckJ":
-                            res.Val(
-                                "#Users_CheckJ",
-                                userModel.CheckJ);
-                            break;
-                        case "CheckK":
-                            res.Val(
-                                "#Users_CheckK",
-                                userModel.CheckK);
-                            break;
-                        case "CheckL":
-                            res.Val(
-                                "#Users_CheckL",
-                                userModel.CheckL);
-                            break;
-                        case "CheckM":
-                            res.Val(
-                                "#Users_CheckM",
-                                userModel.CheckM);
-                            break;
-                        case "CheckN":
-                            res.Val(
-                                "#Users_CheckN",
-                                userModel.CheckN);
-                            break;
-                        case "CheckO":
-                            res.Val(
-                                "#Users_CheckO",
-                                userModel.CheckO);
-                            break;
-                        case "CheckP":
-                            res.Val(
-                                "#Users_CheckP",
-                                userModel.CheckP);
-                            break;
-                        case "CheckQ":
-                            res.Val(
-                                "#Users_CheckQ",
-                                userModel.CheckQ);
-                            break;
-                        case "CheckR":
-                            res.Val(
-                                "#Users_CheckR",
-                                userModel.CheckR);
-                            break;
-                        case "CheckS":
-                            res.Val(
-                                "#Users_CheckS",
-                                userModel.CheckS);
-                            break;
-                        case "CheckT":
-                            res.Val(
-                                "#Users_CheckT",
-                                userModel.CheckT);
-                            break;
-                        case "CheckU":
-                            res.Val(
-                                "#Users_CheckU",
-                                userModel.CheckU);
-                            break;
-                        case "CheckV":
-                            res.Val(
-                                "#Users_CheckV",
-                                userModel.CheckV);
-                            break;
-                        case "CheckW":
-                            res.Val(
-                                "#Users_CheckW",
-                                userModel.CheckW);
-                            break;
-                        case "CheckX":
-                            res.Val(
-                                "#Users_CheckX",
-                                userModel.CheckX);
-                            break;
-                        case "CheckY":
-                            res.Val(
-                                "#Users_CheckY",
-                                userModel.CheckY);
-                            break;
-                        case "CheckZ":
-                            res.Val(
-                                "#Users_CheckZ",
-                                userModel.CheckZ);
                             break;
                         case "LdapSearchRoot":
                             res.Val(
-                                "#Users_LdapSearchRoot",
+                                "#Users_LdapSearchRoot" + idSuffix,
                                 userModel.LdapSearchRoot.ToResponse(context: context, ss: ss, column: column));
                             break;
                         case "SynchronizedTime":
                             res.Val(
-                                "#Users_SynchronizedTime",
+                                "#Users_SynchronizedTime" + idSuffix,
                                 userModel.SynchronizedTime.ToResponse(context: context, ss: ss, column: column));
                             break;
-                        default: break;
+                        default:
+                            switch (Def.ExtendedColumnTypes.Get(column.Name))
+                            {
+                                case "Class":
+                                    res.Val(
+                                        $"#Users_{column.Name}{idSuffix}",
+                                        userModel.Class(columnName: column.Name).ToResponse(
+                                            context: context,
+                                            ss: ss,
+                                            column: column));
+                                    break;
+                                case "Num":
+                                    res.Val(
+                                        $"#Users_{column.Name}{idSuffix}",
+                                        userModel.Num(columnName: column.Name).ToResponse(
+                                            context: context,
+                                            ss: ss,
+                                            column: column));
+                                    break;
+                                case "Date":
+                                    res.Val(
+                                        $"#Users_{column.Name}{idSuffix}",
+                                        userModel.Date(columnName: column.Name).ToResponse(
+                                            context: context,
+                                            ss: ss,
+                                            column: column));
+                                    break;
+                                case "Description":
+                                    res.Val(
+                                        $"#Users_{column.Name}{idSuffix}",
+                                        userModel.Description(columnName: column.Name).ToResponse(
+                                            context: context,
+                                            ss: ss,
+                                            column: column));
+                                    break;
+                                case "Check":
+                                    res.Val(
+                                        $"#Users_{column.Name}{idSuffix}",
+                                        userModel.Check(columnName: column.Name));
+                                    break;
+                                case "Attachments":
+                                    res.ReplaceAll(
+                                        $"#Users_{column.Name}Field",
+                                        new HtmlBuilder()
+                                            .FieldAttachments(
+                                                context: context,
+                                                fieldId: $"Users_{column.Name}Field",
+                                                controlId: $"Users_{column.Name}",
+                                                columnName: column.ColumnName,
+                                                fieldCss: column.FieldCss,
+                                                fieldDescription: column.Description,
+                                                controlCss: column.ControlCss,
+                                                labelText: column.LabelText,
+                                                value: userModel.Attachments(columnName: column.Name).ToJson(),
+                                                placeholder: column.LabelText,
+                                                readOnly: column.ColumnPermissionType(context: context)
+                                                    != Permissions.ColumnPermissionTypes.Update));
+                                    break;
+                            }
+                            break;
                     }
                 });
             return res;
@@ -6183,15 +1928,19 @@ namespace Implem.Pleasanter.Models
             {
                 return Error.Types.UsersLimit.MessageJson(context: context);
             }
-            var userModel = new UserModel(context, ss, 0, setByForm: true);
+            var userModel = new UserModel(
+                context: context,
+                ss: ss,
+                userId: 0,
+                formData: context.Forms);
             var invalid = UserValidators.OnCreating(
                 context: context,
                 ss: ss,
                 userModel: userModel);
-            switch (invalid)
+            switch (invalid.Type)
             {
                 case Error.Types.None: break;
-                default: return invalid.MessageJson(context: context);
+                default: return invalid.Type.MessageJson(context: context);
             }
             foreach (var policy in Parameters.Security.PasswordPolicies.Where(o => o.Enabled))
             {
@@ -6200,8 +1949,8 @@ namespace Implem.Pleasanter.Models
                     return policy.ResponseMessage(context: context).ToJson();
                 }
             }
-            var error = userModel.Create(context: context, ss: ss);
-            switch (error)
+            var errorData = userModel.Create(context: context, ss: ss);
+            switch (errorData.Type)
             {
                 case Error.Types.None:
                     SessionUtilities.Set(
@@ -6220,19 +1969,22 @@ namespace Implem.Pleasanter.Models
                                 : userModel.UserId))
                         .ToJson();
                 default:
-                    return error.MessageJson(context: context);
+                    return errorData.Type.MessageJson(context: context);
             }
         }
 
         public static string Update(Context context, SiteSettings ss, int userId)
         {
             var userModel = new UserModel(
-                context: context, ss: ss, userId: userId, setByForm: true);
+                context: context,
+                ss: ss,
+                userId: userId,
+                formData: context.Forms);
             var invalid = UserValidators.OnUpdating(
                 context: context,
                 ss: ss,
                 userModel: userModel);
-            switch (invalid)
+            switch (invalid.Type)
             {
                 case Error.Types.None: break;
                 case Error.Types.PermissionNotSelfChange:
@@ -6240,14 +1992,14 @@ namespace Implem.Pleasanter.Models
                         .Val("#Users_TenantManager", userModel.SavedTenantManager)
                         .ClearFormData("Users_TenantManager")
                         .ToJson();
-                default: return invalid.MessageJson(context: context);
+                default: return invalid.Type.MessageJson(context: context);
             }
             if (userModel.AccessStatus != Databases.AccessStatuses.Selected)
             {
                 return Messages.ResponseDeleteConflicts(context: context).ToJson();
             }
-            var error = userModel.Update(context: context, ss: ss);
-            switch (error)
+            var errorData = userModel.Update(context: context, ss: ss);
+            switch (errorData.Type)
             {
                 case Error.Types.None:
                     var res = new UsersResponseCollection(userModel);
@@ -6265,7 +2017,7 @@ namespace Implem.Pleasanter.Models
                         data: userModel.Updator.Name)
                             .ToJson();
                 default:
-                    return error.MessageJson(context: context);
+                    return errorData.Type.MessageJson(context: context);
             }
         }
 
@@ -6285,17 +2037,19 @@ namespace Implem.Pleasanter.Models
                     context: context,
                     ss: ss,
                     view: view,
+                    tableType: Sqls.TableTypes.Normal,
                     where: Rds.UsersWhere().UserId(userModel.UserId));
                 var columns = ss.GetGridColumns(
                     context: context,
+                    view: view,
                     checkPermission: true);
                 return res
                     .ReplaceAll(
-                        $"[data-id=\"{userModel.UserId}\"]",
-                        gridData.TBody(
-                            hb: new HtmlBuilder(),
+                        $"[data-id=\"{userModel.UserId}\"][data-latest]",
+                        new HtmlBuilder().GridRows(
                             context: context,
                             ss: ss,
+                            dataRows: gridData.DataRows,
                             columns: columns,
                             checkAll: false))
                     .CloseDialog()
@@ -6337,13 +2091,13 @@ namespace Implem.Pleasanter.Models
                 context: context,
                 ss: ss,
                 userModel: userModel);
-            switch (invalid)
+            switch (invalid.Type)
             {
                 case Error.Types.None: break;
-                default: return invalid.MessageJson(context: context);
+                default: return invalid.Type.MessageJson(context: context);
             }
-            var error = userModel.Delete(context: context, ss: ss);
-            switch (error)
+            var errorData = userModel.Delete(context: context, ss: ss);
+            switch (errorData.Type)
             {
                 case Error.Types.None:
                     SessionUtilities.Set(
@@ -6359,7 +2113,7 @@ namespace Implem.Pleasanter.Models
                             controller: "Users"));
                     return res.ToJson();
                 default:
-                    return error.MessageJson(context: context);
+                    return errorData.Type.MessageJson(context: context);
             }
         }
 
@@ -6384,6 +2138,7 @@ namespace Implem.Pleasanter.Models
                         .THead(action: () => hb
                             .GridHeader(
                                 context: context,
+                                ss: ss,
                                 columns: columns,
                                 sort: false,
                                 checkRow: true))
@@ -6447,7 +2202,8 @@ namespace Implem.Pleasanter.Models
             var sqlColumn = new Rds.UsersColumnCollection()
                 .UserId()
                 .Ver();
-            columns.ForEach(column => sqlColumn.UsersColumn(column.ColumnName));
+            columns.ForEach(column =>
+                sqlColumn.UsersColumn(columnName: column.ColumnName));
             return sqlColumn;
         }
 
@@ -6467,7 +2223,18 @@ namespace Implem.Pleasanter.Models
             userModel.VerType = context.Forms.Bool("Latest")
                 ? Versions.VerTypes.Latest
                 : Versions.VerTypes.History;
-            return EditorResponse(context, ss, userModel).ToJson();
+            return EditorResponse(context, ss, userModel)
+                .PushState("History", Locations.Get(
+                    context: context,
+                    parts: new string[]
+                    {
+                        "Items",
+                        userId.ToString() 
+                            + (userModel.VerType == Versions.VerTypes.History
+                                ? "?ver=" + context.Forms.Int("Ver") 
+                                : string.Empty)
+                    }))
+                .ToJson();
         }
 
         /// <summary>
@@ -6546,9 +2313,8 @@ namespace Implem.Pleasanter.Models
                 where: Rds.BinariesWhere()
                     .TenantId(context.TenantId)
                     .ReferenceId_In(sub: sub)));
-            statements.Add(Rds.DeleteUsers(
-                where: where, 
-                countRecord: true));
+            statements.Add(Rds.DeleteUsers(where: where));
+            statements.Add(Rds.RowCount());
             statements.OnBulkDeletedExtendedSqls(ss.SiteId);
             return Rds.ExecuteScalar_response(
                 context: context,
@@ -6582,11 +2348,9 @@ namespace Implem.Pleasanter.Models
                                 column: Rds.UsersColumn().UserId(),
                                 where: where))
                             .OwnerType("Users")),
-                    Rds.DeleteUsers(
-                        where: where,
-                        countRecord: true)
-                })
-                    .Count.ToInt();
+                    Rds.DeleteUsers(where: where),
+                    Rds.RowCount()
+                }).Count.ToInt();
         }
 
         /// <summary>
@@ -6761,396 +2525,6 @@ namespace Implem.Pleasanter.Models
                             case "MailAddresses":
                                 userModel.MailAddresses = recordingData.Split(',').ToList();
                                 break;
-                            case "ClassA":
-                                userModel.ClassA = recordingData.ToString();
-                                break;
-                            case "ClassB":
-                                userModel.ClassB = recordingData.ToString();
-                                break;
-                            case "ClassC":
-                                userModel.ClassC = recordingData.ToString();
-                                break;
-                            case "ClassD":
-                                userModel.ClassD = recordingData.ToString();
-                                break;
-                            case "ClassE":
-                                userModel.ClassE = recordingData.ToString();
-                                break;
-                            case "ClassF":
-                                userModel.ClassF = recordingData.ToString();
-                                break;
-                            case "ClassG":
-                                userModel.ClassG = recordingData.ToString();
-                                break;
-                            case "ClassH":
-                                userModel.ClassH = recordingData.ToString();
-                                break;
-                            case "ClassI":
-                                userModel.ClassI = recordingData.ToString();
-                                break;
-                            case "ClassJ":
-                                userModel.ClassJ = recordingData.ToString();
-                                break;
-                            case "ClassK":
-                                userModel.ClassK = recordingData.ToString();
-                                break;
-                            case "ClassL":
-                                userModel.ClassL = recordingData.ToString();
-                                break;
-                            case "ClassM":
-                                userModel.ClassM = recordingData.ToString();
-                                break;
-                            case "ClassN":
-                                userModel.ClassN = recordingData.ToString();
-                                break;
-                            case "ClassO":
-                                userModel.ClassO = recordingData.ToString();
-                                break;
-                            case "ClassP":
-                                userModel.ClassP = recordingData.ToString();
-                                break;
-                            case "ClassQ":
-                                userModel.ClassQ = recordingData.ToString();
-                                break;
-                            case "ClassR":
-                                userModel.ClassR = recordingData.ToString();
-                                break;
-                            case "ClassS":
-                                userModel.ClassS = recordingData.ToString();
-                                break;
-                            case "ClassT":
-                                userModel.ClassT = recordingData.ToString();
-                                break;
-                            case "ClassU":
-                                userModel.ClassU = recordingData.ToString();
-                                break;
-                            case "ClassV":
-                                userModel.ClassV = recordingData.ToString();
-                                break;
-                            case "ClassW":
-                                userModel.ClassW = recordingData.ToString();
-                                break;
-                            case "ClassX":
-                                userModel.ClassX = recordingData.ToString();
-                                break;
-                            case "ClassY":
-                                userModel.ClassY = recordingData.ToString();
-                                break;
-                            case "ClassZ":
-                                userModel.ClassZ = recordingData.ToString();
-                                break;
-                            case "NumA":
-                                userModel.NumA = recordingData.ToDecimal();
-                                break;
-                            case "NumB":
-                                userModel.NumB = recordingData.ToDecimal();
-                                break;
-                            case "NumC":
-                                userModel.NumC = recordingData.ToDecimal();
-                                break;
-                            case "NumD":
-                                userModel.NumD = recordingData.ToDecimal();
-                                break;
-                            case "NumE":
-                                userModel.NumE = recordingData.ToDecimal();
-                                break;
-                            case "NumF":
-                                userModel.NumF = recordingData.ToDecimal();
-                                break;
-                            case "NumG":
-                                userModel.NumG = recordingData.ToDecimal();
-                                break;
-                            case "NumH":
-                                userModel.NumH = recordingData.ToDecimal();
-                                break;
-                            case "NumI":
-                                userModel.NumI = recordingData.ToDecimal();
-                                break;
-                            case "NumJ":
-                                userModel.NumJ = recordingData.ToDecimal();
-                                break;
-                            case "NumK":
-                                userModel.NumK = recordingData.ToDecimal();
-                                break;
-                            case "NumL":
-                                userModel.NumL = recordingData.ToDecimal();
-                                break;
-                            case "NumM":
-                                userModel.NumM = recordingData.ToDecimal();
-                                break;
-                            case "NumN":
-                                userModel.NumN = recordingData.ToDecimal();
-                                break;
-                            case "NumO":
-                                userModel.NumO = recordingData.ToDecimal();
-                                break;
-                            case "NumP":
-                                userModel.NumP = recordingData.ToDecimal();
-                                break;
-                            case "NumQ":
-                                userModel.NumQ = recordingData.ToDecimal();
-                                break;
-                            case "NumR":
-                                userModel.NumR = recordingData.ToDecimal();
-                                break;
-                            case "NumS":
-                                userModel.NumS = recordingData.ToDecimal();
-                                break;
-                            case "NumT":
-                                userModel.NumT = recordingData.ToDecimal();
-                                break;
-                            case "NumU":
-                                userModel.NumU = recordingData.ToDecimal();
-                                break;
-                            case "NumV":
-                                userModel.NumV = recordingData.ToDecimal();
-                                break;
-                            case "NumW":
-                                userModel.NumW = recordingData.ToDecimal();
-                                break;
-                            case "NumX":
-                                userModel.NumX = recordingData.ToDecimal();
-                                break;
-                            case "NumY":
-                                userModel.NumY = recordingData.ToDecimal();
-                                break;
-                            case "NumZ":
-                                userModel.NumZ = recordingData.ToDecimal();
-                                break;
-                            case "DateA":
-                                userModel.DateA = recordingData.ToDateTime();
-                                break;
-                            case "DateB":
-                                userModel.DateB = recordingData.ToDateTime();
-                                break;
-                            case "DateC":
-                                userModel.DateC = recordingData.ToDateTime();
-                                break;
-                            case "DateD":
-                                userModel.DateD = recordingData.ToDateTime();
-                                break;
-                            case "DateE":
-                                userModel.DateE = recordingData.ToDateTime();
-                                break;
-                            case "DateF":
-                                userModel.DateF = recordingData.ToDateTime();
-                                break;
-                            case "DateG":
-                                userModel.DateG = recordingData.ToDateTime();
-                                break;
-                            case "DateH":
-                                userModel.DateH = recordingData.ToDateTime();
-                                break;
-                            case "DateI":
-                                userModel.DateI = recordingData.ToDateTime();
-                                break;
-                            case "DateJ":
-                                userModel.DateJ = recordingData.ToDateTime();
-                                break;
-                            case "DateK":
-                                userModel.DateK = recordingData.ToDateTime();
-                                break;
-                            case "DateL":
-                                userModel.DateL = recordingData.ToDateTime();
-                                break;
-                            case "DateM":
-                                userModel.DateM = recordingData.ToDateTime();
-                                break;
-                            case "DateN":
-                                userModel.DateN = recordingData.ToDateTime();
-                                break;
-                            case "DateO":
-                                userModel.DateO = recordingData.ToDateTime();
-                                break;
-                            case "DateP":
-                                userModel.DateP = recordingData.ToDateTime();
-                                break;
-                            case "DateQ":
-                                userModel.DateQ = recordingData.ToDateTime();
-                                break;
-                            case "DateR":
-                                userModel.DateR = recordingData.ToDateTime();
-                                break;
-                            case "DateS":
-                                userModel.DateS = recordingData.ToDateTime();
-                                break;
-                            case "DateT":
-                                userModel.DateT = recordingData.ToDateTime();
-                                break;
-                            case "DateU":
-                                userModel.DateU = recordingData.ToDateTime();
-                                break;
-                            case "DateV":
-                                userModel.DateV = recordingData.ToDateTime();
-                                break;
-                            case "DateW":
-                                userModel.DateW = recordingData.ToDateTime();
-                                break;
-                            case "DateX":
-                                userModel.DateX = recordingData.ToDateTime();
-                                break;
-                            case "DateY":
-                                userModel.DateY = recordingData.ToDateTime();
-                                break;
-                            case "DateZ":
-                                userModel.DateZ = recordingData.ToDateTime();
-                                break;
-                            case "DescriptionA":
-                                userModel.DescriptionA = recordingData.ToString();
-                                break;
-                            case "DescriptionB":
-                                userModel.DescriptionB = recordingData.ToString();
-                                break;
-                            case "DescriptionC":
-                                userModel.DescriptionC = recordingData.ToString();
-                                break;
-                            case "DescriptionD":
-                                userModel.DescriptionD = recordingData.ToString();
-                                break;
-                            case "DescriptionE":
-                                userModel.DescriptionE = recordingData.ToString();
-                                break;
-                            case "DescriptionF":
-                                userModel.DescriptionF = recordingData.ToString();
-                                break;
-                            case "DescriptionG":
-                                userModel.DescriptionG = recordingData.ToString();
-                                break;
-                            case "DescriptionH":
-                                userModel.DescriptionH = recordingData.ToString();
-                                break;
-                            case "DescriptionI":
-                                userModel.DescriptionI = recordingData.ToString();
-                                break;
-                            case "DescriptionJ":
-                                userModel.DescriptionJ = recordingData.ToString();
-                                break;
-                            case "DescriptionK":
-                                userModel.DescriptionK = recordingData.ToString();
-                                break;
-                            case "DescriptionL":
-                                userModel.DescriptionL = recordingData.ToString();
-                                break;
-                            case "DescriptionM":
-                                userModel.DescriptionM = recordingData.ToString();
-                                break;
-                            case "DescriptionN":
-                                userModel.DescriptionN = recordingData.ToString();
-                                break;
-                            case "DescriptionO":
-                                userModel.DescriptionO = recordingData.ToString();
-                                break;
-                            case "DescriptionP":
-                                userModel.DescriptionP = recordingData.ToString();
-                                break;
-                            case "DescriptionQ":
-                                userModel.DescriptionQ = recordingData.ToString();
-                                break;
-                            case "DescriptionR":
-                                userModel.DescriptionR = recordingData.ToString();
-                                break;
-                            case "DescriptionS":
-                                userModel.DescriptionS = recordingData.ToString();
-                                break;
-                            case "DescriptionT":
-                                userModel.DescriptionT = recordingData.ToString();
-                                break;
-                            case "DescriptionU":
-                                userModel.DescriptionU = recordingData.ToString();
-                                break;
-                            case "DescriptionV":
-                                userModel.DescriptionV = recordingData.ToString();
-                                break;
-                            case "DescriptionW":
-                                userModel.DescriptionW = recordingData.ToString();
-                                break;
-                            case "DescriptionX":
-                                userModel.DescriptionX = recordingData.ToString();
-                                break;
-                            case "DescriptionY":
-                                userModel.DescriptionY = recordingData.ToString();
-                                break;
-                            case "DescriptionZ":
-                                userModel.DescriptionZ = recordingData.ToString();
-                                break;
-                            case "CheckA":
-                                userModel.CheckA = recordingData.ToBool();
-                                break;
-                            case "CheckB":
-                                userModel.CheckB = recordingData.ToBool();
-                                break;
-                            case "CheckC":
-                                userModel.CheckC = recordingData.ToBool();
-                                break;
-                            case "CheckD":
-                                userModel.CheckD = recordingData.ToBool();
-                                break;
-                            case "CheckE":
-                                userModel.CheckE = recordingData.ToBool();
-                                break;
-                            case "CheckF":
-                                userModel.CheckF = recordingData.ToBool();
-                                break;
-                            case "CheckG":
-                                userModel.CheckG = recordingData.ToBool();
-                                break;
-                            case "CheckH":
-                                userModel.CheckH = recordingData.ToBool();
-                                break;
-                            case "CheckI":
-                                userModel.CheckI = recordingData.ToBool();
-                                break;
-                            case "CheckJ":
-                                userModel.CheckJ = recordingData.ToBool();
-                                break;
-                            case "CheckK":
-                                userModel.CheckK = recordingData.ToBool();
-                                break;
-                            case "CheckL":
-                                userModel.CheckL = recordingData.ToBool();
-                                break;
-                            case "CheckM":
-                                userModel.CheckM = recordingData.ToBool();
-                                break;
-                            case "CheckN":
-                                userModel.CheckN = recordingData.ToBool();
-                                break;
-                            case "CheckO":
-                                userModel.CheckO = recordingData.ToBool();
-                                break;
-                            case "CheckP":
-                                userModel.CheckP = recordingData.ToBool();
-                                break;
-                            case "CheckQ":
-                                userModel.CheckQ = recordingData.ToBool();
-                                break;
-                            case "CheckR":
-                                userModel.CheckR = recordingData.ToBool();
-                                break;
-                            case "CheckS":
-                                userModel.CheckS = recordingData.ToBool();
-                                break;
-                            case "CheckT":
-                                userModel.CheckT = recordingData.ToBool();
-                                break;
-                            case "CheckU":
-                                userModel.CheckU = recordingData.ToBool();
-                                break;
-                            case "CheckV":
-                                userModel.CheckV = recordingData.ToBool();
-                                break;
-                            case "CheckW":
-                                userModel.CheckW = recordingData.ToBool();
-                                break;
-                            case "CheckX":
-                                userModel.CheckX = recordingData.ToBool();
-                                break;
-                            case "CheckY":
-                                userModel.CheckY = recordingData.ToBool();
-                                break;
-                            case "CheckZ":
-                                userModel.CheckZ = recordingData.ToBool();
-                                break;
                             case "LdapSearchRoot":
                                 userModel.LdapSearchRoot = recordingData.ToString();
                                 break;
@@ -7195,16 +2569,16 @@ namespace Implem.Pleasanter.Models
                             baseModel: userModel);
                         if (userModel.Updated(context: context))
                         {
-                            var error = userModel.Update(
+                            var errorData = userModel.Update(
                                 context: context,
                                 ss: ss,
                                 get: false);
-                            switch (error)
+                            switch (errorData.Type)
                             {
                                 case Error.Types.None:
                                     break;
                                 default:
-                                    return error.MessageJson(context: context);
+                                    return errorData.Type.MessageJson(context: context);
                             }
                             updateCount++;
                         }
@@ -7215,16 +2589,16 @@ namespace Implem.Pleasanter.Models
                     }
                     else
                     {
-                        var error = userModel.Create(
+                        var errorData = userModel.Create(
                             context: context,
                             ss: ss,
                             get: false);
-                        switch (error)
+                        switch (errorData.Type)
                         {
                             case Error.Types.None:
                                 break;
                             default:
-                                return error.MessageJson(context: context);
+                                return errorData.Type.MessageJson(context: context);
                         }
                         UpdateMailAddresses(context, userModel);
                         insertCount++;
@@ -7307,15 +2681,17 @@ namespace Implem.Pleasanter.Models
         {
             if (context.ContractSettings.Export == false)
             {
-                return HtmlTemplates.Error(context, Error.Types.InvalidRequest);
+                return HtmlTemplates.Error(
+                    context: context,
+                    errorData: new ErrorData(type: Error.Types.InvalidRequest));
             }
             var invalid = UserValidators.OnExporting(
                 context: context,
                 ss: ss);
-            switch (invalid)
+            switch (invalid.Type)
             {
                 case Error.Types.None: break;
-                default: return invalid.MessageJson(context: context);
+                default: return invalid.Type.MessageJson(context: context);
             }
             return new ResponseCollection()
                 .Html(
@@ -7338,7 +2714,7 @@ namespace Implem.Pleasanter.Models
             var invalid = UserValidators.OnExporting(
                 context: context,
                 ss: ss);
-            switch (invalid)
+            switch (invalid.Type)
             {
                 case Error.Types.None: break;
                 default: return null;
@@ -7408,14 +2784,14 @@ namespace Implem.Pleasanter.Models
                 context: context,
                 ss: ss,
                 userId: userId,
-                setByForm: true);
+                formData: context.Forms);
             var invalid = UserValidators.OnPasswordChanging(
                 context: context,
                 userModel: userModel);
-            switch (invalid)
+            switch (invalid.Type)
             {
                 case Error.Types.None: break;
-                default: return invalid.MessageJson(context: context);
+                default: return invalid.Type.MessageJson(context: context);
             }
             if (Parameters.Security.JoeAccountCheck
                 && context.Forms.Data("Users_ChangedPassword") == userModel.LoginId)
@@ -7460,14 +2836,14 @@ namespace Implem.Pleasanter.Models
                 context: context,
                 ss: ss,
                 loginId: context.Forms.Data("Users_LoginId"),
-                setByForm: true);
+                formData: context.Forms);
             var invalid = UserValidators.OnPasswordChangingAtLogin(
                 context: context,
                 userModel: userModel);
-            switch (invalid)
+            switch (invalid.Type)
             {
                 case Error.Types.None: break;
-                default: return invalid.MessageJson(context: context);
+                default: return invalid.Type.MessageJson(context: context);
             }
             if (Parameters.Security.JoeAccountCheck
                 && context.Forms.Data("Users_ChangedPassword") == userModel.LoginId)
@@ -7500,12 +2876,12 @@ namespace Implem.Pleasanter.Models
                 context: context,
                 ss: ss,
                 userId: userId,
-                setByForm: true);
+                formData: context.Forms);
             var invalid = UserValidators.OnPasswordResetting(context: context);
-            switch (invalid)
+            switch (invalid.Type)
             {
                 case Error.Types.None: break;
-                default: return invalid.MessageJson(context: context);
+                default: return invalid.Type.MessageJson(context: context);
             }
             if (Parameters.Security.JoeAccountCheck
                 && context.Forms.Data("Users_AfterResetPassword") == userModel.LoginId)
@@ -7558,16 +2934,16 @@ namespace Implem.Pleasanter.Models
                 userModel: userModel,
                 mailAddress: mailAddress,
                 data: out badMailAddress);
-            switch (invalid)
+            switch (invalid.Type)
             {
                 case Error.Types.None:
                     break;
                 case Error.Types.BadMailAddress:
-                    return invalid.MessageJson(
+                    return invalid.Type.MessageJson(
                         context: context,
                         data: badMailAddress);
                 default:
-                    return invalid.MessageJson(context: context);
+                    return invalid.Type.MessageJson(context: context);
             }
             var error = userModel.AddMailAddress(
                 context: context,
@@ -7589,10 +2965,10 @@ namespace Implem.Pleasanter.Models
                 userId: userId);
             var invalid = UserValidators.OnUpdating(
                 context: context, ss: ss, userModel: userModel);
-            switch (invalid)
+            switch (invalid.Type)
             {
                 case Error.Types.None: break;
-                default: return invalid.MessageJson(context: context);
+                default: return invalid.Type.MessageJson(context: context);
             }
             var selected = context.Forms.List("MailAddresses");
             var error = userModel.DeleteMailAddresses(
@@ -7768,7 +3144,7 @@ namespace Implem.Pleasanter.Models
                             .Text(Displays.Portal(context: context))))
                     .Form(
                         attributes: new HtmlAttributes()
-                            .Id("UserForm")
+                            .Id("MainForm")
                             .Class("main-form")
                             .Action(Locations.Raw(
                                 context: context,
@@ -7860,7 +3236,9 @@ namespace Implem.Pleasanter.Models
         /// </summary>
         public static string Expired(Context context)
         {
-            return HtmlTemplates.Error(context, Error.Types.Expired);
+            return HtmlTemplates.Error(
+                context: context,
+                errorData: new ErrorData(type: Error.Types.Expired));
         }
 
         /// <summary>
@@ -7983,10 +3361,12 @@ namespace Implem.Pleasanter.Models
             var invalid = UserValidators.OnApiEditing(
                 context: context,
                 userModel: userModel);
-            switch (invalid)
+            switch (invalid.Type)
             {
                 case Error.Types.None: break;
-                default: return HtmlTemplates.Error(context, invalid);
+                default: return HtmlTemplates.Error(
+                    context: context,
+                    errorData: invalid);
             }
             var hb = new HtmlBuilder();
             return hb.Template(
@@ -8000,7 +3380,7 @@ namespace Implem.Pleasanter.Models
                 action: () => hb
                     .Form(
                         attributes: new HtmlAttributes()
-                            .Id("UserForm")
+                            .Id("MainForm")
                             .Class("main-form")
                             .Action(Locations.Action(
                                 context: context,
@@ -8012,7 +3392,6 @@ namespace Implem.Pleasanter.Models
                             .MainCommands(
                                 context: context,
                                 ss: ss,
-                                siteId: ss.SiteId,
                                 verType: Versions.VerTypes.Latest)
                             .Div(css: "margin-bottom")))
                                 .ToString();
@@ -8071,15 +3450,15 @@ namespace Implem.Pleasanter.Models
             var invalid = UserValidators.OnApiCreating(
                 context: context,
                 userModel: userModel);
-            switch (invalid)
+            switch (invalid.Type)
             {
                 case Error.Types.None: break;
                 default: return HtmlTemplates.Error(context, invalid);
             }
             var error = userModel.CreateApiKey(context: context, ss: ss);
-            if (error.Has())
+            if (error.Type.Has())
             {
-                return error.MessageJson(context: context);
+                return error.Type.MessageJson(context: context);
             }
             else
             {
@@ -8103,15 +3482,15 @@ namespace Implem.Pleasanter.Models
             var invalid = UserValidators.OnApiDeleting(
                 context: context,
                 userModel: userModel);
-            switch (invalid)
+            switch (invalid.Type)
             {
                 case Error.Types.None: break;
                 default: return HtmlTemplates.Error(context, invalid);
             }
             var error = userModel.DeleteApiKey(context: context, ss: ss);
-            if (error.Has())
+            if (error.Type.Has())
             {
-                return error.MessageJson(context: context);
+                return error.Type.MessageJson(context: context);
             }
             else
             {
@@ -8152,12 +3531,12 @@ namespace Implem.Pleasanter.Models
                     context,
                     siteModel.SitesSiteSettings(context, siteId.Value),
                     siteModel);
-                switch (invalid)
+                switch (invalid.Type)
                 {
                     case Error.Types.None: break;
                     default: return ApiResults.Error(
                         context: context,
-                        type: invalid);
+                        errorData: invalid);
                 }
             }
             var siteUsers = siteModel != null
@@ -8191,11 +3570,11 @@ namespace Implem.Pleasanter.Models
                     context: context,
                     ss: ss),
                 offset: api.Offset,
-                pageSize: pageSize,
-                countRecord: true);
+                pageSize: pageSize);
             var users = siteUsers == null
                 ? userCollection
                 : userCollection.Join(siteUsers, c => c.UserId, s => s, (c, s) => c);
+            ss.SetColumnAccessControls(context: context);
             return ApiResults.Get(new
             {
                 StatusCode = 200,
@@ -8226,10 +3605,12 @@ namespace Implem.Pleasanter.Models
             var invalid = UserValidators.OnSwitchUser(
                 context: context,
                 userModel: userModel);
-            switch (invalid)
+            switch (invalid.Type)
             {
                 case Error.Types.None: break;
-                default: return invalid.MessageJson(context: context);
+                default: return HtmlTemplates.Error(
+                    context: context,
+                    errorData: invalid);
             }
             if (userModel.AccessStatus == Databases.AccessStatuses.Selected)
             {
@@ -8265,10 +3646,12 @@ namespace Implem.Pleasanter.Models
         public static string ReturnOriginalUser(Context context)
         {
             var invalid = UserValidators.OnReturnSwitchUser(context: context);
-            switch (invalid)
+            switch (invalid.Type)
             {
                 case Error.Types.None: break;
-                default: return invalid.MessageJson(context: context);
+                default: return HtmlTemplates.Error(
+                    context: context,
+                    errorData: invalid);
             }
             SessionUtilities.Remove(
                 context: context,
@@ -8294,7 +3677,7 @@ namespace Implem.Pleasanter.Models
             {
                 return ApiResults.Error(
                     context: context,
-                    type: Error.Types.UsersLimit);
+                    errorData: new ErrorData(type: Error.Types.UsersLimit));
             }
             var userModel = new UserModel(context, ss, 0, setByApi: true);
             var invalid = UserValidators.OnCreating(
@@ -8302,12 +3685,12 @@ namespace Implem.Pleasanter.Models
                 ss: ss,
                 userModel: userModel,
                 api: true);
-            switch (invalid)
+            switch (invalid.Type)
             {
                 case Error.Types.None: break;
                 default: return ApiResults.Error(
                     context: context,
-                    type: invalid);
+                    errorData: invalid);
             }
             foreach (var policy in Parameters.Security.PasswordPolicies.Where(o => o.Enabled))
             {
@@ -8315,7 +3698,7 @@ namespace Implem.Pleasanter.Models
                 {
                     return ApiResults.Error(
                         context: context,
-                        type: Error.Types.PasswordPolicyViolation);
+                        errorData: new ErrorData(type: Error.Types.PasswordPolicyViolation));
                 }
             }
             foreach(var column in ss.Columns
@@ -8326,12 +3709,12 @@ namespace Implem.Pleasanter.Models
                 {
                     return ApiResults.Error(
                         context: context,
-                        type: Error.Types.NotRequiredColumn,
+                        errorData: new ErrorData(type: Error.Types.NotRequiredColumn),
                         data: column.ColumnName);
                 }
             }
-            var error = userModel.Create(context: context, ss: ss);
-            switch (error)
+            var errorData = userModel.Create(context: context, ss: ss);
+            switch (errorData.Type)
             {
                 case Error.Types.None:
                     return ApiResults.Success(
@@ -8342,7 +3725,7 @@ namespace Implem.Pleasanter.Models
                 default:
                     return ApiResults.Error(
                         context: context,
-                        type: error);
+                        errorData: errorData);
             }
         }
 
@@ -8361,13 +3744,13 @@ namespace Implem.Pleasanter.Models
                 ss: ss,
                 userModel: userModel,
                 api: true);
-            switch (invalid)
+            switch (invalid.Type)
             {
                 case Error.Types.None: break;
                 default:
                     return ApiResults.Error(
                        context: context,
-                       type: invalid);
+                       errorData: invalid);
             }
             foreach (var policy in Parameters.Security.PasswordPolicies.Where(o => o.Enabled))
             {
@@ -8375,7 +3758,7 @@ namespace Implem.Pleasanter.Models
                 {
                     return ApiResults.Error(
                         context: context,
-                        type: Error.Types.PasswordPolicyViolation);
+                        errorData: new ErrorData(type: Error.Types.PasswordPolicyViolation));
                 }
             }
             foreach (var column in ss.Columns
@@ -8386,12 +3769,12 @@ namespace Implem.Pleasanter.Models
                 {
                     return ApiResults.Error(
                         context: context,
-                        type: Error.Types.NotRequiredColumn,
+                        errorData: new ErrorData(type: Error.Types.NotRequiredColumn),
                         data: column.ColumnName);
                 }
             }
-            var error = userModel.Update(context: context, ss: ss);
-            switch (error)
+            var errorData = userModel.Update(context: context, ss: ss);
+            switch (errorData.Type)
             {
                 case Error.Types.None:
                     return ApiResults.Success(
@@ -8402,7 +3785,7 @@ namespace Implem.Pleasanter.Models
                 default:
                     return ApiResults.Error(
                         context: context,
-                        type: error);
+                        errorData: errorData);
             }
         }
 
@@ -8421,16 +3804,16 @@ namespace Implem.Pleasanter.Models
                 ss: ss,
                 userModel: userModel,
                 api: true);
-            switch (invalid)
+            switch (invalid.Type)
             {
                 case Error.Types.None: break;
                 default:
                     return ApiResults.Error(
                        context: context,
-                       type: invalid);
+                       errorData: invalid);
             }
-            var error = userModel.Delete(context: context, ss: ss);
-            switch (error)
+            var errorData = userModel.Delete(context: context, ss: ss);
+            switch (errorData.Type)
             {
                 case Error.Types.None:
                     return ApiResults.Success(
@@ -8441,7 +3824,7 @@ namespace Implem.Pleasanter.Models
                 default:
                     return ApiResults.Error(
                         context: context,
-                        type: error);
+                        errorData: errorData);
             }
         }
     }

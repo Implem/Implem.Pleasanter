@@ -18,7 +18,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             Versions.VerTypes verType)
         {
             var notes = new Dictionary<string, string>();
-            if (!context.Publish && !context.CanUpdate(ss: ss))
+            if (!context.Publish && !context.CanUpdate(ss: ss) && !ss.Locked())
             {
                 notes.Add("readonly", Displays.CanNotUpdate(context: context));
             }

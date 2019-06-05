@@ -31,6 +31,8 @@ namespace Implem.Pleasanter.Models
         public long ParentId = 0;
         public long InheritPermission = 0;
         public bool Publish = false;
+        public Time LockedTime = new Time();
+        public User LockedUser = new User();
         public SiteCollection Ancestors = null;
         public int SiteMenu = 0;
         public List<string> MonitorChangesColumns = null;
@@ -41,23 +43,25 @@ namespace Implem.Pleasanter.Models
         {
             get
             {
-                return new TitleBody(SiteId, Title.Value, Title.DisplayValue, Body);
+                return new TitleBody(SiteId, Ver, VerType == Versions.VerTypes.History, Title.Value, Title.DisplayValue, Body);
             }
         }
 
-        [NonSerialized] public int SavedTenantId = 0;
-        [NonSerialized] public string SavedGridGuide = string.Empty;
-        [NonSerialized] public string SavedEditorGuide = string.Empty;
-        [NonSerialized] public string SavedReferenceType = "Sites";
-        [NonSerialized] public long SavedParentId = 0;
-        [NonSerialized] public long SavedInheritPermission = 0;
-        [NonSerialized] public string SavedSiteSettings = string.Empty;
-        [NonSerialized] public bool SavedPublish = false;
-        [NonSerialized] public SiteCollection SavedAncestors = null;
-        [NonSerialized] public int SavedSiteMenu = 0;
-        [NonSerialized] public List<string> SavedMonitorChangesColumns = null;
-        [NonSerialized] public List<string> SavedTitleColumns = null;
-        [NonSerialized] public Export SavedExport = null;
+        public int SavedTenantId = 0;
+        public string SavedGridGuide = string.Empty;
+        public string SavedEditorGuide = string.Empty;
+        public string SavedReferenceType = "Sites";
+        public long SavedParentId = 0;
+        public long SavedInheritPermission = 0;
+        public string SavedSiteSettings = string.Empty;
+        public bool SavedPublish = false;
+        public DateTime SavedLockedTime = 0.ToDateTime();
+        public int SavedLockedUser = 0;
+        public SiteCollection SavedAncestors = null;
+        public int SavedSiteMenu = 0;
+        public List<string> SavedMonitorChangesColumns = null;
+        public List<string> SavedTitleColumns = null;
+        public Export SavedExport = null;
 
         public bool TenantId_Updated(Context context, Column column = null)
         {
@@ -121,6 +125,22 @@ namespace Implem.Pleasanter.Models
                 (column == null ||
                 column.DefaultInput.IsNullOrEmpty() ||
                 column.GetDefaultInput(context: context).ToBool() != Publish);
+        }
+
+        public bool LockedUser_Updated(Context context, Column column = null)
+        {
+            return LockedUser.Id != SavedLockedUser &&
+                (column == null ||
+                column.DefaultInput.IsNullOrEmpty() ||
+                column.GetDefaultInput(context: context).ToInt() != LockedUser.Id);
+        }
+
+        public bool LockedTime_Updated(Context context, Column column = null)
+        {
+            return LockedTime.Value != SavedLockedTime &&
+                (column == null ||
+                column.DefaultInput.IsNullOrEmpty() ||
+                column.DefaultTime().Date != LockedTime.Value.Date);
         }
 
         public SiteSettings Session_SiteSettings(Context context)
@@ -205,6 +225,8 @@ namespace Implem.Pleasanter.Models
                 case "InheritPermission": return InheritPermission.ToString();
                 case "SiteSettings": return SiteSettings.RecordingJson(context: context);
                 case "Publish": return Publish.ToString();
+                case "LockedTime": return LockedTime.Value.ToString();
+                case "LockedUser": return LockedUser.Id.ToString();
                 case "Ancestors": return Ancestors.ToString();
                 case "SiteMenu": return SiteMenu.ToString();
                 case "MonitorChangesColumns": return MonitorChangesColumns.ToString();
@@ -216,7 +238,9 @@ namespace Implem.Pleasanter.Models
                 case "CreatedTime": return CreatedTime.Value.ToString();
                 case "VerUp": return VerUp.ToString();
                 case "Timestamp": return Timestamp;
-                default: return null;
+                default: return Value(
+                    context: context,
+                    columnName: name);
             }
         }
 
@@ -269,6 +293,12 @@ namespace Implem.Pleasanter.Models
                     case "Publish":
                         hash.Add("Publish", Publish.ToString());
                         break;
+                    case "LockedTime":
+                        hash.Add("LockedTime", LockedTime.Value.ToString());
+                        break;
+                    case "LockedUser":
+                        hash.Add("LockedUser", LockedUser.Id.ToString());
+                        break;
                     case "Ancestors":
                         hash.Add("Ancestors", Ancestors.ToString());
                         break;
@@ -302,6 +332,11 @@ namespace Implem.Pleasanter.Models
                     case "Timestamp":
                         hash.Add("Timestamp", Timestamp);
                         break;
+                    default:
+                        hash.Add(name, Value(
+                            context: context,
+                            columnName: name));
+                        break;
                 }
             });
             return hash;
@@ -317,7 +352,7 @@ namespace Implem.Pleasanter.Models
             Context context,
             long parentId,
             long inheritPermission,
-            bool setByForm = false,
+            IDictionary<string, string> formData = null,
             bool setByApi = false,
             MethodTypes methodType = MethodTypes.NotSet)
         {
@@ -326,7 +361,12 @@ namespace Implem.Pleasanter.Models
             TenantId = context.TenantId;
             ParentId = parentId;
             InheritPermission = inheritPermission;
-            if (setByForm) SetByForm(context: context);
+            if (formData != null)
+            {
+                SetByForm(
+                    context: context,
+                    formData: formData);
+            }
             MethodType = methodType;
             OnConstructed(context: context);
         }
@@ -334,9 +374,9 @@ namespace Implem.Pleasanter.Models
         public SiteModel(
             Context context,
             long siteId,
-            bool clearSessions = false,
-            bool setByForm = false,
+            IDictionary<string, string> formData = null,
             bool setByApi = false,
+            bool clearSessions = false,
             List<long> switchTargets = null,
             MethodTypes methodType = MethodTypes.NotSet)
         {
@@ -346,18 +386,39 @@ namespace Implem.Pleasanter.Models
             SiteId = siteId;
             Get(context: context);
             if (clearSessions) ClearSessions(context: context);
-            if (setByForm) SetByForm(context: context);
+            if (formData != null)
+            {
+                SetByForm(
+                    context: context,
+                    formData: formData);
+            }
             SwitchTargets = switchTargets;
             MethodType = methodType;
             OnConstructed(context: context);
         }
 
-        public SiteModel(Context context, DataRow dataRow, string tableAlias = null)
+        public SiteModel(
+            Context context,
+            DataRow dataRow,
+            IDictionary<string, string> formData = null,
+            string tableAlias = null)
         {
             OnConstructing(context: context);
             Context = context;
             TenantId = context.TenantId;
-            if (dataRow != null) Set(context, dataRow, tableAlias);
+            if (dataRow != null)
+            {
+                Set(
+                    context: context,
+                    dataRow: dataRow,
+                    tableAlias: tableAlias);
+            }
+            if (formData != null)
+            {
+                SetByForm(
+                    context: context,
+                    formData: formData);
+            }
             OnConstructed(context: context);
         }
 
@@ -436,6 +497,14 @@ namespace Implem.Pleasanter.Models
                     case "Comments":
                         Comments.FullText(context, fullText);
                         break;
+                    default:
+                        FullText(
+                            context: context,
+                            column: ss.GetColumn(
+                                context: context,
+                                columnName: columnName),
+                            fullText: fullText);
+                        break;
                 }
             });
             Creator.FullText(context, fullText);
@@ -478,6 +547,13 @@ namespace Implem.Pleasanter.Models
                 Creator.SearchIndexes(context, searchIndexHash, 100);
                 Updator.SearchIndexes(context, searchIndexHash, 100);
                 CreatedTime.SearchIndexes(context, searchIndexHash, 200);
+                ColumnNames().ForEach(columnName =>
+                    SearchIndexes(
+                        context: context,
+                        column: ss.GetColumn(
+                            context: context,
+                            columnName: columnName),
+                        searchIndexHash: searchIndexHash));
                 SearchIndexExtensions.OutgoingMailsSearchIndexes(
                     context: context,
                     searchIndexHash: searchIndexHash,
@@ -487,7 +563,7 @@ namespace Implem.Pleasanter.Models
             }
         }
 
-        public Error.Types Update(
+        public ErrorData Update(
             Context context,
             SiteSettings ss,
             IEnumerable<string> permissions = null,
@@ -498,21 +574,19 @@ namespace Implem.Pleasanter.Models
             bool setBySession = true,
             bool get = true)
         {
-            if (setBySession) SetBySession(context: context);
-            var timestamp = Timestamp.ToDateTime();
+            if (setBySession)
+            {
+                SetBySession(context: context);
+            }
             var statements = new List<SqlStatement>();
-            UpdateStatements(
+            statements.AddRange(UpdateStatements(
                 context: context,
                 ss: ss,
-                statements: statements,
-                timestamp: timestamp,
+                permissions: permissions,
+                permissionChanged: permissionChanged,
                 param: param,
                 otherInitValue: otherInitValue,
-                additionalStatements: additionalStatements);
-            if (permissionChanged)
-            {
-                statements.UpdatePermissions(context, ss, SiteId, permissions, site: true);
-            }
+                additionalStatements: additionalStatements));
             statements.Add(Rds.PhysicalDeleteReminderSchedules(
                 where: Rds.ReminderSchedulesWhere()
                     .SiteId(SiteId)));
@@ -531,40 +605,58 @@ namespace Implem.Pleasanter.Models
                 context: context,
                 transactional: true,
                 statements: statements.ToArray());
-            if (response.Count == 0) return Error.Types.UpdateConflicts;
-            if (get) Get(context: context);
-            UpdateRelatedRecords(context: context);
+            if (response.Event == "Conflicted")
+            {
+                return new ErrorData(
+                    type: Error.Types.UpdateConflicts,
+                    id: SiteId);
+            }
+            if (get)
+            {
+                Get(context: context);
+            }
+            UpdateRelatedRecords(
+                context: context,
+                get: get,
+                addUpdatedTimeParam: true,
+                addUpdatorParam: true,
+                updateItems: true);
             SiteInfo.Reflesh(context: context);
-            return Error.Types.None;
+            return new ErrorData(type: Error.Types.None);
         }
 
-        private List<SqlStatement> UpdateStatements(
+        public List<SqlStatement> UpdateStatements(
             Context context,
             SiteSettings ss,
-            List<SqlStatement> statements,
-            DateTime timestamp,
-            SqlParamCollection param,
+            string dataTableName = null,
+            IEnumerable<string> permissions = null,
+            bool permissionChanged = false,
+            SqlParamCollection param = null,
             bool otherInitValue = false,
             List<SqlStatement> additionalStatements = null)
         {
+            var timestamp = Timestamp.ToDateTime();
+            var statements = new List<SqlStatement>();
             var where = Rds.SitesWhereDefault(this)
                 .UpdatedTime(timestamp, _using: timestamp.InRange());
             if (VerUp)
             {
-                statements.Add(CopyToStatement(where, Sqls.TableTypes.History));
+                statements.Add(CopyToStatement(
+                    where: where,
+                    tableType: Sqls.TableTypes.History));
                 Ver++;
             }
-            statements.AddRange(new List<SqlStatement>
+            statements.AddRange(UpdateStatements(
+                context: context,
+                dataTableName: dataTableName,
+                where: where,
+                param: param,
+                otherInitValue: otherInitValue));
+            statements.AddRange(UpdateAttachmentsStatements(context: context));
+            if (permissionChanged)
             {
-                Rds.UpdateSites(
-                    where: where,
-                    param: param ?? Rds.SitesParamDefault(
-                        context: context, siteModel: this, otherInitValue: otherInitValue),
-                    countRecord: true),
-                StatusUtilities.UpdateStatus(
-                    tenantId: TenantId,
-                    type: StatusUtilities.Types.SitesUpdated),
-            });
+                statements.UpdatePermissions(context, ss, SiteId, permissions, site: true);
+            }
             if (additionalStatements?.Any() == true)
             {
                 statements.AddRange(additionalStatements);
@@ -589,10 +681,22 @@ namespace Implem.Pleasanter.Models
             column.InheritPermission(function: Sqls.Functions.SingleColumn); param.InheritPermission();
             column.SiteSettings(function: Sqls.Functions.SingleColumn); param.SiteSettings();
             column.Publish(function: Sqls.Functions.SingleColumn); param.Publish();
+            column.LockedTime(function: Sqls.Functions.SingleColumn); param.LockedTime();
+            column.LockedUser(function: Sqls.Functions.SingleColumn); param.LockedUser();
             column.Comments(function: Sqls.Functions.SingleColumn); param.Comments();
             column.Creator(function: Sqls.Functions.SingleColumn); param.Creator();
             column.Updator(function: Sqls.Functions.SingleColumn); param.Updator();
             column.CreatedTime(function: Sqls.Functions.SingleColumn); param.CreatedTime();
+            ColumnNames().ForEach(columnName =>
+            {
+                column.Add(
+                    columnBracket: $"[{columnName}]",
+                    columnName: columnName,
+                    function: Sqls.Functions.SingleColumn);
+                param.Add(
+                    columnBracket: $"[{columnName}]",
+                    name: columnName);
+            });
             return Rds.InsertSites(
                 tableType: tableType,
                 param: param,
@@ -600,7 +704,63 @@ namespace Implem.Pleasanter.Models
                 addUpdatorParam: false);
         }
 
+        private List<SqlStatement> UpdateStatements(
+            Context context,
+            string dataTableName = null,
+            SqlWhereCollection where = null,
+            SqlParamCollection param = null,
+            bool otherInitValue = false)
+        {
+            return new List<SqlStatement>
+            {
+                Rds.UpdateSites(
+                    dataTableName: dataTableName,
+                    where: where,
+                    param: param ?? Rds.SitesParamDefault(
+                        context: context,
+                        siteModel: this,
+                        otherInitValue: otherInitValue)),
+                new SqlStatement(Def.Sql.IfConflicted.Params(SiteId)),
+                StatusUtilities.UpdateStatus(
+                    tenantId: TenantId,
+                    type: StatusUtilities.Types.SitesUpdated),
+            };
+        }
+
+        private List<SqlStatement> UpdateAttachmentsStatements(Context context)
+        {
+            var statements = new List<SqlStatement>();
+            ColumnNames()
+                .Where(columnName => columnName.StartsWith("Attachments"))
+                .Where(columnName => Attachments_Updated(columnName: columnName))
+                .ForEach(columnName =>
+                    Attachments(columnName: columnName).Write(
+                        context: context,
+                        statements: statements,
+                        referenceId: SiteId));
+            return statements;
+        }
+
         public void UpdateRelatedRecords(
+            Context context,
+            bool get = false,
+            bool addUpdatedTimeParam = true,
+            bool addUpdatorParam = true,
+            bool updateItems = true)
+        {
+            Rds.ExecuteNonQuery(
+                context: context,
+                transactional: true,
+                statements: UpdateRelatedRecordsStatements(
+                    context: context,
+                    addUpdatedTimeParam: addUpdatedTimeParam,
+                    addUpdatorParam: addUpdatorParam,
+                    updateItems: updateItems)
+                        .ToArray());
+            Libraries.Search.Indexes.Create(context, SiteSettings, this);
+        }
+
+        public List<SqlStatement> UpdateRelatedRecordsStatements(
             Context context,
             bool addUpdatedTimeParam = true,
             bool addUpdatorParam = true,
@@ -624,14 +784,10 @@ namespace Implem.Pleasanter.Models
                 .Select(o => o.SiteId)
                 .Distinct()
                 .ToDictionary(o => o, o => SiteId)));
-            Rds.ExecuteNonQuery(
-                context: context,
-                transactional: true,
-                statements: statements.ToArray());
-            Libraries.Search.Indexes.Create(context, SiteSettings, this);
+            return statements;
         }
 
-        public Error.Types UpdateOrCreate(
+        public ErrorData UpdateOrCreate(
             Context context,
             SqlWhereCollection where = null,
             SqlParamCollection param = null)
@@ -640,7 +796,7 @@ namespace Implem.Pleasanter.Models
             var statements = new List<SqlStatement>
             {
                 Rds.InsertItems(
-                    setIdentity: true,
+                    selectIdentity: true,
                     param: Rds.ItemsParam()
                         .ReferenceType("Sites")
                         .SiteId(SiteId)
@@ -658,13 +814,13 @@ namespace Implem.Pleasanter.Models
                 transactional: true,
                 selectIdentity: true,
                 statements: statements.ToArray());
-            SiteId = (response.Identity ?? SiteId).ToLong();
+            SiteId = (response.Id ?? SiteId).ToLong();
             Get(context: context);
             Libraries.Search.Indexes.Create(context, SiteSettings, this);
-            return Error.Types.None;
+            return new ErrorData(type: Error.Types.None);
         }
 
-        public Error.Types Delete(Context context, SiteSettings ss)
+        public ErrorData Delete(Context context, SiteSettings ss)
         {
             var siteMenu = SiteInfo.TenantCaches.Get(TenantId)?
                 .SiteMenu
@@ -696,10 +852,10 @@ namespace Implem.Pleasanter.Models
                             .TenantId(TenantId)
                             .SiteId_In(siteMenu.Select(o => o.SiteId)))
                 });
-            return Error.Types.None;
+            return new ErrorData(type: Error.Types.None);
         }
 
-        public Error.Types Restore(Context context, long siteId)
+        public ErrorData Restore(Context context, long siteId)
         {
             SiteId = siteId;
             Rds.ExecuteNonQuery(
@@ -717,10 +873,10 @@ namespace Implem.Pleasanter.Models
                         type: StatusUtilities.Types.SitesUpdated),
                 });
             Libraries.Search.Indexes.Create(context, SiteSettings, this);
-            return Error.Types.None;
+            return new ErrorData(type: Error.Types.None);
         }
 
-        public Error.Types PhysicalDelete(
+        public ErrorData PhysicalDelete(
             Context context, Sqls.TableTypes tableType = Sqls.TableTypes.Normal)
         {
             Rds.ExecuteNonQuery(
@@ -730,42 +886,64 @@ namespace Implem.Pleasanter.Models
                     tableType: tableType,
                     param: Rds.SitesParam().TenantId(TenantId).SiteId(SiteId)));
             Libraries.Search.Indexes.Create(context, SiteSettings, this);
-            return Error.Types.None;
+            return new ErrorData(type: Error.Types.None);
         }
 
-        public void SetByForm(Context context)
+        public void SetByForm(
+            Context context,
+            IDictionary<string, string> formData)
         {
             var ss = new SiteSettings();
-            context.Forms.Keys.ForEach(controlId =>
+            formData.ForEach(data =>
             {
-                switch (controlId)
+                var key = data.Key;
+                var value = data.Value ?? string.Empty;
+                switch (key)
                 {
-                    case "Sites_Title": Title = new Title(SiteId, context.Forms.Data(controlId)); break;
-                    case "Sites_Body": Body = context.Forms.Data(controlId).ToString(); break;
-                    case "Sites_GridGuide": GridGuide = context.Forms.Data(controlId).ToString(); break;
-                    case "Sites_EditorGuide": EditorGuide = context.Forms.Data(controlId).ToString(); break;
-                    case "Sites_ReferenceType": ReferenceType = context.Forms.Data(controlId).ToString(); break;
-                    case "Sites_InheritPermission": InheritPermission = context.Forms.Data(controlId).ToLong(); break;
-                    case "Sites_Publish": Publish = context.Forms.Data(controlId).ToBool(); break;
-                    case "Sites_Timestamp": Timestamp = context.Forms.Data(controlId).ToString(); break;
-                    case "Comments": Comments.Prepend(context: context, ss: ss, body: context.Forms.Data("Comments")); break;
-                    case "VerUp": VerUp = context.Forms.Data(controlId).ToBool(); break;
+                    case "Sites_Title": Title = new Title(SiteId, value); break;
+                    case "Sites_Body": Body = value.ToString(); break;
+                    case "Sites_GridGuide": GridGuide = value.ToString(); break;
+                    case "Sites_EditorGuide": EditorGuide = value.ToString(); break;
+                    case "Sites_ReferenceType": ReferenceType = value.ToString(); break;
+                    case "Sites_InheritPermission": InheritPermission = value.ToLong(); break;
+                    case "Sites_Publish": Publish = value.ToBool(); break;
+                    case "Sites_Timestamp": Timestamp = value.ToString(); break;
+                    case "Comments": Comments.Prepend(
+                        context: context,
+                        ss: ss,
+                        body: value); break;
+                    case "VerUp": VerUp = value.ToBool(); break;
                     default:
-                        if (controlId.RegexExists("Comment[0-9]+"))
+                        if (key.RegexExists("Comment[0-9]+"))
                         {
                             Comments.Update(
                                 context: context,
                                 ss: ss,
-                                commentId: controlId.Substring("Comment".Length).ToInt(),
-                                body: context.Forms.Data(controlId));
+                                commentId: key.Substring("Comment".Length).ToInt(),
+                                body: value);
+                        }
+                        else
+                        {
+                            Value(
+                                context: context,
+                                columnName: key.Split_2nd('_'),
+                                value: value,
+                                toUniversal: true);
                         }
                         break;
                 }
             });
+            if (context.QueryStrings.ContainsKey("ver"))
+            {
+                Ver = context.QueryStrings.Int("ver");
+            }
             SetSiteSettings(context: context);
             if (context.Action == "deletecomment")
             {
-                DeleteCommentId = context.Forms.ControlId().Split(',')._2nd().ToInt();
+                DeleteCommentId = formData.Get("ControlId")?
+                    .Split(',')
+                    ._2nd()
+                    .ToInt() ?? 0;
                 Comments.RemoveAll(o => o.CommentId == DeleteCommentId);
             }
         }
@@ -783,6 +961,8 @@ namespace Implem.Pleasanter.Models
             InheritPermission = siteModel.InheritPermission;
             SiteSettings = siteModel.SiteSettings;
             Publish = siteModel.Publish;
+            LockedTime = siteModel.LockedTime;
+            LockedUser = siteModel.LockedUser;
             Ancestors = siteModel.Ancestors;
             SiteMenu = siteModel.SiteMenu;
             MonitorChangesColumns = siteModel.MonitorChangesColumns;
@@ -794,6 +974,12 @@ namespace Implem.Pleasanter.Models
             CreatedTime = siteModel.CreatedTime;
             VerUp = siteModel.VerUp;
             Comments = siteModel.Comments;
+            ClassHash = siteModel.ClassHash;
+            NumHash = siteModel.NumHash;
+            DateHash = siteModel.DateHash;
+            DescriptionHash = siteModel.DescriptionHash;
+            CheckHash = siteModel.CheckHash;
+            AttachmentsHash = siteModel.AttachmentsHash;
         }
 
         public void SetByApi(Context context, SiteSettings ss)
@@ -812,6 +998,12 @@ namespace Implem.Pleasanter.Models
             if (data.Publish != null) Publish = data.Publish.ToBool().ToBool();
             if (data.Comments != null) Comments.Prepend(context: context, ss: ss, body: data.Comments);
             if (data.VerUp != null) VerUp = data.VerUp.ToBool();
+            ClassHash = data.ClassHash;
+            NumHash = data.NumHash;
+            DateHash = data.DateHash;
+            DescriptionHash = data.DescriptionHash;
+            CheckHash = data.CheckHash;
+            AttachmentsHash = data.AttachmentsHash;
             SetSiteSettings(context: context);
         }
 
@@ -825,8 +1017,46 @@ namespace Implem.Pleasanter.Models
                     var column = ss.GetColumn(context: context, columnName: filter.Key);
                     switch (filter.Key)
                     {
-                        case "UpdatedTime": match = UpdatedTime.Value.Matched(column, filter.Value); break;
-                        case "CreatedTime": match = CreatedTime.Value.Matched(column, filter.Value); break;
+                        case "UpdatedTime":
+                            match = UpdatedTime.Value.Matched(
+                                column: column,
+                                condition: filter.Value);
+                            break;
+                        case "CreatedTime":
+                            match = CreatedTime.Value.Matched(
+                                column: column,
+                                condition: filter.Value);
+                            break;
+                        default:
+                            switch (Def.ExtendedColumnTypes.Get(filter.Key))
+                            {
+                                case "Class":
+                                    match = Class(column: column).Matched(
+                                        column: column,
+                                        condition: filter.Value);
+                                    break;
+                                case "Num":
+                                    match = Num(column: column).Matched(
+                                        column: column,
+                                        condition: filter.Value);
+                                    break;
+                                case "Date":
+                                    match = Date(column: column).Matched(
+                                        column: column,
+                                        condition: filter.Value);
+                                    break;
+                                case "Description":
+                                    match = Description(column: column).Matched(
+                                        column: column,
+                                        condition: filter.Value);
+                                    break;
+                                case "Check":
+                                    match = Check(column: column).Matched(
+                                        column: column,
+                                        condition: filter.Value);
+                                    break;
+                            }
+                            break;
                     }
                     if (!match) return false;
                 }
@@ -923,6 +1153,14 @@ namespace Implem.Pleasanter.Models
                             Publish = dataRow[column.ColumnName].ToBool();
                             SavedPublish = Publish;
                             break;
+                        case "LockedTime":
+                            LockedTime = new Time(context, dataRow, column.ColumnName);
+                            SavedLockedTime = LockedTime.Value;
+                            break;
+                        case "LockedUser":
+                            LockedUser = SiteInfo.User(context: context, userId: dataRow.Int(column.ColumnName));
+                            SavedLockedUser = LockedUser.Id;
+                            break;
                         case "Comments":
                             Comments = dataRow[column.ColumnName].ToString().Deserialize<Comments>() ?? new Comments();
                             SavedComments = Comments.ToJson();
@@ -939,7 +1177,64 @@ namespace Implem.Pleasanter.Models
                             CreatedTime = new Time(context, dataRow, column.ColumnName);
                             SavedCreatedTime = CreatedTime.Value;
                             break;
-                        case "IsHistory": VerType = dataRow[column.ColumnName].ToBool() ? Versions.VerTypes.History : Versions.VerTypes.Latest; break;
+                        case "IsHistory":
+                            VerType = dataRow.Bool(column.ColumnName)
+                                ? Versions.VerTypes.History
+                                : Versions.VerTypes.Latest; break;
+                        default:
+                            switch (Def.ExtendedColumnTypes.Get(column.Name))
+                            {
+                                case "Class":
+                                    Class(
+                                        columnName: column.Name,
+                                        value: dataRow[column.ColumnName].ToString());
+                                    SavedClass(
+                                        columnName: column.Name,
+                                        value: Class(columnName: column.Name));
+                                    break;
+                                case "Num":
+                                    Num(
+                                        columnName: column.Name,
+                                        value: dataRow[column.ColumnName].ToDecimal());
+                                    SavedNum(
+                                        columnName: column.Name,
+                                        value: Num(columnName: column.Name));
+                                    break;
+                                case "Date":
+                                    Date(
+                                        columnName: column.Name,
+                                        value: dataRow[column.ColumnName].ToDateTime());
+                                    SavedDate(
+                                        columnName: column.Name,
+                                        value: Date(columnName: column.Name));
+                                    break;
+                                case "Description":
+                                    Description(
+                                        columnName: column.Name,
+                                        value: dataRow[column.ColumnName].ToString());
+                                    SavedDescription(
+                                        columnName: column.Name,
+                                        value: Description(columnName: column.Name));
+                                    break;
+                                case "Check":
+                                    Check(
+                                        columnName: column.Name,
+                                        value: dataRow[column.ColumnName].ToBool());
+                                    SavedCheck(
+                                        columnName: column.Name,
+                                        value: Check(columnName: column.Name));
+                                    break;
+                                case "Attachments":
+                                    Attachments(
+                                        columnName: column.Name,
+                                        value: dataRow[column.ColumnName].ToString()
+                                            .Deserialize<Attachments>() ?? new Attachments());
+                                    SavedAttachments(
+                                        columnName: column.Name,
+                                        value: Attachments(columnName: column.Name).ToJson());
+                                    break;
+                            }
+                            break;
                     }
                 }
             }
@@ -947,21 +1242,23 @@ namespace Implem.Pleasanter.Models
 
         public bool Updated(Context context)
         {
-            return
-                TenantId_Updated(context: context) ||
-                Ver_Updated(context: context) ||
-                Title_Updated(context: context) ||
-                Body_Updated(context: context) ||
-                GridGuide_Updated(context: context) ||
-                EditorGuide_Updated(context: context) ||
-                ReferenceType_Updated(context: context) ||
-                ParentId_Updated(context: context) ||
-                InheritPermission_Updated(context: context) ||
-                SiteSettings_Updated(context: context) ||
-                Publish_Updated(context: context) ||
-                Comments_Updated(context: context) ||
-                Creator_Updated(context: context) ||
-                Updator_Updated(context: context);
+            return Updated()
+                || TenantId_Updated(context: context)
+                || Ver_Updated(context: context)
+                || Title_Updated(context: context)
+                || Body_Updated(context: context)
+                || GridGuide_Updated(context: context)
+                || EditorGuide_Updated(context: context)
+                || ReferenceType_Updated(context: context)
+                || ParentId_Updated(context: context)
+                || InheritPermission_Updated(context: context)
+                || SiteSettings_Updated(context: context)
+                || Publish_Updated(context: context)
+                || LockedTime_Updated(context: context)
+                || LockedUser_Updated(context: context)
+                || Comments_Updated(context: context)
+                || Creator_Updated(context: context)
+                || Updator_Updated(context: context);
         }
 
         public List<string> Mine(Context context)
@@ -976,7 +1273,7 @@ namespace Implem.Pleasanter.Models
         /// <summary>
         /// Fixed:
         /// </summary>
-        public Error.Types Create(Context context, bool otherInitValue = false)
+        public ErrorData Create(Context context, bool otherInitValue = false)
         {
             if (!otherInitValue)
             {
@@ -990,7 +1287,7 @@ namespace Implem.Pleasanter.Models
                 statements: new SqlStatement[]
                 {
                     Rds.InsertItems(
-                        setIdentity: true,
+                        selectIdentity: true,
                         param: Rds.ItemsParam()
                             .ReferenceType("Sites")
                             .Title(Title.Value.MaxLength(1024))),
@@ -1021,7 +1318,7 @@ namespace Implem.Pleasanter.Models
                         tenantId: TenantId,
                         type: StatusUtilities.Types.SitesUpdated),
                 });
-            SiteId = response.Identity ?? SiteId;
+            SiteId = response.Id ?? SiteId;
             Get(context: context);
             SiteSettings = SiteSettingsUtilities.Get(
                 context: context, siteModel: this, referenceId: SiteId);
@@ -1044,7 +1341,7 @@ namespace Implem.Pleasanter.Models
                         siteModel: this);
                     break;
             }
-            return Error.Types.None;
+            return new ErrorData(type: Error.Types.None);
         }
 
         /// <summary>
@@ -1095,14 +1392,14 @@ namespace Implem.Pleasanter.Models
                 ss: SiteSettingsUtilities.Get(
                     context: context, siteModel: this, referenceId: SiteId),
                 data: out invalidFormat);
-            switch (invalid)
+            switch (invalid.Type)
             {
                 case Error.Types.BadFormat:
                     return Messages.ResponseBadFormat(
                         context: context,
                         data: invalidFormat).ToJson();
                 case Error.Types.None: break;
-                default: return invalid.MessageJson(context: context);
+                default: return invalid.Type.MessageJson(context: context);
             }
             var res = new SitesResponseCollection(this);
             SetSiteSettingsPropertiesBySession(context: context);
@@ -2592,7 +2889,7 @@ namespace Implem.Pleasanter.Models
                 var invalid = SiteValidators.SetReminder(
                     context: context,
                     data: out invalidMailAddress);
-                switch (invalid)
+                switch (invalid.Type)
                 {
                     case Error.Types.None:
                         SiteSettings.Reminders.Add(new Reminder(
@@ -2614,12 +2911,12 @@ namespace Implem.Pleasanter.Models
                         break;
                     case Error.Types.BadMailAddress:
                     case Error.Types.ExternalMailAddress:
-                        res.Message(invalid.Message(
+                        res.Message(invalid.Type.Message(
                             context: context,
                             data: invalidMailAddress));
                         break;
                     default:
-                        res.Message(invalid.Message(context: context));
+                        res.Message(invalid.Type.Message(context: context));
                         break;
                 }
             }
@@ -2647,7 +2944,7 @@ namespace Implem.Pleasanter.Models
                     var invalid = SiteValidators.SetReminder(
                         context: context,
                         data: out invalidMailAddress);
-                    switch (invalid)
+                    switch (invalid.Type)
                     {
                         case Error.Types.None:
                             reminder.Update(
@@ -2668,12 +2965,12 @@ namespace Implem.Pleasanter.Models
                             break;
                         case Error.Types.BadMailAddress:
                         case Error.Types.ExternalMailAddress:
-                            res.Message(invalid.Message(
+                            res.Message(invalid.Type.Message(
                                 context: context,
                                 data: invalidMailAddress));
                             break;
                         default:
-                            res.Message(invalid.Message(context: context));
+                            res.Message(invalid.Type.Message(context: context));
                             break;
                     }
                 }

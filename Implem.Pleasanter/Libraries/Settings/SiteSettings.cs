@@ -3,6 +3,7 @@ using Implem.Libraries.DataSources.Interfaces;
 using Implem.Libraries.DataSources.SqlServer;
 using Implem.Libraries.Utilities;
 using Implem.Pleasanter.Libraries.DataSources;
+using Implem.Pleasanter.Libraries.DataTypes;
 using Implem.Pleasanter.Libraries.General;
 using Implem.Pleasanter.Libraries.HtmlParts;
 using Implem.Pleasanter.Libraries.Requests;
@@ -20,6 +21,13 @@ namespace Implem.Pleasanter.Libraries.Settings
     [Serializable()]
     public class SiteSettings
     {
+        public enum GridEditorTypes : int
+        {
+            None = 0,
+            Grid = 10,
+            Dialog = 20
+        }
+
         public enum SearchTypes : int
         {
             FullText = 10,
@@ -30,13 +38,17 @@ namespace Implem.Pleasanter.Libraries.Settings
 
         public decimal Version;
         [NonSerialized]
+        public bool Migrated;
+        [NonSerialized]
+        public Time LockedTime;
+        [NonSerialized]
+        public User LockedUser;
+        [NonSerialized]
         public Dictionary<long, SiteSettings> Destinations;
         [NonSerialized]
         public Dictionary<long, SiteSettings> Sources;
         [NonSerialized]
         public Dictionary<long, SiteSettings> JoinedSsHash;
-        [NonSerialized]
-        public bool Migrated;
         [NonSerialized]
         public long SiteId;
         [NonSerialized]
@@ -73,14 +85,13 @@ namespace Implem.Pleasanter.Libraries.Settings
         public List<JoinStack> JoinStacks = new List<JoinStack>();
         [NonSerialized]
         public bool Linked;
-        [NonSerialized]
-        public string DuplicatedColumn;
         public string ReferenceType;
         public decimal? NearCompletionTimeAfterDays;
         public decimal? NearCompletionTimeBeforeDays;
         public int? GridPageSize;
         public int? GridView;
-        public bool? EditInDialog;
+        public GridEditorTypes? GridEditorType;
+        public bool? HistoryOnGrid;
         public int? LinkTableView;
         public int? FirstDayOfWeek;
         public int? FirstMonth;
@@ -115,6 +126,8 @@ namespace Implem.Pleasanter.Libraries.Settings
         public bool? EnableKamban;
         public bool? EnableImageLib;
         public int? ImageLibPageSize;
+        public bool? UseFiltersArea;
+        public bool? UseGridHeaderFilters;
         public string TitleSeparator;
         public SearchTypes? SearchType;
         public string AddressBook;
@@ -149,6 +162,9 @@ namespace Implem.Pleasanter.Libraries.Settings
         public string NewScript;
         public string EditScript;
         public string GridScript;
+        // compatibility Version 1.015
+        public bool? EditInDialog;
+        
 
         public SiteSettings()
         {
@@ -216,6 +232,8 @@ namespace Implem.Pleasanter.Libraries.Settings
             EnableImageLib = EnableImageLib ?? true;
             ImageLibPageSize = ImageLibPageSize ?? Parameters.General.ImageLibPageSize;
             TitleSeparator = TitleSeparator ?? ")";
+            UseFiltersArea = UseFiltersArea ?? true;
+            UseGridHeaderFilters = UseGridHeaderFilters ?? false;
         }
 
         public void SetLinkedSiteSettings(
@@ -424,12 +442,29 @@ namespace Implem.Pleasanter.Libraries.Settings
                 {
                     ss.ItemPermissionType = context.PermissionHash[referenceId];
                 }
+                if (Locked())
+                {
+                    var lockedPermissionType = Permissions.Types.Read | Permissions.Types.Export;
+                    ss.PermissionType &= lockedPermissionType;
+                    ss.ItemPermissionType &= lockedPermissionType;
+                }
             }
+        }
+
+        public bool Locked()
+        {
+            return LockedTime?.Value.InRange() == true
+                && LockedUser?.Anonymous() == false;
         }
 
         public bool IsSite(Context context)
         {
             return SiteId == context.Id;
+        }
+
+        public bool IsTable()
+        {
+            return ReferenceType == "Issues" || ReferenceType == "Results";
         }
 
         public bool IsSiteEditor(Context context)
@@ -462,9 +497,13 @@ namespace Implem.Pleasanter.Libraries.Settings
             {
                 ss.GridView = GridView;
             }
-            if (EditInDialog == true)
+            if (GridEditorType != GridEditorTypes.None)
             {
-                ss.EditInDialog = EditInDialog;
+                ss.GridEditorType = GridEditorType;
+            }
+            if (HistoryOnGrid == true)
+            {
+                ss.HistoryOnGrid = HistoryOnGrid;
             }
             if (LinkTableView != 0)
             {
@@ -533,6 +572,14 @@ namespace Implem.Pleasanter.Libraries.Settings
             if (EnableImageLib == false)
             {
                 ss.EnableImageLib = EnableImageLib;
+            }
+            if (UseFiltersArea == false)
+            {
+                ss.UseFiltersArea = UseFiltersArea;
+            }
+            if (UseGridHeaderFilters == true)
+            {
+                ss.UseGridHeaderFilters = UseGridHeaderFilters;
             }
             if (ImageLibPageSize != Parameters.General.ImageLibPageSize)
             {
@@ -1493,13 +1540,21 @@ namespace Implem.Pleasanter.Libraries.Settings
         public List<Column> GetGridColumns(
             Context context, View view = null, bool checkPermission = false)
         {
-            return (view?.GridColumns ?? GridColumns)
+            var columns = (view?.GridColumns ?? GridColumns)
                 .Select(columnName => GetColumn(context: context, columnName: columnName))
                 .Where(column => column != null)
                 .AllowedColumns(checkPermission: checkPermission)
                 .Where(o => context.ContractSettings.Attachments()
                     || o.ControlType != "Attachments")
                 .ToList();
+            if (view?.ShowHistory == true
+                && !columns.Any(o => o.ColumnName == "Ver"))
+            {
+                columns.Add(GetColumn(
+                    context: context,
+                    columnName: "Ver"));
+            }
+            return columns;
         }
 
         public List<Column> GetLinkTableColumns(
@@ -1566,8 +1621,10 @@ namespace Implem.Pleasanter.Libraries.Settings
 
         public IEnumerable<Column> SelectColumns()
         {
-            return Columns?.Where(o =>
-                o.Required || EditorColumns?.Contains(o.ColumnName) == true);
+            return Columns?
+                .Where(o => !o.NotSelect)
+                .Where(o => o.Required
+                    || EditorColumns?.Contains(o.ColumnName) == true);
         }
 
         public Dictionary<string, ControlData> GridSelectableOptions(
@@ -2272,8 +2329,9 @@ namespace Implem.Pleasanter.Libraries.Settings
         {
             return Columns
                 .Where(o =>
-                    EditorColumns.Contains(o.ColumnName) ||
-                    GridColumns.Contains(o.ColumnName))
+                    EditorColumns.Contains(o.ColumnName)
+                    || GridColumns.Contains(o.ColumnName)
+                    || !Def.ExtendedColumnTypes.ContainsKey(o.ColumnName))
                 .Where(o => !noJoined || !o.Joined)
                 .Where(o => o.CanRead)
                 .ToList();
@@ -2308,7 +2366,8 @@ namespace Implem.Pleasanter.Libraries.Settings
                 case "NearCompletionTimeAfterDays": NearCompletionTimeAfterDays = value.ToInt(); break;
                 case "GridPageSize": GridPageSize = value.ToInt(); break;
                 case "GridView": GridView = value.ToInt(); break;
-                case "EditInDialog": EditInDialog = value.ToBool(); break;
+                case "GridEditorType": GridEditorType = (GridEditorTypes)value.ToInt(); break;
+                case "HistoryOnGrid": HistoryOnGrid = value.ToBool(); break;
                 case "LinkTableView": LinkTableView = value.ToInt(); break;
                 case "FirstDayOfWeek": FirstDayOfWeek = value.ToInt(); break;
                 case "FirstMonth": FirstMonth = value.ToInt(); break;
@@ -2322,6 +2381,8 @@ namespace Implem.Pleasanter.Libraries.Settings
                 case "EnableTimeSeries": EnableTimeSeries = value.ToBool(); break;
                 case "EnableKamban": EnableKamban = value.ToBool(); break;
                 case "EnableImageLib": EnableImageLib = value.ToBool(); break;
+                case "UseFiltersArea": UseFiltersArea = value.ToBool(); break;
+                case "UseGridHeaderFilters": UseGridHeaderFilters = value.ToBool(); break;
                 case "ImageLibPageSize": ImageLibPageSize = value.ToInt(); break;
                 case "SearchType": SearchType = (SearchTypes)value.ToInt(); break;
                 case "AddressBook": AddressBook = value; break;
@@ -2876,8 +2937,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                         : 0,
                     pageSize: !noLimit
                         ? Parameters.General.DropDownSearchPageSize
-                        : 0,
-                    countRecord: true));
+                        : 0));
             var dataRows = dataSet.Tables["Main"].AsEnumerable();
             GetColumn(context: context, columnName: link.ColumnName)
                 .TotalCount = Rds.Count(dataSet);
@@ -3417,7 +3477,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                 : null;
         }
 
-        public string GridCss()
+        public string GridCss(Context context)
         {
             switch (TableType)
             {
@@ -3426,7 +3486,9 @@ namespace Implem.Pleasanter.Libraries.Settings
                 case Sqls.TableTypes.Deleted:
                     return "grid deleted not-link";
                 default:
-                    return "grid";
+                    return "grid" + (context.Forms.Bool("EditOnGrid")
+                        ? " confirm-unload not-link"
+                        : string.Empty);
             }
         }
 
@@ -3542,6 +3604,12 @@ namespace Implem.Pleasanter.Libraries.Settings
                     LabelText = column.LabelText
                 })
                 .ToJson();
+        }
+
+        public bool IsDefaultFilterColumn(Column column)
+        {
+            return  ColumnDefinitionHash.FilterDefinitions(enableOnly:false)
+                .Any(o=> o.ColumnName == column.Name);
         }
     }
 }

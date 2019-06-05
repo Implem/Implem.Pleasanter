@@ -3,7 +3,6 @@ using Implem.Pleasanter.Libraries.Requests;
 using Implem.Pleasanter.Libraries.Server;
 using Implem.Pleasanter.Libraries.Settings;
 using System;
-using System.Collections.Generic;
 namespace Implem.Pleasanter.Libraries.Extensions
 {
     public static class ToResponseExtensions

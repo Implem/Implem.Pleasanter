@@ -38,39 +38,52 @@ namespace Implem.Pleasanter.Models
             int top = 0,
             int offset = 0,
             int pageSize = 0,
-            bool countRecord = false,
             bool get = true)
         {
             if (get)
             {
-                Set(context, ss, Get(
+                Set(
                     context: context,
-                    column: column,
-                    join: join,
-                    where: where,
-                    orderBy: orderBy,
-                    param: param,
-                    tableType: tableType,
-                    distinct: distinct,
-                    top: top,
-                    offset: offset,
-                    pageSize: pageSize,
-                    countRecord: countRecord));
+                    ss: ss,
+                    dataRows: Get(
+                        context: context,
+                        column: column,
+                        join: join,
+                        where: where,
+                        orderBy: orderBy,
+                        param: param,
+                        tableType: tableType,
+                        distinct: distinct,
+                        top: top,
+                        offset: offset,
+                        pageSize: pageSize));
             }
         }
 
-        public TenantCollection(Context context,SiteSettings ss,EnumerableRowCollection<DataRow> dataRows)
+        public TenantCollection(
+            Context context,
+            SiteSettings ss,
+            EnumerableRowCollection<DataRow> dataRows)
         {
-            Set(context, ss, dataRows);
+                Set(
+                    context: context,
+                    ss: ss,
+                    dataRows: dataRows);
         }
 
-        private TenantCollection Set(Context context, SiteSettings ss,EnumerableRowCollection<DataRow> dataRows)
+        private TenantCollection Set(
+            Context context,
+            SiteSettings ss,
+            EnumerableRowCollection<DataRow> dataRows)
         {
             if (dataRows.Any())
             {
                 foreach (DataRow dataRow in dataRows)
                 {
-                    Add(new TenantModel(context, ss, dataRow));
+                    Add(new TenantModel(
+                        context: context,
+                        ss: ss,
+                        dataRow: dataRow));
                 }
                 AccessStatus = Databases.AccessStatuses.Selected;
             }
@@ -92,9 +105,7 @@ namespace Implem.Pleasanter.Models
             bool distinct = false,
             int top = 0,
             int offset = 0,
-            int pageSize = 0,
-            bool history = false,
-            bool countRecord = false)
+            int pageSize = 0)
         {
             var statements = new List<SqlStatement>
             {
@@ -109,8 +120,12 @@ namespace Implem.Pleasanter.Models
                     distinct: distinct,
                     top: top,
                     offset: offset,
-                    pageSize: pageSize,
-                    countRecord: countRecord)
+                    pageSize: pageSize),
+                Rds.SelectCount(
+                    tableName: "Tenants",
+                    tableType: tableType,
+                    join: join ?? Rds.TenantsJoinDefault(),
+                    where: where)
             };
             var dataSet = Rds.ExecuteDataSet(
                 context: context,

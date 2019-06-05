@@ -3,43 +3,42 @@ using Implem.Libraries.Utilities;
 using Implem.Pleasanter.Libraries.General;
 using Implem.Pleasanter.Libraries.Requests;
 using Implem.Pleasanter.Libraries.Security;
-using Implem.Pleasanter.Libraries.Server;
 using Implem.Pleasanter.Libraries.Settings;
 using System.Linq;
 namespace Implem.Pleasanter.Models
 {
     public static class SiteValidators
     {
-        public static Error.Types OnEntry(Context context, SiteSettings ss)
+        public static ErrorData OnEntry(Context context, SiteSettings ss)
         {
             return context.HasPermission(ss: ss)
-                ? Error.Types.None
-                : Error.Types.HasNotPermission;
+                ? new ErrorData(type: Error.Types.None)
+                : new ErrorData(type: Error.Types.HasNotPermission);
         }
 
-        public static Error.Types OnReading(Context context, SiteSettings ss)
+        public static ErrorData OnReading(Context context, SiteSettings ss)
         {
             return context.CanManageSite(ss: ss)
-                ? Error.Types.None
-                : Error.Types.HasNotPermission;
+                ? new ErrorData(type: Error.Types.None)
+                : new ErrorData(type: Error.Types.HasNotPermission);
         }
 
-        public static Error.Types OnEditing(Context context, SiteSettings ss, SiteModel siteModel)
+        public static ErrorData OnEditing(Context context, SiteSettings ss, SiteModel siteModel)
         {
             return
                 context.CanManageSite(ss: ss) &&
                 siteModel.AccessStatus != Databases.AccessStatuses.NotFound
-                    ? Error.Types.None
+                    ? new ErrorData(type: Error.Types.None)
                     : siteModel.MethodType == BaseModel.MethodTypes.New
-                        ? Error.Types.HasNotPermission
-                        : Error.Types.NotFound;
+                        ? new ErrorData(type: Error.Types.HasNotPermission)
+                        : new ErrorData(type: Error.Types.NotFound);
         }
 
-        public static Error.Types OnCreating(Context context, SiteSettings ss, SiteModel siteModel)
+        public static ErrorData OnCreating(Context context, SiteSettings ss, SiteModel siteModel)
         {
             if (!context.CanManageSite(ss: ss))
             {
-                return Error.Types.HasNotPermission;
+                return new ErrorData(type: Error.Types.HasNotPermission);
             }
             ss.SetColumnAccessControls(context: context, mine: siteModel.Mine(context: context));
             foreach(var controlId in context.Forms.Keys)
@@ -49,43 +48,43 @@ namespace Implem.Pleasanter.Models
                     case "Sites_Title":
                         if (!ss.GetColumn(context: context, columnName: "Title").CanCreate)
                         {
-                            return Error.Types.HasNotPermission;
+                            return new ErrorData(type: Error.Types.HasNotPermission);
                         }
                         break;
                     case "Sites_Body":
                         if (!ss.GetColumn(context: context, columnName: "Body").CanCreate)
                         {
-                            return Error.Types.HasNotPermission;
+                            return new ErrorData(type: Error.Types.HasNotPermission);
                         }
                         break;
                     case "Sites_ReferenceType":
                         if (!ss.GetColumn(context: context, columnName: "ReferenceType").CanCreate)
                         {
-                            return Error.Types.HasNotPermission;
+                            return new ErrorData(type: Error.Types.HasNotPermission);
                         }
                         break;
                     case "Sites_InheritPermission":
                         if (!ss.GetColumn(context: context, columnName: "InheritPermission").CanCreate)
                         {
-                            return Error.Types.HasNotPermission;
+                            return new ErrorData(type: Error.Types.HasNotPermission);
                         }
                         break;
                     case "Comments":
                         if (!ss.GetColumn(context: context, columnName: "Comments").CanCreate)
                         {
-                            return Error.Types.HasNotPermission;
+                            return new ErrorData(type: Error.Types.HasNotPermission);
                         }
                         break;
                 }
             }
-            return Error.Types.None;
+            return new ErrorData(type: Error.Types.None);
         }
 
-        public static Error.Types OnUpdating(Context context, SiteSettings ss, SiteModel siteModel)
+        public static ErrorData OnUpdating(Context context, SiteSettings ss, SiteModel siteModel)
         {
             if (!context.CanManageSite(ss: ss))
             {
-                return Error.Types.HasNotPermission;
+                return new ErrorData(type: Error.Types.HasNotPermission);
             }
             ss.SetColumnAccessControls(context: context, mine: siteModel.Mine(context: context));
             foreach(var controlId in context.Forms.Keys)
@@ -96,38 +95,38 @@ namespace Implem.Pleasanter.Models
                         if (siteModel.Title_Updated(context: context) &&
                             !ss.GetColumn(context: context, columnName: "Title").CanUpdate)
                         {
-                            return Error.Types.HasNotPermission;
+                            return new ErrorData(type: Error.Types.HasNotPermission);
                         }
                         break;
                     case "Sites_Body":
                         if (siteModel.Body_Updated(context: context) &&
                             !ss.GetColumn(context: context, columnName: "Body").CanUpdate)
                         {
-                            return Error.Types.HasNotPermission;
+                            return new ErrorData(type: Error.Types.HasNotPermission);
                         }
                         break;
                     case "Sites_ReferenceType":
                         if (siteModel.ReferenceType_Updated(context: context) &&
                             !ss.GetColumn(context: context, columnName: "ReferenceType").CanUpdate)
                         {
-                            return Error.Types.HasNotPermission;
+                            return new ErrorData(type: Error.Types.HasNotPermission);
                         }
                         break;
                     case "Sites_InheritPermission":
                         if (siteModel.InheritPermission_Updated(context: context) &&
                             !ss.GetColumn(context: context, columnName: "InheritPermission").CanUpdate)
                         {
-                            return Error.Types.HasNotPermission;
+                            return new ErrorData(type: Error.Types.HasNotPermission);
                         }
                         break;
                     case "InheritPermission":
-                        var type = InheritPermission(context: context, ss: ss);
-                        if (type != Error.Types.None) return type;
+                        var errorData = InheritPermission(context: context, ss: ss);
+                        if (errorData.Type != Error.Types.None) return errorData;
                         break;
                     case "CurrentPermissionsAll":
                         if (!context.CanManagePermission(ss: ss))
                         {
-                            return Error.Types.HasNotPermission;
+                            return new ErrorData(type: Error.Types.HasNotPermission);
                         }
                         if (!new PermissionCollection(
                             context: context,
@@ -135,7 +134,7 @@ namespace Implem.Pleasanter.Models
                             permissions: context.Forms.List("CurrentPermissionsAll"))
                                 .InTenant(context: context))
                         {
-                            return Error.Types.InvalidRequest;
+                            return new ErrorData(type: Error.Types.InvalidRequest);
                         }
                         break;
                     case "SearchPermissionElements":
@@ -144,30 +143,30 @@ namespace Implem.Pleasanter.Models
                     case "DeletePermissions":
                         if (!context.CanManagePermission(ss: ss))
                         {
-                            return Error.Types.HasNotPermission;
+                            return new ErrorData(type: Error.Types.HasNotPermission);
                         }
                         break;
                     case "Comments":
                         if (!ss.GetColumn(context: context, columnName: "Comments").CanUpdate)
                         {
-                            return Error.Types.HasNotPermission;
+                            return new ErrorData(type: Error.Types.HasNotPermission);
                         }
                         break;
                 }
             }
-            return Error.Types.None;
+            return new ErrorData(type: Error.Types.None);
         }
 
-        public static Error.Types OnDeleting(Context context, SiteSettings ss, SiteModel siteModel)
+        public static ErrorData OnDeleting(Context context, SiteSettings ss, SiteModel siteModel)
         {
             if (ss.Title != context.Forms.Data("DeleteSiteTitle")
                 || !Authenticate(context: context))
             {
-                return Error.Types.IncorrectSiteDeleting;
+                return new ErrorData(type: Error.Types.IncorrectSiteDeleting);
             }
             return context.CanManageSite(ss: ss)
-                ? Error.Types.None
-                : Error.Types.HasNotPermission;
+                ? new ErrorData(type: Error.Types.None)
+                : new ErrorData(type: Error.Types.HasNotPermission);
         }
 
         private static bool Authenticate(Context context)
@@ -179,29 +178,29 @@ namespace Implem.Pleasanter.Models
                     password: context.Forms.Data("Users_Password").Sha512Cng());
         }
 
-        public static Error.Types OnRestoring(Context context)
+        public static ErrorData OnRestoring(Context context)
         {
             return Permissions.CanManageTenant(context: context)
-                ? Error.Types.None
-                : Error.Types.HasNotPermission;
+                ? new ErrorData(type: Error.Types.None)
+                : new ErrorData(type: Error.Types.HasNotPermission);
         }
 
-        public static Error.Types OnExporting(Context context, SiteSettings ss)
+        public static ErrorData OnExporting(Context context, SiteSettings ss)
         {
             return context.CanExport(ss: ss)
-                ? Error.Types.None
-                : Error.Types.HasNotPermission;
+                ? new ErrorData(type: Error.Types.None)
+                : new ErrorData(type: Error.Types.HasNotPermission);
         }
 
-        public static Error.Types OnShowingMenu(Context context, SiteModel siteModel)
+        public static ErrorData OnShowingMenu(Context context, SiteModel siteModel)
         {
             return context.HasPermission(ss: siteModel.SiteSettings)
                 && siteModel.AccessStatus != Databases.AccessStatuses.NotFound
-                    ? Error.Types.None
-                    : Error.Types.NotFound;
+                    ? new ErrorData(type: Error.Types.None)
+                    : new ErrorData(type: Error.Types.NotFound);
         }
 
-        public static Error.Types OnMoving(
+        public static ErrorData OnMoving(
             Context context,
             long currentId,
             long destinationId,
@@ -211,29 +210,29 @@ namespace Implem.Pleasanter.Models
         {
             if (currentId != 0 && !context.CanManageSite(ss: current))
             {
-                return Error.Types.HasNotPermission;
+                return new ErrorData(type: Error.Types.HasNotPermission);
             }
             if (!context.CanManageSite(ss: source))
             {
-                return Error.Types.HasNotPermission;
+                return new ErrorData(type: Error.Types.HasNotPermission);
             }
             if (destinationId != 0 && !context.CanManageSite(ss: destination))
             {
-                return Error.Types.HasNotPermission;
+                return new ErrorData(type: Error.Types.HasNotPermission);
             }
-            return Error.Types.None;
+            return new ErrorData(type: Error.Types.None);
         }
 
-        public static Error.Types OnSorting(Context context, SiteSettings ss)
+        public static ErrorData OnSorting(Context context, SiteSettings ss)
         {
             if (ss.SiteId != 0 && !context.CanManageSite(ss: ss))
             {
-                return Error.Types.HasNotPermission;
+                return new ErrorData(type: Error.Types.HasNotPermission);
             }
-            return Error.Types.None;
+            return new ErrorData(type: Error.Types.None);
         }
 
-        public static Error.Types OnLinking(
+        public static ErrorData OnLinking(
             Context context, long sourceInheritSiteId, long destinationInheritSiteId)
         {
             if (!Permissions.Can(
@@ -241,25 +240,25 @@ namespace Implem.Pleasanter.Models
                 siteId: sourceInheritSiteId,
                 type: Permissions.Types.ManageSite))
             {
-                return Error.Types.HasNotPermission;
+                return new ErrorData(type: Error.Types.HasNotPermission);
             }
             if (!Permissions.Can(
                 context: context,
                 siteId: destinationInheritSiteId,
                 type: Permissions.Types.Read))
             {
-                return Error.Types.HasNotPermission;
+                return new ErrorData(type: Error.Types.HasNotPermission);
             }
-            return Error.Types.None;
+            return new ErrorData(type: Error.Types.None);
         }
 
-        public static Error.Types OnSetSiteSettings(
+        public static ErrorData OnSetSiteSettings(
             Context context, SiteSettings ss, out string data)
         {
             data = null;
             if (!context.CanManageSite(ss: ss))
             {
-                return Error.Types.HasNotPermission;
+                return new ErrorData(type: Error.Types.HasNotPermission);
             }
             foreach (var key in context.Forms.Keys)
             {
@@ -275,19 +274,19 @@ namespace Implem.Pleasanter.Models
                         catch (System.Exception)
                         {
                             data = context.Forms.Get(key);
-                            return Error.Types.BadFormat;
+                            return new ErrorData(type: Error.Types.BadFormat);
                         }
                         break;
                 }
             }
-            return Error.Types.None;
+            return new ErrorData(type: Error.Types.None);
         }
 
-        public static Error.Types InheritPermission(Context context, SiteSettings ss)
+        public static ErrorData InheritPermission(Context context, SiteSettings ss)
         {
             if (!context.CanManagePermission(ss: ss))
             {
-                return Error.Types.HasNotPermission;
+                return new ErrorData(type: Error.Types.HasNotPermission);
             }
             var inheritPermission = context.Forms.Long("InheritPermission");
             if (ss.SiteId != inheritPermission)
@@ -297,50 +296,71 @@ namespace Implem.Pleasanter.Models
                     ss: ss).Any(o =>
                         o.Long("SiteId") == context.Forms.Long("InheritPermission")))
                 {
-                    return Error.Types.CanNotInherit;
+                    return new ErrorData(type: Error.Types.CanNotInherit);
                 }
                 if (!Permissions.CanRead(
                     context: context,
                     siteId: inheritPermission))
                 {
-                    return Error.Types.HasNotPermission;
+                    return new ErrorData(type: Error.Types.HasNotPermission);
                 }
                 if (PermissionUtilities.HasInheritedSites(context: context, siteId: ss.SiteId))
                 {
-                    return Error.Types.CanNotChangeInheritance;
+                    return new ErrorData(type: Error.Types.CanNotChangeInheritance);
                 }
             }
-            return Error.Types.None;
+            return new ErrorData(type: Error.Types.None);
         }
 
-        public static Error.Types SetReminder(Context context, out string data)
+        public static ErrorData SetReminder(Context context, out string data)
         {
             data = null;
             var badFrom = MailAddressValidators.BadMailAddress(
                 context: context,
                 addresses: context.Forms.Data("ReminderFrom"),
                 data: out data);
-            if (badFrom != Error.Types.None) return badFrom;
+            if (badFrom.Type != Error.Types.None) return badFrom;
             var badTo = MailAddressValidators.BadMailAddress(
                 context: context,
                 addresses: context.Forms.Data("ReminderTo"),
                 data: out data);
-            if (badTo != Error.Types.None) return badTo;
+            if (badTo.Type != Error.Types.None) return badTo;
             var externalTo = MailAddressValidators.ExternalMailAddress(
                 context: context,
                 addresses: context.Forms.Data("ReminderTo"),
                 data: out data);
-            return Error.Types.None;
+            return new ErrorData(type: Error.Types.None);
         }
 
-        /// <summary>
-        /// Fixed:
-        /// </summary>
-        public static Error.Types OnReading(Context context, SiteSettings ss, SiteModel siteModel)
+        public static ErrorData OnReading(Context context, SiteSettings ss, SiteModel siteModel)
         {
             return context.CanRead(ss, true)
-                    ? Error.Types.None
-                    : Error.Types.HasNotPermission;
+                ? new ErrorData(type: Error.Types.None)
+                : new ErrorData(type: Error.Types.HasNotPermission);
+        }
+
+        public static ErrorData OnLockTable(Context context, SiteSettings ss)
+        {
+            return context.CanManageSite(ss: ss)
+                && !ss.Locked()
+                    ? new ErrorData(type: Error.Types.None)
+                    : new ErrorData(type: Error.Types.HasNotPermission);
+        }
+
+        public static ErrorData OnUnlockTable(Context context, SiteSettings ss)
+        {
+            return ss.Locked()
+                && (ss.LockedUser.Id == context.UserId || context.HasPrivilege)
+                    ? new ErrorData(type: Error.Types.None)
+                    : new ErrorData(type: Error.Types.HasNotPermission);
+        }
+
+        public static ErrorData OnForceUnlockTable(Context context, SiteSettings ss)
+        {
+            return ss.Locked()
+                && context.HasPrivilege
+                    ? new ErrorData(type: Error.Types.None)
+                    : new ErrorData(type: Error.Types.HasNotPermission);
         }
     }
 }

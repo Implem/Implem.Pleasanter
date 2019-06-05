@@ -24,7 +24,6 @@ namespace Implem.Pleasanter.Models
         [NonSerialized]
         public Databases.AccessStatuses AccessStatus = Databases.AccessStatuses.Initialized;
         public int TotalCount;
-
         public IssueCollection(
             Context context,
             SiteSettings ss,
@@ -38,40 +37,58 @@ namespace Implem.Pleasanter.Models
             int top = 0,
             int offset = 0,
             int pageSize = 0,
-            bool countRecord = false,
-            bool get = true)
+            bool get = true,
+            List<FormData> formDataSet = null)
         {
             if (get)
             {
-                Set(context, ss, Get(
+                Set(
                     context: context,
                     ss: ss,
-                    column: column,
-                    join: join,
-                    where: where,
-                    orderBy: orderBy,
-                    param: param,
-                    tableType: tableType,
-                    distinct: distinct,
-                    top: top,
-                    offset: offset,
-                    pageSize: pageSize,
-                    countRecord: countRecord));
+                    dataRows: Get(
+                        context: context,
+                        ss: ss,
+                        column: column,
+                        join: join,
+                        where: where,
+                        orderBy: orderBy,
+                        param: param,
+                        tableType: tableType,
+                        distinct: distinct,
+                        top: top,
+                        offset: offset,
+                        pageSize: pageSize),
+                    formDataSet: formDataSet);
             }
         }
-
-        public IssueCollection(Context context,SiteSettings ss,EnumerableRowCollection<DataRow> dataRows)
+        public IssueCollection(
+            Context context,
+            SiteSettings ss,
+            EnumerableRowCollection<DataRow> dataRows,
+            List<FormData> formDataSet = null)
         {
-            Set(context, ss, dataRows);
+                Set(
+                    context: context,
+                    ss: ss,
+                    dataRows: dataRows,
+                    formDataSet: formDataSet);
         }
-
-        private IssueCollection Set(Context context, SiteSettings ss,EnumerableRowCollection<DataRow> dataRows)
+        private IssueCollection Set(
+            Context context,
+            SiteSettings ss,
+            EnumerableRowCollection<DataRow> dataRows,
+            List<FormData> formDataSet = null)
         {
             if (dataRows.Any())
             {
                 foreach (DataRow dataRow in dataRows)
                 {
-                    Add(new IssueModel(context, ss, dataRow));
+                    Add(new IssueModel(
+                        context: context,
+                        ss: ss,
+                        dataRow: dataRow,
+                        formData: formDataSet?.FirstOrDefault(o =>
+                            o.Id == dataRow.Long("IssueId"))?.Data));
                 }
                 AccessStatus = Databases.AccessStatuses.Selected;
             }
@@ -94,9 +111,7 @@ namespace Implem.Pleasanter.Models
             bool distinct = false,
             int top = 0,
             int offset = 0,
-            int pageSize = 0,
-            bool history = false,
-            bool countRecord = false)
+            int pageSize = 0)
         {
             var statements = new List<SqlStatement>
             {
@@ -111,8 +126,12 @@ namespace Implem.Pleasanter.Models
                     distinct: distinct,
                     top: top,
                     offset: offset,
-                    pageSize: pageSize,
-                    countRecord: countRecord)
+                    pageSize: pageSize),
+                Rds.SelectCount(
+                    tableName: "Issues",
+                    tableType: tableType,
+                    join: join ?? Rds.IssuesJoinDefault(),
+                    where: where)
             };
             var dataSet = Rds.ExecuteDataSet(
                 context: context,

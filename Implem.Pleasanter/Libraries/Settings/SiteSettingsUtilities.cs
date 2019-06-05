@@ -11,7 +11,7 @@ namespace Implem.Pleasanter.Libraries.Settings
 {
     public static class SiteSettingsUtilities
     {
-        public const decimal Version = 1.015M;
+        public const decimal Version = 1.016M;
 
         public static SiteSettings Get(
             Context context,
@@ -348,6 +348,8 @@ namespace Implem.Pleasanter.Libraries.Settings
             Sqls.TableTypes tableType = Sqls.TableTypes.Normal)
         {
             var ss = siteModel.SiteSettings ?? new SiteSettings();
+            ss.LockedTime = siteModel.LockedTime;
+            ss.LockedUser = siteModel.LockedUser;
             ss.TableType = tableType;
             ss.SiteId = siteModel.SiteId;
             ss.ReferenceId = referenceId;
@@ -386,6 +388,8 @@ namespace Implem.Pleasanter.Libraries.Settings
             Sqls.TableTypes tableType = Sqls.TableTypes.Normal)
         {
             var ss = siteModel.SiteSettings ?? new SiteSettings();
+            ss.LockedTime = siteModel.LockedTime;
+            ss.LockedUser = siteModel.LockedUser;
             ss.TableType = tableType;
             ss.SiteId = siteModel.SiteId;
             ss.ReferenceId = referenceId;
@@ -426,6 +430,8 @@ namespace Implem.Pleasanter.Libraries.Settings
             Sqls.TableTypes tableType = Sqls.TableTypes.Normal)
         {
             var ss = siteModel.SiteSettings ?? new SiteSettings();
+            ss.LockedTime = siteModel.LockedTime;
+            ss.LockedUser = siteModel.LockedUser;
             ss.TableType = tableType;
             ss.SiteId = siteModel.SiteId;
             ss.ReferenceId = referenceId;
@@ -466,6 +472,8 @@ namespace Implem.Pleasanter.Libraries.Settings
             Sqls.TableTypes tableType = Sqls.TableTypes.Normal)
         {
             var ss = siteModel.SiteSettings ?? new SiteSettings();
+            ss.LockedTime = siteModel.LockedTime;
+            ss.LockedUser = siteModel.LockedUser;
             ss.TableType = tableType;
             ss.SiteId = siteModel.SiteId;
             ss.ReferenceId = referenceId;
@@ -569,12 +577,6 @@ namespace Implem.Pleasanter.Libraries.Settings
             ss?.Columns?
                 .Where(c => c.Name == "Disabled")?
                 .ForEach(c => c.CheckFilterControlType = ColumnUtilities.CheckFilterControlTypes.OnAndOff);
-            ss?.EditorColumns?.Clear();
-            new[] { "Password" }.ForEach(c => ss.GridColumns.Remove(c));
-            if (context.User?.TenantManager != true)
-            {
-                ss.GridColumns = new List<string>() { "UserId", "LoginId", "Name", "Disabled" };
-            }
             return ss;
         }
 

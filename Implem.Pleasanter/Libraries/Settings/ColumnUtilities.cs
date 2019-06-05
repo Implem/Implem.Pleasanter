@@ -12,6 +12,16 @@ namespace Implem.Pleasanter.Libraries.Settings
 {
     public static class ColumnUtilities
     {
+        public static List<string> ExtendedColumns(string tableName = null)
+        {
+            return Def.ColumnDefinitionCollection
+                .Where(columnDefinition => !columnDefinition.ExtendedColumnType.IsNullOrEmpty())
+                .Where(columnDefinition => columnDefinition.TableName == tableName || tableName == null)
+                .Select(columnDefinition => columnDefinition.ColumnName)
+                .OrderBy(columnName => columnName)
+                .ToList();
+        }
+
         public enum CheckFilterTypes : int
         {
             On = 1,
