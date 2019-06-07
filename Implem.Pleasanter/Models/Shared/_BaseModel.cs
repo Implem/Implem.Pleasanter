@@ -201,11 +201,11 @@ namespace Implem.Pleasanter.Models
         public bool Updated()
         {
             return ClassHash.Any(o => Class_Updated(o.Key))
-                || NumHash.Any(o => Class_Updated(o.Key))
-                || DateHash.Any(o => Class_Updated(o.Key))
-                || DescriptionHash.Any(o => Class_Updated(o.Key))
-                || CheckHash.Any(o => Class_Updated(o.Key))
-                || AttachmentsHash.Any(o => Class_Updated(o.Key));
+                || NumHash.Any(o => Num_Updated(o.Key))
+                || DateHash.Any(o => Date_Updated(o.Key))
+                || DescriptionHash.Any(o => Description_Updated(o.Key))
+                || CheckHash.Any(o => Check_Updated(o.Key))
+                || AttachmentsHash.Any(o => Attachments_Updated(o.Key));
         }
 
         public string Class(Column column)
