@@ -844,19 +844,31 @@ namespace Implem.Pleasanter.Libraries.Models
         private static SqlWhereCollection IssuesWhere(
             IEnumerable<long> destinations, long sourceSiteId, string linkColumn)
         {
-            switch (linkColumn)
-            {
-                default: return null;
-            }
+            return Def.ExtendedColumnTypes.ContainsKey(linkColumn)
+                ? Rds.IssuesWhere()
+                    .SiteId(value: sourceSiteId)
+                    .Add(
+                        columnBrackets: new string[] { $"[{linkColumn}]" },
+                        raw: "({0})".Params(destinations
+                            .Select(o => "'" + o + "'")
+                            .Join(",")),
+                        _operator: " in ")
+                    : null;
         }
 
         private static SqlWhereCollection ResultsWhere(
             IEnumerable<long> destinations, long sourceSiteId, string linkColumn)
         {
-            switch (linkColumn)
-            {
-                default: return null;
-            }
+            return Def.ExtendedColumnTypes.ContainsKey(linkColumn)
+                ? Rds.ResultsWhere()
+                    .SiteId(value: sourceSiteId)
+                    .Add(
+                        columnBrackets: new string[] { $"[{linkColumn}]" },
+                        raw: "({0})".Params(destinations
+                            .Select(o => "'" + o + "'")
+                            .Join(",")),
+                        _operator: " in ")
+                    : null;
         }
 
         private static SqlWhereCollection Where(
