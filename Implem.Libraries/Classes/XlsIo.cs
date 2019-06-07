@@ -20,6 +20,16 @@ namespace Implem.Libraries.Classes
             ReadXls();
         }
 
+        public List<Dictionary<string, string>> DefinitionRows()
+        {
+            return XlsSheet
+                .AsEnumerable()
+                .Skip(1)
+                .Where(o => o[0].ToString() != string.Empty)
+                .Select(o => o.ToDictionary(p => p.Key, p => p.Value))
+                .ToList();
+        }
+
         private void ReadXls()
         {
             FileInfo xls = null;
