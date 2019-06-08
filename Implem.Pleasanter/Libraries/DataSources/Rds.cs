@@ -13419,7 +13419,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                 case "UpdatedTime":
                     return self.UpdatedTime(_as: _as, function: function);
                 default:
-                    return Def.ExtendedColumnTypes.ContainsKey(columnName)
+                    return columnName != null && Def.ExtendedColumnTypes.ContainsKey(columnName)
                         ? self.Add(
                             columnBracket: $"[{columnName}]",
                             columnName: columnName,
@@ -17086,7 +17086,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                 case "UpdatedTime":
                     return self.UpdatedTime(_as: _as, function: function);
                 default:
-                    return Def.ExtendedColumnTypes.ContainsKey(columnName)
+                    return columnName != null && Def.ExtendedColumnTypes.ContainsKey(columnName)
                         ? self.Add(
                             columnBracket: $"[{columnName}]",
                             columnName: columnName,
@@ -20031,7 +20031,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                 case "UpdatedTime":
                     return self.UpdatedTime(_as: _as, function: function);
                 default:
-                    return Def.ExtendedColumnTypes.ContainsKey(columnName)
+                    return columnName != null && Def.ExtendedColumnTypes.ContainsKey(columnName)
                         ? self.Add(
                             columnBracket: $"[{columnName}]",
                             columnName: columnName,
@@ -22719,7 +22719,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                 case "UpdatedTime":
                     return self.UpdatedTime(_as: _as, function: function);
                 default:
-                    return Def.ExtendedColumnTypes.ContainsKey(columnName)
+                    return columnName != null && Def.ExtendedColumnTypes.ContainsKey(columnName)
                         ? self.Add(
                             columnBracket: $"[{columnName}]",
                             columnName: columnName,
@@ -30638,7 +30638,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                 case "UpdatedTime":
                     return self.UpdatedTime(_as: _as, function: function);
                 default:
-                    return Def.ExtendedColumnTypes.ContainsKey(columnName)
+                    return columnName != null && Def.ExtendedColumnTypes.ContainsKey(columnName)
                         ? self.Add(
                             columnBracket: $"[{columnName}]",
                             columnName: columnName,
@@ -32901,7 +32901,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                 case "UpdatedTime":
                     return self.UpdatedTime(_as: _as, function: function);
                 default:
-                    return Def.ExtendedColumnTypes.ContainsKey(columnName)
+                    return columnName != null && Def.ExtendedColumnTypes.ContainsKey(columnName)
                         ? self.Add(
                             columnBracket: $"[{columnName}]",
                             columnName: columnName,
@@ -35244,7 +35244,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                 case "UpdatedTime":
                     return self.UpdatedTime(_as: _as, function: function);
                 default:
-                    return Def.ExtendedColumnTypes.ContainsKey(columnName)
+                    return columnName != null && Def.ExtendedColumnTypes.ContainsKey(columnName)
                         ? self.Add(
                             columnBracket: $"[{columnName}]",
                             columnName: columnName,
@@ -38018,7 +38018,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                 case "UpdatedTime":
                     return self.UpdatedTime(_as: _as, function: function);
                 default:
-                    return Def.ExtendedColumnTypes.ContainsKey(columnName)
+                    return columnName != null && Def.ExtendedColumnTypes.ContainsKey(columnName)
                         ? self.Add(
                             columnBracket: $"[{columnName}]",
                             columnName: columnName,
@@ -40452,7 +40452,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                 case "UpdatedTime":
                     return self.UpdatedTime(_as: _as, function: function);
                 default:
-                    return Def.ExtendedColumnTypes.ContainsKey(columnName)
+                    return columnName != null && Def.ExtendedColumnTypes.ContainsKey(columnName)
                         ? self.Add(
                             columnBracket: $"[{columnName}]",
                             columnName: columnName,
@@ -43056,7 +43056,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                 case "UpdatedTime":
                     return self.UpdatedTime(_as: _as, function: function);
                 default:
-                    return Def.ExtendedColumnTypes.ContainsKey(columnName)
+                    return columnName != null && Def.ExtendedColumnTypes.ContainsKey(columnName)
                         ? self.Add(
                             columnBracket: $"[{columnName}]",
                             columnName: columnName,
@@ -50851,7 +50851,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                 case "UpdatedTime":
                     return self.UpdatedTime(_as: _as, function: function);
                 default:
-                    return Def.ExtendedColumnTypes.ContainsKey(columnName)
+                    return columnName != null && Def.ExtendedColumnTypes.ContainsKey(columnName)
                         ? self.Add(
                             columnBracket: $"[{columnName}]",
                             columnName: columnName,
@@ -53464,7 +53464,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                 case "UpdatedTime":
                     return self.UpdatedTime(_as: _as, function: function);
                 default:
-                    return Def.ExtendedColumnTypes.ContainsKey(columnName)
+                    return columnName != null && Def.ExtendedColumnTypes.ContainsKey(columnName)
                         ? self.Add(
                             columnBracket: $"[{columnName}]",
                             columnName: columnName,
@@ -55916,7 +55916,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                 case "UpdatedTime":
                     return self.UpdatedTime(_as: _as, function: function);
                 default:
-                    return Def.ExtendedColumnTypes.ContainsKey(columnName)
+                    return columnName != null && Def.ExtendedColumnTypes.ContainsKey(columnName)
                         ? self.Add(
                             columnBracket: $"[{columnName}]",
                             columnName: columnName,
@@ -60055,7 +60055,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                 case "UpdatedTime":
                     return self.UpdatedTime(_as: _as, function: function);
                 default:
-                    return Def.ExtendedColumnTypes.ContainsKey(columnName)
+                    return columnName != null && Def.ExtendedColumnTypes.ContainsKey(columnName)
                         ? self.Add(
                             columnBracket: $"[{columnName}]",
                             columnName: columnName,
@@ -62971,7 +62971,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                 case "UpdatedTime":
                     return self.UpdatedTime(_as: _as, function: function);
                 default:
-                    return Def.ExtendedColumnTypes.ContainsKey(columnName)
+                    return columnName != null && Def.ExtendedColumnTypes.ContainsKey(columnName)
                         ? self.Add(
                             columnBracket: $"[{columnName}]",
                             columnName: columnName,
@@ -65817,7 +65817,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                 case "CreatedTime":
                     return self.CreatedTime(_as: _as, function: function);
                 default:
-                    return Def.ExtendedColumnTypes.ContainsKey(columnName)
+                    return columnName != null && Def.ExtendedColumnTypes.ContainsKey(columnName)
                         ? self.Add(
                             columnBracket: $"[{columnName}]",
                             columnName: columnName,
@@ -70158,7 +70158,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                 case "UpdatedTime":
                     return self.UpdatedTime(_as: _as, function: function);
                 default:
-                    return Def.ExtendedColumnTypes.ContainsKey(columnName)
+                    return columnName != null && Def.ExtendedColumnTypes.ContainsKey(columnName)
                         ? self.Add(
                             columnBracket: $"[{columnName}]",
                             columnName: columnName,
@@ -72596,7 +72596,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                 case "UpdatedTime":
                     return self.UpdatedTime(_as: _as, function: function);
                 default:
-                    return Def.ExtendedColumnTypes.ContainsKey(columnName)
+                    return columnName != null && Def.ExtendedColumnTypes.ContainsKey(columnName)
                         ? self.Add(
                             columnBracket: $"[{columnName}]",
                             columnName: columnName,
@@ -75374,7 +75374,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                 case "UpdatedTime":
                     return self.UpdatedTime(_as: _as, function: function);
                 default:
-                    return Def.ExtendedColumnTypes.ContainsKey(columnName)
+                    return columnName != null && Def.ExtendedColumnTypes.ContainsKey(columnName)
                         ? self.Add(
                             columnBracket: $"[{columnName}]",
                             columnName: columnName,
@@ -78245,7 +78245,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                 case "UpdatedTime":
                     return self.UpdatedTime(_as: _as, function: function);
                 default:
-                    return Def.ExtendedColumnTypes.ContainsKey(columnName)
+                    return columnName != null && Def.ExtendedColumnTypes.ContainsKey(columnName)
                         ? self.Add(
                             columnBracket: $"[{columnName}]",
                             columnName: columnName,
@@ -82690,7 +82690,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                 case "UpdatedTime":
                     return self.UpdatedTime(_as: _as, function: function);
                 default:
-                    return Def.ExtendedColumnTypes.ContainsKey(columnName)
+                    return columnName != null && Def.ExtendedColumnTypes.ContainsKey(columnName)
                         ? self.Add(
                             columnBracket: $"[{columnName}]",
                             columnName: columnName,
@@ -85969,7 +85969,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                 case "CreatedTime":
                     return self.CreatedTime(_as: _as, function: function);
                 default:
-                    return Def.ExtendedColumnTypes.ContainsKey(columnName)
+                    return columnName != null && Def.ExtendedColumnTypes.ContainsKey(columnName)
                         ? self.Add(
                             columnBracket: $"[{columnName}]",
                             columnName: columnName,
@@ -90628,7 +90628,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                 case "CreatedTime":
                     return self.CreatedTime(_as: _as, function: function);
                 default:
-                    return Def.ExtendedColumnTypes.ContainsKey(columnName)
+                    return columnName != null && Def.ExtendedColumnTypes.ContainsKey(columnName)
                         ? self.Add(
                             columnBracket: $"[{columnName}]",
                             columnName: columnName,
@@ -94146,7 +94146,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                 case "CreatedTime":
                     return self.CreatedTime(_as: _as, function: function);
                 default:
-                    return Def.ExtendedColumnTypes.ContainsKey(columnName)
+                    return columnName != null && Def.ExtendedColumnTypes.ContainsKey(columnName)
                         ? self.Add(
                             columnBracket: $"[{columnName}]",
                             columnName: columnName,
