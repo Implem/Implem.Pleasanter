@@ -433,11 +433,11 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     .Hidden(controlId: "DeptId", value: context.DeptId.ToString())
                     .Hidden(controlId: "UserId", value: context.UserId.ToString())
                     .Hidden(controlId: "Publish", value: "1", _using: context.Publish)
-                    .Hidden(controlId: "TableName", value: ss.ReferenceType)
+                    .Hidden(controlId: "TableName", value: ss?.ReferenceType)
                     .Hidden(controlId: "Controller", value: context.Controller)
                     .Hidden(controlId: "Id", value: context.Id.ToString())
-                    .Hidden(controlId: "SiteId", value: ss.SiteId.ToString())
-                    .Hidden(controlId: "JoinedSites", value: ss.JoinedSsHash
+                    .Hidden(controlId: "SiteId", value: ss?.SiteId.ToString())
+                    .Hidden(controlId: "JoinedSites", value: ss?.JoinedSsHash
                         ?.Select(o => new
                         {
                             SiteId = o.Key,
