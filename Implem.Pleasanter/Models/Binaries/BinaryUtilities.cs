@@ -367,13 +367,6 @@ namespace Implem.Pleasanter.Models
         /// </summary>
         public static string UploadImage(Context context, long id)
         {
-            var controlId = context.Forms.ControlId();
-            var ss = new ItemModel(
-                context: context,
-                referenceId: id).GetSite(
-                    context: context,
-                    initSiteSettings: true)
-                        .SiteSettings;
             var invalid = BinaryValidators.OnUploadingImage(context: context);
             switch (invalid)
             {
@@ -410,7 +403,6 @@ namespace Implem.Pleasanter.Models
                             .Size(file.Size)
                             .ContentType(file.ContentType)));
             }
-            var hb = new HtmlBuilder();
             return new ResponseCollection()
                 .InsertText(
                     "#" + context.Forms.ControlId(),
