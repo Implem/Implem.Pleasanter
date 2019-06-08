@@ -829,7 +829,6 @@ namespace Implem.DefinitionAccessor
                     case "Summaries_SelectMaxColumns": Code.Summaries_SelectMaxColumns = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Summaries_SelectMaxColumns, definitionRow, CodeXls); break;
                     case "Summaries_SelectMaxColumnCases": Code.Summaries_SelectMaxColumnCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Summaries_SelectMaxColumnCases, definitionRow, CodeXls); break;
                     case "Summaries_WhereTables": Code.Summaries_WhereTables = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Summaries_WhereTables, definitionRow, CodeXls); break;
-                    case "Summaries_WhereColumnCases": Code.Summaries_WhereColumnCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Summaries_WhereColumnCases, definitionRow, CodeXls); break;
                     case "Messages": Code.Messages = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Messages, definitionRow, CodeXls); break;
                     case "Messages_Parts": Code.Messages_Parts = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Messages_Parts, definitionRow, CodeXls); break;
                     case "Messages_Resonses": Code.Messages_Resonses = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Messages_Resonses, definitionRow, CodeXls); break;
@@ -856,7 +855,7 @@ namespace Implem.DefinitionAccessor
                 var customDefinitionRow = Parameters.CustomDefinitions
                     .Get("Code")
                     .Get(definitionRow["Id"]);
-                definitionRow.Keys.ForEach(key =>
+                CodeXls.XlsSheet.FirstOrDefault().Select(o => o.Key).ForEach(key =>
                 {
                     var data = definitionRow.Get(key) ?? string.Empty;
                     switch (key)
@@ -1849,7 +1848,7 @@ namespace Implem.DefinitionAccessor
                 var customDefinitionRow = Parameters.CustomDefinitions
                     .Get("Column")
                     .Get(definitionRow["Id"]);
-                definitionRow.Keys.ForEach(key =>
+                ColumnXls.XlsSheet.FirstOrDefault().Select(o => o.Key).ForEach(key =>
                 {
                     var data = definitionRow.Get(key) ?? string.Empty;
                     switch (key)
@@ -3046,7 +3045,7 @@ namespace Implem.DefinitionAccessor
                 var customDefinitionRow = Parameters.CustomDefinitions
                     .Get("Css")
                     .Get(definitionRow["Id"]);
-                definitionRow.Keys.ForEach(key =>
+                CssXls.XlsSheet.FirstOrDefault().Select(o => o.Key).ForEach(key =>
                 {
                     var data = definitionRow.Get(key) ?? string.Empty;
                     switch (key)
@@ -4225,7 +4224,7 @@ namespace Implem.DefinitionAccessor
                 var customDefinitionRow = Parameters.CustomDefinitions
                     .Get("Demo")
                     .Get(definitionRow["Id"]);
-                definitionRow.Keys.ForEach(key =>
+                DemoXls.XlsSheet.FirstOrDefault().Select(o => o.Key).ForEach(key =>
                 {
                     var data = definitionRow.Get(key) ?? string.Empty;
                     switch (key)
@@ -5189,7 +5188,7 @@ namespace Implem.DefinitionAccessor
                 var customDefinitionRow = Parameters.CustomDefinitions
                     .Get("Sql")
                     .Get(definitionRow["Id"]);
-                definitionRow.Keys.ForEach(key =>
+                SqlXls.XlsSheet.FirstOrDefault().Select(o => o.Key).ForEach(key =>
                 {
                     var data = definitionRow.Get(key) ?? string.Empty;
                     switch (key)
@@ -5650,7 +5649,7 @@ namespace Implem.DefinitionAccessor
                 var customDefinitionRow = Parameters.CustomDefinitions
                     .Get("Template")
                     .Get(definitionRow["Id"]);
-                definitionRow.Keys.ForEach(key =>
+                TemplateXls.XlsSheet.FirstOrDefault().Select(o => o.Key).ForEach(key =>
                 {
                     var data = definitionRow.Get(key) ?? string.Empty;
                     switch (key)
@@ -5861,7 +5860,7 @@ namespace Implem.DefinitionAccessor
                 var customDefinitionRow = Parameters.CustomDefinitions
                     .Get("ViewMode")
                     .Get(definitionRow["Id"]);
-                definitionRow.Keys.ForEach(key =>
+                ViewModeXls.XlsSheet.FirstOrDefault().Select(o => o.Key).ForEach(key =>
                 {
                     var data = definitionRow.Get(key) ?? string.Empty;
                     switch (key)
@@ -7536,7 +7535,6 @@ namespace Implem.DefinitionAccessor
         public string Summaries_SelectMaxColumns;
         public string Summaries_SelectMaxColumnCases;
         public string Summaries_WhereTables;
-        public string Summaries_WhereColumnCases;
         public string Messages;
         public string Messages_Parts;
         public string Messages_Resonses;
@@ -8143,7 +8141,6 @@ namespace Implem.DefinitionAccessor
         public CodeDefinition Summaries_SelectMaxColumns = new CodeDefinition();
         public CodeDefinition Summaries_SelectMaxColumnCases = new CodeDefinition();
         public CodeDefinition Summaries_WhereTables = new CodeDefinition();
-        public CodeDefinition Summaries_WhereColumnCases = new CodeDefinition();
         public CodeDefinition Messages = new CodeDefinition();
         public CodeDefinition Messages_Parts = new CodeDefinition();
         public CodeDefinition Messages_Resonses = new CodeDefinition();
