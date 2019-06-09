@@ -1462,6 +1462,7 @@
     <Content Include="App_Data\Displays\ShowHistory.json" />
     <Content Include="App_Data\Displays\UnlockTable.json" />
     <Content Include="App_Data\Parameters\Registration.json" />
+    <Content Include="App_Data\Parameters\Version.json" />
     <Content Include="Tools\BackgroundTasks.ps1" />
     <Content Include="Tools\SyncByLdap.ps1" />
     <Content Include="Views\Users\EditApi.cshtml" />
