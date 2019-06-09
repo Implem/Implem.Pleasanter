@@ -360,6 +360,8 @@ namespace Implem.Pleasanter.Libraries.Security
                 case "users":
                     return CanManageTenant(context: context)
                         || context.UserId == context.Id;
+                case "registrations":
+                    return CanManageRegistrations(context: context, any: true);
                 default:
                     return context.Can(ss: ss, type: Types.Read, site: site);
             }
@@ -374,6 +376,8 @@ namespace Implem.Pleasanter.Libraries.Security
                 case "depts":
                 case "users":
                     return CanManageTenant(context: context);
+                case "registrations":
+                    return CanManageRegistrations(context: context);
                 case "groups":
                     return CanEditGroup(context: context);
                 case "versions":
@@ -396,6 +400,8 @@ namespace Implem.Pleasanter.Libraries.Security
                 case "users":
                     return CanManageTenant(context: context)
                         || context.UserId == context.Id;
+                case "registrations":
+                    return CanManageRegistrations(context: context, any: true);
                 default:
                     if (ss.ReferenceType == "Sites")
                     {
@@ -427,7 +433,9 @@ namespace Implem.Pleasanter.Libraries.Security
                 case "users":
                     return CanManageTenant(context: context)
                         && context.UserId != context.Id;
-                default:
+                case "registrations":
+                    return PrivilegedUsers(loginId: context.LoginId);
+                default :
                     if (ss.ReferenceType == "Sites")
                     {
                         return context.CanManageSite(ss: ss);
@@ -534,6 +542,15 @@ namespace Implem.Pleasanter.Libraries.Security
                 || context.HasPrivilege;
         }
 
+        public static bool CanManageRegistrations(Context context, bool any = false)
+        {
+            return Parameters.Registration.Enabled
+                ? Parameters.Registration.PrivilegedUserOnly
+                    ? PrivilegedUsers(loginId: context.LoginId) || (any && Registrations(context: context).Any())
+                    : true
+                : false;
+        }
+
         public static bool CanReadGroup(Context context)
         {
             return 
@@ -577,6 +594,17 @@ namespace Implem.Pleasanter.Libraries.Security
                     where: Rds.GroupMembersWhere()
                         .GroupId(context.Id)
                         .Add(raw: DeptOrUser("GroupMembers"))))
+                            .AsEnumerable();
+        }
+
+        private static EnumerableRowCollection<DataRow> Registrations(Context context)
+        {
+            return Rds.ExecuteTable(
+                context: context,
+                statements: Rds.SelectRegistrations(
+                    column: Rds.RegistrationsColumn(),
+                    where: Rds.RegistrationsWhere()
+                        .Passphrase(context.QueryStrings.Data("passphrase"))))
                             .AsEnumerable();
         }
 

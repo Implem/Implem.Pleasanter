@@ -30,6 +30,18 @@ namespace Implem.Pleasanter.Libraries.Responses
                 });
         }
 
+        //test
+        public static string UsersEdit(Context context, long id)
+        {
+            return Get(
+                context: context,
+                parts: new string[]
+                {
+                    "Users",
+                    id.ToString()
+                });
+        }
+
         public static string Logout(Context context)
         {
             return Get(
@@ -163,6 +175,43 @@ namespace Implem.Pleasanter.Libraries.Responses
                         context: context,
                         parts: path));
         }
+
+        public static string RegistrationUri(Context context, string passphrase)
+        {
+            var path = "/Registrations/login?passphrase=" + passphrase;
+            return Parameters.Service.AbsoluteUri != null
+                ? Parameters.Service.AbsoluteUri + path
+                : context.AbsoluteUri.Replace(
+                    context.AbsolutePath,
+                    Get(
+                        context: context,
+                        parts: path));
+        }
+
+        public static string RegistrationEditUri(Context context, string id)
+        {
+            var path = "/Registrations/" + id + "/edit";
+            return Parameters.Service.AbsoluteUri != null
+                ? Parameters.Service.AbsoluteUri + path
+                : context.AbsoluteUri.Replace(
+                    context.AbsolutePath,
+                    Get(
+                        context: context,
+                        parts: path));
+        }
+
+        public static string ApprovaUri(Context context)
+        {
+            var path = "/users/login";
+            return Parameters.Service.AbsoluteUri != null
+                ? Parameters.Service.AbsoluteUri + path
+                : context.AbsoluteUri.Replace(
+                    context.AbsolutePath,
+                    Get(
+                        context: context,
+                        parts: path));
+        }
+
 
         public static string OutGoingMailAbsoluteUri(Context context)
         {

@@ -38,81 +38,43 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     }
                     if (context.Action == "new")
                     {
-                        hb.Button(
-                            text: Displays.Create(context: context),
-                            controlCss: "button-icon validate",
-                            accessKey: "s",
-                            onClick: "$p.send($(this));",
-                            icon: "ui-icon-disk",
-                            action: "Create",
-                            method: "post");
+                        switch (context.Controller)
+                        {
+                            case "registrations":
+                                hb.Button(
+                                    controlId: "RegistrationId",
+                                    controlCss: "button-icon validate",
+                                    text: Displays.Invite(context: context),
+                                    onClick: "$p.send($(this));",
+                                    icon: "ui-icon-mail-closed",
+                                    action: "Create",
+                                    method: "post");
+                                break;
+                            default:
+                                hb.Button(
+                                    text: Displays.Create(context: context),
+                                    controlCss: "button-icon validate",
+                                    accessKey: "s",
+                                    onClick: "$p.send($(this));",
+                                    icon: "ui-icon-disk",
+                                    action: "Create",
+                                    method: "post");
+                                break;
+                        }
                     }
                     else if (context.CanRead(ss: ss) && verType == Versions.VerTypes.Latest)
                     {
-                        hb
-                            .Button(
-                                text: Displays.Update(context: context),
-                                controlCss: "button-icon validate",
-                                accessKey: "s",
-                                onClick: "$p.send($(this));",
-                                icon: "ui-icon-disk",
-                                action: "Update",
-                                method: "put",
-                                _using: updateButton && context.CanUpdate(ss: ss))
-                            .Button(
-                                text: Displays.Copy(context: context),
-                                controlCss: "button-icon open-dialog",
-                                accessKey: "c",
-                                onClick: "$p.openDialog($(this));",
-                                icon: "ui-icon-copy",
-                                selector: "#CopyDialog",
-                                _using: copyButton && context.CanCreate(ss: ss))
-                            .Button(
-                                text: Displays.Move(context: context),
-                                controlCss: "button-icon open-dialog",
-                                accessKey: "o",
-                                onClick: "$p.moveTargets($(this));",
-                                icon: "ui-icon-transferthick-e-w",
-                                selector: "#MoveDialog",
-                                action: "MoveTargets",
-                                method: "get",
-                                _using: moveButton
-                                    && ss.MoveTargets?.Any() == true
-                                    && context.CanUpdate(ss: ss))
-                            .Button(
-                                controlId: "EditOutgoingMail",
-                                text: Displays.Mail(context: context),
-                                controlCss: "button-icon",
-                                onClick: "$p.openOutgoingMailDialog($(this));",
-                                icon: "ui-icon-mail-closed",
-                                action: "Edit",
-                                method: "put",
-                                accessKey: "m",
-                                _using: mailButton && context.CanSendMail(ss: ss))
-                            .Button(
-                                text: Displays.Delete(context: context),
-                                controlCss: "button-icon",
-                                accessKey: "r",
-                                onClick: "$p.send($(this));",
-                                icon: "ui-icon-trash",
-                                action: "Delete",
-                                method: "delete",
-                                confirm: "ConfirmDelete",
-                                _using: deleteButton
-                                    && context.CanDelete(ss: ss)
-                                    && !ss.IsSite(context: context))
-                            .Button(
-                                text: Displays.DeleteSite(context: context),
-                                controlCss: "button-icon",
-                                accessKey: "r",
-                                onClick: "$p.openDeleteSiteDialog($(this));",
-                                icon: "ui-icon-trash",
-                                _using: deleteButton
-                                    && context.CanDelete(ss: ss)
-                                    && ss.IsSite(context: context));
                         switch (context.Controller)
                         {
                             case "users":
+                                hb.Common(
+                                    context: context,
+                                    ss: ss,
+                                    updateButton: updateButton,
+                                    copyButton: copyButton,
+                                    moveButton: moveButton,
+                                    mailButton: mailButton,
+                                    deleteButton: deleteButton);
                                 switch (context.Action)
                                 {
                                     case "index":
@@ -148,7 +110,66 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                         break;
                                 }
                                 break;
+                            case "registrations":
+                                switch (context.Action)
+                                {
+                                    case "login":
+                                        hb.Button(
+                                            controlId: "RegistrationId",
+                                            controlCss: "button-icon validate",
+                                            text: Displays.ApprovalReauest(context: context),
+                                            onClick: "$p.send($(this));",
+                                            icon: "ui-icon-mail-closed",
+                                            action: "ApprovalReauest",
+                                            method: "post");
+                                        break;
+                                    case "edit":
+                                        hb
+                                            .Button(
+                                                controlId: "RegistrationApproval",
+                                                text: Displays.Approval(context: context),
+                                                controlCss: "button-icon",
+                                                onClick: "$p.send($(this));",
+                                                icon: "ui-icon-mail-closed",
+                                                action: "Approval",
+                                                method: "put",
+                                                _using: Permissions.PrivilegedUsers(loginId: context.LoginId))
+                                            .Button(
+                                                text: Displays.Delete(context: context),
+                                                controlCss: "button-icon",
+                                                accessKey: "r",
+                                                onClick: "$p.send($(this));",
+                                                icon: "ui-icon-trash",
+                                                action: "Delete",
+                                                method: "delete",
+                                                confirm: "ConfirmDelete",
+                                                _using: deleteButton
+                                                    && context.CanDelete(ss: ss)
+                                                    && !ss.IsSite(context: context));
+                                        break;
+                                    case "index":
+                                        hb.Button(
+                                           text: Displays.BulkDelete(context: context),
+                                           controlCss: "button-icon",
+                                           accessKey: "r",
+                                           onClick: "$p.send($(this));",
+                                           icon: "ui-icon-trash",
+                                           action: "BulkDelete",
+                                           method: "delete",
+                                           confirm: "ConfirmDelete",
+                                           _using: context.CanDelete(ss: ss));
+                                        break;
+                                }
+                                break;
                             case "items":
+                                hb.Common(
+                                    context: context,
+                                    ss: ss,
+                                    updateButton: updateButton,
+                                    copyButton: copyButton,
+                                    moveButton: moveButton,
+                                    mailButton: mailButton,
+                                    deleteButton: deleteButton);
                                 if (context.Forms.Bool("EditOnGrid"))
                                 {
                                     hb
@@ -241,10 +262,93 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                     }
                                 }
                                 break;
+                            default:
+                                hb.Common(
+                                    context: context,
+                                    ss: ss,
+                                    updateButton: updateButton,
+                                    copyButton: copyButton,
+                                    moveButton: moveButton,
+                                    mailButton: mailButton,
+                                    deleteButton: deleteButton);
+                                break;
                         }
+                        extensions?.Invoke();
                     }
-                    extensions?.Invoke();
                 }));
+        }
+
+        private static HtmlBuilder Common(
+            this HtmlBuilder hb,
+            Context context,
+            SiteSettings ss,
+            bool updateButton = false,
+            bool copyButton = false,
+            bool moveButton = false,
+            bool mailButton = false,
+            bool deleteButton = false)
+        {
+            return hb
+                .Button(
+                    text: Displays.Update(context: context),
+                    controlCss: "button-icon validate",
+                    accessKey: "s",
+                    onClick: "$p.send($(this));",
+                    icon: "ui-icon-disk",
+                    action: "Update",
+                    method: "put",
+                    _using: updateButton && context.CanUpdate(ss: ss))
+                .Button(
+                    text: Displays.Copy(context: context),
+                    controlCss: "button-icon open-dialog",
+                    accessKey: "c",
+                    onClick: "$p.openDialog($(this));",
+                    icon: "ui-icon-copy",
+                    selector: "#CopyDialog",
+                    _using: copyButton && context.CanCreate(ss: ss))
+                .Button(
+                    text: Displays.Move(context: context),
+                    controlCss: "button-icon open-dialog",
+                    accessKey: "o",
+                    onClick: "$p.moveTargets($(this));",
+                    icon: "ui-icon-transferthick-e-w",
+                    selector: "#MoveDialog",
+                    action: "MoveTargets",
+                    method: "get",
+                    _using: moveButton
+                        && ss.MoveTargets?.Any() == true
+                        && context.CanUpdate(ss: ss))
+                .Button(
+                    controlId: "EditOutgoingMail",
+                    text: Displays.Mail(context: context),
+                    controlCss: "button-icon",
+                    onClick: "$p.openOutgoingMailDialog($(this));",
+                    icon: "ui-icon-mail-closed",
+                    action: "Edit",
+                    method: "put",
+                    accessKey: "m",
+                    _using: mailButton && context.CanSendMail(ss: ss))
+                .Button(
+                    text: Displays.Delete(context: context),
+                    controlCss: "button-icon",
+                    accessKey: "r",
+                    onClick: "$p.send($(this));",
+                    icon: "ui-icon-trash",
+                    action: "Delete",
+                    method: "delete",
+                    confirm: "ConfirmDelete",
+                    _using: deleteButton
+                        && context.CanDelete(ss: ss)
+                        && !ss.IsSite(context: context))
+                .Button(
+                    text: Displays.DeleteSite(context: context),
+                    controlCss: "button-icon",
+                    accessKey: "r",
+                    onClick: "$p.openDeleteSiteDialog($(this));",
+                    icon: "ui-icon-trash",
+                    _using: deleteButton
+                        && context.CanDelete(ss: ss)
+                        && ss.IsSite(context: context));
         }
     }
 }

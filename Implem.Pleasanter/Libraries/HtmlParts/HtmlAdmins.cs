@@ -70,6 +70,16 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                         .Div(action: () => hb
                                             .Text(Displays.Users(context: context)))
                                         .StackStyles()))
+                            .Li(css: "nav-site", action: () => hb
+                                .A(
+                                    attributes: new HtmlAttributes()
+                                        .Href(Locations.Index(
+                                            context: context,
+                                            controller: "Registrations")),
+                                    action: () => hb
+                                        .Div(action: () => hb
+                                            .Text(Displays.Registrations(context: context)))
+                                        .StackStyles()))
                             ))
                     .MainCommands(
                         context: context,

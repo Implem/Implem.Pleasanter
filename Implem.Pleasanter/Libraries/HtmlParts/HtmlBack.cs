@@ -67,6 +67,25 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                         default:
                             return AdminsOrTop(context: context);
                     }
+                case "registrations":
+                    switch (context.Action)
+                    {
+                        case "new":
+                        case "edit":
+                            return Strings.CoalesceEmpty(
+                                referer?.EndsWith("/new") == false
+                                    ? referer
+                                    : null,
+                                Locations.Get(
+                                    context: context,
+                                    parts: context.Controller));
+                        case "editapi":
+                            return referer != null
+                                ? referer
+                                : Locations.Top(context: context);
+                        default:
+                            return AdminsOrTop(context: context);
+                    }
                 default:
                     switch (referenceType)
                     {

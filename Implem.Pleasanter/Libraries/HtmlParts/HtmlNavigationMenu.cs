@@ -50,6 +50,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             var canManageSite = siteId != 0 && context.CanManageSite(ss: ss, site: true);
             var canManageDepts = Permissions.CanManageTenant(context: context);
             var canManageUsers = Permissions.CanManageTenant(context: context);
+            var canManageRegistrations = Permissions.CanManageRegistrations(context: context);
             var canManageTenants = Permissions.CanManageTenant(context: context)
                 || context.UserSettings?.EnableManageTenant == true;
             var canManageTrashBox = CanManageTrashBox(context: context, ss: ss);
@@ -102,6 +103,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                 canManageDepts: canManageDepts,
                                 canManageGroups: canManageGroups,
                                 canManageUsers: canManageUsers,
+                                canManageRegistrations: canManageRegistrations,
                                 canManageTenants: canManageTenants,
                                 canManageTrashBox: canManageTrashBox),
                         _using:
@@ -212,6 +214,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             bool canManageDepts,
             bool canManageGroups,
             bool canManageUsers,
+            bool canManageRegistrations,
             bool canManageTenants,
             bool canManageTrashBox)
         {
@@ -275,6 +278,16 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                     .Span(css: "ui-icon ui-icon-gear")
                                     .Text(text: Displays.UserAdmin(context: context))),
                         _using: canManageUsers)
+                    .Li(
+                        action: () => hb
+                            .A(
+                                href: Locations.Index(
+                                    context: context,
+                                    controller: "Registrations"),
+                                action: () => hb
+                                    .Span(css: "ui-icon ui-icon-gear")
+                                    .Text(text: Displays.Registrations(context: context))),
+                        _using: canManageRegistrations)
                     .Li(
                         action: () => hb
                             .A(

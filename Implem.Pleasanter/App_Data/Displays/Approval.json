@@ -1,0 +1,13 @@
+﻿{
+    "Id": "Approval",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Approval"
+        },
+        {
+            "Language": "ja",
+            "Body": "承認"
+        }
+    ]
+}

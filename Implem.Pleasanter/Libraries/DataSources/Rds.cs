@@ -300,6 +300,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                 case "Tenants": return "TenantId";
                 case "Depts": return "DeptId";
                 case "Groups": return "GroupId";
+                case "Registrations": return "RegistrationId";
                 case "Users": return "UserId";
                 case "Sites": return "SiteId";
                 case "Issues": return "IssueId";
@@ -420,6 +421,17 @@ namespace Implem.Pleasanter.Libraries.DataSources
         }
 
         public static SqlStatement GroupMembersStatement(
+            string commandText,
+            SqlParamCollection param = null)
+        {
+            return new SqlStatement
+            {
+                CommandText = commandText,
+                SqlParamCollection = param
+            };
+        }
+
+        public static SqlStatement RegistrationsStatement(
             string commandText,
             SqlParamCollection param = null)
         {
@@ -952,6 +964,36 @@ namespace Implem.Pleasanter.Libraries.DataSources
                         case "UserId": return "[UserId]";
                         case "Ver": return "[Ver]";
                         case "Admin": return "[Admin]";
+                        case "Comments": return "[Comments]";
+                        case "Creator": return "[Creator]";
+                        case "Updator": return "[Updator]";
+                        case "CreatedTime": return "[CreatedTime]";
+                        case "UpdatedTime": return "[UpdatedTime]";
+                        case "VerUp": return "[VerUp]";
+                        case "Timestamp": return "[Timestamp]";
+                        default: 
+                            return Def.ExtendedColumnTypes.ContainsKey(column.Name)
+                                ? $"[{column.Name}]"
+                                : null;
+                    }
+                case "Registrations":
+                    switch (column.Name)
+                    {
+                        case "TenantId": return "[TenantId]";
+                        case "RegistrationId": return "[RegistrationId]";
+                        case "Ver": return "[Ver]";
+                        case "MailAddress": return "[MailAddress]";
+                        case "Invitee": return "[Invitee]";
+                        case "LoginId": return "[LoginId]";
+                        case "Name": return "[Name]";
+                        case "Password": return "[Password]";
+                        case "PasswordValidate": return "[PasswordValidate]";
+                        case "Language": return "[Language]";
+                        case "Passphrase": return "[Passphrase]";
+                        case "Invitingflg": return "[Invitingflg]";
+                        case "UserId": return "[UserId]";
+                        case "DeptId": return "[DeptId]";
+                        case "GroupId": return "[GroupId]";
                         case "Comments": return "[Comments]";
                         case "Creator": return "[Creator]";
                         case "Updator": return "[Updator]";
@@ -2146,6 +2188,113 @@ namespace Implem.Pleasanter.Libraries.DataSources
                                 function: function);
                         case "UpdatedTime":
                             return self.GroupMembers_UpdatedTime(
+                                tableName: column.TableName(),
+                                orderType: orderType,
+                                function: function);
+                        default:
+                            return Def.ExtendedColumnTypes.ContainsKey(column.Name)
+                                ? self.Add(
+                                    columnBracket: $"[{column.Name}]",
+                                    orderType: orderType,
+                                    tableName: column.TableName(),
+                                    function: function)
+                                : self;
+                    }
+                case "Registrations":
+                    switch (column.Name)
+                    {
+                        case "TenantId":
+                            return self.Registrations_TenantId(
+                                tableName: column.TableName(),
+                                orderType: orderType,
+                                function: function);
+                        case "RegistrationId":
+                            return self.Registrations_RegistrationId(
+                                tableName: column.TableName(),
+                                orderType: orderType,
+                                function: function);
+                        case "Ver":
+                            return self.Registrations_Ver(
+                                tableName: column.TableName(),
+                                orderType: orderType,
+                                function: function);
+                        case "MailAddress":
+                            return self.Registrations_MailAddress(
+                                tableName: column.TableName(),
+                                orderType: orderType,
+                                function: function);
+                        case "Invitee":
+                            return self.Registrations_Invitee(
+                                tableName: column.TableName(),
+                                orderType: orderType,
+                                function: function);
+                        case "LoginId":
+                            return self.Registrations_LoginId(
+                                tableName: column.TableName(),
+                                orderType: orderType,
+                                function: function);
+                        case "Name":
+                            return self.Registrations_Name(
+                                tableName: column.TableName(),
+                                orderType: orderType,
+                                function: function);
+                        case "Password":
+                            return self.Registrations_Password(
+                                tableName: column.TableName(),
+                                orderType: orderType,
+                                function: function);
+                        case "Language":
+                            return self.Registrations_Language(
+                                tableName: column.TableName(),
+                                orderType: orderType,
+                                function: function);
+                        case "Passphrase":
+                            return self.Registrations_Passphrase(
+                                tableName: column.TableName(),
+                                orderType: orderType,
+                                function: function);
+                        case "Invitingflg":
+                            return self.Registrations_Invitingflg(
+                                tableName: column.TableName(),
+                                orderType: orderType,
+                                function: function);
+                        case "UserId":
+                            return self.Registrations_UserId(
+                                tableName: column.TableName(),
+                                orderType: orderType,
+                                function: function);
+                        case "DeptId":
+                            return self.Registrations_DeptId(
+                                tableName: column.TableName(),
+                                orderType: orderType,
+                                function: function);
+                        case "GroupId":
+                            return self.Registrations_GroupId(
+                                tableName: column.TableName(),
+                                orderType: orderType,
+                                function: function);
+                        case "Comments":
+                            return self.Registrations_Comments(
+                                tableName: column.TableName(),
+                                orderType: orderType,
+                                function: function);
+                        case "Creator":
+                            return self.Registrations_Creator(
+                                tableName: column.TableName(),
+                                orderType: orderType,
+                                function: function);
+                        case "Updator":
+                            return self.Registrations_Updator(
+                                tableName: column.TableName(),
+                                orderType: orderType,
+                                function: function);
+                        case "CreatedTime":
+                            return self.Registrations_CreatedTime(
+                                tableName: column.TableName(),
+                                orderType: orderType,
+                                function: function);
+                        case "UpdatedTime":
+                            return self.Registrations_UpdatedTime(
                                 tableName: column.TableName(),
                                 orderType: orderType,
                                 function: function);
@@ -4039,6 +4188,48 @@ namespace Implem.Pleasanter.Libraries.DataSources
             };
         }
 
+        public static SqlSelect SelectRegistrations(
+            string dataTableName = null,
+            Sqls.TableTypes tableType = Sqls.TableTypes.Normal,
+            string _as = null,
+            SqlColumnCollection column = null,
+            SqlJoinCollection join = null,
+            SqlWhereCollection where = null,
+            SqlGroupByCollection groupBy = null,
+            SqlHavingCollection having = null,
+            SqlOrderByCollection orderBy = null,
+            SqlParamCollection param = null,
+            bool distinct = false,
+            int top = 0,
+            int offset = 0,
+            int pageSize = 0,
+            Sqls.UnionTypes unionType = Sqls.UnionTypes.None,
+            bool _using = true)
+        {
+            return new SqlSelect
+            {
+                DataTableName = dataTableName,
+                TableType = tableType,
+                TableBracket = "[Registrations]",
+                HistoryTableBracket = "[Registrations_history]",
+                DeletedTableBracket = "[Registrations_deleted]",
+                As = _as,
+                SqlColumnCollection = column,
+                SqlJoinCollection = join,
+                SqlWhereCollection = where,
+                SqlGroupByCollection = groupBy,
+                SqlHavingCollection = having,
+                SqlOrderByCollection = orderBy,
+                SqlParamCollection = param,
+                Distinct = distinct,
+                Top = top,
+                Offset = offset,
+                PageSize = pageSize,
+                UnionType = unionType,
+                Using = _using
+            };
+        }
+
         public static SqlSelect SelectUsers(
             string dataTableName = null,
             Sqls.TableTypes tableType = Sqls.TableTypes.Normal,
@@ -4849,6 +5040,26 @@ namespace Implem.Pleasanter.Libraries.DataSources
             };
         }
 
+        public static SqlExists ExistsRegistrations(
+            Sqls.TableTypes tableType = Sqls.TableTypes.Normal,
+            bool not = false,
+            SqlJoinCollection join = null,
+            SqlWhereCollection where = null,
+            bool _using = true)
+        {
+            return new SqlExists
+            {
+                TableType = tableType,
+                Not = not,
+                TableBracket = "[Registrations]",
+                HistoryTableBracket = "[Registrations_history]",
+                DeletedTableBracket = "[Registrations_deleted]",
+                SqlJoinCollection = join,
+                SqlWhereCollection = where,
+                Using = _using
+            };
+        }
+
         public static SqlExists ExistsUsers(
             Sqls.TableTypes tableType = Sqls.TableTypes.Normal,
             bool not = false,
@@ -5570,6 +5781,53 @@ namespace Implem.Pleasanter.Libraries.DataSources
             return on
                 ? new SqlStatement("set identity_insert [GroupMembers_History] on;")
                 : new SqlStatement("set identity_insert [GroupMembers_History] off;");
+        }
+
+        public static SqlInsert InsertRegistrations(
+            string dataTableName = null,
+            bool selectIdentity = false,
+            Sqls.TableTypes tableType = Sqls.TableTypes.Normal,
+            SqlParamCollection param = null,
+            SqlStatement select = null,
+            bool addUpdatorParam = true,
+            string _if = null,
+            bool _using = true)
+        {
+            return new SqlInsert
+            {
+                DataTableName = dataTableName,
+                TableType = tableType,
+                TableBracket = "[Registrations]",
+                HistoryTableBracket = "[Registrations_history]",
+                DeletedTableBracket = "[Registrations_deleted]",
+                SelectIdentity = selectIdentity,
+                SqlParamCollection = param,
+                Select = select,
+                AddUpdatorParam = addUpdatorParam,
+                If = _if,
+                Using = _using
+            };
+        }
+
+        public static SqlStatement IdentityInsertRegistrations(bool on)
+        {
+            return on
+                ? new SqlStatement("set identity_insert [Registrations] on;")
+                : new SqlStatement("set identity_insert [Registrations] off;");
+        }
+
+        public static SqlStatement IdentityInsertRegistrations_Deleted(bool on)
+        {
+            return on
+                ? new SqlStatement("set identity_insert [Registrations_Deleted] on;")
+                : new SqlStatement("set identity_insert [Registrations_Deleted] off;");
+        }
+
+        public static SqlStatement IdentityInsertRegistrations_History(bool on)
+        {
+            return on
+                ? new SqlStatement("set identity_insert [Registrations_History] on;")
+                : new SqlStatement("set identity_insert [Registrations_History] off;");
         }
 
         public static SqlInsert InsertUsers(
@@ -6511,6 +6769,32 @@ namespace Implem.Pleasanter.Libraries.DataSources
             };
         }
 
+        public static SqlUpdate UpdateRegistrations(
+            string dataTableName = null,
+            Sqls.TableTypes tableType = Sqls.TableTypes.Normal,
+            SqlWhereCollection where = null,
+            SqlParamCollection param = null,
+            bool addUpdatorParam = true,
+            bool addUpdatedTimeParam = true,
+            string _if = null,
+            bool _using = true)
+        {
+            return new SqlUpdate
+            {
+                DataTableName = dataTableName,
+                TableType = tableType,
+                TableBracket = "[Registrations]",
+                HistoryTableBracket = "[Registrations_history]",
+                DeletedTableBracket = "[Registrations_deleted]",
+                SqlWhereCollection = where,
+                SqlParamCollection = param,
+                AddUpdatorParam = addUpdatorParam,
+                AddUpdatedTimeParam = addUpdatedTimeParam,
+                If = _if,
+                Using = _using
+            };
+        }
+
         public static SqlUpdate UpdateUsers(
             string dataTableName = null,
             Sqls.TableTypes tableType = Sqls.TableTypes.Normal,
@@ -7153,6 +7437,34 @@ namespace Implem.Pleasanter.Libraries.DataSources
             };
         }
 
+        public static SqlUpdateOrInsert UpdateOrInsertRegistrations(
+            string dataTableName = null,
+            Sqls.TableTypes tableType = Sqls.TableTypes.Normal,
+            bool selectIdentity = false,
+            SqlWhereCollection where = null,
+            SqlParamCollection param = null,
+            bool addUpdatorParam = true,
+            bool addUpdatedTimeParam = true,
+            string _if = null,
+            bool _using = true)
+        {
+            return new SqlUpdateOrInsert
+            {
+                DataTableName = dataTableName,
+                TableType = tableType,
+                TableBracket = "[Registrations]",
+                HistoryTableBracket = "[Registrations_history]",
+                DeletedTableBracket = "[Registrations_deleted]",
+                SelectIdentity = selectIdentity,
+                SqlWhereCollection = where,
+                SqlParamCollection = param,
+                AddUpdatorParam = addUpdatorParam,
+                AddUpdatedTimeParam = addUpdatedTimeParam,
+                If = _if,
+                Using = _using
+            };
+        }
+
         public static SqlUpdateOrInsert UpdateOrInsertUsers(
             string dataTableName = null,
             Sqls.TableTypes tableType = Sqls.TableTypes.Normal,
@@ -7762,6 +8074,27 @@ namespace Implem.Pleasanter.Libraries.DataSources
             };
         }
 
+        public static SqlDelete DeleteRegistrations(
+            string dataTableName = null,
+            SqlWhereCollection where = null,
+            SqlParamCollection param = null,
+            string _if = null,
+            bool _using = true)
+        {
+            return new SqlDelete()
+            {
+                DataTableName = dataTableName,
+                CommandText = DeleteRegistrationsStatement(),
+                TableBracket = "[Registrations]",
+                HistoryTableBracket = "[Registrations_history]",
+                DeletedTableBracket = "[Registrations_deleted]",
+                SqlWhereCollection = where,
+                SqlParamCollection = param,
+                If = _if,
+                Using = _using
+            };
+        }
+
         public static SqlDelete DeleteUsers(
             string dataTableName = null,
             SqlWhereCollection where = null,
@@ -8257,6 +8590,26 @@ namespace Implem.Pleasanter.Libraries.DataSources
             };
         }
 
+        public static SqlPhysicalDelete PhysicalDeleteRegistrations(
+            Sqls.TableTypes tableType = Sqls.TableTypes.Normal,
+            SqlWhereCollection where = null,
+            SqlParamCollection param = null,
+            string _if = null,
+            bool _using = true)
+        {
+            return new SqlPhysicalDelete()
+            {
+                TableType = tableType,
+                TableBracket = "[Registrations]",
+                HistoryTableBracket = "[Registrations_history]",
+                DeletedTableBracket = "[Registrations_deleted]",
+                SqlWhereCollection = where,
+                SqlParamCollection = param,
+                If = _if,
+                Using = _using
+            };
+        }
+
         public static SqlPhysicalDelete PhysicalDeleteUsers(
             Sqls.TableTypes tableType = Sqls.TableTypes.Normal,
             SqlWhereCollection where = null,
@@ -8728,6 +9081,25 @@ namespace Implem.Pleasanter.Libraries.DataSources
             };
         }
 
+        public static SqlRestore RestoreRegistrations(
+            SqlWhereCollection where = null,
+            SqlParamCollection param = null,
+            string _if = null,
+            bool _using = true)
+        {
+            return new SqlRestore()
+            {
+                CommandText = RestoreRegistrationsStatement(), 
+                TableBracket = "[Registrations]",
+                HistoryTableBracket = "[Registrations_history]",
+                DeletedTableBracket = "[Registrations_deleted]",
+                SqlWhereCollection = where,
+                SqlParamCollection = param,
+                If = _if,
+                Using = _using
+            };
+        }
+
         public static SqlRestore RestoreUsers(
             SqlWhereCollection where = null,
             SqlParamCollection param = null,
@@ -9035,6 +9407,12 @@ namespace Implem.Pleasanter.Libraries.DataSources
                         where: where);
                 case "Groups":
                     return GroupsAggregations(
+                        aggregations: ss.Aggregations,
+                        tableType: tableType,
+                        join: join,
+                        where: where);
+                case "Registrations":
+                    return RegistrationsAggregations(
                         aggregations: ss.Aggregations,
                         tableType: tableType,
                         join: join,
@@ -9703,6 +10081,77 @@ namespace Implem.Pleasanter.Libraries.DataSources
                         default: break;
                     }
                     var statement = SelectGroupMembers(
+                        dataTableName: "Aggregation" + data.Index,
+                        column: column,
+                        join: join,
+                        where: where,
+                        groupBy: groupBy);
+                    statementCollection.Add(statement);
+                });
+            return statementCollection;
+        }
+
+        public static IEnumerable<SqlStatement> RegistrationsAggregations(
+            IEnumerable<Aggregation> aggregations,
+            Sqls.TableTypes tableType,
+            SqlJoinCollection join,
+            SqlWhereCollection where)
+        {
+            var statementCollection = new List<SqlStatement>()
+            {
+                SelectRegistrations(
+                    dataTableName: "Count",
+                    tableType: tableType,
+                    column: RegistrationsColumn().RegistrationsCount(),
+                    join: join,
+                    where: where)
+            };
+            if (tableType != Sqls.TableTypes.Normal)
+            {
+                return statementCollection;
+            }
+            aggregations
+                .Select((o, i) => new { Aggregation = o, Index = i })
+                .ForEach(data =>
+                {
+                    var groupBy = RegistrationsGroupBy();
+                    var column = RegistrationsColumn();
+                    switch (data.Aggregation.GroupBy)
+                    {
+                        case "[NotGroupBy]":
+                            break;
+                        default:
+                            groupBy.RegistrationsGroupBy(columnName: data.Aggregation.GroupBy);
+                            column.RegistrationsColumn(columnName: data.Aggregation.GroupBy);
+                            break;
+                    }
+                    switch (data.Aggregation.Type)
+                    {
+                        case Aggregation.Types.Count:
+                            column.RegistrationsCount(); break;
+                        case Aggregation.Types.Total:
+                            switch (data.Aggregation.Target)
+                            {
+                                default:
+                                    column.RegistrationsColumn(
+                                        columnName: data.Aggregation.Target,
+                                        function: Sqls.Functions.Sum);
+                                    break;
+                            }
+                            break;
+                        case Aggregation.Types.Average:
+                            switch (data.Aggregation.Target)
+                            {
+                                default:
+                                    column.RegistrationsColumn(
+                                        columnName: data.Aggregation.Target,
+                                        function: Sqls.Functions.Avg);
+                                    break;
+                            }
+                            break;
+                        default: break;
+                    }
+                    var statement = SelectRegistrations(
                         dataTableName: "Aggregation" + data.Index,
                         column: column,
                         join: join,
@@ -11264,6 +11713,62 @@ namespace Implem.Pleasanter.Libraries.DataSources
                 delete from [GroupMembers] {0}".Params(DeleteParams(tableName: "GroupMembers"));
         }
 
+        public static string DeleteRegistrationsStatement()
+        {
+            return @"
+                update [Registrations]
+                set
+                    [Registrations].[Updator] = @_U,
+                    [Registrations].[UpdatedTime] = getdate() {0};
+                insert into [Registrations_deleted]
+                (
+                    [Registrations_deleted].[TenantId],
+                    [Registrations_deleted].[RegistrationId],
+                    [Registrations_deleted].[Ver],
+                    [Registrations_deleted].[MailAddress],
+                    [Registrations_deleted].[Invitee],
+                    [Registrations_deleted].[LoginId],
+                    [Registrations_deleted].[Name],
+                    [Registrations_deleted].[Password],
+                    [Registrations_deleted].[Language],
+                    [Registrations_deleted].[Passphrase],
+                    [Registrations_deleted].[Invitingflg],
+                    [Registrations_deleted].[UserId],
+                    [Registrations_deleted].[DeptId],
+                    [Registrations_deleted].[GroupId],
+                    [Registrations_deleted].[Comments],
+                    [Registrations_deleted].[Creator],
+                    [Registrations_deleted].[Updator],
+                    [Registrations_deleted].[CreatedTime],
+                    [Registrations_deleted].[UpdatedTime]
+                    {1}
+                )
+                (
+                select
+                    [Registrations].[TenantId],
+                    [Registrations].[RegistrationId],
+                    [Registrations].[Ver],
+                    [Registrations].[MailAddress],
+                    [Registrations].[Invitee],
+                    [Registrations].[LoginId],
+                    [Registrations].[Name],
+                    [Registrations].[Password],
+                    [Registrations].[Language],
+                    [Registrations].[Passphrase],
+                    [Registrations].[Invitingflg],
+                    [Registrations].[UserId],
+                    [Registrations].[DeptId],
+                    [Registrations].[GroupId],
+                    [Registrations].[Comments],
+                    [Registrations].[Creator],
+                    [Registrations].[Updator],
+                    [Registrations].[CreatedTime],
+                    [Registrations].[UpdatedTime] 
+                    {2}
+                from [Registrations] {0});
+                delete from [Registrations] {0}".Params(DeleteParams(tableName: "Registrations"));
+        }
+
         public static string DeleteUsersStatement()
         {
             return @"
@@ -12423,6 +12928,64 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     {1}
                 from [GroupMembers_deleted] {0});
                 delete from [GroupMembers_deleted] {0}".Params(DeleteParams(tableName: "GroupMembers"));
+        }
+
+        public static string RestoreRegistrationsStatement()
+        {
+            return @"
+                update [Registrations_deleted]
+                set
+                    [Registrations_deleted].[Updator] = @_U,
+                    [Registrations_deleted].[UpdatedTime] = getdate() {0};
+                set identity_insert [Registrations] on; 
+                insert into [Registrations]
+                (
+                    [Registrations].[TenantId],
+                    [Registrations].[RegistrationId],
+                    [Registrations].[Ver],
+                    [Registrations].[MailAddress],
+                    [Registrations].[Invitee],
+                    [Registrations].[LoginId],
+                    [Registrations].[Name],
+                    [Registrations].[Password],
+                    [Registrations].[Language],
+                    [Registrations].[Passphrase],
+                    [Registrations].[Invitingflg],
+                    [Registrations].[UserId],
+                    [Registrations].[DeptId],
+                    [Registrations].[GroupId],
+                    [Registrations].[Comments],
+                    [Registrations].[Creator],
+                    [Registrations].[Updator],
+                    [Registrations].[CreatedTime],
+                    [Registrations].[UpdatedTime]
+                    {2}
+                )
+                (
+                select
+                    [Registrations_deleted].[TenantId],
+                    [Registrations_deleted].[RegistrationId],
+                    [Registrations_deleted].[Ver],
+                    [Registrations_deleted].[MailAddress],
+                    [Registrations_deleted].[Invitee],
+                    [Registrations_deleted].[LoginId],
+                    [Registrations_deleted].[Name],
+                    [Registrations_deleted].[Password],
+                    [Registrations_deleted].[Language],
+                    [Registrations_deleted].[Passphrase],
+                    [Registrations_deleted].[Invitingflg],
+                    [Registrations_deleted].[UserId],
+                    [Registrations_deleted].[DeptId],
+                    [Registrations_deleted].[GroupId],
+                    [Registrations_deleted].[Comments],
+                    [Registrations_deleted].[Creator],
+                    [Registrations_deleted].[Updator],
+                    [Registrations_deleted].[CreatedTime],
+                    [Registrations_deleted].[UpdatedTime] 
+                    {1}
+                from [Registrations_deleted] {0});
+                set identity_insert [Registrations] off; 
+                delete from [Registrations_deleted] {0}".Params(DeleteParams(tableName: "Registrations"));
         }
 
         public static string RestoreUsersStatement()
@@ -42742,6 +43305,4287 @@ namespace Implem.Pleasanter.Libraries.DataSources
         }
 
         public static SqlParamCollection GroupMembers_UpdatedTime(
+            this SqlParamCollection self,
+            object value = null,
+            SqlStatement sub = null,
+            string raw = null,
+            bool _using = true)
+        {
+            return _using
+                ? self.Add(
+                    columnBracket: "[UpdatedTime]",
+                    name: "UpdatedTime",
+                    value: value,
+                    sub: sub,
+                    raw: raw)
+                : self;
+        }
+
+        public static RegistrationsColumnCollection RegistrationsColumn()
+        {
+            return new RegistrationsColumnCollection();
+        }
+
+        public class RegistrationsColumnCollection : SqlColumnCollection
+        {
+            public new RegistrationsColumnCollection Add(
+                string columnBracket = null,
+                string tableName = "Registrations",
+                string columnName = null,
+                string _as = null,
+                Sqls.Functions function = Sqls.Functions.None,
+                SqlStatement sub = null,
+                bool subPrefix = true)
+            {
+                base.Add(
+                    columnBracket: columnBracket,
+                    tableName: tableName,
+                    columnName: columnName,
+                    _as: _as,
+                    function: function,
+                    sub: sub,
+                    subPrefix: subPrefix);
+                return this;
+            }
+        }
+
+        public static RegistrationsJoinCollection RegistrationsJoin()
+        {
+            return new RegistrationsJoinCollection();
+        }
+
+        public class RegistrationsJoinCollection : SqlJoinCollection
+        {
+            public RegistrationsJoinCollection Add(params SqlJoin[] sqlJoinCollection)
+            {
+                sqlJoinCollection.ForEach(sqlJoin => base.Add(sqlJoin));
+                return this;
+            }
+        }
+
+        public static RegistrationsWhereCollection RegistrationsWhere()
+        {
+            return new RegistrationsWhereCollection();
+        }
+
+        public class RegistrationsWhereCollection : SqlWhereCollection
+        {
+            public new RegistrationsWhereCollection Add(
+                string tableName = "Registrations",
+                string[] columnBrackets = null,
+                string name = null,
+                object value = null,
+                string _operator = "=",
+                string multiColumnOperator = " or ",
+                string multiParamOperator = " and ",
+                SqlStatement subLeft = null,
+                SqlStatement sub = null,
+                bool subPrefix = true,
+                string raw = null,
+                bool _using = true)
+            {
+                if (_using)
+                {
+                    Add(new SqlWhere(
+                        columnBrackets: columnBrackets,
+                        tableName: tableName,
+                        name: name,
+                        value: value,
+                        _operator: _operator,
+                        multiColumnOperator: multiColumnOperator,
+                        multiParamOperator: multiParamOperator,
+                        subLeft: subLeft,
+                        sub: sub,
+                        subPrefix: subPrefix,
+                        raw: raw));
+                }
+                return this;
+            }
+        }
+
+        public static RegistrationsGroupByCollection RegistrationsGroupBy()
+        {
+            return new RegistrationsGroupByCollection();
+        }
+
+        public class RegistrationsGroupByCollection : SqlGroupByCollection
+        {
+            public new RegistrationsGroupByCollection Add(
+                string columnBracket, string tableName = "Registrations")
+            {
+                Add(new SqlGroupBy(
+                    columnBracket: columnBracket,
+                    tableName: tableName));
+                return this;
+            }
+        }
+
+        public static RegistrationsHavingCollection RegistrationsHaving()
+        {
+            return new RegistrationsHavingCollection();
+        }
+
+        public class RegistrationsHavingCollection : SqlHavingCollection
+        {
+            public RegistrationsHavingCollection Add(
+                string columnBracket,
+                string tableName = "Registrations",
+                object value = null,
+                string _operator = "=",
+                Sqls.Functions function = Sqls.Functions.None)
+            {
+                Add(new SqlHaving(
+                    columnBracket: columnBracket,
+                    tableName: tableName,
+                    value: value,
+                    _operator: _operator,
+                    function: function));
+                return this;
+            }
+        }
+
+        public static RegistrationsOrderByCollection RegistrationsOrderBy()
+        {
+            return new RegistrationsOrderByCollection();
+        }
+
+        public class RegistrationsOrderByCollection : SqlOrderByCollection
+        {
+            public new RegistrationsOrderByCollection Add(
+                string columnBracket,
+                SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
+                string tableName = "Registrations",
+                Sqls.Functions function = Sqls.Functions.None)
+            {
+                Add(new SqlOrderBy(
+                    columnBracket: columnBracket,
+                    tableName: tableName,
+                    orderType: orderType,
+                    function: function));
+                return this;
+            }
+        }
+
+        public static RegistrationsParamCollection RegistrationsParam()
+        {
+            return new RegistrationsParamCollection();
+        }
+
+        public class RegistrationsParamCollection : SqlParamCollection
+        {
+            public new RegistrationsParamCollection Add(
+                string columnBracket = null,
+                string name = null,
+                object value = null,
+                SqlStatement sub = null,
+                string raw = null,
+                bool _using = true)
+            {
+                Add(new SqlParam(
+                    columnBracket: columnBracket,
+                    name: name,
+                    value: value,
+                    sub: sub,
+                    raw: raw,
+                    _using: _using));
+                return this;
+            }
+        }
+
+        public static string Registrations_MailAddress_WhereLike(
+            string tableName = "Registrations", bool forward = false)
+        {
+            return "([" + tableName + "].[MailAddress] like " + 
+                (forward
+                    ? string.Empty
+                    : "'%' + ") +
+                "@SearchText#ParamCount#_#CommandCount# + '%')";
+        }
+
+        public static string Registrations_Name_WhereLike(
+            string tableName = "Registrations", bool forward = false)
+        {
+            return "([" + tableName + "].[Name] like " + 
+                (forward
+                    ? string.Empty
+                    : "'%' + ") +
+                "@SearchText#ParamCount#_#CommandCount# + '%')";
+        }
+
+        public static RegistrationsColumnCollection RegistrationsColumn(
+            this RegistrationsColumnCollection self,
+            string columnName,
+            string _as = null,
+            Sqls.Functions function = Sqls.Functions.None)
+        {
+            switch (columnName)
+            {
+                case "TenantId":
+                    return self.TenantId(_as: _as, function: function);
+                case "RegistrationId":
+                    return self.RegistrationId(_as: _as, function: function);
+                case "Ver":
+                    return self.Ver(_as: _as, function: function);
+                case "MailAddress":
+                    return self.MailAddress(_as: _as, function: function);
+                case "Invitee":
+                    return self.Invitee(_as: _as, function: function);
+                case "LoginId":
+                    return self.LoginId(_as: _as, function: function);
+                case "Name":
+                    return self.Name(_as: _as, function: function);
+                case "Password":
+                    return self.Password(_as: _as, function: function);
+                case "Language":
+                    return self.Language(_as: _as, function: function);
+                case "Passphrase":
+                    return self.Passphrase(_as: _as, function: function);
+                case "Invitingflg":
+                    return self.Invitingflg(_as: _as, function: function);
+                case "UserId":
+                    return self.UserId(_as: _as, function: function);
+                case "DeptId":
+                    return self.DeptId(_as: _as, function: function);
+                case "GroupId":
+                    return self.GroupId(_as: _as, function: function);
+                case "Comments":
+                    return self.Comments(_as: _as, function: function);
+                case "Creator":
+                    return self.Creator(_as: _as, function: function);
+                case "Updator":
+                    return self.Updator(_as: _as, function: function);
+                case "CreatedTime":
+                    return self.CreatedTime(_as: _as, function: function);
+                case "UpdatedTime":
+                    return self.UpdatedTime(_as: _as, function: function);
+                default:
+                    return columnName != null && Def.ExtendedColumnTypes.ContainsKey(columnName)
+                        ? self.Add(
+                            columnBracket: $"[{columnName}]",
+                            columnName: columnName,
+                            _as: _as,
+                            function: function)
+                        : self;
+            }
+        }
+
+        public static RegistrationsColumnCollection TenantId(
+            this RegistrationsColumnCollection self,
+            string tableName = "Registrations",
+            string columnName = "TenantId",
+            string _as = null,
+            Sqls.Functions function = Sqls.Functions.None,
+            SqlStatement sub = null)
+        {
+            return self.Add(
+                columnBracket: "[TenantId]",
+                tableName: tableName,
+                columnName: columnName,
+                _as: _as,
+                function: function,
+                sub: sub);
+        }
+
+        public static SqlColumnCollection Registrations_TenantId(
+            this SqlColumnCollection self,
+            string tableName = "Registrations",
+            string columnName = "TenantId",
+            string _as = null,
+            Sqls.Functions function = Sqls.Functions.None,
+            SqlStatement sub = null)
+        {
+            return self.Add(
+                columnBracket: "[TenantId]",
+                tableName: tableName,
+                columnName: columnName,
+                _as: _as,
+                function: function,
+                sub: sub);
+        }
+
+        public static RegistrationsColumnCollection RegistrationId(
+            this RegistrationsColumnCollection self,
+            string tableName = "Registrations",
+            string columnName = "RegistrationId",
+            string _as = null,
+            Sqls.Functions function = Sqls.Functions.None,
+            SqlStatement sub = null)
+        {
+            return self.Add(
+                columnBracket: "[RegistrationId]",
+                tableName: tableName,
+                columnName: columnName,
+                _as: _as,
+                function: function,
+                sub: sub);
+        }
+
+        public static SqlColumnCollection Registrations_RegistrationId(
+            this SqlColumnCollection self,
+            string tableName = "Registrations",
+            string columnName = "RegistrationId",
+            string _as = null,
+            Sqls.Functions function = Sqls.Functions.None,
+            SqlStatement sub = null)
+        {
+            return self.Add(
+                columnBracket: "[RegistrationId]",
+                tableName: tableName,
+                columnName: columnName,
+                _as: _as,
+                function: function,
+                sub: sub);
+        }
+
+        public static RegistrationsColumnCollection Ver(
+            this RegistrationsColumnCollection self,
+            string tableName = "Registrations",
+            string columnName = "Ver",
+            string _as = null,
+            Sqls.Functions function = Sqls.Functions.None,
+            SqlStatement sub = null)
+        {
+            return self.Add(
+                columnBracket: "[Ver]",
+                tableName: tableName,
+                columnName: columnName,
+                _as: _as,
+                function: function,
+                sub: sub);
+        }
+
+        public static SqlColumnCollection Registrations_Ver(
+            this SqlColumnCollection self,
+            string tableName = "Registrations",
+            string columnName = "Ver",
+            string _as = null,
+            Sqls.Functions function = Sqls.Functions.None,
+            SqlStatement sub = null)
+        {
+            return self.Add(
+                columnBracket: "[Ver]",
+                tableName: tableName,
+                columnName: columnName,
+                _as: _as,
+                function: function,
+                sub: sub);
+        }
+
+        public static RegistrationsColumnCollection MailAddress(
+            this RegistrationsColumnCollection self,
+            string tableName = "Registrations",
+            string columnName = "MailAddress",
+            string _as = null,
+            Sqls.Functions function = Sqls.Functions.None,
+            SqlStatement sub = null)
+        {
+            return self.Add(
+                columnBracket: "[MailAddress]",
+                tableName: tableName,
+                columnName: columnName,
+                _as: _as,
+                function: function,
+                sub: sub);
+        }
+
+        public static SqlColumnCollection Registrations_MailAddress(
+            this SqlColumnCollection self,
+            string tableName = "Registrations",
+            string columnName = "MailAddress",
+            string _as = null,
+            Sqls.Functions function = Sqls.Functions.None,
+            SqlStatement sub = null)
+        {
+            return self.Add(
+                columnBracket: "[MailAddress]",
+                tableName: tableName,
+                columnName: columnName,
+                _as: _as,
+                function: function,
+                sub: sub);
+        }
+
+        public static RegistrationsColumnCollection Invitee(
+            this RegistrationsColumnCollection self,
+            string tableName = "Registrations",
+            string columnName = "Invitee",
+            string _as = null,
+            Sqls.Functions function = Sqls.Functions.None,
+            SqlStatement sub = null)
+        {
+            return self.Add(
+                columnBracket: "[Invitee]",
+                tableName: tableName,
+                columnName: columnName,
+                _as: _as,
+                function: function,
+                sub: sub);
+        }
+
+        public static SqlColumnCollection Registrations_Invitee(
+            this SqlColumnCollection self,
+            string tableName = "Registrations",
+            string columnName = "Invitee",
+            string _as = null,
+            Sqls.Functions function = Sqls.Functions.None,
+            SqlStatement sub = null)
+        {
+            return self.Add(
+                columnBracket: "[Invitee]",
+                tableName: tableName,
+                columnName: columnName,
+                _as: _as,
+                function: function,
+                sub: sub);
+        }
+
+        public static RegistrationsColumnCollection LoginId(
+            this RegistrationsColumnCollection self,
+            string tableName = "Registrations",
+            string columnName = "LoginId",
+            string _as = null,
+            Sqls.Functions function = Sqls.Functions.None,
+            SqlStatement sub = null)
+        {
+            return self.Add(
+                columnBracket: "[LoginId]",
+                tableName: tableName,
+                columnName: columnName,
+                _as: _as,
+                function: function,
+                sub: sub);
+        }
+
+        public static SqlColumnCollection Registrations_LoginId(
+            this SqlColumnCollection self,
+            string tableName = "Registrations",
+            string columnName = "LoginId",
+            string _as = null,
+            Sqls.Functions function = Sqls.Functions.None,
+            SqlStatement sub = null)
+        {
+            return self.Add(
+                columnBracket: "[LoginId]",
+                tableName: tableName,
+                columnName: columnName,
+                _as: _as,
+                function: function,
+                sub: sub);
+        }
+
+        public static RegistrationsColumnCollection Name(
+            this RegistrationsColumnCollection self,
+            string tableName = "Registrations",
+            string columnName = "Name",
+            string _as = null,
+            Sqls.Functions function = Sqls.Functions.None,
+            SqlStatement sub = null)
+        {
+            return self.Add(
+                columnBracket: "[Name]",
+                tableName: tableName,
+                columnName: columnName,
+                _as: _as,
+                function: function,
+                sub: sub);
+        }
+
+        public static SqlColumnCollection Registrations_Name(
+            this SqlColumnCollection self,
+            string tableName = "Registrations",
+            string columnName = "Name",
+            string _as = null,
+            Sqls.Functions function = Sqls.Functions.None,
+            SqlStatement sub = null)
+        {
+            return self.Add(
+                columnBracket: "[Name]",
+                tableName: tableName,
+                columnName: columnName,
+                _as: _as,
+                function: function,
+                sub: sub);
+        }
+
+        public static RegistrationsColumnCollection Password(
+            this RegistrationsColumnCollection self,
+            string tableName = "Registrations",
+            string columnName = "Password",
+            string _as = null,
+            Sqls.Functions function = Sqls.Functions.None,
+            SqlStatement sub = null)
+        {
+            return self.Add(
+                columnBracket: "[Password]",
+                tableName: tableName,
+                columnName: columnName,
+                _as: _as,
+                function: function,
+                sub: sub);
+        }
+
+        public static SqlColumnCollection Registrations_Password(
+            this SqlColumnCollection self,
+            string tableName = "Registrations",
+            string columnName = "Password",
+            string _as = null,
+            Sqls.Functions function = Sqls.Functions.None,
+            SqlStatement sub = null)
+        {
+            return self.Add(
+                columnBracket: "[Password]",
+                tableName: tableName,
+                columnName: columnName,
+                _as: _as,
+                function: function,
+                sub: sub);
+        }
+
+        public static RegistrationsColumnCollection Language(
+            this RegistrationsColumnCollection self,
+            string tableName = "Registrations",
+            string columnName = "Language",
+            string _as = null,
+            Sqls.Functions function = Sqls.Functions.None,
+            SqlStatement sub = null)
+        {
+            return self.Add(
+                columnBracket: "[Language]",
+                tableName: tableName,
+                columnName: columnName,
+                _as: _as,
+                function: function,
+                sub: sub);
+        }
+
+        public static SqlColumnCollection Registrations_Language(
+            this SqlColumnCollection self,
+            string tableName = "Registrations",
+            string columnName = "Language",
+            string _as = null,
+            Sqls.Functions function = Sqls.Functions.None,
+            SqlStatement sub = null)
+        {
+            return self.Add(
+                columnBracket: "[Language]",
+                tableName: tableName,
+                columnName: columnName,
+                _as: _as,
+                function: function,
+                sub: sub);
+        }
+
+        public static RegistrationsColumnCollection Passphrase(
+            this RegistrationsColumnCollection self,
+            string tableName = "Registrations",
+            string columnName = "Passphrase",
+            string _as = null,
+            Sqls.Functions function = Sqls.Functions.None,
+            SqlStatement sub = null)
+        {
+            return self.Add(
+                columnBracket: "[Passphrase]",
+                tableName: tableName,
+                columnName: columnName,
+                _as: _as,
+                function: function,
+                sub: sub);
+        }
+
+        public static SqlColumnCollection Registrations_Passphrase(
+            this SqlColumnCollection self,
+            string tableName = "Registrations",
+            string columnName = "Passphrase",
+            string _as = null,
+            Sqls.Functions function = Sqls.Functions.None,
+            SqlStatement sub = null)
+        {
+            return self.Add(
+                columnBracket: "[Passphrase]",
+                tableName: tableName,
+                columnName: columnName,
+                _as: _as,
+                function: function,
+                sub: sub);
+        }
+
+        public static RegistrationsColumnCollection Invitingflg(
+            this RegistrationsColumnCollection self,
+            string tableName = "Registrations",
+            string columnName = "Invitingflg",
+            string _as = null,
+            Sqls.Functions function = Sqls.Functions.None,
+            SqlStatement sub = null)
+        {
+            return self.Add(
+                columnBracket: "[Invitingflg]",
+                tableName: tableName,
+                columnName: columnName,
+                _as: _as,
+                function: function,
+                sub: sub);
+        }
+
+        public static SqlColumnCollection Registrations_Invitingflg(
+            this SqlColumnCollection self,
+            string tableName = "Registrations",
+            string columnName = "Invitingflg",
+            string _as = null,
+            Sqls.Functions function = Sqls.Functions.None,
+            SqlStatement sub = null)
+        {
+            return self.Add(
+                columnBracket: "[Invitingflg]",
+                tableName: tableName,
+                columnName: columnName,
+                _as: _as,
+                function: function,
+                sub: sub);
+        }
+
+        public static RegistrationsColumnCollection UserId(
+            this RegistrationsColumnCollection self,
+            string tableName = "Registrations",
+            string columnName = "UserId",
+            string _as = null,
+            Sqls.Functions function = Sqls.Functions.None,
+            SqlStatement sub = null)
+        {
+            return self.Add(
+                columnBracket: "[UserId]",
+                tableName: tableName,
+                columnName: columnName,
+                _as: _as,
+                function: function,
+                sub: sub);
+        }
+
+        public static SqlColumnCollection Registrations_UserId(
+            this SqlColumnCollection self,
+            string tableName = "Registrations",
+            string columnName = "UserId",
+            string _as = null,
+            Sqls.Functions function = Sqls.Functions.None,
+            SqlStatement sub = null)
+        {
+            return self.Add(
+                columnBracket: "[UserId]",
+                tableName: tableName,
+                columnName: columnName,
+                _as: _as,
+                function: function,
+                sub: sub);
+        }
+
+        public static RegistrationsColumnCollection DeptId(
+            this RegistrationsColumnCollection self,
+            string tableName = "Registrations",
+            string columnName = "DeptId",
+            string _as = null,
+            Sqls.Functions function = Sqls.Functions.None,
+            SqlStatement sub = null)
+        {
+            return self.Add(
+                columnBracket: "[DeptId]",
+                tableName: tableName,
+                columnName: columnName,
+                _as: _as,
+                function: function,
+                sub: sub);
+        }
+
+        public static SqlColumnCollection Registrations_DeptId(
+            this SqlColumnCollection self,
+            string tableName = "Registrations",
+            string columnName = "DeptId",
+            string _as = null,
+            Sqls.Functions function = Sqls.Functions.None,
+            SqlStatement sub = null)
+        {
+            return self.Add(
+                columnBracket: "[DeptId]",
+                tableName: tableName,
+                columnName: columnName,
+                _as: _as,
+                function: function,
+                sub: sub);
+        }
+
+        public static RegistrationsColumnCollection GroupId(
+            this RegistrationsColumnCollection self,
+            string tableName = "Registrations",
+            string columnName = "GroupId",
+            string _as = null,
+            Sqls.Functions function = Sqls.Functions.None,
+            SqlStatement sub = null)
+        {
+            return self.Add(
+                columnBracket: "[GroupId]",
+                tableName: tableName,
+                columnName: columnName,
+                _as: _as,
+                function: function,
+                sub: sub);
+        }
+
+        public static SqlColumnCollection Registrations_GroupId(
+            this SqlColumnCollection self,
+            string tableName = "Registrations",
+            string columnName = "GroupId",
+            string _as = null,
+            Sqls.Functions function = Sqls.Functions.None,
+            SqlStatement sub = null)
+        {
+            return self.Add(
+                columnBracket: "[GroupId]",
+                tableName: tableName,
+                columnName: columnName,
+                _as: _as,
+                function: function,
+                sub: sub);
+        }
+
+        public static RegistrationsColumnCollection Comments(
+            this RegistrationsColumnCollection self,
+            string tableName = "Registrations",
+            string columnName = "Comments",
+            string _as = null,
+            Sqls.Functions function = Sqls.Functions.None,
+            SqlStatement sub = null)
+        {
+            return self.Add(
+                columnBracket: "[Comments]",
+                tableName: tableName,
+                columnName: columnName,
+                _as: _as,
+                function: function,
+                sub: sub);
+        }
+
+        public static SqlColumnCollection Registrations_Comments(
+            this SqlColumnCollection self,
+            string tableName = "Registrations",
+            string columnName = "Comments",
+            string _as = null,
+            Sqls.Functions function = Sqls.Functions.None,
+            SqlStatement sub = null)
+        {
+            return self.Add(
+                columnBracket: "[Comments]",
+                tableName: tableName,
+                columnName: columnName,
+                _as: _as,
+                function: function,
+                sub: sub);
+        }
+
+        public static RegistrationsColumnCollection Creator(
+            this RegistrationsColumnCollection self,
+            string tableName = "Registrations",
+            string columnName = "Creator",
+            string _as = null,
+            Sqls.Functions function = Sqls.Functions.None,
+            SqlStatement sub = null)
+        {
+            return self.Add(
+                columnBracket: "[Creator]",
+                tableName: tableName,
+                columnName: columnName,
+                _as: _as,
+                function: function,
+                sub: sub);
+        }
+
+        public static SqlColumnCollection Registrations_Creator(
+            this SqlColumnCollection self,
+            string tableName = "Registrations",
+            string columnName = "Creator",
+            string _as = null,
+            Sqls.Functions function = Sqls.Functions.None,
+            SqlStatement sub = null)
+        {
+            return self.Add(
+                columnBracket: "[Creator]",
+                tableName: tableName,
+                columnName: columnName,
+                _as: _as,
+                function: function,
+                sub: sub);
+        }
+
+        public static RegistrationsColumnCollection Updator(
+            this RegistrationsColumnCollection self,
+            string tableName = "Registrations",
+            string columnName = "Updator",
+            string _as = null,
+            Sqls.Functions function = Sqls.Functions.None,
+            SqlStatement sub = null)
+        {
+            return self.Add(
+                columnBracket: "[Updator]",
+                tableName: tableName,
+                columnName: columnName,
+                _as: _as,
+                function: function,
+                sub: sub);
+        }
+
+        public static SqlColumnCollection Registrations_Updator(
+            this SqlColumnCollection self,
+            string tableName = "Registrations",
+            string columnName = "Updator",
+            string _as = null,
+            Sqls.Functions function = Sqls.Functions.None,
+            SqlStatement sub = null)
+        {
+            return self.Add(
+                columnBracket: "[Updator]",
+                tableName: tableName,
+                columnName: columnName,
+                _as: _as,
+                function: function,
+                sub: sub);
+        }
+
+        public static RegistrationsColumnCollection CreatedTime(
+            this RegistrationsColumnCollection self,
+            string tableName = "Registrations",
+            string columnName = "CreatedTime",
+            string _as = null,
+            Sqls.Functions function = Sqls.Functions.None,
+            SqlStatement sub = null)
+        {
+            return self.Add(
+                columnBracket: "[CreatedTime]",
+                tableName: tableName,
+                columnName: columnName,
+                _as: _as,
+                function: function,
+                sub: sub);
+        }
+
+        public static SqlColumnCollection Registrations_CreatedTime(
+            this SqlColumnCollection self,
+            string tableName = "Registrations",
+            string columnName = "CreatedTime",
+            string _as = null,
+            Sqls.Functions function = Sqls.Functions.None,
+            SqlStatement sub = null)
+        {
+            return self.Add(
+                columnBracket: "[CreatedTime]",
+                tableName: tableName,
+                columnName: columnName,
+                _as: _as,
+                function: function,
+                sub: sub);
+        }
+
+        public static RegistrationsColumnCollection UpdatedTime(
+            this RegistrationsColumnCollection self,
+            string tableName = "Registrations",
+            string columnName = "UpdatedTime",
+            string _as = null,
+            Sqls.Functions function = Sqls.Functions.None,
+            SqlStatement sub = null)
+        {
+            return self.Add(
+                columnBracket: "[UpdatedTime]",
+                tableName: tableName,
+                columnName: columnName,
+                _as: _as,
+                function: function,
+                sub: sub);
+        }
+
+        public static SqlColumnCollection Registrations_UpdatedTime(
+            this SqlColumnCollection self,
+            string tableName = "Registrations",
+            string columnName = "UpdatedTime",
+            string _as = null,
+            Sqls.Functions function = Sqls.Functions.None,
+            SqlStatement sub = null)
+        {
+            return self.Add(
+                columnBracket: "[UpdatedTime]",
+                tableName: tableName,
+                columnName: columnName,
+                _as: _as,
+                function: function,
+                sub: sub);
+        }
+
+        public static RegistrationsColumnCollection RegistrationsCount(
+            this RegistrationsColumnCollection self,
+            string _as = "RegistrationsCount")
+        {
+            return self.Add(
+                columnBracket: "*",
+                tableName: null,
+                _as: _as,
+                function: Sqls.Functions.Count);
+        }
+
+        public static RegistrationsWhereCollection TenantId(
+            this RegistrationsWhereCollection self,
+            object value = null,
+            string tableName = "Registrations",
+            string _operator = "=",
+            string multiColumnOperator = " or ",
+            string multiParamOperator = " and ",
+            SqlStatement subLeft = null,
+            SqlStatement sub = null,
+            bool subPrefix = true,
+            string raw = null,
+            bool _using = true)
+        {
+            return _using
+                ? self.Add(
+                    columnBrackets: new string[] { "[TenantId]" },
+                    tableName: tableName,
+                    name: "TenantId",
+                    value: value,
+                    _operator: _operator,
+                    multiColumnOperator: multiColumnOperator,
+                    multiParamOperator: multiParamOperator,
+                    subLeft: subLeft,
+                    sub: sub,
+                    subPrefix: subPrefix,
+                    raw: raw)
+                : self;
+        }
+
+        public static SqlWhereCollection Registrations_TenantId(
+            this SqlWhereCollection self,
+            object value = null,
+            string tableName = "Registrations",
+            string _operator = "=",
+            string multiColumnOperator = " or ",
+            string multiParamOperator = " and ",
+            SqlStatement subLeft = null,
+            SqlStatement sub = null,
+            bool subPrefix = true,
+            string raw = null,
+            bool _using = true)
+        {
+            return _using
+                ? self.Add(
+                    columnBrackets: new string[] { "[TenantId]" },
+                    tableName: tableName,
+                    name: "TenantId",
+                    value: value,
+                    _operator: _operator,
+                    multiColumnOperator: multiColumnOperator,
+                    multiParamOperator: multiParamOperator,
+                    subLeft: subLeft,
+                    sub: sub,
+                    subPrefix: subPrefix,
+                    raw: raw)
+                : self;
+        }
+
+        public static RegistrationsWhereCollection RegistrationId(
+            this RegistrationsWhereCollection self,
+            object value = null,
+            string tableName = "Registrations",
+            string _operator = "=",
+            string multiColumnOperator = " or ",
+            string multiParamOperator = " and ",
+            SqlStatement subLeft = null,
+            SqlStatement sub = null,
+            bool subPrefix = true,
+            string raw = null,
+            bool _using = true)
+        {
+            return _using
+                ? self.Add(
+                    columnBrackets: new string[] { "[RegistrationId]" },
+                    tableName: tableName,
+                    name: "RegistrationId",
+                    value: value,
+                    _operator: _operator,
+                    multiColumnOperator: multiColumnOperator,
+                    multiParamOperator: multiParamOperator,
+                    subLeft: subLeft,
+                    sub: sub,
+                    subPrefix: subPrefix,
+                    raw: raw)
+                : self;
+        }
+
+        public static SqlWhereCollection Registrations_RegistrationId(
+            this SqlWhereCollection self,
+            object value = null,
+            string tableName = "Registrations",
+            string _operator = "=",
+            string multiColumnOperator = " or ",
+            string multiParamOperator = " and ",
+            SqlStatement subLeft = null,
+            SqlStatement sub = null,
+            bool subPrefix = true,
+            string raw = null,
+            bool _using = true)
+        {
+            return _using
+                ? self.Add(
+                    columnBrackets: new string[] { "[RegistrationId]" },
+                    tableName: tableName,
+                    name: "RegistrationId",
+                    value: value,
+                    _operator: _operator,
+                    multiColumnOperator: multiColumnOperator,
+                    multiParamOperator: multiParamOperator,
+                    subLeft: subLeft,
+                    sub: sub,
+                    subPrefix: subPrefix,
+                    raw: raw)
+                : self;
+        }
+
+        public static RegistrationsWhereCollection Ver(
+            this RegistrationsWhereCollection self,
+            object value = null,
+            string tableName = "Registrations",
+            string _operator = "=",
+            string multiColumnOperator = " or ",
+            string multiParamOperator = " and ",
+            SqlStatement subLeft = null,
+            SqlStatement sub = null,
+            bool subPrefix = true,
+            string raw = null,
+            bool _using = true)
+        {
+            return _using
+                ? self.Add(
+                    columnBrackets: new string[] { "[Ver]" },
+                    tableName: tableName,
+                    name: "Ver",
+                    value: value,
+                    _operator: _operator,
+                    multiColumnOperator: multiColumnOperator,
+                    multiParamOperator: multiParamOperator,
+                    subLeft: subLeft,
+                    sub: sub,
+                    subPrefix: subPrefix,
+                    raw: raw)
+                : self;
+        }
+
+        public static SqlWhereCollection Registrations_Ver(
+            this SqlWhereCollection self,
+            object value = null,
+            string tableName = "Registrations",
+            string _operator = "=",
+            string multiColumnOperator = " or ",
+            string multiParamOperator = " and ",
+            SqlStatement subLeft = null,
+            SqlStatement sub = null,
+            bool subPrefix = true,
+            string raw = null,
+            bool _using = true)
+        {
+            return _using
+                ? self.Add(
+                    columnBrackets: new string[] { "[Ver]" },
+                    tableName: tableName,
+                    name: "Ver",
+                    value: value,
+                    _operator: _operator,
+                    multiColumnOperator: multiColumnOperator,
+                    multiParamOperator: multiParamOperator,
+                    subLeft: subLeft,
+                    sub: sub,
+                    subPrefix: subPrefix,
+                    raw: raw)
+                : self;
+        }
+
+        public static RegistrationsWhereCollection MailAddress(
+            this RegistrationsWhereCollection self,
+            object value = null,
+            string tableName = "Registrations",
+            string _operator = "=",
+            string multiColumnOperator = " or ",
+            string multiParamOperator = " and ",
+            SqlStatement subLeft = null,
+            SqlStatement sub = null,
+            bool subPrefix = true,
+            string raw = null,
+            bool _using = true)
+        {
+            return _using
+                ? self.Add(
+                    columnBrackets: new string[] { "[MailAddress]" },
+                    tableName: tableName,
+                    name: "MailAddress",
+                    value: value,
+                    _operator: _operator,
+                    multiColumnOperator: multiColumnOperator,
+                    multiParamOperator: multiParamOperator,
+                    subLeft: subLeft,
+                    sub: sub,
+                    subPrefix: subPrefix,
+                    raw: raw)
+                : self;
+        }
+
+        public static SqlWhereCollection Registrations_MailAddress(
+            this SqlWhereCollection self,
+            object value = null,
+            string tableName = "Registrations",
+            string _operator = "=",
+            string multiColumnOperator = " or ",
+            string multiParamOperator = " and ",
+            SqlStatement subLeft = null,
+            SqlStatement sub = null,
+            bool subPrefix = true,
+            string raw = null,
+            bool _using = true)
+        {
+            return _using
+                ? self.Add(
+                    columnBrackets: new string[] { "[MailAddress]" },
+                    tableName: tableName,
+                    name: "MailAddress",
+                    value: value,
+                    _operator: _operator,
+                    multiColumnOperator: multiColumnOperator,
+                    multiParamOperator: multiParamOperator,
+                    subLeft: subLeft,
+                    sub: sub,
+                    subPrefix: subPrefix,
+                    raw: raw)
+                : self;
+        }
+
+        public static RegistrationsWhereCollection Invitee(
+            this RegistrationsWhereCollection self,
+            object value = null,
+            string tableName = "Registrations",
+            string _operator = "=",
+            string multiColumnOperator = " or ",
+            string multiParamOperator = " and ",
+            SqlStatement subLeft = null,
+            SqlStatement sub = null,
+            bool subPrefix = true,
+            string raw = null,
+            bool _using = true)
+        {
+            return _using
+                ? self.Add(
+                    columnBrackets: new string[] { "[Invitee]" },
+                    tableName: tableName,
+                    name: "Invitee",
+                    value: value,
+                    _operator: _operator,
+                    multiColumnOperator: multiColumnOperator,
+                    multiParamOperator: multiParamOperator,
+                    subLeft: subLeft,
+                    sub: sub,
+                    subPrefix: subPrefix,
+                    raw: raw)
+                : self;
+        }
+
+        public static SqlWhereCollection Registrations_Invitee(
+            this SqlWhereCollection self,
+            object value = null,
+            string tableName = "Registrations",
+            string _operator = "=",
+            string multiColumnOperator = " or ",
+            string multiParamOperator = " and ",
+            SqlStatement subLeft = null,
+            SqlStatement sub = null,
+            bool subPrefix = true,
+            string raw = null,
+            bool _using = true)
+        {
+            return _using
+                ? self.Add(
+                    columnBrackets: new string[] { "[Invitee]" },
+                    tableName: tableName,
+                    name: "Invitee",
+                    value: value,
+                    _operator: _operator,
+                    multiColumnOperator: multiColumnOperator,
+                    multiParamOperator: multiParamOperator,
+                    subLeft: subLeft,
+                    sub: sub,
+                    subPrefix: subPrefix,
+                    raw: raw)
+                : self;
+        }
+
+        public static RegistrationsWhereCollection LoginId(
+            this RegistrationsWhereCollection self,
+            object value = null,
+            string tableName = "Registrations",
+            string _operator = "=",
+            string multiColumnOperator = " or ",
+            string multiParamOperator = " and ",
+            SqlStatement subLeft = null,
+            SqlStatement sub = null,
+            bool subPrefix = true,
+            string raw = null,
+            bool _using = true)
+        {
+            return _using
+                ? self.Add(
+                    columnBrackets: new string[] { "[LoginId]" },
+                    tableName: tableName,
+                    name: "LoginId",
+                    value: value,
+                    _operator: _operator,
+                    multiColumnOperator: multiColumnOperator,
+                    multiParamOperator: multiParamOperator,
+                    subLeft: subLeft,
+                    sub: sub,
+                    subPrefix: subPrefix,
+                    raw: raw)
+                : self;
+        }
+
+        public static SqlWhereCollection Registrations_LoginId(
+            this SqlWhereCollection self,
+            object value = null,
+            string tableName = "Registrations",
+            string _operator = "=",
+            string multiColumnOperator = " or ",
+            string multiParamOperator = " and ",
+            SqlStatement subLeft = null,
+            SqlStatement sub = null,
+            bool subPrefix = true,
+            string raw = null,
+            bool _using = true)
+        {
+            return _using
+                ? self.Add(
+                    columnBrackets: new string[] { "[LoginId]" },
+                    tableName: tableName,
+                    name: "LoginId",
+                    value: value,
+                    _operator: _operator,
+                    multiColumnOperator: multiColumnOperator,
+                    multiParamOperator: multiParamOperator,
+                    subLeft: subLeft,
+                    sub: sub,
+                    subPrefix: subPrefix,
+                    raw: raw)
+                : self;
+        }
+
+        public static RegistrationsWhereCollection Name(
+            this RegistrationsWhereCollection self,
+            object value = null,
+            string tableName = "Registrations",
+            string _operator = "=",
+            string multiColumnOperator = " or ",
+            string multiParamOperator = " and ",
+            SqlStatement subLeft = null,
+            SqlStatement sub = null,
+            bool subPrefix = true,
+            string raw = null,
+            bool _using = true)
+        {
+            return _using
+                ? self.Add(
+                    columnBrackets: new string[] { "[Name]" },
+                    tableName: tableName,
+                    name: "Name",
+                    value: value,
+                    _operator: _operator,
+                    multiColumnOperator: multiColumnOperator,
+                    multiParamOperator: multiParamOperator,
+                    subLeft: subLeft,
+                    sub: sub,
+                    subPrefix: subPrefix,
+                    raw: raw)
+                : self;
+        }
+
+        public static SqlWhereCollection Registrations_Name(
+            this SqlWhereCollection self,
+            object value = null,
+            string tableName = "Registrations",
+            string _operator = "=",
+            string multiColumnOperator = " or ",
+            string multiParamOperator = " and ",
+            SqlStatement subLeft = null,
+            SqlStatement sub = null,
+            bool subPrefix = true,
+            string raw = null,
+            bool _using = true)
+        {
+            return _using
+                ? self.Add(
+                    columnBrackets: new string[] { "[Name]" },
+                    tableName: tableName,
+                    name: "Name",
+                    value: value,
+                    _operator: _operator,
+                    multiColumnOperator: multiColumnOperator,
+                    multiParamOperator: multiParamOperator,
+                    subLeft: subLeft,
+                    sub: sub,
+                    subPrefix: subPrefix,
+                    raw: raw)
+                : self;
+        }
+
+        public static RegistrationsWhereCollection Password(
+            this RegistrationsWhereCollection self,
+            object value = null,
+            string tableName = "Registrations",
+            string _operator = "=",
+            string multiColumnOperator = " or ",
+            string multiParamOperator = " and ",
+            SqlStatement subLeft = null,
+            SqlStatement sub = null,
+            bool subPrefix = true,
+            string raw = null,
+            bool _using = true)
+        {
+            return _using
+                ? self.Add(
+                    columnBrackets: new string[] { "[Password]" },
+                    tableName: tableName,
+                    name: "Password",
+                    value: value,
+                    _operator: _operator,
+                    multiColumnOperator: multiColumnOperator,
+                    multiParamOperator: multiParamOperator,
+                    subLeft: subLeft,
+                    sub: sub,
+                    subPrefix: subPrefix,
+                    raw: raw)
+                : self;
+        }
+
+        public static SqlWhereCollection Registrations_Password(
+            this SqlWhereCollection self,
+            object value = null,
+            string tableName = "Registrations",
+            string _operator = "=",
+            string multiColumnOperator = " or ",
+            string multiParamOperator = " and ",
+            SqlStatement subLeft = null,
+            SqlStatement sub = null,
+            bool subPrefix = true,
+            string raw = null,
+            bool _using = true)
+        {
+            return _using
+                ? self.Add(
+                    columnBrackets: new string[] { "[Password]" },
+                    tableName: tableName,
+                    name: "Password",
+                    value: value,
+                    _operator: _operator,
+                    multiColumnOperator: multiColumnOperator,
+                    multiParamOperator: multiParamOperator,
+                    subLeft: subLeft,
+                    sub: sub,
+                    subPrefix: subPrefix,
+                    raw: raw)
+                : self;
+        }
+
+        public static RegistrationsWhereCollection Language(
+            this RegistrationsWhereCollection self,
+            object value = null,
+            string tableName = "Registrations",
+            string _operator = "=",
+            string multiColumnOperator = " or ",
+            string multiParamOperator = " and ",
+            SqlStatement subLeft = null,
+            SqlStatement sub = null,
+            bool subPrefix = true,
+            string raw = null,
+            bool _using = true)
+        {
+            return _using
+                ? self.Add(
+                    columnBrackets: new string[] { "[Language]" },
+                    tableName: tableName,
+                    name: "Language",
+                    value: value,
+                    _operator: _operator,
+                    multiColumnOperator: multiColumnOperator,
+                    multiParamOperator: multiParamOperator,
+                    subLeft: subLeft,
+                    sub: sub,
+                    subPrefix: subPrefix,
+                    raw: raw)
+                : self;
+        }
+
+        public static SqlWhereCollection Registrations_Language(
+            this SqlWhereCollection self,
+            object value = null,
+            string tableName = "Registrations",
+            string _operator = "=",
+            string multiColumnOperator = " or ",
+            string multiParamOperator = " and ",
+            SqlStatement subLeft = null,
+            SqlStatement sub = null,
+            bool subPrefix = true,
+            string raw = null,
+            bool _using = true)
+        {
+            return _using
+                ? self.Add(
+                    columnBrackets: new string[] { "[Language]" },
+                    tableName: tableName,
+                    name: "Language",
+                    value: value,
+                    _operator: _operator,
+                    multiColumnOperator: multiColumnOperator,
+                    multiParamOperator: multiParamOperator,
+                    subLeft: subLeft,
+                    sub: sub,
+                    subPrefix: subPrefix,
+                    raw: raw)
+                : self;
+        }
+
+        public static RegistrationsWhereCollection Passphrase(
+            this RegistrationsWhereCollection self,
+            object value = null,
+            string tableName = "Registrations",
+            string _operator = "=",
+            string multiColumnOperator = " or ",
+            string multiParamOperator = " and ",
+            SqlStatement subLeft = null,
+            SqlStatement sub = null,
+            bool subPrefix = true,
+            string raw = null,
+            bool _using = true)
+        {
+            return _using
+                ? self.Add(
+                    columnBrackets: new string[] { "[Passphrase]" },
+                    tableName: tableName,
+                    name: "Passphrase",
+                    value: value,
+                    _operator: _operator,
+                    multiColumnOperator: multiColumnOperator,
+                    multiParamOperator: multiParamOperator,
+                    subLeft: subLeft,
+                    sub: sub,
+                    subPrefix: subPrefix,
+                    raw: raw)
+                : self;
+        }
+
+        public static SqlWhereCollection Registrations_Passphrase(
+            this SqlWhereCollection self,
+            object value = null,
+            string tableName = "Registrations",
+            string _operator = "=",
+            string multiColumnOperator = " or ",
+            string multiParamOperator = " and ",
+            SqlStatement subLeft = null,
+            SqlStatement sub = null,
+            bool subPrefix = true,
+            string raw = null,
+            bool _using = true)
+        {
+            return _using
+                ? self.Add(
+                    columnBrackets: new string[] { "[Passphrase]" },
+                    tableName: tableName,
+                    name: "Passphrase",
+                    value: value,
+                    _operator: _operator,
+                    multiColumnOperator: multiColumnOperator,
+                    multiParamOperator: multiParamOperator,
+                    subLeft: subLeft,
+                    sub: sub,
+                    subPrefix: subPrefix,
+                    raw: raw)
+                : self;
+        }
+
+        public static RegistrationsWhereCollection Invitingflg(
+            this RegistrationsWhereCollection self,
+            object value = null,
+            string tableName = "Registrations",
+            string _operator = "=",
+            string multiColumnOperator = " or ",
+            string multiParamOperator = " and ",
+            SqlStatement subLeft = null,
+            SqlStatement sub = null,
+            bool subPrefix = true,
+            string raw = null,
+            bool _using = true)
+        {
+            return _using
+                ? self.Add(
+                    columnBrackets: new string[] { "[Invitingflg]" },
+                    tableName: tableName,
+                    name: "Invitingflg",
+                    value: value,
+                    _operator: _operator,
+                    multiColumnOperator: multiColumnOperator,
+                    multiParamOperator: multiParamOperator,
+                    subLeft: subLeft,
+                    sub: sub,
+                    subPrefix: subPrefix,
+                    raw: raw)
+                : self;
+        }
+
+        public static SqlWhereCollection Registrations_Invitingflg(
+            this SqlWhereCollection self,
+            object value = null,
+            string tableName = "Registrations",
+            string _operator = "=",
+            string multiColumnOperator = " or ",
+            string multiParamOperator = " and ",
+            SqlStatement subLeft = null,
+            SqlStatement sub = null,
+            bool subPrefix = true,
+            string raw = null,
+            bool _using = true)
+        {
+            return _using
+                ? self.Add(
+                    columnBrackets: new string[] { "[Invitingflg]" },
+                    tableName: tableName,
+                    name: "Invitingflg",
+                    value: value,
+                    _operator: _operator,
+                    multiColumnOperator: multiColumnOperator,
+                    multiParamOperator: multiParamOperator,
+                    subLeft: subLeft,
+                    sub: sub,
+                    subPrefix: subPrefix,
+                    raw: raw)
+                : self;
+        }
+
+        public static RegistrationsWhereCollection UserId(
+            this RegistrationsWhereCollection self,
+            object value = null,
+            string tableName = "Registrations",
+            string _operator = "=",
+            string multiColumnOperator = " or ",
+            string multiParamOperator = " and ",
+            SqlStatement subLeft = null,
+            SqlStatement sub = null,
+            bool subPrefix = true,
+            string raw = null,
+            bool _using = true)
+        {
+            return _using
+                ? self.Add(
+                    columnBrackets: new string[] { "[UserId]" },
+                    tableName: tableName,
+                    name: "UserId",
+                    value: value,
+                    _operator: _operator,
+                    multiColumnOperator: multiColumnOperator,
+                    multiParamOperator: multiParamOperator,
+                    subLeft: subLeft,
+                    sub: sub,
+                    subPrefix: subPrefix,
+                    raw: raw)
+                : self;
+        }
+
+        public static SqlWhereCollection Registrations_UserId(
+            this SqlWhereCollection self,
+            object value = null,
+            string tableName = "Registrations",
+            string _operator = "=",
+            string multiColumnOperator = " or ",
+            string multiParamOperator = " and ",
+            SqlStatement subLeft = null,
+            SqlStatement sub = null,
+            bool subPrefix = true,
+            string raw = null,
+            bool _using = true)
+        {
+            return _using
+                ? self.Add(
+                    columnBrackets: new string[] { "[UserId]" },
+                    tableName: tableName,
+                    name: "UserId",
+                    value: value,
+                    _operator: _operator,
+                    multiColumnOperator: multiColumnOperator,
+                    multiParamOperator: multiParamOperator,
+                    subLeft: subLeft,
+                    sub: sub,
+                    subPrefix: subPrefix,
+                    raw: raw)
+                : self;
+        }
+
+        public static RegistrationsWhereCollection DeptId(
+            this RegistrationsWhereCollection self,
+            object value = null,
+            string tableName = "Registrations",
+            string _operator = "=",
+            string multiColumnOperator = " or ",
+            string multiParamOperator = " and ",
+            SqlStatement subLeft = null,
+            SqlStatement sub = null,
+            bool subPrefix = true,
+            string raw = null,
+            bool _using = true)
+        {
+            return _using
+                ? self.Add(
+                    columnBrackets: new string[] { "[DeptId]" },
+                    tableName: tableName,
+                    name: "DeptId",
+                    value: value,
+                    _operator: _operator,
+                    multiColumnOperator: multiColumnOperator,
+                    multiParamOperator: multiParamOperator,
+                    subLeft: subLeft,
+                    sub: sub,
+                    subPrefix: subPrefix,
+                    raw: raw)
+                : self;
+        }
+
+        public static SqlWhereCollection Registrations_DeptId(
+            this SqlWhereCollection self,
+            object value = null,
+            string tableName = "Registrations",
+            string _operator = "=",
+            string multiColumnOperator = " or ",
+            string multiParamOperator = " and ",
+            SqlStatement subLeft = null,
+            SqlStatement sub = null,
+            bool subPrefix = true,
+            string raw = null,
+            bool _using = true)
+        {
+            return _using
+                ? self.Add(
+                    columnBrackets: new string[] { "[DeptId]" },
+                    tableName: tableName,
+                    name: "DeptId",
+                    value: value,
+                    _operator: _operator,
+                    multiColumnOperator: multiColumnOperator,
+                    multiParamOperator: multiParamOperator,
+                    subLeft: subLeft,
+                    sub: sub,
+                    subPrefix: subPrefix,
+                    raw: raw)
+                : self;
+        }
+
+        public static RegistrationsWhereCollection GroupId(
+            this RegistrationsWhereCollection self,
+            object value = null,
+            string tableName = "Registrations",
+            string _operator = "=",
+            string multiColumnOperator = " or ",
+            string multiParamOperator = " and ",
+            SqlStatement subLeft = null,
+            SqlStatement sub = null,
+            bool subPrefix = true,
+            string raw = null,
+            bool _using = true)
+        {
+            return _using
+                ? self.Add(
+                    columnBrackets: new string[] { "[GroupId]" },
+                    tableName: tableName,
+                    name: "GroupId",
+                    value: value,
+                    _operator: _operator,
+                    multiColumnOperator: multiColumnOperator,
+                    multiParamOperator: multiParamOperator,
+                    subLeft: subLeft,
+                    sub: sub,
+                    subPrefix: subPrefix,
+                    raw: raw)
+                : self;
+        }
+
+        public static SqlWhereCollection Registrations_GroupId(
+            this SqlWhereCollection self,
+            object value = null,
+            string tableName = "Registrations",
+            string _operator = "=",
+            string multiColumnOperator = " or ",
+            string multiParamOperator = " and ",
+            SqlStatement subLeft = null,
+            SqlStatement sub = null,
+            bool subPrefix = true,
+            string raw = null,
+            bool _using = true)
+        {
+            return _using
+                ? self.Add(
+                    columnBrackets: new string[] { "[GroupId]" },
+                    tableName: tableName,
+                    name: "GroupId",
+                    value: value,
+                    _operator: _operator,
+                    multiColumnOperator: multiColumnOperator,
+                    multiParamOperator: multiParamOperator,
+                    subLeft: subLeft,
+                    sub: sub,
+                    subPrefix: subPrefix,
+                    raw: raw)
+                : self;
+        }
+
+        public static RegistrationsWhereCollection Comments(
+            this RegistrationsWhereCollection self,
+            object value = null,
+            string tableName = "Registrations",
+            string _operator = "=",
+            string multiColumnOperator = " or ",
+            string multiParamOperator = " and ",
+            SqlStatement subLeft = null,
+            SqlStatement sub = null,
+            bool subPrefix = true,
+            string raw = null,
+            bool _using = true)
+        {
+            return _using
+                ? self.Add(
+                    columnBrackets: new string[] { "[Comments]" },
+                    tableName: tableName,
+                    name: "Comments",
+                    value: value,
+                    _operator: _operator,
+                    multiColumnOperator: multiColumnOperator,
+                    multiParamOperator: multiParamOperator,
+                    subLeft: subLeft,
+                    sub: sub,
+                    subPrefix: subPrefix,
+                    raw: raw)
+                : self;
+        }
+
+        public static SqlWhereCollection Registrations_Comments(
+            this SqlWhereCollection self,
+            object value = null,
+            string tableName = "Registrations",
+            string _operator = "=",
+            string multiColumnOperator = " or ",
+            string multiParamOperator = " and ",
+            SqlStatement subLeft = null,
+            SqlStatement sub = null,
+            bool subPrefix = true,
+            string raw = null,
+            bool _using = true)
+        {
+            return _using
+                ? self.Add(
+                    columnBrackets: new string[] { "[Comments]" },
+                    tableName: tableName,
+                    name: "Comments",
+                    value: value,
+                    _operator: _operator,
+                    multiColumnOperator: multiColumnOperator,
+                    multiParamOperator: multiParamOperator,
+                    subLeft: subLeft,
+                    sub: sub,
+                    subPrefix: subPrefix,
+                    raw: raw)
+                : self;
+        }
+
+        public static RegistrationsWhereCollection Creator(
+            this RegistrationsWhereCollection self,
+            object value = null,
+            string tableName = "Registrations",
+            string _operator = "=",
+            string multiColumnOperator = " or ",
+            string multiParamOperator = " and ",
+            SqlStatement subLeft = null,
+            SqlStatement sub = null,
+            bool subPrefix = true,
+            string raw = null,
+            bool _using = true)
+        {
+            return _using
+                ? self.Add(
+                    columnBrackets: new string[] { "[Creator]" },
+                    tableName: tableName,
+                    name: "Creator",
+                    value: value,
+                    _operator: _operator,
+                    multiColumnOperator: multiColumnOperator,
+                    multiParamOperator: multiParamOperator,
+                    subLeft: subLeft,
+                    sub: sub,
+                    subPrefix: subPrefix,
+                    raw: raw)
+                : self;
+        }
+
+        public static SqlWhereCollection Registrations_Creator(
+            this SqlWhereCollection self,
+            object value = null,
+            string tableName = "Registrations",
+            string _operator = "=",
+            string multiColumnOperator = " or ",
+            string multiParamOperator = " and ",
+            SqlStatement subLeft = null,
+            SqlStatement sub = null,
+            bool subPrefix = true,
+            string raw = null,
+            bool _using = true)
+        {
+            return _using
+                ? self.Add(
+                    columnBrackets: new string[] { "[Creator]" },
+                    tableName: tableName,
+                    name: "Creator",
+                    value: value,
+                    _operator: _operator,
+                    multiColumnOperator: multiColumnOperator,
+                    multiParamOperator: multiParamOperator,
+                    subLeft: subLeft,
+                    sub: sub,
+                    subPrefix: subPrefix,
+                    raw: raw)
+                : self;
+        }
+
+        public static RegistrationsWhereCollection Updator(
+            this RegistrationsWhereCollection self,
+            object value = null,
+            string tableName = "Registrations",
+            string _operator = "=",
+            string multiColumnOperator = " or ",
+            string multiParamOperator = " and ",
+            SqlStatement subLeft = null,
+            SqlStatement sub = null,
+            bool subPrefix = true,
+            string raw = null,
+            bool _using = true)
+        {
+            return _using
+                ? self.Add(
+                    columnBrackets: new string[] { "[Updator]" },
+                    tableName: tableName,
+                    name: "Updator",
+                    value: value,
+                    _operator: _operator,
+                    multiColumnOperator: multiColumnOperator,
+                    multiParamOperator: multiParamOperator,
+                    subLeft: subLeft,
+                    sub: sub,
+                    subPrefix: subPrefix,
+                    raw: raw)
+                : self;
+        }
+
+        public static SqlWhereCollection Registrations_Updator(
+            this SqlWhereCollection self,
+            object value = null,
+            string tableName = "Registrations",
+            string _operator = "=",
+            string multiColumnOperator = " or ",
+            string multiParamOperator = " and ",
+            SqlStatement subLeft = null,
+            SqlStatement sub = null,
+            bool subPrefix = true,
+            string raw = null,
+            bool _using = true)
+        {
+            return _using
+                ? self.Add(
+                    columnBrackets: new string[] { "[Updator]" },
+                    tableName: tableName,
+                    name: "Updator",
+                    value: value,
+                    _operator: _operator,
+                    multiColumnOperator: multiColumnOperator,
+                    multiParamOperator: multiParamOperator,
+                    subLeft: subLeft,
+                    sub: sub,
+                    subPrefix: subPrefix,
+                    raw: raw)
+                : self;
+        }
+
+        public static RegistrationsWhereCollection CreatedTime(
+            this RegistrationsWhereCollection self,
+            object value = null,
+            string tableName = "Registrations",
+            string _operator = "=",
+            string multiColumnOperator = " or ",
+            string multiParamOperator = " and ",
+            SqlStatement subLeft = null,
+            SqlStatement sub = null,
+            bool subPrefix = true,
+            string raw = null,
+            bool _using = true)
+        {
+            return _using
+                ? self.Add(
+                    columnBrackets: new string[] { "[CreatedTime]" },
+                    tableName: tableName,
+                    name: "CreatedTime",
+                    value: value,
+                    _operator: _operator,
+                    multiColumnOperator: multiColumnOperator,
+                    multiParamOperator: multiParamOperator,
+                    subLeft: subLeft,
+                    sub: sub,
+                    subPrefix: subPrefix,
+                    raw: raw)
+                : self;
+        }
+
+        public static SqlWhereCollection Registrations_CreatedTime(
+            this SqlWhereCollection self,
+            object value = null,
+            string tableName = "Registrations",
+            string _operator = "=",
+            string multiColumnOperator = " or ",
+            string multiParamOperator = " and ",
+            SqlStatement subLeft = null,
+            SqlStatement sub = null,
+            bool subPrefix = true,
+            string raw = null,
+            bool _using = true)
+        {
+            return _using
+                ? self.Add(
+                    columnBrackets: new string[] { "[CreatedTime]" },
+                    tableName: tableName,
+                    name: "CreatedTime",
+                    value: value,
+                    _operator: _operator,
+                    multiColumnOperator: multiColumnOperator,
+                    multiParamOperator: multiParamOperator,
+                    subLeft: subLeft,
+                    sub: sub,
+                    subPrefix: subPrefix,
+                    raw: raw)
+                : self;
+        }
+
+        public static RegistrationsWhereCollection UpdatedTime(
+            this RegistrationsWhereCollection self,
+            object value = null,
+            string tableName = "Registrations",
+            string _operator = "=",
+            string multiColumnOperator = " or ",
+            string multiParamOperator = " and ",
+            SqlStatement subLeft = null,
+            SqlStatement sub = null,
+            bool subPrefix = true,
+            string raw = null,
+            bool _using = true)
+        {
+            return _using
+                ? self.Add(
+                    columnBrackets: new string[] { "[UpdatedTime]" },
+                    tableName: tableName,
+                    name: "UpdatedTime",
+                    value: value,
+                    _operator: _operator,
+                    multiColumnOperator: multiColumnOperator,
+                    multiParamOperator: multiParamOperator,
+                    subLeft: subLeft,
+                    sub: sub,
+                    subPrefix: subPrefix,
+                    raw: raw)
+                : self;
+        }
+
+        public static SqlWhereCollection Registrations_UpdatedTime(
+            this SqlWhereCollection self,
+            object value = null,
+            string tableName = "Registrations",
+            string _operator = "=",
+            string multiColumnOperator = " or ",
+            string multiParamOperator = " and ",
+            SqlStatement subLeft = null,
+            SqlStatement sub = null,
+            bool subPrefix = true,
+            string raw = null,
+            bool _using = true)
+        {
+            return _using
+                ? self.Add(
+                    columnBrackets: new string[] { "[UpdatedTime]" },
+                    tableName: tableName,
+                    name: "UpdatedTime",
+                    value: value,
+                    _operator: _operator,
+                    multiColumnOperator: multiColumnOperator,
+                    multiParamOperator: multiParamOperator,
+                    subLeft: subLeft,
+                    sub: sub,
+                    subPrefix: subPrefix,
+                    raw: raw)
+                : self;
+        }
+
+        public static RegistrationsWhereCollection TenantId_In(
+            this RegistrationsWhereCollection self,
+            IEnumerable<int> value = null,
+            string tableName = "Registrations",
+            SqlStatement sub = null,
+            bool negative = false,
+            bool _using = true)
+        {
+            if (!_using)
+            {
+                return self;
+            }
+            if (sub != null)
+            {
+                return self.Add(
+                    columnBrackets: new string[] { "[TenantId]" },
+                    tableName: tableName,
+                    name: "TenantId",
+                    _operator: !negative ? " in " : " not in ",
+                    sub: sub);
+            }
+            else if (value != null && value.Any())
+            {
+                return self.Add(
+                    columnBrackets: new string[] { "[TenantId]" },
+                    tableName: tableName,
+                    name: "TenantId",
+                    _operator: !negative ? " in " : " not in ",
+                    raw: "({0})".Params(value.Join()));
+            }
+            else
+            {
+                return !negative
+                    ? self.Add(raw: "1=0")
+                    : self;
+            }
+        }
+
+        public static RegistrationsWhereCollection RegistrationId_In(
+            this RegistrationsWhereCollection self,
+            IEnumerable<int> value = null,
+            string tableName = "Registrations",
+            SqlStatement sub = null,
+            bool negative = false,
+            bool _using = true)
+        {
+            if (!_using)
+            {
+                return self;
+            }
+            if (sub != null)
+            {
+                return self.Add(
+                    columnBrackets: new string[] { "[RegistrationId]" },
+                    tableName: tableName,
+                    name: "RegistrationId",
+                    _operator: !negative ? " in " : " not in ",
+                    sub: sub);
+            }
+            else if (value != null && value.Any())
+            {
+                return self.Add(
+                    columnBrackets: new string[] { "[RegistrationId]" },
+                    tableName: tableName,
+                    name: "RegistrationId",
+                    _operator: !negative ? " in " : " not in ",
+                    raw: "({0})".Params(value.Join()));
+            }
+            else
+            {
+                return !negative
+                    ? self.Add(raw: "1=0")
+                    : self;
+            }
+        }
+
+        public static RegistrationsWhereCollection Ver_In(
+            this RegistrationsWhereCollection self,
+            IEnumerable<int> value = null,
+            string tableName = "Registrations",
+            SqlStatement sub = null,
+            bool negative = false,
+            bool _using = true)
+        {
+            if (!_using)
+            {
+                return self;
+            }
+            if (sub != null)
+            {
+                return self.Add(
+                    columnBrackets: new string[] { "[Ver]" },
+                    tableName: tableName,
+                    name: "Ver",
+                    _operator: !negative ? " in " : " not in ",
+                    sub: sub);
+            }
+            else if (value != null && value.Any())
+            {
+                return self.Add(
+                    columnBrackets: new string[] { "[Ver]" },
+                    tableName: tableName,
+                    name: "Ver",
+                    _operator: !negative ? " in " : " not in ",
+                    raw: "({0})".Params(value.Join()));
+            }
+            else
+            {
+                return !negative
+                    ? self.Add(raw: "1=0")
+                    : self;
+            }
+        }
+
+        public static RegistrationsWhereCollection Invitee_In(
+            this RegistrationsWhereCollection self,
+            IEnumerable<int> value = null,
+            string tableName = "Registrations",
+            SqlStatement sub = null,
+            bool negative = false,
+            bool _using = true)
+        {
+            if (!_using)
+            {
+                return self;
+            }
+            if (sub != null)
+            {
+                return self.Add(
+                    columnBrackets: new string[] { "[Invitee]" },
+                    tableName: tableName,
+                    name: "Invitee",
+                    _operator: !negative ? " in " : " not in ",
+                    sub: sub);
+            }
+            else if (value != null && value.Any())
+            {
+                return self.Add(
+                    columnBrackets: new string[] { "[Invitee]" },
+                    tableName: tableName,
+                    name: "Invitee",
+                    _operator: !negative ? " in " : " not in ",
+                    raw: "({0})".Params(value.Join()));
+            }
+            else
+            {
+                return !negative
+                    ? self.Add(raw: "1=0")
+                    : self;
+            }
+        }
+
+        public static RegistrationsWhereCollection UserId_In(
+            this RegistrationsWhereCollection self,
+            IEnumerable<int> value = null,
+            string tableName = "Registrations",
+            SqlStatement sub = null,
+            bool negative = false,
+            bool _using = true)
+        {
+            if (!_using)
+            {
+                return self;
+            }
+            if (sub != null)
+            {
+                return self.Add(
+                    columnBrackets: new string[] { "[UserId]" },
+                    tableName: tableName,
+                    name: "UserId",
+                    _operator: !negative ? " in " : " not in ",
+                    sub: sub);
+            }
+            else if (value != null && value.Any())
+            {
+                return self.Add(
+                    columnBrackets: new string[] { "[UserId]" },
+                    tableName: tableName,
+                    name: "UserId",
+                    _operator: !negative ? " in " : " not in ",
+                    raw: "({0})".Params(value.Join()));
+            }
+            else
+            {
+                return !negative
+                    ? self.Add(raw: "1=0")
+                    : self;
+            }
+        }
+
+        public static RegistrationsWhereCollection DeptId_In(
+            this RegistrationsWhereCollection self,
+            IEnumerable<int> value = null,
+            string tableName = "Registrations",
+            SqlStatement sub = null,
+            bool negative = false,
+            bool _using = true)
+        {
+            if (!_using)
+            {
+                return self;
+            }
+            if (sub != null)
+            {
+                return self.Add(
+                    columnBrackets: new string[] { "[DeptId]" },
+                    tableName: tableName,
+                    name: "DeptId",
+                    _operator: !negative ? " in " : " not in ",
+                    sub: sub);
+            }
+            else if (value != null && value.Any())
+            {
+                return self.Add(
+                    columnBrackets: new string[] { "[DeptId]" },
+                    tableName: tableName,
+                    name: "DeptId",
+                    _operator: !negative ? " in " : " not in ",
+                    raw: "({0})".Params(value.Join()));
+            }
+            else
+            {
+                return !negative
+                    ? self.Add(raw: "1=0")
+                    : self;
+            }
+        }
+
+        public static RegistrationsWhereCollection GroupId_In(
+            this RegistrationsWhereCollection self,
+            IEnumerable<int> value = null,
+            string tableName = "Registrations",
+            SqlStatement sub = null,
+            bool negative = false,
+            bool _using = true)
+        {
+            if (!_using)
+            {
+                return self;
+            }
+            if (sub != null)
+            {
+                return self.Add(
+                    columnBrackets: new string[] { "[GroupId]" },
+                    tableName: tableName,
+                    name: "GroupId",
+                    _operator: !negative ? " in " : " not in ",
+                    sub: sub);
+            }
+            else if (value != null && value.Any())
+            {
+                return self.Add(
+                    columnBrackets: new string[] { "[GroupId]" },
+                    tableName: tableName,
+                    name: "GroupId",
+                    _operator: !negative ? " in " : " not in ",
+                    raw: "({0})".Params(value.Join()));
+            }
+            else
+            {
+                return !negative
+                    ? self.Add(raw: "1=0")
+                    : self;
+            }
+        }
+
+        public static RegistrationsWhereCollection Creator_In(
+            this RegistrationsWhereCollection self,
+            IEnumerable<int> value = null,
+            string tableName = "Registrations",
+            SqlStatement sub = null,
+            bool negative = false,
+            bool _using = true)
+        {
+            if (!_using)
+            {
+                return self;
+            }
+            if (sub != null)
+            {
+                return self.Add(
+                    columnBrackets: new string[] { "[Creator]" },
+                    tableName: tableName,
+                    name: "Creator",
+                    _operator: !negative ? " in " : " not in ",
+                    sub: sub);
+            }
+            else if (value != null && value.Any())
+            {
+                return self.Add(
+                    columnBrackets: new string[] { "[Creator]" },
+                    tableName: tableName,
+                    name: "Creator",
+                    _operator: !negative ? " in " : " not in ",
+                    raw: "({0})".Params(value.Join()));
+            }
+            else
+            {
+                return !negative
+                    ? self.Add(raw: "1=0")
+                    : self;
+            }
+        }
+
+        public static RegistrationsWhereCollection Updator_In(
+            this RegistrationsWhereCollection self,
+            IEnumerable<int> value = null,
+            string tableName = "Registrations",
+            SqlStatement sub = null,
+            bool negative = false,
+            bool _using = true)
+        {
+            if (!_using)
+            {
+                return self;
+            }
+            if (sub != null)
+            {
+                return self.Add(
+                    columnBrackets: new string[] { "[Updator]" },
+                    tableName: tableName,
+                    name: "Updator",
+                    _operator: !negative ? " in " : " not in ",
+                    sub: sub);
+            }
+            else if (value != null && value.Any())
+            {
+                return self.Add(
+                    columnBrackets: new string[] { "[Updator]" },
+                    tableName: tableName,
+                    name: "Updator",
+                    _operator: !negative ? " in " : " not in ",
+                    raw: "({0})".Params(value.Join()));
+            }
+            else
+            {
+                return !negative
+                    ? self.Add(raw: "1=0")
+                    : self;
+            }
+        }
+
+        public static RegistrationsWhereCollection TenantId_Between(
+            this RegistrationsWhereCollection self,
+            int begin,
+            int end,
+            string tableName = "Registrations",
+            bool _using = true)
+        {
+            return _using
+                ? self.Add(
+                    columnBrackets: new string[] { "[TenantId]" },
+                    tableName: tableName,
+                    name: "TenantId",
+                    _operator: " between ",
+                    raw: "{0} and {1} ".Params(begin, end))
+                : self;
+        }
+
+        public static SqlWhereCollection Registrations_TenantId_Between(
+            this SqlWhereCollection self,
+            int begin,
+            int end,
+            string tableName = "Registrations",
+            bool _using = true)
+        {
+            return _using
+                ? self.Add(
+                    columnBrackets: new string[] { "[TenantId]" },
+                    tableName: tableName,
+                    name: "TenantId",
+                    _operator: " between ",
+                    raw: "{0} and {1} ".Params(begin, end))
+                : self;
+        }
+
+        public static RegistrationsWhereCollection RegistrationId_Between(
+            this RegistrationsWhereCollection self,
+            int begin,
+            int end,
+            string tableName = "Registrations",
+            bool _using = true)
+        {
+            return _using
+                ? self.Add(
+                    columnBrackets: new string[] { "[RegistrationId]" },
+                    tableName: tableName,
+                    name: "RegistrationId",
+                    _operator: " between ",
+                    raw: "{0} and {1} ".Params(begin, end))
+                : self;
+        }
+
+        public static SqlWhereCollection Registrations_RegistrationId_Between(
+            this SqlWhereCollection self,
+            int begin,
+            int end,
+            string tableName = "Registrations",
+            bool _using = true)
+        {
+            return _using
+                ? self.Add(
+                    columnBrackets: new string[] { "[RegistrationId]" },
+                    tableName: tableName,
+                    name: "RegistrationId",
+                    _operator: " between ",
+                    raw: "{0} and {1} ".Params(begin, end))
+                : self;
+        }
+
+        public static RegistrationsWhereCollection Ver_Between(
+            this RegistrationsWhereCollection self,
+            int begin,
+            int end,
+            string tableName = "Registrations",
+            bool _using = true)
+        {
+            return _using
+                ? self.Add(
+                    columnBrackets: new string[] { "[Ver]" },
+                    tableName: tableName,
+                    name: "Ver",
+                    _operator: " between ",
+                    raw: "{0} and {1} ".Params(begin, end))
+                : self;
+        }
+
+        public static SqlWhereCollection Registrations_Ver_Between(
+            this SqlWhereCollection self,
+            int begin,
+            int end,
+            string tableName = "Registrations",
+            bool _using = true)
+        {
+            return _using
+                ? self.Add(
+                    columnBrackets: new string[] { "[Ver]" },
+                    tableName: tableName,
+                    name: "Ver",
+                    _operator: " between ",
+                    raw: "{0} and {1} ".Params(begin, end))
+                : self;
+        }
+
+        public static RegistrationsWhereCollection Invitee_Between(
+            this RegistrationsWhereCollection self,
+            int begin,
+            int end,
+            string tableName = "Registrations",
+            bool _using = true)
+        {
+            return _using
+                ? self.Add(
+                    columnBrackets: new string[] { "[Invitee]" },
+                    tableName: tableName,
+                    name: "Invitee",
+                    _operator: " between ",
+                    raw: "{0} and {1} ".Params(begin, end))
+                : self;
+        }
+
+        public static SqlWhereCollection Registrations_Invitee_Between(
+            this SqlWhereCollection self,
+            int begin,
+            int end,
+            string tableName = "Registrations",
+            bool _using = true)
+        {
+            return _using
+                ? self.Add(
+                    columnBrackets: new string[] { "[Invitee]" },
+                    tableName: tableName,
+                    name: "Invitee",
+                    _operator: " between ",
+                    raw: "{0} and {1} ".Params(begin, end))
+                : self;
+        }
+
+        public static RegistrationsWhereCollection UserId_Between(
+            this RegistrationsWhereCollection self,
+            int begin,
+            int end,
+            string tableName = "Registrations",
+            bool _using = true)
+        {
+            return _using
+                ? self.Add(
+                    columnBrackets: new string[] { "[UserId]" },
+                    tableName: tableName,
+                    name: "UserId",
+                    _operator: " between ",
+                    raw: "{0} and {1} ".Params(begin, end))
+                : self;
+        }
+
+        public static SqlWhereCollection Registrations_UserId_Between(
+            this SqlWhereCollection self,
+            int begin,
+            int end,
+            string tableName = "Registrations",
+            bool _using = true)
+        {
+            return _using
+                ? self.Add(
+                    columnBrackets: new string[] { "[UserId]" },
+                    tableName: tableName,
+                    name: "UserId",
+                    _operator: " between ",
+                    raw: "{0} and {1} ".Params(begin, end))
+                : self;
+        }
+
+        public static RegistrationsWhereCollection DeptId_Between(
+            this RegistrationsWhereCollection self,
+            int begin,
+            int end,
+            string tableName = "Registrations",
+            bool _using = true)
+        {
+            return _using
+                ? self.Add(
+                    columnBrackets: new string[] { "[DeptId]" },
+                    tableName: tableName,
+                    name: "DeptId",
+                    _operator: " between ",
+                    raw: "{0} and {1} ".Params(begin, end))
+                : self;
+        }
+
+        public static SqlWhereCollection Registrations_DeptId_Between(
+            this SqlWhereCollection self,
+            int begin,
+            int end,
+            string tableName = "Registrations",
+            bool _using = true)
+        {
+            return _using
+                ? self.Add(
+                    columnBrackets: new string[] { "[DeptId]" },
+                    tableName: tableName,
+                    name: "DeptId",
+                    _operator: " between ",
+                    raw: "{0} and {1} ".Params(begin, end))
+                : self;
+        }
+
+        public static RegistrationsWhereCollection GroupId_Between(
+            this RegistrationsWhereCollection self,
+            int begin,
+            int end,
+            string tableName = "Registrations",
+            bool _using = true)
+        {
+            return _using
+                ? self.Add(
+                    columnBrackets: new string[] { "[GroupId]" },
+                    tableName: tableName,
+                    name: "GroupId",
+                    _operator: " between ",
+                    raw: "{0} and {1} ".Params(begin, end))
+                : self;
+        }
+
+        public static SqlWhereCollection Registrations_GroupId_Between(
+            this SqlWhereCollection self,
+            int begin,
+            int end,
+            string tableName = "Registrations",
+            bool _using = true)
+        {
+            return _using
+                ? self.Add(
+                    columnBrackets: new string[] { "[GroupId]" },
+                    tableName: tableName,
+                    name: "GroupId",
+                    _operator: " between ",
+                    raw: "{0} and {1} ".Params(begin, end))
+                : self;
+        }
+
+        public static RegistrationsWhereCollection Creator_Between(
+            this RegistrationsWhereCollection self,
+            int begin,
+            int end,
+            string tableName = "Registrations",
+            bool _using = true)
+        {
+            return _using
+                ? self.Add(
+                    columnBrackets: new string[] { "[Creator]" },
+                    tableName: tableName,
+                    name: "Creator",
+                    _operator: " between ",
+                    raw: "{0} and {1} ".Params(begin, end))
+                : self;
+        }
+
+        public static SqlWhereCollection Registrations_Creator_Between(
+            this SqlWhereCollection self,
+            int begin,
+            int end,
+            string tableName = "Registrations",
+            bool _using = true)
+        {
+            return _using
+                ? self.Add(
+                    columnBrackets: new string[] { "[Creator]" },
+                    tableName: tableName,
+                    name: "Creator",
+                    _operator: " between ",
+                    raw: "{0} and {1} ".Params(begin, end))
+                : self;
+        }
+
+        public static RegistrationsWhereCollection Updator_Between(
+            this RegistrationsWhereCollection self,
+            int begin,
+            int end,
+            string tableName = "Registrations",
+            bool _using = true)
+        {
+            return _using
+                ? self.Add(
+                    columnBrackets: new string[] { "[Updator]" },
+                    tableName: tableName,
+                    name: "Updator",
+                    _operator: " between ",
+                    raw: "{0} and {1} ".Params(begin, end))
+                : self;
+        }
+
+        public static SqlWhereCollection Registrations_Updator_Between(
+            this SqlWhereCollection self,
+            int begin,
+            int end,
+            string tableName = "Registrations",
+            bool _using = true)
+        {
+            return _using
+                ? self.Add(
+                    columnBrackets: new string[] { "[Updator]" },
+                    tableName: tableName,
+                    name: "Updator",
+                    _operator: " between ",
+                    raw: "{0} and {1} ".Params(begin, end))
+                : self;
+        }
+
+        public static RegistrationsWhereCollection CreatedTime_Between(
+            this RegistrationsWhereCollection self,
+            DateTime begin,
+            DateTime end,
+            string tableName = "Registrations",
+            bool _using = true)
+        {
+            return _using
+                ? self.Add(
+                    columnBrackets: new string[] { "[CreatedTime]" },
+                    tableName: tableName,
+                    name: "CreatedTime",
+                    _operator: " between ",
+                    raw: "'{0}' and '{1}' ".Params(begin, end))
+                : self;
+        }
+
+        public static SqlWhereCollection Registrations_CreatedTime_Between(
+            this SqlWhereCollection self,
+            DateTime begin,
+            DateTime end,
+            string tableName = "Registrations",
+            bool _using = true)
+        {
+            return _using
+                ? self.Add(
+                    columnBrackets: new string[] { "[CreatedTime]" },
+                    tableName: tableName,
+                    name: "CreatedTime",
+                    _operator: " between ",
+                    raw: "'{0}' and '{1}' ".Params(begin, end))
+                : self;
+        }
+
+        public static RegistrationsWhereCollection UpdatedTime_Between(
+            this RegistrationsWhereCollection self,
+            DateTime begin,
+            DateTime end,
+            string tableName = "Registrations",
+            bool _using = true)
+        {
+            return _using
+                ? self.Add(
+                    columnBrackets: new string[] { "[UpdatedTime]" },
+                    tableName: tableName,
+                    name: "UpdatedTime",
+                    _operator: " between ",
+                    raw: "'{0}' and '{1}' ".Params(begin, end))
+                : self;
+        }
+
+        public static SqlWhereCollection Registrations_UpdatedTime_Between(
+            this SqlWhereCollection self,
+            DateTime begin,
+            DateTime end,
+            string tableName = "Registrations",
+            bool _using = true)
+        {
+            return _using
+                ? self.Add(
+                    columnBrackets: new string[] { "[UpdatedTime]" },
+                    tableName: tableName,
+                    name: "UpdatedTime",
+                    _operator: " between ",
+                    raw: "'{0}' and '{1}' ".Params(begin, end))
+                : self;
+        }
+
+        public static RegistrationsWhereCollection Sub(
+            this RegistrationsWhereCollection self,
+            SqlStatement sub,
+            object value = null,
+            string _operator = "=",
+            bool _using = true)
+        {
+            return _using 
+                ? self.Add(
+                    null, null, null, value, _operator, sub: sub)
+                : self;
+        }
+
+        public static RegistrationsWhereCollection Or(
+            this RegistrationsWhereCollection self,
+            RegistrationsWhereCollection or,
+            bool _using = true)
+        {
+            self.Add(or: or, _using: _using);
+            return self;
+        }
+
+        public static RegistrationsGroupByCollection RegistrationsGroupBy(
+            this RegistrationsGroupByCollection self, string columnName, bool _using = true)
+        {
+            if (_using)
+            {
+                switch (columnName)
+                {
+                    case "TenantId": return self.TenantId();
+                    case "RegistrationId": return self.RegistrationId();
+                    case "Ver": return self.Ver();
+                    case "MailAddress": return self.MailAddress();
+                    case "Invitee": return self.Invitee();
+                    case "LoginId": return self.LoginId();
+                    case "Name": return self.Name();
+                    case "Password": return self.Password();
+                    case "Language": return self.Language();
+                    case "Passphrase": return self.Passphrase();
+                    case "Invitingflg": return self.Invitingflg();
+                    case "UserId": return self.UserId();
+                    case "DeptId": return self.DeptId();
+                    case "GroupId": return self.GroupId();
+                    case "Comments": return self.Comments();
+                    case "Creator": return self.Creator();
+                    case "Updator": return self.Updator();
+                    case "CreatedTime": return self.CreatedTime();
+                    case "UpdatedTime": return self.UpdatedTime();
+                    default:
+                        return Def.ExtendedColumnTypes.ContainsKey(columnName)
+                            ? self.Add(columnBracket: $"[{columnName}]")
+                            : self;
+                }
+            }
+            else
+            {
+                return self;
+            }
+        }
+
+        public static RegistrationsGroupByCollection TenantId(
+            this RegistrationsGroupByCollection self, string tableName = "Registrations")
+        {
+            return self.Add(columnBracket: "[TenantId]", tableName: tableName);
+        }
+
+        public static SqlGroupByCollection Registrations_TenantId(
+            this SqlGroupByCollection self, string tableName = "Registrations")
+        {
+            return self.Add(columnBracket: "[TenantId]", tableName: tableName);
+        }
+
+        public static RegistrationsGroupByCollection RegistrationId(
+            this RegistrationsGroupByCollection self, string tableName = "Registrations")
+        {
+            return self.Add(columnBracket: "[RegistrationId]", tableName: tableName);
+        }
+
+        public static SqlGroupByCollection Registrations_RegistrationId(
+            this SqlGroupByCollection self, string tableName = "Registrations")
+        {
+            return self.Add(columnBracket: "[RegistrationId]", tableName: tableName);
+        }
+
+        public static RegistrationsGroupByCollection Ver(
+            this RegistrationsGroupByCollection self, string tableName = "Registrations")
+        {
+            return self.Add(columnBracket: "[Ver]", tableName: tableName);
+        }
+
+        public static SqlGroupByCollection Registrations_Ver(
+            this SqlGroupByCollection self, string tableName = "Registrations")
+        {
+            return self.Add(columnBracket: "[Ver]", tableName: tableName);
+        }
+
+        public static RegistrationsGroupByCollection MailAddress(
+            this RegistrationsGroupByCollection self, string tableName = "Registrations")
+        {
+            return self.Add(columnBracket: "[MailAddress]", tableName: tableName);
+        }
+
+        public static SqlGroupByCollection Registrations_MailAddress(
+            this SqlGroupByCollection self, string tableName = "Registrations")
+        {
+            return self.Add(columnBracket: "[MailAddress]", tableName: tableName);
+        }
+
+        public static RegistrationsGroupByCollection Invitee(
+            this RegistrationsGroupByCollection self, string tableName = "Registrations")
+        {
+            return self.Add(columnBracket: "[Invitee]", tableName: tableName);
+        }
+
+        public static SqlGroupByCollection Registrations_Invitee(
+            this SqlGroupByCollection self, string tableName = "Registrations")
+        {
+            return self.Add(columnBracket: "[Invitee]", tableName: tableName);
+        }
+
+        public static RegistrationsGroupByCollection LoginId(
+            this RegistrationsGroupByCollection self, string tableName = "Registrations")
+        {
+            return self.Add(columnBracket: "[LoginId]", tableName: tableName);
+        }
+
+        public static SqlGroupByCollection Registrations_LoginId(
+            this SqlGroupByCollection self, string tableName = "Registrations")
+        {
+            return self.Add(columnBracket: "[LoginId]", tableName: tableName);
+        }
+
+        public static RegistrationsGroupByCollection Name(
+            this RegistrationsGroupByCollection self, string tableName = "Registrations")
+        {
+            return self.Add(columnBracket: "[Name]", tableName: tableName);
+        }
+
+        public static SqlGroupByCollection Registrations_Name(
+            this SqlGroupByCollection self, string tableName = "Registrations")
+        {
+            return self.Add(columnBracket: "[Name]", tableName: tableName);
+        }
+
+        public static RegistrationsGroupByCollection Password(
+            this RegistrationsGroupByCollection self, string tableName = "Registrations")
+        {
+            return self.Add(columnBracket: "[Password]", tableName: tableName);
+        }
+
+        public static SqlGroupByCollection Registrations_Password(
+            this SqlGroupByCollection self, string tableName = "Registrations")
+        {
+            return self.Add(columnBracket: "[Password]", tableName: tableName);
+        }
+
+        public static RegistrationsGroupByCollection Language(
+            this RegistrationsGroupByCollection self, string tableName = "Registrations")
+        {
+            return self.Add(columnBracket: "[Language]", tableName: tableName);
+        }
+
+        public static SqlGroupByCollection Registrations_Language(
+            this SqlGroupByCollection self, string tableName = "Registrations")
+        {
+            return self.Add(columnBracket: "[Language]", tableName: tableName);
+        }
+
+        public static RegistrationsGroupByCollection Passphrase(
+            this RegistrationsGroupByCollection self, string tableName = "Registrations")
+        {
+            return self.Add(columnBracket: "[Passphrase]", tableName: tableName);
+        }
+
+        public static SqlGroupByCollection Registrations_Passphrase(
+            this SqlGroupByCollection self, string tableName = "Registrations")
+        {
+            return self.Add(columnBracket: "[Passphrase]", tableName: tableName);
+        }
+
+        public static RegistrationsGroupByCollection Invitingflg(
+            this RegistrationsGroupByCollection self, string tableName = "Registrations")
+        {
+            return self.Add(columnBracket: "[Invitingflg]", tableName: tableName);
+        }
+
+        public static SqlGroupByCollection Registrations_Invitingflg(
+            this SqlGroupByCollection self, string tableName = "Registrations")
+        {
+            return self.Add(columnBracket: "[Invitingflg]", tableName: tableName);
+        }
+
+        public static RegistrationsGroupByCollection UserId(
+            this RegistrationsGroupByCollection self, string tableName = "Registrations")
+        {
+            return self.Add(columnBracket: "[UserId]", tableName: tableName);
+        }
+
+        public static SqlGroupByCollection Registrations_UserId(
+            this SqlGroupByCollection self, string tableName = "Registrations")
+        {
+            return self.Add(columnBracket: "[UserId]", tableName: tableName);
+        }
+
+        public static RegistrationsGroupByCollection DeptId(
+            this RegistrationsGroupByCollection self, string tableName = "Registrations")
+        {
+            return self.Add(columnBracket: "[DeptId]", tableName: tableName);
+        }
+
+        public static SqlGroupByCollection Registrations_DeptId(
+            this SqlGroupByCollection self, string tableName = "Registrations")
+        {
+            return self.Add(columnBracket: "[DeptId]", tableName: tableName);
+        }
+
+        public static RegistrationsGroupByCollection GroupId(
+            this RegistrationsGroupByCollection self, string tableName = "Registrations")
+        {
+            return self.Add(columnBracket: "[GroupId]", tableName: tableName);
+        }
+
+        public static SqlGroupByCollection Registrations_GroupId(
+            this SqlGroupByCollection self, string tableName = "Registrations")
+        {
+            return self.Add(columnBracket: "[GroupId]", tableName: tableName);
+        }
+
+        public static RegistrationsGroupByCollection Comments(
+            this RegistrationsGroupByCollection self, string tableName = "Registrations")
+        {
+            return self.Add(columnBracket: "[Comments]", tableName: tableName);
+        }
+
+        public static SqlGroupByCollection Registrations_Comments(
+            this SqlGroupByCollection self, string tableName = "Registrations")
+        {
+            return self.Add(columnBracket: "[Comments]", tableName: tableName);
+        }
+
+        public static RegistrationsGroupByCollection Creator(
+            this RegistrationsGroupByCollection self, string tableName = "Registrations")
+        {
+            return self.Add(columnBracket: "[Creator]", tableName: tableName);
+        }
+
+        public static SqlGroupByCollection Registrations_Creator(
+            this SqlGroupByCollection self, string tableName = "Registrations")
+        {
+            return self.Add(columnBracket: "[Creator]", tableName: tableName);
+        }
+
+        public static RegistrationsGroupByCollection Updator(
+            this RegistrationsGroupByCollection self, string tableName = "Registrations")
+        {
+            return self.Add(columnBracket: "[Updator]", tableName: tableName);
+        }
+
+        public static SqlGroupByCollection Registrations_Updator(
+            this SqlGroupByCollection self, string tableName = "Registrations")
+        {
+            return self.Add(columnBracket: "[Updator]", tableName: tableName);
+        }
+
+        public static RegistrationsGroupByCollection CreatedTime(
+            this RegistrationsGroupByCollection self, string tableName = "Registrations")
+        {
+            return self.Add(columnBracket: "[CreatedTime]", tableName: tableName);
+        }
+
+        public static SqlGroupByCollection Registrations_CreatedTime(
+            this SqlGroupByCollection self, string tableName = "Registrations")
+        {
+            return self.Add(columnBracket: "[CreatedTime]", tableName: tableName);
+        }
+
+        public static RegistrationsGroupByCollection UpdatedTime(
+            this RegistrationsGroupByCollection self, string tableName = "Registrations")
+        {
+            return self.Add(columnBracket: "[UpdatedTime]", tableName: tableName);
+        }
+
+        public static SqlGroupByCollection Registrations_UpdatedTime(
+            this SqlGroupByCollection self, string tableName = "Registrations")
+        {
+            return self.Add(columnBracket: "[UpdatedTime]", tableName: tableName);
+        }
+
+        public static RegistrationsHavingCollection RegistrationsCount(
+            this RegistrationsHavingCollection self,
+            object value = null,
+            string tableName = "Registrations",
+            string _operator = null)
+        {
+            return self.Add(
+                columnBracket: "*",
+                value: value,
+                tableName: tableName,
+                _operator: _operator,
+                function: Sqls.Functions.Count);
+        }
+
+        public static RegistrationsHavingCollection CreatedTime(
+            this RegistrationsHavingCollection self,
+            string tableName = "Registrations",
+            object value = null,
+            string _operator = "=",
+            Sqls.Functions function = Sqls.Functions.None)
+        {
+            return self.Add(
+                columnBracket: "CreatedTime",
+                tableName: tableName,
+                value: value,
+                _operator: _operator,
+                function: function);
+        }
+
+        public static RegistrationsHavingCollection UpdatedTime(
+            this RegistrationsHavingCollection self,
+            string tableName = "Registrations",
+            object value = null,
+            string _operator = "=",
+            Sqls.Functions function = Sqls.Functions.None)
+        {
+            return self.Add(
+                columnBracket: "UpdatedTime",
+                tableName: tableName,
+                value: value,
+                _operator: _operator,
+                function: function);
+        }
+
+        public static RegistrationsOrderByCollection TenantId(
+            this RegistrationsOrderByCollection self,
+            SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
+            string tableName = "Registrations",
+            Sqls.Functions function = Sqls.Functions.None)
+        {
+            new List<string> { "[TenantId]" }.ForEach(columnBracket =>
+                self.Add(
+                    columnBracket: columnBracket,
+                    orderType: orderType,
+                    tableName: tableName,
+                    function: function));
+            return self;
+        }
+
+        public static RegistrationsOrderByCollection RegistrationId(
+            this RegistrationsOrderByCollection self,
+            SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
+            string tableName = "Registrations",
+            Sqls.Functions function = Sqls.Functions.None)
+        {
+            new List<string> { "[RegistrationId]" }.ForEach(columnBracket =>
+                self.Add(
+                    columnBracket: columnBracket,
+                    orderType: orderType,
+                    tableName: tableName,
+                    function: function));
+            return self;
+        }
+
+        public static RegistrationsOrderByCollection Ver(
+            this RegistrationsOrderByCollection self,
+            SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
+            string tableName = "Registrations",
+            Sqls.Functions function = Sqls.Functions.None)
+        {
+            new List<string> { "[Ver]" }.ForEach(columnBracket =>
+                self.Add(
+                    columnBracket: columnBracket,
+                    orderType: orderType,
+                    tableName: tableName,
+                    function: function));
+            return self;
+        }
+
+        public static RegistrationsOrderByCollection MailAddress(
+            this RegistrationsOrderByCollection self,
+            SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
+            string tableName = "Registrations",
+            Sqls.Functions function = Sqls.Functions.None)
+        {
+            new List<string> { "[MailAddress]" }.ForEach(columnBracket =>
+                self.Add(
+                    columnBracket: columnBracket,
+                    orderType: orderType,
+                    tableName: tableName,
+                    function: function));
+            return self;
+        }
+
+        public static RegistrationsOrderByCollection Invitee(
+            this RegistrationsOrderByCollection self,
+            SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
+            string tableName = "Registrations",
+            Sqls.Functions function = Sqls.Functions.None)
+        {
+            new List<string> { "[Invitee]" }.ForEach(columnBracket =>
+                self.Add(
+                    columnBracket: columnBracket,
+                    orderType: orderType,
+                    tableName: tableName,
+                    function: function));
+            return self;
+        }
+
+        public static RegistrationsOrderByCollection LoginId(
+            this RegistrationsOrderByCollection self,
+            SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
+            string tableName = "Registrations",
+            Sqls.Functions function = Sqls.Functions.None)
+        {
+            new List<string> { "[LoginId]" }.ForEach(columnBracket =>
+                self.Add(
+                    columnBracket: columnBracket,
+                    orderType: orderType,
+                    tableName: tableName,
+                    function: function));
+            return self;
+        }
+
+        public static RegistrationsOrderByCollection Name(
+            this RegistrationsOrderByCollection self,
+            SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
+            string tableName = "Registrations",
+            Sqls.Functions function = Sqls.Functions.None)
+        {
+            new List<string> { "[Name]" }.ForEach(columnBracket =>
+                self.Add(
+                    columnBracket: columnBracket,
+                    orderType: orderType,
+                    tableName: tableName,
+                    function: function));
+            return self;
+        }
+
+        public static RegistrationsOrderByCollection Password(
+            this RegistrationsOrderByCollection self,
+            SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
+            string tableName = "Registrations",
+            Sqls.Functions function = Sqls.Functions.None)
+        {
+            new List<string> { "[Password]" }.ForEach(columnBracket =>
+                self.Add(
+                    columnBracket: columnBracket,
+                    orderType: orderType,
+                    tableName: tableName,
+                    function: function));
+            return self;
+        }
+
+        public static RegistrationsOrderByCollection Language(
+            this RegistrationsOrderByCollection self,
+            SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
+            string tableName = "Registrations",
+            Sqls.Functions function = Sqls.Functions.None)
+        {
+            new List<string> { "[Language]" }.ForEach(columnBracket =>
+                self.Add(
+                    columnBracket: columnBracket,
+                    orderType: orderType,
+                    tableName: tableName,
+                    function: function));
+            return self;
+        }
+
+        public static RegistrationsOrderByCollection Passphrase(
+            this RegistrationsOrderByCollection self,
+            SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
+            string tableName = "Registrations",
+            Sqls.Functions function = Sqls.Functions.None)
+        {
+            new List<string> { "[Passphrase]" }.ForEach(columnBracket =>
+                self.Add(
+                    columnBracket: columnBracket,
+                    orderType: orderType,
+                    tableName: tableName,
+                    function: function));
+            return self;
+        }
+
+        public static RegistrationsOrderByCollection Invitingflg(
+            this RegistrationsOrderByCollection self,
+            SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
+            string tableName = "Registrations",
+            Sqls.Functions function = Sqls.Functions.None)
+        {
+            new List<string> { "[Invitingflg]" }.ForEach(columnBracket =>
+                self.Add(
+                    columnBracket: columnBracket,
+                    orderType: orderType,
+                    tableName: tableName,
+                    function: function));
+            return self;
+        }
+
+        public static RegistrationsOrderByCollection UserId(
+            this RegistrationsOrderByCollection self,
+            SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
+            string tableName = "Registrations",
+            Sqls.Functions function = Sqls.Functions.None)
+        {
+            new List<string> { "[UserId]" }.ForEach(columnBracket =>
+                self.Add(
+                    columnBracket: columnBracket,
+                    orderType: orderType,
+                    tableName: tableName,
+                    function: function));
+            return self;
+        }
+
+        public static RegistrationsOrderByCollection DeptId(
+            this RegistrationsOrderByCollection self,
+            SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
+            string tableName = "Registrations",
+            Sqls.Functions function = Sqls.Functions.None)
+        {
+            new List<string> { "[DeptId]" }.ForEach(columnBracket =>
+                self.Add(
+                    columnBracket: columnBracket,
+                    orderType: orderType,
+                    tableName: tableName,
+                    function: function));
+            return self;
+        }
+
+        public static RegistrationsOrderByCollection GroupId(
+            this RegistrationsOrderByCollection self,
+            SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
+            string tableName = "Registrations",
+            Sqls.Functions function = Sqls.Functions.None)
+        {
+            new List<string> { "[GroupId]" }.ForEach(columnBracket =>
+                self.Add(
+                    columnBracket: columnBracket,
+                    orderType: orderType,
+                    tableName: tableName,
+                    function: function));
+            return self;
+        }
+
+        public static RegistrationsOrderByCollection Comments(
+            this RegistrationsOrderByCollection self,
+            SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
+            string tableName = "Registrations",
+            Sqls.Functions function = Sqls.Functions.None)
+        {
+            new List<string> { "[Comments]" }.ForEach(columnBracket =>
+                self.Add(
+                    columnBracket: columnBracket,
+                    orderType: orderType,
+                    tableName: tableName,
+                    function: function));
+            return self;
+        }
+
+        public static RegistrationsOrderByCollection Creator(
+            this RegistrationsOrderByCollection self,
+            SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
+            string tableName = "Registrations",
+            Sqls.Functions function = Sqls.Functions.None)
+        {
+            new List<string> { "[Creator]" }.ForEach(columnBracket =>
+                self.Add(
+                    columnBracket: columnBracket,
+                    orderType: orderType,
+                    tableName: tableName,
+                    function: function));
+            return self;
+        }
+
+        public static RegistrationsOrderByCollection Updator(
+            this RegistrationsOrderByCollection self,
+            SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
+            string tableName = "Registrations",
+            Sqls.Functions function = Sqls.Functions.None)
+        {
+            new List<string> { "[Updator]" }.ForEach(columnBracket =>
+                self.Add(
+                    columnBracket: columnBracket,
+                    orderType: orderType,
+                    tableName: tableName,
+                    function: function));
+            return self;
+        }
+
+        public static RegistrationsOrderByCollection CreatedTime(
+            this RegistrationsOrderByCollection self,
+            SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
+            string tableName = "Registrations",
+            Sqls.Functions function = Sqls.Functions.None)
+        {
+            new List<string> { "[CreatedTime]" }.ForEach(columnBracket =>
+                self.Add(
+                    columnBracket: columnBracket,
+                    orderType: orderType,
+                    tableName: tableName,
+                    function: function));
+            return self;
+        }
+
+        public static RegistrationsOrderByCollection UpdatedTime(
+            this RegistrationsOrderByCollection self,
+            SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
+            string tableName = "Registrations",
+            Sqls.Functions function = Sqls.Functions.None)
+        {
+            new List<string> { "[UpdatedTime]" }.ForEach(columnBracket =>
+                self.Add(
+                    columnBracket: columnBracket,
+                    orderType: orderType,
+                    tableName: tableName,
+                    function: function));
+            return self;
+        }
+
+        public static SqlOrderByCollection Registrations_TenantId(
+            this SqlOrderByCollection self,
+            SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
+            string tableName = "Registrations",
+            Sqls.Functions function = Sqls.Functions.None)
+        {
+            new List<string> { "[TenantId]" }.ForEach(columnBracket =>
+                self.Add(
+                    columnBracket: columnBracket,
+                    orderType: orderType,
+                    tableName: tableName,
+                    function: function));
+            return self;
+        }
+
+        public static SqlOrderByCollection Registrations_RegistrationId(
+            this SqlOrderByCollection self,
+            SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
+            string tableName = "Registrations",
+            Sqls.Functions function = Sqls.Functions.None)
+        {
+            new List<string> { "[RegistrationId]" }.ForEach(columnBracket =>
+                self.Add(
+                    columnBracket: columnBracket,
+                    orderType: orderType,
+                    tableName: tableName,
+                    function: function));
+            return self;
+        }
+
+        public static SqlOrderByCollection Registrations_Ver(
+            this SqlOrderByCollection self,
+            SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
+            string tableName = "Registrations",
+            Sqls.Functions function = Sqls.Functions.None)
+        {
+            new List<string> { "[Ver]" }.ForEach(columnBracket =>
+                self.Add(
+                    columnBracket: columnBracket,
+                    orderType: orderType,
+                    tableName: tableName,
+                    function: function));
+            return self;
+        }
+
+        public static SqlOrderByCollection Registrations_MailAddress(
+            this SqlOrderByCollection self,
+            SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
+            string tableName = "Registrations",
+            Sqls.Functions function = Sqls.Functions.None)
+        {
+            new List<string> { "[MailAddress]" }.ForEach(columnBracket =>
+                self.Add(
+                    columnBracket: columnBracket,
+                    orderType: orderType,
+                    tableName: tableName,
+                    function: function));
+            return self;
+        }
+
+        public static SqlOrderByCollection Registrations_Invitee(
+            this SqlOrderByCollection self,
+            SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
+            string tableName = "Registrations",
+            Sqls.Functions function = Sqls.Functions.None)
+        {
+            new List<string> { "[Invitee]" }.ForEach(columnBracket =>
+                self.Add(
+                    columnBracket: columnBracket,
+                    orderType: orderType,
+                    tableName: tableName,
+                    function: function));
+            return self;
+        }
+
+        public static SqlOrderByCollection Registrations_LoginId(
+            this SqlOrderByCollection self,
+            SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
+            string tableName = "Registrations",
+            Sqls.Functions function = Sqls.Functions.None)
+        {
+            new List<string> { "[LoginId]" }.ForEach(columnBracket =>
+                self.Add(
+                    columnBracket: columnBracket,
+                    orderType: orderType,
+                    tableName: tableName,
+                    function: function));
+            return self;
+        }
+
+        public static SqlOrderByCollection Registrations_Name(
+            this SqlOrderByCollection self,
+            SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
+            string tableName = "Registrations",
+            Sqls.Functions function = Sqls.Functions.None)
+        {
+            new List<string> { "[Name]" }.ForEach(columnBracket =>
+                self.Add(
+                    columnBracket: columnBracket,
+                    orderType: orderType,
+                    tableName: tableName,
+                    function: function));
+            return self;
+        }
+
+        public static SqlOrderByCollection Registrations_Password(
+            this SqlOrderByCollection self,
+            SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
+            string tableName = "Registrations",
+            Sqls.Functions function = Sqls.Functions.None)
+        {
+            new List<string> { "[Password]" }.ForEach(columnBracket =>
+                self.Add(
+                    columnBracket: columnBracket,
+                    orderType: orderType,
+                    tableName: tableName,
+                    function: function));
+            return self;
+        }
+
+        public static SqlOrderByCollection Registrations_Language(
+            this SqlOrderByCollection self,
+            SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
+            string tableName = "Registrations",
+            Sqls.Functions function = Sqls.Functions.None)
+        {
+            new List<string> { "[Language]" }.ForEach(columnBracket =>
+                self.Add(
+                    columnBracket: columnBracket,
+                    orderType: orderType,
+                    tableName: tableName,
+                    function: function));
+            return self;
+        }
+
+        public static SqlOrderByCollection Registrations_Passphrase(
+            this SqlOrderByCollection self,
+            SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
+            string tableName = "Registrations",
+            Sqls.Functions function = Sqls.Functions.None)
+        {
+            new List<string> { "[Passphrase]" }.ForEach(columnBracket =>
+                self.Add(
+                    columnBracket: columnBracket,
+                    orderType: orderType,
+                    tableName: tableName,
+                    function: function));
+            return self;
+        }
+
+        public static SqlOrderByCollection Registrations_Invitingflg(
+            this SqlOrderByCollection self,
+            SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
+            string tableName = "Registrations",
+            Sqls.Functions function = Sqls.Functions.None)
+        {
+            new List<string> { "[Invitingflg]" }.ForEach(columnBracket =>
+                self.Add(
+                    columnBracket: columnBracket,
+                    orderType: orderType,
+                    tableName: tableName,
+                    function: function));
+            return self;
+        }
+
+        public static SqlOrderByCollection Registrations_UserId(
+            this SqlOrderByCollection self,
+            SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
+            string tableName = "Registrations",
+            Sqls.Functions function = Sqls.Functions.None)
+        {
+            new List<string> { "[UserId]" }.ForEach(columnBracket =>
+                self.Add(
+                    columnBracket: columnBracket,
+                    orderType: orderType,
+                    tableName: tableName,
+                    function: function));
+            return self;
+        }
+
+        public static SqlOrderByCollection Registrations_DeptId(
+            this SqlOrderByCollection self,
+            SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
+            string tableName = "Registrations",
+            Sqls.Functions function = Sqls.Functions.None)
+        {
+            new List<string> { "[DeptId]" }.ForEach(columnBracket =>
+                self.Add(
+                    columnBracket: columnBracket,
+                    orderType: orderType,
+                    tableName: tableName,
+                    function: function));
+            return self;
+        }
+
+        public static SqlOrderByCollection Registrations_GroupId(
+            this SqlOrderByCollection self,
+            SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
+            string tableName = "Registrations",
+            Sqls.Functions function = Sqls.Functions.None)
+        {
+            new List<string> { "[GroupId]" }.ForEach(columnBracket =>
+                self.Add(
+                    columnBracket: columnBracket,
+                    orderType: orderType,
+                    tableName: tableName,
+                    function: function));
+            return self;
+        }
+
+        public static SqlOrderByCollection Registrations_Comments(
+            this SqlOrderByCollection self,
+            SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
+            string tableName = "Registrations",
+            Sqls.Functions function = Sqls.Functions.None)
+        {
+            new List<string> { "[Comments]" }.ForEach(columnBracket =>
+                self.Add(
+                    columnBracket: columnBracket,
+                    orderType: orderType,
+                    tableName: tableName,
+                    function: function));
+            return self;
+        }
+
+        public static SqlOrderByCollection Registrations_Creator(
+            this SqlOrderByCollection self,
+            SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
+            string tableName = "Registrations",
+            Sqls.Functions function = Sqls.Functions.None)
+        {
+            new List<string> { "[Creator]" }.ForEach(columnBracket =>
+                self.Add(
+                    columnBracket: columnBracket,
+                    orderType: orderType,
+                    tableName: tableName,
+                    function: function));
+            return self;
+        }
+
+        public static SqlOrderByCollection Registrations_Updator(
+            this SqlOrderByCollection self,
+            SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
+            string tableName = "Registrations",
+            Sqls.Functions function = Sqls.Functions.None)
+        {
+            new List<string> { "[Updator]" }.ForEach(columnBracket =>
+                self.Add(
+                    columnBracket: columnBracket,
+                    orderType: orderType,
+                    tableName: tableName,
+                    function: function));
+            return self;
+        }
+
+        public static SqlOrderByCollection Registrations_CreatedTime(
+            this SqlOrderByCollection self,
+            SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
+            string tableName = "Registrations",
+            Sqls.Functions function = Sqls.Functions.None)
+        {
+            new List<string> { "[CreatedTime]" }.ForEach(columnBracket =>
+                self.Add(
+                    columnBracket: columnBracket,
+                    orderType: orderType,
+                    tableName: tableName,
+                    function: function));
+            return self;
+        }
+
+        public static SqlOrderByCollection Registrations_UpdatedTime(
+            this SqlOrderByCollection self,
+            SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
+            string tableName = "Registrations",
+            Sqls.Functions function = Sqls.Functions.None)
+        {
+            new List<string> { "[UpdatedTime]" }.ForEach(columnBracket =>
+                self.Add(
+                    columnBracket: columnBracket,
+                    orderType: orderType,
+                    tableName: tableName,
+                    function: function));
+            return self;
+        }
+
+        public static RegistrationsOrderByCollection RegistrationsCount(
+            this RegistrationsOrderByCollection self,
+            SqlOrderBy.Types orderType = SqlOrderBy.Types.asc)
+        {
+            return self.Add(
+                columnBracket: "*",
+                orderType: orderType,
+                function: Sqls.Functions.Count);
+        }
+
+        public static RegistrationsParamCollection TenantId(
+            this RegistrationsParamCollection self,
+            object value = null,
+            SqlStatement sub = null,
+            string raw = null,
+            bool _using = true)
+        {
+            return _using
+                ? self.Add(
+                    columnBracket: "[TenantId]",
+                    name: "TenantId",
+                    value: value,
+                    sub: sub,
+                    raw: raw)
+                : self;
+        }
+
+        public static SqlParamCollection Registrations_TenantId(
+            this SqlParamCollection self,
+            object value = null,
+            SqlStatement sub = null,
+            string raw = null,
+            bool _using = true)
+        {
+            return _using
+                ? self.Add(
+                    columnBracket: "[TenantId]",
+                    name: "TenantId",
+                    value: value,
+                    sub: sub,
+                    raw: raw)
+                : self;
+        }
+
+        public static RegistrationsParamCollection RegistrationId(
+            this RegistrationsParamCollection self,
+            object value = null,
+            SqlStatement sub = null,
+            string raw = null,
+            bool _using = true)
+        {
+            return _using
+                ? self.Add(
+                    columnBracket: "[RegistrationId]",
+                    name: "RegistrationId",
+                    value: value,
+                    sub: sub,
+                    raw: raw)
+                : self;
+        }
+
+        public static SqlParamCollection Registrations_RegistrationId(
+            this SqlParamCollection self,
+            object value = null,
+            SqlStatement sub = null,
+            string raw = null,
+            bool _using = true)
+        {
+            return _using
+                ? self.Add(
+                    columnBracket: "[RegistrationId]",
+                    name: "RegistrationId",
+                    value: value,
+                    sub: sub,
+                    raw: raw)
+                : self;
+        }
+
+        public static RegistrationsParamCollection Ver(
+            this RegistrationsParamCollection self,
+            object value = null,
+            SqlStatement sub = null,
+            string raw = null,
+            bool _using = true)
+        {
+            return _using
+                ? self.Add(
+                    columnBracket: "[Ver]",
+                    name: "Ver",
+                    value: value,
+                    sub: sub,
+                    raw: raw)
+                : self;
+        }
+
+        public static SqlParamCollection Registrations_Ver(
+            this SqlParamCollection self,
+            object value = null,
+            SqlStatement sub = null,
+            string raw = null,
+            bool _using = true)
+        {
+            return _using
+                ? self.Add(
+                    columnBracket: "[Ver]",
+                    name: "Ver",
+                    value: value,
+                    sub: sub,
+                    raw: raw)
+                : self;
+        }
+
+        public static RegistrationsParamCollection MailAddress(
+            this RegistrationsParamCollection self,
+            object value = null,
+            SqlStatement sub = null,
+            string raw = null,
+            bool _using = true)
+        {
+            return _using
+                ? self.Add(
+                    columnBracket: "[MailAddress]",
+                    name: "MailAddress",
+                    value: value,
+                    sub: sub,
+                    raw: raw)
+                : self;
+        }
+
+        public static SqlParamCollection Registrations_MailAddress(
+            this SqlParamCollection self,
+            object value = null,
+            SqlStatement sub = null,
+            string raw = null,
+            bool _using = true)
+        {
+            return _using
+                ? self.Add(
+                    columnBracket: "[MailAddress]",
+                    name: "MailAddress",
+                    value: value,
+                    sub: sub,
+                    raw: raw)
+                : self;
+        }
+
+        public static RegistrationsParamCollection Invitee(
+            this RegistrationsParamCollection self,
+            object value = null,
+            SqlStatement sub = null,
+            string raw = null,
+            bool _using = true)
+        {
+            return _using
+                ? self.Add(
+                    columnBracket: "[Invitee]",
+                    name: "Invitee",
+                    value: value,
+                    sub: sub,
+                    raw: raw)
+                : self;
+        }
+
+        public static SqlParamCollection Registrations_Invitee(
+            this SqlParamCollection self,
+            object value = null,
+            SqlStatement sub = null,
+            string raw = null,
+            bool _using = true)
+        {
+            return _using
+                ? self.Add(
+                    columnBracket: "[Invitee]",
+                    name: "Invitee",
+                    value: value,
+                    sub: sub,
+                    raw: raw)
+                : self;
+        }
+
+        public static RegistrationsParamCollection LoginId(
+            this RegistrationsParamCollection self,
+            object value = null,
+            SqlStatement sub = null,
+            string raw = null,
+            bool _using = true)
+        {
+            return _using
+                ? self.Add(
+                    columnBracket: "[LoginId]",
+                    name: "LoginId",
+                    value: value,
+                    sub: sub,
+                    raw: raw)
+                : self;
+        }
+
+        public static SqlParamCollection Registrations_LoginId(
+            this SqlParamCollection self,
+            object value = null,
+            SqlStatement sub = null,
+            string raw = null,
+            bool _using = true)
+        {
+            return _using
+                ? self.Add(
+                    columnBracket: "[LoginId]",
+                    name: "LoginId",
+                    value: value,
+                    sub: sub,
+                    raw: raw)
+                : self;
+        }
+
+        public static RegistrationsParamCollection Name(
+            this RegistrationsParamCollection self,
+            object value = null,
+            SqlStatement sub = null,
+            string raw = null,
+            bool _using = true)
+        {
+            return _using
+                ? self.Add(
+                    columnBracket: "[Name]",
+                    name: "Name",
+                    value: value,
+                    sub: sub,
+                    raw: raw)
+                : self;
+        }
+
+        public static SqlParamCollection Registrations_Name(
+            this SqlParamCollection self,
+            object value = null,
+            SqlStatement sub = null,
+            string raw = null,
+            bool _using = true)
+        {
+            return _using
+                ? self.Add(
+                    columnBracket: "[Name]",
+                    name: "Name",
+                    value: value,
+                    sub: sub,
+                    raw: raw)
+                : self;
+        }
+
+        public static RegistrationsParamCollection Password(
+            this RegistrationsParamCollection self,
+            object value = null,
+            SqlStatement sub = null,
+            string raw = null,
+            bool _using = true)
+        {
+            return _using
+                ? self.Add(
+                    columnBracket: "[Password]",
+                    name: "Password",
+                    value: value,
+                    sub: sub,
+                    raw: raw)
+                : self;
+        }
+
+        public static SqlParamCollection Registrations_Password(
+            this SqlParamCollection self,
+            object value = null,
+            SqlStatement sub = null,
+            string raw = null,
+            bool _using = true)
+        {
+            return _using
+                ? self.Add(
+                    columnBracket: "[Password]",
+                    name: "Password",
+                    value: value,
+                    sub: sub,
+                    raw: raw)
+                : self;
+        }
+
+        public static RegistrationsParamCollection Language(
+            this RegistrationsParamCollection self,
+            object value = null,
+            SqlStatement sub = null,
+            string raw = null,
+            bool _using = true)
+        {
+            return _using
+                ? self.Add(
+                    columnBracket: "[Language]",
+                    name: "Language",
+                    value: value,
+                    sub: sub,
+                    raw: raw)
+                : self;
+        }
+
+        public static SqlParamCollection Registrations_Language(
+            this SqlParamCollection self,
+            object value = null,
+            SqlStatement sub = null,
+            string raw = null,
+            bool _using = true)
+        {
+            return _using
+                ? self.Add(
+                    columnBracket: "[Language]",
+                    name: "Language",
+                    value: value,
+                    sub: sub,
+                    raw: raw)
+                : self;
+        }
+
+        public static RegistrationsParamCollection Passphrase(
+            this RegistrationsParamCollection self,
+            object value = null,
+            SqlStatement sub = null,
+            string raw = null,
+            bool _using = true)
+        {
+            return _using
+                ? self.Add(
+                    columnBracket: "[Passphrase]",
+                    name: "Passphrase",
+                    value: value,
+                    sub: sub,
+                    raw: raw)
+                : self;
+        }
+
+        public static SqlParamCollection Registrations_Passphrase(
+            this SqlParamCollection self,
+            object value = null,
+            SqlStatement sub = null,
+            string raw = null,
+            bool _using = true)
+        {
+            return _using
+                ? self.Add(
+                    columnBracket: "[Passphrase]",
+                    name: "Passphrase",
+                    value: value,
+                    sub: sub,
+                    raw: raw)
+                : self;
+        }
+
+        public static RegistrationsParamCollection Invitingflg(
+            this RegistrationsParamCollection self,
+            object value = null,
+            SqlStatement sub = null,
+            string raw = null,
+            bool _using = true)
+        {
+            return _using
+                ? self.Add(
+                    columnBracket: "[Invitingflg]",
+                    name: "Invitingflg",
+                    value: value,
+                    sub: sub,
+                    raw: raw)
+                : self;
+        }
+
+        public static SqlParamCollection Registrations_Invitingflg(
+            this SqlParamCollection self,
+            object value = null,
+            SqlStatement sub = null,
+            string raw = null,
+            bool _using = true)
+        {
+            return _using
+                ? self.Add(
+                    columnBracket: "[Invitingflg]",
+                    name: "Invitingflg",
+                    value: value,
+                    sub: sub,
+                    raw: raw)
+                : self;
+        }
+
+        public static RegistrationsParamCollection UserId(
+            this RegistrationsParamCollection self,
+            object value = null,
+            SqlStatement sub = null,
+            string raw = null,
+            bool _using = true)
+        {
+            return _using
+                ? self.Add(
+                    columnBracket: "[UserId]",
+                    name: "UserId",
+                    value: value,
+                    sub: sub,
+                    raw: raw)
+                : self;
+        }
+
+        public static SqlParamCollection Registrations_UserId(
+            this SqlParamCollection self,
+            object value = null,
+            SqlStatement sub = null,
+            string raw = null,
+            bool _using = true)
+        {
+            return _using
+                ? self.Add(
+                    columnBracket: "[UserId]",
+                    name: "UserId",
+                    value: value,
+                    sub: sub,
+                    raw: raw)
+                : self;
+        }
+
+        public static RegistrationsParamCollection DeptId(
+            this RegistrationsParamCollection self,
+            object value = null,
+            SqlStatement sub = null,
+            string raw = null,
+            bool _using = true)
+        {
+            return _using
+                ? self.Add(
+                    columnBracket: "[DeptId]",
+                    name: "DeptId",
+                    value: value,
+                    sub: sub,
+                    raw: raw)
+                : self;
+        }
+
+        public static SqlParamCollection Registrations_DeptId(
+            this SqlParamCollection self,
+            object value = null,
+            SqlStatement sub = null,
+            string raw = null,
+            bool _using = true)
+        {
+            return _using
+                ? self.Add(
+                    columnBracket: "[DeptId]",
+                    name: "DeptId",
+                    value: value,
+                    sub: sub,
+                    raw: raw)
+                : self;
+        }
+
+        public static RegistrationsParamCollection GroupId(
+            this RegistrationsParamCollection self,
+            object value = null,
+            SqlStatement sub = null,
+            string raw = null,
+            bool _using = true)
+        {
+            return _using
+                ? self.Add(
+                    columnBracket: "[GroupId]",
+                    name: "GroupId",
+                    value: value,
+                    sub: sub,
+                    raw: raw)
+                : self;
+        }
+
+        public static SqlParamCollection Registrations_GroupId(
+            this SqlParamCollection self,
+            object value = null,
+            SqlStatement sub = null,
+            string raw = null,
+            bool _using = true)
+        {
+            return _using
+                ? self.Add(
+                    columnBracket: "[GroupId]",
+                    name: "GroupId",
+                    value: value,
+                    sub: sub,
+                    raw: raw)
+                : self;
+        }
+
+        public static RegistrationsParamCollection Comments(
+            this RegistrationsParamCollection self,
+            object value = null,
+            SqlStatement sub = null,
+            string raw = null,
+            bool _using = true)
+        {
+            return _using
+                ? self.Add(
+                    columnBracket: "[Comments]",
+                    name: "Comments",
+                    value: value,
+                    sub: sub,
+                    raw: raw)
+                : self;
+        }
+
+        public static SqlParamCollection Registrations_Comments(
+            this SqlParamCollection self,
+            object value = null,
+            SqlStatement sub = null,
+            string raw = null,
+            bool _using = true)
+        {
+            return _using
+                ? self.Add(
+                    columnBracket: "[Comments]",
+                    name: "Comments",
+                    value: value,
+                    sub: sub,
+                    raw: raw)
+                : self;
+        }
+
+        public static RegistrationsParamCollection Creator(
+            this RegistrationsParamCollection self,
+            object value = null,
+            SqlStatement sub = null,
+            string raw = null,
+            bool _using = true)
+        {
+            return _using
+                ? self.Add(
+                    columnBracket: "[Creator]",
+                    name: "Creator",
+                    value: value,
+                    sub: sub,
+                    raw: raw)
+                : self;
+        }
+
+        public static SqlParamCollection Registrations_Creator(
+            this SqlParamCollection self,
+            object value = null,
+            SqlStatement sub = null,
+            string raw = null,
+            bool _using = true)
+        {
+            return _using
+                ? self.Add(
+                    columnBracket: "[Creator]",
+                    name: "Creator",
+                    value: value,
+                    sub: sub,
+                    raw: raw)
+                : self;
+        }
+
+        public static RegistrationsParamCollection Updator(
+            this RegistrationsParamCollection self,
+            object value = null,
+            SqlStatement sub = null,
+            string raw = null,
+            bool _using = true)
+        {
+            return _using
+                ? self.Add(
+                    columnBracket: "[Updator]",
+                    name: "Updator",
+                    value: value,
+                    sub: sub,
+                    raw: raw)
+                : self;
+        }
+
+        public static SqlParamCollection Registrations_Updator(
+            this SqlParamCollection self,
+            object value = null,
+            SqlStatement sub = null,
+            string raw = null,
+            bool _using = true)
+        {
+            return _using
+                ? self.Add(
+                    columnBracket: "[Updator]",
+                    name: "Updator",
+                    value: value,
+                    sub: sub,
+                    raw: raw)
+                : self;
+        }
+
+        public static RegistrationsParamCollection CreatedTime(
+            this RegistrationsParamCollection self,
+            object value = null,
+            SqlStatement sub = null,
+            string raw = null,
+            bool _using = true)
+        {
+            return _using
+                ? self.Add(
+                    columnBracket: "[CreatedTime]",
+                    name: "CreatedTime",
+                    value: value,
+                    sub: sub,
+                    raw: raw)
+                : self;
+        }
+
+        public static SqlParamCollection Registrations_CreatedTime(
+            this SqlParamCollection self,
+            object value = null,
+            SqlStatement sub = null,
+            string raw = null,
+            bool _using = true)
+        {
+            return _using
+                ? self.Add(
+                    columnBracket: "[CreatedTime]",
+                    name: "CreatedTime",
+                    value: value,
+                    sub: sub,
+                    raw: raw)
+                : self;
+        }
+
+        public static RegistrationsParamCollection UpdatedTime(
+            this RegistrationsParamCollection self,
+            object value = null,
+            SqlStatement sub = null,
+            string raw = null,
+            bool _using = true)
+        {
+            return _using
+                ? self.Add(
+                    columnBracket: "[UpdatedTime]",
+                    name: "UpdatedTime",
+                    value: value,
+                    sub: sub,
+                    raw: raw)
+                : self;
+        }
+
+        public static SqlParamCollection Registrations_UpdatedTime(
             this SqlParamCollection self,
             object value = null,
             SqlStatement sub = null,
@@ -97518,6 +102362,127 @@ namespace Implem.Pleasanter.Libraries.DataSources
             groupMemberModel.AttachmentsHash
                 .Where(o => groupMemberModel.Attachments_Updated(columnName: o.Key)
                     || (otherInitValue && !groupMemberModel.Attachments(columnName: o.Key)
+                        .InitialValue(context: context)))
+                .ForEach(o =>
+                    param.Add(
+                        columnBracket: o.Key,
+                        name: o.Key,
+                        value: o.Value?.RecordingJson() ?? string.Empty));
+            return param;
+        }
+
+        public static RegistrationsColumnCollection RegistrationsDefaultColumns()
+        {
+            var column = RegistrationsColumn()
+                .TenantId()
+                .RegistrationId()
+                .Ver()
+                .MailAddress()
+                .Invitee()
+                .LoginId()
+                .Name()
+                .Password()
+                .Language()
+                .Passphrase()
+                .Invitingflg()
+                .UserId()
+                .DeptId()
+                .GroupId()
+                .Comments()
+                .Creator()
+                .Updator()
+                .CreatedTime()
+                .UpdatedTime();
+            Def.ColumnDefinitionCollection
+                .Where(columnDefinition => columnDefinition.TableName == "Registrations")
+                .Where(columnDefinition => !columnDefinition.ExtendedColumnType.IsNullOrEmpty())
+                .ForEach(columnDefinition =>
+                    column.RegistrationsColumn(columnDefinition.ColumnName));
+            return column;
+        }
+
+        public static RegistrationsJoinCollection RegistrationsJoinDefault()
+        {
+            var join = RegistrationsJoin();
+            return join;
+        }
+
+        public static RegistrationsWhereCollection RegistrationsWhereDefault(RegistrationModel registrationModel)
+        {
+            return RegistrationsWhere()
+                .TenantId(registrationModel.TenantId)
+                .RegistrationId(registrationModel.RegistrationId);
+        }
+
+        public static RegistrationsParamCollection RegistrationsParamDefault(
+            Context context,
+            RegistrationModel registrationModel,
+            bool setDefault = false,
+            bool otherInitValue = false)
+        {
+            var param = RegistrationsParam()
+                .TenantId(registrationModel.TenantId)
+                .Ver(registrationModel.Ver, _using: registrationModel.Ver_Updated(context) || setDefault || (otherInitValue && !registrationModel.Ver.InitialValue(context)))
+                .MailAddress(registrationModel.MailAddress.MaxLength(2048), _using: registrationModel.MailAddress_Updated(context) || setDefault || (otherInitValue && !registrationModel.MailAddress.InitialValue(context)))
+                .Invitee(registrationModel.Invitee, _using: registrationModel.Invitee_Updated(context) || setDefault || (otherInitValue && !registrationModel.Invitee.InitialValue(context)))
+                .LoginId(registrationModel.LoginId.MaxLength(256), _using: registrationModel.LoginId_Updated(context) || (otherInitValue && !registrationModel.LoginId.InitialValue(context)))
+                .Name(registrationModel.Name.MaxLength(128), _using: registrationModel.Name_Updated(context) || (otherInitValue && !registrationModel.Name.InitialValue(context)))
+                .Password(registrationModel.Password.MaxLength(128), _using: registrationModel.Password_Updated(context) || (otherInitValue && !registrationModel.Password.InitialValue(context)))
+                .Language(registrationModel.Language.MaxLength(32), _using: registrationModel.Language_Updated(context) || setDefault || (otherInitValue && !registrationModel.Language.InitialValue(context)))
+                .Passphrase(registrationModel.Passphrase.MaxLength(34), _using: registrationModel.Passphrase_Updated(context) || setDefault || (otherInitValue && !registrationModel.Passphrase.InitialValue(context)))
+                .Invitingflg(registrationModel.Invitingflg.MaxLength(32), _using: registrationModel.Invitingflg_Updated(context) || setDefault || (otherInitValue && !registrationModel.Invitingflg.InitialValue(context)))
+                .UserId(registrationModel.UserId, _using: registrationModel.UserId_Updated(context) || (otherInitValue && !registrationModel.UserId.InitialValue(context)))
+                .DeptId(registrationModel.DeptId, _using: registrationModel.DeptId_Updated(context) || setDefault || (otherInitValue && !registrationModel.DeptId.InitialValue(context)))
+                .GroupId(registrationModel.GroupId, _using: registrationModel.GroupId_Updated(context) || setDefault || (otherInitValue && !registrationModel.GroupId.InitialValue(context)))
+                .Comments(registrationModel.Comments.ToJson(), _using: registrationModel.Comments_Updated(context) || (otherInitValue && !registrationModel.Comments.InitialValue(context)));
+            registrationModel.ClassHash
+                .Where(o => registrationModel.Class_Updated(columnName: o.Key)
+                    || (otherInitValue && !registrationModel.Class(columnName: o.Key)
+                        .InitialValue(context: context)))
+                .ForEach(o =>
+                    param.Add(
+                        columnBracket: o.Key,
+                        name: o.Key,
+                        value: o.Value.MaxLength(1024)));
+            registrationModel.NumHash
+                .Where(o => registrationModel.Num_Updated(columnName: o.Key)
+                    || (otherInitValue && !registrationModel.Num(columnName: o.Key)
+                        .InitialValue(context: context)))
+                .ForEach(o =>
+                    param.Add(
+                        columnBracket: o.Key,
+                        name: o.Key,
+                        value: o.Value));
+            registrationModel.DateHash
+                .Where(o => registrationModel.Date_Updated(columnName: o.Key)
+                    || (otherInitValue && !registrationModel.Date(columnName: o.Key)
+                        .InitialValue(context: context)))
+                .ForEach(o =>
+                    param.Add(
+                        columnBracket: o.Key,
+                        name: o.Key,
+                        value: o.Value));
+            registrationModel.DescriptionHash
+                .Where(o => registrationModel.Description_Updated(columnName: o.Key)
+                    || (otherInitValue && !registrationModel.Description(columnName: o.Key)
+                        .InitialValue(context: context)))
+                .ForEach(o =>
+                    param.Add(
+                        columnBracket: o.Key,
+                        name: o.Key,
+                        value: o.Value));
+            registrationModel.CheckHash
+                .Where(o => registrationModel.Check_Updated(columnName: o.Key)
+                    || (otherInitValue && !registrationModel.Check(columnName: o.Key)
+                        .InitialValue(context: context)))
+                .ForEach(o =>
+                    param.Add(
+                        columnBracket: o.Key,
+                        name: o.Key,
+                        value: o.Value));
+            registrationModel.AttachmentsHash
+                .Where(o => registrationModel.Attachments_Updated(columnName: o.Key)
+                    || (otherInitValue && !registrationModel.Attachments(columnName: o.Key)
                         .InitialValue(context: context)))
                 .ForEach(o =>
                     param.Add(
