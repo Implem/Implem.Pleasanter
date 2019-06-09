@@ -150,6 +150,7 @@ namespace Implem.Pleasanter.Models
                             ss: ss,
                             gridData: gridData,
                             view: view))
+                .Events("on_grid_load")
                 .ToJson();
         }
 
@@ -1625,138 +1626,6 @@ namespace Implem.Pleasanter.Models
             }
         }
 
-        /// <summary>
-        /// Fixed:
-        /// </summary>
-        private static ResponseCollection ResponseByApproval(
-            RegistrationsResponseCollection res,
-            Context context,
-            SiteSettings ss,
-            RegistrationModel registrationModel)
-        {
-            if (context.Forms.Bool("IsDialogEditorForm"))
-            {
-                var view = Views.GetBySession(
-                    context: context,
-                    ss: ss,
-                    setSession: false);
-                var gridData = new GridData(
-                    context: context,
-                    ss: ss,
-                    view: view,
-                    tableType: Sqls.TableTypes.Normal,
-                    where: Rds.RegistrationsWhere().RegistrationId(registrationModel.RegistrationId));
-                var columns = ss.GetGridColumns(
-                    context: context,
-                    view: view,
-                    checkPermission: true);
-                return res
-                    .ReplaceAll(
-                        $"[data-id=\"{registrationModel.RegistrationId}\"][data-latest]",
-                        new HtmlBuilder().GridRows(
-                            context: context,
-                            ss: ss,
-                            dataRows: gridData.DataRows,
-                            columns: columns,
-                            checkAll: false))
-                    .CloseDialog()
-                    .Message(Messages.ApprovalMessage(
-                        context: context,
-                        data: registrationModel.Title.DisplayValue));
-            }
-            else
-            {
-                return res
-                    .Ver(context: context, ss: ss)
-                    .Timestamp(context: context, ss: ss)
-                    .FieldResponse(context: context, ss: ss, registrationModel: registrationModel)
-                    .Val("#VerUp", false)
-                    .Disabled("#VerUp", false)
-                    .Html("#HeaderTitle", registrationModel.Title.Value)
-                    .Html("#RecordInfo", new HtmlBuilder().RecordInfo(
-                        context: context,
-                        baseModel: registrationModel,
-                        tableName: "Registrations"))
-                    .SetMemory("formChanged", false)
-                    .Message(Messages.ApprovalMessage(
-                        context: context,
-                        data: registrationModel.Title.Value))
-                    .Comment(
-                        context: context,
-                        ss: ss,
-                        column: ss.GetColumn(context: context, columnName: "Comments"),
-                        comments: registrationModel.Comments,
-                        deleteCommentId: registrationModel.DeleteCommentId)
-                    .ClearFormData();
-            }
-        }
-
-        /// <summary>
-        /// Fixed:
-        /// </summary>
-        private static ResponseCollection ResponseByApprovalRequest(
-            Context context,
-            SiteSettings ss,
-            RegistrationsResponseCollection res,
-            RegistrationModel registrationModel)
-        {
-            if (context.Forms.Bool("IsDialogEditorForm"))
-            {
-                var view = Views.GetBySession(
-                    context: context,
-                    ss: ss,
-                    setSession: false);
-                var gridData = new GridData(
-                    context: context,
-                    ss: ss,
-                    view: view,
-                    tableType: Sqls.TableTypes.Normal,
-                    where: Rds.RegistrationsWhere().RegistrationId(registrationModel.RegistrationId));
-                var columns = ss.GetGridColumns(
-                    context: context,
-                    view: view,
-                    checkPermission: true);
-                return res
-                    .ReplaceAll(
-                        $"[data-id=\"{registrationModel.RegistrationId}\"][data-latest]",
-                        new HtmlBuilder().GridRows(
-                            context: context,
-                            ss: ss,
-                            dataRows: gridData.DataRows,
-                            columns: columns,
-                            checkAll: false))
-                    .CloseDialog()
-                    .Message(Messages.ApprovalRequestMessage(
-                        context: context,
-                        data: registrationModel.Title.DisplayValue));
-            }
-            else
-            {
-                return res
-                    .Ver(context: context, ss: ss)
-                    .Timestamp(context: context, ss: ss)
-                    .FieldResponse(context: context, ss: ss, registrationModel: registrationModel)
-                    .Val("#VerUp", false)
-                    .Disabled("#VerUp", false)
-                    .Html("#HeaderTitle", registrationModel.Title.Value)
-                    .Html("#RecordInfo", new HtmlBuilder().RecordInfo(
-                        context: context,
-                        baseModel: registrationModel,
-                        tableName: "Registrations"))
-                    .SetMemory("formChanged", false)
-                    .Message(Messages.ApprovalRequestMessage(
-                        context: context,
-                        data: registrationModel.Title.Value))
-                    .Comment(
-                        context: context,
-                        ss: ss,
-                        column: ss.GetColumn(context: context, columnName: "Comments"),
-                        comments: registrationModel.Comments,
-                        deleteCommentId: registrationModel.DeleteCommentId)
-                    .ClearFormData();
-            }
-        }
-
         public static string Delete(Context context, SiteSettings ss, int registrationId)
         {
             var registrationModel = new RegistrationModel(context, ss, registrationId);
@@ -1908,6 +1777,138 @@ namespace Implem.Pleasanter.Models
                                 : string.Empty)
                     }))
                 .ToJson();
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        private static ResponseCollection ResponseByApproval(
+            RegistrationsResponseCollection res,
+            Context context,
+            SiteSettings ss,
+            RegistrationModel registrationModel)
+        {
+            if (context.Forms.Bool("IsDialogEditorForm"))
+            {
+                var view = Views.GetBySession(
+                    context: context,
+                    ss: ss,
+                    setSession: false);
+                var gridData = new GridData(
+                    context: context,
+                    ss: ss,
+                    view: view,
+                    tableType: Sqls.TableTypes.Normal,
+                    where: Rds.RegistrationsWhere().RegistrationId(registrationModel.RegistrationId));
+                var columns = ss.GetGridColumns(
+                    context: context,
+                    view: view,
+                    checkPermission: true);
+                return res
+                    .ReplaceAll(
+                        $"[data-id=\"{registrationModel.RegistrationId}\"][data-latest]",
+                        new HtmlBuilder().GridRows(
+                            context: context,
+                            ss: ss,
+                            dataRows: gridData.DataRows,
+                            columns: columns,
+                            checkAll: false))
+                    .CloseDialog()
+                    .Message(Messages.ApprovalMessage(
+                        context: context,
+                        data: registrationModel.Title.DisplayValue));
+            }
+            else
+            {
+                return res
+                    .Ver(context: context, ss: ss)
+                    .Timestamp(context: context, ss: ss)
+                    .FieldResponse(context: context, ss: ss, registrationModel: registrationModel)
+                    .Val("#VerUp", false)
+                    .Disabled("#VerUp", false)
+                    .Html("#HeaderTitle", registrationModel.Title.Value)
+                    .Html("#RecordInfo", new HtmlBuilder().RecordInfo(
+                        context: context,
+                        baseModel: registrationModel,
+                        tableName: "Registrations"))
+                    .SetMemory("formChanged", false)
+                    .Message(Messages.ApprovalMessage(
+                        context: context,
+                        data: registrationModel.Title.Value))
+                    .Comment(
+                        context: context,
+                        ss: ss,
+                        column: ss.GetColumn(context: context, columnName: "Comments"),
+                        comments: registrationModel.Comments,
+                        deleteCommentId: registrationModel.DeleteCommentId)
+                    .ClearFormData();
+            }
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        private static ResponseCollection ResponseByApprovalRequest(
+            Context context,
+            SiteSettings ss,
+            RegistrationsResponseCollection res,
+            RegistrationModel registrationModel)
+        {
+            if (context.Forms.Bool("IsDialogEditorForm"))
+            {
+                var view = Views.GetBySession(
+                    context: context,
+                    ss: ss,
+                    setSession: false);
+                var gridData = new GridData(
+                    context: context,
+                    ss: ss,
+                    view: view,
+                    tableType: Sqls.TableTypes.Normal,
+                    where: Rds.RegistrationsWhere().RegistrationId(registrationModel.RegistrationId));
+                var columns = ss.GetGridColumns(
+                    context: context,
+                    view: view,
+                    checkPermission: true);
+                return res
+                    .ReplaceAll(
+                        $"[data-id=\"{registrationModel.RegistrationId}\"][data-latest]",
+                        new HtmlBuilder().GridRows(
+                            context: context,
+                            ss: ss,
+                            dataRows: gridData.DataRows,
+                            columns: columns,
+                            checkAll: false))
+                    .CloseDialog()
+                    .Message(Messages.ApprovalRequestMessage(
+                        context: context,
+                        data: registrationModel.Title.DisplayValue));
+            }
+            else
+            {
+                return res
+                    .Ver(context: context, ss: ss)
+                    .Timestamp(context: context, ss: ss)
+                    .FieldResponse(context: context, ss: ss, registrationModel: registrationModel)
+                    .Val("#VerUp", false)
+                    .Disabled("#VerUp", false)
+                    .Html("#HeaderTitle", registrationModel.Title.Value)
+                    .Html("#RecordInfo", new HtmlBuilder().RecordInfo(
+                        context: context,
+                        baseModel: registrationModel,
+                        tableName: "Registrations"))
+                    .SetMemory("formChanged", false)
+                    .Message(Messages.ApprovalRequestMessage(
+                        context: context,
+                        data: registrationModel.Title.Value))
+                    .Comment(
+                        context: context,
+                        ss: ss,
+                        column: ss.GetColumn(context: context, columnName: "Comments"),
+                        comments: registrationModel.Comments,
+                        deleteCommentId: registrationModel.DeleteCommentId)
+                    .ClearFormData();
+            }
         }
 
         /// <summary>
