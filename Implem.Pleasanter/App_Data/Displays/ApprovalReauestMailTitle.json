@@ -1,0 +1,13 @@
+﻿{
+    "Id": "ApprovalReauestMailTitle",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "ApprovalReauest"
+        },
+        {
+            "Language": "ja",
+            "Body": "{0}承認依頼メール"
+        }
+    ]
+}

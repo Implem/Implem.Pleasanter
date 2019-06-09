@@ -50,6 +50,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Parameters.cs" />
+    <Compile Include="Parts\Registration.cs" />
     <Compile Include="Parts\Version.cs" />
     <Compile Include="Parts\PasswordPolicy.cs" />
     <Compile Include="Parts\Session.cs" />

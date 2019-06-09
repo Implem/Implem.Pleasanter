@@ -271,27 +271,27 @@ namespace Implem.Pleasanter.Models
                                 case "Class":
                                     Class(
                                         columnName: column.Name,
-                                        dataRow[column.ColumnName].ToString());
+                                        value: dataRow[column.ColumnName].ToString());
                                     break;
                                 case "Num":
                                     Num(
                                         columnName: column.Name,
-                                        dataRow[column.ColumnName].ToDecimal());
+                                        value: dataRow[column.ColumnName].ToDecimal());
                                     break;
                                 case "Date":
                                     Date(
                                         columnName: column.Name,
-                                        dataRow[column.ColumnName].ToDateTime());
+                                        value: dataRow[column.ColumnName].ToDateTime());
                                     break;
                                 case "Description":
                                     Description(
                                         columnName: column.Name,
-                                        dataRow[column.ColumnName].ToString());
+                                        value: dataRow[column.ColumnName].ToString());
                                     break;
                                 case "Check":
                                     Check(
                                         columnName: column.Name,
-                                        dataRow[column.ColumnName].ToBool());
+                                        value: dataRow[column.ColumnName].ToBool());
                                     break;
                             }
                             break;
@@ -307,7 +307,7 @@ namespace Implem.Pleasanter.Models
                 case "Class":
                     Class(
                         columnName: columnName,
-                        exportModel);
+                        value: exportModel);
                     break;
             }
         }

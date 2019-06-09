@@ -86,6 +86,7 @@ namespace Implem.DefinitionAccessor
             Parameters.Notification = Read<ParameterAccessor.Parts.Notification>();
             Parameters.Permissions = Read< ParameterAccessor.Parts.Permissions>();
             Parameters.Rds = Read<ParameterAccessor.Parts.Rds>();
+            Parameters.Registration = Read<ParameterAccessor.Parts.Registration>();
             Parameters.Reminder = Read<ParameterAccessor.Parts.Reminder>();
             Parameters.Search = Read<ParameterAccessor.Parts.Search>();
             Parameters.Security = Read<ParameterAccessor.Parts.Security>();

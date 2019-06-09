@@ -180,6 +180,28 @@ namespace Implem.Pleasanter.Libraries.Responses
         }
     }
 
+    public class RegistrationsResponseCollection : ResponseCollection
+    {
+        public RegistrationModel RegistrationModel;
+
+        public RegistrationsResponseCollection(RegistrationModel registrationModel)
+        {
+            RegistrationModel = registrationModel;
+        }
+
+        public RegistrationsResponseCollection Val(string selector, string value)
+        {
+            base.Val(selector, value);
+            return this;
+        }
+
+        public RegistrationsResponseCollection ValAndFormData(string selector, string value)
+        {
+            base.ValAndFormData(selector, value);
+            return this;
+        }
+    }
+
     public class UsersResponseCollection : ResponseCollection
     {
         public UserModel UserModel;
@@ -2556,6 +2578,578 @@ namespace Implem.Pleasanter.Libraries.Responses
             this GroupMembersResponseCollection res, Context context, string value)
         {
             return res.ValAndFormData("#GroupMembers_Timestamp", value);
+        }
+
+        public static RegistrationsResponseCollection Ver(
+            this RegistrationsResponseCollection res,
+            Context context,
+            SiteSettings ss,
+            Column column = null)
+        {
+            return res.Val(
+                "#Registrations_Ver",
+                res.RegistrationModel.Ver.ToResponse(
+                    context: context,
+                    ss: ss,
+                    column: column ?? ss.GetColumn(
+                        context: context,
+                        columnName: "Ver")));
+        }
+
+        public static RegistrationsResponseCollection Ver(
+            this RegistrationsResponseCollection res, Context context, string value)
+        {
+            return res.Val("#Registrations_Ver", value);
+        }
+
+        public static RegistrationsResponseCollection Ver_FormData(
+            this RegistrationsResponseCollection res,
+            Context context,
+            SiteSettings ss,
+            Column column = null)
+        {
+            return res.ValAndFormData(
+                "#Registrations_Ver",
+                res.RegistrationModel.Ver.ToResponse(
+                    context: context,
+                    ss: ss,
+                    column: column ?? ss.GetColumn(
+                        context: context,
+                        columnName: "Ver")));
+        }
+
+        public static RegistrationsResponseCollection Ver_FormData(
+            this RegistrationsResponseCollection res, Context context, string value)
+        {
+            return res.ValAndFormData("#Registrations_Ver", value);
+        }
+
+        public static RegistrationsResponseCollection MailAddress(
+            this RegistrationsResponseCollection res,
+            Context context,
+            SiteSettings ss,
+            Column column = null)
+        {
+            return res.Val(
+                "#Registrations_MailAddress",
+                res.RegistrationModel.MailAddress.ToResponse(
+                    context: context,
+                    ss: ss,
+                    column: column ?? ss.GetColumn(
+                        context: context,
+                        columnName: "MailAddress")));
+        }
+
+        public static RegistrationsResponseCollection MailAddress(
+            this RegistrationsResponseCollection res, Context context, string value)
+        {
+            return res.Val("#Registrations_MailAddress", value);
+        }
+
+        public static RegistrationsResponseCollection MailAddress_FormData(
+            this RegistrationsResponseCollection res,
+            Context context,
+            SiteSettings ss,
+            Column column = null)
+        {
+            return res.ValAndFormData(
+                "#Registrations_MailAddress",
+                res.RegistrationModel.MailAddress.ToResponse(
+                    context: context,
+                    ss: ss,
+                    column: column ?? ss.GetColumn(
+                        context: context,
+                        columnName: "MailAddress")));
+        }
+
+        public static RegistrationsResponseCollection MailAddress_FormData(
+            this RegistrationsResponseCollection res, Context context, string value)
+        {
+            return res.ValAndFormData("#Registrations_MailAddress", value);
+        }
+
+        public static RegistrationsResponseCollection Invitee(
+            this RegistrationsResponseCollection res,
+            Context context,
+            SiteSettings ss,
+            Column column = null)
+        {
+            return res.Val(
+                "#Registrations_Invitee",
+                res.RegistrationModel.Invitee.ToResponse(
+                    context: context,
+                    ss: ss,
+                    column: column ?? ss.GetColumn(
+                        context: context,
+                        columnName: "Invitee")));
+        }
+
+        public static RegistrationsResponseCollection Invitee(
+            this RegistrationsResponseCollection res, Context context, string value)
+        {
+            return res.Val("#Registrations_Invitee", value);
+        }
+
+        public static RegistrationsResponseCollection Invitee_FormData(
+            this RegistrationsResponseCollection res,
+            Context context,
+            SiteSettings ss,
+            Column column = null)
+        {
+            return res.ValAndFormData(
+                "#Registrations_Invitee",
+                res.RegistrationModel.Invitee.ToResponse(
+                    context: context,
+                    ss: ss,
+                    column: column ?? ss.GetColumn(
+                        context: context,
+                        columnName: "Invitee")));
+        }
+
+        public static RegistrationsResponseCollection Invitee_FormData(
+            this RegistrationsResponseCollection res, Context context, string value)
+        {
+            return res.ValAndFormData("#Registrations_Invitee", value);
+        }
+
+        public static RegistrationsResponseCollection LoginId(
+            this RegistrationsResponseCollection res,
+            Context context,
+            SiteSettings ss,
+            Column column = null)
+        {
+            return res.Val(
+                "#Registrations_LoginId",
+                res.RegistrationModel.LoginId.ToResponse(
+                    context: context,
+                    ss: ss,
+                    column: column ?? ss.GetColumn(
+                        context: context,
+                        columnName: "LoginId")));
+        }
+
+        public static RegistrationsResponseCollection LoginId(
+            this RegistrationsResponseCollection res, Context context, string value)
+        {
+            return res.Val("#Registrations_LoginId", value);
+        }
+
+        public static RegistrationsResponseCollection LoginId_FormData(
+            this RegistrationsResponseCollection res,
+            Context context,
+            SiteSettings ss,
+            Column column = null)
+        {
+            return res.ValAndFormData(
+                "#Registrations_LoginId",
+                res.RegistrationModel.LoginId.ToResponse(
+                    context: context,
+                    ss: ss,
+                    column: column ?? ss.GetColumn(
+                        context: context,
+                        columnName: "LoginId")));
+        }
+
+        public static RegistrationsResponseCollection LoginId_FormData(
+            this RegistrationsResponseCollection res, Context context, string value)
+        {
+            return res.ValAndFormData("#Registrations_LoginId", value);
+        }
+
+        public static RegistrationsResponseCollection Name(
+            this RegistrationsResponseCollection res,
+            Context context,
+            SiteSettings ss,
+            Column column = null)
+        {
+            return res.Val(
+                "#Registrations_Name",
+                res.RegistrationModel.Name.ToResponse(
+                    context: context,
+                    ss: ss,
+                    column: column ?? ss.GetColumn(
+                        context: context,
+                        columnName: "Name")));
+        }
+
+        public static RegistrationsResponseCollection Name(
+            this RegistrationsResponseCollection res, Context context, string value)
+        {
+            return res.Val("#Registrations_Name", value);
+        }
+
+        public static RegistrationsResponseCollection Name_FormData(
+            this RegistrationsResponseCollection res,
+            Context context,
+            SiteSettings ss,
+            Column column = null)
+        {
+            return res.ValAndFormData(
+                "#Registrations_Name",
+                res.RegistrationModel.Name.ToResponse(
+                    context: context,
+                    ss: ss,
+                    column: column ?? ss.GetColumn(
+                        context: context,
+                        columnName: "Name")));
+        }
+
+        public static RegistrationsResponseCollection Name_FormData(
+            this RegistrationsResponseCollection res, Context context, string value)
+        {
+            return res.ValAndFormData("#Registrations_Name", value);
+        }
+
+        public static RegistrationsResponseCollection Password(
+            this RegistrationsResponseCollection res,
+            Context context,
+            SiteSettings ss,
+            Column column = null)
+        {
+            return res.Val(
+                "#Registrations_Password",
+                res.RegistrationModel.Password.ToResponse(
+                    context: context,
+                    ss: ss,
+                    column: column ?? ss.GetColumn(
+                        context: context,
+                        columnName: "Password")));
+        }
+
+        public static RegistrationsResponseCollection Password(
+            this RegistrationsResponseCollection res, Context context, string value)
+        {
+            return res.Val("#Registrations_Password", value);
+        }
+
+        public static RegistrationsResponseCollection Password_FormData(
+            this RegistrationsResponseCollection res,
+            Context context,
+            SiteSettings ss,
+            Column column = null)
+        {
+            return res.ValAndFormData(
+                "#Registrations_Password",
+                res.RegistrationModel.Password.ToResponse(
+                    context: context,
+                    ss: ss,
+                    column: column ?? ss.GetColumn(
+                        context: context,
+                        columnName: "Password")));
+        }
+
+        public static RegistrationsResponseCollection Password_FormData(
+            this RegistrationsResponseCollection res, Context context, string value)
+        {
+            return res.ValAndFormData("#Registrations_Password", value);
+        }
+
+        public static RegistrationsResponseCollection PasswordValidate(
+            this RegistrationsResponseCollection res,
+            Context context,
+            SiteSettings ss,
+            Column column = null)
+        {
+            return res.Val(
+                "#Registrations_PasswordValidate",
+                res.RegistrationModel.PasswordValidate.ToResponse(
+                    context: context,
+                    ss: ss,
+                    column: column ?? ss.GetColumn(
+                        context: context,
+                        columnName: "PasswordValidate")));
+        }
+
+        public static RegistrationsResponseCollection PasswordValidate(
+            this RegistrationsResponseCollection res, Context context, string value)
+        {
+            return res.Val("#Registrations_PasswordValidate", value);
+        }
+
+        public static RegistrationsResponseCollection PasswordValidate_FormData(
+            this RegistrationsResponseCollection res,
+            Context context,
+            SiteSettings ss,
+            Column column = null)
+        {
+            return res.ValAndFormData(
+                "#Registrations_PasswordValidate",
+                res.RegistrationModel.PasswordValidate.ToResponse(
+                    context: context,
+                    ss: ss,
+                    column: column ?? ss.GetColumn(
+                        context: context,
+                        columnName: "PasswordValidate")));
+        }
+
+        public static RegistrationsResponseCollection PasswordValidate_FormData(
+            this RegistrationsResponseCollection res, Context context, string value)
+        {
+            return res.ValAndFormData("#Registrations_PasswordValidate", value);
+        }
+
+        public static RegistrationsResponseCollection Language(
+            this RegistrationsResponseCollection res,
+            Context context,
+            SiteSettings ss,
+            Column column = null)
+        {
+            return res.Val(
+                "#Registrations_Language",
+                res.RegistrationModel.Language.ToResponse(
+                    context: context,
+                    ss: ss,
+                    column: column ?? ss.GetColumn(
+                        context: context,
+                        columnName: "Language")));
+        }
+
+        public static RegistrationsResponseCollection Language(
+            this RegistrationsResponseCollection res, Context context, string value)
+        {
+            return res.Val("#Registrations_Language", value);
+        }
+
+        public static RegistrationsResponseCollection Language_FormData(
+            this RegistrationsResponseCollection res,
+            Context context,
+            SiteSettings ss,
+            Column column = null)
+        {
+            return res.ValAndFormData(
+                "#Registrations_Language",
+                res.RegistrationModel.Language.ToResponse(
+                    context: context,
+                    ss: ss,
+                    column: column ?? ss.GetColumn(
+                        context: context,
+                        columnName: "Language")));
+        }
+
+        public static RegistrationsResponseCollection Language_FormData(
+            this RegistrationsResponseCollection res, Context context, string value)
+        {
+            return res.ValAndFormData("#Registrations_Language", value);
+        }
+
+        public static RegistrationsResponseCollection Invitingflg(
+            this RegistrationsResponseCollection res,
+            Context context,
+            SiteSettings ss,
+            Column column = null)
+        {
+            return res.Val(
+                "#Registrations_Invitingflg",
+                res.RegistrationModel.Invitingflg.ToResponse(
+                    context: context,
+                    ss: ss,
+                    column: column ?? ss.GetColumn(
+                        context: context,
+                        columnName: "Invitingflg")));
+        }
+
+        public static RegistrationsResponseCollection Invitingflg(
+            this RegistrationsResponseCollection res, Context context, string value)
+        {
+            return res.Val("#Registrations_Invitingflg", value);
+        }
+
+        public static RegistrationsResponseCollection Invitingflg_FormData(
+            this RegistrationsResponseCollection res,
+            Context context,
+            SiteSettings ss,
+            Column column = null)
+        {
+            return res.ValAndFormData(
+                "#Registrations_Invitingflg",
+                res.RegistrationModel.Invitingflg.ToResponse(
+                    context: context,
+                    ss: ss,
+                    column: column ?? ss.GetColumn(
+                        context: context,
+                        columnName: "Invitingflg")));
+        }
+
+        public static RegistrationsResponseCollection Invitingflg_FormData(
+            this RegistrationsResponseCollection res, Context context, string value)
+        {
+            return res.ValAndFormData("#Registrations_Invitingflg", value);
+        }
+
+        public static RegistrationsResponseCollection Comments(
+            this RegistrationsResponseCollection res,
+            Context context,
+            SiteSettings ss,
+            Column column = null)
+        {
+            return res.Val(
+                "#Registrations_Comments",
+                res.RegistrationModel.Comments.ToResponse(
+                    context: context,
+                    ss: ss,
+                    column: column ?? ss.GetColumn(
+                        context: context,
+                        columnName: "Comments")));
+        }
+
+        public static RegistrationsResponseCollection Comments(
+            this RegistrationsResponseCollection res, Context context, string value)
+        {
+            return res.Val("#Registrations_Comments", value);
+        }
+
+        public static RegistrationsResponseCollection Comments_FormData(
+            this RegistrationsResponseCollection res,
+            Context context,
+            SiteSettings ss,
+            Column column = null)
+        {
+            return res.ValAndFormData(
+                "#Registrations_Comments",
+                res.RegistrationModel.Comments.ToResponse(
+                    context: context,
+                    ss: ss,
+                    column: column ?? ss.GetColumn(
+                        context: context,
+                        columnName: "Comments")));
+        }
+
+        public static RegistrationsResponseCollection Comments_FormData(
+            this RegistrationsResponseCollection res, Context context, string value)
+        {
+            return res.ValAndFormData("#Registrations_Comments", value);
+        }
+
+        public static RegistrationsResponseCollection CreatedTime(
+            this RegistrationsResponseCollection res,
+            Context context,
+            SiteSettings ss,
+            Column column = null)
+        {
+            return res.Val(
+                "#Registrations_CreatedTime",
+                res.RegistrationModel.CreatedTime.ToResponse(
+                    context: context,
+                    ss: ss,
+                    column: column ?? ss.GetColumn(
+                        context: context,
+                        columnName: "CreatedTime")));
+        }
+
+        public static RegistrationsResponseCollection CreatedTime(
+            this RegistrationsResponseCollection res, Context context, string value)
+        {
+            return res.Val("#Registrations_CreatedTime", value);
+        }
+
+        public static RegistrationsResponseCollection CreatedTime_FormData(
+            this RegistrationsResponseCollection res,
+            Context context,
+            SiteSettings ss,
+            Column column = null)
+        {
+            return res.ValAndFormData(
+                "#Registrations_CreatedTime",
+                res.RegistrationModel.CreatedTime.ToResponse(
+                    context: context,
+                    ss: ss,
+                    column: column ?? ss.GetColumn(
+                        context: context,
+                        columnName: "CreatedTime")));
+        }
+
+        public static RegistrationsResponseCollection CreatedTime_FormData(
+            this RegistrationsResponseCollection res, Context context, string value)
+        {
+            return res.ValAndFormData("#Registrations_CreatedTime", value);
+        }
+
+        public static RegistrationsResponseCollection UpdatedTime(
+            this RegistrationsResponseCollection res,
+            Context context,
+            SiteSettings ss,
+            Column column = null)
+        {
+            return res.Val(
+                "#Registrations_UpdatedTime",
+                res.RegistrationModel.UpdatedTime.ToResponse(
+                    context: context,
+                    ss: ss,
+                    column: column ?? ss.GetColumn(
+                        context: context,
+                        columnName: "UpdatedTime")));
+        }
+
+        public static RegistrationsResponseCollection UpdatedTime(
+            this RegistrationsResponseCollection res, Context context, string value)
+        {
+            return res.Val("#Registrations_UpdatedTime", value);
+        }
+
+        public static RegistrationsResponseCollection UpdatedTime_FormData(
+            this RegistrationsResponseCollection res,
+            Context context,
+            SiteSettings ss,
+            Column column = null)
+        {
+            return res.ValAndFormData(
+                "#Registrations_UpdatedTime",
+                res.RegistrationModel.UpdatedTime.ToResponse(
+                    context: context,
+                    ss: ss,
+                    column: column ?? ss.GetColumn(
+                        context: context,
+                        columnName: "UpdatedTime")));
+        }
+
+        public static RegistrationsResponseCollection UpdatedTime_FormData(
+            this RegistrationsResponseCollection res, Context context, string value)
+        {
+            return res.ValAndFormData("#Registrations_UpdatedTime", value);
+        }
+
+        public static RegistrationsResponseCollection Timestamp(
+            this RegistrationsResponseCollection res,
+            Context context,
+            SiteSettings ss,
+            Column column = null)
+        {
+            return res.Val(
+                "#Registrations_Timestamp",
+                res.RegistrationModel.Timestamp.ToResponse(
+                    context: context,
+                    ss: ss,
+                    column: column ?? ss.GetColumn(
+                        context: context,
+                        columnName: "Timestamp")));
+        }
+
+        public static RegistrationsResponseCollection Timestamp(
+            this RegistrationsResponseCollection res, Context context, string value)
+        {
+            return res.Val("#Registrations_Timestamp", value);
+        }
+
+        public static RegistrationsResponseCollection Timestamp_FormData(
+            this RegistrationsResponseCollection res,
+            Context context,
+            SiteSettings ss,
+            Column column = null)
+        {
+            return res.ValAndFormData(
+                "#Registrations_Timestamp",
+                res.RegistrationModel.Timestamp.ToResponse(
+                    context: context,
+                    ss: ss,
+                    column: column ?? ss.GetColumn(
+                        context: context,
+                        columnName: "Timestamp")));
+        }
+
+        public static RegistrationsResponseCollection Timestamp_FormData(
+            this RegistrationsResponseCollection res, Context context, string value)
+        {
+            return res.ValAndFormData("#Registrations_Timestamp", value);
         }
 
         public static UsersResponseCollection UserId(

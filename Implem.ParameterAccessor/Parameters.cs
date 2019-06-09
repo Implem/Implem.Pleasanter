@@ -25,6 +25,7 @@ namespace Implem.DefinitionAccessor
         public static Notification Notification;
         public static Permissions Permissions;
         public static Rds Rds;
+        public static Registration Registration;
         public static Reminder Reminder;
         public static Search Search;
         public static Security Security;

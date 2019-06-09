@@ -262,6 +262,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     }
                     var depts = new Dictionary<string, DeptModel>();
                     var groups = new Dictionary<string, GroupModel>();
+                    var registrations = new Dictionary<string, RegistrationModel>();
                     var users = new Dictionary<string, UserModel>();
                     var issues = new Dictionary<string, IssueModel>();
                     var results = new Dictionary<string, ResultModel>();
@@ -334,6 +335,39 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                         ss: column.SiteSettings,
                                         column: column,
                                         groupModel: groupModel);
+                                }
+                                break;
+                            case "Registrations":
+                                var registrationModel = registrations.Get(key);
+                                if (registrationModel == null)
+                                {
+                                    registrationModel = new RegistrationModel(
+                                        context: context,
+                                        ss: column.SiteSettings,
+                                        dataRow: dataRow,
+                                        tableAlias: column.TableAlias);
+                                    registrations.Add(key, registrationModel);
+                                    ss.SetColumnAccessControls(
+                                        context: context,
+                                        mine: registrationModel.Mine(context: context));
+                                }
+                                if (EditColumns.Get(column.ColumnName))
+                                {
+                                    hb.Td(action: () => hb.Field(
+                                        context: context,
+                                        column: column,
+                                        registrationModel: registrationModel,
+                                        ss: column.SiteSettings,
+                                        controlOnly: true,
+                                        idSuffix: null));
+                                }
+                                else
+                                {
+                                    hb.TdValue(
+                                        context: context,
+                                        ss: column.SiteSettings,
+                                        column: column,
+                                        registrationModel: registrationModel);
                                 }
                                 break;
                             case "Users":

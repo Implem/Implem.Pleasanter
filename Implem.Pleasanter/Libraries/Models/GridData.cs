@@ -122,6 +122,7 @@ namespace Implem.Pleasanter.Libraries.Models
                 var tenants = new Dictionary<string, TenantModel>();
                 var depts = new Dictionary<string, DeptModel>();
                 var groups = new Dictionary<string, GroupModel>();
+                var registrations = new Dictionary<string, RegistrationModel>();
                 var users = new Dictionary<string, UserModel>();
                 var sites = new Dictionary<string, SiteModel>();
                 var issues = new Dictionary<string, IssueModel>();

@@ -121,6 +121,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                 case "depts": return DeptsSiteSettings(context: context);
                 case "groups": return GroupsSiteSettings(context: context);
                 case "groupmembers": return GroupMembersSiteSettings(context: context);
+                case "registrations": return RegistrationsSiteSettings(context: context);
                 case "users": return UsersSiteSettings(context: context);
                 case "loginkeys": return LoginKeysSiteSettings(context: context);
                 case "mailaddresses": return MailAddressesSiteSettings(context: context);
@@ -234,6 +235,18 @@ namespace Implem.Pleasanter.Libraries.Settings
                 ReferenceType = "GroupMembers"
             };
             ss.Init(context: context);
+            return ss;
+        }
+
+        public static SiteSettings RegistrationsSiteSettings(Context context)
+        {
+            var ss = new SiteSettings()
+            {
+                ReferenceType = "Registrations"
+            };
+            ss.Init(context: context);
+            ss.SetChoiceHash(context: context, withLink: false);
+            ss.PermissionType = Permissions.Admins(context: context);
             return ss;
         }
 

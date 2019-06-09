@@ -848,6 +848,85 @@ namespace Implem.Pleasanter.Libraries.Settings
                             break;
                     }
                     break;
+                case "Registrations":
+                    switch (columnName)
+                    {
+                        case "TenantId":
+                            sql.Registrations_TenantId(tableName: path, _as: _as);
+                            break;
+                        case "RegistrationId":
+                            sql.Registrations_RegistrationId(tableName: path, _as: _as);
+                            break;
+                        case "Ver":
+                            sql.Registrations_Ver(tableName: path, _as: _as);
+                            break;
+                        case "MailAddress":
+                            sql.Registrations_MailAddress(tableName: path, _as: _as);
+                            break;
+                        case "Invitee":
+                            sql.Registrations_Invitee(tableName: path, _as: _as);
+                            break;
+                        case "LoginId":
+                            sql.Registrations_LoginId(tableName: path, _as: _as);
+                            break;
+                        case "Name":
+                            sql.Registrations_Name(tableName: path, _as: _as);
+                            break;
+                        case "Password":
+                            sql.Registrations_Password(tableName: path, _as: _as);
+                            break;
+                        case "Language":
+                            sql.Registrations_Language(tableName: path, _as: _as);
+                            break;
+                        case "Passphrase":
+                            sql.Registrations_Passphrase(tableName: path, _as: _as);
+                            break;
+                        case "Invitingflg":
+                            sql.Registrations_Invitingflg(tableName: path, _as: _as);
+                            break;
+                        case "UserId":
+                            sql.Registrations_UserId(tableName: path, _as: _as);
+                            break;
+                        case "DeptId":
+                            sql.Registrations_DeptId(tableName: path, _as: _as);
+                            break;
+                        case "GroupId":
+                            sql.Registrations_GroupId(tableName: path, _as: _as);
+                            break;
+                        case "Comments":
+                            sql.Registrations_Comments(tableName: path, _as: _as);
+                            break;
+                        case "Creator":
+                            sql.Registrations_Creator(tableName: path, _as: _as);
+                            break;
+                        case "Updator":
+                            sql.Registrations_Updator(tableName: path, _as: _as);
+                            break;
+                        case "CreatedTime":
+                            sql.Registrations_CreatedTime(tableName: path, _as: _as);
+                            break;
+                        case "UpdatedTime":
+                            sql.Registrations_UpdatedTime(tableName: path, _as: _as);
+                            break;
+                        default:
+                            switch (Def.ExtendedColumnTypes.Get(columnName))
+                            {
+                                case "Class":
+                                case "Num":
+                                case "Date":
+                                case "Description":
+                                case "Check":
+                                case "Attachments":
+                                    sql.Add(
+                                        columnBracket: $"[{columnName}]",
+                                        tableName: path,
+                                        columnName: columnName,
+                                        _as: _as);
+                                break;
+                            }
+                            break;
+                    }
+                    break;
                 case "Users":
                     switch (columnName)
                     {

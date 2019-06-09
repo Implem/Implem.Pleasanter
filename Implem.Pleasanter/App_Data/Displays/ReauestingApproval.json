@@ -1,0 +1,13 @@
+﻿{
+    "Id": "ReauestingApproval",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "ReauestingApproval"
+        },
+        {
+            "Language": "ja",
+            "Body": "承認依頼中"
+        }
+    ]
+}

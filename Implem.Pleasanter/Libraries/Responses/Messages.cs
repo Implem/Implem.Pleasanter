@@ -74,6 +74,42 @@ namespace Implem.Pleasanter.Libraries.Responses
                 css: "alert-error");
         }
 
+        public static Message ApprovalMessage(Context context, params string[] data)
+        {
+            return Get(
+                text: Displays.ApprovalMessage(
+                    context: context,
+                    data: data),
+                css: "alert-success");
+        }
+
+        public static Message ApprovalMessageInvited(Context context, params string[] data)
+        {
+            return Get(
+                text: Displays.ApprovalMessageInvited(
+                    context: context,
+                    data: data),
+                css: "alert-error");
+        }
+
+        public static Message ApprovalMessageInviting(Context context, params string[] data)
+        {
+            return Get(
+                text: Displays.ApprovalMessageInviting(
+                    context: context,
+                    data: data),
+                css: "alert-error");
+        }
+
+        public static Message ApprovalRequestMessage(Context context, params string[] data)
+        {
+            return Get(
+                text: Displays.ApprovalRequestMessage(
+                    context: context,
+                    data: data),
+                css: "alert-success");
+        }
+
         public static Message Authentication(Context context, params string[] data)
         {
             return Get(
@@ -587,6 +623,15 @@ namespace Implem.Pleasanter.Libraries.Responses
                 css: "alert-error");
         }
 
+        public static Message InviteMessage(Context context, params string[] data)
+        {
+            return Get(
+                text: Displays.InviteMessage(
+                    context: context,
+                    data: data),
+                css: "alert-success");
+        }
+
         public static Message ItemsLimit(Context context, params string[] data)
         {
             return Get(
@@ -792,6 +837,24 @@ namespace Implem.Pleasanter.Libraries.Responses
                     context: context,
                     data: data),
                 css: "alert-success");
+        }
+
+        public static Message RegistrationDeptDomain(Context context, params string[] data)
+        {
+            return Get(
+                text: Displays.RegistrationDeptDomain(
+                    context: context,
+                    data: data),
+                css: "alert-error");
+        }
+
+        public static Message RegistrationSameDomain(Context context, params string[] data)
+        {
+            return Get(
+                text: Displays.RegistrationSameDomain(
+                    context: context,
+                    data: data),
+                css: "alert-error");
         }
 
         public static Message RequireMailAddresses(Context context, params string[] data)
@@ -1055,6 +1118,46 @@ namespace Implem.Pleasanter.Libraries.Responses
         {
             return ResponseMessage(
                 message: ApplicationError(
+                    context: context,
+                    data: data),
+                target: target);
+        }
+
+        public static ResponseCollection ResponseApprovalMessage(
+            Context context, string target = null, params string[] data)
+        {
+            return ResponseMessage(
+                message: ApprovalMessage(
+                    context: context,
+                    data: data),
+                target: target);
+        }
+
+        public static ResponseCollection ResponseApprovalMessageInvited(
+            Context context, string target = null, params string[] data)
+        {
+            return ResponseMessage(
+                message: ApprovalMessageInvited(
+                    context: context,
+                    data: data),
+                target: target);
+        }
+
+        public static ResponseCollection ResponseApprovalMessageInviting(
+            Context context, string target = null, params string[] data)
+        {
+            return ResponseMessage(
+                message: ApprovalMessageInviting(
+                    context: context,
+                    data: data),
+                target: target);
+        }
+
+        public static ResponseCollection ResponseApprovalRequestMessage(
+            Context context, string target = null, params string[] data)
+        {
+            return ResponseMessage(
+                message: ApprovalRequestMessage(
                     context: context,
                     data: data),
                 target: target);
@@ -1630,6 +1733,16 @@ namespace Implem.Pleasanter.Libraries.Responses
                 target: target);
         }
 
+        public static ResponseCollection ResponseInviteMessage(
+            Context context, string target = null, params string[] data)
+        {
+            return ResponseMessage(
+                message: InviteMessage(
+                    context: context,
+                    data: data),
+                target: target);
+        }
+
         public static ResponseCollection ResponseItemsLimit(
             Context context, string target = null, params string[] data)
         {
@@ -1855,6 +1968,26 @@ namespace Implem.Pleasanter.Libraries.Responses
         {
             return ResponseMessage(
                 message: RebuildingCompleted(
+                    context: context,
+                    data: data),
+                target: target);
+        }
+
+        public static ResponseCollection ResponseRegistrationDeptDomain(
+            Context context, string target = null, params string[] data)
+        {
+            return ResponseMessage(
+                message: RegistrationDeptDomain(
+                    context: context,
+                    data: data),
+                target: target);
+        }
+
+        public static ResponseCollection ResponseRegistrationSameDomain(
+            Context context, string target = null, params string[] data)
+        {
+            return ResponseMessage(
+                message: RegistrationSameDomain(
                     context: context,
                     data: data),
                 target: target);
