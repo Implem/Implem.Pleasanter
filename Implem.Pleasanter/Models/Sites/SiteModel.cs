@@ -998,18 +998,13 @@ namespace Implem.Pleasanter.Models
             if (data.Publish != null) Publish = data.Publish.ToBool().ToBool();
             if (data.Comments != null) Comments.Prepend(context: context, ss: ss, body: data.Comments);
             if (data.VerUp != null) VerUp = data.VerUp.ToBool();
-            data.ClassHash.Where(o => o.Value != null)
-                .ForEach(o => Class(columnName: o.Key, value: o.Value));
-            data.NumHash.Where(o => o.Value != null)
-                .ForEach(o => Num(columnName: o.Key, value: o.Value));
-            data.DateHash.Where(o => o.Value != null)
-                .ForEach(o => Date(columnName: o.Key, value: o.Value));
-            data.DescriptionHash.Where(o => o.Value != null)
-                .ForEach(o => Description(columnName: o.Key, value: o.Value));
-            data.CheckHash.Where(o => o.Value != null)
-                .ForEach(o => Check(columnName: o.Key, value: o.Value));
-            data.AttachmentsHash.Where(o => o.Value != null)
-                .ForEach(o => Attachments(columnName: o.Key, value: o.Value));
+            ClassHash = data.ClassHash;
+            data.ClassHash.ForEach(o => Class(columnName: o.Key, value: o.Value));
+            data.NumHash.ForEach(o => Num(columnName: o.Key, value: o.Value));
+            data.DateHash.ForEach(o => Date(columnName: o.Key, value: o.Value));
+            data.DescriptionHash.ForEach(o => Description(columnName: o.Key, value: o.Value));
+            data.CheckHash.ForEach(o => Check(columnName: o.Key, value: o.Value));
+            data.AttachmentsHash.ForEach(o => Attachments(columnName: o.Key, value: o.Value));
             SetSiteSettings(context: context);
         }
 

@@ -165,7 +165,7 @@ namespace Implem.Libraries.Utilities
         public static string ValidFileName(string fileName)
         {
             var validFileName = fileName;
-            "\\/：*?\"<>|".ForEach(invalidChar =>
+            "\\/:*?\"<>|".ForEach(invalidChar =>
             {
                 if (validFileName.Contains(invalidChar))
                 {

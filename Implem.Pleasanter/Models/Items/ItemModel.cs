@@ -140,6 +140,39 @@ namespace Implem.Pleasanter.Models
             return this;
         }
 
+        public System.Web.Mvc.ContentResult ExportByApi(Context context)
+        {
+            SetSite(context: context);
+            switch (Site.ReferenceType)
+            {
+                case "Issues":
+                    if (SiteId == ReferenceId)
+                    {
+                        return IssueUtilities.ExportByApi(
+                            context: context,
+                            ss: Site.IssuesSiteSettings(
+                                context: context,
+                                referenceId: ReferenceId),
+                            siteModel: Site);
+                    }
+                    break;
+                case "Results":
+                    if (SiteId == ReferenceId)
+                    {
+                        return ResultUtilities.ExportByApi(
+                            context: context,
+                            ss: Site.ResultsSiteSettings(
+                                context: context,
+                                referenceId: ReferenceId),
+                            siteModel: Site);
+                    }
+                    break;
+                default:
+                    return ApiResults.Get(ApiResponses.BadRequest(context: context));
+            }
+            return ApiResults.Get(ApiResponses.BadRequest(context: context));
+        }
+
         public string Index(Context context)
         {
             if (ReferenceId == 0)

@@ -4718,26 +4718,6 @@ namespace Implem.Pleasanter.Libraries.Responses
                 data: data);
         }
 
-        public static string RegistrationDeptDomain(
-            Context context,
-            params string[] data)
-        {
-            return Get(
-                context: context,
-                id: "RegistrationDeptDomain",
-                data: data);
-        }
-
-        public static string RegistrationSameDomain(
-            Context context,
-            params string[] data)
-        {
-            return Get(
-                context: context,
-                id: "RegistrationSameDomain",
-                data: data);
-        }
-
         public static string RelatingColumn(
             Context context,
             params string[] data)

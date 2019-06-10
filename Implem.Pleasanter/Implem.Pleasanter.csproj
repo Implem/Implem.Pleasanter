@@ -320,6 +320,7 @@
     <Compile Include="Libraries\Models\ImageLibData.cs" />
     <Compile Include="Libraries\Models\JsonExport.cs" />
     <Compile Include="Libraries\Models\JsonExportColumn.cs" />
+    <Compile Include="Libraries\Requests\ExportApi.cs" />
     <Compile Include="Libraries\Requests\SessionApi.cs" />
     <Compile Include="Libraries\Requests\Api.cs" />
     <Compile Include="Libraries\Requests\Calendars.cs" />
