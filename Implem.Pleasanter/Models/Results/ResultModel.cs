@@ -1596,12 +1596,18 @@ namespace Implem.Pleasanter.Models
             if (data.Owner != null) Owner = SiteInfo.User(context: context, userId: data.Owner.ToInt());
             if (data.Comments != null) Comments.Prepend(context: context, ss: ss, body: data.Comments);
             if (data.VerUp != null) VerUp = data.VerUp.ToBool();
-            ClassHash = data.ClassHash;
-            NumHash = data.NumHash;
-            DateHash = data.DateHash;
-            DescriptionHash = data.DescriptionHash;
-            CheckHash = data.CheckHash;
-            AttachmentsHash = data.AttachmentsHash;
+            data.ClassHash.Where(o => o.Value != null)
+                .ForEach(o => Class(columnName: o.Key, value: o.Value));
+            data.NumHash.Where(o => o.Value != null)
+                .ForEach(o => Num(columnName: o.Key, value: o.Value));
+            data.DateHash.Where(o => o.Value != null)
+                .ForEach(o => Date(columnName: o.Key, value: o.Value));
+            data.DescriptionHash.Where(o => o.Value != null)
+                .ForEach(o => Description(columnName: o.Key, value: o.Value));
+            data.CheckHash.Where(o => o.Value != null)
+                .ForEach(o => Check(columnName: o.Key, value: o.Value));
+            data.AttachmentsHash.Where(o => o.Value != null)
+                .ForEach(o => Attachments(columnName: o.Key, value: o.Value));
             SetByFormula(context: context, ss: ss);
             SetChoiceHash(context: context, ss: ss);
         }
