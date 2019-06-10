@@ -3486,15 +3486,73 @@ namespace Implem.Pleasanter.Models
                 case Error.Types.None: break;
                 default: return null;
             }
-            return ExportUtilities.Export(
+            var export = ss.GetExport(
+                    context: context,
+                    id: context.QueryStrings.Int("id"));
+            var content = ExportUtilities.Export(
                 context: context,
                 ss: ss,
-                export: ss.GetExport(
-                    context: context,
-                    id: context.QueryStrings.Int("id")),
+                export: export,
                 where: SelectedWhere(
                     context: context,
+                    ss: ss),
+                view: Views.GetBySession(
+                    context: context,
                     ss: ss));
+            return new ResponseFile(
+                fileContent: content,
+                fileDownloadName: ExportUtilities.FileName(
+                    context: context,
+                    ss: ss,
+                    name: export.Name,
+                    extension: export.Type.ToString()));
+        }
+
+        public static System.Web.Mvc.ContentResult ExportByApi(
+            Context context, SiteSettings ss, SiteModel siteModel)
+        {
+            if (context.ContractSettings.Export == false)
+            {
+                return null;
+            }
+            var invalid = ResultValidators.OnExporting(
+                context: context,
+                ss: ss);
+            switch (invalid.Type)
+            {
+                case Error.Types.None: break;
+                default: return null;
+            }
+            var api = context.RequestDataString.Deserialize<ExportApi>();
+            if (api == null)
+            {
+                return ApiResults.Get(ApiResponses.BadRequest(context: context));
+            }
+            var export = api.Export ?? ss.GetExport(
+                context: context,
+                id: api.ExportId);
+            var content = ExportUtilities.Export(
+                context: context,
+                ss: ss,
+                export: export,
+                where: SelectedWhere(
+                    context: context,
+                    ss: ss),
+                view: api.View ?? new View());
+            return ApiResults.Get(
+                new
+                {
+                    StatusCode = 200,
+                    Response = new
+                    {
+                        Name = ExportUtilities.FileName(
+                            context: context,
+                            ss: ss,
+                            name: export.Name,
+                            extension: export.Type.ToString()),
+                        Content = content
+                    }
+                }.ToJson());
         }
 
         public static ResponseFile ExportCrosstab(

@@ -58,8 +58,6 @@ namespace Implem.Pleasanter.Libraries.General
             PasswordNotChanged,
             PasswordPolicyViolation,
             PermissionNotSelfChange,
-            RegistrationDeptDomain,
-            RegistrationSameDomain,
             RequireMailAddresses,
             RequireTo,
             Restricted,
@@ -286,14 +284,6 @@ namespace Implem.Pleasanter.Libraries.General
                         data: data);
                 case Types.PermissionNotSelfChange:
                     return Messages.PermissionNotSelfChange(
-                        context: context,
-                        data: data);
-                case Types.RegistrationDeptDomain:
-                    return Messages.RegistrationDeptDomain(
-                        context: context,
-                        data: data);
-                case Types.RegistrationSameDomain:
-                    return Messages.RegistrationSameDomain(
                         context: context,
                         data: data);
                 case Types.RequireMailAddresses:

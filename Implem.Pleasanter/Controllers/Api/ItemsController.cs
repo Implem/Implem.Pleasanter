@@ -60,5 +60,18 @@ namespace Implem.Pleasanter.Controllers.Api
             log.Finish(context: context, responseSize: result.Content.Length);
             return result.ToHttpResponse(Request);
         }
+
+        [HttpPost]
+        public async Task<HttpResponseMessage> Export(long id)
+        {
+            var body = await Request.Content.ReadAsStringAsync();
+            var context = new Context(sessionStatus: false, sessionData: false, apiRequestBody: body);
+            var log = new SysLogModel(context: context);
+            var result = context.Authenticated
+                ? new ItemModel(context: context, referenceId: id).ExportByApi(context: context)
+                : ApiResults.Unauthorized(context: context);
+            log.Finish(context: context, responseSize: result.Content.Length);
+            return result.ToHttpResponse(Request);
+        }
     }
 }

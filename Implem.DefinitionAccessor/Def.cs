@@ -522,6 +522,7 @@ namespace Implem.DefinitionAccessor
                     case "Model_ExtendedSqls": Code.Model_ExtendedSqls = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_ExtendedSqls, definitionRow, CodeXls); break;
                     case "Model_ExtendedSqlsParameter": Code.Model_ExtendedSqlsParameter = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_ExtendedSqlsParameter, definitionRow, CodeXls); break;
                     case "Model_ToLocal": Code.Model_ToLocal = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_ToLocal, definitionRow, CodeXls); break;
+                    case "Model_ExportByApi": Code.Model_ExportByApi = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_ExportByApi, definitionRow, CodeXls); break;
                     case "Collection": Code.Collection = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Collection, definitionRow, CodeXls); break;
                     case "Collection_FormDataSetParameter": Code.Collection_FormDataSetParameter = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Collection_FormDataSetParameter, definitionRow, CodeXls); break;
                     case "Collection_CloseParenthesis": Code.Collection_CloseParenthesis = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Collection_CloseParenthesis, definitionRow, CodeXls); break;
@@ -7250,6 +7251,7 @@ namespace Implem.DefinitionAccessor
         public string Model_ExtendedSqls;
         public string Model_ExtendedSqlsParameter;
         public string Model_ToLocal;
+        public string Model_ExportByApi;
         public string Collection;
         public string Collection_FormDataSetParameter;
         public string Collection_CloseParenthesis;
@@ -7856,6 +7858,7 @@ namespace Implem.DefinitionAccessor
         public CodeDefinition Model_ExtendedSqls = new CodeDefinition();
         public CodeDefinition Model_ExtendedSqlsParameter = new CodeDefinition();
         public CodeDefinition Model_ToLocal = new CodeDefinition();
+        public CodeDefinition Model_ExportByApi = new CodeDefinition();
         public CodeDefinition Collection = new CodeDefinition();
         public CodeDefinition Collection_FormDataSetParameter = new CodeDefinition();
         public CodeDefinition Collection_CloseParenthesis = new CodeDefinition();

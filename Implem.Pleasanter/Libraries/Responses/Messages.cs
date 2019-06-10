@@ -839,24 +839,6 @@ namespace Implem.Pleasanter.Libraries.Responses
                 css: "alert-success");
         }
 
-        public static Message RegistrationDeptDomain(Context context, params string[] data)
-        {
-            return Get(
-                text: Displays.RegistrationDeptDomain(
-                    context: context,
-                    data: data),
-                css: "alert-error");
-        }
-
-        public static Message RegistrationSameDomain(Context context, params string[] data)
-        {
-            return Get(
-                text: Displays.RegistrationSameDomain(
-                    context: context,
-                    data: data),
-                css: "alert-error");
-        }
-
         public static Message RequireMailAddresses(Context context, params string[] data)
         {
             return Get(
@@ -1968,26 +1950,6 @@ namespace Implem.Pleasanter.Libraries.Responses
         {
             return ResponseMessage(
                 message: RebuildingCompleted(
-                    context: context,
-                    data: data),
-                target: target);
-        }
-
-        public static ResponseCollection ResponseRegistrationDeptDomain(
-            Context context, string target = null, params string[] data)
-        {
-            return ResponseMessage(
-                message: RegistrationDeptDomain(
-                    context: context,
-                    data: data),
-                target: target);
-        }
-
-        public static ResponseCollection ResponseRegistrationSameDomain(
-            Context context, string target = null, params string[] data)
-        {
-            return ResponseMessage(
-                message: RegistrationSameDomain(
                     context: context,
                     data: data),
                 target: target);
