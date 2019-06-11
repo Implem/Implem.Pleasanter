@@ -1381,38 +1381,25 @@ namespace Implem.Pleasanter.Libraries.Settings
             var ss = column.SiteSettings;
             ss.CreateColumnAccessControls
                 .Where(o => o.ColumnName == column.Name)
-                .ForEach(o =>
-                {
-                    column.CanCreate =
-                            o.Allowed(
-                                context: context,
-                                ss: this,
-                                type: PermissionType,
-                                mine: mine) &&
-                            column.EditorReadOnly != true;
-                });
+                .ForEach(o => column.CanCreate = o.Allowed(
+                    context: context,
+                    ss: this,
+                    type: PermissionType,
+                    mine: mine));
             ss.ReadColumnAccessControls
                 .Where(o => o.ColumnName == column.Name)
-                .ForEach(o =>
-                {
-                    column.CanRead = o.Allowed(
-                            context: context,
-                            ss: this,
-                            type: PermissionType,
-                            mine: mine);
-                });
+                .ForEach(o => column.CanRead = o.Allowed(
+                    context: context,
+                    ss: this,
+                    type: PermissionType,
+                    mine: mine));
             ss.UpdateColumnAccessControls
                 .Where(o => o.ColumnName == column.Name)
-                .ForEach(o =>
-                {
-                    column.CanUpdate =
-                            o.Allowed(
-                                context: context,
-                                ss: this,
-                                type: PermissionType,
-                                mine: mine) &&
-                            column.EditorReadOnly != true;
-                });
+                .ForEach(o => column.CanUpdate = o.Allowed(
+                    context: context,
+                    ss: this,
+                    type: PermissionType,
+                    mine: mine));
         }
 
         private decimal DefaultMax(ColumnDefinition columnDefinition)
