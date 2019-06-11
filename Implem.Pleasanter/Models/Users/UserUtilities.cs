@@ -3774,7 +3774,10 @@ namespace Implem.Pleasanter.Models
                         data: column.ColumnName);
                 }
             }
-            var errorData = userModel.Update(context: context, ss: ss);
+            var errorData = userModel.Update(
+                context: context,
+                ss: ss,
+                updateMailAddresses: false);
             switch (errorData.Type)
             {
                 case Error.Types.None:
