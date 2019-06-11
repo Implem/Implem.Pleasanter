@@ -1290,6 +1290,7 @@ namespace Implem.Pleasanter.Models
             SiteSettings ss,
             IEnumerable<string> permissions = null,
             bool permissionChanged = false,
+            bool updateMailAddresses = true,
             SqlParamCollection param = null,
             List<SqlStatement> additionalStatements = null,
             bool otherInitValue = false,
@@ -1337,7 +1338,10 @@ namespace Implem.Pleasanter.Models
             {
                 Get(context: context, ss: ss);
             }
-            UpdateMailAddresses(context: context);
+            if (updateMailAddresses)
+            {
+                UpdateMailAddresses(context: context);
+            }
             SetSiteInfo(context: context);
             return new ErrorData(type: Error.Types.None);
         }
