@@ -998,7 +998,6 @@ namespace Implem.Pleasanter.Models
             if (data.Publish != null) Publish = data.Publish.ToBool().ToBool();
             if (data.Comments != null) Comments.Prepend(context: context, ss: ss, body: data.Comments);
             if (data.VerUp != null) VerUp = data.VerUp.ToBool();
-            ClassHash = data.ClassHash;
             data.ClassHash.ForEach(o => Class(columnName: o.Key, value: o.Value));
             data.NumHash.ForEach(o => Num(columnName: o.Key, value: o.Value));
             data.DateHash.ForEach(o => Date(columnName: o.Key, value: o.Value));
