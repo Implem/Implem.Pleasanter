@@ -134,8 +134,9 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                             format: context.HtmlTitleRecord);
                     }
                 default:
-                    return Parameters.General.HtmlTitle
-                        ?? Displays.ProductName(context: context);
+                    return FormattedHtmlTitle(
+                        context: context,
+                        format: context.HtmlTitleTop);
             }
         }
 
@@ -148,7 +149,6 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     .Replace("[SiteTitle]", context.SiteTitle)
                     .Replace("[RecordTitle]", context.RecordTitle),
                 context.TenantTitle,
-                Parameters.General.HtmlTitle,
                 Displays.ProductName(context: context));
         }
 
