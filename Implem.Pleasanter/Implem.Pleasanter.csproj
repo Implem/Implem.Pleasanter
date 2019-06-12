@@ -1484,6 +1484,8 @@
     <Content Include="Views\Registrations\Index.cshtml" />
     <Content Include="Views\Registrations\Login.cshtml" />
     <Content Include="Views\Registrations\New.cshtml" />
+    <Content Include="Views\Admins\InitializeItems.cshtml" />
+    <Content Include="Views\Admins\MigrateSiteSettings.cshtml" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
