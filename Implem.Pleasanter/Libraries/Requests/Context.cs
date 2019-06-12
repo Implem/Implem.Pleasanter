@@ -453,11 +453,29 @@ namespace Implem.Pleasanter.Libraries.Requests
                         key: "Language",
                         value: language);
                 }
+                else
+                {
+                    switch (HttpAcceptLanguage())
+                    {
+                        case "ja":
+                        case "ja-JP":
+                            language = "ja";
+                            break;
+                        default:
+                            language = "en";
+                            break;
+                    }
+                }
                 language = SessionData.Get("Language") ?? language;
             }
             return types.Contains(language)
                 ? language
                 : Parameters.Service?.DefaultLanguage;
+        }
+
+        private static string HttpAcceptLanguage()
+        {
+            return HttpContext.Current.Request.ServerVariables["HTTP_ACCEPT_LANGUAGE"]?.Split_1st();
         }
 
         private void SetPermissions()
