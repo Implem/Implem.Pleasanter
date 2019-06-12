@@ -637,12 +637,24 @@ namespace Implem.Pleasanter.Models
             if (data.Body != null) Body = data.Body.ToString().ToString();
             if (data.Comments != null) Comments.Prepend(context: context, ss: ss, body: data.Comments);
             if (data.VerUp != null) VerUp = data.VerUp.ToBool();
-            data.ClassHash.ForEach(o => Class(columnName: o.Key, value: o.Value));
-            data.NumHash.ForEach(o => Num(columnName: o.Key, value: o.Value));
-            data.DateHash.ForEach(o => Date(columnName: o.Key, value: o.Value));
-            data.DescriptionHash.ForEach(o => Description(columnName: o.Key, value: o.Value));
-            data.CheckHash.ForEach(o => Check(columnName: o.Key, value: o.Value));
-            data.AttachmentsHash.ForEach(o => Attachments(columnName: o.Key, value: o.Value));
+            data.ClassHash.ForEach(o => Class(
+                columnName: o.Key,
+                value: o.Value));
+            data.NumHash.ForEach(o => Num(
+                columnName: o.Key,
+                value: o.Value));
+            data.DateHash.ForEach(o => Date(
+                columnName: o.Key,
+                value: o.Value.ToUniversal(context: context)));
+            data.DescriptionHash.ForEach(o => Description(
+                columnName: o.Key,
+                value: o.Value));
+            data.CheckHash.ForEach(o => Check(
+                columnName: o.Key,
+                value: o.Value));
+            data.AttachmentsHash.ForEach(o => Attachments(
+                columnName: o.Key,
+                value: o.Value));
         }
 
         private void SetBySession(Context context)
