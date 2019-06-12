@@ -44,6 +44,11 @@ namespace Implem.Pleasanter.Libraries.Responses
             return Get(ApiResponses.Unauthorized(context: context));
         }
 
+        public static ContentResult Forbidden(Context context)
+        {
+            return Get(ApiResponses.Forbidden(context: context));
+        }
+
         public static HttpResponseMessage ToHttpResponse(this ContentResult self, HttpRequestMessage request)
         {
             var content = Newtonsoft.Json.JsonConvert.DeserializeObject<ApiResponse>(self.Content);

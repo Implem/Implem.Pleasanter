@@ -3521,7 +3521,9 @@ namespace Implem.Pleasanter.Models
             switch (invalid.Type)
             {
                 case Error.Types.None: break;
-                default: return null;
+                default: return ApiResults.Error(
+                    context: context,
+                    errorData: invalid);
             }
             var api = context.RequestDataString.Deserialize<ExportApi>();
             if (api == null)
