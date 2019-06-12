@@ -45,7 +45,11 @@
                 scrollInput: false
             }).addClass('applied');
         });
-        $.datetimepicker.setLocale('ja');
+        switch ($('#Language').val()) {
+            case 'ja':
+                $.datetimepicker.setLocale('ja');
+                break;
+        }
         $('.radio:not(.applied)').buttonset().addClass('applied');
         $('.control-selectable:not(.applied)').selectable({
             selected: function (event, ui) {
