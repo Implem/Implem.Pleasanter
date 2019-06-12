@@ -3,7 +3,6 @@ namespace Implem.ParameterAccessor.Parts
 {
     public class General
     {
-        public string HtmlTitle;
         public string HtmlHeadKeywords;
         public string HtmlHeadDescription;
         public string HtmlHeadViewport;
