@@ -13,13 +13,25 @@ namespace Implem.Pleasanter.Libraries.Responses
 
         public static ApiResponse Error(Context context, ErrorData errorData, params string[] data)
         {
-            return new ApiResponse(500, data?.Any() == true
-                ? Displays.Get(
-                    context: context,
-                    id: errorData.Type.ToString()).Params(data)
-                : Displays.Get(
-                    context: context,
-                    id: errorData.Type.ToString()));
+            switch (errorData.Type)
+            {
+                case General.Error.Types.BadRequest:
+                    return BadRequest(context);
+                case General.Error.Types.Unauthorized:
+                    return Unauthorized(context);
+                case General.Error.Types.NotFound:
+                    return NotFound(context);
+                case General.Error.Types.HasNotPermission:
+                    return Forbidden(context);
+                default:
+                    return new ApiResponse(500, data?.Any() == true
+                        ? Displays.Get(
+                            context: context,
+                            id: errorData.Type.ToString()).Params(data)
+                        : Displays.Get(
+                            context: context,
+                            id: errorData.Type.ToString()));
+            }
         }
 
         public static ApiResponse BadRequest(Context context)
@@ -35,6 +47,11 @@ namespace Implem.Pleasanter.Libraries.Responses
         public static ApiResponse NotFound(Context context)
         {
             return new ApiResponse(404, Displays.NotFound(context: context));
+        }
+
+        public static ApiResponse Forbidden(Context context)
+        {
+            return new ApiResponse(403, Displays.HasNotPermission(context: context));
         }
     }
 }
