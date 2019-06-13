@@ -43,6 +43,7 @@ namespace Implem.SupportTools.MailTester.Model
             Password = password;
             FixedFrom = fixedFrom;
             AllowedFrom = allowedFrom;
+            EnableSsl = enableSsl;
             From = from;
             To = to;
             Cc = cc;
