@@ -2752,16 +2752,16 @@ namespace Implem.Pleasanter.Models
             else
             {
                 SiteSettings.Notifications.Add(new Notification(
-                    SiteSettings.Notifications.MaxOrDefault(o => o.Id) + 1,
-                    (Notification.Types)context.Forms.Int("NotificationType"),
-                    context.Forms.Data("NotificationPrefix"),
-                    context.Forms.Bool("NotificationEnabled"),
-                    context.Forms.Data("NotificationAddress"),
-                    context.Forms.Data("NotificationToken"),
-                    context.Forms.List("MonitorChangesColumnsAll"),
-                    context.Forms.Int("BeforeCondition"),
-                    context.Forms.Int("AfterCondition"),
-                    (Notification.Expressions)context.Forms.Int("Expression")));
+                    id: SiteSettings.Notifications.MaxOrDefault(o => o.Id) + 1,
+                    type: (Notification.Types)context.Forms.Int("NotificationType"),
+                    prefix: context.Forms.Data("NotificationPrefix"),
+                    address: context.Forms.Data("NotificationAddress"),
+                    token: context.Forms.Data("NotificationToken"),
+                    monitorChangesColumns: context.Forms.List("MonitorChangesColumnsAll"),
+                    beforeCondition: context.Forms.Int("BeforeCondition"),
+                    afterCondition: context.Forms.Int("AfterCondition"),
+                    expression: (Notification.Expressions)context.Forms.Int("Expression"),
+                    disabled: context.Forms.Bool("NotificationDisabled")));
                 SetNotificationsResponseCollection(context: context, res: res);
             }
         }
@@ -2785,15 +2785,15 @@ namespace Implem.Pleasanter.Models
                 else
                 {
                     notification.Update(
-                        (Notification.Types)context.Forms.Int("NotificationType"),
-                        context.Forms.Data("NotificationPrefix"),
-                        context.Forms.Bool("NotificationEnabled"),
-                        context.Forms.Data("NotificationAddress"),
-                        context.Forms.Data("NotificationToken"),
-                        context.Forms.List("MonitorChangesColumnsAll"),
-                        context.Forms.Int("BeforeCondition"),
-                        context.Forms.Int("AfterCondition"),
-                        (Notification.Expressions)context.Forms.Int("Expression"));
+                        type: (Notification.Types)context.Forms.Int("NotificationType"),
+                        prefix: context.Forms.Data("NotificationPrefix"),
+                        address: context.Forms.Data("NotificationAddress"),
+                        token: context.Forms.Data("NotificationToken"),
+                        monitorChangesColumns: context.Forms.List("MonitorChangesColumnsAll"),
+                        beforeCondition: context.Forms.Int("BeforeCondition"),
+                        afterCondition: context.Forms.Int("AfterCondition"),
+                        expression: (Notification.Expressions)context.Forms.Int("Expression"),
+                        disabled: context.Forms.Bool("NotificationDisabled"));
                     SetNotificationsResponseCollection(context: context, res: res);
                 }
             }
@@ -2950,10 +2950,10 @@ namespace Implem.Pleasanter.Models
                             startDateTime: context.Forms.DateTime("ReminderStartDateTime"),
                             type: (Times.RepeatTypes)context.Forms.Int("ReminderType"),
                             range: context.Forms.Int("ReminderRange"),
-                            enabled: context.Forms.Bool("ReminderEnabled"),
                             sendCompletedInPast: context.Forms.Bool("ReminderSendCompletedInPast"),
                             notSendIfNotApplicable: context.Forms.Bool("NotSendIfNotApplicable"),
-                            condition: context.Forms.Int("ReminderCondition")));
+                            condition: context.Forms.Int("ReminderCondition"),
+                            disabled: context.Forms.Bool("ReminderDisabled")));
                         SetRemindersResponseCollection(context: context, res: res);
                         break;
                     case Error.Types.BadMailAddress:
@@ -3005,10 +3005,10 @@ namespace Implem.Pleasanter.Models
                                 startDateTime: context.Forms.DateTime("ReminderStartDateTime"),
                                 type: (Times.RepeatTypes)context.Forms.Int("ReminderType"),
                                 range: context.Forms.Int("ReminderRange"),
-                                enabled: context.Forms.Bool("ReminderEnabled"),
                                 sendCompletedInPast: context.Forms.Bool("ReminderSendCompletedInPast"),
                                 notSendIfNotApplicable: context.Forms.Bool("NotSendIfNotApplicable"),
-                                condition: context.Forms.Int("ReminderCondition"));
+                                condition: context.Forms.Int("ReminderCondition"),
+                                disabled: context.Forms.Bool("ReminderDisabled"));
                             SetRemindersResponseCollection(context: context, res: res);
                             break;
                         case Error.Types.BadMailAddress:

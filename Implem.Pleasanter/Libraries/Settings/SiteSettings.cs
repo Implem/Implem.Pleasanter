@@ -657,13 +657,13 @@ namespace Implem.Pleasanter.Libraries.Settings
                 }
                 ss.Notifications.Add(notification.GetRecordingData());
             });
-            Reminders?.ForEach(notification =>
+            Reminders?.ForEach(reminder =>
             {
                 if (ss.Reminders == null)
                 {
                     ss.Reminders = new SettingList<Reminder>();
                 }
-                ss.Reminders.Add(notification.GetRecordingData(context: context));
+                ss.Reminders.Add(reminder.GetRecordingData(context: context));
             });
             Exports?.ForEach(exportSetting =>
             {

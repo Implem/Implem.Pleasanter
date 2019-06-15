@@ -26,6 +26,7 @@ namespace Implem.Pleasanter.Libraries.Settings
         public int BeforeCondition;
         public int AfterCondition;
         public Expressions Expression;
+        public bool? Disabled;
         [NonSerialized]
         public int Index;
 
@@ -62,9 +63,10 @@ namespace Implem.Pleasanter.Libraries.Settings
             string address,
             string token,
             List<string> monitorChangesColumns,
-            int beforeCondition = 0,
-            int afterCondition = 0,
-            Expressions expression = Expressions.Or)
+            int beforeCondition,
+            int afterCondition,
+            Expressions expression,
+            bool disabled)
         {
             Id = id;
             Type = type;
@@ -75,6 +77,7 @@ namespace Implem.Pleasanter.Libraries.Settings
             BeforeCondition = beforeCondition;
             AfterCondition = afterCondition;
             Expression = expression;
+            Disabled = disabled;
         }
 
         [OnDeserialized]
@@ -93,9 +96,10 @@ namespace Implem.Pleasanter.Libraries.Settings
             string address,
             string token,
             List<string> monitorChangesColumns,
-            int beforeCondition = 0,
-            int afterCondition = 0,
-            Expressions expression = Expressions.Or)
+            int beforeCondition,
+            int afterCondition,
+            Expressions expression,
+            bool disabled)
         {
             Type = type;
             Prefix = prefix;
@@ -105,10 +109,15 @@ namespace Implem.Pleasanter.Libraries.Settings
             BeforeCondition = beforeCondition;
             AfterCondition = afterCondition;
             Expression = expression;
+            Disabled = disabled;
         }
 
         public void Send(Context context, SiteSettings ss, string title, string url, string body)
         {
+            if (Disabled == true)
+            {
+                return;
+            }
             var from = MailAddressUtilities.Get(
                 context: context,
                 userId: context.UserId,
@@ -228,6 +237,10 @@ namespace Implem.Pleasanter.Libraries.Settings
             if (!Prefix.IsNullOrEmpty())
             {
                 notification.Prefix = Prefix;
+            }
+            if (Disabled == true)
+            {
+                notification.Disabled = Disabled;
             }
             if (!Address.IsNullOrEmpty())
             {
