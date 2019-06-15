@@ -948,6 +948,20 @@ namespace Implem.Pleasanter.Models
                 siteModel.InheritPermission = context.Forms.Long("InheritPermission");
                 ss.InheritPermission = siteModel.InheritPermission;
             }
+            if (context.Forms.Exists("CurrentPermissionsAll"))
+            {
+                if (!new PermissionCollection(
+                    context: context,
+                    referenceId: siteModel.SiteId,
+                    permissions: context.Forms.List("CurrentPermissionsAll"))
+                        .Any(permission =>
+                            permission.PermissionType.HasFlag(
+                                Permissions.Types.ManagePermission
+                                | Permissions.Types.ManageSite)))
+                {
+                    return Messages.ResponseRequireManagePermission(context: context).ToJson();
+                }
+            }
             var errorData = siteModel.Update(
                 context: context,
                 ss: ss,
@@ -6527,7 +6541,9 @@ namespace Implem.Pleasanter.Models
                     .Th(action: () => hb
                         .Text(text: Displays.Expression(context: context)))
                     .Th(action: () => hb
-                        .Text(text: Displays.AfterCondition(context: context)))));
+                        .Text(text: Displays.AfterCondition(context: context)))
+                    .Th(action: () => hb
+                        .Text(text: Displays.Disabled(context: context)))));
         }
 
         /// <summary>
@@ -6575,7 +6591,11 @@ namespace Implem.Pleasanter.Models
                                     id: notification.Expression.ToString())
                                 : null))
                         .Td(action: () => hb
-                            .Text(text: afterCondition?.Name)));
+                            .Text(text: afterCondition?.Name))
+                        .Td(action: () => hb
+                            .Span(
+                                css: "ui-icon ui-icon-circle-check",
+                                _using: notification.Disabled == true)));
             }));
         }
 
@@ -6664,6 +6684,11 @@ namespace Implem.Pleasanter.Models
                             optionCollection: ss.ViewSelectableOptions(),
                             selectedValue: notification.AfterCondition.ToString(),
                             insertBlank: true))
+                    .FieldCheckBox(
+                        controlId: "NotificationDisabled",
+                        controlCss: " always-send",
+                        labelText: Displays.Disabled(context: context),
+                        _checked: notification.Disabled == true)
                     .FieldSet(
                         css: " enclosed",
                         legendText: Displays.MonitorChangesColumns(context: context),
@@ -6868,7 +6893,9 @@ namespace Implem.Pleasanter.Models
                     .Th(action: () => hb
                         .Text(text: Displays.NotSendIfNotApplicable(context: context)))
                     .Th(action: () => hb
-                        .Text(text: Displays.Condition(context: context)))));
+                        .Text(text: Displays.Condition(context: context)))
+                    .Th(action: () => hb
+                        .Text(text: Displays.Disabled(context: context)))));
         }
 
         /// <summary>
@@ -6925,7 +6952,11 @@ namespace Implem.Pleasanter.Models
                                     css: "ui-icon ui-icon-circle-check",
                                     _using: reminder.NotSendIfNotApplicable == true))
                             .Td(action: () => hb
-                                .Text(text: condition?.Name)));
+                                .Text(text: condition?.Name))
+                            .Td(action: () => hb
+                                .Span(
+                                    css: "ui-icon ui-icon-circle-check",
+                                    _using: reminder.Disabled == true)));
                 }));
         }
 
@@ -7068,6 +7099,11 @@ namespace Implem.Pleasanter.Models
                         selectedValue: reminder.Condition.ToString(),
                         insertBlank: true,
                         _using: conditions?.Any() == true)
+                    .FieldCheckBox(
+                        controlId: "ReminderDisabled",
+                        controlCss: " always-send",
+                        labelText: Displays.Disabled(context: context),
+                        _checked: reminder.Disabled == true)
                     .P(css: "message-dialog")
                     .Div(css: "command-center", action: () => hb
                         .Button(
