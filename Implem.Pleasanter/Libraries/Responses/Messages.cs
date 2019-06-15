@@ -848,6 +848,15 @@ namespace Implem.Pleasanter.Libraries.Responses
                 css: "alert-error");
         }
 
+        public static Message RequireManagePermission(Context context, params string[] data)
+        {
+            return Get(
+                text: Displays.RequireManagePermission(
+                    context: context,
+                    data: data),
+                css: "alert-error");
+        }
+
         public static Message RequireTo(Context context, params string[] data)
         {
             return Get(
@@ -1960,6 +1969,16 @@ namespace Implem.Pleasanter.Libraries.Responses
         {
             return ResponseMessage(
                 message: RequireMailAddresses(
+                    context: context,
+                    data: data),
+                target: target);
+        }
+
+        public static ResponseCollection ResponseRequireManagePermission(
+            Context context, string target = null, params string[] data)
+        {
+            return ResponseMessage(
+                message: RequireManagePermission(
                     context: context,
                     data: data),
                 target: target);

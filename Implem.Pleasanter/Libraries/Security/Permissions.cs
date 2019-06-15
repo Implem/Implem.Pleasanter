@@ -363,7 +363,14 @@ namespace Implem.Pleasanter.Libraries.Security
                 case "registrations":
                     return CanManageRegistrations(context: context, any: true);
                 default:
-                    return context.Can(ss: ss, type: Types.Read, site: site);
+                    if (ss.ReferenceType == "Sites")
+                    {
+                        return context.CanManageSite(ss: ss);
+                    }
+                    else
+                    {
+                        return context.Can(ss: ss, type: Types.Read, site: site);
+                    }
             }
         }
 
