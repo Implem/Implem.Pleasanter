@@ -4798,6 +4798,16 @@ namespace Implem.Pleasanter.Libraries.Responses
                 data: data);
         }
 
+        public static string RequireManagePermission(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "RequireManagePermission",
+                data: data);
+        }
+
         public static string RequireTo(
             Context context,
             params string[] data)

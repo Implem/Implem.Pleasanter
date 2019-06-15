@@ -59,6 +59,7 @@ namespace Implem.Pleasanter.Libraries.General
             PasswordPolicyViolation,
             PermissionNotSelfChange,
             RequireMailAddresses,
+            RequireManagePermission,
             RequireTo,
             Restricted,
             SamlLoginFailed,
@@ -288,6 +289,10 @@ namespace Implem.Pleasanter.Libraries.General
                         data: data);
                 case Types.RequireMailAddresses:
                     return Messages.RequireMailAddresses(
+                        context: context,
+                        data: data);
+                case Types.RequireManagePermission:
+                    return Messages.RequireManagePermission(
                         context: context,
                         data: data);
                 case Types.RequireTo:
