@@ -14,24 +14,27 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                 {
                     case "index":
                     case "indexjson":
-                        if (!ss.GridGuide.IsNullOrEmpty())
-                        {
-                            hb.Div(action: () => hb
-                               .Div(css: "markup", action: () => hb
-                                   .Text(text: ss.GridGuide)));
-                        }
+                        hb.Guide(text: ss.GridGuide);
                         break;
                     case "new":
+                        hb.Guide(text: ss.EditorGuide);
+                        break;
                     case "edit":
-                        if (!ss.EditorGuide.IsNullOrEmpty() && !ss.IsSite(context: context))
-                        {
-                            hb.Div(action: () => hb
-                               .Div(css: "markup", action: () => hb
-                                   .Text(text: ss.EditorGuide)));
-                        }
+                        hb.Guide(
+                            text: ss.EditorGuide,
+                            _using: !ss.IsSite(context: context));
                         break;
                 }
             });
+        }
+
+        private static HtmlBuilder Guide(this HtmlBuilder hb, string text, bool _using = true)
+        {
+            return _using && !text.IsNullOrEmpty()
+                ? hb.Div(action: () => hb
+                    .Div(css: "markup", action: () => hb
+                        .Text(text: text)))
+                : hb;
         }
     }
 }
