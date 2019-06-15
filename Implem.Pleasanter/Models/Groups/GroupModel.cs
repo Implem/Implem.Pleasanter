@@ -582,11 +582,43 @@ namespace Implem.Pleasanter.Models
                         }
                         else
                         {
-                            Value(
+                            var column = ss.GetColumn(
                                 context: context,
-                                columnName: key.Split_2nd('_'),
-                                value: value,
-                                toUniversal: true);
+                                columnName: key.Split_2nd('_'));
+                            switch (Def.ExtendedColumnTypes.Get(column?.ColumnName))
+                            {
+                                case "Class":
+                                    Class(
+                                        columnName: column.ColumnName,
+                                        value: value);
+                                    break;
+                                case "Num":
+                                    Num(
+                                        columnName: column.ColumnName,
+                                        value: column.Round(value.ToDecimal(
+                                            cultureInfo: context.CultureInfo())));
+                                    break;
+                                case "Date":
+                                    Date(
+                                        columnName: column.ColumnName,
+                                        value: value.ToDateTime().ToUniversal(context: context));
+                                    break;
+                                case "Description":
+                                    Description(
+                                        columnName: column.ColumnName,
+                                        value: value);
+                                    break;
+                                case "Check":
+                                    Check(
+                                        columnName: column.ColumnName,
+                                        value: value.ToBool());
+                                    break;
+                                case "Attachments":
+                                    Attachments(
+                                        columnName: column.ColumnName,
+                                        value: value.Deserialize<Attachments>());
+                                    break;
+                            }
                         }
                         break;
                 }
