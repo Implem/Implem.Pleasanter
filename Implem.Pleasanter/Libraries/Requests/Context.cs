@@ -457,12 +457,13 @@ namespace Implem.Pleasanter.Libraries.Requests
                 {
                     switch (HttpAcceptLanguage())
                     {
-                        case "ja":
-                        case "ja-JP":
-                            language = "ja";
+                        case "en":
+                        case "en-GB":
+                        case "en-US":
+                            language = "en";
                             break;
                         default:
-                            language = "en";
+                            language= Parameters.Service?.DefaultLanguage;
                             break;
                     }
                 }
