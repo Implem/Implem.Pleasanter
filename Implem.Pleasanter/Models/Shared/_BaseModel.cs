@@ -579,7 +579,7 @@ namespace Implem.Pleasanter.Models
 
         public string SavedAttachments(string columnName)
         {
-            return SavedAttachmentsHash.Get(columnName) ?? string.Empty;
+            return SavedAttachmentsHash.Get(columnName) ?? new Attachments().RecordingJson();
         }
 
         public void Attachments(Column column, Attachments value)
