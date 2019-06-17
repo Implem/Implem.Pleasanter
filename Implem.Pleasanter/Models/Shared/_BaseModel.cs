@@ -360,12 +360,16 @@ namespace Implem.Pleasanter.Models
 
         public DateTime Date(string columnName)
         {
-            return DateHash.Get(columnName);
+            return DateHash.ContainsKey(columnName)
+                ? DateHash.Get(columnName)
+                : 0.ToDateTime();
         }
 
         public DateTime SavedDate(string columnName)
         {
-            return SavedDateHash.Get(columnName);
+            return SavedDateHash.ContainsKey(columnName)
+                ? SavedDateHash.Get(columnName)
+                : 0.ToDateTime();
         }
 
         public void Date(Column column, DateTime value)
