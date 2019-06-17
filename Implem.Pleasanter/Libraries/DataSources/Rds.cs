@@ -984,6 +984,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                         case "Ver": return "[Ver]";
                         case "MailAddress": return "[MailAddress]";
                         case "Invitee": return "[Invitee]";
+                        case "InviteeName": return "[InviteeName]";
                         case "LoginId": return "[LoginId]";
                         case "Name": return "[Name]";
                         case "Password": return "[Password]";
@@ -2225,6 +2226,11 @@ namespace Implem.Pleasanter.Libraries.DataSources
                                 function: function);
                         case "Invitee":
                             return self.Registrations_Invitee(
+                                tableName: column.TableName(),
+                                orderType: orderType,
+                                function: function);
+                        case "InviteeName":
+                            return self.Registrations_InviteeName(
                                 tableName: column.TableName(),
                                 orderType: orderType,
                                 function: function);
@@ -11727,6 +11733,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     [Registrations_deleted].[Ver],
                     [Registrations_deleted].[MailAddress],
                     [Registrations_deleted].[Invitee],
+                    [Registrations_deleted].[InviteeName],
                     [Registrations_deleted].[LoginId],
                     [Registrations_deleted].[Name],
                     [Registrations_deleted].[Password],
@@ -11750,6 +11757,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     [Registrations].[Ver],
                     [Registrations].[MailAddress],
                     [Registrations].[Invitee],
+                    [Registrations].[InviteeName],
                     [Registrations].[LoginId],
                     [Registrations].[Name],
                     [Registrations].[Password],
@@ -12945,6 +12953,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     [Registrations].[Ver],
                     [Registrations].[MailAddress],
                     [Registrations].[Invitee],
+                    [Registrations].[InviteeName],
                     [Registrations].[LoginId],
                     [Registrations].[Name],
                     [Registrations].[Password],
@@ -12968,6 +12977,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     [Registrations_deleted].[Ver],
                     [Registrations_deleted].[MailAddress],
                     [Registrations_deleted].[Invitee],
+                    [Registrations_deleted].[InviteeName],
                     [Registrations_deleted].[LoginId],
                     [Registrations_deleted].[Name],
                     [Registrations_deleted].[Password],
@@ -43530,6 +43540,8 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     return self.MailAddress(_as: _as, function: function);
                 case "Invitee":
                     return self.Invitee(_as: _as, function: function);
+                case "InviteeName":
+                    return self.InviteeName(_as: _as, function: function);
                 case "LoginId":
                     return self.LoginId(_as: _as, function: function);
                 case "Name":
@@ -43732,6 +43744,40 @@ namespace Implem.Pleasanter.Libraries.DataSources
         {
             return self.Add(
                 columnBracket: "[Invitee]",
+                tableName: tableName,
+                columnName: columnName,
+                _as: _as,
+                function: function,
+                sub: sub);
+        }
+
+        public static RegistrationsColumnCollection InviteeName(
+            this RegistrationsColumnCollection self,
+            string tableName = "Registrations",
+            string columnName = "InviteeName",
+            string _as = null,
+            Sqls.Functions function = Sqls.Functions.None,
+            SqlStatement sub = null)
+        {
+            return self.Add(
+                columnBracket: "[InviteeName]",
+                tableName: tableName,
+                columnName: columnName,
+                _as: _as,
+                function: function,
+                sub: sub);
+        }
+
+        public static SqlColumnCollection Registrations_InviteeName(
+            this SqlColumnCollection self,
+            string tableName = "Registrations",
+            string columnName = "InviteeName",
+            string _as = null,
+            Sqls.Functions function = Sqls.Functions.None,
+            SqlStatement sub = null)
+        {
+            return self.Add(
+                columnBracket: "[InviteeName]",
                 tableName: tableName,
                 columnName: columnName,
                 _as: _as,
@@ -44505,6 +44551,64 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBrackets: new string[] { "[Invitee]" },
                     tableName: tableName,
                     name: "Invitee",
+                    value: value,
+                    _operator: _operator,
+                    multiColumnOperator: multiColumnOperator,
+                    multiParamOperator: multiParamOperator,
+                    subLeft: subLeft,
+                    sub: sub,
+                    subPrefix: subPrefix,
+                    raw: raw)
+                : self;
+        }
+
+        public static RegistrationsWhereCollection InviteeName(
+            this RegistrationsWhereCollection self,
+            object value = null,
+            string tableName = "Registrations",
+            string _operator = "=",
+            string multiColumnOperator = " or ",
+            string multiParamOperator = " and ",
+            SqlStatement subLeft = null,
+            SqlStatement sub = null,
+            bool subPrefix = true,
+            string raw = null,
+            bool _using = true)
+        {
+            return _using
+                ? self.Add(
+                    columnBrackets: new string[] { "[InviteeName]" },
+                    tableName: tableName,
+                    name: "InviteeName",
+                    value: value,
+                    _operator: _operator,
+                    multiColumnOperator: multiColumnOperator,
+                    multiParamOperator: multiParamOperator,
+                    subLeft: subLeft,
+                    sub: sub,
+                    subPrefix: subPrefix,
+                    raw: raw)
+                : self;
+        }
+
+        public static SqlWhereCollection Registrations_InviteeName(
+            this SqlWhereCollection self,
+            object value = null,
+            string tableName = "Registrations",
+            string _operator = "=",
+            string multiColumnOperator = " or ",
+            string multiParamOperator = " and ",
+            SqlStatement subLeft = null,
+            SqlStatement sub = null,
+            bool subPrefix = true,
+            string raw = null,
+            bool _using = true)
+        {
+            return _using
+                ? self.Add(
+                    columnBrackets: new string[] { "[InviteeName]" },
+                    tableName: tableName,
+                    name: "InviteeName",
                     value: value,
                     _operator: _operator,
                     multiColumnOperator: multiColumnOperator,
@@ -46078,6 +46182,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     case "Ver": return self.Ver();
                     case "MailAddress": return self.MailAddress();
                     case "Invitee": return self.Invitee();
+                    case "InviteeName": return self.InviteeName();
                     case "LoginId": return self.LoginId();
                     case "Name": return self.Name();
                     case "Password": return self.Password();
@@ -46162,6 +46267,18 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this SqlGroupByCollection self, string tableName = "Registrations")
         {
             return self.Add(columnBracket: "[Invitee]", tableName: tableName);
+        }
+
+        public static RegistrationsGroupByCollection InviteeName(
+            this RegistrationsGroupByCollection self, string tableName = "Registrations")
+        {
+            return self.Add(columnBracket: "[InviteeName]", tableName: tableName);
+        }
+
+        public static SqlGroupByCollection Registrations_InviteeName(
+            this SqlGroupByCollection self, string tableName = "Registrations")
+        {
+            return self.Add(columnBracket: "[InviteeName]", tableName: tableName);
         }
 
         public static RegistrationsGroupByCollection LoginId(
@@ -46451,6 +46568,21 @@ namespace Implem.Pleasanter.Libraries.DataSources
             return self;
         }
 
+        public static RegistrationsOrderByCollection InviteeName(
+            this RegistrationsOrderByCollection self,
+            SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
+            string tableName = "Registrations",
+            Sqls.Functions function = Sqls.Functions.None)
+        {
+            new List<string> { "[InviteeName]" }.ForEach(columnBracket =>
+                self.Add(
+                    columnBracket: columnBracket,
+                    orderType: orderType,
+                    tableName: tableName,
+                    function: function));
+            return self;
+        }
+
         public static RegistrationsOrderByCollection LoginId(
             this RegistrationsOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
@@ -46728,6 +46860,21 @@ namespace Implem.Pleasanter.Libraries.DataSources
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "[Invitee]" }.ForEach(columnBracket =>
+                self.Add(
+                    columnBracket: columnBracket,
+                    orderType: orderType,
+                    tableName: tableName,
+                    function: function));
+            return self;
+        }
+
+        public static SqlOrderByCollection Registrations_InviteeName(
+            this SqlOrderByCollection self,
+            SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
+            string tableName = "Registrations",
+            Sqls.Functions function = Sqls.Functions.None)
+        {
+            new List<string> { "[InviteeName]" }.ForEach(columnBracket =>
                 self.Add(
                     columnBracket: columnBracket,
                     orderType: orderType,
@@ -47120,6 +47267,40 @@ namespace Implem.Pleasanter.Libraries.DataSources
                 ? self.Add(
                     columnBracket: "[Invitee]",
                     name: "Invitee",
+                    value: value,
+                    sub: sub,
+                    raw: raw)
+                : self;
+        }
+
+        public static RegistrationsParamCollection InviteeName(
+            this RegistrationsParamCollection self,
+            object value = null,
+            SqlStatement sub = null,
+            string raw = null,
+            bool _using = true)
+        {
+            return _using
+                ? self.Add(
+                    columnBracket: "[InviteeName]",
+                    name: "InviteeName",
+                    value: value,
+                    sub: sub,
+                    raw: raw)
+                : self;
+        }
+
+        public static SqlParamCollection Registrations_InviteeName(
+            this SqlParamCollection self,
+            object value = null,
+            SqlStatement sub = null,
+            string raw = null,
+            bool _using = true)
+        {
+            return _using
+                ? self.Add(
+                    columnBracket: "[InviteeName]",
+                    name: "InviteeName",
                     value: value,
                     sub: sub,
                     raw: raw)
@@ -102379,6 +102560,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                 .Ver()
                 .MailAddress()
                 .Invitee()
+                .InviteeName()
                 .LoginId()
                 .Name()
                 .Password()
@@ -102425,6 +102607,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                 .Ver(registrationModel.Ver, _using: registrationModel.Ver_Updated(context) || setDefault || (otherInitValue && !registrationModel.Ver.InitialValue(context)))
                 .MailAddress(registrationModel.MailAddress.MaxLength(2048), _using: registrationModel.MailAddress_Updated(context) || setDefault || (otherInitValue && !registrationModel.MailAddress.InitialValue(context)))
                 .Invitee(registrationModel.Invitee, _using: registrationModel.Invitee_Updated(context) || setDefault || (otherInitValue && !registrationModel.Invitee.InitialValue(context)))
+                .InviteeName(registrationModel.InviteeName.MaxLength(128), _using: registrationModel.InviteeName_Updated(context) || setDefault || (otherInitValue && !registrationModel.InviteeName.InitialValue(context)))
                 .LoginId(registrationModel.LoginId.MaxLength(256), _using: registrationModel.LoginId_Updated(context) || (otherInitValue && !registrationModel.LoginId.InitialValue(context)))
                 .Name(registrationModel.Name.MaxLength(128), _using: registrationModel.Name_Updated(context) || (otherInitValue && !registrationModel.Name.InitialValue(context)))
                 .Password(registrationModel.Password.MaxLength(128), _using: registrationModel.Password_Updated(context) || (otherInitValue && !registrationModel.Password.InitialValue(context)))

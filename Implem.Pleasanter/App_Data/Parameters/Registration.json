@@ -1,5 +1,5 @@
 ﻿{
     "Enabled": false,
-    "PrivilegedUserOnly": false,
-    "ApprovalReauestTo": null
+    "PrivilegedUserOnly": true,
+    "ApprovalRequestTo": null
 }

@@ -1476,6 +1476,7 @@ namespace Implem.DefinitionAccessor
                     case "Registrations_RegistrationId": Column.Registrations_RegistrationId = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Registrations_RegistrationId, definitionRow, ColumnXls); break;
                     case "Registrations_MailAddress": Column.Registrations_MailAddress = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Registrations_MailAddress, definitionRow, ColumnXls); break;
                     case "Registrations_Invitee": Column.Registrations_Invitee = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Registrations_Invitee, definitionRow, ColumnXls); break;
+                    case "_": Column._ = definitionRow[1].ToString(); SetColumnTable(ColumnTable._, definitionRow, ColumnXls); break;
                     case "Registrations_LoginId": Column.Registrations_LoginId = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Registrations_LoginId, definitionRow, ColumnXls); break;
                     case "Registrations_Name": Column.Registrations_Name = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Registrations_Name, definitionRow, ColumnXls); break;
                     case "Registrations_Password": Column.Registrations_Password = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Registrations_Password, definitionRow, ColumnXls); break;
@@ -8753,6 +8754,7 @@ namespace Implem.DefinitionAccessor
         public string Registrations_RegistrationId;
         public string Registrations_MailAddress;
         public string Registrations_Invitee;
+        public string _;
         public string Registrations_LoginId;
         public string Registrations_Name;
         public string Registrations_Password;
@@ -9240,6 +9242,7 @@ namespace Implem.DefinitionAccessor
         public ColumnDefinition Registrations_RegistrationId = new ColumnDefinition();
         public ColumnDefinition Registrations_MailAddress = new ColumnDefinition();
         public ColumnDefinition Registrations_Invitee = new ColumnDefinition();
+        public ColumnDefinition _ = new ColumnDefinition();
         public ColumnDefinition Registrations_LoginId = new ColumnDefinition();
         public ColumnDefinition Registrations_Name = new ColumnDefinition();
         public ColumnDefinition Registrations_Password = new ColumnDefinition();

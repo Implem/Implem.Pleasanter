@@ -110,6 +110,15 @@ namespace Implem.Pleasanter.Libraries.Responses
                 css: "alert-success");
         }
 
+        public static Message ApprovalRequestMessageRequesting(Context context, params string[] data)
+        {
+            return Get(
+                text: Displays.ApprovalRequestMessageRequesting(
+                    context: context,
+                    data: data),
+                css: "alert-success");
+        }
+
         public static Message Authentication(Context context, params string[] data)
         {
             return Get(
@@ -1149,6 +1158,16 @@ namespace Implem.Pleasanter.Libraries.Responses
         {
             return ResponseMessage(
                 message: ApprovalRequestMessage(
+                    context: context,
+                    data: data),
+                target: target);
+        }
+
+        public static ResponseCollection ResponseApprovalRequestMessageRequesting(
+            Context context, string target = null, params string[] data)
+        {
+            return ResponseMessage(
+                message: ApprovalRequestMessageRequesting(
                     context: context,
                     data: data),
                 target: target);

@@ -27,6 +27,7 @@ namespace Implem.Pleasanter.Models
         public int RegistrationId = 0;
         public string MailAddress = string.Empty;
         public int Invitee = 0;
+        public string InviteeName = string.Empty;
         public string LoginId = string.Empty;
         public string Name = string.Empty;
         public string Password = string.Empty;
@@ -41,6 +42,7 @@ namespace Implem.Pleasanter.Models
         public int SavedRegistrationId = 0;
         public string SavedMailAddress = string.Empty;
         public int SavedInvitee = 0;
+        public string SavedInviteeName = string.Empty;
         public string SavedLoginId = string.Empty;
         public string SavedName = string.Empty;
         public string SavedPassword = string.Empty;
@@ -82,6 +84,14 @@ namespace Implem.Pleasanter.Models
                 (column == null ||
                 column.DefaultInput.IsNullOrEmpty() ||
                 column.GetDefaultInput(context: context).ToInt() != Invitee);
+        }
+
+        public bool InviteeName_Updated(Context context, Column column = null)
+        {
+            return InviteeName != SavedInviteeName && InviteeName != null &&
+                (column == null ||
+                column.DefaultInput.IsNullOrEmpty() ||
+                column.GetDefaultInput(context: context).ToString() != InviteeName);
         }
 
         public bool LoginId_Updated(Context context, Column column = null)
@@ -304,6 +314,7 @@ namespace Implem.Pleasanter.Models
                     case "Ver": data.Ver = Ver; break;
                     case "MailAddress": data.MailAddress = MailAddress; break;
                     case "Invitee": data.Invitee = Invitee; break;
+                    case "InviteeName": data.InviteeName = InviteeName; break;
                     case "LoginId": data.LoginId = LoginId; break;
                     case "Name": data.Name = Name; break;
                     case "Password": data.Password = Password; break;
@@ -468,6 +479,7 @@ namespace Implem.Pleasanter.Models
             column.Ver(function: Sqls.Functions.SingleColumn); param.Ver();
             column.MailAddress(function: Sqls.Functions.SingleColumn); param.MailAddress();
             column.Invitee(function: Sqls.Functions.SingleColumn); param.Invitee();
+            column.InviteeName(function: Sqls.Functions.SingleColumn); param.InviteeName();
             column.LoginId(function: Sqls.Functions.SingleColumn); param.LoginId();
             column.Name(function: Sqls.Functions.SingleColumn); param.Name();
             column.Password(function: Sqls.Functions.SingleColumn); param.Password();
@@ -612,6 +624,7 @@ namespace Implem.Pleasanter.Models
                 {
                     case "Registrations_MailAddress": MailAddress = value.ToString(); break;
                     case "Registrations_Invitee": Invitee = value.ToInt(); break;
+                    case "Registrations_InviteeName": InviteeName = value.ToString(); break;
                     case "Registrations_LoginId": LoginId = value.ToString(); break;
                     case "Registrations_Name": Name = value.ToString(); break;
                     case "Registrations_Password": Password = value.ToString().Sha512Cng(); break;
@@ -699,6 +712,7 @@ namespace Implem.Pleasanter.Models
             TenantId = registrationModel.TenantId;
             MailAddress = registrationModel.MailAddress;
             Invitee = registrationModel.Invitee;
+            InviteeName = registrationModel.InviteeName;
             LoginId = registrationModel.LoginId;
             Name = registrationModel.Name;
             Password = registrationModel.Password;
@@ -733,6 +747,7 @@ namespace Implem.Pleasanter.Models
             }
             if (data.MailAddress != null) MailAddress = data.MailAddress.ToString().ToString();
             if (data.Invitee != null) Invitee = data.Invitee.ToInt().ToInt();
+            if (data.InviteeName != null) InviteeName = data.InviteeName.ToString().ToString();
             if (data.LoginId != null) LoginId = data.LoginId.ToString().ToString();
             if (data.Name != null) Name = data.Name.ToString().ToString();
             if (data.Password != null) Password = data.Password.ToString().ToString().Sha512Cng();
@@ -813,6 +828,10 @@ namespace Implem.Pleasanter.Models
                         case "Invitee":
                             Invitee = dataRow[column.ColumnName].ToInt();
                             SavedInvitee = Invitee;
+                            break;
+                        case "InviteeName":
+                            InviteeName = dataRow[column.ColumnName].ToString();
+                            SavedInviteeName = InviteeName;
                             break;
                         case "LoginId":
                             LoginId = dataRow[column.ColumnName].ToString();
@@ -941,6 +960,7 @@ namespace Implem.Pleasanter.Models
                 || Ver_Updated(context: context)
                 || MailAddress_Updated(context: context)
                 || Invitee_Updated(context: context)
+                || InviteeName_Updated(context: context)
                 || LoginId_Updated(context: context)
                 || Name_Updated(context: context)
                 || Password_Updated(context: context)
