@@ -615,8 +615,13 @@ namespace Implem.Pleasanter.Libraries.Settings
                     : null);
             sql.Add(
                 columnBracket: "[UpdatedTime]",
-                tableName: tableName,
-                columnName: "UpdatedTime");
+                tableName: Joined
+                    ? TableAlias
+                    : tableName,
+                columnName: "UpdatedTime",
+                    _as: Joined
+                        ? TableAlias + ",UpdatedTime"
+                        : null);
             return sql;
         }
 
