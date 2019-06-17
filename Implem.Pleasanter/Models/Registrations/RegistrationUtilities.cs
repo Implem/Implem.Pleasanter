@@ -426,7 +426,7 @@ namespace Implem.Pleasanter.Models
                                     context: context,
                                     column: column,
                                     value: string.Empty);
-                    case "Invitee":
+                    case "InviteeName":
                         return ss.ReadColumnAccessControls.Allowed(
                             context: context,
                             ss: ss,
@@ -436,7 +436,7 @@ namespace Implem.Pleasanter.Models
                                 ? hb.Td(
                                     context: context,
                                     column: column,
-                                    value: registrationModel.Invitee)
+                                    value: registrationModel.InviteeName)
                                 : hb.Td(
                                     context: context,
                                     column: column,
@@ -679,7 +679,7 @@ namespace Implem.Pleasanter.Models
                     case "MailAddress": value = registrationModel.MailAddress.GridText(
                         context: context,
                         column: column); break;
-                    case "Invitee": value = registrationModel.Invitee.GridText(
+                    case "InviteeName": value = registrationModel.InviteeName.GridText(
                         context: context,
                         column: column); break;
                     case "LoginId": value = registrationModel.LoginId.GridText(
@@ -808,6 +808,9 @@ namespace Implem.Pleasanter.Models
                         registrationModel: registrationModel)).ToString();
         }
 
+        /// <summary>
+        /// Fixed:
+        /// </summary>
         private static HtmlBuilder Editor(
             this HtmlBuilder hb, Context context, SiteSettings ss, RegistrationModel registrationModel)
         {
@@ -869,6 +872,9 @@ namespace Implem.Pleasanter.Models
                                         context: context,
                                         registrationModel: registrationModel,
                                         ss: ss)))
+                        .Hidden(
+                            controlId: "Registrations_Invitee",
+                            value: registrationModel.Invitee.ToString())
                         .Hidden(
                             controlId: "BaseUrl",
                             value: Locations.BaseUrl(context: context))
@@ -970,13 +976,13 @@ namespace Implem.Pleasanter.Models
                         columnPermissionType: column.ColumnPermissionType(context: context),
                         preview: preview);
                         break;
-                    case "Invitee":
+                    case "InviteeName":
                         hb.Field(
                             context: context,
                             ss: ss,
                             column: column,
                             methodType: registrationModel.MethodType,
-                            value: registrationModel.Invitee
+                            value: registrationModel.InviteeName
                                 .ToControl(context: context, ss: ss, column: column),
                             columnPermissionType: column.ColumnPermissionType(context: context),
                             preview: preview);
@@ -1129,8 +1135,8 @@ namespace Implem.Pleasanter.Models
                             context: context,
                             ss: ss,
                             column: column);
-                case "Invitee":
-                    return registrationModel.Invitee
+                case "InviteeName":
+                    return registrationModel.InviteeName
                         .ToControl(
                             context: context,
                             ss: ss,
@@ -1331,6 +1337,11 @@ namespace Implem.Pleasanter.Models
                                 "#Registrations_Invitee" + idSuffix,
                                 registrationModel.Invitee.ToResponse(context: context, ss: ss, column: column));
                             break;
+                        case "InviteeName":
+                            res.Val(
+                                "#Registrations_InviteeName" + idSuffix,
+                                registrationModel.InviteeName.ToResponse(context: context, ss: ss, column: column));
+                            break;
                         case "LoginId":
                             res.Val(
                                 "#Registrations_LoginId" + idSuffix,
@@ -1462,6 +1473,11 @@ namespace Implem.Pleasanter.Models
                 column: Rds.MailAddressesColumn().MailAddress(),
                 where: Rds.MailAddressesWhere().OwnerId(context.UserId)));
             if (mailAddress.IsNullOrEmpty()) { return Messages.ResponseMailAddressHasNotSet(context: context, data: null).ToJson();}
+            var username = Rds.ExecuteScalar_string(
+                context: context,
+                statements: Rds.SelectUsers(
+                column: Rds.UsersColumn().Name(),
+                where: Rds.UsersWhere().UserId(context.UserId)));
             var error = registrationModel.Create(context: context, ss: ss);
             switch (error.Type)
             {
@@ -1478,8 +1494,9 @@ namespace Implem.Pleasanter.Models
                             param: Rds.RegistrationsParam()
                                 .Passphrase(passphrase)
                                 .LoginId(registrationModel.MailAddress)
-                                .Invitingflg("Inviting")
-                                .Invitee(context.UserId),
+                                .Invitingflg("0")
+                                .Invitee(context.UserId)
+                                .InviteeName(username),
                             where: Rds.RegistrationsWhere().RegistrationId(registrationModel.RegistrationId)));
                     var outgoingMailModel = new OutgoingMailModel()
                     {
@@ -1928,7 +1945,6 @@ namespace Implem.Pleasanter.Models
             if (registrationModel.AccessStatus == Databases.AccessStatuses.Selected)
             {
                 registrationModel.MethodType = BaseModel.MethodTypes.Edit;
-                registrationModel.ClearSessions(context);
                 return Editor(
                     context: context,
                     ss: ss,
@@ -1961,6 +1977,20 @@ namespace Implem.Pleasanter.Models
                 context: context,
                 ss: ss,
                 formData: context.Forms);
+            if (registrationModel.Invitingflg == "1")
+            {
+                return Messages.ResponseApprovalRequestMessageRequesting(
+                    context: context,
+                    data: registrationModel.MailAddress)
+                        .ToJson();
+            }
+            foreach (var policy in Parameters.Security.PasswordPolicies.Where(o => o.Enabled))
+            {
+                if (!context.Forms.Data("Registrations_Password").RegexExists(policy.Regex))
+                {
+                    return policy.ResponseMessage(context: context).ToJson();
+                }
+            }
             var existsId = Rds.ExecuteScalar_int(
                 context: context,
                 statements: Rds.SelectUsers(
@@ -1974,27 +2004,32 @@ namespace Implem.Pleasanter.Models
             {
                 return Messages.ResponseDeleteConflicts(context: context).ToJson();
             }
-            registrationModel.Invitingflg = "ApprovalReauest";
+            registrationModel.Invitingflg = "1";
             var error = registrationModel.Update(context: context, ss: ss);
             switch (error.Type)
             {
                 case Error.Types.None:
+                    var tenantTitle = Rds.ExecuteScalar_string(
+                        context: context,
+                        statements: Rds.SelectTenants(
+                        column: Rds.TenantsColumn().Title(),
+                        where: Rds.TenantsWhere().TenantId(registrationModel.TenantId)));
                     new OutgoingMailModel()
                     {
                         Title = new Title(Displays.ApprovalReauestMailTitle(
                             context: context,
-                            data: new string[] { context.TenantTitle })),
+                            data: new string[] { tenantTitle })),
                         Body = Displays.ApprovalReauestMailBody(
                             context: context,
                             data: new string[]
                             {
-                                    context.TenantTitle,
-                                    Locations.RegistrationEditUri(
-                                        context: context,
-                                        id: registrationId.ToString())
+                                tenantTitle,
+                                Locations.RegistrationEditUri(
+                                    context: context,
+                                    id: registrationId.ToString())
                             }),
                         From = new System.Net.Mail.MailAddress(registrationModel.MailAddress),
-                        To = Parameters.Registration.ApprovalReauestTo,
+                        To = Parameters.Registration.ApprovalRequestTo,
                         Bcc = Parameters.Mail.SupportFrom
                     }.Send(
                         context: context,
@@ -2039,12 +2074,12 @@ namespace Implem.Pleasanter.Models
                 registrationId: registrationId);
             switch (registrationModel.Invitingflg)
             {
-                case "Inviting":
+                case "0":
                     return Messages.ResponseApprovalMessageInviting(
                         context: context,
                         data: registrationModel.MailAddress)
                             .ToJson();
-                case "Invited":
+                case "2":
                     return Messages.ResponseApprovalMessageInvited(
                         context: context,
                         data: registrationModel.MailAddress)
@@ -2055,7 +2090,7 @@ namespace Implem.Pleasanter.Models
             Rds.ExecuteNonQuery(
                 context: context,
                 statements: Rds.UpdateRegistrations(
-                    param: Rds.RegistrationsParam().Invitingflg("Invited"),
+                    param: Rds.RegistrationsParam().Invitingflg("2"),
                     where: Rds.RegistrationsWhere().RegistrationId(registrationId)));
             var mailAddress = Rds.ExecuteScalar_string(
                 context: context,

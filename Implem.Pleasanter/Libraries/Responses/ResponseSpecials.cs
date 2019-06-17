@@ -2668,48 +2668,48 @@ namespace Implem.Pleasanter.Libraries.Responses
             return res.ValAndFormData("#Registrations_MailAddress", value);
         }
 
-        public static RegistrationsResponseCollection Invitee(
+        public static RegistrationsResponseCollection InviteeName(
             this RegistrationsResponseCollection res,
             Context context,
             SiteSettings ss,
             Column column = null)
         {
             return res.Val(
-                "#Registrations_Invitee",
-                res.RegistrationModel.Invitee.ToResponse(
+                "#Registrations_InviteeName",
+                res.RegistrationModel.InviteeName.ToResponse(
                     context: context,
                     ss: ss,
                     column: column ?? ss.GetColumn(
                         context: context,
-                        columnName: "Invitee")));
+                        columnName: "InviteeName")));
         }
 
-        public static RegistrationsResponseCollection Invitee(
+        public static RegistrationsResponseCollection InviteeName(
             this RegistrationsResponseCollection res, Context context, string value)
         {
-            return res.Val("#Registrations_Invitee", value);
+            return res.Val("#Registrations_InviteeName", value);
         }
 
-        public static RegistrationsResponseCollection Invitee_FormData(
+        public static RegistrationsResponseCollection InviteeName_FormData(
             this RegistrationsResponseCollection res,
             Context context,
             SiteSettings ss,
             Column column = null)
         {
             return res.ValAndFormData(
-                "#Registrations_Invitee",
-                res.RegistrationModel.Invitee.ToResponse(
+                "#Registrations_InviteeName",
+                res.RegistrationModel.InviteeName.ToResponse(
                     context: context,
                     ss: ss,
                     column: column ?? ss.GetColumn(
                         context: context,
-                        columnName: "Invitee")));
+                        columnName: "InviteeName")));
         }
 
-        public static RegistrationsResponseCollection Invitee_FormData(
+        public static RegistrationsResponseCollection InviteeName_FormData(
             this RegistrationsResponseCollection res, Context context, string value)
         {
-            return res.ValAndFormData("#Registrations_Invitee", value);
+            return res.ValAndFormData("#Registrations_InviteeName", value);
         }
 
         public static RegistrationsResponseCollection LoginId(

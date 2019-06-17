@@ -101,6 +101,18 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                     context: context,
                                     ss: ss);
                     }
+                case "registrations":
+                    return Permissions.CanManageTenant(context: context)
+                        ? Breadcrumb(
+                            hb: hb,
+                            context: context,
+                            ss: ss,
+                            controller: context.Controller,
+                            display: Displays.Registrations(context: context))
+                        : Breadcrumb(
+                            hb: hb,
+                            context: context,
+                            ss: ss);
                 case "publishes":
                 case "items":
                     return hb

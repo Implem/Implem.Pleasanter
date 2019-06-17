@@ -871,6 +871,9 @@ namespace Implem.Pleasanter.Libraries.Settings
                         case "Invitee":
                             sql.Registrations_Invitee(tableName: path, _as: _as);
                             break;
+                        case "InviteeName":
+                            sql.Registrations_InviteeName(tableName: path, _as: _as);
+                            break;
                         case "LoginId":
                             sql.Registrations_LoginId(tableName: path, _as: _as);
                             break;

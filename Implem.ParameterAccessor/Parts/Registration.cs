@@ -4,6 +4,6 @@
     {
         public bool Enabled;
         public bool PrivilegedUserOnly;
-        public string ApprovalReauestTo;
+        public string ApprovalRequestTo;
     }
 }

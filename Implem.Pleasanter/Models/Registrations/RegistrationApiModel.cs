@@ -10,6 +10,7 @@ namespace Implem.Pleasanter.Models
         public int? Ver { get; set; }
         public string MailAddress { get; set; }
         public int? Invitee { get; set; }
+        public string InviteeName { get; set; }
         public string LoginId { get; set; }
         public string Name { get; set; }
         public string Password { get; set; }

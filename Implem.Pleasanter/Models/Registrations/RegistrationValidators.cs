@@ -86,6 +86,12 @@ namespace Implem.Pleasanter.Models
                             return new ErrorData(type: Error.Types.HasNotPermission);
                         }
                         break;
+                    case "InviteeName":
+                        if (registrationModel.InviteeName_Updated(context: context, column: column))
+                        {
+                            return new ErrorData(type: Error.Types.HasNotPermission);
+                        }
+                        break;
                     case "LoginId":
                         if (registrationModel.LoginId_Updated(context: context, column: column))
                         {
@@ -236,6 +242,12 @@ namespace Implem.Pleasanter.Models
                         break;
                     case "Invitee":
                         if (registrationModel.Invitee_Updated(context: context))
+                        {
+                            return new ErrorData(type: Error.Types.HasNotPermission);
+                        }
+                        break;
+                    case "InviteeName":
+                        if (registrationModel.InviteeName_Updated(context: context))
                         {
                             return new ErrorData(type: Error.Types.HasNotPermission);
                         }
