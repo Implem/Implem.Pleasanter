@@ -2140,7 +2140,7 @@ namespace Implem.Pleasanter.Models
         {
             return GridRows(
                 context: context,
-                ss: SiteSettingsUtilities.UsersSiteSettings(context: context),
+                ss: SiteSettingsUtilities.RegistrationsSiteSettings(context: context),
                 offset: context.Forms.Int("GridOffset"));
         }
 
