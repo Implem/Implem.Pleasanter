@@ -26,7 +26,7 @@
     "GridPageSizeMin": 10,
     "GridPageSizeMax": 200,
     "ImportMax": 0,
-    "SolutionBackupPath": "",
+    "SolutionBackupPath": "C:\\Projects\\Backups",
     "SolutionBackupExcludeDirectories": "\\Backups,\\Histories,\\BinaryStorage,\\App_Data\\Logs,\\Temp,\\packages,\\bin,\\obj,\\PublishProfiles,\\BuildProcessTemplates,\\Parameters\\CustomDefinitions,\\Parameters\\ExtendedColumns",
     "SizeToUseTextArea": 1025,
     "CompletionCode": 900,

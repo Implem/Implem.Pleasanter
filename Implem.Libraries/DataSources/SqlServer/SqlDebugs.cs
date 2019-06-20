@@ -1,5 +1,5 @@
-﻿using Implem.Libraries.Utilities;
-using System.Data.SqlClient;
+﻿using Implem.IRds;
+using Implem.Libraries.Utilities;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
@@ -10,7 +10,7 @@ namespace Implem.Libraries.DataSources.SqlServer
     public static class SqlDebugs
     {
         [Conditional("DEBUG")]
-        public static void WriteSqlLog(string rdsName, SqlCommand sqlCommand, string logsPath)
+        public static void WriteSqlLog(string rdsName, ISqlCommand sqlCommand, string logsPath)
         {
             var commandTextForDebugging = new StringBuilder();
             commandTextForDebugging.Append("use [", rdsName, "];\r\n");
@@ -20,7 +20,7 @@ namespace Implem.Libraries.DataSources.SqlServer
                 .Write(Path.Combine(logsPath, "CommandTextForDebugging.sql"));
         }
 
-        private static string FormattedCommandText(SqlCommand sqlCommand)
+        private static string FormattedCommandText(ISqlCommand sqlCommand)
         {
             var commandTextFormatted = new StringBuilder();
             var commandTextTemp = sqlCommand.CommandText;
@@ -38,10 +38,10 @@ namespace Implem.Libraries.DataSources.SqlServer
             return commandTextFormatted.ToString();
         }
 
-        private static string DeclareParametersText(SqlCommand sqlCommand)
+        private static string DeclareParametersText(ISqlCommand sqlCommand)
         {
             var commandParameters = new StringBuilder();
-            foreach (SqlParameter parameter in sqlCommand.Parameters)
+            foreach (ISqlParameter parameter in sqlCommand.SqlParameters())
             {
                 commandParameters.Append(
                     "{0, -50}".Params(DeclareParameterText(parameter)),
@@ -53,7 +53,7 @@ namespace Implem.Libraries.DataSources.SqlServer
             return commandParameters.ToString();
         }
 
-        private static string DeclareParameterText(SqlParameter parameter)
+        private static string DeclareParameterText(ISqlParameter parameter)
         {
             return parameter.Size == 0
                 ? "declare @{0} {1}; ".Params(

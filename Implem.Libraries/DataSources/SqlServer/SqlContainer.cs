@@ -1,7 +1,7 @@
-﻿using Implem.Libraries.Classes;
+﻿using Implem.IRds;
+using Implem.Libraries.Classes;
 using Implem.Libraries.Utilities;
 using System.Collections.Generic;
-using System.Data.SqlClient;
 using System.Linq;
 namespace Implem.Libraries.DataSources.SqlServer
 {
@@ -18,9 +18,9 @@ namespace Implem.Libraries.DataSources.SqlServer
         public bool SelectIdentity = false;
         public bool WriteSqlToDebugLog = true;
 
-        public SqlDataAdapter SqlDataAdapter(SqlCommand sqlCommand)
+        public ISqlDataAdapter SqlDataAdapter(ISqlObjectFactory factory, ISqlCommand sqlCommand)
         {
-            var adapter = new SqlDataAdapter(sqlCommand);
+            var adapter = factory.CreateSqlDataAdapter(sqlCommand);
             var number = string.Empty;
             SqlStatementCollection
                 .Where(statement => statement.Using)
@@ -37,8 +37,8 @@ namespace Implem.Libraries.DataSources.SqlServer
                         number = data.Index.ToString();
                     }
                     adapter.TableMappings.Add(
-                        sourceTable: "Table" + number,
-                        dataSetTable: data.Statement.DataTableName);
+                        sourceTableName: "Table" + number,
+                        dataSetTableName: data.Statement.DataTableName);
                 });
             return adapter;
         }

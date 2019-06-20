@@ -1,4 +1,5 @@
 ﻿using Implem.DefinitionAccessor;
+using Implem.IRds;
 using Implem.Libraries.DataSources.SqlServer;
 using Implem.Libraries.Utilities;
 using Implem.Pleasanter.Libraries.DataSources;
@@ -8,6 +9,7 @@ using Implem.Pleasanter.Libraries.Settings;
 using Implem.Pleasanter.Models;
 using System;
 using System.Collections.Generic;
+using System.Data.Common;
 using System.Linq;
 using System.Threading.Tasks;
 namespace Implem.Pleasanter.Libraries.Search
@@ -214,9 +216,9 @@ namespace Implem.Pleasanter.Libraries.Search
                         transactional: true,
                         statements: Statements(data, id, init));
                 }
-                catch (System.Data.SqlClient.SqlException e)
+                catch (DbException e)
                 {
-                    switch (e.Number)
+                    switch (context.SqlErrors.ErrorCode(e))
                     {
                         case 2627: break;
                         default: new SysLogModel(context: context, e: e); break;

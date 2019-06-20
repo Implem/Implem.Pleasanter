@@ -1,5 +1,5 @@
-﻿using Implem.Libraries.Utilities;
-using System.Data.SqlClient;
+﻿using Implem.IRds;
+using Implem.Libraries.Utilities;
 using System.Text;
 namespace Implem.Libraries.DataSources.SqlServer
 {
@@ -10,8 +10,9 @@ namespace Implem.Libraries.DataSources.SqlServer
         }
 
         public override void BuildCommandText(
+            ISqlObjectFactory factory,
             SqlContainer sqlContainer,
-            SqlCommand sqlCommand,
+            ISqlCommand sqlCommand,
             StringBuilder commandText,
             int? commandCount = null)
         {
@@ -20,6 +21,7 @@ namespace Implem.Libraries.DataSources.SqlServer
             commandText.Append("exists(select * from ", TableBracket, " ");
             SqlJoinCollection?.BuildCommandText(commandText);
             SqlWhereCollection?.BuildCommandText(
+                factory: factory,
                 sqlContainer: sqlContainer,
                 sqlCommand: sqlCommand,
                 commandText: commandText,
@@ -27,7 +29,7 @@ namespace Implem.Libraries.DataSources.SqlServer
                 select: true);
             commandText.Append(")");
             AddTermination(commandText);
-            AddParams_Where(sqlCommand, commandCount);
+            AddParams_Where(factory: factory, sqlCommand: sqlCommand, commandCount: commandCount);
             switch (TableType)
             {
                 case Sqls.TableTypes.History:

@@ -9,6 +9,9 @@ using Implem.DefinitionAccessor;
 using Implem.Libraries.Utilities;
 using Implem.Pleasanter.Libraries.DataSources;
 using System.Security.Claims;
+using Implem.IRds;
+using System.Data.Common;
+
 namespace Implem.Pleasanter.Controllers
 {
     public class UsersController : Controller
@@ -292,9 +295,9 @@ namespace Implem.Pleasanter.Controllers
                         tenantManager: tenantManager,
                         synchronizedTime: System.DateTime.Now);
                 }
-                catch (System.Data.SqlClient.SqlException e)
+                catch (DbException e)
                 {
-                    if (e.Number == 2601)
+                    if (context.SqlErrors.ErrorCode(e) == 2601)
                     {
                         return (null, Locations.LoginIdAlreadyUse(context: context), null);
                     }

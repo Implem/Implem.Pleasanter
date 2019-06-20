@@ -1,5 +1,5 @@
-﻿using Implem.Libraries.Utilities;
-using System.Data.SqlClient;
+﻿using Implem.IRds;
+using Implem.Libraries.Utilities;
 using System.Text;
 namespace Implem.Libraries.DataSources.SqlServer
 {
@@ -17,8 +17,9 @@ namespace Implem.Libraries.DataSources.SqlServer
         }
 
         public override void BuildCommandText(
+            ISqlObjectFactory factory,
             SqlContainer sqlContainer,
-            SqlCommand sqlCommand,
+            ISqlCommand sqlCommand,
             StringBuilder commandText,
             int? commandCount = null)
         {
@@ -27,73 +28,92 @@ namespace Implem.Libraries.DataSources.SqlServer
                 case Sqls.TableTypes.History:
                     AddTableTypeColumn("History");
                     BuildHistoryWithoutFlag(
-                        sqlContainer,
-                        sqlCommand,
-                        commandText,
-                        commandCount,
-                        Sqls.UnionTypes.None);
+                        factory: factory,
+                        sqlContainer: sqlContainer,
+                        sqlCommand: sqlCommand,
+                        commandText: commandText,
+                        commandCount: commandCount,
+                        unionType: Sqls.UnionTypes.None);
                     break;
                 case Sqls.TableTypes.HistoryWithoutFlag:
                     BuildHistoryWithoutFlag(
-                        sqlContainer,
-                        sqlCommand,
-                        commandText,
-                        commandCount,
-                        Sqls.UnionTypes.None);
+                        factory: factory,
+                        sqlContainer: sqlContainer,
+                        sqlCommand: sqlCommand,
+                        commandText: commandText,
+                        commandCount: commandCount,
+                        unionType: Sqls.UnionTypes.None);
                     break;
                 case Sqls.TableTypes.NormalAndDeleted:
                     BuildNormalAndDeleted(
-                        sqlContainer,
-                        sqlCommand,
-                        commandText,
-                        commandCount);
+                        factory: factory,
+                        sqlContainer: sqlContainer,
+                        sqlCommand: sqlCommand,
+                        commandText: commandText,
+                        commandCount: commandCount);
                     break;
                 case Sqls.TableTypes.NormalAndHistory:
                     BuildNormalAndHistory(
-                        sqlContainer,
-                        sqlCommand,
-                        commandText,
-                        commandCount);
+                        factory: factory,
+                        sqlContainer: sqlContainer,
+                        sqlCommand: sqlCommand,
+                        commandText: commandText,
+                        commandCount: commandCount);
                     break;
                 case Sqls.TableTypes.Deleted:
                     BuildDeleted(
-                        sqlContainer,
-                        sqlCommand,
-                        commandText,
-                        commandCount,
-                        Sqls.UnionTypes.None);
+                        factory: factory,
+                        sqlContainer: sqlContainer,
+                        sqlCommand: sqlCommand,
+                        commandText: commandText,
+                        commandCount: commandCount,
+                        unionType: Sqls.UnionTypes.None);
                     break;
                 case Sqls.TableTypes.All:
                     AddTableTypeColumn("Normal");
-                    BuildNormal(sqlContainer, sqlCommand, commandText, commandCount);
+                    BuildNormal(
+                        factory: factory,
+                        sqlContainer: sqlContainer,
+                        sqlCommand: sqlCommand,
+                        commandText: commandText,
+                        commandCount: commandCount);
                     BuildDeleted(
-                        sqlContainer,
-                        sqlCommand,
-                        commandText,
-                        commandCount,
-                        Sqls.UnionTypes.Union);
+                        factory: factory,
+                        sqlContainer: sqlContainer,
+                        sqlCommand: sqlCommand,
+                        commandText: commandText,
+                        commandCount: commandCount,
+                        unionType: Sqls.UnionTypes.Union);
                     AddTableTypeColumn("History");
                     BuildHistoryWithoutFlag(
-                        sqlContainer,
-                        sqlCommand,
-                        commandText,
-                        commandCount,
-                        Sqls.UnionTypes.Union);
+                        factory: factory,
+                        sqlContainer: sqlContainer,
+                        sqlCommand: sqlCommand,
+                        commandText: commandText,
+                        commandCount: commandCount,
+                        unionType: Sqls.UnionTypes.Union);
                     break;
                 default:
-                    BuildNormal(sqlContainer, sqlCommand, commandText, commandCount);
+                    BuildNormal(
+                        factory: factory,
+                        sqlContainer: sqlContainer,
+                        sqlCommand: sqlCommand,
+                        commandText: commandText,
+                        commandCount: commandCount);
                     break;
             }
         }
 
         private void BuildHistoryWithoutFlag(
+            ISqlObjectFactory factory,
             SqlContainer sqlContainer,
-            SqlCommand sqlCommand,
+            ISqlCommand sqlCommand,
             StringBuilder commandText,
             int? commandCount,
             Sqls.UnionTypes unionType)
         {
             BuildCommandText(
+                factory: factory,
                 sqlContainer: sqlContainer,
                 sqlCommand: sqlCommand,
                 commandText: commandText,
@@ -104,13 +124,15 @@ namespace Implem.Libraries.DataSources.SqlServer
         }
 
         private void BuildNormalAndDeleted(
+            ISqlObjectFactory factory,
             SqlContainer sqlContainer,
-            SqlCommand sqlCommand,
+            ISqlCommand sqlCommand,
             StringBuilder commandText,
             int? commandCount)
         {
             AddTableTypeColumn("Normal");
             BuildCommandText(
+                factory: factory,
                 sqlContainer: sqlContainer,
                 sqlCommand: sqlCommand,
                 commandText: commandText,
@@ -119,6 +141,7 @@ namespace Implem.Libraries.DataSources.SqlServer
                 orderBy: false,
                 commandCount: commandCount);
             BuildDeleted(
+                factory,
                 sqlContainer,
                 sqlCommand,
                 commandText,
@@ -127,13 +150,15 @@ namespace Implem.Libraries.DataSources.SqlServer
         }
 
         private void BuildNormalAndHistory(
+            ISqlObjectFactory factory,
             SqlContainer sqlContainer,
-            SqlCommand sqlCommand,
+            ISqlCommand sqlCommand,
             StringBuilder commandText,
             int? commandCount)
         {
             AddTableTypeColumn("Normal");
             BuildCommandText(
+                factory: factory,
                 sqlContainer: sqlContainer,
                 sqlCommand: sqlCommand,
                 commandText: commandText,
@@ -143,6 +168,7 @@ namespace Implem.Libraries.DataSources.SqlServer
                 commandCount: commandCount);
             AddTableTypeColumn("History");
             BuildHistoryWithoutFlag(
+                factory,
                 sqlContainer,
                 sqlCommand,
                 commandText,
@@ -151,14 +177,16 @@ namespace Implem.Libraries.DataSources.SqlServer
         }
 
         private void BuildDeleted(
+            ISqlObjectFactory factory,
             SqlContainer sqlContainer,
-            SqlCommand sqlCommand,
+            ISqlCommand sqlCommand,
             StringBuilder commandText,
             int? commandCount,
             Sqls.UnionTypes unionType)
         {
             AddTableTypeColumn("Deleted");
             BuildCommandText(
+                factory: factory,
                 sqlContainer: sqlContainer,
                 sqlCommand: sqlCommand,
                 commandText: commandText,
@@ -169,12 +197,14 @@ namespace Implem.Libraries.DataSources.SqlServer
         }
 
         private void BuildNormal(
+            ISqlObjectFactory factory,
             SqlContainer sqlContainer,
-            SqlCommand sqlCommand,
+            ISqlCommand sqlCommand,
             StringBuilder commandText,
             int? commandCount)
         {
             BuildCommandText(
+                factory: factory,
                 sqlContainer: sqlContainer,
                 sqlCommand: sqlCommand,
                 commandText: commandText,
@@ -210,8 +240,9 @@ namespace Implem.Libraries.DataSources.SqlServer
         }
 
         private void BuildCommandText(
+            ISqlObjectFactory factory,
             SqlContainer sqlContainer,
-            SqlCommand sqlCommand,
+            ISqlCommand sqlCommand,
             StringBuilder commandText,
             Sqls.TableTypes tableType,
             Sqls.UnionTypes unionType,
@@ -221,6 +252,7 @@ namespace Implem.Libraries.DataSources.SqlServer
             if (!Using) return;
             AddUnion(commandText, unionType);
             SqlColumnCollection?.BuildCommandText(
+                factory: factory,
                 sqlContainer: sqlContainer,
                 sqlCommand: sqlCommand,
                 commandText: commandText,
@@ -231,6 +263,7 @@ namespace Implem.Libraries.DataSources.SqlServer
             commandText.Append(from);
             SqlJoinCollection?.BuildCommandText(commandText: commandText);
             SqlWhereCollection?.BuildCommandText(
+                factory: factory,
                 sqlContainer: sqlContainer,
                 sqlCommand: sqlCommand,
                 commandText: commandText,
@@ -239,6 +272,7 @@ namespace Implem.Libraries.DataSources.SqlServer
             SqlGroupByCollection?.BuildCommandText(
                 commandText: commandText);
             SqlHavingCollection?.BuildCommandText(
+                factory: factory,
                 sqlContainer: sqlContainer,
                 sqlCommand: sqlCommand,
                 commandText: commandText,
@@ -252,18 +286,18 @@ namespace Implem.Libraries.DataSources.SqlServer
                     commandCount: commandCount);
             }
             AddTermination(commandText);
-            AddParams_Where(sqlCommand, commandCount);
-            AddParams_Having(sqlCommand, commandCount);
-            AddParams_Paging(sqlCommand, commandCount);
-            AddParams_Param(sqlCommand, commandCount);
+            AddParams_Where(factory, sqlCommand, commandCount);
+            AddParams_Having(factory, sqlCommand, commandCount);
+            AddParams_Paging(factory, sqlCommand, commandCount);
+            AddParams_Param(factory, sqlCommand, commandCount);
         }
 
-        private void AddParams_Paging(SqlCommand sqlCommand, int? commandCount)
+        private void AddParams_Paging(ISqlObjectFactory factory, ISqlCommand sqlCommand, int? commandCount)
         {
             if (PageSize != 0)
             {
-                AddParam(sqlCommand, "_Offset", Offset, commandCount);
-                AddParam(sqlCommand, "_PageSize", PageSize, commandCount);
+                AddParam(factory, sqlCommand, "_Offset", Offset, commandCount);
+                AddParam(factory, sqlCommand, "_PageSize", PageSize, commandCount);
             }
         }
 

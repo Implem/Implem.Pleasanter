@@ -1,4 +1,5 @@
 ﻿using Implem.DefinitionAccessor;
+using Implem.IRds;
 using Implem.Libraries.DataSources.SqlServer;
 using Implem.Libraries.Utilities;
 using System.Collections.Generic;
@@ -123,10 +124,11 @@ namespace Implem.CodeDefiner.Functions.SqlServer.Parts
             }
         }
 
-        public static IEnumerable<string> Get(string sourceTableName)
+        public static IEnumerable<string> Get(ISqlObjectFactory factory, string sourceTableName)
         {
-            return Def.SqlIoByAdmin().ExecuteTable(
-                Def.Sql.Indexes.Replace("#TableName#", sourceTableName))
+            return Def.SqlIoByAdmin(factory: factory).ExecuteTable(
+                factory: factory,
+                commandText: Def.Sql.Indexes.Replace("#TableName#", sourceTableName))
                     .AsEnumerable()
                     .Select(o => o["Name"].ToString())
                     .Distinct()
@@ -134,6 +136,7 @@ namespace Implem.CodeDefiner.Functions.SqlServer.Parts
         }
 
         internal static bool HasChanges(
+            ISqlObjectFactory factory,
             string generalTableName,
             string sourceTableName,
             Sqls.TableTypes tableType,
@@ -143,7 +146,10 @@ namespace Implem.CodeDefiner.Functions.SqlServer.Parts
                 .Select(o => o.IndexName())
                 .Distinct()
                 .OrderBy(o => o)
-                .Join(",") != Get(sourceTableName).Join(",");
+                .Join(",") != Get(
+                    factory: factory,
+                    sourceTableName: sourceTableName)
+                .Join(",");
         }
 
         private static string Sql_CreateIx(

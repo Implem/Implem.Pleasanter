@@ -1,4 +1,5 @@
 ﻿using Implem.DefinitionAccessor;
+using Implem.IRds;
 using Implem.Libraries.Utilities;
 using System.Data;
 using System.Linq;
@@ -6,17 +7,21 @@ namespace Implem.CodeDefiner.Functions.SqlServer
 {
     internal static class Spids
     {
-        internal static void Kill(string uid)
+        internal static void Kill(ISqlObjectFactory factory, string uid)
         {
-            Get(uid).AsEnumerable().ForEach(spidDataRow =>
-                Def.SqlIoBySa().ExecuteNonQuery(
-                    Def.Sql.KillSpid.Replace("#Spid#", spidDataRow["spid"].ToString())));
+            Get(factory: factory, uid: uid)
+                .AsEnumerable()
+                .ForEach(spidDataRow =>
+                Def.SqlIoBySa(factory: factory).ExecuteNonQuery(
+                    factory: factory,
+                    commandText: Def.Sql.KillSpid.Replace("#Spid#", spidDataRow["spid"].ToString())));
         }
 
-        private static DataTable Get(string uid)
+        private static DataTable Get(ISqlObjectFactory factory, string uid)
         {
-            return Def.SqlIoBySa().ExecuteTable(
-                Def.Sql.SpWho.Replace("#Uid#", uid));
+            return Def.SqlIoBySa(factory: factory).ExecuteTable(
+                factory: factory,
+                commandText: Def.Sql.SpWho.Replace("#Uid#", uid));
         }
     }
 }

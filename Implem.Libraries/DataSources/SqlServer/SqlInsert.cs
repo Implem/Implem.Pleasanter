@@ -1,6 +1,6 @@
-﻿using Implem.Libraries.Utilities;
+﻿using Implem.IRds;
+using Implem.Libraries.Utilities;
 using System.Collections.Generic;
-using System.Data.SqlClient;
 using System.Linq;
 using System.Text;
 namespace Implem.Libraries.DataSources.SqlServer
@@ -14,20 +14,23 @@ namespace Implem.Libraries.DataSources.SqlServer
         }
 
         public override void BuildCommandText(
+            ISqlObjectFactory factory,
             SqlContainer sqlContainer, 
-            SqlCommand sqlCommand,
+            ISqlCommand sqlCommand,
             StringBuilder commandText, 
             int? commandCount = null)
         {
             if (!Using) return;
             Build_If(commandText: commandText);
             Build_InsertStatement(
+                factory: factory,
                 sqlContainer: sqlContainer,
                 sqlCommand: sqlCommand,
                 commandText: commandText,
                 commandCount: commandCount);
             Build_SelectIdentity(commandText: commandText);
             AddParams_Param(
+                factory: factory,
                 sqlCommand: sqlCommand,
                 commandCount: commandCount);
             AddTermination(commandText: commandText);
@@ -35,8 +38,9 @@ namespace Implem.Libraries.DataSources.SqlServer
         }
 
         private void Build_InsertStatement(
+            ISqlObjectFactory factory,
             SqlContainer sqlContainer,
-            SqlCommand sqlCommand,
+            ISqlCommand sqlCommand,
             StringBuilder commandText,
             int? commandCount)
         {
@@ -75,6 +79,7 @@ namespace Implem.Libraries.DataSources.SqlServer
                     else if (sqlParam.Sub != null)
                     {
                         valueCollection.Add("(" + sqlParam.Sub.GetCommandText(
+                            factory: factory,
                             sqlContainer: sqlContainer,
                             sqlCommand: sqlCommand,
                             prefix: "_sub",
@@ -91,16 +96,18 @@ namespace Implem.Libraries.DataSources.SqlServer
                 tableBracket,
                 "(", columnNameCollection.Join(), ") ",
                 Values(
-                    valueCollection,
-                    sqlContainer,
-                    sqlCommand,
-                    commandCount));
+                    factory: factory,
+                    valueCollection: valueCollection,
+                    sqlContainer: sqlContainer,
+                    sqlCommand: sqlCommand,
+                    commandCount: commandCount));
         }
 
         private string Values(
+            ISqlObjectFactory factory,
             IEnumerable<string> valueCollection,
             SqlContainer sqlContainer,
-            SqlCommand sqlCommand,
+            ISqlCommand sqlCommand,
             int? commandCount)
         {
             if (Select == null)
@@ -118,6 +125,7 @@ namespace Implem.Libraries.DataSources.SqlServer
                     });
                 }
                 return Select.GetCommandText(
+                    factory: factory,
                     sqlContainer: sqlContainer,
                     sqlCommand: sqlCommand,
                     prefix: "_sub",

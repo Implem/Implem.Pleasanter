@@ -1,6 +1,6 @@
-﻿using Implem.Libraries.Utilities;
+﻿using Implem.IRds;
+using Implem.Libraries.Utilities;
 using System.Collections.Generic;
-using System.Data.SqlClient;
 using System.Linq;
 using System.Text;
 namespace Implem.Libraries.DataSources.SqlServer
@@ -12,27 +12,32 @@ namespace Implem.Libraries.DataSources.SqlServer
         }
 
         public override void BuildCommandText(
+            ISqlObjectFactory factory,
             SqlContainer sqlContainer,
-            SqlCommand sqlCommand,
+            ISqlCommand sqlCommand,
             StringBuilder commandText,
             int? commandCount = null)
         {
             if (!Using) return;
             Build_If(commandText);
             Build_UpdateStatement(
+                factory: factory,
                 sqlContainer: sqlContainer,
                 sqlCommand: sqlCommand,
                 commandText: commandText,
                 commandCount: commandCount);
             SqlWhereCollection?.BuildCommandText(
+                factory: factory,
                 sqlContainer: sqlContainer,
                 sqlCommand: sqlCommand,
                 commandText: commandText,
                 commandCount: commandCount);
             AddParams_Where(
+                factory: factory,
                 sqlCommand: sqlCommand,
                 commandCount: commandCount);
             AddParams_Param(
+                factory: factory,
                 sqlCommand: sqlCommand,
                 commandCount: commandCount);
             AddTermination(commandText: commandText);
@@ -40,8 +45,9 @@ namespace Implem.Libraries.DataSources.SqlServer
         }
 
         private void Build_UpdateStatement(
+            ISqlObjectFactory factory,
             SqlContainer sqlContainer,
-            SqlCommand sqlCommand,
+            ISqlCommand sqlCommand,
             StringBuilder commandText,
             int? commandCount)
         {
@@ -78,6 +84,7 @@ namespace Implem.Libraries.DataSources.SqlServer
                     {
                         columnNameCollection.Add(sqlParam.ColumnBracket + "=(" +
                             sqlParam.Sub.GetCommandText(
+                                factory: factory,
                                 sqlContainer: sqlContainer,
                                 sqlCommand: sqlCommand,
                                 prefix: "_sub",

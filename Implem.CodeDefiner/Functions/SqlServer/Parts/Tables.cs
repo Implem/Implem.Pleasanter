@@ -1,4 +1,5 @@
 ﻿using Implem.DefinitionAccessor;
+using Implem.IRds;
 using Implem.Libraries.DataSources.SqlServer;
 using Implem.Libraries.Utilities;
 using System.Collections.Generic;
@@ -9,6 +10,7 @@ namespace Implem.CodeDefiner.Functions.SqlServer.Parts
     internal static class Tables
     {
         internal static void CreateTable(
+            ISqlObjectFactory factory,
             string generalTableName,
             string sourceTableName,
             Sqls.TableTypes tableType,
@@ -29,12 +31,13 @@ namespace Implem.CodeDefiner.Functions.SqlServer.Parts
             sqlStatement.CreatePk(sourceTableName, columnDefinitionCollection, tableIndexCollection);
             sqlStatement.CreateIx(generalTableName, sourceTableName, tableType, columnDefinitionCollection);
             sqlStatement.CreateDefault(tableNameTemp, columnDefinitionCollection);
-            sqlStatement.DropConstraint(sourceTableName, tableIndexCollection);
+            sqlStatement.DropConstraint(factory: factory, sourceTableName: sourceTableName, tableIndexCollection: tableIndexCollection);
             sqlStatement.CommandText = sqlStatement.CommandText.Replace("#TableName#", tableNameTemp);
-            Def.SqlIoByAdmin(transactional: true).ExecuteNonQuery(sqlStatement);
+            Def.SqlIoByAdmin(factory: factory, transactional: true).ExecuteNonQuery(factory: factory, sqlStatement: sqlStatement);
         }
 
         internal static void MigrateTable(
+            ISqlObjectFactory factory,
             string generalTableName,
             string sourceTableName,
             Sqls.TableTypes tableType,
@@ -44,36 +47,42 @@ namespace Implem.CodeDefiner.Functions.SqlServer.Parts
             Consoles.Write(generalTableName, Consoles.Types.Info);
             var destinationTableName = DateTimes.Full() + "_" + sourceTableName;
             CreateTable(
-                generalTableName,
-                sourceTableName,
-                tableType,
-                columnDefinitionCollection,
-                tableIndexCollection,
-                null,
-                destinationTableName);
+                factory: factory,
+                generalTableName: generalTableName,
+                sourceTableName: sourceTableName,
+                tableType: tableType,
+                columnDefinitionCollection: columnDefinitionCollection,
+                tableIndexCollection: tableIndexCollection,
+                rdsColumnCollection: null,
+                tableNameTemp: destinationTableName);
             if (Def.ExistsTable(generalTableName, o => o.Identity &&
                 !sourceTableName.EndsWith("_history") &&
                 !sourceTableName.EndsWith("_deleted")))
             {
-                Def.SqlIoByAdmin().ExecuteNonQuery(
-                    MigrateSql(
-                        Def.Sql.MigrateTableWithIdentity,
-                        columnDefinitionCollection,
-                        sourceTableName,
-                        destinationTableName));
+                Def.SqlIoByAdmin(factory: factory).ExecuteNonQuery(
+                    factory: factory,
+                    commandText: MigrateSql(
+                        factory: factory,
+                        sql: Def.Sql.MigrateTableWithIdentity,
+                        columnDefinitionCollection: columnDefinitionCollection,
+                        sourceTableName: sourceTableName,
+                        destinationTableName: destinationTableName));
             }
             else
             {
-                Def.SqlIoByAdmin().ExecuteNonQuery(
-                    MigrateSql(
-                        Def.Sql.MigrateTable,
-                        columnDefinitionCollection,
-                        sourceTableName,
-                        destinationTableName));
+                Def.SqlIoByAdmin(factory: factory).ExecuteNonQuery(
+                    factory: factory,
+                    commandText: MigrateSql(
+                        factory: factory,
+                        sql: Def.Sql.MigrateTable,
+                        columnDefinitionCollection: columnDefinitionCollection,
+                        sourceTableName: sourceTableName,
+                        destinationTableName: destinationTableName));
             }
         }
 
         private static string MigrateSql(
+            ISqlObjectFactory factory,
             string sql,
             IEnumerable<ColumnDefinition> columnDefinitionCollection,
             string sourceTableName,
@@ -85,7 +94,7 @@ namespace Implem.CodeDefiner.Functions.SqlServer.Parts
             {
                 var destinationColumnNameBracket = columnDefinition.ColumnName.SqlBracket();
                 var destinationColumnNameHistoryBracket = columnDefinition.OldColumnName?.SqlBracket();
-                if (!Columns.Get(sourceTableName).Any(
+                if (!Columns.Get(factory: factory, sourceTableName: sourceTableName).Any(
                     o => o["ColumnName"].ToString() == columnDefinition.ColumnName))
                 {
                     if (!columnDefinition.OldColumnName.IsNullOrEmpty())
@@ -122,13 +131,16 @@ namespace Implem.CodeDefiner.Functions.SqlServer.Parts
             return columnName.Split('.').Select(o => "[" + o + "]").Join(".");
         }
 
-        internal static bool Exists(string sourceTableName)
+        internal static bool Exists(ISqlObjectFactory factory, string sourceTableName)
         {
-            return Def.SqlIoByAdmin().ExecuteTable(
-                Def.Sql.ExistsTable.Replace("#TableName#", sourceTableName)).Rows.Count == 1;
+            return Def.SqlIoByAdmin(factory: factory).ExecuteTable(
+                factory: factory,
+                commandText: Def.Sql.ExistsTable.Replace("#TableName#", sourceTableName))
+                .Rows.Count == 1;
         }
 
         internal static bool HasChanges(
+            ISqlObjectFactory factory,
             string generalTableName,
             string sourceTableName,
             Sqls.TableTypes tableType,
@@ -144,8 +156,16 @@ namespace Implem.CodeDefiner.Functions.SqlServer.Parts
             {
                 return
                     Columns.HasChanges(sourceTableName, columnDefinitionCollection, rdsColumnCollection) ||
-                    Constraints.HasChanges(sourceTableName, columnDefinitionCollection) ||
-                    Indexes.HasChanges(generalTableName, sourceTableName, tableType, columnDefinitionCollection);
+                    Constraints.HasChanges(
+                        factory: factory,
+                        sourceTableName: sourceTableName,
+                        columnDefinitionCollection: columnDefinitionCollection) ||
+                    Indexes.HasChanges(
+                        factory: factory,
+                        generalTableName: generalTableName,
+                        sourceTableName: sourceTableName,
+                        tableType: tableType,
+                        columnDefinitionCollection: columnDefinitionCollection);
             }
         }
 

@@ -1,8 +1,8 @@
-﻿using Implem.Libraries.Classes;
+﻿using Implem.IRds;
+using Implem.Libraries.Classes;
 using Implem.Libraries.DataSources.Interfaces;
 using Implem.Libraries.Utilities;
 using System.Collections.Generic;
-using System.Data.SqlClient;
 using System.Linq;
 using System.Text;
 namespace Implem.Libraries.DataSources.SqlServer
@@ -41,26 +41,30 @@ namespace Implem.Libraries.DataSources.SqlServer
         }
 
         public void BuildCommandText(
+            ISqlObjectFactory factory,
             SqlContainer sqlContainer, 
-            SqlCommand sqlCommand, 
+            ISqlCommand sqlCommand, 
             StringBuilder commandText,
             int? commandCount)
         {
             commandText.Append(Sql(
+                factory: factory,
                 sqlContainer: sqlContainer,
                 sqlCommand: sqlCommand,
                 commandCount: commandCount));
         }
 
         public string Sql(
+            ISqlObjectFactory factory,
             SqlContainer sqlContainer,
-            SqlCommand sqlCommand,
+            ISqlCommand sqlCommand,
             int? commandCount)
         {
             return this.Any(o => o.Using)
                 ? Clause + this
                     .Where(o => o.Using)
                     .Select(o => o.Sql(
+                        factory: factory,
                         sqlContainer: sqlContainer,
                         sqlCommand: sqlCommand,
                         tableBracket: Sqls.GetTableBracket(o.TableName),

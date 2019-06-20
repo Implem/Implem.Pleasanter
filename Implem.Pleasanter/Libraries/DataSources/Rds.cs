@@ -26,13 +26,14 @@ namespace Implem.Pleasanter.Libraries.DataSources
             if (statements?.Any() == true)
             {
                 using (var io = Def.SqlIoByUser(
+                    factory: context,
                     rdsUser: context.RdsUser(),
                     connectionString: connectionString,
                     transactional: transactional,
                     writeSqlToDebugLog: writeSqlToDebugLog,
                     statements: statements))
                 {
-                    io.ExecuteNonQuery();
+                    io.ExecuteNonQuery(context);
                 }
             }
         }
@@ -45,13 +46,14 @@ namespace Implem.Pleasanter.Libraries.DataSources
             params SqlStatement[] statements)
         {
             using (var io = Def.SqlIoByUser(
+                factory: context,
                 rdsUser: context.RdsUser(),
                 connectionString: connectionString,
                 transactional: transactional,
                 writeSqlToDebugLog: writeSqlToDebugLog,
                 statements: statements))
             {
-                return io.ExecuteScalar_bool();
+                return io.ExecuteScalar_bool(factory: context);
             }
         }
 
@@ -63,13 +65,14 @@ namespace Implem.Pleasanter.Libraries.DataSources
             params SqlStatement[] statements)
         {
             using (var io = Def.SqlIoByUser(
+                factory: context,
                 rdsUser: context.RdsUser(),
                 connectionString: connectionString,
                 transactional: transactional,
                 writeSqlToDebugLog: writeSqlToDebugLog,
                 statements: statements))
             {
-                return io.ExecuteScalar_int();
+                return io.ExecuteScalar_int(factory: context);
             }
         }
 
@@ -81,13 +84,14 @@ namespace Implem.Pleasanter.Libraries.DataSources
             params SqlStatement[] statements)
         {
             using (var io = Def.SqlIoByUser(
+                factory: context,
                 rdsUser: context.RdsUser(),
                 connectionString: connectionString,
                 transactional: transactional,
                 writeSqlToDebugLog: writeSqlToDebugLog,
                 statements: statements))
             {
-                return io.ExecuteScalar_long();
+                return io.ExecuteScalar_long(factory: context);
             }
         }
 
@@ -99,13 +103,14 @@ namespace Implem.Pleasanter.Libraries.DataSources
             params SqlStatement[] statements)
         {
             using (var io = Def.SqlIoByUser(
+                factory: context,
                 rdsUser: context.RdsUser(),
                 connectionString: connectionString,
                 transactional: transactional,
                 writeSqlToDebugLog: writeSqlToDebugLog,
                 statements: statements))
             {
-                return io.ExecuteScalar_decimal();
+                return io.ExecuteScalar_decimal(factory: context);
             }
         }
 
@@ -117,13 +122,14 @@ namespace Implem.Pleasanter.Libraries.DataSources
             params SqlStatement[] statements)
         {
             using (var io = Def.SqlIoByUser(
+                factory: context,
                 rdsUser: context.RdsUser(),
                 connectionString: connectionString,
                 transactional: transactional,
                 writeSqlToDebugLog: writeSqlToDebugLog,
                 statements: statements))
             {
-                return io.ExecuteScalar_datetime();
+                return io.ExecuteScalar_datetime(factory: context);
             }
         }
 
@@ -135,13 +141,14 @@ namespace Implem.Pleasanter.Libraries.DataSources
             params SqlStatement[] statements)
         {
             using (var io = Def.SqlIoByUser(
+                factory: context,
                 rdsUser: context.RdsUser(),
                 connectionString: connectionString,
                 transactional: transactional,
                 writeSqlToDebugLog: writeSqlToDebugLog,
                 statements: statements))
             {
-                return io.ExecuteScalar_string();
+                return io.ExecuteScalar_string(factory: context);
             }
         }
 
@@ -153,13 +160,14 @@ namespace Implem.Pleasanter.Libraries.DataSources
             params SqlStatement[] statements)
         {
             using (var io = Def.SqlIoByUser(
+                factory: context,
                 rdsUser: context.RdsUser(),
                 connectionString: connectionString,
                 transactional: transactional,
                 writeSqlToDebugLog: writeSqlToDebugLog,
                 statements: statements))
             {
-                return io.ExecuteScalar_bytes();
+                return io.ExecuteScalar_bytes(factory: context);
             }
         }
 
@@ -172,6 +180,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             params SqlStatement[] statements)
         {
             using (var io = Def.SqlIoByUser(
+                factory: context,
                 rdsUser: context.RdsUser(),
                 connectionString: connectionString,
                 transactional: transactional,
@@ -179,7 +188,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                 writeSqlToDebugLog: writeSqlToDebugLog,
                 statements: statements))
             {
-                return io.ExecuteScalar_response();
+                return io.ExecuteScalar_response(factory: context);
             }
         }
 
@@ -191,13 +200,14 @@ namespace Implem.Pleasanter.Libraries.DataSources
             params SqlStatement[] statements)
         {
             using (var io = Def.SqlIoByUser(
+                factory: context,
                 rdsUser: context.RdsUser(),
                 connectionString: connectionString,
                 transactional: transactional,
                 writeSqlToDebugLog: writeSqlToDebugLog,
                 statements: statements))
             {
-                return io.ExecuteTable();
+                return io.ExecuteTable(factory: context);
             }
         }
 
@@ -209,13 +219,14 @@ namespace Implem.Pleasanter.Libraries.DataSources
             params SqlStatement[] statements)
         {
             using (var io = Def.SqlIoByUser(
+                factory: context,
                 rdsUser: context.RdsUser(),
                 connectionString: connectionString,
                 transactional: transactional,
                 writeSqlToDebugLog: writeSqlToDebugLog,
                 statements: statements))
             {
-                return io.ExecuteDataSet();
+                return io.ExecuteDataSet(factory: context);
             }
         }
 
@@ -227,13 +238,14 @@ namespace Implem.Pleasanter.Libraries.DataSources
             params SqlStatement[] statements)
         {
             using (var io = Def.SqlIoByUser(
+                factory: context,
                 rdsUser: context.RdsUser(),
                 connectionString: connectionString,
                 transactional: transactional,
                 writeSqlToDebugLog: writeSqlToDebugLog,
                 statements: statements))
             {
-                return io.ExecuteDataSet_responses();
+                return io.ExecuteDataSet_responses(factory: context);
             }
         }
 

@@ -1,5 +1,5 @@
-﻿using Implem.Libraries.Utilities;
-using System.Data.SqlClient;
+﻿using Implem.IRds;
+using Implem.Libraries.Utilities;
 using System.Linq;
 using System.Text;
 namespace Implem.Libraries.DataSources.SqlServer
@@ -45,14 +45,20 @@ namespace Implem.Libraries.DataSources.SqlServer
         }
 
         public string Sql(
+            ISqlObjectFactory factory,
             SqlContainer sqlContainer,
-            SqlCommand sqlCommand,
+            ISqlCommand sqlCommand,
             string tableBracket,
             int? commandCount)
         {
             if (Sub != null)
             {
-                return Sql_Sub(sqlContainer, sqlCommand, tableBracket, commandCount);
+                return Sql_Sub(
+                    factory: factory,
+                    sqlContainer: sqlContainer,
+                    sqlCommand: sqlCommand,
+                    tableBracket: tableBracket,
+                    commandCount: commandCount);
             }
             else if (!Raw.IsNullOrEmpty())
             {
@@ -60,7 +66,11 @@ namespace Implem.Libraries.DataSources.SqlServer
             }
             else if (Or != null)
             {
-                return Sql_Or(sqlContainer, sqlCommand, commandCount);
+                return Sql_Or(
+                    factory: factory,
+                    sqlContainer: sqlContainer,
+                    sqlCommand: sqlCommand,
+                    commandCount: commandCount);
             }
             else
             {
@@ -98,12 +108,14 @@ namespace Implem.Libraries.DataSources.SqlServer
         }
 
         private string Sql_Sub(
+            ISqlObjectFactory factory,
             SqlContainer sqlContainer,
-            SqlCommand sqlCommand,
+            ISqlCommand sqlCommand,
             string tableBracket,
             int? commandCount)
         {
             var commandText = Sub.GetCommandText(
+                factory: factory,
                 sqlContainer: sqlContainer,
                 sqlCommand: sqlCommand,
                 prefix: SubPrefix
@@ -166,14 +178,16 @@ namespace Implem.Libraries.DataSources.SqlServer
         }
 
         private string Sql_Or(
+            ISqlObjectFactory factory,
             SqlContainer sqlContainer,
-            SqlCommand sqlCommand,
+            ISqlCommand sqlCommand,
             int? commandCount)
         {
             var commandText = new StringBuilder();
             Or.Clause = string.Empty;
             Or.MultiClauseOperator = " or ";
             Or.BuildCommandText(
+                factory: factory,
                 sqlContainer: sqlContainer,
                 sqlCommand: sqlCommand,
                 commandText: commandText,

@@ -1,6 +1,6 @@
-﻿using Implem.Libraries.Utilities;
+﻿using Implem.IRds;
+using Implem.Libraries.Utilities;
 using System.Collections.Generic;
-using System.Data.SqlClient;
 using System.Linq;
 using System.Text;
 namespace Implem.Libraries.DataSources.SqlServer
@@ -12,23 +12,27 @@ namespace Implem.Libraries.DataSources.SqlServer
         }
 
         public override void BuildCommandText(
+            ISqlObjectFactory factory,
             SqlContainer sqlContainer,
-            SqlCommand sqlCommand,
+            ISqlCommand sqlCommand,
             StringBuilder commandText,
             int? commandCount = null)
         {
             if (!Using) return;
             Build_If(commandText);
             Build_UpdateOrInsertStatement(
+                factory: factory,
                 sqlContainer: sqlContainer,
                 sqlCommand: sqlCommand,
                 commandText: commandText,
                 commandCount: commandCount);
             Build_SelectIdentity(commandText: commandText);
             AddParams_Where(
+                factory: factory,
                 sqlCommand: sqlCommand,
                 commandCount: commandCount);
             AddParams_Param(
+                factory: factory,
                 sqlCommand: sqlCommand,
                 commandCount: commandCount);
             AddTermination(commandText: commandText);
@@ -36,8 +40,9 @@ namespace Implem.Libraries.DataSources.SqlServer
         }
 
         private void Build_UpdateOrInsertStatement(
+            ISqlObjectFactory factory,
             SqlContainer sqlContainer, 
-            SqlCommand sqlCommand, 
+            ISqlCommand sqlCommand, 
             StringBuilder commandText, 
             int? commandCount)
         {
@@ -89,6 +94,7 @@ namespace Implem.Libraries.DataSources.SqlServer
                     else if (sqlParam.Sub != null)
                     {
                         var sub = sqlParam.Sub.GetCommandText(
+                            factory: factory,
                             sqlContainer: sqlContainer,
                             sqlCommand: sqlCommand,
                             prefix: "_sub",
@@ -114,6 +120,7 @@ namespace Implem.Libraries.DataSources.SqlServer
                 "update ", tableBracket,
                 " set ", updateColumnNameCollection.Join(), " ");
             SqlWhereCollection.BuildCommandText(
+                factory: factory,
                 sqlContainer: sqlContainer,
                 sqlCommand: sqlCommand,
                 commandText: commandText,

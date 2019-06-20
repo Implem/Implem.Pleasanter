@@ -1,4 +1,4 @@
-﻿using System.Data.SqlClient;
+﻿using Implem.IRds;
 using System.Text;
 namespace Implem.Libraries.DataSources.SqlServer
 {
@@ -9,8 +9,9 @@ namespace Implem.Libraries.DataSources.SqlServer
         }
 
         public override void BuildCommandText(
+            ISqlObjectFactory factory,
             SqlContainer sqlContainer,
-            SqlCommand sqlCommand,
+            ISqlCommand sqlCommand,
             StringBuilder commandText,
             int? commandCount = null)
         {
@@ -18,11 +19,15 @@ namespace Implem.Libraries.DataSources.SqlServer
             Build_If(commandText);
             commandText.Append(Statement(commandCount));
             SqlWhereCollection?.BuildCommandText(
+                factory: factory,
                 sqlContainer: sqlContainer,
                 sqlCommand: sqlCommand,
                 commandText: commandText,
                 commandCount: commandCount);
-            AddParams_Where(sqlCommand, commandCount);
+            AddParams_Where(
+                factory: factory,
+                sqlCommand: sqlCommand,
+                commandCount: commandCount);
             AddTermination(commandText);
             Build_EndIf(commandText);
         }

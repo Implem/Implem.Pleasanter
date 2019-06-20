@@ -1,6 +1,6 @@
-﻿using Implem.Libraries.Utilities;
+﻿using Implem.IRds;
+using Implem.Libraries.Utilities;
 using System.Collections.Generic;
-using System.Data.SqlClient;
 using System.Linq;
 using System.Text;
 namespace Implem.Libraries.DataSources.SqlServer
@@ -52,8 +52,9 @@ namespace Implem.Libraries.DataSources.SqlServer
         }
 
         public string Sql(
+            ISqlObjectFactory factory,
             SqlContainer sqlContainer,
-            SqlCommand sqlCommand,
+            ISqlCommand sqlCommand,
             string tableBracket,
             int? commandCount,
             bool select)
@@ -61,6 +62,7 @@ namespace Implem.Libraries.DataSources.SqlServer
             if (Using)
             {
                 var left = Left(
+                    factory: factory,
                     sqlContainer: sqlContainer,
                     sqlCommand: sqlCommand,
                     commandCount: commandCount);
@@ -77,6 +79,7 @@ namespace Implem.Libraries.DataSources.SqlServer
                 else if (Sub != null)
                 {
                     return Sql_Sub(
+                        factory: factory,
                         sqlContainer: sqlContainer,
                         sqlCommand: sqlCommand,
                         left: left,
@@ -87,6 +90,7 @@ namespace Implem.Libraries.DataSources.SqlServer
                 else if (Or != null)
                 {
                     return Sql_Or(
+                        factory: factory,
                         sqlContainer: sqlContainer,
                         sqlCommand: sqlCommand,
                         tableBracket: tableBracket,
@@ -190,14 +194,16 @@ namespace Implem.Libraries.DataSources.SqlServer
         }
 
         private string Sql_Sub(
+            ISqlObjectFactory factory,
             SqlContainer sqlContainer,
-            SqlCommand sqlCommand,
+            ISqlCommand sqlCommand,
             IEnumerable<string> left,
             string tableBracket,
             int? commandCount,
             bool select)
         {
             var commandText = Sub.GetCommandText(
+                factory: factory,
                 sqlContainer: sqlContainer,
                 sqlCommand: sqlCommand,
                 prefix: SubPrefix
@@ -220,7 +226,7 @@ namespace Implem.Libraries.DataSources.SqlServer
 
         private string Sql_Raw(
             SqlContainer sqlContainer,
-            SqlCommand sqlCommand,
+            ISqlCommand sqlCommand,
             IEnumerable<string> left,
             string tableBracket,
             int? commandCount,
@@ -250,7 +256,7 @@ namespace Implem.Libraries.DataSources.SqlServer
 
         private string ReplacedRaw(
             SqlContainer sqlContainer,
-            SqlCommand sqlCommand,
+            ISqlCommand sqlCommand,
             IEnumerable<string> left,
             string tableBracket,
             int? commandCount,
@@ -302,8 +308,9 @@ namespace Implem.Libraries.DataSources.SqlServer
         }
 
         private string Sql_Or(
+            ISqlObjectFactory factory,
             SqlContainer sqlContainer,
-            SqlCommand sqlCommand,
+            ISqlCommand sqlCommand,
             string tableBracket,
             int? commandCount,
             bool select)
@@ -312,6 +319,7 @@ namespace Implem.Libraries.DataSources.SqlServer
             Or.Clause = string.Empty;
             Or.MultiClauseOperator = " or ";
             Or.BuildCommandText(
+                factory: factory,
                 sqlContainer: sqlContainer,
                 sqlCommand: sqlCommand,
                 commandText: commandText,
@@ -321,8 +329,9 @@ namespace Implem.Libraries.DataSources.SqlServer
         }
 
         private IEnumerable<string> Left(
+            ISqlObjectFactory factory,
             SqlContainer sqlContainer,
-            SqlCommand sqlCommand,
+            ISqlCommand sqlCommand,
             int? commandCount)
         {
             if (SubLeft != null)
@@ -330,6 +339,7 @@ namespace Implem.Libraries.DataSources.SqlServer
                 return new List<string>
                 {
                     "(" + SubLeft.GetCommandText(
+                        factory: factory,
                         sqlContainer: sqlContainer,
                         sqlCommand: sqlCommand,
                         prefix: SubPrefix

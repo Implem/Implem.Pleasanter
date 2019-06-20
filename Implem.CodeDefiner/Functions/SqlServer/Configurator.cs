@@ -1,16 +1,17 @@
-﻿using Implem.Libraries.Utilities;
+﻿using Implem.IRds;
+using Implem.Libraries.Utilities;
 namespace Implem.CodeDefiner.Functions.SqlServer
 {
     internal class Configurator
     {
-        internal static void Configure()
+        internal static void Configure(ISqlObjectFactory factory)
         {
             if (Environments.RdsProvider == "Local")
             {
-                RdsConfigurator.Configure();
-                LoginsConfigurator.Configure();
+                RdsConfigurator.Configure(factory: factory);
+                LoginsConfigurator.Configure(factory: factory);
             }
-            TablesConfigurator.Configure();
+            TablesConfigurator.Configure(factory: factory);
         }
     }
 }

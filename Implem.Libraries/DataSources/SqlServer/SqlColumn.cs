@@ -1,4 +1,5 @@
-﻿using System.Data.SqlClient;
+﻿using Implem.IRds;
+
 namespace Implem.Libraries.DataSources.SqlServer
 {
     public class SqlColumn
@@ -37,13 +38,15 @@ namespace Implem.Libraries.DataSources.SqlServer
         }
 
         public string CommandText(
+            ISqlObjectFactory factory,
             SqlContainer sqlContainer,
-            SqlCommand sqlCommand,
+            ISqlCommand sqlCommand,
             string tableBracket,
             int? commandCount)
         {
             return Sub != null
                 ? Sql_Sub(
+                    factory: factory,
                     sqlContainer: sqlContainer,
                     sqlCommand: sqlCommand,
                     commandCount: commandCount)
@@ -82,9 +85,14 @@ namespace Implem.Libraries.DataSources.SqlServer
             }
         }
 
-        private string Sql_Sub(SqlContainer sqlContainer, SqlCommand sqlCommand, int? commandCount)
+        private string Sql_Sub(
+            ISqlObjectFactory factory,
+            SqlContainer sqlContainer,
+            ISqlCommand sqlCommand,
+            int? commandCount)
         {
             return "(" + Sub.GetCommandText(
+                factory: factory,
                 sqlContainer: sqlContainer,
                 sqlCommand: sqlCommand,
                 prefix: SubPrefix

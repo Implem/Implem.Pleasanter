@@ -1,4 +1,5 @@
 ﻿using Implem.DefinitionAccessor;
+using Implem.IRds;
 using Implem.Libraries.Classes;
 using Implem.Libraries.DataSources.SqlServer;
 using Implem.Libraries.Utilities;
@@ -17,6 +18,7 @@ using Implem.Pleasanter.Libraries.Settings;
 using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Data.Common;
 using System.Linq;
 namespace Implem.Pleasanter.Models
 {
@@ -1251,9 +1253,9 @@ namespace Implem.Pleasanter.Models
                     statements: statements.ToArray());
                 UserId = response.Id.ToInt();
             }
-            catch (System.Data.SqlClient.SqlException e)
+            catch (DbException e)
             {
-                if (e.Number == 2601)
+                if (context.SqlErrors.ErrorCode(e) == 2601)
                 {
                     return new ErrorData(type: Error.Types.LoginIdAlreadyUse);
                 }
@@ -1331,9 +1333,9 @@ namespace Implem.Pleasanter.Models
                         id: UserId);
                 }
             }
-            catch (System.Data.SqlClient.SqlException e)
+            catch (DbException e)
             {
-                if (e.Number == 2601)
+                if (context.SqlErrors.ErrorCode(e) == 2601)
                 {
                     return new ErrorData(type: Error.Types.LoginIdAlreadyUse);
                 }
@@ -1743,7 +1745,7 @@ namespace Implem.Pleasanter.Models
         private void Set(Context context, SiteSettings ss, DataRow dataRow, string tableAlias = null)
         {
             AccessStatus = Databases.AccessStatuses.Selected;
-            foreach(DataColumn dataColumn in dataRow.Table.Columns)
+            foreach (DataColumn dataColumn in dataRow.Table.Columns)
             {
                 var column = new ColumnNameInfo(dataColumn.ColumnName);
                 if (column.TableAlias == tableAlias)

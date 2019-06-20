@@ -1,23 +1,29 @@
 ﻿using Implem.DefinitionAccessor;
+using Implem.IRds;
 using Implem.Libraries.Classes;
 using Implem.Libraries.Utilities;
 namespace Implem.CodeDefiner.Functions.SqlServer
 {
     internal static class LoginsConfigurator
     {
-        internal static void Configure()
+        internal static void Configure(ISqlObjectFactory factory)
         {
-            Execute(Parameters.Rds.OwnerConnectionString);
-            Execute(Parameters.Rds.UserConnectionString);
+            Execute(
+                factory: factory,
+                connectionString: Parameters.Rds.OwnerConnectionString);
+            Execute(
+                factory: factory,
+                connectionString: Parameters.Rds.UserConnectionString);
         }
 
-        private static void Execute(string connectionString)
+        private static void Execute(ISqlObjectFactory factory, string connectionString)
         {
             var cn = new TextData(connectionString, ';', '=');
             Consoles.Write(cn["uid"], Consoles.Types.Info);
-            Spids.Kill(cn["uid"]);
-            Def.SqlIoBySa().ExecuteNonQuery(
-                CommandText(cn["uid"])
+            Spids.Kill(factory: factory, uid: cn["uid"]);
+            Def.SqlIoBySa(factory).ExecuteNonQuery(
+                factory: factory,
+                commandText: CommandText(cn["uid"])
                     .Replace("#Uid#", cn["uid"])
                     .Replace("#Pwd#", cn["pwd"])
                     .Replace("#ServiceName#", Environments.ServiceName));

@@ -1,4 +1,6 @@
 ﻿using Implem.DefinitionAccessor;
+using Implem.IRds;
+using Implem.Factory;
 using Implem.Libraries.Classes;
 using Implem.Libraries.DataSources.SqlServer;
 using Implem.Libraries.Utilities;
@@ -18,7 +20,7 @@ using System.Web;
 using System.Web.Mvc;
 namespace Implem.Pleasanter.Libraries.Requests
 {
-    public abstract class Context
+    public abstract class Context : ISqlObjectFactory
     {
         public abstract bool Authenticated { get; set; }
         public abstract bool SwitchUser { get; set; }
@@ -130,5 +132,49 @@ namespace Implem.Pleasanter.Libraries.Requests
                 ? QueryStrings.Data(name)
                 : Forms.Data(name);
         }
+
+        private static Lazy<ISqlObjectFactory> _sqlObjectFactory = new Lazy<ISqlObjectFactory>(() =>
+        {
+            return RdsFactory.Create(Parameters.Rds.Dbms);
+        });
+
+        private ISqlObjectFactory GetSqlObjectFactory()
+        {
+            return _sqlObjectFactory.Value;
+        }
+
+        public ISqlCommand CreateSqlCommand()
+        {
+            return GetSqlObjectFactory().CreateSqlCommand();
+        }
+
+        public ISqlParameter CreateSqlParameter()
+        {
+            return GetSqlObjectFactory().CreateSqlParameter();
+        }
+
+        public ISqlDataAdapter CreateSqlDataAdapter(ISqlCommand sqlCommand)
+        {
+            return GetSqlObjectFactory().CreateSqlDataAdapter(sqlCommand);
+        }
+
+        public ISqlParameter CreateSqlParameter(string name, object value)
+        {
+            return GetSqlObjectFactory().CreateSqlParameter(name, value);
+        }
+
+        public ISqlConnection CreateSqlConnection(string connectionString)
+        {
+            return GetSqlObjectFactory().CreateSqlConnection(connectionString);
+        }
+
+        public ISqlErrors SqlErrors
+        {
+            get
+            {
+                return GetSqlObjectFactory().SqlErrors;
+            }
+        }
+
     }
 }

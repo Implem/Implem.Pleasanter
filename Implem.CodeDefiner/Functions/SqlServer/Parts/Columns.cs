@@ -1,4 +1,5 @@
 ﻿using Implem.DefinitionAccessor;
+using Implem.IRds;
 using Implem.Libraries.DataSources.SqlServer;
 using Implem.Libraries.Utilities;
 using System.Collections.Generic;
@@ -8,10 +9,12 @@ namespace Implem.CodeDefiner.Functions.SqlServer.Parts
 {
     internal static class Columns
     {
-        internal static EnumerableRowCollection<DataRow> Get(string sourceTableName)
+        internal static EnumerableRowCollection<DataRow> Get(ISqlObjectFactory factory, string sourceTableName)
         {
-            return Def.SqlIoByAdmin().ExecuteTable(
-                Def.Sql.Columns.Replace("#TableName#", sourceTableName)).AsEnumerable();
+            return Def.SqlIoByAdmin(factory: factory).ExecuteTable(
+                factory: factory,
+                commandText: Def.Sql.Columns.Replace("#TableName#", sourceTableName))
+                .AsEnumerable();
         }
 
         internal static bool HasChanges(

@@ -1,0 +1,13 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Rds\Implem.IRds\Implem.IRds.csproj" />
+    <ProjectReference Include="..\Rds\Implem.PostgreSql\Implem.PostgreSql.csproj" />
+    <ProjectReference Include="..\Rds\Implem.SqlServer\Implem.SqlServer.csproj" />
+  </ItemGroup>
+
+</Project>

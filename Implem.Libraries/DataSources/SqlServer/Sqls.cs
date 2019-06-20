@@ -1,7 +1,8 @@
-﻿using Implem.Libraries.Utilities;
+﻿using Implem.IRds;
+using Implem.Libraries.Utilities;
 using System;
 using System.Collections.Generic;
-using System.Data.SqlClient;
+using System.Data.Common;
 using System.Linq;
 namespace Implem.Libraries.DataSources.SqlServer
 {
@@ -118,6 +119,7 @@ namespace Implem.Libraries.DataSources.SqlServer
         }
 
         public static bool TryOpenConnections(
+            ISqlObjectFactory factory,
             out int number,
             out string message,
             params string[] connectionStrings)
@@ -126,7 +128,7 @@ namespace Implem.Libraries.DataSources.SqlServer
             {
                 connectionStrings.ForEach(connectionString =>
                 {
-                    var sqlConnection = new SqlConnection(connectionString);
+                    var sqlConnection = factory.CreateSqlConnection(connectionString);
                     sqlConnection.Open();
                     sqlConnection.Close();
                 });
@@ -134,9 +136,9 @@ namespace Implem.Libraries.DataSources.SqlServer
                 message = string.Empty;
                 return true;
             }
-            catch (SqlException e)
+            catch (DbException e)
             {
-                number = e.Number;
+                number = factory.SqlErrors.ErrorCode(e);
                 message = e.Message;
                 return false;
             }

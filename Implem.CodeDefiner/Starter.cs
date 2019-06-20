@@ -1,4 +1,6 @@
 ﻿using Implem.DefinitionAccessor;
+using Implem.Factory;
+using Implem.IRds;
 using Implem.Libraries.Classes;
 using Implem.Libraries.DataSources.SqlServer;
 using Implem.Libraries.Utilities;
@@ -25,15 +27,16 @@ namespace Implem.CodeDefiner
                 codeDefiner: true,
                 setSaPassword: argHash.ContainsKey("s"),
                 setRandomPassword: argHash.ContainsKey("r"));
+            ISqlObjectFactory factory = RdsFactory.Create(Parameters.Rds.Dbms);
             Performances.Record(MethodBase.GetCurrentMethod().Name);
             DeleteTemporaryFiles();
             switch (action)
             {
                 case "_rds":
-                    ConfigureDatabase();
+                    ConfigureDatabase(factory: factory);
                     break;
                 case "rds":
-                    ConfigureDatabase();
+                    ConfigureDatabase(factory: factory);
                     CreateDefinitionAccessorCode();
                     CreateMvcCode(target);
                     break;
@@ -88,22 +91,23 @@ namespace Implem.CodeDefiner
             }
         }
 
-        private static void ConfigureDatabase()
+        private static void ConfigureDatabase(ISqlObjectFactory factory)
         {
-            TryOpenConnections();
+            TryOpenConnections(factory);
             Performances.Record(MethodBase.GetCurrentMethod().Name);
-            Functions.SqlServer.Configurator.Configure();
+            Functions.SqlServer.Configurator.Configure(factory);
             Consoles.Write(
                 DisplayAccessor.Displays.Get("CodeDefinerRdsCompleted"),
                 Consoles.Types.Success);
             Performances.Record(MethodBase.GetCurrentMethod().Name);
         }
 
-        private static void TryOpenConnections()
+        private static void TryOpenConnections(ISqlObjectFactory factory)
         {
             int number;
             string message;
             if (!Sqls.TryOpenConnections(
+                factory,
                 out number, out message, Parameters.Rds.SaConnectionString))
             {
                 Console.Write("[{0}] {1}", number, message);

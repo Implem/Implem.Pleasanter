@@ -1,5 +1,5 @@
-﻿using Implem.Libraries.Utilities;
-using System.Data.SqlClient;
+﻿using Implem.IRds;
+using Implem.Libraries.Utilities;
 using System.Linq;
 using System.Text;
 namespace Implem.Libraries.DataSources.SqlServer
@@ -47,8 +47,9 @@ namespace Implem.Libraries.DataSources.SqlServer
         }
 
         public virtual void BuildCommandText(
+            ISqlObjectFactory factory,
             SqlContainer sqlContainer,
-            SqlCommand sqlCommand,
+            ISqlCommand sqlCommand,
             StringBuilder commandText,
             int? commandCount = null)
         {
@@ -58,12 +59,13 @@ namespace Implem.Libraries.DataSources.SqlServer
                 commandText.Append(CommandText
                     .Replace("#CommandCount#", commandCount.ToString()));
             }
-            AddParams_Param(sqlCommand, commandCount);
+            AddParams_Param(factory, sqlCommand, commandCount);
         }
 
         public string GetCommandText(
+            ISqlObjectFactory factory,
             SqlContainer sqlContainer,
-            SqlCommand sqlCommand,
+            ISqlCommand sqlCommand,
             string prefix = "",
             int? commandCount = null)
         {
@@ -71,27 +73,34 @@ namespace Implem.Libraries.DataSources.SqlServer
             Terminate = false;
             SqlWhereCollection?.Prefix(prefix);
             SqlParamCollection?.Prefix(prefix);
-            BuildCommandText(sqlContainer, sqlCommand, commandText, commandCount);
+            BuildCommandText(factory, sqlContainer, sqlCommand, commandText, commandCount);
             return commandText.ToString();
         }
 
         protected void AddParam(
-            SqlCommand sqlCommand, string name, object value, int? commandCount)
+            ISqlObjectFactory factory,
+            ISqlCommand sqlCommand,
+            string name,
+            object value,
+            int? commandCount)
         {
             var key = name + commandCount;
             if (!sqlCommand.Parameters.Contains(key))
             {
-                sqlCommand.Parameters.Add(new SqlParameter(key, value));
+                sqlCommand.Parameters_Add(factory.CreateSqlParameter(key, value));
             }
         }
 
-        protected void AddParams_Where(SqlCommand sqlCommand, int? commandCount)
+        protected void AddParams_Where(ISqlObjectFactory factory, ISqlCommand sqlCommand, int? commandCount)
         {
-            AddParams_Where(sqlCommand, SqlWhereCollection, commandCount);
+            AddParams_Where(factory, sqlCommand, SqlWhereCollection, commandCount);
         }
 
         private void AddParams_Where(
-            SqlCommand sqlCommand, SqlWhereCollection sqlWhereCollection, int? commandCount)
+            ISqlObjectFactory factory,
+            ISqlCommand sqlCommand,
+            SqlWhereCollection sqlWhereCollection,
+            int? commandCount)
         {
             sqlWhereCollection?
                 .Where(o => o != null)
@@ -106,6 +115,7 @@ namespace Implem.Libraries.DataSources.SqlServer
                                 .Select((o, i) => new { Value = o, Index = i })
                                 .ForEach(data =>
                                     AddParam(
+                                        factory,
                                         sqlCommand,
                                         sqlWhere.Name + data.Index + "_",
                                         data.Value,
@@ -114,23 +124,27 @@ namespace Implem.Libraries.DataSources.SqlServer
                         else
                         {
                             AddParam(
+                                factory,
                                 sqlCommand,
                                 sqlWhere.Name,
                                 sqlWhere.Value,
                                 commandCount);
                         }
                     }
-                    AddParams_Where(sqlCommand, sqlWhere.Or, commandCount);
+                    AddParams_Where(factory, sqlCommand, sqlWhere.Or, commandCount);
                 });
         }
 
-        protected void AddParams_Having(SqlCommand sqlCommand, int? commandCount)
+        protected void AddParams_Having(ISqlObjectFactory factory, ISqlCommand sqlCommand, int? commandCount)
         {
-            AddParams_Having(sqlCommand, SqlHavingCollection, commandCount);
+            AddParams_Having(factory, sqlCommand, SqlHavingCollection, commandCount);
         }
 
         private void AddParams_Having(
-            SqlCommand sqlCommand, SqlHavingCollection sqlHavingCollection, int? commandCount)
+            ISqlObjectFactory factory,
+            ISqlCommand sqlCommand,
+            SqlHavingCollection sqlHavingCollection,
+            int? commandCount)
         {
             sqlHavingCollection?
                 .Where(o => o.Using)
@@ -143,6 +157,7 @@ namespace Implem.Libraries.DataSources.SqlServer
                             .Select((o, i) => new { Value = o, Index = i })
                             .ForEach(data =>
                                 AddParam(
+                                    factory,
                                     sqlCommand,
                                     sqlHaving.TableName + data.Index + "_",
                                     data.Value,
@@ -151,6 +166,7 @@ namespace Implem.Libraries.DataSources.SqlServer
                     else
                     {
                         AddParam(
+                            factory,
                             sqlCommand,
                             sqlHaving.TableName,
                             sqlHaving.Value,
@@ -159,14 +175,14 @@ namespace Implem.Libraries.DataSources.SqlServer
                 });
         }
 
-        protected void AddParams_Param(SqlCommand sqlCommand, int? commandCount)
+        protected void AddParams_Param(ISqlObjectFactory factory, ISqlCommand sqlCommand, int? commandCount)
         {
             SqlParamCollection?
                 .Where(o => o.Using)
                 .Where(o => o.Raw.IsNullOrEmpty())
                 .Where(o => o.Value != null)
                 .ForEach(sqlParam =>
-                    AddParam(sqlCommand, sqlParam.VariableName, sqlParam.Value, commandCount));
+                    AddParam(factory, sqlCommand, sqlParam.VariableName, sqlParam.Value, commandCount));
         }
 
         protected void AddUnion(StringBuilder commandText, Sqls.UnionTypes unionType)

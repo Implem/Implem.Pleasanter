@@ -1,4 +1,5 @@
-﻿using Implem.Libraries.Classes;
+﻿using Implem.IRds;
+using Implem.Libraries.Classes;
 using Implem.Libraries.DataSources.SqlServer;
 using Implem.Libraries.Utilities;
 using System;
@@ -143,37 +144,44 @@ namespace Implem.DefinitionAccessor
         }
 
         public static SqlIo SqlIoBySa(
+            ISqlObjectFactory factory,
             RdsUser rdsUser = null,
             bool transactional = false,
             bool selectIdentity = false,
             bool writeSqlToDebugLog = true,
             params SqlStatement[] statements)
         {
-            return new SqlIo(CommandContainer(
-                connectionString: Parameters.Rds.SaConnectionString,
-                rdsUser: rdsUser,
-                transactional: transactional,
-                selectIdentity: selectIdentity,
-                writeSqlToDebugLog: writeSqlToDebugLog,
-                statements: statements));
+            return new SqlIo(
+                factory: factory,
+                sqlContainer: CommandContainer(
+                    connectionString: Parameters.Rds.SaConnectionString,
+                    rdsUser: rdsUser,
+                    transactional: transactional,
+                    selectIdentity: selectIdentity,
+                    writeSqlToDebugLog: writeSqlToDebugLog,
+                    statements: statements));
         }
 
         public static SqlIo SqlIoByAdmin(
+            ISqlObjectFactory factory,
             RdsUser rdsUser = null,
             bool transactional = false,
             bool selectIdentity = false,
             bool writeSqlToDebugLog = true,
             params SqlStatement[] statements)
         {
-            return new SqlIo(CommandContainer(
-                connectionString: Parameters.Rds.OwnerConnectionString,
-                rdsUser: rdsUser,
-                transactional: transactional,
-                writeSqlToDebugLog: writeSqlToDebugLog,
-                statements: statements));
+            return new SqlIo(
+                factory: factory,
+                sqlContainer: CommandContainer(
+                    connectionString: Parameters.Rds.OwnerConnectionString,
+                    rdsUser: rdsUser,
+                    transactional: transactional,
+                    writeSqlToDebugLog: writeSqlToDebugLog,
+                    statements: statements));
         }
 
         public static SqlIo SqlIoByUser(
+            ISqlObjectFactory factory,
             string connectionString = null,
             RdsUser rdsUser = null,
             bool transactional = false,
@@ -181,15 +189,17 @@ namespace Implem.DefinitionAccessor
             bool writeSqlToDebugLog = true,
             params SqlStatement[] statements)
         {
-            return new SqlIo(CommandContainer(
-                connectionString: !connectionString.IsNullOrEmpty()
+            return new SqlIo(
+                factory: factory,
+                sqlContainer: CommandContainer(
+                    connectionString: !connectionString.IsNullOrEmpty()
                     ? connectionString
                     : Parameters.Rds.UserConnectionString,
-                rdsUser: rdsUser,
-                transactional: transactional,
-                selectIdentity: selectIdentity,
-                writeSqlToDebugLog: writeSqlToDebugLog,
-                statements: statements));
+                    rdsUser: rdsUser,
+                    transactional: transactional,
+                    selectIdentity: selectIdentity,
+                    writeSqlToDebugLog: writeSqlToDebugLog,
+                    statements: statements));
         }
 
         private static SqlContainer CommandContainer(

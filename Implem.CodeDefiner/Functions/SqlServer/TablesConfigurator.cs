@@ -1,5 +1,6 @@
 ﻿using Implem.CodeDefiner.Functions.SqlServer.Parts;
 using Implem.DefinitionAccessor;
+using Implem.IRds;
 using Implem.Libraries.DataSources.SqlServer;
 using Implem.Libraries.Utilities;
 using System.Collections.Generic;
@@ -9,13 +10,15 @@ namespace Implem.CodeDefiner.Functions.SqlServer
 {
     internal class TablesConfigurator
     {
-        internal static void Configure()
+        internal static void Configure(ISqlObjectFactory factory)
         {
             Def.TableNameCollection().ForEach(generalTableName =>
-                ConfigureTableSet(generalTableName));
+                ConfigureTableSet(
+                    factory: factory,
+                    generalTableName: generalTableName));
         }
 
-        private static void ConfigureTableSet(string generalTableName)
+        private static void ConfigureTableSet(ISqlObjectFactory factory, string generalTableName)
         {
             Consoles.Write(generalTableName, Consoles.Types.Info);
             var deletedTableName = generalTableName + "_deleted";
@@ -31,53 +34,65 @@ namespace Implem.CodeDefiner.Functions.SqlServer
                 .Where(o => o.History > 0)
                 .OrderBy(o => o.History);
             ConfigureTablePart(
-                generalTableName,
-                generalTableName,
-                Sqls.TableTypes.Normal,
-                columnDefinitionCollection);
+                factory: factory,
+                generalTableName: generalTableName,
+                sourceTableName: generalTableName,
+                tableType: Sqls.TableTypes.Normal,
+                columnDefinitionCollection: columnDefinitionCollection);
             ConfigureTablePart(
-                generalTableName,
-                deletedTableName,
-                Sqls.TableTypes.Deleted,
-                columnDefinitionCollection);
+                factory: factory,
+                generalTableName: generalTableName,
+                sourceTableName: deletedTableName,
+                tableType: Sqls.TableTypes.Deleted,
+                columnDefinitionCollection: columnDefinitionCollection);
             ConfigureTablePart(
-                generalTableName,
-                historyTableName,
-                Sqls.TableTypes.History,
-                columnDefinitionHistoryCollection);
+                factory: factory,
+                generalTableName: generalTableName,
+                sourceTableName: historyTableName,
+                tableType: Sqls.TableTypes.History,
+                columnDefinitionCollection: columnDefinitionHistoryCollection);
         }
 
         private static void ConfigureTablePart(
+            ISqlObjectFactory factory,
             string generalTableName,
             string sourceTableName,
             Sqls.TableTypes tableType,
             IEnumerable<ColumnDefinition> columnDefinitionCollection)
         {
-            if (!Tables.Exists(sourceTableName))
+            if (!Tables.Exists(factory: factory, sourceTableName: sourceTableName))
             {
                 Tables.CreateTable(
-                    generalTableName,
-                    sourceTableName,
-                    tableType,
-                    columnDefinitionCollection,
-                    Indexes.IndexInfoCollection(generalTableName, sourceTableName, tableType),
-                    Columns.Get(sourceTableName));
+                    factory: factory,
+                    generalTableName: generalTableName,
+                    sourceTableName: sourceTableName,
+                    tableType: tableType,
+                    columnDefinitionCollection: columnDefinitionCollection,
+                    tableIndexCollection: Indexes.IndexInfoCollection(
+                        generalTableName: generalTableName,
+                        sourceTableName: sourceTableName,
+                        tableType: tableType),
+                    rdsColumnCollection: Columns.Get(
+                        factory: factory,
+                        sourceTableName: sourceTableName));
             }
             else
             {
                 if (Tables.HasChanges(
-                    generalTableName,
-                    sourceTableName,
-                    tableType,
-                    columnDefinitionCollection,
-                    Columns.Get(sourceTableName)))
+                    factory: factory,
+                    generalTableName: generalTableName,
+                    sourceTableName: sourceTableName,
+                    tableType: tableType,
+                    columnDefinitionCollection: columnDefinitionCollection,
+                    rdsColumnCollection: Columns.Get(factory, sourceTableName)))
                 {
                     Tables.MigrateTable(
-                        generalTableName,
-                        sourceTableName,
-                        tableType,
-                        columnDefinitionCollection,
-                        Indexes.IndexInfoCollection(generalTableName, sourceTableName, tableType));
+                        factory: factory,
+                        generalTableName: generalTableName,
+                        sourceTableName: sourceTableName,
+                        tableType: tableType,
+                        columnDefinitionCollection: columnDefinitionCollection,
+                        tableIndexCollection: Indexes.IndexInfoCollection(generalTableName, sourceTableName, tableType));
                 }
             }
         }

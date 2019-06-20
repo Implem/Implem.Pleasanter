@@ -1,4 +1,5 @@
 ﻿using Implem.DefinitionAccessor;
+using Implem.IRds;
 using Implem.Libraries.DataSources.SqlServer;
 using Implem.Libraries.Utilities;
 using System.Collections.Generic;
@@ -8,16 +9,20 @@ namespace Implem.CodeDefiner.Functions.SqlServer.Parts
 {
     internal static class Constraints
     {
-        internal static EnumerableRowCollection<DataRow> Get(string sourceTableName)
+        internal static EnumerableRowCollection<DataRow> Get(ISqlObjectFactory factory, string sourceTableName)
         {
-            return Def.SqlIoByAdmin().ExecuteTable(Def.Sql.Defaults
+            return Def.SqlIoByAdmin(factory).ExecuteTable(
+                factory: factory,
+                commandText: Def.Sql.Defaults
                 .Replace("#InitialCatalog#", Environments.ServiceName)
                 .Replace("#TableName#", sourceTableName))
                     .AsEnumerable();
         }
 
         internal static bool HasChanges(
-            string sourceTableName, IEnumerable<ColumnDefinition> columnDefinitionCollection)
+            ISqlObjectFactory factory,
+            string sourceTableName,
+            IEnumerable<ColumnDefinition> columnDefinitionCollection)
         {
             return
                 columnDefinitionCollection
@@ -26,7 +31,7 @@ namespace Implem.CodeDefiner.Functions.SqlServer.Parts
                     .OrderBy(o => o.ColumnName)
                     .Select(o => o.ColumnName + "," + DefaultDefinition(o))
                     .JoinReturn() !=
-                Get(sourceTableName)
+                Get(factory: factory, sourceTableName: sourceTableName)
                     .Where(o => !(sourceTableName.EndsWith("_history") && o["column_name"].ToString() == "Ver"))
                     .OrderBy(o => o["column_name"])
                     .Select(o => o["column_name"] + "," + o["column_default"])
@@ -78,12 +83,16 @@ namespace Implem.CodeDefiner.Functions.SqlServer.Parts
 
         internal static void DropConstraint(
             this SqlStatement sqlStatement,
+            ISqlObjectFactory factory,
             string sourceTableName,
             IEnumerable<IndexInfo> tableIndexCollection)
         {
             sqlStatement.CommandText = sqlStatement.CommandText
                 .Replace("#DropConstraint#", tableIndexCollection
-                    .Where(o => Indexes.Get(sourceTableName).Contains(o.IndexName()))
+                    .Where(o => Indexes.Get(
+                        factory: factory,
+                        sourceTableName: sourceTableName)
+                        .Contains(o.IndexName()))
                     .Select(o => Sql_Drop(o)
                         .Replace("#SourceTableName#", sourceTableName)
                         .Replace("#IndexName#", o.IndexName()))

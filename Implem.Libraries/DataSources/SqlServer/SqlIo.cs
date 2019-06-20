@@ -1,8 +1,9 @@
-﻿using Implem.Libraries.Utilities;
+﻿using Implem.IRds;
+using Implem.Libraries.Utilities;
 using System;
 using System.Collections.Generic;
 using System.Data;
-using System.Data.SqlClient;
+using System.Data.Common;
 using System.Linq;
 using System.Text;
 namespace Implem.Libraries.DataSources.SqlServer
@@ -11,23 +12,24 @@ namespace Implem.Libraries.DataSources.SqlServer
     {
         private bool Disposed;
         public SqlContainer SqlContainer;
-        public SqlCommand SqlCommand = new SqlCommand();
+        public ISqlCommand SqlCommand { get; private set; }
         public StringBuilder CommandText = new StringBuilder();
 
-        public SqlIo()
+        public SqlIo(ISqlObjectFactory factory)
         {
+            SqlCommand = factory.CreateSqlCommand();
         }
 
-        public SqlIo(SqlContainer sqlContainer)
+        public SqlIo(ISqlObjectFactory factory, SqlContainer sqlContainer) : this(factory)
         {
             SqlContainer = sqlContainer;
         }
 
-        private void SetCommand()
+        private void SetCommand(ISqlObjectFactory factory)
         {
             SetCommandUserParams();
-            SetCommandText();
-            SetSqlCommand();
+            SetCommandText(factory: factory);
+            SetSqlCommand(factory: factory);
             if (SqlContainer.WriteSqlToDebugLog)
             {
                 SqlDebugs.WriteSqlLog(SqlContainer.RdsName, SqlCommand, Sqls.LogsPath);
@@ -36,12 +38,12 @@ namespace Implem.Libraries.DataSources.SqlServer
 
         private void SetCommandUserParams()
         {
-            SqlCommand.Parameters.AddWithValue("_T", SqlContainer.RdsUser.TenantId);
-            SqlCommand.Parameters.AddWithValue("_D", SqlContainer.RdsUser.DeptId);
-            SqlCommand.Parameters.AddWithValue("_U", SqlContainer.RdsUser.UserId);
+            SqlCommand.Parameters_AddWithValue("_T", SqlContainer.RdsUser.TenantId);
+            SqlCommand.Parameters_AddWithValue("_D", SqlContainer.RdsUser.DeptId);
+            SqlCommand.Parameters_AddWithValue("_U", SqlContainer.RdsUser.UserId);
         }
 
-        private void SetCommandText()
+        private void SetCommandText(ISqlObjectFactory factory)
         {
             CommandText.Append(
                 "declare @_I bigint;\n",
@@ -56,6 +58,7 @@ namespace Implem.Libraries.DataSources.SqlServer
                 })
                 .ForEach(data =>
                     data.Statement.BuildCommandText(
+                        factory: factory,
                         sqlContainer: SqlContainer,
                         sqlCommand: SqlCommand,
                         commandText: CommandText,
@@ -73,68 +76,108 @@ namespace Implem.Libraries.DataSources.SqlServer
         }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Security", "CA2100:SQL It has been confirmed that the vulnerability on the query of security does not exist")]
-        private void SetSqlCommand()
+        private void SetSqlCommand(ISqlObjectFactory factory)
         {
             SqlCommand.CommandType = CommandType.Text;
             SqlCommand.CommandText = CommandText.ToString();
-            SqlCommand.Connection = new SqlConnection(SqlContainer.ConnectionString);
+            SqlCommand.Connection = factory.CreateSqlConnection(SqlContainer.ConnectionString);
             SqlCommand.CommandTimeout = SqlContainer.CommandTimeOut;
         }
 
-        public void ExecuteNonQuery()
+        public void ExecuteNonQuery(ISqlObjectFactory factory)
         {
-            SetCommand();
+            SetCommand(factory: factory);
             SqlCommand.Connection.Open();
-            Try(action: () =>
+            Try(factory:factory,
+                action: () =>
             {
                 SqlCommand.ExecuteNonQuery();
-            });
+            }, cmd: SqlCommand);
             SqlCommand.Connection.Close();
             Clear();
         }
 
-        public object ExecuteScalar()
+        public object ExecuteScalar(ISqlObjectFactory factory)
         {
             object value = null;
-            SetCommand();
+            SetCommand(factory: factory);
             SqlCommand.Connection.Open();
-            Try(action: () =>
+            Try(factory: factory, 
+                action: () =>
             {
                 value = SqlCommand.ExecuteScalar();
-            });
+            }, cmd: SqlCommand);
             SqlCommand.Connection.Close();
+
+            //TODO
+            {
+                var cmd = SqlCommand.CommandText;
+                var param = SqlCommand.Parameters;
+                var data = value;
+
+                Console.WriteLine(cmd);
+                Console.WriteLine(string.Join(", ", param.Cast<IDataParameter>().Select(p => $"{p.ParameterName}: {p.Value}")));
+                Console.WriteLine($"value: {value}");
+            }
+
             Clear();
             return value;
         }
 
-        public DataTable ExecuteTable()
+        public DataTable ExecuteTable(ISqlObjectFactory factory)
         {
             var dataTable = new DataTable();
-            SetCommand();
-            Try(action: () =>
+            SetCommand(factory: factory);
+            Try(factory: factory, 
+                action: () =>
             {
-                new SqlDataAdapter(SqlCommand).Fill(dataTable);
-            });
+                factory.CreateSqlDataAdapter(SqlCommand).Fill(dataTable);
+            }, cmd: SqlCommand);
+
+            //TODO
+            {
+                var cmd = SqlCommand.CommandText;
+                var param = SqlCommand.Parameters;
+                var data = dataTable;
+
+                Console.WriteLine(cmd);
+                Console.WriteLine(string.Join(", ", param.Cast<IDataParameter>().Select(p => $"{p.ParameterName}: {p.Value}")));
+                Console.WriteLine($"coun: {data.Rows.Count}");
+            }
+
             Clear();
             return dataTable;
         }
 
-        public DataSet ExecuteDataSet()
+        public DataSet ExecuteDataSet(ISqlObjectFactory factory)
         {
             var dataSet = new DataSet();
-            SetCommand();
-            Try(action: () =>
+            SetCommand(factory: factory);
+            Try(factory: factory, 
+                action: () =>
             {
-                SqlContainer.SqlDataAdapter(SqlCommand).Fill(dataSet);
-            });
+                SqlContainer.SqlDataAdapter(factory: factory, sqlCommand: SqlCommand).Fill(dataSet);
+            }, cmd: SqlCommand);
+
+            //TODO
+            {
+                var cmd = SqlCommand.CommandText;
+                var param = SqlCommand.Parameters;
+                var data = dataSet;
+
+                Console.WriteLine(cmd);
+                Console.WriteLine(string.Join(", ", param.Cast<IDataParameter>().Select(p => $"{p.ParameterName}: {p.Value}")));
+                Console.WriteLine($"coun: {string.Join(", ", data.Tables.Cast<DataTable>().Select(t=>t.Rows.Count.ToString()))}");
+            }
+
             Clear();
             return dataSet;
         }
 
-        public List<SqlResponse> ExecuteDataSet_responses()
+        public List<SqlResponse> ExecuteDataSet_responses(ISqlObjectFactory factory)
         {
             var responses = new List<SqlResponse>();
-            foreach(DataTable dataTable in ExecuteDataSet().Tables)
+            foreach(DataTable dataTable in ExecuteDataSet(factory: factory).Tables)
             {
                 if (dataTable.Rows.Count == 1)
                 {
@@ -149,7 +192,9 @@ namespace Implem.Libraries.DataSources.SqlServer
             return responses;
         }
 
-        private void Try(Action action)
+        //TODO
+        //private void Try(Action action)
+        private void Try(ISqlObjectFactory factory, Action action, ISqlCommand cmd)
         {
             for (int i = 0; i <= Environments.DeadlockRetryCount; i++)
             {
@@ -158,9 +203,9 @@ namespace Implem.Libraries.DataSources.SqlServer
                     action();
                     break;
                 }
-                catch (SqlException e)
+                catch (DbException e)
                 {
-                    if (e.Number == 1205)
+                    if (factory.SqlErrors.ErrorCode(e) == 1205)
                     {
                         System.Threading.Thread.Sleep(Environments.DeadlockRetryInterval);
                     }
@@ -172,55 +217,55 @@ namespace Implem.Libraries.DataSources.SqlServer
             }
         }
 
-        public void ExecuteNonQuery(SqlStatement sqlStatement)
+        public void ExecuteNonQuery(ISqlObjectFactory factory, SqlStatement sqlStatement)
         {
             SqlContainer.SqlStatementCollection.Add(sqlStatement);
-            ExecuteNonQuery();
+            ExecuteNonQuery(factory: factory);
         }
 
-        public void ExecuteNonQuery(string commandText)
+        public void ExecuteNonQuery(ISqlObjectFactory factory, string commandText)
         {
-            ExecuteNonQuery(new SqlStatement(commandText));
+            ExecuteNonQuery(factory: factory, sqlStatement: new SqlStatement(commandText));
         }
 
-        public bool ExecuteScalar_bool()
+        public bool ExecuteScalar_bool(ISqlObjectFactory factory)
         {
-            return ExecuteScalar().ToBool();
+            return ExecuteScalar(factory: factory).ToBool();
         }
 
-        public int ExecuteScalar_int()
+        public int ExecuteScalar_int(ISqlObjectFactory factory)
         {
-            return ExecuteScalar().ToInt();
+            return ExecuteScalar(factory: factory).ToInt();
         }
 
-        public long ExecuteScalar_long()
+        public long ExecuteScalar_long(ISqlObjectFactory factory)
         {
-            return ExecuteScalar().ToLong();
+            return ExecuteScalar(factory: factory).ToLong();
         }
 
-        public decimal ExecuteScalar_decimal()
+        public decimal ExecuteScalar_decimal(ISqlObjectFactory factory)
         {
-            return ExecuteScalar().ToDecimal();
+            return ExecuteScalar(factory: factory).ToDecimal();
         }
 
-        public DateTime ExecuteScalar_datetime()
+        public DateTime ExecuteScalar_datetime(ISqlObjectFactory factory)
         {
-            return ExecuteScalar().ToDateTime();
+            return ExecuteScalar(factory).ToDateTime();
         }
 
-        public string ExecuteScalar_string()
+        public string ExecuteScalar_string(ISqlObjectFactory factory)
         {
-            return ExecuteScalar().ToStr();
+            return ExecuteScalar(factory: factory).ToStr();
         }
 
-        public byte[] ExecuteScalar_bytes()
+        public byte[] ExecuteScalar_bytes(ISqlObjectFactory factory)
         {
-            return (byte[])ExecuteScalar();
+            return (byte[])ExecuteScalar(factory: factory);
         }
 
-        public SqlResponse ExecuteScalar_response()
+        public SqlResponse ExecuteScalar_response(ISqlObjectFactory factory)
         {
-            var response = ExecuteScalar().ToStr().Deserialize<SqlResponse>() ?? new SqlResponse();
+            var response = ExecuteScalar(factory: factory).ToStr().Deserialize<SqlResponse>() ?? new SqlResponse();
             if (!response.ErrorMessage.IsNullOrEmpty())
             {
                 throw new Exception(response.ErrorMessage);
@@ -228,10 +273,10 @@ namespace Implem.Libraries.DataSources.SqlServer
             return response;
         }
 
-        public DataTable ExecuteTable(string commandText)
+        public DataTable ExecuteTable(ISqlObjectFactory factory, string commandText)
         {
             SqlContainer.SqlStatementCollection.Add(new SqlStatement(commandText));
-            return ExecuteTable();
+            return ExecuteTable(factory: factory);
         }
 
         public void Clear()
