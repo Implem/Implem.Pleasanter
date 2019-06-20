@@ -1,0 +1,13 @@
+﻿{
+    "Id": "MailAddress",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Mail address"
+        },
+        {
+            "Language": "ja",
+            "Body": "メールアドレス"
+        }
+    ]
+}

@@ -1,0 +1,13 @@
+﻿{
+    "Id": "UsageGuide",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Usage guide"
+        },
+        {
+            "Language": "ja",
+            "Body": "利用ガイド"
+        }
+    ]
+}

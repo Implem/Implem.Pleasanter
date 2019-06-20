@@ -1,0 +1,13 @@
+﻿{
+    "Id": "Basic",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Basic"
+        },
+        {
+            "Language": "ja",
+            "Body": "基本"
+        }
+    ]
+}

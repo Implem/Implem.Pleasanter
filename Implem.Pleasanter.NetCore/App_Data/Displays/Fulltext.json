@@ -1,0 +1,13 @@
+﻿{
+    "Id": "FullText",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "FullText"
+        },
+        {
+            "Language": "ja",
+            "Body": "フルテキスト"
+        }
+    ]
+}

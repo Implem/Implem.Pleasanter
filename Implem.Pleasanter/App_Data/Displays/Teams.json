@@ -1,0 +1,9 @@
+﻿{
+    "Id": "Teams",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Microsoft Teams"
+        }
+    ]
+}

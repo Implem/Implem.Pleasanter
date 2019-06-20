@@ -1,0 +1,13 @@
+﻿{
+    "Id": "LimitQuantity",
+    "Type": 110,
+    "Languages": [
+      {
+        "Body": "Limit quantity"
+      },
+        {
+            "Language": "ja",
+            "Body": "ファイル数制限"
+        }
+    ]
+}

@@ -1,0 +1,13 @@
+﻿{
+    "Id": "Own",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Own"
+        },
+        {
+            "Language": "ja",
+            "Body": "自分"
+        }
+    ]
+}

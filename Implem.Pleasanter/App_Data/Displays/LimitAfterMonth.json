@@ -1,0 +1,13 @@
+﻿{
+    "Id": "LimitAfterMonth",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "1 month after"
+        },
+        {
+            "Language": "ja",
+            "Body": "1 ヶ月後"
+        }
+    ]
+}

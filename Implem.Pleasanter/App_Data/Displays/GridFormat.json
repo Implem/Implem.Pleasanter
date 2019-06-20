@@ -1,0 +1,13 @@
+﻿{
+    "Id": "GridFormat",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Grid format"
+        },
+        {
+            "Language": "ja",
+            "Body": "一覧の書式"
+        }
+    ]
+}

@@ -1,0 +1,13 @@
+﻿{
+    "Id": "Ym",
+    "Type": 120,
+    "Languages": [
+        {
+            "Body": "Month and year"
+        },
+        {
+            "Language": "ja",
+            "Body": "年月"
+        }
+    ]
+}

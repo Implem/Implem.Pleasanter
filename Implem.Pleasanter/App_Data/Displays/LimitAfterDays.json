@@ -1,0 +1,13 @@
+﻿{
+    "Id": "LimitAfterDays",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "{0} days after"
+        },
+        {
+            "Language": "ja",
+            "Body": "{0} 日後"
+        }
+    ]
+}

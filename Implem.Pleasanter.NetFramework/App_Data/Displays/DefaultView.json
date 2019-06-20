@@ -1,0 +1,13 @@
+﻿{
+    "Id": "DefaultView",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Default view"
+        },
+        {
+            "Language": "ja",
+            "Body": "既定のビュー"
+        }
+    ]
+}

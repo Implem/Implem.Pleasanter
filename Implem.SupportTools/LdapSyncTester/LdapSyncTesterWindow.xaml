@@ -1,0 +1,34 @@
+﻿<UserControl x:Class="Implem.SupportTools.LdapSyncTester.LdapSyncTesterWindow"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:Implem.SupportTools.LdapSyncTester"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800">
+    <Grid Margin="8">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+        <StackPanel Orientation="Horizontal">
+            <Button HorizontalAlignment="Left" VerticalAlignment="Top" Padding="2" Margin="2" Click="runButton_Click">AD情報取得</Button>
+            <Button HorizontalAlignment="Left" VerticalAlignment="Top" Padding="2" Margin="2" Click="openfileButton_Click">設定ファイルを開く</Button>
+            <Button HorizontalAlignment="Left" VerticalAlignment="Top" Padding="2" Margin="2" Click="outputButton_Click">CSV出力</Button>
+        </StackPanel>
+        <ListView Grid.Row="1" Grid.ColumnSpan="3" x:Name="listView" ItemsSource="{Binding Items}" >
+            <ListView.View>
+                <GridView>
+                    <GridViewColumn Header="LoginId" DisplayMemberBinding="{Binding LoginId}"  />
+                    <GridViewColumn Header="Name" DisplayMemberBinding="{Binding Name}" />
+                    <GridViewColumn Header="Enabled" DisplayMemberBinding="{Binding Enabled}" />
+                    <GridViewColumn Header="MailAddress" DisplayMemberBinding="{Binding MailAddress}" />
+                    <GridViewColumn Header="DeptCode" DisplayMemberBinding="{Binding DeptCode}" />
+                    <GridViewColumn Header="DeptName" DisplayMemberBinding="{Binding DeptName}" />
+                    <GridViewColumn Header="UserCode" DisplayMemberBinding="{Binding UserCode}" />
+                    <GridViewColumn Header="ExtendedAttributes" DisplayMemberBinding="{Binding ExtendedAttributes}" />
+                </GridView>
+            </ListView.View>
+        </ListView>
+    </Grid>
+</UserControl>

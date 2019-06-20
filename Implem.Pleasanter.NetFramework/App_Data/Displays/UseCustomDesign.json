@@ -1,0 +1,13 @@
+﻿{
+    "Id": "UseCustomDesign",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Use custom design"
+        },
+        {
+            "Language": "ja",
+            "Body": "カスタムデザインを使用"
+        }
+    ]
+}

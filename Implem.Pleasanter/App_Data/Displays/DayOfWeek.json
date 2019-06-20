@@ -1,0 +1,13 @@
+﻿{
+    "Id": "DayOfWeek",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Day of week"
+        },
+        {
+            "Language": "ja",
+            "Body": "曜日"
+        }
+    ]
+}

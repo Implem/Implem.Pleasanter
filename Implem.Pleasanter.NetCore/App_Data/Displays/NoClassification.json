@@ -1,0 +1,13 @@
+﻿{
+    "Id": "NoClassification",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "No classification"
+        },
+        {
+            "Language": "ja",
+            "Body": "分類無し"
+        }
+    ]
+}

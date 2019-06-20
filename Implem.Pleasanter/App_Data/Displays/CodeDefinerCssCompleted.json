@@ -1,0 +1,13 @@
+﻿{
+    "Id": "CodeDefinerCssCompleted",
+    "Type": 210,
+    "Languages": [
+        {
+            "Body": "Css codes creation completion."
+        },
+        {
+            "Language": "ja",
+            "Body": "CSSコードの作成処理が完了しました。"
+        }
+    ]
+}

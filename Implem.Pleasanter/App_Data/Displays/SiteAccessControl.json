@@ -1,0 +1,13 @@
+﻿{
+    "Id": "SiteAccessControl",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Site access control"
+        },
+        {
+            "Language": "ja",
+            "Body": "サイトのアクセス制御"
+        }
+    ]
+}

@@ -1,0 +1,13 @@
+﻿{
+    "Id": "SelectTargets",
+    "Type": 240,
+    "Languages": [
+        {
+            "Body": "Please select targets"
+        },
+        {
+            "Language": "ja",
+            "Body": "対象を選択してください。"
+        }
+    ]
+}

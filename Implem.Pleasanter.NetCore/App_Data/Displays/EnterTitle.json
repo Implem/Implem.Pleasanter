@@ -1,0 +1,13 @@
+﻿{
+    "Id": "EnterTitle",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Please enter title."
+        },
+        {
+            "Language": "ja",
+            "Body": "タイトルを入力して下さい。"
+        }
+    ]
+}

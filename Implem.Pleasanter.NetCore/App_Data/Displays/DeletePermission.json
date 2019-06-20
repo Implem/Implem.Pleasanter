@@ -1,0 +1,13 @@
+﻿{
+    "Id": "DeletePermission",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Delete permission"
+        },
+        {
+            "Language": "ja",
+            "Body": "権限削除"
+        }
+    ]
+}

@@ -1,0 +1,13 @@
+﻿{
+    "Id": "Contact",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Contact"
+        },
+        {
+            "Language": "ja",
+            "Body": "お問い合わせ"
+        }
+    ]
+}

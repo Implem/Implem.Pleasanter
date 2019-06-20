@@ -1,0 +1,13 @@
+﻿{
+    "Id": "UseMonth",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Use month"
+        },
+        {
+            "Language": "ja",
+            "Body": "月を使用"
+        }
+    ]
+}

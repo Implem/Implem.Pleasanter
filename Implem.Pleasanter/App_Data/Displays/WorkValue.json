@@ -1,0 +1,13 @@
+﻿{
+    "Id": "WorkValue",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Work value"
+        },
+        {
+            "Language": "ja",
+            "Body": "作業量"
+        }
+    ]
+}

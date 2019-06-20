@@ -1,0 +1,13 @@
+﻿{
+    "Id": "Register",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Register"
+        },
+        {
+            "Language": "ja",
+            "Body": "登録"
+        }
+    ]
+}

@@ -1,0 +1,13 @@
+﻿{
+    "Id": "InCopying",
+    "Type": 220,
+    "Languages": [
+        {
+            "Body": "It is in the copying process."
+        },
+        {
+            "Language": "ja",
+            "Body": "コピー中です。"
+        }
+    ]
+}

@@ -1,0 +1,13 @@
+﻿{
+    "Id": "PublishToAnonymousUsers",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Publish to anonymous users"
+        },
+        {
+            "Language": "ja",
+            "Body": "匿名ユーザに公開する"
+        }
+    ]
+}

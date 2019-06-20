@@ -1,0 +1,14 @@
+﻿{
+    "Id": "UncheckAll",
+    "Type": 110,
+    "ClientScript": true,
+    "Languages": [
+        {
+            "Body": "Uncheck all"
+        },
+        {
+            "Language": "ja",
+            "Body": "全て解除"
+        }
+    ]
+}

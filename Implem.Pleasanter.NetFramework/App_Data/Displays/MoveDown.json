@@ -1,0 +1,13 @@
+﻿{
+    "Id": "MoveDown",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Move down"
+        },
+        {
+            "Language": "ja",
+            "Body": "下"
+        }
+    ]
+}

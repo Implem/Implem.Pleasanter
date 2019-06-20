@@ -1,0 +1,13 @@
+﻿{
+    "Id": "Synchronize",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Synchronize"
+        },
+        {
+            "Language": "ja",
+            "Body": "同期"
+        }
+    ]
+}

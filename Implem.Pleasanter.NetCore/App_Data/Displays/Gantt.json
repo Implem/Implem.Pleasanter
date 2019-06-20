@@ -1,0 +1,13 @@
+﻿{
+    "Id": "Gantt",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Gantt chart"
+        },
+        {
+            "Language": "ja",
+            "Body": "ガントチャート"
+        }
+    ]
+}

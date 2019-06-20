@@ -1,0 +1,13 @@
+﻿{
+    "Id": "OutOfCondition",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Out of condition"
+        },
+        {
+            "Language": "ja",
+            "Body": "条件外の場合"
+        }
+    ]
+}

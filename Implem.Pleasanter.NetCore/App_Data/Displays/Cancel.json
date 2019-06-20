@@ -1,0 +1,13 @@
+﻿{
+    "Id": "Cancel",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Cancel"
+        },
+        {
+            "Language": "ja",
+            "Body": "キャンセル"
+        }
+    ]
+}

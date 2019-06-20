@@ -1,0 +1,13 @@
+﻿{
+    "Id": "Purchase",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Purchase"
+        },
+        {
+            "Language": "ja",
+            "Body": "購買・仕入"
+        }
+    ]
+}

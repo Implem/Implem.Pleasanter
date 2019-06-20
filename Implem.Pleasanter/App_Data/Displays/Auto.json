@@ -1,0 +1,13 @@
+﻿{
+    "Id": "Auto",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Auto"
+        },
+        {
+            "Language": "ja",
+            "Body": "オート"
+        }
+    ]
+}

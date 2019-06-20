@@ -1,0 +1,13 @@
+﻿{
+    "Id": "LimitAfterHours",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "{0} hours after"
+        },
+        {
+            "Language": "ja",
+            "Body": "{0} 時間後"
+        }
+    ]
+}

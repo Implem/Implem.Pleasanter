@@ -1,0 +1,13 @@
+﻿{
+    "Id": "Upload",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Upload"
+        },
+        {
+            "Language": "ja",
+            "Body": "アップロード"
+        }
+    ]
+}

@@ -1,0 +1,13 @@
+﻿{
+    "Id": "Duplicated",
+    "Type": 240,
+    "Languages": [
+        {
+            "Body": "Can not update because classification {0} is duplicated."
+        },
+        {
+            "Language": "ja",
+            "Body": "{0} が重複しているため更新できません。"
+        }
+    ]
+}

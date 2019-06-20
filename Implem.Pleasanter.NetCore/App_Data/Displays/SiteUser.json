@@ -1,0 +1,13 @@
+﻿{
+    "Id": "SiteUser",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Site user"
+        },
+        {
+            "Language": "ja",
+            "Body": "サイトユーザ"
+        }
+    ]
+}

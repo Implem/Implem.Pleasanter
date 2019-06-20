@@ -1,0 +1,13 @@
+﻿{
+    "Id": "Members",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Members"
+        },
+        {
+            "Language": "ja",
+            "Body": "メンバー"
+        }
+    ]
+}

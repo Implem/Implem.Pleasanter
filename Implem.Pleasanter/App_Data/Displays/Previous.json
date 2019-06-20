@@ -1,0 +1,13 @@
+﻿{
+    "Id": "Previous",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Previous"
+        },
+        {
+            "Language": "ja",
+            "Body": "前"
+        }
+    ]
+}

@@ -1,0 +1,13 @@
+﻿{
+    "Id": "Saturday",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Saturday"
+        },
+        {
+            "Language": "ja",
+            "Body": "土曜日"
+        }
+    ]
+}

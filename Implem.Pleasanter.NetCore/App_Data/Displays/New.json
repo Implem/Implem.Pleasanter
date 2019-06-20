@@ -1,0 +1,13 @@
+﻿{
+    "Id": "New",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "New"
+        },
+        {
+            "Language": "ja",
+            "Body": "新規作成"
+        }
+    ]
+}

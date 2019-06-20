@@ -1,0 +1,13 @@
+﻿{
+    "Id": "Currency",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Currency"
+        },
+        {
+            "Language": "ja",
+            "Body": "通貨"
+        }
+    ]
+}

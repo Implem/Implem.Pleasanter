@@ -1,0 +1,13 @@
+﻿{
+    "Id": "EditScript",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Edit screen script"
+        },
+        {
+            "Language": "ja",
+            "Body": "エディタ画面スクリプト"
+        }
+    ]
+}

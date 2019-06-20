@@ -1,0 +1,13 @@
+﻿{
+    "Id": "DataView",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "View"
+        },
+        {
+            "Language": "ja",
+            "Body": "ビュー"
+        }
+    ]
+}

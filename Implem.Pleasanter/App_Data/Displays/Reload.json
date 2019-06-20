@@ -1,0 +1,13 @@
+﻿{
+    "Id": "Reload",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Reload"
+        },
+        {
+            "Language": "ja",
+            "Body": "再読込"
+        }
+    ]
+}

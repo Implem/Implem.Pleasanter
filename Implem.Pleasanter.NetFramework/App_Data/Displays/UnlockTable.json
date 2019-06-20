@@ -1,0 +1,13 @@
+﻿{
+    "Id": "UnlockTable",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Unlock the table"
+        },
+        {
+            "Language": "ja",
+            "Body": "テーブルのロックを解除"
+        }
+    ]
+}

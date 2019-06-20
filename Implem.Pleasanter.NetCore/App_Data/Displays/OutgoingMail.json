@@ -1,0 +1,13 @@
+﻿{
+    "Id": "OutgoingMail",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Mail"
+        },
+        {
+            "Language": "ja",
+            "Body": "メール"
+        }
+    ]
+}

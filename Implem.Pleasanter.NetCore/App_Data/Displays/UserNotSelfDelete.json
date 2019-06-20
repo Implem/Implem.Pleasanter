@@ -1,0 +1,13 @@
+﻿{
+    "Id": "UserNotSelfDelete",
+    "Type": 240,
+    "Languages": [
+        {
+            "Body": "It is not possible to delete your own account."
+        },
+        {
+            "Language": "ja",
+            "Body": "自分自身を削除することはできません。"
+        }
+    ]
+}

@@ -1,0 +1,13 @@
+﻿{
+    "Id": "Styles",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Styles"
+        },
+        {
+            "Language": "ja",
+            "Body": "スタイル"
+        }
+    ]
+}

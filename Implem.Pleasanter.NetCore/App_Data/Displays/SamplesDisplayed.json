@@ -1,0 +1,13 @@
+﻿{
+    "Id": "SamplesDisplayed",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Samples of the screen are displayed. Please press the create button to use here."
+        },
+        {
+            "Language": "ja",
+            "Body": "選択したテンプレートの画面サンプルを表示しています。このテンプレートを利用するには作成ボタンを押してください。"
+        }
+    ]
+}

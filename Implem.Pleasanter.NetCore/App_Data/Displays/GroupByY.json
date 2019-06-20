@@ -1,0 +1,13 @@
+﻿{
+    "Id": "GroupByY",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Rows group by"
+        },
+        {
+            "Language": "ja",
+            "Body": "行の分類"
+        }
+    ]
+}

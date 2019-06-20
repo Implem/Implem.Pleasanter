@@ -1,0 +1,13 @@
+﻿{
+    "Id": "NoLinks",
+    "Type": 240,
+    "Languages": [
+        {
+            "Body": "There is no link to that column."
+        },
+        {
+            "Language": "ja",
+            "Body": "リンクしている項目がありません"
+        }
+    ]
+}

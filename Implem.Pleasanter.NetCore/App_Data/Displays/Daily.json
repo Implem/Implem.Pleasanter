@@ -1,0 +1,13 @@
+﻿{
+    "Id": "Daily",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Daily"
+        },
+        {
+            "Language": "ja",
+            "Body": "毎日"
+        }
+    ]
+}

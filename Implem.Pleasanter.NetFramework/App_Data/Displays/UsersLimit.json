@@ -1,0 +1,13 @@
+﻿{
+    "Id": "UsersLimit",
+    "Type": 240,
+    "Languages": [
+        {
+            "Body": "The number of users has reached the limit."
+        },
+        {
+            "Language": "ja",
+            "Body": "ユーザ数が上限に達しました。"
+        }
+    ]
+}

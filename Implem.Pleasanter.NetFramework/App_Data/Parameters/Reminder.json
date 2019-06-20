@@ -1,0 +1,10 @@
+﻿{
+    "Enabled": true,
+    "Interval": 500,
+    "Span": 30,
+    "Limit": 1000,
+    "DefaultLine": "[Title] --- [Owner] ([Status])",
+    "MinRange": 1,
+    "MaxRange": 1000,
+    "DefaultRange": 30
+}

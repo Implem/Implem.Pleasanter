@@ -1,0 +1,13 @@
+﻿{
+  "Id": "DeleteFromTrashBox",
+  "Type": 110,
+  "Languages": [
+    {
+      "Body": "Delete from trash box"
+    },
+    {
+      "Language": "ja",
+      "Body": "ごみ箱から削除"
+    }
+  ]
+}

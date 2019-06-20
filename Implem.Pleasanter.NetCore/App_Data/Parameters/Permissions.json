@@ -1,0 +1,11 @@
+﻿{
+    "General": 31,
+    "Manager": 511,
+    "Pattern": {
+        "ReadOnly": 1,
+        "ReadWrite": 31,
+        "Leader": 255,
+        "Manager": 511
+    },
+    "PageSize": 100
+}

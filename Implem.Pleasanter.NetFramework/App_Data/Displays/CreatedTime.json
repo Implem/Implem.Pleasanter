@@ -1,0 +1,13 @@
+﻿{
+    "Id": "CreatedTime",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Created time"
+        },
+        {
+            "Language": "ja",
+            "Body": "作成日時"
+        }
+    ]
+}

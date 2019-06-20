@@ -1,0 +1,13 @@
+﻿{
+    "Id": "Reset",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Reset"
+        },
+        {
+            "Language": "ja",
+            "Body": "リセット"
+        }
+    ]
+}

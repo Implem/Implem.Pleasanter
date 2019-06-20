@@ -1,0 +1,13 @@
+﻿{
+    "Id": "SamlLoginFailed",
+    "Type": 240,
+    "Languages": [
+        {
+            "Body": "SAML login failed."
+        },
+        {
+            "Language": "ja",
+            "Body": "SAMLログインに失敗しました。"
+        }
+    ]
+}

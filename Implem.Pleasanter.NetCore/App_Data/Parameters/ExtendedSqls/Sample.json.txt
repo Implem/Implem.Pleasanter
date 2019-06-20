@@ -1,0 +1,16 @@
+﻿{
+    "Description": "Sample",
+    "SiteIdList": [2],
+    "IdList": null,
+    "OnCreating": false,
+    "OnCreated": false,
+    "OnUpdating": false,
+    "OnUpdated": true,
+    "OnDeleting": false,
+    "OnDeleted": false,
+    "OnBulkDeleting": false,
+    "OnBulkDeleted": false,
+    "OnImporting": false,
+    "OnImported": false,
+    "CommandText": "-- Write an arbitrary SQL statement."
+}

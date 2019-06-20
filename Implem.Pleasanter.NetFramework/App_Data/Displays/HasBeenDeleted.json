@@ -1,0 +1,13 @@
+﻿{
+    "Id": "HasBeenDeleted",
+    "Type": 220,
+    "Languages": [
+        {
+            "Body": "{0} has been deleted."
+        },
+        {
+            "Language": "ja",
+            "Body": "{0} 件削除しました。"
+        }
+    ]
+}

@@ -1,0 +1,13 @@
+﻿{
+    "Id": "EditStyle",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Edit screen style"
+        },
+        {
+            "Language": "ja",
+            "Body": "エディタ画面スタイル"
+        }
+    ]
+}

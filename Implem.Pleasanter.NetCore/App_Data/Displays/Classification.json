@@ -1,0 +1,13 @@
+﻿{
+    "Id": "Classification",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Classification"
+        },
+        {
+            "Language": "ja",
+            "Body": "分類マスタ"
+        }
+    ]
+}

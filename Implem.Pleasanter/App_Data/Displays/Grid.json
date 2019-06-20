@@ -1,0 +1,13 @@
+﻿{
+    "Id": "Grid",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Grid"
+        },
+        {
+            "Language": "ja",
+            "Body": "一覧"
+        }
+    ]
+}

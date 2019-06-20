@@ -1,0 +1,13 @@
+﻿{
+    "Id": "Create",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Create"
+        },
+        {
+            "Language": "ja",
+            "Body": "作成"
+        }
+    ]
+}

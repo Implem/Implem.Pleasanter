@@ -1,0 +1,13 @@
+﻿{
+    "Id": "FileDeleteCompleted",
+    "Type": 210,
+    "Languages": [
+        {
+            "Body": "File delete is complete."
+        },
+        {
+            "Language": "ja",
+            "Body": "ファイルの削除が完了しました。"
+        }
+    ]
+}

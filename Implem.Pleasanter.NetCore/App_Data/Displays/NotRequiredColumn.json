@@ -1,0 +1,13 @@
+﻿{
+    "Id": "NotRequiredColumn",
+    "Type": 240,
+    "Languages": [
+        {
+            "Body": "It does not contain the required column. Column: {0}"
+        },
+        {
+            "Language": "ja",
+            "Body": "必要な列が含まれていません。列:{0}"
+        }
+    ]
+}

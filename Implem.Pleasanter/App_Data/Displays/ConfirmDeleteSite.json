@@ -1,0 +1,13 @@
+﻿{
+    "Id": "ConfirmDeleteSite",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Please check the site deletion"
+        },
+        {
+            "Language": "ja",
+            "Body": "サイト削除の確認をして下さい"
+        }
+    ]
+}

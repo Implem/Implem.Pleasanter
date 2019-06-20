@@ -1,0 +1,13 @@
+﻿{
+    "Id": "Imported",
+    "Type": 210,
+    "Languages": [
+        {
+            "Body": "{0} records were inserted and {1} records were updated."
+        },
+        {
+            "Language": "ja",
+            "Body": "{0} 件追加し、{1} 件更新しました。"
+        }
+    ]
+}

@@ -1,0 +1,13 @@
+﻿{
+    "Id": "List",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "List"
+        },
+        {
+            "Language": "ja",
+            "Body": "一覧"
+        }
+    ]
+}

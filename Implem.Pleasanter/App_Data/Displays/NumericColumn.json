@@ -1,0 +1,13 @@
+﻿{
+    "Id": "NumericColumn",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Numeric column"
+        },
+        {
+            "Language": "ja",
+            "Body": "数値項目"
+        }
+    ]
+}

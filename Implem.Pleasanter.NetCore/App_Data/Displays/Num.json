@@ -1,0 +1,13 @@
+﻿{
+    "Id": "Num",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Num"
+        },
+        {
+            "Language": "ja",
+            "Body": "数値"
+        }
+    ]
+}

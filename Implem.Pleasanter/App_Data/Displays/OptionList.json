@@ -1,0 +1,13 @@
+﻿{
+    "Id": "OptionList",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Option list"
+        },
+        {
+            "Language": "ja",
+            "Body": "選択肢一覧"
+        }
+    ]
+}

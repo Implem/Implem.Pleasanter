@@ -1,0 +1,13 @@
+﻿{
+    "Id": "LimitBeforeSecond",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "1 second exceeded"
+        },
+        {
+            "Language": "ja",
+            "Body": "1 秒超過"
+        }
+    ]
+}

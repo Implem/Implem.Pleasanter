@@ -1,0 +1,20 @@
+﻿<Window x:Class="Implem.SupportTools.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        mc:Ignorable="d"
+        Title="Pleasanter Test Tool" Height="342.578" Width="636.565">
+    <Grid Margin="8">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+        <StackPanel Orientation="Horizontal">
+            <Button HorizontalAlignment="Left" VerticalAlignment="Center" Click="MailTest_Click" Margin="4" Padding="2">メール送信テスト</Button>
+            <Button HorizontalAlignment="Left" VerticalAlignment="Center" Click="SysLog_Click" Margin="4" Padding="2">SysLogビューア</Button>
+            <Button HorizontalAlignment="Left" VerticalAlignment="Center" Click="LdapSync_Click" Margin="4" Padding="2">LDAP同期テスト</Button>
+        </StackPanel>
+        <ListView Grid.Row="1" ItemsSource="{Binding Logs}"></ListView>
+    </Grid>
+</Window>

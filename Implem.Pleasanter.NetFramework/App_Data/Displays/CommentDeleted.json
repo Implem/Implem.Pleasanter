@@ -1,0 +1,13 @@
+﻿{
+    "Id": "CommentDeleted",
+    "Type": 210,
+    "Languages": [
+        {
+            "Body": "The comment has been deleted."
+        },
+        {
+            "Language": "ja",
+            "Body": "コメントを削除しました。"
+        }
+    ]
+}

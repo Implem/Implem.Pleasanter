@@ -1,0 +1,13 @@
+﻿{
+    "Id": "MoveSettings",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Move settings"
+        },
+        {
+            "Language": "ja",
+            "Body": "移動設定"
+        }
+    ]
+}

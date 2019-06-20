@@ -1,0 +1,13 @@
+﻿{
+    "Id": "Total",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Total"
+        },
+        {
+            "Language": "ja",
+            "Body": "合計"
+        }
+    ]
+}

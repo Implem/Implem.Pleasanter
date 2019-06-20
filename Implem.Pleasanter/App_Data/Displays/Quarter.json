@@ -1,0 +1,13 @@
+﻿{
+    "Id": "Quarter",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "FY {0} {1}Q"
+        },
+        {
+            "Language": "ja",
+            "Body": "{0}年度{1}Q"
+        }
+    ]
+}

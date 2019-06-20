@@ -1,0 +1,14 @@
+﻿{
+    "Id": "OrderRelease",
+    "Type": 110,
+    "ClientScript": true,
+    "Languages": [
+        {
+            "Body": "Release"
+        },
+        {
+            "Language": "ja",
+            "Body": "解除"
+        }
+    ]
+}

@@ -1,0 +1,13 @@
+﻿{
+    "Id": "ImageLib",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Image library"
+        },
+        {
+            "Language": "ja",
+            "Body": "画像ライブラリ"
+        }
+    ]
+}

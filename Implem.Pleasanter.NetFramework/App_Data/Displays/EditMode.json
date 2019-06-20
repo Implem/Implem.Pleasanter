@@ -1,0 +1,13 @@
+﻿{
+    "Id": "EditMode",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Edit mode"
+        },
+        {
+            "Language": "ja",
+            "Body": "編集モード"
+        }
+    ]
+}

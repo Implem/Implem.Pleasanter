@@ -1,0 +1,13 @@
+﻿{
+    "Id": "RequireTo",
+    "Type": 240,
+    "Languages": [
+        {
+            "Body": "Add at least one To."
+        },
+        {
+            "Language": "ja",
+            "Body": "1つ以上のToを追加してください。"
+        }
+    ]
+}

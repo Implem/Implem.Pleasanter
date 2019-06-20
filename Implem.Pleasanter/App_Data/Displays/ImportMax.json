@@ -1,0 +1,13 @@
+﻿{
+    "Id": "ImportMax",
+    "Type": 240,
+    "Languages": [
+        {
+            "Body": "Data exceeding {0} rows can not be imported at once."
+        },
+        {
+            "Language": "ja",
+            "Body": "{0} 行を超えるデータは1度にインポートできません。"
+        }
+    ]
+}

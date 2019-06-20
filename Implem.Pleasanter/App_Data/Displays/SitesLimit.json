@@ -1,0 +1,13 @@
+﻿{
+    "Id": "SitesLimit",
+    "Type": 240,
+    "Languages": [
+        {
+            "Body": "The number of sites has reached the limit."
+        },
+        {
+            "Language": "ja",
+            "Body": "サイト数が上限に達しました。"
+        }
+    ]
+}

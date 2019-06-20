@@ -1,0 +1,13 @@
+﻿{
+    "Id": "FileUpdateCompleted",
+    "Type": 210,
+    "Languages": [
+        {
+            "Body": "File upload is complete."
+        },
+        {
+            "Language": "ja",
+            "Body": "ファイルのアップロードが完了しました。"
+        }
+    ]
+}

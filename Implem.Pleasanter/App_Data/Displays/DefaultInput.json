@@ -1,0 +1,13 @@
+﻿{
+    "Id": "DefaultInput",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Default input"
+        },
+        {
+            "Language": "ja",
+            "Body": "規定値"
+        }
+    ]
+}

@@ -1,0 +1,13 @@
+﻿{
+  "Id": "BulkRestored",
+  "Type": 210,
+  "Languages": [
+    {
+      "Body": "{0} it was restored."
+    },
+    {
+      "Language": "ja",
+      "Body": "{0} 件 復元しました。"
+    }
+  ]
+}

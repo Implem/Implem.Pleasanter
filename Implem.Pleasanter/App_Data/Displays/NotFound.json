@@ -1,0 +1,13 @@
+﻿{
+    "Id": "NotFound",
+    "Type": 240,
+    "Languages": [
+        {
+            "Body": "Specified information was not found"
+        },
+        {
+            "Language": "ja",
+            "Body": "指定された情報は見つかりませんでした。"
+        }
+    ]
+}

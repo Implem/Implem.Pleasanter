@@ -1,0 +1,13 @@
+﻿{
+    "Id": "CodeDefinerBackupCompleted",
+    "Type": 210,
+    "Languages": [
+        {
+            "Body": "Backup creation completion of solution file."
+        },
+        {
+            "Language": "ja",
+            "Body": "ソリューションフィアル群のバックアップが完了しました。"
+        }
+    ]
+}

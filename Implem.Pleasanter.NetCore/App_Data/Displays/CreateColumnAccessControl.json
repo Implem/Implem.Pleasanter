@@ -1,0 +1,13 @@
+﻿{
+    "Id": "CreateColumnAccessControl",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Create access control"
+        },
+        {
+            "Language": "ja",
+            "Body": "作成時のアクセス制御"
+        }
+    ]
+}

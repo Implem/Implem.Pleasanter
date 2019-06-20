@@ -1,0 +1,13 @@
+﻿{
+    "Id": "SetZeroWhenOutOfCondition",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Set zero when out of condition"
+        },
+        {
+            "Language": "ja",
+            "Body": "条件が満たされていない場合ゼロにする"
+        }
+    ]
+}

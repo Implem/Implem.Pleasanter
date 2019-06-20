@@ -1,0 +1,13 @@
+﻿{
+    "Id": "Destination",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Destination"
+        },
+        {
+            "Language": "ja",
+            "Body": "移動先"
+        }
+    ]
+}

@@ -1,0 +1,13 @@
+﻿{
+    "Id": "BadMailAddress",
+    "Type": 240,
+    "Languages": [
+        {
+            "Body": "Bad E-mail Address. [{0}]"
+        },
+        {
+            "Language": "ja",
+            "Body": "不正なメールアドレスです。[{0}]"
+        }
+    ]
+}

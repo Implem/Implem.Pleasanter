@@ -1,0 +1,13 @@
+﻿{
+    "Id": "Target",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Target"
+        },
+        {
+            "Language": "ja",
+            "Body": "対象"
+        }
+    ]
+}

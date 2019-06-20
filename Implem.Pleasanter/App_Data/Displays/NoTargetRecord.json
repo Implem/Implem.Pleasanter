@@ -1,0 +1,13 @@
+﻿{
+    "Id": "NoTargetRecord",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "There was no target record."
+        },
+        {
+            "Language": "ja",
+            "Body": "対象のレコードはありませんでした。"
+        }
+    ]
+}

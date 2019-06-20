@@ -1,0 +1,13 @@
+﻿{
+    "Id": "Education",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Education"
+        },
+        {
+            "Language": "ja",
+            "Body": "教育・人材開発"
+        }
+    ]
+}

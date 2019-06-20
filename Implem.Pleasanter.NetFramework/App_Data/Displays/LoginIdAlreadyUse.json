@@ -1,0 +1,13 @@
+﻿{
+    "Id": "LoginIdAlreadyUse",
+    "Type": 240,
+    "Languages": [
+        {
+            "Body": "This login ID is already in use"
+        },
+        {
+            "Language": "ja",
+            "Body": "このログインIDは既に使用中です"
+        }
+    ]
+}

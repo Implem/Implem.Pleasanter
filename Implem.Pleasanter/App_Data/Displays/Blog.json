@@ -1,0 +1,13 @@
+﻿{
+    "Id": "Blog",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Blog"
+        },
+        {
+            "Language": "ja",
+            "Body": "ブログ"
+        }
+    ]
+}

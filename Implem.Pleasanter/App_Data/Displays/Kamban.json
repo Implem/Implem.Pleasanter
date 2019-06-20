@@ -1,0 +1,13 @@
+﻿{
+    "Id": "Kamban",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Kamban"
+        },
+        {
+            "Language": "ja",
+            "Body": "カンバン"
+        }
+    ]
+}

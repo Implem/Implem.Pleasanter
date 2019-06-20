@@ -1,0 +1,13 @@
+﻿{
+    "Id": "Aggregations",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Aggregations"
+        },
+        {
+            "Language": "ja",
+            "Body": "集計"
+        }
+    ]
+}

@@ -1,0 +1,13 @@
+﻿{
+    "Id": "NotOutput",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Not output"
+        },
+        {
+            "Language": "ja",
+            "Body": "出力しない"
+        }
+    ]
+}

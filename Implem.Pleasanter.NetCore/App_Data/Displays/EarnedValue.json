@@ -1,0 +1,13 @@
+﻿{
+    "Id": "EarnedValue",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Earned value"
+        },
+        {
+            "Language": "ja",
+            "Body": "実績"
+        }
+    ]
+}

@@ -1,0 +1,13 @@
+﻿{
+    "Id": "NotSendIfNotApplicable",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Not send if not applicable"
+        },
+        {
+            "Language": "ja",
+            "Body": "該当が無い場合は送信しない"
+        }
+    ]
+}

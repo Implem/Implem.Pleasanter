@@ -1,0 +1,13 @@
+﻿{
+    "Id": "Incomplete",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Incomplete"
+        },
+        {
+            "Language": "ja",
+            "Body": "未完了"
+        }
+    ]
+}

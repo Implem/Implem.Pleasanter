@@ -1,0 +1,13 @@
+﻿{
+    "Id": "DefinitionNotFound",
+    "Type": 240,
+    "Languages": [
+        {
+            "Body": "Specified \" {0} \" was not found in the \" {1} \"."
+        },
+        {
+            "Language": "ja",
+            "Body": "指定された \" {0} \" は \" {1} \" に存在しませんでした。"
+        }
+    ]
+}

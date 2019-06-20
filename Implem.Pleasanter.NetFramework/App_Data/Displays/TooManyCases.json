@@ -1,0 +1,13 @@
+﻿{
+    "Id": "TooManyCases",
+    "Type": 240,
+    "Languages": [
+        {
+            "Body": "There are too many cases. Please narrow down to within {0} cases."
+        },
+        {
+            "Language": "ja",
+            "Body": "件数が多すぎます。{0} 件以内に絞り込んで下さい。"
+        }
+    ]
+}

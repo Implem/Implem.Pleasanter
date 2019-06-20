@@ -1,0 +1,13 @@
+﻿{
+    "Id": "Read",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Read"
+        },
+        {
+            "Language": "ja",
+            "Body": "読取り"
+        }
+    ]
+}

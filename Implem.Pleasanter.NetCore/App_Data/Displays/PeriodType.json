@@ -1,0 +1,13 @@
+﻿{
+    "Id": "PeriodType",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Period type"
+        },
+        {
+            "Language": "ja",
+            "Body": "期間種別"
+        }
+    ]
+}

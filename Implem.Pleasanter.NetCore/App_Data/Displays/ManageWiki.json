@@ -1,0 +1,13 @@
+﻿{
+    "Id": "ManageWiki",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Manage wiki"
+        },
+        {
+            "Language": "ja",
+            "Body": "Wikiの管理"
+        }
+    ]
+}

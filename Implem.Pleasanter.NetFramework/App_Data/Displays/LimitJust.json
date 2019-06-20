@@ -1,0 +1,13 @@
+﻿{
+    "Id": "LimitJust",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Just now"
+        },
+        {
+            "Language": "ja",
+            "Body": "現在"
+        }
+    ]
+}

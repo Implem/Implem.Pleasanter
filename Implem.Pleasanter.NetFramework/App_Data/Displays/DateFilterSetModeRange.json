@@ -1,0 +1,13 @@
+﻿{
+    "Id": "DateFilterSetModeRange",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Range Specification"
+        },
+        {
+            "Language": "ja",
+            "Body": "範囲指定"
+        }
+    ]
+}

@@ -1,0 +1,13 @@
+﻿{
+    "Id": "Unauthorized",
+    "Type": 240,
+    "Languages": [
+        {
+            "Body": "Unauthorized."
+        },
+        {
+            "Language": "ja",
+            "Body": "認証できませんでした。"
+        }
+    ]
+}

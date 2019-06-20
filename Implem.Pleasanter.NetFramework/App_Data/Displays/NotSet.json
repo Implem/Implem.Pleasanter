@@ -1,0 +1,13 @@
+﻿{
+    "Id": "NotSet",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "(Not Set)"
+        },
+        {
+            "Language": "ja",
+            "Body": "(未設定)"
+        }
+    ]
+}

@@ -1,0 +1,13 @@
+﻿{
+    "Id": "MenuGuide",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "MenuGuide"
+        },
+        {
+            "Language": "ja",
+            "Body": "メニュー画面のガイド"
+        }
+    ]
+}

@@ -1,0 +1,14 @@
+﻿{
+    "Id": "ValidationError",
+    "Type": 410,
+    "ClientScript": true,
+    "Languages": [
+        {
+            "Body": "There is an error in the entered content."
+        },
+        {
+            "Language": "ja",
+            "Body": "入力された内容に誤りがあります。"
+        }
+    ]
+}

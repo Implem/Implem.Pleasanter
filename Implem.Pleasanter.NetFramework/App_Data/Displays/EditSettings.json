@@ -1,0 +1,13 @@
+﻿{
+    "Id": "EditSettings",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Setting"
+        },
+        {
+            "Language": "ja",
+            "Body": "設定変更"
+        }
+    ]
+}

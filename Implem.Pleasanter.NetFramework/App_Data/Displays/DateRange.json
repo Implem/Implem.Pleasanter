@@ -1,0 +1,13 @@
+﻿{
+    "Id": "DateRange",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Date Range"
+        },
+        {
+            "Language": "ja",
+            "Body": "日付の範囲"
+        }
+    ]
+}

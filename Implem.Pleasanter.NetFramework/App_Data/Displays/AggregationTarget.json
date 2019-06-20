@@ -1,0 +1,13 @@
+﻿{
+    "Id": "AggregationTarget",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Aggregation target"
+        },
+        {
+            "Language": "ja",
+            "Body": "集計対象"
+        }
+    ]
+}

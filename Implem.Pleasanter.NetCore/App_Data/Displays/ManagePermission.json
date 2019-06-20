@@ -1,0 +1,13 @@
+﻿{
+    "Id": "ManagePermission",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Manage permission"
+        },
+        {
+            "Language": "ja",
+            "Body": "権限の管理"
+        }
+    ]
+}

@@ -1,0 +1,13 @@
+﻿{
+    "Id": "CodeDefinerRdsCompleted",
+    "Type": 210,
+    "Languages": [
+        {
+            "Body": "Database configuration is complete."
+        },
+        {
+            "Language": "ja",
+            "Body": "データベース構成処理が完了しました。"
+        }
+    ]
+}

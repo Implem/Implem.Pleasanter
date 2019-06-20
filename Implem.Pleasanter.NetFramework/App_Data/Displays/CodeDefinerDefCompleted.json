@@ -1,0 +1,13 @@
+﻿{
+    "Id": "CodeDefinerDefCompleted",
+    "Type": 210,
+    "Languages": [
+        {
+            "Body": "Definition codes creation completion."
+        },
+        {
+            "Language": "ja",
+            "Body": "コード定義の作成処理が完了しました。"
+        }
+    ]
+}

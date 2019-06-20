@@ -1,0 +1,13 @@
+﻿{
+    "Id": "CodeDefinerInsertTestDataCompleted",
+    "Type": 210,
+    "Languages": [
+        {
+            "Body": "Insertion of test data has been completed."
+        },
+        {
+            "Language": "ja",
+            "Body": "テストデータの挿入が完了しました。"
+        }
+    ]
+}

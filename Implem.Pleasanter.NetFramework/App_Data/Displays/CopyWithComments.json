@@ -1,0 +1,13 @@
+﻿{
+    "Id": "CopyWithComments",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Copy with comments"
+        },
+        {
+            "Language": "ja",
+            "Body": "コメントをコピーする"
+        }
+    ]
+}

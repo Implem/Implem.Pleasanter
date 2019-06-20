@@ -1,0 +1,13 @@
+﻿{
+    "Id": "SwitchUser",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Switch to this user"
+        },
+        {
+            "Language": "ja",
+            "Body": "このユーザに切り替え"
+        }
+    ]
+}

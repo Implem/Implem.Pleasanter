@@ -1,0 +1,13 @@
+﻿{
+    "Id": "HasBeenMoved",
+    "Type": 220,
+    "Languages": [
+        {
+            "Body": "{0} has been moved."
+        },
+        {
+            "Language": "ja",
+            "Body": "{0} 件移動しました。"
+        }
+    ]
+}

@@ -1,0 +1,13 @@
+﻿{
+    "Id": "ManageFolder",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Manage folder"
+        },
+        {
+            "Language": "ja",
+            "Body": "フォルダの管理"
+        }
+    ]
+}

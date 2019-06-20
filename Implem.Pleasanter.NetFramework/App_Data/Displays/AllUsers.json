@@ -1,0 +1,13 @@
+﻿{
+    "Id": "AllUsers",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "All users"
+        },
+        {
+            "Language": "ja",
+            "Body": "全てのユーザ"
+        }
+    ]
+}

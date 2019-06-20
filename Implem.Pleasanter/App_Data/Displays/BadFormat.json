@@ -1,0 +1,13 @@
+﻿{
+    "Id": "BadFormat",
+    "Type": 240,
+    "Languages": [
+        {
+            "Body": "Bad format. [{0}]"
+        },
+        {
+            "Language": "ja",
+            "Body": "不正な書式です。[{0}]"
+        }
+    ]
+}

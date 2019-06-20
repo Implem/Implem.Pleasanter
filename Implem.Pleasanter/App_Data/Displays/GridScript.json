@@ -1,0 +1,13 @@
+﻿{
+    "Id": "GridScript",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Grid screen script"
+        },
+        {
+            "Language": "ja",
+            "Body": "一覧画面スクリプト"
+        }
+    ]
+}

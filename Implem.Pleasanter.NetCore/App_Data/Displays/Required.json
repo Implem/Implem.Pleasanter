@@ -1,0 +1,13 @@
+﻿{
+    "Id": "Required",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Required"
+        },
+        {
+            "Language": "ja",
+            "Body": "入力必須"
+        }
+    ]
+}

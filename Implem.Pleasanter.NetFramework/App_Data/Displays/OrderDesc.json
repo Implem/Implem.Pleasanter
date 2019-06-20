@@ -1,0 +1,14 @@
+﻿{
+    "Id": "OrderDesc",
+    "Type": 110,
+    "ClientScript": true,
+    "Languages": [
+        {
+            "Body": "Desc"
+        },
+        {
+            "Language": "ja",
+            "Body": "降順"
+        }
+    ]
+}

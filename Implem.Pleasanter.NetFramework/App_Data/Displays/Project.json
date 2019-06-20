@@ -1,0 +1,13 @@
+﻿{
+    "Id": "Project",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Project"
+        },
+        {
+            "Language": "ja",
+            "Body": "プロジェクト"
+        }
+    ]
+}

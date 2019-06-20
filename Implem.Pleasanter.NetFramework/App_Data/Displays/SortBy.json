@@ -1,0 +1,13 @@
+﻿{
+    "Id": "SortBy",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Sort by"
+        },
+        {
+            "Language": "ja",
+            "Body": "ソート"
+        }
+    ]
+}

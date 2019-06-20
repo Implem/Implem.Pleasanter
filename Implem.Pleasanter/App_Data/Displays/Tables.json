@@ -1,0 +1,13 @@
+﻿{
+    "Id": "Tables",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Tables"
+        },
+        {
+            "Language": "ja",
+            "Body": "テーブル"
+        }
+    ]
+}

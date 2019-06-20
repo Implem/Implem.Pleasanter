@@ -1,0 +1,13 @@
+﻿{
+    "Id": "Step",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Step"
+        },
+        {
+            "Language": "ja",
+            "Body": "ステップ"
+        }
+    ]
+}

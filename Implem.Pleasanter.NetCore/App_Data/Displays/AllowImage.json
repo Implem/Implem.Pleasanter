@@ -1,0 +1,13 @@
+﻿{
+    "Id": "AllowImage",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Allow image"
+        },
+        {
+            "Language": "ja",
+            "Body": "画像の登録を許可"
+        }
+    ]
+}

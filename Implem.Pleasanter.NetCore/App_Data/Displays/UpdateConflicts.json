@@ -1,0 +1,13 @@
+﻿{
+    "Id": "UpdateConflicts",
+    "Type": 240,
+    "Languages": [
+        {
+            "Body": "Update conflicts by {0}."
+        },
+        {
+            "Language": "ja",
+            "Body": "{0} さんが先に更新したため更新できません。再読み込みしてください。"
+        }
+    ]
+}

@@ -1,0 +1,13 @@
+﻿{
+    "Id": "BurnDown",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Burn down chart"
+        },
+        {
+            "Language": "ja",
+            "Body": "バーンダウンチャート"
+        }
+    ]
+}

@@ -1,0 +1,13 @@
+﻿{
+    "Id": "AllowedUsers",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Allowed users"
+        },
+        {
+            "Language": "ja",
+            "Body": "許可するユーザ"
+        }
+    ]
+}

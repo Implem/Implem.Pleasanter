@@ -1,0 +1,13 @@
+﻿{
+  "Id": "TrashBox",
+  "Type": 110,
+  "Languages": [
+    {
+      "Body": "Trash box"
+    },
+    {
+      "Language": "ja",
+      "Body": "ごみ箱"
+    }
+  ]
+}

@@ -1,0 +1,13 @@
+﻿{
+    "Id": "SelectOne",
+    "Type": 240,
+    "Languages": [
+        {
+            "Body": "Select one."
+        },
+        {
+            "Language": "ja",
+            "Body": "1つ選択してください。"
+        }
+    ]
+}

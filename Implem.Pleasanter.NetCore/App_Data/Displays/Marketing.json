@@ -1,0 +1,13 @@
+﻿{
+    "Id": "Marketing",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Marketing"
+        },
+        {
+            "Language": "ja",
+            "Body": "マーケティング"
+        }
+    ]
+}

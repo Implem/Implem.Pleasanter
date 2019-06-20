@@ -1,0 +1,13 @@
+﻿{
+    "Id": "Template",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Template"
+        },
+        {
+            "Language": "ja",
+            "Body": "テンプレート"
+        }
+    ]
+}

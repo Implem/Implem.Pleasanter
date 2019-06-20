@@ -1,0 +1,13 @@
+﻿{
+    "Id": "Weekly",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Weekly"
+        },
+        {
+            "Language": "ja",
+            "Body": "毎週"
+        }
+    ]
+}

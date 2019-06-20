@@ -1,0 +1,13 @@
+﻿{
+    "Id": "IncorrectSiteDeleting",
+    "Type": 240,
+    "Languages": [
+        {
+            "Body": "The specified site title or password is incorrect."
+        },
+        {
+            "Language": "ja",
+            "Body": "指定されたサイトのタイトルまたはパスワードが不正です。"
+        }
+    ]
+}

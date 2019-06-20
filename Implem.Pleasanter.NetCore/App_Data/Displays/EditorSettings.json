@@ -1,0 +1,13 @@
+﻿{
+    "Id": "EditorSettings",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Editor settings"
+        },
+        {
+            "Language": "ja",
+            "Body": "エディタの設定"
+        }
+    ]
+}

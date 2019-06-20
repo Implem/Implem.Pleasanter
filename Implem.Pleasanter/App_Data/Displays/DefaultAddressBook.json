@@ -1,0 +1,13 @@
+﻿{
+    "Id": "DefaultAddressBook",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Default Address book"
+        },
+        {
+            "Language": "ja",
+            "Body": "既定のアドレス帳"
+        }
+    ]
+}

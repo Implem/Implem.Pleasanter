@@ -1,0 +1,14 @@
+﻿{
+    "Id": "ConfirmDelete",
+    "Type": 310,
+    "ClientScript": true,
+    "Languages": [
+        {
+            "Body": "Are you sure you want to delete ?"
+        },
+        {
+            "Language": "ja",
+            "Body": "本当に削除してもよろしいですか？"
+        }
+    ]
+}

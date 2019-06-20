@@ -1,0 +1,13 @@
+﻿{
+    "Id": "DateFilterSetModeDefault",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Default"
+        },
+        {
+            "Language": "ja",
+            "Body": "規定"
+        }
+    ]
+}

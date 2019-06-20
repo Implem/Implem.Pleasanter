@@ -1,0 +1,13 @@
+﻿{
+    "Id": "InCompression",
+    "Type": 220,
+    "Languages": [
+        {
+            "Body": "It is in compression."
+        },
+        {
+            "Language": "ja",
+            "Body": "圧縮中です。"
+        }
+    ]
+}

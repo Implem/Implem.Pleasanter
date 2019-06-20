@@ -1,0 +1,13 @@
+﻿{
+    "Id": "Difference",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Difference"
+        },
+        {
+            "Language": "ja",
+            "Body": "予実差"
+        }
+    ]
+}

@@ -1,0 +1,14 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <Copyright>Copyright © Implem Inc 2014 - 2019</Copyright>
+  </PropertyGroup>
+  
+  <ItemGroup>
+    <ProjectReference Include="..\Implem.DisplayAccessor\Implem.DisplayAccessor.csproj" />
+    <ProjectReference Include="..\Implem.Libraries\Implem.Libraries.csproj" />
+    <ProjectReference Include="..\Implem.ParameterAccessor\Implem.ParameterAccessor.csproj" />
+  </ItemGroup>
+ 
+</Project>

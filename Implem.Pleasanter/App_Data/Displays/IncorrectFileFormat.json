@@ -1,0 +1,13 @@
+﻿{
+    "Id": "IncorrectFileFormat",
+    "Type": 240,
+    "Languages": [
+        {
+            "Body": "The format of the file is incorrect."
+        },
+        {
+            "Language": "ja",
+            "Body": "ファイルの形式が正しくありません。"
+        }
+    ]
+}

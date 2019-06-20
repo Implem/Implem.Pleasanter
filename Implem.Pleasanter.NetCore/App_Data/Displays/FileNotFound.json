@@ -1,0 +1,13 @@
+﻿{
+    "Id": "FileNotFound",
+    "Type": 240,
+    "Languages": [
+        {
+            "Body": "Please select a file."
+        },
+        {
+            "Language": "ja",
+            "Body": "ファイルを選択してください。"
+        }
+    ]
+}

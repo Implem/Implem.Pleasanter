@@ -1,0 +1,13 @@
+﻿{
+    "Id": "General",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "General"
+        },
+        {
+            "Language": "ja",
+            "Body": "全般"
+        }
+    ]
+}

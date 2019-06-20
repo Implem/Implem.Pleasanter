@@ -1,0 +1,13 @@
+﻿{
+    "Id": "ColumnList",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Column list"
+        },
+        {
+            "Language": "ja",
+            "Body": "項目一覧"
+        }
+    ]
+}

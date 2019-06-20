@@ -1,0 +1,13 @@
+﻿{
+    "Id": "Ymda",
+    "Type": 120,
+    "Languages": [
+        {
+            "Body": "Date and week"
+        },
+        {
+            "Language": "ja",
+            "Body": "年月日曜"
+        }
+    ]
+}

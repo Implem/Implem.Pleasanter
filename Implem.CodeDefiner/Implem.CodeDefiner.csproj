@@ -1,0 +1,20 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <Copyright>Copyright © Implem Inc 2014 - 2019</Copyright>
+    <Description>This program does the automatic code creation and merging of existing code based on the definition. Also it will make the configuration change of sql server database.</Description>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="System.Data.DataSetExtensions" Version="4.5.0" />
+  </ItemGroup>
+  
+  <ItemGroup>
+    <ProjectReference Include="..\Implem.DefinitionAccessor\Implem.DefinitionAccessor.csproj" />
+    <ProjectReference Include="..\Implem.DisplayAccessor\Implem.DisplayAccessor.csproj" />
+    <ProjectReference Include="..\Implem.Libraries\Implem.Libraries.csproj" />
+    <ProjectReference Include="..\Implem.ParameterAccessor\Implem.ParameterAccessor.csproj" />
+  </ItemGroup>
+  
+</Project>

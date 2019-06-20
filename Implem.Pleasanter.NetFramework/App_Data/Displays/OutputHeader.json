@@ -1,0 +1,13 @@
+﻿{
+    "Id": "OutputHeader",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Output header"
+        },
+        {
+            "Language": "ja",
+            "Body": "ヘッダを出力する"
+        }
+    ]
+}

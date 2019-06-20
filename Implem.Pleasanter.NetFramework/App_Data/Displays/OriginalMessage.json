@@ -1,0 +1,9 @@
+﻿{
+    "Id": "OriginalMessage",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "\r\n\r\n\r\n{0}\r\n\r\n---------- Original Message ----------\r\nFrom: {1}\r\nDate: {2}\r\nSubject: {3}\r\n\r\n{4}"
+        }
+    ]
+}
