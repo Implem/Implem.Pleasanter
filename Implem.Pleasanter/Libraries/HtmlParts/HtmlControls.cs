@@ -111,8 +111,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                             .DataAction(action)
                             .DataMethod(method)
                             .Add(attributes),
-                        action: () => hb
-                            .Text(text: text));
+                        text: text);
                 case HtmlTypes.TextTypes.Password:
                     return hb.Input(attributes: new HtmlAttributes()
                         .Id(controlId)
@@ -201,8 +200,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                             .DataAlwaysSend(alwaysSend)
                             .DataValidateRequired(validateRequired, _using: !readOnly)
                             .Add(attributes),
-                        action: () => hb
-                            .Text(text: text))
+                        text: text)
                     .MarkDownCommands(
                         context: context,
                         controlId: controlId,
