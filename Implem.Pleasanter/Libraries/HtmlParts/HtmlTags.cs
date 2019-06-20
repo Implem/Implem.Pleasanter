@@ -406,7 +406,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             string placeholder = null,
             HtmlAttributes attributes = null,
             bool _using = true,
-            Action action = null)
+            string text = null)
         {
             return _using
                 ? hb.Append(
@@ -417,7 +417,8 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                         .Id(id)
                         .Class(css)
                         .Placeholder(placeholder),
-                    action: action)
+                    action: ()=> hb
+                        .Text(text: "\n" + text))
                 : hb;
         }
 
