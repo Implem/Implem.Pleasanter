@@ -1175,6 +1175,12 @@ namespace Implem.Pleasanter.Models
         public static int Restore(Context context, SiteSettings ss, List<long> selected, bool negative = false)
         {
             var where = Rds.SitesWhere()
+                .TenantId(
+                    value: context.TenantId,
+                    tableName: "Sites_Deleted")
+                .ParentId(
+                    value: ss.SiteId,
+                    tableName: "Sites_Deleted")
                 .SiteId_In(
                     value: selected,
                     tableName: "Sites_Deleted",

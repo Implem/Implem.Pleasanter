@@ -1942,7 +1942,7 @@ namespace Implem.Pleasanter.Models
             var invalid = IssueValidators.OnEntry(
                 context: context,
                 ss: ss,
-                api: true);
+                api: !internalRequest);
             switch (invalid.Type)
             {
                 case Error.Types.None: break;
