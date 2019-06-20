@@ -1937,7 +1937,7 @@ namespace Implem.Pleasanter.Models
             return res.ToJson();
         }
 
-        public static System.Web.Mvc.ContentResult GetByApi(Context context, SiteSettings ss)
+        public static System.Web.Mvc.ContentResult GetByApi(Context context, SiteSettings ss, bool internalRequest)
         {
             var invalid = IssueValidators.OnEntry(
                 context: context,
@@ -1988,7 +1988,7 @@ namespace Implem.Pleasanter.Models
         }
 
         public static System.Web.Mvc.ContentResult GetByApi(
-            Context context, SiteSettings ss, long issueId)
+            Context context, SiteSettings ss, long issueId, bool internalRequest)
         {
             var issueModel = new IssueModel(
                 context: context,
@@ -2003,7 +2003,7 @@ namespace Implem.Pleasanter.Models
                 context: context,
                 ss: ss,
                 issueModel: issueModel,
-                api: true);
+                api: !internalRequest);
             switch (invalid.Type)
             {
                 case Error.Types.None: break;

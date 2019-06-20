@@ -1274,7 +1274,7 @@ namespace Implem.Pleasanter.Models
             }
         }
 
-        public System.Web.Mvc.ContentResult GetByApi(Context context)
+        public System.Web.Mvc.ContentResult GetByApi(Context context, bool internalRequest = false)
         {
             SetSite(context: context);
             switch (Site.ReferenceType)
@@ -1286,7 +1286,8 @@ namespace Implem.Pleasanter.Models
                             context: context,
                             ss: Site.IssuesSiteSettings(
                                 context: context,
-                                referenceId: ReferenceId));
+                                referenceId: ReferenceId),
+                            internalRequest);
                     }
                     else
                     {
@@ -1295,7 +1296,8 @@ namespace Implem.Pleasanter.Models
                             ss: Site.IssuesSiteSettings(
                                 context: context,
                                 referenceId: ReferenceId),
-                            issueId: ReferenceId);
+                            issueId: ReferenceId,
+                            internalRequest);
                     }
                 case "Results":
                     if (SiteId == ReferenceId)
@@ -1304,7 +1306,8 @@ namespace Implem.Pleasanter.Models
                             context: context,
                             ss: Site.ResultsSiteSettings(
                                 context: context,
-                                referenceId: ReferenceId));
+                                referenceId: ReferenceId),
+                            internalRequest);
                     }
                     else
                     {
@@ -1313,7 +1316,8 @@ namespace Implem.Pleasanter.Models
                             ss: Site.ResultsSiteSettings(
                                 context: context,
                                 referenceId: ReferenceId),
-                            resultId: ReferenceId);
+                            resultId: ReferenceId,
+                            internalRequest);
                     }
                 default:
                     return ApiResults.Get(ApiResponses.BadRequest(context: context));

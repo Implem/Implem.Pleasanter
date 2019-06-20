@@ -1776,12 +1776,12 @@ namespace Implem.Pleasanter.Models
             return res.ToJson();
         }
 
-        public static System.Web.Mvc.ContentResult GetByApi(Context context, SiteSettings ss)
+        public static System.Web.Mvc.ContentResult GetByApi(Context context, SiteSettings ss, bool internalRequest)
         {
             var invalid = ResultValidators.OnEntry(
                 context: context,
                 ss: ss,
-                api: true);
+                api: !internalRequest);
             switch (invalid.Type)
             {
                 case Error.Types.None: break;
@@ -1827,7 +1827,7 @@ namespace Implem.Pleasanter.Models
         }
 
         public static System.Web.Mvc.ContentResult GetByApi(
-            Context context, SiteSettings ss, long resultId)
+            Context context, SiteSettings ss, long resultId, bool internalRequest)
         {
             var resultModel = new ResultModel(
                 context: context,
@@ -1842,7 +1842,7 @@ namespace Implem.Pleasanter.Models
                 context: context,
                 ss: ss,
                 resultModel: resultModel,
-                api: true);
+                api: !internalRequest);
             switch (invalid.Type)
             {
                 case Error.Types.None: break;

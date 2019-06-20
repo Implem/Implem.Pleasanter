@@ -73,7 +73,7 @@ $p.applyRelatingColumn = function (prnt, chld, linkedClass) {
             param.View.ColumnSorterHash = new Object();
             param.View.ColumnSorterHash['ItemTitle'] = 0;
             var urlpath = $('#ApplicationPath').val() +
-                'api_items/' + escape((siteid - 0)) + '/get';
+                'items/' + escape((siteid - 0)) + '/get';
             $.ajax({
                 type: 'POST',
                 url: urlpath,

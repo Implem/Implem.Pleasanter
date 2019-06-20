@@ -961,5 +961,18 @@ namespace Implem.Pleasanter.Controllers
                 responseSize: json.Length);
             return json;
         }
+
+        [HttpPost]
+        public ContentResult Get(long id)
+        {
+            var context = new Context();
+            var log = new SysLogModel(context: context);
+            var result = new ItemModel(context: context, referenceId: id)
+                .GetByApi(
+                    context: context,
+                    internalRequest: true);
+            log.Finish(context: context, responseSize: result.Content.Length);
+            return result;
+        }
     }
 }
