@@ -2176,19 +2176,26 @@ namespace Implem.Pleasanter.Models
 
         public void SetChoiceHash(Context context, SiteSettings ss)
         {
-            ss.GetUseSearchLinks(context: context).ForEach(link =>
+            if (!ss.SetAllChoices)
             {
-                var value = PropertyValue(context: context, name: link.ColumnName);
-                if (!value.IsNullOrEmpty() &&
-                    ss.GetColumn(context: context, columnName: link.ColumnName)?
-                        .ChoiceHash.Any(o => o.Value.Value == value) != true)
+                ss.GetUseSearchLinks(context: context).ForEach(link =>
                 {
-                    ss.SetChoiceHash(
+                    var value = PropertyValue(
                         context: context,
-                        columnName: link.ColumnName,
-                        selectedValues: value.ToSingleList());
-                }
-            });
+                        name: link.ColumnName);
+                    var column = ss.GetColumn(
+                        context: context,
+                        columnName: link.ColumnName);
+                    if (!value.IsNullOrEmpty() 
+                        && column?.ChoiceHash.Any(o => o.Value.Value == value) != true)
+                    {
+                        ss.SetChoiceHash(
+                            context: context,
+                            columnName: column.ColumnName,
+                            selectedValues: value.ToSingleList());
+                    }
+                });
+            }
             SetTitle(context: context, ss: ss);
         }
 

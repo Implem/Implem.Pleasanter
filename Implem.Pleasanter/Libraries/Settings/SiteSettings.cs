@@ -85,6 +85,8 @@ namespace Implem.Pleasanter.Libraries.Settings
         public List<JoinStack> JoinStacks = new List<JoinStack>();
         [NonSerialized]
         public bool Linked;
+        [NonSerialized]
+        public bool SetAllChoices;
         public string ReferenceType;
         public decimal? NearCompletionTimeAfterDays;
         public decimal? NearCompletionTimeBeforeDays;
@@ -2703,6 +2705,7 @@ namespace Implem.Pleasanter.Libraries.Settings
 
         public void SetChoiceHash(Context context, bool withLink = true, bool all = false)
         {
+            SetAllChoices = all;
             var siteIdList = LinkedSiteIdList();
             var linkHash = withLink
                 ? LinkHash(
