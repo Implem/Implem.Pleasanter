@@ -1,4 +1,6 @@
 ﻿using Implem.Libraries.Classes;
+using Implem.Libraries.Utilities;
+using System.Linq;
 namespace Implem.Libraries.DataSources.SqlServer
 {
     public class SqlParamCollection : ListEx<SqlParam>
@@ -25,7 +27,10 @@ namespace Implem.Libraries.DataSources.SqlServer
 
         public void Prefix(string prefix)
         {
-            ForEach(o => o.VariableName += prefix);
+            this
+                .Where(o => o.VariableName?.RegexExists("^[A-Z0-9]{32}$") != true)
+                .ForEach(o =>
+                    o.VariableName += prefix);
         }
     }
 }
