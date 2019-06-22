@@ -2653,19 +2653,24 @@ namespace Implem.Pleasanter.Libraries.Settings
                         dataRows
                             .GroupBy(o => o.Long(column.ColumnName))
                             .Select(o => o.First())
-                            .ForEach(dataRow =>
+                            .Select(dataRow => new
+                            {
+                                Value = dataRow.String(column.ColumnName),
+                                Text = dataColumns
+                                    .Where(columnName =>
+                                        links.Any(link =>
+                                            columnName.EndsWith(link)))
+                                    .Where(columnName => dataRow[columnName] != DBNull.Value)
+                                    .Select(columnName => dataRow[columnName].ToString())
+                                    .FirstOrDefault()
+                            })
+                            .Where(data => data.Text != null)
+                            .ForEach(data =>
                                 column.ChoiceHash.AddOrUpdate(
-                                    dataRow.String(column.ColumnName),
+                                    data.Value,
                                     new Choice(
-                                        dataRow.String(column.ColumnName),
-                                        Strings.CoalesceEmpty(
-                                            dataColumns
-                                                .Where(columnName =>
-                                                    links.Any(link =>
-                                                        columnName.EndsWith(link)))
-                                                .Select(columnName =>
-                                                    dataRow.String(columnName))
-                                                        .ToArray()))));
+                                        value: data.Value,
+                                        text: data.Text)));
                     }
                 });
         }
