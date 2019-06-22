@@ -95,7 +95,10 @@ namespace Implem.Libraries.DataSources.SqlServer
 
         public void Prefix(string prefix)
         {
-            ForEach(o => o.Name += prefix);
+            this
+                .Where(o => o.Name?.RegexExists("^[A-Z0-9]{32}$") != true)
+                .ForEach(o =>
+                    o.Name += prefix);
         }
 
         public List<string> JoinTableNames()
