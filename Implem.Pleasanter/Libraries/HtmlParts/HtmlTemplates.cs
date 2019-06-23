@@ -39,6 +39,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
         {
             return hb.Container(
                 context: context,
+                ss: ss,
                 body: body,
                 action: () => hb
                     .MainContainer(
@@ -77,6 +78,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
         private static HtmlBuilder Container(
             this HtmlBuilder hb,
             Context context,
+            SiteSettings ss,
             string body,
             Action action)
         {
@@ -88,12 +90,9 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                         .Meta(httpEquiv: "content-language", content: context.Language)
                         .Meta(charset: "utf-8")
                         .Meta(name: "keywords", content: Parameters.General.HtmlHeadKeywords)
-                        .Meta(
-                            name: "description",
-                            content: WebUtility.HtmlEncode(
-                                Strings.CoalesceEmpty(
-                                    body,
-                                    Parameters.General.HtmlHeadDescription)))
+                        .Meta(name: "description", content: Description(
+                            ss: ss,
+                            body: body))
                         .Meta(name: "author", content: "Implem Inc.")
                         .Meta(name: "viewport", content: Parameters.General.HtmlHeadViewport)
                         .LinkedStyles(context: context)
@@ -107,6 +106,18 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                 action?.Invoke();
                 return hb;
             }
+        }
+
+        private static string Description(SiteSettings ss, string body)
+        {
+            return WebUtility.HtmlEncode(Strings.CoalesceEmpty(
+                body,
+                ss.Body,
+                Parameters.General.HtmlHeadDescription)
+                    .SplitReturn()
+                    .Select(o => o.Trim())
+                    .Where(o => !o.IsNullOrEmpty())
+                    .Join(" "));
         }
 
         private static string HtmlTitle(Context context)
@@ -466,6 +477,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             var ss = new SiteSettings();
             return hb.Container(
                 context: context,
+                ss: ss,
                 body: null,
                 action: () => hb
                     .MainContainer(
