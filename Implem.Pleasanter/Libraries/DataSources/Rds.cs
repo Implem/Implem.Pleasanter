@@ -13890,63 +13890,75 @@ namespace Implem.Pleasanter.Libraries.DataSources
         }
 
         public static string Tenants_TenantName_WhereLike(
-            string tableName = "Tenants", bool forward = false)
+            string tableName = "Tenants",
+            string name = "SearchText",
+            bool forward = false)
         {
             return "([" + tableName + "].[TenantName] like " + 
                 (forward
                     ? string.Empty
                     : "'%' + ") +
-                "@SearchText#ParamCount#_#CommandCount# + '%')";
+                $"@{name}#ParamCount#_#CommandCount# + '%')";
         }
 
         public static string Tenants_Title_WhereLike(
-            string tableName = "Tenants", bool forward = false)
+            string tableName = "Tenants",
+            string name = "SearchText",
+            bool forward = false)
         {
             return "([" + tableName + "].[Title] like " + 
                 (forward
                     ? string.Empty
                     : "'%' + ") +
-                "@SearchText#ParamCount#_#CommandCount# + '%')";
+                $"@{name}#ParamCount#_#CommandCount# + '%')";
         }
 
         public static string Tenants_Body_WhereLike(
-            string tableName = "Tenants", bool forward = false)
+            string tableName = "Tenants",
+            string name = "SearchText",
+            bool forward = false)
         {
             return "([" + tableName + "].[Body] like " + 
                 (forward
                     ? string.Empty
                     : "'%' + ") +
-                "@SearchText#ParamCount#_#CommandCount# + '%')";
+                $"@{name}#ParamCount#_#CommandCount# + '%')";
         }
 
         public static string Tenants_HtmlTitleTop_WhereLike(
-            string tableName = "Tenants", bool forward = false)
+            string tableName = "Tenants",
+            string name = "SearchText",
+            bool forward = false)
         {
             return "([" + tableName + "].[HtmlTitleTop] like " + 
                 (forward
                     ? string.Empty
                     : "'%' + ") +
-                "@SearchText#ParamCount#_#CommandCount# + '%')";
+                $"@{name}#ParamCount#_#CommandCount# + '%')";
         }
 
         public static string Tenants_HtmlTitleSite_WhereLike(
-            string tableName = "Tenants", bool forward = false)
+            string tableName = "Tenants",
+            string name = "SearchText",
+            bool forward = false)
         {
             return "([" + tableName + "].[HtmlTitleSite] like " + 
                 (forward
                     ? string.Empty
                     : "'%' + ") +
-                "@SearchText#ParamCount#_#CommandCount# + '%')";
+                $"@{name}#ParamCount#_#CommandCount# + '%')";
         }
 
         public static string Tenants_HtmlTitleRecord_WhereLike(
-            string tableName = "Tenants", bool forward = false)
+            string tableName = "Tenants",
+            string name = "SearchText",
+            bool forward = false)
         {
             return "([" + tableName + "].[HtmlTitleRecord] like " + 
                 (forward
                     ? string.Empty
                     : "'%' + ") +
-                "@SearchText#ParamCount#_#CommandCount# + '%')";
+                $"@{name}#ParamCount#_#CommandCount# + '%')";
         }
 
         public static TenantsColumnCollection TenantsColumn(
@@ -17615,13 +17627,15 @@ namespace Implem.Pleasanter.Libraries.DataSources
         }
 
         public static string Demos_Title_WhereLike(
-            string tableName = "Demos", bool forward = false)
+            string tableName = "Demos",
+            string name = "SearchText",
+            bool forward = false)
         {
             return "([" + tableName + "].[Title] like " + 
                 (forward
                     ? string.Empty
                     : "'%' + ") +
-                "@SearchText#ParamCount#_#CommandCount# + '%')";
+                $"@{name}#ParamCount#_#CommandCount# + '%')";
         }
 
         public static DemosColumnCollection DemosColumn(
@@ -35745,43 +35759,51 @@ namespace Implem.Pleasanter.Libraries.DataSources
         }
 
         public static string Depts_DeptId_WhereLike(
-            string tableName = "Depts", bool forward = false)
+            string tableName = "Depts",
+            string name = "SearchText",
+            bool forward = false)
         {
             return "([" + tableName + "].[DeptId] like " + 
                 (forward
                     ? string.Empty
                     : "'%' + ") +
-                "@SearchText#ParamCount#_#CommandCount# + '%')";
+                $"@{name}#ParamCount#_#CommandCount# + '%')";
         }
 
         public static string Depts_DeptCode_WhereLike(
-            string tableName = "Depts", bool forward = false)
+            string tableName = "Depts",
+            string name = "SearchText",
+            bool forward = false)
         {
             return "([" + tableName + "].[DeptCode] like " + 
                 (forward
                     ? string.Empty
                     : "'%' + ") +
-                "@SearchText#ParamCount#_#CommandCount# + '%')";
+                $"@{name}#ParamCount#_#CommandCount# + '%')";
         }
 
         public static string Depts_DeptName_WhereLike(
-            string tableName = "Depts", bool forward = false)
+            string tableName = "Depts",
+            string name = "SearchText",
+            bool forward = false)
         {
             return "([" + tableName + "].[DeptName] like " + 
                 (forward
                     ? string.Empty
                     : "'%' + ") +
-                "@SearchText#ParamCount#_#CommandCount# + '%')";
+                $"@{name}#ParamCount#_#CommandCount# + '%')";
         }
 
         public static string Depts_Body_WhereLike(
-            string tableName = "Depts", bool forward = false)
+            string tableName = "Depts",
+            string name = "SearchText",
+            bool forward = false)
         {
             return "([" + tableName + "].[Body] like " + 
                 (forward
                     ? string.Empty
                     : "'%' + ") +
-                "@SearchText#ParamCount#_#CommandCount# + '%')";
+                $"@{name}#ParamCount#_#CommandCount# + '%')";
         }
 
         public static DeptsColumnCollection DeptsColumn(
@@ -38523,43 +38545,51 @@ namespace Implem.Pleasanter.Libraries.DataSources
         }
 
         public static string Groups_TenantId_WhereLike(
-            string tableName = "Groups", bool forward = false)
+            string tableName = "Groups",
+            string name = "SearchText",
+            bool forward = false)
         {
             return "([" + tableName + "].[TenantId] like " + 
                 (forward
                     ? string.Empty
                     : "'%' + ") +
-                "@SearchText#ParamCount#_#CommandCount# + '%')";
+                $"@{name}#ParamCount#_#CommandCount# + '%')";
         }
 
         public static string Groups_GroupId_WhereLike(
-            string tableName = "Groups", bool forward = false)
+            string tableName = "Groups",
+            string name = "SearchText",
+            bool forward = false)
         {
             return "([" + tableName + "].[GroupId] like " + 
                 (forward
                     ? string.Empty
                     : "'%' + ") +
-                "@SearchText#ParamCount#_#CommandCount# + '%')";
+                $"@{name}#ParamCount#_#CommandCount# + '%')";
         }
 
         public static string Groups_GroupName_WhereLike(
-            string tableName = "Groups", bool forward = false)
+            string tableName = "Groups",
+            string name = "SearchText",
+            bool forward = false)
         {
             return "([" + tableName + "].[GroupName] like " + 
                 (forward
                     ? string.Empty
                     : "'%' + ") +
-                "@SearchText#ParamCount#_#CommandCount# + '%')";
+                $"@{name}#ParamCount#_#CommandCount# + '%')";
         }
 
         public static string Groups_Body_WhereLike(
-            string tableName = "Groups", bool forward = false)
+            string tableName = "Groups",
+            string name = "SearchText",
+            bool forward = false)
         {
             return "([" + tableName + "].[Body] like " + 
                 (forward
                     ? string.Empty
                     : "'%' + ") +
-                "@SearchText#ParamCount#_#CommandCount# + '%')";
+                $"@{name}#ParamCount#_#CommandCount# + '%')";
         }
 
         public static GroupsColumnCollection GroupsColumn(
@@ -43503,23 +43533,27 @@ namespace Implem.Pleasanter.Libraries.DataSources
         }
 
         public static string Registrations_MailAddress_WhereLike(
-            string tableName = "Registrations", bool forward = false)
+            string tableName = "Registrations",
+            string name = "SearchText",
+            bool forward = false)
         {
             return "([" + tableName + "].[MailAddress] like " + 
                 (forward
                     ? string.Empty
                     : "'%' + ") +
-                "@SearchText#ParamCount#_#CommandCount# + '%')";
+                $"@{name}#ParamCount#_#CommandCount# + '%')";
         }
 
         public static string Registrations_Name_WhereLike(
-            string tableName = "Registrations", bool forward = false)
+            string tableName = "Registrations",
+            string name = "SearchText",
+            bool forward = false)
         {
             return "([" + tableName + "].[Name] like " + 
                 (forward
                     ? string.Empty
                     : "'%' + ") +
-                "@SearchText#ParamCount#_#CommandCount# + '%')";
+                $"@{name}#ParamCount#_#CommandCount# + '%')";
         }
 
         public static RegistrationsColumnCollection RegistrationsColumn(
@@ -47955,43 +47989,51 @@ namespace Implem.Pleasanter.Libraries.DataSources
         }
 
         public static string Users_LoginId_WhereLike(
-            string tableName = "Users", bool forward = false)
+            string tableName = "Users",
+            string name = "SearchText",
+            bool forward = false)
         {
             return "([" + tableName + "].[LoginId] like " + 
                 (forward
                     ? string.Empty
                     : "'%' + ") +
-                "@SearchText#ParamCount#_#CommandCount# + '%')";
+                $"@{name}#ParamCount#_#CommandCount# + '%')";
         }
 
         public static string Users_Name_WhereLike(
-            string tableName = "Users", bool forward = false)
+            string tableName = "Users",
+            string name = "SearchText",
+            bool forward = false)
         {
             return "([" + tableName + "].[Name] like " + 
                 (forward
                     ? string.Empty
                     : "'%' + ") +
-                "@SearchText#ParamCount#_#CommandCount# + '%')";
+                $"@{name}#ParamCount#_#CommandCount# + '%')";
         }
 
         public static string Users_UserCode_WhereLike(
-            string tableName = "Users", bool forward = false)
+            string tableName = "Users",
+            string name = "SearchText",
+            bool forward = false)
         {
             return "([" + tableName + "].[UserCode] like " + 
                 (forward
                     ? string.Empty
                     : "'%' + ") +
-                "@SearchText#ParamCount#_#CommandCount# + '%')";
+                $"@{name}#ParamCount#_#CommandCount# + '%')";
         }
 
         public static string Users_Body_WhereLike(
-            string tableName = "Users", bool forward = false)
+            string tableName = "Users",
+            string name = "SearchText",
+            bool forward = false)
         {
             return "([" + tableName + "].[Body] like " + 
                 (forward
                     ? string.Empty
                     : "'%' + ") +
-                "@SearchText#ParamCount#_#CommandCount# + '%')";
+                $"@{name}#ParamCount#_#CommandCount# + '%')";
         }
 
         public static UsersColumnCollection UsersColumn(
@@ -58451,13 +58493,15 @@ namespace Implem.Pleasanter.Libraries.DataSources
         }
 
         public static string MailAddresses_MailAddress_WhereLike(
-            string tableName = "MailAddresses", bool forward = false)
+            string tableName = "MailAddresses",
+            string name = "SearchText",
+            bool forward = false)
         {
             return "([" + tableName + "].[MailAddress] like " + 
                 (forward
                     ? string.Empty
                     : "'%' + ") +
-                "@SearchText#ParamCount#_#CommandCount# + '%')";
+                $"@{name}#ParamCount#_#CommandCount# + '%')";
         }
 
         public static MailAddressesColumnCollection MailAddressesColumn(
@@ -67944,23 +67988,27 @@ namespace Implem.Pleasanter.Libraries.DataSources
         }
 
         public static string Items_Title_WhereLike(
-            string tableName = "Items", bool forward = false)
+            string tableName = "Items",
+            string name = "SearchText",
+            bool forward = false)
         {
             return "([" + tableName + "].[Title] like " + 
                 (forward
                     ? string.Empty
                     : "'%' + ") +
-                "@SearchText#ParamCount#_#CommandCount# + '%')";
+                $"@{name}#ParamCount#_#CommandCount# + '%')";
         }
 
         public static string Items_FullText_WhereLike(
-            string tableName = "Items", bool forward = false)
+            string tableName = "Items",
+            string name = "SearchText",
+            bool forward = false)
         {
             return "([" + tableName + "].[FullText] like " + 
                 (forward
                     ? string.Empty
                     : "'%' + ") +
-                "@SearchText#ParamCount#_#CommandCount# + '%')";
+                $"@{name}#ParamCount#_#CommandCount# + '%')";
         }
 
         public static ItemsColumnCollection ItemsColumn(
@@ -70774,23 +70822,27 @@ namespace Implem.Pleasanter.Libraries.DataSources
         }
 
         public static string Sites_Title_WhereLike(
-            string tableName = "Sites", bool forward = false)
+            string tableName = "Sites",
+            string name = "SearchText",
+            bool forward = false)
         {
             return "([" + tableName + "].[Title] like " + 
                 (forward
                     ? string.Empty
                     : "'%' + ") +
-                "@SearchText#ParamCount#_#CommandCount# + '%')";
+                $"@{name}#ParamCount#_#CommandCount# + '%')";
         }
 
         public static string Sites_Body_WhereLike(
-            string tableName = "Sites", bool forward = false)
+            string tableName = "Sites",
+            string name = "SearchText",
+            bool forward = false)
         {
             return "([" + tableName + "].[Body] like " + 
                 (forward
                     ? string.Empty
                     : "'%' + ") +
-                "@SearchText#ParamCount#_#CommandCount# + '%')";
+                $"@{name}#ParamCount#_#CommandCount# + '%')";
         }
 
         public static SitesColumnCollection SitesColumn(
@@ -83210,13 +83262,15 @@ namespace Implem.Pleasanter.Libraries.DataSources
         }
 
         public static string Binaries_Body_WhereLike(
-            string tableName = "Binaries", bool forward = false)
+            string tableName = "Binaries",
+            string name = "SearchText",
+            bool forward = false)
         {
             return "([" + tableName + "].[Body] like " + 
                 (forward
                     ? string.Empty
                     : "'%' + ") +
-                "@SearchText#ParamCount#_#CommandCount# + '%')";
+                $"@{name}#ParamCount#_#CommandCount# + '%')";
         }
 
         public static BinariesColumnCollection BinariesColumn(
@@ -90926,23 +90980,27 @@ namespace Implem.Pleasanter.Libraries.DataSources
         }
 
         public static string Issues_Title_WhereLike(
-            string tableName = "Issues", bool forward = false)
+            string tableName = "Issues",
+            string name = "SearchText",
+            bool forward = false)
         {
             return "([" + tableName + "].[Title] like " + 
                 (forward
                     ? string.Empty
                     : "'%' + ") +
-                "@SearchText#ParamCount#_#CommandCount# + '%')";
+                $"@{name}#ParamCount#_#CommandCount# + '%')";
         }
 
         public static string Issues_Body_WhereLike(
-            string tableName = "Issues", bool forward = false)
+            string tableName = "Issues",
+            string name = "SearchText",
+            bool forward = false)
         {
             return "([" + tableName + "].[Body] like " + 
                 (forward
                     ? string.Empty
                     : "'%' + ") +
-                "@SearchText#ParamCount#_#CommandCount# + '%')";
+                $"@{name}#ParamCount#_#CommandCount# + '%')";
         }
 
         public static IssuesColumnCollection IssuesColumn(
@@ -95595,23 +95653,27 @@ namespace Implem.Pleasanter.Libraries.DataSources
         }
 
         public static string Results_Title_WhereLike(
-            string tableName = "Results", bool forward = false)
+            string tableName = "Results",
+            string name = "SearchText",
+            bool forward = false)
         {
             return "([" + tableName + "].[Title] like " + 
                 (forward
                     ? string.Empty
                     : "'%' + ") +
-                "@SearchText#ParamCount#_#CommandCount# + '%')";
+                $"@{name}#ParamCount#_#CommandCount# + '%')";
         }
 
         public static string Results_Body_WhereLike(
-            string tableName = "Results", bool forward = false)
+            string tableName = "Results",
+            string name = "SearchText",
+            bool forward = false)
         {
             return "([" + tableName + "].[Body] like " + 
                 (forward
                     ? string.Empty
                     : "'%' + ") +
-                "@SearchText#ParamCount#_#CommandCount# + '%')";
+                $"@{name}#ParamCount#_#CommandCount# + '%')";
         }
 
         public static ResultsColumnCollection ResultsColumn(
@@ -99121,23 +99183,27 @@ namespace Implem.Pleasanter.Libraries.DataSources
         }
 
         public static string Wikis_Title_WhereLike(
-            string tableName = "Wikis", bool forward = false)
+            string tableName = "Wikis",
+            string name = "SearchText",
+            bool forward = false)
         {
             return "([" + tableName + "].[Title] like " + 
                 (forward
                     ? string.Empty
                     : "'%' + ") +
-                "@SearchText#ParamCount#_#CommandCount# + '%')";
+                $"@{name}#ParamCount#_#CommandCount# + '%')";
         }
 
         public static string Wikis_Body_WhereLike(
-            string tableName = "Wikis", bool forward = false)
+            string tableName = "Wikis",
+            string name = "SearchText",
+            bool forward = false)
         {
             return "([" + tableName + "].[Body] like " + 
                 (forward
                     ? string.Empty
                     : "'%' + ") +
-                "@SearchText#ParamCount#_#CommandCount# + '%')";
+                $"@{name}#ParamCount#_#CommandCount# + '%')";
         }
 
         public static WikisColumnCollection WikisColumn(

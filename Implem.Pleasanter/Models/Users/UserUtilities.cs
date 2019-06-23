@@ -2294,36 +2294,6 @@ namespace Implem.Pleasanter.Models
             }
         }
 
-        private static int BulkDelete(
-            Context context,
-            SiteSettings ss,
-            SqlWhereCollection where)
-        {
-            var sub = Rds.SelectUsers(
-                column: Rds.UsersColumn().UserId(),
-                join: ss.Join(
-                    context: context,
-                    join: where),
-                where: where);
-            var statements = new List<SqlStatement>();
-            statements.OnBulkDeletingExtendedSqls(ss.SiteId);
-            statements.Add(Rds.DeleteItems(
-                where: Rds.ItemsWhere()
-                    .ReferenceId_In(sub: sub)));
-            statements.Add(Rds.DeleteBinaries(
-                where: Rds.BinariesWhere()
-                    .TenantId(context.TenantId)
-                    .ReferenceId_In(sub: sub)));
-            statements.Add(Rds.DeleteUsers(where: where));
-            statements.Add(Rds.RowCount());
-            statements.OnBulkDeletedExtendedSqls(ss.SiteId);
-            return Rds.ExecuteScalar_response(
-                context: context,
-                transactional: true,
-                statements: statements.ToArray())
-                    .Count.ToInt();
-        }
-
         /// <summary>
         /// Fixed:
         /// </summary>
