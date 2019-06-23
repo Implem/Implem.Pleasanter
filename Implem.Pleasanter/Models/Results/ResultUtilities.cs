@@ -3031,15 +3031,25 @@ namespace Implem.Pleasanter.Models
                     join: where),
                 where: where);
             var statements = new List<SqlStatement>();
+            var now = DateTime.Now.ToUniversal(context: context);
             statements.OnBulkDeletingExtendedSqls(ss.SiteId);
             statements.Add(Rds.DeleteItems(
                 where: Rds.ItemsWhere()
+                    .SiteId(ss.SiteId)
                     .ReferenceId_In(sub: sub)));
             statements.Add(Rds.DeleteBinaries(
                 where: Rds.BinariesWhere()
                     .TenantId(context.TenantId)
                     .ReferenceId_In(sub: sub)));
-            statements.Add(Rds.DeleteResults(where: where));
+            statements.Add(Rds.DeleteResults(
+                where: Rds.ResultsWhere()
+                    .SiteId(ss.SiteId)
+                    .ResultId_In(sub: Rds.SelectItems(
+                        tableType: Sqls.TableTypes.Deleted,
+                        column: Rds.ItemsColumn().ReferenceId(),
+                        where: Rds.ItemsWhere()
+                            .SiteId(ss.SiteId)
+                            .UpdatedTime(now, _operator: ">=")))));
             statements.Add(Rds.RowCount());
             statements.OnBulkDeletedExtendedSqls(ss.SiteId);
             return Rds.ExecuteScalar_response(
