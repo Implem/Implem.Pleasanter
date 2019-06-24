@@ -3521,12 +3521,11 @@ namespace Implem.Pleasanter.Models
                 where: view.Where(context: context, ss: ss)
                 .Users_TenantId(context.TenantId)
                 .SqlWhereLike(
-                    tableName: null,
                     name: "SearchText",
                     searchText: view.ColumnFilterHash
-                    ?.Where(f => f.Key == "SearchText")
-                    ?.Select(f => f.Value)
-                    ?.FirstOrDefault(),
+                        ?.Where(f => f.Key == "SearchText")
+                        ?.Select(f => f.Value)
+                        ?.FirstOrDefault(),
                     clauseCollection: new List<string>()
                     {
                         Rds.Users_LoginId_WhereLike(),

@@ -2858,22 +2858,44 @@ namespace Implem.Pleasanter.Models
                     sub: Rds.SelectIssues(
                         tableType: Sqls.TableTypes.Deleted,
                         column: Rds.IssuesColumn().IssueId(),
-                        where: Views.GetBySession(context: context, ss: ss).Where(context: context, ss: ss)));
+                        where: Views.GetBySession(
+                            context: context,
+                            ss: ss)
+                                .Where(
+                                    context: context,
+                                    ss: ss,
+                                    itemJoin: false)));
+            var sub = Rds.SelectIssues(
+                tableType: Sqls.TableTypes.Deleted,
+                _as: "Issues_Deleted",
+                column: Rds.IssuesColumn()
+                    .IssueId(tableName: "Issues_Deleted"),
+                where: where);
+            var guid = Strings.NewGuid();
             return Rds.ExecuteScalar_response(
                 context: context,
                 connectionString: Parameters.Rds.OwnerConnectionString,
                 transactional: true,
                 statements: new SqlStatement[]
                 {
-                    Rds.RestoreItems(where: Rds.ItemsWhere().ReferenceId_In(sub:
-                        Rds.SelectIssues(
-                            tableType: Sqls.TableTypes.Deleted,
-                            _as: "Issues_Deleted",
-                            column: Rds.IssuesColumn()
-                                .IssueId(tableName: "Issues_Deleted"),
-                            where: where))),
+                    Rds.UpdateItems(
+                        tableType: Sqls.TableTypes.Deleted,
+                        where: Rds.ItemsWhere()
+                            .SiteId(ss.SiteId)
+                            .ReferenceId_In(sub: sub),
+                        param: Rds.ItemsParam()
+                            .ReferenceType(guid)),
                     Rds.RestoreIssues(where: where),
-                    Rds.RowCount()
+                    Rds.RowCount(),
+                    Rds.RestoreItems(where: Rds.ItemsWhere()
+                        .SiteId(ss.SiteId)
+                        .ReferenceType(guid)),
+                    Rds.UpdateItems(
+                        where: Rds.ItemsWhere()
+                            .SiteId(ss.SiteId)
+                            .ReferenceType(guid),
+                        param: Rds.ItemsParam()
+                            .ReferenceType(ss.ReferenceType))
                 }).Count.ToInt();
         }
 
@@ -3227,7 +3249,8 @@ namespace Implem.Pleasanter.Models
                             .Where(
                                 context: context,
                                 ss: ss,
-                                where: where));
+                                where: where,
+                                itemJoin: false));
                 Summaries.Synchronize(context: context, ss: ss);
                 return GridRows(
                     context: context,
@@ -3265,6 +3288,10 @@ namespace Implem.Pleasanter.Models
             long siteId,
             SqlWhereCollection where)
         {
+            var sub = Rds.SelectIssues(
+                column: Rds.IssuesColumn().IssueId(),
+                where: where);
+            var guid = Strings.NewGuid();
             return Rds.ExecuteScalar_response(
                 context: context,
                 transactional: true,
@@ -3272,16 +3299,22 @@ namespace Implem.Pleasanter.Models
                 {
                     Rds.UpdateItems(
                         where: Rds.ItemsWhere()
-                            .ReferenceId_In(
-                                sub: Rds.SelectIssues(
-                                    column: Rds.IssuesColumn().IssueId(),
-                                    where: Rds.IssuesWhere().SiteId(siteId)))
-                            .SiteId(siteId, _operator: "<>"),
-                        param: Rds.ItemsParam().SiteId(siteId)),
+                            .SiteId(ss.SiteId)
+                            .ReferenceId_In(sub: sub),
+                        param: Rds.ItemsParam()
+                            .ReferenceType(guid)),
                     Rds.UpdateIssues(
                         where: where,
-                        param: Rds.IssuesParam().SiteId(siteId)),
-                    Rds.RowCount()
+                        param: Rds.IssuesParam()
+                            .SiteId(siteId)),
+                    Rds.RowCount(),
+                    Rds.UpdateItems(
+                        where: Rds.ItemsWhere()
+                            .SiteId(ss.SiteId)
+                            .ReferenceType(guid),
+                        param: Rds.ItemsParam()
+                            .SiteId(siteId)
+                            .ReferenceType(ss.ReferenceType))
                 }).Count.ToInt();
         }
 
@@ -3305,7 +3338,8 @@ namespace Implem.Pleasanter.Models
                             .Where(
                                 context: context,
                                 ss: ss,
-                                where: where));
+                                where: where,
+                                itemJoin: false));
                 Summaries.Synchronize(context: context, ss: ss);
                 return GridRows(
                     context: context,
@@ -3333,26 +3367,31 @@ namespace Implem.Pleasanter.Models
                     join: where),
                 where: where);
             var statements = new List<SqlStatement>();
-            var now = DateTime.Now.ToUniversal(context: context);
+            var guid = Strings.NewGuid();
             statements.OnBulkDeletingExtendedSqls(ss.SiteId);
-            statements.Add(Rds.DeleteItems(
+            statements.Add(Rds.UpdateItems(
                 where: Rds.ItemsWhere()
                     .SiteId(ss.SiteId)
-                    .ReferenceId_In(sub: sub)));
+                    .ReferenceId_In(sub: sub),
+                param: Rds.ItemsParam()
+                    .ReferenceType(guid)));
             statements.Add(Rds.DeleteBinaries(
                 where: Rds.BinariesWhere()
                     .TenantId(context.TenantId)
                     .ReferenceId_In(sub: sub)));
-            statements.Add(Rds.DeleteIssues(
-                where: Rds.IssuesWhere()
-                    .SiteId(ss.SiteId)
-                    .IssueId_In(sub: Rds.SelectItems(
-                        tableType: Sqls.TableTypes.Deleted,
-                        column: Rds.ItemsColumn().ReferenceId(),
-                        where: Rds.ItemsWhere()
-                            .SiteId(ss.SiteId)
-                            .UpdatedTime(now, _operator: ">=")))));
+            statements.Add(Rds.DeleteIssues(where: where));
             statements.Add(Rds.RowCount());
+            statements.Add(Rds.DeleteItems(
+                where: Rds.ItemsWhere()
+                    .SiteId(ss.SiteId)
+                    .ReferenceType(guid)));
+            statements.Add(Rds.UpdateItems(
+                tableType: Sqls.TableTypes.Deleted,
+                where: Rds.ItemsWhere()
+                    .SiteId(ss.SiteId)
+                    .ReferenceType(guid),
+                param: Rds.ItemsParam()
+                    .ReferenceType(ss.ReferenceType)));
             statements.OnBulkDeletedExtendedSqls(ss.SiteId);
             return Rds.ExecuteScalar_response(
                 context: context,
@@ -3519,29 +3558,44 @@ namespace Implem.Pleasanter.Models
                     sub: Rds.SelectIssues(
                         tableType: Sqls.TableTypes.Deleted,
                         column: Rds.IssuesColumn().IssueId(),
-                        where: Views.GetBySession(context: context, ss: ss).Where(
-                            context: context, ss: ss)));
+                        where: Views.GetBySession(
+                            context: context,
+                            ss: ss)
+                                .Where(
+                                    context: context,
+                                    ss: ss,
+                                    itemJoin: false)));
             var sub = Rds.SelectIssues(
                 tableType: Sqls.TableTypes.Deleted,
                 _as: "Issues_Deleted",
                 column: Rds.IssuesColumn()
                     .IssueId(tableName: "Issues_Deleted"),
                 where: where);
+            var guid = Strings.NewGuid();
             return Rds.ExecuteScalar_response(
                 context: context,
                 transactional: true,
                 statements: new SqlStatement[]
                 {
-                    Rds.PhysicalDeleteItems(
+                    Rds.UpdateItems(
                         tableType: Sqls.TableTypes.Deleted,
-                        where: Rds.ItemsWhere().ReferenceId_In(sub: sub)),
+                        where: Rds.ItemsWhere()
+                            .SiteId(ss.SiteId)
+                            .ReferenceId_In(sub: sub),
+                        param: Rds.ItemsParam()
+                            .ReferenceType(guid)),
                     Rds.PhysicalDeleteBinaries(
                         tableType: Sqls.TableTypes.Deleted,
                         where: Rds.ItemsWhere().ReferenceId_In(sub: sub)),
                     Rds.PhysicalDeleteIssues(
                         tableType: Sqls.TableTypes.Deleted,
                         where: where),
-                    Rds.RowCount()
+                    Rds.RowCount(),
+                    Rds.PhysicalDeleteItems(
+                        tableType: Sqls.TableTypes.Deleted,
+                        where: Rds.ItemsWhere()
+                            .SiteId(ss.SiteId)
+                            .ReferenceType(guid)),
                 }).Count.ToInt();
         }
 

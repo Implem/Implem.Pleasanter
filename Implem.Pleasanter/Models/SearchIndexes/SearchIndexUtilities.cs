@@ -375,7 +375,6 @@ namespace Implem.Pleasanter.Models
                 where: Rds.ItemsWhere()
                     .SiteId_In(siteIdList)
                     .SqlWhereLike(
-                        tableName: null,
                         name: "SearchText",
                         searchText: searchText,
                         clauseCollection: like.ToSingleList()));
@@ -387,54 +386,46 @@ namespace Implem.Pleasanter.Models
         public static SqlWhereCollection FullTextWhere(
             this SqlWhereCollection where,
             SiteSettings ss,
-            string tableName,
-            string searchText)
+            string searchText,
+            bool itemJoin)
         {
             var name = Strings.NewGuid();
             if (ss != null && ss.TableType != Sqls.TableTypes.Normal)
             {
-                return where.Add(Rds.ItemsWhere().SqlWhereLike(
-                    tableName: tableName + "_Items",
-                    name: name,
+                return where.ItemWhereLike(
+                    ss: ss,
+                    columnName: "FullText",
                     searchText: searchText,
-                    clauseCollection: Rds.Items_FullText_WhereLike(
-                        tableName: tableName + "_Items",
-                        name: name,
-                        forward: false)
-                            .ToSingleList()));
+                    name: name,
+                    forward: false,
+                    itemJoin: itemJoin);
             }
             switch (ss?.SearchType)
             {
                 case SiteSettings.SearchTypes.PartialMatch:
-                    return where.Add(Rds.ItemsWhere().SqlWhereLike(
-                        tableName: tableName + "_Items",
-                        name: name,
+                    return where.ItemWhereLike(
+                        ss: ss,
+                        columnName: "FullText",
                         searchText: searchText,
-                        clauseCollection: Rds.Items_FullText_WhereLike(
-                            tableName: tableName + "_Items",
-                            name: name,
-                            forward: false)
-                                .ToSingleList()));
+                        name: name,
+                        forward: false,
+                        itemJoin: itemJoin);
                 case SiteSettings.SearchTypes.MatchInFrontOfTitle:
-                    return where.Add(Rds.ItemsWhere().SqlWhereLike(
-                        tableName: tableName + "_Items",
-                        name: name,
+                    return where.ItemWhereLike(
+                        ss: ss,
+                        columnName: "Title",
                         searchText: searchText,
-                        clauseCollection: Rds.Items_Title_WhereLike(
-                            tableName: tableName + "_Items",
-                            name: name,
-                            forward: true)
-                                .ToSingleList()));
+                        name: name,
+                        forward: true,
+                        itemJoin: itemJoin);
                 case SiteSettings.SearchTypes.BroadMatchOfTitle:
-                    return where.Add(Rds.ItemsWhere().SqlWhereLike(
-                        tableName: tableName + "_Items",
-                        name: name,
+                    return where.ItemWhereLike(
+                        ss: ss,
+                        columnName: "Title",
                         searchText: searchText,
-                        clauseCollection: Rds.Items_Title_WhereLike(
-                            tableName: tableName + "_Items",
-                            name: name,
-                            forward: false)
-                                .ToSingleList()));
+                        name: name,
+                        forward: false,
+                        itemJoin: itemJoin);
                 default:
                     switch (Parameters.Search.Provider)
                     {
@@ -444,23 +435,127 @@ namespace Implem.Pleasanter.Models
                             where.Add(new SqlWhere(
                                 name: name,
                                 value: words,
-                                raw: FullTextWhere(
-                                    words: words,
-                                    itemsTableName: tableName + "_Items",
-                                    name: name)));
+                                raw: itemJoin
+                                    ? FullTextWhere(
+                                        words: words,
+                                        itemsTableName: ss.ReferenceType + "_Items",
+                                        name: name)
+                                    : FullTextWhere(
+                                        words: words,
+                                        idColumnBracket: ss.IdColumnBracket(),
+                                        tableType: ss.TableType,
+                                        name: name)));
                             return where;
                         default:
                             return where.Add(Rds.ItemsWhere().SqlWhereLike(
-                                tableName: tableName + "_Items",
                                 name: name,
                                 searchText: searchText,
                                 clauseCollection: Rds.Items_FullText_WhereLike(
-                                    tableName: tableName + "_Items",
+                                    tableName: ss.ReferenceType + "_Items",
                                     name: name,
                                     forward: false)
                                         .ToSingleList()));
                     }
             }
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        private static SqlWhereCollection ItemWhereLike(
+            this SqlWhereCollection where,
+            SiteSettings ss,
+            string columnName,
+            string searchText,
+            string name,
+            bool forward,
+            bool itemJoin)
+        {
+            var tableName = ItemTableName(
+                ss: ss,
+                itemJoin: itemJoin);
+            return where.Add(Rds.ItemsWhere().SqlWhereLike(
+                name: name,
+                searchText: searchText,
+                clauseCollection: itemJoin
+                    ? ItemWhereLike(
+                        tableName: tableName,
+                        columnName: columnName,
+                        name: name,
+                        forward: forward)
+                            .ToSingleList()
+                    : SelectItemWhereLike(
+                        ss: ss,
+                        tableName: tableName,
+                        columnName: columnName,
+                        name: name,
+                        forward: forward)
+                            .ToSingleList()));
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        private static string ItemTableName(SiteSettings ss, bool itemJoin)
+        {
+            if (itemJoin)
+            {
+                return ss.ReferenceType + "_Items";
+            }
+            else
+            {
+                switch (ss.TableType)
+                {
+                    case Sqls.TableTypes.Deleted:
+                        return "Items_deleted";
+                    default:
+                        return "Items";
+                }
+            }
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        private static string ItemWhereLike(
+            string tableName,
+            string columnName,
+            string name,
+            bool forward)
+        {
+            switch (columnName)
+            {
+                case "Title":
+                    return Rds.Items_Title_WhereLike(
+                        tableName: tableName,
+                        name: name,
+                        forward: forward);
+                case "FullText":
+                    return Rds.Items_FullText_WhereLike(
+                        tableName: tableName,
+                        name: name,
+                        forward: forward);
+                default:
+                    return null;
+            }
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        private static string SelectItemWhereLike(
+            SiteSettings ss,
+            string tableName,
+            string columnName,
+            string name,
+            bool forward = false)
+        {
+            var like =ItemWhereLike(
+                tableName: tableName,
+                columnName: columnName,
+                name: name,
+                forward: forward);
+            return $"exists(select * from [{tableName}] where [{tableName}].[ReferenceId]={ss.IdColumnBracket()} and {like})";
         }
 
         /// <summary>
@@ -619,8 +714,36 @@ namespace Implem.Pleasanter.Models
             var contains = new List<string>();
             for (var count = 0; count < words.Count(); count++)
             {
-                var item = $"(contains([{itemsTableName}].[FullText], @{name}{count}_#CommandCount#))";
-                var binary = $"(exists(select * from [Binaries] where [Binaries].[ReferenceId]=[{itemsTableName}].[ReferenceId] and contains([Bin], @{name}{count}_#CommandCount#)))";
+                var item = $"contains([{itemsTableName}].[FullText], @{name}{count}_#CommandCount#)";
+                var binary = $"exists(select * from [Binaries] where [Binaries].[ReferenceId]=[{itemsTableName}].[ReferenceId] and contains([Bin], @{name}{count}_#CommandCount#))";
+                contains.Add(Parameters.Search.SearchDocuments
+                    ? $"({item} or {binary})"
+                    : item);
+            }
+            return contains.Join(" and ");
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        private static string FullTextWhere(
+            List<string> words,
+            string idColumnBracket,
+            Sqls.TableTypes tableType,
+            string name)
+        {
+            var contains = new List<string>();
+            var prefix = string.Empty;
+            switch (tableType)
+            {
+                case Sqls.TableTypes.Deleted:
+                    prefix = "_deleted";
+                    break;
+            }
+            for (var count = 0; count < words.Count(); count++)
+            {
+                var item = $"exists(select * from [Items{prefix}] where [Items{prefix}].[ReferenceId]={idColumnBracket} and contains([Items{prefix}].[FullText],@{name}{count}_#CommandCount#))";
+                var binary = $"exists(select * from [Binaries{prefix}] where [Binaries{prefix}].[ReferenceId]={idColumnBracket} and contains([Binaries{prefix}].[Bin],@{name}{count}_#CommandCount#))";
                 contains.Add(Parameters.Search.SearchDocuments
                     ? $"({item} or {binary})"
                     : item);

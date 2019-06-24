@@ -781,7 +781,8 @@ namespace Implem.Pleasanter.Libraries.Settings
             Context context,
             SiteSettings ss,
             SqlWhereCollection where = null,
-            bool checkPermission = true)
+            bool checkPermission = true,
+            bool itemJoin = true)
         {
             if (where == null) where = new SqlWhereCollection();
             SetGeneralsWhere(
@@ -795,7 +796,8 @@ namespace Implem.Pleasanter.Libraries.Settings
             SetSearchWhere(
                 context: context,
                 ss: ss,
-                where: where);
+                where: where,
+                itemJoin: itemJoin);
             Permissions.SetCanReadWhere(
                 context: context,
                 ss: ss,
@@ -1205,7 +1207,6 @@ namespace Implem.Pleasanter.Libraries.Settings
                 {
                     var name = Strings.NewGuid();
                     where.SqlWhereLike(
-                        tableName: column.TableName(),
                         name: name,
                         searchText: value,
                         clauseCollection: "([{0}].[{1}] like '%' + @{2}#ParamCount#_#CommandCount# + '%')"
@@ -1276,13 +1277,17 @@ namespace Implem.Pleasanter.Libraries.Settings
                 : orderBy;
         }
 
-        private void SetSearchWhere(Context context, SiteSettings ss, SqlWhereCollection where)
+        private void SetSearchWhere(
+            Context context,
+            SiteSettings ss,
+            SqlWhereCollection where,
+            bool itemJoin)
         {
             if (Search.IsNullOrEmpty()) return;
             where.FullTextWhere(
                 ss: ss,
-                tableName: ss.ReferenceType,
-                searchText: Search);
+                searchText: Search,
+                itemJoin: itemJoin);
         }
     }
 }
