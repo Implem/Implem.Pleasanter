@@ -1122,22 +1122,44 @@ namespace Implem.Pleasanter.Models
                     sub: Rds.SelectWikis(
                         tableType: Sqls.TableTypes.Deleted,
                         column: Rds.WikisColumn().WikiId(),
-                        where: Views.GetBySession(context: context, ss: ss).Where(context: context, ss: ss)));
+                        where: Views.GetBySession(
+                            context: context,
+                            ss: ss)
+                                .Where(
+                                    context: context,
+                                    ss: ss,
+                                    itemJoin: false)));
+            var sub = Rds.SelectWikis(
+                tableType: Sqls.TableTypes.Deleted,
+                _as: "Wikis_Deleted",
+                column: Rds.WikisColumn()
+                    .WikiId(tableName: "Wikis_Deleted"),
+                where: where);
+            var guid = Strings.NewGuid();
             return Rds.ExecuteScalar_response(
                 context: context,
                 connectionString: Parameters.Rds.OwnerConnectionString,
                 transactional: true,
                 statements: new SqlStatement[]
                 {
-                    Rds.RestoreItems(where: Rds.ItemsWhere().ReferenceId_In(sub:
-                        Rds.SelectWikis(
-                            tableType: Sqls.TableTypes.Deleted,
-                            _as: "Wikis_Deleted",
-                            column: Rds.WikisColumn()
-                                .WikiId(tableName: "Wikis_Deleted"),
-                            where: where))),
+                    Rds.UpdateItems(
+                        tableType: Sqls.TableTypes.Deleted,
+                        where: Rds.ItemsWhere()
+                            .SiteId(ss.SiteId)
+                            .ReferenceId_In(sub: sub),
+                        param: Rds.ItemsParam()
+                            .ReferenceType(guid)),
                     Rds.RestoreWikis(where: where),
-                    Rds.RowCount()
+                    Rds.RowCount(),
+                    Rds.RestoreItems(where: Rds.ItemsWhere()
+                        .SiteId(ss.SiteId)
+                        .ReferenceType(guid)),
+                    Rds.UpdateItems(
+                        where: Rds.ItemsWhere()
+                            .SiteId(ss.SiteId)
+                            .ReferenceType(guid),
+                        param: Rds.ItemsParam()
+                            .ReferenceType(ss.ReferenceType))
                 }).Count.ToInt();
         }
 

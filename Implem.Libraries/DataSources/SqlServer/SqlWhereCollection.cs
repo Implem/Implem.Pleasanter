@@ -18,7 +18,7 @@ namespace Implem.Libraries.DataSources.SqlServer
         }
 
         public SqlWhereCollection Add(
-            string tableName,
+            string tableName = null,
             string[] columnBrackets = null,
             string name = null,
             object value = null,

@@ -581,7 +581,6 @@ namespace Implem.Pleasanter.Models
         {
             return self
                 .SqlWhereLike(
-                    tableName: null,
                     name: "SearchText",
                     searchText: searchText,
                     clauseCollection: new List<string>()
