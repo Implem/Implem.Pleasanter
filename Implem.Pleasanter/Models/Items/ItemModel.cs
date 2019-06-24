@@ -1287,7 +1287,7 @@ namespace Implem.Pleasanter.Models
                             ss: Site.IssuesSiteSettings(
                                 context: context,
                                 referenceId: ReferenceId),
-                            internalRequest);
+                            internalRequest: internalRequest);
                     }
                     else
                     {
@@ -1297,7 +1297,7 @@ namespace Implem.Pleasanter.Models
                                 context: context,
                                 referenceId: ReferenceId),
                             issueId: ReferenceId,
-                            internalRequest);
+                            internalRequest: internalRequest);
                     }
                 case "Results":
                     if (SiteId == ReferenceId)
@@ -1307,7 +1307,7 @@ namespace Implem.Pleasanter.Models
                             ss: Site.ResultsSiteSettings(
                                 context: context,
                                 referenceId: ReferenceId),
-                            internalRequest);
+                            internalRequest: internalRequest);
                     }
                     else
                     {
@@ -1317,7 +1317,7 @@ namespace Implem.Pleasanter.Models
                                 context: context,
                                 referenceId: ReferenceId),
                             resultId: ReferenceId,
-                            internalRequest);
+                            internalRequest: internalRequest);
                     }
                 default:
                     return ApiResults.Get(ApiResponses.BadRequest(context: context));
