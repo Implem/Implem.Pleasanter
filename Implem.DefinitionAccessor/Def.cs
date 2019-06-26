@@ -799,6 +799,8 @@ namespace Implem.DefinitionAccessor
                     case "HtmlGrid": Code.HtmlGrid = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.HtmlGrid, definitionRow, CodeXls); break;
                     case "HtmlGrid_ModelHash": Code.HtmlGrid_ModelHash = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.HtmlGrid_ModelHash, definitionRow, CodeXls); break;
                     case "HtmlGrid_Td": Code.HtmlGrid_Td = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.HtmlGrid_Td, definitionRow, CodeXls); break;
+                    case "HtmlGrid_Td_Only": Code.HtmlGrid_Td_Only = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.HtmlGrid_Td_Only, definitionRow, CodeXls); break;
+                    case "HtmlGrid_Td_Or_Editor": Code.HtmlGrid_Td_Or_Editor = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.HtmlGrid_Td_Or_Editor, definitionRow, CodeXls); break;
                     case "HtmlGrid_Td_IdSuffix": Code.HtmlGrid_Td_IdSuffix = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.HtmlGrid_Td_IdSuffix, definitionRow, CodeXls); break;
                     case "HtmlGrid_Td_IdSuffixNull": Code.HtmlGrid_Td_IdSuffixNull = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.HtmlGrid_Td_IdSuffixNull, definitionRow, CodeXls); break;
                     case "HtmlGrid_SiteSettings": Code.HtmlGrid_SiteSettings = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.HtmlGrid_SiteSettings, definitionRow, CodeXls); break;
@@ -7530,6 +7532,8 @@ namespace Implem.DefinitionAccessor
         public string HtmlGrid;
         public string HtmlGrid_ModelHash;
         public string HtmlGrid_Td;
+        public string HtmlGrid_Td_Only;
+        public string HtmlGrid_Td_Or_Editor;
         public string HtmlGrid_Td_IdSuffix;
         public string HtmlGrid_Td_IdSuffixNull;
         public string HtmlGrid_SiteSettings;
@@ -8138,6 +8142,8 @@ namespace Implem.DefinitionAccessor
         public CodeDefinition HtmlGrid = new CodeDefinition();
         public CodeDefinition HtmlGrid_ModelHash = new CodeDefinition();
         public CodeDefinition HtmlGrid_Td = new CodeDefinition();
+        public CodeDefinition HtmlGrid_Td_Only = new CodeDefinition();
+        public CodeDefinition HtmlGrid_Td_Or_Editor = new CodeDefinition();
         public CodeDefinition HtmlGrid_Td_IdSuffix = new CodeDefinition();
         public CodeDefinition HtmlGrid_Td_IdSuffixNull = new CodeDefinition();
         public CodeDefinition HtmlGrid_SiteSettings = new CodeDefinition();
