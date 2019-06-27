@@ -48,6 +48,10 @@ $p.syncSend = function ($control, formId) {
 
 $p.send = function ($control, formId, async) {
     if ($p.outsideDialog($control)) return false;
+    if ($control.hasClass('no-send')) return false;
+    if ($control.hasClass('send-once')) {
+        $control.addClass('no-send');
+    }
     $form = formId !== undefined
         ? $('#' + formId)
         : $control.closest('form');
