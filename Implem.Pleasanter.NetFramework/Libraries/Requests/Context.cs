@@ -1,4 +1,6 @@
 ﻿using Implem.DefinitionAccessor;
+using Implem.Factory;
+using Implem.IRds;
 using Implem.Libraries.Classes;
 using Implem.Libraries.DataSources.SqlServer;
 using Implem.Libraries.Utilities;
@@ -529,6 +531,16 @@ namespace Implem.Pleasanter.NetFramework.Libraries.Requests
             }
             var n = address.IndexOf(":");
             return (n > 0) ? address.Substring(0, n) : address;
+        }
+
+        private static readonly Lazy<ISqlObjectFactory> _sqlObjectFactory = new Lazy<ISqlObjectFactory>(() =>
+        {
+            return RdsFactory.Create(Parameters.Rds.Dbms);
+        });
+
+        protected override ISqlObjectFactory GetSqlObjectFactory()
+        {
+            return _sqlObjectFactory.Value;
         }
     }
 }

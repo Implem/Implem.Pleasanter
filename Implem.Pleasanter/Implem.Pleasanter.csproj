@@ -73,7 +73,6 @@
   <ItemGroup>
     <ProjectReference Include="..\Implem.DefinitionAccessor\Implem.DefinitionAccessor.csproj" />
     <ProjectReference Include="..\Implem.DisplayAccessor\Implem.DisplayAccessor.csproj" />
-    <ProjectReference Include="..\Implem.Factory\Implem.Factory.csproj" />
     <ProjectReference Include="..\Implem.Libraries\Implem.Libraries.csproj" />
     <ProjectReference Include="..\Implem.ParameterAccessor\Implem.ParameterAccessor.csproj" />
     <ProjectReference Include="..\Rds\Implem.IRds\Implem.IRds.csproj" />

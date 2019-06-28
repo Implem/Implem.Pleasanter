@@ -1,23 +1,13 @@
-﻿using Implem.DefinitionAccessor;
-using Implem.IRds;
-using Implem.Factory;
+﻿using Implem.IRds;
 using Implem.Libraries.Classes;
-using Implem.Libraries.DataSources.SqlServer;
-using Implem.Libraries.Utilities;
-using Implem.Pleasanter.Libraries.DataSources;
 using Implem.Pleasanter.Libraries.DataTypes;
 using Implem.Pleasanter.Libraries.Responses;
 using Implem.Pleasanter.Libraries.Security;
-using Implem.Pleasanter.Libraries.Server;
 using Implem.Pleasanter.Libraries.Settings;
 using Implem.Pleasanter.Models;
 using System;
 using System.Collections.Generic;
-using System.Data;
 using System.Globalization;
-using System.Linq;
-using System.Web;
-using System.Web.Mvc;
 namespace Implem.Pleasanter.Libraries.Requests
 {
     public abstract class Context : ISqlObjectFactory
@@ -133,15 +123,7 @@ namespace Implem.Pleasanter.Libraries.Requests
                 : Forms.Data(name);
         }
 
-        private static Lazy<ISqlObjectFactory> _sqlObjectFactory = new Lazy<ISqlObjectFactory>(() =>
-        {
-            return RdsFactory.Create(Parameters.Rds.Dbms);
-        });
-
-        private ISqlObjectFactory GetSqlObjectFactory()
-        {
-            return _sqlObjectFactory.Value;
-        }
+        protected abstract ISqlObjectFactory GetSqlObjectFactory();
 
         public ISqlCommand CreateSqlCommand()
         {
