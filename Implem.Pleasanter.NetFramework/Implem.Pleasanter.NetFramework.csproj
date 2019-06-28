@@ -465,6 +465,10 @@
       <Project>{68a8c5c4-db19-4edd-b1c2-7722e19e5d7a}</Project>
       <Name>Implem.DisplayAccessor</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Implem.Factory\Implem.Factory.csproj">
+      <Project>{34f5c4bd-1ce6-40c1-bd84-3ba965615453}</Project>
+      <Name>Implem.Factory</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Implem.Libraries\Implem.Libraries.csproj">
       <Project>{cbe3ee93-92e6-4347-842f-de597048da29}</Project>
       <Name>Implem.Libraries</Name>
@@ -476,6 +480,10 @@
     <ProjectReference Include="..\Implem.Pleasanter\Implem.Pleasanter.csproj">
       <Project>{87025b44-c7c0-402d-bcb4-5797bda54dde}</Project>
       <Name>Implem.Pleasanter</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Rds\Implem.IRds\Implem.IRds.csproj">
+      <Project>{c2ac0af2-9cb2-4341-87ae-4dcee66d06eb}</Project>
+      <Name>Implem.IRds</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

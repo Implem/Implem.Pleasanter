@@ -1,5 +1,7 @@
 ﻿using AspNetCoreCurrentRequestContext;
 using Implem.DefinitionAccessor;
+using Implem.Factory;
+using Implem.IRds;
 using Implem.Libraries.Classes;
 using Implem.Libraries.DataSources.SqlServer;
 using Implem.Libraries.Utilities;
@@ -23,9 +25,7 @@ using System.Globalization;
 using System.Linq;
 using System.Security.Claims;
 using System.Text;
-using System.Threading.Tasks;
 using System.Web;
-
 namespace Implem.Pleasanter.NetCore.Libraries.Requests
 {
     public class ContextImplement : Context
@@ -666,6 +666,16 @@ namespace Implem.Pleasanter.NetCore.Libraries.Requests
         private string GetUserHostAddress(ConnectionInfo request)
         {
             return request?.RemoteIpAddress?.ToString();
+        }
+
+        private static readonly Lazy<ISqlObjectFactory> _sqlObjectFactory = new Lazy<ISqlObjectFactory>(() =>
+        {
+            return RdsFactory.Create(Parameters.Rds.Dbms);
+        });
+
+        protected override ISqlObjectFactory GetSqlObjectFactory()
+        {
+            return _sqlObjectFactory.Value;
         }
     }
 }
