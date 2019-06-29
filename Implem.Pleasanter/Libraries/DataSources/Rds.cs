@@ -9403,56 +9403,92 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     return TenantsAggregations(
                         aggregations: ss.Aggregations,
                         tableType: tableType,
-                        join: join,
-                        where: where);
+                        where: TenantsWhere()
+                            .TenantId_In(sub: SelectTenants(
+                                tableType: tableType,
+                                column: TenantsColumn().TenantId(),
+                                join: join,
+                                where: where)));
                 case "Depts":
                     return DeptsAggregations(
                         aggregations: ss.Aggregations,
                         tableType: tableType,
-                        join: join,
-                        where: where);
+                        where: DeptsWhere()
+                            .DeptId_In(sub: SelectDepts(
+                                tableType: tableType,
+                                column: DeptsColumn().DeptId(),
+                                join: join,
+                                where: where)));
                 case "Groups":
                     return GroupsAggregations(
                         aggregations: ss.Aggregations,
                         tableType: tableType,
-                        join: join,
-                        where: where);
+                        where: GroupsWhere()
+                            .GroupId_In(sub: SelectGroups(
+                                tableType: tableType,
+                                column: GroupsColumn().GroupId(),
+                                join: join,
+                                where: where)));
                 case "Registrations":
                     return RegistrationsAggregations(
                         aggregations: ss.Aggregations,
                         tableType: tableType,
-                        join: join,
-                        where: where);
+                        where: RegistrationsWhere()
+                            .RegistrationId_In(sub: SelectRegistrations(
+                                tableType: tableType,
+                                column: RegistrationsColumn().RegistrationId(),
+                                join: join,
+                                where: where)));
                 case "Users":
                     return UsersAggregations(
                         aggregations: ss.Aggregations,
                         tableType: tableType,
-                        join: join,
-                        where: where);
+                        where: UsersWhere()
+                            .UserId_In(sub: SelectUsers(
+                                tableType: tableType,
+                                column: UsersColumn().UserId(),
+                                join: join,
+                                where: where)));
                 case "Sites":
                     return SitesAggregations(
                         aggregations: ss.Aggregations,
                         tableType: tableType,
-                        join: join,
-                        where: where);
+                        where: SitesWhere()
+                            .SiteId_In(sub: SelectSites(
+                                tableType: tableType,
+                                column: SitesColumn().SiteId(),
+                                join: join,
+                                where: where)));
                 case "Issues":
                     return IssuesAggregations(
                         aggregations: ss.Aggregations,
                         tableType: tableType,
-                        join: join,
-                        where: where);
+                        where: IssuesWhere()
+                            .IssueId_In(sub: SelectIssues(
+                                tableType: tableType,
+                                column: IssuesColumn().IssueId(),
+                                join: join,
+                                where: where)));
                 case "Results":
                     return ResultsAggregations(
                         aggregations: ss.Aggregations,
                         tableType: tableType,
-                        join: join,
-                        where: where);
+                        where: ResultsWhere()
+                            .ResultId_In(sub: SelectResults(
+                                tableType: tableType,
+                                column: ResultsColumn().ResultId(),
+                                join: join,
+                                where: where)));
                 case "Wikis":
                     return WikisAggregations(
                         aggregations: ss.Aggregations,
                         tableType: tableType,
-                        join: join,
-                        where: where);
+                        where: WikisWhere()
+                            .WikiId_In(sub: SelectWikis(
+                                tableType: tableType,
+                                column: WikisColumn().WikiId(),
+                                join: join,
+                                where: where)));
                 default:
                     return null;
             }
@@ -9461,7 +9497,6 @@ namespace Implem.Pleasanter.Libraries.DataSources
         public static IEnumerable<SqlStatement> TenantsAggregations(
             IEnumerable<Aggregation> aggregations,
             Sqls.TableTypes tableType,
-            SqlJoinCollection join,
             SqlWhereCollection where)
         {
             var statementCollection = new List<SqlStatement>()
@@ -9470,7 +9505,6 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     dataTableName: "Count",
                     tableType: tableType,
                     column: TenantsColumn().TenantsCount(),
-                    join: join,
                     where: where)
             };
             if (tableType != Sqls.TableTypes.Normal)
@@ -9521,7 +9555,6 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     var statement = SelectTenants(
                         dataTableName: "Aggregation" + data.Index,
                         column: column,
-                        join: join,
                         where: where,
                         groupBy: groupBy);
                     statementCollection.Add(statement);
@@ -9532,7 +9565,6 @@ namespace Implem.Pleasanter.Libraries.DataSources
         public static IEnumerable<SqlStatement> DemosAggregations(
             IEnumerable<Aggregation> aggregations,
             Sqls.TableTypes tableType,
-            SqlJoinCollection join,
             SqlWhereCollection where)
         {
             var statementCollection = new List<SqlStatement>()
@@ -9541,7 +9573,6 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     dataTableName: "Count",
                     tableType: tableType,
                     column: DemosColumn().DemosCount(),
-                    join: join,
                     where: where)
             };
             if (tableType != Sqls.TableTypes.Normal)
@@ -9592,7 +9623,6 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     var statement = SelectDemos(
                         dataTableName: "Aggregation" + data.Index,
                         column: column,
-                        join: join,
                         where: where,
                         groupBy: groupBy);
                     statementCollection.Add(statement);
@@ -9603,7 +9633,6 @@ namespace Implem.Pleasanter.Libraries.DataSources
         public static IEnumerable<SqlStatement> SessionsAggregations(
             IEnumerable<Aggregation> aggregations,
             Sqls.TableTypes tableType,
-            SqlJoinCollection join,
             SqlWhereCollection where)
         {
             var statementCollection = new List<SqlStatement>()
@@ -9612,7 +9641,6 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     dataTableName: "Count",
                     tableType: tableType,
                     column: SessionsColumn().SessionsCount(),
-                    join: join,
                     where: where)
             };
             if (tableType != Sqls.TableTypes.Normal)
@@ -9663,7 +9691,6 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     var statement = SelectSessions(
                         dataTableName: "Aggregation" + data.Index,
                         column: column,
-                        join: join,
                         where: where,
                         groupBy: groupBy);
                     statementCollection.Add(statement);
@@ -9674,7 +9701,6 @@ namespace Implem.Pleasanter.Libraries.DataSources
         public static IEnumerable<SqlStatement> SysLogsAggregations(
             IEnumerable<Aggregation> aggregations,
             Sqls.TableTypes tableType,
-            SqlJoinCollection join,
             SqlWhereCollection where)
         {
             var statementCollection = new List<SqlStatement>()
@@ -9683,7 +9709,6 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     dataTableName: "Count",
                     tableType: tableType,
                     column: SysLogsColumn().SysLogsCount(),
-                    join: join,
                     where: where)
             };
             if (tableType != Sqls.TableTypes.Normal)
@@ -9734,7 +9759,6 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     var statement = SelectSysLogs(
                         dataTableName: "Aggregation" + data.Index,
                         column: column,
-                        join: join,
                         where: where,
                         groupBy: groupBy);
                     statementCollection.Add(statement);
@@ -9745,7 +9769,6 @@ namespace Implem.Pleasanter.Libraries.DataSources
         public static IEnumerable<SqlStatement> StatusesAggregations(
             IEnumerable<Aggregation> aggregations,
             Sqls.TableTypes tableType,
-            SqlJoinCollection join,
             SqlWhereCollection where)
         {
             var statementCollection = new List<SqlStatement>()
@@ -9754,7 +9777,6 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     dataTableName: "Count",
                     tableType: tableType,
                     column: StatusesColumn().StatusesCount(),
-                    join: join,
                     where: where)
             };
             if (tableType != Sqls.TableTypes.Normal)
@@ -9805,7 +9827,6 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     var statement = SelectStatuses(
                         dataTableName: "Aggregation" + data.Index,
                         column: column,
-                        join: join,
                         where: where,
                         groupBy: groupBy);
                     statementCollection.Add(statement);
@@ -9816,7 +9837,6 @@ namespace Implem.Pleasanter.Libraries.DataSources
         public static IEnumerable<SqlStatement> ReminderSchedulesAggregations(
             IEnumerable<Aggregation> aggregations,
             Sqls.TableTypes tableType,
-            SqlJoinCollection join,
             SqlWhereCollection where)
         {
             var statementCollection = new List<SqlStatement>()
@@ -9825,7 +9845,6 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     dataTableName: "Count",
                     tableType: tableType,
                     column: ReminderSchedulesColumn().ReminderSchedulesCount(),
-                    join: join,
                     where: where)
             };
             if (tableType != Sqls.TableTypes.Normal)
@@ -9876,7 +9895,6 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     var statement = SelectReminderSchedules(
                         dataTableName: "Aggregation" + data.Index,
                         column: column,
-                        join: join,
                         where: where,
                         groupBy: groupBy);
                     statementCollection.Add(statement);
@@ -9887,7 +9905,6 @@ namespace Implem.Pleasanter.Libraries.DataSources
         public static IEnumerable<SqlStatement> DeptsAggregations(
             IEnumerable<Aggregation> aggregations,
             Sqls.TableTypes tableType,
-            SqlJoinCollection join,
             SqlWhereCollection where)
         {
             var statementCollection = new List<SqlStatement>()
@@ -9896,7 +9913,6 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     dataTableName: "Count",
                     tableType: tableType,
                     column: DeptsColumn().DeptsCount(),
-                    join: join,
                     where: where)
             };
             if (tableType != Sqls.TableTypes.Normal)
@@ -9947,7 +9963,6 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     var statement = SelectDepts(
                         dataTableName: "Aggregation" + data.Index,
                         column: column,
-                        join: join,
                         where: where,
                         groupBy: groupBy);
                     statementCollection.Add(statement);
@@ -9958,7 +9973,6 @@ namespace Implem.Pleasanter.Libraries.DataSources
         public static IEnumerable<SqlStatement> GroupsAggregations(
             IEnumerable<Aggregation> aggregations,
             Sqls.TableTypes tableType,
-            SqlJoinCollection join,
             SqlWhereCollection where)
         {
             var statementCollection = new List<SqlStatement>()
@@ -9967,7 +9981,6 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     dataTableName: "Count",
                     tableType: tableType,
                     column: GroupsColumn().GroupsCount(),
-                    join: join,
                     where: where)
             };
             if (tableType != Sqls.TableTypes.Normal)
@@ -10018,7 +10031,6 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     var statement = SelectGroups(
                         dataTableName: "Aggregation" + data.Index,
                         column: column,
-                        join: join,
                         where: where,
                         groupBy: groupBy);
                     statementCollection.Add(statement);
@@ -10029,7 +10041,6 @@ namespace Implem.Pleasanter.Libraries.DataSources
         public static IEnumerable<SqlStatement> GroupMembersAggregations(
             IEnumerable<Aggregation> aggregations,
             Sqls.TableTypes tableType,
-            SqlJoinCollection join,
             SqlWhereCollection where)
         {
             var statementCollection = new List<SqlStatement>()
@@ -10038,7 +10049,6 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     dataTableName: "Count",
                     tableType: tableType,
                     column: GroupMembersColumn().GroupMembersCount(),
-                    join: join,
                     where: where)
             };
             if (tableType != Sqls.TableTypes.Normal)
@@ -10089,7 +10099,6 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     var statement = SelectGroupMembers(
                         dataTableName: "Aggregation" + data.Index,
                         column: column,
-                        join: join,
                         where: where,
                         groupBy: groupBy);
                     statementCollection.Add(statement);
@@ -10100,7 +10109,6 @@ namespace Implem.Pleasanter.Libraries.DataSources
         public static IEnumerable<SqlStatement> RegistrationsAggregations(
             IEnumerable<Aggregation> aggregations,
             Sqls.TableTypes tableType,
-            SqlJoinCollection join,
             SqlWhereCollection where)
         {
             var statementCollection = new List<SqlStatement>()
@@ -10109,7 +10117,6 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     dataTableName: "Count",
                     tableType: tableType,
                     column: RegistrationsColumn().RegistrationsCount(),
-                    join: join,
                     where: where)
             };
             if (tableType != Sqls.TableTypes.Normal)
@@ -10160,7 +10167,6 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     var statement = SelectRegistrations(
                         dataTableName: "Aggregation" + data.Index,
                         column: column,
-                        join: join,
                         where: where,
                         groupBy: groupBy);
                     statementCollection.Add(statement);
@@ -10171,7 +10177,6 @@ namespace Implem.Pleasanter.Libraries.DataSources
         public static IEnumerable<SqlStatement> UsersAggregations(
             IEnumerable<Aggregation> aggregations,
             Sqls.TableTypes tableType,
-            SqlJoinCollection join,
             SqlWhereCollection where)
         {
             var statementCollection = new List<SqlStatement>()
@@ -10180,7 +10185,6 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     dataTableName: "Count",
                     tableType: tableType,
                     column: UsersColumn().UsersCount(),
-                    join: join,
                     where: where)
             };
             if (tableType != Sqls.TableTypes.Normal)
@@ -10231,7 +10235,6 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     var statement = SelectUsers(
                         dataTableName: "Aggregation" + data.Index,
                         column: column,
-                        join: join,
                         where: where,
                         groupBy: groupBy);
                     statementCollection.Add(statement);
@@ -10242,7 +10245,6 @@ namespace Implem.Pleasanter.Libraries.DataSources
         public static IEnumerable<SqlStatement> LoginKeysAggregations(
             IEnumerable<Aggregation> aggregations,
             Sqls.TableTypes tableType,
-            SqlJoinCollection join,
             SqlWhereCollection where)
         {
             var statementCollection = new List<SqlStatement>()
@@ -10251,7 +10253,6 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     dataTableName: "Count",
                     tableType: tableType,
                     column: LoginKeysColumn().LoginKeysCount(),
-                    join: join,
                     where: where)
             };
             if (tableType != Sqls.TableTypes.Normal)
@@ -10302,7 +10303,6 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     var statement = SelectLoginKeys(
                         dataTableName: "Aggregation" + data.Index,
                         column: column,
-                        join: join,
                         where: where,
                         groupBy: groupBy);
                     statementCollection.Add(statement);
@@ -10313,7 +10313,6 @@ namespace Implem.Pleasanter.Libraries.DataSources
         public static IEnumerable<SqlStatement> MailAddressesAggregations(
             IEnumerable<Aggregation> aggregations,
             Sqls.TableTypes tableType,
-            SqlJoinCollection join,
             SqlWhereCollection where)
         {
             var statementCollection = new List<SqlStatement>()
@@ -10322,7 +10321,6 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     dataTableName: "Count",
                     tableType: tableType,
                     column: MailAddressesColumn().MailAddressesCount(),
-                    join: join,
                     where: where)
             };
             if (tableType != Sqls.TableTypes.Normal)
@@ -10373,7 +10371,6 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     var statement = SelectMailAddresses(
                         dataTableName: "Aggregation" + data.Index,
                         column: column,
-                        join: join,
                         where: where,
                         groupBy: groupBy);
                     statementCollection.Add(statement);
@@ -10384,7 +10381,6 @@ namespace Implem.Pleasanter.Libraries.DataSources
         public static IEnumerable<SqlStatement> OutgoingMailsAggregations(
             IEnumerable<Aggregation> aggregations,
             Sqls.TableTypes tableType,
-            SqlJoinCollection join,
             SqlWhereCollection where)
         {
             var statementCollection = new List<SqlStatement>()
@@ -10393,7 +10389,6 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     dataTableName: "Count",
                     tableType: tableType,
                     column: OutgoingMailsColumn().OutgoingMailsCount(),
-                    join: join,
                     where: where)
             };
             if (tableType != Sqls.TableTypes.Normal)
@@ -10444,7 +10439,6 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     var statement = SelectOutgoingMails(
                         dataTableName: "Aggregation" + data.Index,
                         column: column,
-                        join: join,
                         where: where,
                         groupBy: groupBy);
                     statementCollection.Add(statement);
@@ -10455,7 +10449,6 @@ namespace Implem.Pleasanter.Libraries.DataSources
         public static IEnumerable<SqlStatement> SearchIndexesAggregations(
             IEnumerable<Aggregation> aggregations,
             Sqls.TableTypes tableType,
-            SqlJoinCollection join,
             SqlWhereCollection where)
         {
             var statementCollection = new List<SqlStatement>()
@@ -10464,7 +10457,6 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     dataTableName: "Count",
                     tableType: tableType,
                     column: SearchIndexesColumn().SearchIndexesCount(),
-                    join: join,
                     where: where)
             };
             if (tableType != Sqls.TableTypes.Normal)
@@ -10521,7 +10513,6 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     var statement = SelectSearchIndexes(
                         dataTableName: "Aggregation" + data.Index,
                         column: column,
-                        join: join,
                         where: where,
                         groupBy: groupBy);
                     statementCollection.Add(statement);
@@ -10532,7 +10523,6 @@ namespace Implem.Pleasanter.Libraries.DataSources
         public static IEnumerable<SqlStatement> ItemsAggregations(
             IEnumerable<Aggregation> aggregations,
             Sqls.TableTypes tableType,
-            SqlJoinCollection join,
             SqlWhereCollection where)
         {
             var statementCollection = new List<SqlStatement>()
@@ -10541,7 +10531,6 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     dataTableName: "Count",
                     tableType: tableType,
                     column: ItemsColumn().ItemsCount(),
-                    join: join,
                     where: where)
             };
             if (tableType != Sqls.TableTypes.Normal)
@@ -10592,7 +10581,6 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     var statement = SelectItems(
                         dataTableName: "Aggregation" + data.Index,
                         column: column,
-                        join: join,
                         where: where,
                         groupBy: groupBy);
                     statementCollection.Add(statement);
@@ -10603,7 +10591,6 @@ namespace Implem.Pleasanter.Libraries.DataSources
         public static IEnumerable<SqlStatement> SitesAggregations(
             IEnumerable<Aggregation> aggregations,
             Sqls.TableTypes tableType,
-            SqlJoinCollection join,
             SqlWhereCollection where)
         {
             var statementCollection = new List<SqlStatement>()
@@ -10612,7 +10599,6 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     dataTableName: "Count",
                     tableType: tableType,
                     column: SitesColumn().SitesCount(),
-                    join: join,
                     where: where)
             };
             if (tableType != Sqls.TableTypes.Normal)
@@ -10663,7 +10649,6 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     var statement = SelectSites(
                         dataTableName: "Aggregation" + data.Index,
                         column: column,
-                        join: join,
                         where: where,
                         groupBy: groupBy);
                     statementCollection.Add(statement);
@@ -10674,7 +10659,6 @@ namespace Implem.Pleasanter.Libraries.DataSources
         public static IEnumerable<SqlStatement> OrdersAggregations(
             IEnumerable<Aggregation> aggregations,
             Sqls.TableTypes tableType,
-            SqlJoinCollection join,
             SqlWhereCollection where)
         {
             var statementCollection = new List<SqlStatement>()
@@ -10683,7 +10667,6 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     dataTableName: "Count",
                     tableType: tableType,
                     column: OrdersColumn().OrdersCount(),
-                    join: join,
                     where: where)
             };
             if (tableType != Sqls.TableTypes.Normal)
@@ -10734,7 +10717,6 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     var statement = SelectOrders(
                         dataTableName: "Aggregation" + data.Index,
                         column: column,
-                        join: join,
                         where: where,
                         groupBy: groupBy);
                     statementCollection.Add(statement);
@@ -10745,7 +10727,6 @@ namespace Implem.Pleasanter.Libraries.DataSources
         public static IEnumerable<SqlStatement> ExportSettingsAggregations(
             IEnumerable<Aggregation> aggregations,
             Sqls.TableTypes tableType,
-            SqlJoinCollection join,
             SqlWhereCollection where)
         {
             var statementCollection = new List<SqlStatement>()
@@ -10754,7 +10735,6 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     dataTableName: "Count",
                     tableType: tableType,
                     column: ExportSettingsColumn().ExportSettingsCount(),
-                    join: join,
                     where: where)
             };
             if (tableType != Sqls.TableTypes.Normal)
@@ -10805,7 +10785,6 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     var statement = SelectExportSettings(
                         dataTableName: "Aggregation" + data.Index,
                         column: column,
-                        join: join,
                         where: where,
                         groupBy: groupBy);
                     statementCollection.Add(statement);
@@ -10816,7 +10795,6 @@ namespace Implem.Pleasanter.Libraries.DataSources
         public static IEnumerable<SqlStatement> LinksAggregations(
             IEnumerable<Aggregation> aggregations,
             Sqls.TableTypes tableType,
-            SqlJoinCollection join,
             SqlWhereCollection where)
         {
             var statementCollection = new List<SqlStatement>()
@@ -10825,7 +10803,6 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     dataTableName: "Count",
                     tableType: tableType,
                     column: LinksColumn().LinksCount(),
-                    join: join,
                     where: where)
             };
             if (tableType != Sqls.TableTypes.Normal)
@@ -10876,7 +10853,6 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     var statement = SelectLinks(
                         dataTableName: "Aggregation" + data.Index,
                         column: column,
-                        join: join,
                         where: where,
                         groupBy: groupBy);
                     statementCollection.Add(statement);
@@ -10887,7 +10863,6 @@ namespace Implem.Pleasanter.Libraries.DataSources
         public static IEnumerable<SqlStatement> BinariesAggregations(
             IEnumerable<Aggregation> aggregations,
             Sqls.TableTypes tableType,
-            SqlJoinCollection join,
             SqlWhereCollection where)
         {
             var statementCollection = new List<SqlStatement>()
@@ -10896,7 +10871,6 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     dataTableName: "Count",
                     tableType: tableType,
                     column: BinariesColumn().BinariesCount(),
-                    join: join,
                     where: where)
             };
             if (tableType != Sqls.TableTypes.Normal)
@@ -10947,7 +10921,6 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     var statement = SelectBinaries(
                         dataTableName: "Aggregation" + data.Index,
                         column: column,
-                        join: join,
                         where: where,
                         groupBy: groupBy);
                     statementCollection.Add(statement);
@@ -10958,7 +10931,6 @@ namespace Implem.Pleasanter.Libraries.DataSources
         public static IEnumerable<SqlStatement> PermissionsAggregations(
             IEnumerable<Aggregation> aggregations,
             Sqls.TableTypes tableType,
-            SqlJoinCollection join,
             SqlWhereCollection where)
         {
             var statementCollection = new List<SqlStatement>()
@@ -10967,7 +10939,6 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     dataTableName: "Count",
                     tableType: tableType,
                     column: PermissionsColumn().PermissionsCount(),
-                    join: join,
                     where: where)
             };
             if (tableType != Sqls.TableTypes.Normal)
@@ -11024,7 +10995,6 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     var statement = SelectPermissions(
                         dataTableName: "Aggregation" + data.Index,
                         column: column,
-                        join: join,
                         where: where,
                         groupBy: groupBy);
                     statementCollection.Add(statement);
@@ -11035,7 +11005,6 @@ namespace Implem.Pleasanter.Libraries.DataSources
         public static IEnumerable<SqlStatement> IssuesAggregations(
             IEnumerable<Aggregation> aggregations,
             Sqls.TableTypes tableType,
-            SqlJoinCollection join,
             SqlWhereCollection where)
         {
             var statementCollection = new List<SqlStatement>()
@@ -11044,7 +11013,6 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     dataTableName: "Count",
                     tableType: tableType,
                     column: IssuesColumn().IssuesCount(),
-                    join: join,
                     where: where)
             };
             if (tableType != Sqls.TableTypes.Normal)
@@ -11119,7 +11087,6 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     var statement = SelectIssues(
                         dataTableName: "Aggregation" + data.Index,
                         column: column,
-                        join: join,
                         where: where,
                         groupBy: groupBy);
                     statementCollection.Add(statement);
@@ -11127,7 +11094,6 @@ namespace Implem.Pleasanter.Libraries.DataSources
             statementCollection.Add(SelectIssues(
                 dataTableName: "OverdueCount",
                 column: IssuesColumn().IssuesCount(_as: "OverdueCount"),
-                join: join,
                 where: new SqlWhereCollection(where.ToArray())
                     .Add(
                         tableName: "Issues",
@@ -11144,7 +11110,6 @@ namespace Implem.Pleasanter.Libraries.DataSources
         public static IEnumerable<SqlStatement> ResultsAggregations(
             IEnumerable<Aggregation> aggregations,
             Sqls.TableTypes tableType,
-            SqlJoinCollection join,
             SqlWhereCollection where)
         {
             var statementCollection = new List<SqlStatement>()
@@ -11153,7 +11118,6 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     dataTableName: "Count",
                     tableType: tableType,
                     column: ResultsColumn().ResultsCount(),
-                    join: join,
                     where: where)
             };
             if (tableType != Sqls.TableTypes.Normal)
@@ -11216,7 +11180,6 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     var statement = SelectResults(
                         dataTableName: "Aggregation" + data.Index,
                         column: column,
-                        join: join,
                         where: where,
                         groupBy: groupBy);
                     statementCollection.Add(statement);
@@ -11227,7 +11190,6 @@ namespace Implem.Pleasanter.Libraries.DataSources
         public static IEnumerable<SqlStatement> WikisAggregations(
             IEnumerable<Aggregation> aggregations,
             Sqls.TableTypes tableType,
-            SqlJoinCollection join,
             SqlWhereCollection where)
         {
             var statementCollection = new List<SqlStatement>()
@@ -11236,7 +11198,6 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     dataTableName: "Count",
                     tableType: tableType,
                     column: WikisColumn().WikisCount(),
-                    join: join,
                     where: where)
             };
             if (tableType != Sqls.TableTypes.Normal)
@@ -11287,7 +11248,6 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     var statement = SelectWikis(
                         dataTableName: "Aggregation" + data.Index,
                         column: column,
-                        join: join,
                         where: where,
                         groupBy: groupBy);
                     statementCollection.Add(statement);
