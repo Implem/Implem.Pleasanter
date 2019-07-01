@@ -34,6 +34,9 @@ $p.setByJsonElement = function (jsonElement, data, $control) {
             $p.setMessage(target, value);
             break;
         case 'Href':
+            if ($control.hasClass('send-once')) {
+                $control.addClass('no-send');
+            }
             location.href = value;
             break;
         case 'PushState':
