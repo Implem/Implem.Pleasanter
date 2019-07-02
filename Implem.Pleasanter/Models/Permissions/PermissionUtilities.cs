@@ -380,6 +380,7 @@ namespace Implem.Pleasanter.Models
                             .TenantId(context.TenantId)
                             .DeptId(_operator: ">0")
                             .SqlWhereLike(
+                                tableName: "Depts",
                                 name: "SearchText",
                                 searchText: searchText,
                                 clauseCollection: new List<string>()
@@ -396,6 +397,7 @@ namespace Implem.Pleasanter.Models
                             .TenantId(context.TenantId)
                             .GroupId(_operator: ">0")
                             .SqlWhereLike(
+                                tableName: "Groups",
                                 name: "SearchText",
                                 searchText: searchText,
                                 clauseCollection: new List<string>()
@@ -418,6 +420,7 @@ namespace Implem.Pleasanter.Models
                             .TenantId(context.TenantId)
                             .UserId(_operator: ">0")
                             .SqlWhereLike(
+                                tableName: "Users",
                                 name: "SearchText",
                                 searchText: searchText,
                                 clauseCollection: new List<string>()

@@ -1646,6 +1646,7 @@ namespace Implem.Pleasanter.Models
                 where: view.Where(context: context, ss: ss)
                 .Depts_TenantId(context.TenantId)
                 .SqlWhereLike(
+                    tableName: "Depts",
                     name: "SearchText",
                     searchText: view.ColumnFilterHash
                         ?.Where(f => f.Key == "SearchText")
