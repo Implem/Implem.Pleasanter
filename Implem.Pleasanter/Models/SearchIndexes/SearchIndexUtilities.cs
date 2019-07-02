@@ -375,6 +375,7 @@ namespace Implem.Pleasanter.Models
                 where: Rds.ItemsWhere()
                     .SiteId_In(siteIdList)
                     .SqlWhereLike(
+                        tableName: "Items",
                         name: "SearchText",
                         searchText: searchText,
                         clauseCollection: like.ToSingleList()));
@@ -448,6 +449,7 @@ namespace Implem.Pleasanter.Models
                             return where;
                         default:
                             return where.Add(Rds.ItemsWhere().SqlWhereLike(
+                                tableName: "Items",
                                 name: name,
                                 searchText: searchText,
                                 clauseCollection: Rds.Items_FullText_WhereLike(
@@ -475,6 +477,7 @@ namespace Implem.Pleasanter.Models
                 ss: ss,
                 itemJoin: itemJoin);
             return where.Add(Rds.ItemsWhere().SqlWhereLike(
+                tableName: "Items",
                 name: name,
                 searchText: searchText,
                 clauseCollection: itemJoin

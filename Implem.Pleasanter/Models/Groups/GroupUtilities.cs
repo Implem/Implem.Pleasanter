@@ -1755,6 +1755,7 @@ namespace Implem.Pleasanter.Models
                                         .Select(o => o.Split_2nd().ToInt()),
                                     negative: true)
                                 .SqlWhereLike(
+                                    tableName: "Depts",
                                     name: "SearchText",
                                     searchText: searchText,
                                     clauseCollection: new List<string>()
@@ -1783,6 +1784,7 @@ namespace Implem.Pleasanter.Models
                                         .Select(o => o.Split_2nd().ToInt()),
                                     negative: true)
                                 .SqlWhereLike(
+                                    tableName: "Users",
                                     name: "SearchText",
                                     searchText: searchText,
                                     clauseCollection: new List<string>()
@@ -1891,6 +1893,7 @@ namespace Implem.Pleasanter.Models
                 where: view.Where(context: context, ss: ss)
                 .Groups_TenantId(context.TenantId)
                 .SqlWhereLike(
+                    tableName: "Groups",
                     name: "SearchText",
                     searchText: view.ColumnFilterHash
                     ?.Where(f => f.Key == "SearchText")

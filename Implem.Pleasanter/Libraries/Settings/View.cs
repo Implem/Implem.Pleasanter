@@ -1205,12 +1205,14 @@ namespace Implem.Pleasanter.Libraries.Settings
             {
                 if (!value.IsNullOrEmpty())
                 {
+                    var tableName = column.TableName();
                     var name = Strings.NewGuid();
                     where.SqlWhereLike(
+                        tableName: tableName,
                         name: name,
                         searchText: value,
                         clauseCollection: "([{0}].[{1}] like '%' + @{2}#ParamCount#_#CommandCount# + '%')"
-                            .Params(column.TableName(), column.Name, name)
+                            .Params(tableName, column.Name, name)
                             .ToSingleList());
                 }
             }
