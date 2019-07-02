@@ -54,7 +54,7 @@ $p.openEditorColumnDialog = function ($control) {
 
 $p.resetEditorColumn = function ($control) {
     $p.syncSend($control);
-    var data = $p.getData($control);
+    var data = $p.getData($('#EditorColumnForm'));
     $('#EditorColumnForm [class^="control-"]').each(function (index, control) {
         $p.setData($(control), data);
     });
