@@ -1962,7 +1962,7 @@ namespace Implem.Pleasanter.Models
         /// <summary>
         /// Fixed:
         /// </summary>
-        public static string ApprovalReauest(Context context, SiteSettings ss, int registrationId)
+        public static string ApprovalRequest(Context context, SiteSettings ss, int registrationId)
         {
             if (!Parameters.Registration.Enabled)
             {
@@ -2016,10 +2016,10 @@ namespace Implem.Pleasanter.Models
                         where: Rds.TenantsWhere().TenantId(registrationModel.TenantId)));
                     new OutgoingMailModel()
                     {
-                        Title = new Title(Displays.ApprovalReauestMailTitle(
+                        Title = new Title(Displays.ApprovalRequestMailTitle(
                             context: context,
                             data: new string[] { tenantTitle })),
-                        Body = Displays.ApprovalReauestMailBody(
+                        Body = Displays.ApprovalRequestMailBody(
                             context: context,
                             data: new string[]
                             {

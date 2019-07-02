@@ -117,10 +117,10 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                         hb.Button(
                                             controlId: "RegistrationId",
                                             controlCss: "button-icon validate",
-                                            text: Displays.ApprovalReauest(context: context),
+                                            text: Displays.ApprovalRequest(context: context),
                                             onClick: "$p.send($(this));",
                                             icon: "ui-icon-mail-closed",
-                                            action: "ApprovalReauest",
+                                            action: "ApprovalRequest",
                                             method: "post");
                                         break;
                                     case "edit":

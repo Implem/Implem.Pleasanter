@@ -202,11 +202,11 @@ namespace Implem.Pleasanter.Controllers
         /// </summary>
         [AllowAnonymous]
         [HttpPost]
-        public string ApprovalReauest(int id)
+        public string ApprovalRequest(int id)
         {
             var context = new Context();
             var log = new SysLogModel(context: context);
-            var json = RegistrationUtilities.ApprovalReauest(context: context,
+            var json = RegistrationUtilities.ApprovalRequest(context: context,
             ss: SiteSettingsUtilities.RegistrationsSiteSettings(context: context),
             registrationId: id);
             log.Finish(context: context, responseSize: json.Length);

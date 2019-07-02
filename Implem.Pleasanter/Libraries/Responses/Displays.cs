@@ -388,33 +388,33 @@ namespace Implem.Pleasanter.Libraries.Responses
                 data: data);
         }
 
-        public static string ApprovalReauest(
+        public static string ApprovalRequest(
             Context context,
             params string[] data)
         {
             return Get(
                 context: context,
-                id: "ApprovalReauest",
+                id: "ApprovalRequest",
                 data: data);
         }
 
-        public static string ApprovalReauestMailBody(
+        public static string ApprovalRequestMailBody(
             Context context,
             params string[] data)
         {
             return Get(
                 context: context,
-                id: "ApprovalReauestMailBody",
+                id: "ApprovalRequestMailBody",
                 data: data);
         }
 
-        public static string ApprovalReauestMailTitle(
+        public static string ApprovalRequestMailTitle(
             Context context,
             params string[] data)
         {
             return Get(
                 context: context,
-                id: "ApprovalReauestMailTitle",
+                id: "ApprovalRequestMailTitle",
                 data: data);
         }
 
@@ -4668,16 +4668,6 @@ namespace Implem.Pleasanter.Libraries.Responses
                 data: data);
         }
 
-        public static string ReauestingApproval(
-            Context context,
-            params string[] data)
-        {
-            return Get(
-                context: context,
-                id: "ReauestingApproval",
-                data: data);
-        }
-
         public static string RebuildingCompleted(
             Context context,
             params string[] data)
@@ -4775,6 +4765,16 @@ namespace Implem.Pleasanter.Libraries.Responses
             return Get(
                 context: context,
                 id: "Reply",
+                data: data);
+        }
+
+        public static string RequestingApproval(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "RequestingApproval",
                 data: data);
         }
 
