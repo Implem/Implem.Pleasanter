@@ -1,9 +1,9 @@
 ﻿{
-    "Id": "ApprovalReauestMailTitle",
+    "Id": "ApprovalRequestMailTitle",
     "Type": 110,
     "Languages": [
         {
-            "Body": "ApprovalReauest"
+            "Body": "ApprovalRequest"
         },
         {
             "Language": "ja",

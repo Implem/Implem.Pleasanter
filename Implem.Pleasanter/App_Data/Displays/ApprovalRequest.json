@@ -1,13 +1,13 @@
 ﻿{
-    "Id": "ReauestingApproval",
+    "Id": "ApprovalRequest",
     "Type": 110,
     "Languages": [
         {
-            "Body": "ReauestingApproval"
+            "Body": "ApprovalRequest"
         },
         {
             "Language": "ja",
-            "Body": "承認依頼中"
+            "Body": "承認依頼"
         }
     ]
 }

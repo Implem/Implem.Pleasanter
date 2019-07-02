@@ -120,7 +120,6 @@ namespace Implem.Pleasanter.Models
                 return HtmlTemplates.Error(
                     context: context,
                     errorData: new ErrorData(type: Error.Types.InvalidRequest));
-
             }
             var dataSet = Get(
                 context: context,
