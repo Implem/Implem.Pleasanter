@@ -53,7 +53,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                             default:
                                 hb.Button(
                                     text: Displays.Create(context: context),
-                                    controlCss: "button-icon validate send-once",
+                                    controlCss: "button-icon validate",
                                     accessKey: "s",
                                     onClick: "$p.send($(this));",
                                     icon: "ui-icon-disk",
