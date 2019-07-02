@@ -115,6 +115,13 @@ namespace Implem.Pleasanter.Models
         /// </summary>
         public static string Search(Context context)
         {
+            if (Parameters.Search.DisableCrossSearch)
+            {
+                return HtmlTemplates.Error(
+                    context: context,
+                    errorData: new ErrorData(type: Error.Types.InvalidRequest));
+
+            }
             var dataSet = Get(
                 context: context,
                 searchText: context.QueryStrings.Data("text"),

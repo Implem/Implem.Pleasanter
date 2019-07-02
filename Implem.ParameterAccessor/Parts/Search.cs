@@ -7,5 +7,6 @@
         public bool CreateIndexes;
         public decimal ConcordanceRate;
         public int PageSize;
+        public bool DisableCrossSearch;
     }
 }

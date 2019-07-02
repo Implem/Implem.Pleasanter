@@ -35,7 +35,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                             referenceType: referenceType)
                         .Search(
                             context: context,
-                            _using: useSearch))
+                            _using: useSearch && !Parameters.Search.DisableCrossSearch))
                 : hb;
         }
 
