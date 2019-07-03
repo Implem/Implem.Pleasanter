@@ -1929,6 +1929,11 @@ namespace Implem.Pleasanter.Models
             {
                 return Error.Types.UsersLimit.MessageJson(context: context);
             }
+            if (Parameters.Security.JoeAccountCheck
+                && context.Forms.Get("Users_Password") == context.Forms.Get("Users_LoginId"))
+            {
+                return Error.Types.JoeAccountCheck.MessageJson(context: context);
+            }
             var userModel = new UserModel(
                 context: context,
                 ss: ss,
