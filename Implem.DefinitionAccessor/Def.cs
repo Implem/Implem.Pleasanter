@@ -595,6 +595,7 @@ namespace Implem.DefinitionAccessor
                     case "Model_Utilities_Create": Code.Model_Utilities_Create = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_Create, definitionRow, CodeXls); break;
                     case "Model_Utilities_CreateParams": Code.Model_Utilities_CreateParams = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_CreateParams, definitionRow, CodeXls); break;
                     case "Model_Utilities_CreateParams_Sites": Code.Model_Utilities_CreateParams_Sites = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_CreateParams_Sites, definitionRow, CodeXls); break;
+                    case "Model_Utilities_Create_JoeAccountCheck": Code.Model_Utilities_Create_JoeAccountCheck = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_Create_JoeAccountCheck, definitionRow, CodeXls); break;
                     case "Model_Utilities_Create_PasswordPolicies": Code.Model_Utilities_Create_PasswordPolicies = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_Create_PasswordPolicies, definitionRow, CodeXls); break;
                     case "Model_Utilities_CreatedResponse": Code.Model_Utilities_CreatedResponse = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_CreatedResponse, definitionRow, CodeXls); break;
                     case "Model_Utilities_CreatedResponse_Sites": Code.Model_Utilities_CreatedResponse_Sites = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_CreatedResponse_Sites, definitionRow, CodeXls); break;
@@ -6503,24 +6504,37 @@ namespace Implem.DefinitionAccessor
                 "Check",
                 "Attachments"
             };
-            var prefixs = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+            var suffixes = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
             tableNames.ForEach(tableName =>
             {
                 types.ForEach(type =>
                 {
-                    prefixs.ForEach(prefix =>
-                    {
-                        definitionRows.Add(ColumnDefinition(
+                    suffixes
+                        .Where(suffix => !DisabledColumns(
                             tableName: tableName,
-                            label: null,
                             type: type,
-                            prefix: prefix.ToString()));
-                        ExtendedColumnTypes.AddIfNotConainsKey(
-                            key: type + prefix,
-                            value: type);
-                    });
+                            suffix: suffix))
+                        .ForEach(suffix =>
+                        {
+                            definitionRows.Add(ColumnDefinition(
+                                tableName: tableName,
+                                type: type,
+                                suffix: suffix.ToString()));
+                            ExtendedColumnTypes.AddIfNotConainsKey(
+                                key: type + suffix,
+                                value: type);
+                        });
                 });
             });
+        }
+
+        private static bool DisabledColumns(string tableName, string type, char suffix)
+        {
+            return Parameters.CommercialLicense()
+                ? Parameters.ExtendedColumnsSet.Any(o =>
+                    o.TableName == tableName
+                    && o.DisabledColumns?.Contains(type + suffix) == true)
+                : false;
         }
 
         private static void SetExtendedColumns(
@@ -6541,32 +6555,26 @@ namespace Implem.DefinitionAccessor
                 {
                     for (var i = 1; i <= part.Value; i++)
                     {
-                        var prefix = string.Format("{0:D3}", i);
+                        var suffix = string.Format("{0:D3}", i);
                         definitionRows.Add(ColumnDefinition(
                             tableName: extendedColumns.TableName,
-                            label: extendedColumns.Label,
                             type: part.Key,
-                            prefix: prefix));
+                            suffix: suffix));
                         ExtendedColumnTypes.AddIfNotConainsKey(
-                            key: part.Key + prefix,
+                            key: part.Key + suffix,
                             value: part.Key);
                     }
                 });
-                ColumnDefinitionCollection.RemoveAll(def =>
-                    extendedColumns.DisabledColumns?
-                        .Select(columnName => $"{extendedColumns.TableName}_{columnName}")
-                        .Contains(def.Id) == true);
             });
         }
 
         private static Dictionary<string, string> ColumnDefinition(
             string tableName,
-            string label,
             string type,
-            string prefix)
+            string suffix)
         {
             var columnDefinition = ColumnDefinitionDefault(type: type);
-            var columnName = type + prefix;
+            var columnName = type + suffix;
             columnDefinition.Add("Id", $"{tableName}_{columnName}");
             switch (tableName)
             {
@@ -6585,7 +6593,7 @@ namespace Implem.DefinitionAccessor
             }
             columnDefinition.Add("TableName", tableName);
             columnDefinition.Add("ColumnName", columnName);
-            columnDefinition["LabelText"] = columnDefinition.Get("LabelText") + prefix;
+            columnDefinition["LabelText"] = columnDefinition.Get("LabelText") + suffix;
             return columnDefinition;
         }
 
@@ -7328,6 +7336,7 @@ namespace Implem.DefinitionAccessor
         public string Model_Utilities_Create;
         public string Model_Utilities_CreateParams;
         public string Model_Utilities_CreateParams_Sites;
+        public string Model_Utilities_Create_JoeAccountCheck;
         public string Model_Utilities_Create_PasswordPolicies;
         public string Model_Utilities_CreatedResponse;
         public string Model_Utilities_CreatedResponse_Sites;
@@ -7938,6 +7947,7 @@ namespace Implem.DefinitionAccessor
         public CodeDefinition Model_Utilities_Create = new CodeDefinition();
         public CodeDefinition Model_Utilities_CreateParams = new CodeDefinition();
         public CodeDefinition Model_Utilities_CreateParams_Sites = new CodeDefinition();
+        public CodeDefinition Model_Utilities_Create_JoeAccountCheck = new CodeDefinition();
         public CodeDefinition Model_Utilities_Create_PasswordPolicies = new CodeDefinition();
         public CodeDefinition Model_Utilities_CreatedResponse = new CodeDefinition();
         public CodeDefinition Model_Utilities_CreatedResponse_Sites = new CodeDefinition();
