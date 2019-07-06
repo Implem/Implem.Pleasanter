@@ -386,23 +386,20 @@ namespace Implem.Pleasanter.Models
                     "Images",
                     file.Guid));
             }
-            else
-            {
-                Rds.ExecuteNonQuery(
-                    context: context,
-                    statements: Rds.InsertBinaries(
-                        param: Rds.BinariesParam()
-                            .TenantId(context.TenantId)
-                            .ReferenceId(id)
-                            .Guid(file.Guid)
-                            .BinaryType("Images")
-                            .Title(file.FileName)
-                            .Bin(bin)
-                            .FileName(file.FileName)
-                            .Extension(file.Extension)
-                            .Size(file.Size)
-                            .ContentType(file.ContentType)));
-            }
+            Rds.ExecuteNonQuery(
+                context: context,
+                statements: Rds.InsertBinaries(
+                    param: Rds.BinariesParam()
+                        .TenantId(context.TenantId)
+                        .ReferenceId(id)
+                        .Guid(file.Guid)
+                        .BinaryType("Images")
+                        .Title(file.FileName)
+                        .Bin(bin, _using: !Parameters.BinaryStorage.IsLocal())
+                        .FileName(file.FileName)
+                        .Extension(file.Extension)
+                        .Size(file.Size)
+                        .ContentType(file.ContentType)));
             return new ResponseCollection()
                 .InsertText(
                     "#" + context.Forms.ControlId(),
