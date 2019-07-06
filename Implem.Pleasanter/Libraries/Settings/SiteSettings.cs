@@ -2784,47 +2784,47 @@ namespace Implem.Pleasanter.Libraries.Settings
         {
             var notUseSearchSiteIdList = Links
                 .Where(o => siteIdList.Contains(o.SiteId))
-                .Where(o => Columns.Any(p => p.ColumnName == o.ColumnName && p.UseSearch != true))
+                .Where(o => Columns.Any(p =>
+                    p.ColumnName == o.ColumnName
+                    && p.UseSearch != true))
                 .Select(o => o.SiteId)
                 .Distinct()
                 .ToList();
-            var dataRows = Rds.ExecuteTable(
+            var dataSet = Rds.ExecuteDataSet(
                 context: context,
-                statements: Rds.SelectItems(
-                    column: Rds.ItemsColumn()
-                        .ReferenceId()
-                        .ReferenceType()
-                        .SiteId()
-                        .Title(),
-                    join: new SqlJoinCollection(
-                        new SqlJoin(
-                            tableBracket: "[Sites]",
-                            joinType: SqlJoin.JoinTypes.Inner,
-                            joinExpression: "[Items].[SiteId]=[Sites].[SiteId]")),
-                    where: Rds.ItemsWhere()
-                        .ReferenceType("Sites", _operator: "<>")
-                        .SiteId_In(siteIdList)
-                        .CanRead(context: context, idColumnBracket: "[Items].[ReferenceId]")
-                        .Or(
-                            or: Rds.ItemsWhere()
-                                .ReferenceType(raw: "'Wikis'")
-                                .SiteId_In(notUseSearchSiteIdList),
-                            _using: !all),
-                    orderBy: Rds.ItemsOrderBy().Title(),
-                    top: all
-                        ? 0
-                        : Parameters.General.DropDownSearchPageSize))
-                            .AsEnumerable();
-            return dataRows
-                .Select(dataRow => dataRow.Long("SiteId"))
-                .Distinct()
-                .ToDictionary(
-                    siteId => $"[[{siteId}]]",
-                    siteId => LinkValue(
-                        context: context,
-                        siteId: siteId,
-                        dataRows: dataRows.Where(dataRow => dataRow.Long("SiteId") == siteId),
-                        searchIndexes: searchIndexes));
+                statements: siteIdList.Select(siteId =>
+                    Rds.SelectItems(
+                        dataTableName: siteId.ToString(),
+                        column: Rds.ItemsColumn()
+                            .ReferenceId()
+                            .ReferenceType()
+                            .SiteId()
+                            .Title(),
+                        join: new SqlJoinCollection(
+                            new SqlJoin(
+                                tableBracket: "[Sites]",
+                                joinType: SqlJoin.JoinTypes.Inner,
+                                joinExpression: "[Items].[SiteId]=[Sites].[SiteId]")),
+                        where: Rds.ItemsWhere()
+                            .ReferenceType("Sites", _operator: "<>")
+                            .SiteId(siteId)
+                            .CanRead(context: context, idColumnBracket: "[Items].[ReferenceId]")
+                            .Or(
+                                or: Rds.ItemsWhere()
+                                    .ReferenceType(raw: "'Wikis'")
+                                    .SiteId_In(notUseSearchSiteIdList),
+                                _using: !all),
+                        orderBy: Rds.ItemsOrderBy().Title(),
+                        top: all
+                            ? 0
+                            : Parameters.General.DropDownSearchPageSize)).ToArray());
+            return siteIdList.ToDictionary(
+                siteId => $"[[{siteId}]]",
+                siteId => LinkValue(
+                    context: context,
+                    siteId: siteId,
+                    dataRows: dataSet.Tables[siteId.ToString()].AsEnumerable(),
+                    searchIndexes: searchIndexes));
         }
 
         private List<long> LinkedSiteIdList()
