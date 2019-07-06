@@ -841,6 +841,34 @@ namespace Implem.Pleasanter.Models
             }
         }
 
+        public string OpenSetNumericRangeDialog(Context context)
+        {
+            SetSite(
+                context: context,
+                initSiteSettings: true);
+            if (context.CanRead(Site.SiteSettings))
+            {
+                var columnName = context.Forms.ControlId()
+                    .Replace("ViewFilters__", string.Empty)
+                    .Replace("_Display_", string.Empty);
+                var column = Site.SiteSettings.GetColumn(
+                    context: context,
+                    columnName: columnName);
+                return new ResponseCollection()
+                    .Html(
+                        "#SetNumericRangeDialog",
+                        new HtmlBuilder().SetNumericRangeDialog(
+                            context: context,
+                            ss: Site.SiteSettings,
+                            column: column))
+                    .ToJson();
+            }
+            else
+            {
+                return Messages.ResponseNotFound(context: context).ToJson();
+            }
+        }
+
         public ResponseFile Export(Context context)
         {
             SetSite(context: context);

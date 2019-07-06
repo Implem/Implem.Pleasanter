@@ -1,5 +1,5 @@
 ﻿$p.apiUrl = function (id, action) {
-    return $('#ApplicationPath').val() + 'api_items/' + id + '/' + action;
+    return $('#ApplicationPath').val() + 'api/items/' + id + '/' + action;
 }
 
 $p.apiGet = function (args) {

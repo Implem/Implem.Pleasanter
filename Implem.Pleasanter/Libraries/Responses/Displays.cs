@@ -4058,6 +4058,16 @@ namespace Implem.Pleasanter.Libraries.Responses
                 data: data);
         }
 
+        public static string NumericRange(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "NumericRange",
+                data: data);
+        }
+
         public static string Off(
             Context context,
             params string[] data)
