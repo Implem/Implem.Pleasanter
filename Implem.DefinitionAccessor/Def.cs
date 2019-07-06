@@ -543,6 +543,7 @@ namespace Implem.DefinitionAccessor
                     case "Model_Utilities_EditorDialog": Code.Model_Utilities_EditorDialog = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_EditorDialog, definitionRow, CodeXls); break;
                     case "Model_Utilities_DropDownSearchDialog": Code.Model_Utilities_DropDownSearchDialog = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_DropDownSearchDialog, definitionRow, CodeXls); break;
                     case "Model_Utilities_ImportSettings": Code.Model_Utilities_ImportSettings = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_ImportSettings, definitionRow, CodeXls); break;
+                    case "Model_Utilities_SetNumericRangeDialog": Code.Model_Utilities_SetNumericRangeDialog = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_SetNumericRangeDialog, definitionRow, CodeXls); break;
                     case "Model_Utilities_WhereTenantId": Code.Model_Utilities_WhereTenantId = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_WhereTenantId, definitionRow, CodeXls); break;
                     case "Model_Utilities_Index_NoSort": Code.Model_Utilities_Index_NoSort = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_Index_NoSort, definitionRow, CodeXls); break;
                     case "Model_Utilities_GetFormDataSet": Code.Model_Utilities_GetFormDataSet = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_GetFormDataSet, definitionRow, CodeXls); break;
@@ -7284,6 +7285,7 @@ namespace Implem.DefinitionAccessor
         public string Model_Utilities_EditorDialog;
         public string Model_Utilities_DropDownSearchDialog;
         public string Model_Utilities_ImportSettings;
+        public string Model_Utilities_SetNumericRangeDialog;
         public string Model_Utilities_WhereTenantId;
         public string Model_Utilities_Index_NoSort;
         public string Model_Utilities_GetFormDataSet;
@@ -7895,6 +7897,7 @@ namespace Implem.DefinitionAccessor
         public CodeDefinition Model_Utilities_EditorDialog = new CodeDefinition();
         public CodeDefinition Model_Utilities_DropDownSearchDialog = new CodeDefinition();
         public CodeDefinition Model_Utilities_ImportSettings = new CodeDefinition();
+        public CodeDefinition Model_Utilities_SetNumericRangeDialog = new CodeDefinition();
         public CodeDefinition Model_Utilities_WhereTenantId = new CodeDefinition();
         public CodeDefinition Model_Utilities_Index_NoSort = new CodeDefinition();
         public CodeDefinition Model_Utilities_GetFormDataSet = new CodeDefinition();

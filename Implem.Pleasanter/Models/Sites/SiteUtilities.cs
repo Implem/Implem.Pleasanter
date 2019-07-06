@@ -4063,7 +4063,7 @@ namespace Implem.Pleasanter.Models
                          selectedValue: (column.DateFilterSetMode == ColumnUtilities.DateFilterSetMode.Range)
                              ? ColumnUtilities.DateFilterSetMode.Range.ToInt().ToString()
                              : ColumnUtilities.DateFilterSetMode.Default.ToInt().ToString()),
-                    _using: column.TypeName.CsTypeSummary() == Types.CsDateTime)
+                    _using: column.TypeName.CsTypeSummary() == Types.CsDateTime || column.TypeName.CsTypeSummary() == Types.CsNumeric)
                 .FieldSet(
                     id: "FilterColumnSettingField",
                     css: column.DateFilterSetMode == ColumnUtilities.DateFilterSetMode.Default 
@@ -6183,19 +6183,34 @@ namespace Implem.Pleasanter.Models
                                 .Id("ViewFilters__" + column.ColumnName)
                                 .Value(value));
                 case Types.CsNumeric:
-                    return hb.FieldDropDown(
-                        context: context,
-                        controlId: controlId,
-                        fieldCss: "field-auto-thin",
-                        controlCss: " auto-postback",
-                        labelText: column.LabelText,
-                        labelTitle: labelTitle,
-                        optionCollection: column.HasChoices()
-                            ? column.EditChoices(context: context)
-                            : column.NumFilterOptions(context: context),
-                        selectedValue: value,
-                        multiple: true,
-                        addSelectedValue: false);
+                    return column.DateFilterSetMode == ColumnUtilities.DateFilterSetMode.Default
+                        ? hb.FieldDropDown(
+                            context: context,
+                            controlId: controlId,
+                            fieldCss: "field-auto-thin",
+                            controlCss: " auto-postback",
+                            labelText: column.LabelText,
+                            labelTitle: labelTitle,
+                            optionCollection: column.HasChoices()
+                                ? column.EditChoices(context: context)
+                                : column.NumFilterOptions(context: context),
+                            selectedValue: value,
+                            multiple: true,
+                            addSelectedValue: false)
+                        : hb.FieldTextBox(
+                            controlId: controlId + "_Display_",
+                            fieldCss: "field-auto-thin",
+                            labelText: column.LabelText,
+                            labelTitle: labelTitle,
+                            text: HtmlViewFilters.GetNumericFilterRange(value),
+                            attributes: new Dictionary<string, string>
+                            {
+                                ["onfocus"] = $"$p.setNumericRangeDialog($(this),'{Displays.NumericRange(context)}','{Displays.Start(context)}'," +
+                                    $"'{Displays.End(context)}','{Displays.OK(context)}','{Displays.Cancel(context)}','{Displays.Clear(context)}','{column.MinNumber()}','{column.MaxNumber()}')"
+                            })
+                            .Hidden(attributes: new HtmlAttributes()
+                                .Id("ViewFilters__" + column.ColumnName)
+                                .Value(value));
                 case Types.CsString:
                     return column.HasChoices()
                         ? hb.FieldDropDown(

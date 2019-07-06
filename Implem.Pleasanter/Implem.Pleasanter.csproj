@@ -294,6 +294,7 @@
     <Compile Include="Libraries\HtmlParts\HtmlEditor.cs" />
     <Compile Include="Libraries\HtmlParts\HtmlExport.cs" />
     <Compile Include="Libraries\HtmlParts\HtmlGuides.cs" />
+    <Compile Include="Libraries\HtmlParts\HtmlNumericRange.cs" />
     <Compile Include="Libraries\HtmlParts\HtmlTrashBoxCommands.cs" />
     <Compile Include="Libraries\HtmlParts\HtmlHistoryCommands.cs" />
     <Compile Include="Libraries\HtmlParts\HtmlImageLib.cs" />
@@ -1466,6 +1467,7 @@
     <Content Include="App_Data\Displays\ApprovalRequestMailBody.json" />
     <Content Include="App_Data\Displays\ApprovalRequestMailTitle.json" />
     <Content Include="App_Data\Displays\RequestingApproval.json" />
+    <Content Include="App_Data\Displays\NumericRange.json" />
     <Content Include="Tools\BackgroundTasks.ps1" />
     <Content Include="Tools\SyncByLdap.ps1" />
     <Content Include="Views\Users\EditApi.cshtml" />

@@ -299,6 +299,16 @@ namespace Implem.Pleasanter.Controllers
             return json;
         }
 
+        [HttpPost]
+        public string OpenSetNumericRangeDialog(long id)
+        {
+            var context = new Context();
+            var log = new SysLogModel(context: context);
+            var json = new ItemModel(context: context, referenceId: id).OpenSetNumericRangeDialog(context: context);
+            log.Finish(context: context, responseSize: json.Length);
+            return json;
+        }
+
         [HttpGet]
         public ActionResult Export(long id)
         {

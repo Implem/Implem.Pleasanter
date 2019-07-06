@@ -108,7 +108,8 @@ namespace Implem.Pleasanter
                 "~/Scripts/RelatingColumns.js",
                 "~/Scripts/FieldSelectable.js",
                 "~/Scripts/Tenants.js",
-                "~/Scripts/SetDateRangeDialog.js"
+                "~/Scripts/SetDateRangeDialog.js",
+                "~/Scripts/setNumericRangeDialog.js"
             };
         }
 
