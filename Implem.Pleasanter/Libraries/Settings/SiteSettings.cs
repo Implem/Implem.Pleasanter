@@ -211,6 +211,10 @@ namespace Implem.Pleasanter.Libraries.Settings
             UpdateColumns(context: context);
             UpdateColumnHash();
             Update_ColumnAccessControls();
+            if (context.TrashboxActions())
+            {
+                RemoveSourceColumns(context: context);
+            }
             if (Aggregations == null) Aggregations = new List<Aggregation>();
             if (Links == null) Links = new List<Link>();
             if (Summaries == null) Summaries = new SettingList<Summary>();
@@ -3576,6 +3580,12 @@ namespace Implem.Pleasanter.Libraries.Settings
                     .Select(o => o.ColumnName)
                     .FirstOrDefault())
                 .SingleOrDefault();
+        }
+
+        private void RemoveSourceColumns(Context context)
+        {
+            GridColumns.RemoveAll(o => o.Contains("~~"));
+            FilterColumns.RemoveAll(o => o.Contains("~~"));
         }
 
         public bool GridColumnsHasSources()

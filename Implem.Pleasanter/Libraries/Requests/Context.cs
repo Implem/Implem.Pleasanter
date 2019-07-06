@@ -206,7 +206,11 @@ namespace Implem.Pleasanter.Libraries.Requests
                                             RecordTitle = dataRow.String("Title");
                                         }
                                     });
-                        Page = Controller + "/" + SiteId;
+                        Page = Controller + "/"
+                            + SiteId
+                            + (TrashboxActions()
+                                ? "/trashbox"
+                                : string.Empty);
                         break;
                     default:
                         Page = Controller;
@@ -519,6 +523,20 @@ namespace Implem.Pleasanter.Libraries.Requests
             return HttpMethod == "GET"
                 ? QueryStrings.Data(name)
                 : Forms.Data(name);
+        }
+
+        public bool TrashboxActions()
+        {
+            switch (Action)
+            {
+                case "trashbox":
+                case "trashboxgridrows":
+                case "restore":
+                case "physicaldelete":
+                    return true;
+                default:
+                    return false;
+            }
         }
     }
 }
