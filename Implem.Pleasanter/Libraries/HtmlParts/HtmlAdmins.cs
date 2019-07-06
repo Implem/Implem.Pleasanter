@@ -1,4 +1,5 @@
-﻿using Implem.Pleasanter.Libraries.General;
+﻿using Implem.DefinitionAccessor;
+using Implem.Pleasanter.Libraries.General;
 using Implem.Pleasanter.Libraries.Html;
 using Implem.Pleasanter.Libraries.Models;
 using Implem.Pleasanter.Libraries.Requests;
@@ -37,8 +38,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                             controller: "Tenants")),
                                     action: () => hb
                                         .Div(action: () => hb
-                                            .Text(Displays.Tenants(context: context)))
-                                        .StackStyles()),
+                                            .Text(Displays.Tenants(context: context)))),
                                 _using: Permissions.CanManageTenant(context))
                             .Li(css: "nav-site", action: () => hb
                                 .A(
@@ -79,7 +79,8 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                     action: () => hb
                                         .Div(action: () => hb
                                             .Text(Displays.Registrations(context: context)))
-                                        .StackStyles()))
+                                        .StackStyles()),
+                                _using: Parameters.Registration.Enabled)
                             ))
                     .MainCommands(
                         context: context,
