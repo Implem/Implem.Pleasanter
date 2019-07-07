@@ -17,8 +17,10 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                         .Class("dialog")
                         .Title(Displays.Edit(context: context)),
                     action: () => hb
-                        .Div(id: "EditInDialogBody"))
-
+                        .Div(id: "EditInDialogBody")
+                        .Hidden(
+                            controlId: "TriggerRelatingColumns",
+                            value: Implem.Libraries.Utilities.Jsons.ToJson(ss.RelatingColumns)))
                 : hb;
         }
 

@@ -9,6 +9,7 @@ $p.openEditorDialog = function (id) {
         width: '90%',
         open: function () {
             $('#EditorLoading').val(0);
+            $p.initRelatingColumn();
         }
     });
 }
