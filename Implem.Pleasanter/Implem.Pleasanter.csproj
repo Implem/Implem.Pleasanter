@@ -614,6 +614,7 @@
     <Content Include="Scripts\FieldSelectable.js" />
     <Content Include="Scripts\SetDateRangeDialog.js" />
     <Content Include="Scripts\RelatingColumns.js" />
+    <Content Include="Scripts\SetNumericRangeDialog.js" />
     <Content Include="Scripts\Tenants.js" />
     <Content Include="Scripts\Users.js" />
     <Content Include="Scripts\_Api.js" />
