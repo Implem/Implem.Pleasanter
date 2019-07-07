@@ -343,6 +343,16 @@ namespace Implem.Pleasanter.Libraries.Settings
                                 ShowHistory = Bool(
                                     context: context,
                                     controlId: controlId);
+                                ColumnSorterHash = new Dictionary<string, SqlOrderBy.Types>();
+                                if (ShowHistory == true)
+                                {
+                                    ColumnSorterHash.Add(
+                                        Rds.IdColumn(ss.ReferenceType),
+                                        SqlOrderBy.Types.desc);
+                                    ColumnSorterHash.Add(
+                                        "Ver",
+                                        SqlOrderBy.Types.desc);
+                                }
                                 break;
                             case "ViewFilters_Search":
                                 Search = String(
