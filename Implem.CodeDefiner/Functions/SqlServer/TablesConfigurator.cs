@@ -12,7 +12,20 @@ namespace Implem.CodeDefiner.Functions.SqlServer
         internal static void Configure()
         {
             Def.TableNameCollection().ForEach(generalTableName =>
-                ConfigureTableSet(generalTableName));
+            {
+                try
+                {
+                    ConfigureTableSet(generalTableName);
+                }
+                catch (System.Data.SqlClient.SqlException e)
+                {
+                    Consoles.Write($"[{e.Number}] {e.Message}", Consoles.Types.Error);
+                }
+                catch (System.Exception e)
+                {
+                    Consoles.Write($"[{generalTableName}]: {e}", Consoles.Types.Error);
+                }
+            });
         }
 
         private static void ConfigureTableSet(string generalTableName)

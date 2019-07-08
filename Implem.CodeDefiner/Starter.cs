@@ -4,7 +4,9 @@ using Implem.Libraries.DataSources.SqlServer;
 using Implem.Libraries.Utilities;
 using System;
 using System.Collections.Generic;
+using System.Data.SqlClient;
 using System.Diagnostics;
+using System.IO;
 using System.Linq;
 using System.Reflection;
 namespace Implem.CodeDefiner
@@ -13,6 +15,21 @@ namespace Implem.CodeDefiner
     {
         static void Main(string[] args)
         {
+            Directory.CreateDirectory(".\\logs");
+            var logName = $".\\logs\\Implem.CodeDefiner_{DateTime.Now.ToString("yyyyMMdd_HHmmss")}.log";
+            Trace.Listeners.Add(new TextWriterTraceListener(logName));
+            Trace.Listeners.Add(new ConsoleTraceListener());
+            AppDomain.CurrentDomain.UnhandledException += (_, e) =>
+            {
+                if (e.ExceptionObject is SqlException sqlException)
+                {
+                    Consoles.Write($"UnhandledException: [{sqlException.Number}] {sqlException.Message}", Consoles.Types.Error, true);
+                }
+                else
+                {
+                    Consoles.Write("UnhandledException: " + e.ExceptionObject, Consoles.Types.Error, true);
+                }
+            };
             var argList = args.Select(o => o.Trim());
             ValidateArgs(argList);
             var argHash = new TextData(argList.Skip(1).Join(string.Empty), '/', 1);
@@ -59,9 +76,20 @@ namespace Implem.CodeDefiner
             }
             Performances.Record(MethodBase.GetCurrentMethod().Name);
             Performances.PerformanceCollection.Save(Directories.Logs());
-            Consoles.Write(
-                DisplayAccessor.Displays.Get("CodeDefinerCompleted"),
-                Consoles.Types.Success);
+            if (Consoles.ErrorCount > 0)
+            {
+                Consoles.Write(
+                    string.Format(DisplayAccessor.Displays.Get("CodeDefinerErrorCount"),
+                        Consoles.ErrorCount,
+                        Path.GetFullPath(logName)), 
+                    Consoles.Types.Error);
+            }
+            else
+            {
+                Consoles.Write(
+                    DisplayAccessor.Displays.Get("CodeDefinerCompleted"),
+                    Consoles.Types.Success);
+            }
             WaitConsole(args);
         }
 
@@ -106,8 +134,7 @@ namespace Implem.CodeDefiner
             if (!Sqls.TryOpenConnections(
                 out number, out message, Parameters.Rds.SaConnectionString))
             {
-                Console.Write("[{0}] {1}", number, message);
-                Environment.Exit(0);
+                Consoles.Write($"[{number}] {message}",Consoles.Types.Error, true);
             }
         }
 
