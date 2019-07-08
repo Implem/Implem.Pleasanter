@@ -299,6 +299,15 @@ namespace Implem.Pleasanter.Libraries.Responses
                 css: "alert-success");
         }
 
+        public static Message CodeDefinerErrorCount(Context context, params string[] data)
+        {
+            return Get(
+                text: Displays.CodeDefinerErrorCount(
+                    context: context,
+                    data: data),
+                css: "alert-success");
+        }
+
         public static Message CodeDefinerInsertTestDataCompleted(Context context, params string[] data)
         {
             return Get(
@@ -1368,6 +1377,16 @@ namespace Implem.Pleasanter.Libraries.Responses
         {
             return ResponseMessage(
                 message: CodeDefinerDefCompleted(
+                    context: context,
+                    data: data),
+                target: target);
+        }
+
+        public static ResponseCollection ResponseCodeDefinerErrorCount(
+            Context context, string target = null, params string[] data)
+        {
+            return ResponseMessage(
+                message: CodeDefinerErrorCount(
                     context: context,
                     data: data),
                 target: target);

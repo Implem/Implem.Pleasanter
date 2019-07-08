@@ -908,6 +908,16 @@ namespace Implem.Pleasanter.Libraries.Responses
                 data: data);
         }
 
+        public static string CodeDefinerErrorCount(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "CodeDefinerErrorCount",
+                data: data);
+        }
+
         public static string CodeDefinerInsertTestDataCompleted(
             Context context,
             params string[] data)
