@@ -8,7 +8,6 @@
         });
     }
 }
-
 $p.openSetNumericRangeOK = function ($controlID) {
     $start = $('#numericRangeStart');
     $end = $('#numericRangeEnd');
@@ -18,7 +17,6 @@ $p.openSetNumericRangeOK = function ($controlID) {
         $p.setErrorMessage('ValidationError');
         return false;
     }
-
     $control = $('#' + $controlID);
     $target = $('#' + $controlID.replace("_Display_", ""));
     var sdval = $("#numericRangeStart").val();
@@ -34,20 +32,14 @@ $p.openSetNumericRangeOK = function ($controlID) {
     $('#SetNumericRangeDialog').dialog("close");
     $p.send($target);
 }
-
 $p.openSetNumericRangeClear = function ($control) {
-
     $("#numericRangeStart").val("");
     $("#numericRangeEnd").val("");
     $p.clearMessage();
 }
-
 $p.setNumericRangeDialog = function ($control, title, startLabel, endLabel, okLabel, cancelLabel, clearLabel, minNumber, maxNumber) {
-
     $control.blur();
     $target = $('#' + $control.attr('id').replace("_Display_", ""));
-
-
     var initValue = JSON.parse($target.val() || "null");
     var startValue = "";
     var endValue = "";
@@ -72,8 +64,6 @@ $p.setNumericRangeDialog = function ($control, title, startLabel, endLabel, okLa
                 class: 'NumericRangeDialogForm',
                 novalidate: 'novalidate',
             }));
-
-
     $startNumeric = $('<input>')
         .attr({
             id: 'numericRangeStart',
@@ -86,7 +76,6 @@ $p.setNumericRangeDialog = function ($control, title, startLabel, endLabel, okLa
             "data-validate-min-number": minNumber,
             "data-validate-max-number": maxNumber
         });
-
     $endNumeric = $('<input>')
         .attr({
             id: 'numericRangeEnd',
@@ -100,7 +89,6 @@ $p.setNumericRangeDialog = function ($control, title, startLabel, endLabel, okLa
             "data-validate-min-number": minNumber,
             "data-validate-max-number": maxNumber
         });
-
     $okButton = $('<button>')
         .attr({
             class: 'button button-icon validate ui-button ui-corner-all ui-widget applied',
@@ -116,7 +104,6 @@ $p.setNumericRangeDialog = function ($control, title, startLabel, endLabel, okLa
                 $p.setErrorMessage('ValidationError', '#NumericRangeDialogFormMessage');
                 return false;
             }
-
             var sdval = $startNumeric.val();
             var edval = $endNumeric.val();
             var setval = "";
@@ -134,7 +121,6 @@ $p.setNumericRangeDialog = function ($control, title, startLabel, endLabel, okLa
         .append($('<span>')
             .addClass("ui-button-icon-space"))
         .append(okLabel);
-
     $cancelButton = $('<button>')
         .attr({
             class: 'button button-icon validate ui-button ui-corner-all ui-widget applied',
@@ -146,7 +132,6 @@ $p.setNumericRangeDialog = function ($control, title, startLabel, endLabel, okLa
         .append($('<span>')
             .addClass("ui-button-icon-space"))
         .append(cancelLabel);
-
     $clearButton = $('<button>')
         .attr({
             class: 'button button-icon validate ui-button ui-corner-all ui-widget applied',
@@ -156,7 +141,6 @@ $p.setNumericRangeDialog = function ($control, title, startLabel, endLabel, okLa
         .append($('<span class="ui-button-icon ui-icon ui-icon-arrowrefresh-1-e">'))
         .append($('<span class="ui-button-icon-space">'))
         .append(clearLabel);
-
     $dlg
         .children('.NumericRangeDialogForm')
         .append($('<input/>').css({ opacity: 0, position: 'absolute', top: 0, left: 0 }))
@@ -192,7 +176,6 @@ $p.setNumericRangeDialog = function ($control, title, startLabel, endLabel, okLa
                 .append($okButton)
                 .append($cancelButton)
                 .append($clearButton)));
-
     $dlg.dialog({
         autoOpen: false,
         modal: true,
@@ -202,7 +185,5 @@ $p.setNumericRangeDialog = function ($control, title, startLabel, endLabel, okLa
         position: { my: 'center top', at: 'center bottom', of: $control }
     });
     $dlg.dialog("open");
-
     $p.applyValidator();
-
 };
