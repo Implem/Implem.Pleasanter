@@ -587,7 +587,7 @@ namespace Implem.Pleasanter.Models
                     tableType: tableType,
                     column: column ?? Rds.ResultsEditorColumns(ss),
                     join: join ??  Rds.ResultsJoinDefault(),
-                    where: where ?? Rds.ResultsWhereDefault(this),
+                    where: where ?? Rds.ResultsWhereDefault(this, ss),
                     orderBy: orderBy,
                     param: param,
                     distinct: distinct,

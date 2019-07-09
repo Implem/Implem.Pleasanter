@@ -18,6 +18,7 @@ namespace Implem.ParameterAccessor.Parts
         public bool OnBulkDeleted;
         public bool OnImporting;
         public bool OnImported;
+        public bool OnSelectingWhere;
         public string CommandText;
     }
 }

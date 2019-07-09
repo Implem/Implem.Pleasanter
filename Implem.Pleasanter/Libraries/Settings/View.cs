@@ -813,6 +813,8 @@ namespace Implem.Pleasanter.Libraries.Settings
                 ss: ss,
                 where: where,
                 checkPermission: checkPermission);
+            where.OnSelectingWhereExtendedSqls(
+                ss: ss);
             return where;
         }
 
