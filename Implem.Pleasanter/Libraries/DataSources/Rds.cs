@@ -3787,6 +3787,15 @@ namespace Implem.Pleasanter.Libraries.DataSources
             return statements;
         }
 
+         public static SqlWhereCollection OnSelectingWhereExtendedSqls(
+            this SqlWhereCollection where, SiteSettings ss)
+        {
+            Parameters.ExtendedSqls?
+                .Where(o => o.OnSelectingWhere)
+                .ExtendedSqlsWhere(where, ss);
+            return where;
+        }
+
         public static IEnumerable<ExtendedSql> ExtendedSqls(long siteId, long id)
         {
             return Parameters.ExtendedSqls?
@@ -3814,6 +3823,89 @@ namespace Implem.Pleasanter.Libraries.DataSources
                             .Replace("{{Id}}", id.ToString())
                             .Replace("{{Timestamp}}", timestamp?.ToString("yyyy/M/d H:m:s.fff"))
                     }));
+        }
+
+        private static void ExtendedSqlsWhere(
+            this IEnumerable<ExtendedSql> self,
+            SqlWhereCollection where,
+            SiteSettings ss,
+            long id = 0,
+            DateTime? timestamp = null)
+        {
+            self
+                .Where(o => o.SiteIdList?.Contains(ss.SiteId) == true)
+                .Where(o => o.IdList?.Any() != true || o.IdList.Contains(id))
+                .Where(o => !o.Disabled)
+                .ForEach(o =>
+                    where.Add(new SqlWhereCollection()
+                       .Add(
+                            tableName: ss.ReferenceType,
+                            raw: o.CommandText
+                                .Replace("{{SiteId}}", ss.SiteId.ToString())
+                                .Replace("{{Id}}", id.ToString())
+                                .Replace("{{Timestamp}}", timestamp?.ToString("yyyy/M/d H:m:s.fff")))));
+        }
+
+        public static IssuesWhereCollection OnSelectingIssuesWhereExtendedSqls(
+            this IssuesWhereCollection Where,
+            SiteSettings ss)
+        {
+            Parameters.ExtendedSqls?
+                    .Where(o => o.OnSelectingWhere)
+                    .ExtendedSqlsWhereIssues(Where, ss);
+            return Where;
+        }
+
+        private static void ExtendedSqlsWhereIssues(
+            this IEnumerable<ExtendedSql> self,
+            IssuesWhereCollection where,
+            SiteSettings ss,
+            long id = 0,
+            DateTime? timestamp = null)
+        {
+            self
+                .Where(o => o.SiteIdList?.Contains(ss.SiteId) == true)
+                .Where(o => o.IdList?.Any() != true || o.IdList.Contains(id))
+                .Where(o => !o.Disabled)
+                .ForEach(o =>
+                    where.Add(new IssuesWhereCollection()
+                        .Add(
+                            tableName: ss.ReferenceType,
+                            raw: o.CommandText
+                                .Replace("{{SiteId}}", ss.SiteId.ToString())
+                                .Replace("{{Id}}", id.ToString())
+                                .Replace("{{Timestamp}}", timestamp?.ToString("yyyy/M/d H:m:s.fff")))));
+        }
+
+        public static ResultsWhereCollection OnSelectingResultsWhereExtendedSqls(
+            this ResultsWhereCollection Where,
+            SiteSettings ss)
+        {
+            Parameters.ExtendedSqls?
+                    .Where(o => o.OnSelectingWhere)
+                    .ExtendedSqlsWhereResults(Where, ss);
+            return Where;
+        }
+
+        private static void ExtendedSqlsWhereResults(
+            this IEnumerable<ExtendedSql> self,
+            ResultsWhereCollection where,
+            SiteSettings ss,
+            long id = 0,
+            DateTime? timestamp = null)
+        {
+            self
+                .Where(o => o.SiteIdList?.Contains(ss.SiteId) == true)
+                .Where(o => o.IdList?.Any() != true || o.IdList.Contains(id))
+                .Where(o => !o.Disabled)
+                .ForEach(o =>
+                    where.Add(new ResultsWhereCollection()
+                        .Add(
+                            tableName: ss.ReferenceType,
+                            raw: o.CommandText
+                                .Replace("{{SiteId}}", ss.SiteId.ToString())
+                                .Replace("{{Id}}", id.ToString())
+                                .Replace("{{Timestamp}}", timestamp?.ToString("yyyy/M/d H:m:s.fff")))));
         }
 
         public static SqlSelect SelectTenants(
@@ -104165,11 +104257,12 @@ namespace Implem.Pleasanter.Libraries.DataSources
             return join;
         }
 
-        public static IssuesWhereCollection IssuesWhereDefault(IssueModel issueModel)
+        public static IssuesWhereCollection IssuesWhereDefault(IssueModel issueModel, SiteSettings ss = null)
         {
             return IssuesWhere()
                 .SiteId(issueModel.SiteId)
-                .IssueId(issueModel.IssueId);
+                .IssueId(issueModel.IssueId)
+                .OnSelectingIssuesWhereExtendedSqls(ss);
         }
 
         public static IssuesParamCollection IssuesParamDefault(
@@ -104299,11 +104392,12 @@ namespace Implem.Pleasanter.Libraries.DataSources
             return join;
         }
 
-        public static ResultsWhereCollection ResultsWhereDefault(ResultModel resultModel)
+        public static ResultsWhereCollection ResultsWhereDefault(ResultModel resultModel, SiteSettings ss = null)
         {
             return ResultsWhere()
                 .SiteId(resultModel.SiteId)
-                .ResultId(resultModel.ResultId);
+                .ResultId(resultModel.ResultId)
+                .OnSelectingResultsWhereExtendedSqls(ss);
         }
 
         public static ResultsParamCollection ResultsParamDefault(
