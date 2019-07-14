@@ -510,7 +510,6 @@ namespace Implem.DefinitionAccessor
                     case "Model_TenantIdParameter": Code.Model_TenantIdParameter = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_TenantIdParameter, definitionRow, CodeXls); break;
                     case "Model_SiteSettings": Code.Model_SiteSettings = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_SiteSettings, definitionRow, CodeXls); break;
                     case "Model_SiteSettingsOnly": Code.Model_SiteSettingsOnly = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_SiteSettingsOnly, definitionRow, CodeXls); break;
-                    case "Model_SiteSettingsWhereBeforeComma": Code.Model_SiteSettingsWhereBeforeComma = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_SiteSettingsWhereBeforeComma, definitionRow, CodeXls); break;
                     case "Model_SiteSettingsBeforeComma": Code.Model_SiteSettingsBeforeComma = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_SiteSettingsBeforeComma, definitionRow, CodeXls); break;
                     case "Model_SiteSettings_Sites": Code.Model_SiteSettings_Sites = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_SiteSettings_Sites, definitionRow, CodeXls); break;
                     case "Model_SiteSettings_SitesOnly": Code.Model_SiteSettings_SitesOnly = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_SiteSettings_SitesOnly, definitionRow, CodeXls); break;
@@ -770,7 +769,6 @@ namespace Implem.DefinitionAccessor
                     case "Rds_SiteId": Code.Rds_SiteId = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Rds_SiteId, definitionRow, CodeXls); break;
                     case "Rds_TitleColumn": Code.Rds_TitleColumn = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Rds_TitleColumn, definitionRow, CodeXls); break;
                     case "Rds_TitleColumnCases": Code.Rds_TitleColumnCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Rds_TitleColumnCases, definitionRow, CodeXls); break;
-                    case "Rds_WhereDefaultParam": Code.Rds_WhereDefaultParam = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Rds_WhereDefaultParam, definitionRow, CodeXls); break;
                     case "Rds_OnSelectingWhereExtendedSqls": Code.Rds_OnSelectingWhereExtendedSqls = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Rds_OnSelectingWhereExtendedSqls, definitionRow, CodeXls); break;
                     case "Rds_OnSelectingWhereExtendedSqlsSemicolon": Code.Rds_OnSelectingWhereExtendedSqlsSemicolon = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Rds_OnSelectingWhereExtendedSqlsSemicolon, definitionRow, CodeXls); break;
                     case "Indexes": Code.Indexes = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Indexes, definitionRow, CodeXls); break;
@@ -7256,7 +7254,6 @@ namespace Implem.DefinitionAccessor
         public string Model_TenantIdParameter;
         public string Model_SiteSettings;
         public string Model_SiteSettingsOnly;
-        public string Model_SiteSettingsWhereBeforeComma;
         public string Model_SiteSettingsBeforeComma;
         public string Model_SiteSettings_Sites;
         public string Model_SiteSettings_SitesOnly;
@@ -7516,7 +7513,6 @@ namespace Implem.DefinitionAccessor
         public string Rds_SiteId;
         public string Rds_TitleColumn;
         public string Rds_TitleColumnCases;
-        public string Rds_WhereDefaultParam;
         public string Rds_OnSelectingWhereExtendedSqls;
         public string Rds_OnSelectingWhereExtendedSqlsSemicolon;
         public string Indexes;
@@ -7872,7 +7868,6 @@ namespace Implem.DefinitionAccessor
         public CodeDefinition Model_TenantIdParameter = new CodeDefinition();
         public CodeDefinition Model_SiteSettings = new CodeDefinition();
         public CodeDefinition Model_SiteSettingsOnly = new CodeDefinition();
-        public CodeDefinition Model_SiteSettingsWhereBeforeComma = new CodeDefinition();
         public CodeDefinition Model_SiteSettingsBeforeComma = new CodeDefinition();
         public CodeDefinition Model_SiteSettings_Sites = new CodeDefinition();
         public CodeDefinition Model_SiteSettings_SitesOnly = new CodeDefinition();
@@ -8132,7 +8127,6 @@ namespace Implem.DefinitionAccessor
         public CodeDefinition Rds_SiteId = new CodeDefinition();
         public CodeDefinition Rds_TitleColumn = new CodeDefinition();
         public CodeDefinition Rds_TitleColumnCases = new CodeDefinition();
-        public CodeDefinition Rds_WhereDefaultParam = new CodeDefinition();
         public CodeDefinition Rds_OnSelectingWhereExtendedSqls = new CodeDefinition();
         public CodeDefinition Rds_OnSelectingWhereExtendedSqlsSemicolon = new CodeDefinition();
         public CodeDefinition Indexes = new CodeDefinition();

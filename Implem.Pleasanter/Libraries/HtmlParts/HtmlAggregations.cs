@@ -27,10 +27,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                         .Contents(
                             context: context,
                             ss: ss,
-                            aggregations: new Aggregations(
-                                context: context,
-                                ss: ss,
-                                view: view)))
+                            view: view))
                 : hb.Div(
                     id: "Aggregations",
                     css: "reduced",
@@ -79,22 +76,39 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
         }
 
         private static HtmlBuilder Contents(
-            this HtmlBuilder hb, Context context, SiteSettings ss, Aggregations aggregations)
+            this HtmlBuilder hb,
+            Context context,
+            SiteSettings ss,
+            View view)
         {
-            return aggregations.TotalCount != 0
-                ? hb
-                    .Total(
-                        context: context,
-                        aggregations: aggregations)
-                    .Overdue(
-                        context: context,
-                        aggregations: aggregations)
-                    .Parts(
-                        context: context,
-                        ss: ss,
-                        aggregations: aggregations)
-                : hb.Span(css: "label", action: () => hb
-                    .Text(text: Displays.NoData(context: context)));
+            if (view.RequestSearchCondition(ss: ss))
+            {
+                return hb.Span(
+                    css: "label",
+                    action: () => hb
+                        .Text(text: Displays.NoDataSearchCondition(context: context)));
+            }
+            else
+            {
+                var aggregations = new Aggregations(
+                    context: context,
+                    ss: ss,
+                    view: view);
+                return aggregations?.TotalCount != 0
+                    ? hb
+                        .Total(
+                            context: context,
+                            aggregations: aggregations)
+                        .Overdue(
+                            context: context,
+                            aggregations: aggregations)
+                        .Parts(
+                            context: context,
+                            ss: ss,
+                            aggregations: aggregations)
+                    : hb.Span(css: "label", action: () => hb
+                        .Text(text: Displays.NoData(context: context)));
+            }
         }
 
         private static HtmlBuilder Total(

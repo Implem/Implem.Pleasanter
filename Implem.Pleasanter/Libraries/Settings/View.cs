@@ -813,8 +813,11 @@ namespace Implem.Pleasanter.Libraries.Settings
                 ss: ss,
                 where: where,
                 checkPermission: checkPermission);
-            where.OnSelectingWhereExtendedSqls(
-                ss: ss);
+            where.OnSelectingWhereExtendedSqls(ss: ss);
+            if (RequestSearchCondition(ss: ss))
+            {
+                where.Add(raw: "(0=1)");
+            }
             return where;
         }
 
@@ -1094,7 +1097,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                     parts.Add(new SqlWhere(
                         tableName: column.TableName(),
                         columnBrackets: ("[" + column.Name + "]").ToSingleArray(),
-                        _operator: "<{0}".Params(to.ToDecimal())));
+                        _operator: "<={0}".Params(to.ToDecimal())));
                 }
                 else if (to == string.Empty)
                 {
@@ -1302,6 +1305,18 @@ namespace Implem.Pleasanter.Libraries.Settings
                 ss: ss,
                 searchText: Search,
                 itemJoin: itemJoin);
+        }
+
+        public bool RequestSearchCondition(SiteSettings ss)
+        {
+            return (ss.AlwaysRequestSearchCondition == true)
+                && (Incomplete != true
+                    && Own != true
+                    && NearCompletionTime != true
+                    && Delay != true
+                    && Overdue != true
+                    && ColumnFilterHash?.Any() != true
+                    && Search.IsNullOrEmpty());
         }
     }
 }

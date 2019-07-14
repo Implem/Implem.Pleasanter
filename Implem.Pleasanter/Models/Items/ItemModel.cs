@@ -881,7 +881,7 @@ namespace Implem.Pleasanter.Models
                             context: context,
                             referenceId: ReferenceId,
                             setSiteIntegration: true,
-                            setAllChoices: true),
+                            setAllChoices: false),
                         siteModel: Site);
                 case "Results":
                     return ResultUtilities.Export(
@@ -890,7 +890,7 @@ namespace Implem.Pleasanter.Models
                             context: context,
                             referenceId: ReferenceId,
                             setSiteIntegration: true,
-                            setAllChoices: true),
+                            setAllChoices: false),
                         siteModel: Site);
                 default:
                     return null;
@@ -980,7 +980,7 @@ namespace Implem.Pleasanter.Models
                     .SelectableItems(
                         listItemCollection: column?.EditChoices(
                             context: context,
-                            addNotSet: nextOffset == -1)))
+                            addNotSet: offset == 0)))
                 .Val("#DropDownSearchResultsOffset", nextOffset)
                 .ToJson();
         }
@@ -1094,7 +1094,8 @@ namespace Implem.Pleasanter.Models
                         searchIndexes: searchIndexes,
                         offset: offset,
                         parentClass: parentClass,
-                        parentId: parentId),
+                        parentId: parentId,
+                        setTotalCount: true),
                     searchIndexes: searchIndexes);
             }
             else
@@ -1102,7 +1103,8 @@ namespace Implem.Pleasanter.Models
                 ss.SetChoiceHash(
                     context: context,
                     columnName: column?.ColumnName,
-                    searchIndexes: searchIndexes);
+                    searchIndexes: searchIndexes,
+                    setTotalCount: true);
             }
             return column;
         }

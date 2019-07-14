@@ -64,7 +64,6 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                 controlCss: "button-icon validate",
                                 onClick: "$p.openSetNumericRangeOK('" + context.Forms.ControlId() + "');",
                                 icon: "ui-icon-arrowreturnthick-1-e",
-                                action: "Import",
                                 method: "post")
                             .Button(
                                 text: Displays.Cancel(context: context),
