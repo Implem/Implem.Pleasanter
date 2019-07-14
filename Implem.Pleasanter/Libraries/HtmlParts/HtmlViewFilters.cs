@@ -287,7 +287,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                             method: "post",
                             attributes: new Dictionary<string, string>
                             {
-                                ["onclick"] = $"$p.openSetNumericRangeDialog($(this))"
+                                ["onfocus"] = $"$p.openSetNumericRangeDialog($(this))"
                             },
                             _using: Visible(column) || column.RecordedTime)
                         .Hidden(attributes: new HtmlAttributes()

@@ -1,4 +1,5 @@
 ﻿$p.openSetNumericRangeDialog = function ($control) {
+    $control.blur();
     $p.set($control, $control.val());
     error = $p.send($control);
     if (error === 0) {

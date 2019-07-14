@@ -3848,62 +3848,60 @@ namespace Implem.Pleasanter.Libraries.DataSources
 
         public static IssuesWhereCollection OnSelectingIssuesWhereExtendedSqls(
             this IssuesWhereCollection Where,
-            SiteSettings ss)
+            IssueModel issueModel)
         {
             Parameters.ExtendedSqls?
                     .Where(o => o.OnSelectingWhere)
-                    .ExtendedSqlsWhereIssues(Where, ss);
+                    .ExtendedSqlsWhereIssues(Where, issueModel);
             return Where;
         }
 
         private static void ExtendedSqlsWhereIssues(
             this IEnumerable<ExtendedSql> self,
             IssuesWhereCollection where,
-            SiteSettings ss,
+            IssueModel issueModel,
             long id = 0,
             DateTime? timestamp = null)
         {
             self
-                .Where(o => o.SiteIdList?.Contains(ss.SiteId) == true)
+                .Where(o => o.SiteIdList?.Contains(issueModel.SiteId) == true)
                 .Where(o => o.IdList?.Any() != true || o.IdList.Contains(id))
                 .Where(o => !o.Disabled)
                 .ForEach(o =>
                     where.Add(new IssuesWhereCollection()
                         .Add(
-                            tableName: ss.ReferenceType,
                             raw: o.CommandText
-                                .Replace("{{SiteId}}", ss.SiteId.ToString())
+                                .Replace("{{SiteId}}", issueModel.SiteId.ToString())
                                 .Replace("{{Id}}", id.ToString())
                                 .Replace("{{Timestamp}}", timestamp?.ToString("yyyy/M/d H:m:s.fff")))));
         }
 
         public static ResultsWhereCollection OnSelectingResultsWhereExtendedSqls(
             this ResultsWhereCollection Where,
-            SiteSettings ss)
+            ResultModel resultModel)
         {
             Parameters.ExtendedSqls?
                     .Where(o => o.OnSelectingWhere)
-                    .ExtendedSqlsWhereResults(Where, ss);
+                    .ExtendedSqlsWhereResults(Where, resultModel);
             return Where;
         }
 
         private static void ExtendedSqlsWhereResults(
             this IEnumerable<ExtendedSql> self,
             ResultsWhereCollection where,
-            SiteSettings ss,
+            ResultModel resultModel,
             long id = 0,
             DateTime? timestamp = null)
         {
             self
-                .Where(o => o.SiteIdList?.Contains(ss.SiteId) == true)
+                .Where(o => o.SiteIdList?.Contains(resultModel.SiteId) == true)
                 .Where(o => o.IdList?.Any() != true || o.IdList.Contains(id))
                 .Where(o => !o.Disabled)
                 .ForEach(o =>
                     where.Add(new ResultsWhereCollection()
                         .Add(
-                            tableName: ss.ReferenceType,
                             raw: o.CommandText
-                                .Replace("{{SiteId}}", ss.SiteId.ToString())
+                                .Replace("{{SiteId}}", resultModel.SiteId.ToString())
                                 .Replace("{{Id}}", id.ToString())
                                 .Replace("{{Timestamp}}", timestamp?.ToString("yyyy/M/d H:m:s.fff")))));
         }
@@ -104257,12 +104255,12 @@ namespace Implem.Pleasanter.Libraries.DataSources
             return join;
         }
 
-        public static IssuesWhereCollection IssuesWhereDefault(IssueModel issueModel, SiteSettings ss = null)
+        public static IssuesWhereCollection IssuesWhereDefault(IssueModel issueModel)
         {
             return IssuesWhere()
                 .SiteId(issueModel.SiteId)
                 .IssueId(issueModel.IssueId)
-                .OnSelectingIssuesWhereExtendedSqls(ss);
+                .OnSelectingIssuesWhereExtendedSqls(issueModel);
         }
 
         public static IssuesParamCollection IssuesParamDefault(
@@ -104392,12 +104390,12 @@ namespace Implem.Pleasanter.Libraries.DataSources
             return join;
         }
 
-        public static ResultsWhereCollection ResultsWhereDefault(ResultModel resultModel, SiteSettings ss = null)
+        public static ResultsWhereCollection ResultsWhereDefault(ResultModel resultModel)
         {
             return ResultsWhere()
                 .SiteId(resultModel.SiteId)
                 .ResultId(resultModel.ResultId)
-                .OnSelectingResultsWhereExtendedSqls(ss);
+                .OnSelectingResultsWhereExtendedSqls(resultModel);
         }
 
         public static ResultsParamCollection ResultsParamDefault(

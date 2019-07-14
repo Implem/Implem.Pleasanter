@@ -94,6 +94,7 @@ namespace Implem.Pleasanter.Libraries.Settings
         public int? GridView;
         public GridEditorTypes? GridEditorType;
         public bool? HistoryOnGrid;
+        public bool? AlwaysRequestSearchCondition;
         public int? LinkTableView;
         public int? FirstDayOfWeek;
         public int? FirstMonth;
@@ -166,7 +167,6 @@ namespace Implem.Pleasanter.Libraries.Settings
         public string GridScript;
         // compatibility Version 1.015
         public bool? EditInDialog;
-        
 
         public SiteSettings()
         {
@@ -510,6 +510,10 @@ namespace Implem.Pleasanter.Libraries.Settings
             if (HistoryOnGrid == true)
             {
                 ss.HistoryOnGrid = HistoryOnGrid;
+            }
+            if (AlwaysRequestSearchCondition == true)
+            {
+                ss.AlwaysRequestSearchCondition = AlwaysRequestSearchCondition;
             }
             if (LinkTableView != 0)
             {
@@ -2361,6 +2365,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                 case "GridView": GridView = value.ToInt(); break;
                 case "GridEditorType": GridEditorType = (GridEditorTypes)value.ToInt(); break;
                 case "HistoryOnGrid": HistoryOnGrid = value.ToBool(); break;
+                case "AlwaysRequestSearchCondition": AlwaysRequestSearchCondition = value.ToBool(); break;
                 case "LinkTableView": LinkTableView = value.ToInt(); break;
                 case "FirstDayOfWeek": FirstDayOfWeek = value.ToInt(); break;
                 case "FirstMonth": FirstMonth = value.ToInt(); break;
@@ -2745,7 +2750,8 @@ namespace Implem.Pleasanter.Libraries.Settings
             string columnName,
             List<string> searchIndexes = null,
             IEnumerable<string> selectedValues = null,
-            bool noLimit = false)
+            bool noLimit = false,
+            bool setTotalCount = false)
         {
             SetChoiceHash(
                 context: context,
@@ -2756,7 +2762,8 @@ namespace Implem.Pleasanter.Libraries.Settings
                     columnName: columnName,
                     searchIndexes: searchIndexes,
                     selectedValues: selectedValues,
-                    noLimit: noLimit));
+                    noLimit: noLimit,
+                    setTotalCount: setTotalCount));
         }
 
         public void SetChoiceHash(
@@ -2848,7 +2855,8 @@ namespace Implem.Pleasanter.Libraries.Settings
             int offset = 0,
             bool noLimit = false,
             string parentClass = "",
-            int parentId = 0)
+            int parentId = 0,
+            bool setTotalCount = false)
         {
             var hash = new Dictionary<string, List<string>>();
             Links?
@@ -2874,7 +2882,8 @@ namespace Implem.Pleasanter.Libraries.Settings
                         .Select(d => d.ReferenceType)
                         .FirstOrDefault(),
                     parentColumn: GetColumn(context: context, columnName: parentClass),
-                    parentId: parentId));
+                    parentId: parentId,
+                    setTotalCount: setTotalCount));
             return hash;
         }
 
@@ -2888,58 +2897,77 @@ namespace Implem.Pleasanter.Libraries.Settings
             bool noLimit,
             string referenceType,
             Column parentColumn,
-            int parentId)
+            int parentId,
+            bool setTotalCount = false)
         {
             var select = SearchIndexUtilities.Select(
                 context: context,
                 ss: Destinations?.Get(link.SiteId),
                 searchText: searchIndexes?.Join(" "),
                 siteIdList: link.SiteId.ToSingleList());
-            var dataSet = Rds.ExecuteDataSet(
-                context: context,
-                statements: Rds.SelectItems(
+            var join = new SqlJoinCollection(
+                new SqlJoin(
+                    tableBracket: "[Sites]",
+                    joinType: SqlJoin.JoinTypes.Inner,
+                    joinExpression: "[Items].[SiteId]=[Sites].[SiteId]"));
+            var where = Rds.ItemsWhere()
+                .ReferenceId(
+                    _operator: " in ",
+                    sub: select,
+                    subPrefix: false,
+                    _using: select != null)
+                .ReferenceId_In(
+                    selectedValues,
+                    _using: selectedValues?.Any() == true)
+                .ReferenceId_In(
+                    sub: new SqlStatement(LinkHashRelatingColumnsSubQuery(
+                        referenceType: referenceType,
+                        parentColumn: parentColumn,
+                        parentId: parentId)),
+                    _using: (referenceType == "Results"
+                        || referenceType == "Issues")
+                        && parentId != 0
+                        && parentColumn != null)
+                .ReferenceType("Sites", _operator: "<>")
+                .SiteId(link.SiteId)
+                .CanRead(context: context, idColumnBracket: "[Items].[ReferenceId]");
+            var statements = new List<SqlStatement>
+            {
+                Rds.SelectItems(
                     dataTableName: "Main",
                     column: Rds.ItemsColumn()
                         .ReferenceId()
                         .ReferenceType()
                         .SiteId()
                         .Title(),
-                    join: new SqlJoinCollection(
-                        new SqlJoin(
-                            tableBracket: "[Sites]",
-                            joinType: SqlJoin.JoinTypes.Inner,
-                            joinExpression: "[Items].[SiteId]=[Sites].[SiteId]")),
-                    where: Rds.ItemsWhere()
-                        .ReferenceId(
-                            _operator: " in ",
-                            sub: select,
-                            subPrefix: false,
-                            _using: select != null)
-                        .ReferenceId_In(
-                            selectedValues,
-                            _using: selectedValues?.Any() == true)
-                        .ReferenceId_In(
-                            sub: new SqlStatement(LinkHashRelatingColumnsSubQuery(
-                                referenceType: referenceType,
-                                parentColumn: parentColumn,
-                                parentId: parentId)),
-                            _using: (referenceType == "Results"
-                                || referenceType == "Issues")
-                                && parentId != 0
-                                && parentColumn != null)
-                        .ReferenceType("Sites", _operator: "<>")
-                        .SiteId(link.SiteId)
-                        .CanRead(context: context, idColumnBracket: "[Items].[ReferenceId]"),
+                    join: join,
+                    where: where,
                     orderBy: Rds.ItemsOrderBy().ReferenceId(),
                     offset: !noLimit
                         ? offset
                         : 0,
                     pageSize: !noLimit
                         ? Parameters.General.DropDownSearchPageSize
-                        : 0));
+                        : 0)
+            };
+            if (setTotalCount)
+            {
+                statements.Add(
+                    Rds.SelectCount(
+                        tableName: "Items",
+                        join: join,
+                        where: where));
+            }
+            var dataSet = Rds.ExecuteDataSet(
+                context: context,
+                statements: statements.ToArray());
+
             var dataRows = dataSet.Tables["Main"].AsEnumerable();
-            GetColumn(context: context, columnName: link.ColumnName)
-                .TotalCount = Rds.Count(dataSet);
+            if (setTotalCount)
+            {
+                GetColumn(context: context, columnName: link.ColumnName)
+                    .TotalCount = Rds.Count(dataSet);
+            }
             if (dataRows.Any())
             {
                 hash.Add($"[[{link.SiteId}]]", LinkValue(

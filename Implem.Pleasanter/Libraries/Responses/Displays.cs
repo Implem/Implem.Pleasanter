@@ -268,6 +268,16 @@ namespace Implem.Pleasanter.Libraries.Responses
                 data: data);
         }
 
+        public static string AlwaysRequestSearchCondition(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "AlwaysRequestSearchCondition",
+                data: data);
+        }
+
         public static string And(
             Context context,
             params string[] data)
@@ -3885,6 +3895,16 @@ namespace Implem.Pleasanter.Libraries.Responses
             return Get(
                 context: context,
                 id: "NoData",
+                data: data);
+        }
+
+        public static string NoDataSearchCondition(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "NoDataSearchCondition",
                 data: data);
         }
 

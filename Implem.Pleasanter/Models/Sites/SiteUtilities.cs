@@ -3755,7 +3755,12 @@ namespace Implem.Pleasanter.Models
                     controlId: "HistoryOnGrid",
                     fieldCss: "field-auto-thin",
                     labelText: Displays.HistoryOnGrid(context: context),
-                    _checked: ss.HistoryOnGrid == true));
+                    _checked: ss.HistoryOnGrid == true)
+                .FieldCheckBox(
+                    controlId: "AlwaysRequestSearchCondition",
+                    fieldCss: "field-auto-thin",
+                    labelText: Displays.AlwaysRequestSearchCondition(context: context),
+                    _checked: ss.AlwaysRequestSearchCondition == true));
         }
 
         /// <summary>
