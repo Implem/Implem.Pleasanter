@@ -3836,6 +3836,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                 .Where(o => o.SiteIdList?.Contains(ss.SiteId) == true)
                 .Where(o => o.IdList?.Any() != true || o.IdList.Contains(id))
                 .Where(o => !o.Disabled)
+                .Where(o => o.CommandText?.Any() == true)
                 .ForEach(o =>
                     where.Add(new SqlWhereCollection()
                        .Add(
@@ -3867,6 +3868,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                 .Where(o => o.SiteIdList?.Contains(issueModel.SiteId) == true)
                 .Where(o => o.IdList?.Any() != true || o.IdList.Contains(id))
                 .Where(o => !o.Disabled)
+                .Where(o => o.CommandText?.Any() == true)
                 .ForEach(o =>
                     where.Add(new IssuesWhereCollection()
                         .Add(
@@ -3897,6 +3899,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                 .Where(o => o.SiteIdList?.Contains(resultModel.SiteId) == true)
                 .Where(o => o.IdList?.Any() != true || o.IdList.Contains(id))
                 .Where(o => !o.Disabled)
+                .Where(o => o.CommandText?.Any() == true)
                 .ForEach(o =>
                     where.Add(new ResultsWhereCollection()
                         .Add(
