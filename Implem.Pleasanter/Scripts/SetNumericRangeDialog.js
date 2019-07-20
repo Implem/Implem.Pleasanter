@@ -5,7 +5,9 @@
     if (error === 0) {
         $('#SetNumericRangeDialog').dialog({
             modal: true,
-            width: '420px'
+            height: 'auto',
+            width: 'auto',
+            position: { my: 'center top', at: 'center bottom', of: $control }
         });
     }
 }
@@ -25,7 +27,7 @@ $p.openSetNumericRangeOK = function ($controlID) {
     var setval = "";
     var dispval = "";
     if (sdval || edval) {
-        dispval = sdval + "-" + edval;
+        dispval = sdval + " - " + edval;
         setval = '["'+ sdval + ',' + edval + '"]';
     }
     $control.val(dispval);

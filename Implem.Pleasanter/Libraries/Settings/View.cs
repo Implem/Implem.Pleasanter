@@ -1029,7 +1029,7 @@ namespace Implem.Pleasanter.Libraries.Settings
             var param = value.Deserialize<List<string>>();
             if (param.Any())
             {
-                if (param.All(o => o.RegexExists(@"^[0-9\.]*,[0-9\.]*$")))
+                if (param.All(o => o.RegexExists(@"^-?[0-9\.]*,-?[0-9\.]*$")))
                 {
                     CsNumericRangeColumns(column, param, where);
                 }

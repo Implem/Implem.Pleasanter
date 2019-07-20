@@ -9,12 +9,12 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
         public static HtmlBuilder SetNumericRangeDialog(
             this HtmlBuilder hb, Context context, SiteSettings ss, Column column)
         {
-            var textval = context.Forms.Data(context.Forms.ControlId())?.Split('-');
+            var textval = context.Forms.Data(context.Forms.ControlId())?.Split(' ');
             var satartval = textval?[0]?.ToString().Trim();
             var endval = string.Empty;
-            if (textval.Length > 1)
+            if (textval.Length > 2)
             {
-                endval = textval[1].ToString().Trim();
+                endval = textval[2].ToString().Trim();
             }
             return hb.Form(
                 attributes: new HtmlAttributes()
