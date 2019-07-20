@@ -1273,7 +1273,7 @@ namespace Implem.Pleasanter.Models
             {
                 ItemUtilities.UpdateTitles(
                     context: context,
-                    siteId: SiteId,
+                    ss: ss,
                     id: IssueId);
             }
             Libraries.Search.Indexes.Create(context, ss, this);
