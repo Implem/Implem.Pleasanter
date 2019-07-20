@@ -1,5 +1,5 @@
-﻿$p.ajax = function (url, methodType, data, $control, async) {
-    if ($p.before_send($p.eventArgs(url, methodType, data, $control, async)) === false) {
+﻿$p.ajax = function (url, methodType, data, $control, _async) {
+    if ($p.before_send($p.eventArgs(url, methodType, data, $control, _async)) === false) {
         return false;
     }
     if ($control) {
@@ -12,18 +12,18 @@
     }
     $p.loading($control);
     var ret = 0;
-    async = async !== undefined ? async : true;
+    _async = _async !== undefined ? _async : true;
     $p.clearMessage();
     $.ajax({
         url: url,
         type: methodType,
-        async: async,
+        async: _async,
         cache: false,
         data: data,
         dataType: 'json'
     })
     .done(function (json, textStatus, jqXHR) {
-        $p.setByJson(url, methodType, data, $control, async, json);
+        $p.setByJson(url, methodType, data, $control, _async, json);
         ret = json.filter(function (i) {
             return i.Method === 'Message' && JSON.parse(i.Value).Css === 'alert-error';
         }).length !== 0
@@ -39,7 +39,7 @@
         $p.clearData('ControlId', data);
         $p.loaded();
         });
-    $p.after_send($p.eventArgs(url, methodType, data, $control, async, ret));
+    $p.after_send($p.eventArgs(url, methodType, data, $control, _async, ret));
     return ret;
 }
 

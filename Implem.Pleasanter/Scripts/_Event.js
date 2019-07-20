@@ -1,10 +1,10 @@
-﻿$p.eventArgs = function (url, methodType, data, $control, async, ret, json) {
+﻿$p.eventArgs = function (url, methodType, data, $control, _async, ret, json) {
     var args = {};
     args.url = url;
     args.methodType = methodType;
     args.data = data;
     args.$control = $control;
-    args.async = async;
+    args.async = _async;
     args.ret = ret;
     args.json = json;
     return args;
