@@ -1121,7 +1121,7 @@ namespace Implem.Pleasanter.Models
             {
                 ItemUtilities.UpdateTitles(
                     context: context,
-                    siteId: SiteId,
+                    ss: ss,
                     id: ResultId);
             }
             Libraries.Search.Indexes.Create(context, ss, this);

@@ -2751,7 +2751,8 @@ namespace Implem.Pleasanter.Libraries.Settings
             List<string> searchIndexes = null,
             IEnumerable<string> selectedValues = null,
             bool noLimit = false,
-            bool setTotalCount = false)
+            bool setTotalCount = false,
+            bool searchColumnOnly = true)
         {
             SetChoiceHash(
                 context: context,
@@ -2761,6 +2762,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                     context: context,
                     columnName: columnName,
                     searchIndexes: searchIndexes,
+                    searchColumnOnly: searchColumnOnly,
                     selectedValues: selectedValues,
                     noLimit: noLimit,
                     setTotalCount: setTotalCount));
