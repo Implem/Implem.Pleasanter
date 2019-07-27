@@ -1472,6 +1472,15 @@
     <Content Include="App_Data\Displays\RequestingApproval.json" />
     <Content Include="App_Data\Displays\NumericRange.json" />
     <Content Include="App_Data\Displays\CodeDefinerErrorCount.json" />
+    <Content Include="App_Data\Displays\Direct.json" />
+    <Content Include="App_Data\Displays\MailNotify.json" />
+    <Content Include="App_Data\Displays\ExportExecutionType.json" />
+    <Content Include="App_Data\Displays\ExportEmailTitle.json" />
+    <Content Include="App_Data\Displays\ExportNotSetEmail.json" />
+    <Content Include="App_Data\Displays\ExportEmailBodyFaild.json" />
+    <Content Include="App_Data\Displays\ExportEmailTitleFaild.json" />
+    <Content Include="App_Data\Displays\ExportEmailBody.json" />
+    <Content Include="App_Data\Displays\ExportAccepted.json" />
     <Content Include="Tools\BackgroundTasks.ps1" />
     <Content Include="Tools\SyncByLdap.ps1" />
     <Content Include="Views\Users\EditApi.cshtml" />

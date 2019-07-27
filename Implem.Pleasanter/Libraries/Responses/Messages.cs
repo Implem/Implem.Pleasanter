@@ -425,6 +425,24 @@ namespace Implem.Pleasanter.Libraries.Responses
                 css: "alert-error");
         }
 
+        public static Message ExportAccepted(Context context, params string[] data)
+        {
+            return Get(
+                text: Displays.ExportAccepted(
+                    context: context,
+                    data: data),
+                css: "alert-success");
+        }
+
+        public static Message ExportNotSetEmail(Context context, params string[] data)
+        {
+            return Get(
+                text: Displays.ExportNotSetEmail(
+                    context: context,
+                    data: data),
+                css: "alert-error");
+        }
+
         public static Message ExternalMailAddress(Context context, params string[] data)
         {
             return Get(
@@ -1517,6 +1535,26 @@ namespace Implem.Pleasanter.Libraries.Responses
         {
             return ResponseMessage(
                 message: Expired(
+                    context: context,
+                    data: data),
+                target: target);
+        }
+
+        public static ResponseCollection ResponseExportAccepted(
+            Context context, string target = null, params string[] data)
+        {
+            return ResponseMessage(
+                message: ExportAccepted(
+                    context: context,
+                    data: data),
+                target: target);
+        }
+
+        public static ResponseCollection ResponseExportNotSetEmail(
+            Context context, string target = null, params string[] data)
+        {
+            return ResponseMessage(
+                message: ExportNotSetEmail(
                     context: context,
                     data: data),
                 target: target);

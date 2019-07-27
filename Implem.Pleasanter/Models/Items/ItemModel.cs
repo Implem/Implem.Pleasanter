@@ -897,6 +897,48 @@ namespace Implem.Pleasanter.Models
             }
         }
 
+        public string ExportAsync(Context context)
+        {
+            SetSite(context: context);
+            var export = Site.SiteSettings.Exports?
+                .Where(exp => exp.Id == context.Forms.Int("ExportId"))?
+                .FirstOrDefault();
+            if(export?.ExecutionType != Libraries.Settings.Export.ExecutionTypes.MailNotify)
+            {
+                return Error.Types.InvalidRequest.MessageJson(context: context);
+            }
+            if(MailAddressUtilities.Get(context: context, context.UserId).IsNullOrEmpty())
+            {
+                return Messages.ResponseExportNotSetEmail(
+                    context: context, 
+                    target: null, 
+                    $"{context.User.Name}<{context.User.LoginId}>").ToJson();
+            }
+            switch (Site.ReferenceType)
+            {
+                case "Issues":
+                    return IssueUtilities.ExportAsync(
+                        context: context,
+                        ss: Site.IssuesSiteSettings(
+                            context: context,
+                            referenceId: ReferenceId,
+                            setSiteIntegration: true,
+                            setAllChoices: false),
+                        siteModel: Site);
+                case "Results":
+                    return ResultUtilities.ExportAsync(
+                        context: context,
+                        ss: Site.ResultsSiteSettings(
+                            context: context,
+                            referenceId: ReferenceId,
+                            setSiteIntegration: true,
+                            setAllChoices: false),
+                        siteModel: Site);
+                default:
+                    return Error.Types.InvalidRequest.MessageJson(context: context);
+            }
+        }
+
         public ResponseFile ExportCrosstab(Context context)
         {
             SetSite(context: context);

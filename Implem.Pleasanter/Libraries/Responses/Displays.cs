@@ -1768,6 +1768,16 @@ namespace Implem.Pleasanter.Libraries.Responses
                 data: data);
         }
 
+        public static string Direct(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "Direct",
+                data: data);
+        }
+
         public static string DirectUrlCopied(
             Context context,
             params string[] data)
@@ -2038,6 +2048,16 @@ namespace Implem.Pleasanter.Libraries.Responses
                 data: data);
         }
 
+        public static string ExportAccepted(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "ExportAccepted",
+                data: data);
+        }
+
         public static string ExportColumns(
             Context context,
             params string[] data)
@@ -2048,6 +2068,56 @@ namespace Implem.Pleasanter.Libraries.Responses
                 data: data);
         }
 
+        public static string ExportEmailBody(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "ExportEmailBody",
+                data: data);
+        }
+
+        public static string ExportEmailBodyFaild(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "ExportEmailBodyFaild",
+                data: data);
+        }
+
+        public static string ExportEmailTitle(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "ExportEmailTitle",
+                data: data);
+        }
+
+        public static string ExportEmailTitleFaild(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "ExportEmailTitleFaild",
+                data: data);
+        }
+
+        public static string ExportExecutionType(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "ExportExecutionType",
+                data: data);
+        }
+
         public static string ExportFormat(
             Context context,
             params string[] data)
@@ -2055,6 +2125,16 @@ namespace Implem.Pleasanter.Libraries.Responses
             return Get(
                 context: context,
                 id: "ExportFormat",
+                data: data);
+        }
+
+        public static string ExportNotSetEmail(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "ExportNotSetEmail",
                 data: data);
         }
 
@@ -3445,6 +3525,16 @@ namespace Implem.Pleasanter.Libraries.Responses
             return Get(
                 context: context,
                 id: "MailAddressHasNotSet",
+                data: data);
+        }
+
+        public static string MailNotify(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "MailNotify",
                 data: data);
         }
 
