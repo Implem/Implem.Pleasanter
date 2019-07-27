@@ -814,7 +814,9 @@ namespace Implem.Pleasanter.Libraries.Settings
                 where: where,
                 checkPermission: checkPermission);
             where.OnSelectingWhereExtendedSqls(ss: ss);
-            if (RequestSearchCondition(ss: ss))
+            if (RequestSearchCondition(
+                context: context,
+                ss: ss))
             {
                 where.Add(raw: "(0=1)");
             }
@@ -1307,15 +1309,20 @@ namespace Implem.Pleasanter.Libraries.Settings
                 itemJoin: itemJoin);
         }
 
-        public bool RequestSearchCondition(SiteSettings ss)
+        public bool RequestSearchCondition(Context context, SiteSettings ss)
         {
+            var where = new SqlWhereCollection();
+            SetColumnsWhere(
+                context: context,
+                ss: ss,
+                where: where);
             return (ss.AlwaysRequestSearchCondition == true)
                 && (Incomplete != true
                     && Own != true
                     && NearCompletionTime != true
                     && Delay != true
                     && Overdue != true
-                    && ColumnFilterHash?.Any() != true
+                    && where.Any() != true
                     && Search.IsNullOrEmpty());
         }
     }

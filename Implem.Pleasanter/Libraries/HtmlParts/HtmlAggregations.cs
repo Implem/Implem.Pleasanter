@@ -81,7 +81,9 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             SiteSettings ss,
             View view)
         {
-            if (view.RequestSearchCondition(ss: ss))
+            if (view.RequestSearchCondition(
+                context: context,
+                ss: ss))
             {
                 return hb.Span(
                     css: "label",
