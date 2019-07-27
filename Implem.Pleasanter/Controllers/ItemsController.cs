@@ -1,4 +1,5 @@
-﻿using Implem.Pleasanter.Libraries.Requests;
+﻿using Implem.Libraries.Utilities;
+using Implem.Pleasanter.Libraries.Requests;
 using Implem.Pleasanter.Models;
 using System.Web;
 using System.Web.Mvc;
@@ -325,6 +326,16 @@ namespace Implem.Pleasanter.Controllers
                 log.Finish(context: context);
                 return null;
             }
+        }
+
+        [HttpPost]
+        public string ExportAsync(long id)
+        {
+            var context = new Context();
+            var log = new SysLogModel(context: context);
+            var json = new ItemModel(context: context, referenceId: id).ExportAsync(context: context);
+            log.Finish(context: context, responseSize: json.Length);
+            return json;
         }
 
         [HttpGet]

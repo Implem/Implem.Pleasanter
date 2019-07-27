@@ -3910,6 +3910,88 @@ namespace Implem.Pleasanter.Models
                     extension: export.Type.ToString()));
         }
 
+        public static string ExportAsync(
+            Context context, SiteSettings ss, SiteModel siteModel)
+        {
+            if (context.ContractSettings.Export == false)
+            {
+                return Error.Types.InvalidRequest.MessageJson(context: context);
+            }
+            var invalid = IssueValidators.OnExporting(
+                context: context,
+                ss: ss);
+            switch (invalid.Type)
+            {
+                case Error.Types.None: break;
+                default: return invalid.Type.MessageJson(context: context);
+            }
+            System.Threading.Tasks.Task.Factory.StartNew(() =>
+            {
+                var export = ss.GetExport(
+                        context: context,
+                        id: context.Forms.Int("ExportId"));
+                var fileName = ExportUtilities.FileName(
+                    context: context,
+                    ss: ss,
+                    name: export.Name,
+                    extension: export.Type.ToString());
+                try
+                {
+                    var content = ExportUtilities.Export(
+                        context: context,
+                        ss: ss,
+                        export: export,
+                        where: SelectedWhere(
+                            context: context,
+                            ss: ss),
+                        view: Views.GetBySession(
+                            context: context,
+                            ss: ss));
+                    var guid = Strings.NewGuid();
+                    var bytes = content.ToBytes();
+                    Rds.ExecuteNonQuery(
+                        context: context,
+                        statements: new SqlStatement[]
+                        {
+                            Rds.InsertBinaries(
+                                param: Rds.BinariesParam()
+                                    .TenantId(context.TenantId)
+                                    .ReferenceId(ss.SiteId)
+                                    .Guid(guid)
+                                    .Title(fileName)
+                                    .BinaryType("Attachments")
+                                    .Bin(bytes)
+                                    .FileName(fileName)
+                                    .Extension(export.Type.ToString())
+                                    .Size(bytes.Length)
+                                    .ContentType(export.Type == Libraries.Settings.Export.Types.Csv
+                                        ? "text/csv"
+                                        : "application/json"))
+                        });
+                    new OutgoingMailModel()
+                    {
+                        Title = new Title($"[{fileName}]"+ Displays.ExportEmailTitle(context: context)),
+                        Body = Displays.ExportEmailBody(context: context) + "\n" +
+                            $"{(Parameters.Service.AbsoluteUri ?? context.Server)}" +
+                            $"/{Locations.DownloadFile(context: context, guid: guid)}",
+                        From = new System.Net.Mail.MailAddress(Parameters.Mail.SupportFrom),
+                        To = MailAddressUtilities.Get(context: context, context.UserId),
+                    }.Send(context: context, ss);
+                }
+                catch(Exception e)
+                {
+                    new OutgoingMailModel()
+                    {
+                        Title = new Title(Displays.ExportEmailTitleFaild(context: context)),
+                        Body = Displays.ExportEmailBodyFaild(context: context, fileName, e.Message),
+                        From = new System.Net.Mail.MailAddress(Parameters.Mail.SupportFrom),
+                        To = MailAddressUtilities.Get(context: context, context.UserId),
+                    }.Send(context: context, ss);
+                }
+            });
+            return Messages.ResponseExportAccepted(context: context).ToJson();
+        }
+
         public static System.Web.Mvc.ContentResult ExportByApi(
             Context context, SiteSettings ss, SiteModel siteModel)
         {

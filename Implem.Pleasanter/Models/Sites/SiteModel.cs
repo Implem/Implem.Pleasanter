@@ -3265,7 +3265,8 @@ namespace Implem.Pleasanter.Models
                         name: context.Forms.Data("ExportName"),
                         type: (Export.Types)context.Forms.Int("ExportType"),
                         header: context.Forms.Bool("ExportHeader"),
-                        columns: columns);
+                        columns: columns,
+                        executionType: (Export.ExecutionTypes)context.Forms.Int("ExecutionType"));
                     SetExportsResponseCollection(context: context, res: res);
                 }
             }

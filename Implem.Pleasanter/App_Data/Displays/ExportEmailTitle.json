@@ -1,0 +1,13 @@
+﻿{
+    "Id": "ExportEmailTitle",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Export completed"
+        },
+        {
+            "Language": "ja",
+            "Body": "エクスポートが完了しました。"
+        }
+    ]
+}

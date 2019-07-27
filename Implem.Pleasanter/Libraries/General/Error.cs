@@ -28,6 +28,7 @@ namespace Implem.Pleasanter.Libraries.General
             Duplicated,
             EmptyUserName,
             Expired,
+            ExportNotSetEmail,
             ExternalMailAddress,
             FailedReadFile,
             FileNotFound,
@@ -165,6 +166,10 @@ namespace Implem.Pleasanter.Libraries.General
                         data: data);
                 case Types.Expired:
                     return Messages.Expired(
+                        context: context,
+                        data: data);
+                case Types.ExportNotSetEmail:
+                    return Messages.ExportNotSetEmail(
                         context: context,
                         data: data);
                 case Types.ExternalMailAddress:

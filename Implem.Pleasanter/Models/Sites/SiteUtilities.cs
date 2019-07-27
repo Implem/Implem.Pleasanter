@@ -7289,7 +7289,9 @@ namespace Implem.Pleasanter.Models
                     .Th(action: () => hb
                         .Text(text: Displays.ExportTypes(context: context)))
                     .Th(action: () => hb
-                        .Text(text: Displays.OutputHeader(context: context)))));
+                        .Text(text: Displays.OutputHeader(context: context)))
+                    .Th(action: ()=> hb
+                        .Text(text: Displays.ExportExecutionType(context: context)))));
         }
 
         /// <summary>
@@ -7325,7 +7327,11 @@ namespace Implem.Pleasanter.Models
                             .Td(action: () => hb
                                 .Span(
                                     css: "ui-icon ui-icon-circle-check",
-                                    _using: export.Header != false)))));
+                                    _using: export.Header != false))
+                            .Td(action: () => hb
+                                 .Text(text: Displays.Get(
+                                     context: context,
+                                     id: export.ExecutionType.ToString()))))));
         }
 
         /// <summary>
@@ -7374,6 +7380,23 @@ namespace Implem.Pleasanter.Models
                             },
                         },
                         selectedValue: export.Type.ToInt().ToString())
+                    .FieldDropDown(
+                        context: context,
+                        controlId: "ExecutionType",
+                        controlCss: " always-send",
+                        labelText: Displays.ExportExecutionType(context: context),
+                        optionCollection: new Dictionary<string, string>
+                        {
+                            {
+                                Export.ExecutionTypes.Direct.ToInt().ToString(),
+                                Displays.Direct(context: context)
+                            },
+                            {
+                                Export.ExecutionTypes.MailNotify.ToInt().ToString(),
+                                Displays.MailNotify(context: context)
+                            },
+                        },
+                        selectedValue: export.ExecutionType.ToInt().ToString())
                     .FieldCheckBox(
                         controlId: "ExportHeader",
                         controlCss: " always-send",

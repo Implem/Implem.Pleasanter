@@ -13,12 +13,18 @@ namespace Implem.Pleasanter.Libraries.Settings
             Csv = 0,
             Json = 1
         }
+        public enum ExecutionTypes : int
+        {
+            Direct = 0,
+            MailNotify =1
+        }
 
         public int Id { get; set; }
         public string Name;
         public bool? Header;
         public List<ExportColumn> Columns;
         public Types Type;
+        public ExecutionTypes ExecutionType;
         // compatibility Version 1.014
         public Join Join;
 
@@ -31,7 +37,8 @@ namespace Implem.Pleasanter.Libraries.Settings
             string name,
             Types type,
             bool header,
-            List<ExportColumn> columns)
+            List<ExportColumn> columns,
+            ExecutionTypes executionType)
         {
             Id = id;
             Name = name;
@@ -43,6 +50,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                 column.Id = NewColumnId();
                 Columns.Add(column);
             });
+            ExecutionType = executionType;
         }
 
         public Export(List<ExportColumn> columns)
@@ -76,12 +84,14 @@ namespace Implem.Pleasanter.Libraries.Settings
             string name,
             Types type,
             bool header,
-            List<ExportColumn> columns)
+            List<ExportColumn> columns,
+            ExecutionTypes executionType)
         {
             Name = name;
             Type = type;
             Header = header;
             Columns = columns;
+            ExecutionType = executionType;
         }
 
         public int NewColumnId()
@@ -100,6 +110,7 @@ namespace Implem.Pleasanter.Libraries.Settings
             export.Columns = new List<ExportColumn>();
             export.Type = Type;
             Columns?.ForEach(column => export.Columns.Add(column.GetRecordingData()));
+            export.ExecutionType = ExecutionType;
             return export;
         }
     }
