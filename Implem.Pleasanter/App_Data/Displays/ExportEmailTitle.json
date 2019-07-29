@@ -3,11 +3,11 @@
     "Type": 110,
     "Languages": [
         {
-            "Body": "Export completed"
+            "Body": "[{0}]Export completed"
         },
         {
             "Language": "ja",
-            "Body": "エクスポートが完了しました。"
+            "Body": "[{0}]エクスポートが完了しました。"
         }
     ]
 }
