@@ -3637,7 +3637,7 @@ namespace Implem.Pleasanter.Models
                         });
                     new OutgoingMailModel()
                     {
-                        Title = new Title($"[{fileName}]"+ Displays.ExportEmailTitle(context: context)),
+                        Title = new Title(Displays.ExportEmailTitle(context: context,fileName)),
                         Body = Displays.ExportEmailBody(context: context) + "\n" +
                             $"{(Parameters.Service.AbsoluteUri ?? context.Server)}" +
                             $"/{Locations.DownloadFile(context: context, guid: guid)}",
