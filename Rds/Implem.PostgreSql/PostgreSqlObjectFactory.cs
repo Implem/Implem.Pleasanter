@@ -4,6 +4,9 @@ namespace Implem.PostgreSql
     public class PostgreSqlObjectFactory : ISqlObjectFactory
     {
         private static ISqlErrors _sqlErrors = new PostgreSqlErrors();
+        private static ISqls _sqls = new PostgreSqlSqls();
+        private static ISqlCommandText _sqlCommandText = new PostgreSqlCommandText();
+
         public ISqlErrors SqlErrors => _sqlErrors;
 
         public ISqlCommand CreateSqlCommand()
@@ -29,6 +32,22 @@ namespace Implem.PostgreSql
         public ISqlParameter CreateSqlParameter(string name, object value)
         {
             return new PostgreSqlParameter(name, value);
+        }
+
+        public ISqls Sqls
+        {
+            get
+            {
+                return _sqls;
+            }
+        }
+
+        public ISqlCommandText SqlCommandText
+        {
+            get
+            {
+                return _sqlCommandText;
+            }
         }
     }
 }

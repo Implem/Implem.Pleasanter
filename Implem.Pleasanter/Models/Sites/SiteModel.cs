@@ -720,7 +720,7 @@ namespace Implem.Pleasanter.Models
                         context: context,
                         siteModel: this,
                         otherInitValue: otherInitValue)),
-                new SqlStatement(Def.Sql.IfConflicted.Params(SiteId)),
+                new SqlStatement(Def.Sql.IfConflicted.Params(SiteId)){ IfConflicted = true },  //TODO
                 StatusUtilities.UpdateStatus(
                     tenantId: TenantId,
                     type: StatusUtilities.Types.SitesUpdated),
@@ -1280,6 +1280,51 @@ namespace Implem.Pleasanter.Models
                 SiteSettings = new SiteSettings(context: context, referenceType: ReferenceType);
             }
             TenantId = context.TenantId;
+
+            //TODO
+            var responseId = Rds.ExecuteScalar(context: context, transactional: true,
+                func: (transaction, connection) =>
+                {
+                    var itemId = Rds.ExecuteScalar_response(context: context, dbTransaction: transaction, dbConnection: connection,
+                                    statements: Rds.InsertItems(
+                                                    selectIdentity: true,
+                                                    param: Rds.ItemsParam()
+                                                        .ReferenceType("Sites")
+                                                        .Title(Title.Value.MaxLength(1024)))).Id;
+                    Rds.ExecuteNonQuery(context: context, dbTransaction: transaction, dbConnection: connection,
+                                    statements: new SqlStatement[]
+                                    {
+                                        Rds.InsertSites(
+                                                    param: Rds.SitesParam()
+                                                        .SiteId(itemId)
+                                                        .TenantId(TenantId)
+                                                        .Title(Title.Value.MaxLength(1024))
+                                                        .Body(Body)
+                                                        .ReferenceType(ReferenceType.MaxLength(32))
+                                                        .ParentId(ParentId)
+                                                        .InheritPermission(InheritPermission == 0
+                                                            ? itemId
+                                                            : InheritPermission)
+                                                        .SiteSettings(SiteSettings.RecordingJson(context: context))
+                                                        .Comments(Comments.ToJson())),
+                                         Rds.UpdateItems(
+                                                where: Rds.ItemsWhere().ReferenceId(itemId),
+                                                param: Rds.ItemsParam().SiteId(itemId)),
+                                        Rds.InsertPermissions(
+                                                param: Rds.PermissionsParam()
+                                                    .ReferenceId(itemId)
+                                                    .DeptId(0)
+                                                    .UserId(context.UserId)
+                                                    .PermissionType(Permissions.Manager()),
+                                                _using: InheritPermission == 0),
+                                        StatusUtilities.UpdateStatus(
+                                                                tenantId: TenantId,
+                                                                type: StatusUtilities.Types.SitesUpdated),
+                                });
+                    return (true, itemId);
+                });
+
+            /*
             var response = Rds.ExecuteScalar_response(
                 context: context,
                 transactional: true,
@@ -1319,6 +1364,9 @@ namespace Implem.Pleasanter.Models
                         type: StatusUtilities.Types.SitesUpdated),
                 });
             SiteId = response.Id ?? SiteId;
+                */
+
+            SiteId = responseId ?? SiteId;
             Get(context: context);
             SiteSettings = SiteSettingsUtilities.Get(
                 context: context, siteModel: this, referenceId: SiteId);

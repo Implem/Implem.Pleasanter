@@ -1322,10 +1322,38 @@ namespace Implem.Pleasanter.Models
                 additionalStatements: additionalStatements));
             try
             {
-                var response = Rds.ExecuteScalar_response(
-                    context: context,
-                    transactional: true,
-                    statements: statements.ToArray());
+                //TODO
+                var response = Rds.ExecuteScalar(context: context, transactional: true,
+                    func: (transaction, connection) =>
+                    {
+                        if(VerUp) Rds.ExecuteNonQuery(context: context, dbTransaction: transaction, dbConnection: connection, statements: statements[0]);
+                        var count = Rds.ExecuteNonQuery(context: context, dbTransaction: transaction, dbConnection: connection, statements: statements[(VerUp ? 1 : 0)]);
+                        if (count == 0)
+                        {
+                            return
+                            (
+                                false,
+                                new SqlResponse
+                                {
+                                    Event = "Conflicted",
+                                    Id = 1,
+                                    Count = count,
+                                });
+                        }
+                        var request = new SqlResponse
+                        {
+                            Id = 1,
+                            Count = count,
+                        };
+                        Rds.ExecuteNonQuery(context: context, dbTransaction: transaction, dbConnection: connection, statements: statements.LastOrDefault());
+                        return (true, request);
+                    });
+                        /*
+                        var response = Rds.ExecuteScalar_response(
+                            context: context,
+                            transactional: true,
+                            statements: statements.ToArray());
+                            */
                 if (response.Event == "Conflicted")
                 {
                     return new ErrorData(
@@ -1462,7 +1490,7 @@ namespace Implem.Pleasanter.Models
                         context: context,
                         userModel: this,
                         otherInitValue: otherInitValue)),
-                new SqlStatement(Def.Sql.IfConflicted.Params(UserId)),
+                new SqlStatement(Def.Sql.IfConflicted.Params(UserId)){ IfConflicted = true },  //TODO
                 StatusUtilities.UpdateStatus(
                     tenantId: context.TenantId,
                     type: StatusUtilities.Types.UsersUpdated),
@@ -2276,11 +2304,15 @@ namespace Implem.Pleasanter.Models
         public bool GetByCredentials(
             Context context, string loginId, string password, int tenantId = 0)
         {
+            var loginIdRaw = "(lower(\"Users\".\"LoginId\") = lower(@LoginId))";
             Get(
                 context: context,
                 ss: SiteSettingsUtilities.UsersSiteSettings(context: context),
                 where: Rds.UsersWhere()
-                    .LoginId(loginId)
+                    .Add(
+                        name: "LoginId",
+                        value: loginId,
+                        raw: loginIdRaw)
                     .Password(password)
                     .Disabled(false));
             if (Parameters.Security.LockoutCount > 0)
@@ -2292,7 +2324,11 @@ namespace Implem.Pleasanter.Models
                         Rds.ExecuteNonQuery(
                             context: context,
                             statements: Rds.UpdateUsers(
-                                where: Rds.UsersWhere().LoginId(LoginId),
+                                where: Rds.UsersWhere()
+                                    .Add(
+                                        name: "LoginId",
+                                        value: loginId,
+                                        raw: loginIdRaw),
                                 param: Rds.UsersParam().LockoutCounter(0),
                                 addUpdatorParam: false,
                                 addUpdatedTimeParam: false));
@@ -2303,10 +2339,18 @@ namespace Implem.Pleasanter.Models
                     Rds.ExecuteNonQuery(
                         context: context,
                         statements: Rds.UpdateUsers(
-                            where: Rds.UsersWhere().LoginId(LoginId),
+                            where: Rds.UsersWhere()
+                                .Add(
+                                    name: "LoginId",
+                                    value: loginId,
+                                    raw: loginIdRaw),
                             param: Rds.UsersParam()
-                                .Lockout(raw: "case when [Users].[LockoutCounter]+1>={0} then 1 else 0 end"
-                                    .Params(Parameters.Security.LockoutCount))
+                                .Lockout(
+                                    raw: "case when [Users].[LockoutCounter]+1>={0} then {1} else {2} end"
+                                        .Params(
+                                            Parameters.Security.LockoutCount,
+                                            context.Sqls.TrueString,
+                                            context.Sqls.FalseString))
                                 .LockoutCounter(raw: "[Users].[LockoutCounter]+1"),
                             addUpdatorParam: false,
                             addUpdatedTimeParam: false));

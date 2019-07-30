@@ -5178,6 +5178,22 @@ namespace Implem.DefinitionAccessor
                     default: break;
                 }
             });
+
+            //TODO ファイルから読み込んだSQLの初期化
+            {
+                if (Implem.DefinitionAccessor.Parameters.Rds.Dbms?.ToLower() == "PostgreSQL".ToLower())
+                {
+                    Sql.SelectIdentity = " RETURNING '{{\"Id\":' || {0} || '}}' ";
+                    Sql.MoveTarget = Sql.MoveTarget.Replace("with ", "with RECURSIVE ");
+                }
+                else
+                {
+                    Sql.SelectIdentity = "; " + Sql.SelectIdentity;
+                }
+                Def.Sql.IfDuplicated = "select 1 from [{0}] where [{0}].[SiteId]={1} and [{0}].[{4}]=@{4}_#CommandCount# and [{0}].[{2}]<>{3}; ";
+            }
+            /**/
+
             SqlXls.XlsSheet.AsEnumerable().Skip(1).Where(o => o[0].ToString() != string.Empty).ForEach(definitionRow =>
             {
                 var newSqlDefinition = new SqlDefinition();

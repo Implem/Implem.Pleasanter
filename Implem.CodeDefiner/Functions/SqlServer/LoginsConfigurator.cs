@@ -23,6 +23,8 @@ namespace Implem.CodeDefiner.Functions.SqlServer
             Spids.Kill(factory: factory, uid: cn["uid"]);
             Def.SqlIoBySa(factory).ExecuteNonQuery(
                 factory: factory,
+                dbTransaction: null,
+                dbConnection: null,
                 commandText: CommandText(cn["uid"])
                     .Replace("#Uid#", cn["uid"])
                     .Replace("#Pwd#", cn["pwd"])

@@ -438,7 +438,7 @@ namespace Implem.Pleasanter.Models
                         context: context,
                         deptModel: this,
                         otherInitValue: otherInitValue)),
-                new SqlStatement(Def.Sql.IfConflicted.Params(DeptId)),
+                new SqlStatement(Def.Sql.IfConflicted.Params(DeptId)){ IfConflicted = true },  //TODO
                 StatusUtilities.UpdateStatus(
                     tenantId: context.TenantId,
                     type: StatusUtilities.Types.DeptsUpdated),

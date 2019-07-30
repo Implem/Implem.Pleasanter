@@ -331,7 +331,7 @@ namespace Implem.Pleasanter.Models
                         context: context,
                         mailAddressModel: this,
                         otherInitValue: otherInitValue)),
-                new SqlStatement(Def.Sql.IfConflicted.Params(MailAddressId))
+                new SqlStatement(Def.Sql.IfConflicted.Params(MailAddressId)){ IfConflicted = true }  //TODO
             };
         }
 

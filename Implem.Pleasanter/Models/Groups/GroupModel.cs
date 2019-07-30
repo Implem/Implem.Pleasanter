@@ -452,7 +452,7 @@ namespace Implem.Pleasanter.Models
                         context: context,
                         groupModel: this,
                         otherInitValue: otherInitValue)),
-                new SqlStatement(Def.Sql.IfConflicted.Params(GroupId)),
+                new SqlStatement(Def.Sql.IfConflicted.Params(GroupId)){ IfConflicted = true },  //TODO
                 StatusUtilities.UpdateStatus(
                     tenantId: context.TenantId,
                     type: StatusUtilities.Types.GroupsUpdated),

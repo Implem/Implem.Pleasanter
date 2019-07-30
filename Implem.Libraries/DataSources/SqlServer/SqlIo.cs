@@ -45,9 +45,15 @@ namespace Implem.Libraries.DataSources.SqlServer
 
         private void SetCommandText(ISqlObjectFactory factory)
         {
-            CommandText.Append(
-                "declare @_I bigint;\n",
-                "declare @_C int;\n");
+            //TODO
+            if (Implem.DefinitionAccessor.Parameters.Rds.Dbms?.ToLower() != "PostgreSQL".ToLower())
+            {
+                CommandText.Append(
+                    "declare @_I bigint;\n",
+                    "declare @_C int;\n");
+            }
+            /**/
+
             SqlContainer.SqlStatementCollection
                 .Select((o, i) => new
                 {
@@ -63,7 +69,13 @@ namespace Implem.Libraries.DataSources.SqlServer
                         sqlCommand: SqlCommand,
                         commandText: CommandText,
                         commandCount: data.Count));
-            SetTransaction();
+
+            //TODO
+            if (Implem.DefinitionAccessor.Parameters.Rds.Dbms?.ToLower() != "PostgreSQL".ToLower())
+            {
+                SetTransaction();
+            }
+            /**/
         }
 
         private void SetTransaction()
@@ -80,27 +92,72 @@ namespace Implem.Libraries.DataSources.SqlServer
         {
             SqlCommand.CommandType = CommandType.Text;
             SqlCommand.CommandText = CommandText.ToString();
-            SqlCommand.Connection = factory.CreateSqlConnection(SqlContainer.ConnectionString);
+            //TODO
+            //SqlCommand.Connection = factory.CreateSqlConnection(SqlContainer.ConnectionString);
             SqlCommand.CommandTimeout = SqlContainer.CommandTimeOut;
         }
 
-        public void ExecuteNonQuery(ISqlObjectFactory factory)
+        public int ExecuteNonQuery(ISqlObjectFactory factory, IDbTransaction dbTransaction, IDbConnection dbConnection = null)
         {
+            int value = 0;
             SetCommand(factory: factory);
-            SqlCommand.Connection.Open();
-            Try(factory:factory,
-                action: () =>
+
+            //TODO
+            try
             {
-                SqlCommand.ExecuteNonQuery();
-            }, cmd: SqlCommand);
+                SetTransactionOrConnectionToCommand(SqlCommand, factory, dbTransaction, dbConnection);
+                Try(factory: factory,
+                    action: () =>
+                    {
+                        value = SqlCommand.ExecuteNonQuery();
+                    },
+                    cmd: SqlCommand);
+            }
+            finally
+            {
+                CleanupConnection(SqlCommand, dbConnection);
+            }
+
+            /*
+            SqlCommand.Connection.Open();
+            Try(factory: factory,
+                action: () =>
+                {
+                    SqlCommand.ExecuteNonQuery();
+                }, cmd: SqlCommand);
             SqlCommand.Connection.Close();
+            */
+
             Clear();
+            return value;
         }
 
-        public object ExecuteScalar(ISqlObjectFactory factory)
+        public object ExecuteScalar(ISqlObjectFactory factory, IDbTransaction dbTransaction, IDbConnection dbConnection)
         {
             object value = null;
             SetCommand(factory: factory);
+
+            //TODO
+            try
+            {
+                SetTransactionOrConnectionToCommand(SqlCommand, factory, dbTransaction, dbConnection);
+                Try(factory: factory,
+                    action: () =>
+                    {
+                        //value = SqlCommand.ExecuteScalar();
+                        var dt = new DataTable();
+                        dt.Load(SqlCommand.ExecuteReader());
+                        var cmd = SqlCommand.CommandText;
+                        value = dt.AsEnumerable().Select(dr => dr[0]).FirstOrDefault();
+                    },
+                    cmd: SqlCommand);
+            }
+            finally
+            {
+                CleanupConnection(SqlCommand, dbConnection);
+            }
+
+            /*
             SqlCommand.Connection.Open();
             Try(factory: factory, 
                 action: () =>
@@ -108,6 +165,7 @@ namespace Implem.Libraries.DataSources.SqlServer
                 value = SqlCommand.ExecuteScalar();
             }, cmd: SqlCommand);
             SqlCommand.Connection.Close();
+             */
 
             //TODO
             {
@@ -124,15 +182,35 @@ namespace Implem.Libraries.DataSources.SqlServer
             return value;
         }
 
-        public DataTable ExecuteTable(ISqlObjectFactory factory)
+        public DataTable ExecuteTable(ISqlObjectFactory factory, IDbTransaction dbTransaction = null, IDbConnection dbConnection = null)
         {
             var dataTable = new DataTable();
             SetCommand(factory: factory);
-            Try(factory: factory, 
-                action: () =>
+
+            //TODO
+            try
             {
-                factory.CreateSqlDataAdapter(SqlCommand).Fill(dataTable);
-            }, cmd: SqlCommand);
+                SetTransactionOrConnectionToCommand(SqlCommand, factory, dbTransaction, dbConnection);
+                Try(factory: factory,
+                    action: () =>
+                    {
+                        factory.CreateSqlDataAdapter(SqlCommand).Fill(dataTable);
+                    },
+                    cmd: SqlCommand);
+            }
+            finally
+            {
+                CleanupConnection(SqlCommand, dbConnection);
+            }
+
+            /*
+            Try(factory: factory,
+                action: () =>
+                {
+                    factory.CreateSqlDataAdapter(SqlCommand).Fill(dataTable);
+                }, cmd: SqlCommand);
+            */
+
 
             //TODO
             {
@@ -149,15 +227,33 @@ namespace Implem.Libraries.DataSources.SqlServer
             return dataTable;
         }
 
-        public DataSet ExecuteDataSet(ISqlObjectFactory factory)
+        public DataSet ExecuteDataSet(ISqlObjectFactory factory, IDbTransaction dbTransaction = null, IDbConnection dbConnection = null)
         {
             var dataSet = new DataSet();
             SetCommand(factory: factory);
-            Try(factory: factory, 
-                action: () =>
+
+            //TODO
+            try {
+                SetTransactionOrConnectionToCommand(SqlCommand, factory, dbTransaction, dbConnection);
+                Try(factory: factory,
+                    action: () =>
+                    {
+                        SqlContainer.SqlDataAdapter(factory: factory, sqlCommand: SqlCommand).Fill(dataSet);
+                    },
+                    cmd: SqlCommand);
+            }
+            finally
             {
-                SqlContainer.SqlDataAdapter(factory: factory, sqlCommand: SqlCommand).Fill(dataSet);
-            }, cmd: SqlCommand);
+                CleanupConnection(SqlCommand, dbConnection);
+            }
+
+            /*
+            Try(factory: factory,
+                action: () =>
+                {
+                    SqlContainer.SqlDataAdapter(factory: factory, sqlCommand: SqlCommand).Fill(dataSet);
+                }, cmd: SqlCommand);
+                */
 
             //TODO
             {
@@ -172,6 +268,32 @@ namespace Implem.Libraries.DataSources.SqlServer
 
             Clear();
             return dataSet;
+        }
+
+        //TODO
+        private ISqlConnection CreateAndOpenConnection(ISqlObjectFactory factory)
+        {
+            var sqlConnection = factory.CreateSqlConnection(SqlContainer.ConnectionString);
+            sqlConnection.Open();
+            return sqlConnection;
+        }
+
+        //TODO
+        private void SetTransactionOrConnectionToCommand(ISqlCommand sqlCommand, ISqlObjectFactory factory, IDbTransaction dbTransaction, IDbConnection dbConnection)
+        {
+            sqlCommand.Transaction = dbTransaction;
+            sqlCommand.Connection = dbConnection;
+            if(sqlCommand.Connection == null) sqlCommand.Connection = CreateAndOpenConnection(factory);
+        }
+
+        //TODO
+        private void CleanupConnection(ISqlCommand sqlCommand, IDbConnection dbConnection)
+        {
+            if (dbConnection == null)
+                if (SqlCommand.Connection != null)
+                    SqlCommand.Connection.Close();
+            SqlCommand.Connection = null;
+            SqlCommand.Transaction = null;
         }
 
         public List<SqlResponse> ExecuteDataSet_responses(ISqlObjectFactory factory)
@@ -217,55 +339,55 @@ namespace Implem.Libraries.DataSources.SqlServer
             }
         }
 
-        public void ExecuteNonQuery(ISqlObjectFactory factory, SqlStatement sqlStatement)
+        public void ExecuteNonQuery(ISqlObjectFactory factory, SqlStatement sqlStatement, IDbTransaction dbTransaction, IDbConnection dbConnection)
         {
             SqlContainer.SqlStatementCollection.Add(sqlStatement);
-            ExecuteNonQuery(factory: factory);
+            ExecuteNonQuery(factory: factory, dbTransaction: dbTransaction, dbConnection: dbConnection);
         }
 
-        public void ExecuteNonQuery(ISqlObjectFactory factory, string commandText)
+        public void ExecuteNonQuery(ISqlObjectFactory factory, IDbTransaction dbTransaction, IDbConnection dbConnection, string commandText)
         {
-            ExecuteNonQuery(factory: factory, sqlStatement: new SqlStatement(commandText));
+            ExecuteNonQuery(factory: factory, dbTransaction: dbTransaction, dbConnection: dbConnection, sqlStatement: new SqlStatement(commandText));
         }
 
-        public bool ExecuteScalar_bool(ISqlObjectFactory factory)
+        public bool ExecuteScalar_bool(ISqlObjectFactory factory, IDbTransaction dbTransaction, IDbConnection dbConnection)
         {
-            return ExecuteScalar(factory: factory).ToBool();
+            return ExecuteScalar(factory: factory, dbTransaction: dbTransaction, dbConnection: dbConnection).ToBool();
         }
 
-        public int ExecuteScalar_int(ISqlObjectFactory factory)
+        public int ExecuteScalar_int(ISqlObjectFactory factory, IDbTransaction dbTransaction, IDbConnection dbConnection)
         {
-            return ExecuteScalar(factory: factory).ToInt();
+            return ExecuteScalar(factory: factory, dbTransaction: dbTransaction, dbConnection: dbConnection).ToInt();
         }
 
-        public long ExecuteScalar_long(ISqlObjectFactory factory)
+        public long ExecuteScalar_long(ISqlObjectFactory factory, IDbTransaction dbTransaction, IDbConnection dbConnection)
         {
-            return ExecuteScalar(factory: factory).ToLong();
+            return ExecuteScalar(factory: factory, dbTransaction: dbTransaction, dbConnection: dbConnection).ToLong();
         }
 
-        public decimal ExecuteScalar_decimal(ISqlObjectFactory factory)
+        public decimal ExecuteScalar_decimal(ISqlObjectFactory factory, IDbTransaction dbTransaction, IDbConnection dbConnection)
         {
-            return ExecuteScalar(factory: factory).ToDecimal();
+            return ExecuteScalar(factory: factory, dbTransaction: dbTransaction, dbConnection: dbConnection).ToDecimal();
         }
 
-        public DateTime ExecuteScalar_datetime(ISqlObjectFactory factory)
+        public DateTime ExecuteScalar_datetime(ISqlObjectFactory factory, IDbTransaction dbTransaction, IDbConnection dbConnection)
         {
-            return ExecuteScalar(factory).ToDateTime();
+            return ExecuteScalar(factory, dbTransaction: dbTransaction, dbConnection: dbConnection).ToDateTime();
         }
 
-        public string ExecuteScalar_string(ISqlObjectFactory factory)
+        public string ExecuteScalar_string(ISqlObjectFactory factory, IDbTransaction dbTransaction, IDbConnection dbConnection)
         {
-            return ExecuteScalar(factory: factory).ToStr();
+            return ExecuteScalar(factory: factory, dbTransaction: dbTransaction, dbConnection: dbConnection).ToStr();
         }
 
-        public byte[] ExecuteScalar_bytes(ISqlObjectFactory factory)
+        public byte[] ExecuteScalar_bytes(ISqlObjectFactory factory, IDbTransaction dbTransaction, IDbConnection dbConnection)
         {
-            return (byte[])ExecuteScalar(factory: factory);
+            return (byte[])ExecuteScalar(factory: factory, dbTransaction: dbTransaction, dbConnection: dbConnection);
         }
 
-        public SqlResponse ExecuteScalar_response(ISqlObjectFactory factory)
+        public SqlResponse ExecuteScalar_response(ISqlObjectFactory factory, IDbTransaction dbTransaction, IDbConnection dbConnection)
         {
-            var response = ExecuteScalar(factory: factory).ToStr().Deserialize<SqlResponse>() ?? new SqlResponse();
+            var response = ExecuteScalar(factory: factory, dbTransaction: dbTransaction, dbConnection: dbConnection).ToStr().Deserialize<SqlResponse>() ?? new SqlResponse();
             if (!response.ErrorMessage.IsNullOrEmpty())
             {
                 throw new Exception(response.ErrorMessage);

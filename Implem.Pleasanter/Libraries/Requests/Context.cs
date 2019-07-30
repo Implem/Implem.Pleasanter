@@ -150,6 +150,22 @@ namespace Implem.Pleasanter.Libraries.Requests
             return GetSqlObjectFactory().CreateSqlConnection(connectionString);
         }
 
+        public ISqls Sqls
+        {
+            get
+            {
+                return GetSqlObjectFactory().Sqls;
+            }
+        }
+
+        public ISqlCommandText SqlCommandText
+        {
+            get
+            {
+                return GetSqlObjectFactory().SqlCommandText;
+            }
+        }
+
         public ISqlErrors SqlErrors
         {
             get

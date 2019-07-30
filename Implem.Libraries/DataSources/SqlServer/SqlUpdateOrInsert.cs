@@ -26,7 +26,7 @@ namespace Implem.Libraries.DataSources.SqlServer
                 sqlCommand: sqlCommand,
                 commandText: commandText,
                 commandCount: commandCount);
-            Build_SelectIdentity(commandText: commandText);
+            Build_SelectIdentity(factory: factory, commandText: commandText);
             AddParams_Where(
                 factory: factory,
                 sqlCommand: sqlCommand,

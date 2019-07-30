@@ -33,7 +33,7 @@ namespace Implem.CodeDefiner.Functions.SqlServer.Parts
             sqlStatement.CreateDefault(tableNameTemp, columnDefinitionCollection);
             sqlStatement.DropConstraint(factory: factory, sourceTableName: sourceTableName, tableIndexCollection: tableIndexCollection);
             sqlStatement.CommandText = sqlStatement.CommandText.Replace("#TableName#", tableNameTemp);
-            Def.SqlIoByAdmin(factory: factory, transactional: true).ExecuteNonQuery(factory: factory, sqlStatement: sqlStatement);
+            Def.SqlIoByAdmin(factory: factory, transactional: true).ExecuteNonQuery(factory: factory, dbTransaction: null, dbConnection: null, sqlStatement: sqlStatement);
         }
 
         internal static void MigrateTable(
@@ -61,6 +61,8 @@ namespace Implem.CodeDefiner.Functions.SqlServer.Parts
             {
                 Def.SqlIoByAdmin(factory: factory).ExecuteNonQuery(
                     factory: factory,
+                    dbTransaction: null,
+                    dbConnection: null,
                     commandText: MigrateSql(
                         factory: factory,
                         sql: Def.Sql.MigrateTableWithIdentity,
@@ -72,6 +74,8 @@ namespace Implem.CodeDefiner.Functions.SqlServer.Parts
             {
                 Def.SqlIoByAdmin(factory: factory).ExecuteNonQuery(
                     factory: factory,
+                    dbTransaction: null,
+                    dbConnection: null,
                     commandText: MigrateSql(
                         factory: factory,
                         sql: Def.Sql.MigrateTable,
