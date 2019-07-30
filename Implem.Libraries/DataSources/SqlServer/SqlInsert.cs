@@ -28,7 +28,7 @@ namespace Implem.Libraries.DataSources.SqlServer
                 sqlCommand: sqlCommand,
                 commandText: commandText,
                 commandCount: commandCount);
-            Build_SelectIdentity(commandText: commandText);
+            Build_SelectIdentity(factory: factory, commandText: commandText);
             AddParams_Param(
                 factory: factory,
                 sqlCommand: sqlCommand,
@@ -112,7 +112,9 @@ namespace Implem.Libraries.DataSources.SqlServer
         {
             if (Select == null)
             {
-                return "values(" + valueCollection.Join() + "); ";
+                return "values(" + valueCollection.Join() + ")" +
+                    factory.SqlCommandText.CreateSelectStatementTerminator(SelectIdentity) +
+                    " ";
             }
             else
             {

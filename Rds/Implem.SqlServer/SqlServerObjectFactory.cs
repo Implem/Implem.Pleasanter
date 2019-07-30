@@ -5,6 +5,9 @@ namespace Implem.SqlServer
     public class SqlServerObjectFactory : ISqlObjectFactory
     {
         private static ISqlErrors _sqlErrors = new SqlServerErrors();
+        private static ISqls _sqls = new SqlServerSqls();
+        private static ISqlCommandText _sqlCommandText = new SqlServerCommandText();
+
         public ISqlErrors SqlErrors => _sqlErrors;
 
         public ISqlCommand CreateSqlCommand()
@@ -30,6 +33,22 @@ namespace Implem.SqlServer
         public ISqlParameter CreateSqlParameter(string name, object value)
         {
             return new SqlServerParameter(name, value);
+        }
+
+        public ISqls Sqls
+        {
+            get
+            {
+                return _sqls;
+            }
+        }
+
+        public ISqlCommandText SqlCommandText
+        {
+            get
+            {
+                return _sqlCommandText;
+            }
         }
     }
 }

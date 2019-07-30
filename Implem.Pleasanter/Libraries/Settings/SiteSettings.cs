@@ -1877,7 +1877,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                         .TenantId(context.TenantId)
                         .ReferenceType(ReferenceType)
                         .SiteId(SiteId)
-                        .Add(name: "HasPrivilege", value: context.HasPrivilege)))
+                        .Add(name: "HasPrivilege", value: context.HasPrivilege ? 1 : 0)))
                             .AsEnumerable());
             return enabled
                 ? MoveTargets?.Any() == true

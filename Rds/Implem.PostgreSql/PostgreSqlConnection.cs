@@ -11,9 +11,7 @@ namespace Implem.PostgreSql
 
         public PostgreSqlConnection(string connectionString)
         {
-            //TODO 接続文字列
             _instance = new NpgsqlConnection(connectionString);
-            //_instance = new NpgsqlConnection("Server=192.168.56.102;Port=5432;Database=postgres;UID=postgres;PWD=postgres");
         }
 
         public string ConnectionString { get => _instance.ConnectionString; set => _instance.ConnectionString = value; }

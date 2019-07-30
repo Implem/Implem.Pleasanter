@@ -10,6 +10,8 @@ namespace Implem.CodeDefiner.Functions.SqlServer
             Consoles.Write(Environments.ServiceName, Consoles.Types.Info);
             Def.SqlIoBySa(factory).ExecuteNonQuery(
                 factory: factory,
+                dbTransaction: null,
+                dbConnection: null,
                 commandText: Def.Sql.CreateDatabase.Replace("#InitialCatalog#", Environments.ServiceName));
         }
     }

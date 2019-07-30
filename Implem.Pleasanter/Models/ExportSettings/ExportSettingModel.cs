@@ -395,7 +395,7 @@ namespace Implem.Pleasanter.Models
                         context: context,
                         exportSettingModel: this,
                         otherInitValue: otherInitValue)),
-                new SqlStatement(Def.Sql.IfConflicted.Params(ExportSettingId))
+                new SqlStatement(Def.Sql.IfConflicted.Params(ExportSettingId)){ IfConflicted = true }  //TODO
             };
         }
 

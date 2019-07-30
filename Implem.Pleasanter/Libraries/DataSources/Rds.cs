@@ -16,8 +16,10 @@ namespace Implem.Pleasanter.Libraries.DataSources
 {
     public static class Rds
     {
-        public static void ExecuteNonQuery(
+        public static int ExecuteNonQuery(
             Context context,
+            IDbTransaction dbTransaction = null,
+            IDbConnection dbConnection = null,
             string connectionString = null,
             bool transactional = false,
             bool writeSqlToDebugLog = true,
@@ -33,13 +35,16 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     writeSqlToDebugLog: writeSqlToDebugLog,
                     statements: statements))
                 {
-                    io.ExecuteNonQuery(context);
+                    return io.ExecuteNonQuery(factory: context, dbTransaction: dbTransaction, dbConnection: dbConnection);
                 }
             }
+            return 0;
         }
 
         public static bool ExecuteScalar_bool(
             Context context,
+            IDbTransaction dbTransaction = null,
+            IDbConnection dbConnection = null,
             string connectionString = null,
             bool transactional = false,
             bool writeSqlToDebugLog = true,
@@ -53,12 +58,14 @@ namespace Implem.Pleasanter.Libraries.DataSources
                 writeSqlToDebugLog: writeSqlToDebugLog,
                 statements: statements))
             {
-                return io.ExecuteScalar_bool(factory: context);
+                return io.ExecuteScalar_bool(factory: context, dbTransaction: dbTransaction, dbConnection: dbConnection);
             }
         }
 
         public static int ExecuteScalar_int(
             Context context,
+            IDbTransaction dbTransaction = null,
+            IDbConnection dbConnection = null,
             string connectionString = null,
             bool transactional = false,
             bool writeSqlToDebugLog = true,
@@ -72,12 +79,14 @@ namespace Implem.Pleasanter.Libraries.DataSources
                 writeSqlToDebugLog: writeSqlToDebugLog,
                 statements: statements))
             {
-                return io.ExecuteScalar_int(factory: context);
+                return io.ExecuteScalar_int(factory: context, dbTransaction: dbTransaction, dbConnection: dbConnection);
             }
         }
 
         public static long ExecuteScalar_long(
             Context context,
+            IDbTransaction dbTransaction = null,
+            IDbConnection dbConnection = null,
             string connectionString = null,
             bool transactional = false,
             bool writeSqlToDebugLog = true,
@@ -91,12 +100,14 @@ namespace Implem.Pleasanter.Libraries.DataSources
                 writeSqlToDebugLog: writeSqlToDebugLog,
                 statements: statements))
             {
-                return io.ExecuteScalar_long(factory: context);
+                return io.ExecuteScalar_long(factory: context, dbTransaction: dbTransaction, dbConnection: dbConnection);
             }
         }
 
         public static decimal ExecuteScalar_decimal(
             Context context,
+            IDbTransaction dbTransaction = null,
+            IDbConnection dbConnection = null,
             string connectionString = null,
             bool transactional = false,
             bool writeSqlToDebugLog = true,
@@ -110,12 +121,14 @@ namespace Implem.Pleasanter.Libraries.DataSources
                 writeSqlToDebugLog: writeSqlToDebugLog,
                 statements: statements))
             {
-                return io.ExecuteScalar_decimal(factory: context);
+                return io.ExecuteScalar_decimal(factory: context, dbTransaction: dbTransaction, dbConnection: dbConnection);
             }
         }
 
         public static DateTime ExecuteScalar_datetime(
             Context context,
+            IDbTransaction dbTransaction = null,
+            IDbConnection dbConnection = null,
             string connectionString = null,
             bool transactional = false,
             bool writeSqlToDebugLog = true,
@@ -129,12 +142,14 @@ namespace Implem.Pleasanter.Libraries.DataSources
                 writeSqlToDebugLog: writeSqlToDebugLog,
                 statements: statements))
             {
-                return io.ExecuteScalar_datetime(factory: context);
+                return io.ExecuteScalar_datetime(factory: context, dbTransaction: dbTransaction, dbConnection: dbConnection);
             }
         }
 
         public static string ExecuteScalar_string(
             Context context,
+            IDbTransaction dbTransaction = null,
+            IDbConnection dbConnection = null,
             string connectionString = null,
             bool transactional = false,
             bool writeSqlToDebugLog = true,
@@ -148,12 +163,14 @@ namespace Implem.Pleasanter.Libraries.DataSources
                 writeSqlToDebugLog: writeSqlToDebugLog,
                 statements: statements))
             {
-                return io.ExecuteScalar_string(factory: context);
+                return io.ExecuteScalar_string(factory: context, dbTransaction: dbTransaction, dbConnection: dbConnection);
             }
         }
 
         public static byte[] ExecuteScalar_bytes(
             Context context,
+            IDbTransaction dbTransaction = null,
+            IDbConnection dbConnection = null,
             string connectionString = null,
             bool transactional = false,
             bool writeSqlToDebugLog = true,
@@ -167,12 +184,14 @@ namespace Implem.Pleasanter.Libraries.DataSources
                 writeSqlToDebugLog: writeSqlToDebugLog,
                 statements: statements))
             {
-                return io.ExecuteScalar_bytes(factory: context);
+                return io.ExecuteScalar_bytes(factory: context, dbTransaction: dbTransaction, dbConnection: dbConnection);
             }
         }
 
         public static SqlResponse ExecuteScalar_response(
             Context context,
+            IDbTransaction dbTransaction = null,
+            IDbConnection dbConnection = null,
             string connectionString = null,
             bool transactional = false,
             bool selectIdentity = false,
@@ -188,8 +207,53 @@ namespace Implem.Pleasanter.Libraries.DataSources
                 writeSqlToDebugLog: writeSqlToDebugLog,
                 statements: statements))
             {
-                return io.ExecuteScalar_response(factory: context);
+                return io.ExecuteScalar_response(factory: context, dbTransaction: dbTransaction, dbConnection: dbConnection);
             }
+        }
+
+        public static T ExecuteScalar<T>(
+            Context context,
+            string connectionString = null,
+            bool transactional = false,
+            Func<IDbTransaction, IDbConnection, (bool, T)> func = null)
+        {
+            using(var dbConnection = context.CreateSqlConnection(!string.IsNullOrWhiteSpace(connectionString) ? connectionString : Parameters.Rds.UserConnectionString))
+            {
+                dbConnection.Open();
+                var transaction = transactional ? dbConnection.BeginTransaction() : null;
+                try
+                {
+                    try
+                    {
+                        var (success, responce) = func(transaction, dbConnection);
+                        if(success) transaction?.Commit();
+                        else transaction?.Rollback();
+                        return responce;
+                    }
+                    catch
+                    {
+                        transaction?.Rollback();
+                        throw;
+                    }
+                }
+                finally
+                {
+                    transaction?.Dispose();
+                }
+            }
+        }
+
+        public static int ExecuteNonQuery(
+            Context context,
+            string connectionString = null,
+            bool transactional = false,
+            Func<IDbTransaction, IDbConnection, (bool, int)> func = null)
+        {
+            return ExecuteScalar(
+                context: context,
+                connectionString: connectionString,
+                transactional: transactional,
+                func: func);
         }
 
         public static DataTable ExecuteTable(
@@ -5298,6 +5362,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                 DataTableName = dataTableName,
                 TableType = tableType,
                 TableBracket = "[SysLogs]",
+                IdentityColumnName = "[SysLogId]",
                 HistoryTableBracket = "[SysLogs_history]",
                 DeletedTableBracket = "[SysLogs_deleted]",
                 SelectIdentity = selectIdentity,
@@ -5815,6 +5880,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                 DataTableName = dataTableName,
                 TableType = tableType,
                 TableBracket = "[Items]",
+                IdentityColumnName = "[ReferenceId]",
                 HistoryTableBracket = "[Items_history]",
                 DeletedTableBracket = "[Items_deleted]",
                 SelectIdentity = selectIdentity,
@@ -11524,22 +11590,22 @@ namespace Implem.Pleasanter.Libraries.DataSources
             return @"
                 update [Items]
                 set
-                    [Items].[Updator] = @_U,
-                    [Items].[UpdatedTime] = getdate() {0};
+                    [Updator] = @_U,
+                    [UpdatedTime] = getdate() {0};
                 insert into [Items_deleted]
                 (
-                    [Items_deleted].[ReferenceId],
-                    [Items_deleted].[Ver],
-                    [Items_deleted].[ReferenceType],
-                    [Items_deleted].[SiteId],
-                    [Items_deleted].[Title],
-                    [Items_deleted].[FullText],
-                    [Items_deleted].[SearchIndexCreatedTime],
-                    [Items_deleted].[Comments],
-                    [Items_deleted].[Creator],
-                    [Items_deleted].[Updator],
-                    [Items_deleted].[CreatedTime],
-                    [Items_deleted].[UpdatedTime]
+                    [ReferenceId],
+                    [Ver],
+                    [ReferenceType],
+                    [SiteId],
+                    [Title],
+                    [FullText],
+                    [SearchIndexCreatedTime],
+                    [Comments],
+                    [Creator],
+                    [Updator],
+                    [CreatedTime],
+                    [UpdatedTime]
                     {1}
                 )
                 (
@@ -11566,29 +11632,29 @@ namespace Implem.Pleasanter.Libraries.DataSources
             return @"
                 update [Sites]
                 set
-                    [Sites].[Updator] = @_U,
-                    [Sites].[UpdatedTime] = getdate() {0};
+                    [Updator] = @_U,
+                    [UpdatedTime] = getdate() {0};
                 insert into [Sites_deleted]
                 (
-                    [Sites_deleted].[TenantId],
-                    [Sites_deleted].[SiteId],
-                    [Sites_deleted].[UpdatedTime],
-                    [Sites_deleted].[Ver],
-                    [Sites_deleted].[Title],
-                    [Sites_deleted].[Body],
-                    [Sites_deleted].[GridGuide],
-                    [Sites_deleted].[EditorGuide],
-                    [Sites_deleted].[ReferenceType],
-                    [Sites_deleted].[ParentId],
-                    [Sites_deleted].[InheritPermission],
-                    [Sites_deleted].[SiteSettings],
-                    [Sites_deleted].[Publish],
-                    [Sites_deleted].[LockedTime],
-                    [Sites_deleted].[LockedUser],
-                    [Sites_deleted].[Comments],
-                    [Sites_deleted].[Creator],
-                    [Sites_deleted].[Updator],
-                    [Sites_deleted].[CreatedTime]
+                    [TenantId],
+                    [SiteId],
+                    [UpdatedTime],
+                    [Ver],
+                    [Title],
+                    [Body],
+                    [GridGuide],
+                    [EditorGuide],
+                    [ReferenceType],
+                    [ParentId],
+                    [InheritPermission],
+                    [SiteSettings],
+                    [Publish],
+                    [LockedTime],
+                    [LockedUser],
+                    [Comments],
+                    [Creator],
+                    [Updator],
+                    [CreatedTime]
                     {1}
                 )
                 (
@@ -11736,31 +11802,31 @@ namespace Implem.Pleasanter.Libraries.DataSources
             return @"
                 update [Binaries]
                 set
-                    [Binaries].[Updator] = @_U,
-                    [Binaries].[UpdatedTime] = getdate() {0};
+                    [Updator] = @_U,
+                    [UpdatedTime] = getdate() {0};
                 insert into [Binaries_deleted]
                 (
-                    [Binaries_deleted].[BinaryId],
-                    [Binaries_deleted].[TenantId],
-                    [Binaries_deleted].[ReferenceId],
-                    [Binaries_deleted].[Guid],
-                    [Binaries_deleted].[Ver],
-                    [Binaries_deleted].[BinaryType],
-                    [Binaries_deleted].[Title],
-                    [Binaries_deleted].[Body],
-                    [Binaries_deleted].[Bin],
-                    [Binaries_deleted].[Thumbnail],
-                    [Binaries_deleted].[Icon],
-                    [Binaries_deleted].[FileName],
-                    [Binaries_deleted].[Extension],
-                    [Binaries_deleted].[Size],
-                    [Binaries_deleted].[ContentType],
-                    [Binaries_deleted].[BinarySettings],
-                    [Binaries_deleted].[Comments],
-                    [Binaries_deleted].[Creator],
-                    [Binaries_deleted].[Updator],
-                    [Binaries_deleted].[CreatedTime],
-                    [Binaries_deleted].[UpdatedTime]
+                    [BinaryId],
+                    [TenantId],
+                    [ReferenceId],
+                    [Guid],
+                    [Ver],
+                    [BinaryType],
+                    [Title],
+                    [Body],
+                    [Bin],
+                    [Thumbnail],
+                    [Icon],
+                    [FileName],
+                    [Extension],
+                    [Size],
+                    [ContentType],
+                    [BinarySettings],
+                    [Comments],
+                    [Creator],
+                    [Updator],
+                    [CreatedTime],
+                    [UpdatedTime]
                     {1}
                 )
                 (
@@ -11836,27 +11902,27 @@ namespace Implem.Pleasanter.Libraries.DataSources
             return @"
                 update [Issues]
                 set
-                    [Issues].[Updator] = @_U,
-                    [Issues].[UpdatedTime] = getdate() {0};
+                    [Updator] = @_U,
+                    [UpdatedTime] = getdate() {0};
                 insert into [Issues_deleted]
                 (
-                    [Issues_deleted].[SiteId],
-                    [Issues_deleted].[UpdatedTime],
-                    [Issues_deleted].[IssueId],
-                    [Issues_deleted].[Ver],
-                    [Issues_deleted].[Title],
-                    [Issues_deleted].[Body],
-                    [Issues_deleted].[StartTime],
-                    [Issues_deleted].[CompletionTime],
-                    [Issues_deleted].[WorkValue],
-                    [Issues_deleted].[ProgressRate],
-                    [Issues_deleted].[Status],
-                    [Issues_deleted].[Manager],
-                    [Issues_deleted].[Owner],
-                    [Issues_deleted].[Comments],
-                    [Issues_deleted].[Creator],
-                    [Issues_deleted].[Updator],
-                    [Issues_deleted].[CreatedTime]
+                    [SiteId],
+                    [UpdatedTime],
+                    [IssueId],
+                    [Ver],
+                    [Title],
+                    [Body],
+                    [StartTime],
+                    [CompletionTime],
+                    [WorkValue],
+                    [ProgressRate],
+                    [Status],
+                    [Manager],
+                    [Owner],
+                    [Comments],
+                    [Creator],
+                    [Updator],
+                    [CreatedTime]
                     {1}
                 )
                 (
@@ -11888,23 +11954,23 @@ namespace Implem.Pleasanter.Libraries.DataSources
             return @"
                 update [Results]
                 set
-                    [Results].[Updator] = @_U,
-                    [Results].[UpdatedTime] = getdate() {0};
+                    [Updator] = @_U,
+                    [UpdatedTime] = getdate() {0};
                 insert into [Results_deleted]
                 (
-                    [Results_deleted].[SiteId],
-                    [Results_deleted].[UpdatedTime],
-                    [Results_deleted].[ResultId],
-                    [Results_deleted].[Ver],
-                    [Results_deleted].[Title],
-                    [Results_deleted].[Body],
-                    [Results_deleted].[Status],
-                    [Results_deleted].[Manager],
-                    [Results_deleted].[Owner],
-                    [Results_deleted].[Comments],
-                    [Results_deleted].[Creator],
-                    [Results_deleted].[Updator],
-                    [Results_deleted].[CreatedTime]
+                    [SiteId],
+                    [UpdatedTime],
+                    [ResultId],
+                    [Ver],
+                    [Title],
+                    [Body],
+                    [Status],
+                    [Manager],
+                    [Owner],
+                    [Comments],
+                    [Creator],
+                    [Updator],
+                    [CreatedTime]
                     {1}
                 )
                 (
@@ -11932,20 +11998,20 @@ namespace Implem.Pleasanter.Libraries.DataSources
             return @"
                 update [Wikis]
                 set
-                    [Wikis].[Updator] = @_U,
-                    [Wikis].[UpdatedTime] = getdate() {0};
+                    [Updator] = @_U,
+                    [UpdatedTime] = getdate() {0};
                 insert into [Wikis_deleted]
                 (
-                    [Wikis_deleted].[SiteId],
-                    [Wikis_deleted].[UpdatedTime],
-                    [Wikis_deleted].[WikiId],
-                    [Wikis_deleted].[Ver],
-                    [Wikis_deleted].[Title],
-                    [Wikis_deleted].[Body],
-                    [Wikis_deleted].[Comments],
-                    [Wikis_deleted].[Creator],
-                    [Wikis_deleted].[Updator],
-                    [Wikis_deleted].[CreatedTime]
+                    [SiteId],
+                    [UpdatedTime],
+                    [WikiId],
+                    [Ver],
+                    [Title],
+                    [Body],
+                    [Comments],
+                    [Creator],
+                    [Updator],
+                    [CreatedTime]
                     {1}
                 )
                 (
@@ -11973,12 +12039,12 @@ namespace Implem.Pleasanter.Libraries.DataSources
                 "{0}",
                 extended.Any()
                     ? "," + extended
-                        .Select(columnName => $"[{tableName}_deleted].[{columnName}]")
+                        .Select(columnName => $"[{columnName}]")
                         .Join()
                     : string.Empty,
                 extended.Any()
                     ? "," + extended
-                        .Select(columnName => $"[{tableName}].[{columnName}]")
+                        .Select(columnName => $"[{columnName}]")
                         .Join()
                     : string.Empty
             };

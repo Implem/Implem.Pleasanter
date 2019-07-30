@@ -488,7 +488,7 @@ namespace Implem.Pleasanter.Models
                         context: context,
                         tenantModel: this,
                         otherInitValue: otherInitValue)),
-                new SqlStatement(Def.Sql.IfConflicted.Params(TenantId))
+                new SqlStatement(Def.Sql.IfConflicted.Params(TenantId)){ IfConflicted = true }  //TODO
             };
         }
 

@@ -914,10 +914,9 @@ namespace Implem.Pleasanter.Models
                 tableType: tableType,
                 param: param,
                 otherInitValue: otherInitValue));
-            var response = Rds.ExecuteScalar_response(
+            var response = Repository.ExecuteScalar_response(
                 context: context,
                 transactional: true,
-                selectIdentity: true,
                 statements: statements.ToArray());
             if (response.Event == "Duplicated")
             {
@@ -1075,7 +1074,7 @@ namespace Implem.Pleasanter.Models
                 param: param,
                 otherInitValue: otherInitValue,
                 additionalStatements: additionalStatements));
-            var response = Rds.ExecuteScalar_response(
+            var response = Repository.ExecuteScalar_response(
                 context: context,
                 transactional: true,
                 statements: statements.ToArray());
@@ -1222,7 +1221,7 @@ namespace Implem.Pleasanter.Models
                         context: context,
                         issueModel: this,
                         otherInitValue: otherInitValue)),
-                new SqlStatement(Def.Sql.IfConflicted.Params(IssueId))
+                new SqlStatement(Def.Sql.IfConflicted.Params(IssueId)){ IfConflicted = true }
             };
         }
 
@@ -1420,7 +1419,7 @@ namespace Implem.Pleasanter.Models
                 Rds.DeleteIssues(where: where)
             });
             statements.OnDeletedExtendedSqls(SiteId, IssueId);
-            var response = Rds.ExecuteScalar_response(
+            var response = Repository.ExecuteScalar_response(
                 context: context,
                 transactional: true,
                 statements: statements.ToArray());

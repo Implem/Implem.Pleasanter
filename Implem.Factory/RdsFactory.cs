@@ -13,12 +13,11 @@ namespace Implem.Factory
         {
             switch (dbms?.ToLower())
             {
-                case SQLServer:
-                    return (ISqlObjectFactory)Activator.CreateInstance(typeof(SqlServerObjectFactory));
                 case PostgreSQL:
                     return (ISqlObjectFactory)Activator.CreateInstance(typeof(PostgreSqlObjectFactory));
+                case SQLServer:
                 default:
-                    throw new NotSupportedException($"DBMS[{dbms}] is not supported  by Pleasanter.");
+                    return (ISqlObjectFactory)Activator.CreateInstance(typeof(SqlServerObjectFactory));
             }
         }
     }

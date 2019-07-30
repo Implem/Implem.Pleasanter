@@ -27,6 +27,9 @@ namespace Implem.Libraries.DataSources.SqlServer
         public bool Terminate = true;
         public bool Using = true;
         public Sqls.UnionTypes UnionType;
+        public string IdentityColumnName;
+        public bool IfConflicted = false;
+        public bool IfDuplicated = false;
 
         public SqlStatement()
         {
@@ -210,11 +213,13 @@ namespace Implem.Libraries.DataSources.SqlServer
             }
         }
 
-        protected void Build_SelectIdentity(StringBuilder commandText)
+        protected void Build_SelectIdentity(ISqlObjectFactory factory, StringBuilder commandText)
         {
             if (SelectIdentity)
             {
-                commandText.Append(Sqls.SelectIdentity);
+                commandText.Append(factory.SqlCommandText.CreateSelectIdentity(
+                    template: Sqls.SelectIdentity,
+                    identityColumnName: IdentityColumnName));
             }
         }
 

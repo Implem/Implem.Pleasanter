@@ -14,6 +14,8 @@ namespace Implem.CodeDefiner.Functions.SqlServer
                 .ForEach(spidDataRow =>
                 Def.SqlIoBySa(factory: factory).ExecuteNonQuery(
                     factory: factory,
+                    dbTransaction: null,
+                    dbConnection: null,
                     commandText: Def.Sql.KillSpid.Replace("#Spid#", spidDataRow["spid"].ToString())));
         }
 

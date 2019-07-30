@@ -396,10 +396,9 @@ namespace Implem.Pleasanter.Models
                 tableType: tableType,
                 param: param,
                 otherInitValue: otherInitValue));
-            var response = Rds.ExecuteScalar_response(
+            var response = Repository.ExecuteScalar_response(
                 context: context,
                 transactional: true,
-                selectIdentity: true,
                 statements: statements.ToArray());
             WikiId = (response.Id ?? WikiId).ToLong();
             if (context.ContractSettings.Notice != false && notice)
@@ -523,7 +522,7 @@ namespace Implem.Pleasanter.Models
                 param: param,
                 otherInitValue: otherInitValue,
                 additionalStatements: additionalStatements));
-            var response = Rds.ExecuteScalar_response(
+            var response = Repository.ExecuteScalar_response(
                 context: context,
                 transactional: true,
                 statements: statements.ToArray());
@@ -667,7 +666,7 @@ namespace Implem.Pleasanter.Models
                         context: context,
                         wikiModel: this,
                         otherInitValue: otherInitValue)),
-                new SqlStatement(Def.Sql.IfConflicted.Params(WikiId))
+                new SqlStatement(Def.Sql.IfConflicted.Params(WikiId)){ IfConflicted = true }
             };
         }
 
@@ -806,7 +805,7 @@ namespace Implem.Pleasanter.Models
                     where: Rds.SitesWhere().SiteId(SiteId))
             });
             statements.OnDeletedExtendedSqls(SiteId, WikiId);
-            Rds.ExecuteNonQuery(
+            Repository.ExecuteNonQuery(
                 context: context,
                 transactional: true,
                 statements: statements.ToArray());
