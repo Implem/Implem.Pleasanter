@@ -2920,7 +2920,12 @@ namespace Implem.Pleasanter.Libraries.Settings
                     _using: select != null)
                 .ReferenceId_In(
                     selectedValues,
-                    _using: selectedValues?.Any() == true)
+                    _using: selectedValues?.Any() == true
+                        && Rds.ExecuteScalar_string(
+                            context: context,
+                            statements: Rds.SelectSites(
+                                column: Rds.SitesColumn().ReferenceType(),
+                                where: Rds.SitesWhere().SiteId(link.SiteId))) != "Wikis")
                 .ReferenceId_In(
                     sub: new SqlStatement(LinkHashRelatingColumnsSubQuery(
                         referenceType: referenceType,

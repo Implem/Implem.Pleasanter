@@ -468,6 +468,7 @@ namespace Implem.DefinitionAccessor
                     case "Model_ImportCases": Code.Model_ImportCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_ImportCases, definitionRow, CodeXls); break;
                     case "Model_OpenExportSelectorDialogCases": Code.Model_OpenExportSelectorDialogCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_OpenExportSelectorDialogCases, definitionRow, CodeXls); break;
                     case "Model_ExportCases": Code.Model_ExportCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_ExportCases, definitionRow, CodeXls); break;
+                    case "Model_ExportAsyncCases": Code.Model_ExportAsyncCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_ExportAsyncCases, definitionRow, CodeXls); break;
                     case "Model_ExportCrosstabCases": Code.Model_ExportCrosstabCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_ExportCrosstabCases, definitionRow, CodeXls); break;
                     case "Model_GridRowsCases": Code.Model_GridRowsCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_GridRowsCases, definitionRow, CodeXls); break;
                     case "Model_ReloadRowCases": Code.Model_ReloadRowCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_ReloadRowCases, definitionRow, CodeXls); break;
@@ -7212,6 +7213,7 @@ namespace Implem.DefinitionAccessor
         public string Model_ImportCases;
         public string Model_OpenExportSelectorDialogCases;
         public string Model_ExportCases;
+        public string Model_ExportAsyncCases;
         public string Model_ExportCrosstabCases;
         public string Model_GridRowsCases;
         public string Model_ReloadRowCases;
@@ -7826,6 +7828,7 @@ namespace Implem.DefinitionAccessor
         public CodeDefinition Model_ImportCases = new CodeDefinition();
         public CodeDefinition Model_OpenExportSelectorDialogCases = new CodeDefinition();
         public CodeDefinition Model_ExportCases = new CodeDefinition();
+        public CodeDefinition Model_ExportAsyncCases = new CodeDefinition();
         public CodeDefinition Model_ExportCrosstabCases = new CodeDefinition();
         public CodeDefinition Model_GridRowsCases = new CodeDefinition();
         public CodeDefinition Model_ReloadRowCases = new CodeDefinition();

@@ -716,10 +716,10 @@ namespace Implem.Pleasanter.Models
             }
             if (ss.Sources?.Any() == true)
             {
-                ItemUtilities.UpdateTitles(
+                ItemUtilities.UpdateSourceTitles(
                     context: context,
                     ss: ss,
-                    id: WikiId);
+                    idList: WikiId.ToSingleList());
             }
             Libraries.Search.Indexes.Create(context, ss, this);
         }
