@@ -963,7 +963,9 @@ namespace Implem.Pleasanter.Models
                             "[Items].[SearchIndexCreatedTime] is null",
                             "[Items].[SearchIndexCreatedTime]<>[Items].[UpdatedTime]"
                         }.Join(" or ")),
-                    top: Parameters.BackgroundTask.CreateSearchIndexLot))
+                    top: siteId > 0 
+                        ? 0
+                        : Parameters.BackgroundTask.CreateSearchIndexLot))
                         .AsEnumerable()
                         .Select(o => new
                         {
