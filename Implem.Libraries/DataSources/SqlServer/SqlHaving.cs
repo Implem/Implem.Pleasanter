@@ -1,4 +1,5 @@
-﻿using Implem.IRds;
+﻿using Implem.DefinitionAccessor;
+using Implem.IRds;
 using Implem.Libraries.Utilities;
 using System.Linq;
 using System.Text;
@@ -160,7 +161,7 @@ namespace Implem.Libraries.DataSources.SqlServer
             switch (Raw)
             {
                 case "@@identity":
-                    return Operator + "@_I";
+                    return Operator + $"{Parameters.Parameter.SqlParameterPrefix}I";
                 default:
                     return Operator + Raw.Replace("#CommandCount#", commandCount.ToString());
             }

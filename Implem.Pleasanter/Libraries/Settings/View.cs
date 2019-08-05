@@ -812,14 +812,14 @@ namespace Implem.Pleasanter.Libraries.Settings
             {
                 where.Add(
                     tableName: ss.ReferenceType,
-                    columnBrackets: "[Status]".ToSingleArray(),
+                    columnBrackets: "\"Status\"".ToSingleArray(),
                     _operator: "<" + Parameters.General.CompletionCode);
             }
             if (Own == true && HasOwnColumns(context, ss))
             {
                 where.Add(
                     tableName: ss.ReferenceType,
-                    columnBrackets: new string[] { "[Manager]", "[Owner]" },
+                    columnBrackets: new string[] { "\"Manager\"", "\"Owner\"" },
                     name: "_U",
                     value: context.UserId);
             }
@@ -829,7 +829,7 @@ namespace Implem.Pleasanter.Libraries.Settings
             {
                 where.Add(
                     tableName: ss.ReferenceType,
-                    columnBrackets: "[CompletionTime]".ToSingleArray(),
+                    columnBrackets: "\"CompletionTime\"".ToSingleArray(),
                     _operator: " between '{0}' and '{1}'".Params(
                         DateTime.Now.ToLocal(context: context).Date
                             .AddDays(ss.NearCompletionTimeBeforeDays.ToInt() * (-1)),
@@ -845,12 +845,12 @@ namespace Implem.Pleasanter.Libraries.Settings
                 where
                     .Add(
                         tableName: ss.ReferenceType,
-                        columnBrackets: "[Status]".ToSingleArray(),
+                        columnBrackets: "\"Status\"".ToSingleArray(),
                         name: "_U",
                         _operator: "<{0}".Params(Parameters.General.CompletionCode))
                     .Add(
                         tableName: ss.ReferenceType,
-                        columnBrackets: "[ProgressRate]".ToSingleArray(),
+                        columnBrackets: "\"ProgressRate\"".ToSingleArray(),
                         _operator: "<",
                         raw: Def.Sql.ProgressRateDelay
                             .Replace("#TableName#", ss.ReferenceType));
@@ -862,13 +862,13 @@ namespace Implem.Pleasanter.Libraries.Settings
                 where
                     .Add(
                         tableName: ss.ReferenceType,
-                        columnBrackets: "[Status]".ToSingleArray(),
+                        columnBrackets: "\"Status\"".ToSingleArray(),
                         name: "_U",
                         _operator: "<{0}".Params(Parameters.General.CompletionCode))
                     .Add(
                         tableName: ss.ReferenceType,
-                        columnBrackets: "[CompletionTime]".ToSingleArray(),
-                        _operator: "<getdate()");
+                        columnBrackets: "\"CompletionTime\"".ToSingleArray(),
+                        _operator: $"<{context.Sqls.CurrentDateTime}");
             }
         }
 
@@ -1039,7 +1039,7 @@ namespace Implem.Pleasanter.Libraries.Settings
             return param.Any(o => o != "\t")
                 ? new SqlWhere(
                     tableName: column.TableName(),
-                    columnBrackets: ("[" + column.Name + "]").ToSingleArray(),
+                    columnBrackets: ("\"" + column.Name + "\"").ToSingleArray(),
                     name: column.Name,
                     _operator: " in ({0})".Params(param
                         .Where(o => o != "\t")
@@ -1054,11 +1054,11 @@ namespace Implem.Pleasanter.Libraries.Settings
                 ? new SqlWhere(or: new SqlWhereCollection(
                     new SqlWhere(
                         tableName: column.TableName(),
-                        columnBrackets: ("[" + column.Name + "]").ToSingleArray(),
+                        columnBrackets: ("\"" + column.Name + "\"").ToSingleArray(),
                         _operator: " is null"),
                     new SqlWhere(
                         tableName: column.TableName(),
-                        columnBrackets: ("[" + column.Name + "]").ToSingleArray(),
+                        columnBrackets: ("\"" + column.Name + "\"").ToSingleArray(),
                         _operator: "={0}".Params(column.UserColumn
                             ? User.UserTypes.Anonymous.ToInt()
                             : 0))))
@@ -1079,21 +1079,21 @@ namespace Implem.Pleasanter.Libraries.Settings
                 {
                     parts.Add(new SqlWhere(
                         tableName: column.TableName(),
-                        columnBrackets: ("[" + column.Name + "]").ToSingleArray(),
+                        columnBrackets: ("\"" + column.Name + "\"").ToSingleArray(),
                         _operator: "<{0}".Params(to.ToDecimal())));
                 }
                 else if (to == string.Empty)
                 {
                     parts.Add(new SqlWhere(
                         tableName: column.TableName(),
-                        columnBrackets: ("[" + column.Name + "]").ToSingleArray(),
+                        columnBrackets: ("\"" + column.Name + "\"").ToSingleArray(),
                         _operator: ">={0}".Params(from.ToDecimal())));
                 }
                 else
                 {
                     parts.Add(new SqlWhere(
                         tableName: column.TableName(),
-                        columnBrackets: ("[" + column.Name + "]").ToSingleArray(),
+                        columnBrackets: ("\"" + column.Name + "\"").ToSingleArray(),
                         _operator: " between {0} and {1}".Params(
                             from.ToDecimal(), to.ToDecimal())));
                 }
@@ -1130,7 +1130,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                         var to = range.Split_2nd();
                         if (!from.IsNullOrEmpty() && !to.IsNullOrEmpty())
                         {
-                            return "#TableBracket#.[{0}] between '{1}' and '{2}'".Params(
+                            return "#TableBracket#.\"{0}\" between '{1}' and '{2}'".Params(
                                 column.Name,
                                 ConvertDateTimeParam(from, column).ToUniversal(context: context)
                                     .ToString("yyyy/M/d H:m:s"),
@@ -1139,14 +1139,14 @@ namespace Implem.Pleasanter.Libraries.Settings
                         }
                         else if (to.IsNullOrEmpty())
                         {
-                            return "#TableBracket#.[{0}] >= '{1}'".Params(
+                            return "#TableBracket#.\"{0}\" >= '{1}'".Params(
                                 column.Name,
                                 ConvertDateTimeParam(from, column).ToDateTime().ToUniversal(context: context)
                                     .ToString("yyyy/M/d H:m:s"));
                         }
                         else
                         {
-                            return "#TableBracket#.[{0}] <= '{1}'".Params(
+                            return "#TableBracket#.\"{0}\" <= '{1}'".Params(
                                 column.Name,
                                 ConvertDateTimeParam(to, column).ToDateTime().ToUniversal(context: context)
                                     .ToString("yyyy/M/d H:m:s.fff"));
@@ -1174,11 +1174,11 @@ namespace Implem.Pleasanter.Libraries.Settings
                 ? new SqlWhere(or: new SqlWhereCollection(
                     new SqlWhere(
                         tableName: column.TableName(),
-                        columnBrackets: ("[" + column.Name + "]").ToSingleArray(),
+                        columnBrackets: ("\"" + column.Name + "\"").ToSingleArray(),
                         _operator: " is null"),
                     new SqlWhere(
                         tableName: column.TableName(),
-                        columnBrackets: ("[" + column.Name + "]").ToSingleArray(),
+                        columnBrackets: ("\"" + column.Name + "\"").ToSingleArray(),
                         _operator: " not between '{0}' and '{1}'".Params(
                             Parameters.General.MinTime.ToUniversal(context: context)
                                 .ToString("yyyy/M/d H:m:s"),
@@ -1208,7 +1208,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                         tableName: column.TableName(),
                         name: name,
                         searchText: value,
-                        clauseCollection: "([{0}].[{1}] like '%' + @{2}#ParamCount#_#CommandCount# + '%')"
+                        clauseCollection: "(\"{0}\".\"{1}\" like '%' + @{2}#ParamCount#_#CommandCount# + '%')"
                             .Params(column.TableName(), column.Name, name)
                             .ToSingleList());
                 }
@@ -1220,7 +1220,7 @@ namespace Implem.Pleasanter.Libraries.Settings
             return param.Any(o => o != "\t")
                 ? new SqlWhere(
                     tableName: column.TableName(),
-                    columnBrackets: ("[" + column.Name + "]").ToSingleArray(),
+                    columnBrackets: ("\"" + column.Name + "\"").ToSingleArray(),
                     name: column.ParamName(),
                     value: param.Where(o => o != "\t"),
                     multiParamOperator: " or ")
@@ -1233,11 +1233,11 @@ namespace Implem.Pleasanter.Libraries.Settings
                 ? new SqlWhere(or: new SqlWhereCollection(
                     new SqlWhere(
                         tableName: column.TableName(),
-                        columnBrackets: ("[" + column.Name + "]").ToSingleArray(),
+                        columnBrackets: ("\"" + column.Name + "\"").ToSingleArray(),
                         _operator: " is null"),
                     new SqlWhere(
                         tableName: column.TableName(),
-                        columnBrackets: ("[" + column.Name + "]").ToSingleArray(),
+                        columnBrackets: ("\"" + column.Name + "\"").ToSingleArray(),
                         _operator: "=''")))
                 : null;
         }
@@ -1256,7 +1256,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                     {
                         case "ItemTitle":
                             orderBy.Add(new SqlOrderBy(
-                                columnBracket: "[Title]",
+                                columnBracket: "\"Title\"",
                                 orderType: data.Value,
                                 tableName: "Items"));
                             break;
@@ -1271,7 +1271,7 @@ namespace Implem.Pleasanter.Libraries.Settings
             return orderBy?.Any() != true
                 ? new SqlOrderByCollection().Add(
                     tableName: ss.ReferenceType,
-                    columnBracket: "[UpdatedTime]",
+                    columnBracket: "\"UpdatedTime\"",
                     orderType: SqlOrderBy.Types.desc)
                 : orderBy;
         }

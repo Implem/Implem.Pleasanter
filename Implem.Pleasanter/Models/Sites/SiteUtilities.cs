@@ -1176,16 +1176,20 @@ namespace Implem.Pleasanter.Models
                 transactional: true,
                 statements: new SqlStatement[]
                 {
-                    Rds.RestoreItems(where: Rds.ItemsWhere()
+                    Rds.RestoreItems(factory: context, where: Rds.ItemsWhere()
                         .ReferenceId_In(sub:
                             Rds.SelectWikis(
                                 tableType: Sqls.TableTypes.Deleted,
                                 column: Rds.WikisColumn().WikiId(),
                                 where: Rds.WikisWhere().SiteId_In(sub: sub)))
                         .ReferenceType("Wikis")),
-                    Rds.RestoreWikis(where: Rds.WikisWhere().SiteId_In(sub: sub)),
-                    Rds.RestoreItems(where: Rds.ItemsWhere().ReferenceId_In(sub: sub)),
-                    Rds.RestoreSites(where: where),
+                    Rds.RestoreWikis(
+                        factory: context,
+                        where: Rds.WikisWhere().SiteId_In(sub: sub)),
+                    Rds.RestoreItems(
+                        factory: context,
+                        where: Rds.ItemsWhere().ReferenceId_In(sub: sub)),
+                    Rds.RestoreSites(factory: context, where: where),
                     Rds.RowCount()
                 }).Count.ToInt();
         }

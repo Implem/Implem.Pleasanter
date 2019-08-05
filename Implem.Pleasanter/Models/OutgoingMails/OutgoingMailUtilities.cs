@@ -528,13 +528,13 @@ namespace Implem.Pleasanter.Models
             string searchText = "")
         {
             var joinDepts = new SqlJoin(
-                "[Depts]",
+                "\"Depts\"",
                 SqlJoin.JoinTypes.LeftOuter,
-                "[Users].[DeptId]=[Depts].[DeptId]");
+                "\"Users\".\"DeptId\"=\"Depts\".\"DeptId\"");
             var joinMailAddresses = new SqlJoin(
-                "[MailAddresses]",
+                "\"MailAddresses\"",
                 SqlJoin.JoinTypes.Inner,
-                "[Users].[UserId]=[MailAddresses].[OwnerId]");
+                "\"Users\".\"UserId\"=\"MailAddresses\".\"OwnerId\"");
             switch (searchRange)
             {
                 case "DefaultAddressBook":

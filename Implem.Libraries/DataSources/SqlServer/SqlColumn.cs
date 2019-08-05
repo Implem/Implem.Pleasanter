@@ -56,11 +56,11 @@ namespace Implem.Libraries.DataSources.SqlServer
         private string AsBracket()
         {
             return As != null
-                ? " as [" + As + "]"
+                ? " as \"" + As + "\""
                 : (Function != Sqls.Functions.None
-                    ? " as [" + ColumnName + Function.ToString() + "]"
+                    ? " as \"" + ColumnName + Function.ToString() + "\""
                     : ColumnBracket.StartsWith("(")
-                        ? " as [" + ColumnName + "]"
+                        ? " as \"" + ColumnName + "\""
                         : string.Empty);
         }
 
@@ -100,7 +100,7 @@ namespace Implem.Libraries.DataSources.SqlServer
                     : null,
                 commandCount: commandCount) + ")" +
                     (As != null
-                        ? " as [" + As + "]"
+                        ? " as \"" + As + "\""
                         : string.Empty);
         }
     }

@@ -422,11 +422,11 @@ namespace Implem.Pleasanter.Models
             ColumnNames().ForEach(columnName =>
             {
                 column.Add(
-                    columnBracket: $"[{columnName}]",
+                    columnBracket: $"\"{columnName}\"",
                     columnName: columnName,
                     function: Sqls.Functions.SingleColumn);
                 param.Add(
-                    columnBracket: $"[{columnName}]",
+                    columnBracket: $"\"{columnName}\"",
                     name: columnName);
             });
             return Rds.InsertGroups(
@@ -506,7 +506,7 @@ namespace Implem.Pleasanter.Models
             var where = Rds.GroupsWhere().GroupId(GroupId);
             statements.AddRange(new List<SqlStatement>
             {
-                Rds.DeleteGroups(where: where),
+                Rds.DeleteGroups(factory: context, where: where),
                 Rds.PhysicalDeleteGroupMembers(
                     where: Rds.GroupMembersWhere()
                         .GroupId(GroupId)),
@@ -531,6 +531,7 @@ namespace Implem.Pleasanter.Models
                 statements: new SqlStatement[]
                 {
                     Rds.RestoreGroups(
+                        factory: context,
                         where: Rds.GroupsWhere().GroupId(GroupId)),
                     StatusUtilities.UpdateStatus(
                         tenantId: context.TenantId,

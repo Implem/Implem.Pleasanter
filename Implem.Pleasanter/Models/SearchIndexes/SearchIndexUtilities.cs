@@ -39,9 +39,9 @@ namespace Implem.Pleasanter.Models
                         .Items_Title(),
                     join: new SqlJoinCollection(
                         new SqlJoin(
-                            tableBracket: "[Items]",
+                            tableBracket: "\"Items\"",
                             joinType: SqlJoin.JoinTypes.Inner,
-                            joinExpression: "[Items].[ReferenceId]=[Sites].[SiteId]")),
+                            joinExpression: "\"Items\".\"ReferenceId\"=\"Sites\".\"SiteId\"")),
                     where: Rds.SitesWhere()
                         .TenantId(context.TenantId)
                         .SiteId_In(dataRows
@@ -59,9 +59,9 @@ namespace Implem.Pleasanter.Models
                         .Items_Title(),
                     join: new SqlJoinCollection(
                         new SqlJoin(
-                            tableBracket: "[Items]",
+                            tableBracket: "\"Items\"",
                             joinType: SqlJoin.JoinTypes.Inner,
-                            joinExpression: "[Items].[ReferenceId]=[Issues].[IssueId]")),
+                            joinExpression: "\"Items\".\"ReferenceId\"=\"Issues\".\"IssueId\"")),
                     where: Rds.IssuesWhere()
                         .IssueId_In(dataRows
                             .Where(o => o.String("ReferenceType") == "Issues")
@@ -78,9 +78,9 @@ namespace Implem.Pleasanter.Models
                         .Items_Title(),
                     join: new SqlJoinCollection(
                         new SqlJoin(
-                            tableBracket: "[Items]",
+                            tableBracket: "\"Items\"",
                             joinType: SqlJoin.JoinTypes.Inner,
-                            joinExpression: "[Items].[ReferenceId]=[Results].[ResultId]")),
+                            joinExpression: "\"Items\".\"ReferenceId\"=\"Results\".\"ResultId\"")),
                     where: Rds.ResultsWhere()
                         .ResultId_In(dataRows
                             .Where(o => o.String("ReferenceType") == "Results")
@@ -97,9 +97,9 @@ namespace Implem.Pleasanter.Models
                         .Items_Title(),
                     join: new SqlJoinCollection(
                         new SqlJoin(
-                            tableBracket: "[Items]",
+                            tableBracket: "\"Items\"",
                             joinType: SqlJoin.JoinTypes.Inner,
-                            joinExpression: "[Items].[ReferenceId]=[Wikis].[WikiId]")),
+                            joinExpression: "\"Items\".\"ReferenceId\"=\"Wikis\".\"WikiId\"")),
                     where: Rds.WikisWhere()
                         .WikiId_In(dataRows
                             .Where(o => o.String("ReferenceType") == "Wikis")
@@ -571,16 +571,16 @@ namespace Implem.Pleasanter.Models
                     column: column,
                     join: new SqlJoinCollection(
                         new SqlJoin(
-                            tableBracket: "[Sites]",
+                            tableBracket: "\"Sites\"",
                             joinType: SqlJoin.JoinTypes.Inner,
-                            joinExpression: "[Items].[SiteId]=[Sites].[SiteId]")),
+                            joinExpression: "\"Items\".\"SiteId\"=\"Sites\".\"SiteId\"")),
                     where: Rds.ItemsWhere()
                         .Add(raw: FullTextWhere(words))
                         .Add(
                             raw: Def.Sql.CanRead,
                             _using: !context.HasPrivilege && !context.Publish)
                         .Add(
-                            raw: "[Items].[SiteId] in ({0})".Params(siteIdList?.Join()),
+                            raw: "\"Items\".\"SiteId\" in ({0})".Params(siteIdList?.Join()),
                             _using: siteIdList?.Any() == true),
                     param: FullTextParam(words),
                     orderBy: orderBy,
@@ -590,16 +590,16 @@ namespace Implem.Pleasanter.Models
                     tableName: "Items",
                     join: new SqlJoinCollection(
                         new SqlJoin(
-                            tableBracket: "[Sites]",
+                            tableBracket: "\"Sites\"",
                             joinType: SqlJoin.JoinTypes.Inner,
-                            joinExpression: "[Items].[SiteId]=[Sites].[SiteId]")),
+                            joinExpression: "\"Items\".\"SiteId\"=\"Sites\".\"SiteId\"")),
                     where: Rds.ItemsWhere()
                         .Add(raw: FullTextWhere(words))
                         .Add(
                             raw: Def.Sql.CanRead,
                             _using: !context.HasPrivilege && !context.Publish)
                         .Add(
-                            raw: "[Items].[SiteId] in ({0})".Params(siteIdList?.Join()),
+                            raw: "\"Items\".\"SiteId\" in ({0})".Params(siteIdList?.Join()),
                             _using: siteIdList?.Any() == true),
                     param: FullTextParam(words));
         }
@@ -612,8 +612,8 @@ namespace Implem.Pleasanter.Models
             var contains = new List<string>();
             for (var count = 0; count < words.Count(); count++)
             {
-                var item = $"(contains([{itemsTableName}].[FullText], @SearchText{count}_#CommandCount#))";
-                var binary = $"(exists(select * from [Binaries] where [Binaries].[ReferenceId]=[{itemsTableName}].[ReferenceId] and contains([Bin], @SearchText{count}_#CommandCount#)))";
+                var item = $"(contains(\"{itemsTableName}\".\"FullText\", @SearchText{count}_#CommandCount#))";
+                var binary = $"(exists(select * from \"Binaries\" where \"Binaries\".\"ReferenceId\"=\"{itemsTableName}\".\"ReferenceId\" and contains(\"Bin\", @SearchText{count}_#CommandCount#)))";
                 contains.Add(Parameters.Search.SearchDocuments
                     ? $"({item} or {binary})"
                     : item);
@@ -729,7 +729,7 @@ namespace Implem.Pleasanter.Models
                         raw: Def.Sql.CanRead,
                         _using: !context.HasPrivilege)
                     .Add(
-                        raw: "[Items].[SiteId] in ({0})".Params(siteIdList?.Join()),
+                        raw: "\"Items\".\"SiteId\" in ({0})".Params(siteIdList?.Join()),
                         _using: siteIdList?.Any() == true),
                 groupBy: Rds.SearchIndexesGroupBy()
                     .ReferenceId()
@@ -765,7 +765,7 @@ namespace Implem.Pleasanter.Models
                             sub: Rds.ExistsItems(
                                 not: true,
                                 where: Rds.ItemsWhere()
-                                    .ReferenceId(raw: "[SearchIndexes].[ReferenceId]")))));
+                                    .ReferenceId(raw: "\"SearchIndexes\".\"ReferenceId\"")))));
                 Applications.SearchIndexesMaintenanceDate = DateTime.Now.Date;
             }
         }
@@ -814,15 +814,15 @@ namespace Implem.Pleasanter.Models
                         .Users_DeptId()
                         .Users_UserId(),
                     join: Rds.ItemsJoinDefault().Add(new SqlJoin(
-                        tableBracket: "[Users]",
+                        tableBracket: "\"Users\"",
                         joinType: SqlJoin.JoinTypes.Inner,
-                        joinExpression: "[Users].[UserId]=[Items].[Updator]")),
+                        joinExpression: "\"Users\".\"UserId\"=\"Items\".\"Updator\"")),
                     where: siteId > 0
                         ? Rds.ItemsWhere().SiteId(siteId)
                         : Rds.ItemsWhere().Add(raw: new List<string>()
                         {
-                            "[Items].[SearchIndexCreatedTime] is null",
-                            "[Items].[SearchIndexCreatedTime]<>[Items].[UpdatedTime]"
+                            "\"Items\".\"SearchIndexCreatedTime\" is null",
+                            "\"Items\".\"SearchIndexCreatedTime\"<>\"Items\".\"UpdatedTime\""
                         }.Join(" or ")),
                     top: Parameters.BackgroundTask.CreateSearchIndexLot))
                         .AsEnumerable()

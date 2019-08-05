@@ -2699,13 +2699,13 @@ namespace Implem.Pleasanter.Libraries.Settings
                         .Title(),
                     join: new SqlJoinCollection(
                         new SqlJoin(
-                            tableBracket: "[Sites]",
+                            tableBracket: "\"Sites\"",
                             joinType: SqlJoin.JoinTypes.Inner,
-                            joinExpression: "[Items].[SiteId]=[Sites].[SiteId]")),
+                            joinExpression: "\"Items\".\"SiteId\"=\"Sites\".\"SiteId\"")),
                     where: Rds.ItemsWhere()
                         .ReferenceId_In(idList)
                         .SiteId_In(siteIdList, _using: siteIdList != null)
-                        .CanRead(context: context, idColumnBracket: "[Items].[ReferenceId]")))
+                        .CanRead(context: context, idColumnBracket: "\"Items\".\"ReferenceId\"")))
                             .AsEnumerable();
         }
 
@@ -2794,13 +2794,13 @@ namespace Implem.Pleasanter.Libraries.Settings
                         .Title(),
                     join: new SqlJoinCollection(
                         new SqlJoin(
-                            tableBracket: "[Sites]",
+                            tableBracket: "\"Sites\"",
                             joinType: SqlJoin.JoinTypes.Inner,
-                            joinExpression: "[Items].[SiteId]=[Sites].[SiteId]")),
+                            joinExpression: "\"Items\".\"SiteId\"=\"Sites\".\"SiteId\"")),
                     where: Rds.ItemsWhere()
                         .ReferenceType("Sites", _operator: "<>")
                         .SiteId_In(siteIdList)
-                        .CanRead(context: context, idColumnBracket: "[Items].[ReferenceId]")
+                        .CanRead(context: context, idColumnBracket: "\"Items\".\"ReferenceId\"")
                         .Or(
                             or: Rds.ItemsWhere()
                                 .ReferenceType(raw: "'Wikis'")
@@ -3301,7 +3301,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                             siteId: siteId),
                         _as: alias + "_Items");
                     join.Add(new SqlJoin(
-                        tableBracket: "[" + tableName + "]",
+                        tableBracket: "\"" + tableName + "\"",
                         joinType: SqlJoin.JoinTypes.LeftOuter,
                         joinExpression: JoinExpression(
                             tableName: tableName,
@@ -3329,8 +3329,8 @@ namespace Implem.Pleasanter.Libraries.Settings
             long siteId)
         {
             return alias.Contains("~~")
-                ? $"[{leftAlias}].[{Rds.IdColumn(leftTableName)}]=[{alias}_Items].[ReferenceId]"
-                : $"try_cast([{left}].[{name}] as bigint)=[{alias}_Items].[ReferenceId] and [{alias}_Items].[SiteId]={siteId}";
+                ? $"\"{leftAlias}\".\"{Rds.IdColumn(leftTableName)}\"=\"{alias}_Items\".\"ReferenceId\""
+                : $"try_cast(\"{left}\".\"{name}\" as bigint)=\"{alias}_Items\".\"ReferenceId\" and \"{alias}_Items\".\"SiteId\"={siteId}";
         }
 
         private string JoinExpression(
@@ -3339,8 +3339,8 @@ namespace Implem.Pleasanter.Libraries.Settings
             string alias)
         {
             return alias.Contains("~~")
-                ? $"[{alias}_Items].[ReferenceId]=try_cast([{alias}].[{name}] as bigint)"
-                : $"[{alias}_Items].[ReferenceId]=[{alias}].[{Rds.IdColumn(tableName)}]";
+                ? $"\"{alias}_Items\".\"ReferenceId\"=try_cast(\"{alias}\".\"{name}\" as bigint)"
+                : $"\"{alias}_Items\".\"ReferenceId\"=\"{alias}\".\"{Rds.IdColumn(tableName)}\"";
         }
 
         public string LabelTitle(Context context, string columnName)
@@ -3521,7 +3521,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                 || referenceType == "Wikis"
                 || referenceType == "Sites")
                     ? null
-                    : $"select [{Rds.IdColumn(referenceType)}] from [{referenceType}] where try_cast([{parentColumn.ColumnName}] as bigint) = {parentId}";
+                    : $"select \"{Rds.IdColumn(referenceType)}\" from \"{referenceType}\" where try_cast(\"{parentColumn.ColumnName}\" as bigint) = {parentId}";
         }
 
         public void SetRelatingColumnsLinkedClass()

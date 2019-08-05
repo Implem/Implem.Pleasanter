@@ -41,7 +41,7 @@ namespace Implem.CodeDefiner.Functions.AspNetMvc.CSharp.Parts
             ColumnDefinition columnDefinition, string prefix = "")
         {
             return !columnDefinition.ComputeColumn.IsNullOrEmpty() || !prefix.IsNullOrEmpty()
-                ? " as " + "[" + columnDefinition.ColumnName + prefix + "]"
+                ? " as " + "\"" + columnDefinition.ColumnName + prefix + "\""
                 : string.Empty;
         }
 
@@ -67,8 +67,8 @@ namespace Implem.CodeDefiner.Functions.AspNetMvc.CSharp.Parts
             ColumnDefinition columnDefinition, string tableNameAlias)
         {
             return
-                "[" + TableName(columnDefinition, tableNameAlias) + "]." +
-                "[" + columnDefinition.ColumnName + "]";
+                "\"" + TableName(columnDefinition, tableNameAlias) + "\"." +
+                "\"" + columnDefinition.ColumnName + "\"";
         }
 
         internal static void ReplaceCodeOfJoin(
@@ -140,7 +140,7 @@ namespace Implem.CodeDefiner.Functions.AspNetMvc.CSharp.Parts
                         code = code.Replace("#JoinType#", joinType);
                         break;
                     case "TableNameAlias":
-                        code = code.Replace("#TableNameAlias#", " as [" + tableNameAlias + "]");
+                        code = code.Replace("#TableNameAlias#", " as \"" + tableNameAlias + "\"");
                         break;
                     case "JoinExpression":
                         code = code.Replace("#JoinExpression#", joinExpression);
@@ -218,7 +218,7 @@ namespace Implem.CodeDefiner.Functions.AspNetMvc.CSharp.Parts
         {
             return !columnDefinition.ComputeColumn.IsNullOrEmpty()
                 ? columnDefinition.ComputeColumn
-                : "[" + columnDefinition.ColumnName + "]";
+                : "\"" + columnDefinition.ColumnName + "\"";
         }
 
         private static string ComputeColumn(
@@ -237,7 +237,7 @@ namespace Implem.CodeDefiner.Functions.AspNetMvc.CSharp.Parts
         private static string ColumnNameAliasCode(string columnNameAlias)
         {
             return !columnNameAlias.IsNullOrEmpty()
-                ? " + (!_as.IsNullOrEmpty() ? \" as [\" + _as + \"]\" : \"" + columnNameAlias + "\")"
+                ? " + (!_as.IsNullOrEmpty() ? \" as \"\" + _as + \"\"\" : \"" + columnNameAlias + "\")"
                 : string.Empty;
         }
 

@@ -33,7 +33,7 @@ namespace Implem.Pleasanter.Models
                 param: Rds.LinksParam()
                     .DestinationId()
                     .SourceId(),
-                select: Rds.Raw(link.Select(o => "select @_U,@_U,{0},{1} "
+                select: Rds.Raw(link.Select(o => $"select {Parameters.Parameter.SqlParameterPrefix}_U,{Parameters.Parameter.SqlParameterPrefix}U,{{0}},{{1}} "
                     .Params(o.Key.ToString(), setIdentity
                         ? Def.Sql.Identity
                         : o.Value.ToString()))

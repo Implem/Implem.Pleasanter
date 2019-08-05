@@ -222,17 +222,17 @@ namespace Implem.Libraries.DataSources.SqlServer
             {
                 case Sqls.TableTypes.NormalAndDeleted:
                     SqlColumnCollection?.Add(new SqlColumn(
-                        deleted + " as [IsDeleted]", adHoc: true));
+                        deleted + " as \"IsDeleted\"", adHoc: true));
                     break;
                 case Sqls.TableTypes.NormalAndHistory:
                     SqlColumnCollection?.Add(new SqlColumn(
-                        history + " as [IsHistory]", adHoc: true));
+                        history + " as \"IsHistory\"", adHoc: true));
                     break;
                 case Sqls.TableTypes.All:
                     SqlColumnCollection?.Add(new SqlColumn(
-                        deleted + " as [IsDeleted]", adHoc: true));
+                        deleted + " as \"IsDeleted\"", adHoc: true));
                     SqlColumnCollection?.Add(new SqlColumn(
-                        history + " as [IsHistory]", adHoc: true));
+                        history + " as \"IsHistory\"", adHoc: true));
                     break;
                 default:
                     break;
@@ -285,6 +285,8 @@ namespace Implem.Libraries.DataSources.SqlServer
                     tableType: TableType,
                     commandCount: commandCount);
             }
+            commandText.Append(
+                factory.SqlCommandText.CreateLimitClause(limit: Top));
             AddTermination(commandText);
             AddParams_Where(factory, sqlCommand, commandCount);
             AddParams_Having(factory, sqlCommand, commandCount);
@@ -314,7 +316,7 @@ namespace Implem.Libraries.DataSources.SqlServer
                     break;
             }
             return "from " + tableBlacket + (!_as.IsNullOrEmpty()
-                ? " as [" + _as + "]"
+                ? " as \"" + _as + "\""
                 : " as " + TableBracket) + "\n";
         }
     }

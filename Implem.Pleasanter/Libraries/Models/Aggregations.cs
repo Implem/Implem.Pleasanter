@@ -29,6 +29,7 @@ namespace Implem.Pleasanter.Libraries.Models
                 dataSet: Rds.ExecuteDataSet(
                     context: context,
                     statements: Rds.Aggregations(
+                        context: context,
                         ss: ss,
                         tableType: tableType,
                         join: ss.Join(

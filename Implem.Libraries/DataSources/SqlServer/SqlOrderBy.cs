@@ -29,7 +29,10 @@
         public string Sql(string tableBracket, Sqls.TableTypes tableType)
         {
             string columnBracket = Sqls.TableAndColumnBracket(
-                tableBracket: tableBracket,
+                tableBracket: 
+                    tableType == Sqls.TableTypes.NormalAndHistory 
+                        ? string.Empty 
+                        : tableBracket,
                 columnBracket: ColumnBracket);
             var orderType = " " + OrderType.ToString().ToLower();
             switch (Function)

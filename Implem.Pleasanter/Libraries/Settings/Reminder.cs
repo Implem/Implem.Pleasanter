@@ -239,13 +239,13 @@ namespace Implem.Pleasanter.Libraries.Settings
                     .Or(new SqlWhereCollection()
                         .Add(
                             tableName: ss.ReferenceType,
-                            columnBrackets: new string[] { "[Status]" },
+                            columnBrackets: new string[] { "\"Status\"" },
                             _operator: "<{0}".Params(Parameters.General.CompletionCode))
                         .Add(
                             tableName: ss.ReferenceType,
                             columnBrackets: new string[]
                             {
-                                "[" + orderByColumn.ColumnName + "]"
+                                "\"" + orderByColumn.ColumnName + "\""
                             },
                             _operator: "<'{0}'".Params(
                                 DateTime.Now.ToLocal(context: context).Date),

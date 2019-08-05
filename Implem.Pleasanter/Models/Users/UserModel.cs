@@ -1460,11 +1460,11 @@ namespace Implem.Pleasanter.Models
             ColumnNames().ForEach(columnName =>
             {
                 column.Add(
-                    columnBracket: $"[{columnName}]",
+                    columnBracket: $"\"{columnName}\"",
                     columnName: columnName,
                     function: Sqls.Functions.SingleColumn);
                 param.Add(
-                    columnBracket: $"[{columnName}]",
+                    columnBracket: $"\"{columnName}\"",
                     name: columnName);
             });
             return Rds.InsertUsers(
@@ -1517,7 +1517,7 @@ namespace Implem.Pleasanter.Models
             var where = Rds.UsersWhere().UserId(UserId);
             statements.AddRange(new List<SqlStatement>
             {
-                Rds.DeleteUsers(where: where),
+                Rds.DeleteUsers(factory: context, where: where),
                 StatusUtilities.UpdateStatus(
                     tenantId: context.TenantId,
                     type: StatusUtilities.Types.UsersUpdated),
@@ -1544,6 +1544,7 @@ namespace Implem.Pleasanter.Models
                 statements: new SqlStatement[]
                 {
                     Rds.RestoreUsers(
+                        factory: context,
                         where: Rds.UsersWhere().UserId(UserId)),
                     StatusUtilities.UpdateStatus(
                         tenantId: context.TenantId,
@@ -2346,12 +2347,12 @@ namespace Implem.Pleasanter.Models
                                     raw: loginIdRaw),
                             param: Rds.UsersParam()
                                 .Lockout(
-                                    raw: "case when [Users].[LockoutCounter]+1>={0} then {1} else {2} end"
+                                    raw: "case when \"Users\".\"LockoutCounter\"+1>={0} then {1} else {2} end"
                                         .Params(
                                             Parameters.Security.LockoutCount,
                                             context.Sqls.TrueString,
                                             context.Sqls.FalseString))
-                                .LockoutCounter(raw: "[Users].[LockoutCounter]+1"),
+                                .LockoutCounter(raw: "\"Users\".\"LockoutCounter\"+1"),
                             addUpdatorParam: false,
                             addUpdatedTimeParam: false));
                 }
@@ -2421,7 +2422,7 @@ namespace Implem.Pleasanter.Models
                 statements: Rds.UpdateUsers(
                     where: Rds.UsersWhereDefault(this),
                     param: Rds.UsersParam()
-                        .NumberOfLogins(raw: "[Users].[NumberOfLogins]+1")
+                        .NumberOfLogins(raw: "\"Users\".\"NumberOfLogins\"+1")
                         .LastLoginTime(DateTime.Now),
                     addUpdatorParam: false,
                     addUpdatedTimeParam: false));
@@ -2437,7 +2438,7 @@ namespace Implem.Pleasanter.Models
                 statements: Rds.UpdateUsers(
                     where: Rds.UsersWhere().LoginId(LoginId),
                     param: Rds.UsersParam()
-                        .NumberOfDenial(raw: "[Users].[NumberOfDenial]+1")
+                        .NumberOfDenial(raw: "\"Users\".\"NumberOfDenial\"+1")
                         .LastLoginTime(DateTime.Now),
                     addUpdatorParam: false,
                     addUpdatedTimeParam: false));
@@ -2577,7 +2578,7 @@ namespace Implem.Pleasanter.Models
             PasswordExpirationPeriod(context: context);
             var param = Rds.UsersParam()
                 .Password(password)
-                .PasswordChangeTime(raw: "getdate()");
+                .PasswordChangeTime(raw: $"{context.Sqls.CurrentDateTime}");
             return Parameters.Security.PasswordExpirationPeriod > 0 || !changeAtLogin
                 ? param.PasswordExpirationTime(PasswordExpirationTime.Value)
                 : param.PasswordExpirationTime(raw: "null");

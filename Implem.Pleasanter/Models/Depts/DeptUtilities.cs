@@ -1657,8 +1657,8 @@ namespace Implem.Pleasanter.Models
                     column: Rds.UsersColumn().UsersCount(),
                     where: Rds.UsersWhere()
                         .UserId(userId)
-                        .DeptId(raw: "[Depts].[DeptId]")
-                        .Add(raw: "[Depts].[DeptId]>0")),
+                        .DeptId(raw: "\"Depts\".\"DeptId\"")
+                        .Add(raw: "\"Depts\".\"DeptId\">0")),
                     _operator: ">0",
                     _using: userId.HasValue),
                 orderBy: view.OrderBy(

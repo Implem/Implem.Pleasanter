@@ -365,11 +365,11 @@ namespace Implem.Pleasanter.Models
             ColumnNames().ForEach(columnName =>
             {
                 column.Add(
-                    columnBracket: $"[{columnName}]",
+                    columnBracket: $"\"{columnName}\"",
                     columnName: columnName,
                     function: Sqls.Functions.SingleColumn);
                 param.Add(
-                    columnBracket: $"[{columnName}]",
+                    columnBracket: $"\"{columnName}\"",
                     name: columnName);
             });
             return Rds.InsertExportSettings(
@@ -442,7 +442,7 @@ namespace Implem.Pleasanter.Models
             var where = Rds.ExportSettingsWhere().ExportSettingId(ExportSettingId);
             statements.AddRange(new List<SqlStatement>
             {
-                Rds.DeleteExportSettings(where: where)
+                Rds.DeleteExportSettings(factory: context, where: where)
             });
             var response = Rds.ExecuteScalar_response(
                 context: context,
@@ -461,6 +461,7 @@ namespace Implem.Pleasanter.Models
                 statements: new SqlStatement[]
                 {
                     Rds.RestoreExportSettings(
+                        factory: context,
                         where: Rds.ExportSettingsWhere().ExportSettingId(ExportSettingId))
                 });
             return new ErrorData(type: Error.Types.None);

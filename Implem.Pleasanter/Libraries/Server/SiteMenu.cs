@@ -179,7 +179,7 @@ namespace Implem.Pleasanter.Libraries.Server
                         where: Rds.IssuesWhere()
                             .SiteId_In(issues)
                             .Status(_operator: "<{0}".Params(Parameters.General.CompletionCode))
-                            .CompletionTime(_operator: "<getdate()"),
+                            .CompletionTime(_operator: $"< {context.Sqls.CurrentDateTime} "),
                         groupBy: Rds.IssuesGroupBy()
                             .SiteId())
                 });

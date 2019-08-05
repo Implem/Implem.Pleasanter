@@ -408,11 +408,11 @@ namespace Implem.Pleasanter.Models
             ColumnNames().ForEach(columnName =>
             {
                 column.Add(
-                    columnBracket: $"[{columnName}]",
+                    columnBracket: $"\"{columnName}\"",
                     columnName: columnName,
                     function: Sqls.Functions.SingleColumn);
                 param.Add(
-                    columnBracket: $"[{columnName}]",
+                    columnBracket: $"\"{columnName}\"",
                     name: columnName);
             });
             return Rds.InsertDepts(
@@ -492,7 +492,7 @@ namespace Implem.Pleasanter.Models
             var where = Rds.DeptsWhere().DeptId(DeptId);
             statements.AddRange(new List<SqlStatement>
             {
-                Rds.DeleteDepts(where: where),
+                Rds.DeleteDepts(factory: context, where: where),
                 StatusUtilities.UpdateStatus(
                     tenantId: context.TenantId,
                     type: StatusUtilities.Types.DeptsUpdated),
@@ -519,6 +519,7 @@ namespace Implem.Pleasanter.Models
                 statements: new SqlStatement[]
                 {
                     Rds.RestoreDepts(
+                        factory: context,
                         where: Rds.DeptsWhere().DeptId(DeptId)),
                     StatusUtilities.UpdateStatus(
                         tenantId: context.TenantId,

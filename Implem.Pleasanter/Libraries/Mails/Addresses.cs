@@ -34,9 +34,9 @@ namespace Implem.Pleasanter.Libraries.Mails
                             .MailAddress(),
                         join: new SqlJoinCollection(
                             new SqlJoin(
-                                tableBracket: "[Users]",
+                                tableBracket: "\"Users\"",
                                 joinType: SqlJoin.JoinTypes.Inner,
-                                joinExpression: "[MailAddresses].[OwnerId]=[Users].[UserId]")),
+                                joinExpression: "\"MailAddresses\".\"OwnerId\"=\"Users\".\"UserId\"")),
                         where: Rds.MailAddressesWhere()
                             .OwnerType("Users")
                             .OwnerId(userId)

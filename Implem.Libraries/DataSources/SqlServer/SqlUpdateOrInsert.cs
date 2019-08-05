@@ -1,4 +1,5 @@
-﻿using Implem.IRds;
+﻿using Implem.DefinitionAccessor;
+using Implem.IRds;
 using Implem.Libraries.Utilities;
 using System.Collections.Generic;
 using System.Linq;
@@ -53,14 +54,14 @@ namespace Implem.Libraries.DataSources.SqlServer
                 case Sqls.TableTypes.Deleted: tableBracket = DeletedTableBracket; break;
             }
             var updateColumnNameCollection = new List<string>();
-            if (AddUpdatorParam) updateColumnNameCollection.Add("[Updator] = @_U");
-            if (AddUpdatedTimeParam) updateColumnNameCollection.Add("[UpdatedTime] = getdate()");
+            if (AddUpdatorParam) updateColumnNameCollection.Add($"\"Updator\" = {Parameters.Parameter.SqlParameterPrefix}U");
+            if (AddUpdatedTimeParam) updateColumnNameCollection.Add($"\"UpdatedTime\" = {factory.Sqls.CurrentDateTime} ");
             var insertColumnNameCollection = new List<string>
             {
-                "[Creator]",
-                "[Updator]"
+                "\"Creator\"",
+                "\"Updator\""
             };
-            var valueCollection = new List<string> { "@_U", "@_U" };
+            var valueCollection = new List<string> { $"{Parameters.Parameter.SqlParameterPrefix}U", $"{Parameters.Parameter.SqlParameterPrefix}U" };
             SqlParamCollection
                 .Where(o => (o as SqlParam).Using)
                 .ForEach(sqlParam =>
@@ -74,10 +75,10 @@ namespace Implem.Libraries.DataSources.SqlServer
                                 if (sqlParam.Updating)
                                 {
                                     updateColumnNameCollection.Add(
-                                        sqlParam.ColumnBracket + "=@_I");
+                                        sqlParam.ColumnBracket + $"={Parameters.Parameter.SqlParameterPrefix}I");
                                 }
                                 valueCollection.Add(
-                                    sqlParam.ColumnBracket + "@_I");
+                                    sqlParam.ColumnBracket + $"{Parameters.Parameter.SqlParameterPrefix}I");
                                 break;
                             default:
                                 if (sqlParam.Updating)
@@ -116,19 +117,17 @@ namespace Implem.Libraries.DataSources.SqlServer
                         valueCollection.Add("@" + sqlParam.VariableName + commandCount.ToStr());
                     }
                 });
-            commandText.Append(
-                "update ", tableBracket,
-                " set ", updateColumnNameCollection.Join(), " ");
-            SqlWhereCollection.BuildCommandText(
-                factory: factory,
-                sqlContainer: sqlContainer,
-                sqlCommand: sqlCommand,
-                commandText: commandText,
-                commandCount: commandCount);
-            commandText.Append(
-                " if @@rowcount = 0 insert into ",
-                tableBracket,
-                "(", insertColumnNameCollection.Join(), ") values(", valueCollection.Join(), ")");
+            commandText.Append(factory.SqlCommandText.CreateUpdateOrInsert(
+                tableBracket: tableBracket,
+                setClause: $" set {updateColumnNameCollection.Join()} ",
+                sqlWhereAppender: commandText_ =>
+                    SqlWhereCollection.BuildCommandText(
+                        factory: factory,
+                        sqlContainer: sqlContainer,
+                        sqlCommand: sqlCommand,
+                        commandText: commandText_,
+                        commandCount: commandCount),
+                intoAndValueClause: $"({insertColumnNameCollection.Join()}) values({valueCollection.Join()})"));
         }
     }
 }

@@ -5138,6 +5138,13 @@ namespace Implem.DefinitionAccessor
             if (SqlXls.AccessStatus != Files.AccessStatuses.Read) { return; }
             SqlXls.XlsSheet.ForEach(definitionRow =>
             {
+                // TODO エクセルからテキストファイルに変更するまでの暫定
+                if (Parameters.Rds.Dbms?.ToLower() == "PostgreSQL".ToLower() 
+                    && definitionRow.ContainsKey("Body"))
+                {
+                    definitionRow["Body"] = definitionRow["Body"]?.Replace("@_", "@ip");
+                }
+
                 switch (definitionRow[0].ToString())
                 {
                     case "BeginTransaction": Sql.BeginTransaction = definitionRow[1].ToString(); SetSqlTable(SqlTable.BeginTransaction, definitionRow, SqlXls); break;
@@ -5185,12 +5192,15 @@ namespace Implem.DefinitionAccessor
                 {
                     Sql.SelectIdentity = " RETURNING '{{\"Id\":' || {0} || '}}' ";
                     Sql.MoveTarget = Sql.MoveTarget.Replace("with ", "with RECURSIVE ");
+                    Sql.CanReadSites = Sql.CanReadSites.Replace(" top 1 ", " ").Replace(")))))))", "))))) limit 1 ))");
+                    Sql.CanRead = Sql.CanRead.Replace(" top 1 ", " ").Replace(")))))))", "))))) limit 1 ))");
+                    Sql.HasPermission = Sql.HasPermission.Replace(" top 1 ", " ").Replace(")))))))", "))))) limit 1 ))");
                 }
                 else
                 {
                     Sql.SelectIdentity = "; " + Sql.SelectIdentity;
                 }
-                Def.Sql.IfDuplicated = "select 1 from [{0}] where [{0}].[SiteId]={1} and [{0}].[{4}]=@{4}_#CommandCount# and [{0}].[{2}]<>{3}; ";
+                Def.Sql.IfDuplicated = "select 1 from \"{0}\" where \"{0}\".\"SiteId\"={1} and \"{0}\".\"{4}\"=@{4}_#CommandCount# and \"{0}\".\"{2}\"<>{3}; ";
             }
             /**/
 

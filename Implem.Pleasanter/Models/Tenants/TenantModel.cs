@@ -458,11 +458,11 @@ namespace Implem.Pleasanter.Models
             ColumnNames().ForEach(columnName =>
             {
                 column.Add(
-                    columnBracket: $"[{columnName}]",
+                    columnBracket: $"\"{columnName}\"",
                     columnName: columnName,
                     function: Sqls.Functions.SingleColumn);
                 param.Add(
-                    columnBracket: $"[{columnName}]",
+                    columnBracket: $"\"{columnName}\"",
                     name: columnName);
             });
             return Rds.InsertTenants(
@@ -536,7 +536,7 @@ namespace Implem.Pleasanter.Models
             var where = Rds.TenantsWhere().TenantId(TenantId);
             statements.AddRange(new List<SqlStatement>
             {
-                Rds.DeleteTenants(where: where)
+                Rds.DeleteTenants(factory: context, where: where)
             });
             var response = Rds.ExecuteScalar_response(
                 context: context,
@@ -560,6 +560,7 @@ namespace Implem.Pleasanter.Models
                 statements: new SqlStatement[]
                 {
                     Rds.RestoreTenants(
+                        factory: context,
                         where: Rds.TenantsWhere().TenantId(TenantId))
                 });
             return new ErrorData(type: Error.Types.None);

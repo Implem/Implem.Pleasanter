@@ -1662,9 +1662,9 @@ namespace Implem.Pleasanter.Models
                     where: Rds.GroupMembersWhere()
                         .Or(Rds.GroupMembersWhere()
                             .Sub(sub: Rds.ExistsDepts(where: Rds.DeptsWhere()
-                                .DeptId(raw: "[GroupMembers].[DeptId]")))
+                                .DeptId(raw: "\"GroupMembers\".\"DeptId\"")))
                             .Sub(sub: Rds.ExistsUsers(where: Rds.UsersWhere()
-                                .UserId(raw: "[GroupMembers].[UserId]"))))
+                                .UserId(raw: "\"GroupMembers\".\"UserId\""))))
                         .GroupId(groupModel.GroupId)))
                             .AsEnumerable()
                             .ForEach(dataRow =>
@@ -1737,9 +1737,9 @@ namespace Implem.Pleasanter.Models
                             column: Rds.DeptsColumn()
                                 .DeptId()
                                 .DeptCode()
-                                .Add("0 as [UserId]")
-                                .Add("'' as [UserCode]")
-                                .Add("0 as [IsUser]"),
+                                .Add("0 as \"UserId\"")
+                                .Add("'' as \"UserCode\"")
+                                .Add("0 as \"IsUser\""),
                             where: Rds.DeptsWhere()
                                 .TenantId(context.TenantId)
                                 .DeptId_In(
@@ -1759,16 +1759,16 @@ namespace Implem.Pleasanter.Models
                         Rds.SelectUsers(
                             unionType: Sqls.UnionTypes.Union,
                             column: Rds.UsersColumn()
-                                .Add("0 as [DeptId]")
-                                .Add("'' as [DeptCode]")
+                                .Add("0 as \"DeptId\"")
+                                .Add("'' as \"DeptCode\"")
                                 .UserId()
                                 .UserCode()
-                                .Add("1 as [IsUser]"),
+                                .Add("1 as \"IsUser\""),
                             join: Rds.UsersJoin()
                                 .Add(new SqlJoin(
-                                    tableBracket: "[Depts]",
+                                    tableBracket: "\"Depts\"",
                                     joinType: SqlJoin.JoinTypes.LeftOuter,
-                                    joinExpression: "[Users].[DeptId]=[Depts].[DeptId]")),
+                                    joinExpression: "\"Users\".\"DeptId\"=\"Depts\".\"DeptId\"")),
                             where: Rds.UsersWhere()
                                 .TenantId(context.TenantId)
                                 .UserId_In(
@@ -1902,7 +1902,7 @@ namespace Implem.Pleasanter.Models
                     tableName: "Groups",
                     subLeft: Rds.SelectGroupMembers(
                     column: Rds.GroupMembersColumn().GroupMembersCount(),
-                    where: Rds.GroupMembersWhere().UserId(userId).GroupId(raw: "[Groups].[GroupId]").Add(raw: "[Groups].[GroupId]>0")),
+                    where: Rds.GroupMembersWhere().UserId(userId).GroupId(raw: "\"Groups\".\"GroupId\"").Add(raw: "\"Groups\".\"GroupId\">0")),
                     _operator: ">0",
                     _using: userId.HasValue),
                 orderBy: view.OrderBy(

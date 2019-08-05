@@ -636,11 +636,11 @@ namespace Implem.Pleasanter.Models
             ColumnNames().ForEach(columnName =>
             {
                 column.Add(
-                    columnBracket: $"[{columnName}]",
+                    columnBracket: $"\"{columnName}\"",
                     columnName: columnName,
                     function: Sqls.Functions.SingleColumn);
                 param.Add(
-                    columnBracket: $"[{columnName}]",
+                    columnBracket: $"\"{columnName}\"",
                     name: columnName);
             });
             return Rds.InsertWikis(
@@ -796,12 +796,16 @@ namespace Implem.Pleasanter.Models
             statements.AddRange(new List<SqlStatement>
             {
                 Rds.DeleteItems(
+                    factory: context,
                     where: Rds.ItemsWhere().ReferenceId(WikiId)),
                 Rds.DeleteWikis(
+                    factory: context,
                     where: Rds.WikisWhere().SiteId(SiteId).WikiId(WikiId)),
                 Rds.DeleteItems(
+                    factory: context,
                     where: Rds.ItemsWhere().ReferenceId(SiteId)),
                 Rds.DeleteSites(
+                    factory: context,
                     where: Rds.SitesWhere().SiteId(SiteId))
             });
             statements.OnDeletedExtendedSqls(SiteId, WikiId);
@@ -833,8 +837,10 @@ namespace Implem.Pleasanter.Models
                 statements: new SqlStatement[]
                 {
                     Rds.RestoreItems(
+                        factory: context,
                         where: Rds.ItemsWhere().ReferenceId(WikiId)),
                     Rds.RestoreWikis(
+                        factory: context,
                         where: Rds.WikisWhere().WikiId(WikiId))
                 });
             Libraries.Search.Indexes.Create(context, ss, this);
@@ -965,7 +971,7 @@ namespace Implem.Pleasanter.Models
                             if (Def.ExtendedColumnTypes.ContainsKey(formulaSet.Target))
                             {
                                 param.Add(
-                                    columnBracket: $"[{formulaSet.Target}]",
+                                    columnBracket: $"\"{formulaSet.Target}\"",
                                     name: formulaSet.Target,
                                     value: Num(formulaSet.Target));
                             }

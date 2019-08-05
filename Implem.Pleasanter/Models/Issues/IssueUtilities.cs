@@ -1961,9 +1961,9 @@ namespace Implem.Pleasanter.Models
                 context: context,
                 ss: ss,
                 join: Rds.ItemsJoin().Add(new SqlJoin(
-                    "[Items]",
+                    "\"Items\"",
                     SqlJoin.JoinTypes.Inner,
-                    "[Issues].[IssueId]=[Items].[ReferenceId]")),
+                    "\"Issues\".\"IssueId\"=\"Items\".\"ReferenceId\"")),
                 where: view.Where(context: context, ss: ss),
                 orderBy: view.OrderBy(
                     context: context,
@@ -2863,14 +2863,16 @@ namespace Implem.Pleasanter.Models
                 transactional: true,
                 statements: new SqlStatement[]
                 {
-                    Rds.RestoreItems(where: Rds.ItemsWhere().ReferenceId_In(sub:
+                    Rds.RestoreItems(
+                        factory: context,
+                        where: Rds.ItemsWhere().ReferenceId_In(sub:
                         Rds.SelectIssues(
                             tableType: Sqls.TableTypes.Deleted,
                             _as: "Issues_Deleted",
                             column: Rds.IssuesColumn()
                                 .IssueId(tableName: "Issues_Deleted"),
                             where: where))),
-                    Rds.RestoreIssues(where: where),
+                    Rds.RestoreIssues(factory: context, where: where),
                     Rds.RowCount()
                 }).Count.ToInt();
         }
@@ -3322,13 +3324,15 @@ namespace Implem.Pleasanter.Models
             var statements = new List<SqlStatement>();
             statements.OnBulkDeletingExtendedSqls(ss.SiteId);
             statements.Add(Rds.DeleteItems(
+                factory: context,
                 where: Rds.ItemsWhere()
                     .ReferenceId_In(sub: sub)));
             statements.Add(Rds.DeleteBinaries(
+                factory: context,
                 where: Rds.BinariesWhere()
                     .TenantId(context.TenantId)
                     .ReferenceId_In(sub: sub)));
-            statements.Add(Rds.DeleteIssues(where: where));
+            statements.Add(Rds.DeleteIssues(factory: context, where: where));
             statements.Add(Rds.RowCount());
             statements.OnBulkDeletedExtendedSqls(ss.SiteId);
             return Rds.ExecuteScalar_response(
@@ -4100,14 +4104,14 @@ namespace Implem.Pleasanter.Models
             {
                 where.Add(
                     tableName: "Issues",
-                    raw: $"[Issues].[{fromColumn.ColumnName}] between '{begin}' and '{end}'");
+                    raw: $"\"Issues\".\"{fromColumn.ColumnName}\" between '{begin}' and '{end}'");
             }
             else
             {
                 where.Or(or: Rds.IssuesWhere()
-                    .Add(raw: $"[Issues].[{fromColumn.ColumnName}] between '{begin}' and '{end}'")
-                    .Add(raw: $"[Issues].[{toColumn.ColumnName}] between '{begin}' and '{end}'")
-                    .Add(raw: $"[Issues].[{fromColumn.ColumnName}]<='{begin}' and [Issues].[{toColumn.ColumnName}]>='{end}'"));
+                    .Add(raw: $"\"Issues\".\"{fromColumn.ColumnName}\" between '{begin}' and '{end}'")
+                    .Add(raw: $"\"Issues\".\"{toColumn.ColumnName}\" between '{begin}' and '{end}'")
+                    .Add(raw: $"\"Issues\".\"{fromColumn.ColumnName}\"<='{begin}' and \"Issues\".\"{toColumn.ColumnName}\">='{end}'"));
             }
             where = view.Where(context: context, ss: ss, where: where);
             return Rds.ExecuteTable(

@@ -400,9 +400,9 @@ namespace Implem.Pleasanter.NetFramework.Libraries.Requests
                                     .Tenants_HtmlTitleSite()
                                     .Tenants_HtmlTitleRecord(),
                                 join: Rds.SitesJoin().Add(new SqlJoin(
-                                    tableBracket: "[Tenants]",
+                                    tableBracket: "\"Tenants\"",
                                     joinType: SqlJoin.JoinTypes.Inner,
-                                    joinExpression: "[Sites].[TenantId]=[Tenants].[TenantId]")),
+                                    joinExpression: "\"Sites\".\"TenantId\"=\"Tenants\".\"TenantId\"")),
                                 where: Rds.SitesWhere()
                                     .SiteId(sub: Rds.SelectItems(
                                         column: Rds.ItemsColumn().SiteId(),

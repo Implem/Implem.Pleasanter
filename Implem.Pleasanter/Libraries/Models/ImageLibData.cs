@@ -18,14 +18,14 @@ namespace Implem.Pleasanter.Libraries.Models
             int offset = 0,
             int pageSize = 0)
         {
-            var idColumnBracket = $"[{Rds.IdColumn(ss.ReferenceType)}]";
+            var idColumnBracket = $"\"{Rds.IdColumn(ss.ReferenceType)}\"";
             var column = new SqlColumnCollection()
                 .Add(
                     columnBracket: idColumnBracket,
                     tableName: ss.ReferenceType,
                     _as: "Id")
                 .ItemTitle(ss.ReferenceType)
-                .Add(tableName: "Binaries", columnBracket: "[Guid]");
+                .Add(tableName: "Binaries", columnBracket: "\"Guid\"");
             var where = view.Where(
                 context: context,
                 ss: ss)
@@ -33,7 +33,7 @@ namespace Implem.Pleasanter.Libraries.Models
             var orderBy = view.OrderBy(
                 context: context,
                 ss: ss);
-            var joinExpression = $"[Binaries].[ReferenceId]=[{ss.ReferenceType}].{idColumnBracket}";
+            var joinExpression = $"\"Binaries\".\"ReferenceId\"=\"{ss.ReferenceType}\".{idColumnBracket}";
             var join = ss.Join(
                 context: context,
                 join: new IJoin[]

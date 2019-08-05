@@ -2299,13 +2299,15 @@ namespace Implem.Pleasanter.Models
             var statements = new List<SqlStatement>();
             statements.OnBulkDeletingExtendedSqls(ss.SiteId);
             statements.Add(Rds.DeleteItems(
+                factory: context,
                 where: Rds.ItemsWhere()
                     .ReferenceId_In(sub: sub)));
             statements.Add(Rds.DeleteBinaries(
+                factory: context,
                 where: Rds.BinariesWhere()
                     .TenantId(context.TenantId)
                     .ReferenceId_In(sub: sub)));
-            statements.Add(Rds.DeleteUsers(where: where));
+            statements.Add(Rds.DeleteUsers(factory: context, where: where));
             statements.Add(Rds.RowCount());
             statements.OnBulkDeletedExtendedSqls(ss.SiteId);
             return Rds.ExecuteScalar_response(
@@ -2335,12 +2337,13 @@ namespace Implem.Pleasanter.Models
                 statements: new SqlStatement[]
                 {
                     Rds.DeleteMailAddresses(
+                    factory: context,
                         where: Rds.MailAddressesWhere()
                             .OwnerId_In(sub: Rds.SelectUsers(
                                 column: Rds.UsersColumn().UserId(),
                                 where: where))
                             .OwnerType("Users")),
-                    Rds.DeleteUsers(where: where),
+                    Rds.DeleteUsers(factory: context, where: where),
                     Rds.RowCount()
                 }).Count.ToInt();
         }

@@ -1191,11 +1191,11 @@ namespace Implem.Pleasanter.Models
             ColumnNames().ForEach(columnName =>
             {
                 column.Add(
-                    columnBracket: $"[{columnName}]",
+                    columnBracket: $"\"{columnName}\"",
                     columnName: columnName,
                     function: Sqls.Functions.SingleColumn);
                 param.Add(
-                    columnBracket: $"[{columnName}]",
+                    columnBracket: $"\"{columnName}\"",
                     name: columnName);
             });
             return Rds.InsertIssues(
@@ -1411,12 +1411,14 @@ namespace Implem.Pleasanter.Models
             statements.AddRange(new List<SqlStatement>
             {
                 Rds.DeleteItems(
+                    factory: context,
                     where: Rds.ItemsWhere().ReferenceId(IssueId)),
                 Rds.DeleteBinaries(
+                    factory: context,
                     where: Rds.BinariesWhere()
                         .TenantId(context.TenantId)
                         .ReferenceId(IssueId)),
-                Rds.DeleteIssues(where: where)
+                Rds.DeleteIssues(factory: context, where: where)
             });
             statements.OnDeletedExtendedSqls(SiteId, IssueId);
             var response = Repository.ExecuteScalar_response(
@@ -1450,8 +1452,10 @@ namespace Implem.Pleasanter.Models
                 statements: new SqlStatement[]
                 {
                     Rds.RestoreItems(
+                        factory: context,
                         where: Rds.ItemsWhere().ReferenceId(IssueId)),
                     Rds.RestoreIssues(
+                        factory: context,
                         where: Rds.IssuesWhere().IssueId(IssueId))
                 });
             Libraries.Search.Indexes.Create(context, ss, this);
@@ -1533,7 +1537,7 @@ namespace Implem.Pleasanter.Models
                                     if (!Class(column: column).IsNullOrEmpty())
                                         statements.Add(column.IfDuplicatedStatement(
                                             param: param.Add(
-                                                columnBracket: $"[{column.ColumnName}]",
+                                                columnBracket: $"\"{column.ColumnName}\"",
                                                 name: column.ColumnName,
                                                 value: Class(column: column).MaxLength(1024)),
                                             siteId: SiteId,
@@ -1543,7 +1547,7 @@ namespace Implem.Pleasanter.Models
                                     if (Num(column: column) != 0)
                                         statements.Add(column.IfDuplicatedStatement(
                                             param: param.Add(
-                                                columnBracket: $"[{column.ColumnName}]",
+                                                columnBracket: $"\"{column.ColumnName}\"",
                                                 name: column.ColumnName,
                                                 value: Num(column: column)),
                                             siteId: SiteId,
@@ -1553,7 +1557,7 @@ namespace Implem.Pleasanter.Models
                                     if (Date(column: column) != 0.ToDateTime())
                                         statements.Add(column.IfDuplicatedStatement(
                                             param: param.Add(
-                                                columnBracket: $"[{column.ColumnName}]",
+                                                columnBracket: $"\"{column.ColumnName}\"",
                                                 name: column.ColumnName,
                                                 value: Date(column: column)),
                                             siteId: SiteId,
@@ -1563,7 +1567,7 @@ namespace Implem.Pleasanter.Models
                                     if (!Description(column: column).IsNullOrEmpty())
                                         statements.Add(column.IfDuplicatedStatement(
                                             param: param.Add(
-                                                columnBracket: $"[{column.ColumnName}]",
+                                                columnBracket: $"\"{column.ColumnName}\"",
                                                 name: column.ColumnName,
                                                 value: Description(column: column)),
                                             siteId: SiteId,
@@ -1912,7 +1916,7 @@ namespace Implem.Pleasanter.Models
                             if (Def.ExtendedColumnTypes.ContainsKey(formulaSet.Target))
                             {
                                 param.Add(
-                                    columnBracket: $"[{formulaSet.Target}]",
+                                    columnBracket: $"\"{formulaSet.Target}\"",
                                     name: formulaSet.Target,
                                     value: Num(formulaSet.Target));
                             }

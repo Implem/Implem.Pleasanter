@@ -39,14 +39,14 @@ namespace Implem.Pleasanter.Models
                             .Value(),
                         where: Rds.SessionsWhere()
                             .SessionGuid(context.SessionGuid)
-                            .Add(raw: "(([UserArea] is null) or ([UserArea] <> 1))", _using: !includeUserArea)
+                            .Add(raw: $"((\"UserArea\" is null) or (\"UserArea\" {context.Sqls.IsNotTrue}))", _using: !includeUserArea)
                             .Or(or: Rds.SessionsWhere()
                                 .Page(context.Page, _using: context.Page != null)
                                 .Page(raw: "''"))),
                     Rds.PhysicalDeleteSessions(
                         where: Rds.SessionsWhere()
                             .SessionGuid(context.SessionGuid)
-                            .ReadOnce(1)),
+                            .ReadOnce(context.Sqls.TrueValue)),
                     Rds.PhysicalDeleteSessions(
                         where: Rds.SessionsWhere()
                             .UpdatedTime(

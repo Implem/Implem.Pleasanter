@@ -64,8 +64,10 @@ namespace Implem.Libraries.DataSources.SqlServer
 
         public static string TableAndColumnBracket(string tableBracket, string columnBracket)
         {
-            return columnBracket.StartsWith("[")
-                ? tableBracket + "." + columnBracket
+            return columnBracket.StartsWith("\"")
+                ? tableBracket.IsNullOrEmpty()
+                    ? columnBracket
+                    : tableBracket + "." + columnBracket
                 : columnBracket.StartsWith("(")
                     ? columnBracket.Replace("#TableBracket#", tableBracket)
                     : columnBracket;
@@ -152,7 +154,7 @@ namespace Implem.Libraries.DataSources.SqlServer
 
         public static string GetTableBracket(string tableName)
         {
-            return "[" + tableName + "]";
+            return "\"" + tableName + "\"";
         }
     }
 }

@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using Implem.Libraries.DataSources.SqlServer;
 using Implem.Libraries.Utilities;
+using Implem.DefinitionAccessor;
 
 namespace Implem.Pleasanter.Libraries.DataSources
 {
@@ -19,7 +20,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                 {
                     var statementListList = statements
                     .Aggregate(
-                        new List<List<SqlStatement>>(),
+                        new List<List<SqlStatement>> { new List<SqlStatement>() },
                         (list, statement) =>
                         {
                             if (statement.SelectIdentity ||
@@ -28,21 +29,12 @@ namespace Implem.Pleasanter.Libraries.DataSources
                             {
                                 list.Add(
                                     new List<SqlStatement> { statement });
+                                list.Add(new List<SqlStatement>());
                                 return list;
-                            }
-                            if (list.LastOrDefault()?
-                            .LastOrDefault()?
-                            .SelectIdentity == true)
-                            {
-                                list.Add(new List<SqlStatement>());
-                            }
-                            if (!list.Any())
-                            {
-                                list.Add(new List<SqlStatement>());
                             }
                             list.Last().Add(statement);
                         return list;
-                    });
+                    }).Where(list => list.Any());
                     SqlResponse sqlResponse = null;
                     int count = 0;
                     foreach (var statementList in statementListList)
@@ -57,11 +49,12 @@ namespace Implem.Pleasanter.Libraries.DataSources
                         }
                         else if (statementList.First().IfDuplicated)
                         {
+                            var statement = statementList.First();
                             int exists = Rds.ExecuteScalar_int(
                                 context: context,
                                 dbTransaction: transaction,
                                 dbConnection: connection,
-                                statements: statementList.First());
+                                statements: statement);
                             if (exists > 0)
                             {
                                 return (false,
@@ -69,7 +62,10 @@ namespace Implem.Pleasanter.Libraries.DataSources
                                 {
                                     Event = "Duplicated",
                                     Id = 0,
-                                    ColumnName = "Title",
+                                    ColumnName = statement
+                                    .SqlParamCollection
+                                    .FirstOrDefault()?
+                                    .Name,
                                 });
                             }
                         }
@@ -97,7 +93,8 @@ namespace Implem.Pleasanter.Libraries.DataSources
                                 .Where(st => st.SqlParamCollection != null)
                                 .SelectMany(
                                 st => st.SqlParamCollection)
-                                .Where(param => param.Raw == "@_I")
+                                .Where(param =>
+                                param.Raw == $"{Parameters.Parameter.SqlParameterPrefix}I")
                                 .ForEach(param =>
                                 {
                                     param.Raw = null;

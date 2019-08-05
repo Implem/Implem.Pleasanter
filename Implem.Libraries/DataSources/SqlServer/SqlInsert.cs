@@ -1,4 +1,5 @@
-﻿using Implem.IRds;
+﻿using Implem.DefinitionAccessor;
+using Implem.IRds;
 using Implem.Libraries.Utilities;
 using System.Collections.Generic;
 using System.Linq;
@@ -54,10 +55,10 @@ namespace Implem.Libraries.DataSources.SqlServer
             var valueCollection = new List<string>();
             if (AddUpdatorParam)
             {
-                columnNameCollection.Add("[Creator]");
-                columnNameCollection.Add("[Updator]");
-                valueCollection.Add("@_U");
-                valueCollection.Add("@_U");
+                columnNameCollection.Add("\"Creator\"");
+                columnNameCollection.Add("\"Updator\"");
+                valueCollection.Add($"{Parameters.Parameter.SqlParameterPrefix}U");
+                valueCollection.Add($"{Parameters.Parameter.SqlParameterPrefix}U");
             }
             SqlParamCollection?
                 .Where(o => o.Using)
@@ -69,7 +70,7 @@ namespace Implem.Libraries.DataSources.SqlServer
                         switch (sqlParam.Raw?.ToString())
                         {
                             case "@@identity":
-                                valueCollection.Add("@_I");
+                                valueCollection.Add($"{Parameters.Parameter.SqlParameterPrefix}I");
                                 break;
                             default:
                                 valueCollection.Add(sqlParam.Raw);
@@ -122,8 +123,8 @@ namespace Implem.Libraries.DataSources.SqlServer
                 {
                     Select.SqlColumnCollection.InsertRange(0, new List<SqlColumn>
                     {
-                        new SqlColumn("@_U as [Creator]"),
-                        new SqlColumn("@_U as [Updator]")
+                        new SqlColumn($"{Parameters.Parameter.SqlParameterPrefix}U as \"Creator\""),
+                        new SqlColumn($"{Parameters.Parameter.SqlParameterPrefix}U as \"Updator\"")
                     });
                 }
                 return Select.GetCommandText(

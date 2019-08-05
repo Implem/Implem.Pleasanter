@@ -45,11 +45,11 @@ namespace Implem.Pleasanter.Models
                             .Add(
                                 tableName: "Sites",
                                 joinType: SqlJoin.JoinTypes.Inner,
-                                joinExpression: "[Sites].[SiteId]=[ReminderSchedules].[SiteId]")
+                                joinExpression: "\"Sites\".\"SiteId\"=\"ReminderSchedules\".\"SiteId\"")
                             .Add(
                                 tableName: "Users",
                                 joinType: SqlJoin.JoinTypes.LeftOuter,
-                                joinExpression: "[Users].[UserId]=[Sites].[Updator]"),
+                                joinExpression: "\"Users\".\"UserId\"=\"Sites\".\"Updator\""),
                         where: Rds.ReminderSchedulesWhere()
                             .ScheduledTime(
                                 DateTime.Now.ToLocal(context: context),

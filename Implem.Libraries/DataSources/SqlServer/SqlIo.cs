@@ -1,4 +1,5 @@
-﻿using Implem.IRds;
+﻿using Implem.DefinitionAccessor;
+using Implem.IRds;
 using Implem.Libraries.Utilities;
 using System;
 using System.Collections.Generic;
@@ -49,8 +50,8 @@ namespace Implem.Libraries.DataSources.SqlServer
             if (Implem.DefinitionAccessor.Parameters.Rds.Dbms?.ToLower() != "PostgreSQL".ToLower())
             {
                 CommandText.Append(
-                    "declare @_I bigint;\n",
-                    "declare @_C int;\n");
+                    $"declare {Parameters.Parameter.SqlParameterPrefix}I bigint;\n",
+                    $"declare {Parameters.Parameter.SqlParameterPrefix}C int;\n");
             }
             /**/
 
@@ -333,6 +334,7 @@ namespace Implem.Libraries.DataSources.SqlServer
                     }
                     else
                     {
+                        System.Diagnostics.Debug.WriteLine(cmd.CommandText);
                         throw;
                     }
                 }

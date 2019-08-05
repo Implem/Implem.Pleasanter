@@ -54,7 +54,10 @@ namespace Implem.Libraries.DataSources.SqlServer
         {
             commandText.Append("select ");
             Build_DistinctClause(commandText, distinct);
-            Build_TopClause(commandText, top);
+            Build_TopClause(
+                factory: factory,
+                commandText: commandText,
+                top: top);
             if (this.Any())
             {
                 commandText.Append(this
@@ -81,11 +84,12 @@ namespace Implem.Libraries.DataSources.SqlServer
             }
         }
 
-        private void Build_TopClause(StringBuilder commandText, int top)
+        private void Build_TopClause(ISqlObjectFactory factory, StringBuilder commandText, int top)
         {
             if (top > 0)
             {
-                commandText.Append("top ", top.ToString(), " ");
+                commandText.Append(
+                    factory.SqlCommandText.CreateTopClause(top: top));
             }
         }
 

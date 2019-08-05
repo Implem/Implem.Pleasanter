@@ -426,11 +426,11 @@ namespace Implem.Pleasanter.Models
             ColumnNames().ForEach(columnName =>
             {
                 column.Add(
-                    columnBracket: $"[{columnName}]",
+                    columnBracket: $"\"{columnName}\"",
                     columnName: columnName,
                     function: Sqls.Functions.SingleColumn);
                 param.Add(
-                    columnBracket: $"[{columnName}]",
+                    columnBracket: $"\"{columnName}\"",
                     name: columnName);
             });
             return Rds.InsertBinaries(
@@ -503,7 +503,7 @@ namespace Implem.Pleasanter.Models
             var where = Rds.BinariesWhere().BinaryId(BinaryId);
             statements.AddRange(new List<SqlStatement>
             {
-                Rds.DeleteBinaries(where: where)
+                Rds.DeleteBinaries(factory: context, where: where)
             });
             var response = Rds.ExecuteScalar_response(
                 context: context,
@@ -522,6 +522,7 @@ namespace Implem.Pleasanter.Models
                 statements: new SqlStatement[]
                 {
                     Rds.RestoreBinaries(
+                        factory: context,
                         where: Rds.BinariesWhere().BinaryId(BinaryId))
                 });
             return new ErrorData(type: Error.Types.None);

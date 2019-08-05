@@ -161,7 +161,7 @@ namespace Implem.CodeDefiner.Functions.SqlServer.Parts
             {
                 return tableIndex.ColumnCollection
                     .Where(o => o.No > 0)
-                    .Select(o => "[" + o.ColumnName + "] " + o.OrderType.ToString())
+                    .Select(o => "\"" + o.ColumnName + "\" " + o.OrderType.ToString())
                     .Join(", ");
             }
             else

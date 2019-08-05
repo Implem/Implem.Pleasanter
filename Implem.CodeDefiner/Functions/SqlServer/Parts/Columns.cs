@@ -78,7 +78,7 @@ namespace Implem.CodeDefiner.Functions.SqlServer.Parts
             ColumnDefinition columnDefinition, bool noIdentity)
         {
             var commandText = string.Empty;
-            commandText = "[{0}] [{1}]".Params(
+            commandText = "\"{0}\" \"{1}\"".Params(
                 columnDefinition.ColumnName, columnDefinition.TypeName);
             if (columnDefinition.MaxLength == -1)
             {

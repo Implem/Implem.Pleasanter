@@ -105,7 +105,7 @@ namespace Implem.Pleasanter.Libraries.ViewModes
                         tableName: column.TableName(),
                         columnBrackets: new string[]
                         {
-                            "[{0}] between '{1}' and '{2:yyyy/MM/dd HH:mm:ss.fff}'".Params(
+                            "\"{0}\" between '{1}' and '{2:yyyy/MM/dd HH:mm:ss.fff}'".Params(
                                 column.Name,
                                 year.AddYears(-11).ToUniversal(context: context),
                                 year.AddYears(1).AddMilliseconds(-3).ToUniversal(context: context))
@@ -115,7 +115,7 @@ namespace Implem.Pleasanter.Libraries.ViewModes
                         tableName: column.TableName(),
                         columnBrackets: new string[]
                         {
-                            "[{0}] between '{1}' and '{2:yyyy/MM/dd HH:mm:ss.fff}'".Params(
+                            "\"{0}\" between '{1}' and '{2:yyyy/MM/dd HH:mm:ss.fff}'".Params(
                                 column.Name,
                                 month.AddMonths(-11).ToUniversal(context: context),
                                 month.AddMonths(1).AddMilliseconds(-3).ToUniversal(context: context))
@@ -126,7 +126,7 @@ namespace Implem.Pleasanter.Libraries.ViewModes
                         tableName: column.TableName(),
                         columnBrackets: new string[]
                         {
-                            "[{0}] between '{1}' and '{2:yyyy/MM/dd HH:mm:ss.fff}'".Params(
+                            "\"{0}\" between '{1}' and '{2:yyyy/MM/dd HH:mm:ss.fff}'".Params(
                                 column.Name,
                                 end.AddDays(-77).ToUniversal(context: context),
                                 end.AddDays(7).AddMilliseconds(-3).ToUniversal(context: context))
@@ -136,7 +136,7 @@ namespace Implem.Pleasanter.Libraries.ViewModes
                         tableName: column.TableName(),
                         columnBrackets: new string[]
                         {
-                            "[{0}] between '{1}' and '{2:yyyy/MM/dd HH:mm:ss.fff}'".Params(
+                            "\"{0}\" between '{1}' and '{2:yyyy/MM/dd HH:mm:ss.fff}'".Params(
                                 column.Name,
                                 month.ToUniversal(context: context),
                                 month.AddMonths(1).AddMilliseconds(-3).ToUniversal(context: context))
@@ -147,7 +147,7 @@ namespace Implem.Pleasanter.Libraries.ViewModes
 
         private static string ColumnBracket(Context context, Column column)
         {
-            var columnBracket = "[{0}].[{1}]".Params(column.TableName(), column.Name);
+            var columnBracket = "\"{0}\".\"{1}\"".Params(column.TableName(), column.Name);
             var diff = Diff(
                 context: context,
                 column: column);

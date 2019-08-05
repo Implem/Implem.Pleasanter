@@ -601,7 +601,7 @@ namespace Implem.Pleasanter.Models
                     where: Rds.ReminderSchedulesWhere()
                         .SiteId(SiteId)
                         .Id(reminder.Id))));
-            var response = Rds.ExecuteScalar_response(
+            var response = Repository.ExecuteScalar_response(
                 context: context,
                 transactional: true,
                 statements: statements.ToArray());
@@ -690,11 +690,11 @@ namespace Implem.Pleasanter.Models
             ColumnNames().ForEach(columnName =>
             {
                 column.Add(
-                    columnBracket: $"[{columnName}]",
+                    columnBracket: $"\"{columnName}\"",
                     columnName: columnName,
                     function: Sqls.Functions.SingleColumn);
                 param.Add(
-                    columnBracket: $"[{columnName}]",
+                    columnBracket: $"\"{columnName}\"",
                     name: columnName);
             });
             return Rds.InsertSites(
@@ -834,20 +834,25 @@ namespace Implem.Pleasanter.Models
                 statements: new SqlStatement[]
                 {
                     Rds.DeleteItems(
+                        factory: context,
                         where: Rds.ItemsWhere().SiteId_In(siteMenu.Select(o => o.SiteId))),
                     Rds.DeleteIssues(
+                        factory: context,
                         where: Rds.IssuesWhere().SiteId_In(siteMenu
                             .Where(o => o.ReferenceType == "Issues")
                             .Select(o => o.SiteId))),
                     Rds.DeleteResults(
+                        factory: context,
                         where: Rds.ResultsWhere().SiteId_In(siteMenu
                             .Where(o => o.ReferenceType == "Results")
                             .Select(o => o.SiteId))),
                     Rds.DeleteWikis(
+                        factory: context,
                         where: Rds.WikisWhere().SiteId_In(siteMenu
                             .Where(o => o.ReferenceType == "Wikis")
                             .Select(o => o.SiteId))),
                     Rds.DeleteSites(
+                        factory: context,
                         where: Rds.SitesWhere()
                             .TenantId(TenantId)
                             .SiteId_In(siteMenu.Select(o => o.SiteId)))
@@ -865,8 +870,10 @@ namespace Implem.Pleasanter.Models
                 statements: new SqlStatement[]
                 {
                     Rds.RestoreItems(
+                        factory: context,
                         where: Rds.ItemsWhere().ReferenceId(SiteId)),
                     Rds.RestoreSites(
+                        factory: context,
                         where: Rds.SitesWhere().SiteId(SiteId)),
                     StatusUtilities.UpdateStatus(
                         tenantId: TenantId,

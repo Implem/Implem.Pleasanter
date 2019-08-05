@@ -2310,9 +2310,9 @@ namespace Implem.Pleasanter.Models
                 context: context,
                 join: Rds.ItemsJoin().Add(
                     new SqlJoin(
-                        "[Sites]",
+                        "\"Sites\"",
                         SqlJoin.JoinTypes.Inner,
-                        "[Sites].[SiteId] = [Items].[SiteId] and [Sites].[TenantId] = @_T")));
+                        $"\"Sites\".\"SiteId\" = \"Items\".\"SiteId\" and \"Sites\".\"TenantId\" = {Parameters.Parameter.SqlParameterPrefix}T")));
             OnConstructed(context: context);
         }
     }

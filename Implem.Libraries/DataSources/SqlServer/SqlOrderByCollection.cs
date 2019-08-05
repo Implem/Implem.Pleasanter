@@ -1,4 +1,5 @@
-﻿using Implem.Libraries.Classes;
+﻿using Implem.DefinitionAccessor;
+using Implem.Libraries.Classes;
 using Implem.Libraries.DataSources.Interfaces;
 using Implem.Libraries.Utilities;
 using System.Collections.Generic;
@@ -52,8 +53,8 @@ namespace Implem.Libraries.DataSources.SqlServer
                 if (pageSize != 0)
                 {
                     commandText.Append(
-                        "offset @_Offset", commandCount.ToString(),
-                        " rows fetch next @_PageSize", commandCount.ToString(),
+                        $"offset {Parameters.Parameter.SqlParameterPrefix}Offset", commandCount.ToString(),
+                        $" rows fetch next {Parameters.Parameter.SqlParameterPrefix}PageSize", commandCount.ToString(),
                         " rows only ");
                 }
             }

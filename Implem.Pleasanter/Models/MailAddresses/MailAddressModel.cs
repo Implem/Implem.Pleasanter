@@ -301,11 +301,11 @@ namespace Implem.Pleasanter.Models
             ColumnNames().ForEach(columnName =>
             {
                 column.Add(
-                    columnBracket: $"[{columnName}]",
+                    columnBracket: $"\"{columnName}\"",
                     columnName: columnName,
                     function: Sqls.Functions.SingleColumn);
                 param.Add(
-                    columnBracket: $"[{columnName}]",
+                    columnBracket: $"\"{columnName}\"",
                     name: columnName);
             });
             return Rds.InsertMailAddresses(
@@ -378,7 +378,7 @@ namespace Implem.Pleasanter.Models
             var where = Rds.MailAddressesWhere().MailAddressId(MailAddressId);
             statements.AddRange(new List<SqlStatement>
             {
-                Rds.DeleteMailAddresses(where: where)
+                Rds.DeleteMailAddresses(factory: context, where: where)
             });
             var response = Rds.ExecuteScalar_response(
                 context: context,
@@ -397,6 +397,7 @@ namespace Implem.Pleasanter.Models
                 statements: new SqlStatement[]
                 {
                     Rds.RestoreMailAddresses(
+                        factory: context,
                         where: Rds.MailAddressesWhere().MailAddressId(MailAddressId))
                 });
             return new ErrorData(type: Error.Types.None);

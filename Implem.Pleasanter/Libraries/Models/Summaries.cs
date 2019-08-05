@@ -592,7 +592,7 @@ namespace Implem.Pleasanter.Libraries.Models
                     {
                         case "Num":
                             return issuesColumn.Add(
-                                columnBracket: $"[{sourceColumn}]",
+                                columnBracket: $"\"{sourceColumn}\"",
                                 columnName: sourceColumn,
                                 _as: "Value",
                                 function: Sqls.Functions.Sum);
@@ -613,7 +613,7 @@ namespace Implem.Pleasanter.Libraries.Models
                     {
                         case "Num":
                             return resultsColumn.Add(
-                                columnBracket: $"[{sourceColumn}]",
+                                columnBracket: $"\"{sourceColumn}\"",
                                 columnName: sourceColumn,
                                 _as: "Value",
                                 function: Sqls.Functions.Sum);
@@ -704,7 +704,7 @@ namespace Implem.Pleasanter.Libraries.Models
                     {
                         case "Num":
                             return issuesColumn.Add(
-                                columnBracket: $"[{sourceColumn}]",
+                                columnBracket: $"\"{sourceColumn}\"",
                                 columnName: sourceColumn,
                                 _as: "Value",
                                 function: Sqls.Functions.Min);
@@ -725,7 +725,7 @@ namespace Implem.Pleasanter.Libraries.Models
                     {
                         case "Num":
                             return resultsColumn.Add(
-                                columnBracket: $"[{sourceColumn}]",
+                                columnBracket: $"\"{sourceColumn}\"",
                                 columnName: sourceColumn,
                                 _as: "Value",
                                 function: Sqls.Functions.Min);
@@ -810,7 +810,7 @@ namespace Implem.Pleasanter.Libraries.Models
                     {
                         case "Num":
                             return issuesColumn.Add(
-                                columnBracket: $"[{sourceColumn}]",
+                                columnBracket: $"\"{sourceColumn}\"",
                                 columnName: sourceColumn,
                                 _as: "Value",
                                 function: Sqls.Functions.Max);
@@ -831,7 +831,7 @@ namespace Implem.Pleasanter.Libraries.Models
                     {
                         case "Num":
                             return resultsColumn.Add(
-                                columnBracket: $"[{sourceColumn}]",
+                                columnBracket: $"\"{sourceColumn}\"",
                                 columnName: sourceColumn,
                                 _as: "Value",
                                 function: Sqls.Functions.Max);

@@ -1,4 +1,5 @@
-﻿using Implem.IRds;
+﻿using Implem.DefinitionAccessor;
+using Implem.IRds;
 using Implem.Libraries.Utilities;
 using System.Collections.Generic;
 using System.Linq;
@@ -58,8 +59,8 @@ namespace Implem.Libraries.DataSources.SqlServer
                 case Sqls.TableTypes.Deleted: tableBracket = DeletedTableBracket; break;
             }
             var columnNameCollection = new List<string>();
-            if (AddUpdatorParam) columnNameCollection.Add("[Updator] = @_U");
-            if (AddUpdatedTimeParam) columnNameCollection.Add("[UpdatedTime] = getdate()");
+            if (AddUpdatorParam) columnNameCollection.Add($"\"Updator\" = {Parameters.Parameter.SqlParameterPrefix}U");
+            if (AddUpdatedTimeParam) columnNameCollection.Add($"\"UpdatedTime\" = {factory.Sqls.CurrentDateTime} ");
             SqlParamCollection?
                 .Where(o => (o as SqlParam).Using)
                 .Where(o => (o as SqlParam).Updating)
@@ -71,7 +72,7 @@ namespace Implem.Libraries.DataSources.SqlServer
                         {
                             case "@@identity":
                                 columnNameCollection.Add(
-                                    sqlParam.ColumnBracket + "=@_I");
+                                    sqlParam.ColumnBracket + $"={Parameters.Parameter.SqlParameterPrefix}I");
                                 break;
                             default:
                                 columnNameCollection.Add(
