@@ -18,5 +18,6 @@ namespace Implem.SupportTools.MailTester.Model
         public string AllowedFrom { get; set; }
         public string SupportFrom { get; set; }
         public string InternalDomains { get; set; }
+        public string AddressValidation { get; set; }
     }
 }

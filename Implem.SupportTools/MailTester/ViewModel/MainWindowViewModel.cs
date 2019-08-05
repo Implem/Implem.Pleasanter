@@ -6,6 +6,7 @@ using System.Windows.Input;
 using Implem.SupportTools.MailTester.Model;
 using Implem.SupportTools.Common;
 using System;
+using System.Linq;
 
 namespace Implem.SupportTools.MailTester.ViewModel
 {
@@ -30,6 +31,7 @@ namespace Implem.SupportTools.MailTester.ViewModel
         private string bcc;
         private string subject;
         private string body;
+        private string addressValidation;
 
         public string SmtpHost { get => smtpHost; set { SetProperty(ref smtpHost, value); } }
         public int SmtpPort { get => smtpPort; set { SetProperty(ref smtpPort, value); } }
@@ -69,6 +71,15 @@ namespace Implem.SupportTools.MailTester.ViewModel
                 AllowedFrom = mailSettings.AllowedFrom;
                 SupportFrom = mailSettings.SupportFrom;
                 InternalDomains = mailSettings.InternalDomains;
+                addressValidation = mailSettings.AddressValidation;
+                if(string.IsNullOrEmpty(addressValidation))
+                {
+                    Logger.Error(nameof(MailTester), "Set the \"AddressValidation\" value in Mail.json");
+                }
+                else
+                {
+                    Logger.Info(nameof(MailTester), $"AddressValidation={addressValidation}");
+                }
             }
             
             if (File.Exists(mailTesterSettingsPath))
@@ -87,6 +98,21 @@ namespace Implem.SupportTools.MailTester.ViewModel
 
         public void SendMail()
         {
+            var badAddressTo = Addresses.BadAddresses(To, addressValidation);
+            if (badAddressTo.Any())
+            {
+                Logger.Error(nameof(MailTester), $"There is an invalid email address in the [To] field. ({ string.Join(",", badAddressTo)})");
+            }
+            var badAddressCc = Addresses.BadAddresses(Cc, addressValidation);
+            if (badAddressCc.Any())
+            {
+                Logger.Error(nameof(MailTester), $"There is an invalid email address in the [CC] field. ({ string.Join(",", badAddressCc)})");
+            }
+            var badAddressBcc = Addresses.BadAddresses(Bcc, addressValidation);
+            if (badAddressBcc.Any())
+            {
+                Logger.Error(nameof(MailTester), $"There is an invalid email address in the [BCC] field. ({ string.Join(",", badAddressBcc)})");
+            }
             var smtp = new Smtp(
                 SmtpHost,
                 SmtpPort,
