@@ -1029,95 +1029,77 @@ namespace Implem.Pleasanter.Libraries.Settings
         private void CsNumericColumns(Column column, string value, SqlWhereCollection where)
         {
             var param = value.Deserialize<List<string>>();
-            if (param.Any())
+            if (param.Count == 0) { return; }
+            var collection = new SqlWhereCollection();
+            collection.AddRange(param
+                .Where(o => o.RegexExists(@"^-?[0-9\.]*,-?[0-9\.]*$"))
+                .SelectMany(o => CsNumericRangeColumns(column, o)));
+            collection.AddRange(param
+                .Where(o => o == "\t")
+                .SelectMany(o => CsNumericColumnsWhereNull(column)));
+            var valueWhere = CsNumericColumnsWhere(
+                column,
+                param
+                    .Where(o => !o.RegexExists(@"^-?[0-9\.]*,-?[0-9\.]*$"))
+                    .Where(o => o != "\t"));
+            if (valueWhere != null)
             {
-                if (param.All(o => o.RegexExists(@"^-?[0-9\.]*,-?[0-9\.]*$")))
-                {
-                    CsNumericRangeColumns(column, param, where);
-                }
-                else
-                {
-                    CsNumericColumns(column, param, where);
-                }
+                collection.Add(valueWhere);
             }
+            where.Add(or: collection);
         }
 
-        private void CsNumericColumns(
-            Column column, List<string> param, SqlWhereCollection where)
+        private SqlWhere CsNumericColumnsWhere(Column column, IEnumerable<string> param)
         {
-            if (param.Any())
-            {
-                where.Add(or: new SqlWhereCollection(
-                    CsNumericColumnsWhere(column, param),
-                    CsNumericColumnsWhereNull(column, param)));
-            }
+            var numList = param.Select(o => o.ToDecimal());
+            if (!numList.Any()) { return null; }
+            return new SqlWhere(
+                tableName: column.TableName(),
+                columnBrackets: ("[" + column.Name + "]").ToSingleArray(),
+                name: column.Name,
+                _operator: " in ({0})".Params(numList.Join()));
         }
 
-        private SqlWhere CsNumericColumnsWhere(Column column, List<string> param)
+        private IEnumerable<SqlWhere> CsNumericColumnsWhereNull(Column column)
         {
-            return param.Any(o => o != "\t")
-                ? new SqlWhere(
+            yield return new SqlWhere(
+                tableName: column.TableName(),
+                    columnBrackets: ("[" + column.Name + "]").ToSingleArray(),
+                    _operator: " is null");
+            yield return new SqlWhere(
+                tableName: column.TableName(),
+                columnBrackets: ("[" + column.Name + "]").ToSingleArray(),
+                _operator: "={0}".Params(column.UserColumn
+                    ? User.UserTypes.Anonymous.ToInt()
+                    : 0));
+        }
+
+        private IEnumerable<SqlWhere> CsNumericRangeColumns(Column column, string param)
+        {
+            var from = param.Split_1st();
+            var to = param.Split_2nd();
+            if (from == string.Empty)
+            {
+                yield return new SqlWhere(
                     tableName: column.TableName(),
                     columnBrackets: ("[" + column.Name + "]").ToSingleArray(),
-                    name: column.Name,
-                    _operator: " in ({0})".Params(param
-                        .Where(o => o != "\t")
-                        .Select(o => o.ToDecimal())
-                        .Join()))
-                : null;
-        }
-
-        private SqlWhere CsNumericColumnsWhereNull(Column column, List<string> param)
-        {
-            return param.Any(o => o == "\t")
-                ? new SqlWhere(or: new SqlWhereCollection(
-                    new SqlWhere(
-                        tableName: column.TableName(),
-                        columnBrackets: ("[" + column.Name + "]").ToSingleArray(),
-                        _operator: " is null"),
-                    new SqlWhere(
-                        tableName: column.TableName(),
-                        columnBrackets: ("[" + column.Name + "]").ToSingleArray(),
-                        _operator: "={0}".Params(column.UserColumn
-                            ? User.UserTypes.Anonymous.ToInt()
-                            : 0))))
-                : null;
-        }
-
-        private void CsNumericRangeColumns(
-            Column column,
-            List<string> param,
-            SqlWhereCollection where)
-        {
-            var parts = new SqlWhereCollection();
-            param.ForEach(data =>
+                    _operator: "<={0}".Params(to.ToDecimal()));
+            }
+            else if (to == string.Empty)
             {
-                var from = data.Split_1st();
-                var to = data.Split_2nd();
-                if (from == string.Empty)
-                {
-                    parts.Add(new SqlWhere(
-                        tableName: column.TableName(),
-                        columnBrackets: ("[" + column.Name + "]").ToSingleArray(),
-                        _operator: "<={0}".Params(to.ToDecimal())));
-                }
-                else if (to == string.Empty)
-                {
-                    parts.Add(new SqlWhere(
-                        tableName: column.TableName(),
-                        columnBrackets: ("[" + column.Name + "]").ToSingleArray(),
-                        _operator: ">={0}".Params(from.ToDecimal())));
-                }
-                else
-                {
-                    parts.Add(new SqlWhere(
-                        tableName: column.TableName(),
-                        columnBrackets: ("[" + column.Name + "]").ToSingleArray(),
-                        _operator: " between {0} and {1}".Params(
-                            from.ToDecimal(), to.ToDecimal())));
-                }
-            });
-            where.Add(or: parts);
+                yield return new SqlWhere(
+                    tableName: column.TableName(),
+                    columnBrackets: ("[" + column.Name + "]").ToSingleArray(),
+                    _operator: ">={0}".Params(from.ToDecimal()));
+            }
+            else
+            {
+                yield return new SqlWhere(
+                    tableName: column.TableName(),
+                    columnBrackets: ("[" + column.Name + "]").ToSingleArray(),
+                    _operator: " between {0} and {1}".Params(
+                        from.ToDecimal(), to.ToDecimal()));
+            }
         }
 
         private void CsDateTimeColumns(
@@ -1144,7 +1126,8 @@ namespace Implem.Pleasanter.Libraries.Settings
             return param.Any(o => o != "\t")
                 ? new SqlWhere(
                     tableName: column.TableName(),
-                    raw: param.Select(range => {
+                    raw: param.Select(range =>
+                    {
                         var from = range.Split_1st();
                         var to = range.Split_2nd();
                         if (!from.IsNullOrEmpty() && !to.IsNullOrEmpty())
