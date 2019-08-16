@@ -115,7 +115,7 @@
             .append($('<div>')
                 .addClass("field-normal")
                 .append($('<label>')
-                    .attr({ class: "field-label", for: "dateRangeStart" })
+                    .attr({ class: "field-label", for: "dateRangeEnd" })
                     .text(endLabel))
                 .append($('<div>')
                     .addClass("field-control")
