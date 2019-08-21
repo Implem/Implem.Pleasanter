@@ -1,5 +1,6 @@
 ﻿using Implem.IRds;
 using Implem.Libraries.Utilities;
+using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 namespace Implem.Libraries.DataSources.SqlServer
@@ -30,6 +31,8 @@ namespace Implem.Libraries.DataSources.SqlServer
         public string IdentityColumnName;
         public bool IfConflicted = false;
         public bool IfDuplicated = false;
+        public bool IsRowCount = false;
+        public IEnumerable<SqlParam> AdditionalParams;
 
         public SqlStatement()
         {

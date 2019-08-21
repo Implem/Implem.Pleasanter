@@ -1,4 +1,7 @@
-﻿using Microsoft.AspNetCore.Mvc.Filters;
+﻿using Implem.Pleasanter.Libraries.Responses;
+using Implem.Pleasanter.NetCore.Libraries.Requests;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Filters;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,9 +11,13 @@ namespace Implem.Pleasanter.NetCore.Filters
 {
     public class PublishesAttributes : ActionFilterAttribute, IAuthorizationFilter
     {
-        public void OnAuthorization(AuthorizationFilterContext context)
+        public void OnAuthorization(AuthorizationFilterContext filterContext)
         {
-            throw new NotImplementedException();
+            var context = new ContextImplement(tenantId: 0);
+            if (!context.Publish)
+            {
+                filterContext.Result = new RedirectResult(Locations.BadRequest(context: context));
+            }
         }
     }
 }

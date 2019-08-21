@@ -4,91 +4,172 @@ using System.Data;
 using System.Data.SqlClient;
 namespace Implem.SqlServer
 {
-    class SqlServerCommand : ISqlCommand
+    internal class SqlServerCommand : ISqlCommand
     {
-        SqlCommand _instance;
-        internal SqlCommand InnerInstance => _instance;
+        private SqlCommand instance;
 
-        public SqlServerCommand()
+        internal SqlCommand InnerInstance
         {
-            _instance = new SqlCommand();
-        }
-
-        public string CommandText { get => _instance.CommandText; set => _instance.CommandText = value; }
-        public int CommandTimeout { get => _instance.CommandTimeout; set => _instance.CommandTimeout = value; }
-        public CommandType CommandType { get => _instance.CommandType; set => _instance.CommandType = value; }
-        public IDbConnection Connection { get => _instance.Connection;
-            set
+            get
             {
-                { if (value is SqlConnection con) _instance.Connection = con; }
-                { if (value is SqlServerConnection con) _instance.Connection = con.InnerInstance; }
+                return instance;
             }
         }
 
-        public IDataParameterCollection Parameters => _instance.Parameters;
+        public SqlServerCommand()
+        {
+            instance = new SqlCommand();
+        }
 
-        public IDbTransaction Transaction { get => _instance.Transaction; set => _instance.Transaction = (SqlTransaction)value; }
-        public UpdateRowSource UpdatedRowSource { get => _instance.UpdatedRowSource; set => _instance.UpdatedRowSource = value; }
+        public string CommandText
+        {
+            get
+            {
+                return instance.CommandText;
+            }
+            set
+            {
+                instance.CommandText = value;
+            }
+        }
+
+        public int CommandTimeout
+        {
+            get
+            {
+                return instance.CommandTimeout;
+            }
+            set
+            {
+                instance.CommandTimeout = value;
+            }
+        }
+
+        public CommandType CommandType
+        {
+            get
+            {
+                return instance.CommandType;
+            }
+            set
+            {
+                instance.CommandType = value;
+            }
+        }
+
+        public IDbConnection Connection
+        {
+            get
+            {
+                return instance.Connection;
+            }
+            set
+            {
+                if (value is SqlConnection sqlCon)
+                {
+                    instance.Connection = sqlCon;
+                }
+                if (value is SqlServerConnection sqlServerCon)
+                {
+                    instance.Connection = sqlServerCon.InnerInstance;
+                }
+            }
+        }
+
+        public IDataParameterCollection Parameters
+        {
+            get
+            {
+                return instance.Parameters;
+            }
+        }
+
+        public IDbTransaction Transaction
+        {
+            get
+            {
+                return instance.Transaction;
+            }
+            set
+            {
+                instance.Transaction = (SqlTransaction)value;
+            }
+        }
+
+        public UpdateRowSource UpdatedRowSource
+        {
+            get
+            {
+                return instance.UpdatedRowSource;
+            }
+            set
+            {
+                instance.UpdatedRowSource = value;
+            }
+        }
 
         public void Cancel()
         {
-            _instance.Cancel();
+            instance.Cancel();
         }
 
         public object Clone()
         {
-            return _instance.Clone();
+            return instance.Clone();
         }
 
         public IDbDataParameter CreateParameter()
         {
-            return _instance.CreateParameter();
+            return instance.CreateParameter();
         }
 
         public void Dispose()
         {
-            _instance.Dispose();
+            instance.Dispose();
         }
 
         public int ExecuteNonQuery()
         {
-            return _instance.ExecuteNonQuery();
+            return instance.ExecuteNonQuery();
         }
 
         public IDataReader ExecuteReader()
         {
-            return _instance.ExecuteReader();
+            return instance.ExecuteReader();
         }
 
         public IDataReader ExecuteReader(CommandBehavior behavior)
         {
-            return _instance.ExecuteReader(behavior);
+            return instance.ExecuteReader(behavior);
         }
 
         public object ExecuteScalar()
         {
-            return _instance.ExecuteScalar();
+            return instance.ExecuteScalar();
         }
 
         public void Prepare()
         {
-            _instance.Prepare();
+            instance.Prepare();
         }
 
         public void Parameters_AddWithValue(string parameterName, object value)
         {
-            _instance.Parameters.AddWithValue(parameterName, value);
+            instance.Parameters.AddWithValue(parameterName, value);
         }
 
         public void Parameters_Add(ISqlParameter parameter)
         {
-            _instance.Parameters.Add(new SqlParameter(parameter.ParameterName, parameter.Value));
+            instance.Parameters.Add(
+                new SqlParameter(parameter.ParameterName, parameter.Value));
         }
 
         public IEnumerable<ISqlParameter> SqlParameters()
         {
-            foreach(SqlParameter parameter in _instance.Parameters)
+            foreach (SqlParameter parameter in instance.Parameters)
+            {
                 yield return new SqlServerParameter(parameter);
+            }
         }
     }
 }

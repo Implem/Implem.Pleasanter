@@ -453,7 +453,7 @@ namespace Implem.Pleasanter.Models
             bool distinct = false,
             int top = 0)
         {
-            Set(context, Rds.ExecuteTable(
+            Set(context, Repository.ExecuteTable(
                 context: context,
                 statements: Rds.SelectSites(
                     tableType: tableType,
@@ -720,7 +720,10 @@ namespace Implem.Pleasanter.Models
                         context: context,
                         siteModel: this,
                         otherInitValue: otherInitValue)),
-                new SqlStatement(Def.Sql.IfConflicted.Params(SiteId)){ IfConflicted = true },  //TODO
+                new SqlStatement(Def.Sql.IfConflicted.Params(SiteId))
+                {
+                    IfConflicted = true
+                },
                 StatusUtilities.UpdateStatus(
                     tenantId: TenantId,
                     type: StatusUtilities.Types.SitesUpdated),
@@ -748,7 +751,7 @@ namespace Implem.Pleasanter.Models
             bool addUpdatorParam = true,
             bool updateItems = true)
         {
-            Rds.ExecuteNonQuery(
+            Repository.ExecuteNonQuery(
                 context: context,
                 transactional: true,
                 statements: UpdateRelatedRecordsStatements(
@@ -809,7 +812,7 @@ namespace Implem.Pleasanter.Models
                     tenantId: TenantId,
                     type: StatusUtilities.Types.SitesUpdated),
             };
-            var response = Rds.ExecuteScalar_response(
+            var response = Repository.ExecuteScalar_response(
                 context: context,
                 transactional: true,
                 selectIdentity: true,
@@ -828,7 +831,7 @@ namespace Implem.Pleasanter.Models
                     context: context,
                     siteId: ss.SiteId,
                     withParent: true);
-            Rds.ExecuteNonQuery(
+            Repository.ExecuteNonQuery(
                 context: context,
                 transactional: true,
                 statements: new SqlStatement[]
@@ -863,7 +866,7 @@ namespace Implem.Pleasanter.Models
         public ErrorData Restore(Context context, long siteId)
         {
             SiteId = siteId;
-            Rds.ExecuteNonQuery(
+            Repository.ExecuteNonQuery(
                 context: context,
                 connectionString: Parameters.Rds.OwnerConnectionString,
                 transactional: true,
@@ -886,7 +889,7 @@ namespace Implem.Pleasanter.Models
         public ErrorData PhysicalDelete(
             Context context, Sqls.TableTypes tableType = Sqls.TableTypes.Normal)
         {
-            Rds.ExecuteNonQuery(
+            Repository.ExecuteNonQuery(
                 context: context,
                 transactional: true,
                 statements: Rds.PhysicalDeleteSites(
@@ -1287,55 +1290,9 @@ namespace Implem.Pleasanter.Models
                 SiteSettings = new SiteSettings(context: context, referenceType: ReferenceType);
             }
             TenantId = context.TenantId;
-
-            //TODO
-            var responseId = Rds.ExecuteScalar(context: context, transactional: true,
-                func: (transaction, connection) =>
-                {
-                    var itemId = Rds.ExecuteScalar_response(context: context, dbTransaction: transaction, dbConnection: connection,
-                                    statements: Rds.InsertItems(
-                                                    selectIdentity: true,
-                                                    param: Rds.ItemsParam()
-                                                        .ReferenceType("Sites")
-                                                        .Title(Title.Value.MaxLength(1024)))).Id;
-                    Rds.ExecuteNonQuery(context: context, dbTransaction: transaction, dbConnection: connection,
-                                    statements: new SqlStatement[]
-                                    {
-                                        Rds.InsertSites(
-                                                    param: Rds.SitesParam()
-                                                        .SiteId(itemId)
-                                                        .TenantId(TenantId)
-                                                        .Title(Title.Value.MaxLength(1024))
-                                                        .Body(Body)
-                                                        .ReferenceType(ReferenceType.MaxLength(32))
-                                                        .ParentId(ParentId)
-                                                        .InheritPermission(InheritPermission == 0
-                                                            ? itemId
-                                                            : InheritPermission)
-                                                        .SiteSettings(SiteSettings.RecordingJson(context: context))
-                                                        .Comments(Comments.ToJson())),
-                                         Rds.UpdateItems(
-                                                where: Rds.ItemsWhere().ReferenceId(itemId),
-                                                param: Rds.ItemsParam().SiteId(itemId)),
-                                        Rds.InsertPermissions(
-                                                param: Rds.PermissionsParam()
-                                                    .ReferenceId(itemId)
-                                                    .DeptId(0)
-                                                    .UserId(context.UserId)
-                                                    .PermissionType(Permissions.Manager()),
-                                                _using: InheritPermission == 0),
-                                        StatusUtilities.UpdateStatus(
-                                                                tenantId: TenantId,
-                                                                type: StatusUtilities.Types.SitesUpdated),
-                                });
-                    return (true, itemId);
-                });
-
-            /*
-            var response = Rds.ExecuteScalar_response(
+            var response = Repository.ExecuteScalar_response(
                 context: context,
                 transactional: true,
-                selectIdentity: true,
                 statements: new SqlStatement[]
                 {
                     Rds.InsertItems(
@@ -1371,9 +1328,6 @@ namespace Implem.Pleasanter.Models
                         type: StatusUtilities.Types.SitesUpdated),
                 });
             SiteId = response.Id ?? SiteId;
-                */
-
-            SiteId = responseId ?? SiteId;
             Get(context: context);
             SiteSettings = SiteSettingsUtilities.Get(
                 context: context, siteModel: this, referenceId: SiteId);

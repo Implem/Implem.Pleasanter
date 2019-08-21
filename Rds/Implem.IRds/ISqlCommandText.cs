@@ -1,7 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Text;
-
 namespace Implem.IRds
 {
     public interface ISqlCommandText
@@ -21,5 +19,9 @@ namespace Implem.IRds
         string CreateTopClause(int top);
 
         string CreateLimitClause(int limit);
+
+        string CreateDelete(string template);
+
+        string CreateIdentityInsert(string template);
     }
 }

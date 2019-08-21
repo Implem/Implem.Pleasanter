@@ -456,7 +456,10 @@ namespace Implem.Pleasanter.Models
                         context: context,
                         binaryModel: this,
                         otherInitValue: otherInitValue)),
-                new SqlStatement(Def.Sql.IfConflicted.Params(BinaryId)){ IfConflicted = true }  //TODO
+                new SqlStatement(Def.Sql.IfConflicted.Params(BinaryId))
+                {
+                    IfConflicted = true
+                }
             };
         }
 
@@ -780,7 +783,7 @@ namespace Implem.Pleasanter.Models
                         ReferenceId, Libraries.Images.ImageData.Types.SiteImage)
                             .UrlPrefix(sizeType);
                 default:
-                    return Rds.ExecuteScalar_datetime(
+                    return Repository.ExecuteScalar_datetime(
                         context: context,
                         statements: Rds.SelectBinaries(
                             column: Rds.BinariesColumn()

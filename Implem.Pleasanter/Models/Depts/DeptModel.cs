@@ -210,7 +210,7 @@ namespace Implem.Pleasanter.Models
             bool distinct = false,
             int top = 0)
         {
-            Set(context, ss, Rds.ExecuteTable(
+            Set(context, ss, Repository.ExecuteTable(
                 context: context,
                 statements: Rds.SelectDepts(
                     tableType: tableType,
@@ -275,7 +275,7 @@ namespace Implem.Pleasanter.Models
                 tableType: tableType,
                 param: param,
                 otherInitValue: otherInitValue));
-            var response = Rds.ExecuteScalar_response(
+            var response = Repository.ExecuteScalar_response(
                 context: context,
                 transactional: true,
                 selectIdentity: true,
@@ -337,7 +337,7 @@ namespace Implem.Pleasanter.Models
                 param: param,
                 otherInitValue: otherInitValue,
                 additionalStatements: additionalStatements));
-            var response = Rds.ExecuteScalar_response(
+            var response = Repository.ExecuteScalar_response(
                 context: context,
                 transactional: true,
                 statements: statements.ToArray());
@@ -438,7 +438,10 @@ namespace Implem.Pleasanter.Models
                         context: context,
                         deptModel: this,
                         otherInitValue: otherInitValue)),
-                new SqlStatement(Def.Sql.IfConflicted.Params(DeptId)){ IfConflicted = true },  //TODO
+                new SqlStatement(Def.Sql.IfConflicted.Params(DeptId))
+                {
+                    IfConflicted = true
+                },
                 StatusUtilities.UpdateStatus(
                     tenantId: context.TenantId,
                     type: StatusUtilities.Types.DeptsUpdated),
@@ -476,7 +479,7 @@ namespace Implem.Pleasanter.Models
                     tenantId: context.TenantId,
                     type: StatusUtilities.Types.DeptsUpdated),
             };
-            var response = Rds.ExecuteScalar_response(
+            var response = Repository.ExecuteScalar_response(
                 context: context,
                 transactional: true,
                 selectIdentity: true,
@@ -497,7 +500,7 @@ namespace Implem.Pleasanter.Models
                     tenantId: context.TenantId,
                     type: StatusUtilities.Types.DeptsUpdated),
             });
-            var response = Rds.ExecuteScalar_response(
+            var response = Repository.ExecuteScalar_response(
                 context: context,
                 transactional: true,
                 statements: statements.ToArray());
@@ -512,7 +515,7 @@ namespace Implem.Pleasanter.Models
         public ErrorData Restore(Context context, SiteSettings ss,int deptId)
         {
             DeptId = deptId;
-            Rds.ExecuteNonQuery(
+            Repository.ExecuteNonQuery(
                 context: context,
                 connectionString: Parameters.Rds.OwnerConnectionString,
                 transactional: true,
@@ -531,7 +534,7 @@ namespace Implem.Pleasanter.Models
         public ErrorData PhysicalDelete(
             Context context, SiteSettings ss,Sqls.TableTypes tableType = Sqls.TableTypes.Normal)
         {
-            Rds.ExecuteNonQuery(
+            Repository.ExecuteNonQuery(
                 context: context,
                 transactional: true,
                 statements: Rds.PhysicalDeleteDepts(

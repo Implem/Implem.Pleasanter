@@ -29,7 +29,7 @@ namespace Implem.Pleasanter.Models
         /// </summary>
         public static Dictionary<string, string> Get(Context context, bool includeUserArea = false)
         {
-            return Rds.ExecuteTable(
+            return Repository.ExecuteTable(
                 context: context,
                 statements: new SqlStatement[]
                 {
@@ -64,7 +64,7 @@ namespace Implem.Pleasanter.Models
         /// </summary>
         public static bool Bool(Context context, string key)
         {
-            return Rds.ExecuteScalar_bool(
+            return Repository.ExecuteScalar_bool(
                 context: context,
                 statements: Rds.SelectSessions(
                     column: Rds.SessionsColumn().Value(),
@@ -132,7 +132,7 @@ namespace Implem.Pleasanter.Models
         {
             if (value != null)
             {
-                Rds.ExecuteNonQuery(
+                Repository.ExecuteNonQuery(
                     context: context,
                     statements: Rds.UpdateOrInsertSessions(
                         param: Rds.SessionsParam()
@@ -210,7 +210,7 @@ namespace Implem.Pleasanter.Models
         /// </summary>
         public static void Remove(Context context, string key, bool page)
         {
-            Rds.ExecuteNonQuery(
+            Repository.ExecuteNonQuery(
                 context: context,
                 statements: Rds.PhysicalDeleteSessions(
                     where: Rds.SessionsWhere()
@@ -224,7 +224,7 @@ namespace Implem.Pleasanter.Models
         /// </summary>
         private static void RemoveAll(Context context)
         {
-            Rds.ExecuteNonQuery(
+            Repository.ExecuteNonQuery(
                 context: context,
                 statements: Rds.PhysicalDeleteSessions(
                     where: Rds.SessionsWhere()

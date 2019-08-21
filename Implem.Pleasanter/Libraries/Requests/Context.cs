@@ -166,6 +166,14 @@ namespace Implem.Pleasanter.Libraries.Requests
             }
         }
 
+        public ISqlResult SqlResult
+        {
+            get
+            {
+                return GetSqlObjectFactory().SqlResult;
+            }
+        }
+
         public ISqlErrors SqlErrors
         {
             get

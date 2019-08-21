@@ -1280,6 +1280,7 @@ namespace Implem.Pleasanter.Libraries.Settings
         {
             if (Search.IsNullOrEmpty()) return;
             where.FullTextWhere(
+                context: context,
                 ss: ss,
                 tableName: ss.ReferenceType,
                 searchText: Search);

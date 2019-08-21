@@ -242,7 +242,7 @@ namespace Implem.Pleasanter.Libraries.Settings
             bool sources = true,
             List<long> previously = null)
         {
-            var dataSet = Rds.ExecuteDataSet(
+            var dataSet = Repository.ExecuteDataSet(
                 context: context,
                 statements: new SqlStatement[]
                 {
@@ -1869,7 +1869,7 @@ namespace Implem.Pleasanter.Libraries.Settings
         public Dictionary<string, ControlData> MoveTargetsSelectableOptions(
             Context context, bool enabled = true)
         {
-            var options = MoveTargetsOptions(sites: Rds.ExecuteTable(
+            var options = MoveTargetsOptions(sites: Repository.ExecuteTable(
                 context: context,
                 statements: new SqlStatement(
                     commandText: Def.Sql.MoveTarget,
@@ -2691,7 +2691,7 @@ namespace Implem.Pleasanter.Libraries.Settings
         private EnumerableRowCollection<DataRow> LinkedItemTitles(
             Context context, IEnumerable<long> idList, IEnumerable<long> siteIdList = null)
         {
-            return Rds.ExecuteTable(
+            return Repository.ExecuteTable(
                 context: context,
                 statements: Rds.SelectItems(
                     column: Rds.ItemsColumn()
@@ -2784,7 +2784,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                 .Select(o => o.SiteId)
                 .Distinct()
                 .ToList();
-            var dataRows = Rds.ExecuteTable(
+            var dataRows = Repository.ExecuteTable(
                 context: context,
                 statements: Rds.SelectItems(
                     column: Rds.ItemsColumn()
@@ -2891,7 +2891,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                 ss: Destinations?.Get(link.SiteId),
                 searchText: searchIndexes?.Join(" "),
                 siteIdList: link.SiteId.ToSingleList());
-            var dataSet = Rds.ExecuteDataSet(
+            var dataSet = Repository.ExecuteDataSet(
                 context: context,
                 statements: Rds.SelectItems(
                     dataTableName: "Main",
@@ -2902,9 +2902,9 @@ namespace Implem.Pleasanter.Libraries.Settings
                         .Title(),
                     join: new SqlJoinCollection(
                         new SqlJoin(
-                            tableBracket: "[Sites]",
+                            tableBracket: "\"Sites\"",
                             joinType: SqlJoin.JoinTypes.Inner,
-                            joinExpression: "[Items].[SiteId]=[Sites].[SiteId]")),
+                            joinExpression: "\"Items\".\"SiteId\"=\"Sites\".\"SiteId\"")),
                     where: Rds.ItemsWhere()
                         .ReferenceId(
                             _operator: " in ",
@@ -2925,7 +2925,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                                 && parentColumn != null)
                         .ReferenceType("Sites", _operator: "<>")
                         .SiteId(link.SiteId)
-                        .CanRead(context: context, idColumnBracket: "[Items].[ReferenceId]"),
+                        .CanRead(context: context, idColumnBracket: "\"Items\".\"ReferenceId\""),
                     orderBy: Rds.ItemsOrderBy().ReferenceId(),
                     offset: !noLimit
                         ? offset
@@ -2955,7 +2955,7 @@ namespace Implem.Pleasanter.Libraries.Settings
             return dataRows.Any(dataRow =>
                 dataRow.Long("SiteId") == siteId &&
                 dataRow.String("ReferenceType") == "Wikis")
-                    ? Rds.ExecuteScalar_string(
+                    ? Repository.ExecuteScalar_string(
                         context: context,
                         statements: Rds.SelectWikis(
                             column: Rds.WikisColumn().Body(),
@@ -3173,7 +3173,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                 {
                     if (hash == null)
                     {
-                        hash = Rds.ExecuteTable(
+                        hash = Repository.ExecuteTable(
                             context: context,
                             statements: Rds.SelectSites(
                                 column: Rds.SitesColumn()

@@ -29,7 +29,7 @@ namespace Implem.Pleasanter.Models
         /// </summary>
         public static string Get(Context context, int userId, bool withFullName = false)
         {
-            var mailAddress = Rds.ExecuteScalar_string(
+            var mailAddress = Repository.ExecuteScalar_string(
                 context: context,
                 statements: Rds.SelectMailAddresses(
                     top: 1,

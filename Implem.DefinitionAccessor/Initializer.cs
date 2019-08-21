@@ -92,6 +92,18 @@ namespace Implem.DefinitionAccessor
             Parameters.Service = Read<ParameterAccessor.Parts.Service>();
             Parameters.Session = Read<ParameterAccessor.Parts.Session>();
             Parameters.SysLog = Read<ParameterAccessor.Parts.SysLog>();
+            //TODO パラメータ初期値設定
+            Parameters.Rds.Dbms = Parameters.Rds.Dbms.IsNullOrEmpty()
+                ? "SQLServer"
+                : Parameters.Rds.Dbms;
+            Parameters.Parameter.SqlParameterPrefix = Parameters
+                .Parameter
+                .SqlParameterPrefix
+                .IsNullOrEmpty()
+                ? Parameters.Rds.Dbms == "SQLServer"
+                ? "@_"
+                : "@ip"
+                : Parameters.Parameter.SqlParameterPrefix;
         }
 
         private static T Read<T>()
@@ -437,6 +449,13 @@ namespace Implem.DefinitionAccessor
                 SetColumnDefinitionAdditional(xlsIo);
             }
             return xlsIo;
+        }
+
+        public static ISqlDefinitionFiles DefinitionSqls(string dbms)
+        {
+            var def = new SqlDefinitionFiles() { FullPath = Directories.Sqls(dbms) };
+            def.Read();
+            return def;
         }
 
         private static void SetRdsParameters()

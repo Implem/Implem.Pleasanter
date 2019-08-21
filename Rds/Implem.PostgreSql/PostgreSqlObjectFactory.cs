@@ -3,11 +3,18 @@ namespace Implem.PostgreSql
 {
     public class PostgreSqlObjectFactory : ISqlObjectFactory
     {
-        private static ISqlErrors _sqlErrors = new PostgreSqlErrors();
-        private static ISqls _sqls = new PostgreSqlSqls();
-        private static ISqlCommandText _sqlCommandText = new PostgreSqlCommandText();
+        private static ISqlErrors sqlErrors = new PostgreSqlErrors();
+        private static ISqls sqls = new PostgreSqlSqls();
+        private static ISqlCommandText sqlCommandText = new PostgreSqlCommandText();
+        private static ISqlResult sqlResult = new PostgreSqlResult();
 
-        public ISqlErrors SqlErrors => _sqlErrors;
+        public ISqlErrors SqlErrors
+        {
+            get
+            {
+                return sqlErrors;
+            }
+        }
 
         public ISqlCommand CreateSqlCommand()
         {
@@ -38,7 +45,7 @@ namespace Implem.PostgreSql
         {
             get
             {
-                return _sqls;
+                return sqls;
             }
         }
 
@@ -46,7 +53,15 @@ namespace Implem.PostgreSql
         {
             get
             {
-                return _sqlCommandText;
+                return sqlCommandText;
+            }
+        }
+
+        public ISqlResult SqlResult
+        {
+            get
+            {
+                return sqlResult;
             }
         }
     }

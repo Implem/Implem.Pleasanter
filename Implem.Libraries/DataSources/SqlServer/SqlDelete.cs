@@ -43,12 +43,13 @@ namespace Implem.Libraries.DataSources.SqlServer
             StringBuilder commandText, 
             int? commandCount)
         {
-            commandText.Append(CommandText
+            commandText.Append(factory.SqlCommandText.CreateDelete(
+                template: CommandText
                 .Params(SqlWhereCollection.Sql(
                     factory: factory,
                     sqlContainer: sqlContainer,
                     sqlCommand: sqlCommand,
-                    commandCount: commandCount)));
+                    commandCount: commandCount))));
         }
     }
 }

@@ -2176,7 +2176,7 @@ namespace Implem.Pleasanter.Models
         private static void MoveSiteMenu(
             Context context, SiteSettings ss, long sourceId, long destinationId)
         {
-            Rds.ExecuteNonQuery(
+            Repository.ExecuteNonQuery(
                 context: context,
                 transactional: true,
                 statements: new SqlStatement[]
@@ -2854,7 +2854,7 @@ namespace Implem.Pleasanter.Models
                 case "Wikis":
                     return Locations.ItemEdit(
                         context: context,
-                        id: Rds.ExecuteScalar_long(
+                        id: Repository.ExecuteScalar_long(
                             context: context,
                             statements: Rds.SelectWikis(
                                 column: Rds.WikisColumn().WikiId(),
@@ -3460,7 +3460,7 @@ namespace Implem.Pleasanter.Models
             switch (siteModel.ReferenceType)
             {
                 case "Wikis":
-                    var wikiId = Rds.ExecuteScalar_long(
+                    var wikiId = Repository.ExecuteScalar_long(
                         context: context,
                         statements: Rds.SelectWikis(
                             top: 1,
@@ -8674,7 +8674,7 @@ namespace Implem.Pleasanter.Models
                 case Error.Types.None: break;
                 default: return invalid.Type.MessageJson(context: context);
             }
-            Rds.ExecuteNonQuery(
+            Repository.ExecuteNonQuery(
                 context: context,
                 statements: Rds.UpdateSites(
                     where: Rds.SitesWhere()
@@ -8703,7 +8703,7 @@ namespace Implem.Pleasanter.Models
                 case Error.Types.None: break;
                 default: return invalid.Type.MessageJson(context: context);
             }
-            Rds.ExecuteNonQuery(
+            Repository.ExecuteNonQuery(
                 context: context,
                 statements: Rds.UpdateSites(
                     where: Rds.SitesWhere()
@@ -8732,7 +8732,7 @@ namespace Implem.Pleasanter.Models
                 case Error.Types.None: break;
                 default: return invalid.Type.MessageJson(context: context);
             }
-            Rds.ExecuteNonQuery(
+            Repository.ExecuteNonQuery(
                 context: context,
                 statements: Rds.UpdateSites(
                     where: Rds.SitesWhere()

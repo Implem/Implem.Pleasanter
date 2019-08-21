@@ -708,7 +708,7 @@ namespace Implem.Pleasanter.Models
             bool distinct = false,
             int top = 0)
         {
-            Set(context, ss, Rds.ExecuteTable(
+            Set(context, ss, Repository.ExecuteTable(
                 context: context,
                 statements: Rds.SelectIssues(
                     tableType: tableType,
@@ -973,7 +973,7 @@ namespace Implem.Pleasanter.Models
                     siteId: SiteId,
                     id: IssueId);
             }
-            Rds.ExecuteNonQuery(
+            Repository.ExecuteNonQuery(
                 context: context,
                 transactional: true,
                 statements: statements.ToArray());

@@ -555,7 +555,9 @@ namespace Implem.Pleasanter.Models
                         where: Rds.UsersWhere()
                             .SiteUserWhere(siteId: referenceId)
                             .MailAddresses_OwnerType("Users")
-                            .SearchText(searchText)
+                            .SearchText(
+                            context: context,
+                            searchText: searchText)
                             .Users_TenantId(context.TenantId));
                 case "All":
                 default:
@@ -567,7 +569,9 @@ namespace Implem.Pleasanter.Models
                                 joinMailAddresses),
                             where: Rds.UsersWhere()
                                 .MailAddresses_OwnerType("Users")
-                                .SearchText(searchText)
+                                .SearchText(
+                                context: context,
+                                searchText:  searchText)
                                 .Users_TenantId(context.TenantId))
                         : new Dictionary<string, ControlData>();
             }
@@ -577,7 +581,7 @@ namespace Implem.Pleasanter.Models
         /// Fixed:
         /// </summary>
         public static SqlWhereCollection SearchText(
-            this SqlWhereCollection self, string searchText)
+            this SqlWhereCollection self, Context context, string searchText)
         {
             return self
                 .SqlWhereLike(
@@ -586,16 +590,18 @@ namespace Implem.Pleasanter.Models
                     searchText: searchText,
                     clauseCollection: new List<string>()
                     {
-                        Rds.Users_LoginId_WhereLike(),
-                        Rds.Users_Name_WhereLike(),
-                        Rds.Users_UserCode_WhereLike(),
-                        Rds.Users_Body_WhereLike(),
-                        Rds.Depts_DeptCode_WhereLike(),
-                        Rds.Depts_DeptName_WhereLike(),
-                        Rds.Depts_Body_WhereLike(),
-                        Rds.MailAddresses_MailAddress_WhereLike("MailAddresses")
+                        Rds.Users_LoginId_WhereLike(factory: context),
+                        Rds.Users_Name_WhereLike(factory: context),
+                        Rds.Users_UserCode_WhereLike(factory: context),
+                        Rds.Users_Body_WhereLike(factory: context),
+                        Rds.Depts_DeptCode_WhereLike(factory: context),
+                        Rds.Depts_DeptName_WhereLike(factory: context),
+                        Rds.Depts_Body_WhereLike(factory: context),
+                        Rds.MailAddresses_MailAddress_WhereLike(
+                            factory: context,
+                            tableName:"MailAddresses")
                     })
-                .Users_Disabled(0);
+                .Users_Disabled(context.Sqls.FalseValue);
         }
 
         /// <summary>
@@ -604,7 +610,7 @@ namespace Implem.Pleasanter.Models
         private static Dictionary<string, ControlData> DestinationCollection(
             Context context, SqlJoinCollection join, SqlWhereCollection where)
         {
-            return Rds.ExecuteTable(
+            return Repository.ExecuteTable(
                 context: context,
                 transactional: false,
                 statements: Rds.SelectUsers(

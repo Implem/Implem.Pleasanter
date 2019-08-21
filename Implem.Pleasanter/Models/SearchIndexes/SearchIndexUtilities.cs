@@ -105,7 +105,7 @@ namespace Implem.Pleasanter.Models
                             .Where(o => o.String("ReferenceType") == "Wikis")
                             .Select(o => o.Long("ReferenceId")))));
             }
-            return Rds.ExecuteDataSet(
+            return Repository.ExecuteDataSet(
                 context: context,
                 statements: statements.ToArray());
         }
@@ -316,7 +316,9 @@ namespace Implem.Pleasanter.Models
                     ss: ss,
                     searchText: searchText,
                     siteIdList: siteIdList,
-                    like: Rds.Items_FullText_WhereLike(forward: false));
+                    like: Rds.Items_FullText_WhereLike(
+                        factory: context,
+                        forward: false));
             }
             switch (ss?.SearchType)
             {
@@ -325,19 +327,25 @@ namespace Implem.Pleasanter.Models
                         ss: ss,
                         searchText: searchText,
                         siteIdList: siteIdList,
-                        like: Rds.Items_FullText_WhereLike(forward: false));
+                        like: Rds.Items_FullText_WhereLike(
+                            factory: context,
+                            forward: false));
                 case SiteSettings.SearchTypes.MatchInFrontOfTitle:
                     return Select(
                         ss: ss,
                         searchText: searchText,
                         siteIdList: siteIdList,
-                        like: Rds.Items_Title_WhereLike(forward: true));
+                        like: Rds.Items_Title_WhereLike(
+                            factory: context,
+                            forward: true));
                 case SiteSettings.SearchTypes.BroadMatchOfTitle:
                     return Select(
                         ss: ss,
                         searchText: searchText,
                         siteIdList: siteIdList,
-                        like: Rds.Items_Title_WhereLike(forward: false));
+                        like: Rds.Items_Title_WhereLike(
+                            factory: context,
+                            forward: false));
                 default:
                     switch (Parameters.Search.Provider)
                     {
@@ -386,6 +394,7 @@ namespace Implem.Pleasanter.Models
         /// </summary>
         public static SqlWhereCollection FullTextWhere(
             this SqlWhereCollection where,
+            Context context,
             SiteSettings ss,
             string tableName,
             string searchText)
@@ -397,6 +406,7 @@ namespace Implem.Pleasanter.Models
                     name: "SearchText",
                     searchText: searchText,
                     clauseCollection: Rds.Items_FullText_WhereLike(
+                        factory: context,
                         tableName: tableName + "_Items",
                         forward: false)
                             .ToSingleList()));
@@ -409,6 +419,7 @@ namespace Implem.Pleasanter.Models
                         name: "SearchText",
                         searchText: searchText,
                         clauseCollection: Rds.Items_FullText_WhereLike(
+                            factory: context,
                             tableName: tableName + "_Items",
                             forward: false)
                                 .ToSingleList()));
@@ -418,6 +429,7 @@ namespace Implem.Pleasanter.Models
                         name: "SearchText",
                         searchText: searchText,
                         clauseCollection: Rds.Items_Title_WhereLike(
+                            factory: context,
                             tableName: tableName + "_Items",
                             forward: true)
                                 .ToSingleList()));
@@ -427,6 +439,7 @@ namespace Implem.Pleasanter.Models
                         name: "SearchText",
                         searchText: searchText,
                         clauseCollection: Rds.Items_Title_WhereLike(
+                            factory: context,
                             tableName: tableName + "_Items",
                             forward: false)
                                 .ToSingleList()));
@@ -449,6 +462,7 @@ namespace Implem.Pleasanter.Models
                                 name: "SearchText",
                                 searchText: searchText,
                                 clauseCollection: Rds.Items_FullText_WhereLike(
+                                    factory: context,
                                     tableName: tableName + "_Items",
                                     forward: false)
                                         .ToSingleList()));
@@ -529,7 +543,7 @@ namespace Implem.Pleasanter.Models
                     words: words,
                     countRecord: true));
             }
-            return Rds.ExecuteDataSet(
+            return Repository.ExecuteDataSet(
                 context: context,
                 statements: statements.ToArray());
         }
@@ -688,7 +702,7 @@ namespace Implem.Pleasanter.Models
             bool countRecord = false)
         {
             if (searchIndexes.Count() == 0) return null;
-            return Rds.ExecuteDataSet(
+            return Repository.ExecuteDataSet(
                 context: context,
                 statements: SelectBySearchIndexes(
                     context: context,
@@ -758,7 +772,7 @@ namespace Implem.Pleasanter.Models
         {
             if ((DateTime.Now - Applications.SearchIndexesMaintenanceDate).Days > 0)
             {
-                Rds.ExecuteNonQuery(
+                Repository.ExecuteNonQuery(
                     context: context,
                     statements: Rds.PhysicalDeleteSearchIndexes(
                         where: Rds.SearchIndexesWhere().Add(
@@ -803,7 +817,7 @@ namespace Implem.Pleasanter.Models
         public static void RebuildSearchIndexes(Context context, long siteId = -1)
         {
             var hash = new Dictionary<long, SiteModel>();
-            Rds.ExecuteTable(
+            Repository.ExecuteTable(
                 context: context,
                 statements: Rds.SelectItems(
                     column: Rds.ItemsColumn()
@@ -859,13 +873,15 @@ namespace Implem.Pleasanter.Models
                                 ss: siteModel.SiteSettings,
                                 id: data.ReferenceId,
                                 force: true);
-                            Rds.ExecuteNonQuery(
+                            Repository.ExecuteNonQuery(
                                 context: currentContext,
                                 statements: Rds.UpdateItems(
                                     where: Rds.ItemsWhere()
                                         .ReferenceId(data.ReferenceId),
                                     param: Rds.ItemsParam()
-                                        .SearchIndexCreatedTime(data.UpdatedTime),
+                                        .SearchIndexCreatedTime(
+                                        context.Sqls.DateTimeValue(
+                                            value: data.UpdatedTime.ToDateTime())),
                                     addUpdatorParam: false,
                                     addUpdatedTimeParam: false));
                         });

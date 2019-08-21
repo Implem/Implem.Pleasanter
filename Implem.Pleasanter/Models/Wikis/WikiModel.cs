@@ -228,7 +228,7 @@ namespace Implem.Pleasanter.Models
             bool distinct = false,
             int top = 0)
         {
-            Set(context, ss, Rds.ExecuteTable(
+            Set(context, ss, Repository.ExecuteTable(
                 context: context,
                 statements: Rds.SelectWikis(
                     tableType: tableType,
@@ -435,7 +435,7 @@ namespace Implem.Pleasanter.Models
                     siteId: SiteId,
                     id: WikiId);
             }
-            Rds.ExecuteNonQuery(
+            Repository.ExecuteNonQuery(
                 context: context,
                 transactional: true,
                 statements: statements.ToArray());
@@ -534,7 +534,7 @@ namespace Implem.Pleasanter.Models
             }
             if (Title_Updated(context: context))
             {
-                Rds.ExecuteNonQuery(
+                Repository.ExecuteNonQuery(
                     context: context,
                     statements: new SqlStatement[]
                     {
@@ -693,7 +693,7 @@ namespace Implem.Pleasanter.Models
             bool addUpdatorParam = true,
             bool updateItems = true)
         {
-            Rds.ExecuteNonQuery(
+            Repository.ExecuteNonQuery(
                 context: context,
                 transactional: true,
                 statements: UpdateRelatedRecordsStatements(
@@ -775,7 +775,7 @@ namespace Implem.Pleasanter.Models
                     param: param ?? Rds.WikisParamDefault(
                         context: context, wikiModel: this, setDefault: true))
             };
-            var response = Rds.ExecuteScalar_response(
+            var response = Repository.ExecuteScalar_response(
                 context: context,
                 transactional: true,
                 selectIdentity: true,
@@ -830,7 +830,7 @@ namespace Implem.Pleasanter.Models
         public ErrorData Restore(Context context, SiteSettings ss,long wikiId)
         {
             WikiId = wikiId;
-            Rds.ExecuteNonQuery(
+            Repository.ExecuteNonQuery(
                 context: context,
                 connectionString: Parameters.Rds.OwnerConnectionString,
                 transactional: true,
@@ -850,7 +850,7 @@ namespace Implem.Pleasanter.Models
         public ErrorData PhysicalDelete(
             Context context, SiteSettings ss,Sqls.TableTypes tableType = Sqls.TableTypes.Normal)
         {
-            Rds.ExecuteNonQuery(
+            Repository.ExecuteNonQuery(
                 context: context,
                 transactional: true,
                 statements: Rds.PhysicalDeleteWikis(
@@ -978,7 +978,7 @@ namespace Implem.Pleasanter.Models
                             break;
                     }
                 });
-            Rds.ExecuteNonQuery(
+            Repository.ExecuteNonQuery(
                 context: context,
                 statements: Rds.UpdateWikis(
                     param: param,
@@ -1116,7 +1116,7 @@ namespace Implem.Pleasanter.Models
                 ss: ss);
             if (notifications?.Any() == true)
             {
-                var dataSet = Rds.ExecuteDataSet(
+                var dataSet = Repository.ExecuteDataSet(
                     context: context,
                     statements: notifications.Select(notification =>
                         Rds.SelectWikis(
@@ -1157,7 +1157,7 @@ namespace Implem.Pleasanter.Models
                 if (notification.HasRelatedUsers())
                 {
                     var users = new List<long>();
-                    Rds.ExecuteTable(
+                    Repository.ExecuteTable(
                         context: context,
                         statements: Rds.SelectWikis(
                             tableType: Sqls.TableTypes.All,

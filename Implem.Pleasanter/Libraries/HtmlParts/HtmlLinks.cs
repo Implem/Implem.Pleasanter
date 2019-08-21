@@ -96,7 +96,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                         id: id,
                         direction: "Destination")));
             return statements.Any()
-                ? Rds.ExecuteDataSet(
+                ? Repository.ExecuteDataSet(
                     context: context,
                     statements: statements.ToArray())
                 : null;
@@ -141,11 +141,16 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                         column,
                         where,
                         orderBy
-                    })
-                        .Add(
-                            tableName: "Sites",
-                            joinType: SqlJoin.JoinTypes.Inner,
-                            joinExpression: "\"Sites\".\"SiteId\"=\"Issues\".\"SiteId\""),
+                    }).Aggregate(new SqlJoinCollection(new SqlJoin(
+                        tableBracket: "\"Sites\"",
+                        joinType: SqlJoin.JoinTypes.Inner,
+                        joinExpression: "\"Sites\".\"SiteId\"=\"Issues\".\"SiteId\"")),
+                        (collection, join) =>
+                        collection.Add(
+                            tableName: join.TableBracket,
+                            joinType: join.JoinType,
+                            joinExpression: join.JoinExpression,
+                            _as: join.As)),
                 where: where,
                 orderBy: orderBy);
         }
@@ -219,11 +224,16 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                         column,
                         where,
                         orderBy
-                    })
-                        .Add(
-                            tableName: "Sites",
-                            joinType: SqlJoin.JoinTypes.Inner,
-                            joinExpression: "\"Sites\".\"SiteId\"=\"Results\".\"SiteId\""),
+                    }).Aggregate(new SqlJoinCollection(new SqlJoin(
+                        tableBracket: "\"Sites\"",
+                        joinType: SqlJoin.JoinTypes.Inner,
+                        joinExpression: "\"Sites\".\"SiteId\"=\"Results\".\"SiteId\"")),
+                        (collection, join) =>
+                        collection.Add(
+                            tableName: join.TableBracket,
+                            joinType: join.JoinType,
+                            joinExpression: join.JoinExpression,
+                            _as: join.As)),
                 where: where,
                 orderBy: orderBy);
         }
@@ -389,7 +399,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             switch (ss.ReferenceType)
             {
                 case "Issues":
-                    return Rds.ExecuteTable(
+                    return Repository.ExecuteTable(
                         context: context,
                         statements: SelectIssues(
                             context: context,
@@ -399,7 +409,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                             direction: direction))
                                 .AsEnumerable();
                 case "Results":
-                    return Rds.ExecuteTable(
+                    return Repository.ExecuteTable(
                         context: context,
                         statements: SelectResults(
                             context: context,

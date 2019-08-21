@@ -1165,13 +1165,13 @@ namespace Implem.Pleasanter.Models
                     where,
                     orderBy
                 });
-            var switchTargets = Rds.ExecuteScalar_int(
+            var switchTargets = Repository.ExecuteScalar_int(
                 context: context,
                 statements: Rds.SelectDepts(
                     column: Rds.DeptsColumn().DeptsCount(),
                     join: join,
                     where: where)) <= Parameters.General.SwitchTargetsLimit
-                        ? Rds.ExecuteTable(
+                        ? Repository.ExecuteTable(
                             context: context,
                             statements: Rds.SelectDepts(
                                 column: Rds.DeptsColumn().DeptId(),
@@ -1647,9 +1647,9 @@ namespace Implem.Pleasanter.Models
                     ?.FirstOrDefault(),
                     clauseCollection: new List<string>()
                     {
-                        Rds.Depts_DeptId_WhereLike(),
-                        Rds.Depts_DeptName_WhereLike(),
-                        Rds.Depts_Body_WhereLike()
+                        Rds.Depts_DeptId_WhereLike(factory: context),
+                        Rds.Depts_DeptName_WhereLike(factory: context),
+                        Rds.Depts_Body_WhereLike(factory: context)
                     })
                 .Add(
                     tableName: "Users",

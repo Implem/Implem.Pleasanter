@@ -1,17 +1,28 @@
 ﻿using Implem.IRds;
 using System;
 using System.Text;
-
 namespace Implem.PostgreSql
 {
-    class PostgreSqlCommandText : ISqlCommandText
+    internal class PostgreSqlCommandText : ISqlCommandText
     {
+        public string CreateDelete(string template)
+        {
+            return template + " RETURNING * ";
+        }
+
+        public string CreateIdentityInsert(string template)
+        {
+            return string.Empty;
+        }
+
         public string CreateLimitClause(int limit)
         {
             return limit > 0 ? $" limit {limit} " : string.Empty;
         }
 
-        public string CreateSelectIdentity(string template, string identityColumnName)
+        public string CreateSelectIdentity(
+            string template,
+            string identityColumnName)
         {
             return string.Format(template, identityColumnName);
         }

@@ -13,5 +13,11 @@
         string IsNotTrue { get; }
 
         string CurrentDateTime { get; }
+
+        object DateTimeValue(object value);
+
+        string WhereLikeTemplateForward { get; }
+
+        string WhereLikeTemplate { get; }
     }
 }

@@ -49,6 +49,11 @@ namespace Implem.DefinitionAccessor
             return Outputs("App_Data", "Definitions") + fileName.IsNotEmpty(Path.DirectorySeparatorChar + fileName);
         }
 
+        public static string Sqls(string dbms)
+        {
+            return Outputs("App_Data", "Definitions", "Sqls", dbms);
+        }
+
         public static string Displays()
         {
             return Outputs("App_Data", "Displays");

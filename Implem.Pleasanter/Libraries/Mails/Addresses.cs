@@ -27,7 +27,7 @@ namespace Implem.Pleasanter.Libraries.Mails
         {
             var userId = address?.RegexFirst(@"(?<=\[User)[0-9]+(?=\])").ToInt();
             return userId > 0
-                ? Rds.ExecuteTable(
+                ? Repository.ExecuteTable(
                     context: context,
                     statements: Rds.SelectMailAddresses(
                         column: Rds.MailAddressesColumn()

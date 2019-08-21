@@ -1562,13 +1562,13 @@ namespace Implem.Pleasanter.Models
                     where,
                     orderBy
                 });
-            var switchTargets = Rds.ExecuteScalar_int(
+            var switchTargets = Repository.ExecuteScalar_int(
                 context: context,
                 statements: Rds.SelectResults(
                     column: Rds.ResultsColumn().ResultsCount(),
                     join: join,
                     where: where)) <= Parameters.General.SwitchTargetsLimit
-                        ? Rds.ExecuteTable(
+                        ? Repository.ExecuteTable(
                             context: context,
                             statements: Rds.SelectResults(
                                 column: Rds.ResultsColumn().ResultId(),
@@ -3033,7 +3033,7 @@ namespace Implem.Pleasanter.Models
             statements.Add(Rds.DeleteResults(factory: context, where: where));
             statements.Add(Rds.RowCount());
             statements.OnBulkDeletedExtendedSqls(ss.SiteId);
-            return Rds.ExecuteScalar_response(
+            return Repository.ExecuteScalar_response(
                 context: context,
                 transactional: true,
                 statements: statements.ToArray())
@@ -3206,7 +3206,7 @@ namespace Implem.Pleasanter.Models
                 column: Rds.ResultsColumn()
                     .ResultId(tableName: "Results_Deleted"),
                 where: where);
-            return Rds.ExecuteScalar_response(
+            return Repository.ExecuteScalar_response(
                 context: context,
                 transactional: true,
                 statements: new SqlStatement[]

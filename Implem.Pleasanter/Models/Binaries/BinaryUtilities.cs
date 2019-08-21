@@ -48,7 +48,7 @@ namespace Implem.Pleasanter.Models
                         referenceId, Libraries.Images.ImageData.Types.SiteImage)
                             .Exists(sizeType);
                 default:
-                    return Rds.ExecuteScalar_int(
+                    return Repository.ExecuteScalar_int(
                         context: context,
                         statements: Rds.SelectBinaries(
                             column: Rds.BinariesColumn().BinariesCount(),
@@ -82,7 +82,7 @@ namespace Implem.Pleasanter.Models
                         referenceId, Libraries.Images.ImageData.Types.TenantImage)
                             .Exists(sizeType);
                 default:
-                    return Rds.ExecuteScalar_int(
+                    return Repository.ExecuteScalar_int(
                         context: context,
                         statements: Rds.SelectBinaries(
                             column: Rds.BinariesColumn().BinariesCount(),

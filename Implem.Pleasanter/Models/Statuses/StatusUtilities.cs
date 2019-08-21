@@ -44,7 +44,7 @@ namespace Implem.Pleasanter.Models
         {
             if (context.TenantId != 0 && !MonitorInitialized(context: context))
             {
-                Rds.ExecuteNonQuery(
+                Repository.ExecuteNonQuery(
                     context: context,
                     statements: MonitorHash()
                         .Select(o => UpdateStatus(context.TenantId, o.Key))
@@ -57,7 +57,7 @@ namespace Implem.Pleasanter.Models
         /// </summary>
         public static string AssemblyVersion(Context context)
         {
-            return Rds.ExecuteScalar_string(
+            return Repository.ExecuteScalar_string(
                 context: context,
                 statements: Rds.SelectStatuses(
                     column: Rds.StatusesColumn().Value(),
@@ -71,7 +71,7 @@ namespace Implem.Pleasanter.Models
         /// </summary>
         public static void UpdateAssemblyVersion(Context context, string version)
         {
-            if (Rds.ExecuteScalar_int(
+            if (Repository.ExecuteScalar_int(
                 context: context,
                 statements: Rds.SelectStatuses(
                     column: Rds.StatusesColumn().StatusesCount(),
@@ -79,7 +79,7 @@ namespace Implem.Pleasanter.Models
                         .TenantId(0)
                         .StatusId(Types.AssemblyVersion))) == 0)
             {
-                Rds.ExecuteNonQuery(
+                Repository.ExecuteNonQuery(
                     context: context,
                     statements: Rds.InsertStatuses(
                         param: Rds.StatusesParam()
@@ -89,7 +89,7 @@ namespace Implem.Pleasanter.Models
             }
             else
             {
-                Rds.ExecuteNonQuery(
+                Repository.ExecuteNonQuery(
                     context: context,
                     statements: Rds.UpdateStatuses(
                         where: Rds.StatusesWhere()
@@ -137,7 +137,7 @@ namespace Implem.Pleasanter.Models
             Context context, Dictionary<Types, DateTime> hash = null)
         {
             hash = hash ?? MonitorHash();
-            return Rds.ExecuteTable(
+            return Repository.ExecuteTable(
                 context: context,
                 statements: Rds.SelectStatuses(
                     column: Rds.StatusesColumn()

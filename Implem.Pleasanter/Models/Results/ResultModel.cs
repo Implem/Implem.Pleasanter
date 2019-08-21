@@ -581,7 +581,7 @@ namespace Implem.Pleasanter.Models
             bool distinct = false,
             int top = 0)
         {
-            Set(context, ss, Rds.ExecuteTable(
+            Set(context, ss, Repository.ExecuteTable(
                 context: context,
                 statements: Rds.SelectResults(
                     tableType: tableType,
@@ -825,7 +825,7 @@ namespace Implem.Pleasanter.Models
                     siteId: SiteId,
                     id: ResultId);
             }
-            Rds.ExecuteNonQuery(
+            Repository.ExecuteNonQuery(
                 context: context,
                 transactional: true,
                 statements: statements.ToArray());
@@ -1884,7 +1884,7 @@ namespace Implem.Pleasanter.Models
                 ss: ss);
             if (notifications?.Any() == true)
             {
-                var dataSet = Rds.ExecuteDataSet(
+                var dataSet = Repository.ExecuteDataSet(
                     context: context,
                     statements: notifications.Select(notification =>
                         Rds.SelectResults(

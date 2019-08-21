@@ -1,7 +1,7 @@
 ﻿using Implem.IRds;
 namespace Implem.SqlServer
 {
-    class SqlServerSqls : ISqls
+    internal class SqlServerSqls : ISqls
     {
         public string TrueString { get; } = "1";
 
@@ -14,5 +14,14 @@ namespace Implem.SqlServer
         public string IsNotTrue { get; } = " <> 1 ";
 
         public string CurrentDateTime { get; } = " getdate() ";
+
+        public string WhereLikeTemplateForward { get; } = "'%' + ";
+
+        public string WhereLikeTemplate { get; } = "@SearchText#ParamCount#_#CommandCount# + '%')";
+
+        public object DateTimeValue(object value)
+        {
+            return value;
+        }
     }
 }

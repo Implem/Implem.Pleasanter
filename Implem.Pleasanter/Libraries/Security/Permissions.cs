@@ -87,7 +87,7 @@ namespace Implem.Pleasanter.Libraries.Security
         public static Dictionary<long, Types> Get(Context context)
         {
             return Hash(
-                dataRows: Rds.ExecuteTable(
+                dataRows: Repository.ExecuteTable(
                 context: context,
                 statements: new SqlStatement[]
                 {
@@ -282,7 +282,7 @@ namespace Implem.Pleasanter.Libraries.Security
 
         public static long InheritPermission(Context context, long id)
         {
-            return Rds.ExecuteScalar_long(
+            return Repository.ExecuteScalar_long(
                 context: context,
                 statements: Rds.SelectSites(
                     column: Rds.SitesColumn().InheritPermission(),
@@ -295,7 +295,7 @@ namespace Implem.Pleasanter.Libraries.Security
         public static IEnumerable<long> AllowSites(
             Context context, IEnumerable<long> sites, string referenceType = null)
         {
-            return Rds.ExecuteTable(
+            return Repository.ExecuteTable(
                 context: context,
                 statements: Rds.SelectSites(
                     column: Rds.SitesColumn().SiteId(),
@@ -570,7 +570,7 @@ namespace Implem.Pleasanter.Libraries.Security
 
         private static EnumerableRowCollection<DataRow> Groups(Context context)
         {
-            return Rds.ExecuteTable(
+            return Repository.ExecuteTable(
                 context: context,
                 statements: Rds.SelectGroupMembers(
                     column: Rds.GroupMembersColumn().Admin(),

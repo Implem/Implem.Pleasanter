@@ -1,14 +1,14 @@
 ﻿using Implem.IRds;
-using System;
-using System.Collections.Generic;
 using System.Data.Common;
 using System.Data.SqlClient;
-using System.Text;
-
 namespace Implem.SqlServer
 {
-    class SqlServerErrors : ISqlErrors
+    internal class SqlServerErrors : ISqlErrors
     {
+        public int ErrorCodeDuplicateKey { get; } = 2601;
+
+        public int ErrorCodeDeadLocked { get; } = 1205;
+
         public int ErrorCode(DbException dbException)
         {
             return ((SqlException)dbException).Number;

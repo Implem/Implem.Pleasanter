@@ -32,7 +32,7 @@ namespace Implem.Pleasanter.Libraries.Migrators
         {
             if (context.HasPrivilege)
             {
-                Rds.ExecuteTable(
+                Repository.ExecuteTable(
                     context: context,
                     statements: Rds.SelectSites(
                         column: Rds.SitesColumn()
@@ -52,7 +52,7 @@ namespace Implem.Pleasanter.Libraries.Migrators
             if (ss == null) return;
             if (ss.Migrated)
             {
-                Rds.ExecuteNonQuery(
+                Repository.ExecuteNonQuery(
                     context: context,
                     statements: Rds.UpdateSites(
                         where: Rds.SitesWhere().SiteId(siteId),

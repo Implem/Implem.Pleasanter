@@ -1,5 +1,5 @@
 ﻿{
-    "Provider": "FullText",
+    "Provider": null,
     "SearchDocuments": true,
     "CreateIndexes": true,
     "ConcordanceRate": 0.7,

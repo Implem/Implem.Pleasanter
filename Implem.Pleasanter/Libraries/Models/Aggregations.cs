@@ -26,7 +26,7 @@ namespace Implem.Pleasanter.Libraries.Models
             Set(
                 context: context,
                 ss: ss,
-                dataSet: Rds.ExecuteDataSet(
+                dataSet: Repository.ExecuteDataSet(
                     context: context,
                     statements: Rds.Aggregations(
                         context: context,

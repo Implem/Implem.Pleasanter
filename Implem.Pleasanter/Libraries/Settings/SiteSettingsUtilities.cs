@@ -521,7 +521,7 @@ namespace Implem.Pleasanter.Libraries.Settings
 
         public static SiteSettings GetByDataRow(Context context, long siteId)
         {
-            var dataRow = Rds.ExecuteTable(
+            var dataRow = Repository.ExecuteTable(
                 context: context,
                 statements: Rds.SelectSites(
                     column: Rds.SitesColumn()

@@ -4,62 +4,97 @@ using System.Data;
 using System.Data.SqlClient;
 namespace Implem.SqlServer
 {
-    class SqlServerConnection : ISqlConnection
+    internal class SqlServerConnection : ISqlConnection
     {
-        SqlConnection _instance;
-        internal SqlConnection InnerInstance => _instance;
+        private SqlConnection instance;
+
+        internal SqlConnection InnerInstance
+        {
+            get
+            {
+                return instance;
+            }
+        }
 
         public SqlServerConnection(string connectionString)
         {
-            _instance = new SqlConnection(connectionString);
+            instance = new SqlConnection(connectionString);
         }
 
-        public string ConnectionString { get => _instance.ConnectionString; set => _instance.ConnectionString = value; }
+        public string ConnectionString
+        {
+            get
+            {
+                return instance.ConnectionString;
+            }
+            set
+            {
+                instance.ConnectionString = value;
+            }
+        }
 
-        public int ConnectionTimeout => _instance.ConnectionTimeout;
+        public int ConnectionTimeout
+        {
+            get
+            {
+                return instance.ConnectionTimeout;
+            }
+        }
 
-        public string Database => _instance.Database;
+        public string Database
+        {
+            get
+            {
+                return instance.Database;
+            }
+        }
 
-        public ConnectionState State => _instance.State;
+        public ConnectionState State
+        {
+            get
+            {
+                return instance.State;
+            }
+        }
 
         public IDbTransaction BeginTransaction()
         {
-            return _instance.BeginTransaction();
+            return instance.BeginTransaction();
         }
 
         public IDbTransaction BeginTransaction(IsolationLevel il)
         {
-            return _instance.BeginTransaction(il);
+            return instance.BeginTransaction(il);
         }
 
         public void ChangeDatabase(string databaseName)
         {
-            _instance.ChangeDatabase(databaseName);
+            instance.ChangeDatabase(databaseName);
         }
 
         public object Clone()
         {
-            return ((ICloneable)_instance).Clone();
+            return ((ICloneable)instance).Clone();
         }
 
         public void Close()
         {
-            _instance.Close();
+            instance.Close();
         }
 
         public IDbCommand CreateCommand()
         {
-            return _instance.CreateCommand();
+            return instance.CreateCommand();
         }
 
         public void Dispose()
         {
-            _instance.Dispose();
+            instance.Dispose();
         }
 
         public void Open()
         {
-            _instance.Open();
+            instance.Open();
         }
     }
 }

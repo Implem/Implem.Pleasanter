@@ -4,37 +4,109 @@ using System.Data;
 using System.Data.SqlClient;
 namespace Implem.SqlServer
 {
-    class SqlServerDataAdapter : ISqlDataAdapter
+    internal class SqlServerDataAdapter : ISqlDataAdapter
     {
-        SqlDataAdapter _instance;
+        private SqlDataAdapter instance;
 
         public SqlServerDataAdapter(ISqlCommand sqlCommand)
         {
-            _instance = new SqlDataAdapter(((SqlServerCommand)sqlCommand).InnerInstance);
+            instance = new SqlDataAdapter(
+                selectCommand: ((SqlServerCommand)sqlCommand).InnerInstance);
         }
 
-        public IDbCommand DeleteCommand { get => _instance.DeleteCommand; set => _instance.DeleteCommand = (SqlCommand)value; }
-        public IDbCommand InsertCommand { get => _instance.InsertCommand; set => _instance.InsertCommand = (SqlCommand)value; }
-        public IDbCommand SelectCommand { get => _instance.SelectCommand; set => _instance.SelectCommand = (SqlCommand)value; }
-        public IDbCommand UpdateCommand { get => _instance.UpdateCommand; set => _instance.UpdateCommand = (SqlCommand)value; }
-        public MissingMappingAction MissingMappingAction { get => _instance.MissingMappingAction; set => _instance.MissingMappingAction = value; }
-        public MissingSchemaAction MissingSchemaAction { get => _instance.MissingSchemaAction; set => _instance.MissingSchemaAction = value; }
+        public IDbCommand DeleteCommand
+        {
+            get
+            {
+                return instance.DeleteCommand;
+            }
+            set
+            {
+                instance.DeleteCommand = (SqlCommand)value;
+            }
+        }
 
-        public ITableMappingCollection TableMappings => _instance.TableMappings;
+        public IDbCommand InsertCommand
+        {
+            get
+            {
+                return instance.InsertCommand;
+            }
+            set
+            {
+                instance.InsertCommand = (SqlCommand)value;
+            }
+        }
+
+        public IDbCommand SelectCommand
+        {
+            get
+            {
+                return instance.SelectCommand;
+            }
+            set
+            {
+                instance.SelectCommand = (SqlCommand)value;
+            }
+        }
+
+        public IDbCommand UpdateCommand
+        {
+            get
+            {
+                return instance.UpdateCommand;
+            }
+            set
+            {
+                instance.UpdateCommand = (SqlCommand)value;
+            }
+        }
+
+        public MissingMappingAction MissingMappingAction
+        {
+            get
+            {
+                return instance.MissingMappingAction;
+            }
+            set
+            {
+                instance.MissingMappingAction = value;
+            }
+        }
+
+        public MissingSchemaAction MissingSchemaAction
+        {
+            get
+            {
+                return instance.MissingSchemaAction;
+            }
+            set
+            {
+                instance.MissingSchemaAction = value;
+            }
+        }
+
+        public ITableMappingCollection TableMappings
+        {
+            get
+            {
+                return instance.TableMappings;
+            }
+        }
 
         public object Clone()
         {
-            return ((ICloneable)_instance).Clone();
+            return ((ICloneable)instance).Clone();
         }
 
         public void Fill(DataTable dataTable)
         {
-            _instance.Fill(dataTable);
+            instance.Fill(dataTable);
         }
 
         public int Fill(DataSet dataSet)
         {
-            return _instance.Fill(dataSet);
+            return instance.Fill(dataSet);
         }
 
         public DataTable[] FillSchema(DataSet dataSet, SchemaType schemaType)
@@ -44,12 +116,12 @@ namespace Implem.SqlServer
 
         public IDataParameter[] GetFillParameters()
         {
-            return _instance.GetFillParameters();
+            return instance.GetFillParameters();
         }
 
         public int Update(DataSet dataSet)
         {
-            return _instance.Update(dataSet);
+            return instance.Update(dataSet);
         }
     }
 }

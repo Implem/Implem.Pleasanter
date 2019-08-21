@@ -3,71 +3,162 @@ using Npgsql;
 using System.Data;
 namespace Implem.PostgreSql
 {
-    class PostgreSqlParameter : ISqlParameter
+    internal class PostgreSqlParameter : ISqlParameter
     {
-        NpgsqlParameter _instance;
+        private NpgsqlParameter instance;
 
-        public PostgreSqlParameter()
+        internal PostgreSqlParameter()
         {
-            _instance = new NpgsqlParameter();
+            instance = new NpgsqlParameter();
         }
 
-        public PostgreSqlParameter(string parameterName, object value)
+        internal PostgreSqlParameter(string parameterName, object value)
         {
-            //TODO
-            if(parameterName?.StartsWith("_") == true)
-                parameterName = $"ip{parameterName?.Substring(1)}";
-            if(value is System.Enum)
+            if (value is System.Enum)
+            {
                 value = (int)value;
-            _instance = new NpgsqlParameter(parameterName, value);
+            }
+            instance = new NpgsqlParameter(parameterName, value);
         }
 
         internal PostgreSqlParameter(NpgsqlParameter parameter)
         {
-            //TODO
-            if(parameter != null)
-                if (parameter.ParameterName?.StartsWith("_") == true)
-                    parameter.ParameterName = $"ip{parameter.ParameterName?.Substring(1)}";
             if (parameter?.Value is System.Enum)
+            {
                 parameter.Value = (int)parameter.Value;
-            _instance = parameter;
+            }
+            instance = parameter;
         }
 
-        //TODO
         public string SqlDbType
         {
             get
             {
                 try
                 {
-                    return _instance.NpgsqlDbType.ToString();
+                    return instance.NpgsqlDbType.ToString();
                 }
-                catch {; }
-                return "";
+                catch
+                {
+                }
+                return string.Empty;
             }
         }
 
-        public byte Precision { get => _instance.Precision; set => _instance.Precision = value; }
-        public byte Scale { get => _instance.Scale; set => _instance.Scale = value; }
-        public int Size { get => _instance.Size; set => _instance.Size = value; }
-        public DbType DbType { get => _instance.DbType; set => _instance.DbType = value; }
-        public ParameterDirection Direction { get => _instance.Direction; set => _instance.Direction = value; }
-
-        public bool IsNullable => _instance.IsNullable;
-
-        //TODO
-        public string ParameterName {
-            get => _instance.ParameterName;
+        public byte Precision
+        {
+            get
+            {
+                return instance.Precision;
+            }
             set
             {
-                var parameterName = value;
-                if (parameterName?.StartsWith("_") == true)
-                    parameterName = $"ip{parameterName?.Substring(1)}";
-                _instance.ParameterName = parameterName;
+                instance.Precision = value;
             }
         }
-        public string SourceColumn { get => _instance.SourceColumn; set => _instance.SourceColumn = value; }
-        public DataRowVersion SourceVersion { get => _instance.SourceVersion; set => _instance.SourceVersion = value; }
-        public object Value { get => _instance.Value; set => _instance.Value = value; }
+
+        public byte Scale
+        {
+            get
+            {
+                return instance.Scale;
+            }
+            set
+            {
+                instance.Scale = value;
+            }
+        }
+
+        public int Size
+        {
+            get
+            {
+                return instance.Size;
+            }
+            set
+            {
+                instance.Size = value;
+            }
+        }
+
+        public DbType DbType
+        {
+            get
+            {
+                return instance.DbType;
+            }
+            set
+            {
+                instance.DbType = value;
+            }
+        }
+
+        public ParameterDirection Direction
+        {
+            get
+            {
+                return instance.Direction;
+            }
+            set
+            {
+                instance.Direction = value;
+            }
+        }
+
+        public bool IsNullable
+        {
+            get
+            {
+                return instance.IsNullable;
+            }
+        }
+
+        public string ParameterName
+        {
+            get
+            {
+                return instance.ParameterName;
+            }
+            set
+            {
+                instance.ParameterName = value;
+            }
+        }
+
+        public string SourceColumn
+        {
+            get
+            {
+                return instance.SourceColumn;
+            }
+            set
+            {
+                instance.SourceColumn = value;
+            }
+        }
+
+        public DataRowVersion SourceVersion
+        {
+            get
+            {
+                return instance.SourceVersion;
+            }
+            set
+            {
+                instance.SourceVersion = value;
+            }
+        }
+
+        public object Value
+        {
+            get
+            {
+                return instance.Value;
+            }
+            set
+            {
+                instance.Value = value;
+            }
+        }
     }
 }

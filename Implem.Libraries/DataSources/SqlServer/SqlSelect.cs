@@ -1,4 +1,5 @@
-﻿using Implem.IRds;
+﻿using Implem.DefinitionAccessor;
+using Implem.IRds;
 using Implem.Libraries.Utilities;
 using System.Text;
 namespace Implem.Libraries.DataSources.SqlServer
@@ -298,8 +299,18 @@ namespace Implem.Libraries.DataSources.SqlServer
         {
             if (PageSize != 0)
             {
-                AddParam(factory, sqlCommand, "_Offset", Offset, commandCount);
-                AddParam(factory, sqlCommand, "_PageSize", PageSize, commandCount);
+                AddParam(
+                    factory: factory,
+                    sqlCommand: sqlCommand,
+                    name: $"{Parameters.Parameter.SqlParameterPrefix}Offset",
+                    value: Offset,
+                    commandCount: commandCount);
+                AddParam(
+                    factory: factory,
+                    sqlCommand: sqlCommand,
+                    name: $"{Parameters.Parameter.SqlParameterPrefix}PageSize",
+                    value: PageSize,
+                    commandCount: commandCount);
             }
         }
 

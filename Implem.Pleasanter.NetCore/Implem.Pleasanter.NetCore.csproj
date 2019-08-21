@@ -44,9 +44,6 @@
     <None Update="App_Data\Definitions\definition_Demo.xlsm">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Update="App_Data\Definitions\definition_Sql.xlsm">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
     <None Update="App_Data\Definitions\definition_Template.xlsm">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>

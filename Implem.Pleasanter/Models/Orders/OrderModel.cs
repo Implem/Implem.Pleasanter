@@ -104,7 +104,7 @@ namespace Implem.Pleasanter.Models
             bool distinct = false,
             int top = 0)
         {
-            Set(context, Rds.ExecuteTable(
+            Set(context, Repository.ExecuteTable(
                 context: context,
                 statements: Rds.SelectOrders(
                     tableType: tableType,
@@ -317,7 +317,7 @@ namespace Implem.Pleasanter.Models
             SqlParamCollection param = null,
             Sqls.TableTypes tableType = Sqls.TableTypes.Normal)
         {
-            Rds.ExecuteNonQuery(
+            Repository.ExecuteNonQuery(
                 context: context,
                 transactional: true,
                 statements: Rds.UpdateOrInsertOrders(

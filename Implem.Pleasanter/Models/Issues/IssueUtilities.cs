@@ -1703,13 +1703,13 @@ namespace Implem.Pleasanter.Models
                     where,
                     orderBy
                 });
-            var switchTargets = Rds.ExecuteScalar_int(
+            var switchTargets = Repository.ExecuteScalar_int(
                 context: context,
                 statements: Rds.SelectIssues(
                     column: Rds.IssuesColumn().IssuesCount(),
                     join: join,
                     where: where)) <= Parameters.General.SwitchTargetsLimit
-                        ? Rds.ExecuteTable(
+                        ? Repository.ExecuteTable(
                             context: context,
                             statements: Rds.SelectIssues(
                                 column: Rds.IssuesColumn().IssueId(),
@@ -4707,7 +4707,7 @@ namespace Implem.Pleasanter.Models
                 ss: ss,
                 where: Libraries.ViewModes.GanttUtilities.Where(
                     context: context, ss: ss, view: view));
-            return Rds.ExecuteTable(
+            return Repository.ExecuteTable(
                 context: context,
                 statements: Rds.SelectIssues(
                     column: Rds.IssuesTitleColumn(context: context, ss: ss)

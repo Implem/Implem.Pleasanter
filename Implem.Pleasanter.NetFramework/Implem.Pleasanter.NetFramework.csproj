@@ -63,6 +63,9 @@
     <Reference Include="ClosedXML, Version=0.92.1.0, Culture=neutral, PublicKeyToken=fd1eb21b62ae805b, processorArchitecture=MSIL">
       <HintPath>..\packages\ClosedXML.0.92.1\lib\net46\ClosedXML.dll</HintPath>
     </Reference>
+    <Reference Include="CsvHelper, Version=12.0.0.0, Culture=neutral, PublicKeyToken=8c4959082be5c823, processorArchitecture=MSIL">
+      <HintPath>..\packages\CsvHelper.12.1.2\lib\net45\CsvHelper.dll</HintPath>
+    </Reference>
     <Reference Include="DocumentFormat.OpenXml, Version=2.9.0.0, Culture=neutral, PublicKeyToken=8fb06cb64d019a17, processorArchitecture=MSIL">
       <HintPath>..\packages\DocumentFormat.OpenXml.2.9.0\lib\net46\DocumentFormat.OpenXml.dll</HintPath>
     </Reference>
@@ -544,6 +547,7 @@
     <Content Include="..\Implem.Pleasanter\App_Data\*.*" Link="App_Data\%(RecursiveDir)%(FileName)%(Extension)" />
     <Content Include="..\Implem.Pleasanter\App_Data\*\*.*" Link="App_Data\%(RecursiveDir)%(FileName)%(Extension)" />
     <Content Include="..\Implem.Pleasanter\App_Data\*\*\*.*" Link="App_Data\%(RecursiveDir)%(FileName)%(Extension)" />
+    <Content Include="..\Implem.Pleasanter\App_Data\*\*\*\*.*" Link="App_Data\%(RecursiveDir)%(FileName)%(Extension)" />
   </ItemGroup>
   <PropertyGroup>
     <PreBuildEvent>xcopy /S /Y ..\..\Implem.Pleasanter\Views ..\Views

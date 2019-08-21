@@ -39,7 +39,7 @@ namespace Implem.Pleasanter.Libraries.ViewModes
         private void Set(Context context, SiteSettings ss, View view)
         {
             var where = view.Where(context: context, ss: ss);
-            var dataRow = Rds.ExecuteTable(
+            var dataRow = Repository.ExecuteTable(
                 context: context,
                 statements: Rds.SelectIssues(
                     column: Rds.IssuesColumn()

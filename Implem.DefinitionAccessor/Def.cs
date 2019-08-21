@@ -3,7 +3,9 @@ using Implem.Libraries.Classes;
 using Implem.Libraries.DataSources.SqlServer;
 using Implem.Libraries.Utilities;
 using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 namespace Implem.DefinitionAccessor
 {
@@ -5127,7 +5129,7 @@ namespace Implem.DefinitionAccessor
             DemoTable = new DemoTable();
         }
 
-        public static XlsIo SqlXls;
+        public static ISqlDefinitionFiles SqllDefinitionFiles;
         public static List<SqlDefinition> SqlDefinitionCollection;
         public static SqlColumn2nd Sql;
         public static SqlTable SqlTable;
@@ -5135,98 +5137,26 @@ namespace Implem.DefinitionAccessor
         public static void SetSqlDefinition()
         {
             ConstructSqlDefinitions();
-            if (SqlXls.AccessStatus != Files.AccessStatuses.Read) { return; }
-            SqlXls.XlsSheet.ForEach(definitionRow =>
+            if (SqllDefinitionFiles.Any(f => f.AccessStatus != Files.AccessStatuses.Read)) { return; }
+            SqllDefinitionFiles.ForEach(file =>
             {
-                // TODO エクセルからテキストファイルに変更するまでの暫定
-                if (Parameters.Rds.Dbms?.ToLower() == "PostgreSQL".ToLower() 
-                    && definitionRow.ContainsKey("Body"))
-                {
-                    definitionRow["Body"] = definitionRow["Body"]?.Replace("@_", "@ip");
-                }
-
-                switch (definitionRow[0].ToString())
-                {
-                    case "BeginTransaction": Sql.BeginTransaction = definitionRow[1].ToString(); SetSqlTable(SqlTable.BeginTransaction, definitionRow, SqlXls); break;
-                    case "CommitTransaction": Sql.CommitTransaction = definitionRow[1].ToString(); SetSqlTable(SqlTable.CommitTransaction, definitionRow, SqlXls); break;
-                    case "HasPermission": Sql.HasPermission = definitionRow[1].ToString(); SetSqlTable(SqlTable.HasPermission, definitionRow, SqlXls); break;
-                    case "CanReadSites": Sql.CanReadSites = definitionRow[1].ToString(); SetSqlTable(SqlTable.CanReadSites, definitionRow, SqlXls); break;
-                    case "CanRead": Sql.CanRead = definitionRow[1].ToString(); SetSqlTable(SqlTable.CanRead, definitionRow, SqlXls); break;
-                    case "SiteDepts": Sql.SiteDepts = definitionRow[1].ToString(); SetSqlTable(SqlTable.SiteDepts, definitionRow, SqlXls); break;
-                    case "ProgressRateDelay": Sql.ProgressRateDelay = definitionRow[1].ToString(); SetSqlTable(SqlTable.ProgressRateDelay, definitionRow, SqlXls); break;
-                    case "MoveTarget": Sql.MoveTarget = definitionRow[1].ToString(); SetSqlTable(SqlTable.MoveTarget, definitionRow, SqlXls); break;
-                    case "StartTimeColumn": Sql.StartTimeColumn = definitionRow[1].ToString(); SetSqlTable(SqlTable.StartTimeColumn, definitionRow, SqlXls); break;
-                    case "CompletionTimeColumn": Sql.CompletionTimeColumn = definitionRow[1].ToString(); SetSqlTable(SqlTable.CompletionTimeColumn, definitionRow, SqlXls); break;
-                    case "IfDuplicated": Sql.IfDuplicated = definitionRow[1].ToString(); SetSqlTable(SqlTable.IfDuplicated, definitionRow, SqlXls); break;
-                    case "IfConflicted": Sql.IfConflicted = definitionRow[1].ToString(); SetSqlTable(SqlTable.IfConflicted, definitionRow, SqlXls); break;
-                    case "SelectIdentity": Sql.SelectIdentity = definitionRow[1].ToString(); SetSqlTable(SqlTable.SelectIdentity, definitionRow, SqlXls); break;
-                    case "TruncateTemplate": Sql.TruncateTemplate = definitionRow[1].ToString(); SetSqlTable(SqlTable.TruncateTemplate, definitionRow, SqlXls); break;
-                    case "CreateDatabase": Sql.CreateDatabase = definitionRow[1].ToString(); SetSqlTable(SqlTable.CreateDatabase, definitionRow, SqlXls); break;
-                    case "SpWho": Sql.SpWho = definitionRow[1].ToString(); SetSqlTable(SqlTable.SpWho, definitionRow, SqlXls); break;
-                    case "KillSpid": Sql.KillSpid = definitionRow[1].ToString(); SetSqlTable(SqlTable.KillSpid, definitionRow, SqlXls); break;
-                    case "RecreateLoginUser": Sql.RecreateLoginUser = definitionRow[1].ToString(); SetSqlTable(SqlTable.RecreateLoginUser, definitionRow, SqlXls); break;
-                    case "RecreateLoginAdmin": Sql.RecreateLoginAdmin = definitionRow[1].ToString(); SetSqlTable(SqlTable.RecreateLoginAdmin, definitionRow, SqlXls); break;
-                    case "ExistsTable": Sql.ExistsTable = definitionRow[1].ToString(); SetSqlTable(SqlTable.ExistsTable, definitionRow, SqlXls); break;
-                    case "CreateTable": Sql.CreateTable = definitionRow[1].ToString(); SetSqlTable(SqlTable.CreateTable, definitionRow, SqlXls); break;
-                    case "CreatePk": Sql.CreatePk = definitionRow[1].ToString(); SetSqlTable(SqlTable.CreatePk, definitionRow, SqlXls); break;
-                    case "CreateIx": Sql.CreateIx = definitionRow[1].ToString(); SetSqlTable(SqlTable.CreateIx, definitionRow, SqlXls); break;
-                    case "DeleteDefault": Sql.DeleteDefault = definitionRow[1].ToString(); SetSqlTable(SqlTable.DeleteDefault, definitionRow, SqlXls); break;
-                    case "CreateDefault": Sql.CreateDefault = definitionRow[1].ToString(); SetSqlTable(SqlTable.CreateDefault, definitionRow, SqlXls); break;
-                    case "Columns": Sql.Columns = definitionRow[1].ToString(); SetSqlTable(SqlTable.Columns, definitionRow, SqlXls); break;
-                    case "Defaults": Sql.Defaults = definitionRow[1].ToString(); SetSqlTable(SqlTable.Defaults, definitionRow, SqlXls); break;
-                    case "Indexes": Sql.Indexes = definitionRow[1].ToString(); SetSqlTable(SqlTable.Indexes, definitionRow, SqlXls); break;
-                    case "DropConstraint": Sql.DropConstraint = definitionRow[1].ToString(); SetSqlTable(SqlTable.DropConstraint, definitionRow, SqlXls); break;
-                    case "DropIndex": Sql.DropIndex = definitionRow[1].ToString(); SetSqlTable(SqlTable.DropIndex, definitionRow, SqlXls); break;
-                    case "MigrateTableWithIdentity": Sql.MigrateTableWithIdentity = definitionRow[1].ToString(); SetSqlTable(SqlTable.MigrateTableWithIdentity, definitionRow, SqlXls); break;
-                    case "MigrateTable": Sql.MigrateTable = definitionRow[1].ToString(); SetSqlTable(SqlTable.MigrateTable, definitionRow, SqlXls); break;
-                    case "BulkInsert": Sql.BulkInsert = definitionRow[1].ToString(); SetSqlTable(SqlTable.BulkInsert, definitionRow, SqlXls); break;
-                    case "Identity": Sql.Identity = definitionRow[1].ToString(); SetSqlTable(SqlTable.Identity, definitionRow, SqlXls); break;
-                    case "Spaceused": Sql.Spaceused = definitionRow[1].ToString(); SetSqlTable(SqlTable.Spaceused, definitionRow, SqlXls); break;
-                    default: break;
-                }
+                Sql.GetType().GetField(file.Id)?.SetValue(Sql, file.Body);
+                SetSqlTable(SqlTable.GetType().GetField(file.Id)?.GetValue(SqlTable) as SqlDefinition, file);
             });
-
-            //TODO ファイルから読み込んだSQLの初期化
-            {
-                if (Implem.DefinitionAccessor.Parameters.Rds.Dbms?.ToLower() == "PostgreSQL".ToLower())
-                {
-                    Sql.SelectIdentity = " RETURNING '{{\"Id\":' || {0} || '}}' ";
-                    Sql.MoveTarget = Sql.MoveTarget.Replace("with ", "with RECURSIVE ");
-                    Sql.CanReadSites = Sql.CanReadSites.Replace(" top 1 ", " ").Replace(")))))))", "))))) limit 1 ))");
-                    Sql.CanRead = Sql.CanRead.Replace(" top 1 ", " ").Replace(")))))))", "))))) limit 1 ))");
-                    Sql.HasPermission = Sql.HasPermission.Replace(" top 1 ", " ").Replace(")))))))", "))))) limit 1 ))");
-                }
-                else
-                {
-                    Sql.SelectIdentity = "; " + Sql.SelectIdentity;
-                }
-                Def.Sql.IfDuplicated = "select 1 from \"{0}\" where \"{0}\".\"SiteId\"={1} and \"{0}\".\"{4}\"=@{4}_#CommandCount# and \"{0}\".\"{2}\"<>{3}; ";
-            }
-            /**/
-
-            SqlXls.XlsSheet.AsEnumerable().Skip(1).Where(o => o[0].ToString() != string.Empty).ForEach(definitionRow =>
+            SqllDefinitionFiles
+                .Where(file => file.Id != string.Empty)
+                .ForEach(s =>
             {
                 var newSqlDefinition = new SqlDefinition();
                 var customDefinitionRow = Parameters.CustomDefinitions
                     .Get("Sql")
-                    .Get(definitionRow["Id"]);
-                definitionRow.Keys.ForEach(key =>
-                {
-                    switch (key)
-                    {
-                        case "Id":
-                            newSqlDefinition.Id = customDefinitionRow.Get("Id")?.ToString() ??
-                                definitionRow["Id"].ToString();
-                            newSqlDefinition.SavedId = newSqlDefinition.Id;
-                            break;
-                        case "Body":
-                            newSqlDefinition.Body = customDefinitionRow.Get("Body")?.ToString() ??
-                                definitionRow["Body"].ToString();
-                            newSqlDefinition.SavedBody = newSqlDefinition.Body;
-                            break;
-                        default: break;
-                    }
-                });
+                    .Get(s.Id);
+                newSqlDefinition.Id = customDefinitionRow.Get("Id")?.ToString()
+                    ?? s.Id;
+                newSqlDefinition.SavedId = newSqlDefinition.Id;
+                newSqlDefinition.Body = customDefinitionRow.Get("Body")?.ToString()
+                    ?? s.Body;
+                newSqlDefinition.SavedBody = newSqlDefinition.Body;
                 SqlDefinitionCollection.Add(newSqlDefinition);
             });
         }
@@ -5237,9 +5167,18 @@ namespace Implem.DefinitionAccessor
             if (definitionRow.ContainsKey("Body")) { definition.Body = definitionRow["Body"].ToString(); definition.SavedBody = definition.Body; }
         }
 
+        static void SetSqlTable(SqlDefinition definition, ISqlDefinitionFile definitionFile)
+        {
+            if (definition == null) return;
+            definition.Id = definitionFile.Id;
+            definition.SavedId = definition.Id;
+            definition.Body = definitionFile.Body;
+            definition.SavedBody = definition.Body;
+        }
+
         private static void ConstructSqlDefinitions()
         {
-            SqlXls = Initializer.DefinitionFile("definition_Sql.xlsm");
+            SqllDefinitionFiles = Initializer.DefinitionSqls(dbms: Parameters.Rds.Dbms);
             SqlDefinitionCollection = new List<SqlDefinition>();
             Sql = new SqlColumn2nd();
             SqlTable = new SqlTable();
@@ -12999,6 +12938,95 @@ namespace Implem.DefinitionAccessor
         public SqlDefinition BulkInsert = new SqlDefinition();
         public SqlDefinition Identity = new SqlDefinition();
         public SqlDefinition Spaceused = new SqlDefinition();
+    }
+
+    public interface ISqlDefinitionFile
+    {
+        string Id { get; }
+        string Body { get; }
+        string FullPath { get; }
+        Files.AccessStatuses AccessStatus { get; }
+        void Read();
+    }
+
+    public interface ISqlDefinitionFiles : IReadOnlyCollection<ISqlDefinitionFile>
+    {
+        string FullPath { get; set; }
+        void Read();
+        void ReadAppend(string path, string searchPattern);
+    }
+
+    public class SqlDefinitionFileText : ISqlDefinitionFile
+{
+        public string Id { get; }
+        public string Body { get; private set; }
+
+        public string FullPath { get; }
+        public Files.AccessStatuses AccessStatus { get; private set; }
+
+        public SqlDefinitionFileText(string fullPath)
+        {
+            FullPath = fullPath;
+            Id = Path.GetFileNameWithoutExtension(FullPath);
+        }
+
+        public void Read()
+        {
+            try
+            {
+                if (!File.Exists(FullPath))
+                {
+                    AccessStatus = Files.AccessStatuses.NotFound;
+                    return;
+                }
+                var tempFile = new FileInfo(Files.CopyToTemp(
+                    FullPath, Directories.Temp()));
+                Body = Files.Read(tempFile.FullName);
+                tempFile.Delete();
+                AccessStatus = Files.AccessStatuses.Read;
+            }
+            catch (Exception e)
+            {
+                AccessStatus = Files.AccessStatuses.Failed;
+                Consoles.Write(e.Message, Consoles.Types.Error, abort: true);
+                return;
+            }
+        }
+    }
+
+    public class SqlDefinitionFiles : ISqlDefinitionFiles
+    {
+        static readonly string SearchPattern = "*.sql";
+        IList<ISqlDefinitionFile> _sqls = new List<ISqlDefinitionFile>();
+
+        public string FullPath { get; set;  }
+        public int Count => _sqls.Count;
+        public IEnumerator<ISqlDefinitionFile> GetEnumerator() => _sqls.GetEnumerator();
+
+        public void Read()
+        {
+            _sqls.Clear();
+            AddFiles(path: FullPath, searchPattern: SearchPattern);
+        }
+
+        public void ReadAppend(string path, string searchPattern)
+        {
+            AddFiles(path: path, searchPattern: searchPattern);
+        }
+
+        IEnumerator IEnumerable.GetEnumerator() => _sqls.GetEnumerator();
+
+        void AddFiles(string path, string searchPattern)
+        {
+            if (!Directory.Exists(path)) return;
+            Directory.EnumerateFiles(path, searchPattern)
+                .ForEach(f =>
+                {
+                    var file = new SqlDefinitionFileText(f);
+                    file.Read();
+                    _sqls.Add(file);
+                });
+        }
     }
 
     public class TemplateDefinition

@@ -1,17 +1,16 @@
 ﻿using Implem.IRds;
 using Npgsql;
-using System;
-using System.Collections.Generic;
 using System.Data.Common;
-using System.Text;
-
 namespace Implem.PostgreSql
 {
-    class PostgreSqlErrors : ISqlErrors
+    internal class PostgreSqlErrors : ISqlErrors
     {
+        public int ErrorCodeDuplicateKey { get; } = 23505;
+
+        public int ErrorCodeDeadLocked { get; } = 40001;
+
         public int ErrorCode(DbException dbException)
         {
-            //TODO
             return ((NpgsqlException)dbException).ErrorCode;
         }
     }

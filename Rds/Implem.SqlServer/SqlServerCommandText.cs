@@ -1,17 +1,28 @@
 ﻿using Implem.IRds;
 using System;
 using System.Text;
-
 namespace Implem.SqlServer
 {
-    class SqlServerCommandText : ISqlCommandText
+    internal class SqlServerCommandText : ISqlCommandText
     {
+        public string CreateDelete(string template)
+        {
+            return template + " ; select @@rowcount ";
+        }
+
+        public string CreateIdentityInsert(string template)
+        {
+            return template;
+        }
+
         public string CreateLimitClause(int limit)
         {
             return string.Empty;
         }
 
-        public string CreateSelectIdentity(string template, string identityColumnName)
+        public string CreateSelectIdentity(
+            string template,
+            string identityColumnName)
         {
             return template;
         }

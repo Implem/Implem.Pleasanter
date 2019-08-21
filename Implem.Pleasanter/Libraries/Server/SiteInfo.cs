@@ -27,7 +27,7 @@ namespace Implem.Pleasanter.Libraries.Server
             var monitor = tenantCache.GetUpdateMonitor(context: context);
             if (monitor.DeptsUpdated || monitor.UsersUpdated || force)
             {
-                var dataSet = Rds.ExecuteDataSet(
+                var dataSet = Repository.ExecuteDataSet(
                     context: context,
                     statements: new SqlStatement[]
                     {
@@ -259,7 +259,7 @@ namespace Implem.Pleasanter.Libraries.Server
 
         private static DataTable SiteUserDataTable(Context context, long siteId)
         {
-            return Rds.ExecuteTable(
+            return Repository.ExecuteTable(
                 context: context,
                 statements: Rds.SelectUsers(
                     distinct: true,

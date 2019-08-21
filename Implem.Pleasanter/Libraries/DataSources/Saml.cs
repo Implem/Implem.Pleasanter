@@ -69,7 +69,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             }
             statements.Add(StatusUtilities.UpdateStatus(
                 tenantId: tenantId, type: StatusUtilities.Types.UsersUpdated));
-            Rds.ExecuteNonQuery(
+            Repository.ExecuteNonQuery(
                 context: context,
                 transactional: true,
                 statements: statements.ToArray());

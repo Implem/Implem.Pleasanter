@@ -402,7 +402,7 @@ namespace Implem.Pleasanter.Models
         /// </summary>
         public static string EditorNew(Context context, SiteSettings ss)
         {
-            var wikiId = Rds.ExecuteScalar_long(
+            var wikiId = Repository.ExecuteScalar_long(
                 context: context,
                 statements: Rds.SelectWikis(
                     column: Rds.WikisColumn().WikiId(),
@@ -1053,7 +1053,7 @@ namespace Implem.Pleasanter.Models
                     .SetMemory("formChanged", false)
                     .Href(Locations.ItemIndex(
                         context: context,
-                        id: Rds.ExecuteScalar_long(
+                        id: Repository.ExecuteScalar_long(
                             context: context,
                             statements: Rds.SelectSites(
                                 tableType: Sqls.TableTypes.Deleted,
@@ -1125,7 +1125,7 @@ namespace Implem.Pleasanter.Models
                         tableType: Sqls.TableTypes.Deleted,
                         column: Rds.WikisColumn().WikiId(),
                         where: Views.GetBySession(context: context, ss: ss).Where(context: context, ss: ss)));
-            return Rds.ExecuteScalar_response(
+            return Repository.ExecuteScalar_response(
                 context: context,
                 connectionString: Parameters.Rds.OwnerConnectionString,
                 transactional: true,
@@ -1370,7 +1370,7 @@ namespace Implem.Pleasanter.Models
             List<int> selected,
             bool negative = false)
         {
-            return Rds.ExecuteScalar_response(
+            return Repository.ExecuteScalar_response(
                 context: context,
                 transactional: true,
                 statements: new SqlStatement[]

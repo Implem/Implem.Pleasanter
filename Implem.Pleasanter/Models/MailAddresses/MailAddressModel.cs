@@ -152,7 +152,7 @@ namespace Implem.Pleasanter.Models
             bool distinct = false,
             int top = 0)
         {
-            Set(context, Rds.ExecuteTable(
+            Set(context, Repository.ExecuteTable(
                 context: context,
                 statements: Rds.SelectMailAddresses(
                     tableType: tableType,
@@ -331,7 +331,10 @@ namespace Implem.Pleasanter.Models
                         context: context,
                         mailAddressModel: this,
                         otherInitValue: otherInitValue)),
-                new SqlStatement(Def.Sql.IfConflicted.Params(MailAddressId)){ IfConflicted = true }  //TODO
+                new SqlStatement(Def.Sql.IfConflicted.Params(MailAddressId))
+                {
+                    IfConflicted = true
+                }
             };
         }
 

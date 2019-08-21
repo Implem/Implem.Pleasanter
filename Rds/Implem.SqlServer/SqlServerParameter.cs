@@ -3,38 +3,147 @@ using System.Data;
 using System.Data.SqlClient;
 namespace Implem.SqlServer
 {
-    class SqlServerParameter : ISqlParameter
+    internal class SqlServerParameter : ISqlParameter
     {
-        SqlParameter _instance;
+        private SqlParameter instance;
 
         public SqlServerParameter()
         {
-            _instance = new SqlParameter();
+            instance = new SqlParameter();
         }
 
         public SqlServerParameter(string parameterName, object value)
         {
-            _instance = new SqlParameter(parameterName, value);
+            instance = new SqlParameter(parameterName, value);
         }
 
         internal SqlServerParameter(SqlParameter parameter)
         {
-            _instance = parameter;
+            instance = parameter;
         }
 
-        public string SqlDbType => _instance.SqlDbType.ToString();
+        public string SqlDbType
+        {
+            get
+            {
+                return instance.SqlDbType.ToString();
+            }
+        }
 
-        public byte Precision { get => _instance.Precision; set => _instance.Precision = value; }
-        public byte Scale { get => _instance.Scale; set => _instance.Scale = value; }
-        public int Size { get => _instance.Size; set => _instance.Size = value; }
-        public DbType DbType { get => _instance.DbType; set => _instance.DbType = value; }
-        public ParameterDirection Direction { get => _instance.Direction; set => _instance.Direction = value; }
+        public byte Precision
+        {
+            get
+            {
+                return instance.Precision;
+            }
+            set
+            {
+                instance.Precision = value;
+            }
+        }
 
-        public bool IsNullable => _instance.IsNullable;
+        public byte Scale
+        {
+            get
+            {
+                return instance.Scale;
+            }
+            set
+            {
+                instance.Scale = value;
+            }
+        }
 
-        public string ParameterName { get => _instance.ParameterName; set => _instance.ParameterName = value; }
-        public string SourceColumn { get => _instance.SourceColumn; set => _instance.SourceColumn = value; }
-        public DataRowVersion SourceVersion { get => _instance.SourceVersion; set => _instance.SourceVersion = value; }
-        public object Value { get => _instance.Value; set => _instance.Value = value; }
+        public int Size
+        {
+            get
+            {
+                return instance.Size;
+            }
+            set
+            {
+                instance.Size = value;
+            }
+        }
+
+        public DbType DbType
+        {
+            get
+            {
+                return instance.DbType;
+            }
+            set
+            {
+                instance.DbType = value;
+            }
+        }
+
+        public ParameterDirection Direction
+        {
+            get
+            {
+                return instance.Direction;
+            }
+            set
+            {
+                instance.Direction = value;
+            }
+        }
+
+        public bool IsNullable
+        {
+            get
+            {
+                return instance.IsNullable;
+            }
+        }
+
+        public string ParameterName
+        {
+            get
+            {
+                return instance.ParameterName;
+            }
+            set
+            {
+                instance.ParameterName = value;
+            }
+        }
+
+        public string SourceColumn
+        {
+            get
+            {
+                return instance.SourceColumn;
+            }
+            set
+            {
+                instance.SourceColumn = value;
+            }
+        }
+
+        public DataRowVersion SourceVersion
+        {
+            get
+            {
+                return instance.SourceVersion;
+            }
+            set
+            {
+                instance.SourceVersion = value;
+            }
+        }
+
+        public object Value
+        {
+            get
+            {
+                return instance.Value;
+            }
+            set
+            {
+                instance.Value = value;
+            }
+        }
     }
 }

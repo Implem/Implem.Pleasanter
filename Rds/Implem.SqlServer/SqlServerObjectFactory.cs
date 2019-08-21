@@ -1,14 +1,20 @@
 ﻿using Implem.IRds;
-using Implem.SqlServer;
 namespace Implem.SqlServer
 {
     public class SqlServerObjectFactory : ISqlObjectFactory
     {
-        private static ISqlErrors _sqlErrors = new SqlServerErrors();
-        private static ISqls _sqls = new SqlServerSqls();
-        private static ISqlCommandText _sqlCommandText = new SqlServerCommandText();
+        private static ISqlErrors sqlErrors = new SqlServerErrors();
+        private static ISqls sqls = new SqlServerSqls();
+        private static ISqlCommandText sqlCommandText = new SqlServerCommandText();
+        private static ISqlResult sqlResult = new SqlServerResult();
 
-        public ISqlErrors SqlErrors => _sqlErrors;
+        public ISqlErrors SqlErrors
+        {
+            get
+            {
+                return sqlErrors;
+            }
+        }
 
         public ISqlCommand CreateSqlCommand()
         {
@@ -39,7 +45,7 @@ namespace Implem.SqlServer
         {
             get
             {
-                return _sqls;
+                return sqls;
             }
         }
 
@@ -47,7 +53,15 @@ namespace Implem.SqlServer
         {
             get
             {
-                return _sqlCommandText;
+                return sqlCommandText;
+            }
+        }
+
+        public ISqlResult SqlResult
+        {
+            get
+            {
+                return sqlResult;
             }
         }
     }

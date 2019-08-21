@@ -182,7 +182,7 @@ namespace Implem.Pleasanter.Models
         public static EnumerableRowCollection<DataRow> InheritTargetsDataRows(
             Context context, SiteSettings ss)
         {
-            return Rds.ExecuteTable(
+            return Repository.ExecuteTable(
                 context: context,
                 statements: Rds.SelectSites(
                     column: Rds.SitesColumn()
@@ -330,7 +330,7 @@ namespace Implem.Pleasanter.Models
         /// </summary>
         private static List<Permission> CurrentCollection(Context context, long referenceId)
         {
-            return Rds.ExecuteTable(
+            return Repository.ExecuteTable(
                 context: context,
                 statements: Rds.SelectPermissions(
                     column: Rds.PermissionsColumn()
@@ -368,7 +368,7 @@ namespace Implem.Pleasanter.Models
                     id: -1,
                     source: true));
             }
-            Rds.ExecuteTable(
+            Repository.ExecuteTable(
                 context: context,
                 statements: new SqlStatement[]
                 {
@@ -385,9 +385,9 @@ namespace Implem.Pleasanter.Models
                                 searchText: searchText,
                                 clauseCollection: new List<string>()
                                 {
-                                    Rds.Depts_DeptCode_WhereLike(),
-                                    Rds.Depts_DeptName_WhereLike(),
-                                    Rds.Depts_Body_WhereLike()
+                                    Rds.Depts_DeptCode_WhereLike(factory: context),
+                                    Rds.Depts_DeptName_WhereLike(factory: context),
+                                    Rds.Depts_Body_WhereLike(factory: context)
                                 })),
                     Rds.SelectGroups(
                         column: Rds.GroupsColumn()
@@ -402,9 +402,9 @@ namespace Implem.Pleasanter.Models
                                 searchText: searchText,
                                 clauseCollection: new List<string>()
                                 {
-                                    Rds.Groups_GroupId_WhereLike(),
-                                    Rds.Groups_GroupName_WhereLike(),
-                                    Rds.Groups_Body_WhereLike()
+                                    Rds.Groups_GroupId_WhereLike(factory: context),
+                                    Rds.Groups_GroupName_WhereLike(factory: context),
+                                    Rds.Groups_Body_WhereLike(factory: context)
                                 }),
                         unionType: Sqls.UnionTypes.UnionAll),
                     Rds.SelectUsers(
@@ -425,15 +425,15 @@ namespace Implem.Pleasanter.Models
                                 searchText: searchText,
                                 clauseCollection: new List<string>()
                                 {
-                                    Rds.Users_LoginId_WhereLike(),
-                                    Rds.Users_Name_WhereLike(),
-                                    Rds.Users_UserCode_WhereLike(),
-                                    Rds.Users_Body_WhereLike(),
-                                    Rds.Depts_DeptCode_WhereLike(),
-                                    Rds.Depts_DeptName_WhereLike(),
-                                    Rds.Depts_Body_WhereLike()
+                                    Rds.Users_LoginId_WhereLike(factory: context),
+                                    Rds.Users_Name_WhereLike(factory: context),
+                                    Rds.Users_UserCode_WhereLike(factory: context),
+                                    Rds.Users_Body_WhereLike(factory: context),
+                                    Rds.Depts_DeptCode_WhereLike(factory: context),
+                                    Rds.Depts_DeptName_WhereLike(factory: context),
+                                    Rds.Depts_Body_WhereLike(factory: context)
                                 })
-                            .Users_Disabled(0),
+                            .Users_Disabled(context.Sqls.FalseValue),
                         unionType: Sqls.UnionTypes.UnionAll)
                 })
                     .AsEnumerable()
@@ -542,7 +542,7 @@ namespace Implem.Pleasanter.Models
         /// </summary>
         public static List<int> Groups(Context context, SiteSettings ss)
         {
-            return Rds.ExecuteTable(
+            return Repository.ExecuteTable(
                 context: context,
                 statements: Rds.SelectGroups(
                     column: Rds.GroupsColumn().GroupId(),
