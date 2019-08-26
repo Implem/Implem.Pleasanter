@@ -4,7 +4,8 @@
         $('#SeparateSettingsDialog').dialog({
             modal: true,
             width: '700px',
-            appendTo: '.main-form'
+            appendTo: '.main-form',
+            resizable: false
         });
     }
 }

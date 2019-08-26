@@ -208,6 +208,16 @@ namespace Implem.Pleasanter.Libraries.Responses
                 data: data);
         }
 
+        public static string AllowBulkUpdate(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "AllowBulkUpdate",
+                data: data);
+        }
+
         public static string AllowEditingComments(
             Context context,
             params string[] data)
@@ -235,6 +245,16 @@ namespace Implem.Pleasanter.Libraries.Responses
             return Get(
                 context: context,
                 id: "AllowImage",
+                data: data);
+        }
+
+        public static string AllowSeparate(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "AllowSeparate",
                 data: data);
         }
 
@@ -628,6 +648,16 @@ namespace Implem.Pleasanter.Libraries.Responses
                 data: data);
         }
 
+        public static string BulkUpdate(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "BulkUpdate",
+                data: data);
+        }
+
         public static string BulkUpdated(
             Context context,
             params string[] data)
@@ -635,6 +665,26 @@ namespace Implem.Pleasanter.Libraries.Responses
             return Get(
                 context: context,
                 id: "BulkUpdated",
+                data: data);
+        }
+
+        public static string BulkUpdatedEmailBody(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "BulkUpdatedEmailBody",
+                data: data);
+        }
+
+        public static string BulkUpdatedEmailTitle(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "BulkUpdatedEmailTitle",
                 data: data);
         }
 
@@ -2595,6 +2645,16 @@ namespace Implem.Pleasanter.Libraries.Responses
             return Get(
                 context: context,
                 id: "HoursAgo",
+                data: data);
+        }
+
+        public static string HtmlTitle(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "HtmlTitle",
                 data: data);
         }
 
@@ -5538,6 +5598,16 @@ namespace Implem.Pleasanter.Libraries.Responses
                 data: data);
         }
 
+        public static string Status(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "Status",
+                data: data);
+        }
+
         public static string Step(
             Context context,
             params string[] data)
@@ -5545,6 +5615,26 @@ namespace Implem.Pleasanter.Libraries.Responses
             return Get(
                 context: context,
                 id: "Step",
+                data: data);
+        }
+
+        public static string Storage(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "Storage",
+                data: data);
+        }
+
+        public static string StorageCapacity(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "StorageCapacity",
                 data: data);
         }
 
@@ -6068,6 +6158,16 @@ namespace Implem.Pleasanter.Libraries.Responses
                 data: data);
         }
 
+        public static string UpdatedByGrid(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "UpdatedByGrid",
+                data: data);
+        }
+
         public static string UpdatedTime(
             Context context,
             params string[] data)
@@ -6105,6 +6205,26 @@ namespace Implem.Pleasanter.Libraries.Responses
             return Get(
                 context: context,
                 id: "UseCustomDesign",
+                data: data);
+        }
+
+        public static string UsedRateStorageCapacity(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "UsedRateStorageCapacity",
+                data: data);
+        }
+
+        public static string UsedStorageCapacity(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "UsedStorageCapacity",
                 data: data);
         }
 

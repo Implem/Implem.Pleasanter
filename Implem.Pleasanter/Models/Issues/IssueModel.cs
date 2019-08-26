@@ -1145,7 +1145,7 @@ namespace Implem.Pleasanter.Models
             statements.AddRange(IfDuplicatedStatements(ss: ss));
             if (VerUp)
             {
-                statements.Add(CopyToStatement(
+                statements.Add(Rds.IssuesCopyToStatement(
                     where: where,
                     tableType: Sqls.TableTypes.History));
                 Ver++;
@@ -1166,44 +1166,6 @@ namespace Implem.Pleasanter.Models
                 statements.AddRange(additionalStatements);
             }
             return statements;
-        }
-
-        private SqlStatement CopyToStatement(SqlWhereCollection where, Sqls.TableTypes tableType)
-        {
-            var column = new Rds.IssuesColumnCollection();
-            var param = new Rds.IssuesParamCollection();
-            column.SiteId(function: Sqls.Functions.SingleColumn); param.SiteId();
-            column.UpdatedTime(function: Sqls.Functions.SingleColumn); param.UpdatedTime();
-            column.IssueId(function: Sqls.Functions.SingleColumn); param.IssueId();
-            column.Ver(function: Sqls.Functions.SingleColumn); param.Ver();
-            column.Title(function: Sqls.Functions.SingleColumn); param.Title();
-            column.Body(function: Sqls.Functions.SingleColumn); param.Body();
-            column.StartTime(function: Sqls.Functions.SingleColumn); param.StartTime();
-            column.CompletionTime(function: Sqls.Functions.SingleColumn); param.CompletionTime();
-            column.WorkValue(function: Sqls.Functions.SingleColumn); param.WorkValue();
-            column.ProgressRate(function: Sqls.Functions.SingleColumn); param.ProgressRate();
-            column.Status(function: Sqls.Functions.SingleColumn); param.Status();
-            column.Manager(function: Sqls.Functions.SingleColumn); param.Manager();
-            column.Owner(function: Sqls.Functions.SingleColumn); param.Owner();
-            column.Comments(function: Sqls.Functions.SingleColumn); param.Comments();
-            column.Creator(function: Sqls.Functions.SingleColumn); param.Creator();
-            column.Updator(function: Sqls.Functions.SingleColumn); param.Updator();
-            column.CreatedTime(function: Sqls.Functions.SingleColumn); param.CreatedTime();
-            ColumnNames().ForEach(columnName =>
-            {
-                column.Add(
-                    columnBracket: $"[{columnName}]",
-                    columnName: columnName,
-                    function: Sqls.Functions.SingleColumn);
-                param.Add(
-                    columnBracket: $"[{columnName}]",
-                    name: columnName);
-            });
-            return Rds.InsertIssues(
-                tableType: tableType,
-                param: param,
-                select: Rds.SelectIssues(column: column, where: where),
-                addUpdatorParam: false);
         }
 
         private List<SqlStatement> UpdateStatements(

@@ -379,7 +379,7 @@ namespace Implem.Pleasanter.Models
                 .UpdatedTime(timestamp, _using: timestamp.InRange());
             if (VerUp)
             {
-                statements.Add(CopyToStatement(
+                statements.Add(Rds.BinariesCopyToStatement(
                     where: where,
                     tableType: Sqls.TableTypes.History));
                 Ver++;
@@ -396,48 +396,6 @@ namespace Implem.Pleasanter.Models
                 statements.AddRange(additionalStatements);
             }
             return statements;
-        }
-
-        private SqlStatement CopyToStatement(SqlWhereCollection where, Sqls.TableTypes tableType)
-        {
-            var column = new Rds.BinariesColumnCollection();
-            var param = new Rds.BinariesParamCollection();
-            column.BinaryId(function: Sqls.Functions.SingleColumn); param.BinaryId();
-            column.TenantId(function: Sqls.Functions.SingleColumn); param.TenantId();
-            column.ReferenceId(function: Sqls.Functions.SingleColumn); param.ReferenceId();
-            column.Guid(function: Sqls.Functions.SingleColumn); param.Guid();
-            column.Ver(function: Sqls.Functions.SingleColumn); param.Ver();
-            column.BinaryType(function: Sqls.Functions.SingleColumn); param.BinaryType();
-            column.Title(function: Sqls.Functions.SingleColumn); param.Title();
-            column.Body(function: Sqls.Functions.SingleColumn); param.Body();
-            column.Bin(function: Sqls.Functions.SingleColumn); param.Bin();
-            column.Thumbnail(function: Sqls.Functions.SingleColumn); param.Thumbnail();
-            column.Icon(function: Sqls.Functions.SingleColumn); param.Icon();
-            column.FileName(function: Sqls.Functions.SingleColumn); param.FileName();
-            column.Extension(function: Sqls.Functions.SingleColumn); param.Extension();
-            column.Size(function: Sqls.Functions.SingleColumn); param.Size();
-            column.ContentType(function: Sqls.Functions.SingleColumn); param.ContentType();
-            column.BinarySettings(function: Sqls.Functions.SingleColumn); param.BinarySettings();
-            column.Comments(function: Sqls.Functions.SingleColumn); param.Comments();
-            column.Creator(function: Sqls.Functions.SingleColumn); param.Creator();
-            column.Updator(function: Sqls.Functions.SingleColumn); param.Updator();
-            column.CreatedTime(function: Sqls.Functions.SingleColumn); param.CreatedTime();
-            column.UpdatedTime(function: Sqls.Functions.SingleColumn); param.UpdatedTime();
-            ColumnNames().ForEach(columnName =>
-            {
-                column.Add(
-                    columnBracket: $"[{columnName}]",
-                    columnName: columnName,
-                    function: Sqls.Functions.SingleColumn);
-                param.Add(
-                    columnBracket: $"[{columnName}]",
-                    name: columnName);
-            });
-            return Rds.InsertBinaries(
-                tableType: tableType,
-                param: param,
-                select: Rds.SelectBinaries(column: column, where: where),
-                addUpdatorParam: false);
         }
 
         private List<SqlStatement> UpdateStatements(

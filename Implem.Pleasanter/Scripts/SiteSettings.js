@@ -14,7 +14,8 @@ $p.openSiteSettingsDialog = function ($control, selector, width) {
             modal: true,
             width: width !== undefined ? width : '90%',
             height: 'auto',
-            appendTo: '#Editor'
+            appendTo: '#Editor',
+            resizable: false
         });
     }
 }

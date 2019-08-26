@@ -7,6 +7,7 @@ $p.openEditorDialog = function (id) {
     $('#EditorDialog').dialog({
         modal: true,
         width: '90%',
+        resizable: false,
         open: function () {
             $('#EditorLoading').val(0);
             $p.initRelatingColumn();

@@ -19,7 +19,13 @@ $p.apiDelete = function (args) {
 }
 
 $p.apiExec = function (url, args) {
-    $.post(url, JSON.stringify(args.data), "json")
+    $.ajax({
+        type: 'Post',
+        url: url,
+        data: JSON.stringify(args.data),
+        dataType: 'json',
+        async: args.async !== undefined ? args.async : true
+    })
         .done(args.done)
         .fail(args.fail)
         .always(args.always);

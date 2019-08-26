@@ -1,7 +1,8 @@
 ﻿$p.openImportSettingsDialog = function ($control) {
     $('#ImportSettingsDialog').dialog({
         modal: true,
-        width: '520px'
+        width: '520px',
+        resizable: false
     });
 }
 

@@ -850,7 +850,7 @@ namespace Implem.Pleasanter.Models
             {
                 var columnName = context.Forms.ControlId()
                     .Replace("ViewFilters__", string.Empty)
-                    .Replace("_Display_", string.Empty);
+                    .Replace("_NumericRange", string.Empty);
                 var column = Site.SiteSettings.GetColumn(
                     context: context,
                     columnName: columnName);
@@ -860,7 +860,41 @@ namespace Implem.Pleasanter.Models
                         new HtmlBuilder().SetNumericRangeDialog(
                             context: context,
                             ss: Site.SiteSettings,
-                            column: column))
+                            column: column,
+                            itemfilter: true))
+                    .ToJson();
+            }
+            else
+            {
+                return Messages.ResponseNotFound(context: context).ToJson();
+            }
+        }
+
+        public string OpenSetDateRangeDialog(Context context)
+        {
+            SetSite(
+                context: context,
+                initSiteSettings: true);
+            if (context.CanRead(Site.SiteSettings))
+            {
+                var columnName = context.Forms.ControlId()
+                    .Replace("ViewFilters__", string.Empty)
+                    .Replace("_DateRange", string.Empty);
+                var column = Site.SiteSettings.GetColumn(
+                    context: context,
+                    columnName: columnName);
+                return new ResponseCollection()
+                    .Html(
+                        "#SetDateRangeDialog",
+                        new HtmlBuilder().
+                            Input(
+                                attributes: new HtmlAttributes()
+                                    .Style("opacity: 0; position: absolute; top: 0; left: 0;"))
+                            .SetDateRangeDialog(
+                                context: context,
+                                ss: Site.SiteSettings,
+                                column: column,
+                                itemfilter: true))
                     .ToJson();
             }
             else
@@ -1525,6 +1559,54 @@ namespace Implem.Pleasanter.Models
             }
         }
 
+        public string OpenBulkUpdateSelectorDialog(Context context)
+        {
+            SetSite(context: context, initSiteSettings: true);
+            switch (Site.ReferenceType)
+            {
+                case "Issues":
+                    return IssueUtilities.OpenBulkUpdateSelectorDialog(
+                        context: context,
+                        ss: Site.IssuesSiteSettings(
+                            context: context,
+                            referenceId: ReferenceId,
+                            setSiteIntegration: true));
+                case "Results":
+                    return ResultUtilities.OpenBulkUpdateSelectorDialog(
+                        context: context,
+                        ss: Site.ResultsSiteSettings(
+                            context: context,
+                            referenceId: ReferenceId,
+                            setSiteIntegration: true));
+                default:
+                    return Messages.ResponseNotFound(context: context).ToJson();
+            }
+        }
+
+        public string BulkUpdateSelectChanged(Context context)
+        {
+            SetSite(context: context, initSiteSettings: true);
+            switch (Site.ReferenceType)
+            {
+                case "Issues":
+                    return IssueUtilities.BulkUpdateSelectChanged(
+                        context: context,
+                        ss: Site.IssuesSiteSettings(
+                            context: context,
+                            referenceId: ReferenceId,
+                            setSiteIntegration: true));
+                case "Results":
+                    return ResultUtilities.BulkUpdateSelectChanged(
+                        context: context,
+                        ss: Site.ResultsSiteSettings(
+                            context: context,
+                            referenceId: ReferenceId,
+                            setSiteIntegration: true));
+                default:
+                    return Messages.ResponseNotFound(context: context).ToJson();
+            }
+        }
+
         public string BulkUpdate(Context context)
         {
             SetSite(context: context);
@@ -1538,6 +1620,28 @@ namespace Implem.Pleasanter.Models
                             referenceId: ReferenceId));
                 case "Results":
                     return ResultUtilities.BulkUpdate(
+                        context: context,
+                        ss: Site.ResultsSiteSettings(
+                            context: context,
+                            referenceId: ReferenceId));
+                default:
+                    return Messages.ResponseNotFound(context: context).ToJson();
+            }
+        }
+
+        public string UpdateByGrid(Context context)
+        {
+            SetSite(context: context);
+            switch (Site.SiteSettings.ReferenceType)
+            {
+                case "Issues":
+                    return IssueUtilities.UpdateByGrid(
+                        context: context,
+                        ss: Site.IssuesSiteSettings(
+                            context: context,
+                            referenceId: ReferenceId));
+                case "Results":
+                    return ResultUtilities.UpdateByGrid(
                         context: context,
                         ss: Site.ResultsSiteSettings(
                             context: context,
@@ -2038,7 +2142,7 @@ namespace Implem.Pleasanter.Models
             {
                 case "Sites":
                     return SiteUtilities.EditorJson(
-                        context: context,
+                context: context,
                         siteModel: Site);
                 case "Issues":
                     return IssueUtilities.EditorJson(

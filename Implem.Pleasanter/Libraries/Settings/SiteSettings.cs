@@ -119,6 +119,7 @@ namespace Implem.Pleasanter.Libraries.Settings
         public SettingList<Script> Scripts;
         public SettingList<RelatingColumn> RelatingColumns;
         public bool? AllowEditingComments;
+        public bool? AllowSeparate;
         public bool? SwitchRecordWithAjax;
         public bool? EnableCalendar;
         public bool? EnableCrosstab;
@@ -227,6 +228,7 @@ namespace Implem.Pleasanter.Libraries.Settings
             if (RelatingColumns == null) RelatingColumns = new SettingList<RelatingColumn>();
             if (Styles == null) Styles = new SettingList<Style>();
             AllowEditingComments = AllowEditingComments ?? false;
+            AllowSeparate = AllowSeparate ?? false;
             SwitchRecordWithAjax = SwitchRecordWithAjax ?? false;
             EnableCalendar = EnableCalendar ?? true;
             EnableCrosstab = EnableCrosstab ?? true;
@@ -240,6 +242,7 @@ namespace Implem.Pleasanter.Libraries.Settings
             TitleSeparator = TitleSeparator ?? ")";
             UseFiltersArea = UseFiltersArea ?? true;
             UseGridHeaderFilters = UseGridHeaderFilters ?? false;
+            SearchType = SearchType ?? SearchTypes.PartialMatch;
         }
 
         public void SetLinkedSiteSettings(
@@ -547,6 +550,10 @@ namespace Implem.Pleasanter.Libraries.Settings
             {
                 ss.AllowEditingComments = AllowEditingComments;
             }
+            if (AllowSeparate == true)
+            {
+                ss.AllowSeparate = AllowSeparate;
+            }
             if (SwitchRecordWithAjax==true)
             {
                 ss.SwitchRecordWithAjax = SwitchRecordWithAjax;
@@ -599,7 +606,7 @@ namespace Implem.Pleasanter.Libraries.Settings
             {
                 ss.TitleSeparator = TitleSeparator;
             }
-            if (SearchType != SearchTypes.FullText)
+            if (SearchType != SearchTypes.PartialMatch)
             {
                 ss.SearchType = SearchType;
             }
@@ -919,6 +926,11 @@ namespace Implem.Pleasanter.Libraries.Settings
                         enabled = true;
                         newColumn.AllowImage = column.AllowImage;
                     }
+                    if (column.AllowBulkUpdate == true)
+                    {
+                        enabled = true;
+                        newColumn.AllowBulkUpdate = column.AllowBulkUpdate;
+                    }
                     if (column.FieldCss != columnDefinition.FieldCss)
                     {
                         enabled = true;
@@ -1232,6 +1244,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                 column.NoDuplication = column.NoDuplication ?? false;
                 column.CopyByDefault = column.CopyByDefault ?? false;
                 column.EditorReadOnly = column.EditorReadOnly ?? columnDefinition.EditorReadOnly;
+                column.AllowBulkUpdate = column.AllowBulkUpdate ?? false;
                 column.AllowImage = column.AllowImage ?? true;
                 column.FieldCss = column.FieldCss ?? columnDefinition.FieldCss;
                 column.Unit = column.Unit ?? columnDefinition.Unit;
@@ -1584,6 +1597,47 @@ namespace Implem.Pleasanter.Libraries.Settings
                 .Where(o => context.ContractSettings.Attachments()
                     || o.ControlType != "Attachments")
                 .ToList();
+        }
+
+        public List<Column> GetAllowBulkUpdateColumns(Context context, SiteSettings ss)
+        {
+            var formula = new Formula();
+            var data = new Dictionary<string, decimal>();
+            var getResult = formula.GetResult(data);
+            var formulaColumns = ss.Formulas.Select(set => set.Formula.ColumnName).ToList();
+            return GetEditorColumns(context: context)
+                .Where(c => !c.Id_Ver)
+                .Where(c => c.EditorReadOnly != true)
+                .Where(c => c.NoDuplication != true)
+                .Where(c => c.ColumnName != "Comments")
+                .Where(column => !Formulas.Any(formulaSet =>
+                    formulaSet.Target == column.ColumnName
+                    || ContainsFormulaColumn(
+                        columnName: column.ColumnName,
+                        children: formulaSet.Formula.Children)))
+                .Where(column => column.AllowBulkUpdate == true)
+                .Where(column => column.CanUpdate)
+                .ToList();
+            
+        }
+
+        private bool ContainsFormulaColumn(string columnName, List<Formula> children)
+        {
+            if (children != null)
+            {
+                foreach (var formula in children)
+                {
+                    if (formula.ColumnName == columnName)
+                    {
+                        return true;
+                    }
+                    var ret = ContainsFormulaColumn(
+                        columnName: columnName,
+                        children: formula.Children);
+                    if (ret) return true;
+                }
+            }
+            return false;
         }
 
         public List<Column> GetTitleColumns(Context context)
@@ -2370,6 +2424,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                 case "FirstDayOfWeek": FirstDayOfWeek = value.ToInt(); break;
                 case "FirstMonth": FirstMonth = value.ToInt(); break;
                 case "AllowEditingComments": AllowEditingComments = value.ToBool(); break;
+                case "AllowSeparate": AllowSeparate = value.ToBool(); break;
                 case "SwitchRecordWithAjax":SwitchRecordWithAjax = value.ToBool(); break;
                 case "EnableCalendar": EnableCalendar = value.ToBool(); break;
                 case "EnableCrosstab": EnableCrosstab = value.ToBool(); break;
@@ -2509,6 +2564,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                 case "NoDuplication": column.NoDuplication = value.ToBool(); break;
                 case "CopyByDefault": column.CopyByDefault = value.ToBool(); break;
                 case "EditorReadOnly": column.EditorReadOnly = value.ToBool(); break;
+                case "AllowBulkUpdate": column.AllowBulkUpdate = value.ToBool(); break;
                 case "AllowImage": column.AllowImage = value.ToBool(); break;
                 case "FieldCss": column.FieldCss = value; break;
                 case "Description": column.Description = value; break;

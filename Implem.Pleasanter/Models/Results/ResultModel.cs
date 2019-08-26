@@ -997,7 +997,7 @@ namespace Implem.Pleasanter.Models
             statements.AddRange(IfDuplicatedStatements(ss: ss));
             if (VerUp)
             {
-                statements.Add(CopyToStatement(
+                statements.Add(Rds.ResultsCopyToStatement(
                     where: where,
                     tableType: Sqls.TableTypes.History));
                 Ver++;
@@ -1018,40 +1018,6 @@ namespace Implem.Pleasanter.Models
                 statements.AddRange(additionalStatements);
             }
             return statements;
-        }
-
-        private SqlStatement CopyToStatement(SqlWhereCollection where, Sqls.TableTypes tableType)
-        {
-            var column = new Rds.ResultsColumnCollection();
-            var param = new Rds.ResultsParamCollection();
-            column.SiteId(function: Sqls.Functions.SingleColumn); param.SiteId();
-            column.UpdatedTime(function: Sqls.Functions.SingleColumn); param.UpdatedTime();
-            column.ResultId(function: Sqls.Functions.SingleColumn); param.ResultId();
-            column.Ver(function: Sqls.Functions.SingleColumn); param.Ver();
-            column.Title(function: Sqls.Functions.SingleColumn); param.Title();
-            column.Body(function: Sqls.Functions.SingleColumn); param.Body();
-            column.Status(function: Sqls.Functions.SingleColumn); param.Status();
-            column.Manager(function: Sqls.Functions.SingleColumn); param.Manager();
-            column.Owner(function: Sqls.Functions.SingleColumn); param.Owner();
-            column.Comments(function: Sqls.Functions.SingleColumn); param.Comments();
-            column.Creator(function: Sqls.Functions.SingleColumn); param.Creator();
-            column.Updator(function: Sqls.Functions.SingleColumn); param.Updator();
-            column.CreatedTime(function: Sqls.Functions.SingleColumn); param.CreatedTime();
-            ColumnNames().ForEach(columnName =>
-            {
-                column.Add(
-                    columnBracket: $"[{columnName}]",
-                    columnName: columnName,
-                    function: Sqls.Functions.SingleColumn);
-                param.Add(
-                    columnBracket: $"[{columnName}]",
-                    name: columnName);
-            });
-            return Rds.InsertResults(
-                tableType: tableType,
-                param: param,
-                select: Rds.SelectResults(column: column, where: where),
-                addUpdatorParam: false);
         }
 
         private List<SqlStatement> UpdateStatements(

@@ -1055,6 +1055,15 @@ namespace Implem.Pleasanter.Libraries.Responses
                 css: "alert-success");
         }
 
+        public static Message UpdatedByGrid(Context context, params string[] data)
+        {
+            return Get(
+                text: Displays.UpdatedByGrid(
+                    context: context,
+                    data: data),
+                css: "alert-success");
+        }
+
         public static Message UserDisabled(Context context, params string[] data)
         {
             return Get(
@@ -2235,6 +2244,16 @@ namespace Implem.Pleasanter.Libraries.Responses
         {
             return ResponseMessage(
                 message: Updated(
+                    context: context,
+                    data: data),
+                target: target);
+        }
+
+        public static ResponseCollection ResponseUpdatedByGrid(
+            Context context, string target = null, params string[] data)
+        {
+            return ResponseMessage(
+                message: UpdatedByGrid(
                     context: context,
                     data: data),
                 target: target);

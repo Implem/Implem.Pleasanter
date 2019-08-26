@@ -133,7 +133,11 @@ namespace Implem.Pleasanter.Models
                     .Div(attributes: new HtmlAttributes()
                         .Id("ExportSelectorDialog")
                         .Class("dialog")
-                        .Title(Displays.Export(context: context))))
+                        .Title(Displays.Export(context: context)))
+                        .Div(attributes: new HtmlAttributes()
+                                .Id("BulkUpdateSelectorDialog")
+                                .Class("dialog")
+                                .Title(Displays.BulkUpdate(context: context))))
                     .ToString();
         }
 
@@ -323,7 +327,7 @@ namespace Implem.Pleasanter.Models
                         ss: ss,
                         dataRows: gridData.DataRows,
                         columns: columns,
-                        checkAll: checkAll,
+                        gridSelector: null,
                         checkRow: checkRow));
         }
 
@@ -374,7 +378,7 @@ namespace Implem.Pleasanter.Models
                                 context: context,
                                 view: view,
                                 checkPermission: true),
-                            checkAll: false,
+                            gridSelector: null,
                             editRow: true,
                             checkRow: false,
                             idColumn: "SiteId"))
@@ -1028,7 +1032,7 @@ namespace Implem.Pleasanter.Models
                             ss: ss,
                             dataRows: gridData.DataRows,
                             columns: columns,
-                            checkAll: false))
+                            gridSelector: null))
                     .CloseDialog()
                     .Message(Messages.Updated(
                         context: context,
@@ -3488,6 +3492,16 @@ namespace Implem.Pleasanter.Models
                         .Id("RelatingColumnDialog")
                         .Class("dialog")
                         .Title(Displays.RelatingColumn(context: context)))
+                .Div(
+                    attributes: new HtmlAttributes()
+                        .Id("SetNumericRangeDialog")
+                        .Class("dialog")
+                        .Title(Displays.NumericRange(context)))
+                .Div(
+                    attributes: new HtmlAttributes()
+                        .Id("SetDateRangeDialog")
+                        .Class("dialog")
+                        .Title(Displays.DateRange(context)))
                 .PermissionsDialog(context: context)
                 .PermissionForCreatingDialog(context: context)
                 .ColumnAccessControlDialog(context: context));
@@ -4429,6 +4443,12 @@ namespace Implem.Pleasanter.Models
                         labelText: Displays.AllowEditingComments(context: context),
                         _checked: ss.AllowEditingComments == true)
                     .FieldCheckBox(
+                        controlId: "AllowSeparate",
+                        fieldCss: "field-auto-thin",
+                        labelText: Displays.AllowSeparate(context: context),
+                        _checked: ss.AllowSeparate == true,
+                        _using: ss.ReferenceType == "Issues")
+                    .FieldCheckBox(
                         controlId: "SwitchRecordWithAjax",
                         fieldCss: "field-auto-thin",
                         labelText: Displays.SwitchRecordWithAjax(context: context),
@@ -4494,6 +4514,11 @@ namespace Implem.Pleasanter.Models
                                 labelText: Displays.Required(context: context),
                                 _checked: column.ValidateRequired ?? false,
                                 disabled: column.Required,
+                                _using: !column.Id_Ver)
+                            .FieldCheckBox(
+                                controlId: "AllowBulkUpdate",
+                                labelText: Displays.AllowBulkUpdate(context: context),
+                                _checked: column.AllowBulkUpdate == true,
                                 _using: !column.Id_Ver);
                     }
                     switch (type)
@@ -4523,7 +4548,12 @@ namespace Implem.Pleasanter.Models
                             .FieldCheckBox(
                                 controlId: "EditorReadOnly",
                                 labelText: Displays.ReadOnly(context: context),
-                                _checked: column.EditorReadOnly == true);
+                                _checked: column.EditorReadOnly == true)
+                            .FieldCheckBox(
+                                controlId: "AllowBulkUpdate",
+                                labelText: Displays.AllowBulkUpdate(context: context),
+                                _checked: column.AllowBulkUpdate == true,
+                                _using: column.TypeName == "bit");
                     }
                     if (column.TypeName == "datetime")
                     {
@@ -6173,16 +6203,16 @@ namespace Implem.Pleasanter.Models
                             multiple: true,
                             addSelectedValue: false)
                         : hb.FieldTextBox(
-                            controlId: controlId + "_Display_",
+                            controlId: controlId + "_DateRange",
                             fieldCss: "field-auto-thin",
                             labelText: column.LabelText,
                             labelTitle: labelTitle,
                             text: HtmlViewFilters.GetDisplayDateFilterRange(value,column.DateTimepicker()),
+                            method: "put",
                             attributes: new Dictionary<string, string>
                             {
-                                ["onfocus"] = $"$p.setDateRangeDialog($(this),'{Displays.DateRange(context)}','{Displays.Start(context)}'," +
-                                    $"'{Displays.End(context)}','{Displays.OK(context)}','{Displays.Cancel(context)}','{Displays.Clear(context)}'," +
-                                    $"{column.DateTimepicker().ToString().ToLower()})"
+                                ["onfocus"] = $"$p.openSiteSetDateRangeDialog($(this)," + column.DateTimepicker().ToString().ToLower() + ")",
+                                ["data-action"] = $"SetSiteSettings"
                             })
                             .Hidden(attributes: new HtmlAttributes()
                                 .Id("ViewFilters__" + column.ColumnName)
@@ -6203,15 +6233,16 @@ namespace Implem.Pleasanter.Models
                             multiple: true,
                             addSelectedValue: false)
                         : hb.FieldTextBox(
-                            controlId: controlId + "_Display_",
+                            controlId: controlId + "_NumericRange",
                             fieldCss: "field-auto-thin",
                             labelText: column.LabelText,
                             labelTitle: labelTitle,
                             text: HtmlViewFilters.GetNumericFilterRange(value),
+                            method: "put",
                             attributes: new Dictionary<string, string>
                             {
-                                ["onfocus"] = $"$p.setNumericRangeDialog($(this),'{Displays.NumericRange(context)}','{Displays.Start(context)}'," +
-                                    $"'{Displays.End(context)}','{Displays.OK(context)}','{Displays.Cancel(context)}','{Displays.Clear(context)}','{column.MinNumber()}','{column.MaxNumber()}')"
+                                ["onfocus"] = $"$p.openSiteSetNumericRangeDialog($(this))",
+                                ["data-action"] = $"SetSiteSettings"
                             })
                             .Hidden(attributes: new HtmlAttributes()
                                 .Id("ViewFilters__" + column.ColumnName)

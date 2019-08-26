@@ -26,6 +26,21 @@ namespace Implem.CodeDefiner.Functions.SqlServer
                     Consoles.Write($"[{generalTableName}]: {e}", Consoles.Types.Error);
                 }
             });
+            ConfigureFullTextIndex();
+        }
+
+        private static void ConfigureFullTextIndex()
+        {
+            var pkItems = Def.SqlIoBySa(
+                statements: new SqlStatement(Def.Sql.SelectPkName.Replace("#TableName#", "Items")))
+                    .ExecuteScalar_string();
+            var pkBinaries = Def.SqlIoBySa(
+                statements: new SqlStatement(Def.Sql.SelectPkName.Replace("#TableName#", "Binaries")))
+                    .ExecuteScalar_string();
+            Def.SqlIoBySa()
+                .ExecuteNonQuery(Def.Sql.CreateFullText
+                    .Replace("#PKItems#", pkItems)
+                    .Replace("#PKBinaries#", pkBinaries));
         }
 
         private static void ConfigureTableSet(string generalTableName)

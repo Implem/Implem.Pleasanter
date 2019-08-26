@@ -326,12 +326,15 @@ namespace Implem.Pleasanter.Models
             }
             switch (ss?.SearchType)
             {
-                case SiteSettings.SearchTypes.PartialMatch:
-                    return Select(
-                        ss: ss,
-                        searchText: searchText,
+                case SiteSettings.SearchTypes.FullText:
+                    var words = Words(searchText);
+                    if (words?.Any() != true) return null;
+                    return SelectByFullText(
+                        context: context,
+                        column: Rds.ItemsColumn().ReferenceId(),
+                        orderBy: null,
                         siteIdList: siteIdList,
-                        like: Rds.Items_FullText_WhereLike(forward: false));
+                        words: words);
                 case SiteSettings.SearchTypes.MatchInFrontOfTitle:
                     return Select(
                         ss: ss,
@@ -344,28 +347,13 @@ namespace Implem.Pleasanter.Models
                         searchText: searchText,
                         siteIdList: siteIdList,
                         like: Rds.Items_Title_WhereLike(forward: false));
+                case SiteSettings.SearchTypes.PartialMatch:
                 default:
-                    switch (Parameters.Search.Provider)
-                    {
-                        case "FullText":
-                            var words = Words(searchText);
-                            if (words?.Any() != true) return null;
-                            return SelectByFullText(
-                                context: context,
-                                column: Rds.ItemsColumn().ReferenceId(),
-                                orderBy: null,
-                                siteIdList: siteIdList,
-                                words: words);
-                        default:
-                            var searchIndexes = searchText.SearchIndexes(context: context);
-                            if (searchIndexes.Count() == 0) return null;
-                            return SelectBySearchIndexes(
-                                context: context,
-                                searchIndexes: searchIndexes,
-                                column: Rds.SearchIndexesColumn().ReferenceId(),
-                                orderBy: null,
-                                siteIdList: siteIdList);
-                    }
+                    return Select(
+                        ss: ss,
+                        searchText: searchText,
+                        siteIdList: siteIdList,
+                        like: Rds.Items_FullText_WhereLike(forward: false));    
             }
         }
 
@@ -409,14 +397,23 @@ namespace Implem.Pleasanter.Models
             }
             switch (ss?.SearchType)
             {
-                case SiteSettings.SearchTypes.PartialMatch:
-                    return where.ItemWhereLike(
-                        ss: ss,
-                        columnName: "FullText",
-                        searchText: searchText,
+                case SiteSettings.SearchTypes.FullText:
+                    var words = Words(searchText);
+                    if (words?.Any() != true) return where;
+                    where.Add(new SqlWhere(
                         name: name,
-                        forward: false,
-                        itemJoin: itemJoin);
+                        value: words,
+                        raw: itemJoin
+                            ? FullTextWhere(
+                                words: words,
+                                itemsTableName: ss.ReferenceType + "_Items",
+                                name: name)
+                            : FullTextWhere(
+                                words: words,
+                                idColumnBracket: ss.IdColumnBracket(),
+                                tableType: ss.TableType,
+                                name: name)));
+                    return where;
                 case SiteSettings.SearchTypes.MatchInFrontOfTitle:
                     return where.ItemWhereLike(
                         ss: ss,
@@ -433,37 +430,15 @@ namespace Implem.Pleasanter.Models
                         name: name,
                         forward: false,
                         itemJoin: itemJoin);
+                case SiteSettings.SearchTypes.PartialMatch:
                 default:
-                    switch (Parameters.Search.Provider)
-                    {
-                        case "FullText":
-                            var words = Words(searchText);
-                            if (words?.Any() != true) return where;
-                            where.Add(new SqlWhere(
-                                name: name,
-                                value: words,
-                                raw: itemJoin
-                                    ? FullTextWhere(
-                                        words: words,
-                                        itemsTableName: ss.ReferenceType + "_Items",
-                                        name: name)
-                                    : FullTextWhere(
-                                        words: words,
-                                        idColumnBracket: ss.IdColumnBracket(),
-                                        tableType: ss.TableType,
-                                        name: name)));
-                            return where;
-                        default:
-                            return where.Add(Rds.ItemsWhere().SqlWhereLike(
-                                tableName: "Items",
-                                name: name,
-                                searchText: searchText,
-                                clauseCollection: Rds.Items_FullText_WhereLike(
-                                    tableName: ss.ReferenceType + "_Items",
-                                    name: name,
-                                    forward: false)
-                                        .ToSingleList()));
-                    }
+                    return where.ItemWhereLike(
+                        ss: ss,
+                        columnName: "FullText",
+                        searchText: searchText,
+                        name: name,
+                        forward: false,
+                        itemJoin: itemJoin);
             }
         }
 

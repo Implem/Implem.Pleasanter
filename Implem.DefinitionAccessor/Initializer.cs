@@ -79,6 +79,7 @@ namespace Implem.DefinitionAccessor
             Parameters.ExtendedSqls = ExtendedSqls();
             Parameters.ExtendedStyles = ExtendedStyles();
             Parameters.ExtendedScripts = ExtendedScripts();
+            Parameters.ExtendedTags = ExtendedTags();
             Parameters.General = Read<ParameterAccessor.Parts.General>();
             Parameters.History = Read<ParameterAccessor.Parts.History>();
             Parameters.Version = Read<ParameterAccessor.Parts.Version>();
@@ -271,6 +272,25 @@ namespace Implem.DefinitionAccessor
                 list = ExtendedScripts(dir.FullName, list);
             }
             return list;
+        }
+
+        private static Dictionary<string, string> ExtendedTags()
+        {
+            var hash = new Dictionary<string, string>();
+            var path = Path.Combine(
+                Environments.CurrentDirectoryPath,
+                "App_Data",
+                "Parameters",
+                "ExtendedTags");
+            var dir = new DirectoryInfo(path);
+            if (dir.Exists)
+            {
+                foreach (var file in dir.GetFiles("*.html"))
+                {
+                    hash.Add(Files.FileNameOnly(file.Name), Files.Read(file.FullName));
+                }
+            }
+            return hash;
         }
 
         private static string ParametersPath(string name)

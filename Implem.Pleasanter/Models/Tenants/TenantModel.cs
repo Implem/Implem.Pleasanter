@@ -415,7 +415,7 @@ namespace Implem.Pleasanter.Models
                 .UpdatedTime(timestamp, _using: timestamp.InRange());
             if (VerUp)
             {
-                statements.Add(CopyToStatement(
+                statements.Add(Rds.TenantsCopyToStatement(
                     where: where,
                     tableType: Sqls.TableTypes.History));
                 Ver++;
@@ -432,44 +432,6 @@ namespace Implem.Pleasanter.Models
                 statements.AddRange(additionalStatements);
             }
             return statements;
-        }
-
-        private SqlStatement CopyToStatement(SqlWhereCollection where, Sqls.TableTypes tableType)
-        {
-            var column = new Rds.TenantsColumnCollection();
-            var param = new Rds.TenantsParamCollection();
-            column.TenantId(function: Sqls.Functions.SingleColumn); param.TenantId();
-            column.Ver(function: Sqls.Functions.SingleColumn); param.Ver();
-            column.TenantName(function: Sqls.Functions.SingleColumn); param.TenantName();
-            column.Title(function: Sqls.Functions.SingleColumn); param.Title();
-            column.Body(function: Sqls.Functions.SingleColumn); param.Body();
-            column.ContractSettings(function: Sqls.Functions.SingleColumn); param.ContractSettings();
-            column.ContractDeadline(function: Sqls.Functions.SingleColumn); param.ContractDeadline();
-            column.DisableAllUsersPermission(function: Sqls.Functions.SingleColumn); param.DisableAllUsersPermission();
-            column.LogoType(function: Sqls.Functions.SingleColumn); param.LogoType();
-            column.HtmlTitleTop(function: Sqls.Functions.SingleColumn); param.HtmlTitleTop();
-            column.HtmlTitleSite(function: Sqls.Functions.SingleColumn); param.HtmlTitleSite();
-            column.HtmlTitleRecord(function: Sqls.Functions.SingleColumn); param.HtmlTitleRecord();
-            column.Comments(function: Sqls.Functions.SingleColumn); param.Comments();
-            column.Creator(function: Sqls.Functions.SingleColumn); param.Creator();
-            column.Updator(function: Sqls.Functions.SingleColumn); param.Updator();
-            column.CreatedTime(function: Sqls.Functions.SingleColumn); param.CreatedTime();
-            column.UpdatedTime(function: Sqls.Functions.SingleColumn); param.UpdatedTime();
-            ColumnNames().ForEach(columnName =>
-            {
-                column.Add(
-                    columnBracket: $"[{columnName}]",
-                    columnName: columnName,
-                    function: Sqls.Functions.SingleColumn);
-                param.Add(
-                    columnBracket: $"[{columnName}]",
-                    name: columnName);
-            });
-            return Rds.InsertTenants(
-                tableType: tableType,
-                param: param,
-                select: Rds.SelectTenants(column: column, where: where),
-                addUpdatorParam: false);
         }
 
         private List<SqlStatement> UpdateStatements(

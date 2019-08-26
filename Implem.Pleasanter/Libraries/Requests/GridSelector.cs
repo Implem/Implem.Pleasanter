@@ -31,5 +31,12 @@ namespace Implem.Pleasanter.Libraries.Requests
                 .Distinct()
                 .ToList();
         }
+
+        public bool Checked(long id)
+        {
+            return All
+                ? !Selected.Contains(id)
+                : Selected.Contains(id);
+        }
     }
 }

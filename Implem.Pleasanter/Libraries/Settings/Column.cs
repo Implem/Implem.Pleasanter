@@ -45,6 +45,7 @@ namespace Implem.Pleasanter.Libraries.Settings
         public bool? CopyByDefault;
         public bool? EditorReadOnly;
         public bool? AllowImage;
+        public bool? AllowBulkUpdate;
         public string FieldCss;
         public string Unit;
         public bool? Link;

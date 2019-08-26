@@ -1,0 +1,13 @@
+﻿{
+    "Id": "UsedRateStorageCapacity",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Used rate storage capacity"
+        },
+        {
+            "Language": "ja",
+            "Body": "使用率"
+        }
+    ]
+}

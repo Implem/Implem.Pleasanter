@@ -5,6 +5,7 @@
             modal: true,
             width: '680px',
             appendTo: '#Application',
+            resizable: false,
             close: function () {
                 $p.videoTracks.forEach(function (track) { track.stop() });
             }

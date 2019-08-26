@@ -176,7 +176,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             IEnumerable<Column> columns,
             EnumerableRowCollection<DataRow> dataRows,
             FormDataSet formDataSet = null,
-            bool checkAll = false,
+            GridSelector gridSelector = null,
             bool editRow = false,
             bool checkRow = true)
         {
@@ -186,7 +186,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     ss: ss,
                     dataRow: dataRow,
                     columns: columns,
-                    checkAll: checkAll,
+                    gridSelector: new GridSelector(context),
                     editRow: editRow,
                     checkRow: checkRow,
                     idColumn: Rds.IdColumn(ss.ReferenceType),
@@ -200,13 +200,13 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             SiteSettings ss,
             DataRow dataRow,
             IEnumerable<Column> columns,
-            bool checkAll,
             bool editRow,
             bool checkRow,
             string idColumn,
+            GridSelector gridSelector = null,
             FormDataSet formDataSet = null)
         {
-            var dataId = dataRow.Long(idColumn).ToString();
+            var dataId = dataRow.Long(idColumn);
             var dataVersion = dataRow.Int("Ver");
             var isHistory = dataRow.Bool("IsHistory");
             var EditColumns = !isHistory
@@ -219,7 +219,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             return hb.Tr(
                 attributes: new HtmlAttributes()
                     .Class("grid-row")
-                    .DataId(dataId)
+                    .DataId(dataId.ToString())
                     .DataVer(dataVersion)
                     .DataLatest(1, _using: !isHistory)
                     .Add(name: "data-history", value: "1", _using: isHistory),
@@ -256,8 +256,8 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                         hb.Td(action: () => hb
                             .CheckBox(
                                 controlCss: "grid-check",
-                                _checked: checkAll,
-                                dataId: dataId,
+                                _checked: gridSelector.Checked(dataId),
+                                dataId: dataId.ToString(),
                                 _using: !isHistory));
                     }
                     var depts = new Dictionary<string, DeptModel>();
