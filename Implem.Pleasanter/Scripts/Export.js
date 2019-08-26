@@ -3,7 +3,8 @@
     if (error === 0) {
         $('#ExportSelectorDialog').dialog({
             modal: true,
-            width: '420px'
+            width: '420px',
+            resizable: false
         });
     }
 }

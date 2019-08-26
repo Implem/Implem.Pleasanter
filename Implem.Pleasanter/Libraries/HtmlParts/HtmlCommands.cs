@@ -179,7 +179,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                             accessKey: "s",
                                             onClick: "$p.send($(this));",
                                             icon: "ui-icon-disk",
-                                            action: "BulkUpdate",
+                                            action: "UpdateByGrid",
                                             method: "post",
                                             _using: context.CanRead(ss: ss))
                                         .Button(
@@ -238,6 +238,16 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                                     action: "OpenExportSelectorDialog",
                                                     method: "post",
                                                     _using: context.CanExport(ss: ss))
+                                                .Button(
+                                                    text: Displays.BulkUpdate(context: context),
+                                                    controlCss: "button-icon",
+                                                    accessKey: "s",
+                                                    onClick: "$p.openBulkUpdateSelectorDialog($(this));",
+                                                    icon: "ui-icon-disk",
+                                                    action: "OpenBulkUpdateSelectorDialog",
+                                                    method: "post",
+                                                    _using: context.CanUpdate(ss: ss) 
+                                                        && ss.GetAllowBulkUpdateColumns(context, ss).Any())
                                                 .Button(
                                                     text: Displays.EditMode(context: context),
                                                     controlCss: "button-icon",

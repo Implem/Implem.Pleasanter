@@ -366,7 +366,6 @@ namespace Implem.DefinitionAccessor
                     case "Model_UpdateFormulaColumns": Code.Model_UpdateFormulaColumns = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_UpdateFormulaColumns, definitionRow, CodeXls); break;
                     case "Model_UpdateFormulaColumns_ColumnCases": Code.Model_UpdateFormulaColumns_ColumnCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_UpdateFormulaColumns_ColumnCases, definitionRow, CodeXls); break;
                     case "Model_UpdateOrCreate": Code.Model_UpdateOrCreate = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_UpdateOrCreate, definitionRow, CodeXls); break;
-                    case "Model_CopyToStatementColums": Code.Model_CopyToStatementColums = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_CopyToStatementColums, definitionRow, CodeXls); break;
                     case "Model_UpdateRelatedRecordsMethod": Code.Model_UpdateRelatedRecordsMethod = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_UpdateRelatedRecordsMethod, definitionRow, CodeXls); break;
                     case "Model_GetAfterUpdatedExtendedSqls": Code.Model_GetAfterUpdatedExtendedSqls = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_GetAfterUpdatedExtendedSqls, definitionRow, CodeXls); break;
                     case "Model_InsertLinksByUpdate": Code.Model_InsertLinksByUpdate = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_InsertLinksByUpdate, definitionRow, CodeXls); break;
@@ -440,6 +439,7 @@ namespace Implem.DefinitionAccessor
                     case "Model_CsvData": Code.Model_CsvData = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_CsvData, definitionRow, CodeXls); break;
                     case "Model_CsvDataCases": Code.Model_CsvDataCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_CsvDataCases, definitionRow, CodeXls); break;
                     case "Model_SwitchItems": Code.Model_SwitchItems = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_SwitchItems, definitionRow, CodeXls); break;
+                    case "Model_SwitchItems2": Code.Model_SwitchItems2 = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_SwitchItems2, definitionRow, CodeXls); break;
                     case "Model_SwitchItemsLockMethods": Code.Model_SwitchItemsLockMethods = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_SwitchItemsLockMethods, definitionRow, CodeXls); break;
                     case "Model_SwitchItemsOtherMethods": Code.Model_SwitchItemsOtherMethods = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_SwitchItemsOtherMethods, definitionRow, CodeXls); break;
                     case "Model_IndexCases": Code.Model_IndexCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_IndexCases, definitionRow, CodeXls); break;
@@ -479,6 +479,7 @@ namespace Implem.DefinitionAccessor
                     case "Model_CreateCases": Code.Model_CreateCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_CreateCases, definitionRow, CodeXls); break;
                     case "Model_CreateByApiCases": Code.Model_CreateByApiCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_CreateByApiCases, definitionRow, CodeXls); break;
                     case "Model_UpdateCases": Code.Model_UpdateCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_UpdateCases, definitionRow, CodeXls); break;
+                    case "Model_UpdateByGridCases": Code.Model_UpdateByGridCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_UpdateByGridCases, definitionRow, CodeXls); break;
                     case "Model_BulkUpdateCases": Code.Model_BulkUpdateCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_BulkUpdateCases, definitionRow, CodeXls); break;
                     case "Model_UpdateByApiCases": Code.Model_UpdateByApiCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_UpdateByApiCases, definitionRow, CodeXls); break;
                     case "Model_DeleteCommentCases": Code.Model_DeleteCommentCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_DeleteCommentCases, definitionRow, CodeXls); break;
@@ -545,6 +546,7 @@ namespace Implem.DefinitionAccessor
                     case "Model_Utilities_DropDownSearchDialog": Code.Model_Utilities_DropDownSearchDialog = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_DropDownSearchDialog, definitionRow, CodeXls); break;
                     case "Model_Utilities_ImportSettings": Code.Model_Utilities_ImportSettings = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_ImportSettings, definitionRow, CodeXls); break;
                     case "Model_Utilities_SetNumericRangeDialog": Code.Model_Utilities_SetNumericRangeDialog = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_SetNumericRangeDialog, definitionRow, CodeXls); break;
+                    case "Model_Utilities_SetDateRangeDialog": Code.Model_Utilities_SetDateRangeDialog = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_SetDateRangeDialog, definitionRow, CodeXls); break;
                     case "Model_Utilities_WhereTenantId": Code.Model_Utilities_WhereTenantId = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_WhereTenantId, definitionRow, CodeXls); break;
                     case "Model_Utilities_Index_NoSort": Code.Model_Utilities_Index_NoSort = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_Index_NoSort, definitionRow, CodeXls); break;
                     case "Model_Utilities_GetFormDataSet": Code.Model_Utilities_GetFormDataSet = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_GetFormDataSet, definitionRow, CodeXls); break;
@@ -615,7 +617,9 @@ namespace Implem.DefinitionAccessor
                     case "Model_Utilities_OnUpdated_Breadcrumb_Wikis": Code.Model_Utilities_OnUpdated_Breadcrumb_Wikis = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_OnUpdated_Breadcrumb_Wikis, definitionRow, CodeXls); break;
                     case "Model_Utilities_ResponseByUpdate_SiteSettings": Code.Model_Utilities_ResponseByUpdate_SiteSettings = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_ResponseByUpdate_SiteSettings, definitionRow, CodeXls); break;
                     case "Model_Utilities_ResponseByUpdate_FieldResponse": Code.Model_Utilities_ResponseByUpdate_FieldResponse = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_ResponseByUpdate_FieldResponse, definitionRow, CodeXls); break;
-                    case "Model_Utilities_BulkUpdate": Code.Model_Utilities_BulkUpdate = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_BulkUpdate, definitionRow, CodeXls); break;
+                    case "Model_Utilities_UpdateByGrid": Code.Model_Utilities_UpdateByGrid = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_UpdateByGrid, definitionRow, CodeXls); break;
+                    case "Model_Utilities_UpdateByGrid_Issues": Code.Model_Utilities_UpdateByGrid_Issues = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_UpdateByGrid_Issues, definitionRow, CodeXls); break;
+                    case "Model_Utilities_UpdateByGrid_Results": Code.Model_Utilities_UpdateByGrid_Results = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_UpdateByGrid_Results, definitionRow, CodeXls); break;
                     case "Model_Utilities_UpdateByApi": Code.Model_Utilities_UpdateByApi = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_UpdateByApi, definitionRow, CodeXls); break;
                     case "Model_Utilities_Copy": Code.Model_Utilities_Copy = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_Copy, definitionRow, CodeXls); break;
                     case "Model_Utilities_CopyResponse": Code.Model_Utilities_CopyResponse = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_CopyResponse, definitionRow, CodeXls); break;
@@ -711,6 +715,9 @@ namespace Implem.DefinitionAccessor
                     case "Rds_SqlDelete": Code.Rds_SqlDelete = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Rds_SqlDelete, definitionRow, CodeXls); break;
                     case "Rds_SqlPhysicalDelete": Code.Rds_SqlPhysicalDelete = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Rds_SqlPhysicalDelete, definitionRow, CodeXls); break;
                     case "Rds_SqlRestore": Code.Rds_SqlRestore = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Rds_SqlRestore, definitionRow, CodeXls); break;
+                    case "Rds_CopyToStatement": Code.Rds_CopyToStatement = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Rds_CopyToStatement, definitionRow, CodeXls); break;
+                    case "Rds_CopyToStatementColums": Code.Rds_CopyToStatementColums = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Rds_CopyToStatementColums, definitionRow, CodeXls); break;
+                    case "Rds_CopyToStatementColums_Extended": Code.Rds_CopyToStatementColums_Extended = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Rds_CopyToStatementColums_Extended, definitionRow, CodeXls); break;
                     case "Rds_Aggregations": Code.Rds_Aggregations = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Rds_Aggregations, definitionRow, CodeXls); break;
                     case "Rds_AggregationTableCases": Code.Rds_AggregationTableCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Rds_AggregationTableCases, definitionRow, CodeXls); break;
                     case "Rds_AggregationTables": Code.Rds_AggregationTables = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Rds_AggregationTables, definitionRow, CodeXls); break;
@@ -5210,6 +5217,8 @@ namespace Implem.DefinitionAccessor
                     case "BulkInsert": Sql.BulkInsert = definitionRow[1].ToString(); SetSqlTable(SqlTable.BulkInsert, definitionRow, SqlXls); break;
                     case "Identity": Sql.Identity = definitionRow[1].ToString(); SetSqlTable(SqlTable.Identity, definitionRow, SqlXls); break;
                     case "Spaceused": Sql.Spaceused = definitionRow[1].ToString(); SetSqlTable(SqlTable.Spaceused, definitionRow, SqlXls); break;
+                    case "SelectPkName": Sql.SelectPkName = definitionRow[1].ToString(); SetSqlTable(SqlTable.SelectPkName, definitionRow, SqlXls); break;
+                    case "CreateFullText": Sql.CreateFullText = definitionRow[1].ToString(); SetSqlTable(SqlTable.CreateFullText, definitionRow, SqlXls); break;
                     default: break;
                 }
             });
@@ -7111,7 +7120,6 @@ namespace Implem.DefinitionAccessor
         public string Model_UpdateFormulaColumns;
         public string Model_UpdateFormulaColumns_ColumnCases;
         public string Model_UpdateOrCreate;
-        public string Model_CopyToStatementColums;
         public string Model_UpdateRelatedRecordsMethod;
         public string Model_GetAfterUpdatedExtendedSqls;
         public string Model_InsertLinksByUpdate;
@@ -7185,6 +7193,7 @@ namespace Implem.DefinitionAccessor
         public string Model_CsvData;
         public string Model_CsvDataCases;
         public string Model_SwitchItems;
+        public string Model_SwitchItems2;
         public string Model_SwitchItemsLockMethods;
         public string Model_SwitchItemsOtherMethods;
         public string Model_IndexCases;
@@ -7224,6 +7233,7 @@ namespace Implem.DefinitionAccessor
         public string Model_CreateCases;
         public string Model_CreateByApiCases;
         public string Model_UpdateCases;
+        public string Model_UpdateByGridCases;
         public string Model_BulkUpdateCases;
         public string Model_UpdateByApiCases;
         public string Model_DeleteCommentCases;
@@ -7290,6 +7300,7 @@ namespace Implem.DefinitionAccessor
         public string Model_Utilities_DropDownSearchDialog;
         public string Model_Utilities_ImportSettings;
         public string Model_Utilities_SetNumericRangeDialog;
+        public string Model_Utilities_SetDateRangeDialog;
         public string Model_Utilities_WhereTenantId;
         public string Model_Utilities_Index_NoSort;
         public string Model_Utilities_GetFormDataSet;
@@ -7360,7 +7371,9 @@ namespace Implem.DefinitionAccessor
         public string Model_Utilities_OnUpdated_Breadcrumb_Wikis;
         public string Model_Utilities_ResponseByUpdate_SiteSettings;
         public string Model_Utilities_ResponseByUpdate_FieldResponse;
-        public string Model_Utilities_BulkUpdate;
+        public string Model_Utilities_UpdateByGrid;
+        public string Model_Utilities_UpdateByGrid_Issues;
+        public string Model_Utilities_UpdateByGrid_Results;
         public string Model_Utilities_UpdateByApi;
         public string Model_Utilities_Copy;
         public string Model_Utilities_CopyResponse;
@@ -7456,6 +7469,9 @@ namespace Implem.DefinitionAccessor
         public string Rds_SqlDelete;
         public string Rds_SqlPhysicalDelete;
         public string Rds_SqlRestore;
+        public string Rds_CopyToStatement;
+        public string Rds_CopyToStatementColums;
+        public string Rds_CopyToStatementColums_Extended;
         public string Rds_Aggregations;
         public string Rds_AggregationTableCases;
         public string Rds_AggregationTables;
@@ -7726,7 +7742,6 @@ namespace Implem.DefinitionAccessor
         public CodeDefinition Model_UpdateFormulaColumns = new CodeDefinition();
         public CodeDefinition Model_UpdateFormulaColumns_ColumnCases = new CodeDefinition();
         public CodeDefinition Model_UpdateOrCreate = new CodeDefinition();
-        public CodeDefinition Model_CopyToStatementColums = new CodeDefinition();
         public CodeDefinition Model_UpdateRelatedRecordsMethod = new CodeDefinition();
         public CodeDefinition Model_GetAfterUpdatedExtendedSqls = new CodeDefinition();
         public CodeDefinition Model_InsertLinksByUpdate = new CodeDefinition();
@@ -7800,6 +7815,7 @@ namespace Implem.DefinitionAccessor
         public CodeDefinition Model_CsvData = new CodeDefinition();
         public CodeDefinition Model_CsvDataCases = new CodeDefinition();
         public CodeDefinition Model_SwitchItems = new CodeDefinition();
+        public CodeDefinition Model_SwitchItems2 = new CodeDefinition();
         public CodeDefinition Model_SwitchItemsLockMethods = new CodeDefinition();
         public CodeDefinition Model_SwitchItemsOtherMethods = new CodeDefinition();
         public CodeDefinition Model_IndexCases = new CodeDefinition();
@@ -7839,6 +7855,7 @@ namespace Implem.DefinitionAccessor
         public CodeDefinition Model_CreateCases = new CodeDefinition();
         public CodeDefinition Model_CreateByApiCases = new CodeDefinition();
         public CodeDefinition Model_UpdateCases = new CodeDefinition();
+        public CodeDefinition Model_UpdateByGridCases = new CodeDefinition();
         public CodeDefinition Model_BulkUpdateCases = new CodeDefinition();
         public CodeDefinition Model_UpdateByApiCases = new CodeDefinition();
         public CodeDefinition Model_DeleteCommentCases = new CodeDefinition();
@@ -7905,6 +7922,7 @@ namespace Implem.DefinitionAccessor
         public CodeDefinition Model_Utilities_DropDownSearchDialog = new CodeDefinition();
         public CodeDefinition Model_Utilities_ImportSettings = new CodeDefinition();
         public CodeDefinition Model_Utilities_SetNumericRangeDialog = new CodeDefinition();
+        public CodeDefinition Model_Utilities_SetDateRangeDialog = new CodeDefinition();
         public CodeDefinition Model_Utilities_WhereTenantId = new CodeDefinition();
         public CodeDefinition Model_Utilities_Index_NoSort = new CodeDefinition();
         public CodeDefinition Model_Utilities_GetFormDataSet = new CodeDefinition();
@@ -7975,7 +7993,9 @@ namespace Implem.DefinitionAccessor
         public CodeDefinition Model_Utilities_OnUpdated_Breadcrumb_Wikis = new CodeDefinition();
         public CodeDefinition Model_Utilities_ResponseByUpdate_SiteSettings = new CodeDefinition();
         public CodeDefinition Model_Utilities_ResponseByUpdate_FieldResponse = new CodeDefinition();
-        public CodeDefinition Model_Utilities_BulkUpdate = new CodeDefinition();
+        public CodeDefinition Model_Utilities_UpdateByGrid = new CodeDefinition();
+        public CodeDefinition Model_Utilities_UpdateByGrid_Issues = new CodeDefinition();
+        public CodeDefinition Model_Utilities_UpdateByGrid_Results = new CodeDefinition();
         public CodeDefinition Model_Utilities_UpdateByApi = new CodeDefinition();
         public CodeDefinition Model_Utilities_Copy = new CodeDefinition();
         public CodeDefinition Model_Utilities_CopyResponse = new CodeDefinition();
@@ -8071,6 +8091,9 @@ namespace Implem.DefinitionAccessor
         public CodeDefinition Rds_SqlDelete = new CodeDefinition();
         public CodeDefinition Rds_SqlPhysicalDelete = new CodeDefinition();
         public CodeDefinition Rds_SqlRestore = new CodeDefinition();
+        public CodeDefinition Rds_CopyToStatement = new CodeDefinition();
+        public CodeDefinition Rds_CopyToStatementColums = new CodeDefinition();
+        public CodeDefinition Rds_CopyToStatementColums_Extended = new CodeDefinition();
         public CodeDefinition Rds_Aggregations = new CodeDefinition();
         public CodeDefinition Rds_AggregationTableCases = new CodeDefinition();
         public CodeDefinition Rds_AggregationTables = new CodeDefinition();
@@ -13189,6 +13212,8 @@ namespace Implem.DefinitionAccessor
         public string BulkInsert;
         public string Identity;
         public string Spaceused;
+        public string SelectPkName;
+        public string CreateFullText;
     }
 
     public class SqlTable
@@ -13228,6 +13253,8 @@ namespace Implem.DefinitionAccessor
         public SqlDefinition BulkInsert = new SqlDefinition();
         public SqlDefinition Identity = new SqlDefinition();
         public SqlDefinition Spaceused = new SqlDefinition();
+        public SqlDefinition SelectPkName = new SqlDefinition();
+        public SqlDefinition CreateFullText = new SqlDefinition();
     }
 
     public class TemplateDefinition

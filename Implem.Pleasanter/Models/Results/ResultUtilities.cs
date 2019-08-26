@@ -145,9 +145,17 @@ namespace Implem.Pleasanter.Models
                         .Class("dialog")
                         .Title(Displays.NumericRange(context)))
                     .Div(attributes: new HtmlAttributes()
+                        .Id("SetDateRangeDialog")
+                        .Class("dialog")
+                        .Title(Displays.DateRange(context)))
+                    .Div(attributes: new HtmlAttributes()
                         .Id("ExportSelectorDialog")
                         .Class("dialog")
-                        .Title(Displays.Export(context: context))))
+                        .Title(Displays.Export(context: context)))
+                        .Div(attributes: new HtmlAttributes()
+                                .Id("BulkUpdateSelectorDialog")
+                                .Class("dialog")
+                                .Title(Displays.BulkUpdate(context: context))))
                     .ToString();
         }
 
@@ -397,7 +405,7 @@ namespace Implem.Pleasanter.Models
                         dataRows: gridData.DataRows,
                         columns: columns,
                         formDataSet: formDataSet,
-                        checkAll: checkAll,
+                        gridSelector: null,
                         editRow: editRow,
                         checkRow: checkRow));
         }
@@ -528,7 +536,7 @@ namespace Implem.Pleasanter.Models
                                 context: context,
                                 view: view,
                                 checkPermission: true),
-                            checkAll: false,
+                            gridSelector: null,
                             editRow: true,
                             checkRow: false,
                             idColumn: "ResultId"))
@@ -1369,7 +1377,7 @@ namespace Implem.Pleasanter.Models
             return hb;
         }
 
-        public static void Field(
+        public static HtmlBuilder Field(
             this HtmlBuilder hb,
             Context context,
             SiteSettings ss,
@@ -1378,7 +1386,8 @@ namespace Implem.Pleasanter.Models
             bool controlOnly = false,
             bool alwaysSend = false,
             string idSuffix = null,
-            bool preview = false)
+            bool preview = false,
+            bool disableSection = false)
         {
             var value = resultModel.ControlValue(
                 context: context,
@@ -1396,8 +1405,10 @@ namespace Implem.Pleasanter.Models
                     controlOnly: controlOnly,
                     alwaysSend: alwaysSend,
                     idSuffix: idSuffix,
-                    preview: preview);
+                    preview: preview,
+                    disableSection: disableSection);
             }
+            return hb;
         }
 
         public static string ControlValue(
@@ -2059,7 +2070,7 @@ namespace Implem.Pleasanter.Models
                             ss: ss,
                             dataRows: gridData.DataRows,
                             columns: columns,
-                            checkAll: false))
+                            gridSelector: null))
                     .CloseDialog()
                     .Message(Messages.Updated(
                         context: context,
@@ -2096,7 +2107,252 @@ namespace Implem.Pleasanter.Models
             }
         }
 
+        public static string OpenBulkUpdateSelectorDialog(Context context, SiteSettings ss)
+        {
+            var resultModel = new ResultModel(
+                context: context,
+                ss: ss,
+                resultId: 0,
+                formData: context.Forms);
+            var invalid = ResultValidators.OnUpdating(
+                context: context,
+                ss: ss,
+                resultModel: resultModel);
+            switch (invalid.Type)
+            {
+                case Error.Types.None: break;
+                default: return invalid.Type.MessageJson(context: context);
+            }
+            var columns = ss.GetAllowBulkUpdateColumns(context, ss);
+            var column = columns.FirstOrDefault();
+            var hb = new HtmlBuilder();
+            return new ResponseCollection()
+                .Html(
+                    "#BulkUpdateSelectorDialog",
+                    hb.BulkUpdateSelectorDialog(
+                        context: context,
+                        ss: ss,
+                        columns: columns,
+                        action: () => hb
+                            .Field(
+                                context: context,
+                                ss: ss,
+                                resultModel: resultModel,
+                                column: column,
+                                alwaysSend: true,
+                                disableSection: true)))
+                .ToJson();
+        }
+
+        public static string BulkUpdateSelectChanged(Context context, SiteSettings ss)
+        {
+            var resultModel = new ResultModel(
+                context: context,
+                ss: ss,
+                resultId: 0,
+                formData: context.Forms);
+            var invalid = ResultValidators.OnUpdating(
+                context: context,
+                ss: ss,
+                resultModel: resultModel);
+            switch (invalid.Type)
+            {
+                case Error.Types.None: break;
+                default: return invalid.Type.MessageJson(context: context);
+            }
+            var column = ss.GetColumn(
+                context: context,
+                columnName: context.Forms.Data("BulkUpdateColumnName"));
+            return new ResponseCollection()
+                .Html(
+                    "#BulkUpdateSelectedField",
+                    new HtmlBuilder().Field(
+                        context: context,
+                        ss: ss,
+                        resultModel: resultModel,
+                        column: column,
+                        alwaysSend: true,
+                        disableSection: true))
+                .ToJson();
+        }
+
         public static string BulkUpdate(Context context, SiteSettings ss)
+        {
+            var param = new Rds.ResultsParamCollection();
+            var column = ss.GetColumn(
+                context: context,
+                columnName: context.Forms.Data("BulkUpdateColumnName"));
+            var resultModel = new ResultModel(
+                context: context,
+                ss: ss,
+                resultId: 0,
+                formData: context.Forms);
+            resultModel.PropertyValue(
+                context: context,
+                name: column.ColumnName);
+            if (context.CanUpdate(ss: ss))
+            {
+                var where = SelectedWhere(
+                    context: context,
+                    ss: ss);
+                var count = BulkUpdate(
+                    context: context,
+                    ss: ss,
+                    where: Views.GetBySession(
+                        context: context,
+                        ss: ss)
+                            .Where(
+                                context: context,
+                                ss: ss,
+                                where: where,
+                                itemJoin: false));
+                Summaries.Synchronize(context: context, ss: ss);
+                ss.Notifications.ForEach(notification =>
+                {
+                    var body = new Dictionary<string, string>();
+                    body.Add(
+                        Displays.Results_Updator(context: context),
+                        context.User.Name);
+                    body.Add(
+                        Displays.Column(context: context),
+                        column.LabelText);
+                    body.Add(
+                        Displays.Value(context: context),
+                        resultModel.PropertyValue(
+                              context: context,
+                              name: column.ColumnName));
+                    notification.Send(
+                        context: context,
+                        ss: ss,
+                        title: Displays.BulkUpdated(
+                            context: context,
+                            data: count.ToString()).ToString(),
+                        url: Locations.ItemIndex(
+                            context: context,
+                            ss.SiteId),
+                        body: body.Select(o => o.Key + ":" + o.Value).Join("\n"));
+                });
+                return GridRows(
+                    context: context,
+                    ss: ss,
+                    clearCheck: true,
+                    message: Messages.BulkUpdated(
+                        context: context,
+                        data: count.ToString()));
+            }
+            else
+            {
+                return Messages.ResponseHasNotPermission(context: context).ToJson();
+            }
+        }
+
+        private static int BulkUpdate(
+            Context context,
+            SiteSettings ss,
+            SqlWhereCollection where)
+        {
+            var sub = Rds.SelectResults(
+                column: Rds.ResultsColumn().ResultId(),
+                where: where);
+            var verUpWhere = Rds.ResultsWhere()
+                .SiteId(ss.SiteId)
+                .ResultId_In(sub: sub)
+                .Or(or: Rds.ResultsWhere()
+                    .Updator(context.UserId, _operator: "<>")
+                    .UpdatedTime(
+                        DateTime.Today.ToUniversal(context: context),
+                        _operator: "<"));
+            var column = ss.GetColumn(
+                context: context,
+                columnName: context.Forms.Data("BulkUpdateColumnName"));
+            var resultModel = new ResultModel(
+                context: context,
+                ss: ss,
+                resultId: 0,
+                formData: context.Forms);
+                resultModel.PropertyValue(
+                    context: context,
+                    name: column.ColumnName);
+            var statements = new List<SqlStatement>();
+            statements.OnBulkUpdatingExtendedSqls(ss.SiteId);
+            statements.Add(Rds.ResultsCopyToStatement(
+                where: verUpWhere,
+                tableType: Sqls.TableTypes.History));
+            statements.Add(Rds.UpdateResults(
+                where: verUpWhere,
+                param: Rds.ResultsParam().Ver(raw: "[Ver]+1"),
+                addUpdatorParam: false,
+                addUpdatedTimeParam: false));
+            var param = new Rds.ResultsParamCollection();
+            switch (column.ColumnName)
+            {
+                case "Title":
+                    param.Title(resultModel.Title.Value.MaxLength(1024));
+                    break;
+                case "Body":
+                    param.Body(resultModel.Body);
+                    break;
+                case "Status":
+                    param.Status(resultModel.Status.Value);
+                    break;
+                case "Manager":
+                    param.Manager(resultModel.Manager.Id);
+                    break;
+                case "Owner":
+                    param.Owner(resultModel.Owner.Id);
+                    break;
+                default:
+                    var columnNameBracket = $"[{column.ColumnName}]";
+                    switch (Def.ExtendedColumnTypes.Get(column.ColumnName))
+                    {
+                        case "Class":
+                            param.Add(
+                                columnBracket: columnNameBracket,
+                                name: column.ColumnName,
+                                value: resultModel.Class(column.ColumnName).MaxLength(1024));
+                            break;
+                        case "Num":
+                            param.Add(
+                                columnBracket: columnNameBracket,
+                                name: column.ColumnName,
+                                value: resultModel.Num(column.ColumnName));
+                            break;
+                        case "Date":
+                            param.Add(
+                                columnBracket: columnNameBracket,
+                                name: column.ColumnName,
+                                value: resultModel.Date(column.ColumnName));
+                            break;
+                        case "Check":
+                            param.Add(
+                                columnBracket: columnNameBracket,
+                                name: column.ColumnName,
+                                value: resultModel.Check(column.ColumnName));
+                            break;
+                        case "Description":
+                            param.Add(
+                                columnBracket: columnNameBracket,
+                                name: column.ColumnName,
+                                value: resultModel.Description(column.ColumnName));
+                            break;
+                    }
+                    break;
+            }
+            statements.Add(Rds.UpdateResults(
+                where: Rds.ResultsWhere()
+                    .SiteId(ss.SiteId)
+                    .ResultId_In(sub: sub),
+                param: param));
+            statements.Add(Rds.RowCount());
+            statements.OnBulkUpdatedExtendedSqls(ss.SiteId);
+            return Rds.ExecuteScalar_response(
+                context: context,
+                transactional: true,
+                statements: statements.ToArray())
+                    .Count.ToInt();
+        }
+
+        public static string UpdateByGrid(Context context, SiteSettings ss)
         {
             var formDataSet = new FormDataSet(
                 context: context,
@@ -2188,17 +2444,17 @@ namespace Implem.Pleasanter.Models
             switch (response?.Event)
             {
                 case "Duplicated":
-                    return BulkUpdateDuplicated(
+                    return UpdateByGridDuplicated(
                         context: context,
                         ss: ss,
                         response: response);
                 case "Conflicted":
-                    return BulkUpdateConflicted(
+                    return UpdateByGridConflicted(
                         context: context,
                         ss: ss,
                         response: response);
                 default:
-                    return BulkUpdatedSuccess(
+                    return UpdateByGridSuccess(
                         context: context,
                         ss: ss,
                         formDataSet: formDataSet,
@@ -2208,7 +2464,7 @@ namespace Implem.Pleasanter.Models
             }
         }
 
-        private static string BulkUpdateDuplicated(
+        private static string UpdateByGridDuplicated(
             Context context, SiteSettings ss, SqlResponse response)
         {
             return Messages.ResponseDuplicated(
@@ -2220,7 +2476,7 @@ namespace Implem.Pleasanter.Models
                         .ToJson();
         }
 
-        private static string BulkUpdateConflicted(
+        private static string UpdateByGridConflicted(
             Context context, SiteSettings ss, SqlResponse response)
         {
             var target = "row_" + response.Id;
@@ -2240,7 +2496,7 @@ namespace Implem.Pleasanter.Models
                         .ToJson();
         }
 
-        private static string BulkUpdatedSuccess(
+        private static string UpdateByGridSuccess(
             Context context,
             SiteSettings ss,
             List<FormData> formDataSet,
@@ -2325,7 +2581,7 @@ namespace Implem.Pleasanter.Models
                         ss: ss,
                         dataRow: dataRow,
                         columns: columns,
-                        checkAll: false,
+                        gridSelector: null,
                         editRow: true,
                         checkRow: false,
                         idColumn: "ResultId")));
@@ -2334,7 +2590,7 @@ namespace Implem.Pleasanter.Models
                     res.ClearFormData(controlId + formData.Suffix)));
             return res
                 .SetMemory("formChanged", false)
-                .Message(Messages.BulkUpdated(
+                .Message(Messages.UpdatedByGrid(
                     context: context,
                     data: responses.Count().ToString()))
                 .ToJson();
@@ -2781,7 +3037,7 @@ namespace Implem.Pleasanter.Models
                         message: Messages.RestoredFromHistory(
                             context: context,
                             data: ver.First().ToString()));
-                    return  new ResponseCollection()
+                    return new ResponseCollection()
                         .SetMemory("formChanged", false)
                         .Href(Locations.ItemEdit(
                             context: context,

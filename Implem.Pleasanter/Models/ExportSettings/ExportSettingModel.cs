@@ -327,7 +327,7 @@ namespace Implem.Pleasanter.Models
                 .UpdatedTime(timestamp, _using: timestamp.InRange());
             if (VerUp)
             {
-                statements.Add(CopyToStatement(
+                statements.Add(Rds.ExportSettingsCopyToStatement(
                     where: where,
                     tableType: Sqls.TableTypes.History));
                 Ver++;
@@ -344,39 +344,6 @@ namespace Implem.Pleasanter.Models
                 statements.AddRange(additionalStatements);
             }
             return statements;
-        }
-
-        private SqlStatement CopyToStatement(SqlWhereCollection where, Sqls.TableTypes tableType)
-        {
-            var column = new Rds.ExportSettingsColumnCollection();
-            var param = new Rds.ExportSettingsParamCollection();
-            column.ReferenceType(function: Sqls.Functions.SingleColumn); param.ReferenceType();
-            column.ReferenceId(function: Sqls.Functions.SingleColumn); param.ReferenceId();
-            column.Title(function: Sqls.Functions.SingleColumn); param.Title();
-            column.ExportSettingId(function: Sqls.Functions.SingleColumn); param.ExportSettingId();
-            column.Ver(function: Sqls.Functions.SingleColumn); param.Ver();
-            column.AddHeader(function: Sqls.Functions.SingleColumn); param.AddHeader();
-            column.ExportColumns(function: Sqls.Functions.SingleColumn); param.ExportColumns();
-            column.Comments(function: Sqls.Functions.SingleColumn); param.Comments();
-            column.Creator(function: Sqls.Functions.SingleColumn); param.Creator();
-            column.Updator(function: Sqls.Functions.SingleColumn); param.Updator();
-            column.CreatedTime(function: Sqls.Functions.SingleColumn); param.CreatedTime();
-            column.UpdatedTime(function: Sqls.Functions.SingleColumn); param.UpdatedTime();
-            ColumnNames().ForEach(columnName =>
-            {
-                column.Add(
-                    columnBracket: $"[{columnName}]",
-                    columnName: columnName,
-                    function: Sqls.Functions.SingleColumn);
-                param.Add(
-                    columnBracket: $"[{columnName}]",
-                    name: columnName);
-            });
-            return Rds.InsertExportSettings(
-                tableType: tableType,
-                param: param,
-                select: Rds.SelectExportSettings(column: column, where: where),
-                addUpdatorParam: false);
         }
 
         private List<SqlStatement> UpdateStatements(

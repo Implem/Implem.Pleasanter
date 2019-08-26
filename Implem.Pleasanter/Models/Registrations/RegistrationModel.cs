@@ -451,7 +451,7 @@ namespace Implem.Pleasanter.Models
                 .UpdatedTime(timestamp, _using: timestamp.InRange());
             if (VerUp)
             {
-                statements.Add(CopyToStatement(
+                statements.Add(Rds.RegistrationsCopyToStatement(
                     where: where,
                     tableType: Sqls.TableTypes.History));
                 Ver++;
@@ -468,47 +468,6 @@ namespace Implem.Pleasanter.Models
                 statements.AddRange(additionalStatements);
             }
             return statements;
-        }
-
-        private SqlStatement CopyToStatement(SqlWhereCollection where, Sqls.TableTypes tableType)
-        {
-            var column = new Rds.RegistrationsColumnCollection();
-            var param = new Rds.RegistrationsParamCollection();
-            column.TenantId(function: Sqls.Functions.SingleColumn); param.TenantId();
-            column.RegistrationId(function: Sqls.Functions.SingleColumn); param.RegistrationId();
-            column.Ver(function: Sqls.Functions.SingleColumn); param.Ver();
-            column.MailAddress(function: Sqls.Functions.SingleColumn); param.MailAddress();
-            column.Invitee(function: Sqls.Functions.SingleColumn); param.Invitee();
-            column.InviteeName(function: Sqls.Functions.SingleColumn); param.InviteeName();
-            column.LoginId(function: Sqls.Functions.SingleColumn); param.LoginId();
-            column.Name(function: Sqls.Functions.SingleColumn); param.Name();
-            column.Password(function: Sqls.Functions.SingleColumn); param.Password();
-            column.Language(function: Sqls.Functions.SingleColumn); param.Language();
-            column.Passphrase(function: Sqls.Functions.SingleColumn); param.Passphrase();
-            column.Invitingflg(function: Sqls.Functions.SingleColumn); param.Invitingflg();
-            column.UserId(function: Sqls.Functions.SingleColumn); param.UserId();
-            column.DeptId(function: Sqls.Functions.SingleColumn); param.DeptId();
-            column.GroupId(function: Sqls.Functions.SingleColumn); param.GroupId();
-            column.Comments(function: Sqls.Functions.SingleColumn); param.Comments();
-            column.Creator(function: Sqls.Functions.SingleColumn); param.Creator();
-            column.Updator(function: Sqls.Functions.SingleColumn); param.Updator();
-            column.CreatedTime(function: Sqls.Functions.SingleColumn); param.CreatedTime();
-            column.UpdatedTime(function: Sqls.Functions.SingleColumn); param.UpdatedTime();
-            ColumnNames().ForEach(columnName =>
-            {
-                column.Add(
-                    columnBracket: $"[{columnName}]",
-                    columnName: columnName,
-                    function: Sqls.Functions.SingleColumn);
-                param.Add(
-                    columnBracket: $"[{columnName}]",
-                    name: columnName);
-            });
-            return Rds.InsertRegistrations(
-                tableType: tableType,
-                param: param,
-                select: Rds.SelectRegistrations(column: column, where: where),
-                addUpdatorParam: false);
         }
 
         private List<SqlStatement> UpdateStatements(

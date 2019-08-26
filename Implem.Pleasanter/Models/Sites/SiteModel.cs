@@ -641,7 +641,7 @@ namespace Implem.Pleasanter.Models
                 .UpdatedTime(timestamp, _using: timestamp.InRange());
             if (VerUp)
             {
-                statements.Add(CopyToStatement(
+                statements.Add(Rds.SitesCopyToStatement(
                     where: where,
                     tableType: Sqls.TableTypes.History));
                 Ver++;
@@ -662,46 +662,6 @@ namespace Implem.Pleasanter.Models
                 statements.AddRange(additionalStatements);
             }
             return statements;
-        }
-
-        private SqlStatement CopyToStatement(SqlWhereCollection where, Sqls.TableTypes tableType)
-        {
-            var column = new Rds.SitesColumnCollection();
-            var param = new Rds.SitesParamCollection();
-            column.TenantId(function: Sqls.Functions.SingleColumn); param.TenantId();
-            column.SiteId(function: Sqls.Functions.SingleColumn); param.SiteId();
-            column.UpdatedTime(function: Sqls.Functions.SingleColumn); param.UpdatedTime();
-            column.Ver(function: Sqls.Functions.SingleColumn); param.Ver();
-            column.Title(function: Sqls.Functions.SingleColumn); param.Title();
-            column.Body(function: Sqls.Functions.SingleColumn); param.Body();
-            column.GridGuide(function: Sqls.Functions.SingleColumn); param.GridGuide();
-            column.EditorGuide(function: Sqls.Functions.SingleColumn); param.EditorGuide();
-            column.ReferenceType(function: Sqls.Functions.SingleColumn); param.ReferenceType();
-            column.ParentId(function: Sqls.Functions.SingleColumn); param.ParentId();
-            column.InheritPermission(function: Sqls.Functions.SingleColumn); param.InheritPermission();
-            column.SiteSettings(function: Sqls.Functions.SingleColumn); param.SiteSettings();
-            column.Publish(function: Sqls.Functions.SingleColumn); param.Publish();
-            column.LockedTime(function: Sqls.Functions.SingleColumn); param.LockedTime();
-            column.LockedUser(function: Sqls.Functions.SingleColumn); param.LockedUser();
-            column.Comments(function: Sqls.Functions.SingleColumn); param.Comments();
-            column.Creator(function: Sqls.Functions.SingleColumn); param.Creator();
-            column.Updator(function: Sqls.Functions.SingleColumn); param.Updator();
-            column.CreatedTime(function: Sqls.Functions.SingleColumn); param.CreatedTime();
-            ColumnNames().ForEach(columnName =>
-            {
-                column.Add(
-                    columnBracket: $"[{columnName}]",
-                    columnName: columnName,
-                    function: Sqls.Functions.SingleColumn);
-                param.Add(
-                    columnBracket: $"[{columnName}]",
-                    name: columnName);
-            });
-            return Rds.InsertSites(
-                tableType: tableType,
-                param: param,
-                select: Rds.SelectSites(column: column, where: where),
-                addUpdatorParam: false);
         }
 
         private List<SqlStatement> UpdateStatements(
@@ -1835,13 +1795,30 @@ namespace Implem.Pleasanter.Models
                         res: res);
                     break;
                 default:
-                    context.Forms
-                        .Where(o => o.Key != controlId)
-                        .ForEach(data =>
-                            SiteSettings.Set(
-                                context: context,
-                                propertyName: data.Key,
-                                value: data.Value));
+                    if (controlId.Contains("_NumericRange"))
+                    {
+                        OpenSetNumericRangeDialog(
+                            context: context,
+                            res: res,
+                            controlId: controlId);
+                    }
+                    else if (controlId.Contains("_DateRange"))
+                    {
+                        OpenSetDateRangeDialog(
+                            context: context,
+                            res: res,
+                            controlId: controlId);
+                    }
+                    else
+                    {
+                        context.Forms
+                            .Where(o => o.Key != controlId)
+                            .ForEach(data =>
+                                SiteSettings.Set(
+                                    context: context,
+                                    propertyName: data.Key,
+                                    value: data.Value));
+                    }
                     break;
             }
         }
@@ -3919,6 +3896,64 @@ namespace Implem.Pleasanter.Models
                     .EditRelatingColumns(
                         context: context,
                         ss: SiteSettings));
+            }
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        public string OpenSetNumericRangeDialog(Context context, ResponseCollection res, string controlId)
+        {
+            if (context.CanRead(SiteSettings))
+            {
+                var columnName = controlId
+                    .Replace("ViewFilters__", string.Empty)
+                    .Replace("_NumericRange", string.Empty);
+                var column = SiteSettings.GetColumn(
+                    context: context,
+                    columnName: columnName);
+                return res.Html(
+                            "#SetNumericRangeDialog",
+                            new HtmlBuilder().SetNumericRangeDialog(
+                                context: context,
+                                ss: SiteSettings,
+                                column: column))
+                        .ToJson();
+            }
+            else
+            {
+                return Messages.ResponseNotFound(context: context).ToJson();
+            }
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        public string OpenSetDateRangeDialog(Context context, ResponseCollection res, string controlId)
+        {
+            if (context.CanRead(SiteSettings))
+            {
+                var columnName = context.Forms.ControlId()
+                    .Replace("ViewFilters__", string.Empty)
+                    .Replace("_DateRange", string.Empty);
+                var column = SiteSettings.GetColumn(
+                    context: context,
+                    columnName: columnName);
+                return res.Html(
+                            "#SetDateRangeDialog",
+                            new HtmlBuilder()
+                                .Input(
+                                    attributes: new HtmlAttributes()
+                                        .Style("opacity: 0; position: absolute; top: 0; left: 0;"))
+                                .SetDateRangeDialog(
+                                    context: context,
+                                    ss: SiteSettings,
+                                    column: column))
+                        .ToJson();
+            }
+            else
+            {
+                return Messages.ResponseNotFound(context: context).ToJson();
             }
         }
     }

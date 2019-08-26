@@ -274,7 +274,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     else
                     {
                         hb.FieldTextBox(
-                            controlId: idPrefix + column.ColumnName + "_Display_",
+                            controlId: idPrefix + column.ColumnName + "_NumericRange",
                             fieldCss: "field-auto-thin",
                             controlCss: (column.UseSearch == true ? " search" : string.Empty),
                             labelText: Displays.Get(
@@ -317,7 +317,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     else
                     {
                         hb.FieldTextBox(
-                            controlId: idPrefix + column.ColumnName + "_Display_",
+                            controlId: idPrefix + column.ColumnName + "_DateRange",
                             fieldCss: "field-auto-thin",
                             controlCss: (column.UseSearch == true ? " search" : string.Empty),
                             labelText: Displays.Get(
@@ -325,14 +325,12 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                 id: column.GridLabelText),
                             labelTitle: ss.LabelTitle(column),
                             controlOnly: controlOnly,
-                            action: action,
+                            action: "openSetDateRangeDialog",
                             text: GetDisplayDateFilterRange(view.ColumnFilter(column.ColumnName), column.DateTimepicker()),
                             method: "post",
                             attributes: new Dictionary<string, string>
                             {
-                                ["onfocus"] = $"$p.setDateRangeDialog($(this),'{Displays.DateRange(context)}','{Displays.Start(context)}'," +
-                                    $"'{Displays.End(context)}','{Displays.OK(context)}','{Displays.Cancel(context)}','{Displays.Clear(context)}'," +
-                                    $"{column.DateTimepicker().ToString().ToLower()})"
+                                ["onfocus"] = $"$p.openSetDateRangeDialog($(this))"
                             },
                             _using: Visible(column) || column.RecordedTime)
                         .Hidden(attributes: new HtmlAttributes()

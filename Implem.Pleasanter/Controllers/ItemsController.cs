@@ -1,5 +1,4 @@
-﻿using Implem.Libraries.Utilities;
-using Implem.Pleasanter.Libraries.Requests;
+﻿using Implem.Pleasanter.Libraries.Requests;
 using Implem.Pleasanter.Models;
 using System.Web;
 using System.Web.Mvc;
@@ -299,6 +298,24 @@ namespace Implem.Pleasanter.Controllers
             log.Finish(context: context, responseSize: json.Length);
             return json;
         }
+        [HttpPost]
+        public string OpenBulkUpdateSelectorDialog(long id)
+        {
+            var context = new Context();
+            var log = new SysLogModel(context: context);
+            var json = new ItemModel(context: context, referenceId: id).OpenBulkUpdateSelectorDialog(context: context);
+            log.Finish(context: context, responseSize: json.Length);
+            return json;
+        }
+        [HttpPost]
+        public string BulkUpdateSelectChanged(long id)
+        {
+            var context = new Context();
+            var log = new SysLogModel(context: context);
+            var json = new ItemModel(context: context, referenceId: id).BulkUpdateSelectChanged(context: context);
+            log.Finish(context: context, responseSize: json.Length);
+            return json;
+        }
 
         [HttpPost]
         public string OpenSetNumericRangeDialog(long id)
@@ -310,6 +327,15 @@ namespace Implem.Pleasanter.Controllers
             return json;
         }
 
+        [HttpPost]
+        public string OpenSetDateRangeDialog(long id)
+        {
+            var context = new Context();
+            var log = new SysLogModel(context: context);
+            var json = new ItemModel(context: context, referenceId: id).OpenSetDateRangeDialog(context: context);
+            log.Finish(context: context, responseSize: json.Length);
+            return json;
+        }
         [HttpGet]
         public ActionResult Export(long id)
         {
@@ -542,7 +568,7 @@ namespace Implem.Pleasanter.Controllers
             return json;
         }
 
-        [HttpPost]
+        [HttpPut]
         public string BulkUpdate(long id)
         {
             var context = new Context();
@@ -551,6 +577,21 @@ namespace Implem.Pleasanter.Controllers
                 context: context,
                 referenceId: id)
                     .BulkUpdate(context: context);
+            log.Finish(
+                context: context,
+                responseSize: json.Length);
+            return json;
+        }
+
+        [HttpPost]
+        public string UpdateByGrid(long id)
+        {
+            var context = new Context();
+            var log = new SysLogModel(context: context);
+            var json = new ItemModel(
+                context: context,
+                referenceId: id)
+                    .UpdateByGrid(context: context);
             log.Finish(
                 context: context,
                 responseSize: json.Length);

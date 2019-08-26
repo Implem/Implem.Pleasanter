@@ -18,6 +18,7 @@ namespace Implem.DefinitionAccessor
         public static List<ExtendedSql> ExtendedSqls;
         public static List<string> ExtendedStyles;
         public static List<string> ExtendedScripts;
+        public static Dictionary<string, string> ExtendedTags;
         public static General General;
         public static History History;
         public static ParameterAccessor.Parts.Version Version;

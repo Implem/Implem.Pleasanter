@@ -3733,6 +3733,24 @@ namespace Implem.Pleasanter.Libraries.DataSources
             return statements;
         }
 
+        public static List<SqlStatement> OnBulkUpdatingExtendedSqls(
+            this List<SqlStatement> statements, long siteId)
+        {
+            Parameters.ExtendedSqls?
+                .Where(o => o.OnBulkUpdating)
+                .ExtendedSqls(statements, siteId);
+            return statements;
+        }
+
+        public static List<SqlStatement> OnBulkUpdatedExtendedSqls(
+            this List<SqlStatement> statements, long siteId)
+        {
+            Parameters.ExtendedSqls?
+                .Where(o => o.OnBulkUpdated)
+                .ExtendedSqls(statements, siteId);
+            return statements;
+        }
+
         public static List<SqlStatement> OnDeletingExtendedSqls(
             this List<SqlStatement> statements, long siteId, long id)
         {
@@ -9482,6 +9500,671 @@ namespace Implem.Pleasanter.Libraries.DataSources
                 If = _if,
                 Using = _using
             };
+        }
+
+        public static SqlStatement TenantsCopyToStatement(SqlWhereCollection where, Sqls.TableTypes tableType)
+        {
+            var column = new TenantsColumnCollection();
+            var param = new TenantsParamCollection();
+            column.TenantId(function: Sqls.Functions.SingleColumn); param.TenantId();
+            column.Ver(function: Sqls.Functions.SingleColumn); param.Ver();
+            column.TenantName(function: Sqls.Functions.SingleColumn); param.TenantName();
+            column.Title(function: Sqls.Functions.SingleColumn); param.Title();
+            column.Body(function: Sqls.Functions.SingleColumn); param.Body();
+            column.ContractSettings(function: Sqls.Functions.SingleColumn); param.ContractSettings();
+            column.ContractDeadline(function: Sqls.Functions.SingleColumn); param.ContractDeadline();
+            column.DisableAllUsersPermission(function: Sqls.Functions.SingleColumn); param.DisableAllUsersPermission();
+            column.LogoType(function: Sqls.Functions.SingleColumn); param.LogoType();
+            column.HtmlTitleTop(function: Sqls.Functions.SingleColumn); param.HtmlTitleTop();
+            column.HtmlTitleSite(function: Sqls.Functions.SingleColumn); param.HtmlTitleSite();
+            column.HtmlTitleRecord(function: Sqls.Functions.SingleColumn); param.HtmlTitleRecord();
+            column.Comments(function: Sqls.Functions.SingleColumn); param.Comments();
+            column.Creator(function: Sqls.Functions.SingleColumn); param.Creator();
+            column.Updator(function: Sqls.Functions.SingleColumn); param.Updator();
+            column.CreatedTime(function: Sqls.Functions.SingleColumn); param.CreatedTime();
+            column.UpdatedTime(function: Sqls.Functions.SingleColumn); param.UpdatedTime();
+            return InsertTenants(
+                tableType: tableType,
+                param: param,
+                select: SelectTenants(column: column, where: where),
+                addUpdatorParam: false);
+        }
+
+        public static SqlStatement DemosCopyToStatement(SqlWhereCollection where, Sqls.TableTypes tableType)
+        {
+            var column = new DemosColumnCollection();
+            var param = new DemosParamCollection();
+            column.DemoId(function: Sqls.Functions.SingleColumn); param.DemoId();
+            column.Ver(function: Sqls.Functions.SingleColumn); param.Ver();
+            column.TenantId(function: Sqls.Functions.SingleColumn); param.TenantId();
+            column.Title(function: Sqls.Functions.SingleColumn); param.Title();
+            column.LoginId(function: Sqls.Functions.SingleColumn); param.LoginId();
+            column.Passphrase(function: Sqls.Functions.SingleColumn); param.Passphrase();
+            column.MailAddress(function: Sqls.Functions.SingleColumn); param.MailAddress();
+            column.Initialized(function: Sqls.Functions.SingleColumn); param.Initialized();
+            column.Comments(function: Sqls.Functions.SingleColumn); param.Comments();
+            column.Creator(function: Sqls.Functions.SingleColumn); param.Creator();
+            column.Updator(function: Sqls.Functions.SingleColumn); param.Updator();
+            column.CreatedTime(function: Sqls.Functions.SingleColumn); param.CreatedTime();
+            column.UpdatedTime(function: Sqls.Functions.SingleColumn); param.UpdatedTime();
+            return InsertDemos(
+                tableType: tableType,
+                param: param,
+                select: SelectDemos(column: column, where: where),
+                addUpdatorParam: false);
+        }
+
+        public static SqlStatement SessionsCopyToStatement(SqlWhereCollection where, Sqls.TableTypes tableType)
+        {
+            var column = new SessionsColumnCollection();
+            var param = new SessionsParamCollection();
+            column.SessionGuid(function: Sqls.Functions.SingleColumn); param.SessionGuid();
+            column.Key(function: Sqls.Functions.SingleColumn); param.Key();
+            column.Page(function: Sqls.Functions.SingleColumn); param.Page();
+            column.Value(function: Sqls.Functions.SingleColumn); param.Value();
+            column.ReadOnce(function: Sqls.Functions.SingleColumn); param.ReadOnce();
+            column.UserArea(function: Sqls.Functions.SingleColumn); param.UserArea();
+            column.Ver(function: Sqls.Functions.SingleColumn); param.Ver();
+            column.Comments(function: Sqls.Functions.SingleColumn); param.Comments();
+            column.Creator(function: Sqls.Functions.SingleColumn); param.Creator();
+            column.Updator(function: Sqls.Functions.SingleColumn); param.Updator();
+            column.CreatedTime(function: Sqls.Functions.SingleColumn); param.CreatedTime();
+            column.UpdatedTime(function: Sqls.Functions.SingleColumn); param.UpdatedTime();
+            return InsertSessions(
+                tableType: tableType,
+                param: param,
+                select: SelectSessions(column: column, where: where),
+                addUpdatorParam: false);
+        }
+
+        public static SqlStatement SysLogsCopyToStatement(SqlWhereCollection where, Sqls.TableTypes tableType)
+        {
+            var column = new SysLogsColumnCollection();
+            var param = new SysLogsParamCollection();
+            column.CreatedTime(function: Sqls.Functions.SingleColumn); param.CreatedTime();
+            column.SysLogId(function: Sqls.Functions.SingleColumn); param.SysLogId();
+            column.Ver(function: Sqls.Functions.SingleColumn); param.Ver();
+            column.SysLogType(function: Sqls.Functions.SingleColumn); param.SysLogType();
+            column.OnAzure(function: Sqls.Functions.SingleColumn); param.OnAzure();
+            column.MachineName(function: Sqls.Functions.SingleColumn); param.MachineName();
+            column.ServiceName(function: Sqls.Functions.SingleColumn); param.ServiceName();
+            column.TenantName(function: Sqls.Functions.SingleColumn); param.TenantName();
+            column.Application(function: Sqls.Functions.SingleColumn); param.Application();
+            column.Class(function: Sqls.Functions.SingleColumn); param.Class();
+            column.Method(function: Sqls.Functions.SingleColumn); param.Method();
+            column.RequestData(function: Sqls.Functions.SingleColumn); param.RequestData();
+            column.HttpMethod(function: Sqls.Functions.SingleColumn); param.HttpMethod();
+            column.RequestSize(function: Sqls.Functions.SingleColumn); param.RequestSize();
+            column.ResponseSize(function: Sqls.Functions.SingleColumn); param.ResponseSize();
+            column.Elapsed(function: Sqls.Functions.SingleColumn); param.Elapsed();
+            column.ApplicationAge(function: Sqls.Functions.SingleColumn); param.ApplicationAge();
+            column.ApplicationRequestInterval(function: Sqls.Functions.SingleColumn); param.ApplicationRequestInterval();
+            column.SessionAge(function: Sqls.Functions.SingleColumn); param.SessionAge();
+            column.SessionRequestInterval(function: Sqls.Functions.SingleColumn); param.SessionRequestInterval();
+            column.WorkingSet64(function: Sqls.Functions.SingleColumn); param.WorkingSet64();
+            column.VirtualMemorySize64(function: Sqls.Functions.SingleColumn); param.VirtualMemorySize64();
+            column.ProcessId(function: Sqls.Functions.SingleColumn); param.ProcessId();
+            column.ProcessName(function: Sqls.Functions.SingleColumn); param.ProcessName();
+            column.BasePriority(function: Sqls.Functions.SingleColumn); param.BasePriority();
+            column.Url(function: Sqls.Functions.SingleColumn); param.Url();
+            column.UrlReferer(function: Sqls.Functions.SingleColumn); param.UrlReferer();
+            column.UserHostName(function: Sqls.Functions.SingleColumn); param.UserHostName();
+            column.UserHostAddress(function: Sqls.Functions.SingleColumn); param.UserHostAddress();
+            column.UserLanguage(function: Sqls.Functions.SingleColumn); param.UserLanguage();
+            column.UserAgent(function: Sqls.Functions.SingleColumn); param.UserAgent();
+            column.SessionGuid(function: Sqls.Functions.SingleColumn); param.SessionGuid();
+            column.ErrMessage(function: Sqls.Functions.SingleColumn); param.ErrMessage();
+            column.ErrStackTrace(function: Sqls.Functions.SingleColumn); param.ErrStackTrace();
+            column.InDebug(function: Sqls.Functions.SingleColumn); param.InDebug();
+            column.AssemblyVersion(function: Sqls.Functions.SingleColumn); param.AssemblyVersion();
+            column.Comments(function: Sqls.Functions.SingleColumn); param.Comments();
+            column.Creator(function: Sqls.Functions.SingleColumn); param.Creator();
+            column.Updator(function: Sqls.Functions.SingleColumn); param.Updator();
+            column.UpdatedTime(function: Sqls.Functions.SingleColumn); param.UpdatedTime();
+            return InsertSysLogs(
+                tableType: tableType,
+                param: param,
+                select: SelectSysLogs(column: column, where: where),
+                addUpdatorParam: false);
+        }
+
+        public static SqlStatement StatusesCopyToStatement(SqlWhereCollection where, Sqls.TableTypes tableType)
+        {
+            var column = new StatusesColumnCollection();
+            var param = new StatusesParamCollection();
+            column.TenantId(function: Sqls.Functions.SingleColumn); param.TenantId();
+            column.StatusId(function: Sqls.Functions.SingleColumn); param.StatusId();
+            column.Ver(function: Sqls.Functions.SingleColumn); param.Ver();
+            column.Value(function: Sqls.Functions.SingleColumn); param.Value();
+            column.Comments(function: Sqls.Functions.SingleColumn); param.Comments();
+            column.Creator(function: Sqls.Functions.SingleColumn); param.Creator();
+            column.Updator(function: Sqls.Functions.SingleColumn); param.Updator();
+            column.CreatedTime(function: Sqls.Functions.SingleColumn); param.CreatedTime();
+            column.UpdatedTime(function: Sqls.Functions.SingleColumn); param.UpdatedTime();
+            return InsertStatuses(
+                tableType: tableType,
+                param: param,
+                select: SelectStatuses(column: column, where: where),
+                addUpdatorParam: false);
+        }
+
+        public static SqlStatement ReminderSchedulesCopyToStatement(SqlWhereCollection where, Sqls.TableTypes tableType)
+        {
+            var column = new ReminderSchedulesColumnCollection();
+            var param = new ReminderSchedulesParamCollection();
+            column.SiteId(function: Sqls.Functions.SingleColumn); param.SiteId();
+            column.Id(function: Sqls.Functions.SingleColumn); param.Id();
+            column.Ver(function: Sqls.Functions.SingleColumn); param.Ver();
+            column.ScheduledTime(function: Sqls.Functions.SingleColumn); param.ScheduledTime();
+            column.Comments(function: Sqls.Functions.SingleColumn); param.Comments();
+            column.Creator(function: Sqls.Functions.SingleColumn); param.Creator();
+            column.Updator(function: Sqls.Functions.SingleColumn); param.Updator();
+            column.CreatedTime(function: Sqls.Functions.SingleColumn); param.CreatedTime();
+            column.UpdatedTime(function: Sqls.Functions.SingleColumn); param.UpdatedTime();
+            return InsertReminderSchedules(
+                tableType: tableType,
+                param: param,
+                select: SelectReminderSchedules(column: column, where: where),
+                addUpdatorParam: false);
+        }
+
+        public static SqlStatement DeptsCopyToStatement(SqlWhereCollection where, Sqls.TableTypes tableType)
+        {
+            var column = new DeptsColumnCollection();
+            var param = new DeptsParamCollection();
+            column.TenantId(function: Sqls.Functions.SingleColumn); param.TenantId();
+            column.DeptId(function: Sqls.Functions.SingleColumn); param.DeptId();
+            column.Ver(function: Sqls.Functions.SingleColumn); param.Ver();
+            column.DeptCode(function: Sqls.Functions.SingleColumn); param.DeptCode();
+            column.DeptName(function: Sqls.Functions.SingleColumn); param.DeptName();
+            column.Body(function: Sqls.Functions.SingleColumn); param.Body();
+            column.Comments(function: Sqls.Functions.SingleColumn); param.Comments();
+            column.Creator(function: Sqls.Functions.SingleColumn); param.Creator();
+            column.Updator(function: Sqls.Functions.SingleColumn); param.Updator();
+            column.CreatedTime(function: Sqls.Functions.SingleColumn); param.CreatedTime();
+            column.UpdatedTime(function: Sqls.Functions.SingleColumn); param.UpdatedTime();
+            return InsertDepts(
+                tableType: tableType,
+                param: param,
+                select: SelectDepts(column: column, where: where),
+                addUpdatorParam: false);
+        }
+
+        public static SqlStatement GroupsCopyToStatement(SqlWhereCollection where, Sqls.TableTypes tableType)
+        {
+            var column = new GroupsColumnCollection();
+            var param = new GroupsParamCollection();
+            column.TenantId(function: Sqls.Functions.SingleColumn); param.TenantId();
+            column.GroupId(function: Sqls.Functions.SingleColumn); param.GroupId();
+            column.Ver(function: Sqls.Functions.SingleColumn); param.Ver();
+            column.GroupName(function: Sqls.Functions.SingleColumn); param.GroupName();
+            column.Body(function: Sqls.Functions.SingleColumn); param.Body();
+            column.Comments(function: Sqls.Functions.SingleColumn); param.Comments();
+            column.Creator(function: Sqls.Functions.SingleColumn); param.Creator();
+            column.Updator(function: Sqls.Functions.SingleColumn); param.Updator();
+            column.CreatedTime(function: Sqls.Functions.SingleColumn); param.CreatedTime();
+            column.UpdatedTime(function: Sqls.Functions.SingleColumn); param.UpdatedTime();
+            return InsertGroups(
+                tableType: tableType,
+                param: param,
+                select: SelectGroups(column: column, where: where),
+                addUpdatorParam: false);
+        }
+
+        public static SqlStatement GroupMembersCopyToStatement(SqlWhereCollection where, Sqls.TableTypes tableType)
+        {
+            var column = new GroupMembersColumnCollection();
+            var param = new GroupMembersParamCollection();
+            column.GroupId(function: Sqls.Functions.SingleColumn); param.GroupId();
+            column.DeptId(function: Sqls.Functions.SingleColumn); param.DeptId();
+            column.UserId(function: Sqls.Functions.SingleColumn); param.UserId();
+            column.Ver(function: Sqls.Functions.SingleColumn); param.Ver();
+            column.Admin(function: Sqls.Functions.SingleColumn); param.Admin();
+            column.Comments(function: Sqls.Functions.SingleColumn); param.Comments();
+            column.Creator(function: Sqls.Functions.SingleColumn); param.Creator();
+            column.Updator(function: Sqls.Functions.SingleColumn); param.Updator();
+            column.CreatedTime(function: Sqls.Functions.SingleColumn); param.CreatedTime();
+            column.UpdatedTime(function: Sqls.Functions.SingleColumn); param.UpdatedTime();
+            return InsertGroupMembers(
+                tableType: tableType,
+                param: param,
+                select: SelectGroupMembers(column: column, where: where),
+                addUpdatorParam: false);
+        }
+
+        public static SqlStatement RegistrationsCopyToStatement(SqlWhereCollection where, Sqls.TableTypes tableType)
+        {
+            var column = new RegistrationsColumnCollection();
+            var param = new RegistrationsParamCollection();
+            column.TenantId(function: Sqls.Functions.SingleColumn); param.TenantId();
+            column.RegistrationId(function: Sqls.Functions.SingleColumn); param.RegistrationId();
+            column.Ver(function: Sqls.Functions.SingleColumn); param.Ver();
+            column.MailAddress(function: Sqls.Functions.SingleColumn); param.MailAddress();
+            column.Invitee(function: Sqls.Functions.SingleColumn); param.Invitee();
+            column.InviteeName(function: Sqls.Functions.SingleColumn); param.InviteeName();
+            column.LoginId(function: Sqls.Functions.SingleColumn); param.LoginId();
+            column.Name(function: Sqls.Functions.SingleColumn); param.Name();
+            column.Password(function: Sqls.Functions.SingleColumn); param.Password();
+            column.Language(function: Sqls.Functions.SingleColumn); param.Language();
+            column.Passphrase(function: Sqls.Functions.SingleColumn); param.Passphrase();
+            column.Invitingflg(function: Sqls.Functions.SingleColumn); param.Invitingflg();
+            column.UserId(function: Sqls.Functions.SingleColumn); param.UserId();
+            column.DeptId(function: Sqls.Functions.SingleColumn); param.DeptId();
+            column.GroupId(function: Sqls.Functions.SingleColumn); param.GroupId();
+            column.Comments(function: Sqls.Functions.SingleColumn); param.Comments();
+            column.Creator(function: Sqls.Functions.SingleColumn); param.Creator();
+            column.Updator(function: Sqls.Functions.SingleColumn); param.Updator();
+            column.CreatedTime(function: Sqls.Functions.SingleColumn); param.CreatedTime();
+            column.UpdatedTime(function: Sqls.Functions.SingleColumn); param.UpdatedTime();
+            return InsertRegistrations(
+                tableType: tableType,
+                param: param,
+                select: SelectRegistrations(column: column, where: where),
+                addUpdatorParam: false);
+        }
+
+        public static SqlStatement UsersCopyToStatement(SqlWhereCollection where, Sqls.TableTypes tableType)
+        {
+            var column = new UsersColumnCollection();
+            var param = new UsersParamCollection();
+            column.TenantId(function: Sqls.Functions.SingleColumn); param.TenantId();
+            column.UserId(function: Sqls.Functions.SingleColumn); param.UserId();
+            column.Ver(function: Sqls.Functions.SingleColumn); param.Ver();
+            column.LoginId(function: Sqls.Functions.SingleColumn); param.LoginId();
+            column.GlobalId(function: Sqls.Functions.SingleColumn); param.GlobalId();
+            column.Name(function: Sqls.Functions.SingleColumn); param.Name();
+            column.UserCode(function: Sqls.Functions.SingleColumn); param.UserCode();
+            column.Password(function: Sqls.Functions.SingleColumn); param.Password();
+            column.LastName(function: Sqls.Functions.SingleColumn); param.LastName();
+            column.FirstName(function: Sqls.Functions.SingleColumn); param.FirstName();
+            column.Birthday(function: Sqls.Functions.SingleColumn); param.Birthday();
+            column.Gender(function: Sqls.Functions.SingleColumn); param.Gender();
+            column.Language(function: Sqls.Functions.SingleColumn); param.Language();
+            column.TimeZone(function: Sqls.Functions.SingleColumn); param.TimeZone();
+            column.DeptId(function: Sqls.Functions.SingleColumn); param.DeptId();
+            column.FirstAndLastNameOrder(function: Sqls.Functions.SingleColumn); param.FirstAndLastNameOrder();
+            column.Body(function: Sqls.Functions.SingleColumn); param.Body();
+            column.LastLoginTime(function: Sqls.Functions.SingleColumn); param.LastLoginTime();
+            column.PasswordExpirationTime(function: Sqls.Functions.SingleColumn); param.PasswordExpirationTime();
+            column.PasswordChangeTime(function: Sqls.Functions.SingleColumn); param.PasswordChangeTime();
+            column.NumberOfLogins(function: Sqls.Functions.SingleColumn); param.NumberOfLogins();
+            column.NumberOfDenial(function: Sqls.Functions.SingleColumn); param.NumberOfDenial();
+            column.TenantManager(function: Sqls.Functions.SingleColumn); param.TenantManager();
+            column.ServiceManager(function: Sqls.Functions.SingleColumn); param.ServiceManager();
+            column.Disabled(function: Sqls.Functions.SingleColumn); param.Disabled();
+            column.Lockout(function: Sqls.Functions.SingleColumn); param.Lockout();
+            column.LockoutCounter(function: Sqls.Functions.SingleColumn); param.LockoutCounter();
+            column.Developer(function: Sqls.Functions.SingleColumn); param.Developer();
+            column.UserSettings(function: Sqls.Functions.SingleColumn); param.UserSettings();
+            column.ApiKey(function: Sqls.Functions.SingleColumn); param.ApiKey();
+            column.LdapSearchRoot(function: Sqls.Functions.SingleColumn); param.LdapSearchRoot();
+            column.SynchronizedTime(function: Sqls.Functions.SingleColumn); param.SynchronizedTime();
+            column.Comments(function: Sqls.Functions.SingleColumn); param.Comments();
+            column.Creator(function: Sqls.Functions.SingleColumn); param.Creator();
+            column.Updator(function: Sqls.Functions.SingleColumn); param.Updator();
+            column.CreatedTime(function: Sqls.Functions.SingleColumn); param.CreatedTime();
+            column.UpdatedTime(function: Sqls.Functions.SingleColumn); param.UpdatedTime();
+            return InsertUsers(
+                tableType: tableType,
+                param: param,
+                select: SelectUsers(column: column, where: where),
+                addUpdatorParam: false);
+        }
+
+        public static SqlStatement LoginKeysCopyToStatement(SqlWhereCollection where, Sqls.TableTypes tableType)
+        {
+            var column = new LoginKeysColumnCollection();
+            var param = new LoginKeysParamCollection();
+            column.LoginId(function: Sqls.Functions.SingleColumn); param.LoginId();
+            column.Key(function: Sqls.Functions.SingleColumn); param.Key();
+            column.Ver(function: Sqls.Functions.SingleColumn); param.Ver();
+            column.TenantNames(function: Sqls.Functions.SingleColumn); param.TenantNames();
+            column.TenantId(function: Sqls.Functions.SingleColumn); param.TenantId();
+            column.UserId(function: Sqls.Functions.SingleColumn); param.UserId();
+            column.Comments(function: Sqls.Functions.SingleColumn); param.Comments();
+            column.Creator(function: Sqls.Functions.SingleColumn); param.Creator();
+            column.Updator(function: Sqls.Functions.SingleColumn); param.Updator();
+            column.CreatedTime(function: Sqls.Functions.SingleColumn); param.CreatedTime();
+            column.UpdatedTime(function: Sqls.Functions.SingleColumn); param.UpdatedTime();
+            return InsertLoginKeys(
+                tableType: tableType,
+                param: param,
+                select: SelectLoginKeys(column: column, where: where),
+                addUpdatorParam: false);
+        }
+
+        public static SqlStatement MailAddressesCopyToStatement(SqlWhereCollection where, Sqls.TableTypes tableType)
+        {
+            var column = new MailAddressesColumnCollection();
+            var param = new MailAddressesParamCollection();
+            column.OwnerId(function: Sqls.Functions.SingleColumn); param.OwnerId();
+            column.OwnerType(function: Sqls.Functions.SingleColumn); param.OwnerType();
+            column.MailAddressId(function: Sqls.Functions.SingleColumn); param.MailAddressId();
+            column.Ver(function: Sqls.Functions.SingleColumn); param.Ver();
+            column.MailAddress(function: Sqls.Functions.SingleColumn); param.MailAddress();
+            column.Comments(function: Sqls.Functions.SingleColumn); param.Comments();
+            column.Creator(function: Sqls.Functions.SingleColumn); param.Creator();
+            column.Updator(function: Sqls.Functions.SingleColumn); param.Updator();
+            column.CreatedTime(function: Sqls.Functions.SingleColumn); param.CreatedTime();
+            column.UpdatedTime(function: Sqls.Functions.SingleColumn); param.UpdatedTime();
+            return InsertMailAddresses(
+                tableType: tableType,
+                param: param,
+                select: SelectMailAddresses(column: column, where: where),
+                addUpdatorParam: false);
+        }
+
+        public static SqlStatement OutgoingMailsCopyToStatement(SqlWhereCollection where, Sqls.TableTypes tableType)
+        {
+            var column = new OutgoingMailsColumnCollection();
+            var param = new OutgoingMailsParamCollection();
+            column.ReferenceType(function: Sqls.Functions.SingleColumn); param.ReferenceType();
+            column.ReferenceId(function: Sqls.Functions.SingleColumn); param.ReferenceId();
+            column.ReferenceVer(function: Sqls.Functions.SingleColumn); param.ReferenceVer();
+            column.OutgoingMailId(function: Sqls.Functions.SingleColumn); param.OutgoingMailId();
+            column.Ver(function: Sqls.Functions.SingleColumn); param.Ver();
+            column.Host(function: Sqls.Functions.SingleColumn); param.Host();
+            column.Port(function: Sqls.Functions.SingleColumn); param.Port();
+            column.From(function: Sqls.Functions.SingleColumn); param.From();
+            column.To(function: Sqls.Functions.SingleColumn); param.To();
+            column.Cc(function: Sqls.Functions.SingleColumn); param.Cc();
+            column.Bcc(function: Sqls.Functions.SingleColumn); param.Bcc();
+            column.Title(function: Sqls.Functions.SingleColumn); param.Title();
+            column.Body(function: Sqls.Functions.SingleColumn); param.Body();
+            column.SentTime(function: Sqls.Functions.SingleColumn); param.SentTime();
+            column.Comments(function: Sqls.Functions.SingleColumn); param.Comments();
+            column.Creator(function: Sqls.Functions.SingleColumn); param.Creator();
+            column.Updator(function: Sqls.Functions.SingleColumn); param.Updator();
+            column.CreatedTime(function: Sqls.Functions.SingleColumn); param.CreatedTime();
+            column.UpdatedTime(function: Sqls.Functions.SingleColumn); param.UpdatedTime();
+            return InsertOutgoingMails(
+                tableType: tableType,
+                param: param,
+                select: SelectOutgoingMails(column: column, where: where),
+                addUpdatorParam: false);
+        }
+
+        public static SqlStatement SearchIndexesCopyToStatement(SqlWhereCollection where, Sqls.TableTypes tableType)
+        {
+            var column = new SearchIndexesColumnCollection();
+            var param = new SearchIndexesParamCollection();
+            column.Word(function: Sqls.Functions.SingleColumn); param.Word();
+            column.ReferenceId(function: Sqls.Functions.SingleColumn); param.ReferenceId();
+            column.Ver(function: Sqls.Functions.SingleColumn); param.Ver();
+            column.Priority(function: Sqls.Functions.SingleColumn); param.Priority();
+            column.Comments(function: Sqls.Functions.SingleColumn); param.Comments();
+            column.Creator(function: Sqls.Functions.SingleColumn); param.Creator();
+            column.Updator(function: Sqls.Functions.SingleColumn); param.Updator();
+            column.CreatedTime(function: Sqls.Functions.SingleColumn); param.CreatedTime();
+            column.UpdatedTime(function: Sqls.Functions.SingleColumn); param.UpdatedTime();
+            return InsertSearchIndexes(
+                tableType: tableType,
+                param: param,
+                select: SelectSearchIndexes(column: column, where: where),
+                addUpdatorParam: false);
+        }
+
+        public static SqlStatement ItemsCopyToStatement(SqlWhereCollection where, Sqls.TableTypes tableType)
+        {
+            var column = new ItemsColumnCollection();
+            var param = new ItemsParamCollection();
+            column.ReferenceId(function: Sqls.Functions.SingleColumn); param.ReferenceId();
+            column.Ver(function: Sqls.Functions.SingleColumn); param.Ver();
+            column.ReferenceType(function: Sqls.Functions.SingleColumn); param.ReferenceType();
+            column.SiteId(function: Sqls.Functions.SingleColumn); param.SiteId();
+            column.Title(function: Sqls.Functions.SingleColumn); param.Title();
+            column.FullText(function: Sqls.Functions.SingleColumn); param.FullText();
+            column.SearchIndexCreatedTime(function: Sqls.Functions.SingleColumn); param.SearchIndexCreatedTime();
+            column.Comments(function: Sqls.Functions.SingleColumn); param.Comments();
+            column.Creator(function: Sqls.Functions.SingleColumn); param.Creator();
+            column.Updator(function: Sqls.Functions.SingleColumn); param.Updator();
+            column.CreatedTime(function: Sqls.Functions.SingleColumn); param.CreatedTime();
+            column.UpdatedTime(function: Sqls.Functions.SingleColumn); param.UpdatedTime();
+            return InsertItems(
+                tableType: tableType,
+                param: param,
+                select: SelectItems(column: column, where: where),
+                addUpdatorParam: false);
+        }
+
+        public static SqlStatement SitesCopyToStatement(SqlWhereCollection where, Sqls.TableTypes tableType)
+        {
+            var column = new SitesColumnCollection();
+            var param = new SitesParamCollection();
+            column.TenantId(function: Sqls.Functions.SingleColumn); param.TenantId();
+            column.SiteId(function: Sqls.Functions.SingleColumn); param.SiteId();
+            column.UpdatedTime(function: Sqls.Functions.SingleColumn); param.UpdatedTime();
+            column.Ver(function: Sqls.Functions.SingleColumn); param.Ver();
+            column.Title(function: Sqls.Functions.SingleColumn); param.Title();
+            column.Body(function: Sqls.Functions.SingleColumn); param.Body();
+            column.GridGuide(function: Sqls.Functions.SingleColumn); param.GridGuide();
+            column.EditorGuide(function: Sqls.Functions.SingleColumn); param.EditorGuide();
+            column.ReferenceType(function: Sqls.Functions.SingleColumn); param.ReferenceType();
+            column.ParentId(function: Sqls.Functions.SingleColumn); param.ParentId();
+            column.InheritPermission(function: Sqls.Functions.SingleColumn); param.InheritPermission();
+            column.SiteSettings(function: Sqls.Functions.SingleColumn); param.SiteSettings();
+            column.Publish(function: Sqls.Functions.SingleColumn); param.Publish();
+            column.LockedTime(function: Sqls.Functions.SingleColumn); param.LockedTime();
+            column.LockedUser(function: Sqls.Functions.SingleColumn); param.LockedUser();
+            column.Comments(function: Sqls.Functions.SingleColumn); param.Comments();
+            column.Creator(function: Sqls.Functions.SingleColumn); param.Creator();
+            column.Updator(function: Sqls.Functions.SingleColumn); param.Updator();
+            column.CreatedTime(function: Sqls.Functions.SingleColumn); param.CreatedTime();
+            return InsertSites(
+                tableType: tableType,
+                param: param,
+                select: SelectSites(column: column, where: where),
+                addUpdatorParam: false);
+        }
+
+        public static SqlStatement OrdersCopyToStatement(SqlWhereCollection where, Sqls.TableTypes tableType)
+        {
+            var column = new OrdersColumnCollection();
+            var param = new OrdersParamCollection();
+            column.ReferenceId(function: Sqls.Functions.SingleColumn); param.ReferenceId();
+            column.ReferenceType(function: Sqls.Functions.SingleColumn); param.ReferenceType();
+            column.OwnerId(function: Sqls.Functions.SingleColumn); param.OwnerId();
+            column.Ver(function: Sqls.Functions.SingleColumn); param.Ver();
+            column.Data(function: Sqls.Functions.SingleColumn); param.Data();
+            column.Comments(function: Sqls.Functions.SingleColumn); param.Comments();
+            column.Creator(function: Sqls.Functions.SingleColumn); param.Creator();
+            column.Updator(function: Sqls.Functions.SingleColumn); param.Updator();
+            column.CreatedTime(function: Sqls.Functions.SingleColumn); param.CreatedTime();
+            column.UpdatedTime(function: Sqls.Functions.SingleColumn); param.UpdatedTime();
+            return InsertOrders(
+                tableType: tableType,
+                param: param,
+                select: SelectOrders(column: column, where: where),
+                addUpdatorParam: false);
+        }
+
+        public static SqlStatement ExportSettingsCopyToStatement(SqlWhereCollection where, Sqls.TableTypes tableType)
+        {
+            var column = new ExportSettingsColumnCollection();
+            var param = new ExportSettingsParamCollection();
+            column.ReferenceType(function: Sqls.Functions.SingleColumn); param.ReferenceType();
+            column.ReferenceId(function: Sqls.Functions.SingleColumn); param.ReferenceId();
+            column.Title(function: Sqls.Functions.SingleColumn); param.Title();
+            column.ExportSettingId(function: Sqls.Functions.SingleColumn); param.ExportSettingId();
+            column.Ver(function: Sqls.Functions.SingleColumn); param.Ver();
+            column.AddHeader(function: Sqls.Functions.SingleColumn); param.AddHeader();
+            column.ExportColumns(function: Sqls.Functions.SingleColumn); param.ExportColumns();
+            column.Comments(function: Sqls.Functions.SingleColumn); param.Comments();
+            column.Creator(function: Sqls.Functions.SingleColumn); param.Creator();
+            column.Updator(function: Sqls.Functions.SingleColumn); param.Updator();
+            column.CreatedTime(function: Sqls.Functions.SingleColumn); param.CreatedTime();
+            column.UpdatedTime(function: Sqls.Functions.SingleColumn); param.UpdatedTime();
+            return InsertExportSettings(
+                tableType: tableType,
+                param: param,
+                select: SelectExportSettings(column: column, where: where),
+                addUpdatorParam: false);
+        }
+
+        public static SqlStatement LinksCopyToStatement(SqlWhereCollection where, Sqls.TableTypes tableType)
+        {
+            var column = new LinksColumnCollection();
+            var param = new LinksParamCollection();
+            column.DestinationId(function: Sqls.Functions.SingleColumn); param.DestinationId();
+            column.SourceId(function: Sqls.Functions.SingleColumn); param.SourceId();
+            column.Ver(function: Sqls.Functions.SingleColumn); param.Ver();
+            column.Comments(function: Sqls.Functions.SingleColumn); param.Comments();
+            column.Creator(function: Sqls.Functions.SingleColumn); param.Creator();
+            column.Updator(function: Sqls.Functions.SingleColumn); param.Updator();
+            column.CreatedTime(function: Sqls.Functions.SingleColumn); param.CreatedTime();
+            column.UpdatedTime(function: Sqls.Functions.SingleColumn); param.UpdatedTime();
+            return InsertLinks(
+                tableType: tableType,
+                param: param,
+                select: SelectLinks(column: column, where: where),
+                addUpdatorParam: false);
+        }
+
+        public static SqlStatement BinariesCopyToStatement(SqlWhereCollection where, Sqls.TableTypes tableType)
+        {
+            var column = new BinariesColumnCollection();
+            var param = new BinariesParamCollection();
+            column.BinaryId(function: Sqls.Functions.SingleColumn); param.BinaryId();
+            column.TenantId(function: Sqls.Functions.SingleColumn); param.TenantId();
+            column.ReferenceId(function: Sqls.Functions.SingleColumn); param.ReferenceId();
+            column.Guid(function: Sqls.Functions.SingleColumn); param.Guid();
+            column.Ver(function: Sqls.Functions.SingleColumn); param.Ver();
+            column.BinaryType(function: Sqls.Functions.SingleColumn); param.BinaryType();
+            column.Title(function: Sqls.Functions.SingleColumn); param.Title();
+            column.Body(function: Sqls.Functions.SingleColumn); param.Body();
+            column.Bin(function: Sqls.Functions.SingleColumn); param.Bin();
+            column.Thumbnail(function: Sqls.Functions.SingleColumn); param.Thumbnail();
+            column.Icon(function: Sqls.Functions.SingleColumn); param.Icon();
+            column.FileName(function: Sqls.Functions.SingleColumn); param.FileName();
+            column.Extension(function: Sqls.Functions.SingleColumn); param.Extension();
+            column.Size(function: Sqls.Functions.SingleColumn); param.Size();
+            column.ContentType(function: Sqls.Functions.SingleColumn); param.ContentType();
+            column.BinarySettings(function: Sqls.Functions.SingleColumn); param.BinarySettings();
+            column.Comments(function: Sqls.Functions.SingleColumn); param.Comments();
+            column.Creator(function: Sqls.Functions.SingleColumn); param.Creator();
+            column.Updator(function: Sqls.Functions.SingleColumn); param.Updator();
+            column.CreatedTime(function: Sqls.Functions.SingleColumn); param.CreatedTime();
+            column.UpdatedTime(function: Sqls.Functions.SingleColumn); param.UpdatedTime();
+            return InsertBinaries(
+                tableType: tableType,
+                param: param,
+                select: SelectBinaries(column: column, where: where),
+                addUpdatorParam: false);
+        }
+
+        public static SqlStatement PermissionsCopyToStatement(SqlWhereCollection where, Sqls.TableTypes tableType)
+        {
+            var column = new PermissionsColumnCollection();
+            var param = new PermissionsParamCollection();
+            column.ReferenceId(function: Sqls.Functions.SingleColumn); param.ReferenceId();
+            column.DeptId(function: Sqls.Functions.SingleColumn); param.DeptId();
+            column.GroupId(function: Sqls.Functions.SingleColumn); param.GroupId();
+            column.UserId(function: Sqls.Functions.SingleColumn); param.UserId();
+            column.Ver(function: Sqls.Functions.SingleColumn); param.Ver();
+            column.PermissionType(function: Sqls.Functions.SingleColumn); param.PermissionType();
+            column.Comments(function: Sqls.Functions.SingleColumn); param.Comments();
+            column.Creator(function: Sqls.Functions.SingleColumn); param.Creator();
+            column.Updator(function: Sqls.Functions.SingleColumn); param.Updator();
+            column.CreatedTime(function: Sqls.Functions.SingleColumn); param.CreatedTime();
+            column.UpdatedTime(function: Sqls.Functions.SingleColumn); param.UpdatedTime();
+            return InsertPermissions(
+                tableType: tableType,
+                param: param,
+                select: SelectPermissions(column: column, where: where),
+                addUpdatorParam: false);
+        }
+
+        public static SqlStatement IssuesCopyToStatement(SqlWhereCollection where, Sqls.TableTypes tableType)
+        {
+            var column = new IssuesColumnCollection();
+            var param = new IssuesParamCollection();
+            column.SiteId(function: Sqls.Functions.SingleColumn); param.SiteId();
+            column.UpdatedTime(function: Sqls.Functions.SingleColumn); param.UpdatedTime();
+            column.IssueId(function: Sqls.Functions.SingleColumn); param.IssueId();
+            column.Ver(function: Sqls.Functions.SingleColumn); param.Ver();
+            column.Title(function: Sqls.Functions.SingleColumn); param.Title();
+            column.Body(function: Sqls.Functions.SingleColumn); param.Body();
+            column.StartTime(function: Sqls.Functions.SingleColumn); param.StartTime();
+            column.CompletionTime(function: Sqls.Functions.SingleColumn); param.CompletionTime();
+            column.WorkValue(function: Sqls.Functions.SingleColumn); param.WorkValue();
+            column.ProgressRate(function: Sqls.Functions.SingleColumn); param.ProgressRate();
+            column.Status(function: Sqls.Functions.SingleColumn); param.Status();
+            column.Manager(function: Sqls.Functions.SingleColumn); param.Manager();
+            column.Owner(function: Sqls.Functions.SingleColumn); param.Owner();
+            column.Comments(function: Sqls.Functions.SingleColumn); param.Comments();
+            column.Creator(function: Sqls.Functions.SingleColumn); param.Creator();
+            column.Updator(function: Sqls.Functions.SingleColumn); param.Updator();
+            column.CreatedTime(function: Sqls.Functions.SingleColumn); param.CreatedTime();
+            Def.ExtendedColumnTypes.Keys.ForEach(columnName =>
+            {
+                column.Add(
+                    columnBracket: $"[{columnName}]",
+                    columnName: columnName,
+                    function: Sqls.Functions.SingleColumn);
+                param.Add(
+                    columnBracket: $"[{columnName}]",
+                    name: columnName);
+            });
+            return InsertIssues(
+                tableType: tableType,
+                param: param,
+                select: SelectIssues(column: column, where: where),
+                addUpdatorParam: false);
+        }
+
+        public static SqlStatement ResultsCopyToStatement(SqlWhereCollection where, Sqls.TableTypes tableType)
+        {
+            var column = new ResultsColumnCollection();
+            var param = new ResultsParamCollection();
+            column.SiteId(function: Sqls.Functions.SingleColumn); param.SiteId();
+            column.UpdatedTime(function: Sqls.Functions.SingleColumn); param.UpdatedTime();
+            column.ResultId(function: Sqls.Functions.SingleColumn); param.ResultId();
+            column.Ver(function: Sqls.Functions.SingleColumn); param.Ver();
+            column.Title(function: Sqls.Functions.SingleColumn); param.Title();
+            column.Body(function: Sqls.Functions.SingleColumn); param.Body();
+            column.Status(function: Sqls.Functions.SingleColumn); param.Status();
+            column.Manager(function: Sqls.Functions.SingleColumn); param.Manager();
+            column.Owner(function: Sqls.Functions.SingleColumn); param.Owner();
+            column.Comments(function: Sqls.Functions.SingleColumn); param.Comments();
+            column.Creator(function: Sqls.Functions.SingleColumn); param.Creator();
+            column.Updator(function: Sqls.Functions.SingleColumn); param.Updator();
+            column.CreatedTime(function: Sqls.Functions.SingleColumn); param.CreatedTime();
+            Def.ExtendedColumnTypes.Keys.ForEach(columnName =>
+            {
+                column.Add(
+                    columnBracket: $"[{columnName}]",
+                    columnName: columnName,
+                    function: Sqls.Functions.SingleColumn);
+                param.Add(
+                    columnBracket: $"[{columnName}]",
+                    name: columnName);
+            });
+            return InsertResults(
+                tableType: tableType,
+                param: param,
+                select: SelectResults(column: column, where: where),
+                addUpdatorParam: false);
+        }
+
+        public static SqlStatement WikisCopyToStatement(SqlWhereCollection where, Sqls.TableTypes tableType)
+        {
+            var column = new WikisColumnCollection();
+            var param = new WikisParamCollection();
+            column.SiteId(function: Sqls.Functions.SingleColumn); param.SiteId();
+            column.UpdatedTime(function: Sqls.Functions.SingleColumn); param.UpdatedTime();
+            column.WikiId(function: Sqls.Functions.SingleColumn); param.WikiId();
+            column.Ver(function: Sqls.Functions.SingleColumn); param.Ver();
+            column.Title(function: Sqls.Functions.SingleColumn); param.Title();
+            column.Body(function: Sqls.Functions.SingleColumn); param.Body();
+            column.Comments(function: Sqls.Functions.SingleColumn); param.Comments();
+            column.Creator(function: Sqls.Functions.SingleColumn); param.Creator();
+            column.Updator(function: Sqls.Functions.SingleColumn); param.Updator();
+            column.CreatedTime(function: Sqls.Functions.SingleColumn); param.CreatedTime();
+            return InsertWikis(
+                tableType: tableType,
+                param: param,
+                select: SelectWikis(column: column, where: where),
+                addUpdatorParam: false);
         }
 
         public static IEnumerable<SqlStatement> Aggregations(
@@ -102404,8 +103087,8 @@ namespace Implem.Pleasanter.Libraries.DataSources
             var param = DeptsParam()
                 .TenantId(deptModel.TenantId)
                 .Ver(deptModel.Ver, _using: deptModel.Ver_Updated(context) || setDefault || (otherInitValue && !deptModel.Ver.InitialValue(context)))
-                .DeptCode(deptModel.DeptCode.MaxLength(32), _using: deptModel.DeptCode_Updated(context) || setDefault || (otherInitValue && !deptModel.DeptCode.InitialValue(context)))
-                .DeptName(deptModel.DeptName.MaxLength(256), _using: deptModel.DeptName_Updated(context) || setDefault || (otherInitValue && !deptModel.DeptName.InitialValue(context)))
+                .DeptCode(deptModel.DeptCode.MaxLength(1024), _using: deptModel.DeptCode_Updated(context) || setDefault || (otherInitValue && !deptModel.DeptCode.InitialValue(context)))
+                .DeptName(deptModel.DeptName.MaxLength(1024), _using: deptModel.DeptName_Updated(context) || setDefault || (otherInitValue && !deptModel.DeptName.InitialValue(context)))
                 .Body(deptModel.Body, _using: deptModel.Body_Updated(context) || (otherInitValue && !deptModel.Body.InitialValue(context)))
                 .Comments(deptModel.Comments.ToJson(), _using: deptModel.Comments_Updated(context) || (otherInitValue && !deptModel.Comments.InitialValue(context)));
             deptModel.ClassHash

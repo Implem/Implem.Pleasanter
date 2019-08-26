@@ -1,0 +1,13 @@
+﻿{
+    "Id": "AllowBulkUpdate",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Allow bulkupdate"
+        },
+        {
+            "Language": "ja",
+            "Body": "一括更新を許可"
+        }
+    ]
+}

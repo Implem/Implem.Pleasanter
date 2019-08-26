@@ -2,20 +2,27 @@
 using Implem.Pleasanter.Libraries.Requests;
 using Implem.Pleasanter.Libraries.Responses;
 using Implem.Pleasanter.Libraries.Settings;
+using System.Linq;
 namespace Implem.Pleasanter.Libraries.HtmlParts
 {
     public static class HtmlNumericRange
     {
         public static HtmlBuilder SetNumericRangeDialog(
-            this HtmlBuilder hb, Context context, SiteSettings ss, Column column)
+            this HtmlBuilder hb, Context context, SiteSettings ss, Column column, bool itemfilter = false)
         {
-            var textval = context.Forms.Data(context.Forms.ControlId())?.Split(' ');
-            var satartval = textval?[0]?.ToString().Trim();
-            var endval = string.Empty;
-            if (textval.Length > 2)
+            var satartval = "";
+            var endval = "";
+            if (itemfilter)
             {
-                endval = textval[2].ToString().Trim();
+                var textval = context.Forms.Data(context.Forms.ControlId())?.Split(' ');
+                satartval = textval?[0]?.ToString().Trim();
+                endval = string.Empty;
+                if (textval.Length > 2)
+                {
+                    endval = textval[2].ToString().Trim();
+                }
             }
+
             return hb.Form(
                 attributes: new HtmlAttributes()
                     .Id("numericRangeForm")
@@ -31,7 +38,6 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                         labelText: Displays.Start(context: context),
                         labelRequired: false,
                         controlOnly: false,
-                        unit: column.Unit,
                         text: satartval,
                         alwaysSend: false,
                         validateRequired: false,
@@ -47,7 +53,6 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                         labelText: Displays.End(context: context),
                         labelRequired: false,
                         controlOnly: false,
-                        unit: column.Unit,
                         text: endval,
                         alwaysSend: false,
                         validateRequired: false,
