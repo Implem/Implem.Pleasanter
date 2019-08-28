@@ -26,18 +26,30 @@ namespace Implem.CodeDefiner.Functions.SqlServer
                     Consoles.Write($"[{generalTableName}]: {e}", Consoles.Types.Error);
                 }
             });
-            ConfigureFullTextIndex();
+            try
+            {
+                ConfigureFullTextIndex();
+            }
+            catch (System.Data.SqlClient.SqlException e)
+            {
+                Consoles.Write($"[{e.Number}] {e.Message}", Consoles.Types.Error);
+            }
+            catch (System.Exception e)
+            {
+                Consoles.Write($"[{nameof(ConfigureFullTextIndex)}]: {e}", Consoles.Types.Error);
+            }
         }
 
         private static void ConfigureFullTextIndex()
         {
-            var pkItems = Def.SqlIoBySa(
+            Consoles.Write("", Consoles.Types.Info);
+            var pkItems = Def.SqlIoByAdmin(
                 statements: new SqlStatement(Def.Sql.SelectPkName.Replace("#TableName#", "Items")))
                     .ExecuteScalar_string();
-            var pkBinaries = Def.SqlIoBySa(
+            var pkBinaries = Def.SqlIoByAdmin(
                 statements: new SqlStatement(Def.Sql.SelectPkName.Replace("#TableName#", "Binaries")))
                     .ExecuteScalar_string();
-            Def.SqlIoBySa()
+            Def.SqlIoBySa(initialCatalog: Environments.ServiceName)
                 .ExecuteNonQuery(Def.Sql.CreateFullText
                     .Replace("#PKItems#", pkItems)
                     .Replace("#PKBinaries#", pkBinaries));

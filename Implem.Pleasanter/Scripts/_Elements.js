@@ -15,6 +15,22 @@ $p.siteId = function (title) {
     }
 }
 
+$p.loginId = function () {
+    return $('#LoginId').val();
+}
+
+$p.userId = function () {
+    return parseInt($('#UserId').val());
+}
+
+$p.userName = function () {
+    return $('#AccountUserName').text();
+}
+
+$p.referenceType = function () {
+    return $('#ReferenceType').val();
+}
+
 $p.getColumnName = function (name) {
     var data = JSON.parse($('#Columns').val()).filter(function (column) {
         return column.LabelText === name || column.ColumnName === name
