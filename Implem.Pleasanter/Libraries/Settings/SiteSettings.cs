@@ -120,6 +120,7 @@ namespace Implem.Pleasanter.Libraries.Settings
         public SettingList<RelatingColumn> RelatingColumns;
         public bool? AllowEditingComments;
         public bool? AllowSeparate;
+        public bool? AllowLockTable;
         public bool? SwitchRecordWithAjax;
         public bool? EnableCalendar;
         public bool? EnableCrosstab;
@@ -229,6 +230,7 @@ namespace Implem.Pleasanter.Libraries.Settings
             if (Styles == null) Styles = new SettingList<Style>();
             AllowEditingComments = AllowEditingComments ?? false;
             AllowSeparate = AllowSeparate ?? false;
+            AllowLockTable = AllowLockTable ?? false;
             SwitchRecordWithAjax = SwitchRecordWithAjax ?? false;
             EnableCalendar = EnableCalendar ?? true;
             EnableCrosstab = EnableCrosstab ?? true;
@@ -553,6 +555,10 @@ namespace Implem.Pleasanter.Libraries.Settings
             if (AllowSeparate == true)
             {
                 ss.AllowSeparate = AllowSeparate;
+            }
+            if (AllowLockTable == true)
+            {
+                ss.AllowLockTable = AllowLockTable;
             }
             if (SwitchRecordWithAjax==true)
             {
@@ -2425,6 +2431,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                 case "FirstMonth": FirstMonth = value.ToInt(); break;
                 case "AllowEditingComments": AllowEditingComments = value.ToBool(); break;
                 case "AllowSeparate": AllowSeparate = value.ToBool(); break;
+                case "AllowLockTable": AllowLockTable = value.ToBool(); break;
                 case "SwitchRecordWithAjax":SwitchRecordWithAjax = value.ToBool(); break;
                 case "EnableCalendar": EnableCalendar = value.ToBool(); break;
                 case "EnableCrosstab": EnableCrosstab = value.ToBool(); break;

@@ -115,7 +115,9 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                         css: "sub-menu",
                         action: () => hb
                             .Div(
-                                attributes: new HtmlAttributes().DataId("AccountMenu"),
+                                attributes: new HtmlAttributes()
+                                    .DataId("AccountMenu")
+                                    .Id("AccountUserName"),
                                 action: () => hb
                                     .Span(css: "ui-icon ui-icon-person")
                                     .Text(text: SiteInfo.UserName(
@@ -336,7 +338,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                             action: () => hb
                                 .Span(css: "ui-icon ui-icon-locked")
                                 .Text(text: Displays.LockTable(context: context))),
-                        _using: canManageSite);
+                        _using: canManageSite && ss.AllowLockTable == true);
                 }
                 else if (ss.LockedUser.Id == context.UserId)
                 {
@@ -349,7 +351,8 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                 .DataMethod("post"),
                             action: () => hb
                                 .Span(css: "ui-icon ui-icon-unlocked")
-                                .Text(text: Displays.UnlockTable(context: context))));
+                                .Text(text: Displays.UnlockTable(context: context)),
+                            _using: ss.AllowLockTable == true));
                 }
                 else if (context.HasPrivilege)
                 {
@@ -363,7 +366,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                         action: () => hb
                             .Span(css: "ui-icon ui-icon-unlocked")
                             .Text(text: Displays.ForceUnlockTable(context: context))),
-                        _using: canManageSite);
+                        _using: canManageSite && ss.AllowLockTable == true);
                 }
             }
             return hb;

@@ -4449,6 +4449,11 @@ namespace Implem.Pleasanter.Models
                         _checked: ss.AllowSeparate == true,
                         _using: ss.ReferenceType == "Issues")
                     .FieldCheckBox(
+                        controlId: "AllowLockTable",
+                        fieldCss: "field-auto-thin",
+                        labelText: Displays.AllowLockTable(context: context),
+                        _checked: ss.AllowLockTable == true)
+                    .FieldCheckBox(
                         controlId: "SwitchRecordWithAjax",
                         fieldCss: "field-auto-thin",
                         labelText: Displays.SwitchRecordWithAjax(context: context),
@@ -8824,6 +8829,10 @@ namespace Implem.Pleasanter.Models
         /// </summary>
         public static string LockTable(Context context, SiteSettings ss)
         {
+            if (ss.AllowLockTable != true)
+            {
+                return Error.Types.InvalidRequest.MessageJson(context: context);
+            }
             var invalid = SiteValidators.OnLockTable(
                 context: context,
                 ss: ss);
