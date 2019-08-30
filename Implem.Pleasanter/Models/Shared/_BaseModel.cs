@@ -667,47 +667,6 @@ namespace Implem.Pleasanter.Models
                     break;
             }
         }
-
-        public void SearchIndexes(
-            Context context,
-            Column column,
-            Dictionary<string, int> searchIndexHash)
-        {
-            switch (Def.ExtendedColumnTypes.Get(column.ColumnName))
-            {
-                case "Class":
-                    Class(column.ColumnName)?.SearchIndexes(
-                        context: context,
-                        column: column,
-                        searchIndexHash: searchIndexHash,
-                        searchPriority: 200);
-                    break;
-                case "Num":
-                    Num(column.ColumnName).SearchIndexes(
-                        context: context,
-                        searchIndexHash: searchIndexHash,
-                        searchPriority: 200);
-                    break;
-                case "Date":
-                    Date(column.ColumnName).SearchIndexes(
-                        context: context,
-                        searchIndexHash: searchIndexHash,
-                        searchPriority: 200);
-                    break;
-                case "Description":
-                    Description(column.ColumnName)?.SearchIndexes(
-                        context: context,
-                        searchIndexHash: searchIndexHash,
-                        searchPriority: 200);
-                    break;
-                case "Attachments":
-                    Attachments(column.ColumnName)?.SearchIndexes(
-                        context: context,
-                        searchIndexHash: searchIndexHash,
-                        searchPriority: 200);
-                    break;
-            }
-        }
     }
 
     public class BaseItemModel : BaseModel

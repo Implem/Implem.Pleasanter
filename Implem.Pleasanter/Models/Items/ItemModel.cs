@@ -1158,7 +1158,7 @@ namespace Implem.Pleasanter.Models
                         ? controlId.Substring("ViewFilters__".Length)
                         : controlId.Substring("ViewFiltersOnGridHeader__".Length))
                     : controlId.Split_2nd('_'));
-            var searchIndexes = searchText.SearchIndexes(context: context);
+            var searchIndexes = searchText.SearchIndexes();
             if (column?.Linked() == true)
             {
                 column?.SetChoiceHash(

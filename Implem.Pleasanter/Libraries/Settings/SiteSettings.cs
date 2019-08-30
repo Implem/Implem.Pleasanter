@@ -8,6 +8,7 @@ using Implem.Pleasanter.Libraries.General;
 using Implem.Pleasanter.Libraries.HtmlParts;
 using Implem.Pleasanter.Libraries.Requests;
 using Implem.Pleasanter.Libraries.Responses;
+using Implem.Pleasanter.Libraries.Search;
 using Implem.Pleasanter.Libraries.Security;
 using Implem.Pleasanter.Libraries.Server;
 using Implem.Pleasanter.Models;
@@ -2965,7 +2966,7 @@ namespace Implem.Pleasanter.Libraries.Settings
             int parentId,
             bool setTotalCount = false)
         {
-            var select = SearchIndexUtilities.Select(
+            var select = Indexes.Select(
                 context: context,
                 ss: Destinations?.Get(link.SiteId),
                 searchText: searchIndexes?.Join(" "),

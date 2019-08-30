@@ -17,8 +17,6 @@ namespace Implem.Pleasanter.Tools
             while ((DateTime.Now - now).Seconds <= Parameters.BackgroundTask.BackgroundTaskSpan)
             {
                 SysLogUtilities.Maintain(context: context);
-                SearchIndexUtilities.Maintain(context: context);
-                SearchIndexUtilities.RebuildSearchIndexes(context: context);
                 Thread.Sleep(Parameters.BackgroundTask.Interval);
                 LatestTime = DateTime.Now;
             }

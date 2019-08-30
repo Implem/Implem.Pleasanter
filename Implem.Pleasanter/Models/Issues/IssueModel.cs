@@ -846,51 +846,6 @@ namespace Implem.Pleasanter.Models
                 .Join(" ");
         }
 
-        public Dictionary<string, int> SearchIndexHash(Context context, SiteSettings ss)
-        {
-            if (AccessStatus != Databases.AccessStatuses.Selected)
-            {
-                return null;
-            }
-            else
-            {
-                var searchIndexHash = new Dictionary<string, int>();
-                SiteInfo.TenantCaches.Get(context.TenantId)?
-                    .SiteMenu
-                    .Breadcrumb(context: context, siteId: SiteId)
-                    .SearchIndexes(context, searchIndexHash, 100);
-                SiteId.SearchIndexes(context, searchIndexHash, 200);
-                UpdatedTime.SearchIndexes(context, searchIndexHash, 200);
-                IssueId.SearchIndexes(context, searchIndexHash, 1);
-                Title.SearchIndexes(context, searchIndexHash, 4);
-                Body.SearchIndexes(context, searchIndexHash, 200);
-                StartTime.SearchIndexes(context, searchIndexHash, 200);
-                CompletionTime.SearchIndexes(context, searchIndexHash, 200);
-                WorkValue.SearchIndexes(context, searchIndexHash, 200);
-                ProgressRate.SearchIndexes(context, searchIndexHash, 200);
-                Status.SearchIndexes(context, ss.GetColumn(context: context, columnName: "Status"), searchIndexHash, 200);
-                Manager.SearchIndexes(context, searchIndexHash, 100);
-                Owner.SearchIndexes(context, searchIndexHash, 100);
-                Comments.SearchIndexes(context, searchIndexHash, 200);
-                Creator.SearchIndexes(context, searchIndexHash, 100);
-                Updator.SearchIndexes(context, searchIndexHash, 100);
-                CreatedTime.SearchIndexes(context, searchIndexHash, 200);
-                ColumnNames().ForEach(columnName =>
-                    SearchIndexes(
-                        context: context,
-                        column: ss.GetColumn(
-                            context: context,
-                            columnName: columnName),
-                        searchIndexHash: searchIndexHash));
-                SearchIndexExtensions.OutgoingMailsSearchIndexes(
-                    context: context,
-                    searchIndexHash: searchIndexHash,
-                    referenceType: "Issues",
-                    referenceId: IssueId);
-                return searchIndexHash;
-            }
-        }
-
         public ErrorData Create(
             Context context,
             SiteSettings ss,
@@ -978,7 +933,6 @@ namespace Implem.Pleasanter.Models
                 context: context,
                 transactional: true,
                 statements: statements.ToArray());
-            Libraries.Search.Indexes.Create(context, ss, this);
             if (get && Rds.ExtendedSqls(
                 siteId: SiteId,
                 id: IssueId)
@@ -1238,7 +1192,6 @@ namespace Implem.Pleasanter.Models
                     ss: ss,
                     idList: IssueId.ToSingleList());
             }
-            Libraries.Search.Indexes.Create(context, ss, this);
         }
 
         public List<SqlStatement> UpdateRelatedRecordsStatements(
@@ -1314,7 +1267,6 @@ namespace Implem.Pleasanter.Models
                 statements: statements.ToArray());
             IssueId = (response.Id ?? IssueId).ToLong();
             Get(context: context, ss: ss);
-            Libraries.Search.Indexes.Create(context, ss, this);
             return new ErrorData(type: Error.Types.None);
         }
 
@@ -1354,10 +1306,6 @@ namespace Implem.Pleasanter.Models
             Get(
                 context: context,
                 ss: targetSs);
-            Libraries.Search.Indexes.Create(
-                context: context,
-                ss: targetSs,
-                issueModel: this);
             return new ErrorData(type: Error.Types.None);
         }
 
@@ -1399,7 +1347,6 @@ namespace Implem.Pleasanter.Models
                         tableTypes: Sqls.TableTypes.Deleted),
                     type: "Deleted");
             }
-            Libraries.Search.Indexes.Create(context, ss, this);
             return new ErrorData(type: Error.Types.None);
         }
 
@@ -1417,7 +1364,6 @@ namespace Implem.Pleasanter.Models
                     Rds.RestoreIssues(
                         where: Rds.IssuesWhere().IssueId(IssueId))
                 });
-            Libraries.Search.Indexes.Create(context, ss, this);
             return new ErrorData(type: Error.Types.None);
         }
 
@@ -1430,7 +1376,6 @@ namespace Implem.Pleasanter.Models
                 statements: Rds.PhysicalDeleteIssues(
                     tableType: tableType,
                     param: Rds.IssuesParam().SiteId(SiteId).IssueId(IssueId)));
-            Libraries.Search.Indexes.Create(context, ss, this);
             return new ErrorData(type: Error.Types.None);
         }
 
