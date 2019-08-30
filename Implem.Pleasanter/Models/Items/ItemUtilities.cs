@@ -106,6 +106,7 @@ namespace Implem.Pleasanter.Models
                             .AsEnumerable()
                             .Select(dataRow => dataRow.Long("SourceId"))
                             .ToList();
+                        currentSs.SetLinkedSiteSettings(context: context);
                         UpdateTitles(
                             context: context,
                             ss: currentSs,
