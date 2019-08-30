@@ -400,19 +400,19 @@ namespace Implem.Pleasanter.Models
                 case SiteSettings.SearchTypes.FullText:
                     var words = Words(searchText);
                     if (words?.Any() != true) return where;
-                    where.Add(new SqlWhere(
-                        name: name,
-                        value: words,
-                        raw: itemJoin
-                            ? FullTextWhere(
-                                words: words,
-                                itemsTableName: ss.ReferenceType + "_Items",
-                                name: name)
-                            : FullTextWhere(
-                                words: words,
-                                idColumnBracket: ss.IdColumnBracket(),
-                                tableType: ss.TableType,
-                                name: name)));
+                    if (itemJoin)
+                    {
+                        where.FullTextWhere(
+                            words: words,
+                            itemsTableName: ss.ReferenceType + "_Items");
+                    }
+                    else
+                    {
+                        where.FullTextWhere(
+                            words: words,
+                            idColumnBracket: ss.IdColumnBracket(),
+                            tableType: ss.TableType);
+                    }
                     return where;
                 case SiteSettings.SearchTypes.MatchInFrontOfTitle:
                     return where.ItemWhereLike(
@@ -623,7 +623,7 @@ namespace Implem.Pleasanter.Models
         /// <summary>
         /// Fixed:
         /// </summary>
-        private static List<string> Words(string searchText)
+        private static Dictionary<string, string> Words(string searchText)
         {
             return searchText?
                 .Replace("　", " ")
@@ -634,7 +634,7 @@ namespace Implem.Pleasanter.Models
                 .Where(o => o != string.Empty)
                 .Distinct()
                 .Select(o => FullTextClause(o))
-                .ToList();
+                .ToDictionary(o => Strings.NewGuid(), o => o);
         }
 
         /// <summary>
@@ -642,7 +642,7 @@ namespace Implem.Pleasanter.Models
         /// </summary>
         private static SqlSelect SelectByFullText(
             Context context,
-            List<string> words,
+            Dictionary<string, string> words,
             SqlColumnCollection column = null,
             SqlOrderByCollection orderBy = null,
             IEnumerable<long> siteIdList = null,
@@ -661,7 +661,7 @@ namespace Implem.Pleasanter.Models
                             joinType: SqlJoin.JoinTypes.Inner,
                             joinExpression: "[Items].[SiteId]=[Sites].[SiteId]")),
                     where: Rds.ItemsWhere()
-                        .Add(raw: FullTextWhere(words))
+                        .FullTextWhere(words)
                         .Add(
                             raw: Def.Sql.CanRead,
                             _using: !context.HasPrivilege && !context.Publish)
@@ -680,7 +680,7 @@ namespace Implem.Pleasanter.Models
                             joinType: SqlJoin.JoinTypes.Inner,
                             joinExpression: "[Items].[SiteId]=[Sites].[SiteId]")),
                     where: Rds.ItemsWhere()
-                        .Add(raw: FullTextWhere(words))
+                        .FullTextWhere(words)
                         .Add(
                             raw: Def.Sql.CanRead,
                             _using: !context.HasPrivilege && !context.Publish)
@@ -693,30 +693,59 @@ namespace Implem.Pleasanter.Models
         /// <summary>
         /// Fixed:
         /// </summary>
-        private static string FullTextWhere(List<string> words, string itemsTableName = "Items", string name = "SearchText")
+        private static SqlWhereCollection FullTextWhere(
+            this SqlWhereCollection where,
+            Dictionary<string, string> words,
+            string itemsTableName = "Items")
         {
-            var contains = new List<string>();
-            for (var count = 0; count < words.Count(); count++)
-            {
-                var item = $"contains([{itemsTableName}].[FullText], @{name}{count}_#CommandCount#)";
-                var binary = $"exists(select * from [Binaries] where [Binaries].[ReferenceId]=[{itemsTableName}].[ReferenceId] and contains([Bin], @{name}{count}_#CommandCount#))";
-                contains.Add(Parameters.Search.SearchDocuments
-                    ? $"({item} or {binary})"
-                    : item);
-            }
-            return contains.Join(" and ");
+            words.ForEach(data => where.Add(
+                name: data.Key,
+                value: data.Value,
+                raw: FullTextWhere(
+                    name: data.Key,
+                    itemsTableName: itemsTableName)));
+            return where;
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        private static string FullTextWhere(string name, string itemsTableName = "Items")
+        {
+            var item = $"contains([{itemsTableName}].[FullText], @{name}1)";
+            var binary = $"exists(select * from [Binaries] where [Binaries].[ReferenceId]=[{itemsTableName}].[ReferenceId] and contains([Bin], @{name}1))";
+            return Parameters.Search.SearchDocuments
+                ? $"({item} or {binary})"
+                : item;
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        private static SqlWhereCollection FullTextWhere(
+            this SqlWhereCollection where,
+            Dictionary<string, string> words,
+            string idColumnBracket,
+            Sqls.TableTypes tableType)
+        {
+            words.ForEach(data => where.Add(
+                name: data.Key,
+                value: data.Value,
+                raw: FullTextWhere(
+                    name: data.Key,
+                    idColumnBracket: idColumnBracket,
+                    tableType: tableType)));
+            return where;
         }
 
         /// <summary>
         /// Fixed:
         /// </summary>
         private static string FullTextWhere(
-            List<string> words,
+            string name,
             string idColumnBracket,
-            Sqls.TableTypes tableType,
-            string name)
+            Sqls.TableTypes tableType)
         {
-            var contains = new List<string>();
             var prefix = string.Empty;
             switch (tableType)
             {
@@ -724,29 +753,25 @@ namespace Implem.Pleasanter.Models
                     prefix = "_deleted";
                     break;
             }
-            for (var count = 0; count < words.Count(); count++)
-            {
-                var item = $"exists(select * from [Items{prefix}] where [Items{prefix}].[ReferenceId]={idColumnBracket} and contains([Items{prefix}].[FullText],@{name}{count}_#CommandCount#))";
-                var binary = $"exists(select * from [Binaries{prefix}] where [Binaries{prefix}].[ReferenceId]={idColumnBracket} and contains([Binaries{prefix}].[Bin],@{name}{count}_#CommandCount#))";
-                contains.Add(Parameters.Search.SearchDocuments
-                    ? $"({item} or {binary})"
-                    : item);
-            }
-            return contains.Join(" and ");
+            var item = $"exists(select * from [Items{prefix}] where [Items{prefix}].[ReferenceId]={idColumnBracket} and contains([Items{prefix}].[FullText],@{name}1))";
+            var binary = $"exists(select * from [Binaries{prefix}] where [Binaries{prefix}].[ReferenceId]={idColumnBracket} and contains([Binaries{prefix}].[Bin],@{name}1))";
+            return Parameters.Search.SearchDocuments
+                ? $"({item} or {binary})"
+                : item;
         }
 
         /// <summary>
         /// Fixed:
         /// </summary>
-        private static Rds.ItemsParamCollection FullTextParam(List<string> words)
+        private static Rds.ItemsParamCollection FullTextParam(Dictionary<string, string> words)
         {
             var param = Rds.ItemsParam();
             words
-                .Select((o, i) => new { Word = o, Index = i })
+                .Select((o, i) => new { Name = o.Key + i, o.Value })
                 .ForEach(data =>
                     param.Add(
-                        name: "SearchText" + data.Index,
-                        value: data.Word));
+                        name: data.Name,
+                        value: data.Value));
             return param;
         }
 
