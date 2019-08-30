@@ -526,43 +526,6 @@ namespace Implem.Pleasanter.Models
                 .Join(" ");
         }
 
-        public Dictionary<string, int> SearchIndexHash(Context context, SiteSettings ss)
-        {
-            if (AccessStatus != Databases.AccessStatuses.Selected)
-            {
-                return null;
-            }
-            else
-            {
-                var searchIndexHash = new Dictionary<string, int>();
-                SiteInfo.TenantCaches.Get(context.TenantId)?
-                    .SiteMenu
-                    .Breadcrumb(context: context, siteId: SiteId)
-                    .SearchIndexes(context, searchIndexHash, 100);
-                SiteId.SearchIndexes(context, searchIndexHash, 1);
-                UpdatedTime.SearchIndexes(context, searchIndexHash, 200);
-                Title.SearchIndexes(context, searchIndexHash, 4);
-                Body.SearchIndexes(context, searchIndexHash, 200);
-                Comments.SearchIndexes(context, searchIndexHash, 200);
-                Creator.SearchIndexes(context, searchIndexHash, 100);
-                Updator.SearchIndexes(context, searchIndexHash, 100);
-                CreatedTime.SearchIndexes(context, searchIndexHash, 200);
-                ColumnNames().ForEach(columnName =>
-                    SearchIndexes(
-                        context: context,
-                        column: ss.GetColumn(
-                            context: context,
-                            columnName: columnName),
-                        searchIndexHash: searchIndexHash));
-                SearchIndexExtensions.OutgoingMailsSearchIndexes(
-                    context: context,
-                    searchIndexHash: searchIndexHash,
-                    referenceType: "Sites",
-                    referenceId: SiteId);
-                return searchIndexHash;
-            }
-        }
-
         public ErrorData Update(
             Context context,
             SiteSettings ss,
@@ -717,7 +680,6 @@ namespace Implem.Pleasanter.Models
                     addUpdatorParam: addUpdatorParam,
                     updateItems: updateItems)
                         .ToArray());
-            Libraries.Search.Indexes.Create(context, SiteSettings, this);
         }
 
         public List<SqlStatement> UpdateRelatedRecordsStatements(
@@ -776,7 +738,6 @@ namespace Implem.Pleasanter.Models
                 statements: statements.ToArray());
             SiteId = (response.Id ?? SiteId).ToLong();
             Get(context: context);
-            Libraries.Search.Indexes.Create(context, SiteSettings, this);
             return new ErrorData(type: Error.Types.None);
         }
 
@@ -832,7 +793,6 @@ namespace Implem.Pleasanter.Models
                         tenantId: TenantId,
                         type: StatusUtilities.Types.SitesUpdated),
                 });
-            Libraries.Search.Indexes.Create(context, SiteSettings, this);
             return new ErrorData(type: Error.Types.None);
         }
 
@@ -845,7 +805,6 @@ namespace Implem.Pleasanter.Models
                 statements: Rds.PhysicalDeleteSites(
                     tableType: tableType,
                     param: Rds.SitesParam().TenantId(TenantId).SiteId(SiteId)));
-            Libraries.Search.Indexes.Create(context, SiteSettings, this);
             return new ErrorData(type: Error.Types.None);
         }
 
@@ -1337,12 +1296,6 @@ namespace Implem.Pleasanter.Models
                         Comments = Comments
                     };
                     wikiModel.Create(context: context, ss: SiteSettings);
-                    break;
-                default:
-                    Libraries.Search.Indexes.Create(
-                        context: context,
-                        ss: SiteSettings,
-                        siteModel: this);
                     break;
             }
             return new ErrorData(type: Error.Types.None);

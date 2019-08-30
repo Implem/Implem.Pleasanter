@@ -1,4 +1,5 @@
 ﻿using Implem.Pleasanter.Libraries.Requests;
+using Implem.Pleasanter.Libraries.Search;
 using Implem.Pleasanter.Models;
 using System.Web;
 using System.Web.Mvc;
@@ -389,7 +390,7 @@ namespace Implem.Pleasanter.Controllers
             if (!Request.IsAjaxRequest())
             {
                 var log = new SysLogModel(context: context);
-                var html = SearchIndexUtilities.Search(context: context);
+                var html = Indexes.Search(context: context);
                 ViewBag.HtmlBody = html;
                 log.Finish(context: context, responseSize: html.Length);
                 return View();
@@ -397,7 +398,7 @@ namespace Implem.Pleasanter.Controllers
             else
             {
                 var log = new SysLogModel(context: context);
-                var json = SearchIndexUtilities.SearchJson(context: context);
+                var json = Indexes.SearchJson(context: context);
                 log.Finish(context: context, responseSize: json.Length);
                 return Content(json);
             }
@@ -774,7 +775,7 @@ namespace Implem.Pleasanter.Controllers
         {
             var context = new Context();
             var log = new SysLogModel(context: context);
-            var json = SearchIndexUtilities.RebuildSearchIndexes(
+            var json = Indexes.RebuildSearchIndexes(
                 context: context,
                 siteModel: new SiteModel(
                     context: context,

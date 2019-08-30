@@ -7618,13 +7618,13 @@ namespace Implem.Pleasanter.Libraries.Responses
                 data: data);
         }
 
-        public static string _(
+        public static string Registrations_InviteeName(
             Context context,
             params string[] data)
         {
             return Get(
                 context: context,
-                id: "_",
+                id: "Registrations_InviteeName",
                 data: data);
         }
 
@@ -8515,76 +8515,6 @@ namespace Implem.Pleasanter.Libraries.Responses
             return Get(
                 context: context,
                 id: "OutgoingMails_DestinationSearchText",
-                data: data);
-        }
-
-        public static string SearchIndexes_Word(
-            Context context,
-            params string[] data)
-        {
-            return Get(
-                context: context,
-                id: "SearchIndexes_Word",
-                data: data);
-        }
-
-        public static string SearchIndexes_ReferenceId(
-            Context context,
-            params string[] data)
-        {
-            return Get(
-                context: context,
-                id: "SearchIndexes_ReferenceId",
-                data: data);
-        }
-
-        public static string SearchIndexes_Priority(
-            Context context,
-            params string[] data)
-        {
-            return Get(
-                context: context,
-                id: "SearchIndexes_Priority",
-                data: data);
-        }
-
-        public static string SearchIndexes_ReferenceType(
-            Context context,
-            params string[] data)
-        {
-            return Get(
-                context: context,
-                id: "SearchIndexes_ReferenceType",
-                data: data);
-        }
-
-        public static string SearchIndexes_Title(
-            Context context,
-            params string[] data)
-        {
-            return Get(
-                context: context,
-                id: "SearchIndexes_Title",
-                data: data);
-        }
-
-        public static string SearchIndexes_Subset(
-            Context context,
-            params string[] data)
-        {
-            return Get(
-                context: context,
-                id: "SearchIndexes_Subset",
-                data: data);
-        }
-
-        public static string SearchIndexes_InheritPermission(
-            Context context,
-            params string[] data)
-        {
-            return Get(
-                context: context,
-                id: "SearchIndexes_InheritPermission",
                 data: data);
         }
 
@@ -10518,86 +10448,6 @@ namespace Implem.Pleasanter.Libraries.Responses
                 data: data);
         }
 
-        public static string SearchIndexes_Ver(
-            Context context,
-            params string[] data)
-        {
-            return Get(
-                context: context,
-                id: "SearchIndexes_Ver",
-                data: data);
-        }
-
-        public static string SearchIndexes_Comments(
-            Context context,
-            params string[] data)
-        {
-            return Get(
-                context: context,
-                id: "SearchIndexes_Comments",
-                data: data);
-        }
-
-        public static string SearchIndexes_Creator(
-            Context context,
-            params string[] data)
-        {
-            return Get(
-                context: context,
-                id: "SearchIndexes_Creator",
-                data: data);
-        }
-
-        public static string SearchIndexes_Updator(
-            Context context,
-            params string[] data)
-        {
-            return Get(
-                context: context,
-                id: "SearchIndexes_Updator",
-                data: data);
-        }
-
-        public static string SearchIndexes_CreatedTime(
-            Context context,
-            params string[] data)
-        {
-            return Get(
-                context: context,
-                id: "SearchIndexes_CreatedTime",
-                data: data);
-        }
-
-        public static string SearchIndexes_UpdatedTime(
-            Context context,
-            params string[] data)
-        {
-            return Get(
-                context: context,
-                id: "SearchIndexes_UpdatedTime",
-                data: data);
-        }
-
-        public static string SearchIndexes_VerUp(
-            Context context,
-            params string[] data)
-        {
-            return Get(
-                context: context,
-                id: "SearchIndexes_VerUp",
-                data: data);
-        }
-
-        public static string SearchIndexes_Timestamp(
-            Context context,
-            params string[] data)
-        {
-            return Get(
-                context: context,
-                id: "SearchIndexes_Timestamp",
-                data: data);
-        }
-
         public static string Items_Ver(
             Context context,
             params string[] data)
@@ -11585,16 +11435,6 @@ namespace Implem.Pleasanter.Libraries.Responses
             return Get(
                 context: context,
                 id: "OutgoingMails",
-                data: data);
-        }
-
-        public static string SearchIndexes(
-            Context context,
-            params string[] data)
-        {
-            return Get(
-                context: context,
-                id: "SearchIndexes",
                 data: data);
         }
 

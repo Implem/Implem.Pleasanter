@@ -333,7 +333,6 @@ namespace Implem.Pleasanter.Models
             {
                 Get(context: context);
             }
-            Libraries.Search.Indexes.Create(context, ss, ReferenceId, force: true);
             return new ErrorData(type: Error.Types.None);
         }
 

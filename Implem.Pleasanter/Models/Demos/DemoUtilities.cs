@@ -897,10 +897,6 @@ namespace Implem.Pleasanter.Models
                             where: Rds.ItemsWhere().ReferenceId(resultModel.ResultId),
                             addUpdatorParam: false,
                             addUpdatedTimeParam: false));
-                    Libraries.Search.Indexes.Create(
-                        context: context,
-                        ss: ss,
-                        resultModel: resultModel);
                 });
         }
 

@@ -254,9 +254,9 @@
     <Compile Include="Libraries\Extensions\InitialValueExtensions.cs" />
     <Compile Include="Libraries\Extensions\GridTextExtensions.cs" />
     <Compile Include="Libraries\Extensions\FullTextExtensions.cs" />
+    <Compile Include="Libraries\Extensions\SearchIndexExtensions.cs" />
     <Compile Include="Libraries\Extensions\TimeExtensions.cs" />
     <Compile Include="Libraries\Extensions\ToNoticeExtensions.cs" />
-    <Compile Include="Libraries\Extensions\SearchIndexExtensions.cs" />
     <Compile Include="Libraries\Extensions\TdExtensions.cs" />
     <Compile Include="Libraries\Extensions\ToControlExtensions.cs" />
     <Compile Include="Libraries\Extensions\ToExportExtensions.cs" />
@@ -546,10 +546,6 @@
     <Compile Include="Models\Results\ResultModel.cs" />
     <Compile Include="Models\Results\ResultUtilities.cs" />
     <Compile Include="Models\Results\ResultValidators.cs" />
-    <Compile Include="Models\SearchIndexes\SearchIndexCollection.cs" />
-    <Compile Include="Models\SearchIndexes\SearchIndexUtilities.cs" />
-    <Compile Include="Models\SearchIndexes\SearchIndexModel.cs" />
-    <Compile Include="Models\SearchIndexes\SearchIndexValidators.cs" />
     <Compile Include="Models\Sessions\SessionCollection.cs" />
     <Compile Include="Models\Sessions\SessionModel.cs" />
     <Compile Include="Models\Sessions\SessionUtilities.cs" />
