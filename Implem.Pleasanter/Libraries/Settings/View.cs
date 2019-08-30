@@ -804,7 +804,6 @@ namespace Implem.Pleasanter.Libraries.Settings
                 ss: ss,
                 where: where);
             SetSearchWhere(
-                context: context,
                 ss: ss,
                 where: where,
                 itemJoin: itemJoin);
@@ -1280,7 +1279,6 @@ namespace Implem.Pleasanter.Libraries.Settings
         }
 
         private void SetSearchWhere(
-            Context context,
             SiteSettings ss,
             SqlWhereCollection where,
             bool itemJoin)
