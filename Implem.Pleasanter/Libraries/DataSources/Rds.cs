@@ -9168,7 +9168,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             };
         }
 
-        public static SqlStatement TenantsCopyToStatement(SqlWhereCollection where, Sqls.TableTypes tableType)
+        public static SqlStatement TenantsCopyToStatement(SqlWhereCollection where, Sqls.TableTypes tableType, List<String> columnNames)
         {
             var column = new TenantsColumnCollection();
             var param = new TenantsParamCollection();
@@ -9196,7 +9196,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                 addUpdatorParam: false);
         }
 
-        public static SqlStatement DemosCopyToStatement(SqlWhereCollection where, Sqls.TableTypes tableType)
+        public static SqlStatement DemosCopyToStatement(SqlWhereCollection where, Sqls.TableTypes tableType, List<String> columnNames)
         {
             var column = new DemosColumnCollection();
             var param = new DemosParamCollection();
@@ -9220,7 +9220,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                 addUpdatorParam: false);
         }
 
-        public static SqlStatement SessionsCopyToStatement(SqlWhereCollection where, Sqls.TableTypes tableType)
+        public static SqlStatement SessionsCopyToStatement(SqlWhereCollection where, Sqls.TableTypes tableType, List<String> columnNames)
         {
             var column = new SessionsColumnCollection();
             var param = new SessionsParamCollection();
@@ -9243,7 +9243,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                 addUpdatorParam: false);
         }
 
-        public static SqlStatement SysLogsCopyToStatement(SqlWhereCollection where, Sqls.TableTypes tableType)
+        public static SqlStatement SysLogsCopyToStatement(SqlWhereCollection where, Sqls.TableTypes tableType, List<String> columnNames)
         {
             var column = new SysLogsColumnCollection();
             var param = new SysLogsParamCollection();
@@ -9294,7 +9294,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                 addUpdatorParam: false);
         }
 
-        public static SqlStatement StatusesCopyToStatement(SqlWhereCollection where, Sqls.TableTypes tableType)
+        public static SqlStatement StatusesCopyToStatement(SqlWhereCollection where, Sqls.TableTypes tableType, List<String> columnNames)
         {
             var column = new StatusesColumnCollection();
             var param = new StatusesParamCollection();
@@ -9314,7 +9314,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                 addUpdatorParam: false);
         }
 
-        public static SqlStatement ReminderSchedulesCopyToStatement(SqlWhereCollection where, Sqls.TableTypes tableType)
+        public static SqlStatement ReminderSchedulesCopyToStatement(SqlWhereCollection where, Sqls.TableTypes tableType, List<String> columnNames)
         {
             var column = new ReminderSchedulesColumnCollection();
             var param = new ReminderSchedulesParamCollection();
@@ -9334,7 +9334,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                 addUpdatorParam: false);
         }
 
-        public static SqlStatement DeptsCopyToStatement(SqlWhereCollection where, Sqls.TableTypes tableType)
+        public static SqlStatement DeptsCopyToStatement(SqlWhereCollection where, Sqls.TableTypes tableType, List<String> columnNames)
         {
             var column = new DeptsColumnCollection();
             var param = new DeptsParamCollection();
@@ -9356,7 +9356,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                 addUpdatorParam: false);
         }
 
-        public static SqlStatement GroupsCopyToStatement(SqlWhereCollection where, Sqls.TableTypes tableType)
+        public static SqlStatement GroupsCopyToStatement(SqlWhereCollection where, Sqls.TableTypes tableType, List<String> columnNames)
         {
             var column = new GroupsColumnCollection();
             var param = new GroupsParamCollection();
@@ -9377,7 +9377,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                 addUpdatorParam: false);
         }
 
-        public static SqlStatement GroupMembersCopyToStatement(SqlWhereCollection where, Sqls.TableTypes tableType)
+        public static SqlStatement GroupMembersCopyToStatement(SqlWhereCollection where, Sqls.TableTypes tableType, List<String> columnNames)
         {
             var column = new GroupMembersColumnCollection();
             var param = new GroupMembersParamCollection();
@@ -9398,7 +9398,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                 addUpdatorParam: false);
         }
 
-        public static SqlStatement RegistrationsCopyToStatement(SqlWhereCollection where, Sqls.TableTypes tableType)
+        public static SqlStatement RegistrationsCopyToStatement(SqlWhereCollection where, Sqls.TableTypes tableType, List<String> columnNames)
         {
             var column = new RegistrationsColumnCollection();
             var param = new RegistrationsParamCollection();
@@ -9429,7 +9429,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                 addUpdatorParam: false);
         }
 
-        public static SqlStatement UsersCopyToStatement(SqlWhereCollection where, Sqls.TableTypes tableType)
+        public static SqlStatement UsersCopyToStatement(SqlWhereCollection where, Sqls.TableTypes tableType, List<String> columnNames)
         {
             var column = new UsersColumnCollection();
             var param = new UsersParamCollection();
@@ -9477,7 +9477,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                 addUpdatorParam: false);
         }
 
-        public static SqlStatement LoginKeysCopyToStatement(SqlWhereCollection where, Sqls.TableTypes tableType)
+        public static SqlStatement LoginKeysCopyToStatement(SqlWhereCollection where, Sqls.TableTypes tableType, List<String> columnNames)
         {
             var column = new LoginKeysColumnCollection();
             var param = new LoginKeysParamCollection();
@@ -9499,7 +9499,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                 addUpdatorParam: false);
         }
 
-        public static SqlStatement MailAddressesCopyToStatement(SqlWhereCollection where, Sqls.TableTypes tableType)
+        public static SqlStatement MailAddressesCopyToStatement(SqlWhereCollection where, Sqls.TableTypes tableType, List<String> columnNames)
         {
             var column = new MailAddressesColumnCollection();
             var param = new MailAddressesParamCollection();
@@ -9520,7 +9520,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                 addUpdatorParam: false);
         }
 
-        public static SqlStatement OutgoingMailsCopyToStatement(SqlWhereCollection where, Sqls.TableTypes tableType)
+        public static SqlStatement OutgoingMailsCopyToStatement(SqlWhereCollection where, Sqls.TableTypes tableType, List<String> columnNames)
         {
             var column = new OutgoingMailsColumnCollection();
             var param = new OutgoingMailsParamCollection();
@@ -9550,7 +9550,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                 addUpdatorParam: false);
         }
 
-        public static SqlStatement ItemsCopyToStatement(SqlWhereCollection where, Sqls.TableTypes tableType)
+        public static SqlStatement ItemsCopyToStatement(SqlWhereCollection where, Sqls.TableTypes tableType, List<String> columnNames)
         {
             var column = new ItemsColumnCollection();
             var param = new ItemsParamCollection();
@@ -9573,7 +9573,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                 addUpdatorParam: false);
         }
 
-        public static SqlStatement SitesCopyToStatement(SqlWhereCollection where, Sqls.TableTypes tableType)
+        public static SqlStatement SitesCopyToStatement(SqlWhereCollection where, Sqls.TableTypes tableType, List<String> columnNames)
         {
             var column = new SitesColumnCollection();
             var param = new SitesParamCollection();
@@ -9603,7 +9603,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                 addUpdatorParam: false);
         }
 
-        public static SqlStatement OrdersCopyToStatement(SqlWhereCollection where, Sqls.TableTypes tableType)
+        public static SqlStatement OrdersCopyToStatement(SqlWhereCollection where, Sqls.TableTypes tableType, List<String> columnNames)
         {
             var column = new OrdersColumnCollection();
             var param = new OrdersParamCollection();
@@ -9624,7 +9624,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                 addUpdatorParam: false);
         }
 
-        public static SqlStatement ExportSettingsCopyToStatement(SqlWhereCollection where, Sqls.TableTypes tableType)
+        public static SqlStatement ExportSettingsCopyToStatement(SqlWhereCollection where, Sqls.TableTypes tableType, List<String> columnNames)
         {
             var column = new ExportSettingsColumnCollection();
             var param = new ExportSettingsParamCollection();
@@ -9647,7 +9647,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                 addUpdatorParam: false);
         }
 
-        public static SqlStatement LinksCopyToStatement(SqlWhereCollection where, Sqls.TableTypes tableType)
+        public static SqlStatement LinksCopyToStatement(SqlWhereCollection where, Sqls.TableTypes tableType, List<String> columnNames)
         {
             var column = new LinksColumnCollection();
             var param = new LinksParamCollection();
@@ -9666,7 +9666,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                 addUpdatorParam: false);
         }
 
-        public static SqlStatement BinariesCopyToStatement(SqlWhereCollection where, Sqls.TableTypes tableType)
+        public static SqlStatement BinariesCopyToStatement(SqlWhereCollection where, Sqls.TableTypes tableType, List<String> columnNames)
         {
             var column = new BinariesColumnCollection();
             var param = new BinariesParamCollection();
@@ -9698,7 +9698,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                 addUpdatorParam: false);
         }
 
-        public static SqlStatement PermissionsCopyToStatement(SqlWhereCollection where, Sqls.TableTypes tableType)
+        public static SqlStatement PermissionsCopyToStatement(SqlWhereCollection where, Sqls.TableTypes tableType, List<String> columnNames)
         {
             var column = new PermissionsColumnCollection();
             var param = new PermissionsParamCollection();
@@ -9720,7 +9720,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                 addUpdatorParam: false);
         }
 
-        public static SqlStatement IssuesCopyToStatement(SqlWhereCollection where, Sqls.TableTypes tableType)
+        public static SqlStatement IssuesCopyToStatement(SqlWhereCollection where, Sqls.TableTypes tableType, List<String> columnNames)
         {
             var column = new IssuesColumnCollection();
             var param = new IssuesParamCollection();
@@ -9741,7 +9741,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             column.Creator(function: Sqls.Functions.SingleColumn); param.Creator();
             column.Updator(function: Sqls.Functions.SingleColumn); param.Updator();
             column.CreatedTime(function: Sqls.Functions.SingleColumn); param.CreatedTime();
-            Def.ExtendedColumnTypes.Keys.ForEach(columnName =>
+            columnNames.ForEach(columnName =>
             {
                 column.Add(
                     columnBracket: $"[{columnName}]",
@@ -9758,7 +9758,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                 addUpdatorParam: false);
         }
 
-        public static SqlStatement ResultsCopyToStatement(SqlWhereCollection where, Sqls.TableTypes tableType)
+        public static SqlStatement ResultsCopyToStatement(SqlWhereCollection where, Sqls.TableTypes tableType, List<String> columnNames)
         {
             var column = new ResultsColumnCollection();
             var param = new ResultsParamCollection();
@@ -9775,7 +9775,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             column.Creator(function: Sqls.Functions.SingleColumn); param.Creator();
             column.Updator(function: Sqls.Functions.SingleColumn); param.Updator();
             column.CreatedTime(function: Sqls.Functions.SingleColumn); param.CreatedTime();
-            Def.ExtendedColumnTypes.Keys.ForEach(columnName =>
+            columnNames.ForEach(columnName =>
             {
                 column.Add(
                     columnBracket: $"[{columnName}]",
@@ -9792,7 +9792,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                 addUpdatorParam: false);
         }
 
-        public static SqlStatement WikisCopyToStatement(SqlWhereCollection where, Sqls.TableTypes tableType)
+        public static SqlStatement WikisCopyToStatement(SqlWhereCollection where, Sqls.TableTypes tableType, List<String> columnNames)
         {
             var column = new WikisColumnCollection();
             var param = new WikisParamCollection();
