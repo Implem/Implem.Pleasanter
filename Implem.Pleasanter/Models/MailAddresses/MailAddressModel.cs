@@ -267,7 +267,8 @@ namespace Implem.Pleasanter.Models
             {
                 statements.Add(Rds.MailAddressesCopyToStatement(
                     where: where,
-                    tableType: Sqls.TableTypes.History));
+                    tableType: Sqls.TableTypes.History,
+                    ColumnNames()));
                 Ver++;
             }
             statements.AddRange(UpdateStatements(

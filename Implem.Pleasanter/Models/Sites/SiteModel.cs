@@ -474,7 +474,6 @@ namespace Implem.Pleasanter.Models
             bool backgroundTask = false,
             bool onCreating = false)
         {
-            if (Parameters.Search.Provider != "FullText") return null;
             if (!Parameters.Search.CreateIndexes && !backgroundTask) return null;
             if (AccessStatus == Databases.AccessStatuses.NotFound) return null;
             if (ReferenceType == "Wikis") return null;
@@ -606,7 +605,8 @@ namespace Implem.Pleasanter.Models
             {
                 statements.Add(Rds.SitesCopyToStatement(
                     where: where,
-                    tableType: Sqls.TableTypes.History));
+                    tableType: Sqls.TableTypes.History,
+                    ColumnNames()));
                 Ver++;
             }
             statements.AddRange(UpdateStatements(

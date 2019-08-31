@@ -2277,7 +2277,8 @@ namespace Implem.Pleasanter.Models
             statements.OnBulkUpdatingExtendedSqls(ss.SiteId);
             statements.Add(Rds.ResultsCopyToStatement(
                 where: verUpWhere,
-                tableType: Sqls.TableTypes.History));
+                tableType: Sqls.TableTypes.History,
+                resultModel.ColumnNames()));
             statements.Add(Rds.UpdateResults(
                 where: verUpWhere,
                 param: Rds.ResultsParam().Ver(raw: "[Ver]+1"),

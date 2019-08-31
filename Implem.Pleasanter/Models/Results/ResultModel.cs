@@ -639,7 +639,6 @@ namespace Implem.Pleasanter.Models
             bool backgroundTask = false,
             bool onCreating = false)
         {
-            if (Parameters.Search.Provider != "FullText") return null;
             if (!Parameters.Search.CreateIndexes && !backgroundTask) return null;
             if (AccessStatus == Databases.AccessStatuses.NotFound) return null;
             var fullText = new List<string>();
@@ -957,7 +956,8 @@ namespace Implem.Pleasanter.Models
             {
                 statements.Add(Rds.ResultsCopyToStatement(
                     where: where,
-                    tableType: Sqls.TableTypes.History));
+                    tableType: Sqls.TableTypes.History,
+                    ColumnNames()));
                 Ver++;
             }
             statements.AddRange(UpdateStatements(
