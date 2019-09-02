@@ -12878,11 +12878,19 @@ namespace Implem.DefinitionAccessor
         public string IfConflicted;
         public string SelectIdentity;
         public string TruncateTemplate;
+        public string ExistsDatabase;
         public string CreateDatabase;
         public string SpWho;
         public string KillSpid;
-        public string RecreateLoginUser;
-        public string RecreateLoginAdmin;
+        public string ExistsLoginRole;
+        public string ExistsUser;
+        public string DropLoginRole;
+        public string DropUser;
+        public string CreateLoginRole;
+        public string CreateLoginUser;
+        public string CreateLoginAdmin;
+        public string GrantPrivilegeAdmin;
+        public string GrantPrivilegeUser;
         public string ExistsTable;
         public string CreateTable;
         public string CreatePk;
@@ -12917,11 +12925,19 @@ namespace Implem.DefinitionAccessor
         public SqlDefinition IfConflicted = new SqlDefinition();
         public SqlDefinition SelectIdentity = new SqlDefinition();
         public SqlDefinition TruncateTemplate = new SqlDefinition();
+        public SqlDefinition ExistsDatabase = new SqlDefinition();
         public SqlDefinition CreateDatabase = new SqlDefinition();
         public SqlDefinition SpWho = new SqlDefinition();
         public SqlDefinition KillSpid = new SqlDefinition();
-        public SqlDefinition RecreateLoginUser = new SqlDefinition();
-        public SqlDefinition RecreateLoginAdmin = new SqlDefinition();
+        public SqlDefinition ExistsLoginRole = new SqlDefinition();
+        public SqlDefinition ExistsUser = new SqlDefinition();
+        public SqlDefinition DropLoginRole = new SqlDefinition();
+        public SqlDefinition DropUser = new SqlDefinition();
+        public SqlDefinition CreateLoginRole = new SqlDefinition();
+        public SqlDefinition CreateLoginUser = new SqlDefinition();
+        public SqlDefinition CreateLoginAdmin = new SqlDefinition();
+        public SqlDefinition GrantPrivilegeAdmin = new SqlDefinition();
+        public SqlDefinition GrantPrivilegeUsers = new SqlDefinition();
         public SqlDefinition ExistsTable = new SqlDefinition();
         public SqlDefinition CreateTable = new SqlDefinition();
         public SqlDefinition CreatePk = new SqlDefinition();
@@ -12996,16 +13012,16 @@ namespace Implem.DefinitionAccessor
 
     public class SqlDefinitionFiles : ISqlDefinitionFiles
     {
-        static readonly string SearchPattern = "*.sql";
-        IList<ISqlDefinitionFile> _sqls = new List<ISqlDefinitionFile>();
+        private static readonly string SearchPattern = "*.sql";
+        private IList<ISqlDefinitionFile> sqls = new List<ISqlDefinitionFile>();
 
         public string FullPath { get; set;  }
-        public int Count => _sqls.Count;
-        public IEnumerator<ISqlDefinitionFile> GetEnumerator() => _sqls.GetEnumerator();
+        public int Count => sqls.Count;
+        public IEnumerator<ISqlDefinitionFile> GetEnumerator() => sqls.GetEnumerator();
 
         public void Read()
         {
-            _sqls.Clear();
+            sqls.Clear();
             AddFiles(path: FullPath, searchPattern: SearchPattern);
         }
 
@@ -13014,9 +13030,9 @@ namespace Implem.DefinitionAccessor
             AddFiles(path: path, searchPattern: searchPattern);
         }
 
-        IEnumerator IEnumerable.GetEnumerator() => _sqls.GetEnumerator();
+        IEnumerator IEnumerable.GetEnumerator() => sqls.GetEnumerator();
 
-        void AddFiles(string path, string searchPattern)
+        private void AddFiles(string path, string searchPattern)
         {
             if (!Directory.Exists(path)) return;
             Directory.EnumerateFiles(path, searchPattern)
@@ -13024,7 +13040,7 @@ namespace Implem.DefinitionAccessor
                 {
                     var file = new SqlDefinitionFileText(f);
                     file.Read();
-                    _sqls.Add(file);
+                    sqls.Add(file);
                 });
         }
     }

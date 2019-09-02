@@ -1,1 +1,1 @@
-﻿select '{"Id":' + convert(nvarchar,@@identity) + '}';
+﻿; select '{"Id":' + convert(nvarchar,@@identity) + '}';

@@ -1,3 +1,3 @@
-﻿select * 
-from dbo.sysobjects 
-where id = object_id('#TableName#') and objectproperty(id, N'IsUserTable') = 1;
+﻿select table_name
+from information_schema.columns
+where table_schema = 'public' and table_name = '#TableName#';

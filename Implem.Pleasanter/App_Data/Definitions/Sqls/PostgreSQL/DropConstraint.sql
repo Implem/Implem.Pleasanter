@@ -1,1 +1,1 @@
-﻿alter table dbo."#SourceTableName#" drop constraint "#IndexName#";
+﻿alter table "public"."#SourceTableName#" drop constraint "#IndexName#";

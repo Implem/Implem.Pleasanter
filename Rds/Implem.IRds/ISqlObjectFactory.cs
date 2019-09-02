@@ -19,5 +19,7 @@
         ISqlResult SqlResult { get; }
 
         ISqlErrors SqlErrors { get; }
+
+        ISqlDataTypes SqlDataTypes { get; }
     }
 }

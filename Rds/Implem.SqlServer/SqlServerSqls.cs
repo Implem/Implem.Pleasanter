@@ -19,9 +19,16 @@ namespace Implem.SqlServer
 
         public string WhereLikeTemplate { get; } = "@SearchText#ParamCount#_#CommandCount# + '%')";
 
+        public string GenerateIdentity { get; } = " identity({0}, 1)";
+
         public object DateTimeValue(object value)
         {
             return value;
+        }
+
+        public string BooleanString(string bit)
+        {
+            return bit;
         }
     }
 }

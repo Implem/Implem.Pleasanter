@@ -7,6 +7,7 @@ namespace Implem.SqlServer
         private static ISqls sqls = new SqlServerSqls();
         private static ISqlCommandText sqlCommandText = new SqlServerCommandText();
         private static ISqlResult sqlResult = new SqlServerResult();
+        private static ISqlDataTypes sqlDataTypes = new SqlServerDataTypes();
 
         public ISqlErrors SqlErrors
         {
@@ -62,6 +63,14 @@ namespace Implem.SqlServer
             get
             {
                 return sqlResult;
+            }
+        }
+
+        public ISqlDataTypes SqlDataTypes
+        {
+            get
+            {
+                return sqlDataTypes;
             }
         }
     }

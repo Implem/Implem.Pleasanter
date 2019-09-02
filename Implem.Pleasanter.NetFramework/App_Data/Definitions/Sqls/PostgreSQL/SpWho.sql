@@ -1,4 +1,1 @@
-﻿if exists(select * from syslogins where name='#Uid#')
-begin
-    exec sp_who '#Uid#';
-end;
+﻿select pid as "spid" from pg_stat_activity where usename = '#Uid#';

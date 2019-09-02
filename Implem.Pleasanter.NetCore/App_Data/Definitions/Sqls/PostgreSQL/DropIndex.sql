@@ -1,1 +1,1 @@
-﻿drop index dbo."#SourceTableName#"."#IndexName#";
+﻿drop index "public"."#IndexName#" cascade;

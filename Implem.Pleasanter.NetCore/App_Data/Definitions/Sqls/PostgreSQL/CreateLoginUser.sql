@@ -1,0 +1,1 @@
+﻿create user "#Uid#" with login password '#Pwd#' valid until 'infinity';

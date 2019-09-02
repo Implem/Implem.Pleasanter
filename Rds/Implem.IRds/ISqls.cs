@@ -14,10 +14,14 @@
 
         string CurrentDateTime { get; }
 
-        object DateTimeValue(object value);
-
         string WhereLikeTemplateForward { get; }
 
         string WhereLikeTemplate { get; }
+
+        string GenerateIdentity { get; }
+
+        object DateTimeValue(object value);
+
+        string BooleanString(string value);
     }
 }

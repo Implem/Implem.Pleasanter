@@ -182,5 +182,12 @@ namespace Implem.Pleasanter.Libraries.Requests
             }
         }
 
+        public ISqlDataTypes SqlDataTypes
+        {
+            get
+            {
+                return GetSqlObjectFactory().SqlDataTypes;
+            }
+        }
     }
 }

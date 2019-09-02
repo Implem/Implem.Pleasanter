@@ -7,6 +7,7 @@ namespace Implem.PostgreSql
         private static ISqls sqls = new PostgreSqlSqls();
         private static ISqlCommandText sqlCommandText = new PostgreSqlCommandText();
         private static ISqlResult sqlResult = new PostgreSqlResult();
+        private static ISqlDataTypes sqlDataTypes = new PostgreSqlDataTypes();
 
         public ISqlErrors SqlErrors
         {
@@ -62,6 +63,14 @@ namespace Implem.PostgreSql
             get
             {
                 return sqlResult;
+            }
+        }
+
+        public ISqlDataTypes SqlDataTypes
+        {
+            get
+            {
+                return sqlDataTypes;
             }
         }
     }

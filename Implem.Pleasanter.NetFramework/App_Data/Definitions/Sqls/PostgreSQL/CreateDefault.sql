@@ -1,2 +1,1 @@
-﻿alter table "#TableName#" 
-add constraint "df_#DefaultName#" default #DefaultValue# for "#ColumnName#";
+﻿alter table "#TableName#" alter column "#ColumnName#" set default #DefaultValue#;

@@ -95,7 +95,7 @@ namespace Implem.CodeDefiner
         {
             TryOpenConnections(factory);
             Performances.Record(MethodBase.GetCurrentMethod().Name);
-            Functions.SqlServer.Configurator.Configure(factory);
+            Functions.Rds.Configurator.Configure(factory);
             Consoles.Write(
                 DisplayAccessor.Displays.Get("CodeDefinerRdsCompleted"),
                 Consoles.Types.Success);
