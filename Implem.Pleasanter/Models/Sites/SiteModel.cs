@@ -985,6 +985,11 @@ namespace Implem.Pleasanter.Models
                                 column: column,
                                 condition: filter.Value);
                             break;
+                        case "Body":
+                            match = Body.Matched(
+                                column: column,
+                                condition: filter.Value);
+                            break;
                         case "CreatedTime":
                             match = CreatedTime.Value.Matched(
                                 column: column,
