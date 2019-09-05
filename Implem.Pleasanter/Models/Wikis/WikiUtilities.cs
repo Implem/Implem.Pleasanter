@@ -1138,8 +1138,39 @@ namespace Implem.Pleasanter.Models
                 column: Rds.WikisColumn()
                     .WikiId(tableName: "Wikis_Deleted"),
                 where: where);
+            var column = new Rds.WikisColumnCollection();
+                column.WikiId();
+                ss.Columns
+                    .Where(o => o.TypeCs == "Attachments")
+                    .Select(o => o.ColumnName)
+                    .ForEach(columnName =>
+                        column.Add($"[{columnName}]"));
+                var attachments = Rds.ExecuteTable(
+                    context: context,
+                    statements: Rds.SelectWikis(
+                        tableType: Sqls.TableTypes.Deleted,
+                        column: column,
+                        where: Rds.WikisWhere()
+                            .SiteId(ss.SiteId)
+                            .WikiId_In(sub: sub)))
+                    .AsEnumerable()
+                    .Select(dataRow => new
+                    {
+                        wikiId = dataRow.Long("WikiId"),
+                        attachments = dataRow
+                            .Columns()
+                            .Where(columnName => columnName.StartsWith("Attachments"))
+                            .SelectMany(columnName => 
+                                Jsons.Deserialize<IEnumerable<Attachment>>(dataRow.String(columnName)) 
+                                    ?? Enumerable.Empty<Attachment>())
+                            .Where(o => o != null)
+                            .Select(o => o.Guid)
+                            .Distinct()
+                            .ToArray()
+                    })
+                    .Where(o => o.attachments.Length > 0);
             var guid = Strings.NewGuid();
-            return Rds.ExecuteScalar_response(
+            var count = Rds.ExecuteScalar_response(
                 context: context,
                 connectionString: Parameters.Rds.OwnerConnectionString,
                 transactional: true,
@@ -1164,6 +1195,37 @@ namespace Implem.Pleasanter.Models
                         param: Rds.ItemsParam()
                             .ReferenceType(ss.ReferenceType))
                 }).Count.ToInt();
+            attachments.ForEach(o =>
+            {
+                RestoreAttachments(context, o.wikiId, o.attachments);
+            });    
+            return count;
+        }
+
+        private static void RestoreAttachments(Context context, long wikiId, IList<string> attachments)
+        {
+            var raw = $" ({string.Join(", ", attachments.Select(o => $"'{o}'"))}) ";
+            Rds.ExecuteNonQuery(
+                context: context,
+                connectionString: Parameters.Rds.OwnerConnectionString,
+                statements: new SqlStatement[] {
+                    Rds.DeleteBinaries(
+                        where: Rds.BinariesWhere()
+                            .ReferenceId(wikiId)
+                            .BinaryType("Attachments")
+                            .Binaries_Guid(
+                                _operator:" not in ",
+                                raw: raw,
+                                _using: attachments.Any())),
+                    Rds.RestoreBinaries(
+                        where: Rds.BinariesWhere()
+                            .ReferenceId(wikiId)
+                            .BinaryType("Attachments")
+                            .Binaries_Guid(
+                                _operator: $" in ",
+                                raw: raw),
+                        _using: attachments.Any())
+            }, transactional: true);
         }
 
         public static string RestoreFromHistory(
@@ -1207,6 +1269,15 @@ namespace Implem.Pleasanter.Models
             switch (errorData.Type)
             {
                 case Error.Types.None:
+                    RestoreAttachments(
+                        context: context,
+                        wikiId: wikiModel.WikiId,
+                        attachments: wikiModel
+                            .AttachmentsHash
+                            .Values
+                            .SelectMany(o => o.AsEnumerable())
+                            .Select(o => o.Guid)
+                            .Distinct().ToArray());
                     SessionUtilities.Set(
                         context: context,
                         message: Messages.RestoredFromHistory(

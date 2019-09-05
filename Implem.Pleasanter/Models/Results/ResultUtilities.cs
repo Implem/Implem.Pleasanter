@@ -2964,8 +2964,39 @@ namespace Implem.Pleasanter.Models
                 column: Rds.ResultsColumn()
                     .ResultId(tableName: "Results_Deleted"),
                 where: where);
+            var column = new Rds.ResultsColumnCollection();
+                column.ResultId();
+                ss.Columns
+                    .Where(o => o.TypeCs == "Attachments")
+                    .Select(o => o.ColumnName)
+                    .ForEach(columnName =>
+                        column.Add($"[{columnName}]"));
+                var attachments = Rds.ExecuteTable(
+                    context: context,
+                    statements: Rds.SelectResults(
+                        tableType: Sqls.TableTypes.Deleted,
+                        column: column,
+                        where: Rds.ResultsWhere()
+                            .SiteId(ss.SiteId)
+                            .ResultId_In(sub: sub)))
+                    .AsEnumerable()
+                    .Select(dataRow => new
+                    {
+                        resultId = dataRow.Long("ResultId"),
+                        attachments = dataRow
+                            .Columns()
+                            .Where(columnName => columnName.StartsWith("Attachments"))
+                            .SelectMany(columnName => 
+                                Jsons.Deserialize<IEnumerable<Attachment>>(dataRow.String(columnName)) 
+                                    ?? Enumerable.Empty<Attachment>())
+                            .Where(o => o != null)
+                            .Select(o => o.Guid)
+                            .Distinct()
+                            .ToArray()
+                    })
+                    .Where(o => o.attachments.Length > 0);
             var guid = Strings.NewGuid();
-            return Rds.ExecuteScalar_response(
+            var count = Rds.ExecuteScalar_response(
                 context: context,
                 connectionString: Parameters.Rds.OwnerConnectionString,
                 transactional: true,
@@ -2990,6 +3021,37 @@ namespace Implem.Pleasanter.Models
                         param: Rds.ItemsParam()
                             .ReferenceType(ss.ReferenceType))
                 }).Count.ToInt();
+            attachments.ForEach(o =>
+            {
+                RestoreAttachments(context, o.resultId, o.attachments);
+            });    
+            return count;
+        }
+
+        private static void RestoreAttachments(Context context, long resultId, IList<string> attachments)
+        {
+            var raw = $" ({string.Join(", ", attachments.Select(o => $"'{o}'"))}) ";
+            Rds.ExecuteNonQuery(
+                context: context,
+                connectionString: Parameters.Rds.OwnerConnectionString,
+                statements: new SqlStatement[] {
+                    Rds.DeleteBinaries(
+                        where: Rds.BinariesWhere()
+                            .ReferenceId(resultId)
+                            .BinaryType("Attachments")
+                            .Binaries_Guid(
+                                _operator:" not in ",
+                                raw: raw,
+                                _using: attachments.Any())),
+                    Rds.RestoreBinaries(
+                        where: Rds.BinariesWhere()
+                            .ReferenceId(resultId)
+                            .BinaryType("Attachments")
+                            .Binaries_Guid(
+                                _operator: $" in ",
+                                raw: raw),
+                        _using: attachments.Any())
+            }, transactional: true);
         }
 
         public static string RestoreFromHistory(
@@ -3033,6 +3095,15 @@ namespace Implem.Pleasanter.Models
             switch (errorData.Type)
             {
                 case Error.Types.None:
+                    RestoreAttachments(
+                        context: context,
+                        resultId: resultModel.ResultId,
+                        attachments: resultModel
+                            .AttachmentsHash
+                            .Values
+                            .SelectMany(o => o.AsEnumerable())
+                            .Select(o => o.Guid)
+                            .Distinct().ToArray());
                     SessionUtilities.Set(
                         context: context,
                         message: Messages.RestoredFromHistory(

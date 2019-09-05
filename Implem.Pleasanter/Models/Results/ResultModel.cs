@@ -1761,6 +1761,11 @@ namespace Implem.Pleasanter.Models
                                 column: column,
                                 condition: filter.Value);
                             break;
+                        case "Body":
+                            match = Body.Matched(
+                                column: column,
+                                condition: filter.Value);
+                            break;
                         case "Status":
                             match = Status.Value.Matched(
                                 column: column,
