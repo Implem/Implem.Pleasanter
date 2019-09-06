@@ -4468,6 +4468,16 @@ namespace Implem.Pleasanter.Libraries.Responses
                 data: data);
         }
 
+        public static string OverLimitApi(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "OverLimitApi",
+                data: data);
+        }
+
         public static string OverLimitQuantity(
             Context context,
             params string[] data)
@@ -8765,6 +8775,26 @@ namespace Implem.Pleasanter.Libraries.Responses
             return Get(
                 context: context,
                 id: "Sites_Export",
+                data: data);
+        }
+
+        public static string Sites_ApiCountDate(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "Sites_ApiCountDate",
+                data: data);
+        }
+
+        public static string Sites_ApiCount(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "Sites_ApiCount",
                 data: data);
         }
 

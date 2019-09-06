@@ -1050,6 +1050,12 @@ namespace Implem.Pleasanter.Libraries.Settings
                         case "LockedUser":
                             sql.Sites_LockedUser(tableName: path, _as: _as);
                             break;
+                        case "ApiCountDate":
+                            sql.Sites_ApiCountDate(tableName: path, _as: _as);
+                            break;
+                        case "ApiCount":
+                            sql.Sites_ApiCount(tableName: path, _as: _as);
+                            break;
                         case "Comments":
                             sql.Sites_Comments(tableName: path, _as: _as);
                             break;

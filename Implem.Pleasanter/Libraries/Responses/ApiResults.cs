@@ -7,9 +7,18 @@ namespace Implem.Pleasanter.Libraries.Responses
 {
     public static class ApiResults
     {
-        public static ContentResult Success(long id, string message)
+        public static ContentResult Success(long id, string message, int? limitPerDate = null, int? limitRemaining = null)
         {
-            return Get(ApiResponses.Success(id, message));
+            if(limitPerDate == 0)
+            {
+                limitPerDate = null;
+                limitRemaining = null;
+            }
+            return Get(ApiResponses.Success(
+                id: id,
+                message: message,
+                limitPerDate: limitPerDate,
+                limitRemaining: limitRemaining));
         }
 
         public static ContentResult Error(Context context, ErrorData errorData, params string[] data)
@@ -31,6 +40,25 @@ namespace Implem.Pleasanter.Libraries.Responses
             {
                 ContentType = "application/json",
                 Content = apiResponse
+            };
+        }
+
+        public static ContentResult Get(int statusCode,int limitPerDate, int limitRemaining, object response)
+        {
+            return new ContentResult
+            {
+                ContentType = "application/json",
+                Content = new
+                {
+                    StatusCode = statusCode,
+                    LimitPerDate = limitPerDate == 0 
+                        ? null 
+                        : (int?)limitPerDate,
+                    LimitRemaining = limitPerDate == 0 
+                        ? null 
+                        : (int?)limitRemaining,
+                    Response = response
+                }.ToJson()
             };
         }
 

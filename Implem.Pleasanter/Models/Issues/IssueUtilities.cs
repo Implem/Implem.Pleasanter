@@ -1989,10 +1989,12 @@ namespace Implem.Pleasanter.Models
                 offset: api.Offset,
                 pageSize: pageSize,
                 tableType: tableType);
-            return ApiResults.Get(new
-            {
-                StatusCode = 200,
-                Response = new
+            SiteUtilities.UpdateApiCount(context, ss);
+            return ApiResults.Get(
+                statusCode: 200,
+                limitPerDate: Parameters.Api.LimitPerSite,
+                limitRemaining: Parameters.Api.LimitPerSite - ss.ApiCount,
+                response: new
                 {
                     api.Offset,
                     PageSize = pageSize,
@@ -2000,8 +2002,7 @@ namespace Implem.Pleasanter.Models
                     Data = issueCollection.Select(o => o.GetByApi(
                         context: context,
                         ss: ss))
-                }
-            }.ToJson());
+                });
         }
 
         public static System.Web.Mvc.ContentResult GetByApi(
@@ -2031,16 +2032,17 @@ namespace Implem.Pleasanter.Models
             ss.SetColumnAccessControls(
                 context: context,
                 mine: issueModel.Mine(context: context));
-            return ApiResults.Get(new
-            {
-                StatusCode = 200,
-                Response = new
+            SiteUtilities.UpdateApiCount(context, ss);
+            return ApiResults.Get(
+                statusCode: 200,
+                limitPerDate: Parameters.Api.LimitPerSite,
+                limitRemaining: Parameters.Api.LimitPerSite - ss.ApiCount,
+                response: new
                 {
                     Data = issueModel.GetByApi(
                         context: context,
                         ss: ss).ToSingleList()
-                }
-            }.ToJson());
+                });
         }
 
         public static string Create(Context context, SiteSettings ss)
@@ -2128,9 +2130,12 @@ namespace Implem.Pleasanter.Models
             switch (errorData.Type)
             {
                 case Error.Types.None:
+                    SiteUtilities.UpdateApiCount(context: context, ss: ss);
                     return ApiResults.Success(
-                        issueModel.IssueId,
-                        Displays.Created(
+                        id: issueModel.IssueId,
+                        limitPerDate: Parameters.Api.LimitPerSite,
+                        limitRemaining: Parameters.Api.LimitPerSite - ss.ApiCount,
+                        message: Displays.Created(
                             context: context,
                             data: issueModel.Title.DisplayValue));
                 case Error.Types.Duplicated:
@@ -2816,9 +2821,12 @@ namespace Implem.Pleasanter.Models
             switch (errorData.Type)
             {
                 case Error.Types.None:
+                    SiteUtilities.UpdateApiCount(context: context, ss: ss);
                     return ApiResults.Success(
                         issueModel.IssueId,
-                        Displays.Updated(
+                        limitPerDate: Parameters.Api.LimitPerSite,
+                        limitRemaining: Parameters.Api.LimitPerSite - ss.ApiCount,
+                        message: Displays.Updated(
                             context: context,
                             data: issueModel.Title.DisplayValue));
                 case Error.Types.Duplicated:
@@ -3056,9 +3064,12 @@ namespace Implem.Pleasanter.Models
             switch (errorData.Type)
             {
                 case Error.Types.None:
+                    SiteUtilities.UpdateApiCount(context: context, ss: ss);
                     return ApiResults.Success(
-                        issueModel.IssueId,
-                        Displays.Deleted(
+                        id: issueModel.IssueId,
+                        limitPerDate: Parameters.Api.LimitPerSite,
+                        limitRemaining: Parameters.Api.LimitPerSite - ss.ApiCount,
+                        message: Displays.Deleted(
                             context: context,
                             data: issueModel.Title.DisplayValue));
                 default:
@@ -4374,11 +4385,12 @@ namespace Implem.Pleasanter.Models
                     context: context,
                     ss: ss),
                 view: api.View ?? new View());
-            return ApiResults.Get(
-                new
-                {
-                    StatusCode = 200,
-                    Response = new
+                SiteUtilities.UpdateApiCount(context: context, ss: ss);
+                return ApiResults.Get(
+                    statusCode: 200,
+                    limitPerDate: Parameters.Api.LimitPerSite,
+                    limitRemaining: Parameters.Api.LimitPerSite - ss.ApiCount,
+                    response: new
                     {
                         Name = ExportUtilities.FileName(
                             context: context,
@@ -4386,8 +4398,7 @@ namespace Implem.Pleasanter.Models
                             name: export.Name,
                             extension: export.Type.ToString()),
                         Content = content
-                    }
-                }.ToJson());
+                    });
         }
 
         public static ResponseFile ExportCrosstab(

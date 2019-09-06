@@ -1,4 +1,5 @@
 ﻿{
     "Enabled": true,
-    "PageSize": 200
+    "PageSize": 200,
+    "LimitPerSite": 0
 }

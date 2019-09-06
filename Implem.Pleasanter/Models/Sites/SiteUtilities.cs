@@ -8914,5 +8914,20 @@ namespace Implem.Pleasanter.Models
                     id: ss.SiteId))
                 .ToJson();
         }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        public static void UpdateApiCount(Context context, SiteSettings ss)
+        {
+            Rds.ExecuteNonQuery(
+                context: context,
+                statements: Rds.UpdateSites(
+                    where: Rds.SitesWhere()
+                        .SiteId(ss.SiteId),
+                param: Rds.SitesParam()
+                    .ApiCountDate(ss.ApiCountDate)
+                    .ApiCount(++ss.ApiCount)));
+        }
     }
 }

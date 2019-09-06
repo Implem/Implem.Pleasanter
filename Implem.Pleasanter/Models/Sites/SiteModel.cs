@@ -38,6 +38,8 @@ namespace Implem.Pleasanter.Models
         public List<string> MonitorChangesColumns = null;
         public List<string> TitleColumns = null;
         public Export Export = null;
+        public DateTime ApiCountDate = 0.ToDateTime();
+        public int ApiCount = 0;
 
         public TitleBody TitleBody
         {
@@ -62,6 +64,8 @@ namespace Implem.Pleasanter.Models
         public List<string> SavedMonitorChangesColumns = null;
         public List<string> SavedTitleColumns = null;
         public Export SavedExport = null;
+        public DateTime SavedApiCountDate = 0.ToDateTime();
+        public int SavedApiCount = 0;
 
         public bool TenantId_Updated(Context context, Column column = null)
         {
@@ -135,12 +139,28 @@ namespace Implem.Pleasanter.Models
                 column.GetDefaultInput(context: context).ToInt() != LockedUser.Id);
         }
 
+        public bool ApiCount_Updated(Context context, Column column = null)
+        {
+            return ApiCount != SavedApiCount &&
+                (column == null ||
+                column.DefaultInput.IsNullOrEmpty() ||
+                column.GetDefaultInput(context: context).ToInt() != ApiCount);
+        }
+
         public bool LockedTime_Updated(Context context, Column column = null)
         {
             return LockedTime.Value != SavedLockedTime &&
                 (column == null ||
                 column.DefaultInput.IsNullOrEmpty() ||
                 column.DefaultTime().Date != LockedTime.Value.Date);
+        }
+
+        public bool ApiCountDate_Updated(Context context, Column column = null)
+        {
+            return ApiCountDate != SavedApiCountDate &&
+                (column == null ||
+                column.DefaultInput.IsNullOrEmpty() ||
+                column.DefaultTime().Date != ApiCountDate.Date);
         }
 
         public SiteSettings Session_SiteSettings(Context context)
@@ -232,6 +252,8 @@ namespace Implem.Pleasanter.Models
                 case "MonitorChangesColumns": return MonitorChangesColumns.ToString();
                 case "TitleColumns": return TitleColumns.ToString();
                 case "Export": return Export.ToString();
+                case "ApiCountDate": return ApiCountDate.ToString();
+                case "ApiCount": return ApiCount.ToString();
                 case "Comments": return Comments.ToJson();
                 case "Creator": return Creator.Id.ToString();
                 case "Updator": return Updator.Id.ToString();
@@ -313,6 +335,12 @@ namespace Implem.Pleasanter.Models
                         break;
                     case "Export":
                         hash.Add("Export", Export.ToString());
+                        break;
+                    case "ApiCountDate":
+                        hash.Add("ApiCountDate", ApiCountDate.ToString());
+                        break;
+                    case "ApiCount":
+                        hash.Add("ApiCount", ApiCount.ToString());
                         break;
                     case "Comments":
                         hash.Add("Comments", Comments.ToJson());
@@ -826,6 +854,8 @@ namespace Implem.Pleasanter.Models
                     case "Sites_ReferenceType": ReferenceType = value.ToString(); break;
                     case "Sites_InheritPermission": InheritPermission = value.ToLong(); break;
                     case "Sites_Publish": Publish = value.ToBool(); break;
+                    case "Sites_ApiCountDate": ApiCountDate = value.ToDateTime().ToUniversal(context: context); break;
+                    case "Sites_ApiCount": ApiCount = value.ToInt(); break;
                     case "Sites_Timestamp": Timestamp = value.ToString(); break;
                     case "Comments": Comments.Prepend(
                         context: context,
@@ -919,6 +949,8 @@ namespace Implem.Pleasanter.Models
             MonitorChangesColumns = siteModel.MonitorChangesColumns;
             TitleColumns = siteModel.TitleColumns;
             Export = siteModel.Export;
+            ApiCountDate = siteModel.ApiCountDate;
+            ApiCount = siteModel.ApiCount;
             Comments = siteModel.Comments;
             Creator = siteModel.Creator;
             Updator = siteModel.Updator;
@@ -947,6 +979,8 @@ namespace Implem.Pleasanter.Models
             if (data.ReferenceType != null) ReferenceType = data.ReferenceType.ToString().ToString();
             if (data.InheritPermission != null) InheritPermission = data.InheritPermission.ToLong().ToLong();
             if (data.Publish != null) Publish = data.Publish.ToBool().ToBool();
+            if (data.ApiCountDate != null) ApiCountDate = data.ApiCountDate.ToDateTime().ToDateTime().ToUniversal(context: context);
+            if (data.ApiCount != null) ApiCount = data.ApiCount.ToInt().ToInt();
             if (data.Comments != null) Comments.Prepend(context: context, ss: ss, body: data.Comments);
             if (data.VerUp != null) VerUp = data.VerUp.ToBool();
             data.ClassHash.ForEach(o => Class(
@@ -1129,6 +1163,14 @@ namespace Implem.Pleasanter.Models
                             LockedUser = SiteInfo.User(context: context, userId: dataRow.Int(column.ColumnName));
                             SavedLockedUser = LockedUser.Id;
                             break;
+                        case "ApiCountDate":
+                            ApiCountDate = dataRow[column.ColumnName].ToDateTime();
+                            SavedApiCountDate = ApiCountDate;
+                            break;
+                        case "ApiCount":
+                            ApiCount = dataRow[column.ColumnName].ToInt();
+                            SavedApiCount = ApiCount;
+                            break;
                         case "Comments":
                             Comments = dataRow[column.ColumnName].ToString().Deserialize<Comments>() ?? new Comments();
                             SavedComments = Comments.ToJson();
@@ -1224,6 +1266,8 @@ namespace Implem.Pleasanter.Models
                 || Publish_Updated(context: context)
                 || LockedTime_Updated(context: context)
                 || LockedUser_Updated(context: context)
+                || ApiCountDate_Updated(context: context)
+                || ApiCount_Updated(context: context)
                 || Comments_Updated(context: context)
                 || Creator_Updated(context: context)
                 || Updator_Updated(context: context);

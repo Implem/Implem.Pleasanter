@@ -4,5 +4,6 @@
     {
         public bool Enabled;
         public int PageSize;
+        public int LimitPerSite;
     }
 }

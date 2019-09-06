@@ -2074,7 +2074,9 @@ namespace Implem.Pleasanter.Models
                 Get(
                     context: context,
                     ss: ss,
-                    where: Rds.UsersWhere().LoginId(loginId));
+                    where: Rds.UsersWhere()
+                        .TenantId(context.TenantId)
+                        .LoginId(loginId));
             }
         }
 
