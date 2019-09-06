@@ -51,6 +51,7 @@ namespace Implem.Pleasanter.Libraries.General
             NoLinks,
             NotFound,
             NotRequiredColumn,
+            OverLimitApi,
             OverLimitQuantity,
             OverLimitSize,
             OverTenantStorageSize,
@@ -258,6 +259,10 @@ namespace Implem.Pleasanter.Libraries.General
                         data: data);
                 case Types.NotRequiredColumn:
                     return Messages.NotRequiredColumn(
+                        context: context,
+                        data: data);
+                case Types.OverLimitApi:
+                    return Messages.OverLimitApi(
                         context: context,
                         data: data);
                 case Types.OverLimitQuantity:

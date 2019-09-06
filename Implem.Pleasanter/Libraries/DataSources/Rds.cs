@@ -1178,6 +1178,8 @@ namespace Implem.Pleasanter.Libraries.DataSources
                         case "MonitorChangesColumns": return "[MonitorChangesColumns]";
                         case "TitleColumns": return "[TitleColumns]";
                         case "Export": return "[Export]";
+                        case "ApiCountDate": return "[ApiCountDate]";
+                        case "ApiCount": return "[ApiCount]";
                         case "Comments": return "[Comments]";
                         case "Creator": return "[Creator]";
                         case "Updator": return "[Updator]";
@@ -2874,6 +2876,16 @@ namespace Implem.Pleasanter.Libraries.DataSources
                                 function: function);
                         case "LockedUser":
                             return self.Sites_LockedUser(
+                                tableName: column.TableName(),
+                                orderType: orderType,
+                                function: function);
+                        case "ApiCountDate":
+                            return self.Sites_ApiCountDate(
+                                tableName: column.TableName(),
+                                orderType: orderType,
+                                function: function);
+                        case "ApiCount":
+                            return self.Sites_ApiCount(
                                 tableName: column.TableName(),
                                 orderType: orderType,
                                 function: function);
@@ -9592,6 +9604,8 @@ namespace Implem.Pleasanter.Libraries.DataSources
             column.Publish(function: Sqls.Functions.SingleColumn); param.Publish();
             column.LockedTime(function: Sqls.Functions.SingleColumn); param.LockedTime();
             column.LockedUser(function: Sqls.Functions.SingleColumn); param.LockedUser();
+            column.ApiCountDate(function: Sqls.Functions.SingleColumn); param.ApiCountDate();
+            column.ApiCount(function: Sqls.Functions.SingleColumn); param.ApiCount();
             column.Comments(function: Sqls.Functions.SingleColumn); param.Comments();
             column.Creator(function: Sqls.Functions.SingleColumn); param.Creator();
             column.Updator(function: Sqls.Functions.SingleColumn); param.Updator();
@@ -12377,6 +12391,8 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     [Sites_deleted].[Publish],
                     [Sites_deleted].[LockedTime],
                     [Sites_deleted].[LockedUser],
+                    [Sites_deleted].[ApiCountDate],
+                    [Sites_deleted].[ApiCount],
                     [Sites_deleted].[Comments],
                     [Sites_deleted].[Creator],
                     [Sites_deleted].[Updator],
@@ -12400,6 +12416,8 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     [Sites].[Publish],
                     [Sites].[LockedTime],
                     [Sites].[LockedUser],
+                    [Sites].[ApiCountDate],
+                    [Sites].[ApiCount],
                     [Sites].[Comments],
                     [Sites].[Creator],
                     [Sites].[Updator],
@@ -13570,6 +13588,8 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     [Sites].[Publish],
                     [Sites].[LockedTime],
                     [Sites].[LockedUser],
+                    [Sites].[ApiCountDate],
+                    [Sites].[ApiCount],
                     [Sites].[Comments],
                     [Sites].[Creator],
                     [Sites].[Updator],
@@ -13593,6 +13613,8 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     [Sites_deleted].[Publish],
                     [Sites_deleted].[LockedTime],
                     [Sites_deleted].[LockedUser],
+                    [Sites_deleted].[ApiCountDate],
+                    [Sites_deleted].[ApiCount],
                     [Sites_deleted].[Comments],
                     [Sites_deleted].[Creator],
                     [Sites_deleted].[Updator],
@@ -68223,6 +68245,10 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     return self.LockedTime(_as: _as, function: function);
                 case "LockedUser":
                     return self.LockedUser(_as: _as, function: function);
+                case "ApiCountDate":
+                    return self.ApiCountDate(_as: _as, function: function);
+                case "ApiCount":
+                    return self.ApiCount(_as: _as, function: function);
                 case "Comments":
                     return self.Comments(_as: _as, function: function);
                 case "Creator":
@@ -68745,6 +68771,74 @@ namespace Implem.Pleasanter.Libraries.DataSources
         {
             return self.Add(
                 columnBracket: "[LockedUser]",
+                tableName: tableName,
+                columnName: columnName,
+                _as: _as,
+                function: function,
+                sub: sub);
+        }
+
+        public static SitesColumnCollection ApiCountDate(
+            this SitesColumnCollection self,
+            string tableName = "Sites",
+            string columnName = "ApiCountDate",
+            string _as = null,
+            Sqls.Functions function = Sqls.Functions.None,
+            SqlStatement sub = null)
+        {
+            return self.Add(
+                columnBracket: "[ApiCountDate]",
+                tableName: tableName,
+                columnName: columnName,
+                _as: _as,
+                function: function,
+                sub: sub);
+        }
+
+        public static SqlColumnCollection Sites_ApiCountDate(
+            this SqlColumnCollection self,
+            string tableName = "Sites",
+            string columnName = "ApiCountDate",
+            string _as = null,
+            Sqls.Functions function = Sqls.Functions.None,
+            SqlStatement sub = null)
+        {
+            return self.Add(
+                columnBracket: "[ApiCountDate]",
+                tableName: tableName,
+                columnName: columnName,
+                _as: _as,
+                function: function,
+                sub: sub);
+        }
+
+        public static SitesColumnCollection ApiCount(
+            this SitesColumnCollection self,
+            string tableName = "Sites",
+            string columnName = "ApiCount",
+            string _as = null,
+            Sqls.Functions function = Sqls.Functions.None,
+            SqlStatement sub = null)
+        {
+            return self.Add(
+                columnBracket: "[ApiCount]",
+                tableName: tableName,
+                columnName: columnName,
+                _as: _as,
+                function: function,
+                sub: sub);
+        }
+
+        public static SqlColumnCollection Sites_ApiCount(
+            this SqlColumnCollection self,
+            string tableName = "Sites",
+            string columnName = "ApiCount",
+            string _as = null,
+            Sqls.Functions function = Sqls.Functions.None,
+            SqlStatement sub = null)
+        {
+            return self.Add(
+                columnBracket: "[ApiCount]",
                 tableName: tableName,
                 columnName: columnName,
                 _as: _as,
@@ -69811,6 +69905,122 @@ namespace Implem.Pleasanter.Libraries.DataSources
                 : self;
         }
 
+        public static SitesWhereCollection ApiCountDate(
+            this SitesWhereCollection self,
+            object value = null,
+            string tableName = "Sites",
+            string _operator = "=",
+            string multiColumnOperator = " or ",
+            string multiParamOperator = " and ",
+            SqlStatement subLeft = null,
+            SqlStatement sub = null,
+            bool subPrefix = true,
+            string raw = null,
+            bool _using = true)
+        {
+            return _using
+                ? self.Add(
+                    columnBrackets: new string[] { "[ApiCountDate]" },
+                    tableName: tableName,
+                    name: "ApiCountDate",
+                    value: value,
+                    _operator: _operator,
+                    multiColumnOperator: multiColumnOperator,
+                    multiParamOperator: multiParamOperator,
+                    subLeft: subLeft,
+                    sub: sub,
+                    subPrefix: subPrefix,
+                    raw: raw)
+                : self;
+        }
+
+        public static SqlWhereCollection Sites_ApiCountDate(
+            this SqlWhereCollection self,
+            object value = null,
+            string tableName = "Sites",
+            string _operator = "=",
+            string multiColumnOperator = " or ",
+            string multiParamOperator = " and ",
+            SqlStatement subLeft = null,
+            SqlStatement sub = null,
+            bool subPrefix = true,
+            string raw = null,
+            bool _using = true)
+        {
+            return _using
+                ? self.Add(
+                    columnBrackets: new string[] { "[ApiCountDate]" },
+                    tableName: tableName,
+                    name: "ApiCountDate",
+                    value: value,
+                    _operator: _operator,
+                    multiColumnOperator: multiColumnOperator,
+                    multiParamOperator: multiParamOperator,
+                    subLeft: subLeft,
+                    sub: sub,
+                    subPrefix: subPrefix,
+                    raw: raw)
+                : self;
+        }
+
+        public static SitesWhereCollection ApiCount(
+            this SitesWhereCollection self,
+            object value = null,
+            string tableName = "Sites",
+            string _operator = "=",
+            string multiColumnOperator = " or ",
+            string multiParamOperator = " and ",
+            SqlStatement subLeft = null,
+            SqlStatement sub = null,
+            bool subPrefix = true,
+            string raw = null,
+            bool _using = true)
+        {
+            return _using
+                ? self.Add(
+                    columnBrackets: new string[] { "[ApiCount]" },
+                    tableName: tableName,
+                    name: "ApiCount",
+                    value: value,
+                    _operator: _operator,
+                    multiColumnOperator: multiColumnOperator,
+                    multiParamOperator: multiParamOperator,
+                    subLeft: subLeft,
+                    sub: sub,
+                    subPrefix: subPrefix,
+                    raw: raw)
+                : self;
+        }
+
+        public static SqlWhereCollection Sites_ApiCount(
+            this SqlWhereCollection self,
+            object value = null,
+            string tableName = "Sites",
+            string _operator = "=",
+            string multiColumnOperator = " or ",
+            string multiParamOperator = " and ",
+            SqlStatement subLeft = null,
+            SqlStatement sub = null,
+            bool subPrefix = true,
+            string raw = null,
+            bool _using = true)
+        {
+            return _using
+                ? self.Add(
+                    columnBrackets: new string[] { "[ApiCount]" },
+                    tableName: tableName,
+                    name: "ApiCount",
+                    value: value,
+                    _operator: _operator,
+                    multiColumnOperator: multiColumnOperator,
+                    multiParamOperator: multiParamOperator,
+                    subLeft: subLeft,
+                    sub: sub,
+                    subPrefix: subPrefix,
+                    raw: raw)
+                : self;
+        }
+
         public static SitesWhereCollection Comments(
             this SitesWhereCollection self,
             object value = null,
@@ -70325,6 +70535,44 @@ namespace Implem.Pleasanter.Libraries.DataSources
             }
         }
 
+        public static SitesWhereCollection ApiCount_In(
+            this SitesWhereCollection self,
+            IEnumerable<int> value = null,
+            string tableName = "Sites",
+            SqlStatement sub = null,
+            bool negative = false,
+            bool _using = true)
+        {
+            if (!_using)
+            {
+                return self;
+            }
+            if (sub != null)
+            {
+                return self.Add(
+                    columnBrackets: new string[] { "[ApiCount]" },
+                    tableName: tableName,
+                    name: "ApiCount",
+                    _operator: !negative ? " in " : " not in ",
+                    sub: sub);
+            }
+            else if (value != null && value.Any())
+            {
+                return self.Add(
+                    columnBrackets: new string[] { "[ApiCount]" },
+                    tableName: tableName,
+                    name: "ApiCount",
+                    _operator: !negative ? " in " : " not in ",
+                    raw: "({0})".Params(value.Join()));
+            }
+            else
+            {
+                return !negative
+                    ? self.Add(raw: "1=0")
+                    : self;
+            }
+        }
+
         public static SitesWhereCollection Creator_In(
             this SitesWhereCollection self,
             IEnumerable<int> value = null,
@@ -70605,6 +70853,40 @@ namespace Implem.Pleasanter.Libraries.DataSources
                 : self;
         }
 
+        public static SitesWhereCollection ApiCount_Between(
+            this SitesWhereCollection self,
+            int begin,
+            int end,
+            string tableName = "Sites",
+            bool _using = true)
+        {
+            return _using
+                ? self.Add(
+                    columnBrackets: new string[] { "[ApiCount]" },
+                    tableName: tableName,
+                    name: "ApiCount",
+                    _operator: " between ",
+                    raw: "{0} and {1} ".Params(begin, end))
+                : self;
+        }
+
+        public static SqlWhereCollection Sites_ApiCount_Between(
+            this SqlWhereCollection self,
+            int begin,
+            int end,
+            string tableName = "Sites",
+            bool _using = true)
+        {
+            return _using
+                ? self.Add(
+                    columnBrackets: new string[] { "[ApiCount]" },
+                    tableName: tableName,
+                    name: "ApiCount",
+                    _operator: " between ",
+                    raw: "{0} and {1} ".Params(begin, end))
+                : self;
+        }
+
         public static SitesWhereCollection Creator_Between(
             this SitesWhereCollection self,
             int begin,
@@ -70741,6 +71023,40 @@ namespace Implem.Pleasanter.Libraries.DataSources
                 : self;
         }
 
+        public static SitesWhereCollection ApiCountDate_Between(
+            this SitesWhereCollection self,
+            DateTime begin,
+            DateTime end,
+            string tableName = "Sites",
+            bool _using = true)
+        {
+            return _using
+                ? self.Add(
+                    columnBrackets: new string[] { "[ApiCountDate]" },
+                    tableName: tableName,
+                    name: "ApiCountDate",
+                    _operator: " between ",
+                    raw: "'{0}' and '{1}' ".Params(begin, end))
+                : self;
+        }
+
+        public static SqlWhereCollection Sites_ApiCountDate_Between(
+            this SqlWhereCollection self,
+            DateTime begin,
+            DateTime end,
+            string tableName = "Sites",
+            bool _using = true)
+        {
+            return _using
+                ? self.Add(
+                    columnBrackets: new string[] { "[ApiCountDate]" },
+                    tableName: tableName,
+                    name: "ApiCountDate",
+                    _operator: " between ",
+                    raw: "'{0}' and '{1}' ".Params(begin, end))
+                : self;
+        }
+
         public static SitesWhereCollection CreatedTime_Between(
             this SitesWhereCollection self,
             DateTime begin,
@@ -70820,6 +71136,8 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     case "Publish": return self.Publish();
                     case "LockedTime": return self.LockedTime();
                     case "LockedUser": return self.LockedUser();
+                    case "ApiCountDate": return self.ApiCountDate();
+                    case "ApiCount": return self.ApiCount();
                     case "Comments": return self.Comments();
                     case "Creator": return self.Creator();
                     case "Updator": return self.Updator();
@@ -71026,6 +71344,30 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this SqlGroupByCollection self, string tableName = "Sites")
         {
             return self.Add(columnBracket: "[LockedUser]", tableName: tableName);
+        }
+
+        public static SitesGroupByCollection ApiCountDate(
+            this SitesGroupByCollection self, string tableName = "Sites")
+        {
+            return self.Add(columnBracket: "[ApiCountDate]", tableName: tableName);
+        }
+
+        public static SqlGroupByCollection Sites_ApiCountDate(
+            this SqlGroupByCollection self, string tableName = "Sites")
+        {
+            return self.Add(columnBracket: "[ApiCountDate]", tableName: tableName);
+        }
+
+        public static SitesGroupByCollection ApiCount(
+            this SitesGroupByCollection self, string tableName = "Sites")
+        {
+            return self.Add(columnBracket: "[ApiCount]", tableName: tableName);
+        }
+
+        public static SqlGroupByCollection Sites_ApiCount(
+            this SqlGroupByCollection self, string tableName = "Sites")
+        {
+            return self.Add(columnBracket: "[ApiCount]", tableName: tableName);
         }
 
         public static SitesGroupByCollection Comments(
@@ -71345,6 +71687,36 @@ namespace Implem.Pleasanter.Libraries.DataSources
             return self;
         }
 
+        public static SitesOrderByCollection ApiCountDate(
+            this SitesOrderByCollection self,
+            SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
+            string tableName = "Sites",
+            Sqls.Functions function = Sqls.Functions.None)
+        {
+            new List<string> { "[ApiCountDate]" }.ForEach(columnBracket =>
+                self.Add(
+                    columnBracket: columnBracket,
+                    orderType: orderType,
+                    tableName: tableName,
+                    function: function));
+            return self;
+        }
+
+        public static SitesOrderByCollection ApiCount(
+            this SitesOrderByCollection self,
+            SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
+            string tableName = "Sites",
+            Sqls.Functions function = Sqls.Functions.None)
+        {
+            new List<string> { "[ApiCount]" }.ForEach(columnBracket =>
+                self.Add(
+                    columnBracket: columnBracket,
+                    orderType: orderType,
+                    tableName: tableName,
+                    function: function));
+            return self;
+        }
+
         public static SitesOrderByCollection Comments(
             this SitesOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
@@ -71637,6 +72009,36 @@ namespace Implem.Pleasanter.Libraries.DataSources
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "[LockedUser]" }.ForEach(columnBracket =>
+                self.Add(
+                    columnBracket: columnBracket,
+                    orderType: orderType,
+                    tableName: tableName,
+                    function: function));
+            return self;
+        }
+
+        public static SqlOrderByCollection Sites_ApiCountDate(
+            this SqlOrderByCollection self,
+            SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
+            string tableName = "Sites",
+            Sqls.Functions function = Sqls.Functions.None)
+        {
+            new List<string> { "[ApiCountDate]" }.ForEach(columnBracket =>
+                self.Add(
+                    columnBracket: columnBracket,
+                    orderType: orderType,
+                    tableName: tableName,
+                    function: function));
+            return self;
+        }
+
+        public static SqlOrderByCollection Sites_ApiCount(
+            this SqlOrderByCollection self,
+            SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
+            string tableName = "Sites",
+            Sqls.Functions function = Sqls.Functions.None)
+        {
+            new List<string> { "[ApiCount]" }.ForEach(columnBracket =>
                 self.Add(
                     columnBracket: columnBracket,
                     orderType: orderType,
@@ -72231,6 +72633,74 @@ namespace Implem.Pleasanter.Libraries.DataSources
                 ? self.Add(
                     columnBracket: "[LockedUser]",
                     name: "LockedUser",
+                    value: value,
+                    sub: sub,
+                    raw: raw)
+                : self;
+        }
+
+        public static SitesParamCollection ApiCountDate(
+            this SitesParamCollection self,
+            object value = null,
+            SqlStatement sub = null,
+            string raw = null,
+            bool _using = true)
+        {
+            return _using
+                ? self.Add(
+                    columnBracket: "[ApiCountDate]",
+                    name: "ApiCountDate",
+                    value: value,
+                    sub: sub,
+                    raw: raw)
+                : self;
+        }
+
+        public static SqlParamCollection Sites_ApiCountDate(
+            this SqlParamCollection self,
+            object value = null,
+            SqlStatement sub = null,
+            string raw = null,
+            bool _using = true)
+        {
+            return _using
+                ? self.Add(
+                    columnBracket: "[ApiCountDate]",
+                    name: "ApiCountDate",
+                    value: value,
+                    sub: sub,
+                    raw: raw)
+                : self;
+        }
+
+        public static SitesParamCollection ApiCount(
+            this SitesParamCollection self,
+            object value = null,
+            SqlStatement sub = null,
+            string raw = null,
+            bool _using = true)
+        {
+            return _using
+                ? self.Add(
+                    columnBracket: "[ApiCount]",
+                    name: "ApiCount",
+                    value: value,
+                    sub: sub,
+                    raw: raw)
+                : self;
+        }
+
+        public static SqlParamCollection Sites_ApiCount(
+            this SqlParamCollection self,
+            object value = null,
+            SqlStatement sub = null,
+            string raw = null,
+            bool _using = true)
+        {
+            return _using
+                ? self.Add(
+                    columnBracket: "[ApiCount]",
+                    name: "ApiCount",
                     value: value,
                     sub: sub,
                     raw: raw)
@@ -100700,6 +101170,8 @@ namespace Implem.Pleasanter.Libraries.DataSources
                 .Publish()
                 .LockedTime()
                 .LockedUser()
+                .ApiCountDate()
+                .ApiCount()
                 .Comments()
                 .Creator()
                 .Updator()
@@ -100746,6 +101218,8 @@ namespace Implem.Pleasanter.Libraries.DataSources
                 .Publish(siteModel.Publish, _using: siteModel.Publish_Updated(context) || (otherInitValue && !siteModel.Publish.InitialValue(context)))
                 .LockedTime(siteModel.LockedTime.Value, _using: siteModel.LockedTime_Updated(context) || (otherInitValue && !siteModel.LockedTime.InitialValue(context)))
                 .LockedUser(siteModel.LockedUser.Id, _using: siteModel.LockedUser_Updated(context) || (otherInitValue && !siteModel.LockedUser.InitialValue(context)))
+                .ApiCountDate(siteModel.ApiCountDate, _using: siteModel.ApiCountDate_Updated(context) || (otherInitValue && !siteModel.ApiCountDate.InitialValue(context)))
+                .ApiCount(siteModel.ApiCount, _using: siteModel.ApiCount_Updated(context) || setDefault || (otherInitValue && !siteModel.ApiCount.InitialValue(context)))
                 .Comments(siteModel.Comments.ToJson(), _using: siteModel.Comments_Updated(context) || (otherInitValue && !siteModel.Comments.InitialValue(context)));
             siteModel.ClassHash
                 .Where(o => siteModel.Class_Updated(columnName: o.Key)

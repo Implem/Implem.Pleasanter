@@ -6,9 +6,9 @@ namespace Implem.Pleasanter.Libraries.Responses
 {
     public static class ApiResponses
     {
-        public static ApiResponse Success(long id, string message)
+        public static ApiResponse Success(long id, string message, int? limitPerDate = null, int? limitRemaining = null)
         {
-            return new ApiResponse(id, 200, message);
+            return new ApiResponse(id, 200, message, limitPerDate, limitRemaining);
         }
 
         public static ApiResponse Error(Context context, ErrorData errorData, params string[] data)
@@ -52,6 +52,11 @@ namespace Implem.Pleasanter.Libraries.Responses
         public static ApiResponse Forbidden(Context context)
         {
             return new ApiResponse(403, Displays.HasNotPermission(context: context));
+        }
+
+        public static ApiResponse OverLimit(Context context,long siteId, int limit)
+        {
+            return new ApiResponse(429, Displays.OverLimitApi(context: context, siteId.ToString(), limit.ToString()));
         }
     }
 }

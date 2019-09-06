@@ -364,6 +364,8 @@ namespace Implem.Pleasanter.Libraries.Settings
             ss.InheritPermission = siteModel.InheritPermission;
             ss.Publish = siteModel.Publish;
             ss.AccessStatus = siteModel.AccessStatus;
+            ss.ApiCount = siteModel.ApiCount;
+            ss.ApiCountDate = siteModel.ApiCountDate;
             ss.Init(context: context);
             ss.SetLinkedSiteSettings(context: context);
             ss.SetPermissions(context: context, referenceId: referenceId);
@@ -404,6 +406,8 @@ namespace Implem.Pleasanter.Libraries.Settings
             ss.InheritPermission = siteModel.InheritPermission;
             ss.Publish = siteModel.Publish;
             ss.AccessStatus = siteModel.AccessStatus;
+            ss.ApiCount = siteModel.ApiCount;
+            ss.ApiCountDate = siteModel.ApiCountDate;
             ss.Init(context: context);
             ss.SetLinkedSiteSettings(context: context);
             ss.SetPermissions(context: context, referenceId: referenceId);
@@ -446,6 +450,8 @@ namespace Implem.Pleasanter.Libraries.Settings
             ss.InheritPermission = siteModel.InheritPermission;
             ss.Publish = siteModel.Publish;
             ss.AccessStatus = siteModel.AccessStatus;
+            ss.ApiCount = siteModel.ApiCount;
+            ss.ApiCountDate = siteModel.ApiCountDate;
             ss.Init(context: context);
             ss.SetLinkedSiteSettings(context: context);
             ss.SetPermissions(context: context, referenceId: referenceId);
@@ -488,6 +494,8 @@ namespace Implem.Pleasanter.Libraries.Settings
             ss.InheritPermission = siteModel.InheritPermission;
             ss.Publish = siteModel.Publish;
             ss.AccessStatus = siteModel.AccessStatus;
+            ss.ApiCount = siteModel.ApiCount;
+            ss.ApiCountDate = siteModel.ApiCountDate;
             ss.Init(context: context);
             ss.SetLinkedSiteSettings(context: context);
             ss.SetPermissions(context: context, referenceId: referenceId);

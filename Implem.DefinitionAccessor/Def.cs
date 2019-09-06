@@ -1608,6 +1608,8 @@ namespace Implem.DefinitionAccessor
                     case "Sites_MonitorChangesColumns": Column.Sites_MonitorChangesColumns = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Sites_MonitorChangesColumns, definitionRow, ColumnXls); break;
                     case "Sites_TitleColumns": Column.Sites_TitleColumns = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Sites_TitleColumns, definitionRow, ColumnXls); break;
                     case "Sites_Export": Column.Sites_Export = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Sites_Export, definitionRow, ColumnXls); break;
+                    case "Sites_ApiCountDate": Column.Sites_ApiCountDate = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Sites_ApiCountDate, definitionRow, ColumnXls); break;
+                    case "Sites_ApiCount": Column.Sites_ApiCount = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Sites_ApiCount, definitionRow, ColumnXls); break;
                     case "Orders_ReferenceId": Column.Orders_ReferenceId = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Orders_ReferenceId, definitionRow, ColumnXls); break;
                     case "Orders_ReferenceType": Column.Orders_ReferenceType = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Orders_ReferenceType, definitionRow, ColumnXls); break;
                     case "Orders_OwnerId": Column.Orders_OwnerId = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Orders_OwnerId, definitionRow, ColumnXls); break;
@@ -8898,6 +8900,8 @@ namespace Implem.DefinitionAccessor
         public string Sites_MonitorChangesColumns;
         public string Sites_TitleColumns;
         public string Sites_Export;
+        public string Sites_ApiCountDate;
+        public string Sites_ApiCount;
         public string Orders_ReferenceId;
         public string Orders_ReferenceType;
         public string Orders_OwnerId;
@@ -9371,6 +9375,8 @@ namespace Implem.DefinitionAccessor
         public ColumnDefinition Sites_MonitorChangesColumns = new ColumnDefinition();
         public ColumnDefinition Sites_TitleColumns = new ColumnDefinition();
         public ColumnDefinition Sites_Export = new ColumnDefinition();
+        public ColumnDefinition Sites_ApiCountDate = new ColumnDefinition();
+        public ColumnDefinition Sites_ApiCount = new ColumnDefinition();
         public ColumnDefinition Orders_ReferenceId = new ColumnDefinition();
         public ColumnDefinition Orders_ReferenceType = new ColumnDefinition();
         public ColumnDefinition Orders_OwnerId = new ColumnDefinition();

@@ -88,6 +88,10 @@ namespace Implem.Pleasanter.Libraries.Settings
         public bool Linked;
         [NonSerialized]
         public bool SetAllChoices;
+        [NonSerialized]
+        public DateTime ApiCountDate;
+        [NonSerialized]
+        public int ApiCount;
         public string ReferenceType;
         public decimal? NearCompletionTimeAfterDays;
         public decimal? NearCompletionTimeBeforeDays;
