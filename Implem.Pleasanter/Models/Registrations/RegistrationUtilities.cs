@@ -1674,9 +1674,7 @@ namespace Implem.Pleasanter.Models
                     var res = new RegistrationsResponseCollection(registrationModel);
                     res
                         .SetMemory("formChanged", false)
-                        .Href(Locations.Index(
-                            context: context,
-                            controller: "Registrations"));
+                        .Invoke("back");
                     return res.ToJson();
                 default:
                     return errorData.Type.MessageJson(context: context);

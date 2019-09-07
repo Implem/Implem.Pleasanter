@@ -1067,9 +1067,7 @@ namespace Implem.Pleasanter.Models
                     var res = new TenantsResponseCollection(tenantModel);
                     res
                         .SetMemory("formChanged", false)
-                        .Href(Locations.Index(
-                            context: context,
-                            controller: "Tenants"));
+                        .Invoke("back");
                     return res.ToJson();
                 default:
                     return errorData.Type.MessageJson(context: context);
