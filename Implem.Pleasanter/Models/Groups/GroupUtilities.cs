@@ -1464,9 +1464,7 @@ namespace Implem.Pleasanter.Models
                     var res = new GroupsResponseCollection(groupModel);
                     res
                         .SetMemory("formChanged", false)
-                        .Href(Locations.Index(
-                            context: context,
-                            controller: "Groups"));
+                        .Invoke("back");
                     return res.ToJson();
                 default:
                     return errorData.Type.MessageJson(context: context);

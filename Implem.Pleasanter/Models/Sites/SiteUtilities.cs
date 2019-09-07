@@ -1159,9 +1159,7 @@ namespace Implem.Pleasanter.Models
                     var res = new SitesResponseCollection(siteModel);
                 res
                     .SetMemory("formChanged", false)
-                    .Href(Locations.ItemIndex(
-                        context: context,
-                        id: siteModel.ParentId));
+                    .Invoke("back");
                     return res.ToJson();
                 default:
                     return errorData.Type.MessageJson(context: context);

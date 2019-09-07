@@ -1052,16 +1052,7 @@ namespace Implem.Pleasanter.Models
                     var res = new WikisResponseCollection(wikiModel);
                 res
                     .SetMemory("formChanged", false)
-                    .Href(Locations.ItemIndex(
-                        context: context,
-                        id: Rds.ExecuteScalar_long(
-                            context: context,
-                            statements: Rds.SelectSites(
-                                tableType: Sqls.TableTypes.Deleted,
-                                column: Rds.SitesColumn().ParentId(),
-                                where: Rds.SitesWhere()
-                                    .TenantId(context.TenantId)
-                                    .SiteId(wikiModel.SiteId)))));
+                    .Invoke("back");
                     return res.ToJson();
                 default:
                     return errorData.Type.MessageJson(context: context);

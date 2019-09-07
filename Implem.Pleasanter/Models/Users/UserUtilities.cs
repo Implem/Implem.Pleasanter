@@ -2121,9 +2121,7 @@ namespace Implem.Pleasanter.Models
                     var res = new UsersResponseCollection(userModel);
                     res
                         .SetMemory("formChanged", false)
-                        .Href(Locations.Index(
-                            context: context,
-                            controller: "Users"));
+                        .Invoke("back");
                     return res.ToJson();
                 default:
                     return errorData.Type.MessageJson(context: context);

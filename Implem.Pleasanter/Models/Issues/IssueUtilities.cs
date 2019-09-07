@@ -3015,16 +3015,7 @@ namespace Implem.Pleasanter.Models
                     var res = new IssuesResponseCollection(issueModel);
                     res
                         .SetMemory("formChanged", false)
-                        .Href(Locations.Get(
-                            context: context,
-                            parts: new string[]
-                            {
-                                "Items",
-                                ss.SiteId.ToString(),
-                                ViewModes.GetSessionData(
-                                    context: context,
-                                    siteId: ss.SiteId)
-                            }));
+                        .Invoke("back");
                     return res.ToJson();
                 default:
                     return errorData.Type.MessageJson(context: context);
