@@ -52,12 +52,12 @@ https://pleasanter.azurewebsites.net
 ![default](https://user-images.githubusercontent.com/17098267/26912853-0d61e2b8-4c52-11e7-8eb4-56feb7576d24.gif)
 
 ## 動作条件
-|条件|Windows Server 2012 / 2016|Windows 10|Windows 7|Microsoft Azure|
+|条件|Windows Server 2012 / 2016 / 2019|Windows 10|Windows 7|Microsoft Azure|
 |:--|:--:|:--:|:--:|:--:|
 |.NET Framework 4.5|導入済|導入済|◯|-|
 |IIS|◯|◯|◯|-|
 |ASP.NET 4.5|◯|◯|◯|-|
-|SQL Server 2014/2016/2017|◯|◯|◯|-|
+|SQL Server 2016/2017|◯|◯|◯|-|
 |Web Deploy v3.5|◯|◯|◯|-|
 |Microsoft Azure Web App|-|-|-|◯|
 |Microsoft Azure SQL Database|-|-|-|◯|
