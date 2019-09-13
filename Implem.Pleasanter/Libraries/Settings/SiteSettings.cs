@@ -1,4 +1,5 @@
 ﻿using Implem.DefinitionAccessor;
+using Implem.IRds;
 using Implem.Libraries.DataSources.Interfaces;
 using Implem.Libraries.DataSources.SqlServer;
 using Implem.Libraries.Utilities;
@@ -3288,9 +3289,10 @@ namespace Implem.Pleasanter.Libraries.Settings
                 if (tableName != null && name != null)
                 {
                     join.Add(
-                        tableName: "Items",
+                        tableName: "\"Items\"",
                         joinType: SqlJoin.JoinTypes.LeftOuter,
                         joinExpression: ItemsJoinExpression(
+                            factory: context,
                             left: left.Any()
                                 ? left.Join("-")
                                 : ReferenceType,
@@ -3304,6 +3306,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                         tableBracket: "\"" + tableName + "\"",
                         joinType: SqlJoin.JoinTypes.LeftOuter,
                         joinExpression: JoinExpression(
+                            factory: context,
                             tableName: tableName,
                             name: name,
                             alias: alias),
@@ -3321,6 +3324,7 @@ namespace Implem.Pleasanter.Libraries.Settings
         }
 
         private string ItemsJoinExpression(
+            ISqlObjectFactory factory,
             string left,
             string leftTableName,
             string leftAlias,
@@ -3330,16 +3334,17 @@ namespace Implem.Pleasanter.Libraries.Settings
         {
             return alias.Contains("~~")
                 ? $"\"{leftAlias}\".\"{Rds.IdColumn(leftTableName)}\"=\"{alias}_Items\".\"ReferenceId\""
-                : $"try_cast(\"{left}\".\"{name}\" as bigint)=\"{alias}_Items\".\"ReferenceId\" and \"{alias}_Items\".\"SiteId\"={siteId}";
+                : $"{factory.SqlCommandText.CreateTryCast(left, name, "bigint")}=\"{alias}_Items\".\"ReferenceId\" and \"{alias}_Items\".\"SiteId\"={siteId}";
         }
 
         private string JoinExpression(
+            ISqlObjectFactory factory,
             string tableName,
             string name,
             string alias)
         {
             return alias.Contains("~~")
-                ? $"\"{alias}_Items\".\"ReferenceId\"=try_cast(\"{alias}\".\"{name}\" as bigint)"
+                ? $"\"{alias}_Items\".\"ReferenceId\"={factory.SqlCommandText.CreateTryCast(alias, name, "bigint")}"
                 : $"\"{alias}_Items\".\"ReferenceId\"=\"{alias}\".\"{Rds.IdColumn(tableName)}\"";
         }
 

@@ -71,15 +71,15 @@ namespace Implem.Pleasanter.Libraries.ViewModes
             switch (timePeriod)
             {
                 case "Yearly":
-                    return "substring(convert(varchar,{0},111),1,4)".Params(columnBracket);
+                    return context.Sqls.DateGroupYearly.Params(columnBracket);
                 case "Monthly":
-                    return "substring(convert(varchar,{0},111),1,7)".Params(columnBracket);
+                    return context.Sqls.DateGroupMonthly.Params(columnBracket);
                 case "Weekly":
-                    var part = "case datepart(weekday,{0}) when 1 then dateadd(day,-6,{0}) else dateadd(day,(2-datepart(weekday,{0})),{0}) end".Params(
+                    var part = context.Sqls.DateGroupWeeklyPart.Params(
                         columnBracket);
-                    return "datepart(year,{0}) * 100 + datepart(week,{0})".Params(part);
+                    return context.Sqls.DateGroupWeekly.Params(part);
                 case "Daily":
-                    return "convert(varchar,{0},111)".Params(columnBracket);
+                    return context.Sqls.DateGroupDaily.Params(columnBracket);
                 default:
                     return null;
             }

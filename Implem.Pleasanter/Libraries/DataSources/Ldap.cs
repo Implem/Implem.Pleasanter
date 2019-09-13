@@ -245,7 +245,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                 tenantId: ldap.LdapTenantId, type: StatusUtilities.Types.DeptsUpdated));
             statements.Add(StatusUtilities.UpdateStatus(
                 tenantId: ldap.LdapTenantId, type: StatusUtilities.Types.UsersUpdated));
-            Rds.ExecuteNonQuery(
+            Repository.ExecuteNonQuery(
                 context: context,
                 transactional: true,
                 statements: statements.ToArray());
@@ -265,7 +265,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                           synchronizedTime: synchronizedTime);
                         if (ldap.AutoDisable)
                         {
-                            Rds.ExecuteNonQuery(
+                            Repository.ExecuteNonQuery(
                                 context: context,
                                 statements: Rds.UpdateUsers(
                                     param: Rds.UsersParam().Disabled(true),
@@ -279,7 +279,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                         }
                         if (ldap.AutoEnable)
                         {
-                            Rds.ExecuteNonQuery(
+                            Repository.ExecuteNonQuery(
                                 context: context,
                                 statements: Rds.UpdateUsers(
                                     param: Rds.UsersParam().Disabled(false),

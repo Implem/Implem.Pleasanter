@@ -1927,7 +1927,7 @@ namespace Implem.Pleasanter.Models
         /// </summary>
         public static bool HasInheritedSites(Context context, long siteId)
         {
-            return Rds.ExecuteScalar_long(
+            return Repository.ExecuteScalar_long(
                 context: context,
                 statements: Rds.SelectSites(
                     column: Rds.SitesColumn().SitesCount(),

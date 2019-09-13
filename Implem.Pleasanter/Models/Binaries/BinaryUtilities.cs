@@ -395,7 +395,7 @@ namespace Implem.Pleasanter.Models
             }
             else
             {
-                Rds.ExecuteNonQuery(
+                Repository.ExecuteNonQuery(
                     context: context,
                     statements: Rds.InsertBinaries(
                         param: Rds.BinariesParam()
@@ -568,7 +568,7 @@ namespace Implem.Pleasanter.Models
         /// </summary>
         public static decimal UsedTenantStorageSize(Context context)
         {
-            return Rds.ExecuteScalar_decimal(
+            return Repository.ExecuteScalar_decimal(
                 context: context,
                 statements: Rds.SelectBinaries(
                     column: Rds.BinariesColumn().Size(function: Sqls.Functions.Sum),

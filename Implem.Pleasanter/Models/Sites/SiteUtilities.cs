@@ -906,7 +906,7 @@ namespace Implem.Pleasanter.Models
                             context: context,
                             controller: context.Controller,
                             id: siteModel.ReferenceType == "Wikis"
-                                ? Rds.ExecuteScalar_long(
+                                ? Repository.ExecuteScalar_long(
                                     context: context,
                                     statements: Rds.SelectWikis(
                                         column: Rds.WikisColumn().WikiId(),
@@ -1059,7 +1059,7 @@ namespace Implem.Pleasanter.Models
             var errorData = siteModel.Create(context: context, otherInitValue: true);
             if (siteModel.SiteSettings.Exports?.Any() == true)
             {
-                Rds.ExecuteNonQuery(
+                Repository.ExecuteNonQuery(
                     context: context,
                     statements: Rds.UpdateSites(
                         where: Rds.SitesWhere()
@@ -1170,7 +1170,7 @@ namespace Implem.Pleasanter.Models
                 column: Rds.SitesColumn()
                     .SiteId(tableName: "Sites_Deleted"),
                 where: where);
-            return Rds.ExecuteScalar_response(
+            return Repository.ExecuteScalar_response(
                 context: context,
                 connectionString: Parameters.Rds.OwnerConnectionString,
                 transactional: true,
@@ -1404,7 +1404,7 @@ namespace Implem.Pleasanter.Models
             List<int> selected,
             bool negative = false)
         {
-            return Rds.ExecuteScalar_response(
+            return Repository.ExecuteScalar_response(
                 context: context,
                 transactional: true,
                 statements: new SqlStatement[]
@@ -1494,7 +1494,7 @@ namespace Implem.Pleasanter.Models
                 column: Rds.SitesColumn()
                     .SiteId(tableName: "Sites_Deleted"),
                 where: where);
-            return Rds.ExecuteScalar_response(
+            return Repository.ExecuteScalar_response(
                 context: context,
                 transactional: true,
                 statements: new SqlStatement[]
@@ -2278,7 +2278,7 @@ namespace Implem.Pleasanter.Models
             {
                 sourceSiteModel.SiteSettings.EditorColumns.Add(column.ColumnName);
             }
-            Rds.ExecuteNonQuery(
+            Repository.ExecuteNonQuery(
                 context: context,
                 transactional: true,
                 statements: new SqlStatement[]
@@ -5190,7 +5190,7 @@ namespace Implem.Pleasanter.Models
         {
             if (ss.Summaries?.Any() == true)
             {
-                var dataRows = Rds.ExecuteTable(
+                var dataRows = Repository.ExecuteTable(
                     context: context,
                     statements: Rds.SelectSites(
                         column: Rds.SitesColumn()

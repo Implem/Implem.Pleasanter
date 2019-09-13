@@ -1070,7 +1070,11 @@ namespace Implem.Pleasanter.Models
                         context: context,
                         resultModel: this,
                         otherInitValue: otherInitValue)),
-                new SqlStatement(Def.Sql.IfConflicted.Params(ResultId)){ IfConflicted = true }
+                new SqlStatement(Def.Sql.IfConflicted.Params(ResultId))
+                {
+                    IfConflicted = true,
+                    Id = ResultId
+                }
             };
         }
 
@@ -1097,7 +1101,7 @@ namespace Implem.Pleasanter.Models
             bool addUpdatorParam = true,
             bool updateItems = true)
         {
-            Rds.ExecuteNonQuery(
+            Repository.ExecuteNonQuery(
                 context: context,
                 transactional: true,
                 statements: UpdateRelatedRecordsStatements(
@@ -1193,7 +1197,7 @@ namespace Implem.Pleasanter.Models
                     param: param ?? Rds.ResultsParamDefault(
                         context: context, resultModel: this, setDefault: true))
             };
-            var response = Rds.ExecuteScalar_response(
+            var response = Repository.ExecuteScalar_response(
                 context: context,
                 transactional: true,
                 selectIdentity: true,
@@ -1223,7 +1227,7 @@ namespace Implem.Pleasanter.Models
                     where: Rds.ResultsWhere().ResultId(ResultId),
                     param: Rds.ResultsParam().SiteId(SiteId))
             });
-            var response = Rds.ExecuteScalar_response(
+            var response = Repository.ExecuteScalar_response(
                 context: context,
                 transactional: true,
                 statements: statements.ToArray());
@@ -1294,7 +1298,7 @@ namespace Implem.Pleasanter.Models
         public ErrorData Restore(Context context, SiteSettings ss,long resultId)
         {
             ResultId = resultId;
-            Rds.ExecuteNonQuery(
+            Repository.ExecuteNonQuery(
                 context: context,
                 connectionString: Parameters.Rds.OwnerConnectionString,
                 transactional: true,
@@ -1314,7 +1318,7 @@ namespace Implem.Pleasanter.Models
         public ErrorData PhysicalDelete(
             Context context, SiteSettings ss,Sqls.TableTypes tableType = Sqls.TableTypes.Normal)
         {
-            Rds.ExecuteNonQuery(
+            Repository.ExecuteNonQuery(
                 context: context,
                 transactional: true,
                 statements: Rds.PhysicalDeleteResults(
@@ -1721,7 +1725,7 @@ namespace Implem.Pleasanter.Models
                             break;
                     }
                 });
-            Rds.ExecuteNonQuery(
+            Repository.ExecuteNonQuery(
                 context: context,
                 statements: Rds.UpdateResults(
                     param: param,
@@ -1925,7 +1929,7 @@ namespace Implem.Pleasanter.Models
                 if (notification.HasRelatedUsers())
                 {
                     var users = new List<long>();
-                    Rds.ExecuteTable(
+                    Repository.ExecuteTable(
                         context: context,
                         statements: Rds.SelectResults(
                             tableType: Sqls.TableTypes.All,

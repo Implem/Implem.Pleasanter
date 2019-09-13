@@ -23,5 +23,15 @@
         object DateTimeValue(object value);
 
         string BooleanString(string value);
+
+        string DateGroupYearly { get; }
+
+        string DateGroupMonthly { get; }
+
+        string DateGroupWeeklyPart { get; }
+
+        string DateGroupWeekly { get; }
+
+        string DateGroupDaily { get; }
     }
 }

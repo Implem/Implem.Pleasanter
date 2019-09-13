@@ -272,7 +272,7 @@ namespace Implem.Pleasanter.Libraries.Server
         private static DataTable SiteGroupDataTable(Context context, long siteId)
         {
             var groupRaw = "\"Groups\".\"GroupId\" and \"Groups\".\"GroupId\">0";
-            return Rds.ExecuteTable(
+            return Repository.ExecuteTable(
                 context: context,
                 statements: Rds.SelectGroups(
                     distinct: true,
@@ -292,7 +292,7 @@ namespace Implem.Pleasanter.Libraries.Server
         private static DataTable SiteDeptDataTable(Context context, long siteId)
         {
             var deptRaw = "\"Depts\".\"DeptId\" and \"Depts\".\"DeptId\">0";
-            return Rds.ExecuteTable(
+            return Repository.ExecuteTable(
                 context: context,
                 statements: Rds.SelectDepts(
                     distinct: true,

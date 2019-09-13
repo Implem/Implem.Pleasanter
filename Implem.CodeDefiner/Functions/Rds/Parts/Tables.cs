@@ -29,7 +29,7 @@ namespace Implem.CodeDefiner.Functions.Rds.Parts
                 Sqls.SqlParamCollection());
             sqlStatement.CreateColumn(factory, sourceTableName, columnDefinitionCollection);
             sqlStatement.CreatePk(sourceTableName, columnDefinitionCollection, tableIndexCollection);
-            sqlStatement.CreateIx(generalTableName, sourceTableName, tableType, columnDefinitionCollection);
+            sqlStatement.CreateIx(factory: factory,generalTableName: generalTableName, sourceTableName: sourceTableName, tableType: tableType,  columnDefinitionCollection: columnDefinitionCollection);
             sqlStatement.CreateDefault(factory, tableNameTemp, columnDefinitionCollection);
             sqlStatement.DropConstraint(factory: factory, sourceTableName: sourceTableName, tableIndexCollection: tableIndexCollection);
             sqlStatement.CommandText = sqlStatement.CommandText.Replace("#TableName#", tableNameTemp);

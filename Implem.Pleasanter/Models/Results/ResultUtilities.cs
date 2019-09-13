@@ -2174,7 +2174,7 @@ namespace Implem.Pleasanter.Models
                             .ToJson();
                 }
             }
-            var responses = Rds.ExecuteDataSet_responses(
+            var responses = Repository.ExecuteDataSet_responses(
                 context: context,
                 transactional: true,
                 statements: statements.ToArray());
@@ -2281,7 +2281,7 @@ namespace Implem.Pleasanter.Models
                         type: "Updated");
                 }
             });
-            Rds.ExecuteNonQuery(
+            Repository.ExecuteNonQuery(
                 context: context,
                 transactional: true,
                 statements: new ResultCollection(
@@ -2689,7 +2689,7 @@ namespace Implem.Pleasanter.Models
                         tableType: Sqls.TableTypes.Deleted,
                         column: Rds.ResultsColumn().ResultId(),
                         where: Views.GetBySession(context: context, ss: ss).Where(context: context, ss: ss)));
-            return Rds.ExecuteScalar_response(
+            return Repository.ExecuteScalar_response(
                 context: context,
                 connectionString: Parameters.Rds.OwnerConnectionString,
                 transactional: true,
@@ -2936,7 +2936,7 @@ namespace Implem.Pleasanter.Models
             long siteId,
             SqlWhereCollection where)
         {
-            return Rds.ExecuteScalar_int(
+            return Repository.ExecuteScalar_int(
                 context: context,
                 statements: Rds.SelectResults(
                     column: Rds.ResultsColumn().ResultsCount(),
@@ -2952,7 +2952,7 @@ namespace Implem.Pleasanter.Models
             long siteId,
             SqlWhereCollection where)
         {
-            return Rds.ExecuteScalar_response(
+            return Repository.ExecuteScalar_response(
                 context: context,
                 transactional: true,
                 statements: new SqlStatement[]
@@ -2968,7 +2968,15 @@ namespace Implem.Pleasanter.Models
                     Rds.UpdateResults(
                         where: where,
                         param: Rds.ResultsParam().SiteId(siteId)),
-                    Rds.RowCount()
+                    Rds.RowCount(),
+                    Rds.UpdateItems(
+                        where: Rds.ItemsWhere()
+                            .ReferenceId_In(
+                                sub: Rds.SelectResults(
+                                    column: Rds.ResultsColumn().ResultId(),
+                                    where: Rds.ResultsWhere().SiteId(siteId)))
+                            .SiteId(siteId, _operator: "<>"),
+                        param: Rds.ItemsParam().SiteId(siteId))
                 }).Count.ToInt();
         }
 
@@ -3099,7 +3107,7 @@ namespace Implem.Pleasanter.Models
             List<int> selected,
             bool negative = false)
         {
-            return Rds.ExecuteScalar_response(
+            return Repository.ExecuteScalar_response(
                 context: context,
                 transactional: true,
                 statements: new SqlStatement[]
@@ -3278,7 +3286,7 @@ namespace Implem.Pleasanter.Models
                 });
                 var invalid = Imports.ColumnValidate(context, ss, columnHash.Values.Select(o => o.ColumnName));
                 if (invalid != null) return invalid;
-                Rds.ExecuteNonQuery(
+                Repository.ExecuteNonQuery(
                     context: context,
                     transactional: true,
                     statements: new List<SqlStatement>()
@@ -3404,7 +3412,7 @@ namespace Implem.Pleasanter.Models
                         insertCount++;
                     }
                 }
-                Rds.ExecuteNonQuery(
+                Repository.ExecuteNonQuery(
                     context: context,
                     transactional: true,
                     statements: new List<SqlStatement>()
@@ -3781,7 +3789,7 @@ namespace Implem.Pleasanter.Models
                     .Add(raw: $"\"Results\".\"{fromColumn.ColumnName}\"<='{begin}' and \"Results\".\"{toColumn.ColumnName}\">='{end}'"));
             }
             where = view.Where(context: context, ss: ss, where: where);
-            return Rds.ExecuteTable(
+            return Repository.ExecuteTable(
                 context: context,
                 statements: Rds.SelectResults(
                     column: Rds.ResultsTitleColumn(
@@ -4089,7 +4097,7 @@ namespace Implem.Pleasanter.Models
                 var groupBy = Rds.ResultsGroupBy()
                     .Add(ss, groupByX)
                     .Add(ss, groupByY);
-                dataRows = Rds.ExecuteTable(
+                dataRows = Repository.ExecuteTable(
                     context: context,
                     statements: Rds.SelectResults(
                         column: column,
@@ -4134,7 +4142,7 @@ namespace Implem.Pleasanter.Models
                 var groupBy = Rds.ResultsGroupBy()
                     .Add(dateGroup)
                     .Add(ss, groupByY);
-                dataRows = Rds.ExecuteTable(
+                dataRows = Repository.ExecuteTable(
                     context: context,
                     statements: Rds.SelectResults(
                         column: column,
@@ -4344,7 +4352,7 @@ namespace Implem.Pleasanter.Models
                         ss: ss,
                         column: value);
                 var where = view.Where(context: context, ss: ss);
-                var dataRows = Rds.ExecuteTable(
+                var dataRows = Repository.ExecuteTable(
                     context: context,
                     statements: Rds.SelectResults(
                         tableType: Sqls.TableTypes.NormalAndHistory,
@@ -4546,7 +4554,7 @@ namespace Implem.Pleasanter.Models
                     ss: ss,
                     column: value);
             var where = view.Where(context: context, ss: ss);
-            return Rds.ExecuteTable(
+            return Repository.ExecuteTable(
                 context: context,
                 statements: Rds.SelectResults(
                     column: column,
@@ -4733,7 +4741,7 @@ namespace Implem.Pleasanter.Models
         private static bool InRange(Context context, SiteSettings ss, View view, int limit)
         {
             var where = view.Where(context: context, ss: ss);
-            return Rds.ExecuteScalar_int(
+            return Repository.ExecuteScalar_int(
                 context: context,
                 statements: Rds.SelectResults(
                     column: Rds.ResultsColumn().ResultsCount(),

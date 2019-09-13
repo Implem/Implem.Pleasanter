@@ -1,4 +1,5 @@
 ﻿using Implem.DefinitionAccessor;
+using Implem.IRds;
 using Implem.Libraries.Utilities;
 using System.Data;
 namespace Implem.CodeDefiner.Functions.Rds.Parts
@@ -6,7 +7,9 @@ namespace Implem.CodeDefiner.Functions.Rds.Parts
     internal static class ColumnSize
     {
         internal static bool HasChanges(
-            DataRow rdsColumn, ColumnDefinition columnDefinition)
+            ISqlObjectFactory factory,
+            DataRow rdsColumn,
+            ColumnDefinition columnDefinition)
         {
             switch (columnDefinition.TypeName)
             {
@@ -17,7 +20,8 @@ namespace Implem.CodeDefiner.Functions.Rds.Parts
                 case "nchar":
                 case "nvarchar":
                     return Char(
-                        columnDefinition, rdsColumn, coefficient: 2);
+                        columnDefinition, rdsColumn,
+                        coefficient: factory.SqlDataTypes.NationalCharacterSizeCoefficient);
                 case "decimal":
                     return Decimal(
                         columnDefinition, rdsColumn);

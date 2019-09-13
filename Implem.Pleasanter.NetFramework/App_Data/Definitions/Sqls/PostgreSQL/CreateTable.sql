@@ -2,6 +2,6 @@
     create table "#TableName#"
     (
 #Columns#
-#Pks#
     );
+#Pks#
 #Defaults#;

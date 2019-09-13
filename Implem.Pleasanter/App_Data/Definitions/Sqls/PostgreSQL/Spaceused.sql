@@ -1,1 +1,1 @@
-﻿EXEC sp_spaceused
+﻿SELECT CAST(mb as bigint) || to_char(mb % 1, 'FM9.99') || ' MB' AS database_size FROM (SELECT CAST(pg_database_size(current_database()) AS NUMERIC)/1024/1024 AS mb) a

@@ -46,7 +46,7 @@ namespace Implem.CodeDefiner.Functions.Rds.Parts
             string tableNameTemp = "")
         {
             sqlStatement.CommandText = sqlStatement.CommandText.Replace(
-                "#Defaults#", Def.Sql.DeleteDefault + columnDefinitionCollection
+                "#Defaults#", columnDefinitionCollection
                     .Where(o => !o.Default.IsNullOrEmpty())
                     .Where(o => !(sourceTableName.EndsWith("_history") && o.ColumnName == "Ver"))
                     .Select(o => Sql_Create(factory, Def.Sql.CreateDefault, Strings.CoalesceEmpty(tableNameTemp, sourceTableName), o))
@@ -81,7 +81,7 @@ namespace Implem.CodeDefiner.Functions.Rds.Parts
                         return "('" + columnDefinition.Default + "')";
                     }
                 case Types.CsBool:
-                    return "('" + factory.Sqls.BooleanString(columnDefinition.Default) + "')";
+                    return "((" + factory.Sqls.BooleanString(columnDefinition.Default) + "))";
                 default:
                     return "((" + columnDefinition.Default + "))";
             }
@@ -93,7 +93,6 @@ namespace Implem.CodeDefiner.Functions.Rds.Parts
             string sourceTableName,
             IEnumerable<IndexInfo> tableIndexCollection)
         {
-            // TODO drop constraint
             sqlStatement.CommandText = sqlStatement.CommandText
                 .Replace("#DropConstraint#", tableIndexCollection
                     .Where(o => Indexes.Get(

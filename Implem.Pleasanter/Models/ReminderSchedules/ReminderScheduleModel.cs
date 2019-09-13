@@ -94,7 +94,7 @@ namespace Implem.Pleasanter.Models
             bool distinct = false,
             int top = 0)
         {
-            Set(context, Rds.ExecuteTable(
+            Set(context, Repository.ExecuteTable(
                 context: context,
                 statements: Rds.SelectReminderSchedules(
                     tableType: tableType,

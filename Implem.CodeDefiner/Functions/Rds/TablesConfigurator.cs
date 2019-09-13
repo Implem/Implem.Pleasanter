@@ -69,6 +69,7 @@ namespace Implem.CodeDefiner.Functions.Rds
                     tableType: tableType,
                     columnDefinitionCollection: columnDefinitionCollection,
                     tableIndexCollection: Indexes.IndexInfoCollection(
+                        factory: factory,
                         generalTableName: generalTableName,
                         sourceTableName: sourceTableName,
                         tableType: tableType),
@@ -92,7 +93,11 @@ namespace Implem.CodeDefiner.Functions.Rds
                         sourceTableName: sourceTableName,
                         tableType: tableType,
                         columnDefinitionCollection: columnDefinitionCollection,
-                        tableIndexCollection: Indexes.IndexInfoCollection(generalTableName, sourceTableName, tableType));
+                        tableIndexCollection: Indexes.IndexInfoCollection(
+                            factory: factory,
+                            generalTableName: generalTableName,
+                            sourceTableName: sourceTableName,
+                            tableType: tableType));
                 }
             }
         }

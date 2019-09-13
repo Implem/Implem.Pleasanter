@@ -211,7 +211,7 @@ namespace Implem.Pleasanter.Libraries.Search
             {
                 try
                 {
-                    Rds.ExecuteNonQuery(
+                    Repository.ExecuteNonQuery(
                         context: context,
                         transactional: true,
                         statements: Statements(data, id, init));
@@ -254,7 +254,7 @@ namespace Implem.Pleasanter.Libraries.Search
         {
             if (fullText != null)
             {
-                Rds.ExecuteNonQuery(
+                Repository.ExecuteNonQuery(
                     context: context,
                     statements: Rds.UpdateItems(
                         where: Rds.ItemsWhere().ReferenceId(id),

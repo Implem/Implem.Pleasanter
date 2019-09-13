@@ -323,7 +323,7 @@ namespace Implem.Pleasanter.Models
                 tableType: tableType,
                 param: param,
                 otherInitValue: otherInitValue));
-            var response = Rds.ExecuteScalar_response(
+            var response = Repository.ExecuteScalar_response(
                 context: context,
                 transactional: true,
                 selectIdentity: true,

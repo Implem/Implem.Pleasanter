@@ -7,7 +7,6 @@ namespace Implem.CodeDefiner.Functions.Rds
     {
         internal static void Configure(ISqlObjectFactory factory)
         {
-            if (Environments.RdsProvider != "Local") return;
             if (!Exists(factory: factory, databaseName: Environments.ServiceName))
             {
                 CreateDatabase(factory: factory, databaseName: Environments.ServiceName);

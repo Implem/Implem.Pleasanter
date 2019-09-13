@@ -84,7 +84,7 @@ namespace Implem.Pleasanter.Models
             idList
                 .Chunk(100)
                 .SelectMany(chunked =>
-                    Rds.ExecuteTable(
+                    Repository.ExecuteTable(
                         context: context,
                         statements: Rds.SelectLinks(
                             column: Rds.LinksColumn()
@@ -185,7 +185,7 @@ namespace Implem.Pleasanter.Models
                             names: ss.TitleColumns)));
             }
             issues.ForEach(issueModel =>
-                Rds.ExecuteNonQuery(
+                Repository.ExecuteNonQuery(
                     context: context,
                     statements: Rds.UpdateItems(
                         param: Rds.ItemsParam()
@@ -264,7 +264,7 @@ namespace Implem.Pleasanter.Models
                             names: ss.TitleColumns)));
             }
             results.ForEach(resultModel =>
-                Rds.ExecuteNonQuery(
+                Repository.ExecuteNonQuery(
                     context: context,
                     statements: Rds.UpdateItems(
                         param: Rds.ItemsParam()
@@ -343,7 +343,7 @@ namespace Implem.Pleasanter.Models
                             names: ss.TitleColumns)));
             }
             wikis.ForEach(wikiModel =>
-                Rds.ExecuteNonQuery(
+                Repository.ExecuteNonQuery(
                     context: context,
                     statements: Rds.UpdateItems(
                         param: Rds.ItemsParam()

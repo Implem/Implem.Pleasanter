@@ -1,4 +1,5 @@
-﻿namespace Implem.ParameterAccessor.Parts
+﻿using System.Runtime.Serialization;
+namespace Implem.ParameterAccessor.Parts
 {
     public class Rds
     {
@@ -12,5 +13,11 @@
         public int MinimumTime;
         public int DeadlockRetryCount;
         public int DeadlockRetryInterval;
+
+        [OnDeserialized]
+        private void OnDeserialized(StreamingContext streamingContext)
+        {
+            Dbms = string.IsNullOrWhiteSpace(Dbms) ? "SQLServer" : Dbms;
+        }
     }
 }

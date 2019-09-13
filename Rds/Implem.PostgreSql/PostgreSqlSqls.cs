@@ -35,5 +35,15 @@ namespace Implem.PostgreSql
         {
             return bit == "1" ? TrueString : FalseString;
         }
+
+        public string DateGroupYearly { get; } = "to_char({0}, 'YYYY')";
+
+        public string DateGroupMonthly { get; } = "to_char({0}, 'YYYY/MM')";
+
+        public string DateGroupWeeklyPart { get; } = "case date_part('dow',{0}) when 0 then {0} + '-6 days' else {0} + CAST((1-date_part('dow',{0})) || 'days' as interval) end";
+
+        public string DateGroupWeekly { get; } ="date_part('year',{0}) * 100 + date_part('week',{0})";
+
+        public string DateGroupDaily { get; } = "to_char({0}, 'YYYY/MM/DD')";
     }
 }

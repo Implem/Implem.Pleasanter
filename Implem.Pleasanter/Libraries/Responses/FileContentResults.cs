@@ -14,7 +14,7 @@ namespace Implem.Pleasanter.Libraries.Responses
     {
         public static FileContentResult Download(Context context, string guid)
         {
-            var dataRow = Rds.ExecuteTable(
+            var dataRow = Repository.ExecuteTable(
                 context: context,
                 statements: Rds.SelectBinaries(
                     column: Rds.BinariesColumn()
@@ -34,7 +34,7 @@ namespace Implem.Pleasanter.Libraries.Responses
                             joinExpression: "\"Items\".\"SiteId\"=\"Sites\".\"SiteId\"")),
                     where: Rds.BinariesWhere()
                         .TenantId(context.TenantId)
-                        .Guid(guid)
+                        .Guid(guid?.ToUpper())
                         .CanRead(
                             context: context,
                             idColumnBracket: "\"Binaries\".\"ReferenceId\"",

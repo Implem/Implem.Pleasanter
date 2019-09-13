@@ -75,7 +75,7 @@ namespace Implem.Pleasanter.Models
             var demoModel = new DemoModel().Get(
                 context: context,
                 where: Rds.DemosWhere()
-                    .Passphrase(context.QueryStrings.Data("passphrase"))
+                    .Passphrase(context.QueryStrings.Data("passphrase")?.ToUpper())
                     .CreatedTime(
                         DateTime.Now.AddDays(Parameters.Service.DemoUsagePeriod * -1),
                         _operator: ">="));
@@ -95,7 +95,7 @@ namespace Implem.Pleasanter.Models
                 }
                 else
                 {
-                    Rds.ExecuteNonQuery(
+                    Repository.ExecuteNonQuery(
                         context: context,
                         statements: Rds.UpdateUsers(
                             param: Rds.UsersParam().Password(password),
@@ -185,7 +185,7 @@ namespace Implem.Pleasanter.Models
             InitializePermissions(
                 context: context,
                 idHash: idHash);
-            Rds.ExecuteNonQuery(
+            Repository.ExecuteNonQuery(
                 context: context,
                 statements: Rds.UpdateDemos(
                     param: Rds.DemosParam().Initialized(true),
@@ -202,7 +202,7 @@ namespace Implem.Pleasanter.Models
                 .Where(o => o.Language == context.Language)
                 .Where(o => o.Type == "Depts")
                 .ForEach(demoDefinition => idHash.Add(
-                    demoDefinition.Id, Rds.ExecuteScalar_response(
+                    demoDefinition.Id, Repository.ExecuteScalar_response(
                         context: context,
                         selectIdentity: true,
                         statements: new SqlStatement[]
@@ -236,7 +236,7 @@ namespace Implem.Pleasanter.Models
                     var loginId = LoginId(
                         demoModel: demoModel,
                         userId: demoDefinition.Id);
-                    idHash.Add(demoDefinition.Id, Rds.ExecuteScalar_response(
+                    idHash.Add(demoDefinition.Id, Repository.ExecuteScalar_response(
                         context: context,
                         selectIdentity: true,
                         statements: new SqlStatement[]
@@ -265,7 +265,7 @@ namespace Implem.Pleasanter.Models
                                     .MailAddress(loginId + "@example.com"))
                         }).Id.ToLong());
                 });
-            Rds.ExecuteNonQuery(
+            Repository.ExecuteNonQuery(
                 context: context,
                 statements: Rds.UpdateDemos(
                     where: Rds.DemosWhere().TenantId(demoModel.TenantId),
@@ -300,7 +300,7 @@ namespace Implem.Pleasanter.Models
                     {
                         var fullText = siteModel.FullText(
                             context: context, ss: siteModel.SiteSettings);
-                        Rds.ExecuteNonQuery(
+                        Repository.ExecuteNonQuery(
                             context: context,
                             statements: Rds.UpdateItems(
                                 param: Rds.ItemsParam()
@@ -332,7 +332,7 @@ namespace Implem.Pleasanter.Models
                         userId: updator.ToInt(),
                         language: context.Language);
                     idHash.Add(
-                        demoDefinition.Id, Rds.ExecuteScalar_response(
+                        demoDefinition.Id, Repository.ExecuteScalar_response(
                             context: context,
                             selectIdentity: true,
                             statements: new SqlStatement[]
@@ -409,7 +409,7 @@ namespace Implem.Pleasanter.Models
                         tenantId: demoModel.TenantId,
                         userId: updator.ToInt(),
                         language: context.Language);
-                    var issueId = Rds.ExecuteScalar_response(
+                    var issueId = Repository.ExecuteScalar_response(
                         context: context,
                         selectIdentity: true,
                         statements: new SqlStatement[]
@@ -601,7 +601,7 @@ namespace Implem.Pleasanter.Models
                         ss: ss,
                         issueId: issueId);
                     var fullText = issueModel.FullText(context: context, ss: ss);
-                    Rds.ExecuteNonQuery(
+                    Repository.ExecuteNonQuery(
                         context: context,
                         statements: Rds.UpdateItems(
                             param: Rds.ItemsParam()
@@ -629,7 +629,7 @@ namespace Implem.Pleasanter.Models
                                     .AddHours(-6)
                                     .AddMinutes(new Random().Next(-360, +360))
                                 : issueModel.CreatedTime.Value;
-                            Rds.ExecuteNonQuery(
+                            Repository.ExecuteNonQuery(
                                 context: context,
                                 statements: Rds.UpdateIssues(
                                     tableType: Sqls.TableTypes.History,
@@ -651,7 +651,7 @@ namespace Implem.Pleasanter.Models
                                             where: Rds.IssuesWhere()
                                                 .IssueId(issueModel.IssueId)))));
                         }
-                        Rds.ExecuteNonQuery(
+                        Repository.ExecuteNonQuery(
                             context: context,
                             statements: Rds.UpdateIssues(
                                 addUpdatorParam: false,
@@ -704,7 +704,7 @@ namespace Implem.Pleasanter.Models
                         tenantId: demoModel.TenantId,
                         userId: updator.ToInt(),
                         language: context.Language);
-                    var resultId = Rds.ExecuteScalar_response(
+                    var resultId = Repository.ExecuteScalar_response(
                         context: context,
                         selectIdentity: true,
                         statements: new SqlStatement[]
@@ -887,7 +887,7 @@ namespace Implem.Pleasanter.Models
                         ss: ss,
                         resultId: resultId);
                     var fullText = resultModel.FullText(context: context, ss: ss);
-                    Rds.ExecuteNonQuery(
+                    Repository.ExecuteNonQuery(
                         context: context,
                         statements: Rds.UpdateItems(
                             param: Rds.ItemsParam()
@@ -915,7 +915,7 @@ namespace Implem.Pleasanter.Models
                 .Where(o => o.Type == "Sites")
                 .Where(o => o.ClassB.Trim() != string.Empty)
                 .ForEach(demoDefinition =>
-                    Rds.ExecuteNonQuery(
+                    Repository.ExecuteNonQuery(
                         context: context,
                         statements: Rds.InsertLinks(param: Rds.LinksParam()
                             .DestinationId(idHash.Get(demoDefinition.ClassB))
@@ -925,7 +925,7 @@ namespace Implem.Pleasanter.Models
                 .Where(o => o.Type == "Sites")
                 .Where(o => o.ClassC.Trim() != string.Empty)
                 .ForEach(demoDefinition =>
-                    Rds.ExecuteNonQuery(
+                    Repository.ExecuteNonQuery(
                         context: context,
                         statements: Rds.InsertLinks(param: Rds.LinksParam()
                             .DestinationId(idHash.Get(demoDefinition.ClassC))
@@ -934,7 +934,7 @@ namespace Implem.Pleasanter.Models
                 .Where(o => o.Language == context.Language)
                 .Where(o => o.ClassA.RegexExists("^#[A-Za-z0-9_]+?#$"))
                 .ForEach(demoDefinition =>
-                    Rds.ExecuteNonQuery(
+                    Repository.ExecuteNonQuery(
                         context: context,
                         statements: Rds.InsertLinks(param: Rds.LinksParam()
                             .DestinationId(idHash.Get(demoDefinition.ClassA
@@ -954,7 +954,7 @@ namespace Implem.Pleasanter.Models
                 .Select(o => o.Id)
                 .ForEach(id =>
             {
-                Rds.ExecuteNonQuery(
+                Repository.ExecuteNonQuery(
                     context: context,
                     statements: Rds.InsertPermissions(
                         param: Rds.PermissionsParam()
@@ -964,7 +964,7 @@ namespace Implem.Pleasanter.Models
                             .PermissionType(Permissions.Manager())));
                 idHash.Where(o => o.Key.StartsWith("Dept")).Select(o => o.Value).ForEach(deptId =>
                 {
-                    Rds.ExecuteNonQuery(
+                    Repository.ExecuteNonQuery(
                         context: context,
                         statements: Rds.InsertPermissions(
                             param: Rds.PermissionsParam()

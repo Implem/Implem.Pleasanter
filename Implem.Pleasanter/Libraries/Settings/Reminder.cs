@@ -133,7 +133,7 @@ namespace Implem.Pleasanter.Libraries.Settings
             }
             if (!test)
             {
-                Rds.ExecuteNonQuery(
+                Repository.ExecuteNonQuery(
                     context: context,
                     statements: Rds.UpdateReminderSchedules(
                         param: Rds.ReminderSchedulesParam()
@@ -233,7 +233,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                 checkPermission: false)
                     .Add(
                         tableName: ss.ReferenceType,
-                        columnBrackets: new string[] { orderByColumn.ColumnName },
+                        columnBrackets: new string[] { $"\"{orderByColumn.ColumnName}\"" },
                         _operator: "<'{0}'".Params(
                             DateTime.Now.ToLocal(context: context).Date.AddDays(Range)))
                     .Or(new SqlWhereCollection()
@@ -252,7 +252,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                             _using: SendCompletedInPast == true));
             var orderBy = new SqlOrderByCollection()
                 .Add(ss, orderByColumn, SqlOrderBy.Types.desc);
-            var dataSet = Rds.ExecuteDataSet(
+            var dataSet = Repository.ExecuteDataSet(
                 context: context,
                 statements: new SqlStatement[]
                 {

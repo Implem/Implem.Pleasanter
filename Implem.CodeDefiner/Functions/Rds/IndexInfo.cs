@@ -1,4 +1,5 @@
-﻿using Implem.Libraries.DataSources.SqlServer;
+﻿using Implem.IRds;
+using Implem.Libraries.DataSources.SqlServer;
 using Implem.Libraries.Utilities;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,6 +11,7 @@ namespace Implem.CodeDefiner.Functions.Rds
         internal Types Type;
         internal string Name;
         internal IEnumerable<Column> ColumnCollection;
+        private ISqlObjectFactory factory;
 
         internal class Column
         {
@@ -39,8 +41,13 @@ namespace Implem.CodeDefiner.Functions.Rds
         }
 
         internal IndexInfo(
-            string tableName, Types type, string name, IEnumerable<Column> columnCollection)
+            ISqlObjectFactory factory,
+            string tableName,
+            Types type,
+            string name,
+            IEnumerable<Column> columnCollection)
         {
+            this.factory = factory;
             TableName = tableName;
             Type = type;
             Name = name;
@@ -58,7 +65,7 @@ namespace Implem.CodeDefiner.Functions.Rds
                 o.Unique.ToString())
                     .Join(string.Empty)
                     .Sha512Cng()
-                    .MaxLength(32); // TODO
+                    .MaxLength(factory.SqlDataTypes.MaxIdentifierLength);
         }
     }
 }

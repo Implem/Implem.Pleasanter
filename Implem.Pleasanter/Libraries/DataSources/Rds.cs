@@ -17,7 +17,6 @@ namespace Implem.Pleasanter.Libraries.DataSources
 {
     public static class Rds
     {
-        [Obsolete] //TODO Obsolete
         public static int ExecuteNonQuery(
             Context context,
             IDbTransaction dbTransaction = null,
@@ -43,7 +42,6 @@ namespace Implem.Pleasanter.Libraries.DataSources
             return 0;
         }
 
-        [Obsolete] //TODO Obsolete
         public static bool ExecuteScalar_bool(
             Context context,
             IDbTransaction dbTransaction = null,
@@ -65,7 +63,6 @@ namespace Implem.Pleasanter.Libraries.DataSources
             }
         }
 
-        [Obsolete] //TODO Obsolete
         public static int ExecuteScalar_int(
             Context context,
             IDbTransaction dbTransaction = null,
@@ -87,7 +84,6 @@ namespace Implem.Pleasanter.Libraries.DataSources
             }
         }
 
-        [Obsolete] //TODO Obsolete
         public static long ExecuteScalar_long(
             Context context,
             IDbTransaction dbTransaction = null,
@@ -109,7 +105,6 @@ namespace Implem.Pleasanter.Libraries.DataSources
             }
         }
 
-        [Obsolete] //TODO Obsolete
         public static decimal ExecuteScalar_decimal(
             Context context,
             IDbTransaction dbTransaction = null,
@@ -131,7 +126,6 @@ namespace Implem.Pleasanter.Libraries.DataSources
             }
         }
 
-        [Obsolete] //TODO Obsolete
         public static DateTime ExecuteScalar_datetime(
             Context context,
             IDbTransaction dbTransaction = null,
@@ -153,7 +147,6 @@ namespace Implem.Pleasanter.Libraries.DataSources
             }
         }
 
-        [Obsolete] //TODO Obsolete
         public static string ExecuteScalar_string(
             Context context,
             IDbTransaction dbTransaction = null,
@@ -175,7 +168,6 @@ namespace Implem.Pleasanter.Libraries.DataSources
             }
         }
 
-        [Obsolete] //TODO Obsolete
         public static byte[] ExecuteScalar_bytes(
             Context context,
             IDbTransaction dbTransaction = null,
@@ -197,7 +189,6 @@ namespace Implem.Pleasanter.Libraries.DataSources
             }
         }
 
-        [Obsolete] //TODO Obsolete
         public static SqlResponse ExecuteScalar_response(
             Context context,
             IDbTransaction dbTransaction = null,
@@ -275,7 +266,6 @@ namespace Implem.Pleasanter.Libraries.DataSources
                 func: func);
         }
 
-        [Obsolete] //TODO Obsolete
         public static DataTable ExecuteTable(
             Context context,
             IDbTransaction dbTransaction = null,
@@ -300,7 +290,6 @@ namespace Implem.Pleasanter.Libraries.DataSources
             }
         }
 
-        [Obsolete] //TODO Obsolete
         public static DataSet ExecuteDataSet(
             Context context,
             IDbTransaction dbTransaction = null,
@@ -325,9 +314,10 @@ namespace Implem.Pleasanter.Libraries.DataSources
             }
         }
 
-        [Obsolete] //TODO Obsolete
         public static List<SqlResponse> ExecuteDataSet_responses(
             Context context,
+            IDbTransaction dbTransaction = null,
+            IDbConnection dbConnection = null,
             string connectionString = null,
             bool transactional = false,
             bool writeSqlToDebugLog = true,
@@ -341,7 +331,10 @@ namespace Implem.Pleasanter.Libraries.DataSources
                 writeSqlToDebugLog: writeSqlToDebugLog,
                 statements: statements))
             {
-                return io.ExecuteDataSet_responses(factory: context);
+                return io.ExecuteDataSet_responses(
+                    factory: context,
+                    dbTransaction: dbTransaction,
+                    dbConnection: dbConnection);
             }
         }
 
@@ -5941,25 +5934,43 @@ namespace Implem.Pleasanter.Libraries.DataSources
             };
         }
 
-        public static SqlStatement IdentityInsertItems(bool on)
+        public static SqlStatement IdentityInsertItems(
+            ISqlObjectFactory factory,
+            bool on)
         {
             return on
-                ? new SqlStatement("set identity_insert \"Items\" on;")
-                : new SqlStatement("set identity_insert \"Items\" off;");
+                ? new SqlStatement(
+                    factory.SqlCommandText.CreateIdentityInsert(
+                        "set identity_insert \"Items\" on;"))
+                : new SqlStatement(
+                    factory.SqlCommandText.CreateIdentityInsert(
+                        "set identity_insert \"Items\" off;"));
         }
 
-        public static SqlStatement IdentityInsertItems_Deleted(bool on)
+        public static SqlStatement IdentityInsertItems_Deleted(
+            ISqlObjectFactory factory,
+            bool on)
         {
             return on
-                ? new SqlStatement("set identity_insert \"Items_Deleted\" on;")
-                : new SqlStatement("set identity_insert \"Items_Deleted\" off;");
+                ? new SqlStatement(
+                    factory.SqlCommandText.CreateIdentityInsert(
+                        "set identity_insert \"Items_Deleted\" on;"))
+                : new SqlStatement(
+                    factory.SqlCommandText.CreateIdentityInsert(
+                        "set identity_insert \"Items_Deleted\" off;"));
         }
 
-        public static SqlStatement IdentityInsertItems_History(bool on)
+        public static SqlStatement IdentityInsertItems_History(
+            ISqlObjectFactory factory,
+            bool on)
         {
             return on
-                ? new SqlStatement("set identity_insert \"Items_History\" on;")
-                : new SqlStatement("set identity_insert \"Items_History\" off;");
+                ? new SqlStatement(
+                    factory.SqlCommandText.CreateIdentityInsert(
+                        "set identity_insert \"Items_History\" on;"))
+                : new SqlStatement(
+                    factory.SqlCommandText.CreateIdentityInsert(
+                        "set identity_insert \"Items_History\" off;"));
         }
 
         public static SqlInsert InsertSites(
@@ -12859,7 +12870,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                 set
                     ""Updator"" = {Parameters.Parameter.SqlParameterPrefix}U,
                     ""UpdatedTime"" = {factory.Sqls.CurrentDateTime} {{0}};
-                set identity_insert ""Items"" on; 
+                {factory.SqlCommandText.CreateIdentityInsert(template: @"set identity_insert ""Items"" on;")}
                 insert into ""Items""
                 (
                     ""ReferenceId"",
@@ -12892,7 +12903,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     ""Items_deleted"".""UpdatedTime"" 
                     {{1}}
                 from ""Items_deleted"" {{0}});
-                set identity_insert ""Items"" off; 
+                {factory.SqlCommandText.CreateIdentityInsert(template: @"set identity_insert ""Items"" off;")}
                 delete from ""Items_deleted"" {{0}}".Params(DeleteParams(tableName: "Items"));
         }
 

@@ -3,6 +3,10 @@ namespace Implem.PostgreSql
 {
     internal class PostgreSqlDataTypes : ISqlDataTypes
     {
+        public int MaxIdentifierLength { get; } = 32;
+
+        public int NationalCharacterSizeCoefficient { get; } = 4;
+
         public string Convert(string name)
         {
             return name

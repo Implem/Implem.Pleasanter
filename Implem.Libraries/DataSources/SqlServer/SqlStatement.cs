@@ -32,6 +32,7 @@ namespace Implem.Libraries.DataSources.SqlServer
         public bool IfConflicted = false;
         public bool IfDuplicated = false;
         public bool IsRowCount = false;
+        public long? Id;
         public IEnumerable<SqlParam> AdditionalParams;
 
         public SqlStatement()

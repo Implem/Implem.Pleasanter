@@ -2,6 +2,6 @@
     create table "dbo"."#TableName#"
     (
 #Columns#
-#Pks#
     );
+#Pks#
 #Defaults#;

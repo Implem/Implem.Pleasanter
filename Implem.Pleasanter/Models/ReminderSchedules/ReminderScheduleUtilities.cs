@@ -32,7 +32,7 @@ namespace Implem.Pleasanter.Models
             var now = DateTime.Now;
             while ((DateTime.Now - now).Seconds <= Parameters.Reminder.Span)
             {
-                var targets = Rds.ExecuteTable(
+                var targets = Repository.ExecuteTable(
                     context: context,
                     statements: Rds.SelectReminderSchedules(
                         column: Rds.ReminderSchedulesColumn()
@@ -43,11 +43,11 @@ namespace Implem.Pleasanter.Models
                             .Users_DeptId(),
                         join: Rds.ReminderSchedulesJoin()
                             .Add(
-                                tableName: "Sites",
+                                tableName: "\"Sites\"",
                                 joinType: SqlJoin.JoinTypes.Inner,
                                 joinExpression: "\"Sites\".\"SiteId\"=\"ReminderSchedules\".\"SiteId\"")
                             .Add(
-                                tableName: "Users",
+                                tableName: "\"Users\"",
                                 joinType: SqlJoin.JoinTypes.LeftOuter,
                                 joinExpression: "\"Users\".\"UserId\"=\"Sites\".\"Updator\""),
                         where: Rds.ReminderSchedulesWhere()

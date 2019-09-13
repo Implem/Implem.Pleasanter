@@ -363,7 +363,7 @@ namespace Implem.Pleasanter.Models
                             .Admin(data.Split_3rd().ToBool())));
                 }
             });
-            Rds.ExecuteNonQuery(
+            Repository.ExecuteNonQuery(
                 context: context,
                 transactional: true,
                 statements: statements.ToArray());

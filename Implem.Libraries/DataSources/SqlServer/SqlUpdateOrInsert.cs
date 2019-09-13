@@ -127,7 +127,8 @@ namespace Implem.Libraries.DataSources.SqlServer
                         sqlCommand: sqlCommand,
                         commandText: commandText_,
                         commandCount: commandCount),
-                intoAndValueClause: $"({insertColumnNameCollection.Join()}) values({valueCollection.Join()})"));
+                intoClause: insertColumnNameCollection.Join(),
+                valueClause: valueCollection.Join()));
         }
     }
 }

@@ -8,10 +8,16 @@ namespace Implem.CodeDefiner.Functions.Rds
         {
             try
             {
-                RdsConfigurator.Configure(factory: factory);
-                UsersConfigurator.Configure(factory: factory);
+                if (Environments.RdsProvider == "Local")
+                {
+                    RdsConfigurator.Configure(factory: factory);
+                    UsersConfigurator.Configure(factory: factory);
+                }
                 TablesConfigurator.Configure(factory: factory);
-                PrivilegeConfigurator.Configure(factory: factory);
+                if (Environments.RdsProvider == "Local")
+                {
+                    PrivilegeConfigurator.Configure(factory: factory);
+                }
             }
             catch (System.Data.SqlClient.SqlException e)
             {

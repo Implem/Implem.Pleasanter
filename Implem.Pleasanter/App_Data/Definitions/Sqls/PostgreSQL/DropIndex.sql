@@ -1,1 +1,1 @@
-﻿drop index "public"."#IndexName#" cascade;
+﻿drop index "#IndexName#" cascade;

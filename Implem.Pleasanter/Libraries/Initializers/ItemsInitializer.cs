@@ -17,27 +17,27 @@ namespace Implem.Pleasanter.Libraries.Initializers
         {
             if (!context.HasPrivilege) return;
             var sqlExists = "exists (select * from {0} where {1}={2})";
-            Rds.ExecuteNonQuery(
+            Repository.ExecuteNonQuery(
                 context: context,
                 statements: Rds.PhysicalDeleteItems(
                     where: Rds.ItemsWhere().Add(raw: sqlExists.Params(
-                        "\"Items_Deleted\"",
-                        "\"Items_Deleted\".\"ReferenceId\"",
+                        "\"Items_deleted\"",
+                        "\"Items_deleted\".\"ReferenceId\"",
                         "\"Items\".\"ReferenceId\""))));
-            Rds.ExecuteNonQuery(
+            Repository.ExecuteNonQuery(
                 context: context,
                 statements: Rds.PhysicalDeleteSites(
                     where: Rds.ItemsWhere().Add(raw: sqlExists.Params(
-                        "\"Sites_Deleted\"",
-                        "\"Sites_Deleted\".\"SiteId\"",
+                        "\"Sites_deleted\"",
+                        "\"Sites_deleted\".\"SiteId\"",
                         "\"Sites\".\"SiteId\""))));
-            Rds.ExecuteNonQuery(
+            Repository.ExecuteNonQuery(
                 context: context,
                 statements: Rds.DeleteSites(
                     factory: context,
                     where: Rds.ItemsWhere().Add(raw: sqlExists.Params(
-                        "\"Items_Deleted\"",
-                        "\"Items_Deleted\".\"ReferenceId\"",
+                        "\"Items_deleted\"",
+                        "\"Items_deleted\".\"ReferenceId\"",
                         "\"Sites\".\"SiteId\""))));
             new SiteCollection(
                 context: context,
@@ -53,12 +53,14 @@ namespace Implem.Pleasanter.Libraries.Initializers
                             var fullText = siteModel.FullText(
                                 context: context.CreateContext(tenantId: siteModel.TenantId),
                                 ss: siteModel.SiteSettings);
-                            Rds.ExecuteNonQuery(
+                            Repository.ExecuteNonQuery(
                                 context: context.CreateContext(tenantId: siteModel.TenantId),
                                 connectionString: Parameters.Rds.OwnerConnectionString,
                                 statements: new SqlStatement[]
                                 {
-                                    Rds.IdentityInsertItems(on: true),
+                                    Rds.IdentityInsertItems(
+                                        factory: context,
+                                        on: true),
                                     Rds.InsertItems(
                                         param: Rds.ItemsParam()
                                             .ReferenceId(siteModel.SiteId)
@@ -67,22 +69,24 @@ namespace Implem.Pleasanter.Libraries.Initializers
                                             .Title(siteModel.Title.Value)
                                             .FullText(fullText, _using: fullText != null)
                                             .SearchIndexCreatedTime(DateTime.Now)),
-                                    Rds.IdentityInsertItems(on: false)
+                                    Rds.IdentityInsertItems(
+                                        factory: context,
+                                        on: false)
                                 });
                         }
                     });
             new SiteCollection(
                 context: context,
                 where: Rds.SitesWhere().Add(raw: "not " + sqlExists.Params(
-                    "\"Items_Deleted\"",
-                    "\"Items_Deleted\".\"ReferenceId\"",
+                    "\"Items_deleted\"",
+                    "\"Items_deleted\".\"ReferenceId\"",
                     "\"Sites\".\"SiteId\"")),
                 tableType: Sqls.TableTypes.Deleted)
                     .ForEach(siteModel =>
                     {
                         if (siteModel.SiteSettings != null)
                         {
-                            Rds.ExecuteNonQuery(
+                            Repository.ExecuteNonQuery(
                                 context: context.CreateContext(tenantId: siteModel.TenantId),
                                 statements: new SqlStatement[]
                                 {
@@ -97,22 +101,22 @@ namespace Implem.Pleasanter.Libraries.Initializers
                                 });
                 }
             });
-            Rds.ExecuteNonQuery(
+            Repository.ExecuteNonQuery(
                 context: context,
                 statements: Rds.PhysicalDeleteIssues(
                     where: Rds.ItemsWhere().Add(raw: sqlExists.Params(
-                        "\"Issues_Deleted\"",
-                        "\"Issues_Deleted\".\"IssueId\"",
+                        "\"Issues_deleted\"",
+                        "\"Issues_deleted\".\"IssueId\"",
                         "\"Issues\".\"IssueId\""))));
-            Rds.ExecuteNonQuery(
+            Repository.ExecuteNonQuery(
                 context: context,
                 statements: Rds.DeleteIssues(
                     factory: context,
                     where: Rds.ItemsWhere().Add(raw: sqlExists.Params(
-                        "\"Items_Deleted\"",
-                        "\"Items_Deleted\".\"ReferenceId\"",
+                        "\"Items_deleted\"",
+                        "\"Items_deleted\".\"ReferenceId\"",
                         "\"Issues\".\"IssueId\""))));
-            Rds.ExecuteTable(
+            Repository.ExecuteTable(
                 context: context,
                 statements: Rds.SelectIssues(
                     tableType: Sqls.TableTypes.Normal,
@@ -123,11 +127,11 @@ namespace Implem.Pleasanter.Libraries.Initializers
                         .Sites_TenantId(),
                     join: Rds.IssuesJoinDefault()
                         .Add(
-                            tableName: "Items",
+                            tableName: "\"Items\"",
                             joinType: SqlJoin.JoinTypes.LeftOuter,
                             joinExpression: "\"Items\".\"ReferenceId\"=\"Issues\".\"IssueId\"")
                         .Add(
-                            tableName: "Sites",
+                            tableName: "\"Sites\"",
                             joinType: SqlJoin.JoinTypes.LeftOuter,
                             joinExpression: "\"Sites\".\"SiteId\"=\"Issues\".\"SiteId\""),
                     where: Rds.ItemsWhere()
@@ -161,12 +165,14 @@ namespace Implem.Pleasanter.Libraries.Initializers
                                         var fullText = issueModel.FullText(
                                             context: context.CreateContext(tenantId: dataRow.Int("TenantId")),
                                             ss: ss);
-                                        Rds.ExecuteNonQuery(
+                                        Repository.ExecuteNonQuery(
                                             context: context.CreateContext(tenantId: dataRow.Int("TenantId")),
                                             connectionString: Parameters.Rds.OwnerConnectionString,
                                             statements: new SqlStatement[]
                                             {
-                                                Rds.IdentityInsertItems(on: true),
+                                                Rds.IdentityInsertItems(
+                                                    factory: context,
+                                                    on: true),
                                                 Rds.InsertItems(
                                                     param: Rds.ItemsParam()
                                                         .ReferenceId(issueModel.IssueId)
@@ -175,11 +181,13 @@ namespace Implem.Pleasanter.Libraries.Initializers
                                                         .Title(issueModel.Title.DisplayValue)
                                                         .FullText(fullText, _using: fullText != null)
                                                         .SearchIndexCreatedTime(DateTime.Now)),
-                                                Rds.IdentityInsertItems(on: false)
+                                                Rds.IdentityInsertItems(
+                                                    factory: context,
+                                                    on: false)
                                             });
                                     }
                                 });
-            Rds.ExecuteTable(
+            Repository.ExecuteTable(
                 context: context,
                 statements: Rds.SelectIssues(
                     tableType: Sqls.TableTypes.Deleted,
@@ -189,16 +197,16 @@ namespace Implem.Pleasanter.Libraries.Initializers
                         .Ver(),
                     join: Rds.IssuesJoinDefault()
                         .Add(
-                            tableName: "Items_Deleted",
+                            tableName: "\"Items_deleted\"",
                             joinType: SqlJoin.JoinTypes.LeftOuter,
-                            joinExpression: "\"Items_Deleted\".\"ReferenceId\"=\"Issues\".\"IssueId\"")
+                            joinExpression: "\"Items_deleted\".\"ReferenceId\"=\"Issues\".\"IssueId\"")
                         .Add(
-                            tableName: "Sites",
+                            tableName: "\"Sites\"",
                             joinType: SqlJoin.JoinTypes.LeftOuter,
                             joinExpression: "\"Sites\".\"SiteId\"=\"Issues\".\"SiteId\""),
                     where: Rds.ItemsWhere()
                         .ReferenceId(
-                            tableName: "Items_Deleted",
+                            tableName: "Items_deleted",
                             _operator: " is null")))
                                 .AsEnumerable()
                                 .ForEach(dataRow =>
@@ -224,7 +232,7 @@ namespace Implem.Pleasanter.Libraries.Initializers
                                     if (ss != null &&
                                         issueModel.AccessStatus == Databases.AccessStatuses.Selected)
                                     {
-                                        Rds.ExecuteNonQuery(
+                                        Repository.ExecuteNonQuery(
                                             context: context.CreateContext(tenantId: dataRow.Int("TenantId")),
                                             statements: new SqlStatement[]
                                             {
@@ -239,22 +247,22 @@ namespace Implem.Pleasanter.Libraries.Initializers
                                             });
                                     }
                                 });
-            Rds.ExecuteNonQuery(
+            Repository.ExecuteNonQuery(
                 context: context,
                 statements: Rds.PhysicalDeleteResults(
                     where: Rds.ItemsWhere().Add(raw: sqlExists.Params(
-                        "\"Results_Deleted\"",
-                        "\"Results_Deleted\".\"ResultId\"",
+                        "\"Results_deleted\"",
+                        "\"Results_deleted\".\"ResultId\"",
                         "\"Results\".\"ResultId\""))));
-            Rds.ExecuteNonQuery(
+            Repository.ExecuteNonQuery(
                 context: context,
                 statements: Rds.DeleteResults(
                     factory: context,
                     where: Rds.ItemsWhere().Add(raw: sqlExists.Params(
-                        "\"Items_Deleted\"",
-                        "\"Items_Deleted\".\"ReferenceId\"",
+                        "\"Items_deleted\"",
+                        "\"Items_deleted\".\"ReferenceId\"",
                         "\"Results\".\"ResultId\""))));
-            Rds.ExecuteTable(
+            Repository.ExecuteTable(
                 context: context,
                 statements: Rds.SelectResults(
                     tableType: Sqls.TableTypes.Normal,
@@ -265,11 +273,11 @@ namespace Implem.Pleasanter.Libraries.Initializers
                         .Sites_TenantId(),
                     join: Rds.ResultsJoinDefault()
                         .Add(
-                            tableName: "Items",
+                            tableName: "\"Items\"",
                             joinType: SqlJoin.JoinTypes.LeftOuter,
                             joinExpression: "\"Items\".\"ReferenceId\"=\"Results\".\"ResultId\"")
                         .Add(
-                            tableName: "Sites",
+                            tableName: "\"Sites\"",
                             joinType: SqlJoin.JoinTypes.LeftOuter,
                             joinExpression: "\"Sites\".\"SiteId\"=\"Results\".\"SiteId\""),
                     where: Rds.ItemsWhere()
@@ -303,12 +311,14 @@ namespace Implem.Pleasanter.Libraries.Initializers
                                         var fullText = resultModel.FullText(
                                             context: context.CreateContext(tenantId: dataRow.Int("TenantId")),
                                             ss: ss);
-                                        Rds.ExecuteNonQuery(
+                                        Repository.ExecuteNonQuery(
                                             context: context.CreateContext(tenantId: dataRow.Int("TenantId")),
                                             connectionString: Parameters.Rds.OwnerConnectionString,
                                             statements: new SqlStatement[]
                                             {
-                                                Rds.IdentityInsertItems(on: true),
+                                                Rds.IdentityInsertItems(
+                                                    factory: context,
+                                                    on: true),
                                                 Rds.InsertItems(
                                                     param: Rds.ItemsParam()
                                                         .ReferenceId(resultModel.ResultId)
@@ -317,11 +327,13 @@ namespace Implem.Pleasanter.Libraries.Initializers
                                                         .Title(resultModel.Title.DisplayValue)
                                                         .FullText(fullText, _using: fullText != null)
                                                         .SearchIndexCreatedTime(DateTime.Now)),
-                                                Rds.IdentityInsertItems(on: false)
+                                                Rds.IdentityInsertItems(
+                                                    factory: context,
+                                                    on: false)
                                             });
                                     }
                                 });
-            Rds.ExecuteTable(
+            Repository.ExecuteTable(
                 context: context,
                 statements: Rds.SelectResults(
                     tableType: Sqls.TableTypes.Deleted,
@@ -331,16 +343,16 @@ namespace Implem.Pleasanter.Libraries.Initializers
                         .Ver(),
                     join: Rds.ResultsJoinDefault()
                         .Add(
-                            tableName: "Items_Deleted",
+                            tableName: "\"Items_deleted\"",
                             joinType: SqlJoin.JoinTypes.LeftOuter,
-                            joinExpression: "\"Items_Deleted\".\"ReferenceId\"=\"Results\".\"ResultId\"")
+                            joinExpression: "\"Items_deleted\".\"ReferenceId\"=\"Results\".\"ResultId\"")
                         .Add(
-                            tableName: "Sites",
+                            tableName: "\"Sites\"",
                             joinType: SqlJoin.JoinTypes.LeftOuter,
                             joinExpression: "\"Sites\".\"SiteId\"=\"Results\".\"SiteId\""),
                     where: Rds.ItemsWhere()
                         .ReferenceId(
-                            tableName: "Items_Deleted",
+                            tableName: "Items_deleted",
                             _operator: " is null")))
                                 .AsEnumerable()
                                 .ForEach(dataRow =>
@@ -366,7 +378,7 @@ namespace Implem.Pleasanter.Libraries.Initializers
                                     if (ss != null &&
                                         resultModel.AccessStatus == Databases.AccessStatuses.Selected)
                                     {
-                                        Rds.ExecuteNonQuery(
+                                        Repository.ExecuteNonQuery(
                                             context: context.CreateContext(tenantId: dataRow.Int("TenantId")),
                                             statements: new SqlStatement[]
                                             {
@@ -381,22 +393,22 @@ namespace Implem.Pleasanter.Libraries.Initializers
                                             });
                                     }
                                 });
-            Rds.ExecuteNonQuery(
+            Repository.ExecuteNonQuery(
                 context: context,
                 statements: Rds.PhysicalDeleteWikis(
                     where: Rds.ItemsWhere().Add(raw: sqlExists.Params(
-                        "\"Wikis_Deleted\"",
-                        "\"Wikis_Deleted\".\"WikiId\"",
+                        "\"Wikis_deleted\"",
+                        "\"Wikis_deleted\".\"WikiId\"",
                         "\"Wikis\".\"WikiId\""))));
-            Rds.ExecuteNonQuery(
+            Repository.ExecuteNonQuery(
                 context: context,
                 statements: Rds.DeleteWikis(
                     factory: context,
                     where: Rds.ItemsWhere().Add(raw: sqlExists.Params(
-                        "\"Items_Deleted\"",
-                        "\"Items_Deleted\".\"ReferenceId\"",
+                        "\"Items_deleted\"",
+                        "\"Items_deleted\".\"ReferenceId\"",
                         "\"Wikis\".\"WikiId\""))));
-            Rds.ExecuteTable(
+            Repository.ExecuteTable(
                 context: context,
                 statements: Rds.SelectWikis(
                     tableType: Sqls.TableTypes.Normal,
@@ -407,11 +419,11 @@ namespace Implem.Pleasanter.Libraries.Initializers
                         .Sites_TenantId(),
                     join: Rds.WikisJoinDefault()
                         .Add(
-                            tableName: "Items",
+                            tableName: "\"Items\"",
                             joinType: SqlJoin.JoinTypes.LeftOuter,
                             joinExpression: "\"Items\".\"ReferenceId\"=\"Wikis\".\"WikiId\"")
                         .Add(
-                            tableName: "Sites",
+                            tableName: "\"Sites\"",
                             joinType: SqlJoin.JoinTypes.LeftOuter,
                             joinExpression: "\"Sites\".\"SiteId\"=\"Wikis\".\"SiteId\""),
                     where: Rds.ItemsWhere()
@@ -445,12 +457,14 @@ namespace Implem.Pleasanter.Libraries.Initializers
                                         var fullText = wikiModel.FullText(
                                             context: context.CreateContext(tenantId: dataRow.Int("TenantId")),
                                             ss: ss);
-                                        Rds.ExecuteNonQuery(
+                                        Repository.ExecuteNonQuery(
                                             context: context.CreateContext(tenantId: dataRow.Int("TenantId")),
                                             connectionString: Parameters.Rds.OwnerConnectionString,
                                             statements: new SqlStatement[]
                                             {
-                                                Rds.IdentityInsertItems(on: true),
+                                                Rds.IdentityInsertItems(
+                                                    factory: context,
+                                                    on: true),
                                                 Rds.InsertItems(
                                                     param: Rds.ItemsParam()
                                                         .ReferenceId(wikiModel.WikiId)
@@ -459,11 +473,13 @@ namespace Implem.Pleasanter.Libraries.Initializers
                                                         .Title(wikiModel.Title.DisplayValue)
                                                         .FullText(fullText, _using: fullText != null)
                                                         .SearchIndexCreatedTime(DateTime.Now)),
-                                                Rds.IdentityInsertItems(on: false)
+                                                Rds.IdentityInsertItems(
+                                                    factory:context,
+                                                    on: false)
                                             });
                                     }
                                 });
-            Rds.ExecuteTable(
+            Repository.ExecuteTable(
                 context: context,
                 statements: Rds.SelectWikis(
                     tableType: Sqls.TableTypes.Deleted,
@@ -473,16 +489,16 @@ namespace Implem.Pleasanter.Libraries.Initializers
                         .Ver(),
                     join: Rds.WikisJoinDefault()
                         .Add(
-                            tableName: "Items_Deleted",
+                            tableName: "\"Items_deleted\"",
                             joinType: SqlJoin.JoinTypes.LeftOuter,
-                            joinExpression: "\"Items_Deleted\".\"ReferenceId\"=\"Wikis\".\"WikiId\"")
+                            joinExpression: "\"Items_deleted\".\"ReferenceId\"=\"Wikis\".\"WikiId\"")
                         .Add(
-                            tableName: "Sites",
+                            tableName: "\"Sites\"",
                             joinType: SqlJoin.JoinTypes.LeftOuter,
                             joinExpression: "\"Sites\".\"SiteId\"=\"Wikis\".\"SiteId\""),
                     where: Rds.ItemsWhere()
                         .ReferenceId(
-                            tableName: "Items_Deleted",
+                            tableName: "Items_deleted",
                             _operator: " is null")))
                                 .AsEnumerable()
                                 .ForEach(dataRow =>
@@ -508,7 +524,7 @@ namespace Implem.Pleasanter.Libraries.Initializers
                                     if (ss != null &&
                                         wikiModel.AccessStatus == Databases.AccessStatuses.Selected)
                                     {
-                                        Rds.ExecuteNonQuery(
+                                        Repository.ExecuteNonQuery(
                                             context: context.CreateContext(tenantId: dataRow.Int("TenantId")),
                                             statements: new SqlStatement[]
                                             {

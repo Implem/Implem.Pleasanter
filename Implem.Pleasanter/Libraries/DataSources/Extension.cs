@@ -80,7 +80,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
 
         private static void SetLoginKey(Context context, string loginId, string key)
         {
-            Rds.ExecuteNonQuery(
+            Repository.ExecuteNonQuery(
                 context: context,
                 statements: new SqlStatement[]
                 {
@@ -97,7 +97,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
 
         private static User GetUser(Context context, string loginId, string key)
         {
-            var dataRow = Rds.ExecuteTable(
+            var dataRow = Repository.ExecuteTable(
                 context: context,
                 statements: Rds.SelectLoginKeys(
                     column: Rds.LoginKeysColumn()

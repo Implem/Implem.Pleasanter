@@ -8,7 +8,6 @@ namespace Implem.CodeDefiner.Functions.Rds
     {
         internal static void Configure(ISqlObjectFactory factory)
         {
-            if (Environments.RdsProvider != "Local") return;
             Execute(
                 factory: factory,
                 connectionString: Parameters.Rds.OwnerConnectionString);

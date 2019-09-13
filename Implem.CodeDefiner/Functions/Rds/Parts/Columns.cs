@@ -46,7 +46,7 @@ namespace Implem.CodeDefiner.Functions.Rds.Parts
             {
                 return true;
             }
-            if (ColumnSize.HasChanges(rdsColumn, columnDefinition))
+            if (ColumnSize.HasChanges(factory: factory, rdsColumn: rdsColumn, columnDefinition: columnDefinition))
             {
                 return true;
             }
@@ -106,7 +106,6 @@ namespace Implem.CodeDefiner.Functions.Rds.Parts
             }
             if (!noIdentity && columnDefinition.Identity)
             {
-                // TODO 初期値 0 不可
                 commandText += factory.Sqls.GenerateIdentity.Params(columnDefinition.Seed == 0 ? 1 : columnDefinition.Seed);
             }
             if (columnDefinition.Nullable)

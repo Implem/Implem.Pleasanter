@@ -83,7 +83,6 @@ namespace Implem.DefinitionAccessor
             Parameters.History = Read<ParameterAccessor.Parts.History>();
             Parameters.Mail = Read<ParameterAccessor.Parts.Mail>();
             Parameters.Notification = Read<ParameterAccessor.Parts.Notification>();
-            Parameters.Parameter = Read<ParameterAccessor.Parts.Parameter>();
             Parameters.Permissions = Read< ParameterAccessor.Parts.Permissions>();
             Parameters.Rds = Read<ParameterAccessor.Parts.Rds>();
             Parameters.Reminder = Read<ParameterAccessor.Parts.Reminder>();
@@ -92,18 +91,7 @@ namespace Implem.DefinitionAccessor
             Parameters.Service = Read<ParameterAccessor.Parts.Service>();
             Parameters.Session = Read<ParameterAccessor.Parts.Session>();
             Parameters.SysLog = Read<ParameterAccessor.Parts.SysLog>();
-            //TODO パラメータ初期値設定
-            Parameters.Rds.Dbms = Parameters.Rds.Dbms.IsNullOrEmpty()
-                ? "SQLServer"
-                : Parameters.Rds.Dbms;
-            Parameters.Parameter.SqlParameterPrefix = Parameters
-                .Parameter
-                .SqlParameterPrefix
-                .IsNullOrEmpty()
-                ? Parameters.Rds.Dbms == "SQLServer"
-                ? "@_"
-                : "@ip"
-                : Parameters.Parameter.SqlParameterPrefix;
+            Parameters.Parameter = Read<ParameterAccessor.Parts.Parameter>();
         }
 
         private static T Read<T>()

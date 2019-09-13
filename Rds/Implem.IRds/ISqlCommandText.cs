@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Text;
 namespace Implem.IRds
 {
@@ -14,7 +15,8 @@ namespace Implem.IRds
             string tableBracket,
             string setClause,
             Action<StringBuilder> sqlWhereAppender,
-            string intoAndValueClause);
+            string intoClause,
+            string valueClause);
 
         string CreateTopClause(int top);
 
@@ -22,6 +24,16 @@ namespace Implem.IRds
 
         string CreateDelete(string template);
 
+        string CreateRestore(string template);
+
         string CreateIdentityInsert(string template);
+
+        string CreateTryCast(string left, string name, string type);
+
+        string CreateFullTextWhereItem(string itemsTableName, int count);
+
+        string CreateFullTextWhereBinary(string itemsTableName, int count);
+
+        List<string> CreateSearchTextWords(List<string> words, string searchText);
     }
 }

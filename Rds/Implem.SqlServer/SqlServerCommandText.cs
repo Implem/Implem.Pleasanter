@@ -1,11 +1,17 @@
 ﻿using Implem.IRds;
 using System;
+using System.Collections.Generic;
 using System.Text;
 namespace Implem.SqlServer
 {
     internal class SqlServerCommandText : ISqlCommandText
     {
         public string CreateDelete(string template)
+        {
+            return template + " ; select @@rowcount ";
+        }
+
+        public string CreateRestore(string template)
         {
             return template + " ; select @@rowcount ";
         }
@@ -37,11 +43,17 @@ namespace Implem.SqlServer
             return top > 0 ? $" top {top} " : string.Empty;
         }
 
+        public string CreateTryCast(string left, string name, string type)
+        {
+            return $"try_cast(\"{left}\".\"{name}\" as {type})";
+        }
+
         public string CreateUpdateOrInsert(
             string tableBracket,
             string setClause,
             Action<StringBuilder> sqlWhereAppender,
-            string intoAndValueClause)
+            string intoClause,
+            string valueClause)
         {
             var commandText = new StringBuilder();
             commandText
@@ -52,8 +64,27 @@ namespace Implem.SqlServer
             commandText
                 .Append(" if @@rowcount = 0 insert into ")
                 .Append(tableBracket)
-                .Append(intoAndValueClause);
+                .Append($"({intoClause}) values({valueClause})");
             return commandText.ToString();
+        }
+
+        public string CreateFullTextWhereItem(string itemsTableName, int count)
+        {
+            return $"(contains(\"{itemsTableName}\".\"FullText\", @SearchText{count}_#CommandCount#))";
+        }
+
+        public string CreateFullTextWhereBinary(
+            string itemsTableName,
+            int count)
+        {
+            return $"(exists(select * from \"Binaries\" where \"Binaries\".\"ReferenceId\"=\"{itemsTableName}\".\"ReferenceId\" and contains(\"Bin\", @SearchText{count}_#CommandCount#)))";
+        }
+
+        public List<string> CreateSearchTextWords(
+            List<string> words,
+            string searchText)
+        {
+            return words;
         }
     }
 }

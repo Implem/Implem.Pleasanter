@@ -8,5 +8,10 @@ namespace Implem.PostgreSql
         {
             return data?.Rows.Count ?? 0;
         }
+
+        public int RestoreCount(DataTable data)
+        {
+            return data?.Rows.Count ?? 0;
+        }
     }
 }

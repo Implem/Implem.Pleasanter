@@ -1,1 +1,2 @@
-﻿alter table "public"."#SourceTableName#" drop constraint "#IndexName#";
+﻿alter table "#SourceTableName#" drop constraint "#IndexName#";
+drop index "Ix#IndexName#" cascade;

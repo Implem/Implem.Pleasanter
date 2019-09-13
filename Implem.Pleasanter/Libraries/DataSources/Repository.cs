@@ -19,13 +19,28 @@ namespace Implem.Pleasanter.Libraries.DataSources
             bool selectIdentity = false,
             params SqlStatement[] statements)
         {
-            var response = Rds.ExecuteScalar(
+            return ExecuteDataSet_responses(
+                context: context,
+                transactional: transactional,
+                connectionString: connectionString,
+                selectIdentity: selectIdentity,
+                statements: statements)?.LastOrDefault();
+        }
+
+        public static List<SqlResponse> ExecuteDataSet_responses(
+            Context context,
+            bool transactional = false,
+            string connectionString = null,
+            bool selectIdentity = false,
+            params SqlStatement[] statements)
+        {
+            var response = Rds.ExecuteScalar<List<SqlResponse>>(
                 context: context,
                 connectionString: connectionString,
                 transactional: true,
                 func: (transaction, connection) =>
                 {
-                    SqlResponse sqlResponse = null;
+                    var sqlResponse = new List<SqlResponse>();
                     int count = 0;
                     foreach (var statement in statements)
                     {
@@ -33,12 +48,12 @@ namespace Implem.Pleasanter.Libraries.DataSources
                         {
                             if (statement.SelectIdentity)
                             {
-                                sqlResponse = Rds.ExecuteScalar_response(
+                                sqlResponse.Add(Rds.ExecuteScalar_response(
                                     context: context,
                                     dbTransaction: transaction,
                                     dbConnection: connection,
                                     selectIdentity: selectIdentity,
-                                    statements: statement);
+                                    statements: statement));
                             }
                             else if (statement.IfDuplicated)
                             {
@@ -49,7 +64,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                                     statements: statement);
                                 if (exists > 0)
                                 {
-                                    return (false,
+                                    return (false, new List<SqlResponse> {
                                     new SqlResponse
                                     {
                                         Event = "Duplicated",
@@ -58,48 +73,56 @@ namespace Implem.Pleasanter.Libraries.DataSources
                                         .SqlParamCollection
                                         .FirstOrDefault()?
                                         .Name,
-                                    });
+                                    }});
                                 }
                             }
                             else if (statement.IfConflicted)
                             {
                                 if (count == 0)
                                 {
-                                    return (false,
+                                    return (false, new List<SqlResponse> {
                                     new SqlResponse
                                     {
                                         Event = "Conflicted",
-                                        Id = 0,
+                                        Id = statement.Id ?? 0,
                                         Count = count,
-                                    });
+                                    } });
                                 }
-                                sqlResponse = new SqlResponse
+                                sqlResponse.Add(new SqlResponse
                                 {
-                                    Id = 0,
+                                    Id = statement.Id ?? 0,
                                     Count = count,
-                                };
+                                });
                             }
                             else if (statement.IsRowCount)
                             {
-                                sqlResponse = new SqlResponse
+                                sqlResponse.Add(new SqlResponse
                                 {
                                     Id = 0,
                                     Count = count,
-                                };
+                                });
                             }
                             else
                             {
-                                if (sqlResponse != null)
+                                if (sqlResponse.LastOrDefault()?.Id != null)
                                 {
                                     statement.AdditionalParams = new SqlParam[]
                                     {
                                     new SqlParam(
                                         columnBracket:null,
-                                        name: $"{Parameters.Parameter.SqlParameterPrefix}I".Substring(1), value: sqlResponse.Id)
+                                        name: $"{Parameters.Parameter.SqlParameterPrefix}I".Substring(1),
+                                        value: sqlResponse.LastOrDefault()?.Id)
                                     };
                                 }
                                 count = statement is SqlDelete
                                 ? context.SqlResult.DeleteCount(
+                                    data: Rds.ExecuteTable(
+                                        context: context,
+                                        dbTransaction: transaction,
+                                        dbConnection: connection,
+                                        statements: statement))
+                                : statement is SqlRestore
+                                ? context.SqlResult.RestoreCount(
                                     data: Rds.ExecuteTable(
                                         context: context,
                                         dbTransaction: transaction,
@@ -115,7 +138,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     }
                     return (true, sqlResponse);
                 });
-            return response;
+            return response ?? new List<SqlResponse>();
         }
 
         public static bool ExecuteScalar_bool(
@@ -178,6 +201,26 @@ namespace Implem.Pleasanter.Libraries.DataSources
             return response;
         }
 
+        public static decimal ExecuteScalar_decimal(
+            Context context,
+            bool transactional = false,
+            params SqlStatement[] statements)
+        {
+            var response = Rds.ExecuteScalar<decimal>(
+                context: context,
+                transactional: true,
+                func: (transaction, connection) =>
+                {
+                    var value = Rds.ExecuteScalar_decimal(
+                        context: context,
+                        dbTransaction: transaction,
+                        dbConnection: connection,
+                        statements: statements);
+                    return (true, value);
+                });
+            return response;
+        }
+
         public static string ExecuteScalar_string(
             Context context,
             bool transactional = false,
@@ -218,6 +261,26 @@ namespace Implem.Pleasanter.Libraries.DataSources
             return response;
         }
 
+        public static byte[] ExecuteScalar_bytes(
+            Context context,
+            bool transactional = false,
+            params SqlStatement[] statements)
+        {
+            var response = Rds.ExecuteScalar<byte[]>(
+                context: context,
+                transactional: true,
+                func: (transaction, connection) =>
+                {
+                    var value = Rds.ExecuteScalar_bytes(
+                        context: context,
+                        dbTransaction: transaction,
+                        dbConnection: connection,
+                        statements: statements);
+                    return (true, value);
+                });
+            return response;
+        }
+
         public static int ExecuteNonQuery(
             Context context,
             string connectionString = null,
@@ -244,11 +307,13 @@ namespace Implem.Pleasanter.Libraries.DataSources
 
         public static DataTable ExecuteTable(
             Context context,
+            string connectionString = null,
             bool transactional = false,
             params SqlStatement[] statements)
         {
             var table = Rds.ExecuteScalar(
                 context: context,
+                connectionString: connectionString,
                 transactional: transactional,
                 func: (transaction, connection) =>
                 {

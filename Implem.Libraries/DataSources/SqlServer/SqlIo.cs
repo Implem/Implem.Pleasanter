@@ -52,17 +52,6 @@ namespace Implem.Libraries.DataSources.SqlServer
 
         private void SetCommandText(ISqlObjectFactory factory)
         {
-            //TODO SQLServer用declare
-            if (Implem.DefinitionAccessor.Parameters.Rds.Dbms?.ToLower() != "PostgreSQL".ToLower())
-            {
-                /*
-                CommandText.Append(
-                    $"declare {Parameters.Parameter.SqlParameterPrefix}I bigint;\n",
-                    $"declare {Parameters.Parameter.SqlParameterPrefix}C int;\n");
-                    */
-            }
-            /**/
-
             SqlContainer.SqlStatementCollection
                 .Select((o, i) => new
                 {
@@ -78,8 +67,6 @@ namespace Implem.Libraries.DataSources.SqlServer
                         sqlCommand: SqlCommand,
                         commandText: CommandText,
                         commandCount: data.Count));
-
-            //TODO 追加パラメータ
             var additionalParams = SqlContainer
                 .SqlStatementCollection
                 .Where(statement=>statement.AdditionalParams != null)
@@ -94,14 +81,6 @@ namespace Implem.Libraries.DataSources.SqlServer
                   .Parameters_AddWithValue(group.Key, group.First().Value);
               });
             }
-
-
-            //TODO SQLServer用SetTransaction
-            if (Implem.DefinitionAccessor.Parameters.Rds.Dbms?.ToLower() != "PostgreSQL".ToLower())
-            {
-                //SetTransaction();
-            }
-            /**/
         }
 
         private void SetTransaction()
@@ -287,10 +266,16 @@ namespace Implem.Libraries.DataSources.SqlServer
             SqlCommand.Transaction = null;
         }
 
-        public List<SqlResponse> ExecuteDataSet_responses(ISqlObjectFactory factory)
+        public List<SqlResponse> ExecuteDataSet_responses(
+            ISqlObjectFactory factory,
+            IDbTransaction dbTransaction = null,
+            IDbConnection dbConnection = null)
         {
             var responses = new List<SqlResponse>();
-            foreach(DataTable dataTable in ExecuteDataSet(factory: factory).Tables)
+            foreach(DataTable dataTable in ExecuteDataSet(
+                factory: factory,
+                dbTransaction: dbTransaction,
+                dbConnection: dbConnection).Tables)
             {
                 if (dataTable.Rows.Count == 1)
                 {

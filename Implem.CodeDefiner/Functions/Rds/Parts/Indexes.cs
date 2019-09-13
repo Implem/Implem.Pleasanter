@@ -10,36 +10,54 @@ namespace Implem.CodeDefiner.Functions.Rds.Parts
     internal static class Indexes
     {
         internal static IEnumerable<IndexInfo> IndexInfoCollection(
-            string generalTableName, string sourceTableName, Sqls.TableTypes tableType)
+            ISqlObjectFactory factory,
+            string generalTableName,
+            string sourceTableName,
+            Sqls.TableTypes tableType)
         {
             var tableIndexCollection = new List<IndexInfo>();
             switch (tableType)
             {
                 case Sqls.TableTypes.Normal:
-                    General(generalTableName, sourceTableName, tableIndexCollection);
-                    Unique(generalTableName, tableIndexCollection);
+                    General(factory: factory,
+                        generalTableName: generalTableName,
+                        sourceTableName: sourceTableName,
+                        tableIndexCollection: tableIndexCollection);
+                    Unique(factory: factory,
+                        generalTableName: generalTableName,
+                        tableIndexCollection: tableIndexCollection);
                     break;
                 case Sqls.TableTypes.Deleted:
-                    General(generalTableName, sourceTableName, tableIndexCollection);
+                    General(factory: factory,
+                        generalTableName: generalTableName,
+                        sourceTableName: sourceTableName,
+                        tableIndexCollection: tableIndexCollection);
                     break;
                 case Sqls.TableTypes.History:
-                    History(generalTableName, sourceTableName, tableIndexCollection);
+                    History(factory: factory,
+                        generalTableName: generalTableName,
+                        sourceTableName: sourceTableName,
+                        tableIndexCollection: tableIndexCollection);
                     break;
             }
             return tableIndexCollection;
         }
 
         private static void General(
-            string generalTableName, string sourceTableName, List<IndexInfo> tableIndexCollection)
+            ISqlObjectFactory factory,
+            string generalTableName,
+            string sourceTableName,
+            List<IndexInfo> tableIndexCollection)
         {
             if (Def.ColumnDefinitionCollection.Any(o =>
                 o.TableName == generalTableName && o.Pk > 0))
             {
                 tableIndexCollection.Add(new IndexInfo(
-                    sourceTableName,
-                    IndexInfo.Types.Pk,
-                    "Pk",
-                    Def.ColumnDefinitionCollection
+                    factory: factory,
+                    tableName: sourceTableName,
+                    type: IndexInfo.Types.Pk,
+                    name: "Pk",
+                    columnCollection: Def.ColumnDefinitionCollection
                         .Where(o => o.TableName == generalTableName)
                         .Where(o => o.Pk > 0)
                         .OrderBy(o => o.Pk)
@@ -50,10 +68,11 @@ namespace Implem.CodeDefiner.Functions.Rds.Parts
             if (Def.ColumnDefinitionCollection.Any(o => o.TableName == generalTableName && o.Ix1 > 0))
             {
                 tableIndexCollection.Add(new IndexInfo(
-                    sourceTableName,
-                    IndexInfo.Types.Ix,
-                    "Ix1",
-                    Def.ColumnDefinitionCollection
+                    factory: factory,
+                    tableName: sourceTableName,
+                    type: IndexInfo.Types.Ix,
+                    name: "Ix1",
+                    columnCollection: Def.ColumnDefinitionCollection
                         .Where(o => o.TableName == generalTableName)
                         .Where(o => o.Ix1 > 0)
                         .OrderBy(o => o.Ix1)
@@ -63,10 +82,11 @@ namespace Implem.CodeDefiner.Functions.Rds.Parts
             if (Def.ColumnDefinitionCollection.Any(o => o.TableName == generalTableName && o.Ix2 > 0))
             {
                 tableIndexCollection.Add(new IndexInfo(
-                    sourceTableName,
-                    IndexInfo.Types.Ix,
-                    "Ix2",
-                    Def.ColumnDefinitionCollection
+                    factory: factory,
+                    tableName: sourceTableName,
+                    type: IndexInfo.Types.Ix,
+                    name: "Ix2",
+                    columnCollection: Def.ColumnDefinitionCollection
                         .Where(o => o.TableName == generalTableName)
                         .Where(o => o.Ix2 > 0)
                         .OrderBy(o => o.Ix2)
@@ -76,10 +96,11 @@ namespace Implem.CodeDefiner.Functions.Rds.Parts
             if (Def.ColumnDefinitionCollection.Any(o => o.TableName == generalTableName && o.Ix3 > 0))
             {
                 tableIndexCollection.Add(new IndexInfo(
-                    sourceTableName,
-                    IndexInfo.Types.Ix,
-                    "Ix3",
-                    Def.ColumnDefinitionCollection
+                    factory: factory,
+                    tableName: sourceTableName,
+                    type: IndexInfo.Types.Ix,
+                    name: "Ix3",
+                    columnCollection: Def.ColumnDefinitionCollection
                         .Where(o => o.TableName == generalTableName)
                         .Where(o => o.Ix3 > 0)
                         .OrderBy(o => o.Ix3)
@@ -88,7 +109,7 @@ namespace Implem.CodeDefiner.Functions.Rds.Parts
             }
         }
 
-        private static void Unique(string generalTableName, List<IndexInfo> tableIndexCollection)
+        private static void Unique(ISqlObjectFactory factory, string generalTableName, List<IndexInfo> tableIndexCollection)
         {
             Def.ColumnDefinitionCollection
                 .Where(o => o.TableName == generalTableName)
@@ -97,23 +118,28 @@ namespace Implem.CodeDefiner.Functions.Rds.Parts
                 .Select(o => o.ColumnName)
                 .ForEach(columnName =>
                     tableIndexCollection.Add(new IndexInfo(
-                        generalTableName,
-                        IndexInfo.Types.Ix,
-                        "Unique",
-                        new IndexInfo.Column(
+                        factory: factory,
+                        tableName: generalTableName,
+                        type: IndexInfo.Types.Ix,
+                        name: "Unique",
+                        columnCollection: new IndexInfo.Column(
                             columnName, 1, "asc", unique: true).ToSingleList())));
         }
 
         private static void History(
-            string generalTableName, string sourceTableName, List<IndexInfo> tableIndexCollection)
+            ISqlObjectFactory factory,
+            string generalTableName,
+            string sourceTableName,
+            List<IndexInfo> tableIndexCollection)
         {
             if (Def.ColumnDefinitionCollection.Any(o => o.TableName == generalTableName && o.Pk > 0))
             {
                 tableIndexCollection.Add(new IndexInfo(
-                    sourceTableName,
-                    IndexInfo.Types.Pk,
-                    "PkHistory",
-                    Def.ColumnDefinitionCollection
+                    factory: factory,
+                    tableName: sourceTableName,
+                    type: IndexInfo.Types.Pk,
+                    name: "PkHistory",
+                    columnCollection: Def.ColumnDefinitionCollection
                         .Where(o => o.TableName == generalTableName)
                         .Where(o => o.History > 0)
                         .Where(o => o.PkHistory > 0)
@@ -142,7 +168,10 @@ namespace Implem.CodeDefiner.Functions.Rds.Parts
             Sqls.TableTypes tableType,
             IEnumerable<ColumnDefinition> columnDefinitionCollection)
         {
-            return IndexInfoCollection(generalTableName, sourceTableName, tableType)
+            return IndexInfoCollection(factory: factory,
+                generalTableName: generalTableName,
+                sourceTableName: sourceTableName,
+                tableType: tableType)
                 .Select(o => o.IndexName())
                 .Distinct()
                 .OrderBy(o => o)
@@ -155,14 +184,14 @@ namespace Implem.CodeDefiner.Functions.Rds.Parts
         private static string Sql_CreateIx(
             string sourceTableName,
             IndexInfo tableIndex,
-            IEnumerable<ColumnDefinition> columnDefinitionCollection)
+            IEnumerable<ColumnDefinition> columnDefinitionCollection,
+            bool setOrderType = true)
         {
             if (tableIndex != null)
             {
                 return tableIndex.ColumnCollection
                     .Where(o => o.No > 0)
-                    .Select(o => "\"" + o.ColumnName + "\" ")
-                    //.Select(o => "\"" + o.ColumnName + "\" " + o.OrderType.ToString()) // TODO
+                    .Select(o => $"\"{o.ColumnName}\"{(setOrderType ? $" {o.OrderType}" : string.Empty)}")
                     .Join(", ");
             }
             else
@@ -182,10 +211,12 @@ namespace Implem.CodeDefiner.Functions.Rds.Parts
             if (tableIndex != null)
             {
                 sqlStatement.CommandText = sqlStatement.CommandText.Replace(
-                    "#Pks#", Def.Sql.CreatePk // TODO
+                    "#Pks#", Def.Sql.CreatePk
                         .Replace("#PkName#", tableIndex.IndexName())
                         .Replace("#PkColumns#", string.Join(",", Sql_CreateIx(
-                            sourceTableName, tableIndex, columnDefinitionCollection))));
+                            sourceTableName, tableIndex, columnDefinitionCollection)))
+                        .Replace("#PkColumnsWithoutOrderType#", string.Join(",", Sql_CreateIx(
+                            sourceTableName, tableIndex, columnDefinitionCollection, false))));
             }
             else
             {
@@ -196,12 +227,16 @@ namespace Implem.CodeDefiner.Functions.Rds.Parts
 
         internal static void CreateIx(
             this SqlStatement sqlStatement,
+            ISqlObjectFactory factory,
             string generalTableName,
             string sourceTableName,
             Sqls.TableTypes tableType,
             IEnumerable<ColumnDefinition> columnDefinitionCollection)
         {
-            IndexInfoCollection(generalTableName, sourceTableName, tableType)
+            IndexInfoCollection(factory: factory,
+                generalTableName: generalTableName,
+                sourceTableName: sourceTableName,
+                tableType: tableType)
                 .Where(o => o.Type == IndexInfo.Types.Ix)
                 .ForEach(tableIndex => 
                     sqlStatement.CreateIx(sourceTableName, columnDefinitionCollection, tableIndex));

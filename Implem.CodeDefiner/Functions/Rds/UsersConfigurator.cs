@@ -8,7 +8,6 @@ namespace Implem.CodeDefiner.Functions.Rds
     {
         internal static void Configure(ISqlObjectFactory factory)
         {
-            if (Environments.RdsProvider != "Local") return;
             Execute(
                 factory: factory,
                 connectionString: Parameters.Rds.OwnerConnectionString);
@@ -22,22 +21,19 @@ namespace Implem.CodeDefiner.Functions.Rds
             var cn = new TextData(connectionString, ';', '=');
             Consoles.Write(cn["uid"], Consoles.Types.Info);
             Spids.Kill(factory: factory, uid: cn["uid"]);
-            if (Exists(factory: factory, uid: cn["uid"], sql: Def.Sql.ExistsLoginRole))
-            {
-                Drop(factory: factory, uid: cn["uid"], sql: Def.Sql.DropLoginRole);
-            }
-            Create(factory: factory, uid: cn["uid"], sql: CreateLoginRoleCommandText(pwd: cn["pwd"]));
             if (Exists(factory: factory, uid: cn["uid"], sql: Def.Sql.ExistsUser))
             {
-                // TODO　依存オブジェクトがあるとNG
-                Drop(factory: factory, uid: cn["uid"], sql: Def.Sql.DropUser);
+                Alter(factory: factory, uid: cn["uid"], sql: AlterLoginRoleCommandText(pwd: cn["pwd"]));
             }
-            Create(factory: factory, uid: cn["uid"], sql: CreateUserCommandText(uid: cn["uid"], pwd: cn["pwd"]));
+            else
+            {
+                Create(factory: factory, uid: cn["uid"], sql: CreateUserCommandText(uid: cn["uid"], pwd: cn["pwd"]));
+            }
         }
 
-        private static string CreateLoginRoleCommandText(string pwd)
+        private static string AlterLoginRoleCommandText(string pwd)
         {
-            return Def.Sql.CreateLoginRole
+            return Def.Sql.AlterLoginRole
                 .Replace("#Pwd#", pwd);
         }
 
@@ -57,7 +53,7 @@ namespace Implem.CodeDefiner.Functions.Rds
                 commandText: sql.Replace("#Uid#", uid).Replace("#ServiceName#", Environments.ServiceName));
         }
 
-        private static void Drop(ISqlObjectFactory factory, string uid, string sql)
+        private static void Alter(ISqlObjectFactory factory, string uid, string sql)
         {
             Def.SqlIoBySa(factory).ExecuteNonQuery(
                 factory: factory,

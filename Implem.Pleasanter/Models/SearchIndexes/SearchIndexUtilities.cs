@@ -1,4 +1,5 @@
 ﻿using Implem.DefinitionAccessor;
+using Implem.IRds;
 using Implem.Libraries.Classes;
 using Implem.Libraries.DataSources.Interfaces;
 using Implem.Libraries.DataSources.SqlServer;
@@ -453,6 +454,7 @@ namespace Implem.Pleasanter.Models
                                 name: "SearchText",
                                 value: words,
                                 raw: FullTextWhere(
+                                    factory: context,
                                     words: words,
                                     itemsTableName: tableName + "_Items")));
                             return where;
@@ -518,7 +520,9 @@ namespace Implem.Pleasanter.Models
             int pageSize = 0,
             bool countRecord = false)
         {
-            var words = Words(searchText);
+            var words = context.SqlCommandText.CreateSearchTextWords(
+                words: Words(searchText: searchText),
+                searchText: searchText);
             if (words?.Any() != true) return null;
             var statements = new List<SqlStatement>
             {
@@ -589,7 +593,9 @@ namespace Implem.Pleasanter.Models
                             joinType: SqlJoin.JoinTypes.Inner,
                             joinExpression: "\"Items\".\"SiteId\"=\"Sites\".\"SiteId\"")),
                     where: Rds.ItemsWhere()
-                        .Add(raw: FullTextWhere(words))
+                        .Add(raw: FullTextWhere(
+                            factory: context,
+                            words: words))
                         .Add(
                             raw: Def.Sql.CanRead,
                             _using: !context.HasPrivilege && !context.Publish)
@@ -608,7 +614,9 @@ namespace Implem.Pleasanter.Models
                             joinType: SqlJoin.JoinTypes.Inner,
                             joinExpression: "\"Items\".\"SiteId\"=\"Sites\".\"SiteId\"")),
                     where: Rds.ItemsWhere()
-                        .Add(raw: FullTextWhere(words))
+                        .Add(raw: FullTextWhere(
+                            factory: context,
+                            words: words))
                         .Add(
                             raw: Def.Sql.CanRead,
                             _using: !context.HasPrivilege && !context.Publish)
@@ -621,13 +629,13 @@ namespace Implem.Pleasanter.Models
         /// <summary>
         /// Fixed:
         /// </summary>
-        private static string FullTextWhere(List<string> words, string itemsTableName = "Items")
+        private static string FullTextWhere(ISqlObjectFactory factory, List<string> words, string itemsTableName = "Items")
         {
             var contains = new List<string>();
             for (var count = 0; count < words.Count(); count++)
             {
-                var item = $"(contains(\"{itemsTableName}\".\"FullText\", @SearchText{count}_#CommandCount#))";
-                var binary = $"(exists(select * from \"Binaries\" where \"Binaries\".\"ReferenceId\"=\"{itemsTableName}\".\"ReferenceId\" and contains(\"Bin\", @SearchText{count}_#CommandCount#)))";
+                var item = factory.SqlCommandText.CreateFullTextWhereItem(itemsTableName, count);
+                var binary = factory.SqlCommandText.CreateFullTextWhereBinary(itemsTableName, count);
                 contains.Add(Parameters.Search.SearchDocuments
                     ? $"({item} or {binary})"
                     : item);
