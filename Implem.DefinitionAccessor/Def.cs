@@ -725,6 +725,7 @@ namespace Implem.DefinitionAccessor
                     case "Rds_CopyToStatementColums_Extended": Code.Rds_CopyToStatementColums_Extended = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Rds_CopyToStatementColums_Extended, definitionRow, CodeXls); break;
                     case "Rds_Aggregations": Code.Rds_Aggregations = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Rds_Aggregations, definitionRow, CodeXls); break;
                     case "Rds_AggregationTableCases": Code.Rds_AggregationTableCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Rds_AggregationTableCases, definitionRow, CodeXls); break;
+                    case "Rds_AggregationWhereTenantId": Code.Rds_AggregationWhereTenantId = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Rds_AggregationWhereTenantId, definitionRow, CodeXls); break;
                     case "Rds_AggregationTables": Code.Rds_AggregationTables = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Rds_AggregationTables, definitionRow, CodeXls); break;
                     case "Rds_AggregationTotalCases": Code.Rds_AggregationTotalCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Rds_AggregationTotalCases, definitionRow, CodeXls); break;
                     case "Rds_AggregationAverageCases": Code.Rds_AggregationAverageCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Rds_AggregationAverageCases, definitionRow, CodeXls); break;
@@ -7461,6 +7462,7 @@ namespace Implem.DefinitionAccessor
         public string Rds_CopyToStatementColums_Extended;
         public string Rds_Aggregations;
         public string Rds_AggregationTableCases;
+        public string Rds_AggregationWhereTenantId;
         public string Rds_AggregationTables;
         public string Rds_AggregationTotalCases;
         public string Rds_AggregationAverageCases;
@@ -8078,6 +8080,7 @@ namespace Implem.DefinitionAccessor
         public CodeDefinition Rds_CopyToStatementColums_Extended = new CodeDefinition();
         public CodeDefinition Rds_Aggregations = new CodeDefinition();
         public CodeDefinition Rds_AggregationTableCases = new CodeDefinition();
+        public CodeDefinition Rds_AggregationWhereTenantId = new CodeDefinition();
         public CodeDefinition Rds_AggregationTables = new CodeDefinition();
         public CodeDefinition Rds_AggregationTotalCases = new CodeDefinition();
         public CodeDefinition Rds_AggregationAverageCases = new CodeDefinition();

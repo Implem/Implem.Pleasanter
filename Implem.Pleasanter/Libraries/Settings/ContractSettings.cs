@@ -110,7 +110,9 @@ namespace Implem.Pleasanter.Libraries.Settings
             {
                 return true;
             }
-            return AllowIpAddresses.Contains(ipAddress);
+            return AllowIpAddresses
+                .Select(addr => IpRange.FromCidr(addr))
+                .Any(range => range.InRange(ipAddress));
         }
     }
 }

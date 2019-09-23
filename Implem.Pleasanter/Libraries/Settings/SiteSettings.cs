@@ -123,6 +123,7 @@ namespace Implem.Pleasanter.Libraries.Settings
         public SettingList<Style> Styles;
         public SettingList<Script> Scripts;
         public SettingList<RelatingColumn> RelatingColumns;
+        public string ExtendedHeader;
         public bool? AllowEditingComments;
         public bool? AllowSeparate;
         public bool? AllowLockTable;
@@ -230,9 +231,9 @@ namespace Implem.Pleasanter.Libraries.Settings
             if (Notifications == null) Notifications = new SettingList<Notification>();
             if (Reminders == null) Reminders = new SettingList<Reminder>();
             if (Exports == null) Exports = new SettingList<Export>();
+            if (Styles == null) Styles = new SettingList<Style>();
             if (Scripts == null) Scripts = new SettingList<Script>();
             if (RelatingColumns == null) RelatingColumns = new SettingList<RelatingColumn>();
-            if (Styles == null) Styles = new SettingList<Style>();
             AllowEditingComments = AllowEditingComments ?? false;
             AllowSeparate = AllowSeparate ?? false;
             AllowLockTable = AllowLockTable ?? false;
@@ -701,6 +702,14 @@ namespace Implem.Pleasanter.Libraries.Settings
                 }
                 ss.Exports.Add(exportSetting.GetRecordingData());
             });
+            Styles?.ForEach(style =>
+            {
+                if (ss.Styles == null)
+                {
+                    ss.Styles = new SettingList<Style>();
+                }
+                ss.Styles.Add(style.GetRecordingData());
+            });
             Scripts?.ForEach(script =>
             {
                 if (ss.Scripts == null)
@@ -717,14 +726,10 @@ namespace Implem.Pleasanter.Libraries.Settings
                 }
                 ss.RelatingColumns.Add(relatingColumn.GetRecordingData());
             });
-            Styles?.ForEach(style =>
+            if (!ExtendedHeader.IsNullOrEmpty())
             {
-                if (ss.Styles == null)
-                {
-                    ss.Styles = new SettingList<Style>();
-                }
-                ss.Styles.Add(style.GetRecordingData());
-            });
+                ss.ExtendedHeader = ExtendedHeader;
+            }
             if (!AddressBook.IsNullOrEmpty())
             {
                 ss.AddressBook = AddressBook;

@@ -510,9 +510,11 @@ namespace Implem.Pleasanter.Libraries.Requests
             {
                 return request?.UserHostAddress;
             }
-            if (address.StartsWith("["))
+            var sn = address.IndexOf("[");
+            var en = address.IndexOf("]");
+            if (sn >= 0 && en > sn)
             {
-                return address.Trim('[', ']');
+                return address.Substring(sn + 1, en - 1);
             }
             var n = address.IndexOf(":");
             return (n > 0) ? address.Substring(0, n) : address;
