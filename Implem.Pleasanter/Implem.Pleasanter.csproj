@@ -344,6 +344,8 @@
     <Compile Include="Libraries\Responses\ResponseViewModes.cs" />
     <Compile Include="Libraries\Security\Defenses.cs" />
     <Compile Include="Libraries\Security\Permission.cs" />
+    <Compile Include="Libraries\Server\IpAddress.cs" />
+    <Compile Include="Libraries\Server\IpRange.cs" />
     <Compile Include="Libraries\Server\TenantCache.cs" />
     <Compile Include="Libraries\Server\UpdateMonitor.cs" />
     <Compile Include="Libraries\Requests\Context.cs" />

@@ -9828,6 +9828,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
         }
 
         public static IEnumerable<SqlStatement> Aggregations(
+            Context context,
             SiteSettings ss,
             Sqls.TableTypes tableType,
             SqlJoinCollection join,
@@ -9850,6 +9851,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                         aggregations: ss.Aggregations,
                         tableType: tableType,
                         where: DeptsWhere()
+                            .TenantId(context.TenantId)
                             .DeptId_In(sub: SelectDepts(
                                 tableType: tableType,
                                 column: DeptsColumn().DeptId(),
@@ -9860,6 +9862,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                         aggregations: ss.Aggregations,
                         tableType: tableType,
                         where: GroupsWhere()
+                            .TenantId(context.TenantId)
                             .GroupId_In(sub: SelectGroups(
                                 tableType: tableType,
                                 column: GroupsColumn().GroupId(),
@@ -9880,6 +9883,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                         aggregations: ss.Aggregations,
                         tableType: tableType,
                         where: UsersWhere()
+                            .TenantId(context.TenantId)
                             .UserId_In(sub: SelectUsers(
                                 tableType: tableType,
                                 column: UsersColumn().UserId(),

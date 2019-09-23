@@ -6,7 +6,6 @@ using Implem.Pleasanter.Libraries.Requests;
 using Implem.Pleasanter.Libraries.Responses;
 using Implem.Pleasanter.Libraries.Settings;
 using Implem.Pleasanter.Models;
-using System.Linq;
 namespace Implem.Pleasanter.Libraries.HtmlParts
 {
     public static class HtmlHeaders
@@ -30,8 +29,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     referenceType: referenceType,
                     errorType: errorType,
                     useNavigationMenu: useNavigationMenu,
-                    useSearch: useSearch)
-                .ExtendedHeaders());
+                    useSearch: useSearch));
         }
 
         public static HtmlBuilder HeaderLogo(this HtmlBuilder hb, Context context)
@@ -57,13 +55,6 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                             existsTenantImage: existsImage)
                         .Span(id: "ProductLogo", action: () => hb
                         .Text(text: title))));
-        }
-
-        public static HtmlBuilder ExtendedHeaders(this HtmlBuilder hb)
-        {
-            return Parameters.ExtendedTags?.ContainsKey("Headers") == true
-                ? hb.Raw(text: Parameters.ExtendedTags["Headers"])
-                : hb;
         }
 
         private static HtmlBuilder LogoImage(
