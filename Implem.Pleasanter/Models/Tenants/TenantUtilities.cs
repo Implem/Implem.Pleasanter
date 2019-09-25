@@ -377,17 +377,11 @@ namespace Implem.Pleasanter.Models
                 title: tenantModel.MethodType == BaseModel.MethodTypes.New
                     ? Displays.Tenants(context: context) + " - " + Displays.New(context: context)
                     : tenantModel.Title.Value,
-                action: () =>
-                {
-                    hb
-                        .Editor(
-                            context: context,
-                            ss: ss,
-                            tenantModel: tenantModel)
-                        .Hidden(controlId: "TableName", value: "Tenants")
-                        .Hidden(controlId: "Controller", value: context.Controller)
-                        .Hidden(controlId: "Id", value: tenantModel.TenantId.ToString());
-                }).ToString();
+                action: () => hb
+                    .Editor(
+                        context: context,
+                        ss: ss,
+                        tenantModel: tenantModel)).ToString();
         }
 
         /// <summary>
@@ -521,6 +515,7 @@ namespace Implem.Pleasanter.Models
             var htmlTitleTop = ss.GetColumn(context, "HtmlTitleTop");
             var htmlTitleSite = ss.GetColumn(context, "HtmlTitleSite");
             var htmlTitleRecord = ss.GetColumn(context, "HtmlTitleRecord");
+            var UsedStorageCapacity = ((BinaryUtilities.UsedTenantStorageSize(context: context) / 1024) / 1024) / 1024;
             return hb.FieldSet(id: "FieldSetGeneral", action: () => hb
                 .Field(
                     context: context,
@@ -555,7 +550,7 @@ namespace Implem.Pleasanter.Models
                 .FieldSet(
                     id: "HtmlTitleSettingsField",
                     css: " enclosed",
-                    legendText: "HTMLタイトル",
+                    legendText: Displays.HtmlTitle(context),
                     action: () => hb
                         .Field(
                             context: context,
@@ -577,10 +572,29 @@ namespace Implem.Pleasanter.Models
                             column: htmlTitleRecord,
                             methodType: tenantModel.MethodType,
                             value: tenantModel.HtmlTitleRecord.ToControl(context: context, ss: ss, column: title),
-                            columnPermissionType: htmlTitleRecord.ColumnPermissionType(context: context))));
+                            columnPermissionType: htmlTitleRecord.ColumnPermissionType(context: context)))
+                .FieldSet(
+                    id: "StorageCheckField",
+                    css: " enclosed",
+                    legendText: Displays.Storage(context),
+                    action: () => hb
+                        .FieldText(
+                            fieldId: "StorageCapacity",
+                            labelText: Displays.StorageCapacity(context: context),
+                            text: context.ContractSettings.StorageSize.ToString() + "GB")
+                        .FieldText(
+                            fieldId: "UsedStorageCapacity",
+                            labelText: Displays.UsedStorageCapacity(context: context),
+                            text: UsedStorageCapacity.ToString("F4") + "GB")
+                        .FieldText(
+                            fieldId: "UseRateStorageCapacity",
+                            labelText: Displays.UsedRateStorageCapacity(context: context),
+                            text: ((UsedStorageCapacity.ToDecimal()
+                                / context.ContractSettings.StorageSize.ToDecimal()) * 100).ToString("F4") + "%"),
+                    _using: context.ContractSettings.StorageSize.ToDecimal() > 0));
         }
 
-        public static void Field(
+        public static HtmlBuilder Field(
             this HtmlBuilder hb,
             Context context,
             SiteSettings ss,
@@ -589,7 +603,8 @@ namespace Implem.Pleasanter.Models
             bool controlOnly = false,
             bool alwaysSend = false,
             string idSuffix = null,
-            bool preview = false)
+            bool preview = false,
+            bool disableSection = false)
         {
             var value = tenantModel.ControlValue(
                 context: context,
@@ -607,8 +622,10 @@ namespace Implem.Pleasanter.Models
                     controlOnly: controlOnly,
                     alwaysSend: alwaysSend,
                     idSuffix: idSuffix,
-                    preview: preview);
+                    preview: preview,
+                    disableSection: disableSection);
             }
+            return hb;
         }
 
         public static string ControlValue(
@@ -993,7 +1010,7 @@ namespace Implem.Pleasanter.Models
                             ss: ss,
                             dataRows: gridData.DataRows,
                             columns: columns,
-                            checkAll: false))
+                            gridSelector: null))
                     .CloseDialog()
                     .Message(Messages.Updated(
                         context: context,
@@ -1050,9 +1067,7 @@ namespace Implem.Pleasanter.Models
                     var res = new TenantsResponseCollection(tenantModel);
                     res
                         .SetMemory("formChanged", false)
-                        .Href(Locations.Index(
-                            context: context,
-                            controller: "Tenants"));
+                        .Invoke("back");
                     return res.ToJson();
                 default:
                     return errorData.Type.MessageJson(context: context);
@@ -1165,7 +1180,18 @@ namespace Implem.Pleasanter.Models
             tenantModel.VerType = context.Forms.Bool("Latest")
                 ? Versions.VerTypes.Latest
                 : Versions.VerTypes.History;
-            return EditorResponse(context, ss, tenantModel).ToJson();
+            return EditorResponse(context, ss, tenantModel)
+                .PushState("History", Locations.Get(
+                    context: context,
+                    parts: new string[]
+                    {
+                        "Items",
+                        tenantId.ToString() 
+                            + (tenantModel.VerType == Versions.VerTypes.History
+                                ? "?ver=" + context.Forms.Int("Ver") 
+                                : string.Empty)
+                    }))
+                .ToJson();
         }
 
         /// <summary>

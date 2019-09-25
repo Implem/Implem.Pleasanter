@@ -1,0 +1,13 @@
+﻿{
+    "Id": "OverLimitApi",
+    "Type": 240,
+    "Languages": [
+        {
+            "Body": "The API limit ({1} Requests/Day) that can be used on the site with ID \"{0}\" has been exceeded."
+        },
+        {
+            "Language": "ja",
+            "Body": "ID: {0} のサイトで利用できるAPIの制限（{1} 件/日）を超えました。"
+        }
+    ]
+}

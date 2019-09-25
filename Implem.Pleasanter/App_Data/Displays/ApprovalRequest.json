@@ -1,0 +1,13 @@
+﻿{
+    "Id": "ApprovalRequest",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "ApprovalRequest"
+        },
+        {
+            "Language": "ja",
+            "Body": "承認依頼"
+        }
+    ]
+}

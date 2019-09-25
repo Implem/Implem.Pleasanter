@@ -2,7 +2,8 @@
     $($control.attr('data-selector')).dialog({
         modal: true,
         width: '420px',
-        appendTo: appendTo
+        appendTo: appendTo,
+        resizable: false
     });
 }
 

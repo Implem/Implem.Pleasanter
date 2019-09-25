@@ -65,6 +65,13 @@ namespace Implem.Libraries.Utilities
                 : self;
         }
 
+        public static string CutEnd(this string self, string endsWith)
+        {
+            return self?.EndsWith(endsWith) == true
+                ? self.Substring(0, self.Length - endsWith.Length)
+                : self;
+        }
+
         public static string CoalesceEmpty(params string[] args)
         {
             return args

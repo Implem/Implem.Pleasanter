@@ -18,7 +18,7 @@ namespace Implem.Libraries.DataSources.SqlServer
         }
 
         public SqlWhereCollection Add(
-            string tableName,
+            string tableName = null,
             string[] columnBrackets = null,
             string name = null,
             object value = null,
@@ -99,14 +99,17 @@ namespace Implem.Libraries.DataSources.SqlServer
 
         public void Prefix(string prefix)
         {
-            ForEach(o => o.Name += prefix);
+            this
+                .Where(o => o.Name?.RegexExists("^[A-Z0-9]{32}$") != true)
+                .ForEach(o =>
+                    o.Name += prefix);
         }
 
         public List<string> JoinTableNames()
         {
             var data = this
                 .Where(o => o != null)
-                .Select(o => o.TableName)
+                .Select(o => o.TableName.CutEnd("_Items"))
                 .Where(o => o?.Contains("~") == true)
                 .ToList();
             this

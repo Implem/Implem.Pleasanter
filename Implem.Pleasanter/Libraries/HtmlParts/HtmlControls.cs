@@ -111,8 +111,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                             .DataAction(action)
                             .DataMethod(method)
                             .Add(attributes),
-                        action: () => hb
-                            .Text(text: text));
+                        text: text);
                 case HtmlTypes.TextTypes.Password:
                     return hb.Input(attributes: new HtmlAttributes()
                         .Id(controlId)
@@ -168,6 +167,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             string placeholder = null,
             bool readOnly = false,
             bool allowImage = true,
+            bool allowBulkUpdate = false,
             bool mobile = false,
             bool alwaysSend = false,
             bool validateRequired = false,
@@ -201,8 +201,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                             .DataAlwaysSend(alwaysSend)
                             .DataValidateRequired(validateRequired, _using: !readOnly)
                             .Add(attributes),
-                        action: () => hb
-                            .Text(text: text))
+                        text: text)
                     .MarkDownCommands(
                         context: context,
                         controlId: controlId,
@@ -767,6 +766,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             string value = null,
             string placeholder = null,
             bool readOnly = false,
+            bool allowBulkUpdate = false,
             bool validateRequired = false,
             Dictionary<string, string> attributes = null,
             bool preview = false,

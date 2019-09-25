@@ -20,12 +20,13 @@ $p.apiDelete = function (args) {
 
 $p.apiExec = function (url, args) {
     $.ajax({
-        url: url,
         type: 'post',
+        url: url,
         cache: false,
-        data: JSON.stringify(args.data),
         contentType: 'application/json',
-        dataType: 'json'
+        data: JSON.stringify(args.data),
+        dataType: 'json',
+        async: args.async !== undefined ? args.async : true
     })
         .done(args.done)
         .fail(args.fail)

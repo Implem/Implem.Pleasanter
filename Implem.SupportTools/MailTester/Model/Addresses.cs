@@ -12,26 +12,36 @@ namespace Implem.SupportTools.MailTester.Model
                 .Where(o => o != string.Empty);
         }
 
-        public static string BadAddress(string addresses)
+        public static string BadAddress(string addresses, string addressValidation)
         {
             foreach (var address in GetEnumerable(addresses))
             {
-                if (Get(address) == string.Empty)
+                if (Get(address, addressValidation) == string.Empty)
                 {
                     return address;
                 }
             }
             return string.Empty;
         }
+        public static IEnumerable<string> BadAddresses(string addresses, string addressValidation)
+        {
+            foreach (var address in GetEnumerable(addresses))
+            {
+                if (Get(address, addressValidation) == string.Empty)
+                {
+                    yield return address;
+                }
+            }
+        }
 
-        public static string Get(string address)
+        public static string Get(string address, string addressValidation)
         {
             return address.RegexFirst(
-                @"\b[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}\b",
+                addressValidation,
                 System.Text.RegularExpressions.RegexOptions.IgnoreCase);
         }
 
-        public static string ExternalMailAddress(string mailAddresses, string internalDomains)
+        public static string ExternalMailAddress(string mailAddresses, string internalDomains, string addressValidation)
         {
             var domains = internalDomains
                 .Split(',')
@@ -40,7 +50,7 @@ namespace Implem.SupportTools.MailTester.Model
             if (domains.Count() == 0) return string.Empty;
             foreach (var mailAddress in GetEnumerable(mailAddresses))
             {
-                if (!domains.Any(o => Get(mailAddress).EndsWith(o)))
+                if (!domains.Any(o => Get(mailAddress, addressValidation).EndsWith(o)))
                 {
                     return mailAddress;
                 }

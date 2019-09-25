@@ -1,0 +1,13 @@
+﻿{
+    "Id": "ApprovalMessageInviting",
+    "Type": 240,
+    "Languages": [
+        {
+            "Body": "{0} is currently invited and can not be approved."
+        },
+        {
+            "Language": "ja",
+            "Body": "{0} は現在招待中の為、承認できません。"
+        }
+    ]
+}

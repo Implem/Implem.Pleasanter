@@ -420,7 +420,7 @@ namespace Implem.Pleasanter.Models
                             .TenantId(context.TenantId)
                             .UserId(_operator: ">0")
                             .SqlWhereLike(
-                                tableName: null,
+                                tableName: "\"Users\"",
                                 name: "SearchText",
                                 searchText: searchText,
                                 clauseCollection: new List<string>()
@@ -433,7 +433,7 @@ namespace Implem.Pleasanter.Models
                                     Rds.Depts_DeptName_WhereLike(factory: context),
                                     Rds.Depts_Body_WhereLike(factory: context)
                                 })
-                            .Users_Disabled(context.Sqls.FalseValue),
+                            .Users_Disabled(0),
                         unionType: Sqls.UnionTypes.UnionAll)
                 })
                     .AsEnumerable()

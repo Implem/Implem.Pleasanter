@@ -150,6 +150,11 @@ namespace Implem.Pleasanter.Libraries.Requests
             return GetSqlObjectFactory().CreateSqlConnection(connectionString);
         }
 
+        public ISqlConnectionStringBuilder CreateSqlConnectionStringBuilder(string connectionString)
+        {
+            return GetSqlObjectFactory().CreateSqlConnectionStringBuilder(connectionString);
+        }
+
         public ISqls Sqls
         {
             get
@@ -182,11 +187,33 @@ namespace Implem.Pleasanter.Libraries.Requests
             }
         }
 
-        public ISqlDataTypes SqlDataTypes
+        public ISqlDataType SqlDataType
         {
             get
             {
-                return GetSqlObjectFactory().SqlDataTypes;
+                return GetSqlObjectFactory().SqlDataType;
+            }
+        }
+
+        public ISqlDefinitionSetting SqlDefinitionSetting
+        {
+            get
+            {
+                return GetSqlObjectFactory().SqlDefinitionSetting;
+            }
+        }
+
+        public bool TrashboxActions()
+        {
+            switch (Action)
+            {
+                case "trashbox":
+                case "trashboxgridrows":
+                case "restore":
+                case "physicaldelete":
+                    return true;
+                default:
+                    return false;
             }
         }
     }

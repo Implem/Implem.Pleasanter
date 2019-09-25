@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Threading.Tasks;
 using System.Web.Mvc;
 using Implem.DefinitionAccessor;
@@ -44,8 +46,7 @@ namespace Implem.Pleasanter.NetCore
             services.AddDistributedMemoryCache();
             services.AddMvc().AddSessionStateTempDataProvider();
             services.AddSession();
-
-            services.AddMvc(
+            var mvcBuilder = services.AddMvc(
                 options =>
                 {
                     options.Filters.Add(new HandleErrorExAttribute());
@@ -57,6 +58,14 @@ namespace Implem.Pleasanter.NetCore
                     }
                 });
             services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme).AddCookie(o => o.LoginPath = new PathString("/users/login"));
+            var extensionDirectory = Path.Combine(Path.GetDirectoryName(Assembly.GetEntryAssembly().Location), "ExtendedLibraries");
+            if (Directory.Exists(extensionDirectory))
+            {
+                foreach (var assembly in Directory.GetFiles(extensionDirectory, "*.dll").Select(dll => Assembly.LoadFrom(dll)).ToArray())
+                {
+                    mvcBuilder.AddApplicationPart(assembly);
+                }
+            }
         }
 
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)

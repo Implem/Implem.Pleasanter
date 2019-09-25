@@ -1,5 +1,5 @@
-﻿$p.setByJson = function (url, methodType, data, $control, async, json) {
-    $p.before_set($p.eventArgs(url, methodType, data, $control, async, undefined, json));
+﻿$p.setByJson = function (url, methodType, data, $control, _async, json) {
+    $p.before_set($p.eventArgs(url, methodType, data, $control, _async, undefined, json));
     if (json) {
         $.each(json, function () {
             $p.setByJsonElement(this, data, $control);
@@ -16,7 +16,7 @@
         $p.apply();
         $p.applyValidator();
     }
-    $p.after_set($p.eventArgs(url, methodType, data, $control, async, undefined, json));
+    $p.after_set($p.eventArgs(url, methodType, data, $control, _async, undefined, json));
 }
 
 $p.setByJsonElement = function (jsonElement, data, $control) {
@@ -34,6 +34,7 @@ $p.setByJsonElement = function (jsonElement, data, $control) {
             $p.setMessage(target, value);
             break;
         case 'Href':
+            $control.addClass('no-send');
             location.href = value;
             break;
         case 'PushState':

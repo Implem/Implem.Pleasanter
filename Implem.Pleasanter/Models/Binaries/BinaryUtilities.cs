@@ -367,13 +367,6 @@ namespace Implem.Pleasanter.Models
         /// </summary>
         public static string UploadImage(Context context, long id)
         {
-            var controlId = context.Forms.ControlId();
-            var ss = new ItemModel(
-                context: context,
-                referenceId: id).GetSite(
-                    context: context,
-                    initSiteSettings: true)
-                        .SiteSettings;
             var invalid = BinaryValidators.OnUploadingImage(context: context);
             switch (invalid)
             {
@@ -393,24 +386,20 @@ namespace Implem.Pleasanter.Models
                     "Images",
                     file.Guid));
             }
-            else
-            {
-                Repository.ExecuteNonQuery(
-                    context: context,
-                    statements: Rds.InsertBinaries(
-                        param: Rds.BinariesParam()
-                            .TenantId(context.TenantId)
-                            .ReferenceId(id)
-                            .Guid(file.Guid)
-                            .BinaryType("Images")
-                            .Title(file.FileName)
-                            .Bin(bin)
-                            .FileName(file.FileName)
-                            .Extension(file.Extension)
-                            .Size(file.Size)
-                            .ContentType(file.ContentType)));
-            }
-            var hb = new HtmlBuilder();
+            Repository.ExecuteNonQuery(
+                context: context,
+                statements: Rds.InsertBinaries(
+                    param: Rds.BinariesParam()
+                        .TenantId(context.TenantId)
+                        .ReferenceId(id)
+                        .Guid(file.Guid)
+                        .BinaryType("Images")
+                        .Title(file.FileName)
+                        .Bin(bin, _using: !Parameters.BinaryStorage.IsLocal())
+                        .FileName(file.FileName)
+                        .Extension(file.Extension)
+                        .Size(file.Size)
+                        .ContentType(file.ContentType)));
             return new ResponseCollection()
                 .InsertText(
                     "#" + context.Forms.ControlId(),

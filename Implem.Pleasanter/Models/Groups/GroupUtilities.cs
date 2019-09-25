@@ -181,7 +181,11 @@ namespace Implem.Pleasanter.Models
                     .Div(attributes: new HtmlAttributes()
                         .Id("ExportSelectorDialog")
                         .Class("dialog")
-                        .Title(Displays.Export(context: context))))
+                        .Title(Displays.Export(context: context)))
+                        .Div(attributes: new HtmlAttributes()
+                                .Id("BulkUpdateSelectorDialog")
+                                .Class("dialog")
+                                .Title(Displays.BulkUpdate(context: context))))
                     .ToString();
         }
 
@@ -202,6 +206,7 @@ namespace Implem.Pleasanter.Models
                             ss: ss,
                             gridData: gridData,
                             view: view))
+                .Events("on_grid_load")
                 .ToJson();
         }
 
@@ -378,7 +383,7 @@ namespace Implem.Pleasanter.Models
                         ss: ss,
                         dataRows: gridData.DataRows,
                         columns: columns,
-                        checkAll: checkAll,
+                        gridSelector: null,
                         checkRow: checkRow));
         }
 
@@ -403,6 +408,7 @@ namespace Implem.Pleasanter.Models
                 context: context,
                 ss: ss,
                 view: view,
+                tableType: Sqls.TableTypes.Normal,
                 where: Rds.GroupsWhere().GroupId(groupId))
                     .DataRows
                     .FirstOrDefault();
@@ -428,7 +434,7 @@ namespace Implem.Pleasanter.Models
                                 context: context,
                                 view: view,
                                 checkPermission: true),
-                            checkAll: false,
+                            gridSelector: null,
                             editRow: true,
                             checkRow: false,
                             idColumn: "GroupId"))
@@ -824,17 +830,11 @@ namespace Implem.Pleasanter.Models
                 title: groupModel.MethodType == BaseModel.MethodTypes.New
                     ? Displays.Groups(context: context) + " - " + Displays.New(context: context)
                     : groupModel.Title.Value,
-                action: () =>
-                {
-                    hb
-                        .Editor(
-                            context: context,
-                            ss: ss,
-                            groupModel: groupModel)
-                        .Hidden(controlId: "TableName", value: "Groups")
-                        .Hidden(controlId: "Controller", value: context.Controller)
-                        .Hidden(controlId: "Id", value: groupModel.GroupId.ToString());
-                }).ToString();
+                action: () => hb
+                    .Editor(
+                        context: context,
+                        ss: ss,
+                        groupModel: groupModel)).ToString();
         }
 
         /// <summary>
@@ -998,7 +998,7 @@ namespace Implem.Pleasanter.Models
             return hb;
         }
 
-        public static void Field(
+        public static HtmlBuilder Field(
             this HtmlBuilder hb,
             Context context,
             SiteSettings ss,
@@ -1007,7 +1007,8 @@ namespace Implem.Pleasanter.Models
             bool controlOnly = false,
             bool alwaysSend = false,
             string idSuffix = null,
-            bool preview = false)
+            bool preview = false,
+            bool disableSection = false)
         {
             var value = groupModel.ControlValue(
                 context: context,
@@ -1025,8 +1026,10 @@ namespace Implem.Pleasanter.Models
                     controlOnly: controlOnly,
                     alwaysSend: alwaysSend,
                     idSuffix: idSuffix,
-                    preview: preview);
+                    preview: preview,
+                    disableSection: disableSection);
             }
+            return hb;
         }
 
         public static string ControlValue(
@@ -1404,7 +1407,7 @@ namespace Implem.Pleasanter.Models
                             ss: ss,
                             dataRows: gridData.DataRows,
                             columns: columns,
-                            checkAll: false))
+                            gridSelector: null))
                     .CloseDialog()
                     .Message(Messages.Updated(
                         context: context,
@@ -1461,9 +1464,7 @@ namespace Implem.Pleasanter.Models
                     var res = new GroupsResponseCollection(groupModel);
                     res
                         .SetMemory("formChanged", false)
-                        .Href(Locations.Index(
-                            context: context,
-                            controller: "Groups"));
+                        .Invoke("back");
                     return res.ToJson();
                 default:
                     return errorData.Type.MessageJson(context: context);
@@ -1576,7 +1577,18 @@ namespace Implem.Pleasanter.Models
             groupModel.VerType = context.Forms.Bool("Latest")
                 ? Versions.VerTypes.Latest
                 : Versions.VerTypes.History;
-            return EditorResponse(context, ss, groupModel).ToJson();
+            return EditorResponse(context, ss, groupModel)
+                .PushState("History", Locations.Get(
+                    context: context,
+                    parts: new string[]
+                    {
+                        "Items",
+                        groupId.ToString() 
+                            + (groupModel.VerType == Versions.VerTypes.History
+                                ? "?ver=" + context.Forms.Int("Ver") 
+                                : string.Empty)
+                    }))
+                .ToJson();
         }
 
         /// <summary>
@@ -1748,7 +1760,7 @@ namespace Implem.Pleasanter.Models
                                         .Select(o => o.Split_2nd().ToInt()),
                                     negative: true)
                                 .SqlWhereLike(
-                                    tableName: "Groups",
+                                    tableName: "Depts",
                                     name: "SearchText",
                                     searchText: searchText,
                                     clauseCollection: new List<string>()
@@ -1777,7 +1789,7 @@ namespace Implem.Pleasanter.Models
                                         .Select(o => o.Split_2nd().ToInt()),
                                     negative: true)
                                 .SqlWhereLike(
-                                    tableName: null,
+                                    tableName: "Users",
                                     name: "SearchText",
                                     searchText: searchText,
                                     clauseCollection: new List<string>()

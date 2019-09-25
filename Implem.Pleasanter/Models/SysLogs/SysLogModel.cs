@@ -798,20 +798,6 @@ namespace Implem.Pleasanter.Models
         /// <summary>
         /// Fixed:
         /// </summary>
-        public SysLogModel(Context context, string exceptionMessage, string exceptionStackTrace)
-        {
-            Class = context.Controller;
-            Method = context.Action;
-            WriteSysLog(context: context);
-            SysLogType = SysLogTypes.Execption;
-            ErrMessage = exceptionMessage;
-            ErrStackTrace = exceptionStackTrace;
-            Finish(context: context);
-        }
-
-        /// <summary>
-        /// Fixed:
-        /// </summary>
         public enum SysLogTypes : int
         {
             Info = 10,

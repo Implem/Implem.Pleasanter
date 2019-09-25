@@ -81,7 +81,7 @@ namespace Implem.Libraries.DataSources.SqlServer
         public List<string> JoinTableNames()
         {
             return this
-                .Select(o => o.TableName)
+                .Select(o => o.TableName.CutEnd("_Items"))
                 .Where(o => o?.Contains("~") == true)
                 .Distinct()
                 .ToList();

@@ -9,4 +9,10 @@
     <ProjectReference Include="..\Implem.DisplayAccessor\Implem.DisplayAccessor.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Reference Include="Implem.License">
+      <HintPath>..\Implem.Pleasanter\App_Data\Licenses\Implem.License.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+
 </Project>

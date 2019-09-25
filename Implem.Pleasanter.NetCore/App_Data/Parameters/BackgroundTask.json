@@ -1,5 +1,5 @@
 ﻿{
-    "Enabled": true,
+    "Enabled": false,
     "Interval": 500,
     "BackgroundTaskSpan": 30,
     "CreateSearchIndexLot": 100

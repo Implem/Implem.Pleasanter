@@ -3,8 +3,8 @@ var $p = {
     events: {},
     ex: {}
 };
-$p.ajax = function (url, methodType, data, $control, async) {
-    if ($p.before_send($p.eventArgs(url, methodType, data, $control, async)) === false) {
+$p.ajax = function (url, methodType, data, $control, _async) {
+    if ($p.before_send($p.eventArgs(url, methodType, data, $control, _async)) === false) {
         return false;
     }
     if ($control) {
@@ -17,18 +17,18 @@ $p.ajax = function (url, methodType, data, $control, async) {
     }
     $p.loading($control);
     var ret = 0;
-    async = async !== undefined ? async : true;
+    _async = _async !== undefined ? _async : true;
     $p.clearMessage();
     $.ajax({
         url: url,
         type: methodType,
-        async: async,
+        async: _async,
         cache: false,
         data: data,
         dataType: 'json'
     })
     .done(function (json, textStatus, jqXHR) {
-        $p.setByJson(url, methodType, data, $control, async, json);
+        $p.setByJson(url, methodType, data, $control, _async, json);
         ret = json.filter(function (i) {
             return i.Method === 'Message' && JSON.parse(i.Value).Css === 'alert-error';
         }).length !== 0
@@ -44,7 +44,7 @@ $p.ajax = function (url, methodType, data, $control, async) {
         $p.clearData('ControlId', data);
         $p.loaded();
         });
-    $p.after_send($p.eventArgs(url, methodType, data, $control, async, ret));
+    $p.after_send($p.eventArgs(url, methodType, data, $control, _async, ret));
     return ret;
 }
 
@@ -124,12 +124,13 @@ $p.apiDelete = function (args) {
 
 $p.apiExec = function (url, args) {
     $.ajax({
-        url: url,
         type: 'post',
+        url: url,
         cache: false,
-        data: JSON.stringify(args.data),
         contentType: 'application/json',
-        dataType: 'json'
+        data: JSON.stringify(args.data),
+        dataType: 'json',
+        async: args.async !== undefined ? args.async : true
     })
         .done(args.done)
         .fail(args.fail)
@@ -320,8 +321,8 @@ $p.toJson = function ($control) {
             : $(this).attr('data-value')
     }).toArray());
 }
-$p.setByJson = function (url, methodType, data, $control, async, json) {
-    $p.before_set($p.eventArgs(url, methodType, data, $control, async, undefined, json));
+$p.setByJson = function (url, methodType, data, $control, _async, json) {
+    $p.before_set($p.eventArgs(url, methodType, data, $control, _async, undefined, json));
     if (json) {
         $.each(json, function () {
             $p.setByJsonElement(this, data, $control);
@@ -338,7 +339,7 @@ $p.setByJson = function (url, methodType, data, $control, async, json) {
         $p.apply();
         $p.applyValidator();
     }
-    $p.after_set($p.eventArgs(url, methodType, data, $control, async, undefined, json));
+    $p.after_set($p.eventArgs(url, methodType, data, $control, _async, undefined, json));
 }
 
 $p.setByJsonElement = function (jsonElement, data, $control) {
@@ -356,6 +357,7 @@ $p.setByJsonElement = function (jsonElement, data, $control) {
             $p.setMessage(target, value);
             break;
         case 'Href':
+            $control.addClass('no-send');
             location.href = value;
             break;
         case 'PushState':
@@ -456,13 +458,77 @@ $p.setByJsonElement = function (jsonElement, data, $control) {
             break;
     }
 }
-$p.eventArgs = function (url, methodType, data, $control, async, ret, json) {
+$p.id = function () {
+    return parseInt($('#Id').val());
+}
+
+$p.siteId = function (title) {
+    if (title === undefined) {
+        return parseInt($('#SiteId').val());
+    } else {
+        var sites = JSON.parse($('#JoinedSites').val()).filter(function (data) {
+            return data.Title === title;
+        });
+        return sites.length > 0
+            ? sites[0].SiteId
+            : undefined
+    }
+}
+
+$p.loginId = function () {
+    return $('#LoginId').val();
+}
+
+$p.userId = function () {
+    return parseInt($('#UserId').val());
+}
+
+$p.userName = function () {
+    return $('#AccountUserName').text();
+}
+
+$p.referenceType = function () {
+    return $('#ReferenceType').val();
+}
+
+$p.getColumnName = function (name) {
+    var data = JSON.parse($('#Columns').val()).filter(function (column) {
+        return column.LabelText === name || column.ColumnName === name
+    });
+    return data.length > 0
+        ? data[0].ColumnName
+        : undefined;
+}
+
+$p.getControl = function (name) {
+    var columnName = $p.getColumnName(name);
+    return columnName !== undefined
+        ? $('#' + $('#ReferenceType').val() + '_' + columnName)
+        : undefined;
+}
+
+$p.getGridRow = function (id) {
+    return $('#Grid > tbody > tr[data-id="' + id + '"]');
+}
+
+$p.getGridCell = function (id, name, excludeHistory) {
+    return $('#Grid > tbody > tr[data-id="' + id + '"]' + (excludeHistory? ':not([data-history])' : '') + ' td:nth-child(' + ($p.getGridColumnIndex(name) + 1) + ')');
+}
+
+$p.getGridColumnIndex = function (name) {
+    return $('#Grid > thead > tr > th').index($('#Grid > thead > tr > th[data-name="' + $p.getColumnName(name) + '"]'));
+}
+
+$p.on = function (events, name, func) {
+    $(document).on(events, '#' + $p.getControl(name).attr('id'), func);
+}
+$p.eventArgs = function (url, methodType, data, $control, _async, ret, json) {
     var args = {};
     args.url = url;
     args.methodType = methodType;
     args.data = data;
     args.$control = $control;
-    args.async = async;
+    args.async = _async;
     args.ret = ret;
     args.json = json;
     return args;
@@ -553,8 +619,9 @@ $p.syncSend = function ($control, formId) {
     return $p.send($control, formId, false);
 }
 
-$p.send = function ($control, formId, async) {
+$p.send = function ($control, formId, _async) {
     if ($p.outsideDialog($control)) return false;
+    if ($control.hasClass('no-send')) return false;
     $form = formId !== undefined
         ? $('#' + formId)
         : $control.closest('form');
@@ -564,13 +631,13 @@ $p.send = function ($control, formId, async) {
     var url = action !== undefined
         ? $form.attr('action').replace('_action_', action.toLowerCase())
         : location.href;
-    async = async !== undefined ? async : true;
+    _async = _async !== undefined ? _async : true;
     if (methodType !== 'get') {
         data.ControlId = $control.attr('id');
         $p.setMustData($form, action);
     }
     if ($control.hasClass('validate')) {
-        if ($p.before_validate($p.eventArgs(url, methodType, data, $control, async)) === false) {
+        if ($p.before_validate($p.eventArgs(url, methodType, data, $control, _async)) === false) {
             return false;
         }
         $form.validate();
@@ -584,7 +651,7 @@ $p.send = function ($control, formId, async) {
             }
             return false;
         }
-        if ($p.after_validate($p.eventArgs(url, methodType, data, $control, async)) === false) {
+        if ($p.after_validate($p.eventArgs(url, methodType, data, $control, _async)) === false) {
             return false;
         }
     }
@@ -594,7 +661,7 @@ $p.send = function ($control, formId, async) {
             methodType,
             methodType !== 'get' ? data : null,
             $control,
-            async);
+            _async);
     }
 }
 
@@ -674,7 +741,6 @@ $(function () {
             } else if (parseInt($control.val()) > parseInt($control.attr('data-max'))) {
                 $control.val($control.attr('data-max'));
             }
-            $p.setFormChanged($control);
         }
         $p.setData($control);
         e.preventDefault();
@@ -684,7 +750,6 @@ $(function () {
         var data = $p.getData($control);
         data[this.id] = ui.value;
         $p.setGridTimestamp($control, data);
-        $p.setFormChanged($control);
     });
     $(document).on('change', '.control-checkbox.visible', function () {
         show(this.id.substring(7, this.id.length), $(this).prop('checked'));
@@ -1283,7 +1348,8 @@ $p.openColumnAccessControlDialog = function ($control) {
         $('#ColumnAccessControlDialog').dialog({
             modal: true,
             width: '900px',
-            appendTo: '#Editor'
+            appendTo: '#Editor',
+            resizable: false
         });
     }
 }
@@ -1316,10 +1382,16 @@ $p.confirmReload = function confirmReload() {
 $(function () {
     $(document).on(
         'change',
-        '.confirm-unload input, .confirm-unload select, .confirm-unload textarea',
+        '.confirm-unload input, .confirm-unload select, .confirm-unload textarea,  .confirm-unload .control-spinner',
         function () {
             $p.setFormChanged($(this));
         });
+    $(document).on(
+        'spin',
+        '.confirm-unload .control-spinner',
+        function () {
+            $p.setFormChanged($(this));
+    });
     $(window).bind("beforeunload", function () {
         if ($p.formChanged) {
             return $p.display('ConfirmUnload');
@@ -1349,7 +1421,8 @@ $p.openDialog = function ($control, appendTo) {
     $($control.attr('data-selector')).dialog({
         modal: true,
         width: '420px',
-        appendTo: appendTo
+        appendTo: appendTo,
+        resizable: false
     });
 }
 
@@ -1467,6 +1540,7 @@ $p.openDropDownSearchDialog = function ($control) {
         title: $('label[for="' + id + '"]').text(),
         modal: true,
         width: '630px',
+        resizable: false,
         close: function () {
             $('#' + $target.val()).prop("disabled", false);
         }
@@ -1491,18 +1565,25 @@ $p.openExportSelectorDialog = function ($control) {
     if (error === 0) {
         $('#ExportSelectorDialog').dialog({
             modal: true,
-            width: '420px'
+            width: '420px',
+            resizable: false
         });
     }
 }
 
 $p.export = function () {
     var data = $p.getData($('.main-form'));
-    location.href = $('.main-form').attr('action').replace('_action_', 'export')
-        + '?id=' + $('#ExportId').val()
-        + '&GridCheckAll=' + data.GridCheckAll
-        + '&GridUnCheckedItems=' + data.GridUnCheckedItems
-        + '&GridCheckedItems=' + data.GridCheckedItems;
+    var exp = JSON.parse($('#ExportId').val());
+    if (exp.mailNotify === true) {
+        data["ExportId"] = exp.id;
+        $p.send($("#DoExport"),"MainForm");
+    } else {
+        location.href = $('.main-form').attr('action').replace('_action_', 'export')
+            + '?id=' + exp.id
+            + '&GridCheckAll=' + data.GridCheckAll
+            + '&GridUnCheckedItems=' + data.GridUnCheckedItems
+            + '&GridCheckedItems=' + data.GridCheckedItems;
+    }
     $p.closeDialog($('#ExportSelectorDialog'));
 }
 
@@ -1799,8 +1880,10 @@ $p.openEditorDialog = function (id) {
     $('#EditorDialog').dialog({
         modal: true,
         width: '90%',
+        resizable: false,
         open: function () {
             $('#EditorLoading').val(0);
+            $p.initRelatingColumn();
         }
     });
 }
@@ -2194,10 +2277,10 @@ $(function () {
     });
 });
 $p.openImportSettingsDialog = function ($control) {
-    $p.syncSend($control);
     $('#ImportSettingsDialog').dialog({
         modal: true,
-        width: '520px'
+        width: '520px',
+        resizable: false
     });
 }
 
@@ -2312,7 +2395,11 @@ $(function () {
                 scrollInput: false
             }).addClass('applied');
         });
-        $.datetimepicker.setLocale('ja');
+        switch ($('#Language').val()) {
+            case 'ja':
+                $.datetimepicker.setLocale('ja');
+                break;
+        }
         $('.radio:not(.applied)').buttonset().addClass('applied');
         $('.control-selectable:not(.applied)').selectable({
             selected: function (event, ui) {
@@ -2581,7 +2668,6 @@ $p.showMarkDownViewer = function ($control) {
         $viewer.html($p.markup($control.val()));
         $p.resizeEditor($control, $viewer);
         $p.toggleEditor($viewer, false);
-        $p.setFormChanged($control);
     }
 }
 
@@ -2862,7 +2948,8 @@ $p.back = function () {
 }
 $(function () {
     $(window).on('popstate', function (e) {
-        if (e.originalEvent.currentTarget.location.pathname !== $('#BaseUrl').val() + $('#Id').val()) {
+        if (e.originalEvent.currentTarget.location.pathname !== $('#BaseUrl').val() + $('#Id').val()
+            || e.originalEvent.state === "History" || urlParams()["ver"]) {
             $p.ajax(e.originalEvent.currentTarget.location, 'post');
         }
     });
@@ -2870,6 +2957,19 @@ $(function () {
     var $control = $('#BackUrl');
     if ($control.length === 1) {
         $control.appendTo('body');
+    }
+
+    function urlParams() {
+        var urlParam = location.search.substring(1);
+        var paramArray = [];
+        if (urlParam) {
+            var param = urlParam.split('&');
+            for (i = 0; i < param.length; i++) {
+                var paramItem = param[i].split('=');
+                paramArray[paramItem[0]] = paramItem[1];
+            }
+        }
+        return paramArray;
     }
 });
 $p.openOutgoingMailDialog = function ($control) {
@@ -2885,7 +2985,8 @@ $p.openOutgoingMailDialog = function ($control) {
             modal: true,
             width: '90%',
             height: 'auto',
-            dialogClass: 'outgoing-mail'
+            dialogClass: 'outgoing-mail',
+            resizable: false
         });
     }
 }
@@ -2898,7 +2999,8 @@ $p.openOutgoingMailReplyDialog = function ($control) {
             modal: true,
             width: '90%',
             height: 'auto',
-            dialogClass: 'outgoing-mail'
+            dialogClass: 'outgoing-mail',
+            resizable: false
         });
     }
 }
@@ -2974,7 +3076,8 @@ $p.openPermissionsDialog = function ($control) {
         $('#PermissionsDialog').dialog({
             modal: true,
             width: '700px',
-            appendTo: '#Editor'
+            appendTo: '#Editor',
+            resizable: false
         });
     }
 }
@@ -3001,7 +3104,8 @@ $p.openPermissionForCreatingDialog = function ($control) {
         $('#PermissionForCreatingDialog').dialog({
             modal: true,
             width: '700px',
-            appendTo: '#Editor'
+            appendTo: '#Editor',
+            resizable: false
         });
     }
 }
@@ -3123,7 +3227,8 @@ $p.openChangePasswordDialog = function () {
     data.ReturnUrl = $('#ReturnUrl').val();
     $('#ChangePasswordDialog').dialog({
         modal: true,
-        width: '420px'
+        width: '420px',
+        resizable: false
     });
 }
 
@@ -3158,7 +3263,8 @@ $p.openSeparateSettingsDialog = function ($control) {
         $('#SeparateSettingsDialog').dialog({
             modal: true,
             width: '700px',
-            appendTo: '.main-form'
+            appendTo: '.main-form',
+            resizable: false
         });
     }
 }
@@ -3226,7 +3332,8 @@ $p.openDeleteSiteDialog = function () {
         modal: true,
         width: '420px',
         height: 'auto',
-        appendTo: '.main-form'
+        appendTo: '.main-form',
+        resizable: false
     });
 }
 $p.tableName = function () {
@@ -3261,7 +3368,8 @@ $p.openLinkDialog = function () {
     $('#LinkDialog').dialog({
         modal: true,
         width: '420px',
-        appendTo: '.main-form'
+        appendTo: '.main-form',
+        resizable: false
     });
 }
 $p.uploadSiteImage = function ($control) {
@@ -3280,7 +3388,8 @@ $p.openSiteSettingsDialog = function ($control, selector, width) {
             modal: true,
             width: width !== undefined ? width : '90%',
             height: 'auto',
-            appendTo: '#Editor'
+            appendTo: '#Editor',
+            resizable: false
         });
     }
 }
@@ -3320,7 +3429,7 @@ $p.openEditorColumnDialog = function ($control) {
 
 $p.resetEditorColumn = function ($control) {
     $p.syncSend($control);
-    var data = $p.getData($control);
+    var data = $p.getData($('#EditorColumnForm'));
     $('#EditorColumnForm [class^="control-"]').each(function (index, control) {
         $p.setData($(control), data);
     });
@@ -3581,7 +3690,8 @@ $p.openSiteTitleDialog = function ($control) {
     $('#SiteTitleDialog').dialog({
         modal: true,
         width: '370px',
-        appendTo: '#Application'
+        appendTo: '#Application',
+        resizable: false
     });
 }
 $p.drawTimeSeries = function () {
@@ -3773,6 +3883,7 @@ $p.openVideo = function (controlId) {
             modal: true,
             width: '680px',
             appendTo: '#Application',
+            resizable: false,
             close: function () {
                 $p.videoTracks.forEach(function (track) { track.stop() });
             }
@@ -3809,6 +3920,10 @@ $(function () {
     $('body').css({ visibility: 'visible' });
 });
 $(document).ready(function () {
+    $p.initRelatingColumn();
+});
+
+$p.initRelatingColumn = function () {
     var param = $('#TriggerRelatingColumns').val();
     if (param === undefined) return;
     var rcols = JSON.parse(param);
@@ -3821,8 +3936,7 @@ $(document).ready(function () {
             prekey = rcols[k].Columns[k2];
         }
     }
-});
-
+};
 $p.applyRelatingColumn = function (prnt, chld, linkedClass) {
     $(document).ready(function () {
         var tablename = $('#TableName').val();
@@ -3835,9 +3949,10 @@ $p.applyRelatingColumn = function (prnt, chld, linkedClass) {
         });
     });
 
-    var c_change = function (tablename, siteid, linkedClass) {
+    var c_change = function (tablename, siteid) {
         var parentId = $('#' + tablename + '_' + prnt + ' option:selected').val();
         var childId = $('#' + tablename + '_' + chld + ' option:selected').val();
+        var childDisabled = $('#' + tablename + '_' + chld).prop('disabled');
         $('#' + tablename + '_' + chld).prop('disabled', true);
         $('#' + tablename + '_' + chld).empty();
         $('#' + tablename + '_' + chld)
@@ -3846,10 +3961,10 @@ $p.applyRelatingColumn = function (prnt, chld, linkedClass) {
                 .prop('id', 'Temporary_' + chld)
                 .prop('selected', true));
         $('#' + tablename + '_' + chld).append($('<option>').val(''));
-        refreshCombo(tablename, siteid, null, parentId, childId, false);
+        refreshCombo(tablename, siteid, null, parentId, childId, false, childDisabled);
     };
 
-    var refreshCombo = function (tablename, siteid, json, parentSelectedId, childSelectedId, childSelected) {
+    var refreshCombo = function (tablename, siteid, json, parentSelectedId, childSelectedId, childSelected, childDisabled) {
         $('#' + tablename + '_' + chld).attr('parent-data-class', linkedClass);
         $('#' + tablename + '_' + chld).attr('parent-data-id', parentSelectedId === '' ? '-1' : parentSelectedId);
         var offset = 0;
@@ -3863,10 +3978,10 @@ $p.applyRelatingColumn = function (prnt, chld, linkedClass) {
                 pagesize : (totalcount - offset);
             for (var i = 0; i < loopmax; i++) {
                 var id = json.Response.Data[i].ResultId;
-                if (id == undefined) id = json.Response.Data[i].IssueId;
+                if (id === undefined) id = json.Response.Data[i].IssueId;
                 var title = json.Response.Data[i].ItemTitle;
                 var isSelected = false;
-                if (id == childSelectedId) {
+                if (id === Number(childSelectedId)) {
                     childSelected = true;
                     isSelected = true;
                 }
@@ -3883,7 +3998,7 @@ $p.applyRelatingColumn = function (prnt, chld, linkedClass) {
             param.View.ColumnSorterHash = new Object();
             param.View.ColumnSorterHash['ItemTitle'] = 0;
             var urlpath = $('#ApplicationPath').val() +
-                'api/items/' + escape((siteid - 0)) + '/get';
+                'items/' + escape((siteid - 0)) + '/get';
             $.ajax({
                 type: 'POST',
                 url: urlpath,
@@ -3893,14 +4008,14 @@ $p.applyRelatingColumn = function (prnt, chld, linkedClass) {
                 scriptCharset: 'utf-8',
                 async: false
             }).done(function (json) {
-                if (json.StatusCode == 200) {
-                    refreshCombo(tablename, siteid, json, parentSelectedId, childSelectedId, childSelected);
+                if (json.StatusCode === 200) {
+                    refreshCombo(tablename, siteid, json, parentSelectedId, childSelectedId, childSelected, childDisabled);
                 } else {
                     alert('Error\r\nStatusCode:' + json.StatusCode);
                 }
             }).fail(function (XMLHttpRequest, textStatus, errorThrown) {
                 alert(textStatus + '\r\n' + errorThrown);
-                $('#' + tablename + '_' + chld).prop('disabled', false);
+                $('#' + tablename + '_' + chld).prop('disabled', childDisabled);
             });
         } else {
             if (childSelectedId > 0
@@ -3910,7 +4025,7 @@ $p.applyRelatingColumn = function (prnt, chld, linkedClass) {
                 $('#' + tablename + '_' + chld).trigger('change');
             }
             $('#Temporary_' + chld).remove();
-            $('#' + tablename + '_' + chld).prop('disabled', false);
+            $('#' + tablename + '_' + chld).prop('disabled', childDisabled);
         }
     };
 }
@@ -4074,4 +4189,124 @@ $p.uploadTenantImage = function ($control) {
         $('.main-form').attr('action').replace('_action_', $control.attr('data-action')),
         data,
         $control);
+}
+
+$p.openSetDateRangeDialog = function ($control) {
+    $control.blur();
+    $p.set($control, $control.val());
+    error = $p.send($control);
+    if (error === 0) {
+        $('#SetDateRangeDialog').dialog({
+            autoOpen: false,
+            modal: true,
+            height: 'auto',
+            width: 'auto',
+            resizable: false,
+            position: { my: 'center top', at: 'center bottom', of: $control }
+        });
+        $('#SetDateRangeDialog').dialog("open");
+    }
+}
+$p.openSiteSetDateRangeDialog = function ($control, timepicker) {
+    $control.blur();
+    $p.openSiteSettingsDialog($control, '#SetDateRangeDialog', 'auto');
+    $target = $('#' + $control.attr('id').replace("_DateRange", ""));
+    var initValue = JSON.parse($target.val() || "null");
+    var startValue = "";
+    var endValue = "";
+    if (Array.isArray(initValue) && initValue.length > 0) {
+        var values = initValue[0].split(',');
+        if (values.length > 0) {
+            startValue = timepicker ? values[0] : values[0].split(' ')[0];
+        }
+        if (values.length > 1) {
+            endValue = timepicker ? values[1] : values[1].split(' ')[0];
+        }
+    }
+    $('#dateRangeStart').val(startValue);
+    $('#dateRangeEnd').val(endValue);
+}
+$p.openSetDateRangeOK = function ($controlID, timepicker) {
+    var sdval = $('#dateRangeStart').val();
+    var edval = $('#dateRangeEnd').val();
+    var setval = "";
+    var dispval = "";
+    if (sdval || edval) {
+        dispval = sdval + "-" + edval;
+        if (!timepicker && sdval) { sdval += " 00:00:00.000"; }
+        if (!timepicker && edval) { edval += " 23:59:59.997"; }
+        setval = '["' + sdval + ',' + edval + '"]';
+    }
+    $control = $('#' + $controlID);
+    $target = $('#' + $controlID.replace("_DateRange", ""));
+    $control.val(dispval);
+    $p.set($target, setval);
+    $('#SetDateRangeDialog').dialog("close");
+    $p.send($target);
+}
+$p.openSetDateRangeClear = function () {
+    $('#dateRangeStart').val("");
+    $('#dateRangeEnd').val("");
+}
+$p.openSetNumericRangeDialog = function ($control) {
+    $control.blur();
+    $p.set($control, $control.val());
+    error = $p.send($control);
+    if (error === 0) {
+        $('#SetNumericRangeDialog').dialog({
+            modal: true,
+            height: 'auto',
+            width: 'auto',
+            resizable: false,
+            position: { my: 'center top', at: 'center bottom', of: $control }
+        });
+    }
+}
+$p.openSiteSetNumericRangeDialog = function ($control) {
+    $control.blur();
+    $p.openSiteSettingsDialog($control, '#SetNumericRangeDialog', 'auto');
+    $target = $('#' + $control.attr('id').replace("_NumericRange", ""));
+    var initValue = JSON.parse($target.val() || "null");
+    var startValue = "";
+    var endValue = "";
+    if (Array.isArray(initValue) && initValue.length > 0) {
+        var values = initValue[0].split(',');
+        if (values.length > 0) {
+            startValue = values[0];
+        }
+        if (values.length > 1) {
+            endValue = values[1];
+        }
+    }
+    $('#numericRangeStart').val(startValue);
+    $('#numericRangeEnd').val(endValue);
+}
+$p.openSetNumericRangeOK = function ($controlID) {
+    $start = $('#numericRangeStart');
+    $end = $('#numericRangeEnd');
+    $start.validate();
+    $end.validate();
+    if (!$start.valid() || !$end.valid()) {
+        $p.setErrorMessage('ValidationError');
+        return false;
+    }
+    $control = $('#' + $controlID);
+    $target = $('#' + $controlID.replace("_NumericRange", ""));
+    var sdval = $("#numericRangeStart").val();
+    var edval = $("#numericRangeEnd").val();
+    var setval = "";
+    var dispval = "";
+    if (sdval || edval) {
+        dispval = sdval + " - " + edval;
+        setval = '["'+ sdval + ',' + edval + '"]';
+    }
+    $control.val(dispval);
+    $p.set($target, setval);
+    $('#SetNumericRangeDialog').dialog("close");
+    $p.send($target);
+}
+$p.openSetNumericRangeClear = function ($control) {
+    $("#numericRangeStart").val("");
+    $("#numericRangeEnd").val("");
+    $p.clearMessage();
 }

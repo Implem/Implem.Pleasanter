@@ -5,6 +5,7 @@ using Implem.Libraries.Utilities;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
+using System.Text.RegularExpressions;
 namespace Implem.CodeDefiner.Functions.Rds.Parts
 {
     internal static class Constraints
@@ -29,12 +30,12 @@ namespace Implem.CodeDefiner.Functions.Rds.Parts
                     .Where(o => !o.Default.IsNullOrEmpty())
                     .Where(o => !(sourceTableName.EndsWith("_history") && o.ColumnName == "Ver"))
                     .OrderBy(o => o.ColumnName)
-                    .Select(o => o.ColumnName + "," + DefaultDefinition(factory, o))
+                    .Select(o => o.ColumnName + "," + DefaultDefinition(factory: factory, columnDefinition: o))
                     .JoinReturn() !=
                 Get(factory: factory, sourceTableName: sourceTableName)
                     .Where(o => !(sourceTableName.EndsWith("_history") && o["column_name"].ToString() == "Ver"))
                     .OrderBy(o => o["column_name"])
-                    .Select(o => o["column_name"] + "," + o["column_default"])
+                    .Select(o => o["column_name"] + "," + factory.SqlDataType.DefaultDefinition(o["column_default"]))
                     .JoinReturn();
         }
 
@@ -70,20 +71,20 @@ namespace Implem.CodeDefiner.Functions.Rds.Parts
             switch (columnDefinition.TypeName.CsTypeSummary())
             {
                 case Types.CsString:
-                    return "('" + columnDefinition.Default + "')";
+                    return $"'{columnDefinition.Default}'";
                 case Types.CsDateTime:
                     if (columnDefinition.Default?.ToLower() == "now")
                     {
-                        return $"({factory.Sqls.CurrentDateTime})";
+                        return factory.Sqls.CurrentDateTime.Trim();
                     }
                     else
                     {
-                        return "('" + columnDefinition.Default + "')";
+                        return columnDefinition.Default;
                     }
                 case Types.CsBool:
-                    return "((" + factory.Sqls.BooleanString(columnDefinition.Default) + "))";
+                    return factory.Sqls.BooleanString(columnDefinition.Default);
                 default:
-                    return "((" + columnDefinition.Default + "))";
+                    return columnDefinition.Default;
             }
         }
 

@@ -14,10 +14,13 @@ namespace Implem.ParameterAccessor.Parts
         public bool OnUpdated;
         public bool OnDeleting;
         public bool OnDeleted;
+        public bool OnBulkUpdating;
+        public bool OnBulkUpdated;
         public bool OnBulkDeleting;
         public bool OnBulkDeleted;
         public bool OnImporting;
         public bool OnImported;
+        public bool OnSelectingWhere;
         public string CommandText;
     }
 }

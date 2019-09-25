@@ -216,7 +216,11 @@ namespace Implem.Pleasanter.NetFramework.Libraries.Requests
                                             RecordTitle = dataRow.String("Title");
                                         }
                                     });
-                        Page = Controller + "/" + SiteId;
+                        Page = Controller + "/"
+                            + SiteId
+                            + (TrashboxActions()
+                                ? "/trashbox"
+                                : string.Empty);
                         break;
                     default:
                         Page = Controller;
@@ -462,11 +466,30 @@ namespace Implem.Pleasanter.NetFramework.Libraries.Requests
                         key: "Language",
                         value: language);
                 }
+                else
+                {
+                    switch (HttpAcceptLanguage())
+                    {
+                        case "en":
+                        case "en-GB":
+                        case "en-US":
+                            language = "en";
+                            break;
+                        default:
+                            language = Parameters.Service?.DefaultLanguage;
+                            break;
+                    }
+                }
                 language = SessionData.Get("Language") ?? language;
             }
             return types.Contains(language)
                 ? language
                 : Parameters.Service?.DefaultLanguage;
+        }
+
+        static string HttpAcceptLanguage()
+        {
+            return HttpContext.Current.Request.ServerVariables["HTTP_ACCEPT_LANGUAGE"]?.Split_1st();
         }
 
         public override void SetTenantCaches()

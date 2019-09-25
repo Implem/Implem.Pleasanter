@@ -59,6 +59,17 @@ Visual Studio からクロスプラットフォーム（.NET Core）実行環境
 ## 実行環境を構築する（Linuxの場合）
 * .NET Core 2.2 [[download](https://dotnet.microsoft.com/download)]  または [[パッケージ管理システム](https://dotnet.microsoft.com/download/linux-package-manager/rhel/sdk-2.2.105)]
 * SQL Server 2017 [[download](https://www.microsoft.com/ja-jp/sql-server/sql-server-downloads)] または [[パッケージ管理システム](https://docs.microsoft.com/ja-jp/sql/linux/quickstart-install-connect-ubuntu?view=sql-server-linux-2017)]
+* SQL Server フルテキスト検索 [[パッケージ管理システム](https://docs.microsoft.com/ja-jp/sql/linux/sql-server-linux-setup-full-text-search?view=sql-server-2017)]
+
+参考：  
+CentOS
+```
+yum install -y mssql-server-fts
+```
+Ubuntu
+```
+apt-get install -y mssql-server-fts
+```
 
 * GDI+ のインストール
 

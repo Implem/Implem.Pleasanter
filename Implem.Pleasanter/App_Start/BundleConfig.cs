@@ -26,6 +26,7 @@ namespace Implem.Pleasanter.App_Start
                 "~/scripts/attachmentsevents.js",
                 "~/scripts/basket.js",
                 "~/scripts/basketevents.js",
+                "~/scripts/bulkupdate.js",
                 "~/scripts/burndown.js",
                 "~/scripts/burndownevents.js",
                 "~/scripts/calendar.js",
@@ -96,7 +97,8 @@ namespace Implem.Pleasanter.App_Start
                 "~/scripts/relatingcolumns.js",
                 "~/scripts/fieldselectable.js",
                 "~/scripts/tenants.js",
-                "~/scripts/setdaterangedialog.js"
+                "~/scripts/setdaterangedialog.js",
+                "~/scripts/setnumericrangedialog.js"
             };
         }
     }

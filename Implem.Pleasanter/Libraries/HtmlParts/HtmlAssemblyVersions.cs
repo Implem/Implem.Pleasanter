@@ -42,16 +42,35 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                 .Span(action: () => hb
                                     .Text(text: Displays.Version(context: context)))
                                 .Span(action: () => hb
-                                    .Text(text: Environments.AssemblyVersion +
-                                        (Parameters.Enterprise
-                                            ? " EE"
-                                            : string.Empty))))
+                                    .Text(text: Environments.AssemblyVersion)))
+                            .Div(action: () => hb
+                                .Span(action: () => hb
+                                    .Text(text: Displays.License(context: context)))
+                                .Span(action: () => hb
+                                    .Text(text: Parameters.CommercialLicense()
+                                        ? Displays.CommercialLicense(context: context)
+                                        : Displays.AGPL(context: context))))
+                            .Div(
+                                action: () => hb
+                                    .Span(action: () => hb
+                                        .Text(text: Displays.LicenseDeadline(context: context)))
+                                    .Span(action: () => hb
+                                        .Text(text: Parameters.LicenseDeadline().ToString("yyyy/MM/dd"))),
+                                _using: Parameters.CommercialLicense()
+                                    && Parameters.Version.ShowDeadline)
+                            .Div(
+                                action: () => hb
+                                    .Span(action: () => hb
+                                        .Text(text: Displays.Licensee(context: context)))
+                                    .Span(action: () => hb
+                                        .Text(text: Parameters.Licensee())),
+                                _using: Parameters.CommercialLicense()
+                                    && Parameters.Version.ShowLicensee)
                             .Div(
                                 action: () => hb
                                     .Span(action: () => hb
                                         .Text(text: plan + Displays.Plan(context: context))),
                                 _using: !plan.IsNullOrEmpty())
-
                             .Div(
                                 action: () => hb
                                     .Span(action: () => hb

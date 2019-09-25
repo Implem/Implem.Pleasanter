@@ -23,8 +23,7 @@ namespace Implem.Pleasanter.NetCore.Filters
             {
                 new SysLogModel(
                     context: context,
-                    exceptionMessage: filterContext.Exception.Message,
-                    exceptionStackTrace: filterContext.Exception.StackTrace);
+                    e: filterContext.Exception);
             }
             catch
             {

@@ -74,6 +74,51 @@ namespace Implem.Pleasanter.Libraries.Responses
                 css: "alert-error");
         }
 
+        public static Message ApprovalMessage(Context context, params string[] data)
+        {
+            return Get(
+                text: Displays.ApprovalMessage(
+                    context: context,
+                    data: data),
+                css: "alert-success");
+        }
+
+        public static Message ApprovalMessageInvited(Context context, params string[] data)
+        {
+            return Get(
+                text: Displays.ApprovalMessageInvited(
+                    context: context,
+                    data: data),
+                css: "alert-error");
+        }
+
+        public static Message ApprovalMessageInviting(Context context, params string[] data)
+        {
+            return Get(
+                text: Displays.ApprovalMessageInviting(
+                    context: context,
+                    data: data),
+                css: "alert-error");
+        }
+
+        public static Message ApprovalRequestMessage(Context context, params string[] data)
+        {
+            return Get(
+                text: Displays.ApprovalRequestMessage(
+                    context: context,
+                    data: data),
+                css: "alert-success");
+        }
+
+        public static Message ApprovalRequestMessageRequesting(Context context, params string[] data)
+        {
+            return Get(
+                text: Displays.ApprovalRequestMessageRequesting(
+                    context: context,
+                    data: data),
+                css: "alert-success");
+        }
+
         public static Message Authentication(Context context, params string[] data)
         {
             return Get(
@@ -254,6 +299,15 @@ namespace Implem.Pleasanter.Libraries.Responses
                 css: "alert-success");
         }
 
+        public static Message CodeDefinerErrorCount(Context context, params string[] data)
+        {
+            return Get(
+                text: Displays.CodeDefinerErrorCount(
+                    context: context,
+                    data: data),
+                css: "alert-success");
+        }
+
         public static Message CodeDefinerInsertTestDataCompleted(Context context, params string[] data)
         {
             return Get(
@@ -366,6 +420,24 @@ namespace Implem.Pleasanter.Libraries.Responses
         {
             return Get(
                 text: Displays.Expired(
+                    context: context,
+                    data: data),
+                css: "alert-error");
+        }
+
+        public static Message ExportAccepted(Context context, params string[] data)
+        {
+            return Get(
+                text: Displays.ExportAccepted(
+                    context: context,
+                    data: data),
+                css: "alert-success");
+        }
+
+        public static Message ExportNotSetEmail(Context context, params string[] data)
+        {
+            return Get(
+                text: Displays.ExportNotSetEmail(
                     context: context,
                     data: data),
                 css: "alert-error");
@@ -587,6 +659,15 @@ namespace Implem.Pleasanter.Libraries.Responses
                 css: "alert-error");
         }
 
+        public static Message InviteMessage(Context context, params string[] data)
+        {
+            return Get(
+                text: Displays.InviteMessage(
+                    context: context,
+                    data: data),
+                css: "alert-success");
+        }
+
         public static Message ItemsLimit(Context context, params string[] data)
         {
             return Get(
@@ -681,6 +762,15 @@ namespace Implem.Pleasanter.Libraries.Responses
         {
             return Get(
                 text: Displays.NotRequiredColumn(
+                    context: context,
+                    data: data),
+                css: "alert-error");
+        }
+
+        public static Message OverLimitApi(Context context, params string[] data)
+        {
+            return Get(
+                text: Displays.OverLimitApi(
                     context: context,
                     data: data),
                 css: "alert-error");
@@ -798,6 +888,15 @@ namespace Implem.Pleasanter.Libraries.Responses
         {
             return Get(
                 text: Displays.RequireMailAddresses(
+                    context: context,
+                    data: data),
+                css: "alert-error");
+        }
+
+        public static Message RequireManagePermission(Context context, params string[] data)
+        {
+            return Get(
+                text: Displays.RequireManagePermission(
                     context: context,
                     data: data),
                 css: "alert-error");
@@ -965,6 +1064,15 @@ namespace Implem.Pleasanter.Libraries.Responses
                 css: "alert-success");
         }
 
+        public static Message UpdatedByGrid(Context context, params string[] data)
+        {
+            return Get(
+                text: Displays.UpdatedByGrid(
+                    context: context,
+                    data: data),
+                css: "alert-success");
+        }
+
         public static Message UserDisabled(Context context, params string[] data)
         {
             return Get(
@@ -1055,6 +1163,56 @@ namespace Implem.Pleasanter.Libraries.Responses
         {
             return ResponseMessage(
                 message: ApplicationError(
+                    context: context,
+                    data: data),
+                target: target);
+        }
+
+        public static ResponseCollection ResponseApprovalMessage(
+            Context context, string target = null, params string[] data)
+        {
+            return ResponseMessage(
+                message: ApprovalMessage(
+                    context: context,
+                    data: data),
+                target: target);
+        }
+
+        public static ResponseCollection ResponseApprovalMessageInvited(
+            Context context, string target = null, params string[] data)
+        {
+            return ResponseMessage(
+                message: ApprovalMessageInvited(
+                    context: context,
+                    data: data),
+                target: target);
+        }
+
+        public static ResponseCollection ResponseApprovalMessageInviting(
+            Context context, string target = null, params string[] data)
+        {
+            return ResponseMessage(
+                message: ApprovalMessageInviting(
+                    context: context,
+                    data: data),
+                target: target);
+        }
+
+        public static ResponseCollection ResponseApprovalRequestMessage(
+            Context context, string target = null, params string[] data)
+        {
+            return ResponseMessage(
+                message: ApprovalRequestMessage(
+                    context: context,
+                    data: data),
+                target: target);
+        }
+
+        public static ResponseCollection ResponseApprovalRequestMessageRequesting(
+            Context context, string target = null, params string[] data)
+        {
+            return ResponseMessage(
+                message: ApprovalRequestMessageRequesting(
                     context: context,
                     data: data),
                 target: target);
@@ -1260,6 +1418,16 @@ namespace Implem.Pleasanter.Libraries.Responses
                 target: target);
         }
 
+        public static ResponseCollection ResponseCodeDefinerErrorCount(
+            Context context, string target = null, params string[] data)
+        {
+            return ResponseMessage(
+                message: CodeDefinerErrorCount(
+                    context: context,
+                    data: data),
+                target: target);
+        }
+
         public static ResponseCollection ResponseCodeDefinerInsertTestDataCompleted(
             Context context, string target = null, params string[] data)
         {
@@ -1385,6 +1553,26 @@ namespace Implem.Pleasanter.Libraries.Responses
         {
             return ResponseMessage(
                 message: Expired(
+                    context: context,
+                    data: data),
+                target: target);
+        }
+
+        public static ResponseCollection ResponseExportAccepted(
+            Context context, string target = null, params string[] data)
+        {
+            return ResponseMessage(
+                message: ExportAccepted(
+                    context: context,
+                    data: data),
+                target: target);
+        }
+
+        public static ResponseCollection ResponseExportNotSetEmail(
+            Context context, string target = null, params string[] data)
+        {
+            return ResponseMessage(
+                message: ExportNotSetEmail(
                     context: context,
                     data: data),
                 target: target);
@@ -1630,6 +1818,16 @@ namespace Implem.Pleasanter.Libraries.Responses
                 target: target);
         }
 
+        public static ResponseCollection ResponseInviteMessage(
+            Context context, string target = null, params string[] data)
+        {
+            return ResponseMessage(
+                message: InviteMessage(
+                    context: context,
+                    data: data),
+                target: target);
+        }
+
         public static ResponseCollection ResponseItemsLimit(
             Context context, string target = null, params string[] data)
         {
@@ -1735,6 +1933,16 @@ namespace Implem.Pleasanter.Libraries.Responses
         {
             return ResponseMessage(
                 message: NotRequiredColumn(
+                    context: context,
+                    data: data),
+                target: target);
+        }
+
+        public static ResponseCollection ResponseOverLimitApi(
+            Context context, string target = null, params string[] data)
+        {
+            return ResponseMessage(
+                message: OverLimitApi(
                     context: context,
                     data: data),
                 target: target);
@@ -1865,6 +2073,16 @@ namespace Implem.Pleasanter.Libraries.Responses
         {
             return ResponseMessage(
                 message: RequireMailAddresses(
+                    context: context,
+                    data: data),
+                target: target);
+        }
+
+        public static ResponseCollection ResponseRequireManagePermission(
+            Context context, string target = null, params string[] data)
+        {
+            return ResponseMessage(
+                message: RequireManagePermission(
                     context: context,
                     data: data),
                 target: target);
@@ -2045,6 +2263,16 @@ namespace Implem.Pleasanter.Libraries.Responses
         {
             return ResponseMessage(
                 message: Updated(
+                    context: context,
+                    data: data),
+                target: target);
+        }
+
+        public static ResponseCollection ResponseUpdatedByGrid(
+            Context context, string target = null, params string[] data)
+        {
+            return ResponseMessage(
+                message: UpdatedByGrid(
                     context: context,
                     data: data),
                 target: target);

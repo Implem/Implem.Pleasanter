@@ -38,6 +38,8 @@ namespace Implem.Pleasanter.Models
         public List<string> MonitorChangesColumns = null;
         public List<string> TitleColumns = null;
         public Export Export = null;
+        public DateTime ApiCountDate = 0.ToDateTime();
+        public int ApiCount = 0;
 
         public TitleBody TitleBody
         {
@@ -62,6 +64,8 @@ namespace Implem.Pleasanter.Models
         public List<string> SavedMonitorChangesColumns = null;
         public List<string> SavedTitleColumns = null;
         public Export SavedExport = null;
+        public DateTime SavedApiCountDate = 0.ToDateTime();
+        public int SavedApiCount = 0;
 
         public bool TenantId_Updated(Context context, Column column = null)
         {
@@ -135,12 +139,28 @@ namespace Implem.Pleasanter.Models
                 column.GetDefaultInput(context: context).ToInt() != LockedUser.Id);
         }
 
+        public bool ApiCount_Updated(Context context, Column column = null)
+        {
+            return ApiCount != SavedApiCount &&
+                (column == null ||
+                column.DefaultInput.IsNullOrEmpty() ||
+                column.GetDefaultInput(context: context).ToInt() != ApiCount);
+        }
+
         public bool LockedTime_Updated(Context context, Column column = null)
         {
             return LockedTime.Value != SavedLockedTime &&
                 (column == null ||
                 column.DefaultInput.IsNullOrEmpty() ||
                 column.DefaultTime().Date != LockedTime.Value.Date);
+        }
+
+        public bool ApiCountDate_Updated(Context context, Column column = null)
+        {
+            return ApiCountDate != SavedApiCountDate &&
+                (column == null ||
+                column.DefaultInput.IsNullOrEmpty() ||
+                column.DefaultTime().Date != ApiCountDate.Date);
         }
 
         public SiteSettings Session_SiteSettings(Context context)
@@ -232,6 +252,8 @@ namespace Implem.Pleasanter.Models
                 case "MonitorChangesColumns": return MonitorChangesColumns.ToString();
                 case "TitleColumns": return TitleColumns.ToString();
                 case "Export": return Export.ToString();
+                case "ApiCountDate": return ApiCountDate.ToString();
+                case "ApiCount": return ApiCount.ToString();
                 case "Comments": return Comments.ToJson();
                 case "Creator": return Creator.Id.ToString();
                 case "Updator": return Updator.Id.ToString();
@@ -313,6 +335,12 @@ namespace Implem.Pleasanter.Models
                         break;
                     case "Export":
                         hash.Add("Export", Export.ToString());
+                        break;
+                    case "ApiCountDate":
+                        hash.Add("ApiCountDate", ApiCountDate.ToString());
+                        break;
+                    case "ApiCount":
+                        hash.Add("ApiCount", ApiCount.ToString());
                         break;
                     case "Comments":
                         hash.Add("Comments", Comments.ToJson());
@@ -474,7 +502,6 @@ namespace Implem.Pleasanter.Models
             bool backgroundTask = false,
             bool onCreating = false)
         {
-            if (Parameters.Search.Provider != "FullText") return null;
             if (!Parameters.Search.CreateIndexes && !backgroundTask) return null;
             if (AccessStatus == Databases.AccessStatuses.NotFound) return null;
             if (ReferenceType == "Wikis") return null;
@@ -524,43 +551,6 @@ namespace Implem.Pleasanter.Models
                 .Select(o => o.Trim())
                 .Distinct()
                 .Join(" ");
-        }
-
-        public Dictionary<string, int> SearchIndexHash(Context context, SiteSettings ss)
-        {
-            if (AccessStatus != Databases.AccessStatuses.Selected)
-            {
-                return null;
-            }
-            else
-            {
-                var searchIndexHash = new Dictionary<string, int>();
-                SiteInfo.TenantCaches.Get(context.TenantId)?
-                    .SiteMenu
-                    .Breadcrumb(context: context, siteId: SiteId)
-                    .SearchIndexes(context, searchIndexHash, 100);
-                SiteId.SearchIndexes(context, searchIndexHash, 1);
-                UpdatedTime.SearchIndexes(context, searchIndexHash, 200);
-                Title.SearchIndexes(context, searchIndexHash, 4);
-                Body.SearchIndexes(context, searchIndexHash, 200);
-                Comments.SearchIndexes(context, searchIndexHash, 200);
-                Creator.SearchIndexes(context, searchIndexHash, 100);
-                Updator.SearchIndexes(context, searchIndexHash, 100);
-                CreatedTime.SearchIndexes(context, searchIndexHash, 200);
-                ColumnNames().ForEach(columnName =>
-                    SearchIndexes(
-                        context: context,
-                        column: ss.GetColumn(
-                            context: context,
-                            columnName: columnName),
-                        searchIndexHash: searchIndexHash));
-                SearchIndexExtensions.OutgoingMailsSearchIndexes(
-                    context: context,
-                    searchIndexHash: searchIndexHash,
-                    referenceType: "Sites",
-                    referenceId: SiteId);
-                return searchIndexHash;
-            }
         }
 
         public ErrorData Update(
@@ -641,9 +631,10 @@ namespace Implem.Pleasanter.Models
                 .UpdatedTime(timestamp, _using: timestamp.InRange());
             if (VerUp)
             {
-                statements.Add(CopyToStatement(
+                statements.Add(Rds.SitesCopyToStatement(
                     where: where,
-                    tableType: Sqls.TableTypes.History));
+                    tableType: Sqls.TableTypes.History,
+                    ColumnNames()));
                 Ver++;
             }
             statements.AddRange(UpdateStatements(
@@ -662,46 +653,6 @@ namespace Implem.Pleasanter.Models
                 statements.AddRange(additionalStatements);
             }
             return statements;
-        }
-
-        private SqlStatement CopyToStatement(SqlWhereCollection where, Sqls.TableTypes tableType)
-        {
-            var column = new Rds.SitesColumnCollection();
-            var param = new Rds.SitesParamCollection();
-            column.TenantId(function: Sqls.Functions.SingleColumn); param.TenantId();
-            column.SiteId(function: Sqls.Functions.SingleColumn); param.SiteId();
-            column.UpdatedTime(function: Sqls.Functions.SingleColumn); param.UpdatedTime();
-            column.Ver(function: Sqls.Functions.SingleColumn); param.Ver();
-            column.Title(function: Sqls.Functions.SingleColumn); param.Title();
-            column.Body(function: Sqls.Functions.SingleColumn); param.Body();
-            column.GridGuide(function: Sqls.Functions.SingleColumn); param.GridGuide();
-            column.EditorGuide(function: Sqls.Functions.SingleColumn); param.EditorGuide();
-            column.ReferenceType(function: Sqls.Functions.SingleColumn); param.ReferenceType();
-            column.ParentId(function: Sqls.Functions.SingleColumn); param.ParentId();
-            column.InheritPermission(function: Sqls.Functions.SingleColumn); param.InheritPermission();
-            column.SiteSettings(function: Sqls.Functions.SingleColumn); param.SiteSettings();
-            column.Publish(function: Sqls.Functions.SingleColumn); param.Publish();
-            column.LockedTime(function: Sqls.Functions.SingleColumn); param.LockedTime();
-            column.LockedUser(function: Sqls.Functions.SingleColumn); param.LockedUser();
-            column.Comments(function: Sqls.Functions.SingleColumn); param.Comments();
-            column.Creator(function: Sqls.Functions.SingleColumn); param.Creator();
-            column.Updator(function: Sqls.Functions.SingleColumn); param.Updator();
-            column.CreatedTime(function: Sqls.Functions.SingleColumn); param.CreatedTime();
-            ColumnNames().ForEach(columnName =>
-            {
-                column.Add(
-                    columnBracket: $"\"{columnName}\"",
-                    columnName: columnName,
-                    function: Sqls.Functions.SingleColumn);
-                param.Add(
-                    columnBracket: $"\"{columnName}\"",
-                    name: columnName);
-            });
-            return Rds.InsertSites(
-                tableType: tableType,
-                param: param,
-                select: Rds.SelectSites(column: column, where: where),
-                addUpdatorParam: false);
         }
 
         private List<SqlStatement> UpdateStatements(
@@ -760,7 +711,6 @@ namespace Implem.Pleasanter.Models
                     addUpdatorParam: addUpdatorParam,
                     updateItems: updateItems)
                         .ToArray());
-            Libraries.Search.Indexes.Create(context, SiteSettings, this);
         }
 
         public List<SqlStatement> UpdateRelatedRecordsStatements(
@@ -819,7 +769,6 @@ namespace Implem.Pleasanter.Models
                 statements: statements.ToArray());
             SiteId = (response.Id ?? SiteId).ToLong();
             Get(context: context);
-            Libraries.Search.Indexes.Create(context, SiteSettings, this);
             return new ErrorData(type: Error.Types.None);
         }
 
@@ -882,7 +831,6 @@ namespace Implem.Pleasanter.Models
                         tenantId: TenantId,
                         type: StatusUtilities.Types.SitesUpdated),
                 });
-            Libraries.Search.Indexes.Create(context, SiteSettings, this);
             return new ErrorData(type: Error.Types.None);
         }
 
@@ -895,7 +843,6 @@ namespace Implem.Pleasanter.Models
                 statements: Rds.PhysicalDeleteSites(
                     tableType: tableType,
                     param: Rds.SitesParam().TenantId(TenantId).SiteId(SiteId)));
-            Libraries.Search.Indexes.Create(context, SiteSettings, this);
             return new ErrorData(type: Error.Types.None);
         }
 
@@ -917,6 +864,8 @@ namespace Implem.Pleasanter.Models
                     case "Sites_ReferenceType": ReferenceType = value.ToString(); break;
                     case "Sites_InheritPermission": InheritPermission = value.ToLong(); break;
                     case "Sites_Publish": Publish = value.ToBool(); break;
+                    case "Sites_ApiCountDate": ApiCountDate = value.ToDateTime().ToUniversal(context: context); break;
+                    case "Sites_ApiCount": ApiCount = value.ToInt(); break;
                     case "Sites_Timestamp": Timestamp = value.ToString(); break;
                     case "Comments": Comments.Prepend(
                         context: context,
@@ -934,11 +883,43 @@ namespace Implem.Pleasanter.Models
                         }
                         else
                         {
-                            Value(
+                            var column = ss.GetColumn(
                                 context: context,
-                                columnName: key.Split_2nd('_'),
-                                value: value,
-                                toUniversal: true);
+                                columnName: key.Split_2nd('_'));
+                            switch (Def.ExtendedColumnTypes.Get(column?.ColumnName))
+                            {
+                                case "Class":
+                                    Class(
+                                        columnName: column.ColumnName,
+                                        value: value);
+                                    break;
+                                case "Num":
+                                    Num(
+                                        columnName: column.ColumnName,
+                                        value: column.Round(value.ToDecimal(
+                                            cultureInfo: context.CultureInfo())));
+                                    break;
+                                case "Date":
+                                    Date(
+                                        columnName: column.ColumnName,
+                                        value: value.ToDateTime().ToUniversal(context: context));
+                                    break;
+                                case "Description":
+                                    Description(
+                                        columnName: column.ColumnName,
+                                        value: value);
+                                    break;
+                                case "Check":
+                                    Check(
+                                        columnName: column.ColumnName,
+                                        value: value.ToBool());
+                                    break;
+                                case "Attachments":
+                                    Attachments(
+                                        columnName: column.ColumnName,
+                                        value: value.Deserialize<Attachments>());
+                                    break;
+                            }
                         }
                         break;
                 }
@@ -978,6 +959,8 @@ namespace Implem.Pleasanter.Models
             MonitorChangesColumns = siteModel.MonitorChangesColumns;
             TitleColumns = siteModel.TitleColumns;
             Export = siteModel.Export;
+            ApiCountDate = siteModel.ApiCountDate;
+            ApiCount = siteModel.ApiCount;
             Comments = siteModel.Comments;
             Creator = siteModel.Creator;
             Updator = siteModel.Updator;
@@ -1006,14 +989,28 @@ namespace Implem.Pleasanter.Models
             if (data.ReferenceType != null) ReferenceType = data.ReferenceType.ToString().ToString();
             if (data.InheritPermission != null) InheritPermission = data.InheritPermission.ToLong().ToLong();
             if (data.Publish != null) Publish = data.Publish.ToBool().ToBool();
+            if (data.ApiCountDate != null) ApiCountDate = data.ApiCountDate.ToDateTime().ToDateTime().ToUniversal(context: context);
+            if (data.ApiCount != null) ApiCount = data.ApiCount.ToInt().ToInt();
             if (data.Comments != null) Comments.Prepend(context: context, ss: ss, body: data.Comments);
             if (data.VerUp != null) VerUp = data.VerUp.ToBool();
-            ClassHash = data.ClassHash;
-            NumHash = data.NumHash;
-            DateHash = data.DateHash;
-            DescriptionHash = data.DescriptionHash;
-            CheckHash = data.CheckHash;
-            AttachmentsHash = data.AttachmentsHash;
+            data.ClassHash.ForEach(o => Class(
+                columnName: o.Key,
+                value: o.Value));
+            data.NumHash.ForEach(o => Num(
+                columnName: o.Key,
+                value: o.Value));
+            data.DateHash.ForEach(o => Date(
+                columnName: o.Key,
+                value: o.Value.ToUniversal(context: context)));
+            data.DescriptionHash.ForEach(o => Description(
+                columnName: o.Key,
+                value: o.Value));
+            data.CheckHash.ForEach(o => Check(
+                columnName: o.Key,
+                value: o.Value));
+            data.AttachmentsHash.ForEach(o => Attachments(
+                columnName: o.Key,
+                value: o.Value));
             SetSiteSettings(context: context);
         }
 
@@ -1029,6 +1026,11 @@ namespace Implem.Pleasanter.Models
                     {
                         case "UpdatedTime":
                             match = UpdatedTime.Value.Matched(
+                                column: column,
+                                condition: filter.Value);
+                            break;
+                        case "Body":
+                            match = Body.Matched(
                                 column: column,
                                 condition: filter.Value);
                             break;
@@ -1171,6 +1173,14 @@ namespace Implem.Pleasanter.Models
                             LockedUser = SiteInfo.User(context: context, userId: dataRow.Int(column.ColumnName));
                             SavedLockedUser = LockedUser.Id;
                             break;
+                        case "ApiCountDate":
+                            ApiCountDate = dataRow[column.ColumnName].ToDateTime();
+                            SavedApiCountDate = ApiCountDate;
+                            break;
+                        case "ApiCount":
+                            ApiCount = dataRow[column.ColumnName].ToInt();
+                            SavedApiCount = ApiCount;
+                            break;
                         case "Comments":
                             Comments = dataRow[column.ColumnName].ToString().Deserialize<Comments>() ?? new Comments();
                             SavedComments = Comments.ToJson();
@@ -1266,6 +1276,8 @@ namespace Implem.Pleasanter.Models
                 || Publish_Updated(context: context)
                 || LockedTime_Updated(context: context)
                 || LockedUser_Updated(context: context)
+                || ApiCountDate_Updated(context: context)
+                || ApiCount_Updated(context: context)
                 || Comments_Updated(context: context)
                 || Creator_Updated(context: context)
                 || Updator_Updated(context: context);
@@ -1293,6 +1305,7 @@ namespace Implem.Pleasanter.Models
             var response = Repository.ExecuteScalar_response(
                 context: context,
                 transactional: true,
+                selectIdentity: true,
                 statements: new SqlStatement[]
                 {
                     Rds.InsertItems(
@@ -1342,12 +1355,6 @@ namespace Implem.Pleasanter.Models
                         Comments = Comments
                     };
                     wikiModel.Create(context: context, ss: SiteSettings);
-                    break;
-                default:
-                    Libraries.Search.Indexes.Create(
-                        context: context,
-                        ss: SiteSettings,
-                        siteModel: this);
                     break;
             }
             return new ErrorData(type: Error.Types.None);
@@ -1800,13 +1807,30 @@ namespace Implem.Pleasanter.Models
                         res: res);
                     break;
                 default:
-                    context.Forms
-                        .Where(o => o.Key != controlId)
-                        .ForEach(data =>
-                            SiteSettings.Set(
-                                context: context,
-                                propertyName: data.Key,
-                                value: data.Value));
+                    if (controlId.Contains("_NumericRange"))
+                    {
+                        OpenSetNumericRangeDialog(
+                            context: context,
+                            res: res,
+                            controlId: controlId);
+                    }
+                    else if (controlId.Contains("_DateRange"))
+                    {
+                        OpenSetDateRangeDialog(
+                            context: context,
+                            res: res,
+                            controlId: controlId);
+                    }
+                    else
+                    {
+                        context.Forms
+                            .Where(o => o.Key != controlId)
+                            .ForEach(data =>
+                                SiteSettings.Set(
+                                    context: context,
+                                    propertyName: data.Key,
+                                    value: data.Value));
+                    }
                     break;
             }
         }
@@ -2717,15 +2741,16 @@ namespace Implem.Pleasanter.Models
             else
             {
                 SiteSettings.Notifications.Add(new Notification(
-                    SiteSettings.Notifications.MaxOrDefault(o => o.Id) + 1,
-                    (Notification.Types)context.Forms.Int("NotificationType"),
-                    context.Forms.Data("NotificationPrefix"),
-                    context.Forms.Data("NotificationAddress"),
-                    context.Forms.Data("NotificationToken"),
-                    context.Forms.List("MonitorChangesColumnsAll"),
-                    context.Forms.Int("BeforeCondition"),
-                    context.Forms.Int("AfterCondition"),
-                    (Notification.Expressions)context.Forms.Int("Expression")));
+                    id: SiteSettings.Notifications.MaxOrDefault(o => o.Id) + 1,
+                    type: (Notification.Types)context.Forms.Int("NotificationType"),
+                    prefix: context.Forms.Data("NotificationPrefix"),
+                    address: context.Forms.Data("NotificationAddress"),
+                    token: context.Forms.Data("NotificationToken"),
+                    monitorChangesColumns: context.Forms.List("MonitorChangesColumnsAll"),
+                    beforeCondition: context.Forms.Int("BeforeCondition"),
+                    afterCondition: context.Forms.Int("AfterCondition"),
+                    expression: (Notification.Expressions)context.Forms.Int("Expression"),
+                    disabled: context.Forms.Bool("NotificationDisabled")));
                 SetNotificationsResponseCollection(context: context, res: res);
             }
         }
@@ -2749,14 +2774,15 @@ namespace Implem.Pleasanter.Models
                 else
                 {
                     notification.Update(
-                        (Notification.Types)context.Forms.Int("NotificationType"),
-                        context.Forms.Data("NotificationPrefix"),
-                        context.Forms.Data("NotificationAddress"),
-                        context.Forms.Data("NotificationToken"),
-                        context.Forms.List("MonitorChangesColumnsAll"),
-                        context.Forms.Int("BeforeCondition"),
-                        context.Forms.Int("AfterCondition"),
-                        (Notification.Expressions)context.Forms.Int("Expression"));
+                        type: (Notification.Types)context.Forms.Int("NotificationType"),
+                        prefix: context.Forms.Data("NotificationPrefix"),
+                        address: context.Forms.Data("NotificationAddress"),
+                        token: context.Forms.Data("NotificationToken"),
+                        monitorChangesColumns: context.Forms.List("MonitorChangesColumnsAll"),
+                        beforeCondition: context.Forms.Int("BeforeCondition"),
+                        afterCondition: context.Forms.Int("AfterCondition"),
+                        expression: (Notification.Expressions)context.Forms.Int("Expression"),
+                        disabled: context.Forms.Bool("NotificationDisabled"));
                     SetNotificationsResponseCollection(context: context, res: res);
                 }
             }
@@ -2915,7 +2941,8 @@ namespace Implem.Pleasanter.Models
                             range: context.Forms.Int("ReminderRange"),
                             sendCompletedInPast: context.Forms.Bool("ReminderSendCompletedInPast"),
                             notSendIfNotApplicable: context.Forms.Bool("NotSendIfNotApplicable"),
-                            condition: context.Forms.Int("ReminderCondition")));
+                            condition: context.Forms.Int("ReminderCondition"),
+                            disabled: context.Forms.Bool("ReminderDisabled")));
                         SetRemindersResponseCollection(context: context, res: res);
                         break;
                     case Error.Types.BadMailAddress:
@@ -2969,7 +2996,8 @@ namespace Implem.Pleasanter.Models
                                 range: context.Forms.Int("ReminderRange"),
                                 sendCompletedInPast: context.Forms.Bool("ReminderSendCompletedInPast"),
                                 notSendIfNotApplicable: context.Forms.Bool("NotSendIfNotApplicable"),
-                                condition: context.Forms.Int("ReminderCondition"));
+                                condition: context.Forms.Int("ReminderCondition"),
+                                disabled: context.Forms.Bool("ReminderDisabled"));
                             SetRemindersResponseCollection(context: context, res: res);
                             break;
                         case Error.Types.BadMailAddress:
@@ -3226,7 +3254,8 @@ namespace Implem.Pleasanter.Models
                         name: context.Forms.Data("ExportName"),
                         type: (Export.Types)context.Forms.Int("ExportType"),
                         header: context.Forms.Bool("ExportHeader"),
-                        columns: columns);
+                        columns: columns,
+                        executionType: (Export.ExecutionTypes)context.Forms.Int("ExecutionType"));
                     SetExportsResponseCollection(context: context, res: res);
                 }
             }
@@ -3879,6 +3908,64 @@ namespace Implem.Pleasanter.Models
                     .EditRelatingColumns(
                         context: context,
                         ss: SiteSettings));
+            }
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        public string OpenSetNumericRangeDialog(Context context, ResponseCollection res, string controlId)
+        {
+            if (context.CanRead(SiteSettings))
+            {
+                var columnName = controlId
+                    .Replace("ViewFilters__", string.Empty)
+                    .Replace("_NumericRange", string.Empty);
+                var column = SiteSettings.GetColumn(
+                    context: context,
+                    columnName: columnName);
+                return res.Html(
+                            "#SetNumericRangeDialog",
+                            new HtmlBuilder().SetNumericRangeDialog(
+                                context: context,
+                                ss: SiteSettings,
+                                column: column))
+                        .ToJson();
+            }
+            else
+            {
+                return Messages.ResponseNotFound(context: context).ToJson();
+            }
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        public string OpenSetDateRangeDialog(Context context, ResponseCollection res, string controlId)
+        {
+            if (context.CanRead(SiteSettings))
+            {
+                var columnName = context.Forms.ControlId()
+                    .Replace("ViewFilters__", string.Empty)
+                    .Replace("_DateRange", string.Empty);
+                var column = SiteSettings.GetColumn(
+                    context: context,
+                    columnName: columnName);
+                return res.Html(
+                            "#SetDateRangeDialog",
+                            new HtmlBuilder()
+                                .Input(
+                                    attributes: new HtmlAttributes()
+                                        .Style("opacity: 0; position: absolute; top: 0; left: 0;"))
+                                .SetDateRangeDialog(
+                                    context: context,
+                                    ss: SiteSettings,
+                                    column: column))
+                        .ToJson();
+            }
+            else
+            {
+                return Messages.ResponseNotFound(context: context).ToJson();
             }
         }
     }

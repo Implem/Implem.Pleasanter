@@ -71,62 +71,52 @@ namespace Implem.Pleasanter.Models
             }
         }
 
-        public static void UpdateTitles(Context context, long siteId, long id)
+        public static void UpdateTitles(Context context, SiteSettings ss, long id)
         {
             UpdateTitles(
                 context: context,
-                siteId: siteId,
+                ss: ss,
                 idList: id.ToSingleList());
         }
 
-        public static void UpdateTitles(Context context, long siteId, IEnumerable<long> idList)
+        public static void UpdateSourceTitles(Context context, SiteSettings ss, IList<long> idList)
         {
-            idList
-                .Chunk(100)
-                .SelectMany(chunked =>
-                    Repository.ExecuteTable(
-                        context: context,
-                        statements: Rds.SelectLinks(
-                            column: Rds.LinksColumn()
-                                .SourceId()
-                                .SiteId(),
-                            join: Rds.LinksJoinDefault(),
-                            where: Rds.LinksWhere().DestinationId_In(chunked)))
-                                .AsEnumerable())
-                .Select(dataRow => new
+            ss.Sources
+                .ForEach(source =>
                 {
-                    Id = dataRow.Long("SourceId"),
-                    SiteId = dataRow.Long("SiteId")
-                })
-                .GroupBy(o => o.SiteId)
-                .ForEach(links =>
-                {
-                    var targetSiteId = links.First().SiteId;
-                    var siteModel = new SiteModel(
-                        context: context,
-                        siteId: targetSiteId);
-                    var ss = siteModel.AccessStatus == Databases.AccessStatuses.Selected
-                        ? SiteSettingsUtilities.Get(
-                            context: context,
-                            siteModel: siteModel,
-                            referenceId: targetSiteId)
-                        : null;
-                    var columns = ss?.Links?
-                        .Where(o => o.SiteId == siteId)
+                    var currentSs = source.Value;
+                    var columns = currentSs?.Links?
+                        .Where(o => o.SiteId == ss.SiteId)
                         .Select(o => o.ColumnName)
                         .ToList();
-                    if (ss?.TitleColumns?.Any(o => columns?.Contains(o) == true) == true)
+                    if (currentSs?.TitleColumns?.Any(o => columns?.Contains(o) == true) == true)
                     {
+                        var nextIdList =
+                            Repository.ExecuteTable(
+                                context: context,
+                                statements: Rds.SelectLinks(
+                                column: Rds.LinksColumn()
+                                    .SourceId(),
+                                join: Rds.LinksJoinDefault(),
+                                where: Rds.LinksWhere()
+                                    .SiteId(currentSs.SiteId)
+                                    .DestinationId_In(
+                                        value: idList,
+                                        _using: idList.Count <= 100)))
+                            .AsEnumerable()
+                            .Select(dataRow => dataRow.Long("SourceId"))
+                            .ToList();
+                        currentSs.SetLinkedSiteSettings(context: context);
                         UpdateTitles(
                             context: context,
-                            ss: ss,
-                            idList: links.Select(o => o.Id));
+                            ss: currentSs,
+                            idList: nextIdList);
                     }
                 });
         }
 
         public static void UpdateTitles(
-            Context context, SiteSettings ss, IEnumerable<long> idList = null)
+            Context context, SiteSettings ss, IList<long> idList = null)
         {
             switch (ss?.ReferenceType)
             {
@@ -154,24 +144,25 @@ namespace Implem.Pleasanter.Models
         }
 
         private static void UpdateIssueTitles(
-            Context context, SiteSettings ss, IEnumerable<long> idList)
+            Context context, SiteSettings ss, IList<long> idList)
         {
             var issues = GetIssues(
                 context: context,
                 ss: ss,
                 idList: idList);
-            var links = ss.GetUseSearchLinks(context: context);
-            links?.ForEach(link =>
-                ss.SetChoiceHash(
-                    context: context,
-                    columnName: link.ColumnName,
-                    selectedValues: issues
-                        .Select(o => o.PropertyValue(
-                            context: context,
-                            name: link.ColumnName))
-                        .Distinct(),
-                    noLimit: true));
-            if (links?.Any(o => ss.TitleColumns.Any(p => p == o.ColumnName)) == true)
+            ss.Links?
+                .ForEach(link =>
+                    ss.SetChoiceHash(
+                        context: context,
+                        columnName: link.ColumnName,
+                        selectedValues: issues
+                            .Select(o => o.PropertyValue(
+                                context: context,
+                                name: link.ColumnName))
+                            .Distinct(),
+                        noLimit: true,
+                        searchColumnOnly: false));
+            if (ss.Links?.Any(o => ss.TitleColumns.Any(p => p == o.ColumnName)) == true)
             {
                 issues.ForEach(issueModel =>
                     issueModel.Title = new Title(
@@ -198,33 +189,29 @@ namespace Implem.Pleasanter.Models
                         addUpdatedTimeParam: false)));
             if (ss.Sources?.Any() == true)
             {
-                UpdateTitles(
+                UpdateSourceTitles(
                     context: context,
-                    siteId: ss.SiteId,
-                    idList: issues.Select(o => o.IssueId));
+                    ss: ss,
+                    idList: issues.Select(o => o.IssueId).ToList());
             }
         }
 
         private static List<IssueModel> GetIssues(
-            Context context, SiteSettings ss, IEnumerable<long> idList)
+            Context context, SiteSettings ss, IList<long> idList)
         {
             var column = Rds.IssuesColumn()
                 .IssueId()
                 .Title();
             ss.TitleColumns.ForEach(columnName =>
                 column.IssuesColumn(columnName: columnName));
-            return idList?.Any() == true
-                ? idList
-                    .Chunk(100)
-                    .SelectMany(chunked =>
-                        new IssueCollection(
-                            context: context,
-                            ss: ss,
-                            column: column,
-                            where: Rds.IssuesWhere()
-                                .SiteId(ss.SiteId)
-                                .IssueId_In(idList)))
-                    .ToList()
+            return idList?.Count <= 100
+                ? new IssueCollection(
+                    context: context,
+                    ss: ss,
+                    column: column,
+                    where: Rds.IssuesWhere()
+                        .SiteId(ss.SiteId)
+                        .IssueId_In(idList))
                 : new IssueCollection(
                     context: context,
                     ss: ss,
@@ -233,24 +220,25 @@ namespace Implem.Pleasanter.Models
         }
 
         private static void UpdateResultTitles(
-            Context context, SiteSettings ss, IEnumerable<long> idList)
+            Context context, SiteSettings ss, IList<long> idList)
         {
             var results = GetResults(
                 context: context,
                 ss: ss,
                 idList: idList);
-            var links = ss.GetUseSearchLinks(context: context);
-            links?.ForEach(link =>
-                ss.SetChoiceHash(
-                    context: context,
-                    columnName: link.ColumnName,
-                    selectedValues: results
-                        .Select(o => o.PropertyValue(
-                            context: context,
-                            name: link.ColumnName))
-                        .Distinct(),
-                    noLimit: true));
-            if (links?.Any(o => ss.TitleColumns.Any(p => p == o.ColumnName)) == true)
+            ss.Links?
+                .ForEach(link =>
+                    ss.SetChoiceHash(
+                        context: context,
+                        columnName: link.ColumnName,
+                        selectedValues: results
+                            .Select(o => o.PropertyValue(
+                                context: context,
+                                name: link.ColumnName))
+                            .Distinct(),
+                        noLimit: true,
+                        searchColumnOnly: false));
+            if (ss.Links?.Any(o => ss.TitleColumns.Any(p => p == o.ColumnName)) == true)
             {
                 results.ForEach(resultModel =>
                     resultModel.Title = new Title(
@@ -277,33 +265,29 @@ namespace Implem.Pleasanter.Models
                         addUpdatedTimeParam: false)));
             if (ss.Sources?.Any() == true)
             {
-                UpdateTitles(
+                UpdateSourceTitles(
                     context: context,
-                    siteId: ss.SiteId,
-                    idList: results.Select(o => o.ResultId));
+                    ss: ss,
+                    idList: results.Select(o => o.ResultId).ToList());
             }
         }
 
         private static List<ResultModel> GetResults(
-            Context context, SiteSettings ss, IEnumerable<long> idList)
+            Context context, SiteSettings ss, IList<long> idList)
         {
             var column = Rds.ResultsColumn()
                 .ResultId()
                 .Title();
             ss.TitleColumns.ForEach(columnName =>
                 column.ResultsColumn(columnName: columnName));
-            return idList?.Any() == true
-                ? idList
-                    .Chunk(100)
-                    .SelectMany(chunked =>
-                        new ResultCollection(
-                            context: context,
-                            ss: ss,
-                            column: column,
-                            where: Rds.ResultsWhere()
-                                .SiteId(ss.SiteId)
-                                .ResultId_In(idList)))
-                    .ToList()
+            return idList?.Count <= 100
+                ? new ResultCollection(
+                    context: context,
+                    ss: ss,
+                    column: column,
+                    where: Rds.ResultsWhere()
+                        .SiteId(ss.SiteId)
+                        .ResultId_In(idList))
                 : new ResultCollection(
                     context: context,
                     ss: ss,
@@ -312,24 +296,25 @@ namespace Implem.Pleasanter.Models
         }
 
         private static void UpdateWikiTitles(
-            Context context, SiteSettings ss, IEnumerable<long> idList)
+            Context context, SiteSettings ss, IList<long> idList)
         {
             var wikis = GetWikis(
                 context: context,
                 ss: ss,
                 idList: idList);
-            var links = ss.GetUseSearchLinks(context: context);
-            links?.ForEach(link =>
-                ss.SetChoiceHash(
-                    context: context,
-                    columnName: link.ColumnName,
-                    selectedValues: wikis
-                        .Select(o => o.PropertyValue(
-                            context: context,
-                            name: link.ColumnName))
-                        .Distinct(),
-                    noLimit: true));
-            if (links?.Any(o => ss.TitleColumns.Any(p => p == o.ColumnName)) == true)
+            ss.Links?
+                .ForEach(link =>
+                    ss.SetChoiceHash(
+                        context: context,
+                        columnName: link.ColumnName,
+                        selectedValues: wikis
+                            .Select(o => o.PropertyValue(
+                                context: context,
+                                name: link.ColumnName))
+                            .Distinct(),
+                        noLimit: true,
+                        searchColumnOnly: false));
+            if (ss.Links?.Any(o => ss.TitleColumns.Any(p => p == o.ColumnName)) == true)
             {
                 wikis.ForEach(wikiModel =>
                     wikiModel.Title = new Title(
@@ -356,33 +341,29 @@ namespace Implem.Pleasanter.Models
                         addUpdatedTimeParam: false)));
             if (ss.Sources?.Any() == true)
             {
-                UpdateTitles(
+                UpdateSourceTitles(
                     context: context,
-                    siteId: ss.SiteId,
-                    idList: wikis.Select(o => o.WikiId));
+                    ss: ss,
+                    idList: wikis.Select(o => o.WikiId).ToList());
             }
         }
 
         private static List<WikiModel> GetWikis(
-            Context context, SiteSettings ss, IEnumerable<long> idList)
+            Context context, SiteSettings ss, IList<long> idList)
         {
             var column = Rds.WikisColumn()
                 .WikiId()
                 .Title();
             ss.TitleColumns.ForEach(columnName =>
                 column.WikisColumn(columnName: columnName));
-            return idList?.Any() == true
-                ? idList
-                    .Chunk(100)
-                    .SelectMany(chunked =>
-                        new WikiCollection(
-                            context: context,
-                            ss: ss,
-                            column: column,
-                            where: Rds.WikisWhere()
-                                .SiteId(ss.SiteId)
-                                .WikiId_In(idList)))
-                    .ToList()
+            return idList?.Count <= 100
+                ? new WikiCollection(
+                    context: context,
+                    ss: ss,
+                    column: column,
+                    where: Rds.WikisWhere()
+                        .SiteId(ss.SiteId)
+                        .WikiId_In(idList))
                 : new WikiCollection(
                     context: context,
                     ss: ss,

@@ -655,6 +655,54 @@ namespace Implem.Pleasanter.Libraries.Models
             }
         }
 
+        private static SqlColumnCollection IssuesAverageColumn(
+            string linkColumn, string sourceColumn)
+        {
+            var issuesColumn = Rds.IssuesColumn().IssuesColumn(linkColumn, _as: "Id");
+            switch (sourceColumn)
+            {
+                case "WorkValue":
+                    return issuesColumn.WorkValue(
+                        _as: "Value", function: Sqls.Functions.Avg);
+                case "RemainingWorkValue":
+                    return issuesColumn.RemainingWorkValue(
+                        _as: "Value", function: Sqls.Functions.Avg);
+                default:
+                    switch (Def.ExtendedColumnTypes.Get(sourceColumn))
+                    {
+                        case "Num":
+                            return issuesColumn.Add(
+                                columnBracket: $"\"{sourceColumn}\"",
+                                columnName: sourceColumn,
+                                _as: "Value",
+                                function: Sqls.Functions.Avg);
+                        default:
+                            return null;
+                    }
+            }
+        }
+
+        private static SqlColumnCollection ResultsAverageColumn(
+            string linkColumn, string sourceColumn)
+        {
+            var resultsColumn = Rds.ResultsColumn().ResultsColumn(linkColumn, _as: "Id");
+            switch (sourceColumn)
+            {
+                default:
+                    switch (Def.ExtendedColumnTypes.Get(sourceColumn))
+                    {
+                        case "Num":
+                            return resultsColumn.Add(
+                                columnBracket: $"\"{sourceColumn}\"",
+                                columnName: sourceColumn,
+                                _as: "Value",
+                                function: Sqls.Functions.Avg);
+                        default:
+                            return null;
+                    }
+            }
+        }
+
         private static SqlSelect SelectMin(
             Context context,
             SiteSettings ss,
@@ -732,32 +780,6 @@ namespace Implem.Pleasanter.Libraries.Models
                         default:
                             return null;
                     }
-            }
-        }
-
-        private static SqlColumnCollection IssuesAverageColumn(
-            string linkColumn, string sourceColumn)
-        {
-            var issuesColumn = Rds.IssuesColumn().IssuesColumn(linkColumn, _as: "Id");
-            switch (sourceColumn)
-            {
-                case "WorkValue":
-                    return issuesColumn.WorkValue(
-                        _as: "Value", function: Sqls.Functions.Avg);
-                case "RemainingWorkValue":
-                    return issuesColumn.RemainingWorkValue(
-                        _as: "Value", function: Sqls.Functions.Avg);
-                default: return null;
-            }
-        }
-
-        private static SqlColumnCollection ResultsAverageColumn(
-            string linkColumn, string sourceColumn)
-        {
-            var resultsColumn = Rds.ResultsColumn().ResultsColumn(linkColumn, _as: "Id");
-            switch (sourceColumn)
-            {
-                default: return null;
             }
         }
 
@@ -844,19 +866,31 @@ namespace Implem.Pleasanter.Libraries.Models
         private static SqlWhereCollection IssuesWhere(
             IEnumerable<long> destinations, long sourceSiteId, string linkColumn)
         {
-            switch (linkColumn)
-            {
-                default: return null;
-            }
+            return Def.ExtendedColumnTypes.ContainsKey(linkColumn)
+                ? Rds.IssuesWhere()
+                    .SiteId(value: sourceSiteId)
+                    .Add(
+                        columnBrackets: new string[] { $"\"{linkColumn}\"" },
+                        raw: "({0})".Params(destinations
+                            .Select(o => "'" + o + "'")
+                            .Join(",")),
+                        _operator: " in ")
+                    : null;
         }
 
         private static SqlWhereCollection ResultsWhere(
             IEnumerable<long> destinations, long sourceSiteId, string linkColumn)
         {
-            switch (linkColumn)
-            {
-                default: return null;
-            }
+            return Def.ExtendedColumnTypes.ContainsKey(linkColumn)
+                ? Rds.ResultsWhere()
+                    .SiteId(value: sourceSiteId)
+                    .Add(
+                        columnBrackets: new string[] { $"\"{linkColumn}\"" },
+                        raw: "({0})".Params(destinations
+                            .Select(o => "'" + o + "'")
+                            .Join(",")),
+                        _operator: " in ")
+                    : null;
         }
 
         private static SqlWhereCollection Where(

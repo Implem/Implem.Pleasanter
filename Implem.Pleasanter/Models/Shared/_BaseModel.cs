@@ -201,11 +201,11 @@ namespace Implem.Pleasanter.Models
         public bool Updated()
         {
             return ClassHash.Any(o => Class_Updated(o.Key))
-                || NumHash.Any(o => Class_Updated(o.Key))
-                || DateHash.Any(o => Class_Updated(o.Key))
-                || DescriptionHash.Any(o => Class_Updated(o.Key))
-                || CheckHash.Any(o => Class_Updated(o.Key))
-                || AttachmentsHash.Any(o => Class_Updated(o.Key));
+                || NumHash.Any(o => Num_Updated(o.Key))
+                || DateHash.Any(o => Date_Updated(o.Key))
+                || DescriptionHash.Any(o => Description_Updated(o.Key))
+                || CheckHash.Any(o => Check_Updated(o.Key))
+                || AttachmentsHash.Any(o => Attachments_Updated(o.Key));
         }
 
         public string Class(Column column)
@@ -360,12 +360,16 @@ namespace Implem.Pleasanter.Models
 
         public DateTime Date(string columnName)
         {
-            return DateHash.Get(columnName);
+            return DateHash.ContainsKey(columnName)
+                ? DateHash.Get(columnName)
+                : 0.ToDateTime();
         }
 
         public DateTime SavedDate(string columnName)
         {
-            return SavedDateHash.Get(columnName);
+            return SavedDateHash.ContainsKey(columnName)
+                ? SavedDateHash.Get(columnName)
+                : 0.ToDateTime();
         }
 
         public void Date(Column column, DateTime value)
@@ -575,7 +579,7 @@ namespace Implem.Pleasanter.Models
 
         public string SavedAttachments(string columnName)
         {
-            return SavedAttachmentsHash.Get(columnName) ?? string.Empty;
+            return SavedAttachmentsHash.Get(columnName) ?? new Attachments().RecordingJson();
         }
 
         public void Attachments(Column column, Attachments value)
@@ -660,47 +664,6 @@ namespace Implem.Pleasanter.Models
                     Attachments(column.ColumnName)?.FullText(
                         context: context,
                         fullText: fullText);
-                    break;
-            }
-        }
-
-        public void SearchIndexes(
-            Context context,
-            Column column,
-            Dictionary<string, int> searchIndexHash)
-        {
-            switch (Def.ExtendedColumnTypes.Get(column.ColumnName))
-            {
-                case "Class":
-                    Class(column.ColumnName)?.SearchIndexes(
-                        context: context,
-                        column: column,
-                        searchIndexHash: searchIndexHash,
-                        searchPriority: 200);
-                    break;
-                case "Num":
-                    Num(column.ColumnName).SearchIndexes(
-                        context: context,
-                        searchIndexHash: searchIndexHash,
-                        searchPriority: 200);
-                    break;
-                case "Date":
-                    Date(column.ColumnName).SearchIndexes(
-                        context: context,
-                        searchIndexHash: searchIndexHash,
-                        searchPriority: 200);
-                    break;
-                case "Description":
-                    Description(column.ColumnName)?.SearchIndexes(
-                        context: context,
-                        searchIndexHash: searchIndexHash,
-                        searchPriority: 200);
-                    break;
-                case "Attachments":
-                    Attachments(column.ColumnName)?.SearchIndexes(
-                        context: context,
-                        searchIndexHash: searchIndexHash,
-                        searchPriority: 200);
                     break;
             }
         }

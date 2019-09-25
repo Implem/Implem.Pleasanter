@@ -223,7 +223,8 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     data: CrosstabUtilities.ColumnsElements(
                         groupByX: groupByX,
                         dataRows: dataRows,
-                        columnList: columnList));
+                        columnList: columnList),
+                    columns: columnList);
             }
             return hb
                 .Hidden(controlId: "CrosstabXType", value: groupByX?.TypeName)

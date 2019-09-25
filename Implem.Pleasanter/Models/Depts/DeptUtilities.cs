@@ -181,7 +181,11 @@ namespace Implem.Pleasanter.Models
                     .Div(attributes: new HtmlAttributes()
                         .Id("ExportSelectorDialog")
                         .Class("dialog")
-                        .Title(Displays.Export(context: context))))
+                        .Title(Displays.Export(context: context)))
+                        .Div(attributes: new HtmlAttributes()
+                                .Id("BulkUpdateSelectorDialog")
+                                .Class("dialog")
+                                .Title(Displays.BulkUpdate(context: context))))
                     .ToString();
         }
 
@@ -202,6 +206,7 @@ namespace Implem.Pleasanter.Models
                             ss: ss,
                             gridData: gridData,
                             view: view))
+                .Events("on_grid_load")
                 .ToJson();
         }
 
@@ -369,7 +374,7 @@ namespace Implem.Pleasanter.Models
                         ss: ss,
                         dataRows: gridData.DataRows,
                         columns: columns,
-                        checkAll: checkAll,
+                        gridSelector: null,
                         checkRow: checkRow));
         }
 
@@ -394,6 +399,7 @@ namespace Implem.Pleasanter.Models
                 context: context,
                 ss: ss,
                 view: view,
+                tableType: Sqls.TableTypes.Normal,
                 where: Rds.DeptsWhere().DeptId(deptId))
                     .DataRows
                     .FirstOrDefault();
@@ -419,7 +425,7 @@ namespace Implem.Pleasanter.Models
                                 context: context,
                                 view: view,
                                 checkPermission: true),
-                            checkAll: false,
+                            gridSelector: null,
                             editRow: true,
                             checkRow: false,
                             idColumn: "DeptId"))
@@ -833,17 +839,11 @@ namespace Implem.Pleasanter.Models
                 title: deptModel.MethodType == BaseModel.MethodTypes.New
                     ? Displays.Depts(context: context) + " - " + Displays.New(context: context)
                     : deptModel.Title.Value,
-                action: () =>
-                {
-                    hb
-                        .Editor(
-                            context: context,
-                            ss: ss,
-                            deptModel: deptModel)
-                        .Hidden(controlId: "TableName", value: "Depts")
-                        .Hidden(controlId: "Controller", value: context.Controller)
-                        .Hidden(controlId: "Id", value: deptModel.DeptId.ToString());
-                }).ToString();
+                action: () => hb
+                    .Editor(
+                        context: context,
+                        ss: ss,
+                        deptModel: deptModel)).ToString();
         }
 
         private static HtmlBuilder Editor(
@@ -992,7 +992,7 @@ namespace Implem.Pleasanter.Models
             return hb;
         }
 
-        public static void Field(
+        public static HtmlBuilder Field(
             this HtmlBuilder hb,
             Context context,
             SiteSettings ss,
@@ -1001,7 +1001,8 @@ namespace Implem.Pleasanter.Models
             bool controlOnly = false,
             bool alwaysSend = false,
             string idSuffix = null,
-            bool preview = false)
+            bool preview = false,
+            bool disableSection = false)
         {
             var value = deptModel.ControlValue(
                 context: context,
@@ -1019,8 +1020,10 @@ namespace Implem.Pleasanter.Models
                     controlOnly: controlOnly,
                     alwaysSend: alwaysSend,
                     idSuffix: idSuffix,
-                    preview: preview);
+                    preview: preview,
+                    disableSection: disableSection);
             }
+            return hb;
         }
 
         public static string ControlValue(
@@ -1404,7 +1407,7 @@ namespace Implem.Pleasanter.Models
                             ss: ss,
                             dataRows: gridData.DataRows,
                             columns: columns,
-                            checkAll: false))
+                            gridSelector: null))
                     .CloseDialog()
                     .Message(Messages.Updated(
                         context: context,
@@ -1461,9 +1464,7 @@ namespace Implem.Pleasanter.Models
                     var res = new DeptsResponseCollection(deptModel);
                     res
                         .SetMemory("formChanged", false)
-                        .Href(Locations.Index(
-                            context: context,
-                            controller: "Depts"));
+                        .Invoke("back");
                     return res.ToJson();
                 default:
                     return errorData.Type.MessageJson(context: context);
@@ -1576,7 +1577,18 @@ namespace Implem.Pleasanter.Models
             deptModel.VerType = context.Forms.Bool("Latest")
                 ? Versions.VerTypes.Latest
                 : Versions.VerTypes.History;
-            return EditorResponse(context, ss, deptModel).ToJson();
+            return EditorResponse(context, ss, deptModel)
+                .PushState("History", Locations.Get(
+                    context: context,
+                    parts: new string[]
+                    {
+                        "Items",
+                        deptId.ToString() 
+                            + (deptModel.VerType == Versions.VerTypes.History
+                                ? "?ver=" + context.Forms.Int("Ver") 
+                                : string.Empty)
+                    }))
+                .ToJson();
         }
 
         /// <summary>
@@ -1642,9 +1654,9 @@ namespace Implem.Pleasanter.Models
                     tableName: "Depts",
                     name: "SearchText",
                     searchText: view.ColumnFilterHash
-                    ?.Where(f => f.Key == "SearchText")
-                    ?.Select(f => f.Value)
-                    ?.FirstOrDefault(),
+                        ?.Where(f => f.Key == "SearchText")
+                        ?.Select(f => f.Value)
+                        ?.FirstOrDefault(),
                     clauseCollection: new List<string>()
                     {
                         Rds.Depts_DeptId_WhereLike(factory: context),

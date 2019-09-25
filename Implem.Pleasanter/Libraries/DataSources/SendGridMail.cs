@@ -7,8 +7,6 @@ using System;
 using System.Linq;
 using System.Net.Mail;
 using System.Threading.Tasks;
-using SendGrid;
-using SendGrid.Helpers.Mail;
 namespace Implem.Pleasanter.Libraries.DataSources
 {
     public class SendGridMail
@@ -48,8 +46,8 @@ namespace Implem.Pleasanter.Libraries.DataSources
             {
                 try
                 {
-                    var sendGridMessage = new SendGridMessage();
-                    sendGridMessage.From = new EmailAddress(Addresses.From(From).Address, Addresses.From(From).DisplayName);
+                    var sendGridMessage = new SendGrid.SendGridMessage();
+                    sendGridMessage.From = Addresses.From(From);
                     Addresses.GetEnumerable(
                         context: context,
                         addresses: To)
@@ -63,9 +61,11 @@ namespace Implem.Pleasanter.Libraries.DataSources
                         addresses: Bcc)
                             .ForEach(bcc => sendGridMessage.AddBcc(bcc));
                     sendGridMessage.Subject = Subject;
-                    sendGridMessage.PlainTextContent = Body;
-                    var client = new SendGridClient(Parameters.Mail.ApiKey);
-                    var response = client.SendEmailAsync(sendGridMessage);
+                    sendGridMessage.Text = Body;
+                    var response = new SendGrid.Web(new System.Net.NetworkCredential(
+                        Parameters.Mail.SmtpUserName,
+                        Parameters.Mail.SmtpPassword))
+                            .DeliverAsync(sendGridMessage);
                     response.Wait();
                 }
                 catch (Exception e)

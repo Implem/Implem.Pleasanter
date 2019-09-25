@@ -204,6 +204,15 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             return s + " - " + e;
         }
 
+        internal static string GetNumericFilterRange(string value)
+        {
+            if (value.IsNullOrEmpty()) return value;
+            var dts = value.Trim('[', '"', ']').Split(new[] { ',' });
+            var s = (dts.Length > 0) ? dts[0].Split(' ').FirstOrDefault() : "";
+            var e = (dts.Length > 1) ? dts[1].Split(' ').FirstOrDefault() : "";
+            return s + " - " + e;
+        }
+
         private static HtmlBuilder Columns(
             this HtmlBuilder hb, Context context, SiteSettings ss, View view)
         {
@@ -243,21 +252,50 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                         controlOnly: controlOnly);
                     break;
                 case Types.CsNumeric:
-                    if (Visible(column))
+                    if (column.DateFilterSetMode == ColumnUtilities.DateFilterSetMode.Default)
                     {
-                        hb.DropDown(
-                        context: context,
-                        ss: ss,
-                        column: column,
-                        view: view,
-                        optionCollection: column.HasChoices()
-                            ? column.EditChoices(
+                        if (Visible(column))
+                        {
+                            hb.DropDown(
+                            context: context,
+                            ss: ss,
+                            column: column,
+                            view: view,
+                            optionCollection: column.HasChoices()
+                                ? column.EditChoices(
+                                    context: context,
+                                    addNotSet: true)
+                                : column.NumFilterOptions(context: context),
+                            idPrefix: idPrefix,
+                            controlOnly: controlOnly,
+                            action: action);
+                        }
+                    }
+                    else
+                    {
+                        hb.FieldTextBox(
+                            controlId: idPrefix + column.ColumnName + "_NumericRange",
+                            fieldCss: "field-auto-thin",
+                            controlCss: (column.UseSearch == true ? " search" : string.Empty),
+                            labelText: Displays.Get(
                                 context: context,
-                                addNotSet: true)
-                            : column.NumFilterOptions(context: context),
-                        idPrefix: idPrefix,
-                        controlOnly: controlOnly,
-                        action: action);
+                                id: column.GridLabelText),
+                            labelTitle: ss.LabelTitle(column),
+                            controlOnly: controlOnly,
+                            action: "openSetNumericRangeDialog",
+                            text: GetNumericFilterRange(view.ColumnFilter(column.ColumnName)),
+                            method: "post",
+                            attributes: new Dictionary<string, string>
+                            {
+                                ["onfocus"] = $"$p.openSetNumericRangeDialog($(this))"
+                            },
+                            _using: Visible(column) || column.RecordedTime)
+                        .Hidden(attributes: new HtmlAttributes()
+                            .Id(idPrefix + column.ColumnName)
+                            .Class(column.UseSearch == true ? " search" : string.Empty)
+                            .DataMethod("post")
+                            .DataAction(action)
+                            .Value(view.ColumnFilter(column.ColumnName)));
                     }
                     break;
                 case Types.CsDateTime:
@@ -279,7 +317,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     else
                     {
                         hb.FieldTextBox(
-                            controlId: idPrefix + column.ColumnName + "_Display_",
+                            controlId: idPrefix + column.ColumnName + "_DateRange",
                             fieldCss: "field-auto-thin",
                             controlCss: (column.UseSearch == true ? " search" : string.Empty),
                             labelText: Displays.Get(
@@ -287,14 +325,12 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                 id: column.GridLabelText),
                             labelTitle: ss.LabelTitle(column),
                             controlOnly: controlOnly,
-                            action: action,
+                            action: "openSetDateRangeDialog",
                             text: GetDisplayDateFilterRange(view.ColumnFilter(column.ColumnName), column.DateTimepicker()),
                             method: "post",
                             attributes: new Dictionary<string, string>
                             {
-                                ["onfocus"] = $"$p.setDateRangeDialog($(this),'{Displays.DateRange(context)}','{Displays.Start(context)}'," +
-                                    $"'{Displays.End(context)}','{Displays.OK(context)}','{Displays.Cancel(context)}','{Displays.Clear(context)}'," +
-                                    $"{column.DateTimepicker().ToString().ToLower()})"
+                                ["onfocus"] = $"$p.openSetDateRangeDialog($(this))"
                             },
                             _using: Visible(column) || column.RecordedTime)
                         .Hidden(attributes: new HtmlAttributes()

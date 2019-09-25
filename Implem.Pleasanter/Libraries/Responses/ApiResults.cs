@@ -2,14 +2,24 @@
 using Implem.Pleasanter.Libraries.General;
 using Implem.Pleasanter.Libraries.Requests;
 using System.Net.Http;
+using System.Web.Http;
 using System.Web.Mvc;
 namespace Implem.Pleasanter.Libraries.Responses
 {
     public static class ApiResults
     {
-        public static ContentResult Success(long id, string message)
+        public static ContentResult Success(long id, string message, int? limitPerDate = null, int? limitRemaining = null)
         {
-            return Get(ApiResponses.Success(id, message));
+            if(limitPerDate == 0)
+            {
+                limitPerDate = null;
+                limitRemaining = null;
+            }
+            return Get(ApiResponses.Success(
+                id: id,
+                message: message,
+                limitPerDate: limitPerDate,
+                limitRemaining: limitRemaining));
         }
 
         public static ContentResult Error(Context context, ErrorData errorData, params string[] data)
@@ -34,6 +44,25 @@ namespace Implem.Pleasanter.Libraries.Responses
             };
         }
 
+        public static ContentResult Get(int statusCode,int limitPerDate, int limitRemaining, object response)
+        {
+            return new ContentResult
+            {
+                ContentType = "application/json",
+                Content = new
+                {
+                    StatusCode = statusCode,
+                    LimitPerDate = limitPerDate == 0 
+                        ? null 
+                        : (int?)limitPerDate,
+                    LimitRemaining = limitPerDate == 0 
+                        ? null 
+                        : (int?)limitRemaining,
+                    Response = response
+                }.ToJson()
+            };
+        }
+
         public static ContentResult BadRequest(Context context)
         {
             return Get(ApiResponses.BadRequest(context: context));
@@ -42,6 +71,11 @@ namespace Implem.Pleasanter.Libraries.Responses
         public static ContentResult Unauthorized(Context context)
         {
             return Get(ApiResponses.Unauthorized(context: context));
+        }
+
+        public static ContentResult Forbidden(Context context)
+        {
+            return Get(ApiResponses.Forbidden(context: context));
         }
     }
 }

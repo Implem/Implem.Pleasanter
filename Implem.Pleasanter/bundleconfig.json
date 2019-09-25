@@ -13,6 +13,7 @@
             "wwwroot/scripts/_api.js",
             "wwwroot/scripts/_data.js",
             "wwwroot/scripts/_dispatch.js",
+            "wwwroot/scripts/_elements.js",
             "wwwroot/scripts/_event.js",
             "wwwroot/scripts/_form.js",
             "wwwroot/scripts/_time.js",
@@ -93,7 +94,9 @@
             "wwwroot/scripts/_show.js",
             "wwwroot/scripts/relatingcolumns.js",
             "wwwroot/scripts/fieldselectable.js",
-            "wwwroot/scripts/tenants.js"
+            "wwwroot/scripts/tenants.js",
+            "wwwroot/scripts/setDateRangeDialog.js",
+            "wwwroot/scripts/setNumericRangeDialog.js"
         ]
     }
 ]

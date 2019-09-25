@@ -121,11 +121,11 @@ namespace Implem.Pleasanter.Libraries.Settings
                 case "depts": return DeptsSiteSettings(context: context);
                 case "groups": return GroupsSiteSettings(context: context);
                 case "groupmembers": return GroupMembersSiteSettings(context: context);
+                case "registrations": return RegistrationsSiteSettings(context: context);
                 case "users": return UsersSiteSettings(context: context);
                 case "loginkeys": return LoginKeysSiteSettings(context: context);
                 case "mailaddresses": return MailAddressesSiteSettings(context: context);
                 case "outgoingmails": return OutgoingMailsSiteSettings(context: context);
-                case "searchindexes": return SearchIndexesSiteSettings(context: context);
                 case "orders": return OrdersSiteSettings(context: context);
                 case "exportsettings": return ExportSettingsSiteSettings(context: context);
                 case "links": return LinksSiteSettings(context: context);
@@ -237,6 +237,18 @@ namespace Implem.Pleasanter.Libraries.Settings
             return ss;
         }
 
+        public static SiteSettings RegistrationsSiteSettings(Context context)
+        {
+            var ss = new SiteSettings()
+            {
+                ReferenceType = "Registrations"
+            };
+            ss.Init(context: context);
+            ss.SetChoiceHash(context: context, withLink: false);
+            ss.PermissionType = Permissions.Admins(context: context);
+            return ss;
+        }
+
         public static SiteSettings UsersSiteSettings(Context context)
         {
             var ss = new SiteSettings()
@@ -274,16 +286,6 @@ namespace Implem.Pleasanter.Libraries.Settings
             var ss = new SiteSettings()
             {
                 ReferenceType = "OutgoingMails"
-            };
-            ss.Init(context: context);
-            return ss;
-        }
-
-        public static SiteSettings SearchIndexesSiteSettings(Context context)
-        {
-            var ss = new SiteSettings()
-            {
-                ReferenceType = "SearchIndexes"
             };
             ss.Init(context: context);
             return ss;
@@ -362,6 +364,8 @@ namespace Implem.Pleasanter.Libraries.Settings
             ss.InheritPermission = siteModel.InheritPermission;
             ss.Publish = siteModel.Publish;
             ss.AccessStatus = siteModel.AccessStatus;
+            ss.ApiCount = siteModel.ApiCount;
+            ss.ApiCountDate = siteModel.ApiCountDate;
             ss.Init(context: context);
             ss.SetLinkedSiteSettings(context: context);
             ss.SetPermissions(context: context, referenceId: referenceId);
@@ -402,6 +406,8 @@ namespace Implem.Pleasanter.Libraries.Settings
             ss.InheritPermission = siteModel.InheritPermission;
             ss.Publish = siteModel.Publish;
             ss.AccessStatus = siteModel.AccessStatus;
+            ss.ApiCount = siteModel.ApiCount;
+            ss.ApiCountDate = siteModel.ApiCountDate;
             ss.Init(context: context);
             ss.SetLinkedSiteSettings(context: context);
             ss.SetPermissions(context: context, referenceId: referenceId);
@@ -444,6 +450,8 @@ namespace Implem.Pleasanter.Libraries.Settings
             ss.InheritPermission = siteModel.InheritPermission;
             ss.Publish = siteModel.Publish;
             ss.AccessStatus = siteModel.AccessStatus;
+            ss.ApiCount = siteModel.ApiCount;
+            ss.ApiCountDate = siteModel.ApiCountDate;
             ss.Init(context: context);
             ss.SetLinkedSiteSettings(context: context);
             ss.SetPermissions(context: context, referenceId: referenceId);
@@ -486,6 +494,8 @@ namespace Implem.Pleasanter.Libraries.Settings
             ss.InheritPermission = siteModel.InheritPermission;
             ss.Publish = siteModel.Publish;
             ss.AccessStatus = siteModel.AccessStatus;
+            ss.ApiCount = siteModel.ApiCount;
+            ss.ApiCountDate = siteModel.ApiCountDate;
             ss.Init(context: context);
             ss.SetLinkedSiteSettings(context: context);
             ss.SetPermissions(context: context, referenceId: referenceId);

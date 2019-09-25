@@ -6,15 +6,34 @@ using Implem.Libraries.DataSources.SqlServer;
 using Implem.Libraries.Utilities;
 using System;
 using System.Collections.Generic;
+using System.Data.Common;
 using System.Diagnostics;
+using System.IO;
 using System.Linq;
 using System.Reflection;
 namespace Implem.CodeDefiner
 {
     public class Starter
     {
+        private static ISqlObjectFactory factory;
+
         public static void Main(string[] args)
         {
+            Directory.CreateDirectory(".\\logs");
+            var logName = $".\\logs\\Implem.CodeDefiner_{DateTime.Now.ToString("yyyyMMdd_HHmmss")}.log";
+            Trace.Listeners.Add(new TextWriterTraceListener(logName));
+            Trace.Listeners.Add(new TextWriterTraceListener(Console.Out));
+            AppDomain.CurrentDomain.UnhandledException += (_, e) =>
+            {
+                if (e.ExceptionObject is DbException dbException)
+                {
+                    Consoles.Write($"UnhandledException: [{factory.SqlErrors.ErrorCode(dbException)}] {dbException.Message}", Consoles.Types.Error, true);
+                }
+                else
+                {
+                    Consoles.Write("UnhandledException: " + e.ExceptionObject, Consoles.Types.Error, true);
+                }
+            };
             var argList = args.Select(o => o.Trim());
             ValidateArgs(argList);
             var argHash = new TextData(argList.Skip(1).Join(string.Empty), '/', 1);
@@ -27,7 +46,7 @@ namespace Implem.CodeDefiner
                 codeDefiner: true,
                 setSaPassword: argHash.ContainsKey("s"),
                 setRandomPassword: argHash.ContainsKey("r"));
-            ISqlObjectFactory factory = RdsFactory.Create(Parameters.Rds.Dbms);
+            factory = RdsFactory.Create(Parameters.Rds.Dbms);
             Performances.Record(MethodBase.GetCurrentMethod().Name);
             DeleteTemporaryFiles();
             switch (action)
@@ -62,9 +81,20 @@ namespace Implem.CodeDefiner
             }
             Performances.Record(MethodBase.GetCurrentMethod().Name);
             Performances.PerformanceCollection.Save(Directories.Logs());
-            Consoles.Write(
-                DisplayAccessor.Displays.Get("CodeDefinerCompleted"),
-                Consoles.Types.Success);
+            if (Consoles.ErrorCount > 0)
+            {
+                Consoles.Write(
+                    string.Format(DisplayAccessor.Displays.Get("CodeDefinerErrorCount"),
+                        Consoles.ErrorCount,
+                        Path.GetFullPath(logName)), 
+                    Consoles.Types.Error);
+            }
+            else
+            {
+                Consoles.Write(
+                    DisplayAccessor.Displays.Get("CodeDefinerCompleted"),
+                    Consoles.Types.Success);
+            }
             WaitConsole(args);
         }
 
@@ -110,8 +140,7 @@ namespace Implem.CodeDefiner
                 factory,
                 out number, out message, Parameters.Rds.SaConnectionString))
             {
-                Console.Write("[{0}] {1}", number, message);
-                Environment.Exit(0);
+                Consoles.Write($"[{number}] {message}",Consoles.Types.Error, true);
             }
         }
 

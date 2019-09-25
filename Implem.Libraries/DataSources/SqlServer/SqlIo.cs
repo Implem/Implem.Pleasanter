@@ -119,8 +119,7 @@ namespace Implem.Libraries.DataSources.SqlServer
                     action: () =>
                     {
                         value = SqlCommand.ExecuteNonQuery();
-                    },
-                    cmd: SqlCommand);
+                    });
             }
             finally
             {
@@ -154,8 +153,7 @@ namespace Implem.Libraries.DataSources.SqlServer
                         value = dt.AsEnumerable()
                         .Select(dr => dr[0])
                         .FirstOrDefault();
-                    },
-                    cmd: SqlCommand);
+                    });
             }
             finally
             {
@@ -185,8 +183,7 @@ namespace Implem.Libraries.DataSources.SqlServer
                         factory
                         .CreateSqlDataAdapter(SqlCommand)
                         .Fill(dataTable);
-                    },
-                    cmd: SqlCommand);
+                    });
             }
             finally
             {
@@ -217,8 +214,7 @@ namespace Implem.Libraries.DataSources.SqlServer
                             factory: factory,
                             sqlCommand: SqlCommand)
                             .Fill(dataSet);
-                    },
-                    cmd: SqlCommand);
+                    });
             }
             finally
             {
@@ -290,9 +286,7 @@ namespace Implem.Libraries.DataSources.SqlServer
             return responses;
         }
 
-        //TODO デバッグ用 cmd 引数
-        //private void Try(Action action)
-        private void Try(ISqlObjectFactory factory, Action action, ISqlCommand cmd)
+        private void Try(ISqlObjectFactory factory, Action action)
         {
             for (int i = 0; i <= Environments.DeadlockRetryCount; i++)
             {

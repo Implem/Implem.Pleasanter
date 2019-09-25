@@ -639,7 +639,6 @@ namespace Implem.Pleasanter.Models
             bool backgroundTask = false,
             bool onCreating = false)
         {
-            if (Parameters.Search.Provider != "FullText") return null;
             if (!Parameters.Search.CreateIndexes && !backgroundTask) return null;
             if (AccessStatus == Databases.AccessStatuses.NotFound) return null;
             var fullText = new List<string>();
@@ -702,47 +701,6 @@ namespace Implem.Pleasanter.Models
                 .Join(" ");
         }
 
-        public Dictionary<string, int> SearchIndexHash(Context context, SiteSettings ss)
-        {
-            if (AccessStatus != Databases.AccessStatuses.Selected)
-            {
-                return null;
-            }
-            else
-            {
-                var searchIndexHash = new Dictionary<string, int>();
-                SiteInfo.TenantCaches.Get(context.TenantId)?
-                    .SiteMenu
-                    .Breadcrumb(context: context, siteId: SiteId)
-                    .SearchIndexes(context, searchIndexHash, 100);
-                SiteId.SearchIndexes(context, searchIndexHash, 200);
-                UpdatedTime.SearchIndexes(context, searchIndexHash, 200);
-                ResultId.SearchIndexes(context, searchIndexHash, 1);
-                Title.SearchIndexes(context, searchIndexHash, 4);
-                Body.SearchIndexes(context, searchIndexHash, 200);
-                Status.SearchIndexes(context, ss.GetColumn(context: context, columnName: "Status"), searchIndexHash, 200);
-                Manager.SearchIndexes(context, searchIndexHash, 100);
-                Owner.SearchIndexes(context, searchIndexHash, 100);
-                Comments.SearchIndexes(context, searchIndexHash, 200);
-                Creator.SearchIndexes(context, searchIndexHash, 100);
-                Updator.SearchIndexes(context, searchIndexHash, 100);
-                CreatedTime.SearchIndexes(context, searchIndexHash, 200);
-                ColumnNames().ForEach(columnName =>
-                    SearchIndexes(
-                        context: context,
-                        column: ss.GetColumn(
-                            context: context,
-                            columnName: columnName),
-                        searchIndexHash: searchIndexHash));
-                SearchIndexExtensions.OutgoingMailsSearchIndexes(
-                    context: context,
-                    searchIndexHash: searchIndexHash,
-                    referenceType: "Results",
-                    referenceId: ResultId);
-                return searchIndexHash;
-            }
-        }
-
         public ErrorData Create(
             Context context,
             SiteSettings ss,
@@ -769,6 +727,7 @@ namespace Implem.Pleasanter.Models
             var response = Repository.ExecuteScalar_response(
                 context: context,
                 transactional: true,
+                selectIdentity: true,
                 statements: statements.ToArray());
             if (response.Event == "Duplicated")
             {
@@ -829,7 +788,6 @@ namespace Implem.Pleasanter.Models
                 context: context,
                 transactional: true,
                 statements: statements.ToArray());
-            Libraries.Search.Indexes.Create(context, ss, this);
             if (get && Rds.ExtendedSqls(
                 siteId: SiteId,
                 id: ResultId)
@@ -930,7 +888,6 @@ namespace Implem.Pleasanter.Models
                 context: context,
                 transactional: true,
                 statements: statements.ToArray());
-            response.Id = ResultId;
             if (response.Event == "Duplicated")
             {
                 return new ErrorData(
@@ -997,9 +954,10 @@ namespace Implem.Pleasanter.Models
             statements.AddRange(IfDuplicatedStatements(ss: ss));
             if (VerUp)
             {
-                statements.Add(CopyToStatement(
+                statements.Add(Rds.ResultsCopyToStatement(
                     where: where,
-                    tableType: Sqls.TableTypes.History));
+                    tableType: Sqls.TableTypes.History,
+                    ColumnNames()));
                 Ver++;
             }
             statements.AddRange(UpdateStatements(
@@ -1018,40 +976,6 @@ namespace Implem.Pleasanter.Models
                 statements.AddRange(additionalStatements);
             }
             return statements;
-        }
-
-        private SqlStatement CopyToStatement(SqlWhereCollection where, Sqls.TableTypes tableType)
-        {
-            var column = new Rds.ResultsColumnCollection();
-            var param = new Rds.ResultsParamCollection();
-            column.SiteId(function: Sqls.Functions.SingleColumn); param.SiteId();
-            column.UpdatedTime(function: Sqls.Functions.SingleColumn); param.UpdatedTime();
-            column.ResultId(function: Sqls.Functions.SingleColumn); param.ResultId();
-            column.Ver(function: Sqls.Functions.SingleColumn); param.Ver();
-            column.Title(function: Sqls.Functions.SingleColumn); param.Title();
-            column.Body(function: Sqls.Functions.SingleColumn); param.Body();
-            column.Status(function: Sqls.Functions.SingleColumn); param.Status();
-            column.Manager(function: Sqls.Functions.SingleColumn); param.Manager();
-            column.Owner(function: Sqls.Functions.SingleColumn); param.Owner();
-            column.Comments(function: Sqls.Functions.SingleColumn); param.Comments();
-            column.Creator(function: Sqls.Functions.SingleColumn); param.Creator();
-            column.Updator(function: Sqls.Functions.SingleColumn); param.Updator();
-            column.CreatedTime(function: Sqls.Functions.SingleColumn); param.CreatedTime();
-            ColumnNames().ForEach(columnName =>
-            {
-                column.Add(
-                    columnBracket: $"\"{columnName}\"",
-                    columnName: columnName,
-                    function: Sqls.Functions.SingleColumn);
-                param.Add(
-                    columnBracket: $"\"{columnName}\"",
-                    name: columnName);
-            });
-            return Rds.InsertResults(
-                tableType: tableType,
-                param: param,
-                select: Rds.SelectResults(column: column, where: where),
-                addUpdatorParam: false);
         }
 
         private List<SqlStatement> UpdateStatements(
@@ -1123,12 +1047,11 @@ namespace Implem.Pleasanter.Models
             }
             if (ss.Sources?.Any() == true)
             {
-                ItemUtilities.UpdateTitles(
+                ItemUtilities.UpdateSourceTitles(
                     context: context,
-                    siteId: SiteId,
-                    id: ResultId);
+                    ss: ss,
+                    idList: ResultId.ToSingleList());
             }
-            Libraries.Search.Indexes.Create(context, ss, this);
         }
 
         public List<SqlStatement> UpdateRelatedRecordsStatements(
@@ -1204,7 +1127,6 @@ namespace Implem.Pleasanter.Models
                 statements: statements.ToArray());
             ResultId = (response.Id ?? ResultId).ToLong();
             Get(context: context, ss: ss);
-            Libraries.Search.Indexes.Create(context, ss, this);
             return new ErrorData(type: Error.Types.None);
         }
 
@@ -1244,10 +1166,6 @@ namespace Implem.Pleasanter.Models
             Get(
                 context: context,
                 ss: targetSs);
-            Libraries.Search.Indexes.Create(
-                context: context,
-                ss: targetSs,
-                resultModel: this);
             return new ErrorData(type: Error.Types.None);
         }
 
@@ -1291,7 +1209,6 @@ namespace Implem.Pleasanter.Models
                         tableTypes: Sqls.TableTypes.Deleted),
                     type: "Deleted");
             }
-            Libraries.Search.Indexes.Create(context, ss, this);
             return new ErrorData(type: Error.Types.None);
         }
 
@@ -1311,7 +1228,6 @@ namespace Implem.Pleasanter.Models
                         factory: context,
                         where: Rds.ResultsWhere().ResultId(ResultId))
                 });
-            Libraries.Search.Indexes.Create(context, ss, this);
             return new ErrorData(type: Error.Types.None);
         }
 
@@ -1324,7 +1240,6 @@ namespace Implem.Pleasanter.Models
                 statements: Rds.PhysicalDeleteResults(
                     tableType: tableType,
                     param: Rds.ResultsParam().SiteId(SiteId).ResultId(ResultId)));
-            Libraries.Search.Indexes.Create(context, ss, this);
             return new ErrorData(type: Error.Types.None);
         }
 
@@ -1531,11 +1446,43 @@ namespace Implem.Pleasanter.Models
                         }
                         else
                         {
-                            Value(
+                            var column = ss.GetColumn(
                                 context: context,
-                                columnName: key.Split_2nd('_'),
-                                value: value,
-                                toUniversal: true);
+                                columnName: key.Split_2nd('_'));
+                            switch (Def.ExtendedColumnTypes.Get(column?.ColumnName))
+                            {
+                                case "Class":
+                                    Class(
+                                        columnName: column.ColumnName,
+                                        value: value);
+                                    break;
+                                case "Num":
+                                    Num(
+                                        columnName: column.ColumnName,
+                                        value: column.Round(value.ToDecimal(
+                                            cultureInfo: context.CultureInfo())));
+                                    break;
+                                case "Date":
+                                    Date(
+                                        columnName: column.ColumnName,
+                                        value: value.ToDateTime().ToUniversal(context: context));
+                                    break;
+                                case "Description":
+                                    Description(
+                                        columnName: column.ColumnName,
+                                        value: value);
+                                    break;
+                                case "Check":
+                                    Check(
+                                        columnName: column.ColumnName,
+                                        value: value.ToBool());
+                                    break;
+                                case "Attachments":
+                                    Attachments(
+                                        columnName: column.ColumnName,
+                                        value: value.Deserialize<Attachments>());
+                                    break;
+                            }
                         }
                         break;
                 }
@@ -1604,12 +1551,24 @@ namespace Implem.Pleasanter.Models
             if (data.Owner != null) Owner = SiteInfo.User(context: context, userId: data.Owner.ToInt());
             if (data.Comments != null) Comments.Prepend(context: context, ss: ss, body: data.Comments);
             if (data.VerUp != null) VerUp = data.VerUp.ToBool();
-            ClassHash = data.ClassHash;
-            NumHash = data.NumHash;
-            DateHash = data.DateHash;
-            DescriptionHash = data.DescriptionHash;
-            CheckHash = data.CheckHash;
-            AttachmentsHash = data.AttachmentsHash;
+            data.ClassHash.ForEach(o => Class(
+                columnName: o.Key,
+                value: o.Value));
+            data.NumHash.ForEach(o => Num(
+                columnName: o.Key,
+                value: o.Value));
+            data.DateHash.ForEach(o => Date(
+                columnName: o.Key,
+                value: o.Value.ToUniversal(context: context)));
+            data.DescriptionHash.ForEach(o => Description(
+                columnName: o.Key,
+                value: o.Value));
+            data.CheckHash.ForEach(o => Check(
+                columnName: o.Key,
+                value: o.Value));
+            data.AttachmentsHash.ForEach(o => Attachments(
+                columnName: o.Key,
+                value: o.Value));
             SetByFormula(context: context, ss: ss);
             SetChoiceHash(context: context, ss: ss);
         }
@@ -1807,6 +1766,11 @@ namespace Implem.Pleasanter.Models
                             break;
                         case "Title":
                             match = Title.Value.Matched(
+                                column: column,
+                                condition: filter.Value);
+                            break;
+                        case "Body":
+                            match = Body.Matched(
                                 column: column,
                                 condition: filter.Value);
                             break;
@@ -2140,19 +2104,26 @@ namespace Implem.Pleasanter.Models
 
         public void SetChoiceHash(Context context, SiteSettings ss)
         {
-            ss.GetUseSearchLinks(context: context).ForEach(link =>
+            if (!ss.SetAllChoices)
             {
-                var value = PropertyValue(context: context, name: link.ColumnName);
-                if (!value.IsNullOrEmpty() &&
-                    ss.GetColumn(context: context, columnName: link.ColumnName)?
-                        .ChoiceHash.Any(o => o.Value.Value == value) != true)
+                ss.GetUseSearchLinks(context: context).ForEach(link =>
                 {
-                    ss.SetChoiceHash(
+                    var value = PropertyValue(
                         context: context,
-                        columnName: link.ColumnName,
-                        selectedValues: value.ToSingleList());
-                }
-            });
+                        name: link.ColumnName);
+                    var column = ss.GetColumn(
+                        context: context,
+                        columnName: link.ColumnName);
+                    if (!value.IsNullOrEmpty() 
+                        && column?.ChoiceHash.Any(o => o.Value.Value == value) != true)
+                    {
+                        ss.SetChoiceHash(
+                            context: context,
+                            columnName: column.ColumnName,
+                            selectedValues: value.ToSingleList());
+                    }
+                });
+            }
             SetTitle(context: context, ss: ss);
         }
 

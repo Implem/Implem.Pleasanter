@@ -49,5 +49,15 @@ namespace Implem.Pleasanter.NetFramework.Controllers.Api
             var result = controller.Delete(context: context, id: id);
             return result.ToHttpResponse(Request);
         }
+
+        [HttpPost]
+        public async Task<HttpResponseMessage> Export(long id)
+        {
+            var body = await Request.Content.ReadAsStringAsync();
+            var context = new ContextImplement(sessionStatus: false, sessionData: false, apiRequestBody: body);
+            var controller = new Implem.Pleasanter.Controllers.Api.ItemsController();
+            var result = controller.Export(context: context, id: id);
+            return result.ToHttpResponse(Request);
+        }
     }
 }

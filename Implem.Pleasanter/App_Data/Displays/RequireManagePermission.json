@@ -1,0 +1,13 @@
+﻿{
+    "Id": "RequireManagePermission",
+    "Type": 240,
+    "Languages": [
+        {
+            "Body": "This operation can not be performed because the administrator is away."
+        },
+        {
+            "Language": "ja",
+            "Body": "管理者が不在となるため、この操作を行うことができません。"
+        }
+    ]
+}

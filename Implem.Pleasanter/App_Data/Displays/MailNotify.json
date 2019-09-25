@@ -1,0 +1,13 @@
+﻿{
+    "Id": "MailNotify",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Notify URL by email"
+        },
+        {
+            "Language": "ja",
+            "Body": "URLを自分にメール"
+        }
+    ]
+}

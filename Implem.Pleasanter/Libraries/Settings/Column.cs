@@ -45,6 +45,7 @@ namespace Implem.Pleasanter.Libraries.Settings
         public bool? CopyByDefault;
         public bool? EditorReadOnly;
         public bool? AllowImage;
+        public bool? AllowBulkUpdate;
         public string FieldCss;
         public string Unit;
         public bool? Link;
@@ -626,8 +627,13 @@ namespace Implem.Pleasanter.Libraries.Settings
                     : null);
             sql.Add(
                 columnBracket: "\"UpdatedTime\"",
-                tableName: tableName,
-                columnName: "UpdatedTime");
+                tableName: Joined
+                    ? TableAlias
+                    : tableName,
+                columnName: "UpdatedTime",
+                    _as: Joined
+                        ? TableAlias + ",UpdatedTime"
+                        : null);
             return sql;
         }
 
@@ -680,76 +686,6 @@ namespace Implem.Pleasanter.Libraries.Settings
         {
             switch (tableName)
             {
-                case "Tenants":
-                    switch (columnName)
-                    {
-                        case "TenantId":
-                            sql.Tenants_TenantId(tableName: path, _as: _as);
-                            break;
-                        case "Ver":
-                            sql.Tenants_Ver(tableName: path, _as: _as);
-                            break;
-                        case "TenantName":
-                            sql.Tenants_TenantName(tableName: path, _as: _as);
-                            break;
-                        case "Body":
-                            sql.Tenants_Body(tableName: path, _as: _as);
-                            break;
-                        case "ContractSettings":
-                            sql.Tenants_ContractSettings(tableName: path, _as: _as);
-                            break;
-                        case "ContractDeadline":
-                            sql.Tenants_ContractDeadline(tableName: path, _as: _as);
-                            break;
-                        case "DisableAllUsersPermission":
-                            sql.Tenants_DisableAllUsersPermission(tableName: path, _as: _as);
-                            break;
-                        case "LogoType":
-                            sql.Tenants_LogoType(tableName: path, _as: _as);
-                            break;
-                        case "HtmlTitleTop":
-                            sql.Tenants_HtmlTitleTop(tableName: path, _as: _as);
-                            break;
-                        case "HtmlTitleSite":
-                            sql.Tenants_HtmlTitleSite(tableName: path, _as: _as);
-                            break;
-                        case "HtmlTitleRecord":
-                            sql.Tenants_HtmlTitleRecord(tableName: path, _as: _as);
-                            break;
-                        case "Comments":
-                            sql.Tenants_Comments(tableName: path, _as: _as);
-                            break;
-                        case "Creator":
-                            sql.Tenants_Creator(tableName: path, _as: _as);
-                            break;
-                        case "Updator":
-                            sql.Tenants_Updator(tableName: path, _as: _as);
-                            break;
-                        case "CreatedTime":
-                            sql.Tenants_CreatedTime(tableName: path, _as: _as);
-                            break;
-                        case "UpdatedTime":
-                            sql.Tenants_UpdatedTime(tableName: path, _as: _as);
-                            break;
-                        default:
-                            switch (Def.ExtendedColumnTypes.Get(columnName))
-                            {
-                                case "Class":
-                                case "Num":
-                                case "Date":
-                                case "Description":
-                                case "Check":
-                                case "Attachments":
-                                    sql.Add(
-                                        columnBracket: $"\"{columnName}\"",
-                                        tableName: path,
-                                        columnName: columnName,
-                                        _as: _as);
-                                break;
-                            }
-                            break;
-                    }
-                    break;
                 case "Depts":
                     switch (columnName)
                     {
@@ -840,6 +776,88 @@ namespace Implem.Pleasanter.Libraries.Settings
                             break;
                         case "UpdatedTime":
                             sql.Groups_UpdatedTime(tableName: path, _as: _as);
+                            break;
+                        default:
+                            switch (Def.ExtendedColumnTypes.Get(columnName))
+                            {
+                                case "Class":
+                                case "Num":
+                                case "Date":
+                                case "Description":
+                                case "Check":
+                                case "Attachments":
+                                    sql.Add(
+                                        columnBracket: $"\"{columnName}\"",
+                                        tableName: path,
+                                        columnName: columnName,
+                                        _as: _as);
+                                break;
+                            }
+                            break;
+                    }
+                    break;
+                case "Registrations":
+                    switch (columnName)
+                    {
+                        case "TenantId":
+                            sql.Registrations_TenantId(tableName: path, _as: _as);
+                            break;
+                        case "RegistrationId":
+                            sql.Registrations_RegistrationId(tableName: path, _as: _as);
+                            break;
+                        case "Ver":
+                            sql.Registrations_Ver(tableName: path, _as: _as);
+                            break;
+                        case "MailAddress":
+                            sql.Registrations_MailAddress(tableName: path, _as: _as);
+                            break;
+                        case "Invitee":
+                            sql.Registrations_Invitee(tableName: path, _as: _as);
+                            break;
+                        case "InviteeName":
+                            sql.Registrations_InviteeName(tableName: path, _as: _as);
+                            break;
+                        case "LoginId":
+                            sql.Registrations_LoginId(tableName: path, _as: _as);
+                            break;
+                        case "Name":
+                            sql.Registrations_Name(tableName: path, _as: _as);
+                            break;
+                        case "Password":
+                            sql.Registrations_Password(tableName: path, _as: _as);
+                            break;
+                        case "Language":
+                            sql.Registrations_Language(tableName: path, _as: _as);
+                            break;
+                        case "Passphrase":
+                            sql.Registrations_Passphrase(tableName: path, _as: _as);
+                            break;
+                        case "Invitingflg":
+                            sql.Registrations_Invitingflg(tableName: path, _as: _as);
+                            break;
+                        case "UserId":
+                            sql.Registrations_UserId(tableName: path, _as: _as);
+                            break;
+                        case "DeptId":
+                            sql.Registrations_DeptId(tableName: path, _as: _as);
+                            break;
+                        case "GroupId":
+                            sql.Registrations_GroupId(tableName: path, _as: _as);
+                            break;
+                        case "Comments":
+                            sql.Registrations_Comments(tableName: path, _as: _as);
+                            break;
+                        case "Creator":
+                            sql.Registrations_Creator(tableName: path, _as: _as);
+                            break;
+                        case "Updator":
+                            sql.Registrations_Updator(tableName: path, _as: _as);
+                            break;
+                        case "CreatedTime":
+                            sql.Registrations_CreatedTime(tableName: path, _as: _as);
+                            break;
+                        case "UpdatedTime":
+                            sql.Registrations_UpdatedTime(tableName: path, _as: _as);
                             break;
                         default:
                             switch (Def.ExtendedColumnTypes.Get(columnName))
@@ -979,6 +997,102 @@ namespace Implem.Pleasanter.Libraries.Settings
                             break;
                         case "UpdatedTime":
                             sql.Users_UpdatedTime(tableName: path, _as: _as);
+                            break;
+                        default:
+                            switch (Def.ExtendedColumnTypes.Get(columnName))
+                            {
+                                case "Class":
+                                case "Num":
+                                case "Date":
+                                case "Description":
+                                case "Check":
+                                case "Attachments":
+                                    sql.Add(
+                                        columnBracket: $"\"{columnName}\"",
+                                        tableName: path,
+                                        columnName: columnName,
+                                        _as: _as);
+                                break;
+                            }
+                            break;
+                    }
+                    break;
+                case "Sites":
+                    switch (columnName)
+                    {
+                        case "TenantId":
+                            sql.Sites_TenantId(tableName: path, _as: _as);
+                            break;
+                        case "SiteId":
+                            sql.Sites_SiteId(tableName: path, _as: _as);
+                            break;
+                        case "UpdatedTime":
+                            sql.Sites_UpdatedTime(tableName: path, _as: _as);
+                            break;
+                        case "Ver":
+                            sql.Sites_Ver(tableName: path, _as: _as);
+                            break;
+                        case "Body":
+                            sql.Sites_Body(tableName: path, _as: _as);
+                            break;
+                        case "GridGuide":
+                            sql.Sites_GridGuide(tableName: path, _as: _as);
+                            break;
+                        case "EditorGuide":
+                            sql.Sites_EditorGuide(tableName: path, _as: _as);
+                            break;
+                        case "ReferenceType":
+                            sql.Sites_ReferenceType(tableName: path, _as: _as);
+                            break;
+                        case "ParentId":
+                            sql.Sites_ParentId(tableName: path, _as: _as);
+                            break;
+                        case "InheritPermission":
+                            sql.Sites_InheritPermission(tableName: path, _as: _as);
+                            break;
+                        case "SiteSettings":
+                            sql.Sites_SiteSettings(tableName: path, _as: _as);
+                            break;
+                        case "Publish":
+                            sql.Sites_Publish(tableName: path, _as: _as);
+                            break;
+                        case "LockedTime":
+                            sql.Sites_LockedTime(tableName: path, _as: _as);
+                            break;
+                        case "LockedUser":
+                            sql.Sites_LockedUser(tableName: path, _as: _as);
+                            break;
+                        case "ApiCountDate":
+                            sql.Sites_ApiCountDate(tableName: path, _as: _as);
+                            break;
+                        case "ApiCount":
+                            sql.Sites_ApiCount(tableName: path, _as: _as);
+                            break;
+                        case "Comments":
+                            sql.Sites_Comments(tableName: path, _as: _as);
+                            break;
+                        case "Creator":
+                            sql.Sites_Creator(tableName: path, _as: _as);
+                            break;
+                        case "Updator":
+                            sql.Sites_Updator(tableName: path, _as: _as);
+                            break;
+                        case "CreatedTime":
+                            sql.Sites_CreatedTime(tableName: path, _as: _as);
+                            break;
+                        case "TitleBody":
+                            sql.Sites_Body(tableName: path, _as: Joined
+                                ? path + ",Body"
+                                : "Body");
+                            goto case "Title";
+                        case "Title":
+                            sql
+                                .Sites_Title(tableName: path, _as: _as)
+                                .ItemTitle(
+                                    tableName: path,
+                                    _as: Joined
+                                        ? path + ",ItemTitle"
+                                        : "ItemTitle");
                             break;
                         default:
                             switch (Def.ExtendedColumnTypes.Get(columnName))

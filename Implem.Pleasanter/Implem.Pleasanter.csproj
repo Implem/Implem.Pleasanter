@@ -5,8 +5,8 @@
     <Copyright>Copyright © Implem Inc 2014 - 2019</Copyright>
     <Description>Business application platform</Description>
     <AssemblyName>Implem.Pleasanter</AssemblyName>
-    <AssemblyVersion>0.49.232.0</AssemblyVersion>
-    <FileVersion>0.49.238.0</FileVersion>
+    <AssemblyVersion>0.50.78.0</AssemblyVersion>
+    <FileVersion>0.50.78.0</FileVersion>
     <LangVersion>7.2</LangVersion>
   </PropertyGroup>
 
@@ -33,7 +33,7 @@
     <PackageReference Include="Newtonsoft.Json" Version="12.0.1" />
     <PackageReference Include="Novell.Directory.Ldap.NETStandard" Version="2.3.8" />
     <PackageReference Include="Pipelines.Sockets.Unofficial" Version="1.0.9" />
-    <PackageReference Include="Sendgrid" Version="9.10.0" />
+    <PackageReference Include="Sendgrid" Version="6.3.4" />
     <PackageReference Include="SendGrid.SmtpApi" Version="1.3.3" />
     <PackageReference Include="StackExchange.Redis" Version="2.0.519" />
     <PackageReference Include="StackExchange.Redis.StrongName" Version="1.2.6" />

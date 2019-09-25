@@ -1,5 +1,6 @@
 ﻿using Implem.Pleasanter.Libraries.Requests;
 using Implem.Pleasanter.Libraries.Responses;
+using Implem.Pleasanter.Libraries.Search;
 using Implem.Pleasanter.Models;
 using System.Web;
 using System.Web.Mvc;
@@ -255,6 +256,38 @@ namespace Implem.Pleasanter.Controllers
             return json;
         }
 
+        public string OpenBulkUpdateSelectorDialog(Context context, long id)
+        {
+            var log = new SysLogModel(context: context);
+            var json = new ItemModel(context: context, referenceId: id).OpenBulkUpdateSelectorDialog(context: context);
+            log.Finish(context: context, responseSize: json.Length);
+            return json;
+        }
+
+        public string BulkUpdateSelectChanged(Context context, long id)
+        {
+            var log = new SysLogModel(context: context);
+            var json = new ItemModel(context: context, referenceId: id).BulkUpdateSelectChanged(context: context);
+            log.Finish(context: context, responseSize: json.Length);
+            return json;
+        }
+
+        public string OpenSetNumericRangeDialog(Context context, long id)
+        {
+            var log = new SysLogModel(context: context);
+            var json = new ItemModel(context: context, referenceId: id).OpenSetNumericRangeDialog(context: context);
+            log.Finish(context: context, responseSize: json.Length);
+            return json;
+        }
+
+        public string OpenSetDateRangeDialog(Context context, long id)
+        {
+            var log = new SysLogModel(context: context);
+            var json = new ItemModel(context: context, referenceId: id).OpenSetDateRangeDialog(context: context);
+            log.Finish(context: context, responseSize: json.Length);
+            return json;
+        }
+
         public FileContentResult Export(Context context, long id)
         {
             var log = new SysLogModel(context: context);
@@ -269,6 +302,14 @@ namespace Implem.Pleasanter.Controllers
                 log.Finish(context: context);
                 return null;
             }
+        }
+
+        public string ExportAsync(Context context, long id)
+        {
+            var log = new SysLogModel(context: context);
+            var json = new ItemModel(context: context, referenceId: id).ExportAsync(context: context);
+            log.Finish(context: context, responseSize: json.Length);
+            return json;
         }
 
         public FileContentResult ExportCrosstab(Context context, long id)
@@ -292,14 +333,14 @@ namespace Implem.Pleasanter.Controllers
             if (!context.Ajax)
             {
                 var log = new SysLogModel(context: context);
-                var html = SearchIndexUtilities.Search(context: context);
+                var html = Indexes.Search(context: context);
                 log.Finish(context: context, responseSize: html.Length);
                 return html;
             }
             else
             {
                 var log = new SysLogModel(context: context);
-                var json = SearchIndexUtilities.SearchJson(context: context);
+                var json = Indexes.SearchJson(context: context);
                 log.Finish(context: context, responseSize: json.Length);
                 return json;
             }
@@ -456,6 +497,19 @@ namespace Implem.Pleasanter.Controllers
             return json;
         }
 
+        public string UpdateByGrid(Context context, long id)
+        {
+            var log = new SysLogModel(context: context);
+            var json = new ItemModel(
+                context: context,
+                referenceId: id)
+                    .UpdateByGrid(context: context);
+            log.Finish(
+                context: context,
+                responseSize: json.Length);
+            return json;
+        }
+
         public string Copy(Context context, long id)
         {
             var log = new SysLogModel(context: context);
@@ -596,7 +650,7 @@ namespace Implem.Pleasanter.Controllers
         public string RebuildSearchIndexes(Context context, long id)
         {
             var log = new SysLogModel(context: context);
-            var json = SearchIndexUtilities.RebuildSearchIndexes(
+            var json = Indexes.RebuildSearchIndexes(
                 context: context,
                 siteModel: new SiteModel(
                     context: context,
@@ -802,6 +856,17 @@ namespace Implem.Pleasanter.Controllers
                 context: context,
                 responseSize: json.Length);
             return json;
+        }
+
+        public ContentResult Get(Context context, long id)
+        {
+            var log = new SysLogModel(context: context);
+            var result = new ItemModel(context: context, referenceId: id)
+                .GetByApi(
+                    context: context,
+                    internalRequest: true);
+            log.Finish(context: context, responseSize: result.Content.Length);
+            return result;
         }
     }
 }

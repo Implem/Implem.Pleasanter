@@ -11,6 +11,8 @@ namespace Implem.Pleasanter.Libraries.General
             AlreadyAdded,
             AlreadyLinked,
             ApplicationError,
+            ApprovalMessageInvited,
+            ApprovalMessageInviting,
             Authentication,
             BadFormat,
             BadMailAddress,
@@ -26,6 +28,7 @@ namespace Implem.Pleasanter.Libraries.General
             Duplicated,
             EmptyUserName,
             Expired,
+            ExportNotSetEmail,
             ExternalMailAddress,
             FailedReadFile,
             FileNotFound,
@@ -48,6 +51,7 @@ namespace Implem.Pleasanter.Libraries.General
             NoLinks,
             NotFound,
             NotRequiredColumn,
+            OverLimitApi,
             OverLimitQuantity,
             OverLimitSize,
             OverTenantStorageSize,
@@ -57,6 +61,7 @@ namespace Implem.Pleasanter.Libraries.General
             PasswordPolicyViolation,
             PermissionNotSelfChange,
             RequireMailAddresses,
+            RequireManagePermission,
             RequireTo,
             Restricted,
             SamlLoginFailed,
@@ -94,6 +99,14 @@ namespace Implem.Pleasanter.Libraries.General
                         data: data);
                 case Types.ApplicationError:
                     return Messages.ApplicationError(
+                        context: context,
+                        data: data);
+                case Types.ApprovalMessageInvited:
+                    return Messages.ApprovalMessageInvited(
+                        context: context,
+                        data: data);
+                case Types.ApprovalMessageInviting:
+                    return Messages.ApprovalMessageInviting(
                         context: context,
                         data: data);
                 case Types.Authentication:
@@ -154,6 +167,10 @@ namespace Implem.Pleasanter.Libraries.General
                         data: data);
                 case Types.Expired:
                     return Messages.Expired(
+                        context: context,
+                        data: data);
+                case Types.ExportNotSetEmail:
+                    return Messages.ExportNotSetEmail(
                         context: context,
                         data: data);
                 case Types.ExternalMailAddress:
@@ -244,6 +261,10 @@ namespace Implem.Pleasanter.Libraries.General
                     return Messages.NotRequiredColumn(
                         context: context,
                         data: data);
+                case Types.OverLimitApi:
+                    return Messages.OverLimitApi(
+                        context: context,
+                        data: data);
                 case Types.OverLimitQuantity:
                     return Messages.OverLimitQuantity(
                         context: context,
@@ -278,6 +299,10 @@ namespace Implem.Pleasanter.Libraries.General
                         data: data);
                 case Types.RequireMailAddresses:
                     return Messages.RequireMailAddresses(
+                        context: context,
+                        data: data);
+                case Types.RequireManagePermission:
+                    return Messages.RequireManagePermission(
                         context: context,
                         data: data);
                 case Types.RequireTo:

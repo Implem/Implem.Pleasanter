@@ -1,7 +1,6 @@
 ﻿{
-    "Provider": null,
-    "SearchDocuments": true,
+    "SearchDocuments": false,
     "CreateIndexes": true,
-    "ConcordanceRate": 0.7,
-    "PageSize": 20
+    "PageSize": 20,
+    "DisableCrossSearch": false
 }

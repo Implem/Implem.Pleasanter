@@ -16,31 +16,55 @@ namespace Implem.Pleasanter.Libraries.Responses
         {
             var dataRow = Repository.ExecuteTable(
                 context: context,
-                statements: Rds.SelectBinaries(
-                    column: Rds.BinariesColumn()
-                        .Guid()
-                        .BinaryType()
-                        .Bin()
-                        .FileName()
-                        .ContentType(),
-                    join: Rds.BinariesJoinDefault()
-                        .Add(new SqlJoin(
-                            tableBracket: "\"Items\"",
-                            joinType: SqlJoin.JoinTypes.Inner,
-                            joinExpression: "\"Binaries\".\"ReferenceId\"=\"Items\".\"ReferenceId\""))
-                        .Add(new SqlJoin(
-                            tableBracket: "\"Sites\"",
-                            joinType: SqlJoin.JoinTypes.Inner,
-                            joinExpression: "\"Items\".\"SiteId\"=\"Sites\".\"SiteId\"")),
-                    where: Rds.BinariesWhere()
-                        .TenantId(context.TenantId)
-                        .Guid(guid?.ToUpper())
-                        .CanRead(
-                            context: context,
-                            idColumnBracket: "\"Binaries\".\"ReferenceId\"",
-                            _using: !context.Publish)))
-                                .AsEnumerable()
-                                .FirstOrDefault();
+                statements: new SqlStatement[]
+                {
+                    Rds.SelectBinaries(
+                        column: Rds.BinariesColumn()
+                            .Guid()
+                            .BinaryType()
+                            .Bin()
+                            .FileName()
+                            .ContentType(),
+                        join: Rds.BinariesJoinDefault()
+                            .Add(new SqlJoin(
+                                tableBracket: "\"Items\"",
+                                joinType: SqlJoin.JoinTypes.Inner,
+                                joinExpression: "\"Binaries\".\"ReferenceId\"=\"Items\".\"ReferenceId\""))
+                            .Add(new SqlJoin(
+                                tableBracket: "\"Sites\"",
+                                joinType: SqlJoin.JoinTypes.Inner,
+                                joinExpression: "\"Items\".\"SiteId\"=\"Sites\".\"SiteId\"")),
+                        where: Rds.BinariesWhere()
+                            .TenantId(context.TenantId)
+                            .Guid(guid)
+                            .CanRead(
+                                context: context,
+                                idColumnBracket: "\"Binaries\".\"ReferenceId\"",
+                                _using: !context.Publish)),
+                    Rds.SelectBinaries(
+                        column: Rds.BinariesColumn()
+                            .Guid()
+                            .BinaryType()
+                            .Bin()
+                            .FileName()
+                            .ContentType(),
+                        join: Rds.BinariesJoinDefault()
+                            .Add(new SqlJoin(
+                                tableBracket: "\"Items\"",
+                                joinType: SqlJoin.JoinTypes.Inner,
+                                joinExpression: "\"Binaries\".\"ReferenceId\"=\"Items\".\"ReferenceId\""))
+                            .Add(new SqlJoin(
+                                tableBracket: "\"Sites\"",
+                                joinType: SqlJoin.JoinTypes.Inner,
+                                joinExpression: "\"Items\".\"SiteId\"=\"Sites\".\"SiteId\"")),
+                        where: Rds.BinariesWhere()
+                            .TenantId(context.TenantId)
+                            .Guid(guid)
+                            .Add(raw: $"(\"Binaries\".\"CreatedTime\"=\"Binaries\".\"UpdatedTime\" and \"Binaries\".\"Creator\"=\"context.UserId\")"),
+                        unionType: Sqls.UnionTypes.UnionAll)
+                })
+                    .AsEnumerable()
+                    .FirstOrDefault();
             return dataRow != null
                 ? new ResponseFile(
                     new MemoryStream(Bytes(dataRow), false),

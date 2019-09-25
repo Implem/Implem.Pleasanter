@@ -333,7 +333,6 @@ namespace Implem.Pleasanter.Models
             {
                 Get(context: context);
             }
-            Libraries.Search.Indexes.Create(context, ss, ReferenceId, force: true);
             return new ErrorData(type: Error.Types.None);
         }
 
@@ -351,9 +350,10 @@ namespace Implem.Pleasanter.Models
                 .UpdatedTime(timestamp, _using: timestamp.InRange());
             if (VerUp)
             {
-                statements.Add(CopyToStatement(
+                statements.Add(Rds.OutgoingMailsCopyToStatement(
                     where: where,
-                    tableType: Sqls.TableTypes.History));
+                    tableType: Sqls.TableTypes.History,
+                    ColumnNames()));
                 Ver++;
             }
             statements.AddRange(UpdateStatements(
@@ -368,46 +368,6 @@ namespace Implem.Pleasanter.Models
                 statements.AddRange(additionalStatements);
             }
             return statements;
-        }
-
-        private SqlStatement CopyToStatement(SqlWhereCollection where, Sqls.TableTypes tableType)
-        {
-            var column = new Rds.OutgoingMailsColumnCollection();
-            var param = new Rds.OutgoingMailsParamCollection();
-            column.ReferenceType(function: Sqls.Functions.SingleColumn); param.ReferenceType();
-            column.ReferenceId(function: Sqls.Functions.SingleColumn); param.ReferenceId();
-            column.ReferenceVer(function: Sqls.Functions.SingleColumn); param.ReferenceVer();
-            column.OutgoingMailId(function: Sqls.Functions.SingleColumn); param.OutgoingMailId();
-            column.Ver(function: Sqls.Functions.SingleColumn); param.Ver();
-            column.Host(function: Sqls.Functions.SingleColumn); param.Host();
-            column.Port(function: Sqls.Functions.SingleColumn); param.Port();
-            column.From(function: Sqls.Functions.SingleColumn); param.From();
-            column.To(function: Sqls.Functions.SingleColumn); param.To();
-            column.Cc(function: Sqls.Functions.SingleColumn); param.Cc();
-            column.Bcc(function: Sqls.Functions.SingleColumn); param.Bcc();
-            column.Title(function: Sqls.Functions.SingleColumn); param.Title();
-            column.Body(function: Sqls.Functions.SingleColumn); param.Body();
-            column.SentTime(function: Sqls.Functions.SingleColumn); param.SentTime();
-            column.Comments(function: Sqls.Functions.SingleColumn); param.Comments();
-            column.Creator(function: Sqls.Functions.SingleColumn); param.Creator();
-            column.Updator(function: Sqls.Functions.SingleColumn); param.Updator();
-            column.CreatedTime(function: Sqls.Functions.SingleColumn); param.CreatedTime();
-            column.UpdatedTime(function: Sqls.Functions.SingleColumn); param.UpdatedTime();
-            ColumnNames().ForEach(columnName =>
-            {
-                column.Add(
-                    columnBracket: $"\"{columnName}\"",
-                    columnName: columnName,
-                    function: Sqls.Functions.SingleColumn);
-                param.Add(
-                    columnBracket: $"\"{columnName}\"",
-                    name: columnName);
-            });
-            return Rds.InsertOutgoingMails(
-                tableType: tableType,
-                param: param,
-                select: Rds.SelectOutgoingMails(column: column, where: where),
-                addUpdatorParam: false);
         }
 
         private List<SqlStatement> UpdateStatements(

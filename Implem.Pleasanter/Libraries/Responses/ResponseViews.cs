@@ -32,7 +32,8 @@ namespace Implem.Pleasanter.Libraries.Responses
                                 controlCss: " auto-postback",
                                 method: "post",
                                 _checked: view.ShowHistory == true,
-                                labelText: Displays.ShowHistory(context: context)));
+                                labelText: Displays.ShowHistory(context: context),
+                                _using: ss.HistoryOnGrid == true));
                 default:
                     return res;
             }

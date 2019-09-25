@@ -404,6 +404,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                 case "Tenants": return "TenantId";
                 case "Depts": return "DeptId";
                 case "Groups": return "GroupId";
+                case "Registrations": return "RegistrationId";
                 case "Users": return "UserId";
                 case "Sites": return "SiteId";
                 case "Issues": return "IssueId";
@@ -534,6 +535,17 @@ namespace Implem.Pleasanter.Libraries.DataSources
             };
         }
 
+        public static SqlStatement RegistrationsStatement(
+            string commandText,
+            SqlParamCollection param = null)
+        {
+            return new SqlStatement
+            {
+                CommandText = commandText,
+                SqlParamCollection = param
+            };
+        }
+
         public static SqlStatement UsersStatement(
             string commandText,
             SqlParamCollection param = null)
@@ -568,17 +580,6 @@ namespace Implem.Pleasanter.Libraries.DataSources
         }
 
         public static SqlStatement OutgoingMailsStatement(
-            string commandText,
-            SqlParamCollection param = null)
-        {
-            return new SqlStatement
-            {
-                CommandText = commandText,
-                SqlParamCollection = param
-            };
-        }
-
-        public static SqlStatement SearchIndexesStatement(
             string commandText,
             SqlParamCollection param = null)
         {
@@ -745,7 +746,6 @@ namespace Implem.Pleasanter.Libraries.DataSources
         public static SqlColumnCollection Add(
             this SqlColumnCollection self,
             Context context,
-            SiteSettings ss,
             Column column,
             string _as = null,
             Sqls.Functions function = Sqls.Functions.None,
@@ -775,6 +775,59 @@ namespace Implem.Pleasanter.Libraries.DataSources
                 : self;
         }
 
+        public static SqlColumnCollection WithItemTitle(
+            this SqlColumnCollection sqlColumn,
+            Context context,
+            SiteSettings ss,
+            Column column)
+        {
+            if (column != null)
+            {
+                sqlColumn.Add(context: context, column: column);
+                var link = column.SiteSettings.Links
+                    .Where(o => ss.JoinedSsHash.ContainsKey(o.SiteId))
+                    .FirstOrDefault(o => o.ColumnName == column.Name);
+                if (link != null)
+                {
+                    var linkedTableName = (!column.TableAlias.IsNullOrEmpty()
+                        ? column.TableAlias + "-"
+                        : string.Empty)
+                            + link.LinkedTableName();
+                    sqlColumn.Add(
+                        columnBracket: "\"Title\"",
+                        tableName: linkedTableName + "_Items",
+                        _as: linkedTableName + ",ItemTitle");
+                }
+            }
+            return sqlColumn;
+        }
+
+        public static SqlGroupByCollection WithItemTitle(
+            this SqlGroupByCollection groupBy,
+            Context context,
+            SiteSettings ss,
+            Column column)
+        {
+            if (column != null)
+            {
+                groupBy.Add(column: column);
+                var link = column.SiteSettings.Links
+                    .Where(o => ss.JoinedSsHash.ContainsKey(o.SiteId))
+                    .FirstOrDefault(o => o.ColumnName == column.Name);
+                if (link != null)
+                {
+                    var linkedTableName = (!column.TableAlias.IsNullOrEmpty()
+                        ? column.TableAlias + "-"
+                        : string.Empty)
+                            + link.LinkedTableName();
+                    groupBy.Add(
+                        columnBracket: "\"Title\"",
+                        tableName: linkedTableName + "_Items");
+                }
+            }
+            return groupBy;
+        }
+
         public static SqlOrderByCollection Add(
             this SqlOrderByCollection self,
             SiteSettings ss,
@@ -792,29 +845,14 @@ namespace Implem.Pleasanter.Libraries.DataSources
 
         public static SqlGroupByCollection Add(
             this SqlGroupByCollection self,
-            SiteSettings ss,
             Column column,
             bool _using = true)
         {
-            if (column == null || !_using) return self;
-            self.Add(
-               tableName: column.TableName(),
-               columnBracket: ColumnBracket(column));
-            var link = column.SiteSettings.Links?
-                .FirstOrDefault(o => o.ColumnName == column.Name);
-            if (link != null)
-            {
-                if (ss.JoinedSsHash.Get(link.SiteId) != null)
-                {
-                    self.Add(
-                        tableName: (!column.TableAlias.IsNullOrEmpty()
-                            ? column.TableAlias + "-"
-                            : string.Empty) +
-                                link.ColumnName + "~" + link.SiteId,
-                        columnBracket: "\"Title\"");
-                }
-            }
-            return self;
+            return column != null && _using
+                ? self.Add(
+                   tableName: column.TableName(),
+                   columnBracket: ColumnBracket(column))
+                : self;
         }
 
         public static string ColumnBracket(Column column)
@@ -1049,6 +1087,37 @@ namespace Implem.Pleasanter.Libraries.DataSources
                                 ? $"\"{column.Name}\""
                                 : null;
                     }
+                case "Registrations":
+                    switch (column.Name)
+                    {
+                        case "TenantId": return "\"TenantId\"";
+                        case "RegistrationId": return "\"RegistrationId\"";
+                        case "Ver": return "\"Ver\"";
+                        case "MailAddress": return "\"MailAddress\"";
+                        case "Invitee": return "\"Invitee\"";
+                        case "InviteeName": return "\"InviteeName\"";
+                        case "LoginId": return "\"LoginId\"";
+                        case "Name": return "\"Name\"";
+                        case "Password": return "\"Password\"";
+                        case "PasswordValidate": return "\"PasswordValidate\"";
+                        case "Language": return "\"Language\"";
+                        case "Passphrase": return "\"Passphrase\"";
+                        case "Invitingflg": return "\"Invitingflg\"";
+                        case "UserId": return "\"UserId\"";
+                        case "DeptId": return "\"DeptId\"";
+                        case "GroupId": return "\"GroupId\"";
+                        case "Comments": return "\"Comments\"";
+                        case "Creator": return "\"Creator\"";
+                        case "Updator": return "\"Updator\"";
+                        case "CreatedTime": return "\"CreatedTime\"";
+                        case "UpdatedTime": return "\"UpdatedTime\"";
+                        case "VerUp": return "\"VerUp\"";
+                        case "Timestamp": return "\"Timestamp\"";
+                        default: 
+                            return Def.ExtendedColumnTypes.ContainsKey(column.Name)
+                                ? $"\"{column.Name}\""
+                                : null;
+                    }
                 case "Users":
                     switch (column.Name)
                     {
@@ -1184,29 +1253,6 @@ namespace Implem.Pleasanter.Libraries.DataSources
                                 ? $"\"{column.Name}\""
                                 : null;
                     }
-                case "SearchIndexes":
-                    switch (column.Name)
-                    {
-                        case "Word": return "\"Word\"";
-                        case "ReferenceId": return "\"ReferenceId\"";
-                        case "Ver": return "\"Ver\"";
-                        case "Priority": return "\"Priority\"";
-                        case "ReferenceType": return "\"ReferenceType\"";
-                        case "Title": return "\"Title\"";
-                        case "Subset": return "\"Subset\"";
-                        case "InheritPermission": return "\"InheritPermission\"";
-                        case "Comments": return "\"Comments\"";
-                        case "Creator": return "\"Creator\"";
-                        case "Updator": return "\"Updator\"";
-                        case "CreatedTime": return "\"CreatedTime\"";
-                        case "UpdatedTime": return "\"UpdatedTime\"";
-                        case "VerUp": return "\"VerUp\"";
-                        case "Timestamp": return "\"Timestamp\"";
-                        default: 
-                            return Def.ExtendedColumnTypes.ContainsKey(column.Name)
-                                ? $"\"{column.Name}\""
-                                : null;
-                    }
                 case "Items":
                     switch (column.Name)
                     {
@@ -1254,6 +1300,8 @@ namespace Implem.Pleasanter.Libraries.DataSources
                         case "MonitorChangesColumns": return "\"MonitorChangesColumns\"";
                         case "TitleColumns": return "\"TitleColumns\"";
                         case "Export": return "\"Export\"";
+                        case "ApiCountDate": return "\"ApiCountDate\"";
+                        case "ApiCount": return "\"ApiCount\"";
                         case "Comments": return "\"Comments\"";
                         case "Creator": return "\"Creator\"";
                         case "Updator": return "\"Updator\"";
@@ -2243,6 +2291,118 @@ namespace Implem.Pleasanter.Libraries.DataSources
                                     function: function)
                                 : self;
                     }
+                case "Registrations":
+                    switch (column.Name)
+                    {
+                        case "TenantId":
+                            return self.Registrations_TenantId(
+                                tableName: column.TableName(),
+                                orderType: orderType,
+                                function: function);
+                        case "RegistrationId":
+                            return self.Registrations_RegistrationId(
+                                tableName: column.TableName(),
+                                orderType: orderType,
+                                function: function);
+                        case "Ver":
+                            return self.Registrations_Ver(
+                                tableName: column.TableName(),
+                                orderType: orderType,
+                                function: function);
+                        case "MailAddress":
+                            return self.Registrations_MailAddress(
+                                tableName: column.TableName(),
+                                orderType: orderType,
+                                function: function);
+                        case "Invitee":
+                            return self.Registrations_Invitee(
+                                tableName: column.TableName(),
+                                orderType: orderType,
+                                function: function);
+                        case "InviteeName":
+                            return self.Registrations_InviteeName(
+                                tableName: column.TableName(),
+                                orderType: orderType,
+                                function: function);
+                        case "LoginId":
+                            return self.Registrations_LoginId(
+                                tableName: column.TableName(),
+                                orderType: orderType,
+                                function: function);
+                        case "Name":
+                            return self.Registrations_Name(
+                                tableName: column.TableName(),
+                                orderType: orderType,
+                                function: function);
+                        case "Password":
+                            return self.Registrations_Password(
+                                tableName: column.TableName(),
+                                orderType: orderType,
+                                function: function);
+                        case "Language":
+                            return self.Registrations_Language(
+                                tableName: column.TableName(),
+                                orderType: orderType,
+                                function: function);
+                        case "Passphrase":
+                            return self.Registrations_Passphrase(
+                                tableName: column.TableName(),
+                                orderType: orderType,
+                                function: function);
+                        case "Invitingflg":
+                            return self.Registrations_Invitingflg(
+                                tableName: column.TableName(),
+                                orderType: orderType,
+                                function: function);
+                        case "UserId":
+                            return self.Registrations_UserId(
+                                tableName: column.TableName(),
+                                orderType: orderType,
+                                function: function);
+                        case "DeptId":
+                            return self.Registrations_DeptId(
+                                tableName: column.TableName(),
+                                orderType: orderType,
+                                function: function);
+                        case "GroupId":
+                            return self.Registrations_GroupId(
+                                tableName: column.TableName(),
+                                orderType: orderType,
+                                function: function);
+                        case "Comments":
+                            return self.Registrations_Comments(
+                                tableName: column.TableName(),
+                                orderType: orderType,
+                                function: function);
+                        case "Creator":
+                            return self.Registrations_Creator(
+                                tableName: column.TableName(),
+                                orderType: orderType,
+                                function: function);
+                        case "Updator":
+                            return self.Registrations_Updator(
+                                tableName: column.TableName(),
+                                orderType: orderType,
+                                function: function);
+                        case "CreatedTime":
+                            return self.Registrations_CreatedTime(
+                                tableName: column.TableName(),
+                                orderType: orderType,
+                                function: function);
+                        case "UpdatedTime":
+                            return self.Registrations_UpdatedTime(
+                                tableName: column.TableName(),
+                                orderType: orderType,
+                                function: function);
+                        default:
+                            return Def.ExtendedColumnTypes.ContainsKey(column.Name)
+                                ? self.Add(
+                                    columnBracket: $"\"{column.Name}\"",
+                                    orderType: orderType,
+                                    tableName: column.TableName(),
+                                    function: function)
+                                : self;
+                    }
                 case "Users":
                     switch (column.Name)
                     {
@@ -2686,83 +2846,6 @@ namespace Implem.Pleasanter.Libraries.DataSources
                                     function: function)
                                 : self;
                     }
-                case "SearchIndexes":
-                    switch (column.Name)
-                    {
-                        case "Word":
-                            return self.SearchIndexes_Word(
-                                tableName: column.TableName(),
-                                orderType: orderType,
-                                function: function);
-                        case "ReferenceId":
-                            return self.SearchIndexes_ReferenceId(
-                                tableName: column.TableName(),
-                                orderType: orderType,
-                                function: function);
-                        case "Ver":
-                            return self.SearchIndexes_Ver(
-                                tableName: column.TableName(),
-                                orderType: orderType,
-                                function: function);
-                        case "Priority":
-                            return self.SearchIndexes_Priority(
-                                tableName: column.TableName(),
-                                orderType: orderType,
-                                function: function);
-                        case "ReferenceType":
-                            return self.SearchIndexes_ReferenceType(
-                                tableName: column.TableName(),
-                                orderType: orderType,
-                                function: function);
-                        case "Title":
-                            return self.SearchIndexes_Title(
-                                tableName: column.TableName(),
-                                orderType: orderType,
-                                function: function);
-                        case "Subset":
-                            return self.SearchIndexes_Subset(
-                                tableName: column.TableName(),
-                                orderType: orderType,
-                                function: function);
-                        case "InheritPermission":
-                            return self.SearchIndexes_InheritPermission(
-                                tableName: column.TableName(),
-                                orderType: orderType,
-                                function: function);
-                        case "Comments":
-                            return self.SearchIndexes_Comments(
-                                tableName: column.TableName(),
-                                orderType: orderType,
-                                function: function);
-                        case "Creator":
-                            return self.SearchIndexes_Creator(
-                                tableName: column.TableName(),
-                                orderType: orderType,
-                                function: function);
-                        case "Updator":
-                            return self.SearchIndexes_Updator(
-                                tableName: column.TableName(),
-                                orderType: orderType,
-                                function: function);
-                        case "CreatedTime":
-                            return self.SearchIndexes_CreatedTime(
-                                tableName: column.TableName(),
-                                orderType: orderType,
-                                function: function);
-                        case "UpdatedTime":
-                            return self.SearchIndexes_UpdatedTime(
-                                tableName: column.TableName(),
-                                orderType: orderType,
-                                function: function);
-                        default:
-                            return Def.ExtendedColumnTypes.ContainsKey(column.Name)
-                                ? self.Add(
-                                    columnBracket: $"\"{column.Name}\"",
-                                    orderType: orderType,
-                                    tableName: column.TableName(),
-                                    function: function)
-                                : self;
-                    }
                 case "Items":
                     switch (column.Name)
                     {
@@ -2915,6 +2998,16 @@ namespace Implem.Pleasanter.Libraries.DataSources
                                 function: function);
                         case "LockedUser":
                             return self.Sites_LockedUser(
+                                tableName: column.TableName(),
+                                orderType: orderType,
+                                function: function);
+                        case "ApiCountDate":
+                            return self.Sites_ApiCountDate(
+                                tableName: column.TableName(),
+                                orderType: orderType,
+                                function: function);
+                        case "ApiCount":
+                            return self.Sites_ApiCount(
                                 tableName: column.TableName(),
                                 orderType: orderType,
                                 function: function);
@@ -3663,6 +3756,24 @@ namespace Implem.Pleasanter.Libraries.DataSources
             return statements;
         }
 
+        public static List<SqlStatement> OnBulkUpdatingExtendedSqls(
+            this List<SqlStatement> statements, long siteId)
+        {
+            Parameters.ExtendedSqls?
+                .Where(o => o.OnBulkUpdating)
+                .ExtendedSqls(statements, siteId);
+            return statements;
+        }
+
+        public static List<SqlStatement> OnBulkUpdatedExtendedSqls(
+            this List<SqlStatement> statements, long siteId)
+        {
+            Parameters.ExtendedSqls?
+                .Where(o => o.OnBulkUpdated)
+                .ExtendedSqls(statements, siteId);
+            return statements;
+        }
+
         public static List<SqlStatement> OnDeletingExtendedSqls(
             this List<SqlStatement> statements, long siteId, long id)
         {
@@ -3717,6 +3828,15 @@ namespace Implem.Pleasanter.Libraries.DataSources
             return statements;
         }
 
+         public static SqlWhereCollection OnSelectingWhereExtendedSqls(
+            this SqlWhereCollection where, SiteSettings ss)
+        {
+            Parameters.ExtendedSqls?
+                .Where(o => o.OnSelectingWhere)
+                .ExtendedSqlsWhere(where, ss);
+            return where;
+        }
+
         public static IEnumerable<ExtendedSql> ExtendedSqls(long siteId, long id)
         {
             return Parameters.ExtendedSqls?
@@ -3744,6 +3864,90 @@ namespace Implem.Pleasanter.Libraries.DataSources
                             .Replace("{{Id}}", id.ToString())
                             .Replace("{{Timestamp}}", timestamp?.ToString("yyyy/M/d H:m:s.fff"))
                     }));
+        }
+
+        private static void ExtendedSqlsWhere(
+            this IEnumerable<ExtendedSql> self,
+            SqlWhereCollection where,
+            SiteSettings ss,
+            long id = 0,
+            DateTime? timestamp = null)
+        {
+            self
+                .Where(o => o.SiteIdList?.Contains(ss.SiteId) == true)
+                .Where(o => o.IdList?.Any() != true || o.IdList.Contains(id))
+                .Where(o => !o.Disabled)
+                .Where(o => o.CommandText?.Any() == true)
+                .ForEach(o =>
+                    where.Add(new SqlWhereCollection()
+                       .Add(
+                            tableName: ss.ReferenceType,
+                            raw: o.CommandText
+                                .Replace("{{SiteId}}", ss.SiteId.ToString())
+                                .Replace("{{Id}}", id.ToString())
+                                .Replace("{{Timestamp}}", timestamp?.ToString("yyyy/M/d H:m:s.fff")))));
+        }
+
+        public static IssuesWhereCollection OnSelectingIssuesWhereExtendedSqls(
+            this IssuesWhereCollection Where,
+            IssueModel issueModel)
+        {
+            Parameters.ExtendedSqls?
+                    .Where(o => o.OnSelectingWhere)
+                    .ExtendedSqlsWhereIssues(Where, issueModel);
+            return Where;
+        }
+
+        private static void ExtendedSqlsWhereIssues(
+            this IEnumerable<ExtendedSql> self,
+            IssuesWhereCollection where,
+            IssueModel issueModel,
+            long id = 0,
+            DateTime? timestamp = null)
+        {
+            self
+                .Where(o => o.SiteIdList?.Contains(issueModel.SiteId) == true)
+                .Where(o => o.IdList?.Any() != true || o.IdList.Contains(id))
+                .Where(o => !o.Disabled)
+                .Where(o => o.CommandText?.Any() == true)
+                .ForEach(o =>
+                    where.Add(new IssuesWhereCollection()
+                        .Add(
+                            raw: o.CommandText
+                                .Replace("{{SiteId}}", issueModel.SiteId.ToString())
+                                .Replace("{{Id}}", id.ToString())
+                                .Replace("{{Timestamp}}", timestamp?.ToString("yyyy/M/d H:m:s.fff")))));
+        }
+
+        public static ResultsWhereCollection OnSelectingResultsWhereExtendedSqls(
+            this ResultsWhereCollection Where,
+            ResultModel resultModel)
+        {
+            Parameters.ExtendedSqls?
+                    .Where(o => o.OnSelectingWhere)
+                    .ExtendedSqlsWhereResults(Where, resultModel);
+            return Where;
+        }
+
+        private static void ExtendedSqlsWhereResults(
+            this IEnumerable<ExtendedSql> self,
+            ResultsWhereCollection where,
+            ResultModel resultModel,
+            long id = 0,
+            DateTime? timestamp = null)
+        {
+            self
+                .Where(o => o.SiteIdList?.Contains(resultModel.SiteId) == true)
+                .Where(o => o.IdList?.Any() != true || o.IdList.Contains(id))
+                .Where(o => !o.Disabled)
+                .Where(o => o.CommandText?.Any() == true)
+                .ForEach(o =>
+                    where.Add(new ResultsWhereCollection()
+                        .Add(
+                            raw: o.CommandText
+                                .Replace("{{SiteId}}", resultModel.SiteId.ToString())
+                                .Replace("{{Id}}", id.ToString())
+                                .Replace("{{Timestamp}}", timestamp?.ToString("yyyy/M/d H:m:s.fff")))));
         }
 
         public static SqlSelect SelectTenants(
@@ -4124,6 +4328,48 @@ namespace Implem.Pleasanter.Libraries.DataSources
             };
         }
 
+        public static SqlSelect SelectRegistrations(
+            string dataTableName = null,
+            Sqls.TableTypes tableType = Sqls.TableTypes.Normal,
+            string _as = null,
+            SqlColumnCollection column = null,
+            SqlJoinCollection join = null,
+            SqlWhereCollection where = null,
+            SqlGroupByCollection groupBy = null,
+            SqlHavingCollection having = null,
+            SqlOrderByCollection orderBy = null,
+            SqlParamCollection param = null,
+            bool distinct = false,
+            int top = 0,
+            int offset = 0,
+            int pageSize = 0,
+            Sqls.UnionTypes unionType = Sqls.UnionTypes.None,
+            bool _using = true)
+        {
+            return new SqlSelect
+            {
+                DataTableName = dataTableName,
+                TableType = tableType,
+                TableBracket = "\"Registrations\"",
+                HistoryTableBracket = "\"Registrations_history\"",
+                DeletedTableBracket = "\"Registrations_deleted\"",
+                As = _as,
+                SqlColumnCollection = column,
+                SqlJoinCollection = join,
+                SqlWhereCollection = where,
+                SqlGroupByCollection = groupBy,
+                SqlHavingCollection = having,
+                SqlOrderByCollection = orderBy,
+                SqlParamCollection = param,
+                Distinct = distinct,
+                Top = top,
+                Offset = offset,
+                PageSize = pageSize,
+                UnionType = unionType,
+                Using = _using
+            };
+        }
+
         public static SqlSelect SelectUsers(
             string dataTableName = null,
             Sqls.TableTypes tableType = Sqls.TableTypes.Normal,
@@ -4275,48 +4521,6 @@ namespace Implem.Pleasanter.Libraries.DataSources
                 TableBracket = "\"OutgoingMails\"",
                 HistoryTableBracket = "\"OutgoingMails_history\"",
                 DeletedTableBracket = "\"OutgoingMails_deleted\"",
-                As = _as,
-                SqlColumnCollection = column,
-                SqlJoinCollection = join,
-                SqlWhereCollection = where,
-                SqlGroupByCollection = groupBy,
-                SqlHavingCollection = having,
-                SqlOrderByCollection = orderBy,
-                SqlParamCollection = param,
-                Distinct = distinct,
-                Top = top,
-                Offset = offset,
-                PageSize = pageSize,
-                UnionType = unionType,
-                Using = _using
-            };
-        }
-
-        public static SqlSelect SelectSearchIndexes(
-            string dataTableName = null,
-            Sqls.TableTypes tableType = Sqls.TableTypes.Normal,
-            string _as = null,
-            SqlColumnCollection column = null,
-            SqlJoinCollection join = null,
-            SqlWhereCollection where = null,
-            SqlGroupByCollection groupBy = null,
-            SqlHavingCollection having = null,
-            SqlOrderByCollection orderBy = null,
-            SqlParamCollection param = null,
-            bool distinct = false,
-            int top = 0,
-            int offset = 0,
-            int pageSize = 0,
-            Sqls.UnionTypes unionType = Sqls.UnionTypes.None,
-            bool _using = true)
-        {
-            return new SqlSelect
-            {
-                DataTableName = dataTableName,
-                TableType = tableType,
-                TableBracket = "\"SearchIndexes\"",
-                HistoryTableBracket = "\"SearchIndexes_history\"",
-                DeletedTableBracket = "\"SearchIndexes_deleted\"",
                 As = _as,
                 SqlColumnCollection = column,
                 SqlJoinCollection = join,
@@ -4934,6 +5138,26 @@ namespace Implem.Pleasanter.Libraries.DataSources
             };
         }
 
+        public static SqlExists ExistsRegistrations(
+            Sqls.TableTypes tableType = Sqls.TableTypes.Normal,
+            bool not = false,
+            SqlJoinCollection join = null,
+            SqlWhereCollection where = null,
+            bool _using = true)
+        {
+            return new SqlExists
+            {
+                TableType = tableType,
+                Not = not,
+                TableBracket = "\"Registrations\"",
+                HistoryTableBracket = "\"Registrations_history\"",
+                DeletedTableBracket = "\"Registrations_deleted\"",
+                SqlJoinCollection = join,
+                SqlWhereCollection = where,
+                Using = _using
+            };
+        }
+
         public static SqlExists ExistsUsers(
             Sqls.TableTypes tableType = Sqls.TableTypes.Normal,
             bool not = false,
@@ -5008,26 +5232,6 @@ namespace Implem.Pleasanter.Libraries.DataSources
                 TableBracket = "\"OutgoingMails\"",
                 HistoryTableBracket = "\"OutgoingMails_history\"",
                 DeletedTableBracket = "\"OutgoingMails_deleted\"",
-                SqlJoinCollection = join,
-                SqlWhereCollection = where,
-                Using = _using
-            };
-        }
-
-        public static SqlExists ExistsSearchIndexes(
-            Sqls.TableTypes tableType = Sqls.TableTypes.Normal,
-            bool not = false,
-            SqlJoinCollection join = null,
-            SqlWhereCollection where = null,
-            bool _using = true)
-        {
-            return new SqlExists
-            {
-                TableType = tableType,
-                Not = not,
-                TableBracket = "\"SearchIndexes\"",
-                HistoryTableBracket = "\"SearchIndexes_history\"",
-                DeletedTableBracket = "\"SearchIndexes_deleted\"",
                 SqlJoinCollection = join,
                 SqlWhereCollection = where,
                 Using = _using
@@ -5670,6 +5874,53 @@ namespace Implem.Pleasanter.Libraries.DataSources
                 : new SqlStatement("set identity_insert \"GroupMembers_History\" off;");
         }
 
+        public static SqlInsert InsertRegistrations(
+            string dataTableName = null,
+            bool selectIdentity = false,
+            Sqls.TableTypes tableType = Sqls.TableTypes.Normal,
+            SqlParamCollection param = null,
+            SqlStatement select = null,
+            bool addUpdatorParam = true,
+            string _if = null,
+            bool _using = true)
+        {
+            return new SqlInsert
+            {
+                DataTableName = dataTableName,
+                TableType = tableType,
+                TableBracket = "\"Registrations\"",
+                HistoryTableBracket = "\"Registrations_history\"",
+                DeletedTableBracket = "\"Registrations_deleted\"",
+                SelectIdentity = selectIdentity,
+                SqlParamCollection = param,
+                Select = select,
+                AddUpdatorParam = addUpdatorParam,
+                If = _if,
+                Using = _using
+            };
+        }
+
+        public static SqlStatement IdentityInsertRegistrations(bool on)
+        {
+            return on
+                ? new SqlStatement("set identity_insert \"Registrations\" on;")
+                : new SqlStatement("set identity_insert \"Registrations\" off;");
+        }
+
+        public static SqlStatement IdentityInsertRegistrations_Deleted(bool on)
+        {
+            return on
+                ? new SqlStatement("set identity_insert \"Registrations_Deleted\" on;")
+                : new SqlStatement("set identity_insert \"Registrations_Deleted\" off;");
+        }
+
+        public static SqlStatement IdentityInsertRegistrations_History(bool on)
+        {
+            return on
+                ? new SqlStatement("set identity_insert \"Registrations_History\" on;")
+                : new SqlStatement("set identity_insert \"Registrations_History\" off;");
+        }
+
         public static SqlInsert InsertUsers(
             string dataTableName = null,
             bool selectIdentity = false,
@@ -5858,53 +6109,6 @@ namespace Implem.Pleasanter.Libraries.DataSources
             return on
                 ? new SqlStatement("set identity_insert \"OutgoingMails_History\" on;")
                 : new SqlStatement("set identity_insert \"OutgoingMails_History\" off;");
-        }
-
-        public static SqlInsert InsertSearchIndexes(
-            string dataTableName = null,
-            bool selectIdentity = false,
-            Sqls.TableTypes tableType = Sqls.TableTypes.Normal,
-            SqlParamCollection param = null,
-            SqlStatement select = null,
-            bool addUpdatorParam = true,
-            string _if = null,
-            bool _using = true)
-        {
-            return new SqlInsert
-            {
-                DataTableName = dataTableName,
-                TableType = tableType,
-                TableBracket = "\"SearchIndexes\"",
-                HistoryTableBracket = "\"SearchIndexes_history\"",
-                DeletedTableBracket = "\"SearchIndexes_deleted\"",
-                SelectIdentity = selectIdentity,
-                SqlParamCollection = param,
-                Select = select,
-                AddUpdatorParam = addUpdatorParam,
-                If = _if,
-                Using = _using
-            };
-        }
-
-        public static SqlStatement IdentityInsertSearchIndexes(bool on)
-        {
-            return on
-                ? new SqlStatement("set identity_insert \"SearchIndexes\" on;")
-                : new SqlStatement("set identity_insert \"SearchIndexes\" off;");
-        }
-
-        public static SqlStatement IdentityInsertSearchIndexes_Deleted(bool on)
-        {
-            return on
-                ? new SqlStatement("set identity_insert \"SearchIndexes_Deleted\" on;")
-                : new SqlStatement("set identity_insert \"SearchIndexes_Deleted\" off;");
-        }
-
-        public static SqlStatement IdentityInsertSearchIndexes_History(bool on)
-        {
-            return on
-                ? new SqlStatement("set identity_insert \"SearchIndexes_History\" on;")
-                : new SqlStatement("set identity_insert \"SearchIndexes_History\" off;");
         }
 
         public static SqlInsert InsertItems(
@@ -6630,6 +6834,32 @@ namespace Implem.Pleasanter.Libraries.DataSources
             };
         }
 
+        public static SqlUpdate UpdateRegistrations(
+            string dataTableName = null,
+            Sqls.TableTypes tableType = Sqls.TableTypes.Normal,
+            SqlWhereCollection where = null,
+            SqlParamCollection param = null,
+            bool addUpdatorParam = true,
+            bool addUpdatedTimeParam = true,
+            string _if = null,
+            bool _using = true)
+        {
+            return new SqlUpdate
+            {
+                DataTableName = dataTableName,
+                TableType = tableType,
+                TableBracket = "\"Registrations\"",
+                HistoryTableBracket = "\"Registrations_history\"",
+                DeletedTableBracket = "\"Registrations_deleted\"",
+                SqlWhereCollection = where,
+                SqlParamCollection = param,
+                AddUpdatorParam = addUpdatorParam,
+                AddUpdatedTimeParam = addUpdatedTimeParam,
+                If = _if,
+                Using = _using
+            };
+        }
+
         public static SqlUpdate UpdateUsers(
             string dataTableName = null,
             Sqls.TableTypes tableType = Sqls.TableTypes.Normal,
@@ -6725,32 +6955,6 @@ namespace Implem.Pleasanter.Libraries.DataSources
                 TableBracket = "\"OutgoingMails\"",
                 HistoryTableBracket = "\"OutgoingMails_history\"",
                 DeletedTableBracket = "\"OutgoingMails_deleted\"",
-                SqlWhereCollection = where,
-                SqlParamCollection = param,
-                AddUpdatorParam = addUpdatorParam,
-                AddUpdatedTimeParam = addUpdatedTimeParam,
-                If = _if,
-                Using = _using
-            };
-        }
-
-        public static SqlUpdate UpdateSearchIndexes(
-            string dataTableName = null,
-            Sqls.TableTypes tableType = Sqls.TableTypes.Normal,
-            SqlWhereCollection where = null,
-            SqlParamCollection param = null,
-            bool addUpdatorParam = true,
-            bool addUpdatedTimeParam = true,
-            string _if = null,
-            bool _using = true)
-        {
-            return new SqlUpdate
-            {
-                DataTableName = dataTableName,
-                TableType = tableType,
-                TableBracket = "\"SearchIndexes\"",
-                HistoryTableBracket = "\"SearchIndexes_history\"",
-                DeletedTableBracket = "\"SearchIndexes_deleted\"",
                 SqlWhereCollection = where,
                 SqlParamCollection = param,
                 AddUpdatorParam = addUpdatorParam,
@@ -7272,6 +7476,34 @@ namespace Implem.Pleasanter.Libraries.DataSources
             };
         }
 
+        public static SqlUpdateOrInsert UpdateOrInsertRegistrations(
+            string dataTableName = null,
+            Sqls.TableTypes tableType = Sqls.TableTypes.Normal,
+            bool selectIdentity = false,
+            SqlWhereCollection where = null,
+            SqlParamCollection param = null,
+            bool addUpdatorParam = true,
+            bool addUpdatedTimeParam = true,
+            string _if = null,
+            bool _using = true)
+        {
+            return new SqlUpdateOrInsert
+            {
+                DataTableName = dataTableName,
+                TableType = tableType,
+                TableBracket = "\"Registrations\"",
+                HistoryTableBracket = "\"Registrations_history\"",
+                DeletedTableBracket = "\"Registrations_deleted\"",
+                SelectIdentity = selectIdentity,
+                SqlWhereCollection = where,
+                SqlParamCollection = param,
+                AddUpdatorParam = addUpdatorParam,
+                AddUpdatedTimeParam = addUpdatedTimeParam,
+                If = _if,
+                Using = _using
+            };
+        }
+
         public static SqlUpdateOrInsert UpdateOrInsertUsers(
             string dataTableName = null,
             Sqls.TableTypes tableType = Sqls.TableTypes.Normal,
@@ -7374,34 +7606,6 @@ namespace Implem.Pleasanter.Libraries.DataSources
                 TableBracket = "\"OutgoingMails\"",
                 HistoryTableBracket = "\"OutgoingMails_history\"",
                 DeletedTableBracket = "\"OutgoingMails_deleted\"",
-                SelectIdentity = selectIdentity,
-                SqlWhereCollection = where,
-                SqlParamCollection = param,
-                AddUpdatorParam = addUpdatorParam,
-                AddUpdatedTimeParam = addUpdatedTimeParam,
-                If = _if,
-                Using = _using
-            };
-        }
-
-        public static SqlUpdateOrInsert UpdateOrInsertSearchIndexes(
-            string dataTableName = null,
-            Sqls.TableTypes tableType = Sqls.TableTypes.Normal,
-            bool selectIdentity = false,
-            SqlWhereCollection where = null,
-            SqlParamCollection param = null,
-            bool addUpdatorParam = true,
-            bool addUpdatedTimeParam = true,
-            string _if = null,
-            bool _using = true)
-        {
-            return new SqlUpdateOrInsert
-            {
-                DataTableName = dataTableName,
-                TableType = tableType,
-                TableBracket = "\"SearchIndexes\"",
-                HistoryTableBracket = "\"SearchIndexes_history\"",
-                DeletedTableBracket = "\"SearchIndexes_deleted\"",
                 SelectIdentity = selectIdentity,
                 SqlWhereCollection = where,
                 SqlParamCollection = param,
@@ -7890,6 +8094,28 @@ namespace Implem.Pleasanter.Libraries.DataSources
             };
         }
 
+        public static SqlDelete DeleteRegistrations(
+            ISqlObjectFactory factory,
+            string dataTableName = null,
+            SqlWhereCollection where = null,
+            SqlParamCollection param = null,
+            string _if = null,
+            bool _using = true)
+        {
+            return new SqlDelete()
+            {
+                DataTableName = dataTableName,
+                CommandText = DeleteRegistrationsStatement(factory: factory),
+                TableBracket = "\"Registrations\"",
+                HistoryTableBracket = "\"Registrations_history\"",
+                DeletedTableBracket = "\"Registrations_deleted\"",
+                SqlWhereCollection = where,
+                SqlParamCollection = param,
+                If = _if,
+                Using = _using
+            };
+        }
+
         public static SqlDelete DeleteUsers(
             ISqlObjectFactory factory,
             string dataTableName = null,
@@ -7971,28 +8197,6 @@ namespace Implem.Pleasanter.Libraries.DataSources
                 TableBracket = "\"OutgoingMails\"",
                 HistoryTableBracket = "\"OutgoingMails_history\"",
                 DeletedTableBracket = "\"OutgoingMails_deleted\"",
-                SqlWhereCollection = where,
-                SqlParamCollection = param,
-                If = _if,
-                Using = _using
-            };
-        }
-
-        public static SqlDelete DeleteSearchIndexes(
-            ISqlObjectFactory factory,
-            string dataTableName = null,
-            SqlWhereCollection where = null,
-            SqlParamCollection param = null,
-            string _if = null,
-            bool _using = true)
-        {
-            return new SqlDelete()
-            {
-                DataTableName = dataTableName,
-                CommandText = DeleteSearchIndexesStatement(factory: factory),
-                TableBracket = "\"SearchIndexes\"",
-                HistoryTableBracket = "\"SearchIndexes_history\"",
-                DeletedTableBracket = "\"SearchIndexes_deleted\"",
                 SqlWhereCollection = where,
                 SqlParamCollection = param,
                 If = _if,
@@ -8400,6 +8604,26 @@ namespace Implem.Pleasanter.Libraries.DataSources
             };
         }
 
+        public static SqlPhysicalDelete PhysicalDeleteRegistrations(
+            Sqls.TableTypes tableType = Sqls.TableTypes.Normal,
+            SqlWhereCollection where = null,
+            SqlParamCollection param = null,
+            string _if = null,
+            bool _using = true)
+        {
+            return new SqlPhysicalDelete()
+            {
+                TableType = tableType,
+                TableBracket = "\"Registrations\"",
+                HistoryTableBracket = "\"Registrations_history\"",
+                DeletedTableBracket = "\"Registrations_deleted\"",
+                SqlWhereCollection = where,
+                SqlParamCollection = param,
+                If = _if,
+                Using = _using
+            };
+        }
+
         public static SqlPhysicalDelete PhysicalDeleteUsers(
             Sqls.TableTypes tableType = Sqls.TableTypes.Normal,
             SqlWhereCollection where = null,
@@ -8473,26 +8697,6 @@ namespace Implem.Pleasanter.Libraries.DataSources
                 TableBracket = "\"OutgoingMails\"",
                 HistoryTableBracket = "\"OutgoingMails_history\"",
                 DeletedTableBracket = "\"OutgoingMails_deleted\"",
-                SqlWhereCollection = where,
-                SqlParamCollection = param,
-                If = _if,
-                Using = _using
-            };
-        }
-
-        public static SqlPhysicalDelete PhysicalDeleteSearchIndexes(
-            Sqls.TableTypes tableType = Sqls.TableTypes.Normal,
-            SqlWhereCollection where = null,
-            SqlParamCollection param = null,
-            string _if = null,
-            bool _using = true)
-        {
-            return new SqlPhysicalDelete()
-            {
-                TableType = tableType,
-                TableBracket = "\"SearchIndexes\"",
-                HistoryTableBracket = "\"SearchIndexes_history\"",
-                DeletedTableBracket = "\"SearchIndexes_deleted\"",
                 SqlWhereCollection = where,
                 SqlParamCollection = param,
                 If = _if,
@@ -8880,6 +9084,26 @@ namespace Implem.Pleasanter.Libraries.DataSources
             };
         }
 
+        public static SqlRestore RestoreRegistrations(
+            ISqlObjectFactory factory,
+            SqlWhereCollection where = null,
+            SqlParamCollection param = null,
+            string _if = null,
+            bool _using = true)
+        {
+            return new SqlRestore()
+            {
+                CommandText = RestoreRegistrationsStatement(factory: factory), 
+                TableBracket = "\"Registrations\"",
+                HistoryTableBracket = "\"Registrations_history\"",
+                DeletedTableBracket = "\"Registrations_deleted\"",
+                SqlWhereCollection = where,
+                SqlParamCollection = param,
+                If = _if,
+                Using = _using
+            };
+        }
+
         public static SqlRestore RestoreUsers(
             ISqlObjectFactory factory,
             SqlWhereCollection where = null,
@@ -8953,26 +9177,6 @@ namespace Implem.Pleasanter.Libraries.DataSources
                 TableBracket = "\"OutgoingMails\"",
                 HistoryTableBracket = "\"OutgoingMails_history\"",
                 DeletedTableBracket = "\"OutgoingMails_deleted\"",
-                SqlWhereCollection = where,
-                SqlParamCollection = param,
-                If = _if,
-                Using = _using
-            };
-        }
-
-        public static SqlRestore RestoreSearchIndexes(
-            ISqlObjectFactory factory,
-            SqlWhereCollection where = null,
-            SqlParamCollection param = null,
-            string _if = null,
-            bool _using = true)
-        {
-            return new SqlRestore()
-            {
-                CommandText = RestoreSearchIndexesStatement(factory: factory), 
-                TableBracket = "\"SearchIndexes\"",
-                HistoryTableBracket = "\"SearchIndexes_history\"",
-                DeletedTableBracket = "\"SearchIndexes_deleted\"",
                 SqlWhereCollection = where,
                 SqlParamCollection = param,
                 If = _if,
@@ -9180,6 +9384,653 @@ namespace Implem.Pleasanter.Libraries.DataSources
             };
         }
 
+        public static SqlStatement TenantsCopyToStatement(SqlWhereCollection where, Sqls.TableTypes tableType, List<String> columnNames)
+        {
+            var column = new TenantsColumnCollection();
+            var param = new TenantsParamCollection();
+            column.TenantId(function: Sqls.Functions.SingleColumn); param.TenantId();
+            column.Ver(function: Sqls.Functions.SingleColumn); param.Ver();
+            column.TenantName(function: Sqls.Functions.SingleColumn); param.TenantName();
+            column.Title(function: Sqls.Functions.SingleColumn); param.Title();
+            column.Body(function: Sqls.Functions.SingleColumn); param.Body();
+            column.ContractSettings(function: Sqls.Functions.SingleColumn); param.ContractSettings();
+            column.ContractDeadline(function: Sqls.Functions.SingleColumn); param.ContractDeadline();
+            column.DisableAllUsersPermission(function: Sqls.Functions.SingleColumn); param.DisableAllUsersPermission();
+            column.LogoType(function: Sqls.Functions.SingleColumn); param.LogoType();
+            column.HtmlTitleTop(function: Sqls.Functions.SingleColumn); param.HtmlTitleTop();
+            column.HtmlTitleSite(function: Sqls.Functions.SingleColumn); param.HtmlTitleSite();
+            column.HtmlTitleRecord(function: Sqls.Functions.SingleColumn); param.HtmlTitleRecord();
+            column.Comments(function: Sqls.Functions.SingleColumn); param.Comments();
+            column.Creator(function: Sqls.Functions.SingleColumn); param.Creator();
+            column.Updator(function: Sqls.Functions.SingleColumn); param.Updator();
+            column.CreatedTime(function: Sqls.Functions.SingleColumn); param.CreatedTime();
+            column.UpdatedTime(function: Sqls.Functions.SingleColumn); param.UpdatedTime();
+            return InsertTenants(
+                tableType: tableType,
+                param: param,
+                select: SelectTenants(column: column, where: where),
+                addUpdatorParam: false);
+        }
+
+        public static SqlStatement DemosCopyToStatement(SqlWhereCollection where, Sqls.TableTypes tableType, List<String> columnNames)
+        {
+            var column = new DemosColumnCollection();
+            var param = new DemosParamCollection();
+            column.DemoId(function: Sqls.Functions.SingleColumn); param.DemoId();
+            column.Ver(function: Sqls.Functions.SingleColumn); param.Ver();
+            column.TenantId(function: Sqls.Functions.SingleColumn); param.TenantId();
+            column.Title(function: Sqls.Functions.SingleColumn); param.Title();
+            column.LoginId(function: Sqls.Functions.SingleColumn); param.LoginId();
+            column.Passphrase(function: Sqls.Functions.SingleColumn); param.Passphrase();
+            column.MailAddress(function: Sqls.Functions.SingleColumn); param.MailAddress();
+            column.Initialized(function: Sqls.Functions.SingleColumn); param.Initialized();
+            column.Comments(function: Sqls.Functions.SingleColumn); param.Comments();
+            column.Creator(function: Sqls.Functions.SingleColumn); param.Creator();
+            column.Updator(function: Sqls.Functions.SingleColumn); param.Updator();
+            column.CreatedTime(function: Sqls.Functions.SingleColumn); param.CreatedTime();
+            column.UpdatedTime(function: Sqls.Functions.SingleColumn); param.UpdatedTime();
+            return InsertDemos(
+                tableType: tableType,
+                param: param,
+                select: SelectDemos(column: column, where: where),
+                addUpdatorParam: false);
+        }
+
+        public static SqlStatement SessionsCopyToStatement(SqlWhereCollection where, Sqls.TableTypes tableType, List<String> columnNames)
+        {
+            var column = new SessionsColumnCollection();
+            var param = new SessionsParamCollection();
+            column.SessionGuid(function: Sqls.Functions.SingleColumn); param.SessionGuid();
+            column.Key(function: Sqls.Functions.SingleColumn); param.Key();
+            column.Page(function: Sqls.Functions.SingleColumn); param.Page();
+            column.Value(function: Sqls.Functions.SingleColumn); param.Value();
+            column.ReadOnce(function: Sqls.Functions.SingleColumn); param.ReadOnce();
+            column.UserArea(function: Sqls.Functions.SingleColumn); param.UserArea();
+            column.Ver(function: Sqls.Functions.SingleColumn); param.Ver();
+            column.Comments(function: Sqls.Functions.SingleColumn); param.Comments();
+            column.Creator(function: Sqls.Functions.SingleColumn); param.Creator();
+            column.Updator(function: Sqls.Functions.SingleColumn); param.Updator();
+            column.CreatedTime(function: Sqls.Functions.SingleColumn); param.CreatedTime();
+            column.UpdatedTime(function: Sqls.Functions.SingleColumn); param.UpdatedTime();
+            return InsertSessions(
+                tableType: tableType,
+                param: param,
+                select: SelectSessions(column: column, where: where),
+                addUpdatorParam: false);
+        }
+
+        public static SqlStatement SysLogsCopyToStatement(SqlWhereCollection where, Sqls.TableTypes tableType, List<String> columnNames)
+        {
+            var column = new SysLogsColumnCollection();
+            var param = new SysLogsParamCollection();
+            column.CreatedTime(function: Sqls.Functions.SingleColumn); param.CreatedTime();
+            column.SysLogId(function: Sqls.Functions.SingleColumn); param.SysLogId();
+            column.Ver(function: Sqls.Functions.SingleColumn); param.Ver();
+            column.SysLogType(function: Sqls.Functions.SingleColumn); param.SysLogType();
+            column.OnAzure(function: Sqls.Functions.SingleColumn); param.OnAzure();
+            column.MachineName(function: Sqls.Functions.SingleColumn); param.MachineName();
+            column.ServiceName(function: Sqls.Functions.SingleColumn); param.ServiceName();
+            column.TenantName(function: Sqls.Functions.SingleColumn); param.TenantName();
+            column.Application(function: Sqls.Functions.SingleColumn); param.Application();
+            column.Class(function: Sqls.Functions.SingleColumn); param.Class();
+            column.Method(function: Sqls.Functions.SingleColumn); param.Method();
+            column.RequestData(function: Sqls.Functions.SingleColumn); param.RequestData();
+            column.HttpMethod(function: Sqls.Functions.SingleColumn); param.HttpMethod();
+            column.RequestSize(function: Sqls.Functions.SingleColumn); param.RequestSize();
+            column.ResponseSize(function: Sqls.Functions.SingleColumn); param.ResponseSize();
+            column.Elapsed(function: Sqls.Functions.SingleColumn); param.Elapsed();
+            column.ApplicationAge(function: Sqls.Functions.SingleColumn); param.ApplicationAge();
+            column.ApplicationRequestInterval(function: Sqls.Functions.SingleColumn); param.ApplicationRequestInterval();
+            column.SessionAge(function: Sqls.Functions.SingleColumn); param.SessionAge();
+            column.SessionRequestInterval(function: Sqls.Functions.SingleColumn); param.SessionRequestInterval();
+            column.WorkingSet64(function: Sqls.Functions.SingleColumn); param.WorkingSet64();
+            column.VirtualMemorySize64(function: Sqls.Functions.SingleColumn); param.VirtualMemorySize64();
+            column.ProcessId(function: Sqls.Functions.SingleColumn); param.ProcessId();
+            column.ProcessName(function: Sqls.Functions.SingleColumn); param.ProcessName();
+            column.BasePriority(function: Sqls.Functions.SingleColumn); param.BasePriority();
+            column.Url(function: Sqls.Functions.SingleColumn); param.Url();
+            column.UrlReferer(function: Sqls.Functions.SingleColumn); param.UrlReferer();
+            column.UserHostName(function: Sqls.Functions.SingleColumn); param.UserHostName();
+            column.UserHostAddress(function: Sqls.Functions.SingleColumn); param.UserHostAddress();
+            column.UserLanguage(function: Sqls.Functions.SingleColumn); param.UserLanguage();
+            column.UserAgent(function: Sqls.Functions.SingleColumn); param.UserAgent();
+            column.SessionGuid(function: Sqls.Functions.SingleColumn); param.SessionGuid();
+            column.ErrMessage(function: Sqls.Functions.SingleColumn); param.ErrMessage();
+            column.ErrStackTrace(function: Sqls.Functions.SingleColumn); param.ErrStackTrace();
+            column.InDebug(function: Sqls.Functions.SingleColumn); param.InDebug();
+            column.AssemblyVersion(function: Sqls.Functions.SingleColumn); param.AssemblyVersion();
+            column.Comments(function: Sqls.Functions.SingleColumn); param.Comments();
+            column.Creator(function: Sqls.Functions.SingleColumn); param.Creator();
+            column.Updator(function: Sqls.Functions.SingleColumn); param.Updator();
+            column.UpdatedTime(function: Sqls.Functions.SingleColumn); param.UpdatedTime();
+            return InsertSysLogs(
+                tableType: tableType,
+                param: param,
+                select: SelectSysLogs(column: column, where: where),
+                addUpdatorParam: false);
+        }
+
+        public static SqlStatement StatusesCopyToStatement(SqlWhereCollection where, Sqls.TableTypes tableType, List<String> columnNames)
+        {
+            var column = new StatusesColumnCollection();
+            var param = new StatusesParamCollection();
+            column.TenantId(function: Sqls.Functions.SingleColumn); param.TenantId();
+            column.StatusId(function: Sqls.Functions.SingleColumn); param.StatusId();
+            column.Ver(function: Sqls.Functions.SingleColumn); param.Ver();
+            column.Value(function: Sqls.Functions.SingleColumn); param.Value();
+            column.Comments(function: Sqls.Functions.SingleColumn); param.Comments();
+            column.Creator(function: Sqls.Functions.SingleColumn); param.Creator();
+            column.Updator(function: Sqls.Functions.SingleColumn); param.Updator();
+            column.CreatedTime(function: Sqls.Functions.SingleColumn); param.CreatedTime();
+            column.UpdatedTime(function: Sqls.Functions.SingleColumn); param.UpdatedTime();
+            return InsertStatuses(
+                tableType: tableType,
+                param: param,
+                select: SelectStatuses(column: column, where: where),
+                addUpdatorParam: false);
+        }
+
+        public static SqlStatement ReminderSchedulesCopyToStatement(SqlWhereCollection where, Sqls.TableTypes tableType, List<String> columnNames)
+        {
+            var column = new ReminderSchedulesColumnCollection();
+            var param = new ReminderSchedulesParamCollection();
+            column.SiteId(function: Sqls.Functions.SingleColumn); param.SiteId();
+            column.Id(function: Sqls.Functions.SingleColumn); param.Id();
+            column.Ver(function: Sqls.Functions.SingleColumn); param.Ver();
+            column.ScheduledTime(function: Sqls.Functions.SingleColumn); param.ScheduledTime();
+            column.Comments(function: Sqls.Functions.SingleColumn); param.Comments();
+            column.Creator(function: Sqls.Functions.SingleColumn); param.Creator();
+            column.Updator(function: Sqls.Functions.SingleColumn); param.Updator();
+            column.CreatedTime(function: Sqls.Functions.SingleColumn); param.CreatedTime();
+            column.UpdatedTime(function: Sqls.Functions.SingleColumn); param.UpdatedTime();
+            return InsertReminderSchedules(
+                tableType: tableType,
+                param: param,
+                select: SelectReminderSchedules(column: column, where: where),
+                addUpdatorParam: false);
+        }
+
+        public static SqlStatement DeptsCopyToStatement(SqlWhereCollection where, Sqls.TableTypes tableType, List<String> columnNames)
+        {
+            var column = new DeptsColumnCollection();
+            var param = new DeptsParamCollection();
+            column.TenantId(function: Sqls.Functions.SingleColumn); param.TenantId();
+            column.DeptId(function: Sqls.Functions.SingleColumn); param.DeptId();
+            column.Ver(function: Sqls.Functions.SingleColumn); param.Ver();
+            column.DeptCode(function: Sqls.Functions.SingleColumn); param.DeptCode();
+            column.DeptName(function: Sqls.Functions.SingleColumn); param.DeptName();
+            column.Body(function: Sqls.Functions.SingleColumn); param.Body();
+            column.Comments(function: Sqls.Functions.SingleColumn); param.Comments();
+            column.Creator(function: Sqls.Functions.SingleColumn); param.Creator();
+            column.Updator(function: Sqls.Functions.SingleColumn); param.Updator();
+            column.CreatedTime(function: Sqls.Functions.SingleColumn); param.CreatedTime();
+            column.UpdatedTime(function: Sqls.Functions.SingleColumn); param.UpdatedTime();
+            return InsertDepts(
+                tableType: tableType,
+                param: param,
+                select: SelectDepts(column: column, where: where),
+                addUpdatorParam: false);
+        }
+
+        public static SqlStatement GroupsCopyToStatement(SqlWhereCollection where, Sqls.TableTypes tableType, List<String> columnNames)
+        {
+            var column = new GroupsColumnCollection();
+            var param = new GroupsParamCollection();
+            column.TenantId(function: Sqls.Functions.SingleColumn); param.TenantId();
+            column.GroupId(function: Sqls.Functions.SingleColumn); param.GroupId();
+            column.Ver(function: Sqls.Functions.SingleColumn); param.Ver();
+            column.GroupName(function: Sqls.Functions.SingleColumn); param.GroupName();
+            column.Body(function: Sqls.Functions.SingleColumn); param.Body();
+            column.Comments(function: Sqls.Functions.SingleColumn); param.Comments();
+            column.Creator(function: Sqls.Functions.SingleColumn); param.Creator();
+            column.Updator(function: Sqls.Functions.SingleColumn); param.Updator();
+            column.CreatedTime(function: Sqls.Functions.SingleColumn); param.CreatedTime();
+            column.UpdatedTime(function: Sqls.Functions.SingleColumn); param.UpdatedTime();
+            return InsertGroups(
+                tableType: tableType,
+                param: param,
+                select: SelectGroups(column: column, where: where),
+                addUpdatorParam: false);
+        }
+
+        public static SqlStatement GroupMembersCopyToStatement(SqlWhereCollection where, Sqls.TableTypes tableType, List<String> columnNames)
+        {
+            var column = new GroupMembersColumnCollection();
+            var param = new GroupMembersParamCollection();
+            column.GroupId(function: Sqls.Functions.SingleColumn); param.GroupId();
+            column.DeptId(function: Sqls.Functions.SingleColumn); param.DeptId();
+            column.UserId(function: Sqls.Functions.SingleColumn); param.UserId();
+            column.Ver(function: Sqls.Functions.SingleColumn); param.Ver();
+            column.Admin(function: Sqls.Functions.SingleColumn); param.Admin();
+            column.Comments(function: Sqls.Functions.SingleColumn); param.Comments();
+            column.Creator(function: Sqls.Functions.SingleColumn); param.Creator();
+            column.Updator(function: Sqls.Functions.SingleColumn); param.Updator();
+            column.CreatedTime(function: Sqls.Functions.SingleColumn); param.CreatedTime();
+            column.UpdatedTime(function: Sqls.Functions.SingleColumn); param.UpdatedTime();
+            return InsertGroupMembers(
+                tableType: tableType,
+                param: param,
+                select: SelectGroupMembers(column: column, where: where),
+                addUpdatorParam: false);
+        }
+
+        public static SqlStatement RegistrationsCopyToStatement(SqlWhereCollection where, Sqls.TableTypes tableType, List<String> columnNames)
+        {
+            var column = new RegistrationsColumnCollection();
+            var param = new RegistrationsParamCollection();
+            column.TenantId(function: Sqls.Functions.SingleColumn); param.TenantId();
+            column.RegistrationId(function: Sqls.Functions.SingleColumn); param.RegistrationId();
+            column.Ver(function: Sqls.Functions.SingleColumn); param.Ver();
+            column.MailAddress(function: Sqls.Functions.SingleColumn); param.MailAddress();
+            column.Invitee(function: Sqls.Functions.SingleColumn); param.Invitee();
+            column.InviteeName(function: Sqls.Functions.SingleColumn); param.InviteeName();
+            column.LoginId(function: Sqls.Functions.SingleColumn); param.LoginId();
+            column.Name(function: Sqls.Functions.SingleColumn); param.Name();
+            column.Password(function: Sqls.Functions.SingleColumn); param.Password();
+            column.Language(function: Sqls.Functions.SingleColumn); param.Language();
+            column.Passphrase(function: Sqls.Functions.SingleColumn); param.Passphrase();
+            column.Invitingflg(function: Sqls.Functions.SingleColumn); param.Invitingflg();
+            column.UserId(function: Sqls.Functions.SingleColumn); param.UserId();
+            column.DeptId(function: Sqls.Functions.SingleColumn); param.DeptId();
+            column.GroupId(function: Sqls.Functions.SingleColumn); param.GroupId();
+            column.Comments(function: Sqls.Functions.SingleColumn); param.Comments();
+            column.Creator(function: Sqls.Functions.SingleColumn); param.Creator();
+            column.Updator(function: Sqls.Functions.SingleColumn); param.Updator();
+            column.CreatedTime(function: Sqls.Functions.SingleColumn); param.CreatedTime();
+            column.UpdatedTime(function: Sqls.Functions.SingleColumn); param.UpdatedTime();
+            return InsertRegistrations(
+                tableType: tableType,
+                param: param,
+                select: SelectRegistrations(column: column, where: where),
+                addUpdatorParam: false);
+        }
+
+        public static SqlStatement UsersCopyToStatement(SqlWhereCollection where, Sqls.TableTypes tableType, List<String> columnNames)
+        {
+            var column = new UsersColumnCollection();
+            var param = new UsersParamCollection();
+            column.TenantId(function: Sqls.Functions.SingleColumn); param.TenantId();
+            column.UserId(function: Sqls.Functions.SingleColumn); param.UserId();
+            column.Ver(function: Sqls.Functions.SingleColumn); param.Ver();
+            column.LoginId(function: Sqls.Functions.SingleColumn); param.LoginId();
+            column.GlobalId(function: Sqls.Functions.SingleColumn); param.GlobalId();
+            column.Name(function: Sqls.Functions.SingleColumn); param.Name();
+            column.UserCode(function: Sqls.Functions.SingleColumn); param.UserCode();
+            column.Password(function: Sqls.Functions.SingleColumn); param.Password();
+            column.LastName(function: Sqls.Functions.SingleColumn); param.LastName();
+            column.FirstName(function: Sqls.Functions.SingleColumn); param.FirstName();
+            column.Birthday(function: Sqls.Functions.SingleColumn); param.Birthday();
+            column.Gender(function: Sqls.Functions.SingleColumn); param.Gender();
+            column.Language(function: Sqls.Functions.SingleColumn); param.Language();
+            column.TimeZone(function: Sqls.Functions.SingleColumn); param.TimeZone();
+            column.DeptId(function: Sqls.Functions.SingleColumn); param.DeptId();
+            column.FirstAndLastNameOrder(function: Sqls.Functions.SingleColumn); param.FirstAndLastNameOrder();
+            column.Body(function: Sqls.Functions.SingleColumn); param.Body();
+            column.LastLoginTime(function: Sqls.Functions.SingleColumn); param.LastLoginTime();
+            column.PasswordExpirationTime(function: Sqls.Functions.SingleColumn); param.PasswordExpirationTime();
+            column.PasswordChangeTime(function: Sqls.Functions.SingleColumn); param.PasswordChangeTime();
+            column.NumberOfLogins(function: Sqls.Functions.SingleColumn); param.NumberOfLogins();
+            column.NumberOfDenial(function: Sqls.Functions.SingleColumn); param.NumberOfDenial();
+            column.TenantManager(function: Sqls.Functions.SingleColumn); param.TenantManager();
+            column.ServiceManager(function: Sqls.Functions.SingleColumn); param.ServiceManager();
+            column.Disabled(function: Sqls.Functions.SingleColumn); param.Disabled();
+            column.Lockout(function: Sqls.Functions.SingleColumn); param.Lockout();
+            column.LockoutCounter(function: Sqls.Functions.SingleColumn); param.LockoutCounter();
+            column.Developer(function: Sqls.Functions.SingleColumn); param.Developer();
+            column.UserSettings(function: Sqls.Functions.SingleColumn); param.UserSettings();
+            column.ApiKey(function: Sqls.Functions.SingleColumn); param.ApiKey();
+            column.LdapSearchRoot(function: Sqls.Functions.SingleColumn); param.LdapSearchRoot();
+            column.SynchronizedTime(function: Sqls.Functions.SingleColumn); param.SynchronizedTime();
+            column.Comments(function: Sqls.Functions.SingleColumn); param.Comments();
+            column.Creator(function: Sqls.Functions.SingleColumn); param.Creator();
+            column.Updator(function: Sqls.Functions.SingleColumn); param.Updator();
+            column.CreatedTime(function: Sqls.Functions.SingleColumn); param.CreatedTime();
+            column.UpdatedTime(function: Sqls.Functions.SingleColumn); param.UpdatedTime();
+            return InsertUsers(
+                tableType: tableType,
+                param: param,
+                select: SelectUsers(column: column, where: where),
+                addUpdatorParam: false);
+        }
+
+        public static SqlStatement LoginKeysCopyToStatement(SqlWhereCollection where, Sqls.TableTypes tableType, List<String> columnNames)
+        {
+            var column = new LoginKeysColumnCollection();
+            var param = new LoginKeysParamCollection();
+            column.LoginId(function: Sqls.Functions.SingleColumn); param.LoginId();
+            column.Key(function: Sqls.Functions.SingleColumn); param.Key();
+            column.Ver(function: Sqls.Functions.SingleColumn); param.Ver();
+            column.TenantNames(function: Sqls.Functions.SingleColumn); param.TenantNames();
+            column.TenantId(function: Sqls.Functions.SingleColumn); param.TenantId();
+            column.UserId(function: Sqls.Functions.SingleColumn); param.UserId();
+            column.Comments(function: Sqls.Functions.SingleColumn); param.Comments();
+            column.Creator(function: Sqls.Functions.SingleColumn); param.Creator();
+            column.Updator(function: Sqls.Functions.SingleColumn); param.Updator();
+            column.CreatedTime(function: Sqls.Functions.SingleColumn); param.CreatedTime();
+            column.UpdatedTime(function: Sqls.Functions.SingleColumn); param.UpdatedTime();
+            return InsertLoginKeys(
+                tableType: tableType,
+                param: param,
+                select: SelectLoginKeys(column: column, where: where),
+                addUpdatorParam: false);
+        }
+
+        public static SqlStatement MailAddressesCopyToStatement(SqlWhereCollection where, Sqls.TableTypes tableType, List<String> columnNames)
+        {
+            var column = new MailAddressesColumnCollection();
+            var param = new MailAddressesParamCollection();
+            column.OwnerId(function: Sqls.Functions.SingleColumn); param.OwnerId();
+            column.OwnerType(function: Sqls.Functions.SingleColumn); param.OwnerType();
+            column.MailAddressId(function: Sqls.Functions.SingleColumn); param.MailAddressId();
+            column.Ver(function: Sqls.Functions.SingleColumn); param.Ver();
+            column.MailAddress(function: Sqls.Functions.SingleColumn); param.MailAddress();
+            column.Comments(function: Sqls.Functions.SingleColumn); param.Comments();
+            column.Creator(function: Sqls.Functions.SingleColumn); param.Creator();
+            column.Updator(function: Sqls.Functions.SingleColumn); param.Updator();
+            column.CreatedTime(function: Sqls.Functions.SingleColumn); param.CreatedTime();
+            column.UpdatedTime(function: Sqls.Functions.SingleColumn); param.UpdatedTime();
+            return InsertMailAddresses(
+                tableType: tableType,
+                param: param,
+                select: SelectMailAddresses(column: column, where: where),
+                addUpdatorParam: false);
+        }
+
+        public static SqlStatement OutgoingMailsCopyToStatement(SqlWhereCollection where, Sqls.TableTypes tableType, List<String> columnNames)
+        {
+            var column = new OutgoingMailsColumnCollection();
+            var param = new OutgoingMailsParamCollection();
+            column.ReferenceType(function: Sqls.Functions.SingleColumn); param.ReferenceType();
+            column.ReferenceId(function: Sqls.Functions.SingleColumn); param.ReferenceId();
+            column.ReferenceVer(function: Sqls.Functions.SingleColumn); param.ReferenceVer();
+            column.OutgoingMailId(function: Sqls.Functions.SingleColumn); param.OutgoingMailId();
+            column.Ver(function: Sqls.Functions.SingleColumn); param.Ver();
+            column.Host(function: Sqls.Functions.SingleColumn); param.Host();
+            column.Port(function: Sqls.Functions.SingleColumn); param.Port();
+            column.From(function: Sqls.Functions.SingleColumn); param.From();
+            column.To(function: Sqls.Functions.SingleColumn); param.To();
+            column.Cc(function: Sqls.Functions.SingleColumn); param.Cc();
+            column.Bcc(function: Sqls.Functions.SingleColumn); param.Bcc();
+            column.Title(function: Sqls.Functions.SingleColumn); param.Title();
+            column.Body(function: Sqls.Functions.SingleColumn); param.Body();
+            column.SentTime(function: Sqls.Functions.SingleColumn); param.SentTime();
+            column.Comments(function: Sqls.Functions.SingleColumn); param.Comments();
+            column.Creator(function: Sqls.Functions.SingleColumn); param.Creator();
+            column.Updator(function: Sqls.Functions.SingleColumn); param.Updator();
+            column.CreatedTime(function: Sqls.Functions.SingleColumn); param.CreatedTime();
+            column.UpdatedTime(function: Sqls.Functions.SingleColumn); param.UpdatedTime();
+            return InsertOutgoingMails(
+                tableType: tableType,
+                param: param,
+                select: SelectOutgoingMails(column: column, where: where),
+                addUpdatorParam: false);
+        }
+
+        public static SqlStatement ItemsCopyToStatement(SqlWhereCollection where, Sqls.TableTypes tableType, List<String> columnNames)
+        {
+            var column = new ItemsColumnCollection();
+            var param = new ItemsParamCollection();
+            column.ReferenceId(function: Sqls.Functions.SingleColumn); param.ReferenceId();
+            column.Ver(function: Sqls.Functions.SingleColumn); param.Ver();
+            column.ReferenceType(function: Sqls.Functions.SingleColumn); param.ReferenceType();
+            column.SiteId(function: Sqls.Functions.SingleColumn); param.SiteId();
+            column.Title(function: Sqls.Functions.SingleColumn); param.Title();
+            column.FullText(function: Sqls.Functions.SingleColumn); param.FullText();
+            column.SearchIndexCreatedTime(function: Sqls.Functions.SingleColumn); param.SearchIndexCreatedTime();
+            column.Comments(function: Sqls.Functions.SingleColumn); param.Comments();
+            column.Creator(function: Sqls.Functions.SingleColumn); param.Creator();
+            column.Updator(function: Sqls.Functions.SingleColumn); param.Updator();
+            column.CreatedTime(function: Sqls.Functions.SingleColumn); param.CreatedTime();
+            column.UpdatedTime(function: Sqls.Functions.SingleColumn); param.UpdatedTime();
+            return InsertItems(
+                tableType: tableType,
+                param: param,
+                select: SelectItems(column: column, where: where),
+                addUpdatorParam: false);
+        }
+
+        public static SqlStatement SitesCopyToStatement(SqlWhereCollection where, Sqls.TableTypes tableType, List<String> columnNames)
+        {
+            var column = new SitesColumnCollection();
+            var param = new SitesParamCollection();
+            column.TenantId(function: Sqls.Functions.SingleColumn); param.TenantId();
+            column.SiteId(function: Sqls.Functions.SingleColumn); param.SiteId();
+            column.UpdatedTime(function: Sqls.Functions.SingleColumn); param.UpdatedTime();
+            column.Ver(function: Sqls.Functions.SingleColumn); param.Ver();
+            column.Title(function: Sqls.Functions.SingleColumn); param.Title();
+            column.Body(function: Sqls.Functions.SingleColumn); param.Body();
+            column.GridGuide(function: Sqls.Functions.SingleColumn); param.GridGuide();
+            column.EditorGuide(function: Sqls.Functions.SingleColumn); param.EditorGuide();
+            column.ReferenceType(function: Sqls.Functions.SingleColumn); param.ReferenceType();
+            column.ParentId(function: Sqls.Functions.SingleColumn); param.ParentId();
+            column.InheritPermission(function: Sqls.Functions.SingleColumn); param.InheritPermission();
+            column.SiteSettings(function: Sqls.Functions.SingleColumn); param.SiteSettings();
+            column.Publish(function: Sqls.Functions.SingleColumn); param.Publish();
+            column.LockedTime(function: Sqls.Functions.SingleColumn); param.LockedTime();
+            column.LockedUser(function: Sqls.Functions.SingleColumn); param.LockedUser();
+            column.ApiCountDate(function: Sqls.Functions.SingleColumn); param.ApiCountDate();
+            column.ApiCount(function: Sqls.Functions.SingleColumn); param.ApiCount();
+            column.Comments(function: Sqls.Functions.SingleColumn); param.Comments();
+            column.Creator(function: Sqls.Functions.SingleColumn); param.Creator();
+            column.Updator(function: Sqls.Functions.SingleColumn); param.Updator();
+            column.CreatedTime(function: Sqls.Functions.SingleColumn); param.CreatedTime();
+            return InsertSites(
+                tableType: tableType,
+                param: param,
+                select: SelectSites(column: column, where: where),
+                addUpdatorParam: false);
+        }
+
+        public static SqlStatement OrdersCopyToStatement(SqlWhereCollection where, Sqls.TableTypes tableType, List<String> columnNames)
+        {
+            var column = new OrdersColumnCollection();
+            var param = new OrdersParamCollection();
+            column.ReferenceId(function: Sqls.Functions.SingleColumn); param.ReferenceId();
+            column.ReferenceType(function: Sqls.Functions.SingleColumn); param.ReferenceType();
+            column.OwnerId(function: Sqls.Functions.SingleColumn); param.OwnerId();
+            column.Ver(function: Sqls.Functions.SingleColumn); param.Ver();
+            column.Data(function: Sqls.Functions.SingleColumn); param.Data();
+            column.Comments(function: Sqls.Functions.SingleColumn); param.Comments();
+            column.Creator(function: Sqls.Functions.SingleColumn); param.Creator();
+            column.Updator(function: Sqls.Functions.SingleColumn); param.Updator();
+            column.CreatedTime(function: Sqls.Functions.SingleColumn); param.CreatedTime();
+            column.UpdatedTime(function: Sqls.Functions.SingleColumn); param.UpdatedTime();
+            return InsertOrders(
+                tableType: tableType,
+                param: param,
+                select: SelectOrders(column: column, where: where),
+                addUpdatorParam: false);
+        }
+
+        public static SqlStatement ExportSettingsCopyToStatement(SqlWhereCollection where, Sqls.TableTypes tableType, List<String> columnNames)
+        {
+            var column = new ExportSettingsColumnCollection();
+            var param = new ExportSettingsParamCollection();
+            column.ReferenceType(function: Sqls.Functions.SingleColumn); param.ReferenceType();
+            column.ReferenceId(function: Sqls.Functions.SingleColumn); param.ReferenceId();
+            column.Title(function: Sqls.Functions.SingleColumn); param.Title();
+            column.ExportSettingId(function: Sqls.Functions.SingleColumn); param.ExportSettingId();
+            column.Ver(function: Sqls.Functions.SingleColumn); param.Ver();
+            column.AddHeader(function: Sqls.Functions.SingleColumn); param.AddHeader();
+            column.ExportColumns(function: Sqls.Functions.SingleColumn); param.ExportColumns();
+            column.Comments(function: Sqls.Functions.SingleColumn); param.Comments();
+            column.Creator(function: Sqls.Functions.SingleColumn); param.Creator();
+            column.Updator(function: Sqls.Functions.SingleColumn); param.Updator();
+            column.CreatedTime(function: Sqls.Functions.SingleColumn); param.CreatedTime();
+            column.UpdatedTime(function: Sqls.Functions.SingleColumn); param.UpdatedTime();
+            return InsertExportSettings(
+                tableType: tableType,
+                param: param,
+                select: SelectExportSettings(column: column, where: where),
+                addUpdatorParam: false);
+        }
+
+        public static SqlStatement LinksCopyToStatement(SqlWhereCollection where, Sqls.TableTypes tableType, List<String> columnNames)
+        {
+            var column = new LinksColumnCollection();
+            var param = new LinksParamCollection();
+            column.DestinationId(function: Sqls.Functions.SingleColumn); param.DestinationId();
+            column.SourceId(function: Sqls.Functions.SingleColumn); param.SourceId();
+            column.Ver(function: Sqls.Functions.SingleColumn); param.Ver();
+            column.Comments(function: Sqls.Functions.SingleColumn); param.Comments();
+            column.Creator(function: Sqls.Functions.SingleColumn); param.Creator();
+            column.Updator(function: Sqls.Functions.SingleColumn); param.Updator();
+            column.CreatedTime(function: Sqls.Functions.SingleColumn); param.CreatedTime();
+            column.UpdatedTime(function: Sqls.Functions.SingleColumn); param.UpdatedTime();
+            return InsertLinks(
+                tableType: tableType,
+                param: param,
+                select: SelectLinks(column: column, where: where),
+                addUpdatorParam: false);
+        }
+
+        public static SqlStatement BinariesCopyToStatement(SqlWhereCollection where, Sqls.TableTypes tableType, List<String> columnNames)
+        {
+            var column = new BinariesColumnCollection();
+            var param = new BinariesParamCollection();
+            column.BinaryId(function: Sqls.Functions.SingleColumn); param.BinaryId();
+            column.TenantId(function: Sqls.Functions.SingleColumn); param.TenantId();
+            column.ReferenceId(function: Sqls.Functions.SingleColumn); param.ReferenceId();
+            column.Guid(function: Sqls.Functions.SingleColumn); param.Guid();
+            column.Ver(function: Sqls.Functions.SingleColumn); param.Ver();
+            column.BinaryType(function: Sqls.Functions.SingleColumn); param.BinaryType();
+            column.Title(function: Sqls.Functions.SingleColumn); param.Title();
+            column.Body(function: Sqls.Functions.SingleColumn); param.Body();
+            column.Bin(function: Sqls.Functions.SingleColumn); param.Bin();
+            column.Thumbnail(function: Sqls.Functions.SingleColumn); param.Thumbnail();
+            column.Icon(function: Sqls.Functions.SingleColumn); param.Icon();
+            column.FileName(function: Sqls.Functions.SingleColumn); param.FileName();
+            column.Extension(function: Sqls.Functions.SingleColumn); param.Extension();
+            column.Size(function: Sqls.Functions.SingleColumn); param.Size();
+            column.ContentType(function: Sqls.Functions.SingleColumn); param.ContentType();
+            column.BinarySettings(function: Sqls.Functions.SingleColumn); param.BinarySettings();
+            column.Comments(function: Sqls.Functions.SingleColumn); param.Comments();
+            column.Creator(function: Sqls.Functions.SingleColumn); param.Creator();
+            column.Updator(function: Sqls.Functions.SingleColumn); param.Updator();
+            column.CreatedTime(function: Sqls.Functions.SingleColumn); param.CreatedTime();
+            column.UpdatedTime(function: Sqls.Functions.SingleColumn); param.UpdatedTime();
+            return InsertBinaries(
+                tableType: tableType,
+                param: param,
+                select: SelectBinaries(column: column, where: where),
+                addUpdatorParam: false);
+        }
+
+        public static SqlStatement PermissionsCopyToStatement(SqlWhereCollection where, Sqls.TableTypes tableType, List<String> columnNames)
+        {
+            var column = new PermissionsColumnCollection();
+            var param = new PermissionsParamCollection();
+            column.ReferenceId(function: Sqls.Functions.SingleColumn); param.ReferenceId();
+            column.DeptId(function: Sqls.Functions.SingleColumn); param.DeptId();
+            column.GroupId(function: Sqls.Functions.SingleColumn); param.GroupId();
+            column.UserId(function: Sqls.Functions.SingleColumn); param.UserId();
+            column.Ver(function: Sqls.Functions.SingleColumn); param.Ver();
+            column.PermissionType(function: Sqls.Functions.SingleColumn); param.PermissionType();
+            column.Comments(function: Sqls.Functions.SingleColumn); param.Comments();
+            column.Creator(function: Sqls.Functions.SingleColumn); param.Creator();
+            column.Updator(function: Sqls.Functions.SingleColumn); param.Updator();
+            column.CreatedTime(function: Sqls.Functions.SingleColumn); param.CreatedTime();
+            column.UpdatedTime(function: Sqls.Functions.SingleColumn); param.UpdatedTime();
+            return InsertPermissions(
+                tableType: tableType,
+                param: param,
+                select: SelectPermissions(column: column, where: where),
+                addUpdatorParam: false);
+        }
+
+        public static SqlStatement IssuesCopyToStatement(SqlWhereCollection where, Sqls.TableTypes tableType, List<String> columnNames)
+        {
+            var column = new IssuesColumnCollection();
+            var param = new IssuesParamCollection();
+            column.SiteId(function: Sqls.Functions.SingleColumn); param.SiteId();
+            column.UpdatedTime(function: Sqls.Functions.SingleColumn); param.UpdatedTime();
+            column.IssueId(function: Sqls.Functions.SingleColumn); param.IssueId();
+            column.Ver(function: Sqls.Functions.SingleColumn); param.Ver();
+            column.Title(function: Sqls.Functions.SingleColumn); param.Title();
+            column.Body(function: Sqls.Functions.SingleColumn); param.Body();
+            column.StartTime(function: Sqls.Functions.SingleColumn); param.StartTime();
+            column.CompletionTime(function: Sqls.Functions.SingleColumn); param.CompletionTime();
+            column.WorkValue(function: Sqls.Functions.SingleColumn); param.WorkValue();
+            column.ProgressRate(function: Sqls.Functions.SingleColumn); param.ProgressRate();
+            column.Status(function: Sqls.Functions.SingleColumn); param.Status();
+            column.Manager(function: Sqls.Functions.SingleColumn); param.Manager();
+            column.Owner(function: Sqls.Functions.SingleColumn); param.Owner();
+            column.Comments(function: Sqls.Functions.SingleColumn); param.Comments();
+            column.Creator(function: Sqls.Functions.SingleColumn); param.Creator();
+            column.Updator(function: Sqls.Functions.SingleColumn); param.Updator();
+            column.CreatedTime(function: Sqls.Functions.SingleColumn); param.CreatedTime();
+            columnNames.ForEach(columnName =>
+            {
+                column.Add(
+                    columnBracket: $"\"{columnName}\"",
+                    columnName: columnName,
+                    function: Sqls.Functions.SingleColumn);
+                param.Add(
+                    columnBracket: $"\"{columnName}\"",
+                    name: columnName);
+            });
+            return InsertIssues(
+                tableType: tableType,
+                param: param,
+                select: SelectIssues(column: column, where: where),
+                addUpdatorParam: false);
+        }
+
+        public static SqlStatement ResultsCopyToStatement(SqlWhereCollection where, Sqls.TableTypes tableType, List<String> columnNames)
+        {
+            var column = new ResultsColumnCollection();
+            var param = new ResultsParamCollection();
+            column.SiteId(function: Sqls.Functions.SingleColumn); param.SiteId();
+            column.UpdatedTime(function: Sqls.Functions.SingleColumn); param.UpdatedTime();
+            column.ResultId(function: Sqls.Functions.SingleColumn); param.ResultId();
+            column.Ver(function: Sqls.Functions.SingleColumn); param.Ver();
+            column.Title(function: Sqls.Functions.SingleColumn); param.Title();
+            column.Body(function: Sqls.Functions.SingleColumn); param.Body();
+            column.Status(function: Sqls.Functions.SingleColumn); param.Status();
+            column.Manager(function: Sqls.Functions.SingleColumn); param.Manager();
+            column.Owner(function: Sqls.Functions.SingleColumn); param.Owner();
+            column.Comments(function: Sqls.Functions.SingleColumn); param.Comments();
+            column.Creator(function: Sqls.Functions.SingleColumn); param.Creator();
+            column.Updator(function: Sqls.Functions.SingleColumn); param.Updator();
+            column.CreatedTime(function: Sqls.Functions.SingleColumn); param.CreatedTime();
+            columnNames.ForEach(columnName =>
+            {
+                column.Add(
+                    columnBracket: $"\"{columnName}\"",
+                    columnName: columnName,
+                    function: Sqls.Functions.SingleColumn);
+                param.Add(
+                    columnBracket: $"\"{columnName}\"",
+                    name: columnName);
+            });
+            return InsertResults(
+                tableType: tableType,
+                param: param,
+                select: SelectResults(column: column, where: where),
+                addUpdatorParam: false);
+        }
+
+        public static SqlStatement WikisCopyToStatement(SqlWhereCollection where, Sqls.TableTypes tableType, List<String> columnNames)
+        {
+            var column = new WikisColumnCollection();
+            var param = new WikisParamCollection();
+            column.SiteId(function: Sqls.Functions.SingleColumn); param.SiteId();
+            column.UpdatedTime(function: Sqls.Functions.SingleColumn); param.UpdatedTime();
+            column.WikiId(function: Sqls.Functions.SingleColumn); param.WikiId();
+            column.Ver(function: Sqls.Functions.SingleColumn); param.Ver();
+            column.Title(function: Sqls.Functions.SingleColumn); param.Title();
+            column.Body(function: Sqls.Functions.SingleColumn); param.Body();
+            column.Comments(function: Sqls.Functions.SingleColumn); param.Comments();
+            column.Creator(function: Sqls.Functions.SingleColumn); param.Creator();
+            column.Updator(function: Sqls.Functions.SingleColumn); param.Updator();
+            column.CreatedTime(function: Sqls.Functions.SingleColumn); param.CreatedTime();
+            return InsertWikis(
+                tableType: tableType,
+                param: param,
+                select: SelectWikis(column: column, where: where),
+                addUpdatorParam: false);
+        }
+
         public static IEnumerable<SqlStatement> Aggregations(
             Context context,
             SiteSettings ss,
@@ -9193,51 +10044,93 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     return TenantsAggregations(
                         aggregations: ss.Aggregations,
                         tableType: tableType,
-                        join: join,
-                        where: where);
+                        where: TenantsWhere()
+                            .TenantId_In(sub: SelectTenants(
+                                tableType: tableType,
+                                column: TenantsColumn().TenantId(),
+                                join: join,
+                                where: where)));
                 case "Depts":
                     return DeptsAggregations(
                         aggregations: ss.Aggregations,
                         tableType: tableType,
-                        join: join,
-                        where: where);
+                        where: DeptsWhere()
+                            .DeptId_In(sub: SelectDepts(
+                                tableType: tableType,
+                                column: DeptsColumn().DeptId(),
+                                join: join,
+                                where: where)));
                 case "Groups":
                     return GroupsAggregations(
                         aggregations: ss.Aggregations,
                         tableType: tableType,
-                        join: join,
-                        where: where);
+                        where: GroupsWhere()
+                            .GroupId_In(sub: SelectGroups(
+                                tableType: tableType,
+                                column: GroupsColumn().GroupId(),
+                                join: join,
+                                where: where)));
+                case "Registrations":
+                    return RegistrationsAggregations(
+                        aggregations: ss.Aggregations,
+                        tableType: tableType,
+                        where: RegistrationsWhere()
+                            .RegistrationId_In(sub: SelectRegistrations(
+                                tableType: tableType,
+                                column: RegistrationsColumn().RegistrationId(),
+                                join: join,
+                                where: where)));
                 case "Users":
                     return UsersAggregations(
                         aggregations: ss.Aggregations,
                         tableType: tableType,
-                        join: join,
-                        where: where);
+                        where: UsersWhere()
+                            .UserId_In(sub: SelectUsers(
+                                tableType: tableType,
+                                column: UsersColumn().UserId(),
+                                join: join,
+                                where: where)));
                 case "Sites":
                     return SitesAggregations(
                         aggregations: ss.Aggregations,
                         tableType: tableType,
-                        join: join,
-                        where: where);
+                        where: SitesWhere()
+                            .SiteId_In(sub: SelectSites(
+                                tableType: tableType,
+                                column: SitesColumn().SiteId(),
+                                join: join,
+                                where: where)));
                 case "Issues":
                     return IssuesAggregations(
                         context: context,
                         aggregations: ss.Aggregations,
                         tableType: tableType,
-                        join: join,
-                        where: where);
+                        where: IssuesWhere()
+                            .IssueId_In(sub: SelectIssues(
+                                tableType: tableType,
+                                column: IssuesColumn().IssueId(),
+                                join: join,
+                                where: where)));
                 case "Results":
                     return ResultsAggregations(
                         aggregations: ss.Aggregations,
                         tableType: tableType,
-                        join: join,
-                        where: where);
+                        where: ResultsWhere()
+                            .ResultId_In(sub: SelectResults(
+                                tableType: tableType,
+                                column: ResultsColumn().ResultId(),
+                                join: join,
+                                where: where)));
                 case "Wikis":
                     return WikisAggregations(
                         aggregations: ss.Aggregations,
                         tableType: tableType,
-                        join: join,
-                        where: where);
+                        where: WikisWhere()
+                            .WikiId_In(sub: SelectWikis(
+                                tableType: tableType,
+                                column: WikisColumn().WikiId(),
+                                join: join,
+                                where: where)));
                 default:
                     return null;
             }
@@ -9246,7 +10139,6 @@ namespace Implem.Pleasanter.Libraries.DataSources
         public static IEnumerable<SqlStatement> TenantsAggregations(
             IEnumerable<Aggregation> aggregations,
             Sqls.TableTypes tableType,
-            SqlJoinCollection join,
             SqlWhereCollection where)
         {
             var statementCollection = new List<SqlStatement>()
@@ -9255,7 +10147,6 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     dataTableName: "Count",
                     tableType: tableType,
                     column: TenantsColumn().TenantsCount(),
-                    join: join,
                     where: where)
             };
             if (tableType != Sqls.TableTypes.Normal)
@@ -9306,7 +10197,6 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     var statement = SelectTenants(
                         dataTableName: "Aggregation" + data.Index,
                         column: column,
-                        join: join,
                         where: where,
                         groupBy: groupBy);
                     statementCollection.Add(statement);
@@ -9317,7 +10207,6 @@ namespace Implem.Pleasanter.Libraries.DataSources
         public static IEnumerable<SqlStatement> DemosAggregations(
             IEnumerable<Aggregation> aggregations,
             Sqls.TableTypes tableType,
-            SqlJoinCollection join,
             SqlWhereCollection where)
         {
             var statementCollection = new List<SqlStatement>()
@@ -9326,7 +10215,6 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     dataTableName: "Count",
                     tableType: tableType,
                     column: DemosColumn().DemosCount(),
-                    join: join,
                     where: where)
             };
             if (tableType != Sqls.TableTypes.Normal)
@@ -9377,7 +10265,6 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     var statement = SelectDemos(
                         dataTableName: "Aggregation" + data.Index,
                         column: column,
-                        join: join,
                         where: where,
                         groupBy: groupBy);
                     statementCollection.Add(statement);
@@ -9388,7 +10275,6 @@ namespace Implem.Pleasanter.Libraries.DataSources
         public static IEnumerable<SqlStatement> SessionsAggregations(
             IEnumerable<Aggregation> aggregations,
             Sqls.TableTypes tableType,
-            SqlJoinCollection join,
             SqlWhereCollection where)
         {
             var statementCollection = new List<SqlStatement>()
@@ -9397,7 +10283,6 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     dataTableName: "Count",
                     tableType: tableType,
                     column: SessionsColumn().SessionsCount(),
-                    join: join,
                     where: where)
             };
             if (tableType != Sqls.TableTypes.Normal)
@@ -9448,7 +10333,6 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     var statement = SelectSessions(
                         dataTableName: "Aggregation" + data.Index,
                         column: column,
-                        join: join,
                         where: where,
                         groupBy: groupBy);
                     statementCollection.Add(statement);
@@ -9459,7 +10343,6 @@ namespace Implem.Pleasanter.Libraries.DataSources
         public static IEnumerable<SqlStatement> SysLogsAggregations(
             IEnumerable<Aggregation> aggregations,
             Sqls.TableTypes tableType,
-            SqlJoinCollection join,
             SqlWhereCollection where)
         {
             var statementCollection = new List<SqlStatement>()
@@ -9468,7 +10351,6 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     dataTableName: "Count",
                     tableType: tableType,
                     column: SysLogsColumn().SysLogsCount(),
-                    join: join,
                     where: where)
             };
             if (tableType != Sqls.TableTypes.Normal)
@@ -9519,7 +10401,6 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     var statement = SelectSysLogs(
                         dataTableName: "Aggregation" + data.Index,
                         column: column,
-                        join: join,
                         where: where,
                         groupBy: groupBy);
                     statementCollection.Add(statement);
@@ -9530,7 +10411,6 @@ namespace Implem.Pleasanter.Libraries.DataSources
         public static IEnumerable<SqlStatement> StatusesAggregations(
             IEnumerable<Aggregation> aggregations,
             Sqls.TableTypes tableType,
-            SqlJoinCollection join,
             SqlWhereCollection where)
         {
             var statementCollection = new List<SqlStatement>()
@@ -9539,7 +10419,6 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     dataTableName: "Count",
                     tableType: tableType,
                     column: StatusesColumn().StatusesCount(),
-                    join: join,
                     where: where)
             };
             if (tableType != Sqls.TableTypes.Normal)
@@ -9590,7 +10469,6 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     var statement = SelectStatuses(
                         dataTableName: "Aggregation" + data.Index,
                         column: column,
-                        join: join,
                         where: where,
                         groupBy: groupBy);
                     statementCollection.Add(statement);
@@ -9601,7 +10479,6 @@ namespace Implem.Pleasanter.Libraries.DataSources
         public static IEnumerable<SqlStatement> ReminderSchedulesAggregations(
             IEnumerable<Aggregation> aggregations,
             Sqls.TableTypes tableType,
-            SqlJoinCollection join,
             SqlWhereCollection where)
         {
             var statementCollection = new List<SqlStatement>()
@@ -9610,7 +10487,6 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     dataTableName: "Count",
                     tableType: tableType,
                     column: ReminderSchedulesColumn().ReminderSchedulesCount(),
-                    join: join,
                     where: where)
             };
             if (tableType != Sqls.TableTypes.Normal)
@@ -9661,7 +10537,6 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     var statement = SelectReminderSchedules(
                         dataTableName: "Aggregation" + data.Index,
                         column: column,
-                        join: join,
                         where: where,
                         groupBy: groupBy);
                     statementCollection.Add(statement);
@@ -9672,7 +10547,6 @@ namespace Implem.Pleasanter.Libraries.DataSources
         public static IEnumerable<SqlStatement> DeptsAggregations(
             IEnumerable<Aggregation> aggregations,
             Sqls.TableTypes tableType,
-            SqlJoinCollection join,
             SqlWhereCollection where)
         {
             var statementCollection = new List<SqlStatement>()
@@ -9681,7 +10555,6 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     dataTableName: "Count",
                     tableType: tableType,
                     column: DeptsColumn().DeptsCount(),
-                    join: join,
                     where: where)
             };
             if (tableType != Sqls.TableTypes.Normal)
@@ -9732,7 +10605,6 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     var statement = SelectDepts(
                         dataTableName: "Aggregation" + data.Index,
                         column: column,
-                        join: join,
                         where: where,
                         groupBy: groupBy);
                     statementCollection.Add(statement);
@@ -9743,7 +10615,6 @@ namespace Implem.Pleasanter.Libraries.DataSources
         public static IEnumerable<SqlStatement> GroupsAggregations(
             IEnumerable<Aggregation> aggregations,
             Sqls.TableTypes tableType,
-            SqlJoinCollection join,
             SqlWhereCollection where)
         {
             var statementCollection = new List<SqlStatement>()
@@ -9752,7 +10623,6 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     dataTableName: "Count",
                     tableType: tableType,
                     column: GroupsColumn().GroupsCount(),
-                    join: join,
                     where: where)
             };
             if (tableType != Sqls.TableTypes.Normal)
@@ -9803,7 +10673,6 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     var statement = SelectGroups(
                         dataTableName: "Aggregation" + data.Index,
                         column: column,
-                        join: join,
                         where: where,
                         groupBy: groupBy);
                     statementCollection.Add(statement);
@@ -9814,7 +10683,6 @@ namespace Implem.Pleasanter.Libraries.DataSources
         public static IEnumerable<SqlStatement> GroupMembersAggregations(
             IEnumerable<Aggregation> aggregations,
             Sqls.TableTypes tableType,
-            SqlJoinCollection join,
             SqlWhereCollection where)
         {
             var statementCollection = new List<SqlStatement>()
@@ -9823,7 +10691,6 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     dataTableName: "Count",
                     tableType: tableType,
                     column: GroupMembersColumn().GroupMembersCount(),
-                    join: join,
                     where: where)
             };
             if (tableType != Sqls.TableTypes.Normal)
@@ -9874,7 +10741,74 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     var statement = SelectGroupMembers(
                         dataTableName: "Aggregation" + data.Index,
                         column: column,
-                        join: join,
+                        where: where,
+                        groupBy: groupBy);
+                    statementCollection.Add(statement);
+                });
+            return statementCollection;
+        }
+
+        public static IEnumerable<SqlStatement> RegistrationsAggregations(
+            IEnumerable<Aggregation> aggregations,
+            Sqls.TableTypes tableType,
+            SqlWhereCollection where)
+        {
+            var statementCollection = new List<SqlStatement>()
+            {
+                SelectRegistrations(
+                    dataTableName: "Count",
+                    tableType: tableType,
+                    column: RegistrationsColumn().RegistrationsCount(),
+                    where: where)
+            };
+            if (tableType != Sqls.TableTypes.Normal)
+            {
+                return statementCollection;
+            }
+            aggregations
+                .Select((o, i) => new { Aggregation = o, Index = i })
+                .ForEach(data =>
+                {
+                    var groupBy = RegistrationsGroupBy();
+                    var column = RegistrationsColumn();
+                    switch (data.Aggregation.GroupBy)
+                    {
+                        case "\"NotGroupBy\"":
+                            break;
+                        default:
+                            groupBy.RegistrationsGroupBy(columnName: data.Aggregation.GroupBy);
+                            column.RegistrationsColumn(columnName: data.Aggregation.GroupBy);
+                            break;
+                    }
+                    switch (data.Aggregation.Type)
+                    {
+                        case Aggregation.Types.Count:
+                            column.RegistrationsCount(); break;
+                        case Aggregation.Types.Total:
+                            switch (data.Aggregation.Target)
+                            {
+                                default:
+                                    column.RegistrationsColumn(
+                                        columnName: data.Aggregation.Target,
+                                        function: Sqls.Functions.Sum);
+                                    break;
+                            }
+                            break;
+                        case Aggregation.Types.Average:
+                            switch (data.Aggregation.Target)
+                            {
+                                default:
+                                    column.RegistrationsColumn(
+                                        columnName: data.Aggregation.Target,
+                                        function: Sqls.Functions.Avg);
+                                    break;
+                            }
+                            break;
+                        default: break;
+                    }
+                    var statement = SelectRegistrations(
+                        dataTableName: "Aggregation" + data.Index,
+                        column: column,
                         where: where,
                         groupBy: groupBy);
                     statementCollection.Add(statement);
@@ -9885,7 +10819,6 @@ namespace Implem.Pleasanter.Libraries.DataSources
         public static IEnumerable<SqlStatement> UsersAggregations(
             IEnumerable<Aggregation> aggregations,
             Sqls.TableTypes tableType,
-            SqlJoinCollection join,
             SqlWhereCollection where)
         {
             var statementCollection = new List<SqlStatement>()
@@ -9894,7 +10827,6 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     dataTableName: "Count",
                     tableType: tableType,
                     column: UsersColumn().UsersCount(),
-                    join: join,
                     where: where)
             };
             if (tableType != Sqls.TableTypes.Normal)
@@ -9945,7 +10877,6 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     var statement = SelectUsers(
                         dataTableName: "Aggregation" + data.Index,
                         column: column,
-                        join: join,
                         where: where,
                         groupBy: groupBy);
                     statementCollection.Add(statement);
@@ -9956,7 +10887,6 @@ namespace Implem.Pleasanter.Libraries.DataSources
         public static IEnumerable<SqlStatement> LoginKeysAggregations(
             IEnumerable<Aggregation> aggregations,
             Sqls.TableTypes tableType,
-            SqlJoinCollection join,
             SqlWhereCollection where)
         {
             var statementCollection = new List<SqlStatement>()
@@ -9965,7 +10895,6 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     dataTableName: "Count",
                     tableType: tableType,
                     column: LoginKeysColumn().LoginKeysCount(),
-                    join: join,
                     where: where)
             };
             if (tableType != Sqls.TableTypes.Normal)
@@ -10016,7 +10945,6 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     var statement = SelectLoginKeys(
                         dataTableName: "Aggregation" + data.Index,
                         column: column,
-                        join: join,
                         where: where,
                         groupBy: groupBy);
                     statementCollection.Add(statement);
@@ -10027,7 +10955,6 @@ namespace Implem.Pleasanter.Libraries.DataSources
         public static IEnumerable<SqlStatement> MailAddressesAggregations(
             IEnumerable<Aggregation> aggregations,
             Sqls.TableTypes tableType,
-            SqlJoinCollection join,
             SqlWhereCollection where)
         {
             var statementCollection = new List<SqlStatement>()
@@ -10036,7 +10963,6 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     dataTableName: "Count",
                     tableType: tableType,
                     column: MailAddressesColumn().MailAddressesCount(),
-                    join: join,
                     where: where)
             };
             if (tableType != Sqls.TableTypes.Normal)
@@ -10087,7 +11013,6 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     var statement = SelectMailAddresses(
                         dataTableName: "Aggregation" + data.Index,
                         column: column,
-                        join: join,
                         where: where,
                         groupBy: groupBy);
                     statementCollection.Add(statement);
@@ -10098,7 +11023,6 @@ namespace Implem.Pleasanter.Libraries.DataSources
         public static IEnumerable<SqlStatement> OutgoingMailsAggregations(
             IEnumerable<Aggregation> aggregations,
             Sqls.TableTypes tableType,
-            SqlJoinCollection join,
             SqlWhereCollection where)
         {
             var statementCollection = new List<SqlStatement>()
@@ -10107,7 +11031,6 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     dataTableName: "Count",
                     tableType: tableType,
                     column: OutgoingMailsColumn().OutgoingMailsCount(),
-                    join: join,
                     where: where)
             };
             if (tableType != Sqls.TableTypes.Normal)
@@ -10158,84 +11081,6 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     var statement = SelectOutgoingMails(
                         dataTableName: "Aggregation" + data.Index,
                         column: column,
-                        join: join,
-                        where: where,
-                        groupBy: groupBy);
-                    statementCollection.Add(statement);
-                });
-            return statementCollection;
-        }
-
-        public static IEnumerable<SqlStatement> SearchIndexesAggregations(
-            IEnumerable<Aggregation> aggregations,
-            Sqls.TableTypes tableType,
-            SqlJoinCollection join,
-            SqlWhereCollection where)
-        {
-            var statementCollection = new List<SqlStatement>()
-            {
-                SelectSearchIndexes(
-                    dataTableName: "Count",
-                    tableType: tableType,
-                    column: SearchIndexesColumn().SearchIndexesCount(),
-                    join: join,
-                    where: where)
-            };
-            if (tableType != Sqls.TableTypes.Normal)
-            {
-                return statementCollection;
-            }
-            aggregations
-                .Select((o, i) => new { Aggregation = o, Index = i })
-                .ForEach(data =>
-                {
-                    var groupBy = SearchIndexesGroupBy();
-                    var column = SearchIndexesColumn();
-                    switch (data.Aggregation.GroupBy)
-                    {
-                        case "\"NotGroupBy\"":
-                            break;
-                        default:
-                            groupBy.SearchIndexesGroupBy(columnName: data.Aggregation.GroupBy);
-                            column.SearchIndexesColumn(columnName: data.Aggregation.GroupBy);
-                            break;
-                    }
-                    switch (data.Aggregation.Type)
-                    {
-                        case Aggregation.Types.Count:
-                            column.SearchIndexesCount(); break;
-                        case Aggregation.Types.Total:
-                            switch (data.Aggregation.Target)
-                            {
-                                case "Priority":
-                                    column.Priority(function: Sqls.Functions.Sum);
-                                    break;
-                                default:
-                                    column.SearchIndexesColumn(
-                                        columnName: data.Aggregation.Target,
-                                        function: Sqls.Functions.Sum);
-                                    break;
-                            }
-                            break;
-                        case Aggregation.Types.Average:
-                            switch (data.Aggregation.Target)
-                            {
-                                case "Priority":
-                                    column.Priority(function: Sqls.Functions.Avg);
-                                    break;
-                                default:
-                                    column.SearchIndexesColumn(
-                                        columnName: data.Aggregation.Target,
-                                        function: Sqls.Functions.Avg);
-                                    break;
-                            }
-                            break;
-                        default: break;
-                    }
-                    var statement = SelectSearchIndexes(
-                        dataTableName: "Aggregation" + data.Index,
-                        column: column,
-                        join: join,
                         where: where,
                         groupBy: groupBy);
                     statementCollection.Add(statement);
@@ -10246,7 +11091,6 @@ namespace Implem.Pleasanter.Libraries.DataSources
         public static IEnumerable<SqlStatement> ItemsAggregations(
             IEnumerable<Aggregation> aggregations,
             Sqls.TableTypes tableType,
-            SqlJoinCollection join,
             SqlWhereCollection where)
         {
             var statementCollection = new List<SqlStatement>()
@@ -10255,7 +11099,6 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     dataTableName: "Count",
                     tableType: tableType,
                     column: ItemsColumn().ItemsCount(),
-                    join: join,
                     where: where)
             };
             if (tableType != Sqls.TableTypes.Normal)
@@ -10306,7 +11149,6 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     var statement = SelectItems(
                         dataTableName: "Aggregation" + data.Index,
                         column: column,
-                        join: join,
                         where: where,
                         groupBy: groupBy);
                     statementCollection.Add(statement);
@@ -10317,7 +11159,6 @@ namespace Implem.Pleasanter.Libraries.DataSources
         public static IEnumerable<SqlStatement> SitesAggregations(
             IEnumerable<Aggregation> aggregations,
             Sqls.TableTypes tableType,
-            SqlJoinCollection join,
             SqlWhereCollection where)
         {
             var statementCollection = new List<SqlStatement>()
@@ -10326,7 +11167,6 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     dataTableName: "Count",
                     tableType: tableType,
                     column: SitesColumn().SitesCount(),
-                    join: join,
                     where: where)
             };
             if (tableType != Sqls.TableTypes.Normal)
@@ -10377,7 +11217,6 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     var statement = SelectSites(
                         dataTableName: "Aggregation" + data.Index,
                         column: column,
-                        join: join,
                         where: where,
                         groupBy: groupBy);
                     statementCollection.Add(statement);
@@ -10388,7 +11227,6 @@ namespace Implem.Pleasanter.Libraries.DataSources
         public static IEnumerable<SqlStatement> OrdersAggregations(
             IEnumerable<Aggregation> aggregations,
             Sqls.TableTypes tableType,
-            SqlJoinCollection join,
             SqlWhereCollection where)
         {
             var statementCollection = new List<SqlStatement>()
@@ -10397,7 +11235,6 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     dataTableName: "Count",
                     tableType: tableType,
                     column: OrdersColumn().OrdersCount(),
-                    join: join,
                     where: where)
             };
             if (tableType != Sqls.TableTypes.Normal)
@@ -10448,7 +11285,6 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     var statement = SelectOrders(
                         dataTableName: "Aggregation" + data.Index,
                         column: column,
-                        join: join,
                         where: where,
                         groupBy: groupBy);
                     statementCollection.Add(statement);
@@ -10459,7 +11295,6 @@ namespace Implem.Pleasanter.Libraries.DataSources
         public static IEnumerable<SqlStatement> ExportSettingsAggregations(
             IEnumerable<Aggregation> aggregations,
             Sqls.TableTypes tableType,
-            SqlJoinCollection join,
             SqlWhereCollection where)
         {
             var statementCollection = new List<SqlStatement>()
@@ -10468,7 +11303,6 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     dataTableName: "Count",
                     tableType: tableType,
                     column: ExportSettingsColumn().ExportSettingsCount(),
-                    join: join,
                     where: where)
             };
             if (tableType != Sqls.TableTypes.Normal)
@@ -10519,7 +11353,6 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     var statement = SelectExportSettings(
                         dataTableName: "Aggregation" + data.Index,
                         column: column,
-                        join: join,
                         where: where,
                         groupBy: groupBy);
                     statementCollection.Add(statement);
@@ -10530,7 +11363,6 @@ namespace Implem.Pleasanter.Libraries.DataSources
         public static IEnumerable<SqlStatement> LinksAggregations(
             IEnumerable<Aggregation> aggregations,
             Sqls.TableTypes tableType,
-            SqlJoinCollection join,
             SqlWhereCollection where)
         {
             var statementCollection = new List<SqlStatement>()
@@ -10539,7 +11371,6 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     dataTableName: "Count",
                     tableType: tableType,
                     column: LinksColumn().LinksCount(),
-                    join: join,
                     where: where)
             };
             if (tableType != Sqls.TableTypes.Normal)
@@ -10590,7 +11421,6 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     var statement = SelectLinks(
                         dataTableName: "Aggregation" + data.Index,
                         column: column,
-                        join: join,
                         where: where,
                         groupBy: groupBy);
                     statementCollection.Add(statement);
@@ -10601,7 +11431,6 @@ namespace Implem.Pleasanter.Libraries.DataSources
         public static IEnumerable<SqlStatement> BinariesAggregations(
             IEnumerable<Aggregation> aggregations,
             Sqls.TableTypes tableType,
-            SqlJoinCollection join,
             SqlWhereCollection where)
         {
             var statementCollection = new List<SqlStatement>()
@@ -10610,7 +11439,6 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     dataTableName: "Count",
                     tableType: tableType,
                     column: BinariesColumn().BinariesCount(),
-                    join: join,
                     where: where)
             };
             if (tableType != Sqls.TableTypes.Normal)
@@ -10661,7 +11489,6 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     var statement = SelectBinaries(
                         dataTableName: "Aggregation" + data.Index,
                         column: column,
-                        join: join,
                         where: where,
                         groupBy: groupBy);
                     statementCollection.Add(statement);
@@ -10672,7 +11499,6 @@ namespace Implem.Pleasanter.Libraries.DataSources
         public static IEnumerable<SqlStatement> PermissionsAggregations(
             IEnumerable<Aggregation> aggregations,
             Sqls.TableTypes tableType,
-            SqlJoinCollection join,
             SqlWhereCollection where)
         {
             var statementCollection = new List<SqlStatement>()
@@ -10681,7 +11507,6 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     dataTableName: "Count",
                     tableType: tableType,
                     column: PermissionsColumn().PermissionsCount(),
-                    join: join,
                     where: where)
             };
             if (tableType != Sqls.TableTypes.Normal)
@@ -10738,7 +11563,6 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     var statement = SelectPermissions(
                         dataTableName: "Aggregation" + data.Index,
                         column: column,
-                        join: join,
                         where: where,
                         groupBy: groupBy);
                     statementCollection.Add(statement);
@@ -10750,7 +11574,6 @@ namespace Implem.Pleasanter.Libraries.DataSources
             Context context,
             IEnumerable<Aggregation> aggregations,
             Sqls.TableTypes tableType,
-            SqlJoinCollection join,
             SqlWhereCollection where)
         {
             var statementCollection = new List<SqlStatement>()
@@ -10759,7 +11582,6 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     dataTableName: "Count",
                     tableType: tableType,
                     column: IssuesColumn().IssuesCount(),
-                    join: join,
                     where: where)
             };
             if (tableType != Sqls.TableTypes.Normal)
@@ -10834,7 +11656,6 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     var statement = SelectIssues(
                         dataTableName: "Aggregation" + data.Index,
                         column: column,
-                        join: join,
                         where: where,
                         groupBy: groupBy);
                     statementCollection.Add(statement);
@@ -10842,7 +11663,6 @@ namespace Implem.Pleasanter.Libraries.DataSources
             statementCollection.Add(SelectIssues(
                 dataTableName: "OverdueCount",
                 column: IssuesColumn().IssuesCount(_as: "OverdueCount"),
-                join: join,
                 where: new SqlWhereCollection(where.ToArray())
                     .Add(
                         tableName: "Issues",
@@ -10859,7 +11679,6 @@ namespace Implem.Pleasanter.Libraries.DataSources
         public static IEnumerable<SqlStatement> ResultsAggregations(
             IEnumerable<Aggregation> aggregations,
             Sqls.TableTypes tableType,
-            SqlJoinCollection join,
             SqlWhereCollection where)
         {
             var statementCollection = new List<SqlStatement>()
@@ -10868,7 +11687,6 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     dataTableName: "Count",
                     tableType: tableType,
                     column: ResultsColumn().ResultsCount(),
-                    join: join,
                     where: where)
             };
             if (tableType != Sqls.TableTypes.Normal)
@@ -10931,7 +11749,6 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     var statement = SelectResults(
                         dataTableName: "Aggregation" + data.Index,
                         column: column,
-                        join: join,
                         where: where,
                         groupBy: groupBy);
                     statementCollection.Add(statement);
@@ -10942,7 +11759,6 @@ namespace Implem.Pleasanter.Libraries.DataSources
         public static IEnumerable<SqlStatement> WikisAggregations(
             IEnumerable<Aggregation> aggregations,
             Sqls.TableTypes tableType,
-            SqlJoinCollection join,
             SqlWhereCollection where)
         {
             var statementCollection = new List<SqlStatement>()
@@ -10951,7 +11767,6 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     dataTableName: "Count",
                     tableType: tableType,
                     column: WikisColumn().WikisCount(),
-                    join: join,
                     where: where)
             };
             if (tableType != Sqls.TableTypes.Normal)
@@ -11002,7 +11817,6 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     var statement = SelectWikis(
                         dataTableName: "Aggregation" + data.Index,
                         column: column,
-                        join: join,
                         where: where,
                         groupBy: groupBy);
                     statementCollection.Add(statement);
@@ -11434,6 +12248,64 @@ namespace Implem.Pleasanter.Libraries.DataSources
                 delete from ""GroupMembers"" {{0}}".Params(DeleteParams(tableName: "GroupMembers"));
         }
 
+        public static string DeleteRegistrationsStatement(ISqlObjectFactory factory)
+        {
+            return $@"
+                update ""Registrations""
+                set
+                    ""Updator"" = {Parameters.Parameter.SqlParameterPrefix}U,
+                    ""UpdatedTime"" = {factory.Sqls.CurrentDateTime} {{0}};
+                insert into ""Registrations_deleted""
+                (
+                    ""TenantId"",
+                    ""RegistrationId"",
+                    ""Ver"",
+                    ""MailAddress"",
+                    ""Invitee"",
+                    ""InviteeName"",
+                    ""LoginId"",
+                    ""Name"",
+                    ""Password"",
+                    ""Language"",
+                    ""Passphrase"",
+                    ""Invitingflg"",
+                    ""UserId"",
+                    ""DeptId"",
+                    ""GroupId"",
+                    ""Comments"",
+                    ""Creator"",
+                    ""Updator"",
+                    ""CreatedTime"",
+                    ""UpdatedTime""
+                    {{1}}
+                )
+                (
+                select
+                    ""Registrations"".""TenantId"",
+                    ""Registrations"".""RegistrationId"",
+                    ""Registrations"".""Ver"",
+                    ""Registrations"".""MailAddress"",
+                    ""Registrations"".""Invitee"",
+                    ""Registrations"".""InviteeName"",
+                    ""Registrations"".""LoginId"",
+                    ""Registrations"".""Name"",
+                    ""Registrations"".""Password"",
+                    ""Registrations"".""Language"",
+                    ""Registrations"".""Passphrase"",
+                    ""Registrations"".""Invitingflg"",
+                    ""Registrations"".""UserId"",
+                    ""Registrations"".""DeptId"",
+                    ""Registrations"".""GroupId"",
+                    ""Registrations"".""Comments"",
+                    ""Registrations"".""Creator"",
+                    ""Registrations"".""Updator"",
+                    ""Registrations"".""CreatedTime"",
+                    ""Registrations"".""UpdatedTime"" 
+                    {{2}}
+                from ""Registrations"" {{0}});
+                delete from ""Registrations] {{0}}".Params(DeleteParams(tableName: "Registrations"));
+        }
+
         public static string DeleteUsersStatement(ISqlObjectFactory factory)
         {
             return $@"
@@ -11660,42 +12532,6 @@ namespace Implem.Pleasanter.Libraries.DataSources
                 delete from ""OutgoingMails"" {{0}}".Params(DeleteParams(tableName: "OutgoingMails"));
         }
 
-        public static string DeleteSearchIndexesStatement(ISqlObjectFactory factory)
-        {
-            return $@"
-                update ""SearchIndexes""
-                set
-                    ""Updator"" = {Parameters.Parameter.SqlParameterPrefix}U,
-                    ""UpdatedTime"" = {factory.Sqls.CurrentDateTime} {{0}};
-                insert into ""SearchIndexes_deleted""
-                (
-                    ""Word"",
-                    ""ReferenceId"",
-                    ""Ver"",
-                    ""Priority"",
-                    ""Comments"",
-                    ""Creator"",
-                    ""Updator"",
-                    ""CreatedTime"",
-                    ""UpdatedTime""
-                    {{1}}
-                )
-                (
-                select
-                    ""SearchIndexes"".""Word"",
-                    ""SearchIndexes"".""ReferenceId"",
-                    ""SearchIndexes"".""Ver"",
-                    ""SearchIndexes"".""Priority"",
-                    ""SearchIndexes"".""Comments"",
-                    ""SearchIndexes"".""Creator"",
-                    ""SearchIndexes"".""Updator"",
-                    ""SearchIndexes"".""CreatedTime"",
-                    ""SearchIndexes"".""UpdatedTime"" 
-                    {{2}}
-                from ""SearchIndexes"" {{0}});
-                delete from ""SearchIndexes"" {{0}}".Params(DeleteParams(tableName: "SearchIndexes"));
-        }
-
         public static string DeleteItemsStatement(ISqlObjectFactory factory)
         {
             return $@"
@@ -11762,6 +12598,8 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     ""Publish"",
                     ""LockedTime"",
                     ""LockedUser"",
+                    ""ApiCountDate"",
+                    ""ApiCount"",
                     ""Comments"",
                     ""Creator"",
                     ""Updator"",
@@ -11785,6 +12623,8 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     ""Sites"".""Publish"",
                     ""Sites"".""LockedTime"",
                     ""Sites"".""LockedUser"",
+                    ""ApiCountDate"",
+                    ""ApiCount"",
                     ""Sites"".""Comments"",
                     ""Sites"".""Creator"",
                     ""Sites"".""Updator"",
@@ -12595,6 +13435,66 @@ namespace Implem.Pleasanter.Libraries.DataSources
                 delete from ""GroupMembers_deleted"" {{0}}".Params(DeleteParams(tableName: "GroupMembers"));
         }
 
+        public static string RestoreRegistrationsStatement(ISqlObjectFactory factory)
+        {
+            return $@"
+                update ""Registrations_deleted""
+                set
+                    ""Updator"" = {Parameters.Parameter.SqlParameterPrefix}U,
+                    ""UpdatedTime"" = {factory.Sqls.CurrentDateTime} {{0}};
+                set identity_insert ""Registrations"" on; 
+                insert into ""Registrations""
+                (
+                    ""TenantId"",
+                    ""RegistrationId"",
+                    ""Ver"",
+                    ""MailAddress"",
+                    ""Invitee"",
+                    ""InviteeName"",
+                    ""LoginId"",
+                    ""Name"",
+                    ""Password"",
+                    ""Language"",
+                    ""Passphrase"",
+                    ""Invitingflg"",
+                    ""UserId"",
+                    ""DeptId"",
+                    ""GroupId"",
+                    ""Comments"",
+                    ""Creator"",
+                    ""Updator"",
+                    ""CreatedTime"",
+                    ""UpdatedTime""
+                    {{2}}
+                )
+                (
+                select
+                    ""Registrations_deleted"".""TenantId"",
+                    ""Registrations_deleted"".""RegistrationId"",
+                    ""Registrations_deleted"".""Ver"",
+                    ""Registrations_deleted"".""MailAddress"",
+                    ""Registrations_deleted"".""Invitee"",
+                    ""Registrations_deleted"".""InviteeName"",
+                    ""Registrations_deleted"".""LoginId"",
+                    ""Registrations_deleted"".""Name"",
+                    ""Registrations_deleted"".""Password"",
+                    ""Registrations_deleted"".""Language"",
+                    ""Registrations_deleted"".""Passphrase"",
+                    ""Registrations_deleted"".""Invitingflg"",
+                    ""Registrations_deleted"".""UserId"",
+                    ""Registrations_deleted"".""DeptId"",
+                    ""Registrations_deleted"".""GroupId"",
+                    ""Registrations_deleted"".""Comments"",
+                    ""Registrations_deleted"".""Creator"",
+                    ""Registrations_deleted"".""Updator"",
+                    ""Registrations_deleted"".""CreatedTime"",
+                    ""Registrations_deleted"".""UpdatedTime"" 
+                    {{1}}
+                from ""Registrations_deleted"" {{0}});
+                set identity_insert ""Registrations"" off; 
+                delete from ""Registrations_deleted"" {{0}}".Params(DeleteParams(tableName: "Registrations"));
+        }
+
         public static string RestoreUsersStatement(ISqlObjectFactory factory)
         {
             return $@"
@@ -12827,42 +13727,6 @@ namespace Implem.Pleasanter.Libraries.DataSources
                 delete from ""OutgoingMails_deleted"" {{0}}".Params(DeleteParams(tableName: "OutgoingMails"));
         }
 
-        public static string RestoreSearchIndexesStatement(ISqlObjectFactory factory)
-        {
-            return $@"
-                update ""SearchIndexes_deleted""
-                set
-                    ""Updator"" = {Parameters.Parameter.SqlParameterPrefix}U,
-                    ""UpdatedTime"" = {factory.Sqls.CurrentDateTime} {{0}};
-                insert into ""SearchIndexes""
-                (
-                    ""Word"",
-                    ""ReferenceId"",
-                    ""Ver"",
-                    ""Priority"",
-                    ""Comments"",
-                    ""Creator"",
-                    ""Updator"",
-                    ""CreatedTime"",
-                    ""UpdatedTime""
-                    {{2}}
-                )
-                (
-                select
-                    ""SearchIndexes_deleted"".""Word"",
-                    ""SearchIndexes_deleted"".""ReferenceId"",
-                    ""SearchIndexes_deleted"".""Ver"",
-                    ""SearchIndexes_deleted"".""Priority"",
-                    ""SearchIndexes_deleted"".""Comments"",
-                    ""SearchIndexes_deleted"".""Creator"",
-                    ""SearchIndexes_deleted"".""Updator"",
-                    ""SearchIndexes_deleted"".""CreatedTime"",
-                    ""SearchIndexes_deleted"".""UpdatedTime"" 
-                    {{1}}
-                from ""SearchIndexes_deleted"" {{0}});
-                delete from ""SearchIndexes_deleted"" {{0}}".Params(DeleteParams(tableName: "SearchIndexes"));
-        }
-
         public static string RestoreItemsStatement(ISqlObjectFactory factory)
         {
             return $@"
@@ -12931,6 +13795,8 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     ""Publish"",
                     ""LockedTime"",
                     ""LockedUser"",
+                    ""ApiCountDate"",
+                    ""ApiCount"",
                     ""Comments"",
                     ""Creator"",
                     ""Updator"",
@@ -12954,6 +13820,8 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     ""Sites_deleted"".""Publish"",
                     ""Sites_deleted"".""LockedTime"",
                     ""Sites_deleted"".""LockedUser"",
+                    ""Sites_deleted"".""ApiCountDate"",
+                    ""Sites_deleted"".""ApiCount"",
                     ""Sites_deleted"".""Comments"",
                     ""Sites_deleted"".""Creator"",
                     ""Sites_deleted"".""Updator"",
@@ -13489,73 +14357,79 @@ namespace Implem.Pleasanter.Libraries.DataSources
         public static string Tenants_TenantName_WhereLike(
             ISqlObjectFactory factory,
             string tableName = "Tenants",
+            string name = "SearchText",
             bool forward = false)
         {
             return "(\"" + tableName + "\".\"TenantName\" like " + 
                 (forward
                     ? string.Empty
                     : factory.Sqls.WhereLikeTemplateForward) +
-                factory.Sqls.WhereLikeTemplate;
+                $"@{name}{factory.Sqls.WhereLikeTemplate}";
         }
 
         public static string Tenants_Title_WhereLike(
             ISqlObjectFactory factory,
             string tableName = "Tenants",
+            string name = "SearchText",
             bool forward = false)
         {
             return "(\"" + tableName + "\".\"Title\" like " + 
                 (forward
                     ? string.Empty
                     : factory.Sqls.WhereLikeTemplateForward) +
-                factory.Sqls.WhereLikeTemplate;
+                $"@{name}{factory.Sqls.WhereLikeTemplate}";
         }
 
         public static string Tenants_Body_WhereLike(
             ISqlObjectFactory factory,
             string tableName = "Tenants",
+            string name = "SearchText",
             bool forward = false)
         {
             return "(\"" + tableName + "\".\"Body\" like " + 
                 (forward
                     ? string.Empty
                     : factory.Sqls.WhereLikeTemplateForward) +
-                factory.Sqls.WhereLikeTemplate;
+                $"@{name}{factory.Sqls.WhereLikeTemplate}";
         }
 
         public static string Tenants_HtmlTitleTop_WhereLike(
             ISqlObjectFactory factory,
             string tableName = "Tenants",
+            string name = "SearchText",
             bool forward = false)
         {
             return "(\"" + tableName + "\".\"HtmlTitleTop\" like " + 
                 (forward
                     ? string.Empty
                     : factory.Sqls.WhereLikeTemplateForward) +
-                factory.Sqls.WhereLikeTemplate;
+                $"@{name}{factory.Sqls.WhereLikeTemplate}";
         }
 
         public static string Tenants_HtmlTitleSite_WhereLike(
             ISqlObjectFactory factory,
             string tableName = "Tenants",
+            string name = "SearchText",
             bool forward = false)
         {
             return "(\"" + tableName + "\".\"HtmlTitleSite\" like " + 
                 (forward
                     ? string.Empty
                     : factory.Sqls.WhereLikeTemplateForward) +
-                factory.Sqls.WhereLikeTemplate;
+                $"@{name}{factory.Sqls.WhereLikeTemplate}";
         }
 
         public static string Tenants_HtmlTitleRecord_WhereLike(
             ISqlObjectFactory factory,
             string tableName = "Tenants",
+            string name = "SearchText",
             bool forward = false)
         {
             return "(\"" + tableName + "\".\"HtmlTitleRecord\" like " + 
                 (forward
                     ? string.Empty
                     : factory.Sqls.WhereLikeTemplateForward) +
-                factory.Sqls.WhereLikeTemplate;
+                $"@{name}{factory.Sqls.WhereLikeTemplate}";
         }
 
         public static TenantsColumnCollection TenantsColumn(
@@ -13601,7 +14475,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                 case "UpdatedTime":
                     return self.UpdatedTime(_as: _as, function: function);
                 default:
-                    return Def.ExtendedColumnTypes.ContainsKey(columnName)
+                    return columnName != null && Def.ExtendedColumnTypes.ContainsKey(columnName)
                         ? self.Add(
                             columnBracket: $"\"{columnName}\"",
                             columnName: columnName,
@@ -17226,13 +18100,14 @@ namespace Implem.Pleasanter.Libraries.DataSources
         public static string Demos_Title_WhereLike(
             ISqlObjectFactory factory,
             string tableName = "Demos",
+            string name = "SearchText",
             bool forward = false)
         {
             return "(\"" + tableName + "\".\"Title\" like " + 
                 (forward
                     ? string.Empty
                     : factory.Sqls.WhereLikeTemplateForward) +
-                factory.Sqls.WhereLikeTemplate;
+                $"@{name}{factory.Sqls.WhereLikeTemplate}";
         }
 
         public static DemosColumnCollection DemosColumn(
@@ -17270,7 +18145,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                 case "UpdatedTime":
                     return self.UpdatedTime(_as: _as, function: function);
                 default:
-                    return Def.ExtendedColumnTypes.ContainsKey(columnName)
+                    return columnName != null && Def.ExtendedColumnTypes.ContainsKey(columnName)
                         ? self.Add(
                             columnBracket: $"\"{columnName}\"",
                             columnName: columnName,
@@ -20215,7 +21090,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                 case "UpdatedTime":
                     return self.UpdatedTime(_as: _as, function: function);
                 default:
-                    return Def.ExtendedColumnTypes.ContainsKey(columnName)
+                    return columnName != null && Def.ExtendedColumnTypes.ContainsKey(columnName)
                         ? self.Add(
                             columnBracket: $"\"{columnName}\"",
                             columnName: columnName,
@@ -22903,7 +23778,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                 case "UpdatedTime":
                     return self.UpdatedTime(_as: _as, function: function);
                 default:
-                    return Def.ExtendedColumnTypes.ContainsKey(columnName)
+                    return columnName != null && Def.ExtendedColumnTypes.ContainsKey(columnName)
                         ? self.Add(
                             columnBracket: $"\"{columnName}\"",
                             columnName: columnName,
@@ -30822,7 +31697,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                 case "UpdatedTime":
                     return self.UpdatedTime(_as: _as, function: function);
                 default:
-                    return Def.ExtendedColumnTypes.ContainsKey(columnName)
+                    return columnName != null && Def.ExtendedColumnTypes.ContainsKey(columnName)
                         ? self.Add(
                             columnBracket: $"\"{columnName}\"",
                             columnName: columnName,
@@ -33085,7 +33960,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                 case "UpdatedTime":
                     return self.UpdatedTime(_as: _as, function: function);
                 default:
-                    return Def.ExtendedColumnTypes.ContainsKey(columnName)
+                    return columnName != null && Def.ExtendedColumnTypes.ContainsKey(columnName)
                         ? self.Add(
                             columnBracket: $"\"{columnName}\"",
                             columnName: columnName,
@@ -35358,49 +36233,53 @@ namespace Implem.Pleasanter.Libraries.DataSources
         public static string Depts_DeptId_WhereLike(
             ISqlObjectFactory factory,
             string tableName = "Depts",
+            string name = "SearchText",
             bool forward = false)
         {
             return "(\"" + tableName + "\".\"DeptId\" like " + 
                 (forward
                     ? string.Empty
                     : factory.Sqls.WhereLikeTemplateForward) +
-                factory.Sqls.WhereLikeTemplate;
+                $"@{name}{factory.Sqls.WhereLikeTemplate}";
         }
 
         public static string Depts_DeptCode_WhereLike(
             ISqlObjectFactory factory,
             string tableName = "Depts",
+            string name = "SearchText",
             bool forward = false)
         {
             return "(\"" + tableName + "\".\"DeptCode\" like " + 
                 (forward
                     ? string.Empty
                     : factory.Sqls.WhereLikeTemplateForward) +
-                factory.Sqls.WhereLikeTemplate;
+                $"@{name}{factory.Sqls.WhereLikeTemplate}";
         }
 
         public static string Depts_DeptName_WhereLike(
             ISqlObjectFactory factory,
             string tableName = "Depts",
+            string name = "SearchText",
             bool forward = false)
         {
             return "(\"" + tableName + "\".\"DeptName\" like " + 
                 (forward
                     ? string.Empty
                     : factory.Sqls.WhereLikeTemplateForward) +
-                factory.Sqls.WhereLikeTemplate;
+                $"@{name}{factory.Sqls.WhereLikeTemplate}";
         }
 
         public static string Depts_Body_WhereLike(
             ISqlObjectFactory factory,
             string tableName = "Depts",
+            string name = "SearchText",
             bool forward = false)
         {
             return "(\"" + tableName + "\".\"Body\" like " + 
                 (forward
                     ? string.Empty
                     : factory.Sqls.WhereLikeTemplateForward) +
-                factory.Sqls.WhereLikeTemplate;
+                $"@{name}{factory.Sqls.WhereLikeTemplate}";
         }
 
         public static DeptsColumnCollection DeptsColumn(
@@ -35436,7 +36315,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                 case "UpdatedTime":
                     return self.UpdatedTime(_as: _as, function: function);
                 default:
-                    return Def.ExtendedColumnTypes.ContainsKey(columnName)
+                    return columnName != null && Def.ExtendedColumnTypes.ContainsKey(columnName)
                         ? self.Add(
                             columnBracket: $"\"{columnName}\"",
                             columnName: columnName,
@@ -38144,49 +39023,53 @@ namespace Implem.Pleasanter.Libraries.DataSources
         public static string Groups_TenantId_WhereLike(
             ISqlObjectFactory factory,
             string tableName = "Groups",
+            string name = "SearchText",
             bool forward = false)
         {
             return "(\"" + tableName + "\".\"TenantId\" like " + 
                 (forward
                     ? string.Empty
                     : factory.Sqls.WhereLikeTemplateForward) +
-                factory.Sqls.WhereLikeTemplate;
+                $"@{name}{factory.Sqls.WhereLikeTemplate}";
         }
 
         public static string Groups_GroupId_WhereLike(
             ISqlObjectFactory factory,
             string tableName = "Groups",
+            string name = "SearchText",
             bool forward = false)
         {
             return "(\"" + tableName + "\".\"GroupId\" like " + 
                 (forward
                     ? string.Empty
                     : factory.Sqls.WhereLikeTemplateForward) +
-                factory.Sqls.WhereLikeTemplate;
+                $"@{name}{factory.Sqls.WhereLikeTemplate}";
         }
 
         public static string Groups_GroupName_WhereLike(
             ISqlObjectFactory factory,
             string tableName = "Groups",
+            string name = "SearchText",
             bool forward = false)
         {
             return "(\"" + tableName + "\".\"GroupName\" like " + 
                 (forward
                     ? string.Empty
                     : factory.Sqls.WhereLikeTemplateForward) +
-                factory.Sqls.WhereLikeTemplate;
+                $"@{name}{factory.Sqls.WhereLikeTemplate}";
         }
 
         public static string Groups_Body_WhereLike(
             ISqlObjectFactory factory,
             string tableName = "Groups",
+            string name = "SearchText",
             bool forward = false)
         {
             return "(\"" + tableName + "\".\"Body\" like " + 
                 (forward
                     ? string.Empty
                     : factory.Sqls.WhereLikeTemplateForward) +
-                factory.Sqls.WhereLikeTemplate;
+                $"@{name}{factory.Sqls.WhereLikeTemplate}";
         }
 
         public static GroupsColumnCollection GroupsColumn(
@@ -38218,7 +39101,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                 case "UpdatedTime":
                     return self.UpdatedTime(_as: _as, function: function);
                 default:
-                    return Def.ExtendedColumnTypes.ContainsKey(columnName)
+                    return columnName != null && Def.ExtendedColumnTypes.ContainsKey(columnName)
                         ? self.Add(
                             columnBracket: $"\"{columnName}\"",
                             columnName: columnName,
@@ -40652,7 +41535,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                 case "UpdatedTime":
                     return self.UpdatedTime(_as: _as, function: function);
                 default:
-                    return Def.ExtendedColumnTypes.ContainsKey(columnName)
+                    return columnName != null && Def.ExtendedColumnTypes.ContainsKey(columnName)
                         ? self.Add(
                             columnBracket: $"\"{columnName}\"",
                             columnName: columnName,
@@ -42958,6 +43841,4464 @@ namespace Implem.Pleasanter.Libraries.DataSources
                 : self;
         }
 
+        public static RegistrationsColumnCollection RegistrationsColumn()
+        {
+            return new RegistrationsColumnCollection();
+        }
+
+        public class RegistrationsColumnCollection : SqlColumnCollection
+        {
+            public new RegistrationsColumnCollection Add(
+                string columnBracket = null,
+                string tableName = "Registrations",
+                string columnName = null,
+                string _as = null,
+                Sqls.Functions function = Sqls.Functions.None,
+                SqlStatement sub = null,
+                bool subPrefix = true)
+            {
+                base.Add(
+                    columnBracket: columnBracket,
+                    tableName: tableName,
+                    columnName: columnName,
+                    _as: _as,
+                    function: function,
+                    sub: sub,
+                    subPrefix: subPrefix);
+                return this;
+            }
+        }
+
+        public static RegistrationsJoinCollection RegistrationsJoin()
+        {
+            return new RegistrationsJoinCollection();
+        }
+
+        public class RegistrationsJoinCollection : SqlJoinCollection
+        {
+            public RegistrationsJoinCollection Add(params SqlJoin[] sqlJoinCollection)
+            {
+                sqlJoinCollection.ForEach(sqlJoin => base.Add(sqlJoin));
+                return this;
+            }
+        }
+
+        public static RegistrationsWhereCollection RegistrationsWhere()
+        {
+            return new RegistrationsWhereCollection();
+        }
+
+        public class RegistrationsWhereCollection : SqlWhereCollection
+        {
+            public new RegistrationsWhereCollection Add(
+                string tableName = "Registrations",
+                string[] columnBrackets = null,
+                string name = null,
+                object value = null,
+                string _operator = "=",
+                string multiColumnOperator = " or ",
+                string multiParamOperator = " and ",
+                SqlStatement subLeft = null,
+                SqlStatement sub = null,
+                bool subPrefix = true,
+                string raw = null,
+                bool _using = true)
+            {
+                if (_using)
+                {
+                    Add(new SqlWhere(
+                        columnBrackets: columnBrackets,
+                        tableName: tableName,
+                        name: name,
+                        value: value,
+                        _operator: _operator,
+                        multiColumnOperator: multiColumnOperator,
+                        multiParamOperator: multiParamOperator,
+                        subLeft: subLeft,
+                        sub: sub,
+                        subPrefix: subPrefix,
+                        raw: raw));
+                }
+                return this;
+            }
+        }
+
+        public static RegistrationsGroupByCollection RegistrationsGroupBy()
+        {
+            return new RegistrationsGroupByCollection();
+        }
+
+        public class RegistrationsGroupByCollection : SqlGroupByCollection
+        {
+            public new RegistrationsGroupByCollection Add(
+                string columnBracket, string tableName = "Registrations")
+            {
+                Add(new SqlGroupBy(
+                    columnBracket: columnBracket,
+                    tableName: tableName));
+                return this;
+            }
+        }
+
+        public static RegistrationsHavingCollection RegistrationsHaving()
+        {
+            return new RegistrationsHavingCollection();
+        }
+
+        public class RegistrationsHavingCollection : SqlHavingCollection
+        {
+            public RegistrationsHavingCollection Add(
+                string columnBracket,
+                string tableName = "Registrations",
+                object value = null,
+                string _operator = "=",
+                Sqls.Functions function = Sqls.Functions.None)
+            {
+                Add(new SqlHaving(
+                    columnBracket: columnBracket,
+                    tableName: tableName,
+                    value: value,
+                    _operator: _operator,
+                    function: function));
+                return this;
+            }
+        }
+
+        public static RegistrationsOrderByCollection RegistrationsOrderBy()
+        {
+            return new RegistrationsOrderByCollection();
+        }
+
+        public class RegistrationsOrderByCollection : SqlOrderByCollection
+        {
+            public new RegistrationsOrderByCollection Add(
+                string columnBracket,
+                SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
+                string tableName = "Registrations",
+                Sqls.Functions function = Sqls.Functions.None)
+            {
+                Add(new SqlOrderBy(
+                    columnBracket: columnBracket,
+                    tableName: tableName,
+                    orderType: orderType,
+                    function: function));
+                return this;
+            }
+        }
+
+        public static RegistrationsParamCollection RegistrationsParam()
+        {
+            return new RegistrationsParamCollection();
+        }
+
+        public class RegistrationsParamCollection : SqlParamCollection
+        {
+            public new RegistrationsParamCollection Add(
+                string columnBracket = null,
+                string name = null,
+                object value = null,
+                SqlStatement sub = null,
+                string raw = null,
+                bool _using = true)
+            {
+                Add(new SqlParam(
+                    columnBracket: columnBracket,
+                    name: name,
+                    value: value,
+                    sub: sub,
+                    raw: raw,
+                    _using: _using));
+                return this;
+            }
+        }
+
+        public static string Registrations_MailAddress_WhereLike(
+            ISqlObjectFactory factory,
+            string tableName = "Registrations",
+            string name = "SearchText",
+            bool forward = false)
+        {
+            return "(\"" + tableName + "\".\"MailAddress\" like " + 
+                (forward
+                    ? string.Empty
+                    : factory.Sqls.WhereLikeTemplateForward) +
+                $"@{name}{factory.Sqls.WhereLikeTemplate}";
+        }
+
+        public static string Registrations_Name_WhereLike(
+            ISqlObjectFactory factory,
+            string tableName = "Registrations",
+            string name = "SearchText",
+            bool forward = false)
+        {
+            return "(\"" + tableName + "\".\"Name\" like " + 
+                (forward
+                    ? string.Empty
+                    : factory.Sqls.WhereLikeTemplateForward) +
+                $"@{name}{factory.Sqls.WhereLikeTemplate}";
+        }
+
+        public static RegistrationsColumnCollection RegistrationsColumn(
+            this RegistrationsColumnCollection self,
+            string columnName,
+            string _as = null,
+            Sqls.Functions function = Sqls.Functions.None)
+        {
+            switch (columnName)
+            {
+                case "TenantId":
+                    return self.TenantId(_as: _as, function: function);
+                case "RegistrationId":
+                    return self.RegistrationId(_as: _as, function: function);
+                case "Ver":
+                    return self.Ver(_as: _as, function: function);
+                case "MailAddress":
+                    return self.MailAddress(_as: _as, function: function);
+                case "Invitee":
+                    return self.Invitee(_as: _as, function: function);
+                case "InviteeName":
+                    return self.InviteeName(_as: _as, function: function);
+                case "LoginId":
+                    return self.LoginId(_as: _as, function: function);
+                case "Name":
+                    return self.Name(_as: _as, function: function);
+                case "Password":
+                    return self.Password(_as: _as, function: function);
+                case "Language":
+                    return self.Language(_as: _as, function: function);
+                case "Passphrase":
+                    return self.Passphrase(_as: _as, function: function);
+                case "Invitingflg":
+                    return self.Invitingflg(_as: _as, function: function);
+                case "UserId":
+                    return self.UserId(_as: _as, function: function);
+                case "DeptId":
+                    return self.DeptId(_as: _as, function: function);
+                case "GroupId":
+                    return self.GroupId(_as: _as, function: function);
+                case "Comments":
+                    return self.Comments(_as: _as, function: function);
+                case "Creator":
+                    return self.Creator(_as: _as, function: function);
+                case "Updator":
+                    return self.Updator(_as: _as, function: function);
+                case "CreatedTime":
+                    return self.CreatedTime(_as: _as, function: function);
+                case "UpdatedTime":
+                    return self.UpdatedTime(_as: _as, function: function);
+                default:
+                    return columnName != null && Def.ExtendedColumnTypes.ContainsKey(columnName)
+                        ? self.Add(
+                            columnBracket: $"\"{columnName}\"",
+                            columnName: columnName,
+                            _as: _as,
+                            function: function)
+                        : self;
+            }
+        }
+
+        public static RegistrationsColumnCollection TenantId(
+            this RegistrationsColumnCollection self,
+            string tableName = "Registrations",
+            string columnName = "TenantId",
+            string _as = null,
+            Sqls.Functions function = Sqls.Functions.None,
+            SqlStatement sub = null)
+        {
+            return self.Add(
+                columnBracket: "\"TenantId\"",
+                tableName: tableName,
+                columnName: columnName,
+                _as: _as,
+                function: function,
+                sub: sub);
+        }
+
+        public static SqlColumnCollection Registrations_TenantId(
+            this SqlColumnCollection self,
+            string tableName = "Registrations",
+            string columnName = "TenantId",
+            string _as = null,
+            Sqls.Functions function = Sqls.Functions.None,
+            SqlStatement sub = null)
+        {
+            return self.Add(
+                columnBracket: "\"TenantId\"",
+                tableName: tableName,
+                columnName: columnName,
+                _as: _as,
+                function: function,
+                sub: sub);
+        }
+
+        public static RegistrationsColumnCollection RegistrationId(
+            this RegistrationsColumnCollection self,
+            string tableName = "Registrations",
+            string columnName = "RegistrationId",
+            string _as = null,
+            Sqls.Functions function = Sqls.Functions.None,
+            SqlStatement sub = null)
+        {
+            return self.Add(
+                columnBracket: "\"RegistrationId\"",
+                tableName: tableName,
+                columnName: columnName,
+                _as: _as,
+                function: function,
+                sub: sub);
+        }
+
+        public static SqlColumnCollection Registrations_RegistrationId(
+            this SqlColumnCollection self,
+            string tableName = "Registrations",
+            string columnName = "RegistrationId",
+            string _as = null,
+            Sqls.Functions function = Sqls.Functions.None,
+            SqlStatement sub = null)
+        {
+            return self.Add(
+                columnBracket: "\"RegistrationId\"",
+                tableName: tableName,
+                columnName: columnName,
+                _as: _as,
+                function: function,
+                sub: sub);
+        }
+
+        public static RegistrationsColumnCollection Ver(
+            this RegistrationsColumnCollection self,
+            string tableName = "Registrations",
+            string columnName = "Ver",
+            string _as = null,
+            Sqls.Functions function = Sqls.Functions.None,
+            SqlStatement sub = null)
+        {
+            return self.Add(
+                columnBracket: "\"Ver\"",
+                tableName: tableName,
+                columnName: columnName,
+                _as: _as,
+                function: function,
+                sub: sub);
+        }
+
+        public static SqlColumnCollection Registrations_Ver(
+            this SqlColumnCollection self,
+            string tableName = "Registrations",
+            string columnName = "Ver",
+            string _as = null,
+            Sqls.Functions function = Sqls.Functions.None,
+            SqlStatement sub = null)
+        {
+            return self.Add(
+                columnBracket: "\"Ver\"",
+                tableName: tableName,
+                columnName: columnName,
+                _as: _as,
+                function: function,
+                sub: sub);
+        }
+
+        public static RegistrationsColumnCollection MailAddress(
+            this RegistrationsColumnCollection self,
+            string tableName = "Registrations",
+            string columnName = "MailAddress",
+            string _as = null,
+            Sqls.Functions function = Sqls.Functions.None,
+            SqlStatement sub = null)
+        {
+            return self.Add(
+                columnBracket: "\"MailAddress\"",
+                tableName: tableName,
+                columnName: columnName,
+                _as: _as,
+                function: function,
+                sub: sub);
+        }
+
+        public static SqlColumnCollection Registrations_MailAddress(
+            this SqlColumnCollection self,
+            string tableName = "Registrations",
+            string columnName = "MailAddress",
+            string _as = null,
+            Sqls.Functions function = Sqls.Functions.None,
+            SqlStatement sub = null)
+        {
+            return self.Add(
+                columnBracket: "\"MailAddress\"",
+                tableName: tableName,
+                columnName: columnName,
+                _as: _as,
+                function: function,
+                sub: sub);
+        }
+
+        public static RegistrationsColumnCollection Invitee(
+            this RegistrationsColumnCollection self,
+            string tableName = "Registrations",
+            string columnName = "Invitee",
+            string _as = null,
+            Sqls.Functions function = Sqls.Functions.None,
+            SqlStatement sub = null)
+        {
+            return self.Add(
+                columnBracket: "\"Invitee\"",
+                tableName: tableName,
+                columnName: columnName,
+                _as: _as,
+                function: function,
+                sub: sub);
+        }
+
+        public static SqlColumnCollection Registrations_Invitee(
+            this SqlColumnCollection self,
+            string tableName = "Registrations",
+            string columnName = "Invitee",
+            string _as = null,
+            Sqls.Functions function = Sqls.Functions.None,
+            SqlStatement sub = null)
+        {
+            return self.Add(
+                columnBracket: "\"Invitee\"",
+                tableName: tableName,
+                columnName: columnName,
+                _as: _as,
+                function: function,
+                sub: sub);
+        }
+
+        public static RegistrationsColumnCollection InviteeName(
+            this RegistrationsColumnCollection self,
+            string tableName = "Registrations",
+            string columnName = "InviteeName",
+            string _as = null,
+            Sqls.Functions function = Sqls.Functions.None,
+            SqlStatement sub = null)
+        {
+            return self.Add(
+                columnBracket: "\"InviteeName\"",
+                tableName: tableName,
+                columnName: columnName,
+                _as: _as,
+                function: function,
+                sub: sub);
+        }
+
+        public static SqlColumnCollection Registrations_InviteeName(
+            this SqlColumnCollection self,
+            string tableName = "Registrations",
+            string columnName = "InviteeName",
+            string _as = null,
+            Sqls.Functions function = Sqls.Functions.None,
+            SqlStatement sub = null)
+        {
+            return self.Add(
+                columnBracket: "\"InviteeName\"",
+                tableName: tableName,
+                columnName: columnName,
+                _as: _as,
+                function: function,
+                sub: sub);
+        }
+
+        public static RegistrationsColumnCollection LoginId(
+            this RegistrationsColumnCollection self,
+            string tableName = "Registrations",
+            string columnName = "LoginId",
+            string _as = null,
+            Sqls.Functions function = Sqls.Functions.None,
+            SqlStatement sub = null)
+        {
+            return self.Add(
+                columnBracket: "\"LoginId\"",
+                tableName: tableName,
+                columnName: columnName,
+                _as: _as,
+                function: function,
+                sub: sub);
+        }
+
+        public static SqlColumnCollection Registrations_LoginId(
+            this SqlColumnCollection self,
+            string tableName = "Registrations",
+            string columnName = "LoginId",
+            string _as = null,
+            Sqls.Functions function = Sqls.Functions.None,
+            SqlStatement sub = null)
+        {
+            return self.Add(
+                columnBracket: "\"LoginId\"",
+                tableName: tableName,
+                columnName: columnName,
+                _as: _as,
+                function: function,
+                sub: sub);
+        }
+
+        public static RegistrationsColumnCollection Name(
+            this RegistrationsColumnCollection self,
+            string tableName = "Registrations",
+            string columnName = "Name",
+            string _as = null,
+            Sqls.Functions function = Sqls.Functions.None,
+            SqlStatement sub = null)
+        {
+            return self.Add(
+                columnBracket: "\"Name\"",
+                tableName: tableName,
+                columnName: columnName,
+                _as: _as,
+                function: function,
+                sub: sub);
+        }
+
+        public static SqlColumnCollection Registrations_Name(
+            this SqlColumnCollection self,
+            string tableName = "Registrations",
+            string columnName = "Name",
+            string _as = null,
+            Sqls.Functions function = Sqls.Functions.None,
+            SqlStatement sub = null)
+        {
+            return self.Add(
+                columnBracket: "\"Name\"",
+                tableName: tableName,
+                columnName: columnName,
+                _as: _as,
+                function: function,
+                sub: sub);
+        }
+
+        public static RegistrationsColumnCollection Password(
+            this RegistrationsColumnCollection self,
+            string tableName = "Registrations",
+            string columnName = "Password",
+            string _as = null,
+            Sqls.Functions function = Sqls.Functions.None,
+            SqlStatement sub = null)
+        {
+            return self.Add(
+                columnBracket: "\"Password\"",
+                tableName: tableName,
+                columnName: columnName,
+                _as: _as,
+                function: function,
+                sub: sub);
+        }
+
+        public static SqlColumnCollection Registrations_Password(
+            this SqlColumnCollection self,
+            string tableName = "Registrations",
+            string columnName = "Password",
+            string _as = null,
+            Sqls.Functions function = Sqls.Functions.None,
+            SqlStatement sub = null)
+        {
+            return self.Add(
+                columnBracket: "\"Password\"",
+                tableName: tableName,
+                columnName: columnName,
+                _as: _as,
+                function: function,
+                sub: sub);
+        }
+
+        public static RegistrationsColumnCollection Language(
+            this RegistrationsColumnCollection self,
+            string tableName = "Registrations",
+            string columnName = "Language",
+            string _as = null,
+            Sqls.Functions function = Sqls.Functions.None,
+            SqlStatement sub = null)
+        {
+            return self.Add(
+                columnBracket: "\"Language\"",
+                tableName: tableName,
+                columnName: columnName,
+                _as: _as,
+                function: function,
+                sub: sub);
+        }
+
+        public static SqlColumnCollection Registrations_Language(
+            this SqlColumnCollection self,
+            string tableName = "Registrations",
+            string columnName = "Language",
+            string _as = null,
+            Sqls.Functions function = Sqls.Functions.None,
+            SqlStatement sub = null)
+        {
+            return self.Add(
+                columnBracket: "\"Language\"",
+                tableName: tableName,
+                columnName: columnName,
+                _as: _as,
+                function: function,
+                sub: sub);
+        }
+
+        public static RegistrationsColumnCollection Passphrase(
+            this RegistrationsColumnCollection self,
+            string tableName = "Registrations",
+            string columnName = "Passphrase",
+            string _as = null,
+            Sqls.Functions function = Sqls.Functions.None,
+            SqlStatement sub = null)
+        {
+            return self.Add(
+                columnBracket: "\"Passphrase\"",
+                tableName: tableName,
+                columnName: columnName,
+                _as: _as,
+                function: function,
+                sub: sub);
+        }
+
+        public static SqlColumnCollection Registrations_Passphrase(
+            this SqlColumnCollection self,
+            string tableName = "Registrations",
+            string columnName = "Passphrase",
+            string _as = null,
+            Sqls.Functions function = Sqls.Functions.None,
+            SqlStatement sub = null)
+        {
+            return self.Add(
+                columnBracket: "\"Passphrase\"",
+                tableName: tableName,
+                columnName: columnName,
+                _as: _as,
+                function: function,
+                sub: sub);
+        }
+
+        public static RegistrationsColumnCollection Invitingflg(
+            this RegistrationsColumnCollection self,
+            string tableName = "Registrations",
+            string columnName = "Invitingflg",
+            string _as = null,
+            Sqls.Functions function = Sqls.Functions.None,
+            SqlStatement sub = null)
+        {
+            return self.Add(
+                columnBracket: "\"Invitingflg\"",
+                tableName: tableName,
+                columnName: columnName,
+                _as: _as,
+                function: function,
+                sub: sub);
+        }
+
+        public static SqlColumnCollection Registrations_Invitingflg(
+            this SqlColumnCollection self,
+            string tableName = "Registrations",
+            string columnName = "Invitingflg",
+            string _as = null,
+            Sqls.Functions function = Sqls.Functions.None,
+            SqlStatement sub = null)
+        {
+            return self.Add(
+                columnBracket: "\"Invitingflg\"",
+                tableName: tableName,
+                columnName: columnName,
+                _as: _as,
+                function: function,
+                sub: sub);
+        }
+
+        public static RegistrationsColumnCollection UserId(
+            this RegistrationsColumnCollection self,
+            string tableName = "Registrations",
+            string columnName = "UserId",
+            string _as = null,
+            Sqls.Functions function = Sqls.Functions.None,
+            SqlStatement sub = null)
+        {
+            return self.Add(
+                columnBracket: "\"UserId\"",
+                tableName: tableName,
+                columnName: columnName,
+                _as: _as,
+                function: function,
+                sub: sub);
+        }
+
+        public static SqlColumnCollection Registrations_UserId(
+            this SqlColumnCollection self,
+            string tableName = "Registrations",
+            string columnName = "UserId",
+            string _as = null,
+            Sqls.Functions function = Sqls.Functions.None,
+            SqlStatement sub = null)
+        {
+            return self.Add(
+                columnBracket: "\"UserId\"",
+                tableName: tableName,
+                columnName: columnName,
+                _as: _as,
+                function: function,
+                sub: sub);
+        }
+
+        public static RegistrationsColumnCollection DeptId(
+            this RegistrationsColumnCollection self,
+            string tableName = "Registrations",
+            string columnName = "DeptId",
+            string _as = null,
+            Sqls.Functions function = Sqls.Functions.None,
+            SqlStatement sub = null)
+        {
+            return self.Add(
+                columnBracket: "\"DeptId\"",
+                tableName: tableName,
+                columnName: columnName,
+                _as: _as,
+                function: function,
+                sub: sub);
+        }
+
+        public static SqlColumnCollection Registrations_DeptId(
+            this SqlColumnCollection self,
+            string tableName = "Registrations",
+            string columnName = "DeptId",
+            string _as = null,
+            Sqls.Functions function = Sqls.Functions.None,
+            SqlStatement sub = null)
+        {
+            return self.Add(
+                columnBracket: "\"DeptId\"",
+                tableName: tableName,
+                columnName: columnName,
+                _as: _as,
+                function: function,
+                sub: sub);
+        }
+
+        public static RegistrationsColumnCollection GroupId(
+            this RegistrationsColumnCollection self,
+            string tableName = "Registrations",
+            string columnName = "GroupId",
+            string _as = null,
+            Sqls.Functions function = Sqls.Functions.None,
+            SqlStatement sub = null)
+        {
+            return self.Add(
+                columnBracket: "\"GroupId\"",
+                tableName: tableName,
+                columnName: columnName,
+                _as: _as,
+                function: function,
+                sub: sub);
+        }
+
+        public static SqlColumnCollection Registrations_GroupId(
+            this SqlColumnCollection self,
+            string tableName = "Registrations",
+            string columnName = "GroupId",
+            string _as = null,
+            Sqls.Functions function = Sqls.Functions.None,
+            SqlStatement sub = null)
+        {
+            return self.Add(
+                columnBracket: "\"GroupId\"",
+                tableName: tableName,
+                columnName: columnName,
+                _as: _as,
+                function: function,
+                sub: sub);
+        }
+
+        public static RegistrationsColumnCollection Comments(
+            this RegistrationsColumnCollection self,
+            string tableName = "Registrations",
+            string columnName = "Comments",
+            string _as = null,
+            Sqls.Functions function = Sqls.Functions.None,
+            SqlStatement sub = null)
+        {
+            return self.Add(
+                columnBracket: "\"Comments\"",
+                tableName: tableName,
+                columnName: columnName,
+                _as: _as,
+                function: function,
+                sub: sub);
+        }
+
+        public static SqlColumnCollection Registrations_Comments(
+            this SqlColumnCollection self,
+            string tableName = "Registrations",
+            string columnName = "Comments",
+            string _as = null,
+            Sqls.Functions function = Sqls.Functions.None,
+            SqlStatement sub = null)
+        {
+            return self.Add(
+                columnBracket: "\"Comments\"",
+                tableName: tableName,
+                columnName: columnName,
+                _as: _as,
+                function: function,
+                sub: sub);
+        }
+
+        public static RegistrationsColumnCollection Creator(
+            this RegistrationsColumnCollection self,
+            string tableName = "Registrations",
+            string columnName = "Creator",
+            string _as = null,
+            Sqls.Functions function = Sqls.Functions.None,
+            SqlStatement sub = null)
+        {
+            return self.Add(
+                columnBracket: "\"Creator\"",
+                tableName: tableName,
+                columnName: columnName,
+                _as: _as,
+                function: function,
+                sub: sub);
+        }
+
+        public static SqlColumnCollection Registrations_Creator(
+            this SqlColumnCollection self,
+            string tableName = "Registrations",
+            string columnName = "Creator",
+            string _as = null,
+            Sqls.Functions function = Sqls.Functions.None,
+            SqlStatement sub = null)
+        {
+            return self.Add(
+                columnBracket: "\"Creator\"",
+                tableName: tableName,
+                columnName: columnName,
+                _as: _as,
+                function: function,
+                sub: sub);
+        }
+
+        public static RegistrationsColumnCollection Updator(
+            this RegistrationsColumnCollection self,
+            string tableName = "Registrations",
+            string columnName = "Updator",
+            string _as = null,
+            Sqls.Functions function = Sqls.Functions.None,
+            SqlStatement sub = null)
+        {
+            return self.Add(
+                columnBracket: "\"Updator\"",
+                tableName: tableName,
+                columnName: columnName,
+                _as: _as,
+                function: function,
+                sub: sub);
+        }
+
+        public static SqlColumnCollection Registrations_Updator(
+            this SqlColumnCollection self,
+            string tableName = "Registrations",
+            string columnName = "Updator",
+            string _as = null,
+            Sqls.Functions function = Sqls.Functions.None,
+            SqlStatement sub = null)
+        {
+            return self.Add(
+                columnBracket: "\"Updator\"",
+                tableName: tableName,
+                columnName: columnName,
+                _as: _as,
+                function: function,
+                sub: sub);
+        }
+
+        public static RegistrationsColumnCollection CreatedTime(
+            this RegistrationsColumnCollection self,
+            string tableName = "Registrations",
+            string columnName = "CreatedTime",
+            string _as = null,
+            Sqls.Functions function = Sqls.Functions.None,
+            SqlStatement sub = null)
+        {
+            return self.Add(
+                columnBracket: "\"CreatedTime\"",
+                tableName: tableName,
+                columnName: columnName,
+                _as: _as,
+                function: function,
+                sub: sub);
+        }
+
+        public static SqlColumnCollection Registrations_CreatedTime(
+            this SqlColumnCollection self,
+            string tableName = "Registrations",
+            string columnName = "CreatedTime",
+            string _as = null,
+            Sqls.Functions function = Sqls.Functions.None,
+            SqlStatement sub = null)
+        {
+            return self.Add(
+                columnBracket: "[CreatedTime\"",
+                tableName: tableName,
+                columnName: columnName,
+                _as: _as,
+                function: function,
+                sub: sub);
+        }
+
+        public static RegistrationsColumnCollection UpdatedTime(
+            this RegistrationsColumnCollection self,
+            string tableName = "Registrations",
+            string columnName = "UpdatedTime",
+            string _as = null,
+            Sqls.Functions function = Sqls.Functions.None,
+            SqlStatement sub = null)
+        {
+            return self.Add(
+                columnBracket: "\"UpdatedTime\"",
+                tableName: tableName,
+                columnName: columnName,
+                _as: _as,
+                function: function,
+                sub: sub);
+        }
+
+        public static SqlColumnCollection Registrations_UpdatedTime(
+            this SqlColumnCollection self,
+            string tableName = "Registrations",
+            string columnName = "UpdatedTime",
+            string _as = null,
+            Sqls.Functions function = Sqls.Functions.None,
+            SqlStatement sub = null)
+        {
+            return self.Add(
+                columnBracket: "\"UpdatedTime\"",
+                tableName: tableName,
+                columnName: columnName,
+                _as: _as,
+                function: function,
+                sub: sub);
+        }
+
+        public static RegistrationsColumnCollection RegistrationsCount(
+            this RegistrationsColumnCollection self,
+            string _as = "RegistrationsCount")
+        {
+            return self.Add(
+                columnBracket: "*",
+                tableName: null,
+                _as: _as,
+                function: Sqls.Functions.Count);
+        }
+
+        public static RegistrationsWhereCollection TenantId(
+            this RegistrationsWhereCollection self,
+            object value = null,
+            string tableName = "Registrations",
+            string _operator = "=",
+            string multiColumnOperator = " or ",
+            string multiParamOperator = " and ",
+            SqlStatement subLeft = null,
+            SqlStatement sub = null,
+            bool subPrefix = true,
+            string raw = null,
+            bool _using = true)
+        {
+            return _using
+                ? self.Add(
+                    columnBrackets: new string[] { "\"TenantId\"" },
+                    tableName: tableName,
+                    name: "TenantId",
+                    value: value,
+                    _operator: _operator,
+                    multiColumnOperator: multiColumnOperator,
+                    multiParamOperator: multiParamOperator,
+                    subLeft: subLeft,
+                    sub: sub,
+                    subPrefix: subPrefix,
+                    raw: raw)
+                : self;
+        }
+
+        public static SqlWhereCollection Registrations_TenantId(
+            this SqlWhereCollection self,
+            object value = null,
+            string tableName = "Registrations",
+            string _operator = "=",
+            string multiColumnOperator = " or ",
+            string multiParamOperator = " and ",
+            SqlStatement subLeft = null,
+            SqlStatement sub = null,
+            bool subPrefix = true,
+            string raw = null,
+            bool _using = true)
+        {
+            return _using
+                ? self.Add(
+                    columnBrackets: new string[] { "\"TenantId\"" },
+                    tableName: tableName,
+                    name: "TenantId",
+                    value: value,
+                    _operator: _operator,
+                    multiColumnOperator: multiColumnOperator,
+                    multiParamOperator: multiParamOperator,
+                    subLeft: subLeft,
+                    sub: sub,
+                    subPrefix: subPrefix,
+                    raw: raw)
+                : self;
+        }
+
+        public static RegistrationsWhereCollection RegistrationId(
+            this RegistrationsWhereCollection self,
+            object value = null,
+            string tableName = "Registrations",
+            string _operator = "=",
+            string multiColumnOperator = " or ",
+            string multiParamOperator = " and ",
+            SqlStatement subLeft = null,
+            SqlStatement sub = null,
+            bool subPrefix = true,
+            string raw = null,
+            bool _using = true)
+        {
+            return _using
+                ? self.Add(
+                    columnBrackets: new string[] { "\"RegistrationId]" },
+                    tableName: tableName,
+                    name: "RegistrationId",
+                    value: value,
+                    _operator: _operator,
+                    multiColumnOperator: multiColumnOperator,
+                    multiParamOperator: multiParamOperator,
+                    subLeft: subLeft,
+                    sub: sub,
+                    subPrefix: subPrefix,
+                    raw: raw)
+                : self;
+        }
+
+        public static SqlWhereCollection Registrations_RegistrationId(
+            this SqlWhereCollection self,
+            object value = null,
+            string tableName = "Registrations",
+            string _operator = "=",
+            string multiColumnOperator = " or ",
+            string multiParamOperator = " and ",
+            SqlStatement subLeft = null,
+            SqlStatement sub = null,
+            bool subPrefix = true,
+            string raw = null,
+            bool _using = true)
+        {
+            return _using
+                ? self.Add(
+                    columnBrackets: new string[] { "\"RegistrationId\"" },
+                    tableName: tableName,
+                    name: "RegistrationId",
+                    value: value,
+                    _operator: _operator,
+                    multiColumnOperator: multiColumnOperator,
+                    multiParamOperator: multiParamOperator,
+                    subLeft: subLeft,
+                    sub: sub,
+                    subPrefix: subPrefix,
+                    raw: raw)
+                : self;
+        }
+
+        public static RegistrationsWhereCollection Ver(
+            this RegistrationsWhereCollection self,
+            object value = null,
+            string tableName = "Registrations",
+            string _operator = "=",
+            string multiColumnOperator = " or ",
+            string multiParamOperator = " and ",
+            SqlStatement subLeft = null,
+            SqlStatement sub = null,
+            bool subPrefix = true,
+            string raw = null,
+            bool _using = true)
+        {
+            return _using
+                ? self.Add(
+                    columnBrackets: new string[] { "\"Ver\"" },
+                    tableName: tableName,
+                    name: "Ver",
+                    value: value,
+                    _operator: _operator,
+                    multiColumnOperator: multiColumnOperator,
+                    multiParamOperator: multiParamOperator,
+                    subLeft: subLeft,
+                    sub: sub,
+                    subPrefix: subPrefix,
+                    raw: raw)
+                : self;
+        }
+
+        public static SqlWhereCollection Registrations_Ver(
+            this SqlWhereCollection self,
+            object value = null,
+            string tableName = "Registrations",
+            string _operator = "=",
+            string multiColumnOperator = " or ",
+            string multiParamOperator = " and ",
+            SqlStatement subLeft = null,
+            SqlStatement sub = null,
+            bool subPrefix = true,
+            string raw = null,
+            bool _using = true)
+        {
+            return _using
+                ? self.Add(
+                    columnBrackets: new string[] { "\"Ver\"" },
+                    tableName: tableName,
+                    name: "Ver",
+                    value: value,
+                    _operator: _operator,
+                    multiColumnOperator: multiColumnOperator,
+                    multiParamOperator: multiParamOperator,
+                    subLeft: subLeft,
+                    sub: sub,
+                    subPrefix: subPrefix,
+                    raw: raw)
+                : self;
+        }
+
+        public static RegistrationsWhereCollection MailAddress(
+            this RegistrationsWhereCollection self,
+            object value = null,
+            string tableName = "Registrations",
+            string _operator = "=",
+            string multiColumnOperator = " or ",
+            string multiParamOperator = " and ",
+            SqlStatement subLeft = null,
+            SqlStatement sub = null,
+            bool subPrefix = true,
+            string raw = null,
+            bool _using = true)
+        {
+            return _using
+                ? self.Add(
+                    columnBrackets: new string[] { "\"MailAddress\"" },
+                    tableName: tableName,
+                    name: "MailAddress",
+                    value: value,
+                    _operator: _operator,
+                    multiColumnOperator: multiColumnOperator,
+                    multiParamOperator: multiParamOperator,
+                    subLeft: subLeft,
+                    sub: sub,
+                    subPrefix: subPrefix,
+                    raw: raw)
+                : self;
+        }
+
+        public static SqlWhereCollection Registrations_MailAddress(
+            this SqlWhereCollection self,
+            object value = null,
+            string tableName = "Registrations",
+            string _operator = "=",
+            string multiColumnOperator = " or ",
+            string multiParamOperator = " and ",
+            SqlStatement subLeft = null,
+            SqlStatement sub = null,
+            bool subPrefix = true,
+            string raw = null,
+            bool _using = true)
+        {
+            return _using
+                ? self.Add(
+                    columnBrackets: new string[] { "\"MailAddress\"" },
+                    tableName: tableName,
+                    name: "MailAddress",
+                    value: value,
+                    _operator: _operator,
+                    multiColumnOperator: multiColumnOperator,
+                    multiParamOperator: multiParamOperator,
+                    subLeft: subLeft,
+                    sub: sub,
+                    subPrefix: subPrefix,
+                    raw: raw)
+                : self;
+        }
+
+        public static RegistrationsWhereCollection Invitee(
+            this RegistrationsWhereCollection self,
+            object value = null,
+            string tableName = "Registrations",
+            string _operator = "=",
+            string multiColumnOperator = " or ",
+            string multiParamOperator = " and ",
+            SqlStatement subLeft = null,
+            SqlStatement sub = null,
+            bool subPrefix = true,
+            string raw = null,
+            bool _using = true)
+        {
+            return _using
+                ? self.Add(
+                    columnBrackets: new string[] { "\"Invitee\"" },
+                    tableName: tableName,
+                    name: "Invitee",
+                    value: value,
+                    _operator: _operator,
+                    multiColumnOperator: multiColumnOperator,
+                    multiParamOperator: multiParamOperator,
+                    subLeft: subLeft,
+                    sub: sub,
+                    subPrefix: subPrefix,
+                    raw: raw)
+                : self;
+        }
+
+        public static SqlWhereCollection Registrations_Invitee(
+            this SqlWhereCollection self,
+            object value = null,
+            string tableName = "Registrations",
+            string _operator = "=",
+            string multiColumnOperator = " or ",
+            string multiParamOperator = " and ",
+            SqlStatement subLeft = null,
+            SqlStatement sub = null,
+            bool subPrefix = true,
+            string raw = null,
+            bool _using = true)
+        {
+            return _using
+                ? self.Add(
+                    columnBrackets: new string[] { "\"Invitee\"" },
+                    tableName: tableName,
+                    name: "Invitee",
+                    value: value,
+                    _operator: _operator,
+                    multiColumnOperator: multiColumnOperator,
+                    multiParamOperator: multiParamOperator,
+                    subLeft: subLeft,
+                    sub: sub,
+                    subPrefix: subPrefix,
+                    raw: raw)
+                : self;
+        }
+
+        public static RegistrationsWhereCollection InviteeName(
+            this RegistrationsWhereCollection self,
+            object value = null,
+            string tableName = "Registrations",
+            string _operator = "=",
+            string multiColumnOperator = " or ",
+            string multiParamOperator = " and ",
+            SqlStatement subLeft = null,
+            SqlStatement sub = null,
+            bool subPrefix = true,
+            string raw = null,
+            bool _using = true)
+        {
+            return _using
+                ? self.Add(
+                    columnBrackets: new string[] { "\"InviteeName\"" },
+                    tableName: tableName,
+                    name: "InviteeName",
+                    value: value,
+                    _operator: _operator,
+                    multiColumnOperator: multiColumnOperator,
+                    multiParamOperator: multiParamOperator,
+                    subLeft: subLeft,
+                    sub: sub,
+                    subPrefix: subPrefix,
+                    raw: raw)
+                : self;
+        }
+
+        public static SqlWhereCollection Registrations_InviteeName(
+            this SqlWhereCollection self,
+            object value = null,
+            string tableName = "Registrations",
+            string _operator = "=",
+            string multiColumnOperator = " or ",
+            string multiParamOperator = " and ",
+            SqlStatement subLeft = null,
+            SqlStatement sub = null,
+            bool subPrefix = true,
+            string raw = null,
+            bool _using = true)
+        {
+            return _using
+                ? self.Add(
+                    columnBrackets: new string[] { "\"InviteeName\"" },
+                    tableName: tableName,
+                    name: "InviteeName",
+                    value: value,
+                    _operator: _operator,
+                    multiColumnOperator: multiColumnOperator,
+                    multiParamOperator: multiParamOperator,
+                    subLeft: subLeft,
+                    sub: sub,
+                    subPrefix: subPrefix,
+                    raw: raw)
+                : self;
+        }
+
+        public static RegistrationsWhereCollection LoginId(
+            this RegistrationsWhereCollection self,
+            object value = null,
+            string tableName = "Registrations",
+            string _operator = "=",
+            string multiColumnOperator = " or ",
+            string multiParamOperator = " and ",
+            SqlStatement subLeft = null,
+            SqlStatement sub = null,
+            bool subPrefix = true,
+            string raw = null,
+            bool _using = true)
+        {
+            return _using
+                ? self.Add(
+                    columnBrackets: new string[] { "\"LoginId\"" },
+                    tableName: tableName,
+                    name: "LoginId",
+                    value: value,
+                    _operator: _operator,
+                    multiColumnOperator: multiColumnOperator,
+                    multiParamOperator: multiParamOperator,
+                    subLeft: subLeft,
+                    sub: sub,
+                    subPrefix: subPrefix,
+                    raw: raw)
+                : self;
+        }
+
+        public static SqlWhereCollection Registrations_LoginId(
+            this SqlWhereCollection self,
+            object value = null,
+            string tableName = "Registrations",
+            string _operator = "=",
+            string multiColumnOperator = " or ",
+            string multiParamOperator = " and ",
+            SqlStatement subLeft = null,
+            SqlStatement sub = null,
+            bool subPrefix = true,
+            string raw = null,
+            bool _using = true)
+        {
+            return _using
+                ? self.Add(
+                    columnBrackets: new string[] { "\"LoginId\"" },
+                    tableName: tableName,
+                    name: "LoginId",
+                    value: value,
+                    _operator: _operator,
+                    multiColumnOperator: multiColumnOperator,
+                    multiParamOperator: multiParamOperator,
+                    subLeft: subLeft,
+                    sub: sub,
+                    subPrefix: subPrefix,
+                    raw: raw)
+                : self;
+        }
+
+        public static RegistrationsWhereCollection Name(
+            this RegistrationsWhereCollection self,
+            object value = null,
+            string tableName = "Registrations",
+            string _operator = "=",
+            string multiColumnOperator = " or ",
+            string multiParamOperator = " and ",
+            SqlStatement subLeft = null,
+            SqlStatement sub = null,
+            bool subPrefix = true,
+            string raw = null,
+            bool _using = true)
+        {
+            return _using
+                ? self.Add(
+                    columnBrackets: new string[] { "\"Name\"" },
+                    tableName: tableName,
+                    name: "Name",
+                    value: value,
+                    _operator: _operator,
+                    multiColumnOperator: multiColumnOperator,
+                    multiParamOperator: multiParamOperator,
+                    subLeft: subLeft,
+                    sub: sub,
+                    subPrefix: subPrefix,
+                    raw: raw)
+                : self;
+        }
+
+        public static SqlWhereCollection Registrations_Name(
+            this SqlWhereCollection self,
+            object value = null,
+            string tableName = "Registrations",
+            string _operator = "=",
+            string multiColumnOperator = " or ",
+            string multiParamOperator = " and ",
+            SqlStatement subLeft = null,
+            SqlStatement sub = null,
+            bool subPrefix = true,
+            string raw = null,
+            bool _using = true)
+        {
+            return _using
+                ? self.Add(
+                    columnBrackets: new string[] { "\"Name\"" },
+                    tableName: tableName,
+                    name: "Name",
+                    value: value,
+                    _operator: _operator,
+                    multiColumnOperator: multiColumnOperator,
+                    multiParamOperator: multiParamOperator,
+                    subLeft: subLeft,
+                    sub: sub,
+                    subPrefix: subPrefix,
+                    raw: raw)
+                : self;
+        }
+
+        public static RegistrationsWhereCollection Password(
+            this RegistrationsWhereCollection self,
+            object value = null,
+            string tableName = "Registrations",
+            string _operator = "=",
+            string multiColumnOperator = " or ",
+            string multiParamOperator = " and ",
+            SqlStatement subLeft = null,
+            SqlStatement sub = null,
+            bool subPrefix = true,
+            string raw = null,
+            bool _using = true)
+        {
+            return _using
+                ? self.Add(
+                    columnBrackets: new string[] { "\"Password\"" },
+                    tableName: tableName,
+                    name: "Password",
+                    value: value,
+                    _operator: _operator,
+                    multiColumnOperator: multiColumnOperator,
+                    multiParamOperator: multiParamOperator,
+                    subLeft: subLeft,
+                    sub: sub,
+                    subPrefix: subPrefix,
+                    raw: raw)
+                : self;
+        }
+
+        public static SqlWhereCollection Registrations_Password(
+            this SqlWhereCollection self,
+            object value = null,
+            string tableName = "Registrations",
+            string _operator = "=",
+            string multiColumnOperator = " or ",
+            string multiParamOperator = " and ",
+            SqlStatement subLeft = null,
+            SqlStatement sub = null,
+            bool subPrefix = true,
+            string raw = null,
+            bool _using = true)
+        {
+            return _using
+                ? self.Add(
+                    columnBrackets: new string[] { "\"Password\"" },
+                    tableName: tableName,
+                    name: "Password",
+                    value: value,
+                    _operator: _operator,
+                    multiColumnOperator: multiColumnOperator,
+                    multiParamOperator: multiParamOperator,
+                    subLeft: subLeft,
+                    sub: sub,
+                    subPrefix: subPrefix,
+                    raw: raw)
+                : self;
+        }
+
+        public static RegistrationsWhereCollection Language(
+            this RegistrationsWhereCollection self,
+            object value = null,
+            string tableName = "Registrations",
+            string _operator = "=",
+            string multiColumnOperator = " or ",
+            string multiParamOperator = " and ",
+            SqlStatement subLeft = null,
+            SqlStatement sub = null,
+            bool subPrefix = true,
+            string raw = null,
+            bool _using = true)
+        {
+            return _using
+                ? self.Add(
+                    columnBrackets: new string[] { "\"Language\"" },
+                    tableName: tableName,
+                    name: "Language",
+                    value: value,
+                    _operator: _operator,
+                    multiColumnOperator: multiColumnOperator,
+                    multiParamOperator: multiParamOperator,
+                    subLeft: subLeft,
+                    sub: sub,
+                    subPrefix: subPrefix,
+                    raw: raw)
+                : self;
+        }
+
+        public static SqlWhereCollection Registrations_Language(
+            this SqlWhereCollection self,
+            object value = null,
+            string tableName = "Registrations",
+            string _operator = "=",
+            string multiColumnOperator = " or ",
+            string multiParamOperator = " and ",
+            SqlStatement subLeft = null,
+            SqlStatement sub = null,
+            bool subPrefix = true,
+            string raw = null,
+            bool _using = true)
+        {
+            return _using
+                ? self.Add(
+                    columnBrackets: new string[] { "\"Language\"" },
+                    tableName: tableName,
+                    name: "Language",
+                    value: value,
+                    _operator: _operator,
+                    multiColumnOperator: multiColumnOperator,
+                    multiParamOperator: multiParamOperator,
+                    subLeft: subLeft,
+                    sub: sub,
+                    subPrefix: subPrefix,
+                    raw: raw)
+                : self;
+        }
+
+        public static RegistrationsWhereCollection Passphrase(
+            this RegistrationsWhereCollection self,
+            object value = null,
+            string tableName = "Registrations",
+            string _operator = "=",
+            string multiColumnOperator = " or ",
+            string multiParamOperator = " and ",
+            SqlStatement subLeft = null,
+            SqlStatement sub = null,
+            bool subPrefix = true,
+            string raw = null,
+            bool _using = true)
+        {
+            return _using
+                ? self.Add(
+                    columnBrackets: new string[] { "\"Passphrase\"" },
+                    tableName: tableName,
+                    name: "Passphrase",
+                    value: value,
+                    _operator: _operator,
+                    multiColumnOperator: multiColumnOperator,
+                    multiParamOperator: multiParamOperator,
+                    subLeft: subLeft,
+                    sub: sub,
+                    subPrefix: subPrefix,
+                    raw: raw)
+                : self;
+        }
+
+        public static SqlWhereCollection Registrations_Passphrase(
+            this SqlWhereCollection self,
+            object value = null,
+            string tableName = "Registrations",
+            string _operator = "=",
+            string multiColumnOperator = " or ",
+            string multiParamOperator = " and ",
+            SqlStatement subLeft = null,
+            SqlStatement sub = null,
+            bool subPrefix = true,
+            string raw = null,
+            bool _using = true)
+        {
+            return _using
+                ? self.Add(
+                    columnBrackets: new string[] { "\"Passphrase\"" },
+                    tableName: tableName,
+                    name: "Passphrase",
+                    value: value,
+                    _operator: _operator,
+                    multiColumnOperator: multiColumnOperator,
+                    multiParamOperator: multiParamOperator,
+                    subLeft: subLeft,
+                    sub: sub,
+                    subPrefix: subPrefix,
+                    raw: raw)
+                : self;
+        }
+
+        public static RegistrationsWhereCollection Invitingflg(
+            this RegistrationsWhereCollection self,
+            object value = null,
+            string tableName = "Registrations",
+            string _operator = "=",
+            string multiColumnOperator = " or ",
+            string multiParamOperator = " and ",
+            SqlStatement subLeft = null,
+            SqlStatement sub = null,
+            bool subPrefix = true,
+            string raw = null,
+            bool _using = true)
+        {
+            return _using
+                ? self.Add(
+                    columnBrackets: new string[] { "\"Invitingflg\"" },
+                    tableName: tableName,
+                    name: "Invitingflg",
+                    value: value,
+                    _operator: _operator,
+                    multiColumnOperator: multiColumnOperator,
+                    multiParamOperator: multiParamOperator,
+                    subLeft: subLeft,
+                    sub: sub,
+                    subPrefix: subPrefix,
+                    raw: raw)
+                : self;
+        }
+
+        public static SqlWhereCollection Registrations_Invitingflg(
+            this SqlWhereCollection self,
+            object value = null,
+            string tableName = "Registrations",
+            string _operator = "=",
+            string multiColumnOperator = " or ",
+            string multiParamOperator = " and ",
+            SqlStatement subLeft = null,
+            SqlStatement sub = null,
+            bool subPrefix = true,
+            string raw = null,
+            bool _using = true)
+        {
+            return _using
+                ? self.Add(
+                    columnBrackets: new string[] { "\"Invitingflg\"" },
+                    tableName: tableName,
+                    name: "Invitingflg",
+                    value: value,
+                    _operator: _operator,
+                    multiColumnOperator: multiColumnOperator,
+                    multiParamOperator: multiParamOperator,
+                    subLeft: subLeft,
+                    sub: sub,
+                    subPrefix: subPrefix,
+                    raw: raw)
+                : self;
+        }
+
+        public static RegistrationsWhereCollection UserId(
+            this RegistrationsWhereCollection self,
+            object value = null,
+            string tableName = "Registrations",
+            string _operator = "=",
+            string multiColumnOperator = " or ",
+            string multiParamOperator = " and ",
+            SqlStatement subLeft = null,
+            SqlStatement sub = null,
+            bool subPrefix = true,
+            string raw = null,
+            bool _using = true)
+        {
+            return _using
+                ? self.Add(
+                    columnBrackets: new string[] { "\"UserId\"" },
+                    tableName: tableName,
+                    name: "UserId",
+                    value: value,
+                    _operator: _operator,
+                    multiColumnOperator: multiColumnOperator,
+                    multiParamOperator: multiParamOperator,
+                    subLeft: subLeft,
+                    sub: sub,
+                    subPrefix: subPrefix,
+                    raw: raw)
+                : self;
+        }
+
+        public static SqlWhereCollection Registrations_UserId(
+            this SqlWhereCollection self,
+            object value = null,
+            string tableName = "Registrations",
+            string _operator = "=",
+            string multiColumnOperator = " or ",
+            string multiParamOperator = " and ",
+            SqlStatement subLeft = null,
+            SqlStatement sub = null,
+            bool subPrefix = true,
+            string raw = null,
+            bool _using = true)
+        {
+            return _using
+                ? self.Add(
+                    columnBrackets: new string[] { "\"UserId\"" },
+                    tableName: tableName,
+                    name: "UserId",
+                    value: value,
+                    _operator: _operator,
+                    multiColumnOperator: multiColumnOperator,
+                    multiParamOperator: multiParamOperator,
+                    subLeft: subLeft,
+                    sub: sub,
+                    subPrefix: subPrefix,
+                    raw: raw)
+                : self;
+        }
+
+        public static RegistrationsWhereCollection DeptId(
+            this RegistrationsWhereCollection self,
+            object value = null,
+            string tableName = "Registrations",
+            string _operator = "=",
+            string multiColumnOperator = " or ",
+            string multiParamOperator = " and ",
+            SqlStatement subLeft = null,
+            SqlStatement sub = null,
+            bool subPrefix = true,
+            string raw = null,
+            bool _using = true)
+        {
+            return _using
+                ? self.Add(
+                    columnBrackets: new string[] { "\"DeptId\"" },
+                    tableName: tableName,
+                    name: "DeptId",
+                    value: value,
+                    _operator: _operator,
+                    multiColumnOperator: multiColumnOperator,
+                    multiParamOperator: multiParamOperator,
+                    subLeft: subLeft,
+                    sub: sub,
+                    subPrefix: subPrefix,
+                    raw: raw)
+                : self;
+        }
+
+        public static SqlWhereCollection Registrations_DeptId(
+            this SqlWhereCollection self,
+            object value = null,
+            string tableName = "Registrations",
+            string _operator = "=",
+            string multiColumnOperator = " or ",
+            string multiParamOperator = " and ",
+            SqlStatement subLeft = null,
+            SqlStatement sub = null,
+            bool subPrefix = true,
+            string raw = null,
+            bool _using = true)
+        {
+            return _using
+                ? self.Add(
+                    columnBrackets: new string[] { "\"DeptId\"" },
+                    tableName: tableName,
+                    name: "DeptId",
+                    value: value,
+                    _operator: _operator,
+                    multiColumnOperator: multiColumnOperator,
+                    multiParamOperator: multiParamOperator,
+                    subLeft: subLeft,
+                    sub: sub,
+                    subPrefix: subPrefix,
+                    raw: raw)
+                : self;
+        }
+
+        public static RegistrationsWhereCollection GroupId(
+            this RegistrationsWhereCollection self,
+            object value = null,
+            string tableName = "Registrations",
+            string _operator = "=",
+            string multiColumnOperator = " or ",
+            string multiParamOperator = " and ",
+            SqlStatement subLeft = null,
+            SqlStatement sub = null,
+            bool subPrefix = true,
+            string raw = null,
+            bool _using = true)
+        {
+            return _using
+                ? self.Add(
+                    columnBrackets: new string[] { "\"GroupId\"" },
+                    tableName: tableName,
+                    name: "GroupId",
+                    value: value,
+                    _operator: _operator,
+                    multiColumnOperator: multiColumnOperator,
+                    multiParamOperator: multiParamOperator,
+                    subLeft: subLeft,
+                    sub: sub,
+                    subPrefix: subPrefix,
+                    raw: raw)
+                : self;
+        }
+
+        public static SqlWhereCollection Registrations_GroupId(
+            this SqlWhereCollection self,
+            object value = null,
+            string tableName = "Registrations",
+            string _operator = "=",
+            string multiColumnOperator = " or ",
+            string multiParamOperator = " and ",
+            SqlStatement subLeft = null,
+            SqlStatement sub = null,
+            bool subPrefix = true,
+            string raw = null,
+            bool _using = true)
+        {
+            return _using
+                ? self.Add(
+                    columnBrackets: new string[] { "\"GroupId\"" },
+                    tableName: tableName,
+                    name: "GroupId",
+                    value: value,
+                    _operator: _operator,
+                    multiColumnOperator: multiColumnOperator,
+                    multiParamOperator: multiParamOperator,
+                    subLeft: subLeft,
+                    sub: sub,
+                    subPrefix: subPrefix,
+                    raw: raw)
+                : self;
+        }
+
+        public static RegistrationsWhereCollection Comments(
+            this RegistrationsWhereCollection self,
+            object value = null,
+            string tableName = "Registrations",
+            string _operator = "=",
+            string multiColumnOperator = " or ",
+            string multiParamOperator = " and ",
+            SqlStatement subLeft = null,
+            SqlStatement sub = null,
+            bool subPrefix = true,
+            string raw = null,
+            bool _using = true)
+        {
+            return _using
+                ? self.Add(
+                    columnBrackets: new string[] { "\"Comments\"" },
+                    tableName: tableName,
+                    name: "Comments",
+                    value: value,
+                    _operator: _operator,
+                    multiColumnOperator: multiColumnOperator,
+                    multiParamOperator: multiParamOperator,
+                    subLeft: subLeft,
+                    sub: sub,
+                    subPrefix: subPrefix,
+                    raw: raw)
+                : self;
+        }
+
+        public static SqlWhereCollection Registrations_Comments(
+            this SqlWhereCollection self,
+            object value = null,
+            string tableName = "Registrations",
+            string _operator = "=",
+            string multiColumnOperator = " or ",
+            string multiParamOperator = " and ",
+            SqlStatement subLeft = null,
+            SqlStatement sub = null,
+            bool subPrefix = true,
+            string raw = null,
+            bool _using = true)
+        {
+            return _using
+                ? self.Add(
+                    columnBrackets: new string[] { "\"Comments\"" },
+                    tableName: tableName,
+                    name: "Comments",
+                    value: value,
+                    _operator: _operator,
+                    multiColumnOperator: multiColumnOperator,
+                    multiParamOperator: multiParamOperator,
+                    subLeft: subLeft,
+                    sub: sub,
+                    subPrefix: subPrefix,
+                    raw: raw)
+                : self;
+        }
+
+        public static RegistrationsWhereCollection Creator(
+            this RegistrationsWhereCollection self,
+            object value = null,
+            string tableName = "Registrations",
+            string _operator = "=",
+            string multiColumnOperator = " or ",
+            string multiParamOperator = " and ",
+            SqlStatement subLeft = null,
+            SqlStatement sub = null,
+            bool subPrefix = true,
+            string raw = null,
+            bool _using = true)
+        {
+            return _using
+                ? self.Add(
+                    columnBrackets: new string[] { "\"Creator\"" },
+                    tableName: tableName,
+                    name: "Creator",
+                    value: value,
+                    _operator: _operator,
+                    multiColumnOperator: multiColumnOperator,
+                    multiParamOperator: multiParamOperator,
+                    subLeft: subLeft,
+                    sub: sub,
+                    subPrefix: subPrefix,
+                    raw: raw)
+                : self;
+        }
+
+        public static SqlWhereCollection Registrations_Creator(
+            this SqlWhereCollection self,
+            object value = null,
+            string tableName = "Registrations",
+            string _operator = "=",
+            string multiColumnOperator = " or ",
+            string multiParamOperator = " and ",
+            SqlStatement subLeft = null,
+            SqlStatement sub = null,
+            bool subPrefix = true,
+            string raw = null,
+            bool _using = true)
+        {
+            return _using
+                ? self.Add(
+                    columnBrackets: new string[] { "\"Creator\"" },
+                    tableName: tableName,
+                    name: "Creator",
+                    value: value,
+                    _operator: _operator,
+                    multiColumnOperator: multiColumnOperator,
+                    multiParamOperator: multiParamOperator,
+                    subLeft: subLeft,
+                    sub: sub,
+                    subPrefix: subPrefix,
+                    raw: raw)
+                : self;
+        }
+
+        public static RegistrationsWhereCollection Updator(
+            this RegistrationsWhereCollection self,
+            object value = null,
+            string tableName = "Registrations",
+            string _operator = "=",
+            string multiColumnOperator = " or ",
+            string multiParamOperator = " and ",
+            SqlStatement subLeft = null,
+            SqlStatement sub = null,
+            bool subPrefix = true,
+            string raw = null,
+            bool _using = true)
+        {
+            return _using
+                ? self.Add(
+                    columnBrackets: new string[] { "\"Updator\"" },
+                    tableName: tableName,
+                    name: "Updator",
+                    value: value,
+                    _operator: _operator,
+                    multiColumnOperator: multiColumnOperator,
+                    multiParamOperator: multiParamOperator,
+                    subLeft: subLeft,
+                    sub: sub,
+                    subPrefix: subPrefix,
+                    raw: raw)
+                : self;
+        }
+
+        public static SqlWhereCollection Registrations_Updator(
+            this SqlWhereCollection self,
+            object value = null,
+            string tableName = "Registrations",
+            string _operator = "=",
+            string multiColumnOperator = " or ",
+            string multiParamOperator = " and ",
+            SqlStatement subLeft = null,
+            SqlStatement sub = null,
+            bool subPrefix = true,
+            string raw = null,
+            bool _using = true)
+        {
+            return _using
+                ? self.Add(
+                    columnBrackets: new string[] { "\"Updator\"" },
+                    tableName: tableName,
+                    name: "Updator",
+                    value: value,
+                    _operator: _operator,
+                    multiColumnOperator: multiColumnOperator,
+                    multiParamOperator: multiParamOperator,
+                    subLeft: subLeft,
+                    sub: sub,
+                    subPrefix: subPrefix,
+                    raw: raw)
+                : self;
+        }
+
+        public static RegistrationsWhereCollection CreatedTime(
+            this RegistrationsWhereCollection self,
+            object value = null,
+            string tableName = "Registrations",
+            string _operator = "=",
+            string multiColumnOperator = " or ",
+            string multiParamOperator = " and ",
+            SqlStatement subLeft = null,
+            SqlStatement sub = null,
+            bool subPrefix = true,
+            string raw = null,
+            bool _using = true)
+        {
+            return _using
+                ? self.Add(
+                    columnBrackets: new string[] { "\"CreatedTime\"" },
+                    tableName: tableName,
+                    name: "CreatedTime",
+                    value: value,
+                    _operator: _operator,
+                    multiColumnOperator: multiColumnOperator,
+                    multiParamOperator: multiParamOperator,
+                    subLeft: subLeft,
+                    sub: sub,
+                    subPrefix: subPrefix,
+                    raw: raw)
+                : self;
+        }
+
+        public static SqlWhereCollection Registrations_CreatedTime(
+            this SqlWhereCollection self,
+            object value = null,
+            string tableName = "Registrations",
+            string _operator = "=",
+            string multiColumnOperator = " or ",
+            string multiParamOperator = " and ",
+            SqlStatement subLeft = null,
+            SqlStatement sub = null,
+            bool subPrefix = true,
+            string raw = null,
+            bool _using = true)
+        {
+            return _using
+                ? self.Add(
+                    columnBrackets: new string[] { "\"CreatedTime\"" },
+                    tableName: tableName,
+                    name: "CreatedTime",
+                    value: value,
+                    _operator: _operator,
+                    multiColumnOperator: multiColumnOperator,
+                    multiParamOperator: multiParamOperator,
+                    subLeft: subLeft,
+                    sub: sub,
+                    subPrefix: subPrefix,
+                    raw: raw)
+                : self;
+        }
+
+        public static RegistrationsWhereCollection UpdatedTime(
+            this RegistrationsWhereCollection self,
+            object value = null,
+            string tableName = "Registrations",
+            string _operator = "=",
+            string multiColumnOperator = " or ",
+            string multiParamOperator = " and ",
+            SqlStatement subLeft = null,
+            SqlStatement sub = null,
+            bool subPrefix = true,
+            string raw = null,
+            bool _using = true)
+        {
+            return _using
+                ? self.Add(
+                    columnBrackets: new string[] { "\"UpdatedTime\"" },
+                    tableName: tableName,
+                    name: "UpdatedTime",
+                    value: value,
+                    _operator: _operator,
+                    multiColumnOperator: multiColumnOperator,
+                    multiParamOperator: multiParamOperator,
+                    subLeft: subLeft,
+                    sub: sub,
+                    subPrefix: subPrefix,
+                    raw: raw)
+                : self;
+        }
+
+        public static SqlWhereCollection Registrations_UpdatedTime(
+            this SqlWhereCollection self,
+            object value = null,
+            string tableName = "Registrations",
+            string _operator = "=",
+            string multiColumnOperator = " or ",
+            string multiParamOperator = " and ",
+            SqlStatement subLeft = null,
+            SqlStatement sub = null,
+            bool subPrefix = true,
+            string raw = null,
+            bool _using = true)
+        {
+            return _using
+                ? self.Add(
+                    columnBrackets: new string[] { "\"UpdatedTime\"" },
+                    tableName: tableName,
+                    name: "UpdatedTime",
+                    value: value,
+                    _operator: _operator,
+                    multiColumnOperator: multiColumnOperator,
+                    multiParamOperator: multiParamOperator,
+                    subLeft: subLeft,
+                    sub: sub,
+                    subPrefix: subPrefix,
+                    raw: raw)
+                : self;
+        }
+
+        public static RegistrationsWhereCollection TenantId_In(
+            this RegistrationsWhereCollection self,
+            IEnumerable<int> value = null,
+            string tableName = "Registrations",
+            SqlStatement sub = null,
+            bool negative = false,
+            bool _using = true)
+        {
+            if (!_using)
+            {
+                return self;
+            }
+            if (sub != null)
+            {
+                return self.Add(
+                    columnBrackets: new string[] { "\"TenantId\"" },
+                    tableName: tableName,
+                    name: "TenantId",
+                    _operator: !negative ? " in " : " not in ",
+                    sub: sub);
+            }
+            else if (value != null && value.Any())
+            {
+                return self.Add(
+                    columnBrackets: new string[] { "\"TenantId\"" },
+                    tableName: tableName,
+                    name: "TenantId",
+                    _operator: !negative ? " in " : " not in ",
+                    raw: "({0})".Params(value.Join()));
+            }
+            else
+            {
+                return !negative
+                    ? self.Add(raw: "1=0")
+                    : self;
+            }
+        }
+
+        public static RegistrationsWhereCollection RegistrationId_In(
+            this RegistrationsWhereCollection self,
+            IEnumerable<int> value = null,
+            string tableName = "Registrations",
+            SqlStatement sub = null,
+            bool negative = false,
+            bool _using = true)
+        {
+            if (!_using)
+            {
+                return self;
+            }
+            if (sub != null)
+            {
+                return self.Add(
+                    columnBrackets: new string[] { "\"RegistrationId\"" },
+                    tableName: tableName,
+                    name: "RegistrationId",
+                    _operator: !negative ? " in " : " not in ",
+                    sub: sub);
+            }
+            else if (value != null && value.Any())
+            {
+                return self.Add(
+                    columnBrackets: new string[] { "\"RegistrationId\"" },
+                    tableName: tableName,
+                    name: "RegistrationId",
+                    _operator: !negative ? " in " : " not in ",
+                    raw: "({0})".Params(value.Join()));
+            }
+            else
+            {
+                return !negative
+                    ? self.Add(raw: "1=0")
+                    : self;
+            }
+        }
+
+        public static RegistrationsWhereCollection Ver_In(
+            this RegistrationsWhereCollection self,
+            IEnumerable<int> value = null,
+            string tableName = "Registrations",
+            SqlStatement sub = null,
+            bool negative = false,
+            bool _using = true)
+        {
+            if (!_using)
+            {
+                return self;
+            }
+            if (sub != null)
+            {
+                return self.Add(
+                    columnBrackets: new string[] { "\"Ver\"" },
+                    tableName: tableName,
+                    name: "Ver",
+                    _operator: !negative ? " in " : " not in ",
+                    sub: sub);
+            }
+            else if (value != null && value.Any())
+            {
+                return self.Add(
+                    columnBrackets: new string[] { "\"Ver\"" },
+                    tableName: tableName,
+                    name: "Ver",
+                    _operator: !negative ? " in " : " not in ",
+                    raw: "({0})".Params(value.Join()));
+            }
+            else
+            {
+                return !negative
+                    ? self.Add(raw: "1=0")
+                    : self;
+            }
+        }
+
+        public static RegistrationsWhereCollection Invitee_In(
+            this RegistrationsWhereCollection self,
+            IEnumerable<int> value = null,
+            string tableName = "Registrations",
+            SqlStatement sub = null,
+            bool negative = false,
+            bool _using = true)
+        {
+            if (!_using)
+            {
+                return self;
+            }
+            if (sub != null)
+            {
+                return self.Add(
+                    columnBrackets: new string[] { "\"Invitee\"" },
+                    tableName: tableName,
+                    name: "Invitee",
+                    _operator: !negative ? " in " : " not in ",
+                    sub: sub);
+            }
+            else if (value != null && value.Any())
+            {
+                return self.Add(
+                    columnBrackets: new string[] { "\"Invitee\"" },
+                    tableName: tableName,
+                    name: "Invitee",
+                    _operator: !negative ? " in " : " not in ",
+                    raw: "({0})".Params(value.Join()));
+            }
+            else
+            {
+                return !negative
+                    ? self.Add(raw: "1=0")
+                    : self;
+            }
+        }
+
+        public static RegistrationsWhereCollection UserId_In(
+            this RegistrationsWhereCollection self,
+            IEnumerable<int> value = null,
+            string tableName = "Registrations",
+            SqlStatement sub = null,
+            bool negative = false,
+            bool _using = true)
+        {
+            if (!_using)
+            {
+                return self;
+            }
+            if (sub != null)
+            {
+                return self.Add(
+                    columnBrackets: new string[] { "\"UserId\"" },
+                    tableName: tableName,
+                    name: "UserId",
+                    _operator: !negative ? " in " : " not in ",
+                    sub: sub);
+            }
+            else if (value != null && value.Any())
+            {
+                return self.Add(
+                    columnBrackets: new string[] { "\"UserId\"" },
+                    tableName: tableName,
+                    name: "UserId",
+                    _operator: !negative ? " in " : " not in ",
+                    raw: "({0})".Params(value.Join()));
+            }
+            else
+            {
+                return !negative
+                    ? self.Add(raw: "1=0")
+                    : self;
+            }
+        }
+
+        public static RegistrationsWhereCollection DeptId_In(
+            this RegistrationsWhereCollection self,
+            IEnumerable<int> value = null,
+            string tableName = "Registrations",
+            SqlStatement sub = null,
+            bool negative = false,
+            bool _using = true)
+        {
+            if (!_using)
+            {
+                return self;
+            }
+            if (sub != null)
+            {
+                return self.Add(
+                    columnBrackets: new string[] { "\"DeptId\"" },
+                    tableName: tableName,
+                    name: "DeptId",
+                    _operator: !negative ? " in " : " not in ",
+                    sub: sub);
+            }
+            else if (value != null && value.Any())
+            {
+                return self.Add(
+                    columnBrackets: new string[] { "\"DeptId\"" },
+                    tableName: tableName,
+                    name: "DeptId",
+                    _operator: !negative ? " in " : " not in ",
+                    raw: "({0})".Params(value.Join()));
+            }
+            else
+            {
+                return !negative
+                    ? self.Add(raw: "1=0")
+                    : self;
+            }
+        }
+
+        public static RegistrationsWhereCollection GroupId_In(
+            this RegistrationsWhereCollection self,
+            IEnumerable<int> value = null,
+            string tableName = "Registrations",
+            SqlStatement sub = null,
+            bool negative = false,
+            bool _using = true)
+        {
+            if (!_using)
+            {
+                return self;
+            }
+            if (sub != null)
+            {
+                return self.Add(
+                    columnBrackets: new string[] { "\"GroupId\"" },
+                    tableName: tableName,
+                    name: "GroupId",
+                    _operator: !negative ? " in " : " not in ",
+                    sub: sub);
+            }
+            else if (value != null && value.Any())
+            {
+                return self.Add(
+                    columnBrackets: new string[] { "\"GroupId\"" },
+                    tableName: tableName,
+                    name: "GroupId",
+                    _operator: !negative ? " in " : " not in ",
+                    raw: "({0})".Params(value.Join()));
+            }
+            else
+            {
+                return !negative
+                    ? self.Add(raw: "1=0")
+                    : self;
+            }
+        }
+
+        public static RegistrationsWhereCollection Creator_In(
+            this RegistrationsWhereCollection self,
+            IEnumerable<int> value = null,
+            string tableName = "Registrations",
+            SqlStatement sub = null,
+            bool negative = false,
+            bool _using = true)
+        {
+            if (!_using)
+            {
+                return self;
+            }
+            if (sub != null)
+            {
+                return self.Add(
+                    columnBrackets: new string[] { "\"Creator\"" },
+                    tableName: tableName,
+                    name: "Creator",
+                    _operator: !negative ? " in " : " not in ",
+                    sub: sub);
+            }
+            else if (value != null && value.Any())
+            {
+                return self.Add(
+                    columnBrackets: new string[] { "\"Creator\"" },
+                    tableName: tableName,
+                    name: "Creator",
+                    _operator: !negative ? " in " : " not in ",
+                    raw: "({0})".Params(value.Join()));
+            }
+            else
+            {
+                return !negative
+                    ? self.Add(raw: "1=0")
+                    : self;
+            }
+        }
+
+        public static RegistrationsWhereCollection Updator_In(
+            this RegistrationsWhereCollection self,
+            IEnumerable<int> value = null,
+            string tableName = "Registrations",
+            SqlStatement sub = null,
+            bool negative = false,
+            bool _using = true)
+        {
+            if (!_using)
+            {
+                return self;
+            }
+            if (sub != null)
+            {
+                return self.Add(
+                    columnBrackets: new string[] { "\"Updator\"" },
+                    tableName: tableName,
+                    name: "Updator",
+                    _operator: !negative ? " in " : " not in ",
+                    sub: sub);
+            }
+            else if (value != null && value.Any())
+            {
+                return self.Add(
+                    columnBrackets: new string[] { "\"Updator\"" },
+                    tableName: tableName,
+                    name: "Updator",
+                    _operator: !negative ? " in " : " not in ",
+                    raw: "({0})".Params(value.Join()));
+            }
+            else
+            {
+                return !negative
+                    ? self.Add(raw: "1=0")
+                    : self;
+            }
+        }
+
+        public static RegistrationsWhereCollection TenantId_Between(
+            this RegistrationsWhereCollection self,
+            int begin,
+            int end,
+            string tableName = "Registrations",
+            bool _using = true)
+        {
+            return _using
+                ? self.Add(
+                    columnBrackets: new string[] { "\"TenantId\"" },
+                    tableName: tableName,
+                    name: "TenantId",
+                    _operator: " between ",
+                    raw: "{0} and {1} ".Params(begin, end))
+                : self;
+        }
+
+        public static SqlWhereCollection Registrations_TenantId_Between(
+            this SqlWhereCollection self,
+            int begin,
+            int end,
+            string tableName = "Registrations",
+            bool _using = true)
+        {
+            return _using
+                ? self.Add(
+                    columnBrackets: new string[] { "\"TenantId\"" },
+                    tableName: tableName,
+                    name: "TenantId",
+                    _operator: " between ",
+                    raw: "{0} and {1} ".Params(begin, end))
+                : self;
+        }
+
+        public static RegistrationsWhereCollection RegistrationId_Between(
+            this RegistrationsWhereCollection self,
+            int begin,
+            int end,
+            string tableName = "Registrations",
+            bool _using = true)
+        {
+            return _using
+                ? self.Add(
+                    columnBrackets: new string[] { "\"RegistrationId\"" },
+                    tableName: tableName,
+                    name: "RegistrationId",
+                    _operator: " between ",
+                    raw: "{0} and {1} ".Params(begin, end))
+                : self;
+        }
+
+        public static SqlWhereCollection Registrations_RegistrationId_Between(
+            this SqlWhereCollection self,
+            int begin,
+            int end,
+            string tableName = "Registrations",
+            bool _using = true)
+        {
+            return _using
+                ? self.Add(
+                    columnBrackets: new string[] { "\"RegistrationId\"" },
+                    tableName: tableName,
+                    name: "RegistrationId",
+                    _operator: " between ",
+                    raw: "{0} and {1} ".Params(begin, end))
+                : self;
+        }
+
+        public static RegistrationsWhereCollection Ver_Between(
+            this RegistrationsWhereCollection self,
+            int begin,
+            int end,
+            string tableName = "Registrations",
+            bool _using = true)
+        {
+            return _using
+                ? self.Add(
+                    columnBrackets: new string[] { "\"Ver\"" },
+                    tableName: tableName,
+                    name: "Ver",
+                    _operator: " between ",
+                    raw: "{0} and {1} ".Params(begin, end))
+                : self;
+        }
+
+        public static SqlWhereCollection Registrations_Ver_Between(
+            this SqlWhereCollection self,
+            int begin,
+            int end,
+            string tableName = "Registrations",
+            bool _using = true)
+        {
+            return _using
+                ? self.Add(
+                    columnBrackets: new string[] { "\"Ver\"" },
+                    tableName: tableName,
+                    name: "Ver",
+                    _operator: " between ",
+                    raw: "{0} and {1} ".Params(begin, end))
+                : self;
+        }
+
+        public static RegistrationsWhereCollection Invitee_Between(
+            this RegistrationsWhereCollection self,
+            int begin,
+            int end,
+            string tableName = "Registrations",
+            bool _using = true)
+        {
+            return _using
+                ? self.Add(
+                    columnBrackets: new string[] { "\"Invitee\"" },
+                    tableName: tableName,
+                    name: "Invitee",
+                    _operator: " between ",
+                    raw: "{0} and {1} ".Params(begin, end))
+                : self;
+        }
+
+        public static SqlWhereCollection Registrations_Invitee_Between(
+            this SqlWhereCollection self,
+            int begin,
+            int end,
+            string tableName = "Registrations",
+            bool _using = true)
+        {
+            return _using
+                ? self.Add(
+                    columnBrackets: new string[] { "\"Invitee\"" },
+                    tableName: tableName,
+                    name: "Invitee",
+                    _operator: " between ",
+                    raw: "{0} and {1} ".Params(begin, end))
+                : self;
+        }
+
+        public static RegistrationsWhereCollection UserId_Between(
+            this RegistrationsWhereCollection self,
+            int begin,
+            int end,
+            string tableName = "Registrations",
+            bool _using = true)
+        {
+            return _using
+                ? self.Add(
+                    columnBrackets: new string[] { "\"UserId\"" },
+                    tableName: tableName,
+                    name: "UserId",
+                    _operator: " between ",
+                    raw: "{0} and {1} ".Params(begin, end))
+                : self;
+        }
+
+        public static SqlWhereCollection Registrations_UserId_Between(
+            this SqlWhereCollection self,
+            int begin,
+            int end,
+            string tableName = "Registrations",
+            bool _using = true)
+        {
+            return _using
+                ? self.Add(
+                    columnBrackets: new string[] { "\"UserId\"" },
+                    tableName: tableName,
+                    name: "UserId",
+                    _operator: " between ",
+                    raw: "{0} and {1} ".Params(begin, end))
+                : self;
+        }
+
+        public static RegistrationsWhereCollection DeptId_Between(
+            this RegistrationsWhereCollection self,
+            int begin,
+            int end,
+            string tableName = "Registrations",
+            bool _using = true)
+        {
+            return _using
+                ? self.Add(
+                    columnBrackets: new string[] { "\"DeptId\"" },
+                    tableName: tableName,
+                    name: "DeptId",
+                    _operator: " between ",
+                    raw: "{0} and {1} ".Params(begin, end))
+                : self;
+        }
+
+        public static SqlWhereCollection Registrations_DeptId_Between(
+            this SqlWhereCollection self,
+            int begin,
+            int end,
+            string tableName = "Registrations",
+            bool _using = true)
+        {
+            return _using
+                ? self.Add(
+                    columnBrackets: new string[] { "\"DeptId\"" },
+                    tableName: tableName,
+                    name: "DeptId",
+                    _operator: " between ",
+                    raw: "{0} and {1} ".Params(begin, end))
+                : self;
+        }
+
+        public static RegistrationsWhereCollection GroupId_Between(
+            this RegistrationsWhereCollection self,
+            int begin,
+            int end,
+            string tableName = "Registrations",
+            bool _using = true)
+        {
+            return _using
+                ? self.Add(
+                    columnBrackets: new string[] { "\"GroupId\"" },
+                    tableName: tableName,
+                    name: "GroupId",
+                    _operator: " between ",
+                    raw: "{0} and {1} ".Params(begin, end))
+                : self;
+        }
+
+        public static SqlWhereCollection Registrations_GroupId_Between(
+            this SqlWhereCollection self,
+            int begin,
+            int end,
+            string tableName = "Registrations",
+            bool _using = true)
+        {
+            return _using
+                ? self.Add(
+                    columnBrackets: new string[] { "\"GroupId\"" },
+                    tableName: tableName,
+                    name: "GroupId",
+                    _operator: " between ",
+                    raw: "{0} and {1} ".Params(begin, end))
+                : self;
+        }
+
+        public static RegistrationsWhereCollection Creator_Between(
+            this RegistrationsWhereCollection self,
+            int begin,
+            int end,
+            string tableName = "Registrations",
+            bool _using = true)
+        {
+            return _using
+                ? self.Add(
+                    columnBrackets: new string[] { "\"Creator\"" },
+                    tableName: tableName,
+                    name: "Creator",
+                    _operator: " between ",
+                    raw: "{0} and {1} ".Params(begin, end))
+                : self;
+        }
+
+        public static SqlWhereCollection Registrations_Creator_Between(
+            this SqlWhereCollection self,
+            int begin,
+            int end,
+            string tableName = "Registrations",
+            bool _using = true)
+        {
+            return _using
+                ? self.Add(
+                    columnBrackets: new string[] { "\"Creator\"" },
+                    tableName: tableName,
+                    name: "Creator",
+                    _operator: " between ",
+                    raw: "{0} and {1} ".Params(begin, end))
+                : self;
+        }
+
+        public static RegistrationsWhereCollection Updator_Between(
+            this RegistrationsWhereCollection self,
+            int begin,
+            int end,
+            string tableName = "Registrations",
+            bool _using = true)
+        {
+            return _using
+                ? self.Add(
+                    columnBrackets: new string[] { "\"Updator\"" },
+                    tableName: tableName,
+                    name: "Updator",
+                    _operator: " between ",
+                    raw: "{0} and {1} ".Params(begin, end))
+                : self;
+        }
+
+        public static SqlWhereCollection Registrations_Updator_Between(
+            this SqlWhereCollection self,
+            int begin,
+            int end,
+            string tableName = "Registrations",
+            bool _using = true)
+        {
+            return _using
+                ? self.Add(
+                    columnBrackets: new string[] { "\"Updator\"" },
+                    tableName: tableName,
+                    name: "Updator",
+                    _operator: " between ",
+                    raw: "{0} and {1} ".Params(begin, end))
+                : self;
+        }
+
+        public static RegistrationsWhereCollection CreatedTime_Between(
+            this RegistrationsWhereCollection self,
+            DateTime begin,
+            DateTime end,
+            string tableName = "Registrations",
+            bool _using = true)
+        {
+            return _using
+                ? self.Add(
+                    columnBrackets: new string[] { "\"CreatedTime\"" },
+                    tableName: tableName,
+                    name: "CreatedTime",
+                    _operator: " between ",
+                    raw: "'{0}' and '{1}' ".Params(begin, end))
+                : self;
+        }
+
+        public static SqlWhereCollection Registrations_CreatedTime_Between(
+            this SqlWhereCollection self,
+            DateTime begin,
+            DateTime end,
+            string tableName = "Registrations",
+            bool _using = true)
+        {
+            return _using
+                ? self.Add(
+                    columnBrackets: new string[] { "\"CreatedTime\"" },
+                    tableName: tableName,
+                    name: "CreatedTime",
+                    _operator: " between ",
+                    raw: "'{0}' and '{1}' ".Params(begin, end))
+                : self;
+        }
+
+        public static RegistrationsWhereCollection UpdatedTime_Between(
+            this RegistrationsWhereCollection self,
+            DateTime begin,
+            DateTime end,
+            string tableName = "Registrations",
+            bool _using = true)
+        {
+            return _using
+                ? self.Add(
+                    columnBrackets: new string[] { "\"UpdatedTime\"" },
+                    tableName: tableName,
+                    name: "UpdatedTime",
+                    _operator: " between ",
+                    raw: "'{0}' and '{1}' ".Params(begin, end))
+                : self;
+        }
+
+        public static SqlWhereCollection Registrations_UpdatedTime_Between(
+            this SqlWhereCollection self,
+            DateTime begin,
+            DateTime end,
+            string tableName = "Registrations",
+            bool _using = true)
+        {
+            return _using
+                ? self.Add(
+                    columnBrackets: new string[] { "\"UpdatedTime\"" },
+                    tableName: tableName,
+                    name: "UpdatedTime",
+                    _operator: " between ",
+                    raw: "'{0}' and '{1}' ".Params(begin, end))
+                : self;
+        }
+
+        public static RegistrationsWhereCollection Sub(
+            this RegistrationsWhereCollection self,
+            SqlStatement sub,
+            object value = null,
+            string _operator = "=",
+            bool _using = true)
+        {
+            return _using 
+                ? self.Add(
+                    null, null, null, value, _operator, sub: sub)
+                : self;
+        }
+
+        public static RegistrationsWhereCollection Or(
+            this RegistrationsWhereCollection self,
+            RegistrationsWhereCollection or,
+            bool _using = true)
+        {
+            self.Add(or: or, _using: _using);
+            return self;
+        }
+
+        public static RegistrationsGroupByCollection RegistrationsGroupBy(
+            this RegistrationsGroupByCollection self, string columnName, bool _using = true)
+        {
+            if (_using)
+            {
+                switch (columnName)
+                {
+                    case "TenantId": return self.TenantId();
+                    case "RegistrationId": return self.RegistrationId();
+                    case "Ver": return self.Ver();
+                    case "MailAddress": return self.MailAddress();
+                    case "Invitee": return self.Invitee();
+                    case "InviteeName": return self.InviteeName();
+                    case "LoginId": return self.LoginId();
+                    case "Name": return self.Name();
+                    case "Password": return self.Password();
+                    case "Language": return self.Language();
+                    case "Passphrase": return self.Passphrase();
+                    case "Invitingflg": return self.Invitingflg();
+                    case "UserId": return self.UserId();
+                    case "DeptId": return self.DeptId();
+                    case "GroupId": return self.GroupId();
+                    case "Comments": return self.Comments();
+                    case "Creator": return self.Creator();
+                    case "Updator": return self.Updator();
+                    case "CreatedTime": return self.CreatedTime();
+                    case "UpdatedTime": return self.UpdatedTime();
+                    default:
+                        return Def.ExtendedColumnTypes.ContainsKey(columnName)
+                            ? self.Add(columnBracket: $"\"{columnName}\"")
+                            : self;
+                }
+            }
+            else
+            {
+                return self;
+            }
+        }
+
+        public static RegistrationsGroupByCollection TenantId(
+            this RegistrationsGroupByCollection self, string tableName = "Registrations")
+        {
+            return self.Add(columnBracket: "\"TenantId\"", tableName: tableName);
+        }
+
+        public static SqlGroupByCollection Registrations_TenantId(
+            this SqlGroupByCollection self, string tableName = "Registrations")
+        {
+            return self.Add(columnBracket: "\"TenantId\"", tableName: tableName);
+        }
+
+        public static RegistrationsGroupByCollection RegistrationId(
+            this RegistrationsGroupByCollection self, string tableName = "Registrations")
+        {
+            return self.Add(columnBracket: "\"RegistrationId\"", tableName: tableName);
+        }
+
+        public static SqlGroupByCollection Registrations_RegistrationId(
+            this SqlGroupByCollection self, string tableName = "Registrations")
+        {
+            return self.Add(columnBracket: "\"RegistrationId\"", tableName: tableName);
+        }
+
+        public static RegistrationsGroupByCollection Ver(
+            this RegistrationsGroupByCollection self, string tableName = "Registrations")
+        {
+            return self.Add(columnBracket: "\"Ver\"", tableName: tableName);
+        }
+
+        public static SqlGroupByCollection Registrations_Ver(
+            this SqlGroupByCollection self, string tableName = "Registrations")
+        {
+            return self.Add(columnBracket: "\"Ver\"", tableName: tableName);
+        }
+
+        public static RegistrationsGroupByCollection MailAddress(
+            this RegistrationsGroupByCollection self, string tableName = "Registrations")
+        {
+            return self.Add(columnBracket: "\"MailAddress\"", tableName: tableName);
+        }
+
+        public static SqlGroupByCollection Registrations_MailAddress(
+            this SqlGroupByCollection self, string tableName = "Registrations")
+        {
+            return self.Add(columnBracket: "\"MailAddress\"", tableName: tableName);
+        }
+
+        public static RegistrationsGroupByCollection Invitee(
+            this RegistrationsGroupByCollection self, string tableName = "Registrations")
+        {
+            return self.Add(columnBracket: "\"Invitee\"", tableName: tableName);
+        }
+
+        public static SqlGroupByCollection Registrations_Invitee(
+            this SqlGroupByCollection self, string tableName = "Registrations")
+        {
+            return self.Add(columnBracket: "\"Invitee\"", tableName: tableName);
+        }
+
+        public static RegistrationsGroupByCollection InviteeName(
+            this RegistrationsGroupByCollection self, string tableName = "Registrations")
+        {
+            return self.Add(columnBracket: "\"InviteeName\"", tableName: tableName);
+        }
+
+        public static SqlGroupByCollection Registrations_InviteeName(
+            this SqlGroupByCollection self, string tableName = "Registrations")
+        {
+            return self.Add(columnBracket: "\"InviteeName\"", tableName: tableName);
+        }
+
+        public static RegistrationsGroupByCollection LoginId(
+            this RegistrationsGroupByCollection self, string tableName = "Registrations")
+        {
+            return self.Add(columnBracket: "\"LoginId\"", tableName: tableName);
+        }
+
+        public static SqlGroupByCollection Registrations_LoginId(
+            this SqlGroupByCollection self, string tableName = "Registrations")
+        {
+            return self.Add(columnBracket: "\"LoginId\"", tableName: tableName);
+        }
+
+        public static RegistrationsGroupByCollection Name(
+            this RegistrationsGroupByCollection self, string tableName = "Registrations")
+        {
+            return self.Add(columnBracket: "\"Name\"", tableName: tableName);
+        }
+
+        public static SqlGroupByCollection Registrations_Name(
+            this SqlGroupByCollection self, string tableName = "Registrations")
+        {
+            return self.Add(columnBracket: "\"Name\"", tableName: tableName);
+        }
+
+        public static RegistrationsGroupByCollection Password(
+            this RegistrationsGroupByCollection self, string tableName = "Registrations")
+        {
+            return self.Add(columnBracket: "\"Password\"", tableName: tableName);
+        }
+
+        public static SqlGroupByCollection Registrations_Password(
+            this SqlGroupByCollection self, string tableName = "Registrations")
+        {
+            return self.Add(columnBracket: "\"Password\"", tableName: tableName);
+        }
+
+        public static RegistrationsGroupByCollection Language(
+            this RegistrationsGroupByCollection self, string tableName = "Registrations")
+        {
+            return self.Add(columnBracket: "\"Language\"", tableName: tableName);
+        }
+
+        public static SqlGroupByCollection Registrations_Language(
+            this SqlGroupByCollection self, string tableName = "Registrations")
+        {
+            return self.Add(columnBracket: "\"Language\"", tableName: tableName);
+        }
+
+        public static RegistrationsGroupByCollection Passphrase(
+            this RegistrationsGroupByCollection self, string tableName = "Registrations")
+        {
+            return self.Add(columnBracket: "\"Passphrase\"", tableName: tableName);
+        }
+
+        public static SqlGroupByCollection Registrations_Passphrase(
+            this SqlGroupByCollection self, string tableName = "Registrations")
+        {
+            return self.Add(columnBracket: "\"Passphrase\"", tableName: tableName);
+        }
+
+        public static RegistrationsGroupByCollection Invitingflg(
+            this RegistrationsGroupByCollection self, string tableName = "Registrations")
+        {
+            return self.Add(columnBracket: "\"Invitingflg\"", tableName: tableName);
+        }
+
+        public static SqlGroupByCollection Registrations_Invitingflg(
+            this SqlGroupByCollection self, string tableName = "Registrations")
+        {
+            return self.Add(columnBracket: "\"Invitingflg\"", tableName: tableName);
+        }
+
+        public static RegistrationsGroupByCollection UserId(
+            this RegistrationsGroupByCollection self, string tableName = "Registrations")
+        {
+            return self.Add(columnBracket: "\"UserId\"", tableName: tableName);
+        }
+
+        public static SqlGroupByCollection Registrations_UserId(
+            this SqlGroupByCollection self, string tableName = "Registrations")
+        {
+            return self.Add(columnBracket: "\"UserId\"", tableName: tableName);
+        }
+
+        public static RegistrationsGroupByCollection DeptId(
+            this RegistrationsGroupByCollection self, string tableName = "Registrations")
+        {
+            return self.Add(columnBracket: "\"DeptId\"", tableName: tableName);
+        }
+
+        public static SqlGroupByCollection Registrations_DeptId(
+            this SqlGroupByCollection self, string tableName = "Registrations")
+        {
+            return self.Add(columnBracket: "\"DeptId\"", tableName: tableName);
+        }
+
+        public static RegistrationsGroupByCollection GroupId(
+            this RegistrationsGroupByCollection self, string tableName = "Registrations")
+        {
+            return self.Add(columnBracket: "\"GroupId\"", tableName: tableName);
+        }
+
+        public static SqlGroupByCollection Registrations_GroupId(
+            this SqlGroupByCollection self, string tableName = "Registrations")
+        {
+            return self.Add(columnBracket: "\"GroupId\"", tableName: tableName);
+        }
+
+        public static RegistrationsGroupByCollection Comments(
+            this RegistrationsGroupByCollection self, string tableName = "Registrations")
+        {
+            return self.Add(columnBracket: "\"Comments\"", tableName: tableName);
+        }
+
+        public static SqlGroupByCollection Registrations_Comments(
+            this SqlGroupByCollection self, string tableName = "Registrations")
+        {
+            return self.Add(columnBracket: "\"Comments\"", tableName: tableName);
+        }
+
+        public static RegistrationsGroupByCollection Creator(
+            this RegistrationsGroupByCollection self, string tableName = "Registrations")
+        {
+            return self.Add(columnBracket: "\"Creator\"", tableName: tableName);
+        }
+
+        public static SqlGroupByCollection Registrations_Creator(
+            this SqlGroupByCollection self, string tableName = "Registrations")
+        {
+            return self.Add(columnBracket: "\"Creator\"", tableName: tableName);
+        }
+
+        public static RegistrationsGroupByCollection Updator(
+            this RegistrationsGroupByCollection self, string tableName = "Registrations")
+        {
+            return self.Add(columnBracket: "\"Updator\"", tableName: tableName);
+        }
+
+        public static SqlGroupByCollection Registrations_Updator(
+            this SqlGroupByCollection self, string tableName = "Registrations")
+        {
+            return self.Add(columnBracket: "\"Updator\"", tableName: tableName);
+        }
+
+        public static RegistrationsGroupByCollection CreatedTime(
+            this RegistrationsGroupByCollection self, string tableName = "Registrations")
+        {
+            return self.Add(columnBracket: "\"CreatedTime\"", tableName: tableName);
+        }
+
+        public static SqlGroupByCollection Registrations_CreatedTime(
+            this SqlGroupByCollection self, string tableName = "Registrations")
+        {
+            return self.Add(columnBracket: "\"CreatedTime\"", tableName: tableName);
+        }
+
+        public static RegistrationsGroupByCollection UpdatedTime(
+            this RegistrationsGroupByCollection self, string tableName = "Registrations")
+        {
+            return self.Add(columnBracket: "\"UpdatedTime\"", tableName: tableName);
+        }
+
+        public static SqlGroupByCollection Registrations_UpdatedTime(
+            this SqlGroupByCollection self, string tableName = "Registrations")
+        {
+            return self.Add(columnBracket: "\"UpdatedTime\"", tableName: tableName);
+        }
+
+        public static RegistrationsHavingCollection RegistrationsCount(
+            this RegistrationsHavingCollection self,
+            object value = null,
+            string tableName = "Registrations",
+            string _operator = null)
+        {
+            return self.Add(
+                columnBracket: "*",
+                value: value,
+                tableName: tableName,
+                _operator: _operator,
+                function: Sqls.Functions.Count);
+        }
+
+        public static RegistrationsHavingCollection CreatedTime(
+            this RegistrationsHavingCollection self,
+            string tableName = "Registrations",
+            object value = null,
+            string _operator = "=",
+            Sqls.Functions function = Sqls.Functions.None)
+        {
+            return self.Add(
+                columnBracket: "CreatedTime",
+                tableName: tableName,
+                value: value,
+                _operator: _operator,
+                function: function);
+        }
+
+        public static RegistrationsHavingCollection UpdatedTime(
+            this RegistrationsHavingCollection self,
+            string tableName = "Registrations",
+            object value = null,
+            string _operator = "=",
+            Sqls.Functions function = Sqls.Functions.None)
+        {
+            return self.Add(
+                columnBracket: "UpdatedTime",
+                tableName: tableName,
+                value: value,
+                _operator: _operator,
+                function: function);
+        }
+
+        public static RegistrationsOrderByCollection TenantId(
+            this RegistrationsOrderByCollection self,
+            SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
+            string tableName = "Registrations",
+            Sqls.Functions function = Sqls.Functions.None)
+        {
+            new List<string> { "\"TenantId\"" }.ForEach(columnBracket =>
+                self.Add(
+                    columnBracket: columnBracket,
+                    orderType: orderType,
+                    tableName: tableName,
+                    function: function));
+            return self;
+        }
+
+        public static RegistrationsOrderByCollection RegistrationId(
+            this RegistrationsOrderByCollection self,
+            SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
+            string tableName = "Registrations",
+            Sqls.Functions function = Sqls.Functions.None)
+        {
+            new List<string> { "\"RegistrationId\"" }.ForEach(columnBracket =>
+                self.Add(
+                    columnBracket: columnBracket,
+                    orderType: orderType,
+                    tableName: tableName,
+                    function: function));
+            return self;
+        }
+
+        public static RegistrationsOrderByCollection Ver(
+            this RegistrationsOrderByCollection self,
+            SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
+            string tableName = "Registrations",
+            Sqls.Functions function = Sqls.Functions.None)
+        {
+            new List<string> { "\"Ver\"" }.ForEach(columnBracket =>
+                self.Add(
+                    columnBracket: columnBracket,
+                    orderType: orderType,
+                    tableName: tableName,
+                    function: function));
+            return self;
+        }
+
+        public static RegistrationsOrderByCollection MailAddress(
+            this RegistrationsOrderByCollection self,
+            SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
+            string tableName = "Registrations",
+            Sqls.Functions function = Sqls.Functions.None)
+        {
+            new List<string> { "\"MailAddress\"" }.ForEach(columnBracket =>
+                self.Add(
+                    columnBracket: columnBracket,
+                    orderType: orderType,
+                    tableName: tableName,
+                    function: function));
+            return self;
+        }
+
+        public static RegistrationsOrderByCollection Invitee(
+            this RegistrationsOrderByCollection self,
+            SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
+            string tableName = "Registrations",
+            Sqls.Functions function = Sqls.Functions.None)
+        {
+            new List<string> { "\"Invitee\"" }.ForEach(columnBracket =>
+                self.Add(
+                    columnBracket: columnBracket,
+                    orderType: orderType,
+                    tableName: tableName,
+                    function: function));
+            return self;
+        }
+
+        public static RegistrationsOrderByCollection InviteeName(
+            this RegistrationsOrderByCollection self,
+            SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
+            string tableName = "Registrations",
+            Sqls.Functions function = Sqls.Functions.None)
+        {
+            new List<string> { "\"InviteeName\"" }.ForEach(columnBracket =>
+                self.Add(
+                    columnBracket: columnBracket,
+                    orderType: orderType,
+                    tableName: tableName,
+                    function: function));
+            return self;
+        }
+
+        public static RegistrationsOrderByCollection LoginId(
+            this RegistrationsOrderByCollection self,
+            SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
+            string tableName = "Registrations",
+            Sqls.Functions function = Sqls.Functions.None)
+        {
+            new List<string> { "\"LoginId\"" }.ForEach(columnBracket =>
+                self.Add(
+                    columnBracket: columnBracket,
+                    orderType: orderType,
+                    tableName: tableName,
+                    function: function));
+            return self;
+        }
+
+        public static RegistrationsOrderByCollection Name(
+            this RegistrationsOrderByCollection self,
+            SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
+            string tableName = "Registrations",
+            Sqls.Functions function = Sqls.Functions.None)
+        {
+            new List<string> { "\"Name\"" }.ForEach(columnBracket =>
+                self.Add(
+                    columnBracket: columnBracket,
+                    orderType: orderType,
+                    tableName: tableName,
+                    function: function));
+            return self;
+        }
+
+        public static RegistrationsOrderByCollection Password(
+            this RegistrationsOrderByCollection self,
+            SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
+            string tableName = "Registrations",
+            Sqls.Functions function = Sqls.Functions.None)
+        {
+            new List<string> { "\"Password\"" }.ForEach(columnBracket =>
+                self.Add(
+                    columnBracket: columnBracket,
+                    orderType: orderType,
+                    tableName: tableName,
+                    function: function));
+            return self;
+        }
+
+        public static RegistrationsOrderByCollection Language(
+            this RegistrationsOrderByCollection self,
+            SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
+            string tableName = "Registrations",
+            Sqls.Functions function = Sqls.Functions.None)
+        {
+            new List<string> { "\"Language\"" }.ForEach(columnBracket =>
+                self.Add(
+                    columnBracket: columnBracket,
+                    orderType: orderType,
+                    tableName: tableName,
+                    function: function));
+            return self;
+        }
+
+        public static RegistrationsOrderByCollection Passphrase(
+            this RegistrationsOrderByCollection self,
+            SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
+            string tableName = "Registrations",
+            Sqls.Functions function = Sqls.Functions.None)
+        {
+            new List<string> { "\"Passphrase\"" }.ForEach(columnBracket =>
+                self.Add(
+                    columnBracket: columnBracket,
+                    orderType: orderType,
+                    tableName: tableName,
+                    function: function));
+            return self;
+        }
+
+        public static RegistrationsOrderByCollection Invitingflg(
+            this RegistrationsOrderByCollection self,
+            SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
+            string tableName = "Registrations",
+            Sqls.Functions function = Sqls.Functions.None)
+        {
+            new List<string> { "\"Invitingflg\"" }.ForEach(columnBracket =>
+                self.Add(
+                    columnBracket: columnBracket,
+                    orderType: orderType,
+                    tableName: tableName,
+                    function: function));
+            return self;
+        }
+
+        public static RegistrationsOrderByCollection UserId(
+            this RegistrationsOrderByCollection self,
+            SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
+            string tableName = "Registrations",
+            Sqls.Functions function = Sqls.Functions.None)
+        {
+            new List<string> { "\"UserId\"" }.ForEach(columnBracket =>
+                self.Add(
+                    columnBracket: columnBracket,
+                    orderType: orderType,
+                    tableName: tableName,
+                    function: function));
+            return self;
+        }
+
+        public static RegistrationsOrderByCollection DeptId(
+            this RegistrationsOrderByCollection self,
+            SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
+            string tableName = "Registrations",
+            Sqls.Functions function = Sqls.Functions.None)
+        {
+            new List<string> { "\"DeptId\"" }.ForEach(columnBracket =>
+                self.Add(
+                    columnBracket: columnBracket,
+                    orderType: orderType,
+                    tableName: tableName,
+                    function: function));
+            return self;
+        }
+
+        public static RegistrationsOrderByCollection GroupId(
+            this RegistrationsOrderByCollection self,
+            SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
+            string tableName = "Registrations",
+            Sqls.Functions function = Sqls.Functions.None)
+        {
+            new List<string> { "\"GroupId\"" }.ForEach(columnBracket =>
+                self.Add(
+                    columnBracket: columnBracket,
+                    orderType: orderType,
+                    tableName: tableName,
+                    function: function));
+            return self;
+        }
+
+        public static RegistrationsOrderByCollection Comments(
+            this RegistrationsOrderByCollection self,
+            SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
+            string tableName = "Registrations",
+            Sqls.Functions function = Sqls.Functions.None)
+        {
+            new List<string> { "\"Comments\"" }.ForEach(columnBracket =>
+                self.Add(
+                    columnBracket: columnBracket,
+                    orderType: orderType,
+                    tableName: tableName,
+                    function: function));
+            return self;
+        }
+
+        public static RegistrationsOrderByCollection Creator(
+            this RegistrationsOrderByCollection self,
+            SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
+            string tableName = "Registrations",
+            Sqls.Functions function = Sqls.Functions.None)
+        {
+            new List<string> { "\"Creator\"" }.ForEach(columnBracket =>
+                self.Add(
+                    columnBracket: columnBracket,
+                    orderType: orderType,
+                    tableName: tableName,
+                    function: function));
+            return self;
+        }
+
+        public static RegistrationsOrderByCollection Updator(
+            this RegistrationsOrderByCollection self,
+            SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
+            string tableName = "Registrations",
+            Sqls.Functions function = Sqls.Functions.None)
+        {
+            new List<string> { "\"Updator\"" }.ForEach(columnBracket =>
+                self.Add(
+                    columnBracket: columnBracket,
+                    orderType: orderType,
+                    tableName: tableName,
+                    function: function));
+            return self;
+        }
+
+        public static RegistrationsOrderByCollection CreatedTime(
+            this RegistrationsOrderByCollection self,
+            SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
+            string tableName = "Registrations",
+            Sqls.Functions function = Sqls.Functions.None)
+        {
+            new List<string> { "\"CreatedTime\"" }.ForEach(columnBracket =>
+                self.Add(
+                    columnBracket: columnBracket,
+                    orderType: orderType,
+                    tableName: tableName,
+                    function: function));
+            return self;
+        }
+
+        public static RegistrationsOrderByCollection UpdatedTime(
+            this RegistrationsOrderByCollection self,
+            SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
+            string tableName = "Registrations",
+            Sqls.Functions function = Sqls.Functions.None)
+        {
+            new List<string> { "\"UpdatedTime\"" }.ForEach(columnBracket =>
+                self.Add(
+                    columnBracket: columnBracket,
+                    orderType: orderType,
+                    tableName: tableName,
+                    function: function));
+            return self;
+        }
+
+        public static SqlOrderByCollection Registrations_TenantId(
+            this SqlOrderByCollection self,
+            SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
+            string tableName = "Registrations",
+            Sqls.Functions function = Sqls.Functions.None)
+        {
+            new List<string> { "\"TenantId\"" }.ForEach(columnBracket =>
+                self.Add(
+                    columnBracket: columnBracket,
+                    orderType: orderType,
+                    tableName: tableName,
+                    function: function));
+            return self;
+        }
+
+        public static SqlOrderByCollection Registrations_RegistrationId(
+            this SqlOrderByCollection self,
+            SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
+            string tableName = "Registrations",
+            Sqls.Functions function = Sqls.Functions.None)
+        {
+            new List<string> { "\"RegistrationId\"" }.ForEach(columnBracket =>
+                self.Add(
+                    columnBracket: columnBracket,
+                    orderType: orderType,
+                    tableName: tableName,
+                    function: function));
+            return self;
+        }
+
+        public static SqlOrderByCollection Registrations_Ver(
+            this SqlOrderByCollection self,
+            SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
+            string tableName = "Registrations",
+            Sqls.Functions function = Sqls.Functions.None)
+        {
+            new List<string> { "\"Ver\"" }.ForEach(columnBracket =>
+                self.Add(
+                    columnBracket: columnBracket,
+                    orderType: orderType,
+                    tableName: tableName,
+                    function: function));
+            return self;
+        }
+
+        public static SqlOrderByCollection Registrations_MailAddress(
+            this SqlOrderByCollection self,
+            SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
+            string tableName = "Registrations",
+            Sqls.Functions function = Sqls.Functions.None)
+        {
+            new List<string> { "\"MailAddress\"" }.ForEach(columnBracket =>
+                self.Add(
+                    columnBracket: columnBracket,
+                    orderType: orderType,
+                    tableName: tableName,
+                    function: function));
+            return self;
+        }
+
+        public static SqlOrderByCollection Registrations_Invitee(
+            this SqlOrderByCollection self,
+            SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
+            string tableName = "Registrations",
+            Sqls.Functions function = Sqls.Functions.None)
+        {
+            new List<string> { "\"Invitee\"" }.ForEach(columnBracket =>
+                self.Add(
+                    columnBracket: columnBracket,
+                    orderType: orderType,
+                    tableName: tableName,
+                    function: function));
+            return self;
+        }
+
+        public static SqlOrderByCollection Registrations_InviteeName(
+            this SqlOrderByCollection self,
+            SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
+            string tableName = "Registrations",
+            Sqls.Functions function = Sqls.Functions.None)
+        {
+            new List<string> { "\"InviteeName\"" }.ForEach(columnBracket =>
+                self.Add(
+                    columnBracket: columnBracket,
+                    orderType: orderType,
+                    tableName: tableName,
+                    function: function));
+            return self;
+        }
+
+        public static SqlOrderByCollection Registrations_LoginId(
+            this SqlOrderByCollection self,
+            SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
+            string tableName = "Registrations",
+            Sqls.Functions function = Sqls.Functions.None)
+        {
+            new List<string> { "\"LoginId\"" }.ForEach(columnBracket =>
+                self.Add(
+                    columnBracket: columnBracket,
+                    orderType: orderType,
+                    tableName: tableName,
+                    function: function));
+            return self;
+        }
+
+        public static SqlOrderByCollection Registrations_Name(
+            this SqlOrderByCollection self,
+            SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
+            string tableName = "Registrations",
+            Sqls.Functions function = Sqls.Functions.None)
+        {
+            new List<string> { "\"Name\"" }.ForEach(columnBracket =>
+                self.Add(
+                    columnBracket: columnBracket,
+                    orderType: orderType,
+                    tableName: tableName,
+                    function: function));
+            return self;
+        }
+
+        public static SqlOrderByCollection Registrations_Password(
+            this SqlOrderByCollection self,
+            SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
+            string tableName = "Registrations",
+            Sqls.Functions function = Sqls.Functions.None)
+        {
+            new List<string> { "\"Password\"" }.ForEach(columnBracket =>
+                self.Add(
+                    columnBracket: columnBracket,
+                    orderType: orderType,
+                    tableName: tableName,
+                    function: function));
+            return self;
+        }
+
+        public static SqlOrderByCollection Registrations_Language(
+            this SqlOrderByCollection self,
+            SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
+            string tableName = "Registrations",
+            Sqls.Functions function = Sqls.Functions.None)
+        {
+            new List<string> { "\"Language\"" }.ForEach(columnBracket =>
+                self.Add(
+                    columnBracket: columnBracket,
+                    orderType: orderType,
+                    tableName: tableName,
+                    function: function));
+            return self;
+        }
+
+        public static SqlOrderByCollection Registrations_Passphrase(
+            this SqlOrderByCollection self,
+            SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
+            string tableName = "Registrations",
+            Sqls.Functions function = Sqls.Functions.None)
+        {
+            new List<string> { "\"Passphrase\"" }.ForEach(columnBracket =>
+                self.Add(
+                    columnBracket: columnBracket,
+                    orderType: orderType,
+                    tableName: tableName,
+                    function: function));
+            return self;
+        }
+
+        public static SqlOrderByCollection Registrations_Invitingflg(
+            this SqlOrderByCollection self,
+            SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
+            string tableName = "Registrations",
+            Sqls.Functions function = Sqls.Functions.None)
+        {
+            new List<string> { "\"Invitingflg\"" }.ForEach(columnBracket =>
+                self.Add(
+                    columnBracket: columnBracket,
+                    orderType: orderType,
+                    tableName: tableName,
+                    function: function));
+            return self;
+        }
+
+        public static SqlOrderByCollection Registrations_UserId(
+            this SqlOrderByCollection self,
+            SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
+            string tableName = "Registrations",
+            Sqls.Functions function = Sqls.Functions.None)
+        {
+            new List<string> { "\"UserId\"" }.ForEach(columnBracket =>
+                self.Add(
+                    columnBracket: columnBracket,
+                    orderType: orderType,
+                    tableName: tableName,
+                    function: function));
+            return self;
+        }
+
+        public static SqlOrderByCollection Registrations_DeptId(
+            this SqlOrderByCollection self,
+            SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
+            string tableName = "Registrations",
+            Sqls.Functions function = Sqls.Functions.None)
+        {
+            new List<string> { "\"DeptId\"" }.ForEach(columnBracket =>
+                self.Add(
+                    columnBracket: columnBracket,
+                    orderType: orderType,
+                    tableName: tableName,
+                    function: function));
+            return self;
+        }
+
+        public static SqlOrderByCollection Registrations_GroupId(
+            this SqlOrderByCollection self,
+            SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
+            string tableName = "Registrations",
+            Sqls.Functions function = Sqls.Functions.None)
+        {
+            new List<string> { "\"GroupId\"" }.ForEach(columnBracket =>
+                self.Add(
+                    columnBracket: columnBracket,
+                    orderType: orderType,
+                    tableName: tableName,
+                    function: function));
+            return self;
+        }
+
+        public static SqlOrderByCollection Registrations_Comments(
+            this SqlOrderByCollection self,
+            SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
+            string tableName = "Registrations",
+            Sqls.Functions function = Sqls.Functions.None)
+        {
+            new List<string> { "\"Comments\"" }.ForEach(columnBracket =>
+                self.Add(
+                    columnBracket: columnBracket,
+                    orderType: orderType,
+                    tableName: tableName,
+                    function: function));
+            return self;
+        }
+
+        public static SqlOrderByCollection Registrations_Creator(
+            this SqlOrderByCollection self,
+            SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
+            string tableName = "Registrations",
+            Sqls.Functions function = Sqls.Functions.None)
+        {
+            new List<string> { "\"Creator\"" }.ForEach(columnBracket =>
+                self.Add(
+                    columnBracket: columnBracket,
+                    orderType: orderType,
+                    tableName: tableName,
+                    function: function));
+            return self;
+        }
+
+        public static SqlOrderByCollection Registrations_Updator(
+            this SqlOrderByCollection self,
+            SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
+            string tableName = "Registrations",
+            Sqls.Functions function = Sqls.Functions.None)
+        {
+            new List<string> { "\"Updator\"" }.ForEach(columnBracket =>
+                self.Add(
+                    columnBracket: columnBracket,
+                    orderType: orderType,
+                    tableName: tableName,
+                    function: function));
+            return self;
+        }
+
+        public static SqlOrderByCollection Registrations_CreatedTime(
+            this SqlOrderByCollection self,
+            SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
+            string tableName = "Registrations",
+            Sqls.Functions function = Sqls.Functions.None)
+        {
+            new List<string> { "\"CreatedTime\"" }.ForEach(columnBracket =>
+                self.Add(
+                    columnBracket: columnBracket,
+                    orderType: orderType,
+                    tableName: tableName,
+                    function: function));
+            return self;
+        }
+
+        public static SqlOrderByCollection Registrations_UpdatedTime(
+            this SqlOrderByCollection self,
+            SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
+            string tableName = "Registrations",
+            Sqls.Functions function = Sqls.Functions.None)
+        {
+            new List<string> { "\"UpdatedTime\"" }.ForEach(columnBracket =>
+                self.Add(
+                    columnBracket: columnBracket,
+                    orderType: orderType,
+                    tableName: tableName,
+                    function: function));
+            return self;
+        }
+
+        public static RegistrationsOrderByCollection RegistrationsCount(
+            this RegistrationsOrderByCollection self,
+            SqlOrderBy.Types orderType = SqlOrderBy.Types.asc)
+        {
+            return self.Add(
+                columnBracket: "*",
+                orderType: orderType,
+                function: Sqls.Functions.Count);
+        }
+
+        public static RegistrationsParamCollection TenantId(
+            this RegistrationsParamCollection self,
+            object value = null,
+            SqlStatement sub = null,
+            string raw = null,
+            bool _using = true)
+        {
+            return _using
+                ? self.Add(
+                    columnBracket: "\"TenantId\"",
+                    name: "TenantId",
+                    value: value,
+                    sub: sub,
+                    raw: raw)
+                : self;
+        }
+
+        public static SqlParamCollection Registrations_TenantId(
+            this SqlParamCollection self,
+            object value = null,
+            SqlStatement sub = null,
+            string raw = null,
+            bool _using = true)
+        {
+            return _using
+                ? self.Add(
+                    columnBracket: "\"TenantId\"",
+                    name: "TenantId",
+                    value: value,
+                    sub: sub,
+                    raw: raw)
+                : self;
+        }
+
+        public static RegistrationsParamCollection RegistrationId(
+            this RegistrationsParamCollection self,
+            object value = null,
+            SqlStatement sub = null,
+            string raw = null,
+            bool _using = true)
+        {
+            return _using
+                ? self.Add(
+                    columnBracket: "\"RegistrationId\"",
+                    name: "RegistrationId",
+                    value: value,
+                    sub: sub,
+                    raw: raw)
+                : self;
+        }
+
+        public static SqlParamCollection Registrations_RegistrationId(
+            this SqlParamCollection self,
+            object value = null,
+            SqlStatement sub = null,
+            string raw = null,
+            bool _using = true)
+        {
+            return _using
+                ? self.Add(
+                    columnBracket: "\"RegistrationId\"",
+                    name: "RegistrationId",
+                    value: value,
+                    sub: sub,
+                    raw: raw)
+                : self;
+        }
+
+        public static RegistrationsParamCollection Ver(
+            this RegistrationsParamCollection self,
+            object value = null,
+            SqlStatement sub = null,
+            string raw = null,
+            bool _using = true)
+        {
+            return _using
+                ? self.Add(
+                    columnBracket: "\"Ver\"",
+                    name: "Ver",
+                    value: value,
+                    sub: sub,
+                    raw: raw)
+                : self;
+        }
+
+        public static SqlParamCollection Registrations_Ver(
+            this SqlParamCollection self,
+            object value = null,
+            SqlStatement sub = null,
+            string raw = null,
+            bool _using = true)
+        {
+            return _using
+                ? self.Add(
+                    columnBracket: "\"Ver\"",
+                    name: "Ver",
+                    value: value,
+                    sub: sub,
+                    raw: raw)
+                : self;
+        }
+
+        public static RegistrationsParamCollection MailAddress(
+            this RegistrationsParamCollection self,
+            object value = null,
+            SqlStatement sub = null,
+            string raw = null,
+            bool _using = true)
+        {
+            return _using
+                ? self.Add(
+                    columnBracket: "\"MailAddress\"",
+                    name: "MailAddress",
+                    value: value,
+                    sub: sub,
+                    raw: raw)
+                : self;
+        }
+
+        public static SqlParamCollection Registrations_MailAddress(
+            this SqlParamCollection self,
+            object value = null,
+            SqlStatement sub = null,
+            string raw = null,
+            bool _using = true)
+        {
+            return _using
+                ? self.Add(
+                    columnBracket: "\"MailAddress\"",
+                    name: "MailAddress",
+                    value: value,
+                    sub: sub,
+                    raw: raw)
+                : self;
+        }
+
+        public static RegistrationsParamCollection Invitee(
+            this RegistrationsParamCollection self,
+            object value = null,
+            SqlStatement sub = null,
+            string raw = null,
+            bool _using = true)
+        {
+            return _using
+                ? self.Add(
+                    columnBracket: "\"Invitee\"",
+                    name: "Invitee",
+                    value: value,
+                    sub: sub,
+                    raw: raw)
+                : self;
+        }
+
+        public static SqlParamCollection Registrations_Invitee(
+            this SqlParamCollection self,
+            object value = null,
+            SqlStatement sub = null,
+            string raw = null,
+            bool _using = true)
+        {
+            return _using
+                ? self.Add(
+                    columnBracket: "\"Invitee\"",
+                    name: "Invitee",
+                    value: value,
+                    sub: sub,
+                    raw: raw)
+                : self;
+        }
+
+        public static RegistrationsParamCollection InviteeName(
+            this RegistrationsParamCollection self,
+            object value = null,
+            SqlStatement sub = null,
+            string raw = null,
+            bool _using = true)
+        {
+            return _using
+                ? self.Add(
+                    columnBracket: "\"InviteeName\"",
+                    name: "InviteeName",
+                    value: value,
+                    sub: sub,
+                    raw: raw)
+                : self;
+        }
+
+        public static SqlParamCollection Registrations_InviteeName(
+            this SqlParamCollection self,
+            object value = null,
+            SqlStatement sub = null,
+            string raw = null,
+            bool _using = true)
+        {
+            return _using
+                ? self.Add(
+                    columnBracket: "\"InviteeName\"",
+                    name: "InviteeName",
+                    value: value,
+                    sub: sub,
+                    raw: raw)
+                : self;
+        }
+
+        public static RegistrationsParamCollection LoginId(
+            this RegistrationsParamCollection self,
+            object value = null,
+            SqlStatement sub = null,
+            string raw = null,
+            bool _using = true)
+        {
+            return _using
+                ? self.Add(
+                    columnBracket: "\"LoginId\"",
+                    name: "LoginId",
+                    value: value,
+                    sub: sub,
+                    raw: raw)
+                : self;
+        }
+
+        public static SqlParamCollection Registrations_LoginId(
+            this SqlParamCollection self,
+            object value = null,
+            SqlStatement sub = null,
+            string raw = null,
+            bool _using = true)
+        {
+            return _using
+                ? self.Add(
+                    columnBracket: "\"LoginId\"",
+                    name: "LoginId",
+                    value: value,
+                    sub: sub,
+                    raw: raw)
+                : self;
+        }
+
+        public static RegistrationsParamCollection Name(
+            this RegistrationsParamCollection self,
+            object value = null,
+            SqlStatement sub = null,
+            string raw = null,
+            bool _using = true)
+        {
+            return _using
+                ? self.Add(
+                    columnBracket: "\"Name\"",
+                    name: "Name",
+                    value: value,
+                    sub: sub,
+                    raw: raw)
+                : self;
+        }
+
+        public static SqlParamCollection Registrations_Name(
+            this SqlParamCollection self,
+            object value = null,
+            SqlStatement sub = null,
+            string raw = null,
+            bool _using = true)
+        {
+            return _using
+                ? self.Add(
+                    columnBracket: "\"Name\"",
+                    name: "Name",
+                    value: value,
+                    sub: sub,
+                    raw: raw)
+                : self;
+        }
+
+        public static RegistrationsParamCollection Password(
+            this RegistrationsParamCollection self,
+            object value = null,
+            SqlStatement sub = null,
+            string raw = null,
+            bool _using = true)
+        {
+            return _using
+                ? self.Add(
+                    columnBracket: "\"Password\"",
+                    name: "Password",
+                    value: value,
+                    sub: sub,
+                    raw: raw)
+                : self;
+        }
+
+        public static SqlParamCollection Registrations_Password(
+            this SqlParamCollection self,
+            object value = null,
+            SqlStatement sub = null,
+            string raw = null,
+            bool _using = true)
+        {
+            return _using
+                ? self.Add(
+                    columnBracket: "\"Password\"",
+                    name: "Password",
+                    value: value,
+                    sub: sub,
+                    raw: raw)
+                : self;
+        }
+
+        public static RegistrationsParamCollection Language(
+            this RegistrationsParamCollection self,
+            object value = null,
+            SqlStatement sub = null,
+            string raw = null,
+            bool _using = true)
+        {
+            return _using
+                ? self.Add(
+                    columnBracket: "\"Language\"",
+                    name: "Language",
+                    value: value,
+                    sub: sub,
+                    raw: raw)
+                : self;
+        }
+
+        public static SqlParamCollection Registrations_Language(
+            this SqlParamCollection self,
+            object value = null,
+            SqlStatement sub = null,
+            string raw = null,
+            bool _using = true)
+        {
+            return _using
+                ? self.Add(
+                    columnBracket: "\"Language\"",
+                    name: "Language",
+                    value: value,
+                    sub: sub,
+                    raw: raw)
+                : self;
+        }
+
+        public static RegistrationsParamCollection Passphrase(
+            this RegistrationsParamCollection self,
+            object value = null,
+            SqlStatement sub = null,
+            string raw = null,
+            bool _using = true)
+        {
+            return _using
+                ? self.Add(
+                    columnBracket: "\"Passphrase\"",
+                    name: "Passphrase",
+                    value: value,
+                    sub: sub,
+                    raw: raw)
+                : self;
+        }
+
+        public static SqlParamCollection Registrations_Passphrase(
+            this SqlParamCollection self,
+            object value = null,
+            SqlStatement sub = null,
+            string raw = null,
+            bool _using = true)
+        {
+            return _using
+                ? self.Add(
+                    columnBracket: "\"Passphrase\"",
+                    name: "Passphrase",
+                    value: value,
+                    sub: sub,
+                    raw: raw)
+                : self;
+        }
+
+        public static RegistrationsParamCollection Invitingflg(
+            this RegistrationsParamCollection self,
+            object value = null,
+            SqlStatement sub = null,
+            string raw = null,
+            bool _using = true)
+        {
+            return _using
+                ? self.Add(
+                    columnBracket: "\"Invitingflg\"",
+                    name: "Invitingflg",
+                    value: value,
+                    sub: sub,
+                    raw: raw)
+                : self;
+        }
+
+        public static SqlParamCollection Registrations_Invitingflg(
+            this SqlParamCollection self,
+            object value = null,
+            SqlStatement sub = null,
+            string raw = null,
+            bool _using = true)
+        {
+            return _using
+                ? self.Add(
+                    columnBracket: "\"Invitingflg\"",
+                    name: "Invitingflg",
+                    value: value,
+                    sub: sub,
+                    raw: raw)
+                : self;
+        }
+
+        public static RegistrationsParamCollection UserId(
+            this RegistrationsParamCollection self,
+            object value = null,
+            SqlStatement sub = null,
+            string raw = null,
+            bool _using = true)
+        {
+            return _using
+                ? self.Add(
+                    columnBracket: "\"UserId\"",
+                    name: "UserId",
+                    value: value,
+                    sub: sub,
+                    raw: raw)
+                : self;
+        }
+
+        public static SqlParamCollection Registrations_UserId(
+            this SqlParamCollection self,
+            object value = null,
+            SqlStatement sub = null,
+            string raw = null,
+            bool _using = true)
+        {
+            return _using
+                ? self.Add(
+                    columnBracket: "\"UserId\"",
+                    name: "UserId",
+                    value: value,
+                    sub: sub,
+                    raw: raw)
+                : self;
+        }
+
+        public static RegistrationsParamCollection DeptId(
+            this RegistrationsParamCollection self,
+            object value = null,
+            SqlStatement sub = null,
+            string raw = null,
+            bool _using = true)
+        {
+            return _using
+                ? self.Add(
+                    columnBracket: "\"DeptId\"",
+                    name: "DeptId",
+                    value: value,
+                    sub: sub,
+                    raw: raw)
+                : self;
+        }
+
+        public static SqlParamCollection Registrations_DeptId(
+            this SqlParamCollection self,
+            object value = null,
+            SqlStatement sub = null,
+            string raw = null,
+            bool _using = true)
+        {
+            return _using
+                ? self.Add(
+                    columnBracket: "\"DeptId\"",
+                    name: "DeptId",
+                    value: value,
+                    sub: sub,
+                    raw: raw)
+                : self;
+        }
+
+        public static RegistrationsParamCollection GroupId(
+            this RegistrationsParamCollection self,
+            object value = null,
+            SqlStatement sub = null,
+            string raw = null,
+            bool _using = true)
+        {
+            return _using
+                ? self.Add(
+                    columnBracket: "\"GroupId\"",
+                    name: "GroupId",
+                    value: value,
+                    sub: sub,
+                    raw: raw)
+                : self;
+        }
+
+        public static SqlParamCollection Registrations_GroupId(
+            this SqlParamCollection self,
+            object value = null,
+            SqlStatement sub = null,
+            string raw = null,
+            bool _using = true)
+        {
+            return _using
+                ? self.Add(
+                    columnBracket: "\"GroupId\"",
+                    name: "GroupId",
+                    value: value,
+                    sub: sub,
+                    raw: raw)
+                : self;
+        }
+
+        public static RegistrationsParamCollection Comments(
+            this RegistrationsParamCollection self,
+            object value = null,
+            SqlStatement sub = null,
+            string raw = null,
+            bool _using = true)
+        {
+            return _using
+                ? self.Add(
+                    columnBracket: "\"Comments\"",
+                    name: "Comments",
+                    value: value,
+                    sub: sub,
+                    raw: raw)
+                : self;
+        }
+
+        public static SqlParamCollection Registrations_Comments(
+            this SqlParamCollection self,
+            object value = null,
+            SqlStatement sub = null,
+            string raw = null,
+            bool _using = true)
+        {
+            return _using
+                ? self.Add(
+                    columnBracket: "\"Comments\"",
+                    name: "Comments",
+                    value: value,
+                    sub: sub,
+                    raw: raw)
+                : self;
+        }
+
+        public static RegistrationsParamCollection Creator(
+            this RegistrationsParamCollection self,
+            object value = null,
+            SqlStatement sub = null,
+            string raw = null,
+            bool _using = true)
+        {
+            return _using
+                ? self.Add(
+                    columnBracket: "\"Creator\"",
+                    name: "Creator",
+                    value: value,
+                    sub: sub,
+                    raw: raw)
+                : self;
+        }
+
+        public static SqlParamCollection Registrations_Creator(
+            this SqlParamCollection self,
+            object value = null,
+            SqlStatement sub = null,
+            string raw = null,
+            bool _using = true)
+        {
+            return _using
+                ? self.Add(
+                    columnBracket: "\"Creator\"",
+                    name: "Creator",
+                    value: value,
+                    sub: sub,
+                    raw: raw)
+                : self;
+        }
+
+        public static RegistrationsParamCollection Updator(
+            this RegistrationsParamCollection self,
+            object value = null,
+            SqlStatement sub = null,
+            string raw = null,
+            bool _using = true)
+        {
+            return _using
+                ? self.Add(
+                    columnBracket: "\"Updator\"",
+                    name: "Updator",
+                    value: value,
+                    sub: sub,
+                    raw: raw)
+                : self;
+        }
+
+        public static SqlParamCollection Registrations_Updator(
+            this SqlParamCollection self,
+            object value = null,
+            SqlStatement sub = null,
+            string raw = null,
+            bool _using = true)
+        {
+            return _using
+                ? self.Add(
+                    columnBracket: "\"Updator\"",
+                    name: "Updator",
+                    value: value,
+                    sub: sub,
+                    raw: raw)
+                : self;
+        }
+
+        public static RegistrationsParamCollection CreatedTime(
+            this RegistrationsParamCollection self,
+            object value = null,
+            SqlStatement sub = null,
+            string raw = null,
+            bool _using = true)
+        {
+            return _using
+                ? self.Add(
+                    columnBracket: "\"CreatedTime\"",
+                    name: "CreatedTime",
+                    value: value,
+                    sub: sub,
+                    raw: raw)
+                : self;
+        }
+
+        public static SqlParamCollection Registrations_CreatedTime(
+            this SqlParamCollection self,
+            object value = null,
+            SqlStatement sub = null,
+            string raw = null,
+            bool _using = true)
+        {
+            return _using
+                ? self.Add(
+                    columnBracket: "\"CreatedTime\"",
+                    name: "CreatedTime",
+                    value: value,
+                    sub: sub,
+                    raw: raw)
+                : self;
+        }
+
+        public static RegistrationsParamCollection UpdatedTime(
+            this RegistrationsParamCollection self,
+            object value = null,
+            SqlStatement sub = null,
+            string raw = null,
+            bool _using = true)
+        {
+            return _using
+                ? self.Add(
+                    columnBracket: "\"UpdatedTime\"",
+                    name: "UpdatedTime",
+                    value: value,
+                    sub: sub,
+                    raw: raw)
+                : self;
+        }
+
+        public static SqlParamCollection Registrations_UpdatedTime(
+            this SqlParamCollection self,
+            object value = null,
+            SqlStatement sub = null,
+            string raw = null,
+            bool _using = true)
+        {
+            return _using
+                ? self.Add(
+                    columnBracket: "\"UpdatedTime\"",
+                    name: "UpdatedTime",
+                    value: value,
+                    sub: sub,
+                    raw: raw)
+                : self;
+        }
+
         public static UsersColumnCollection UsersColumn()
         {
             return new UsersColumnCollection();
@@ -43132,49 +48473,53 @@ namespace Implem.Pleasanter.Libraries.DataSources
         public static string Users_LoginId_WhereLike(
             ISqlObjectFactory factory,
             string tableName = "Users",
+            string name = "SearchText",
             bool forward = false)
         {
             return "(\"" + tableName + "\".\"LoginId\" like " + 
                 (forward
                     ? string.Empty
                     : factory.Sqls.WhereLikeTemplateForward) +
-                factory.Sqls.WhereLikeTemplate;
+                $"@{name}{factory.Sqls.WhereLikeTemplate}";
         }
 
         public static string Users_Name_WhereLike(
             ISqlObjectFactory factory,
             string tableName = "Users",
+            string name = "SearchText",
             bool forward = false)
         {
             return "(\"" + tableName + "\".\"Name\" like " + 
                 (forward
                     ? string.Empty
                     : factory.Sqls.WhereLikeTemplateForward) +
-                factory.Sqls.WhereLikeTemplate;
+                $"@{name}{factory.Sqls.WhereLikeTemplate}";
         }
 
         public static string Users_UserCode_WhereLike(
             ISqlObjectFactory factory,
             string tableName = "Users",
+            string name = "SearchText",
             bool forward = false)
         {
             return "(\"" + tableName + "\".\"UserCode\" like " + 
                 (forward
                     ? string.Empty
                     : factory.Sqls.WhereLikeTemplateForward) +
-                factory.Sqls.WhereLikeTemplate;
+                $"@{name}{factory.Sqls.WhereLikeTemplate}";
         }
 
         public static string Users_Body_WhereLike(
             ISqlObjectFactory factory,
             string tableName = "Users",
+            string name = "SearchText",
             bool forward = false)
         {
             return "(\"" + tableName + "\".\"Body\" like " + 
                 (forward
                     ? string.Empty
                     : factory.Sqls.WhereLikeTemplateForward) +
-                factory.Sqls.WhereLikeTemplate;
+                $"@{name}{factory.Sqls.WhereLikeTemplate}";
         }
 
         public static UsersColumnCollection UsersColumn(
@@ -43264,7 +48609,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                 case "UpdatedTime":
                     return self.UpdatedTime(_as: _as, function: function);
                 default:
-                    return Def.ExtendedColumnTypes.ContainsKey(columnName)
+                    return columnName != null && Def.ExtendedColumnTypes.ContainsKey(columnName)
                         ? self.Add(
                             columnBracket: $"\"{columnName}\"",
                             columnName: columnName,
@@ -51059,7 +56404,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                 case "UpdatedTime":
                     return self.UpdatedTime(_as: _as, function: function);
                 default:
-                    return Def.ExtendedColumnTypes.ContainsKey(columnName)
+                    return columnName != null && Def.ExtendedColumnTypes.ContainsKey(columnName)
                         ? self.Add(
                             columnBracket: $"\"{columnName}\"",
                             columnName: columnName,
@@ -53636,13 +58981,14 @@ namespace Implem.Pleasanter.Libraries.DataSources
         public static string MailAddresses_MailAddress_WhereLike(
             ISqlObjectFactory factory,
             string tableName = "MailAddresses",
+            string name = "SearchText",
             bool forward = false)
         {
             return "(\"" + tableName + "\".\"MailAddress\" like " + 
                 (forward
                     ? string.Empty
                     : factory.Sqls.WhereLikeTemplateForward) +
-                factory.Sqls.WhereLikeTemplate;
+                $"@{name}{factory.Sqls.WhereLikeTemplate}";
         }
 
         public static MailAddressesColumnCollection MailAddressesColumn(
@@ -53674,7 +59020,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                 case "UpdatedTime":
                     return self.UpdatedTime(_as: _as, function: function);
                 default:
-                    return Def.ExtendedColumnTypes.ContainsKey(columnName)
+                    return columnName != null && Def.ExtendedColumnTypes.ContainsKey(columnName)
                         ? self.Add(
                             columnBracket: $"\"{columnName}\"",
                             columnName: columnName,
@@ -56126,7 +61472,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                 case "UpdatedTime":
                     return self.UpdatedTime(_as: _as, function: function);
                 default:
-                    return Def.ExtendedColumnTypes.ContainsKey(columnName)
+                    return columnName != null && Def.ExtendedColumnTypes.ContainsKey(columnName)
                         ? self.Add(
                             columnBracket: $"\"{columnName}\"",
                             columnName: columnName,
@@ -60059,2904 +65405,6 @@ namespace Implem.Pleasanter.Libraries.DataSources
                 : self;
         }
 
-        public static SearchIndexesColumnCollection SearchIndexesColumn()
-        {
-            return new SearchIndexesColumnCollection();
-        }
-
-        public class SearchIndexesColumnCollection : SqlColumnCollection
-        {
-            public new SearchIndexesColumnCollection Add(
-                string columnBracket = null,
-                string tableName = "SearchIndexes",
-                string columnName = null,
-                string _as = null,
-                Sqls.Functions function = Sqls.Functions.None,
-                SqlStatement sub = null,
-                bool subPrefix = true)
-            {
-                base.Add(
-                    columnBracket: columnBracket,
-                    tableName: tableName,
-                    columnName: columnName,
-                    _as: _as,
-                    function: function,
-                    sub: sub,
-                    subPrefix: subPrefix);
-                return this;
-            }
-        }
-
-        public static SearchIndexesJoinCollection SearchIndexesJoin()
-        {
-            return new SearchIndexesJoinCollection();
-        }
-
-        public class SearchIndexesJoinCollection : SqlJoinCollection
-        {
-            public SearchIndexesJoinCollection Add(params SqlJoin[] sqlJoinCollection)
-            {
-                sqlJoinCollection.ForEach(sqlJoin => base.Add(sqlJoin));
-                return this;
-            }
-        }
-
-        public static SearchIndexesWhereCollection SearchIndexesWhere()
-        {
-            return new SearchIndexesWhereCollection();
-        }
-
-        public class SearchIndexesWhereCollection : SqlWhereCollection
-        {
-            public new SearchIndexesWhereCollection Add(
-                string tableName = "SearchIndexes",
-                string[] columnBrackets = null,
-                string name = null,
-                object value = null,
-                string _operator = "=",
-                string multiColumnOperator = " or ",
-                string multiParamOperator = " and ",
-                SqlStatement subLeft = null,
-                SqlStatement sub = null,
-                bool subPrefix = true,
-                string raw = null,
-                bool _using = true)
-            {
-                if (_using)
-                {
-                    Add(new SqlWhere(
-                        columnBrackets: columnBrackets,
-                        tableName: tableName,
-                        name: name,
-                        value: value,
-                        _operator: _operator,
-                        multiColumnOperator: multiColumnOperator,
-                        multiParamOperator: multiParamOperator,
-                        subLeft: subLeft,
-                        sub: sub,
-                        subPrefix: subPrefix,
-                        raw: raw));
-                }
-                return this;
-            }
-        }
-
-        public static SearchIndexesGroupByCollection SearchIndexesGroupBy()
-        {
-            return new SearchIndexesGroupByCollection();
-        }
-
-        public class SearchIndexesGroupByCollection : SqlGroupByCollection
-        {
-            public new SearchIndexesGroupByCollection Add(
-                string columnBracket, string tableName = "SearchIndexes")
-            {
-                Add(new SqlGroupBy(
-                    columnBracket: columnBracket,
-                    tableName: tableName));
-                return this;
-            }
-        }
-
-        public static SearchIndexesHavingCollection SearchIndexesHaving()
-        {
-            return new SearchIndexesHavingCollection();
-        }
-
-        public class SearchIndexesHavingCollection : SqlHavingCollection
-        {
-            public SearchIndexesHavingCollection Add(
-                string columnBracket,
-                string tableName = "SearchIndexes",
-                object value = null,
-                string _operator = "=",
-                Sqls.Functions function = Sqls.Functions.None)
-            {
-                Add(new SqlHaving(
-                    columnBracket: columnBracket,
-                    tableName: tableName,
-                    value: value,
-                    _operator: _operator,
-                    function: function));
-                return this;
-            }
-        }
-
-        public static SearchIndexesOrderByCollection SearchIndexesOrderBy()
-        {
-            return new SearchIndexesOrderByCollection();
-        }
-
-        public class SearchIndexesOrderByCollection : SqlOrderByCollection
-        {
-            public new SearchIndexesOrderByCollection Add(
-                string columnBracket,
-                SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
-                string tableName = "SearchIndexes",
-                Sqls.Functions function = Sqls.Functions.None)
-            {
-                Add(new SqlOrderBy(
-                    columnBracket: columnBracket,
-                    tableName: tableName,
-                    orderType: orderType,
-                    function: function));
-                return this;
-            }
-        }
-
-        public static SearchIndexesParamCollection SearchIndexesParam()
-        {
-            return new SearchIndexesParamCollection();
-        }
-
-        public class SearchIndexesParamCollection : SqlParamCollection
-        {
-            public new SearchIndexesParamCollection Add(
-                string columnBracket = null,
-                string name = null,
-                object value = null,
-                SqlStatement sub = null,
-                string raw = null,
-                bool _using = true)
-            {
-                Add(new SqlParam(
-                    columnBracket: columnBracket,
-                    name: name,
-                    value: value,
-                    sub: sub,
-                    raw: raw,
-                    _using: _using));
-                return this;
-            }
-        }
-
-        public static SearchIndexesColumnCollection SearchIndexesColumn(
-            this SearchIndexesColumnCollection self,
-            string columnName,
-            string _as = null,
-            Sqls.Functions function = Sqls.Functions.None)
-        {
-            switch (columnName)
-            {
-                case "Word":
-                    return self.Word(_as: _as, function: function);
-                case "ReferenceId":
-                    return self.ReferenceId(_as: _as, function: function);
-                case "Ver":
-                    return self.Ver(_as: _as, function: function);
-                case "Priority":
-                    return self.Priority(_as: _as, function: function);
-                case "ReferenceType":
-                    return self.ReferenceType(_as: _as, function: function);
-                case "Title":
-                    return self.Title(_as: _as, function: function);
-                case "Subset":
-                    return self.Subset(_as: _as, function: function);
-                case "InheritPermission":
-                    return self.InheritPermission(_as: _as, function: function);
-                case "Comments":
-                    return self.Comments(_as: _as, function: function);
-                case "Creator":
-                    return self.Creator(_as: _as, function: function);
-                case "Updator":
-                    return self.Updator(_as: _as, function: function);
-                case "CreatedTime":
-                    return self.CreatedTime(_as: _as, function: function);
-                case "UpdatedTime":
-                    return self.UpdatedTime(_as: _as, function: function);
-                default:
-                    return Def.ExtendedColumnTypes.ContainsKey(columnName)
-                        ? self.Add(
-                            columnBracket: $"\"{columnName}\"",
-                            columnName: columnName,
-                            _as: _as,
-                            function: function)
-                        : self;
-            }
-        }
-
-        public static SearchIndexesColumnCollection Word(
-            this SearchIndexesColumnCollection self,
-            string tableName = "SearchIndexes",
-            string columnName = "Word",
-            string _as = null,
-            Sqls.Functions function = Sqls.Functions.None,
-            SqlStatement sub = null)
-        {
-            return self.Add(
-                columnBracket: "\"Word\"",
-                tableName: tableName,
-                columnName: columnName,
-                _as: _as,
-                function: function,
-                sub: sub);
-        }
-
-        public static SqlColumnCollection SearchIndexes_Word(
-            this SqlColumnCollection self,
-            string tableName = "SearchIndexes",
-            string columnName = "Word",
-            string _as = null,
-            Sqls.Functions function = Sqls.Functions.None,
-            SqlStatement sub = null)
-        {
-            return self.Add(
-                columnBracket: "\"Word\"",
-                tableName: tableName,
-                columnName: columnName,
-                _as: _as,
-                function: function,
-                sub: sub);
-        }
-
-        public static SearchIndexesColumnCollection ReferenceId(
-            this SearchIndexesColumnCollection self,
-            string tableName = "SearchIndexes",
-            string columnName = "ReferenceId",
-            string _as = null,
-            Sqls.Functions function = Sqls.Functions.None,
-            SqlStatement sub = null)
-        {
-            return self.Add(
-                columnBracket: "\"ReferenceId\"",
-                tableName: tableName,
-                columnName: columnName,
-                _as: _as,
-                function: function,
-                sub: sub);
-        }
-
-        public static SqlColumnCollection SearchIndexes_ReferenceId(
-            this SqlColumnCollection self,
-            string tableName = "SearchIndexes",
-            string columnName = "ReferenceId",
-            string _as = null,
-            Sqls.Functions function = Sqls.Functions.None,
-            SqlStatement sub = null)
-        {
-            return self.Add(
-                columnBracket: "\"ReferenceId\"",
-                tableName: tableName,
-                columnName: columnName,
-                _as: _as,
-                function: function,
-                sub: sub);
-        }
-
-        public static SearchIndexesColumnCollection Ver(
-            this SearchIndexesColumnCollection self,
-            string tableName = "SearchIndexes",
-            string columnName = "Ver",
-            string _as = null,
-            Sqls.Functions function = Sqls.Functions.None,
-            SqlStatement sub = null)
-        {
-            return self.Add(
-                columnBracket: "\"Ver\"",
-                tableName: tableName,
-                columnName: columnName,
-                _as: _as,
-                function: function,
-                sub: sub);
-        }
-
-        public static SqlColumnCollection SearchIndexes_Ver(
-            this SqlColumnCollection self,
-            string tableName = "SearchIndexes",
-            string columnName = "Ver",
-            string _as = null,
-            Sqls.Functions function = Sqls.Functions.None,
-            SqlStatement sub = null)
-        {
-            return self.Add(
-                columnBracket: "\"Ver\"",
-                tableName: tableName,
-                columnName: columnName,
-                _as: _as,
-                function: function,
-                sub: sub);
-        }
-
-        public static SearchIndexesColumnCollection Priority(
-            this SearchIndexesColumnCollection self,
-            string tableName = "SearchIndexes",
-            string columnName = "Priority",
-            string _as = null,
-            Sqls.Functions function = Sqls.Functions.None,
-            SqlStatement sub = null)
-        {
-            return self.Add(
-                columnBracket: "\"Priority\"",
-                tableName: tableName,
-                columnName: columnName,
-                _as: _as,
-                function: function,
-                sub: sub);
-        }
-
-        public static SqlColumnCollection SearchIndexes_Priority(
-            this SqlColumnCollection self,
-            string tableName = "SearchIndexes",
-            string columnName = "Priority",
-            string _as = null,
-            Sqls.Functions function = Sqls.Functions.None,
-            SqlStatement sub = null)
-        {
-            return self.Add(
-                columnBracket: "\"Priority\"",
-                tableName: tableName,
-                columnName: columnName,
-                _as: _as,
-                function: function,
-                sub: sub);
-        }
-
-        public static SearchIndexesColumnCollection ReferenceType(
-            this SearchIndexesColumnCollection self,
-            string tableName = "Items",
-            string columnName = "ReferenceType",
-            string _as = null,
-            Sqls.Functions function = Sqls.Functions.None,
-            SqlStatement sub = null)
-        {
-            return self.Add(
-                columnBracket: "\"ReferenceType\"",
-                tableName: tableName,
-                columnName: columnName,
-                _as: _as,
-                function: function,
-                sub: sub);
-        }
-
-        public static SqlColumnCollection SearchIndexes_ReferenceType(
-            this SqlColumnCollection self,
-            string tableName = "Items",
-            string columnName = "ReferenceType",
-            string _as = null,
-            Sqls.Functions function = Sqls.Functions.None,
-            SqlStatement sub = null)
-        {
-            return self.Add(
-                columnBracket: "\"ReferenceType\"",
-                tableName: tableName,
-                columnName: columnName,
-                _as: _as,
-                function: function,
-                sub: sub);
-        }
-
-        public static SearchIndexesColumnCollection Title(
-            this SearchIndexesColumnCollection self,
-            string tableName = "Items",
-            string columnName = "Title",
-            string _as = null,
-            Sqls.Functions function = Sqls.Functions.None,
-            SqlStatement sub = null)
-        {
-            return self.Add(
-                columnBracket: "\"Title\"",
-                tableName: tableName,
-                columnName: columnName,
-                _as: _as,
-                function: function,
-                sub: sub);
-        }
-
-        public static SqlColumnCollection SearchIndexes_Title(
-            this SqlColumnCollection self,
-            string tableName = "Items",
-            string columnName = "Title",
-            string _as = null,
-            Sqls.Functions function = Sqls.Functions.None,
-            SqlStatement sub = null)
-        {
-            return self.Add(
-                columnBracket: "\"Title\"",
-                tableName: tableName,
-                columnName: columnName,
-                _as: _as,
-                function: function,
-                sub: sub);
-        }
-
-        public static SearchIndexesColumnCollection Subset(
-            this SearchIndexesColumnCollection self,
-            string tableName = "Items",
-            string columnName = "Subset",
-            string _as = null,
-            Sqls.Functions function = Sqls.Functions.None,
-            SqlStatement sub = null)
-        {
-            return self.Add(
-                columnBracket: "\"Subset\"",
-                tableName: tableName,
-                columnName: columnName,
-                _as: _as,
-                function: function,
-                sub: sub);
-        }
-
-        public static SqlColumnCollection SearchIndexes_Subset(
-            this SqlColumnCollection self,
-            string tableName = "Items",
-            string columnName = "Subset",
-            string _as = null,
-            Sqls.Functions function = Sqls.Functions.None,
-            SqlStatement sub = null)
-        {
-            return self.Add(
-                columnBracket: "\"Subset\"",
-                tableName: tableName,
-                columnName: columnName,
-                _as: _as,
-                function: function,
-                sub: sub);
-        }
-
-        public static SearchIndexesColumnCollection InheritPermission(
-            this SearchIndexesColumnCollection self,
-            string tableName = "Sites",
-            string columnName = "InheritPermission",
-            string _as = null,
-            Sqls.Functions function = Sqls.Functions.None,
-            SqlStatement sub = null)
-        {
-            return self.Add(
-                columnBracket: "\"InheritPermission\"",
-                tableName: tableName,
-                columnName: columnName,
-                _as: _as,
-                function: function,
-                sub: sub);
-        }
-
-        public static SqlColumnCollection SearchIndexes_InheritPermission(
-            this SqlColumnCollection self,
-            string tableName = "Sites",
-            string columnName = "InheritPermission",
-            string _as = null,
-            Sqls.Functions function = Sqls.Functions.None,
-            SqlStatement sub = null)
-        {
-            return self.Add(
-                columnBracket: "\"InheritPermission\"",
-                tableName: tableName,
-                columnName: columnName,
-                _as: _as,
-                function: function,
-                sub: sub);
-        }
-
-        public static SearchIndexesColumnCollection Comments(
-            this SearchIndexesColumnCollection self,
-            string tableName = "SearchIndexes",
-            string columnName = "Comments",
-            string _as = null,
-            Sqls.Functions function = Sqls.Functions.None,
-            SqlStatement sub = null)
-        {
-            return self.Add(
-                columnBracket: "\"Comments\"",
-                tableName: tableName,
-                columnName: columnName,
-                _as: _as,
-                function: function,
-                sub: sub);
-        }
-
-        public static SqlColumnCollection SearchIndexes_Comments(
-            this SqlColumnCollection self,
-            string tableName = "SearchIndexes",
-            string columnName = "Comments",
-            string _as = null,
-            Sqls.Functions function = Sqls.Functions.None,
-            SqlStatement sub = null)
-        {
-            return self.Add(
-                columnBracket: "\"Comments\"",
-                tableName: tableName,
-                columnName: columnName,
-                _as: _as,
-                function: function,
-                sub: sub);
-        }
-
-        public static SearchIndexesColumnCollection Creator(
-            this SearchIndexesColumnCollection self,
-            string tableName = "SearchIndexes",
-            string columnName = "Creator",
-            string _as = null,
-            Sqls.Functions function = Sqls.Functions.None,
-            SqlStatement sub = null)
-        {
-            return self.Add(
-                columnBracket: "\"Creator\"",
-                tableName: tableName,
-                columnName: columnName,
-                _as: _as,
-                function: function,
-                sub: sub);
-        }
-
-        public static SqlColumnCollection SearchIndexes_Creator(
-            this SqlColumnCollection self,
-            string tableName = "SearchIndexes",
-            string columnName = "Creator",
-            string _as = null,
-            Sqls.Functions function = Sqls.Functions.None,
-            SqlStatement sub = null)
-        {
-            return self.Add(
-                columnBracket: "\"Creator\"",
-                tableName: tableName,
-                columnName: columnName,
-                _as: _as,
-                function: function,
-                sub: sub);
-        }
-
-        public static SearchIndexesColumnCollection Updator(
-            this SearchIndexesColumnCollection self,
-            string tableName = "SearchIndexes",
-            string columnName = "Updator",
-            string _as = null,
-            Sqls.Functions function = Sqls.Functions.None,
-            SqlStatement sub = null)
-        {
-            return self.Add(
-                columnBracket: "\"Updator\"",
-                tableName: tableName,
-                columnName: columnName,
-                _as: _as,
-                function: function,
-                sub: sub);
-        }
-
-        public static SqlColumnCollection SearchIndexes_Updator(
-            this SqlColumnCollection self,
-            string tableName = "SearchIndexes",
-            string columnName = "Updator",
-            string _as = null,
-            Sqls.Functions function = Sqls.Functions.None,
-            SqlStatement sub = null)
-        {
-            return self.Add(
-                columnBracket: "\"Updator\"",
-                tableName: tableName,
-                columnName: columnName,
-                _as: _as,
-                function: function,
-                sub: sub);
-        }
-
-        public static SearchIndexesColumnCollection CreatedTime(
-            this SearchIndexesColumnCollection self,
-            string tableName = "SearchIndexes",
-            string columnName = "CreatedTime",
-            string _as = null,
-            Sqls.Functions function = Sqls.Functions.None,
-            SqlStatement sub = null)
-        {
-            return self.Add(
-                columnBracket: "\"CreatedTime\"",
-                tableName: tableName,
-                columnName: columnName,
-                _as: _as,
-                function: function,
-                sub: sub);
-        }
-
-        public static SqlColumnCollection SearchIndexes_CreatedTime(
-            this SqlColumnCollection self,
-            string tableName = "SearchIndexes",
-            string columnName = "CreatedTime",
-            string _as = null,
-            Sqls.Functions function = Sqls.Functions.None,
-            SqlStatement sub = null)
-        {
-            return self.Add(
-                columnBracket: "\"CreatedTime\"",
-                tableName: tableName,
-                columnName: columnName,
-                _as: _as,
-                function: function,
-                sub: sub);
-        }
-
-        public static SearchIndexesColumnCollection UpdatedTime(
-            this SearchIndexesColumnCollection self,
-            string tableName = "SearchIndexes",
-            string columnName = "UpdatedTime",
-            string _as = null,
-            Sqls.Functions function = Sqls.Functions.None,
-            SqlStatement sub = null)
-        {
-            return self.Add(
-                columnBracket: "\"UpdatedTime\"",
-                tableName: tableName,
-                columnName: columnName,
-                _as: _as,
-                function: function,
-                sub: sub);
-        }
-
-        public static SqlColumnCollection SearchIndexes_UpdatedTime(
-            this SqlColumnCollection self,
-            string tableName = "SearchIndexes",
-            string columnName = "UpdatedTime",
-            string _as = null,
-            Sqls.Functions function = Sqls.Functions.None,
-            SqlStatement sub = null)
-        {
-            return self.Add(
-                columnBracket: "\"UpdatedTime\"",
-                tableName: tableName,
-                columnName: columnName,
-                _as: _as,
-                function: function,
-                sub: sub);
-        }
-
-        public static SearchIndexesColumnCollection SearchIndexesCount(
-            this SearchIndexesColumnCollection self,
-            string _as = "SearchIndexesCount")
-        {
-            return self.Add(
-                columnBracket: "*",
-                tableName: null,
-                _as: _as,
-                function: Sqls.Functions.Count);
-        }
-
-        public static SearchIndexesWhereCollection Word(
-            this SearchIndexesWhereCollection self,
-            object value = null,
-            string tableName = "SearchIndexes",
-            string _operator = "=",
-            string multiColumnOperator = " or ",
-            string multiParamOperator = " and ",
-            SqlStatement subLeft = null,
-            SqlStatement sub = null,
-            bool subPrefix = true,
-            string raw = null,
-            bool _using = true)
-        {
-            return _using
-                ? self.Add(
-                    columnBrackets: new string[] { "\"Word\"" },
-                    tableName: tableName,
-                    name: "Word",
-                    value: value,
-                    _operator: _operator,
-                    multiColumnOperator: multiColumnOperator,
-                    multiParamOperator: multiParamOperator,
-                    subLeft: subLeft,
-                    sub: sub,
-                    subPrefix: subPrefix,
-                    raw: raw)
-                : self;
-        }
-
-        public static SqlWhereCollection SearchIndexes_Word(
-            this SqlWhereCollection self,
-            object value = null,
-            string tableName = "SearchIndexes",
-            string _operator = "=",
-            string multiColumnOperator = " or ",
-            string multiParamOperator = " and ",
-            SqlStatement subLeft = null,
-            SqlStatement sub = null,
-            bool subPrefix = true,
-            string raw = null,
-            bool _using = true)
-        {
-            return _using
-                ? self.Add(
-                    columnBrackets: new string[] { "\"Word\"" },
-                    tableName: tableName,
-                    name: "Word",
-                    value: value,
-                    _operator: _operator,
-                    multiColumnOperator: multiColumnOperator,
-                    multiParamOperator: multiParamOperator,
-                    subLeft: subLeft,
-                    sub: sub,
-                    subPrefix: subPrefix,
-                    raw: raw)
-                : self;
-        }
-
-        public static SearchIndexesWhereCollection ReferenceId(
-            this SearchIndexesWhereCollection self,
-            object value = null,
-            string tableName = "SearchIndexes",
-            string _operator = "=",
-            string multiColumnOperator = " or ",
-            string multiParamOperator = " and ",
-            SqlStatement subLeft = null,
-            SqlStatement sub = null,
-            bool subPrefix = true,
-            string raw = null,
-            bool _using = true)
-        {
-            return _using
-                ? self.Add(
-                    columnBrackets: new string[] { "\"ReferenceId\"" },
-                    tableName: tableName,
-                    name: "ReferenceId",
-                    value: value,
-                    _operator: _operator,
-                    multiColumnOperator: multiColumnOperator,
-                    multiParamOperator: multiParamOperator,
-                    subLeft: subLeft,
-                    sub: sub,
-                    subPrefix: subPrefix,
-                    raw: raw)
-                : self;
-        }
-
-        public static SqlWhereCollection SearchIndexes_ReferenceId(
-            this SqlWhereCollection self,
-            object value = null,
-            string tableName = "SearchIndexes",
-            string _operator = "=",
-            string multiColumnOperator = " or ",
-            string multiParamOperator = " and ",
-            SqlStatement subLeft = null,
-            SqlStatement sub = null,
-            bool subPrefix = true,
-            string raw = null,
-            bool _using = true)
-        {
-            return _using
-                ? self.Add(
-                    columnBrackets: new string[] { "\"ReferenceId\"" },
-                    tableName: tableName,
-                    name: "ReferenceId",
-                    value: value,
-                    _operator: _operator,
-                    multiColumnOperator: multiColumnOperator,
-                    multiParamOperator: multiParamOperator,
-                    subLeft: subLeft,
-                    sub: sub,
-                    subPrefix: subPrefix,
-                    raw: raw)
-                : self;
-        }
-
-        public static SearchIndexesWhereCollection Ver(
-            this SearchIndexesWhereCollection self,
-            object value = null,
-            string tableName = "SearchIndexes",
-            string _operator = "=",
-            string multiColumnOperator = " or ",
-            string multiParamOperator = " and ",
-            SqlStatement subLeft = null,
-            SqlStatement sub = null,
-            bool subPrefix = true,
-            string raw = null,
-            bool _using = true)
-        {
-            return _using
-                ? self.Add(
-                    columnBrackets: new string[] { "\"Ver\"" },
-                    tableName: tableName,
-                    name: "Ver",
-                    value: value,
-                    _operator: _operator,
-                    multiColumnOperator: multiColumnOperator,
-                    multiParamOperator: multiParamOperator,
-                    subLeft: subLeft,
-                    sub: sub,
-                    subPrefix: subPrefix,
-                    raw: raw)
-                : self;
-        }
-
-        public static SqlWhereCollection SearchIndexes_Ver(
-            this SqlWhereCollection self,
-            object value = null,
-            string tableName = "SearchIndexes",
-            string _operator = "=",
-            string multiColumnOperator = " or ",
-            string multiParamOperator = " and ",
-            SqlStatement subLeft = null,
-            SqlStatement sub = null,
-            bool subPrefix = true,
-            string raw = null,
-            bool _using = true)
-        {
-            return _using
-                ? self.Add(
-                    columnBrackets: new string[] { "\"Ver\"" },
-                    tableName: tableName,
-                    name: "Ver",
-                    value: value,
-                    _operator: _operator,
-                    multiColumnOperator: multiColumnOperator,
-                    multiParamOperator: multiParamOperator,
-                    subLeft: subLeft,
-                    sub: sub,
-                    subPrefix: subPrefix,
-                    raw: raw)
-                : self;
-        }
-
-        public static SearchIndexesWhereCollection Priority(
-            this SearchIndexesWhereCollection self,
-            object value = null,
-            string tableName = "SearchIndexes",
-            string _operator = "=",
-            string multiColumnOperator = " or ",
-            string multiParamOperator = " and ",
-            SqlStatement subLeft = null,
-            SqlStatement sub = null,
-            bool subPrefix = true,
-            string raw = null,
-            bool _using = true)
-        {
-            return _using
-                ? self.Add(
-                    columnBrackets: new string[] { "\"Priority\"" },
-                    tableName: tableName,
-                    name: "Priority",
-                    value: value,
-                    _operator: _operator,
-                    multiColumnOperator: multiColumnOperator,
-                    multiParamOperator: multiParamOperator,
-                    subLeft: subLeft,
-                    sub: sub,
-                    subPrefix: subPrefix,
-                    raw: raw)
-                : self;
-        }
-
-        public static SqlWhereCollection SearchIndexes_Priority(
-            this SqlWhereCollection self,
-            object value = null,
-            string tableName = "SearchIndexes",
-            string _operator = "=",
-            string multiColumnOperator = " or ",
-            string multiParamOperator = " and ",
-            SqlStatement subLeft = null,
-            SqlStatement sub = null,
-            bool subPrefix = true,
-            string raw = null,
-            bool _using = true)
-        {
-            return _using
-                ? self.Add(
-                    columnBrackets: new string[] { "\"Priority\"" },
-                    tableName: tableName,
-                    name: "Priority",
-                    value: value,
-                    _operator: _operator,
-                    multiColumnOperator: multiColumnOperator,
-                    multiParamOperator: multiParamOperator,
-                    subLeft: subLeft,
-                    sub: sub,
-                    subPrefix: subPrefix,
-                    raw: raw)
-                : self;
-        }
-
-        public static SearchIndexesWhereCollection ReferenceType(
-            this SearchIndexesWhereCollection self,
-            object value = null,
-            string tableName = "Items",
-            string _operator = "=",
-            string multiColumnOperator = " or ",
-            string multiParamOperator = " and ",
-            SqlStatement subLeft = null,
-            SqlStatement sub = null,
-            bool subPrefix = true,
-            string raw = null,
-            bool _using = true)
-        {
-            return _using
-                ? self.Add(
-                    columnBrackets: new string[] { "\"ReferenceType\"" },
-                    tableName: tableName,
-                    name: "ReferenceType",
-                    value: value,
-                    _operator: _operator,
-                    multiColumnOperator: multiColumnOperator,
-                    multiParamOperator: multiParamOperator,
-                    subLeft: subLeft,
-                    sub: sub,
-                    subPrefix: subPrefix,
-                    raw: raw)
-                : self;
-        }
-
-        public static SqlWhereCollection SearchIndexes_ReferenceType(
-            this SqlWhereCollection self,
-            object value = null,
-            string tableName = "Items",
-            string _operator = "=",
-            string multiColumnOperator = " or ",
-            string multiParamOperator = " and ",
-            SqlStatement subLeft = null,
-            SqlStatement sub = null,
-            bool subPrefix = true,
-            string raw = null,
-            bool _using = true)
-        {
-            return _using
-                ? self.Add(
-                    columnBrackets: new string[] { "\"ReferenceType\"" },
-                    tableName: tableName,
-                    name: "ReferenceType",
-                    value: value,
-                    _operator: _operator,
-                    multiColumnOperator: multiColumnOperator,
-                    multiParamOperator: multiParamOperator,
-                    subLeft: subLeft,
-                    sub: sub,
-                    subPrefix: subPrefix,
-                    raw: raw)
-                : self;
-        }
-
-        public static SearchIndexesWhereCollection Title(
-            this SearchIndexesWhereCollection self,
-            object value = null,
-            string tableName = "Items",
-            string _operator = "=",
-            string multiColumnOperator = " or ",
-            string multiParamOperator = " and ",
-            SqlStatement subLeft = null,
-            SqlStatement sub = null,
-            bool subPrefix = true,
-            string raw = null,
-            bool _using = true)
-        {
-            return _using
-                ? self.Add(
-                    columnBrackets: new string[] { "\"Title\"" },
-                    tableName: tableName,
-                    name: "Title",
-                    value: value,
-                    _operator: _operator,
-                    multiColumnOperator: multiColumnOperator,
-                    multiParamOperator: multiParamOperator,
-                    subLeft: subLeft,
-                    sub: sub,
-                    subPrefix: subPrefix,
-                    raw: raw)
-                : self;
-        }
-
-        public static SqlWhereCollection SearchIndexes_Title(
-            this SqlWhereCollection self,
-            object value = null,
-            string tableName = "Items",
-            string _operator = "=",
-            string multiColumnOperator = " or ",
-            string multiParamOperator = " and ",
-            SqlStatement subLeft = null,
-            SqlStatement sub = null,
-            bool subPrefix = true,
-            string raw = null,
-            bool _using = true)
-        {
-            return _using
-                ? self.Add(
-                    columnBrackets: new string[] { "\"Title\"" },
-                    tableName: tableName,
-                    name: "Title",
-                    value: value,
-                    _operator: _operator,
-                    multiColumnOperator: multiColumnOperator,
-                    multiParamOperator: multiParamOperator,
-                    subLeft: subLeft,
-                    sub: sub,
-                    subPrefix: subPrefix,
-                    raw: raw)
-                : self;
-        }
-
-        public static SearchIndexesWhereCollection Subset(
-            this SearchIndexesWhereCollection self,
-            object value = null,
-            string tableName = "Items",
-            string _operator = "=",
-            string multiColumnOperator = " or ",
-            string multiParamOperator = " and ",
-            SqlStatement subLeft = null,
-            SqlStatement sub = null,
-            bool subPrefix = true,
-            string raw = null,
-            bool _using = true)
-        {
-            return _using
-                ? self.Add(
-                    columnBrackets: new string[] { "\"Subset\"" },
-                    tableName: tableName,
-                    name: "Subset",
-                    value: value,
-                    _operator: _operator,
-                    multiColumnOperator: multiColumnOperator,
-                    multiParamOperator: multiParamOperator,
-                    subLeft: subLeft,
-                    sub: sub,
-                    subPrefix: subPrefix,
-                    raw: raw)
-                : self;
-        }
-
-        public static SqlWhereCollection SearchIndexes_Subset(
-            this SqlWhereCollection self,
-            object value = null,
-            string tableName = "Items",
-            string _operator = "=",
-            string multiColumnOperator = " or ",
-            string multiParamOperator = " and ",
-            SqlStatement subLeft = null,
-            SqlStatement sub = null,
-            bool subPrefix = true,
-            string raw = null,
-            bool _using = true)
-        {
-            return _using
-                ? self.Add(
-                    columnBrackets: new string[] { "\"Subset\"" },
-                    tableName: tableName,
-                    name: "Subset",
-                    value: value,
-                    _operator: _operator,
-                    multiColumnOperator: multiColumnOperator,
-                    multiParamOperator: multiParamOperator,
-                    subLeft: subLeft,
-                    sub: sub,
-                    subPrefix: subPrefix,
-                    raw: raw)
-                : self;
-        }
-
-        public static SearchIndexesWhereCollection InheritPermission(
-            this SearchIndexesWhereCollection self,
-            object value = null,
-            string tableName = "Sites",
-            string _operator = "=",
-            string multiColumnOperator = " or ",
-            string multiParamOperator = " and ",
-            SqlStatement subLeft = null,
-            SqlStatement sub = null,
-            bool subPrefix = true,
-            string raw = null,
-            bool _using = true)
-        {
-            return _using
-                ? self.Add(
-                    columnBrackets: new string[] { "\"InheritPermission\"" },
-                    tableName: tableName,
-                    name: "InheritPermission",
-                    value: value,
-                    _operator: _operator,
-                    multiColumnOperator: multiColumnOperator,
-                    multiParamOperator: multiParamOperator,
-                    subLeft: subLeft,
-                    sub: sub,
-                    subPrefix: subPrefix,
-                    raw: raw)
-                : self;
-        }
-
-        public static SqlWhereCollection SearchIndexes_InheritPermission(
-            this SqlWhereCollection self,
-            object value = null,
-            string tableName = "Sites",
-            string _operator = "=",
-            string multiColumnOperator = " or ",
-            string multiParamOperator = " and ",
-            SqlStatement subLeft = null,
-            SqlStatement sub = null,
-            bool subPrefix = true,
-            string raw = null,
-            bool _using = true)
-        {
-            return _using
-                ? self.Add(
-                    columnBrackets: new string[] { "\"InheritPermission\"" },
-                    tableName: tableName,
-                    name: "InheritPermission",
-                    value: value,
-                    _operator: _operator,
-                    multiColumnOperator: multiColumnOperator,
-                    multiParamOperator: multiParamOperator,
-                    subLeft: subLeft,
-                    sub: sub,
-                    subPrefix: subPrefix,
-                    raw: raw)
-                : self;
-        }
-
-        public static SearchIndexesWhereCollection Comments(
-            this SearchIndexesWhereCollection self,
-            object value = null,
-            string tableName = "SearchIndexes",
-            string _operator = "=",
-            string multiColumnOperator = " or ",
-            string multiParamOperator = " and ",
-            SqlStatement subLeft = null,
-            SqlStatement sub = null,
-            bool subPrefix = true,
-            string raw = null,
-            bool _using = true)
-        {
-            return _using
-                ? self.Add(
-                    columnBrackets: new string[] { "\"Comments\"" },
-                    tableName: tableName,
-                    name: "Comments",
-                    value: value,
-                    _operator: _operator,
-                    multiColumnOperator: multiColumnOperator,
-                    multiParamOperator: multiParamOperator,
-                    subLeft: subLeft,
-                    sub: sub,
-                    subPrefix: subPrefix,
-                    raw: raw)
-                : self;
-        }
-
-        public static SqlWhereCollection SearchIndexes_Comments(
-            this SqlWhereCollection self,
-            object value = null,
-            string tableName = "SearchIndexes",
-            string _operator = "=",
-            string multiColumnOperator = " or ",
-            string multiParamOperator = " and ",
-            SqlStatement subLeft = null,
-            SqlStatement sub = null,
-            bool subPrefix = true,
-            string raw = null,
-            bool _using = true)
-        {
-            return _using
-                ? self.Add(
-                    columnBrackets: new string[] { "\"Comments\"" },
-                    tableName: tableName,
-                    name: "Comments",
-                    value: value,
-                    _operator: _operator,
-                    multiColumnOperator: multiColumnOperator,
-                    multiParamOperator: multiParamOperator,
-                    subLeft: subLeft,
-                    sub: sub,
-                    subPrefix: subPrefix,
-                    raw: raw)
-                : self;
-        }
-
-        public static SearchIndexesWhereCollection Creator(
-            this SearchIndexesWhereCollection self,
-            object value = null,
-            string tableName = "SearchIndexes",
-            string _operator = "=",
-            string multiColumnOperator = " or ",
-            string multiParamOperator = " and ",
-            SqlStatement subLeft = null,
-            SqlStatement sub = null,
-            bool subPrefix = true,
-            string raw = null,
-            bool _using = true)
-        {
-            return _using
-                ? self.Add(
-                    columnBrackets: new string[] { "\"Creator\"" },
-                    tableName: tableName,
-                    name: "Creator",
-                    value: value,
-                    _operator: _operator,
-                    multiColumnOperator: multiColumnOperator,
-                    multiParamOperator: multiParamOperator,
-                    subLeft: subLeft,
-                    sub: sub,
-                    subPrefix: subPrefix,
-                    raw: raw)
-                : self;
-        }
-
-        public static SqlWhereCollection SearchIndexes_Creator(
-            this SqlWhereCollection self,
-            object value = null,
-            string tableName = "SearchIndexes",
-            string _operator = "=",
-            string multiColumnOperator = " or ",
-            string multiParamOperator = " and ",
-            SqlStatement subLeft = null,
-            SqlStatement sub = null,
-            bool subPrefix = true,
-            string raw = null,
-            bool _using = true)
-        {
-            return _using
-                ? self.Add(
-                    columnBrackets: new string[] { "\"Creator\"" },
-                    tableName: tableName,
-                    name: "Creator",
-                    value: value,
-                    _operator: _operator,
-                    multiColumnOperator: multiColumnOperator,
-                    multiParamOperator: multiParamOperator,
-                    subLeft: subLeft,
-                    sub: sub,
-                    subPrefix: subPrefix,
-                    raw: raw)
-                : self;
-        }
-
-        public static SearchIndexesWhereCollection Updator(
-            this SearchIndexesWhereCollection self,
-            object value = null,
-            string tableName = "SearchIndexes",
-            string _operator = "=",
-            string multiColumnOperator = " or ",
-            string multiParamOperator = " and ",
-            SqlStatement subLeft = null,
-            SqlStatement sub = null,
-            bool subPrefix = true,
-            string raw = null,
-            bool _using = true)
-        {
-            return _using
-                ? self.Add(
-                    columnBrackets: new string[] { "\"Updator\"" },
-                    tableName: tableName,
-                    name: "Updator",
-                    value: value,
-                    _operator: _operator,
-                    multiColumnOperator: multiColumnOperator,
-                    multiParamOperator: multiParamOperator,
-                    subLeft: subLeft,
-                    sub: sub,
-                    subPrefix: subPrefix,
-                    raw: raw)
-                : self;
-        }
-
-        public static SqlWhereCollection SearchIndexes_Updator(
-            this SqlWhereCollection self,
-            object value = null,
-            string tableName = "SearchIndexes",
-            string _operator = "=",
-            string multiColumnOperator = " or ",
-            string multiParamOperator = " and ",
-            SqlStatement subLeft = null,
-            SqlStatement sub = null,
-            bool subPrefix = true,
-            string raw = null,
-            bool _using = true)
-        {
-            return _using
-                ? self.Add(
-                    columnBrackets: new string[] { "\"Updator\"" },
-                    tableName: tableName,
-                    name: "Updator",
-                    value: value,
-                    _operator: _operator,
-                    multiColumnOperator: multiColumnOperator,
-                    multiParamOperator: multiParamOperator,
-                    subLeft: subLeft,
-                    sub: sub,
-                    subPrefix: subPrefix,
-                    raw: raw)
-                : self;
-        }
-
-        public static SearchIndexesWhereCollection CreatedTime(
-            this SearchIndexesWhereCollection self,
-            object value = null,
-            string tableName = "SearchIndexes",
-            string _operator = "=",
-            string multiColumnOperator = " or ",
-            string multiParamOperator = " and ",
-            SqlStatement subLeft = null,
-            SqlStatement sub = null,
-            bool subPrefix = true,
-            string raw = null,
-            bool _using = true)
-        {
-            return _using
-                ? self.Add(
-                    columnBrackets: new string[] { "\"CreatedTime\"" },
-                    tableName: tableName,
-                    name: "CreatedTime",
-                    value: value,
-                    _operator: _operator,
-                    multiColumnOperator: multiColumnOperator,
-                    multiParamOperator: multiParamOperator,
-                    subLeft: subLeft,
-                    sub: sub,
-                    subPrefix: subPrefix,
-                    raw: raw)
-                : self;
-        }
-
-        public static SqlWhereCollection SearchIndexes_CreatedTime(
-            this SqlWhereCollection self,
-            object value = null,
-            string tableName = "SearchIndexes",
-            string _operator = "=",
-            string multiColumnOperator = " or ",
-            string multiParamOperator = " and ",
-            SqlStatement subLeft = null,
-            SqlStatement sub = null,
-            bool subPrefix = true,
-            string raw = null,
-            bool _using = true)
-        {
-            return _using
-                ? self.Add(
-                    columnBrackets: new string[] { "\"CreatedTime\"" },
-                    tableName: tableName,
-                    name: "CreatedTime",
-                    value: value,
-                    _operator: _operator,
-                    multiColumnOperator: multiColumnOperator,
-                    multiParamOperator: multiParamOperator,
-                    subLeft: subLeft,
-                    sub: sub,
-                    subPrefix: subPrefix,
-                    raw: raw)
-                : self;
-        }
-
-        public static SearchIndexesWhereCollection UpdatedTime(
-            this SearchIndexesWhereCollection self,
-            object value = null,
-            string tableName = "SearchIndexes",
-            string _operator = "=",
-            string multiColumnOperator = " or ",
-            string multiParamOperator = " and ",
-            SqlStatement subLeft = null,
-            SqlStatement sub = null,
-            bool subPrefix = true,
-            string raw = null,
-            bool _using = true)
-        {
-            return _using
-                ? self.Add(
-                    columnBrackets: new string[] { "\"UpdatedTime\"" },
-                    tableName: tableName,
-                    name: "UpdatedTime",
-                    value: value,
-                    _operator: _operator,
-                    multiColumnOperator: multiColumnOperator,
-                    multiParamOperator: multiParamOperator,
-                    subLeft: subLeft,
-                    sub: sub,
-                    subPrefix: subPrefix,
-                    raw: raw)
-                : self;
-        }
-
-        public static SqlWhereCollection SearchIndexes_UpdatedTime(
-            this SqlWhereCollection self,
-            object value = null,
-            string tableName = "SearchIndexes",
-            string _operator = "=",
-            string multiColumnOperator = " or ",
-            string multiParamOperator = " and ",
-            SqlStatement subLeft = null,
-            SqlStatement sub = null,
-            bool subPrefix = true,
-            string raw = null,
-            bool _using = true)
-        {
-            return _using
-                ? self.Add(
-                    columnBrackets: new string[] { "\"UpdatedTime\"" },
-                    tableName: tableName,
-                    name: "UpdatedTime",
-                    value: value,
-                    _operator: _operator,
-                    multiColumnOperator: multiColumnOperator,
-                    multiParamOperator: multiParamOperator,
-                    subLeft: subLeft,
-                    sub: sub,
-                    subPrefix: subPrefix,
-                    raw: raw)
-                : self;
-        }
-
-        public static SearchIndexesWhereCollection ReferenceId_In(
-            this SearchIndexesWhereCollection self,
-            IEnumerable<long> value = null,
-            string tableName = "SearchIndexes",
-            SqlStatement sub = null,
-            bool negative = false,
-            bool _using = true)
-        {
-            if (!_using)
-            {
-                return self;
-            }
-            if (sub != null)
-            {
-                return self.Add(
-                    columnBrackets: new string[] { "\"ReferenceId\"" },
-                    tableName: tableName,
-                    name: "ReferenceId",
-                    _operator: !negative ? " in " : " not in ",
-                    sub: sub);
-            }
-            else if (value != null && value.Any())
-            {
-                return self.Add(
-                    columnBrackets: new string[] { "\"ReferenceId\"" },
-                    tableName: tableName,
-                    name: "ReferenceId",
-                    _operator: !negative ? " in " : " not in ",
-                    raw: "({0})".Params(value.Join()));
-            }
-            else
-            {
-                return !negative
-                    ? self.Add(raw: "1=0")
-                    : self;
-            }
-        }
-
-        public static SearchIndexesWhereCollection Ver_In(
-            this SearchIndexesWhereCollection self,
-            IEnumerable<int> value = null,
-            string tableName = "SearchIndexes",
-            SqlStatement sub = null,
-            bool negative = false,
-            bool _using = true)
-        {
-            if (!_using)
-            {
-                return self;
-            }
-            if (sub != null)
-            {
-                return self.Add(
-                    columnBrackets: new string[] { "\"Ver\"" },
-                    tableName: tableName,
-                    name: "Ver",
-                    _operator: !negative ? " in " : " not in ",
-                    sub: sub);
-            }
-            else if (value != null && value.Any())
-            {
-                return self.Add(
-                    columnBrackets: new string[] { "\"Ver\"" },
-                    tableName: tableName,
-                    name: "Ver",
-                    _operator: !negative ? " in " : " not in ",
-                    raw: "({0})".Params(value.Join()));
-            }
-            else
-            {
-                return !negative
-                    ? self.Add(raw: "1=0")
-                    : self;
-            }
-        }
-
-        public static SearchIndexesWhereCollection Priority_In(
-            this SearchIndexesWhereCollection self,
-            IEnumerable<int> value = null,
-            string tableName = "SearchIndexes",
-            SqlStatement sub = null,
-            bool negative = false,
-            bool _using = true)
-        {
-            if (!_using)
-            {
-                return self;
-            }
-            if (sub != null)
-            {
-                return self.Add(
-                    columnBrackets: new string[] { "\"Priority\"" },
-                    tableName: tableName,
-                    name: "Priority",
-                    _operator: !negative ? " in " : " not in ",
-                    sub: sub);
-            }
-            else if (value != null && value.Any())
-            {
-                return self.Add(
-                    columnBrackets: new string[] { "\"Priority\"" },
-                    tableName: tableName,
-                    name: "Priority",
-                    _operator: !negative ? " in " : " not in ",
-                    raw: "({0})".Params(value.Join()));
-            }
-            else
-            {
-                return !negative
-                    ? self.Add(raw: "1=0")
-                    : self;
-            }
-        }
-
-        public static SearchIndexesWhereCollection InheritPermission_In(
-            this SearchIndexesWhereCollection self,
-            IEnumerable<long> value = null,
-            string tableName = "Sites",
-            SqlStatement sub = null,
-            bool negative = false,
-            bool _using = true)
-        {
-            if (!_using)
-            {
-                return self;
-            }
-            if (sub != null)
-            {
-                return self.Add(
-                    columnBrackets: new string[] { "\"InheritPermission\"" },
-                    tableName: tableName,
-                    name: "InheritPermission",
-                    _operator: !negative ? " in " : " not in ",
-                    sub: sub);
-            }
-            else if (value != null && value.Any())
-            {
-                return self.Add(
-                    columnBrackets: new string[] { "\"InheritPermission\"" },
-                    tableName: tableName,
-                    name: "InheritPermission",
-                    _operator: !negative ? " in " : " not in ",
-                    raw: "({0})".Params(value.Join()));
-            }
-            else
-            {
-                return !negative
-                    ? self.Add(raw: "1=0")
-                    : self;
-            }
-        }
-
-        public static SearchIndexesWhereCollection Creator_In(
-            this SearchIndexesWhereCollection self,
-            IEnumerable<int> value = null,
-            string tableName = "SearchIndexes",
-            SqlStatement sub = null,
-            bool negative = false,
-            bool _using = true)
-        {
-            if (!_using)
-            {
-                return self;
-            }
-            if (sub != null)
-            {
-                return self.Add(
-                    columnBrackets: new string[] { "\"Creator\"" },
-                    tableName: tableName,
-                    name: "Creator",
-                    _operator: !negative ? " in " : " not in ",
-                    sub: sub);
-            }
-            else if (value != null && value.Any())
-            {
-                return self.Add(
-                    columnBrackets: new string[] { "\"Creator\"" },
-                    tableName: tableName,
-                    name: "Creator",
-                    _operator: !negative ? " in " : " not in ",
-                    raw: "({0})".Params(value.Join()));
-            }
-            else
-            {
-                return !negative
-                    ? self.Add(raw: "1=0")
-                    : self;
-            }
-        }
-
-        public static SearchIndexesWhereCollection Updator_In(
-            this SearchIndexesWhereCollection self,
-            IEnumerable<int> value = null,
-            string tableName = "SearchIndexes",
-            SqlStatement sub = null,
-            bool negative = false,
-            bool _using = true)
-        {
-            if (!_using)
-            {
-                return self;
-            }
-            if (sub != null)
-            {
-                return self.Add(
-                    columnBrackets: new string[] { "\"Updator\"" },
-                    tableName: tableName,
-                    name: "Updator",
-                    _operator: !negative ? " in " : " not in ",
-                    sub: sub);
-            }
-            else if (value != null && value.Any())
-            {
-                return self.Add(
-                    columnBrackets: new string[] { "\"Updator\"" },
-                    tableName: tableName,
-                    name: "Updator",
-                    _operator: !negative ? " in " : " not in ",
-                    raw: "({0})".Params(value.Join()));
-            }
-            else
-            {
-                return !negative
-                    ? self.Add(raw: "1=0")
-                    : self;
-            }
-        }
-
-        public static SearchIndexesWhereCollection ReferenceId_Between(
-            this SearchIndexesWhereCollection self,
-            long begin,
-            long end,
-            string tableName = "SearchIndexes",
-            bool _using = true)
-        {
-            return _using
-                ? self.Add(
-                    columnBrackets: new string[] { "\"ReferenceId\"" },
-                    tableName: tableName,
-                    name: "ReferenceId",
-                    _operator: " between ",
-                    raw: "{0} and {1} ".Params(begin, end))
-                : self;
-        }
-
-        public static SqlWhereCollection SearchIndexes_ReferenceId_Between(
-            this SqlWhereCollection self,
-            long begin,
-            long end,
-            string tableName = "SearchIndexes",
-            bool _using = true)
-        {
-            return _using
-                ? self.Add(
-                    columnBrackets: new string[] { "\"ReferenceId\"" },
-                    tableName: tableName,
-                    name: "ReferenceId",
-                    _operator: " between ",
-                    raw: "{0} and {1} ".Params(begin, end))
-                : self;
-        }
-
-        public static SearchIndexesWhereCollection Ver_Between(
-            this SearchIndexesWhereCollection self,
-            int begin,
-            int end,
-            string tableName = "SearchIndexes",
-            bool _using = true)
-        {
-            return _using
-                ? self.Add(
-                    columnBrackets: new string[] { "\"Ver\"" },
-                    tableName: tableName,
-                    name: "Ver",
-                    _operator: " between ",
-                    raw: "{0} and {1} ".Params(begin, end))
-                : self;
-        }
-
-        public static SqlWhereCollection SearchIndexes_Ver_Between(
-            this SqlWhereCollection self,
-            int begin,
-            int end,
-            string tableName = "SearchIndexes",
-            bool _using = true)
-        {
-            return _using
-                ? self.Add(
-                    columnBrackets: new string[] { "\"Ver\"" },
-                    tableName: tableName,
-                    name: "Ver",
-                    _operator: " between ",
-                    raw: "{0} and {1} ".Params(begin, end))
-                : self;
-        }
-
-        public static SearchIndexesWhereCollection Priority_Between(
-            this SearchIndexesWhereCollection self,
-            int begin,
-            int end,
-            string tableName = "SearchIndexes",
-            bool _using = true)
-        {
-            return _using
-                ? self.Add(
-                    columnBrackets: new string[] { "\"Priority\"" },
-                    tableName: tableName,
-                    name: "Priority",
-                    _operator: " between ",
-                    raw: "{0} and {1} ".Params(begin, end))
-                : self;
-        }
-
-        public static SqlWhereCollection SearchIndexes_Priority_Between(
-            this SqlWhereCollection self,
-            int begin,
-            int end,
-            string tableName = "SearchIndexes",
-            bool _using = true)
-        {
-            return _using
-                ? self.Add(
-                    columnBrackets: new string[] { "\"Priority\"" },
-                    tableName: tableName,
-                    name: "Priority",
-                    _operator: " between ",
-                    raw: "{0} and {1} ".Params(begin, end))
-                : self;
-        }
-
-        public static SearchIndexesWhereCollection InheritPermission_Between(
-            this SearchIndexesWhereCollection self,
-            long begin,
-            long end,
-            string tableName = "Sites",
-            bool _using = true)
-        {
-            return _using
-                ? self.Add(
-                    columnBrackets: new string[] { "\"InheritPermission\"" },
-                    tableName: tableName,
-                    name: "InheritPermission",
-                    _operator: " between ",
-                    raw: "{0} and {1} ".Params(begin, end))
-                : self;
-        }
-
-        public static SqlWhereCollection SearchIndexes_InheritPermission_Between(
-            this SqlWhereCollection self,
-            long begin,
-            long end,
-            string tableName = "Sites",
-            bool _using = true)
-        {
-            return _using
-                ? self.Add(
-                    columnBrackets: new string[] { "\"InheritPermission\"" },
-                    tableName: tableName,
-                    name: "InheritPermission",
-                    _operator: " between ",
-                    raw: "{0} and {1} ".Params(begin, end))
-                : self;
-        }
-
-        public static SearchIndexesWhereCollection Creator_Between(
-            this SearchIndexesWhereCollection self,
-            int begin,
-            int end,
-            string tableName = "SearchIndexes",
-            bool _using = true)
-        {
-            return _using
-                ? self.Add(
-                    columnBrackets: new string[] { "\"Creator\"" },
-                    tableName: tableName,
-                    name: "Creator",
-                    _operator: " between ",
-                    raw: "{0} and {1} ".Params(begin, end))
-                : self;
-        }
-
-        public static SqlWhereCollection SearchIndexes_Creator_Between(
-            this SqlWhereCollection self,
-            int begin,
-            int end,
-            string tableName = "SearchIndexes",
-            bool _using = true)
-        {
-            return _using
-                ? self.Add(
-                    columnBrackets: new string[] { "\"Creator\"" },
-                    tableName: tableName,
-                    name: "Creator",
-                    _operator: " between ",
-                    raw: "{0} and {1} ".Params(begin, end))
-                : self;
-        }
-
-        public static SearchIndexesWhereCollection Updator_Between(
-            this SearchIndexesWhereCollection self,
-            int begin,
-            int end,
-            string tableName = "SearchIndexes",
-            bool _using = true)
-        {
-            return _using
-                ? self.Add(
-                    columnBrackets: new string[] { "\"Updator\"" },
-                    tableName: tableName,
-                    name: "Updator",
-                    _operator: " between ",
-                    raw: "{0} and {1} ".Params(begin, end))
-                : self;
-        }
-
-        public static SqlWhereCollection SearchIndexes_Updator_Between(
-            this SqlWhereCollection self,
-            int begin,
-            int end,
-            string tableName = "SearchIndexes",
-            bool _using = true)
-        {
-            return _using
-                ? self.Add(
-                    columnBrackets: new string[] { "\"Updator\"" },
-                    tableName: tableName,
-                    name: "Updator",
-                    _operator: " between ",
-                    raw: "{0} and {1} ".Params(begin, end))
-                : self;
-        }
-
-        public static SearchIndexesWhereCollection CreatedTime_Between(
-            this SearchIndexesWhereCollection self,
-            DateTime begin,
-            DateTime end,
-            string tableName = "SearchIndexes",
-            bool _using = true)
-        {
-            return _using
-                ? self.Add(
-                    columnBrackets: new string[] { "\"CreatedTime\"" },
-                    tableName: tableName,
-                    name: "CreatedTime",
-                    _operator: " between ",
-                    raw: "'{0}' and '{1}' ".Params(begin, end))
-                : self;
-        }
-
-        public static SqlWhereCollection SearchIndexes_CreatedTime_Between(
-            this SqlWhereCollection self,
-            DateTime begin,
-            DateTime end,
-            string tableName = "SearchIndexes",
-            bool _using = true)
-        {
-            return _using
-                ? self.Add(
-                    columnBrackets: new string[] { "\"CreatedTime\"" },
-                    tableName: tableName,
-                    name: "CreatedTime",
-                    _operator: " between ",
-                    raw: "'{0}' and '{1}' ".Params(begin, end))
-                : self;
-        }
-
-        public static SearchIndexesWhereCollection UpdatedTime_Between(
-            this SearchIndexesWhereCollection self,
-            DateTime begin,
-            DateTime end,
-            string tableName = "SearchIndexes",
-            bool _using = true)
-        {
-            return _using
-                ? self.Add(
-                    columnBrackets: new string[] { "\"UpdatedTime\"" },
-                    tableName: tableName,
-                    name: "UpdatedTime",
-                    _operator: " between ",
-                    raw: "'{0}' and '{1}' ".Params(begin, end))
-                : self;
-        }
-
-        public static SqlWhereCollection SearchIndexes_UpdatedTime_Between(
-            this SqlWhereCollection self,
-            DateTime begin,
-            DateTime end,
-            string tableName = "SearchIndexes",
-            bool _using = true)
-        {
-            return _using
-                ? self.Add(
-                    columnBrackets: new string[] { "\"UpdatedTime\"" },
-                    tableName: tableName,
-                    name: "UpdatedTime",
-                    _operator: " between ",
-                    raw: "'{0}' and '{1}' ".Params(begin, end))
-                : self;
-        }
-
-        public static SearchIndexesWhereCollection Sub(
-            this SearchIndexesWhereCollection self,
-            SqlStatement sub,
-            object value = null,
-            string _operator = "=",
-            bool _using = true)
-        {
-            return _using 
-                ? self.Add(
-                    null, null, null, value, _operator, sub: sub)
-                : self;
-        }
-
-        public static SearchIndexesWhereCollection Or(
-            this SearchIndexesWhereCollection self,
-            SearchIndexesWhereCollection or,
-            bool _using = true)
-        {
-            self.Add(or: or, _using: _using);
-            return self;
-        }
-
-        public static SearchIndexesGroupByCollection SearchIndexesGroupBy(
-            this SearchIndexesGroupByCollection self, string columnName, bool _using = true)
-        {
-            if (_using)
-            {
-                switch (columnName)
-                {
-                    case "Word": return self.Word();
-                    case "ReferenceId": return self.ReferenceId();
-                    case "Ver": return self.Ver();
-                    case "Priority": return self.Priority();
-                    case "ReferenceType": return self.ReferenceType();
-                    case "Title": return self.Title();
-                    case "Subset": return self.Subset();
-                    case "InheritPermission": return self.InheritPermission();
-                    case "Comments": return self.Comments();
-                    case "Creator": return self.Creator();
-                    case "Updator": return self.Updator();
-                    case "CreatedTime": return self.CreatedTime();
-                    case "UpdatedTime": return self.UpdatedTime();
-                    default:
-                        return Def.ExtendedColumnTypes.ContainsKey(columnName)
-                            ? self.Add(columnBracket: $"\"{columnName}\"")
-                            : self;
-                }
-            }
-            else
-            {
-                return self;
-            }
-        }
-
-        public static SearchIndexesGroupByCollection Word(
-            this SearchIndexesGroupByCollection self, string tableName = "SearchIndexes")
-        {
-            return self.Add(columnBracket: "\"Word\"", tableName: tableName);
-        }
-
-        public static SqlGroupByCollection SearchIndexes_Word(
-            this SqlGroupByCollection self, string tableName = "SearchIndexes")
-        {
-            return self.Add(columnBracket: "\"Word\"", tableName: tableName);
-        }
-
-        public static SearchIndexesGroupByCollection ReferenceId(
-            this SearchIndexesGroupByCollection self, string tableName = "SearchIndexes")
-        {
-            return self.Add(columnBracket: "\"ReferenceId\"", tableName: tableName);
-        }
-
-        public static SqlGroupByCollection SearchIndexes_ReferenceId(
-            this SqlGroupByCollection self, string tableName = "SearchIndexes")
-        {
-            return self.Add(columnBracket: "\"ReferenceId\"", tableName: tableName);
-        }
-
-        public static SearchIndexesGroupByCollection Ver(
-            this SearchIndexesGroupByCollection self, string tableName = "SearchIndexes")
-        {
-            return self.Add(columnBracket: "\"Ver\"", tableName: tableName);
-        }
-
-        public static SqlGroupByCollection SearchIndexes_Ver(
-            this SqlGroupByCollection self, string tableName = "SearchIndexes")
-        {
-            return self.Add(columnBracket: "\"Ver\"", tableName: tableName);
-        }
-
-        public static SearchIndexesGroupByCollection Priority(
-            this SearchIndexesGroupByCollection self, string tableName = "SearchIndexes")
-        {
-            return self.Add(columnBracket: "\"Priority\"", tableName: tableName);
-        }
-
-        public static SqlGroupByCollection SearchIndexes_Priority(
-            this SqlGroupByCollection self, string tableName = "SearchIndexes")
-        {
-            return self.Add(columnBracket: "\"Priority\"", tableName: tableName);
-        }
-
-        public static SearchIndexesGroupByCollection ReferenceType(
-            this SearchIndexesGroupByCollection self, string tableName = "Items")
-        {
-            return self.Add(columnBracket: "\"ReferenceType\"", tableName: tableName);
-        }
-
-        public static SqlGroupByCollection SearchIndexes_ReferenceType(
-            this SqlGroupByCollection self, string tableName = "Items")
-        {
-            return self.Add(columnBracket: "\"ReferenceType\"", tableName: tableName);
-        }
-
-        public static SearchIndexesGroupByCollection Title(
-            this SearchIndexesGroupByCollection self, string tableName = "Items")
-        {
-            return self.Add(columnBracket: "\"Title\"", tableName: tableName);
-        }
-
-        public static SqlGroupByCollection SearchIndexes_Title(
-            this SqlGroupByCollection self, string tableName = "Items")
-        {
-            return self.Add(columnBracket: "\"Title\"", tableName: tableName);
-        }
-
-        public static SearchIndexesGroupByCollection Subset(
-            this SearchIndexesGroupByCollection self, string tableName = "Items")
-        {
-            return self.Add(columnBracket: "\"Subset\"", tableName: tableName);
-        }
-
-        public static SqlGroupByCollection SearchIndexes_Subset(
-            this SqlGroupByCollection self, string tableName = "Items")
-        {
-            return self.Add(columnBracket: "\"Subset\"", tableName: tableName);
-        }
-
-        public static SearchIndexesGroupByCollection InheritPermission(
-            this SearchIndexesGroupByCollection self, string tableName = "Sites")
-        {
-            return self.Add(columnBracket: "\"InheritPermission\"", tableName: tableName);
-        }
-
-        public static SqlGroupByCollection SearchIndexes_InheritPermission(
-            this SqlGroupByCollection self, string tableName = "Sites")
-        {
-            return self.Add(columnBracket: "\"InheritPermission\"", tableName: tableName);
-        }
-
-        public static SearchIndexesGroupByCollection Comments(
-            this SearchIndexesGroupByCollection self, string tableName = "SearchIndexes")
-        {
-            return self.Add(columnBracket: "\"Comments\"", tableName: tableName);
-        }
-
-        public static SqlGroupByCollection SearchIndexes_Comments(
-            this SqlGroupByCollection self, string tableName = "SearchIndexes")
-        {
-            return self.Add(columnBracket: "\"Comments\"", tableName: tableName);
-        }
-
-        public static SearchIndexesGroupByCollection Creator(
-            this SearchIndexesGroupByCollection self, string tableName = "SearchIndexes")
-        {
-            return self.Add(columnBracket: "\"Creator\"", tableName: tableName);
-        }
-
-        public static SqlGroupByCollection SearchIndexes_Creator(
-            this SqlGroupByCollection self, string tableName = "SearchIndexes")
-        {
-            return self.Add(columnBracket: "\"Creator\"", tableName: tableName);
-        }
-
-        public static SearchIndexesGroupByCollection Updator(
-            this SearchIndexesGroupByCollection self, string tableName = "SearchIndexes")
-        {
-            return self.Add(columnBracket: "\"Updator\"", tableName: tableName);
-        }
-
-        public static SqlGroupByCollection SearchIndexes_Updator(
-            this SqlGroupByCollection self, string tableName = "SearchIndexes")
-        {
-            return self.Add(columnBracket: "\"Updator\"", tableName: tableName);
-        }
-
-        public static SearchIndexesGroupByCollection CreatedTime(
-            this SearchIndexesGroupByCollection self, string tableName = "SearchIndexes")
-        {
-            return self.Add(columnBracket: "\"CreatedTime\"", tableName: tableName);
-        }
-
-        public static SqlGroupByCollection SearchIndexes_CreatedTime(
-            this SqlGroupByCollection self, string tableName = "SearchIndexes")
-        {
-            return self.Add(columnBracket: "\"CreatedTime\"", tableName: tableName);
-        }
-
-        public static SearchIndexesGroupByCollection UpdatedTime(
-            this SearchIndexesGroupByCollection self, string tableName = "SearchIndexes")
-        {
-            return self.Add(columnBracket: "\"UpdatedTime\"", tableName: tableName);
-        }
-
-        public static SqlGroupByCollection SearchIndexes_UpdatedTime(
-            this SqlGroupByCollection self, string tableName = "SearchIndexes")
-        {
-            return self.Add(columnBracket: "\"UpdatedTime\"", tableName: tableName);
-        }
-
-        public static SearchIndexesHavingCollection SearchIndexesCount(
-            this SearchIndexesHavingCollection self,
-            object value = null,
-            string tableName = "SearchIndexes",
-            string _operator = null)
-        {
-            return self.Add(
-                columnBracket: "*",
-                value: value,
-                tableName: tableName,
-                _operator: _operator,
-                function: Sqls.Functions.Count);
-        }
-
-        public static SearchIndexesHavingCollection Priority(
-            this SearchIndexesHavingCollection self,
-            string tableName = "SearchIndexes",
-            object value = null,
-            string _operator = "=",
-            Sqls.Functions function = Sqls.Functions.None)
-        {
-            return self.Add(
-                columnBracket: "Priority",
-                tableName: tableName,
-                value: value,
-                _operator: _operator,
-                function: function);
-        }
-
-        public static SearchIndexesHavingCollection CreatedTime(
-            this SearchIndexesHavingCollection self,
-            string tableName = "SearchIndexes",
-            object value = null,
-            string _operator = "=",
-            Sqls.Functions function = Sqls.Functions.None)
-        {
-            return self.Add(
-                columnBracket: "CreatedTime",
-                tableName: tableName,
-                value: value,
-                _operator: _operator,
-                function: function);
-        }
-
-        public static SearchIndexesHavingCollection UpdatedTime(
-            this SearchIndexesHavingCollection self,
-            string tableName = "SearchIndexes",
-            object value = null,
-            string _operator = "=",
-            Sqls.Functions function = Sqls.Functions.None)
-        {
-            return self.Add(
-                columnBracket: "UpdatedTime",
-                tableName: tableName,
-                value: value,
-                _operator: _operator,
-                function: function);
-        }
-
-        public static SearchIndexesOrderByCollection Word(
-            this SearchIndexesOrderByCollection self,
-            SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
-            string tableName = "SearchIndexes",
-            Sqls.Functions function = Sqls.Functions.None)
-        {
-            new List<string> { "\"Word\"" }.ForEach(columnBracket =>
-                self.Add(
-                    columnBracket: columnBracket,
-                    orderType: orderType,
-                    tableName: tableName,
-                    function: function));
-            return self;
-        }
-
-        public static SearchIndexesOrderByCollection ReferenceId(
-            this SearchIndexesOrderByCollection self,
-            SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
-            string tableName = "SearchIndexes",
-            Sqls.Functions function = Sqls.Functions.None)
-        {
-            new List<string> { "\"ReferenceId\"" }.ForEach(columnBracket =>
-                self.Add(
-                    columnBracket: columnBracket,
-                    orderType: orderType,
-                    tableName: tableName,
-                    function: function));
-            return self;
-        }
-
-        public static SearchIndexesOrderByCollection Ver(
-            this SearchIndexesOrderByCollection self,
-            SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
-            string tableName = "SearchIndexes",
-            Sqls.Functions function = Sqls.Functions.None)
-        {
-            new List<string> { "\"Ver\"" }.ForEach(columnBracket =>
-                self.Add(
-                    columnBracket: columnBracket,
-                    orderType: orderType,
-                    tableName: tableName,
-                    function: function));
-            return self;
-        }
-
-        public static SearchIndexesOrderByCollection Priority(
-            this SearchIndexesOrderByCollection self,
-            SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
-            string tableName = "SearchIndexes",
-            Sqls.Functions function = Sqls.Functions.None)
-        {
-            new List<string> { "\"Priority\"" }.ForEach(columnBracket =>
-                self.Add(
-                    columnBracket: columnBracket,
-                    orderType: orderType,
-                    tableName: tableName,
-                    function: function));
-            return self;
-        }
-
-        public static SearchIndexesOrderByCollection ReferenceType(
-            this SearchIndexesOrderByCollection self,
-            SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
-            string tableName = "Items",
-            Sqls.Functions function = Sqls.Functions.None)
-        {
-            new List<string> { "\"ReferenceType\"" }.ForEach(columnBracket =>
-                self.Add(
-                    columnBracket: columnBracket,
-                    orderType: orderType,
-                    tableName: tableName,
-                    function: function));
-            return self;
-        }
-
-        public static SearchIndexesOrderByCollection Title(
-            this SearchIndexesOrderByCollection self,
-            SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
-            string tableName = "Items",
-            Sqls.Functions function = Sqls.Functions.None)
-        {
-            new List<string> { "\"Title\"" }.ForEach(columnBracket =>
-                self.Add(
-                    columnBracket: columnBracket,
-                    orderType: orderType,
-                    tableName: tableName,
-                    function: function));
-            return self;
-        }
-
-        public static SearchIndexesOrderByCollection Subset(
-            this SearchIndexesOrderByCollection self,
-            SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
-            string tableName = "Items",
-            Sqls.Functions function = Sqls.Functions.None)
-        {
-            new List<string> { "\"Subset\"" }.ForEach(columnBracket =>
-                self.Add(
-                    columnBracket: columnBracket,
-                    orderType: orderType,
-                    tableName: tableName,
-                    function: function));
-            return self;
-        }
-
-        public static SearchIndexesOrderByCollection InheritPermission(
-            this SearchIndexesOrderByCollection self,
-            SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
-            string tableName = "Sites",
-            Sqls.Functions function = Sqls.Functions.None)
-        {
-            new List<string> { "\"InheritPermission\"" }.ForEach(columnBracket =>
-                self.Add(
-                    columnBracket: columnBracket,
-                    orderType: orderType,
-                    tableName: tableName,
-                    function: function));
-            return self;
-        }
-
-        public static SearchIndexesOrderByCollection Comments(
-            this SearchIndexesOrderByCollection self,
-            SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
-            string tableName = "SearchIndexes",
-            Sqls.Functions function = Sqls.Functions.None)
-        {
-            new List<string> { "\"Comments\"" }.ForEach(columnBracket =>
-                self.Add(
-                    columnBracket: columnBracket,
-                    orderType: orderType,
-                    tableName: tableName,
-                    function: function));
-            return self;
-        }
-
-        public static SearchIndexesOrderByCollection Creator(
-            this SearchIndexesOrderByCollection self,
-            SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
-            string tableName = "SearchIndexes",
-            Sqls.Functions function = Sqls.Functions.None)
-        {
-            new List<string> { "\"Creator\"" }.ForEach(columnBracket =>
-                self.Add(
-                    columnBracket: columnBracket,
-                    orderType: orderType,
-                    tableName: tableName,
-                    function: function));
-            return self;
-        }
-
-        public static SearchIndexesOrderByCollection Updator(
-            this SearchIndexesOrderByCollection self,
-            SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
-            string tableName = "SearchIndexes",
-            Sqls.Functions function = Sqls.Functions.None)
-        {
-            new List<string> { "\"Updator\"" }.ForEach(columnBracket =>
-                self.Add(
-                    columnBracket: columnBracket,
-                    orderType: orderType,
-                    tableName: tableName,
-                    function: function));
-            return self;
-        }
-
-        public static SearchIndexesOrderByCollection CreatedTime(
-            this SearchIndexesOrderByCollection self,
-            SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
-            string tableName = "SearchIndexes",
-            Sqls.Functions function = Sqls.Functions.None)
-        {
-            new List<string> { "\"CreatedTime\"" }.ForEach(columnBracket =>
-                self.Add(
-                    columnBracket: columnBracket,
-                    orderType: orderType,
-                    tableName: tableName,
-                    function: function));
-            return self;
-        }
-
-        public static SearchIndexesOrderByCollection UpdatedTime(
-            this SearchIndexesOrderByCollection self,
-            SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
-            string tableName = "SearchIndexes",
-            Sqls.Functions function = Sqls.Functions.None)
-        {
-            new List<string> { "\"UpdatedTime\"" }.ForEach(columnBracket =>
-                self.Add(
-                    columnBracket: columnBracket,
-                    orderType: orderType,
-                    tableName: tableName,
-                    function: function));
-            return self;
-        }
-
-        public static SqlOrderByCollection SearchIndexes_Word(
-            this SqlOrderByCollection self,
-            SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
-            string tableName = "SearchIndexes",
-            Sqls.Functions function = Sqls.Functions.None)
-        {
-            new List<string> { "\"Word\"" }.ForEach(columnBracket =>
-                self.Add(
-                    columnBracket: columnBracket,
-                    orderType: orderType,
-                    tableName: tableName,
-                    function: function));
-            return self;
-        }
-
-        public static SqlOrderByCollection SearchIndexes_ReferenceId(
-            this SqlOrderByCollection self,
-            SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
-            string tableName = "SearchIndexes",
-            Sqls.Functions function = Sqls.Functions.None)
-        {
-            new List<string> { "\"ReferenceId\"" }.ForEach(columnBracket =>
-                self.Add(
-                    columnBracket: columnBracket,
-                    orderType: orderType,
-                    tableName: tableName,
-                    function: function));
-            return self;
-        }
-
-        public static SqlOrderByCollection SearchIndexes_Ver(
-            this SqlOrderByCollection self,
-            SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
-            string tableName = "SearchIndexes",
-            Sqls.Functions function = Sqls.Functions.None)
-        {
-            new List<string> { "\"Ver\"" }.ForEach(columnBracket =>
-                self.Add(
-                    columnBracket: columnBracket,
-                    orderType: orderType,
-                    tableName: tableName,
-                    function: function));
-            return self;
-        }
-
-        public static SqlOrderByCollection SearchIndexes_Priority(
-            this SqlOrderByCollection self,
-            SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
-            string tableName = "SearchIndexes",
-            Sqls.Functions function = Sqls.Functions.None)
-        {
-            new List<string> { "\"Priority\"" }.ForEach(columnBracket =>
-                self.Add(
-                    columnBracket: columnBracket,
-                    orderType: orderType,
-                    tableName: tableName,
-                    function: function));
-            return self;
-        }
-
-        public static SqlOrderByCollection SearchIndexes_ReferenceType(
-            this SqlOrderByCollection self,
-            SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
-            string tableName = "Items",
-            Sqls.Functions function = Sqls.Functions.None)
-        {
-            new List<string> { "\"ReferenceType\"" }.ForEach(columnBracket =>
-                self.Add(
-                    columnBracket: columnBracket,
-                    orderType: orderType,
-                    tableName: tableName,
-                    function: function));
-            return self;
-        }
-
-        public static SqlOrderByCollection SearchIndexes_Title(
-            this SqlOrderByCollection self,
-            SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
-            string tableName = "Items",
-            Sqls.Functions function = Sqls.Functions.None)
-        {
-            new List<string> { "\"Title\"" }.ForEach(columnBracket =>
-                self.Add(
-                    columnBracket: columnBracket,
-                    orderType: orderType,
-                    tableName: tableName,
-                    function: function));
-            return self;
-        }
-
-        public static SqlOrderByCollection SearchIndexes_Subset(
-            this SqlOrderByCollection self,
-            SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
-            string tableName = "Items",
-            Sqls.Functions function = Sqls.Functions.None)
-        {
-            new List<string> { "\"Subset\"" }.ForEach(columnBracket =>
-                self.Add(
-                    columnBracket: columnBracket,
-                    orderType: orderType,
-                    tableName: tableName,
-                    function: function));
-            return self;
-        }
-
-        public static SqlOrderByCollection SearchIndexes_InheritPermission(
-            this SqlOrderByCollection self,
-            SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
-            string tableName = "Sites",
-            Sqls.Functions function = Sqls.Functions.None)
-        {
-            new List<string> { "\"InheritPermission\"" }.ForEach(columnBracket =>
-                self.Add(
-                    columnBracket: columnBracket,
-                    orderType: orderType,
-                    tableName: tableName,
-                    function: function));
-            return self;
-        }
-
-        public static SqlOrderByCollection SearchIndexes_Comments(
-            this SqlOrderByCollection self,
-            SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
-            string tableName = "SearchIndexes",
-            Sqls.Functions function = Sqls.Functions.None)
-        {
-            new List<string> { "\"Comments\"" }.ForEach(columnBracket =>
-                self.Add(
-                    columnBracket: columnBracket,
-                    orderType: orderType,
-                    tableName: tableName,
-                    function: function));
-            return self;
-        }
-
-        public static SqlOrderByCollection SearchIndexes_Creator(
-            this SqlOrderByCollection self,
-            SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
-            string tableName = "SearchIndexes",
-            Sqls.Functions function = Sqls.Functions.None)
-        {
-            new List<string> { "\"Creator\"" }.ForEach(columnBracket =>
-                self.Add(
-                    columnBracket: columnBracket,
-                    orderType: orderType,
-                    tableName: tableName,
-                    function: function));
-            return self;
-        }
-
-        public static SqlOrderByCollection SearchIndexes_Updator(
-            this SqlOrderByCollection self,
-            SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
-            string tableName = "SearchIndexes",
-            Sqls.Functions function = Sqls.Functions.None)
-        {
-            new List<string> { "\"Updator\"" }.ForEach(columnBracket =>
-                self.Add(
-                    columnBracket: columnBracket,
-                    orderType: orderType,
-                    tableName: tableName,
-                    function: function));
-            return self;
-        }
-
-        public static SqlOrderByCollection SearchIndexes_CreatedTime(
-            this SqlOrderByCollection self,
-            SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
-            string tableName = "SearchIndexes",
-            Sqls.Functions function = Sqls.Functions.None)
-        {
-            new List<string> { "\"CreatedTime\"" }.ForEach(columnBracket =>
-                self.Add(
-                    columnBracket: columnBracket,
-                    orderType: orderType,
-                    tableName: tableName,
-                    function: function));
-            return self;
-        }
-
-        public static SqlOrderByCollection SearchIndexes_UpdatedTime(
-            this SqlOrderByCollection self,
-            SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
-            string tableName = "SearchIndexes",
-            Sqls.Functions function = Sqls.Functions.None)
-        {
-            new List<string> { "\"UpdatedTime\"" }.ForEach(columnBracket =>
-                self.Add(
-                    columnBracket: columnBracket,
-                    orderType: orderType,
-                    tableName: tableName,
-                    function: function));
-            return self;
-        }
-
-        public static SearchIndexesOrderByCollection SearchIndexesCount(
-            this SearchIndexesOrderByCollection self,
-            SqlOrderBy.Types orderType = SqlOrderBy.Types.asc)
-        {
-            return self.Add(
-                columnBracket: "*",
-                orderType: orderType,
-                function: Sqls.Functions.Count);
-        }
-
-        public static SearchIndexesParamCollection Word(
-            this SearchIndexesParamCollection self,
-            object value = null,
-            SqlStatement sub = null,
-            string raw = null,
-            bool _using = true)
-        {
-            return _using
-                ? self.Add(
-                    columnBracket: "\"Word\"",
-                    name: "Word",
-                    value: value,
-                    sub: sub,
-                    raw: raw)
-                : self;
-        }
-
-        public static SqlParamCollection SearchIndexes_Word(
-            this SqlParamCollection self,
-            object value = null,
-            SqlStatement sub = null,
-            string raw = null,
-            bool _using = true)
-        {
-            return _using
-                ? self.Add(
-                    columnBracket: "\"Word\"",
-                    name: "Word",
-                    value: value,
-                    sub: sub,
-                    raw: raw)
-                : self;
-        }
-
-        public static SearchIndexesParamCollection ReferenceId(
-            this SearchIndexesParamCollection self,
-            object value = null,
-            SqlStatement sub = null,
-            string raw = null,
-            bool _using = true)
-        {
-            return _using
-                ? self.Add(
-                    columnBracket: "\"ReferenceId\"",
-                    name: "ReferenceId",
-                    value: value,
-                    sub: sub,
-                    raw: raw)
-                : self;
-        }
-
-        public static SqlParamCollection SearchIndexes_ReferenceId(
-            this SqlParamCollection self,
-            object value = null,
-            SqlStatement sub = null,
-            string raw = null,
-            bool _using = true)
-        {
-            return _using
-                ? self.Add(
-                    columnBracket: "\"ReferenceId\"",
-                    name: "ReferenceId",
-                    value: value,
-                    sub: sub,
-                    raw: raw)
-                : self;
-        }
-
-        public static SearchIndexesParamCollection Ver(
-            this SearchIndexesParamCollection self,
-            object value = null,
-            SqlStatement sub = null,
-            string raw = null,
-            bool _using = true)
-        {
-            return _using
-                ? self.Add(
-                    columnBracket: "\"Ver\"",
-                    name: "Ver",
-                    value: value,
-                    sub: sub,
-                    raw: raw)
-                : self;
-        }
-
-        public static SqlParamCollection SearchIndexes_Ver(
-            this SqlParamCollection self,
-            object value = null,
-            SqlStatement sub = null,
-            string raw = null,
-            bool _using = true)
-        {
-            return _using
-                ? self.Add(
-                    columnBracket: "\"Ver\"",
-                    name: "Ver",
-                    value: value,
-                    sub: sub,
-                    raw: raw)
-                : self;
-        }
-
-        public static SearchIndexesParamCollection Priority(
-            this SearchIndexesParamCollection self,
-            object value = null,
-            SqlStatement sub = null,
-            string raw = null,
-            bool _using = true)
-        {
-            return _using
-                ? self.Add(
-                    columnBracket: "\"Priority\"",
-                    name: "Priority",
-                    value: value,
-                    sub: sub,
-                    raw: raw)
-                : self;
-        }
-
-        public static SqlParamCollection SearchIndexes_Priority(
-            this SqlParamCollection self,
-            object value = null,
-            SqlStatement sub = null,
-            string raw = null,
-            bool _using = true)
-        {
-            return _using
-                ? self.Add(
-                    columnBracket: "\"Priority\"",
-                    name: "Priority",
-                    value: value,
-                    sub: sub,
-                    raw: raw)
-                : self;
-        }
-
-        public static SearchIndexesParamCollection Comments(
-            this SearchIndexesParamCollection self,
-            object value = null,
-            SqlStatement sub = null,
-            string raw = null,
-            bool _using = true)
-        {
-            return _using
-                ? self.Add(
-                    columnBracket: "\"Comments\"",
-                    name: "Comments",
-                    value: value,
-                    sub: sub,
-                    raw: raw)
-                : self;
-        }
-
-        public static SqlParamCollection SearchIndexes_Comments(
-            this SqlParamCollection self,
-            object value = null,
-            SqlStatement sub = null,
-            string raw = null,
-            bool _using = true)
-        {
-            return _using
-                ? self.Add(
-                    columnBracket: "\"Comments\"",
-                    name: "Comments",
-                    value: value,
-                    sub: sub,
-                    raw: raw)
-                : self;
-        }
-
-        public static SearchIndexesParamCollection Creator(
-            this SearchIndexesParamCollection self,
-            object value = null,
-            SqlStatement sub = null,
-            string raw = null,
-            bool _using = true)
-        {
-            return _using
-                ? self.Add(
-                    columnBracket: "\"Creator\"",
-                    name: "Creator",
-                    value: value,
-                    sub: sub,
-                    raw: raw)
-                : self;
-        }
-
-        public static SqlParamCollection SearchIndexes_Creator(
-            this SqlParamCollection self,
-            object value = null,
-            SqlStatement sub = null,
-            string raw = null,
-            bool _using = true)
-        {
-            return _using
-                ? self.Add(
-                    columnBracket: "\"Creator\"",
-                    name: "Creator",
-                    value: value,
-                    sub: sub,
-                    raw: raw)
-                : self;
-        }
-
-        public static SearchIndexesParamCollection Updator(
-            this SearchIndexesParamCollection self,
-            object value = null,
-            SqlStatement sub = null,
-            string raw = null,
-            bool _using = true)
-        {
-            return _using
-                ? self.Add(
-                    columnBracket: "\"Updator\"",
-                    name: "Updator",
-                    value: value,
-                    sub: sub,
-                    raw: raw)
-                : self;
-        }
-
-        public static SqlParamCollection SearchIndexes_Updator(
-            this SqlParamCollection self,
-            object value = null,
-            SqlStatement sub = null,
-            string raw = null,
-            bool _using = true)
-        {
-            return _using
-                ? self.Add(
-                    columnBracket: "\"Updator\"",
-                    name: "Updator",
-                    value: value,
-                    sub: sub,
-                    raw: raw)
-                : self;
-        }
-
-        public static SearchIndexesParamCollection CreatedTime(
-            this SearchIndexesParamCollection self,
-            object value = null,
-            SqlStatement sub = null,
-            string raw = null,
-            bool _using = true)
-        {
-            return _using
-                ? self.Add(
-                    columnBracket: "\"CreatedTime\"",
-                    name: "CreatedTime",
-                    value: value,
-                    sub: sub,
-                    raw: raw)
-                : self;
-        }
-
-        public static SqlParamCollection SearchIndexes_CreatedTime(
-            this SqlParamCollection self,
-            object value = null,
-            SqlStatement sub = null,
-            string raw = null,
-            bool _using = true)
-        {
-            return _using
-                ? self.Add(
-                    columnBracket: "\"CreatedTime\"",
-                    name: "CreatedTime",
-                    value: value,
-                    sub: sub,
-                    raw: raw)
-                : self;
-        }
-
-        public static SearchIndexesParamCollection UpdatedTime(
-            this SearchIndexesParamCollection self,
-            object value = null,
-            SqlStatement sub = null,
-            string raw = null,
-            bool _using = true)
-        {
-            return _using
-                ? self.Add(
-                    columnBracket: "\"UpdatedTime\"",
-                    name: "UpdatedTime",
-                    value: value,
-                    sub: sub,
-                    raw: raw)
-                : self;
-        }
-
-        public static SqlParamCollection SearchIndexes_UpdatedTime(
-            this SqlParamCollection self,
-            object value = null,
-            SqlStatement sub = null,
-            string raw = null,
-            bool _using = true)
-        {
-            return _using
-                ? self.Add(
-                    columnBracket: "\"UpdatedTime\"",
-                    name: "UpdatedTime",
-                    value: value,
-                    sub: sub,
-                    raw: raw)
-                : self;
-        }
-
         public static ItemsColumnCollection ItemsColumn()
         {
             return new ItemsColumnCollection();
@@ -63131,25 +65579,27 @@ namespace Implem.Pleasanter.Libraries.DataSources
         public static string Items_Title_WhereLike(
             ISqlObjectFactory factory,
             string tableName = "Items",
+            string name = "SearchText",
             bool forward = false)
         {
             return "(\"" + tableName + "\".\"Title\" like " + 
                 (forward
                     ? string.Empty
                     : factory.Sqls.WhereLikeTemplateForward) +
-                factory.Sqls.WhereLikeTemplate;
+                $"@{name}{factory.Sqls.WhereLikeTemplate}";
         }
 
         public static string Items_FullText_WhereLike(
             ISqlObjectFactory factory,
             string tableName = "Items",
+            string name = "SearchText",
             bool forward = false)
         {
             return "(\"" + tableName + "\".\"FullText\" like " + 
                 (forward
                     ? string.Empty
                     : factory.Sqls.WhereLikeTemplateForward) +
-                factory.Sqls.WhereLikeTemplate;
+                $"@{name}{factory.Sqls.WhereLikeTemplate}";
         }
 
         public static ItemsColumnCollection ItemsColumn(
@@ -63185,7 +65635,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                 case "UpdatedTime":
                     return self.UpdatedTime(_as: _as, function: function);
                 default:
-                    return Def.ExtendedColumnTypes.ContainsKey(columnName)
+                    return columnName != null && Def.ExtendedColumnTypes.ContainsKey(columnName)
                         ? self.Add(
                             columnBracket: $"\"{columnName}\"",
                             columnName: columnName,
@@ -65965,25 +68415,27 @@ namespace Implem.Pleasanter.Libraries.DataSources
         public static string Sites_Title_WhereLike(
             ISqlObjectFactory factory,
             string tableName = "Sites",
+            string name = "SearchText",
             bool forward = false)
         {
             return "(\"" + tableName + "\".\"Title\" like " + 
                 (forward
                     ? string.Empty
                     : factory.Sqls.WhereLikeTemplateForward) +
-                factory.Sqls.WhereLikeTemplate;
+                $"@{name}{factory.Sqls.WhereLikeTemplate}";
         }
 
         public static string Sites_Body_WhereLike(
             ISqlObjectFactory factory,
             string tableName = "Sites",
+            string name = "SearchText",
             bool forward = false)
         {
             return "(\"" + tableName + "\".\"Body\" like " + 
                 (forward
                     ? string.Empty
                     : factory.Sqls.WhereLikeTemplateForward) +
-                factory.Sqls.WhereLikeTemplate;
+                $"@{name}{factory.Sqls.WhereLikeTemplate}";
         }
 
         public static SitesColumnCollection SitesColumn(
@@ -66026,6 +68478,10 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     return self.LockedTime(_as: _as, function: function);
                 case "LockedUser":
                     return self.LockedUser(_as: _as, function: function);
+                case "ApiCountDate":
+                    return self.ApiCountDate(_as: _as, function: function);
+                case "ApiCount":
+                    return self.ApiCount(_as: _as, function: function);
                 case "Comments":
                     return self.Comments(_as: _as, function: function);
                 case "Creator":
@@ -66035,7 +68491,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                 case "CreatedTime":
                     return self.CreatedTime(_as: _as, function: function);
                 default:
-                    return Def.ExtendedColumnTypes.ContainsKey(columnName)
+                    return columnName != null && Def.ExtendedColumnTypes.ContainsKey(columnName)
                         ? self.Add(
                             columnBracket: $"\"{columnName}\"",
                             columnName: columnName,
@@ -66548,6 +69004,74 @@ namespace Implem.Pleasanter.Libraries.DataSources
         {
             return self.Add(
                 columnBracket: "\"LockedUser\"",
+                tableName: tableName,
+                columnName: columnName,
+                _as: _as,
+                function: function,
+                sub: sub);
+        }
+
+        public static SitesColumnCollection ApiCountDate(
+            this SitesColumnCollection self,
+            string tableName = "Sites",
+            string columnName = "ApiCountDate",
+            string _as = null,
+            Sqls.Functions function = Sqls.Functions.None,
+            SqlStatement sub = null)
+        {
+            return self.Add(
+                columnBracket: "\"ApiCountDate\"",
+                tableName: tableName,
+                columnName: columnName,
+                _as: _as,
+                function: function,
+                sub: sub);
+        }
+
+        public static SqlColumnCollection Sites_ApiCountDate(
+            this SqlColumnCollection self,
+            string tableName = "Sites",
+            string columnName = "ApiCountDate",
+            string _as = null,
+            Sqls.Functions function = Sqls.Functions.None,
+            SqlStatement sub = null)
+        {
+            return self.Add(
+                columnBracket: "\"ApiCountDate\"",
+                tableName: tableName,
+                columnName: columnName,
+                _as: _as,
+                function: function,
+                sub: sub);
+        }
+
+        public static SitesColumnCollection ApiCount(
+            this SitesColumnCollection self,
+            string tableName = "Sites",
+            string columnName = "ApiCount",
+            string _as = null,
+            Sqls.Functions function = Sqls.Functions.None,
+            SqlStatement sub = null)
+        {
+            return self.Add(
+                columnBracket: "\"ApiCount\"",
+                tableName: tableName,
+                columnName: columnName,
+                _as: _as,
+                function: function,
+                sub: sub);
+        }
+
+        public static SqlColumnCollection Sites_ApiCount(
+            this SqlColumnCollection self,
+            string tableName = "Sites",
+            string columnName = "ApiCount",
+            string _as = null,
+            Sqls.Functions function = Sqls.Functions.None,
+            SqlStatement sub = null)
+        {
+            return self.Add(
+                columnBracket: "\"ApiCount\"",
                 tableName: tableName,
                 columnName: columnName,
                 _as: _as,
@@ -67614,6 +70138,122 @@ namespace Implem.Pleasanter.Libraries.DataSources
                 : self;
         }
 
+        public static SitesWhereCollection ApiCountDate(
+            this SitesWhereCollection self,
+            object value = null,
+            string tableName = "Sites",
+            string _operator = "=",
+            string multiColumnOperator = " or ",
+            string multiParamOperator = " and ",
+            SqlStatement subLeft = null,
+            SqlStatement sub = null,
+            bool subPrefix = true,
+            string raw = null,
+            bool _using = true)
+        {
+            return _using
+                ? self.Add(
+                    columnBrackets: new string[] { "\"ApiCountDate\"" },
+                    tableName: tableName,
+                    name: "ApiCountDate",
+                    value: value,
+                    _operator: _operator,
+                    multiColumnOperator: multiColumnOperator,
+                    multiParamOperator: multiParamOperator,
+                    subLeft: subLeft,
+                    sub: sub,
+                    subPrefix: subPrefix,
+                    raw: raw)
+                : self;
+        }
+
+        public static SqlWhereCollection Sites_ApiCountDate(
+            this SqlWhereCollection self,
+            object value = null,
+            string tableName = "Sites",
+            string _operator = "=",
+            string multiColumnOperator = " or ",
+            string multiParamOperator = " and ",
+            SqlStatement subLeft = null,
+            SqlStatement sub = null,
+            bool subPrefix = true,
+            string raw = null,
+            bool _using = true)
+        {
+            return _using
+                ? self.Add(
+                    columnBrackets: new string[] { "\"ApiCountDate\"" },
+                    tableName: tableName,
+                    name: "ApiCountDate",
+                    value: value,
+                    _operator: _operator,
+                    multiColumnOperator: multiColumnOperator,
+                    multiParamOperator: multiParamOperator,
+                    subLeft: subLeft,
+                    sub: sub,
+                    subPrefix: subPrefix,
+                    raw: raw)
+                : self;
+        }
+
+        public static SitesWhereCollection ApiCount(
+            this SitesWhereCollection self,
+            object value = null,
+            string tableName = "Sites",
+            string _operator = "=",
+            string multiColumnOperator = " or ",
+            string multiParamOperator = " and ",
+            SqlStatement subLeft = null,
+            SqlStatement sub = null,
+            bool subPrefix = true,
+            string raw = null,
+            bool _using = true)
+        {
+            return _using
+                ? self.Add(
+                    columnBrackets: new string[] { "\"ApiCount\"" },
+                    tableName: tableName,
+                    name: "ApiCount",
+                    value: value,
+                    _operator: _operator,
+                    multiColumnOperator: multiColumnOperator,
+                    multiParamOperator: multiParamOperator,
+                    subLeft: subLeft,
+                    sub: sub,
+                    subPrefix: subPrefix,
+                    raw: raw)
+                : self;
+        }
+
+        public static SqlWhereCollection Sites_ApiCount(
+            this SqlWhereCollection self,
+            object value = null,
+            string tableName = "Sites",
+            string _operator = "=",
+            string multiColumnOperator = " or ",
+            string multiParamOperator = " and ",
+            SqlStatement subLeft = null,
+            SqlStatement sub = null,
+            bool subPrefix = true,
+            string raw = null,
+            bool _using = true)
+        {
+            return _using
+                ? self.Add(
+                    columnBrackets: new string[] { "\"ApiCount\"" },
+                    tableName: tableName,
+                    name: "ApiCount",
+                    value: value,
+                    _operator: _operator,
+                    multiColumnOperator: multiColumnOperator,
+                    multiParamOperator: multiParamOperator,
+                    subLeft: subLeft,
+                    sub: sub,
+                    subPrefix: subPrefix,
+                    raw: raw)
+                : self;
+        }
+
         public static SitesWhereCollection Comments(
             this SitesWhereCollection self,
             object value = null,
@@ -68128,6 +70768,44 @@ namespace Implem.Pleasanter.Libraries.DataSources
             }
         }
 
+        public static SitesWhereCollection ApiCount_In(
+            this SitesWhereCollection self,
+            IEnumerable<int> value = null,
+            string tableName = "Sites",
+            SqlStatement sub = null,
+            bool negative = false,
+            bool _using = true)
+        {
+            if (!_using)
+            {
+                return self;
+            }
+            if (sub != null)
+            {
+                return self.Add(
+                    columnBrackets: new string[] { "\"ApiCount\"" },
+                    tableName: tableName,
+                    name: "ApiCount",
+                    _operator: !negative ? " in " : " not in ",
+                    sub: sub);
+            }
+            else if (value != null && value.Any())
+            {
+                return self.Add(
+                    columnBrackets: new string[] { "\"ApiCount\"" },
+                    tableName: tableName,
+                    name: "ApiCount",
+                    _operator: !negative ? " in " : " not in ",
+                    raw: "({0})".Params(value.Join()));
+            }
+            else
+            {
+                return !negative
+                    ? self.Add(raw: "1=0")
+                    : self;
+            }
+        }
+
         public static SitesWhereCollection Creator_In(
             this SitesWhereCollection self,
             IEnumerable<int> value = null,
@@ -68408,6 +71086,40 @@ namespace Implem.Pleasanter.Libraries.DataSources
                 : self;
         }
 
+        public static SitesWhereCollection ApiCount_Between(
+            this SitesWhereCollection self,
+            int begin,
+            int end,
+            string tableName = "Sites",
+            bool _using = true)
+        {
+            return _using
+                ? self.Add(
+                    columnBrackets: new string[] { "\"ApiCount\"" },
+                    tableName: tableName,
+                    name: "ApiCount",
+                    _operator: " between ",
+                    raw: "{0} and {1} ".Params(begin, end))
+                : self;
+        }
+
+        public static SqlWhereCollection Sites_ApiCount_Between(
+            this SqlWhereCollection self,
+            int begin,
+            int end,
+            string tableName = "Sites",
+            bool _using = true)
+        {
+            return _using
+                ? self.Add(
+                    columnBrackets: new string[] { "\"ApiCount\"" },
+                    tableName: tableName,
+                    name: "ApiCount",
+                    _operator: " between ",
+                    raw: "{0} and {1} ".Params(begin, end))
+                : self;
+        }
+
         public static SitesWhereCollection Creator_Between(
             this SitesWhereCollection self,
             int begin,
@@ -68544,6 +71256,40 @@ namespace Implem.Pleasanter.Libraries.DataSources
                 : self;
         }
 
+        public static SitesWhereCollection ApiCountDate_Between(
+            this SitesWhereCollection self,
+            DateTime begin,
+            DateTime end,
+            string tableName = "Sites",
+            bool _using = true)
+        {
+            return _using
+                ? self.Add(
+                    columnBrackets: new string[] { "\"ApiCountDate\"" },
+                    tableName: tableName,
+                    name: "ApiCountDate",
+                    _operator: " between ",
+                    raw: "'{0}' and '{1}' ".Params(begin, end))
+                : self;
+        }
+
+        public static SqlWhereCollection Sites_ApiCountDate_Between(
+            this SqlWhereCollection self,
+            DateTime begin,
+            DateTime end,
+            string tableName = "Sites",
+            bool _using = true)
+        {
+            return _using
+                ? self.Add(
+                    columnBrackets: new string[] { "\"ApiCountDate\"" },
+                    tableName: tableName,
+                    name: "ApiCountDate",
+                    _operator: " between ",
+                    raw: "'{0}' and '{1}' ".Params(begin, end))
+                : self;
+        }
+
         public static SitesWhereCollection CreatedTime_Between(
             this SitesWhereCollection self,
             DateTime begin,
@@ -68623,6 +71369,8 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     case "Publish": return self.Publish();
                     case "LockedTime": return self.LockedTime();
                     case "LockedUser": return self.LockedUser();
+                    case "ApiCountDate": return self.ApiCountDate();
+                    case "ApiCount": return self.ApiCount();
                     case "Comments": return self.Comments();
                     case "Creator": return self.Creator();
                     case "Updator": return self.Updator();
@@ -68829,6 +71577,30 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this SqlGroupByCollection self, string tableName = "Sites")
         {
             return self.Add(columnBracket: "\"LockedUser\"", tableName: tableName);
+        }
+
+        public static SitesGroupByCollection ApiCountDate(
+            this SitesGroupByCollection self, string tableName = "Sites")
+        {
+            return self.Add(columnBracket: "\"ApiCountDate\"", tableName: tableName);
+        }
+
+        public static SqlGroupByCollection Sites_ApiCountDate(
+            this SqlGroupByCollection self, string tableName = "Sites")
+        {
+            return self.Add(columnBracket: "\"ApiCountDate\"", tableName: tableName);
+        }
+
+        public static SitesGroupByCollection ApiCount(
+            this SitesGroupByCollection self, string tableName = "Sites")
+        {
+            return self.Add(columnBracket: "\"ApiCount\"", tableName: tableName);
+        }
+
+        public static SqlGroupByCollection Sites_ApiCount(
+            this SqlGroupByCollection self, string tableName = "Sites")
+        {
+            return self.Add(columnBracket: "\"ApiCount\"", tableName: tableName);
         }
 
         public static SitesGroupByCollection Comments(
@@ -69148,6 +71920,36 @@ namespace Implem.Pleasanter.Libraries.DataSources
             return self;
         }
 
+        public static SitesOrderByCollection ApiCountDate(
+            this SitesOrderByCollection self,
+            SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
+            string tableName = "Sites",
+            Sqls.Functions function = Sqls.Functions.None)
+        {
+            new List<string> { "\"ApiCountDate\"" }.ForEach(columnBracket =>
+                self.Add(
+                    columnBracket: columnBracket,
+                    orderType: orderType,
+                    tableName: tableName,
+                    function: function));
+            return self;
+        }
+
+        public static SitesOrderByCollection ApiCount(
+            this SitesOrderByCollection self,
+            SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
+            string tableName = "Sites",
+            Sqls.Functions function = Sqls.Functions.None)
+        {
+            new List<string> { "\"ApiCount\"" }.ForEach(columnBracket =>
+                self.Add(
+                    columnBracket: columnBracket,
+                    orderType: orderType,
+                    tableName: tableName,
+                    function: function));
+            return self;
+        }
+
         public static SitesOrderByCollection Comments(
             this SitesOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
@@ -69440,6 +72242,36 @@ namespace Implem.Pleasanter.Libraries.DataSources
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"LockedUser\"" }.ForEach(columnBracket =>
+                self.Add(
+                    columnBracket: columnBracket,
+                    orderType: orderType,
+                    tableName: tableName,
+                    function: function));
+            return self;
+        }
+
+        public static SqlOrderByCollection Sites_ApiCountDate(
+            this SqlOrderByCollection self,
+            SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
+            string tableName = "Sites",
+            Sqls.Functions function = Sqls.Functions.None)
+        {
+            new List<string> { "\"ApiCountDate\"" }.ForEach(columnBracket =>
+                self.Add(
+                    columnBracket: columnBracket,
+                    orderType: orderType,
+                    tableName: tableName,
+                    function: function));
+            return self;
+        }
+
+        public static SqlOrderByCollection Sites_ApiCount(
+            this SqlOrderByCollection self,
+            SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
+            string tableName = "Sites",
+            Sqls.Functions function = Sqls.Functions.None)
+        {
+            new List<string> { "\"ApiCount\"" }.ForEach(columnBracket =>
                 self.Add(
                     columnBracket: columnBracket,
                     orderType: orderType,
@@ -70040,6 +72872,74 @@ namespace Implem.Pleasanter.Libraries.DataSources
                 : self;
         }
 
+        public static SitesParamCollection ApiCountDate(
+            this SitesParamCollection self,
+            object value = null,
+            SqlStatement sub = null,
+            string raw = null,
+            bool _using = true)
+        {
+            return _using
+                ? self.Add(
+                    columnBracket: "\"ApiCountDate\"",
+                    name: "ApiCountDate",
+                    value: value,
+                    sub: sub,
+                    raw: raw)
+                : self;
+        }
+
+        public static SqlParamCollection Sites_ApiCountDate(
+            this SqlParamCollection self,
+            object value = null,
+            SqlStatement sub = null,
+            string raw = null,
+            bool _using = true)
+        {
+            return _using
+                ? self.Add(
+                    columnBracket: "\"ApiCountDate\"",
+                    name: "ApiCountDate",
+                    value: value,
+                    sub: sub,
+                    raw: raw)
+                : self;
+        }
+
+        public static SitesParamCollection ApiCount(
+            this SitesParamCollection self,
+            object value = null,
+            SqlStatement sub = null,
+            string raw = null,
+            bool _using = true)
+        {
+            return _using
+                ? self.Add(
+                    columnBracket: "\"ApiCount\"",
+                    name: "ApiCount",
+                    value: value,
+                    sub: sub,
+                    raw: raw)
+                : self;
+        }
+
+        public static SqlParamCollection Sites_ApiCount(
+            this SqlParamCollection self,
+            object value = null,
+            SqlStatement sub = null,
+            string raw = null,
+            bool _using = true)
+        {
+            return _using
+                ? self.Add(
+                    columnBracket: "\"ApiCount\"",
+                    name: "ApiCount",
+                    value: value,
+                    sub: sub,
+                    raw: raw)
+                : self;
+        }
+
         public static SitesParamCollection Comments(
             this SitesParamCollection self,
             object value = null,
@@ -70376,7 +73276,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                 case "UpdatedTime":
                     return self.UpdatedTime(_as: _as, function: function);
                 default:
-                    return Def.ExtendedColumnTypes.ContainsKey(columnName)
+                    return columnName != null && Def.ExtendedColumnTypes.ContainsKey(columnName)
                         ? self.Add(
                             columnBracket: $"\"{columnName}\"",
                             columnName: columnName,
@@ -72814,7 +75714,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                 case "UpdatedTime":
                     return self.UpdatedTime(_as: _as, function: function);
                 default:
-                    return Def.ExtendedColumnTypes.ContainsKey(columnName)
+                    return columnName != null && Def.ExtendedColumnTypes.ContainsKey(columnName)
                         ? self.Add(
                             columnBracket: $"\"{columnName}\"",
                             columnName: columnName,
@@ -75592,7 +78492,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                 case "UpdatedTime":
                     return self.UpdatedTime(_as: _as, function: function);
                 default:
-                    return Def.ExtendedColumnTypes.ContainsKey(columnName)
+                    return columnName != null && Def.ExtendedColumnTypes.ContainsKey(columnName)
                         ? self.Add(
                             columnBracket: $"\"{columnName}\"",
                             columnName: columnName,
@@ -78405,13 +81305,14 @@ namespace Implem.Pleasanter.Libraries.DataSources
         public static string Binaries_Body_WhereLike(
             ISqlObjectFactory factory,
             string tableName = "Binaries",
+            string name = "SearchText",
             bool forward = false)
         {
             return "(\"" + tableName + "\".\"Body\" like " + 
                 (forward
                     ? string.Empty
                     : factory.Sqls.WhereLikeTemplateForward) +
-                factory.Sqls.WhereLikeTemplate;
+                $"@{name}{factory.Sqls.WhereLikeTemplate}";
         }
 
         public static BinariesColumnCollection BinariesColumn(
@@ -78465,7 +81366,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                 case "UpdatedTime":
                     return self.UpdatedTime(_as: _as, function: function);
                 default:
-                    return Def.ExtendedColumnTypes.ContainsKey(columnName)
+                    return columnName != null && Def.ExtendedColumnTypes.ContainsKey(columnName)
                         ? self.Add(
                             columnBracket: $"\"{columnName}\"",
                             columnName: columnName,
@@ -82910,7 +85811,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                 case "UpdatedTime":
                     return self.UpdatedTime(_as: _as, function: function);
                 default:
-                    return Def.ExtendedColumnTypes.ContainsKey(columnName)
+                    return columnName != null && Def.ExtendedColumnTypes.ContainsKey(columnName)
                         ? self.Add(
                             columnBracket: $"\"{columnName}\"",
                             columnName: columnName,
@@ -86123,25 +89024,27 @@ namespace Implem.Pleasanter.Libraries.DataSources
         public static string Issues_Title_WhereLike(
             ISqlObjectFactory factory,
             string tableName = "Issues",
+            string name = "SearchText",
             bool forward = false)
         {
             return "(\"" + tableName + "\".\"Title\" like " + 
                 (forward
                     ? string.Empty
                     : factory.Sqls.WhereLikeTemplateForward) +
-                factory.Sqls.WhereLikeTemplate;
+                $"@{name}{factory.Sqls.WhereLikeTemplate}";
         }
 
         public static string Issues_Body_WhereLike(
             ISqlObjectFactory factory,
             string tableName = "Issues",
+            string name = "SearchText",
             bool forward = false)
         {
             return "(\"" + tableName + "\".\"Body\" like " + 
                 (forward
                     ? string.Empty
                     : factory.Sqls.WhereLikeTemplateForward) +
-                factory.Sqls.WhereLikeTemplate;
+                $"@{name}{factory.Sqls.WhereLikeTemplate}";
         }
 
         public static IssuesColumnCollection IssuesColumn(
@@ -86193,7 +89096,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                 case "CreatedTime":
                     return self.CreatedTime(_as: _as, function: function);
                 default:
-                    return Def.ExtendedColumnTypes.ContainsKey(columnName)
+                    return columnName != null && Def.ExtendedColumnTypes.ContainsKey(columnName)
                         ? self.Add(
                             columnBracket: $"\"{columnName}\"",
                             columnName: columnName,
@@ -90796,25 +93699,27 @@ namespace Implem.Pleasanter.Libraries.DataSources
         public static string Results_Title_WhereLike(
             ISqlObjectFactory factory,
             string tableName = "Results",
+            string name = "SearchText",
             bool forward = false)
         {
             return "(\"" + tableName + "\".\"Title\" like " + 
                 (forward
                     ? string.Empty
                     : factory.Sqls.WhereLikeTemplateForward) +
-                factory.Sqls.WhereLikeTemplate;
+                $"@{name}{factory.Sqls.WhereLikeTemplate}";
         }
 
         public static string Results_Body_WhereLike(
             ISqlObjectFactory factory,
             string tableName = "Results",
+            string name = "SearchText",
             bool forward = false)
         {
             return "(\"" + tableName + "\".\"Body\" like " + 
                 (forward
                     ? string.Empty
                     : factory.Sqls.WhereLikeTemplateForward) +
-                factory.Sqls.WhereLikeTemplate;
+                $"@{name}{factory.Sqls.WhereLikeTemplate}";
         }
 
         public static ResultsColumnCollection ResultsColumn(
@@ -90856,7 +93761,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                 case "CreatedTime":
                     return self.CreatedTime(_as: _as, function: function);
                 default:
-                    return Def.ExtendedColumnTypes.ContainsKey(columnName)
+                    return columnName != null && Def.ExtendedColumnTypes.ContainsKey(columnName)
                         ? self.Add(
                             columnBracket: $"\"{columnName}\"",
                             columnName: columnName,
@@ -94326,25 +97231,27 @@ namespace Implem.Pleasanter.Libraries.DataSources
         public static string Wikis_Title_WhereLike(
             ISqlObjectFactory factory,
             string tableName = "Wikis",
+            string name = "SearchText",
             bool forward = false)
         {
             return "(\"" + tableName + "\".\"Title\" like " + 
                 (forward
                     ? string.Empty
                     : factory.Sqls.WhereLikeTemplateForward) +
-                factory.Sqls.WhereLikeTemplate;
+                $"@{name}{factory.Sqls.WhereLikeTemplate}";
         }
 
         public static string Wikis_Body_WhereLike(
             ISqlObjectFactory factory,
             string tableName = "Wikis",
+            string name = "SearchText",
             bool forward = false)
         {
             return "(\"" + tableName + "\".\"Body\" like " + 
                 (forward
                     ? string.Empty
                     : factory.Sqls.WhereLikeTemplateForward) +
-                factory.Sqls.WhereLikeTemplate;
+                $"@{name}{factory.Sqls.WhereLikeTemplate}";
         }
 
         public static WikisColumnCollection WikisColumn(
@@ -94378,7 +97285,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                 case "CreatedTime":
                     return self.CreatedTime(_as: _as, function: function);
                 default:
-                    return Def.ExtendedColumnTypes.ContainsKey(columnName)
+                    return columnName != null && Def.ExtendedColumnTypes.ContainsKey(columnName)
                         ? self.Add(
                             columnBracket: $"\"{columnName}\"",
                             columnName: columnName,
@@ -97492,8 +100399,8 @@ namespace Implem.Pleasanter.Libraries.DataSources
             var param = DeptsParam()
                 .TenantId(deptModel.TenantId)
                 .Ver(deptModel.Ver, _using: deptModel.Ver_Updated(context) || setDefault || (otherInitValue && !deptModel.Ver.InitialValue(context)))
-                .DeptCode(deptModel.DeptCode.MaxLength(32), _using: deptModel.DeptCode_Updated(context) || setDefault || (otherInitValue && !deptModel.DeptCode.InitialValue(context)))
-                .DeptName(deptModel.DeptName.MaxLength(256), _using: deptModel.DeptName_Updated(context) || setDefault || (otherInitValue && !deptModel.DeptName.InitialValue(context)))
+                .DeptCode(deptModel.DeptCode.MaxLength(1024), _using: deptModel.DeptCode_Updated(context) || setDefault || (otherInitValue && !deptModel.DeptCode.InitialValue(context)))
+                .DeptName(deptModel.DeptName.MaxLength(1024), _using: deptModel.DeptName_Updated(context) || setDefault || (otherInitValue && !deptModel.DeptName.InitialValue(context)))
                 .Body(deptModel.Body, _using: deptModel.Body_Updated(context) || (otherInitValue && !deptModel.Body.InitialValue(context)))
                 .Comments(deptModel.Comments.ToJson(), _using: deptModel.Comments_Updated(context) || (otherInitValue && !deptModel.Comments.InitialValue(context)));
             deptModel.ClassHash
@@ -97750,6 +100657,129 @@ namespace Implem.Pleasanter.Libraries.DataSources
             groupMemberModel.AttachmentsHash
                 .Where(o => groupMemberModel.Attachments_Updated(columnName: o.Key)
                     || (otherInitValue && !groupMemberModel.Attachments(columnName: o.Key)
+                        .InitialValue(context: context)))
+                .ForEach(o =>
+                    param.Add(
+                        columnBracket: o.Key,
+                        name: o.Key,
+                        value: o.Value?.RecordingJson() ?? string.Empty));
+            return param;
+        }
+
+        public static RegistrationsColumnCollection RegistrationsDefaultColumns()
+        {
+            var column = RegistrationsColumn()
+                .TenantId()
+                .RegistrationId()
+                .Ver()
+                .MailAddress()
+                .Invitee()
+                .InviteeName()
+                .LoginId()
+                .Name()
+                .Password()
+                .Language()
+                .Passphrase()
+                .Invitingflg()
+                .UserId()
+                .DeptId()
+                .GroupId()
+                .Comments()
+                .Creator()
+                .Updator()
+                .CreatedTime()
+                .UpdatedTime();
+            Def.ColumnDefinitionCollection
+                .Where(columnDefinition => columnDefinition.TableName == "Registrations")
+                .Where(columnDefinition => !columnDefinition.ExtendedColumnType.IsNullOrEmpty())
+                .ForEach(columnDefinition =>
+                    column.RegistrationsColumn(columnDefinition.ColumnName));
+            return column;
+        }
+
+        public static RegistrationsJoinCollection RegistrationsJoinDefault()
+        {
+            var join = RegistrationsJoin();
+            return join;
+        }
+
+        public static RegistrationsWhereCollection RegistrationsWhereDefault(RegistrationModel registrationModel)
+        {
+            return RegistrationsWhere()
+                .TenantId(registrationModel.TenantId)
+                .RegistrationId(registrationModel.RegistrationId);
+        }
+
+        public static RegistrationsParamCollection RegistrationsParamDefault(
+            Context context,
+            RegistrationModel registrationModel,
+            bool setDefault = false,
+            bool otherInitValue = false)
+        {
+            var param = RegistrationsParam()
+                .TenantId(registrationModel.TenantId)
+                .Ver(registrationModel.Ver, _using: registrationModel.Ver_Updated(context) || setDefault || (otherInitValue && !registrationModel.Ver.InitialValue(context)))
+                .MailAddress(registrationModel.MailAddress.MaxLength(2048), _using: registrationModel.MailAddress_Updated(context) || setDefault || (otherInitValue && !registrationModel.MailAddress.InitialValue(context)))
+                .Invitee(registrationModel.Invitee, _using: registrationModel.Invitee_Updated(context) || setDefault || (otherInitValue && !registrationModel.Invitee.InitialValue(context)))
+                .InviteeName(registrationModel.InviteeName.MaxLength(128), _using: registrationModel.InviteeName_Updated(context) || setDefault || (otherInitValue && !registrationModel.InviteeName.InitialValue(context)))
+                .LoginId(registrationModel.LoginId.MaxLength(256), _using: registrationModel.LoginId_Updated(context) || (otherInitValue && !registrationModel.LoginId.InitialValue(context)))
+                .Name(registrationModel.Name.MaxLength(128), _using: registrationModel.Name_Updated(context) || (otherInitValue && !registrationModel.Name.InitialValue(context)))
+                .Password(registrationModel.Password.MaxLength(128), _using: registrationModel.Password_Updated(context) || (otherInitValue && !registrationModel.Password.InitialValue(context)))
+                .Language(registrationModel.Language.MaxLength(32), _using: registrationModel.Language_Updated(context) || setDefault || (otherInitValue && !registrationModel.Language.InitialValue(context)))
+                .Passphrase(registrationModel.Passphrase.MaxLength(34), _using: registrationModel.Passphrase_Updated(context) || setDefault || (otherInitValue && !registrationModel.Passphrase.InitialValue(context)))
+                .Invitingflg(registrationModel.Invitingflg.MaxLength(32), _using: registrationModel.Invitingflg_Updated(context) || setDefault || (otherInitValue && !registrationModel.Invitingflg.InitialValue(context)))
+                .UserId(registrationModel.UserId, _using: registrationModel.UserId_Updated(context) || (otherInitValue && !registrationModel.UserId.InitialValue(context)))
+                .DeptId(registrationModel.DeptId, _using: registrationModel.DeptId_Updated(context) || setDefault || (otherInitValue && !registrationModel.DeptId.InitialValue(context)))
+                .GroupId(registrationModel.GroupId, _using: registrationModel.GroupId_Updated(context) || setDefault || (otherInitValue && !registrationModel.GroupId.InitialValue(context)))
+                .Comments(registrationModel.Comments.ToJson(), _using: registrationModel.Comments_Updated(context) || (otherInitValue && !registrationModel.Comments.InitialValue(context)));
+            registrationModel.ClassHash
+                .Where(o => registrationModel.Class_Updated(columnName: o.Key)
+                    || (otherInitValue && !registrationModel.Class(columnName: o.Key)
+                        .InitialValue(context: context)))
+                .ForEach(o =>
+                    param.Add(
+                        columnBracket: o.Key,
+                        name: o.Key,
+                        value: o.Value.MaxLength(1024)));
+            registrationModel.NumHash
+                .Where(o => registrationModel.Num_Updated(columnName: o.Key)
+                    || (otherInitValue && !registrationModel.Num(columnName: o.Key)
+                        .InitialValue(context: context)))
+                .ForEach(o =>
+                    param.Add(
+                        columnBracket: o.Key,
+                        name: o.Key,
+                        value: o.Value));
+            registrationModel.DateHash
+                .Where(o => registrationModel.Date_Updated(columnName: o.Key)
+                    || (otherInitValue && !registrationModel.Date(columnName: o.Key)
+                        .InitialValue(context: context)))
+                .ForEach(o =>
+                    param.Add(
+                        columnBracket: o.Key,
+                        name: o.Key,
+                        value: o.Value));
+            registrationModel.DescriptionHash
+                .Where(o => registrationModel.Description_Updated(columnName: o.Key)
+                    || (otherInitValue && !registrationModel.Description(columnName: o.Key)
+                        .InitialValue(context: context)))
+                .ForEach(o =>
+                    param.Add(
+                        columnBracket: o.Key,
+                        name: o.Key,
+                        value: o.Value));
+            registrationModel.CheckHash
+                .Where(o => registrationModel.Check_Updated(columnName: o.Key)
+                    || (otherInitValue && !registrationModel.Check(columnName: o.Key)
+                        .InitialValue(context: context)))
+                .ForEach(o =>
+                    param.Add(
+                        columnBracket: o.Key,
+                        name: o.Key,
+                        value: o.Value));
+            registrationModel.AttachmentsHash
+                .Where(o => registrationModel.Attachments_Updated(columnName: o.Key)
+                    || (otherInitValue && !registrationModel.Attachments(columnName: o.Key)
                         .InitialValue(context: context)))
                 .ForEach(o =>
                     param.Add(
@@ -98255,120 +101285,6 @@ namespace Implem.Pleasanter.Libraries.DataSources
             return param;
         }
 
-        public static SearchIndexesColumnCollection SearchIndexesDefaultColumns()
-        {
-            var column = SearchIndexesColumn()
-                .Word()
-                .ReferenceId()
-                .Ver()
-                .Priority()
-                .ReferenceType()
-                .Title()
-                .Subset()
-                .InheritPermission()
-                .Comments()
-                .Creator()
-                .Updator()
-                .CreatedTime()
-                .UpdatedTime();
-            Def.ColumnDefinitionCollection
-                .Where(columnDefinition => columnDefinition.TableName == "SearchIndexes")
-                .Where(columnDefinition => !columnDefinition.ExtendedColumnType.IsNullOrEmpty())
-                .ForEach(columnDefinition =>
-                    column.SearchIndexesColumn(columnDefinition.ColumnName));
-            return column;
-        }
-
-        public static SearchIndexesJoinCollection SearchIndexesJoinDefault()
-        {
-            var join = SearchIndexesJoin();
-            join.Add(new SqlJoin(
-                tableBracket: "\"Items\"",
-                joinType: SqlJoin.JoinTypes.Inner,
-                joinExpression: "\"SearchIndexes\".\"ReferenceId\"=\"Items\".\"ReferenceId\""));
-            join.Add(new SqlJoin(
-                tableBracket: "\"Sites\"",
-                joinType: SqlJoin.JoinTypes.Inner,
-                joinExpression: "\"Items\".\"SiteId\"=\"Sites\".\"SiteId\""));
-            return join;
-        }
-
-        public static SearchIndexesWhereCollection SearchIndexesWhereDefault(SearchIndexModel searchIndexModel)
-        {
-            return SearchIndexesWhere()
-                .Word(searchIndexModel.Word.MaxLength(256))
-                .ReferenceId(searchIndexModel.ReferenceId);
-        }
-
-        public static SearchIndexesParamCollection SearchIndexesParamDefault(
-            Context context,
-            SearchIndexModel searchIndexModel,
-            bool setDefault = false,
-            bool otherInitValue = false)
-        {
-            var param = SearchIndexesParam()
-                .Word(searchIndexModel.Word.MaxLength(256), _using: searchIndexModel.Word_Updated(context) || setDefault || (otherInitValue && !searchIndexModel.Word.InitialValue(context)))
-                .ReferenceId(searchIndexModel.ReferenceId, _using: searchIndexModel.ReferenceId_Updated(context) || setDefault || (otherInitValue && !searchIndexModel.ReferenceId.InitialValue(context)))
-                .Ver(searchIndexModel.Ver, _using: searchIndexModel.Ver_Updated(context) || setDefault || (otherInitValue && !searchIndexModel.Ver.InitialValue(context)))
-                .Priority(searchIndexModel.Priority, _using: searchIndexModel.Priority_Updated(context) || setDefault || (otherInitValue && !searchIndexModel.Priority.InitialValue(context)))
-                .Comments(searchIndexModel.Comments.ToJson(), _using: searchIndexModel.Comments_Updated(context) || (otherInitValue && !searchIndexModel.Comments.InitialValue(context)));
-            searchIndexModel.ClassHash
-                .Where(o => searchIndexModel.Class_Updated(columnName: o.Key)
-                    || (otherInitValue && !searchIndexModel.Class(columnName: o.Key)
-                        .InitialValue(context: context)))
-                .ForEach(o =>
-                    param.Add(
-                        columnBracket: o.Key,
-                        name: o.Key,
-                        value: o.Value.MaxLength(1024)));
-            searchIndexModel.NumHash
-                .Where(o => searchIndexModel.Num_Updated(columnName: o.Key)
-                    || (otherInitValue && !searchIndexModel.Num(columnName: o.Key)
-                        .InitialValue(context: context)))
-                .ForEach(o =>
-                    param.Add(
-                        columnBracket: o.Key,
-                        name: o.Key,
-                        value: o.Value));
-            searchIndexModel.DateHash
-                .Where(o => searchIndexModel.Date_Updated(columnName: o.Key)
-                    || (otherInitValue && !searchIndexModel.Date(columnName: o.Key)
-                        .InitialValue(context: context)))
-                .ForEach(o =>
-                    param.Add(
-                        columnBracket: o.Key,
-                        name: o.Key,
-                        value: o.Value));
-            searchIndexModel.DescriptionHash
-                .Where(o => searchIndexModel.Description_Updated(columnName: o.Key)
-                    || (otherInitValue && !searchIndexModel.Description(columnName: o.Key)
-                        .InitialValue(context: context)))
-                .ForEach(o =>
-                    param.Add(
-                        columnBracket: o.Key,
-                        name: o.Key,
-                        value: o.Value));
-            searchIndexModel.CheckHash
-                .Where(o => searchIndexModel.Check_Updated(columnName: o.Key)
-                    || (otherInitValue && !searchIndexModel.Check(columnName: o.Key)
-                        .InitialValue(context: context)))
-                .ForEach(o =>
-                    param.Add(
-                        columnBracket: o.Key,
-                        name: o.Key,
-                        value: o.Value));
-            searchIndexModel.AttachmentsHash
-                .Where(o => searchIndexModel.Attachments_Updated(columnName: o.Key)
-                    || (otherInitValue && !searchIndexModel.Attachments(columnName: o.Key)
-                        .InitialValue(context: context)))
-                .ForEach(o =>
-                    param.Add(
-                        columnBracket: o.Key,
-                        name: o.Key,
-                        value: o.Value?.RecordingJson() ?? string.Empty));
-            return param;
-        }
-
         public static ItemsColumnCollection ItemsDefaultColumns()
         {
             var column = ItemsColumn()
@@ -98494,6 +101410,8 @@ namespace Implem.Pleasanter.Libraries.DataSources
                 .Publish()
                 .LockedTime()
                 .LockedUser()
+                .ApiCountDate()
+                .ApiCount()
                 .Comments()
                 .Creator()
                 .Updator()
@@ -98540,6 +101458,8 @@ namespace Implem.Pleasanter.Libraries.DataSources
                 .Publish(siteModel.Publish, _using: siteModel.Publish_Updated(context) || (otherInitValue && !siteModel.Publish.InitialValue(context)))
                 .LockedTime(siteModel.LockedTime.Value, _using: siteModel.LockedTime_Updated(context) || (otherInitValue && !siteModel.LockedTime.InitialValue(context)))
                 .LockedUser(siteModel.LockedUser.Id, _using: siteModel.LockedUser_Updated(context) || (otherInitValue && !siteModel.LockedUser.InitialValue(context)))
+                .ApiCountDate(siteModel.ApiCountDate, _using: siteModel.ApiCountDate_Updated(context) || (otherInitValue && !siteModel.ApiCountDate.InitialValue(context)))
+                .ApiCount(siteModel.ApiCount, _using: siteModel.ApiCount_Updated(context) || setDefault || (otherInitValue && !siteModel.ApiCount.InitialValue(context)))
                 .Comments(siteModel.Comments.ToJson(), _using: siteModel.Comments_Updated(context) || (otherInitValue && !siteModel.Comments.InitialValue(context)));
             siteModel.ClassHash
                 .Where(o => siteModel.Class_Updated(columnName: o.Key)
@@ -99227,7 +102147,8 @@ namespace Implem.Pleasanter.Libraries.DataSources
         {
             return IssuesWhere()
                 .SiteId(issueModel.SiteId)
-                .IssueId(issueModel.IssueId);
+                .IssueId(issueModel.IssueId)
+                .OnSelectingIssuesWhereExtendedSqls(issueModel);
         }
 
         public static IssuesParamCollection IssuesParamDefault(
@@ -99361,7 +102282,8 @@ namespace Implem.Pleasanter.Libraries.DataSources
         {
             return ResultsWhere()
                 .SiteId(resultModel.SiteId)
-                .ResultId(resultModel.ResultId);
+                .ResultId(resultModel.ResultId)
+                .OnSelectingResultsWhereExtendedSqls(resultModel);
         }
 
         public static ResultsParamCollection ResultsParamDefault(

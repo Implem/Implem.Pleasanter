@@ -28,7 +28,7 @@ namespace Implem.SqlServer
 
         public string BooleanString(string bit)
         {
-            return bit;
+            return bit == "1" ? TrueString : FalseString;
         }
 
         public string DateGroupYearly { get; } = "substring(convert(varchar,{0},111),1,4)";

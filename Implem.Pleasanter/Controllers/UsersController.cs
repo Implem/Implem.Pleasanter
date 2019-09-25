@@ -9,7 +9,6 @@ using Implem.DefinitionAccessor;
 using Implem.Libraries.Utilities;
 using Implem.Pleasanter.Libraries.DataSources;
 using System.Security.Claims;
-using Implem.IRds;
 using System.Data.Common;
 
 namespace Implem.Pleasanter.Controllers

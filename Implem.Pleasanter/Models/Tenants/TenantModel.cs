@@ -415,9 +415,10 @@ namespace Implem.Pleasanter.Models
                 .UpdatedTime(timestamp, _using: timestamp.InRange());
             if (VerUp)
             {
-                statements.Add(CopyToStatement(
+                statements.Add(Rds.TenantsCopyToStatement(
                     where: where,
-                    tableType: Sqls.TableTypes.History));
+                    tableType: Sqls.TableTypes.History,
+                    ColumnNames()));
                 Ver++;
             }
             statements.AddRange(UpdateStatements(
@@ -432,44 +433,6 @@ namespace Implem.Pleasanter.Models
                 statements.AddRange(additionalStatements);
             }
             return statements;
-        }
-
-        private SqlStatement CopyToStatement(SqlWhereCollection where, Sqls.TableTypes tableType)
-        {
-            var column = new Rds.TenantsColumnCollection();
-            var param = new Rds.TenantsParamCollection();
-            column.TenantId(function: Sqls.Functions.SingleColumn); param.TenantId();
-            column.Ver(function: Sqls.Functions.SingleColumn); param.Ver();
-            column.TenantName(function: Sqls.Functions.SingleColumn); param.TenantName();
-            column.Title(function: Sqls.Functions.SingleColumn); param.Title();
-            column.Body(function: Sqls.Functions.SingleColumn); param.Body();
-            column.ContractSettings(function: Sqls.Functions.SingleColumn); param.ContractSettings();
-            column.ContractDeadline(function: Sqls.Functions.SingleColumn); param.ContractDeadline();
-            column.DisableAllUsersPermission(function: Sqls.Functions.SingleColumn); param.DisableAllUsersPermission();
-            column.LogoType(function: Sqls.Functions.SingleColumn); param.LogoType();
-            column.HtmlTitleTop(function: Sqls.Functions.SingleColumn); param.HtmlTitleTop();
-            column.HtmlTitleSite(function: Sqls.Functions.SingleColumn); param.HtmlTitleSite();
-            column.HtmlTitleRecord(function: Sqls.Functions.SingleColumn); param.HtmlTitleRecord();
-            column.Comments(function: Sqls.Functions.SingleColumn); param.Comments();
-            column.Creator(function: Sqls.Functions.SingleColumn); param.Creator();
-            column.Updator(function: Sqls.Functions.SingleColumn); param.Updator();
-            column.CreatedTime(function: Sqls.Functions.SingleColumn); param.CreatedTime();
-            column.UpdatedTime(function: Sqls.Functions.SingleColumn); param.UpdatedTime();
-            ColumnNames().ForEach(columnName =>
-            {
-                column.Add(
-                    columnBracket: $"\"{columnName}\"",
-                    columnName: columnName,
-                    function: Sqls.Functions.SingleColumn);
-                param.Add(
-                    columnBracket: $"\"{columnName}\"",
-                    name: columnName);
-            });
-            return Rds.InsertTenants(
-                tableType: tableType,
-                param: param,
-                select: Rds.SelectTenants(column: column, where: where),
-                addUpdatorParam: false);
         }
 
         private List<SqlStatement> UpdateStatements(
@@ -618,11 +581,43 @@ namespace Implem.Pleasanter.Models
                         }
                         else
                         {
-                            Value(
+                            var column = ss.GetColumn(
                                 context: context,
-                                columnName: key.Split_2nd('_'),
-                                value: value,
-                                toUniversal: true);
+                                columnName: key.Split_2nd('_'));
+                            switch (Def.ExtendedColumnTypes.Get(column?.ColumnName))
+                            {
+                                case "Class":
+                                    Class(
+                                        columnName: column.ColumnName,
+                                        value: value);
+                                    break;
+                                case "Num":
+                                    Num(
+                                        columnName: column.ColumnName,
+                                        value: column.Round(value.ToDecimal(
+                                            cultureInfo: context.CultureInfo())));
+                                    break;
+                                case "Date":
+                                    Date(
+                                        columnName: column.ColumnName,
+                                        value: value.ToDateTime().ToUniversal(context: context));
+                                    break;
+                                case "Description":
+                                    Description(
+                                        columnName: column.ColumnName,
+                                        value: value);
+                                    break;
+                                case "Check":
+                                    Check(
+                                        columnName: column.ColumnName,
+                                        value: value.ToBool());
+                                    break;
+                                case "Attachments":
+                                    Attachments(
+                                        columnName: column.ColumnName,
+                                        value: value.Deserialize<Attachments>());
+                                    break;
+                            }
                         }
                         break;
                 }
@@ -686,12 +681,24 @@ namespace Implem.Pleasanter.Models
             if (data.HtmlTitleRecord != null) HtmlTitleRecord = data.HtmlTitleRecord.ToString().ToString();
             if (data.Comments != null) Comments.Prepend(context: context, ss: ss, body: data.Comments);
             if (data.VerUp != null) VerUp = data.VerUp.ToBool();
-            ClassHash = data.ClassHash;
-            NumHash = data.NumHash;
-            DateHash = data.DateHash;
-            DescriptionHash = data.DescriptionHash;
-            CheckHash = data.CheckHash;
-            AttachmentsHash = data.AttachmentsHash;
+            data.ClassHash.ForEach(o => Class(
+                columnName: o.Key,
+                value: o.Value));
+            data.NumHash.ForEach(o => Num(
+                columnName: o.Key,
+                value: o.Value));
+            data.DateHash.ForEach(o => Date(
+                columnName: o.Key,
+                value: o.Value.ToUniversal(context: context)));
+            data.DescriptionHash.ForEach(o => Description(
+                columnName: o.Key,
+                value: o.Value));
+            data.CheckHash.ForEach(o => Check(
+                columnName: o.Key,
+                value: o.Value));
+            data.AttachmentsHash.ForEach(o => Attachments(
+                columnName: o.Key,
+                value: o.Value));
         }
 
         private void SetBySession(Context context)

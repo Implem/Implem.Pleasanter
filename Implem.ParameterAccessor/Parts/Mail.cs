@@ -12,6 +12,6 @@ namespace Implem.ParameterAccessor.Parts
         public List<string> AllowedFrom;
         public string SupportFrom;
         public string InternalDomains;
-        public string ApiKey;
+        public string AddressValidation;
     }
 }

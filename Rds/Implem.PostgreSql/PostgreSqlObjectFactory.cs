@@ -7,7 +7,8 @@ namespace Implem.PostgreSql
         private static ISqls sqls = new PostgreSqlSqls();
         private static ISqlCommandText sqlCommandText = new PostgreSqlCommandText();
         private static ISqlResult sqlResult = new PostgreSqlResult();
-        private static ISqlDataTypes sqlDataTypes = new PostgreSqlDataTypes();
+        private static ISqlDataType sqlDataTypes = new PostgreSqlDataType();
+        private static ISqlDefinitionSetting sqlDefinitionSetting = new PostgreSqlDefinitionSetting();
 
         public ISqlErrors SqlErrors
         {
@@ -25,6 +26,11 @@ namespace Implem.PostgreSql
         public ISqlConnection CreateSqlConnection(string connectionString)
         {
             return new PostgreSqlConnection(connectionString);
+        }
+
+        public ISqlConnectionStringBuilder CreateSqlConnectionStringBuilder(string connectionString)
+        {
+            return new PostgreSqlConnectionStringBuilder(connectionString);
         }
 
         public ISqlDataAdapter CreateSqlDataAdapter(ISqlCommand sqlCommand)
@@ -66,11 +72,19 @@ namespace Implem.PostgreSql
             }
         }
 
-        public ISqlDataTypes SqlDataTypes
+        public ISqlDataType SqlDataType
         {
             get
             {
                 return sqlDataTypes;
+            }
+        }
+
+        public ISqlDefinitionSetting SqlDefinitionSetting
+        {
+            get
+            {
+                return sqlDefinitionSetting;
             }
         }
     }

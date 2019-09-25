@@ -25,14 +25,16 @@ namespace Implem.Pleasanter.Libraries.Responses
             return res
                 .Html(!bodyOnly ? "#ViewModeContainer" : bodySelector, body)
                 .View(context: context, ss: ss, view: view)
-                .ReplaceAll("#Breadcrumb", new HtmlBuilder()
-                    .Breadcrumb(
+                .ReplaceAll(
+                    "#Breadcrumb",
+                    new HtmlBuilder().Breadcrumb(
                         context: context,
-                        ss: ss))
+                        ss: ss),
+                    _using: context.Controller == "items")
                 .ReplaceAll("#Guide", new HtmlBuilder()
                     .Guide(
                         context: context,
-                        ss:ss))
+                        ss: ss))
                 .ReplaceAll("#CopyDirectUrlToClipboard", new HtmlBuilder()
                     .CopyDirectUrlToClipboard(
                         context: context,

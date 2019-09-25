@@ -47,6 +47,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             bool alwaysSend = false,
             string idSuffix = null,
             bool preview = false,
+            bool disableSection = false,
             bool _using = true)
         {
             if (column.UserColumn && value == User.UserTypes.Anonymous.ToInt().ToString())
@@ -55,7 +56,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             }
             if (columnPermissionType != Permissions.ColumnPermissionTypes.Deny && _using)
             {
-                if (column.Section != null && !controlOnly)
+                if (column.Section != null && !controlOnly && !disableSection)
                 {
                     hb.Div(
                         css: "field-section",
@@ -72,7 +73,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     context: context,
                     ss: ss,
                     column: column,
-                    columnPermissionType: context.Publish
+                    columnPermissionType: context.Publish || column.EditorReadOnly == true
                         ? Permissions.ColumnPermissionTypes.Read
                         : columnPermissionType,
                     controlId: !preview
@@ -326,6 +327,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                 text: value,
                                 placeholder: column.LabelText,
                                 readOnly: column.EditorReadOnly == true,
+                                allowBulkUpdate: column.AllowBulkUpdate == true,
                                 allowImage: column.AllowImage == true,
                                 mobile: mobile,
                                 alwaysSend: alwaysSend,
@@ -837,6 +839,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             string placeholder = null,
             bool readOnly = false,
             bool allowImage = true,
+            bool allowBulkUpdate = false,
             bool mobile = false,
             bool alwaysSend = false,
             bool validateRequired = false,
@@ -865,6 +868,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                             placeholder: placeholder,
                             readOnly: readOnly,
                             allowImage: allowImage,
+                            allowBulkUpdate: allowBulkUpdate,
                             mobile: mobile,
                             alwaysSend: alwaysSend,
                             validateRequired: validateRequired,
@@ -1413,6 +1417,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             string value = null,
             string placeholder = null,
             bool readOnly = false,
+            bool allowBulkUpdate = false,
             bool validateRequired = false,
             Dictionary<string, string> attributes = null,
             bool preview = false,
@@ -1438,6 +1443,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                             value: value,
                             placeholder: placeholder,
                             readOnly: readOnly,
+                            allowBulkUpdate: allowBulkUpdate,
                             validateRequired: validateRequired,
                             attributes: attributes,
                             preview: preview))

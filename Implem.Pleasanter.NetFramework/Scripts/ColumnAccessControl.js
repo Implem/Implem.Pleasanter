@@ -5,7 +5,8 @@
         $('#ColumnAccessControlDialog').dialog({
             modal: true,
             width: '900px',
-            appendTo: '#Editor'
+            appendTo: '#Editor',
+            resizable: false
         });
     }
 }

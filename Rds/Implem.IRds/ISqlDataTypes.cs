@@ -1,10 +1,9 @@
 ﻿namespace Implem.IRds
 {
-    public interface ISqlDataTypes
+    public interface ISqlDataType
     {
-        int MaxIdentifierLength { get; }
-        int NationalCharacterSizeCoefficient { get; }
         string Convert(string name);
         string ConvertBack(string name);
+        string DefaultDefinition(object dbRawValue);
     }
 }

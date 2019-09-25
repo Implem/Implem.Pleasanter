@@ -130,7 +130,11 @@ namespace Implem.Pleasanter.Models
                     .Div(attributes: new HtmlAttributes()
                         .Id("ExportSelectorDialog")
                         .Class("dialog")
-                        .Title(Displays.Export(context: context))))
+                        .Title(Displays.Export(context: context)))
+                        .Div(attributes: new HtmlAttributes()
+                                .Id("BulkUpdateSelectorDialog")
+                                .Class("dialog")
+                                .Title(Displays.BulkUpdate(context: context))))
                     .ToString();
         }
 
@@ -151,6 +155,7 @@ namespace Implem.Pleasanter.Models
                             ss: ss,
                             gridData: gridData,
                             view: view))
+                .Events("on_grid_load")
                 .ToJson();
         }
 
@@ -322,7 +327,7 @@ namespace Implem.Pleasanter.Models
                         ss: ss,
                         dataRows: gridData.DataRows,
                         columns: columns,
-                        checkAll: checkAll,
+                        gridSelector: null,
                         checkRow: checkRow));
         }
 
@@ -347,6 +352,7 @@ namespace Implem.Pleasanter.Models
                 context: context,
                 ss: ss,
                 view: view,
+                tableType: Sqls.TableTypes.Normal,
                 where: Rds.UsersWhere().UserId(userId))
                     .DataRows
                     .FirstOrDefault();
@@ -372,7 +378,7 @@ namespace Implem.Pleasanter.Models
                                 context: context,
                                 view: view,
                                 checkPermission: true),
-                            checkAll: false,
+                            gridSelector: null,
                             editRow: true,
                             checkRow: false,
                             idColumn: "UserId"))
@@ -1116,17 +1122,11 @@ namespace Implem.Pleasanter.Models
                 title: userModel.MethodType == BaseModel.MethodTypes.New
                     ? Displays.Users(context: context) + " - " + Displays.New(context: context)
                     : userModel.Title.Value,
-                action: () =>
-                {
-                    hb
-                        .Editor(
-                            context: context,
-                            ss: ss,
-                            userModel: userModel)
-                        .Hidden(controlId: "TableName", value: "Users")
-                        .Hidden(controlId: "Controller", value: context.Controller)
-                        .Hidden(controlId: "Id", value: userModel.UserId.ToString());
-                }).ToString();
+                action: () => hb
+                    .Editor(
+                        context: context,
+                        ss: ss,
+                        userModel: userModel)).ToString();
         }
 
         /// <summary>
@@ -1290,7 +1290,7 @@ namespace Implem.Pleasanter.Models
             return hb;
         }
 
-        public static void Field(
+        public static HtmlBuilder Field(
             this HtmlBuilder hb,
             Context context,
             SiteSettings ss,
@@ -1299,7 +1299,8 @@ namespace Implem.Pleasanter.Models
             bool controlOnly = false,
             bool alwaysSend = false,
             string idSuffix = null,
-            bool preview = false)
+            bool preview = false,
+            bool disableSection = false)
         {
             var value = userModel.ControlValue(
                 context: context,
@@ -1317,8 +1318,10 @@ namespace Implem.Pleasanter.Models
                     controlOnly: controlOnly,
                     alwaysSend: alwaysSend,
                     idSuffix: idSuffix,
-                    preview: preview);
+                    preview: preview,
+                    disableSection: disableSection);
             }
+            return hb;
         }
 
         public static string ControlValue(
@@ -1604,7 +1607,9 @@ namespace Implem.Pleasanter.Models
                         selector: "#ResetPasswordDialog");
                 }
             }
-            if (context.HasPrivilege && context.User.Id != userModel.UserId)
+            if (context.HasPrivilege
+               && context.User.Id != userModel.UserId
+               && !userModel.Disabled)
             {
                 hb.Button(
                     text: Displays.SwitchUser(context: context),
@@ -1931,6 +1936,11 @@ namespace Implem.Pleasanter.Models
             {
                 return Error.Types.UsersLimit.MessageJson(context: context);
             }
+            if (Parameters.Security.JoeAccountCheck
+                && context.Forms.Get("Users_Password") == context.Forms.Get("Users_LoginId"))
+            {
+                return Error.Types.JoeAccountCheck.MessageJson(context: context);
+            }
             var userModel = new UserModel(
                 context: context,
                 ss: ss,
@@ -2054,7 +2064,7 @@ namespace Implem.Pleasanter.Models
                             ss: ss,
                             dataRows: gridData.DataRows,
                             columns: columns,
-                            checkAll: false))
+                            gridSelector: null))
                     .CloseDialog()
                     .Message(Messages.Updated(
                         context: context,
@@ -2111,9 +2121,7 @@ namespace Implem.Pleasanter.Models
                     var res = new UsersResponseCollection(userModel);
                     res
                         .SetMemory("formChanged", false)
-                        .Href(Locations.Index(
-                            context: context,
-                            controller: "Users"));
+                        .Invoke("back");
                     return res.ToJson();
                 default:
                     return errorData.Type.MessageJson(context: context);
@@ -2226,7 +2234,18 @@ namespace Implem.Pleasanter.Models
             userModel.VerType = context.Forms.Bool("Latest")
                 ? Versions.VerTypes.Latest
                 : Versions.VerTypes.History;
-            return EditorResponse(context, ss, userModel).ToJson();
+            return EditorResponse(context, ss, userModel)
+                .PushState("History", Locations.Get(
+                    context: context,
+                    parts: new string[]
+                    {
+                        "Items",
+                        userId.ToString() 
+                            + (userModel.VerType == Versions.VerTypes.History
+                                ? "?ver=" + context.Forms.Int("Ver") 
+                                : string.Empty)
+                    }))
+                .ToJson();
         }
 
         /// <summary>
@@ -2283,38 +2302,6 @@ namespace Implem.Pleasanter.Models
             {
                 return Messages.ResponseHasNotPermission(context: context).ToJson();
             }
-        }
-
-        private static int BulkDelete(
-            Context context,
-            SiteSettings ss,
-            SqlWhereCollection where)
-        {
-            var sub = Rds.SelectUsers(
-                column: Rds.UsersColumn().UserId(),
-                join: ss.Join(
-                    context: context,
-                    join: where),
-                where: where);
-            var statements = new List<SqlStatement>();
-            statements.OnBulkDeletingExtendedSqls(ss.SiteId);
-            statements.Add(Rds.DeleteItems(
-                factory: context,
-                where: Rds.ItemsWhere()
-                    .ReferenceId_In(sub: sub)));
-            statements.Add(Rds.DeleteBinaries(
-                factory: context,
-                where: Rds.BinariesWhere()
-                    .TenantId(context.TenantId)
-                    .ReferenceId_In(sub: sub)));
-            statements.Add(Rds.DeleteUsers(factory: context, where: where));
-            statements.Add(Rds.RowCount());
-            statements.OnBulkDeletedExtendedSqls(ss.SiteId);
-            return Repository.ExecuteScalar_response(
-                context: context,
-                transactional: true,
-                statements: statements.ToArray())
-                    .Count.ToInt();
         }
 
         /// <summary>
@@ -3545,12 +3532,12 @@ namespace Implem.Pleasanter.Models
                 where: view.Where(context: context, ss: ss)
                 .Users_TenantId(context.TenantId)
                 .SqlWhereLike(
-                    tableName: null,
+                    tableName: "\"Users\"",
                     name: "SearchText",
                     searchText: view.ColumnFilterHash
-                    ?.Where(f => f.Key == "SearchText")
-                    ?.Select(f => f.Value)
-                    ?.FirstOrDefault(),
+                        ?.Where(f => f.Key == "SearchText")
+                        ?.Select(f => f.Value)
+                        ?.FirstOrDefault(),
                     clauseCollection: new List<string>()
                     {
                         Rds.Users_LoginId_WhereLike(factory: context),
@@ -3591,7 +3578,15 @@ namespace Implem.Pleasanter.Models
         /// <returns></returns>
         public static string SwitchUser(Context context)
         {
-            var invalid = UserValidators.OnSwitchUser(context: context);
+            var userModel = new UserModel(
+                context: context,
+                ss: null,
+                userId: context.Controller == "users"
+                    ? context.Id.ToInt()
+                    : 0);
+            var invalid = UserValidators.OnSwitchUser(
+                context: context,
+                userModel: userModel);
             switch (invalid.Type)
             {
                 case Error.Types.None: break;
@@ -3599,12 +3594,6 @@ namespace Implem.Pleasanter.Models
                     context: context,
                     errorData: invalid);
             }
-            var userModel = new UserModel(
-                context: context,
-                ss: null,
-                userId: context.Controller == "users"
-                    ? context.Id.ToInt()
-                    : 0);
             if (userModel.AccessStatus == Databases.AccessStatuses.Selected)
             {
                 SessionUtilities.Set(
@@ -3638,7 +3627,7 @@ namespace Implem.Pleasanter.Models
         /// </summary>
         public static string ReturnOriginalUser(Context context)
         {
-            var invalid = UserValidators.OnSwitchUser(context: context);
+            var invalid = UserValidators.OnReturnSwitchUser(context: context);
             switch (invalid.Type)
             {
                 case Error.Types.None: break;
@@ -3687,7 +3676,7 @@ namespace Implem.Pleasanter.Models
             }
             foreach (var policy in Parameters.Security.PasswordPolicies.Where(o => o.Enabled))
             {
-                if(!userModel.Password.RegexExists(policy.Regex))
+                if (!(context.RequestDataString.Deserialize<UserApiModel>().Password ?? "").RegexExists(policy.Regex))
                 {
                     return ApiResults.Error(
                         context: context,
@@ -3766,7 +3755,10 @@ namespace Implem.Pleasanter.Models
                         data: column.ColumnName);
                 }
             }
-            var errorData = userModel.Update(context: context, ss: ss);
+            var errorData = userModel.Update(
+                context: context,
+                ss: ss,
+                updateMailAddresses: false);
             switch (errorData.Type)
             {
                 case Error.Types.None:

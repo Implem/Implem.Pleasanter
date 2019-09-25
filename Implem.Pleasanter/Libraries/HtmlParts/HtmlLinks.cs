@@ -141,48 +141,36 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                         column,
                         where,
                         orderBy
-                    }).Aggregate(new SqlJoinCollection(new SqlJoin(
-                        tableBracket: "\"Sites\"",
-                        joinType: SqlJoin.JoinTypes.Inner,
-                        joinExpression: "\"Sites\".\"SiteId\"=\"Issues\".\"SiteId\"")),
-                        (collection, join) =>
-                        collection.Add(
-                            tableName: join.TableBracket,
-                            joinType: join.JoinType,
-                            joinExpression: join.JoinExpression,
-                            _as: join.As)),
+                    })
+                        .Add(
+                            tableName: "\"Sites\"",
+                            joinType: SqlJoin.JoinTypes.Inner,
+                            joinExpression: "\"Sites\".\"SiteId\"=\"Issues\".\"SiteId\""),
                 where: where,
                 orderBy: orderBy);
         }
 
-        public static Rds.IssuesColumnCollection IssuesLinkColumns(
-            Context context, SiteSettings ss, View view, string direction)
+        public static SqlColumnCollection IssuesLinkColumns(
+            Context context,
+            SiteSettings ss,
+            View view,
+            string direction)
         {
-            var column = Rds.IssuesColumn()
-                .SiteId()
-                .IssueId();
-            var linkTableColumns = ss.GetLinkTableColumns(
-                context: context,
-                view: view)
-                    .Select(o => o.ColumnName)
-                    .ToList();
-            linkTableColumns.ForEach(columnName =>
+            if (ss.Links?.Any() == true)
             {
-                switch (columnName)
-                {
-                    case "Title":
-                        ss.TitleColumns?
-                            .Where(o => o == "Title"
-                                || linkTableColumns.Contains(o) != true)
-                            .ForEach(o =>
-                                column.IssuesColumn(o));
-                        break;
-                    default:
-                        column.IssuesColumn(columnName);
-                        break;
-                }
-            });
-            return column.Add("'" + direction + "' as Direction");
+                ss.SetLinkedSiteSettings(context: context);
+            }
+            var column = ColumnUtilities.SqlColumnCollection(
+                context: context,
+                ss: ss,
+                columns: ss.GetLinkTableColumns(
+                    context: context,
+                    view: view));
+            column.Add("'" + direction + "' as Direction");
+            return new SqlColumnCollection(column
+                .GroupBy(o => o.ColumnBracket + o.As)
+                .Select(o => o.First())
+                .ToArray());
         }
 
         private static SqlStatement SelectResults(
@@ -224,48 +212,36 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                         column,
                         where,
                         orderBy
-                    }).Aggregate(new SqlJoinCollection(new SqlJoin(
-                        tableBracket: "\"Sites\"",
-                        joinType: SqlJoin.JoinTypes.Inner,
-                        joinExpression: "\"Sites\".\"SiteId\"=\"Results\".\"SiteId\"")),
-                        (collection, join) =>
-                        collection.Add(
-                            tableName: join.TableBracket,
-                            joinType: join.JoinType,
-                            joinExpression: join.JoinExpression,
-                            _as: join.As)),
+                    })
+                        .Add(
+                            tableName: "\"Sites\"",
+                            joinType: SqlJoin.JoinTypes.Inner,
+                            joinExpression: "\"Sites\".\"SiteId\"=\"Results\".\"SiteId\""),
                 where: where,
                 orderBy: orderBy);
         }
 
-        public static Rds.ResultsColumnCollection ResultsLinkColumns(
-            Context context, SiteSettings ss, View view, string direction)
+        public static SqlColumnCollection ResultsLinkColumns(
+            Context context,
+            SiteSettings ss,
+            View view,
+            string direction)
         {
-            var column = Rds.ResultsColumn()
-                .SiteId()
-                .ResultId();
-            var linkTableColumns = ss.GetLinkTableColumns(
-                context: context,
-                view: view)
-                    .Select(o => o.ColumnName)
-                    .ToList();
-            linkTableColumns.ForEach(columnName =>
+            if (ss.Links?.Any() == true)
             {
-                switch (columnName)
-                {
-                    case "Title":
-                        ss.TitleColumns?
-                            .Where(o => o == "Title"
-                                || linkTableColumns.Contains(o) != true)
-                            .ForEach(o =>
-                                column.ResultsColumn(o));
-                        break;
-                    default:
-                        column.ResultsColumn(columnName);
-                        break;
-                }
-            });
-            return column.Add("'" + direction + "' as Direction");
+                ss.SetLinkedSiteSettings(context: context);
+            }
+            var column = ColumnUtilities.SqlColumnCollection(
+                context: context,
+                ss: ss,
+                columns: ss.GetLinkTableColumns(
+                    context: context,
+                    view: view));
+            column.Add("'" + direction + "' as Direction");
+            return new SqlColumnCollection(column
+                .GroupBy(o => o.ColumnBracket + o.As)
+                .Select(o => o.First())
+                .ToArray());
         }
 
         private static SqlSelect Targets(
@@ -461,6 +437,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             string direction,
             string dataTableName)
         {
+            ss.SetChoiceHash(dataRows: dataRows);
             return hb.Table(
                 id: dataTableName,
                 css: "grid",

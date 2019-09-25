@@ -478,6 +478,7 @@ namespace Implem.Pleasanter.Models
                     title: wikiModel.MethodType == BaseModel.MethodTypes.New
                         ? Displays.New(context: context)
                         : wikiModel.Title.DisplayValue,
+                    body: wikiModel.Body,
                     useTitle: ss.TitleColumns?.Any(o => ss.EditorColumns.Contains(o)) == true,
                     userScript: ss.EditorScripts(
                         context: context, methodType: wikiModel.MethodType),
@@ -488,9 +489,6 @@ namespace Implem.Pleasanter.Models
                             context: context,
                             ss: ss,
                             wikiModel: wikiModel)
-                        .Hidden(controlId: "TableName", value: "Wikis")
-                        .Hidden(controlId: "Controller", value: context.Controller)
-                        .Hidden(controlId: "Id", value: wikiModel.WikiId.ToString())
                         .Hidden(controlId: "TriggerRelatingColumns", value: Jsons.ToJson(ss.RelatingColumns))
                         .Hidden(controlId: "DropDownSearchPageSize", value: Parameters.General.DropDownSearchPageSize.ToString()))
                             .ToString();
@@ -664,7 +662,7 @@ namespace Implem.Pleasanter.Models
             return hb;
         }
 
-        public static void Field(
+        public static HtmlBuilder Field(
             this HtmlBuilder hb,
             Context context,
             SiteSettings ss,
@@ -673,7 +671,8 @@ namespace Implem.Pleasanter.Models
             bool controlOnly = false,
             bool alwaysSend = false,
             string idSuffix = null,
-            bool preview = false)
+            bool preview = false,
+            bool disableSection = false)
         {
             var value = wikiModel.ControlValue(
                 context: context,
@@ -691,8 +690,10 @@ namespace Implem.Pleasanter.Models
                     controlOnly: controlOnly,
                     alwaysSend: alwaysSend,
                     idSuffix: idSuffix,
-                    preview: preview);
+                    preview: preview,
+                    disableSection: disableSection);
             }
+            return hb;
         }
 
         public static string ControlValue(
@@ -990,7 +991,7 @@ namespace Implem.Pleasanter.Models
                             ss: ss,
                             dataRows: gridData.DataRows,
                             columns: columns,
-                            checkAll: false))
+                            gridSelector: null))
                     .CloseDialog()
                     .Message(Messages.Updated(
                         context: context,
@@ -1051,16 +1052,7 @@ namespace Implem.Pleasanter.Models
                     var res = new WikisResponseCollection(wikiModel);
                 res
                     .SetMemory("formChanged", false)
-                    .Href(Locations.ItemIndex(
-                        context: context,
-                        id: Repository.ExecuteScalar_long(
-                            context: context,
-                            statements: Rds.SelectSites(
-                                tableType: Sqls.TableTypes.Deleted,
-                                column: Rds.SitesColumn().ParentId(),
-                                where: Rds.SitesWhere()
-                                    .TenantId(context.TenantId)
-                                    .SiteId(wikiModel.SiteId)))));
+                    .Invoke("back");
                     return res.ToJson();
                 default:
                     return errorData.Type.MessageJson(context: context);
@@ -1124,25 +1116,109 @@ namespace Implem.Pleasanter.Models
                     sub: Rds.SelectWikis(
                         tableType: Sqls.TableTypes.Deleted,
                         column: Rds.WikisColumn().WikiId(),
-                        where: Views.GetBySession(context: context, ss: ss).Where(context: context, ss: ss)));
-            return Repository.ExecuteScalar_response(
+                        where: Views.GetBySession(
+                            context: context,
+                            ss: ss)
+                                .Where(
+                                    context: context,
+                                    ss: ss,
+                                    itemJoin: false)));
+            var sub = Rds.SelectWikis(
+                tableType: Sqls.TableTypes.Deleted,
+                _as: "Wikis_Deleted",
+                column: Rds.WikisColumn()
+                    .WikiId(tableName: "Wikis_Deleted"),
+                where: where);
+            var column = new Rds.WikisColumnCollection();
+                column.WikiId();
+                ss.Columns
+                    .Where(o => o.TypeCs == "Attachments")
+                    .Select(o => o.ColumnName)
+                    .ForEach(columnName =>
+                        column.Add($"[{columnName}]"));
+                var attachments = Rds.ExecuteTable(
+                    context: context,
+                    statements: Rds.SelectWikis(
+                        tableType: Sqls.TableTypes.Deleted,
+                        column: column,
+                        where: Rds.WikisWhere()
+                            .SiteId(ss.SiteId)
+                            .WikiId_In(sub: sub)))
+                    .AsEnumerable()
+                    .Select(dataRow => new
+                    {
+                        wikiId = dataRow.Long("WikiId"),
+                        attachments = dataRow
+                            .Columns()
+                            .Where(columnName => columnName.StartsWith("Attachments"))
+                            .SelectMany(columnName => 
+                                Jsons.Deserialize<IEnumerable<Attachment>>(dataRow.String(columnName)) 
+                                    ?? Enumerable.Empty<Attachment>())
+                            .Where(o => o != null)
+                            .Select(o => o.Guid)
+                            .Distinct()
+                            .ToArray()
+                    })
+                    .Where(o => o.attachments.Length > 0);
+            var guid = Strings.NewGuid();
+            var count = Repository.ExecuteScalar_response(
                 context: context,
                 connectionString: Parameters.Rds.OwnerConnectionString,
                 transactional: true,
                 statements: new SqlStatement[]
                 {
-                    Rds.RestoreItems(
-                        factory: context,
-                        where: Rds.ItemsWhere().ReferenceId_In(sub:
-                        Rds.SelectWikis(
-                            tableType: Sqls.TableTypes.Deleted,
-                            _as: "Wikis_Deleted",
-                            column: Rds.WikisColumn()
-                                .WikiId(tableName: "Wikis_Deleted"),
-                            where: where))),
+                    Rds.UpdateItems(
+                        tableType: Sqls.TableTypes.Deleted,
+                        where: Rds.ItemsWhere()
+                            .SiteId(ss.SiteId)
+                            .ReferenceId_In(sub: sub),
+                        param: Rds.ItemsParam()
+                            .ReferenceType(guid)),
                     Rds.RestoreWikis(factory: context, where: where),
-                    Rds.RowCount()
+                    Rds.RowCount(),
+                    Rds.RestoreItems(factory: context, where: Rds.ItemsWhere()
+                        .SiteId(ss.SiteId)
+                        .ReferenceType(guid)),
+                    Rds.UpdateItems(
+                        where: Rds.ItemsWhere()
+                            .SiteId(ss.SiteId)
+                            .ReferenceType(guid),
+                        param: Rds.ItemsParam()
+                            .ReferenceType(ss.ReferenceType))
                 }).Count.ToInt();
+            attachments.ForEach(o =>
+            {
+                RestoreAttachments(context, o.wikiId, o.attachments);
+            });    
+            return count;
+        }
+
+        private static void RestoreAttachments(Context context, long wikiId, IList<string> attachments)
+        {
+            var raw = $" ({string.Join(", ", attachments.Select(o => $"'{o}'"))}) ";
+            Rds.ExecuteNonQuery(
+                context: context,
+                connectionString: Parameters.Rds.OwnerConnectionString,
+                statements: new SqlStatement[] {
+                    Rds.DeleteBinaries(
+                        factory: context,
+                        where: Rds.BinariesWhere()
+                            .ReferenceId(wikiId)
+                            .BinaryType("Attachments")
+                            .Binaries_Guid(
+                                _operator:" not in ",
+                                raw: raw,
+                                _using: attachments.Any())),
+                    Rds.RestoreBinaries(
+                        factory: context,
+                        where: Rds.BinariesWhere()
+                            .ReferenceId(wikiId)
+                            .BinaryType("Attachments")
+                            .Binaries_Guid(
+                                _operator: $" in ",
+                                raw: raw),
+                        _using: attachments.Any())
+            }, transactional: true);
         }
 
         public static string RestoreFromHistory(
@@ -1186,12 +1262,21 @@ namespace Implem.Pleasanter.Models
             switch (errorData.Type)
             {
                 case Error.Types.None:
+                    RestoreAttachments(
+                        context: context,
+                        wikiId: wikiModel.WikiId,
+                        attachments: wikiModel
+                            .AttachmentsHash
+                            .Values
+                            .SelectMany(o => o.AsEnumerable())
+                            .Select(o => o.Guid)
+                            .Distinct().ToArray());
                     SessionUtilities.Set(
                         context: context,
                         message: Messages.RestoredFromHistory(
                             context: context,
                             data: ver.First().ToString()));
-                    return  new ResponseCollection()
+                    return new ResponseCollection()
                         .SetMemory("formChanged", false)
                         .Href(Locations.ItemEdit(
                             context: context,
@@ -1308,7 +1393,18 @@ namespace Implem.Pleasanter.Models
             wikiModel.VerType = context.Forms.Bool("Latest")
                 ? Versions.VerTypes.Latest
                 : Versions.VerTypes.History;
-            return EditorResponse(context, ss, wikiModel).ToJson();
+            return EditorResponse(context, ss, wikiModel)
+                .PushState("History", Locations.Get(
+                    context: context,
+                    parts: new string[]
+                    {
+                        "Items",
+                        wikiId.ToString() 
+                            + (wikiModel.VerType == Versions.VerTypes.History
+                                ? "?ver=" + context.Forms.Int("Ver") 
+                                : string.Empty)
+                    }))
+                .ToJson();
         }
 
         public static string DeleteHistory(Context context, SiteSettings ss, long wikiId)

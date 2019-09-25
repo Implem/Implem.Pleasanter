@@ -7,5 +7,6 @@
     "FixedFrom": null,
     "AllowedFrom": null,
     "SupportFrom": "\"Pleasanter.org\" <support@pleasanter.org>",
-    "InternalDomains": ""
+    "InternalDomains": "",
+    "AddressValidation": "\\b[A-Z0-9._%+-]+@[A-Z0-9.-]+\\.[A-Z]+\\b"
 }

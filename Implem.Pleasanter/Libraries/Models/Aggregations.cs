@@ -18,7 +18,7 @@ namespace Implem.Pleasanter.Libraries.Models
         public Aggregations(Context context, SiteSettings ss, View view)
         {
             var tableType = (view.ShowHistory == true)
-                ? Sqls.TableTypes.NormalAndHistory
+                ? Sqls.TableTypes.Normal
                 : ss.TableType;
             var where = view.Where(
                 context: context,

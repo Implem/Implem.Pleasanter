@@ -14,22 +14,20 @@ namespace Implem.Pleasanter.NetCore.Tools
 {
     public class BackgroundTasks : IBackgroundTasks
     {
-        ContextImplement _context { get; }
+        private ContextImplement Context;
+        public static DateTime LatestTime;
+
         public BackgroundTasks(ContextImplement context)
         {
-            _context = context;
+           Context = context;
         }
-
-        public static DateTime LatestTime;
 
         public string Do()
         {
             var now = DateTime.Now;
             while ((DateTime.Now - now).Seconds <= Parameters.BackgroundTask.BackgroundTaskSpan)
             {
-                SysLogUtilities.Maintain(context: _context);
-                SearchIndexUtilities.Maintain(context: _context);
-                SearchIndexUtilities.RebuildSearchIndexes(context: _context);
+                SysLogUtilities.Maintain(context: Context);
                 Thread.Sleep(Parameters.BackgroundTask.Interval);
                 LatestTime = DateTime.Now;
             }

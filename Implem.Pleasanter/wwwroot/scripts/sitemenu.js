@@ -23,6 +23,7 @@ $p.openLinkDialog = function () {
     $('#LinkDialog').dialog({
         modal: true,
         width: '420px',
-        appendTo: '.main-form'
+        appendTo: '.main-form',
+        resizable: false
     });
 }

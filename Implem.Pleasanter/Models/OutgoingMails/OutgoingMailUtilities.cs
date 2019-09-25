@@ -571,7 +571,7 @@ namespace Implem.Pleasanter.Models
                                 .MailAddresses_OwnerType("Users")
                                 .SearchText(
                                 context: context,
-                                searchText:  searchText)
+                                searchText: searchText)
                                 .Users_TenantId(context.TenantId))
                         : new Dictionary<string, ControlData>();
             }
@@ -585,7 +585,7 @@ namespace Implem.Pleasanter.Models
         {
             return self
                 .SqlWhereLike(
-                    tableName: null,
+                    tableName: "Users",
                     name: "SearchText",
                     searchText: searchText,
                     clauseCollection: new List<string>()

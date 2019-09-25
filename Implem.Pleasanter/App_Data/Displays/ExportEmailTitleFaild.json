@@ -1,0 +1,13 @@
+﻿{
+    "Id": "ExportEmailTitleFaild",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Failed to export."
+        },
+        {
+            "Language": "ja",
+            "Body": "エクスポートに失敗しました。"
+        }
+    ]
+}

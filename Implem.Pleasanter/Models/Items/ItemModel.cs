@@ -140,6 +140,43 @@ namespace Implem.Pleasanter.Models
             return this;
         }
 
+        public System.Web.Mvc.ContentResult ExportByApi(Context context)
+        {
+            SetSite(context: context);
+            if (!WithinApiLimits(context: context, siteModel: Site))
+            {
+                return ApiResults.Get(ApiResponses.OverLimit(context: context, Site.SiteId, Parameters.Api.LimitPerSite));
+            }
+            switch (Site.ReferenceType)
+            {
+                case "Issues":
+                    if (SiteId == ReferenceId)
+                    {
+                        return IssueUtilities.ExportByApi(
+                            context: context,
+                            ss: Site.IssuesSiteSettings(
+                                context: context,
+                                referenceId: ReferenceId),
+                            siteModel: Site);
+                    }
+                    break;
+                case "Results":
+                    if (SiteId == ReferenceId)
+                    {
+                        return ResultUtilities.ExportByApi(
+                            context: context,
+                            ss: Site.ResultsSiteSettings(
+                                context: context,
+                                referenceId: ReferenceId),
+                            siteModel: Site);
+                    }
+                    break;
+                default:
+                    return ApiResults.Get(ApiResponses.BadRequest(context: context));
+            }
+            return ApiResults.Get(ApiResponses.BadRequest(context: context));
+        }
+
         public string Index(Context context)
         {
             if (ReferenceId == 0)
@@ -808,6 +845,68 @@ namespace Implem.Pleasanter.Models
             }
         }
 
+        public string OpenSetNumericRangeDialog(Context context)
+        {
+            SetSite(
+                context: context,
+                initSiteSettings: true);
+            if (context.CanRead(Site.SiteSettings))
+            {
+                var columnName = context.Forms.ControlId()
+                    .Replace("ViewFilters__", string.Empty)
+                    .Replace("_NumericRange", string.Empty);
+                var column = Site.SiteSettings.GetColumn(
+                    context: context,
+                    columnName: columnName);
+                return new ResponseCollection()
+                    .Html(
+                        "#SetNumericRangeDialog",
+                        new HtmlBuilder().SetNumericRangeDialog(
+                            context: context,
+                            ss: Site.SiteSettings,
+                            column: column,
+                            itemfilter: true))
+                    .ToJson();
+            }
+            else
+            {
+                return Messages.ResponseNotFound(context: context).ToJson();
+            }
+        }
+
+        public string OpenSetDateRangeDialog(Context context)
+        {
+            SetSite(
+                context: context,
+                initSiteSettings: true);
+            if (context.CanRead(Site.SiteSettings))
+            {
+                var columnName = context.Forms.ControlId()
+                    .Replace("ViewFilters__", string.Empty)
+                    .Replace("_DateRange", string.Empty);
+                var column = Site.SiteSettings.GetColumn(
+                    context: context,
+                    columnName: columnName);
+                return new ResponseCollection()
+                    .Html(
+                        "#SetDateRangeDialog",
+                        new HtmlBuilder().
+                            Input(
+                                attributes: new HtmlAttributes()
+                                    .Style("opacity: 0; position: absolute; top: 0; left: 0;"))
+                            .SetDateRangeDialog(
+                                context: context,
+                                ss: Site.SiteSettings,
+                                column: column,
+                                itemfilter: true))
+                    .ToJson();
+            }
+            else
+            {
+                return Messages.ResponseNotFound(context: context).ToJson();
+            }
+        }
+
         public ResponseFile Export(Context context)
         {
             SetSite(context: context);
@@ -820,7 +919,7 @@ namespace Implem.Pleasanter.Models
                             context: context,
                             referenceId: ReferenceId,
                             setSiteIntegration: true,
-                            setAllChoices: true),
+                            setAllChoices: false),
                         siteModel: Site);
                 case "Results":
                     return ResultUtilities.Export(
@@ -829,10 +928,52 @@ namespace Implem.Pleasanter.Models
                             context: context,
                             referenceId: ReferenceId,
                             setSiteIntegration: true,
-                            setAllChoices: true),
+                            setAllChoices: false),
                         siteModel: Site);
                 default:
                     return null;
+            }
+        }
+
+        public string ExportAsync(Context context)
+        {
+            SetSite(context: context);
+            var export = Site.SiteSettings.Exports?
+                .Where(exp => exp.Id == context.Forms.Int("ExportId"))?
+                .FirstOrDefault();
+            if(export?.ExecutionType != Libraries.Settings.Export.ExecutionTypes.MailNotify)
+            {
+                return Error.Types.InvalidRequest.MessageJson(context: context);
+            }
+            if(MailAddressUtilities.Get(context: context, context.UserId).IsNullOrEmpty())
+            {
+                return Messages.ResponseExportNotSetEmail(
+                    context: context, 
+                    target: null, 
+                    $"{context.User.Name}<{context.User.LoginId}>").ToJson();
+            }
+            switch (Site.ReferenceType)
+            {
+                case "Issues":
+                    return IssueUtilities.ExportAsync(
+                        context: context,
+                        ss: Site.IssuesSiteSettings(
+                            context: context,
+                            referenceId: ReferenceId,
+                            setSiteIntegration: true,
+                            setAllChoices: false),
+                        siteModel: Site);
+                case "Results":
+                    return ResultUtilities.ExportAsync(
+                        context: context,
+                        ss: Site.ResultsSiteSettings(
+                            context: context,
+                            referenceId: ReferenceId,
+                            setSiteIntegration: true,
+                            setAllChoices: false),
+                        siteModel: Site);
+                default:
+                    return Error.Types.InvalidRequest.MessageJson(context: context);
             }
         }
 
@@ -919,7 +1060,7 @@ namespace Implem.Pleasanter.Models
                     .SelectableItems(
                         listItemCollection: column?.EditChoices(
                             context: context,
-                            addNotSet: nextOffset == -1)))
+                            addNotSet: offset == 0)))
                 .Val("#DropDownSearchResultsOffset", nextOffset)
                 .ToJson();
         }
@@ -1021,7 +1162,7 @@ namespace Implem.Pleasanter.Models
                         ? controlId.Substring("ViewFilters__".Length)
                         : controlId.Substring("ViewFiltersOnGridHeader__".Length))
                     : controlId.Split_2nd('_'));
-            var searchIndexes = searchText.SearchIndexes(context: context);
+            var searchIndexes = searchText.SearchIndexes();
             if (column?.Linked() == true)
             {
                 column?.SetChoiceHash(
@@ -1033,7 +1174,8 @@ namespace Implem.Pleasanter.Models
                         searchIndexes: searchIndexes,
                         offset: offset,
                         parentClass: parentClass,
-                        parentId: parentId),
+                        parentId: parentId,
+                        setTotalCount: true),
                     searchIndexes: searchIndexes);
             }
             else
@@ -1041,7 +1183,8 @@ namespace Implem.Pleasanter.Models
                 ss.SetChoiceHash(
                     context: context,
                     columnName: column?.ColumnName,
-                    searchIndexes: searchIndexes);
+                    searchIndexes: searchIndexes,
+                    setTotalCount: true);
             }
             return column;
         }
@@ -1241,9 +1384,13 @@ namespace Implem.Pleasanter.Models
             }
         }
 
-        public System.Web.Mvc.ContentResult GetByApi(Context context)
+        public System.Web.Mvc.ContentResult GetByApi(Context context, bool internalRequest = false)
         {
             SetSite(context: context);
+            if (!WithinApiLimits(context: context, siteModel: Site))
+            {
+                return ApiResults.Get(ApiResponses.OverLimit(context: context, Site.SiteId, Parameters.Api.LimitPerSite));
+            }
             switch (Site.ReferenceType)
             {
                 case "Issues":
@@ -1253,7 +1400,8 @@ namespace Implem.Pleasanter.Models
                             context: context,
                             ss: Site.IssuesSiteSettings(
                                 context: context,
-                                referenceId: ReferenceId));
+                                referenceId: ReferenceId),
+                            internalRequest: internalRequest);
                     }
                     else
                     {
@@ -1262,7 +1410,8 @@ namespace Implem.Pleasanter.Models
                             ss: Site.IssuesSiteSettings(
                                 context: context,
                                 referenceId: ReferenceId),
-                            issueId: ReferenceId);
+                            issueId: ReferenceId,
+                            internalRequest: internalRequest);
                     }
                 case "Results":
                     if (SiteId == ReferenceId)
@@ -1271,7 +1420,8 @@ namespace Implem.Pleasanter.Models
                             context: context,
                             ss: Site.ResultsSiteSettings(
                                 context: context,
-                                referenceId: ReferenceId));
+                                referenceId: ReferenceId),
+                            internalRequest: internalRequest);
                     }
                     else
                     {
@@ -1280,11 +1430,27 @@ namespace Implem.Pleasanter.Models
                             ss: Site.ResultsSiteSettings(
                                 context: context,
                                 referenceId: ReferenceId),
-                            resultId: ReferenceId);
+                            resultId: ReferenceId,
+                            internalRequest: internalRequest);
                     }
                 default:
                     return ApiResults.Get(ApiResponses.BadRequest(context: context));
             }
+        }
+
+        private bool WithinApiLimits(Context context, SiteModel siteModel)
+        {
+            if (siteModel.ApiCountDate.Date < DateTime.Now.Date)
+            {
+                siteModel.ApiCountDate = DateTime.Now;
+                siteModel.ApiCount = 0;
+            }
+            if (Parameters.Api.LimitPerSite != 0
+                && siteModel.ApiCount >= Parameters.Api.LimitPerSite)
+            {
+                return false;
+            }
+            return true;
         }
 
         public string Create(Context context)
@@ -1317,6 +1483,10 @@ namespace Implem.Pleasanter.Models
         public System.Web.Mvc.ContentResult CreateByApi(Context context)
         {
             SetSite(context: context);
+            if (!WithinApiLimits(context: context, siteModel: Site))
+            {
+                return ApiResults.Get(ApiResponses.OverLimit(context: context, Site.SiteId, Parameters.Api.LimitPerSite));
+            }
             switch (Site.ReferenceType)
             {
                 case "Issues":
@@ -1416,6 +1586,54 @@ namespace Implem.Pleasanter.Models
             }
         }
 
+        public string OpenBulkUpdateSelectorDialog(Context context)
+        {
+            SetSite(context: context, initSiteSettings: true);
+            switch (Site.ReferenceType)
+            {
+                case "Issues":
+                    return IssueUtilities.OpenBulkUpdateSelectorDialog(
+                        context: context,
+                        ss: Site.IssuesSiteSettings(
+                            context: context,
+                            referenceId: ReferenceId,
+                            setSiteIntegration: true));
+                case "Results":
+                    return ResultUtilities.OpenBulkUpdateSelectorDialog(
+                        context: context,
+                        ss: Site.ResultsSiteSettings(
+                            context: context,
+                            referenceId: ReferenceId,
+                            setSiteIntegration: true));
+                default:
+                    return Messages.ResponseNotFound(context: context).ToJson();
+            }
+        }
+
+        public string BulkUpdateSelectChanged(Context context)
+        {
+            SetSite(context: context, initSiteSettings: true);
+            switch (Site.ReferenceType)
+            {
+                case "Issues":
+                    return IssueUtilities.BulkUpdateSelectChanged(
+                        context: context,
+                        ss: Site.IssuesSiteSettings(
+                            context: context,
+                            referenceId: ReferenceId,
+                            setSiteIntegration: true));
+                case "Results":
+                    return ResultUtilities.BulkUpdateSelectChanged(
+                        context: context,
+                        ss: Site.ResultsSiteSettings(
+                            context: context,
+                            referenceId: ReferenceId,
+                            setSiteIntegration: true));
+                default:
+                    return Messages.ResponseNotFound(context: context).ToJson();
+            }
+        }
+
         public string BulkUpdate(Context context)
         {
             SetSite(context: context);
@@ -1438,9 +1656,35 @@ namespace Implem.Pleasanter.Models
             }
         }
 
+        public string UpdateByGrid(Context context)
+        {
+            SetSite(context: context);
+            switch (Site.SiteSettings.ReferenceType)
+            {
+                case "Issues":
+                    return IssueUtilities.UpdateByGrid(
+                        context: context,
+                        ss: Site.IssuesSiteSettings(
+                            context: context,
+                            referenceId: ReferenceId));
+                case "Results":
+                    return ResultUtilities.UpdateByGrid(
+                        context: context,
+                        ss: Site.ResultsSiteSettings(
+                            context: context,
+                            referenceId: ReferenceId));
+                default:
+                    return Messages.ResponseNotFound(context: context).ToJson();
+            }
+        }
+
         public System.Web.Mvc.ContentResult UpdateByApi(Context context)
         {
             SetSite(context: context);
+            if (!WithinApiLimits(context: context, siteModel: Site))
+            {
+                return ApiResults.Get(ApiResponses.OverLimit(context: context, Site.SiteId, Parameters.Api.LimitPerSite));
+            }
             switch (Site.ReferenceType)
             {
                 case "Issues":
@@ -1627,6 +1871,10 @@ namespace Implem.Pleasanter.Models
         public System.Web.Mvc.ContentResult DeleteByApi(Context context)
         {
             SetSite(context: context);
+            if (!WithinApiLimits(context: context, siteModel: Site))
+            {
+                return ApiResults.Get(ApiResponses.OverLimit(context: context, Site.SiteId, Parameters.Api.LimitPerSite));
+            }
             switch (Site.ReferenceType)
             {
                 case "Issues":
@@ -1929,7 +2177,7 @@ namespace Implem.Pleasanter.Models
             {
                 case "Sites":
                     return SiteUtilities.EditorJson(
-                        context: context,
+                context: context,
                         siteModel: Site);
                 case "Issues":
                     return IssueUtilities.EditorJson(

@@ -42,7 +42,7 @@ namespace Implem.CodeDefiner.Functions.Rds.Parts
             {
                 return true;
             }
-            if (!(factory.SqlDataTypes.ConvertBack(rdsColumn["TypeName"].ToString()) == columnDefinition.TypeName))
+            if (!(factory.SqlDataType.ConvertBack(rdsColumn["TypeName"].ToString()) == columnDefinition.TypeName))
             {
                 return true;
             }
@@ -116,7 +116,7 @@ namespace Implem.CodeDefiner.Functions.Rds.Parts
             {
                 commandText += " not null";
             }
-            return factory.SqlDataTypes.Convert(commandText);
+            return factory.SqlDataType.Convert(commandText);
         }
     }
 }

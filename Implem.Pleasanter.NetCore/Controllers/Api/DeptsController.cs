@@ -1,11 +1,8 @@
 ﻿using Implem.Pleasanter.NetCore.Libraries.Requests;
+using Implem.Pleasanter.NetCore.Libraries.Responses;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.IO;
-using System.Net.Http;
-using System.Threading.Tasks;
-using Implem.Pleasanter.NetCore.Libraries.Responses;
-
 namespace Implem.Pleasanter.NetCore.Controllers.Api
 {
     [AllowAnonymous]

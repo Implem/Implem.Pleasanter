@@ -2,7 +2,6 @@
 using Implem.Pleasanter.NetCore.Tools;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-
 namespace Implem.Pleasanter.NetCore.Controllers
 {
     [Authorize]

@@ -376,7 +376,7 @@ namespace Implem.Pleasanter.Libraries.ViewModes
         private static Dictionary<string, ControlData> Weekly(DateTime date)
         {
             var hash = new Dictionary<string, ControlData>();
-            var end = CrosstabUtilities.WeeklyEndDate(date);
+            var end = WeeklyEndDate(date);
             for (var i = -77; i <= 0; i += 7)
             {
                 var day = end.AddDays(i);

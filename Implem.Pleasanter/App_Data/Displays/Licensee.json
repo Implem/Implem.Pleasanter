@@ -1,0 +1,13 @@
+﻿{
+    "Id": "Licensee",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Licensee"
+        },
+        {
+            "Language": "ja",
+            "Body": "使用者"
+        }
+    ]
+}

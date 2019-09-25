@@ -43,7 +43,8 @@ namespace Implem.Pleasanter.Libraries.Migrators.Statuses
                                 context: context,
                                 columnName: o.Key),
                             id: i + 1))
-                        .ToList()));
+                        .ToList(),
+                    executionType: Export.ExecutionTypes.Direct));
                 Repository.ExecuteNonQuery(
                     context: context,
                     statements: Rds.UpdateSites(

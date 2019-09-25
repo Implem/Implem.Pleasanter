@@ -4,9 +4,9 @@ using Implem.Libraries.Utilities;
 using Implem.Pleasanter.Libraries.DataSources;
 using Implem.Pleasanter.Libraries.DataTypes;
 using Implem.Pleasanter.Libraries.Requests;
+using Implem.Pleasanter.Libraries.Search;
 using Implem.Pleasanter.Libraries.Security;
 using Implem.Pleasanter.Libraries.Server;
-using Implem.Pleasanter.Models;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -343,6 +343,16 @@ namespace Implem.Pleasanter.Libraries.Settings
                                 ShowHistory = Bool(
                                     context: context,
                                     controlId: controlId);
+                                ColumnSorterHash = new Dictionary<string, SqlOrderBy.Types>();
+                                if (ShowHistory == true)
+                                {
+                                    ColumnSorterHash.Add(
+                                        Rds.IdColumn(ss.ReferenceType),
+                                        SqlOrderBy.Types.desc);
+                                    ColumnSorterHash.Add(
+                                        "Ver",
+                                        SqlOrderBy.Types.desc);
+                                }
                                 break;
                             case "ViewFilters_Search":
                                 Search = String(
@@ -781,7 +791,8 @@ namespace Implem.Pleasanter.Libraries.Settings
             Context context,
             SiteSettings ss,
             SqlWhereCollection where = null,
-            bool checkPermission = true)
+            bool checkPermission = true,
+            bool itemJoin = true)
         {
             if (where == null) where = new SqlWhereCollection();
             SetGeneralsWhere(
@@ -795,12 +806,20 @@ namespace Implem.Pleasanter.Libraries.Settings
             SetSearchWhere(
                 context: context,
                 ss: ss,
-                where: where);
+                where: where,
+                itemJoin: itemJoin);
             Permissions.SetCanReadWhere(
                 context: context,
                 ss: ss,
                 where: where,
                 checkPermission: checkPermission);
+            where.OnSelectingWhereExtendedSqls(ss: ss);
+            if (RequestSearchCondition(
+                context: context,
+                ss: ss))
+            {
+                where.Add(raw: "(0=1)");
+            }
             return where;
         }
 
@@ -1010,95 +1029,77 @@ namespace Implem.Pleasanter.Libraries.Settings
         private void CsNumericColumns(Column column, string value, SqlWhereCollection where)
         {
             var param = value.Deserialize<List<string>>();
-            if (param.Any())
+            if (param.Count == 0) { return; }
+            var collection = new SqlWhereCollection();
+            collection.AddRange(param
+                .Where(o => o.RegexExists(@"^-?[0-9\.]*,-?[0-9\.]*$"))
+                .SelectMany(o => CsNumericRangeColumns(column, o)));
+            collection.AddRange(param
+                .Where(o => o == "\t")
+                .SelectMany(o => CsNumericColumnsWhereNull(column)));
+            var valueWhere = CsNumericColumnsWhere(
+                column,
+                param
+                    .Where(o => !o.RegexExists(@"^-?[0-9\.]*,-?[0-9\.]*$"))
+                    .Where(o => o != "\t"));
+            if (valueWhere != null)
             {
-                if (param.All(o => o.RegexExists(@"^[0-9\.]*,[0-9\.]*$")))
-                {
-                    CsNumericRangeColumns(column, param, where);
-                }
-                else
-                {
-                    CsNumericColumns(column, param, where);
-                }
+                collection.Add(valueWhere);
             }
+            where.Add(or: collection);
         }
 
-        private void CsNumericColumns(
-            Column column, List<string> param, SqlWhereCollection where)
+        private SqlWhere CsNumericColumnsWhere(Column column, IEnumerable<string> param)
         {
-            if (param.Any())
-            {
-                where.Add(or: new SqlWhereCollection(
-                    CsNumericColumnsWhere(column, param),
-                    CsNumericColumnsWhereNull(column, param)));
-            }
+            var numList = param.Select(o => o.ToDecimal());
+            if (!numList.Any()) { return null; }
+            return new SqlWhere(
+                tableName: column.TableName(),
+                columnBrackets: ("\"" + column.Name + "\"").ToSingleArray(),
+                name: column.Name,
+                _operator: " in ({0})".Params(numList.Join()));
         }
 
-        private SqlWhere CsNumericColumnsWhere(Column column, List<string> param)
+        private IEnumerable<SqlWhere> CsNumericColumnsWhereNull(Column column)
         {
-            return param.Any(o => o != "\t")
-                ? new SqlWhere(
+            yield return new SqlWhere(
+                tableName: column.TableName(),
+                    columnBrackets: ("\"" + column.Name + "\"").ToSingleArray(),
+                    _operator: " is null");
+            yield return new SqlWhere(
+                tableName: column.TableName(),
+                columnBrackets: ("\"" + column.Name + "\"").ToSingleArray(),
+                _operator: "={0}".Params(column.UserColumn
+                    ? User.UserTypes.Anonymous.ToInt()
+                    : 0));
+        }
+
+        private IEnumerable<SqlWhere> CsNumericRangeColumns(Column column, string param)
+        {
+            var from = param.Split_1st();
+            var to = param.Split_2nd();
+            if (from == string.Empty)
+            {
+                yield return new SqlWhere(
                     tableName: column.TableName(),
                     columnBrackets: ("\"" + column.Name + "\"").ToSingleArray(),
-                    name: column.Name,
-                    _operator: " in ({0})".Params(param
-                        .Where(o => o != "\t")
-                        .Select(o => o.ToDecimal())
-                        .Join()))
-                : null;
-        }
-
-        private SqlWhere CsNumericColumnsWhereNull(Column column, List<string> param)
-        {
-            return param.Any(o => o == "\t")
-                ? new SqlWhere(or: new SqlWhereCollection(
-                    new SqlWhere(
-                        tableName: column.TableName(),
-                        columnBrackets: ("\"" + column.Name + "\"").ToSingleArray(),
-                        _operator: " is null"),
-                    new SqlWhere(
-                        tableName: column.TableName(),
-                        columnBrackets: ("\"" + column.Name + "\"").ToSingleArray(),
-                        _operator: "={0}".Params(column.UserColumn
-                            ? User.UserTypes.Anonymous.ToInt()
-                            : 0))))
-                : null;
-        }
-
-        private void CsNumericRangeColumns(
-            Column column,
-            List<string> param,
-            SqlWhereCollection where)
-        {
-            var parts = new SqlWhereCollection();
-            param.ForEach(data =>
+                    _operator: "<={0}".Params(to.ToDecimal()));
+            }
+            else if (to == string.Empty)
             {
-                var from = data.Split_1st();
-                var to = data.Split_2nd();
-                if (from == string.Empty)
-                {
-                    parts.Add(new SqlWhere(
-                        tableName: column.TableName(),
-                        columnBrackets: ("\"" + column.Name + "\"").ToSingleArray(),
-                        _operator: "<{0}".Params(to.ToDecimal())));
-                }
-                else if (to == string.Empty)
-                {
-                    parts.Add(new SqlWhere(
-                        tableName: column.TableName(),
-                        columnBrackets: ("\"" + column.Name + "\"").ToSingleArray(),
-                        _operator: ">={0}".Params(from.ToDecimal())));
-                }
-                else
-                {
-                    parts.Add(new SqlWhere(
-                        tableName: column.TableName(),
-                        columnBrackets: ("\"" + column.Name + "\"").ToSingleArray(),
-                        _operator: " between {0} and {1}".Params(
-                            from.ToDecimal(), to.ToDecimal())));
-                }
-            });
-            where.Add(or: parts);
+                yield return new SqlWhere(
+                    tableName: column.TableName(),
+                    columnBrackets: ("\"" + column.Name + "\"").ToSingleArray(),
+                    _operator: ">={0}".Params(from.ToDecimal()));
+            }
+            else
+            {
+                yield return new SqlWhere(
+                    tableName: column.TableName(),
+                    columnBrackets: ("\"" + column.Name + "\"").ToSingleArray(),
+                    _operator: " between {0} and {1}".Params(
+                        from.ToDecimal(), to.ToDecimal()));
+            }
         }
 
         private void CsDateTimeColumns(
@@ -1125,7 +1126,8 @@ namespace Implem.Pleasanter.Libraries.Settings
             return param.Any(o => o != "\t")
                 ? new SqlWhere(
                     tableName: column.TableName(),
-                    raw: param.Select(range => {
+                    raw: param.Select(range =>
+                    {
                         var from = range.Split_1st();
                         var to = range.Split_2nd();
                         if (!from.IsNullOrEmpty() && !to.IsNullOrEmpty())
@@ -1203,13 +1205,14 @@ namespace Implem.Pleasanter.Libraries.Settings
             {
                 if (!value.IsNullOrEmpty())
                 {
+                    var tableName = column.TableName();
                     var name = Strings.NewGuid();
                     where.SqlWhereLike(
-                        tableName: column.TableName(),
+                        tableName: tableName,
                         name: name,
                         searchText: value,
                         clauseCollection: "(\"{0}\".\"{1}\" like '%' + @{2}#ParamCount#_#CommandCount# + '%')"
-                            .Params(column.TableName(), column.Name, name)
+                            .Params(tableName, column.Name, name)
                             .ToSingleList());
                 }
             }
@@ -1276,14 +1279,35 @@ namespace Implem.Pleasanter.Libraries.Settings
                 : orderBy;
         }
 
-        private void SetSearchWhere(Context context, SiteSettings ss, SqlWhereCollection where)
+        private void SetSearchWhere(
+            Context context,
+            SiteSettings ss,
+            SqlWhereCollection where,
+            bool itemJoin)
         {
             if (Search.IsNullOrEmpty()) return;
             where.FullTextWhere(
                 context: context,
                 ss: ss,
-                tableName: ss.ReferenceType,
-                searchText: Search);
+                searchText: Search,
+                itemJoin: itemJoin);
+        }
+
+        public bool RequestSearchCondition(Context context, SiteSettings ss)
+        {
+            var where = new SqlWhereCollection();
+            SetColumnsWhere(
+                context: context,
+                ss: ss,
+                where: where);
+            return (ss.AlwaysRequestSearchCondition == true)
+                && (Incomplete != true
+                    && Own != true
+                    && NearCompletionTime != true
+                    && Delay != true
+                    && Overdue != true
+                    && where.Any() != true
+                    && Search.IsNullOrEmpty());
         }
     }
 }

@@ -1,4 +1,8 @@
 ﻿$(document).ready(function () {
+    $p.initRelatingColumn();
+});
+
+$p.initRelatingColumn = function () {
     var param = $('#TriggerRelatingColumns').val();
     if (param === undefined) return;
     var rcols = JSON.parse(param);
@@ -11,8 +15,7 @@
             prekey = rcols[k].Columns[k2];
         }
     }
-});
-
+};
 $p.applyRelatingColumn = function (prnt, chld, linkedClass) {
     $(document).ready(function () {
         var tablename = $('#TableName').val();
@@ -25,9 +28,10 @@ $p.applyRelatingColumn = function (prnt, chld, linkedClass) {
         });
     });
 
-    var c_change = function (tablename, siteid, linkedClass) {
+    var c_change = function (tablename, siteid) {
         var parentId = $('#' + tablename + '_' + prnt + ' option:selected').val();
         var childId = $('#' + tablename + '_' + chld + ' option:selected').val();
+        var childDisabled = $('#' + tablename + '_' + chld).prop('disabled');
         $('#' + tablename + '_' + chld).prop('disabled', true);
         $('#' + tablename + '_' + chld).empty();
         $('#' + tablename + '_' + chld)
@@ -36,10 +40,10 @@ $p.applyRelatingColumn = function (prnt, chld, linkedClass) {
                 .prop('id', 'Temporary_' + chld)
                 .prop('selected', true));
         $('#' + tablename + '_' + chld).append($('<option>').val(''));
-        refreshCombo(tablename, siteid, null, parentId, childId, false);
+        refreshCombo(tablename, siteid, null, parentId, childId, false, childDisabled);
     };
 
-    var refreshCombo = function (tablename, siteid, json, parentSelectedId, childSelectedId, childSelected) {
+    var refreshCombo = function (tablename, siteid, json, parentSelectedId, childSelectedId, childSelected, childDisabled) {
         $('#' + tablename + '_' + chld).attr('parent-data-class', linkedClass);
         $('#' + tablename + '_' + chld).attr('parent-data-id', parentSelectedId === '' ? '-1' : parentSelectedId);
         var offset = 0;
@@ -53,10 +57,10 @@ $p.applyRelatingColumn = function (prnt, chld, linkedClass) {
                 pagesize : (totalcount - offset);
             for (var i = 0; i < loopmax; i++) {
                 var id = json.Response.Data[i].ResultId;
-                if (id == undefined) id = json.Response.Data[i].IssueId;
+                if (id === undefined) id = json.Response.Data[i].IssueId;
                 var title = json.Response.Data[i].ItemTitle;
                 var isSelected = false;
-                if (id == childSelectedId) {
+                if (id === Number(childSelectedId)) {
                     childSelected = true;
                     isSelected = true;
                 }
@@ -73,7 +77,7 @@ $p.applyRelatingColumn = function (prnt, chld, linkedClass) {
             param.View.ColumnSorterHash = new Object();
             param.View.ColumnSorterHash['ItemTitle'] = 0;
             var urlpath = $('#ApplicationPath').val() +
-                'api/items/' + escape((siteid - 0)) + '/get';
+                'items/' + escape((siteid - 0)) + '/get';
             $.ajax({
                 type: 'POST',
                 url: urlpath,
@@ -83,14 +87,14 @@ $p.applyRelatingColumn = function (prnt, chld, linkedClass) {
                 scriptCharset: 'utf-8',
                 async: false
             }).done(function (json) {
-                if (json.StatusCode == 200) {
-                    refreshCombo(tablename, siteid, json, parentSelectedId, childSelectedId, childSelected);
+                if (json.StatusCode === 200) {
+                    refreshCombo(tablename, siteid, json, parentSelectedId, childSelectedId, childSelected, childDisabled);
                 } else {
                     alert('Error\r\nStatusCode:' + json.StatusCode);
                 }
             }).fail(function (XMLHttpRequest, textStatus, errorThrown) {
                 alert(textStatus + '\r\n' + errorThrown);
-                $('#' + tablename + '_' + chld).prop('disabled', false);
+                $('#' + tablename + '_' + chld).prop('disabled', childDisabled);
             });
         } else {
             if (childSelectedId > 0
@@ -100,7 +104,7 @@ $p.applyRelatingColumn = function (prnt, chld, linkedClass) {
                 $('#' + tablename + '_' + chld).trigger('change');
             }
             $('#Temporary_' + chld).remove();
-            $('#' + tablename + '_' + chld).prop('disabled', false);
+            $('#' + tablename + '_' + chld).prop('disabled', childDisabled);
         }
     };
 }

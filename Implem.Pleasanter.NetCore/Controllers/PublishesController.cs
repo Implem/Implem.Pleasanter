@@ -2,7 +2,6 @@
 using Implem.Pleasanter.NetCore.Libraries.Requests;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-
 namespace Implem.Pleasanter.NetCore.Controllers
 {
     [AllowAnonymous]

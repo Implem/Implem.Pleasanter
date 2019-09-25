@@ -11,7 +11,8 @@
             modal: true,
             width: '90%',
             height: 'auto',
-            dialogClass: 'outgoing-mail'
+            dialogClass: 'outgoing-mail',
+            resizable: false
         });
     }
 }
@@ -24,7 +25,8 @@ $p.openOutgoingMailReplyDialog = function ($control) {
             modal: true,
             width: '90%',
             height: 'auto',
-            dialogClass: 'outgoing-mail'
+            dialogClass: 'outgoing-mail',
+            resizable: false
         });
     }
 }

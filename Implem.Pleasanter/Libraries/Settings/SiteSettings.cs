@@ -9,6 +9,7 @@ using Implem.Pleasanter.Libraries.General;
 using Implem.Pleasanter.Libraries.HtmlParts;
 using Implem.Pleasanter.Libraries.Requests;
 using Implem.Pleasanter.Libraries.Responses;
+using Implem.Pleasanter.Libraries.Search;
 using Implem.Pleasanter.Libraries.Security;
 using Implem.Pleasanter.Libraries.Server;
 using Implem.Pleasanter.Models;
@@ -86,12 +87,20 @@ namespace Implem.Pleasanter.Libraries.Settings
         public List<JoinStack> JoinStacks = new List<JoinStack>();
         [NonSerialized]
         public bool Linked;
+        [NonSerialized]
+        public bool SetAllChoices;
+        [NonSerialized]
+        public DateTime ApiCountDate;
+        [NonSerialized]
+        public int ApiCount;
         public string ReferenceType;
         public decimal? NearCompletionTimeAfterDays;
         public decimal? NearCompletionTimeBeforeDays;
         public int? GridPageSize;
         public int? GridView;
         public GridEditorTypes? GridEditorType;
+        public bool? HistoryOnGrid;
+        public bool? AlwaysRequestSearchCondition;
         public int? LinkTableView;
         public int? FirstDayOfWeek;
         public int? FirstMonth;
@@ -116,6 +125,8 @@ namespace Implem.Pleasanter.Libraries.Settings
         public SettingList<Script> Scripts;
         public SettingList<RelatingColumn> RelatingColumns;
         public bool? AllowEditingComments;
+        public bool? AllowSeparate;
+        public bool? AllowLockTable;
         public bool? SwitchRecordWithAjax;
         public bool? EnableCalendar;
         public bool? EnableCrosstab;
@@ -164,7 +175,6 @@ namespace Implem.Pleasanter.Libraries.Settings
         public string GridScript;
         // compatibility Version 1.015
         public bool? EditInDialog;
-        
 
         public SiteSettings()
         {
@@ -209,6 +219,10 @@ namespace Implem.Pleasanter.Libraries.Settings
             UpdateColumns(context: context);
             UpdateColumnHash();
             Update_ColumnAccessControls();
+            if (context.TrashboxActions())
+            {
+                RemoveSourceColumns(context: context);
+            }
             if (Aggregations == null) Aggregations = new List<Aggregation>();
             if (Links == null) Links = new List<Link>();
             if (Summaries == null) Summaries = new SettingList<Summary>();
@@ -221,6 +235,8 @@ namespace Implem.Pleasanter.Libraries.Settings
             if (RelatingColumns == null) RelatingColumns = new SettingList<RelatingColumn>();
             if (Styles == null) Styles = new SettingList<Style>();
             AllowEditingComments = AllowEditingComments ?? false;
+            AllowSeparate = AllowSeparate ?? false;
+            AllowLockTable = AllowLockTable ?? false;
             SwitchRecordWithAjax = SwitchRecordWithAjax ?? false;
             EnableCalendar = EnableCalendar ?? true;
             EnableCrosstab = EnableCrosstab ?? true;
@@ -234,6 +250,7 @@ namespace Implem.Pleasanter.Libraries.Settings
             TitleSeparator = TitleSeparator ?? ")";
             UseFiltersArea = UseFiltersArea ?? true;
             UseGridHeaderFilters = UseGridHeaderFilters ?? false;
+            SearchType = SearchType ?? SearchTypes.PartialMatch;
         }
 
         public void SetLinkedSiteSettings(
@@ -501,6 +518,14 @@ namespace Implem.Pleasanter.Libraries.Settings
             {
                 ss.GridEditorType = GridEditorType;
             }
+            if (HistoryOnGrid == true)
+            {
+                ss.HistoryOnGrid = HistoryOnGrid;
+            }
+            if (AlwaysRequestSearchCondition == true)
+            {
+                ss.AlwaysRequestSearchCondition = AlwaysRequestSearchCondition;
+            }
             if (LinkTableView != 0)
             {
                 ss.LinkTableView = LinkTableView;
@@ -532,6 +557,14 @@ namespace Implem.Pleasanter.Libraries.Settings
             if (AllowEditingComments == true)
             {
                 ss.AllowEditingComments = AllowEditingComments;
+            }
+            if (AllowSeparate == true)
+            {
+                ss.AllowSeparate = AllowSeparate;
+            }
+            if (AllowLockTable == true)
+            {
+                ss.AllowLockTable = AllowLockTable;
             }
             if (SwitchRecordWithAjax==true)
             {
@@ -585,7 +618,7 @@ namespace Implem.Pleasanter.Libraries.Settings
             {
                 ss.TitleSeparator = TitleSeparator;
             }
-            if (SearchType != SearchTypes.FullText)
+            if (SearchType != SearchTypes.PartialMatch)
             {
                 ss.SearchType = SearchType;
             }
@@ -653,13 +686,13 @@ namespace Implem.Pleasanter.Libraries.Settings
                 }
                 ss.Notifications.Add(notification.GetRecordingData());
             });
-            Reminders?.ForEach(notification =>
+            Reminders?.ForEach(reminder =>
             {
                 if (ss.Reminders == null)
                 {
                     ss.Reminders = new SettingList<Reminder>();
                 }
-                ss.Reminders.Add(notification.GetRecordingData(context: context));
+                ss.Reminders.Add(reminder.GetRecordingData(context: context));
             });
             Exports?.ForEach(exportSetting =>
             {
@@ -904,6 +937,11 @@ namespace Implem.Pleasanter.Libraries.Settings
                     {
                         enabled = true;
                         newColumn.AllowImage = column.AllowImage;
+                    }
+                    if (column.AllowBulkUpdate == true)
+                    {
+                        enabled = true;
+                        newColumn.AllowBulkUpdate = column.AllowBulkUpdate;
                     }
                     if (column.FieldCss != columnDefinition.FieldCss)
                     {
@@ -1218,6 +1256,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                 column.NoDuplication = column.NoDuplication ?? false;
                 column.CopyByDefault = column.CopyByDefault ?? false;
                 column.EditorReadOnly = column.EditorReadOnly ?? columnDefinition.EditorReadOnly;
+                column.AllowBulkUpdate = column.AllowBulkUpdate ?? false;
                 column.AllowImage = column.AllowImage ?? true;
                 column.FieldCss = column.FieldCss ?? columnDefinition.FieldCss;
                 column.Unit = column.Unit ?? columnDefinition.Unit;
@@ -1291,19 +1330,6 @@ namespace Implem.Pleasanter.Libraries.Settings
                     break;
             }
             return null;
-        }
-
-        private string LanguagesLabelText(Context context, string labelText)
-        {
-            var hash = labelText?.Deserialize<Dictionary<string, string>>();
-            if (hash != null)
-            {
-                return hash.Get(context.Language) ?? hash.Get("");
-            }
-            else
-            {
-                return labelText;
-            }
         }
 
         private void UpdateColumnHash()
@@ -1390,38 +1416,25 @@ namespace Implem.Pleasanter.Libraries.Settings
             var ss = column.SiteSettings;
             ss.CreateColumnAccessControls
                 .Where(o => o.ColumnName == column.Name)
-                .ForEach(o =>
-                {
-                    column.CanCreate =
-                            o.Allowed(
-                                context: context,
-                                ss: this,
-                                type: PermissionType,
-                                mine: mine) &&
-                            column.EditorReadOnly != true;
-                });
+                .ForEach(o => column.CanCreate = o.Allowed(
+                    context: context,
+                    ss: this,
+                    type: PermissionType,
+                    mine: mine));
             ss.ReadColumnAccessControls
                 .Where(o => o.ColumnName == column.Name)
-                .ForEach(o =>
-                {
-                    column.CanRead = o.Allowed(
-                            context: context,
-                            ss: this,
-                            type: PermissionType,
-                            mine: mine);
-                });
+                .ForEach(o => column.CanRead = o.Allowed(
+                    context: context,
+                    ss: this,
+                    type: PermissionType,
+                    mine: mine));
             ss.UpdateColumnAccessControls
                 .Where(o => o.ColumnName == column.Name)
-                .ForEach(o =>
-                {
-                    column.CanUpdate =
-                            o.Allowed(
-                                context: context,
-                                ss: this,
-                                type: PermissionType,
-                                mine: mine) &&
-                            column.EditorReadOnly != true;
-                });
+                .ForEach(o => column.CanUpdate = o.Allowed(
+                    context: context,
+                    ss: this,
+                    type: PermissionType,
+                    mine: mine));
         }
 
         private decimal DefaultMax(ColumnDefinition columnDefinition)
@@ -1596,6 +1609,47 @@ namespace Implem.Pleasanter.Libraries.Settings
                 .Where(o => context.ContractSettings.Attachments()
                     || o.ControlType != "Attachments")
                 .ToList();
+        }
+
+        public List<Column> GetAllowBulkUpdateColumns(Context context, SiteSettings ss)
+        {
+            var formula = new Formula();
+            var data = new Dictionary<string, decimal>();
+            var getResult = formula.GetResult(data);
+            var formulaColumns = ss.Formulas.Select(set => set.Formula.ColumnName).ToList();
+            return GetEditorColumns(context: context)
+                .Where(c => !c.Id_Ver)
+                .Where(c => c.EditorReadOnly != true)
+                .Where(c => c.NoDuplication != true)
+                .Where(c => c.ColumnName != "Comments")
+                .Where(column => !Formulas.Any(formulaSet =>
+                    formulaSet.Target == column.ColumnName
+                    || ContainsFormulaColumn(
+                        columnName: column.ColumnName,
+                        children: formulaSet.Formula.Children)))
+                .Where(column => column.AllowBulkUpdate == true)
+                .Where(column => column.CanUpdate)
+                .ToList();
+            
+        }
+
+        private bool ContainsFormulaColumn(string columnName, List<Formula> children)
+        {
+            if (children != null)
+            {
+                foreach (var formula in children)
+                {
+                    if (formula.ColumnName == columnName)
+                    {
+                        return true;
+                    }
+                    var ret = ContainsFormulaColumn(
+                        columnName: columnName,
+                        children: formula.Children);
+                    if (ret) return true;
+                }
+            }
+            return false;
         }
 
         public List<Column> GetTitleColumns(Context context)
@@ -1878,7 +1932,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                         .TenantId(context.TenantId)
                         .ReferenceType(ReferenceType)
                         .SiteId(SiteId)
-                        .Add(name: "HasPrivilege", value: context.HasPrivilege ? 1 : 0)))
+                        .Add(name: "HasPrivilege", value: context.HasPrivilege)))
                             .AsEnumerable());
             return enabled
                 ? MoveTargets?.Any() == true
@@ -2138,7 +2192,7 @@ namespace Implem.Pleasanter.Libraries.Settings
             Context context, bool datetime = false)
         {
             var hash = new Dictionary<string, string>();
-            JoinOptions().ForEach(join =>
+            JoinOptions(sources: false).ForEach(join =>
             {
                 var siteId = ColumnUtilities.GetSiteIdByTableAlias(join.Key, SiteId);
                 var ss = JoinedSsHash.Get(siteId);
@@ -2303,7 +2357,10 @@ namespace Implem.Pleasanter.Libraries.Settings
                 .ToDictionary(o => o.ColumnName, o => o.GridLabelText);
         }
 
-        public Dictionary<string, string> JoinOptions(SiteSettings ss = null)
+        public Dictionary<string, string> JoinOptions(
+            SiteSettings ss = null,
+            bool destinations = true,
+            bool sources = true)
         {
             var hash = new Dictionary<string, string>();
             if (ss == null)
@@ -2318,10 +2375,16 @@ namespace Implem.Pleasanter.Libraries.Settings
                         joinStack.TableName(),
                         joinStack.DisplayName(currentTitle: Title)));
             }
-            ss.Destinations?.Values.ForEach(currentSs =>
-                hash.AddRange(JoinOptions(ss: currentSs)));
-            ss.Sources?.Values.ForEach(currentSs =>
-                hash.AddRange(JoinOptions(ss: currentSs)));
+            if (destinations)
+            {
+                ss.Destinations?.Values.ForEach(currentSs =>
+                    hash.AddRange(JoinOptions(ss: currentSs)));
+            }
+            if (sources)
+            {
+                ss.Sources?.Values.ForEach(currentSs =>
+                    hash.AddRange(JoinOptions(ss: currentSs)));
+            }
             return hash;
         }
 
@@ -2329,8 +2392,9 @@ namespace Implem.Pleasanter.Libraries.Settings
         {
             return Columns
                 .Where(o =>
-                    EditorColumns.Contains(o.ColumnName) ||
-                    GridColumns.Contains(o.ColumnName))
+                    EditorColumns.Contains(o.ColumnName)
+                    || GridColumns.Contains(o.ColumnName)
+                    || !Def.ExtendedColumnTypes.ContainsKey(o.ColumnName))
                 .Where(o => !noJoined || !o.Joined)
                 .Where(o => o.CanRead)
                 .ToList();
@@ -2366,10 +2430,14 @@ namespace Implem.Pleasanter.Libraries.Settings
                 case "GridPageSize": GridPageSize = value.ToInt(); break;
                 case "GridView": GridView = value.ToInt(); break;
                 case "GridEditorType": GridEditorType = (GridEditorTypes)value.ToInt(); break;
+                case "HistoryOnGrid": HistoryOnGrid = value.ToBool(); break;
+                case "AlwaysRequestSearchCondition": AlwaysRequestSearchCondition = value.ToBool(); break;
                 case "LinkTableView": LinkTableView = value.ToInt(); break;
                 case "FirstDayOfWeek": FirstDayOfWeek = value.ToInt(); break;
                 case "FirstMonth": FirstMonth = value.ToInt(); break;
                 case "AllowEditingComments": AllowEditingComments = value.ToBool(); break;
+                case "AllowSeparate": AllowSeparate = value.ToBool(); break;
+                case "AllowLockTable": AllowLockTable = value.ToBool(); break;
                 case "SwitchRecordWithAjax":SwitchRecordWithAjax = value.ToBool(); break;
                 case "EnableCalendar": EnableCalendar = value.ToBool(); break;
                 case "EnableCrosstab": EnableCrosstab = value.ToBool(); break;
@@ -2412,7 +2480,6 @@ namespace Implem.Pleasanter.Libraries.Settings
 
         public List<Aggregation> GetAggregations(Context context)
         {
-            var id = 1;
             var aggregations = new List<Aggregation>();
             context.Forms.List("AggregationDestinationAll").ForEach(a =>
             {
@@ -2423,7 +2490,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                 {
                     aggregations.Add(new Aggregation()
                     {
-                        Id = id++,
+                        Id = aggrigation.Id,
                         GroupBy = aggrigation.GroupBy,
                         Type = aggrigation.Type,
                         Target = aggrigation.Target,
@@ -2510,6 +2577,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                 case "NoDuplication": column.NoDuplication = value.ToBool(); break;
                 case "CopyByDefault": column.CopyByDefault = value.ToBool(); break;
                 case "EditorReadOnly": column.EditorReadOnly = value.ToBool(); break;
+                case "AllowBulkUpdate": column.AllowBulkUpdate = value.ToBool(); break;
                 case "AllowImage": column.AllowImage = value.ToBool(); break;
                 case "FieldCss": column.FieldCss = value; break;
                 case "Description": column.Description = value; break;
@@ -2658,22 +2726,30 @@ namespace Implem.Pleasanter.Libraries.Settings
                         .Where(link => column.Name == link.ColumnName)
                         .Select(link => link.LinkedTableName() + ",ItemTitle")
                         .ToList();
-                    dataRows
-                        .GroupBy(o => o.Long(column.ColumnName))
-                        .Select(o => o.First())
-                        .ForEach(dataRow =>
-                            column.ChoiceHash.AddOrUpdate(
-                                dataRow.String(column.ColumnName),
-                                new Choice(
-                                    dataRow.String(column.ColumnName),
-                                    Strings.CoalesceEmpty(
-                                        dataColumns
-                                            .Where(columnName =>
-                                                links.Any(link =>
-                                                    columnName.EndsWith(link)))
-                                            .Select(columnName =>
-                                                dataRow.String(columnName))
-                                                    .ToArray()))));
+                    if (dataColumns.Any(o => links.Any(p => o.EndsWith(p))))
+                    {
+                        dataRows
+                            .GroupBy(o => o.Long(column.ColumnName))
+                            .Select(o => o.First())
+                            .Select(dataRow => new
+                            {
+                                Value = dataRow.String(column.ColumnName),
+                                Text = dataColumns
+                                    .Where(columnName =>
+                                        links.Any(link =>
+                                            columnName.EndsWith(link)))
+                                    .Where(columnName => dataRow[columnName] != DBNull.Value)
+                                    .Select(columnName => dataRow[columnName].ToString())
+                                    .FirstOrDefault()
+                            })
+                            .Where(data => data.Text != null)
+                            .ForEach(data =>
+                                column.ChoiceHash.AddOrUpdate(
+                                    data.Value,
+                                    new Choice(
+                                        value: data.Value,
+                                        text: data.Text)));
+                    }
                 });
         }
 
@@ -2712,6 +2788,7 @@ namespace Implem.Pleasanter.Libraries.Settings
 
         public void SetChoiceHash(Context context, bool withLink = true, bool all = false)
         {
+            SetAllChoices = all;
             var siteIdList = LinkedSiteIdList();
             var linkHash = withLink
                 ? LinkHash(
@@ -2742,7 +2819,9 @@ namespace Implem.Pleasanter.Libraries.Settings
             string columnName,
             List<string> searchIndexes = null,
             IEnumerable<string> selectedValues = null,
-            bool noLimit = false)
+            bool noLimit = false,
+            bool setTotalCount = false,
+            bool searchColumnOnly = true)
         {
             SetChoiceHash(
                 context: context,
@@ -2752,8 +2831,10 @@ namespace Implem.Pleasanter.Libraries.Settings
                     context: context,
                     columnName: columnName,
                     searchIndexes: searchIndexes,
+                    searchColumnOnly: searchColumnOnly,
                     selectedValues: selectedValues,
-                    noLimit: noLimit));
+                    noLimit: noLimit,
+                    setTotalCount: setTotalCount));
         }
 
         public void SetChoiceHash(
@@ -2781,47 +2862,48 @@ namespace Implem.Pleasanter.Libraries.Settings
         {
             var notUseSearchSiteIdList = Links
                 .Where(o => siteIdList.Contains(o.SiteId))
-                .Where(o => Columns.Any(p => p.ColumnName == o.ColumnName && p.UseSearch != true))
+                .Where(o => Columns.Any(p =>
+                    p.ColumnName == o.ColumnName
+                    && p.UseSearch != true))
                 .Select(o => o.SiteId)
                 .Distinct()
                 .ToList();
-            var dataRows = Repository.ExecuteTable(
+            var dataSet = siteIdList.Any() ? Rds.ExecuteDataSet(
                 context: context,
-                statements: Rds.SelectItems(
-                    column: Rds.ItemsColumn()
-                        .ReferenceId()
-                        .ReferenceType()
-                        .SiteId()
-                        .Title(),
-                    join: new SqlJoinCollection(
-                        new SqlJoin(
-                            tableBracket: "\"Sites\"",
-                            joinType: SqlJoin.JoinTypes.Inner,
-                            joinExpression: "\"Items\".\"SiteId\"=\"Sites\".\"SiteId\"")),
-                    where: Rds.ItemsWhere()
-                        .ReferenceType("Sites", _operator: "<>")
-                        .SiteId_In(siteIdList)
-                        .CanRead(context: context, idColumnBracket: "\"Items\".\"ReferenceId\"")
-                        .Or(
-                            or: Rds.ItemsWhere()
-                                .ReferenceType(raw: "'Wikis'")
-                                .SiteId_In(notUseSearchSiteIdList),
-                            _using: !all),
-                    orderBy: Rds.ItemsOrderBy().Title(),
-                    top: all
-                        ? 0
-                        : Parameters.General.DropDownSearchPageSize))
-                            .AsEnumerable();
-            return dataRows
-                .Select(dataRow => dataRow.Long("SiteId"))
-                .Distinct()
-                .ToDictionary(
-                    siteId => $"[[{siteId}]]",
-                    siteId => LinkValue(
-                        context: context,
-                        siteId: siteId,
-                        dataRows: dataRows.Where(dataRow => dataRow.Long("SiteId") == siteId),
-                        searchIndexes: searchIndexes));
+                statements: siteIdList.Select(siteId =>
+                    Rds.SelectItems(
+                        dataTableName: siteId.ToString(),
+                        column: Rds.ItemsColumn()
+                            .ReferenceId()
+                            .ReferenceType()
+                            .SiteId()
+                            .Title(),
+                        join: new SqlJoinCollection(
+                            new SqlJoin(
+                                tableBracket: "\"Sites\"",
+                                joinType: SqlJoin.JoinTypes.Inner,
+                                joinExpression: "\"Items\".\"SiteId\"=\"Sites\".\"SiteId\"")),
+                        where: Rds.ItemsWhere()
+                            .ReferenceType("Sites", _operator: "<>")
+                            .SiteId(siteId)
+                            .CanRead(context: context, idColumnBracket: "\"Items\".\"ReferenceId\"")
+                            .Or(
+                                or: Rds.ItemsWhere()
+                                    .ReferenceType(raw: "'Wikis'")
+                                    .SiteId_In(notUseSearchSiteIdList),
+                                _using: !all),
+                        orderBy: Rds.ItemsOrderBy().Title(),
+                        top: all
+                            ? 0
+                            : Parameters.General.DropDownSearchPageSize)).ToArray()) 
+                            : null;
+            return siteIdList.ToDictionary(
+                siteId => $"[[{siteId}]]",
+                siteId => LinkValue(
+                    context: context,
+                    siteId: siteId,
+                    dataRows: dataSet.Tables[siteId.ToString()].AsEnumerable(),
+                    searchIndexes: searchIndexes));
         }
 
         private List<long> LinkedSiteIdList()
@@ -2845,7 +2927,8 @@ namespace Implem.Pleasanter.Libraries.Settings
             int offset = 0,
             bool noLimit = false,
             string parentClass = "",
-            int parentId = 0)
+            int parentId = 0,
+            bool setTotalCount = false)
         {
             var hash = new Dictionary<string, List<string>>();
             Links?
@@ -2871,7 +2954,8 @@ namespace Implem.Pleasanter.Libraries.Settings
                         .Select(d => d.ReferenceType)
                         .FirstOrDefault(),
                     parentColumn: GetColumn(context: context, columnName: parentClass),
-                    parentId: parentId));
+                    parentId: parentId,
+                    setTotalCount: setTotalCount));
             return hash;
         }
 
@@ -2885,58 +2969,82 @@ namespace Implem.Pleasanter.Libraries.Settings
             bool noLimit,
             string referenceType,
             Column parentColumn,
-            int parentId)
+            int parentId,
+            bool setTotalCount = false)
         {
-            var select = SearchIndexUtilities.Select(
+            var select = Indexes.Select(
                 context: context,
                 ss: Destinations?.Get(link.SiteId),
                 searchText: searchIndexes?.Join(" "),
                 siteIdList: link.SiteId.ToSingleList());
-            var dataSet = Repository.ExecuteDataSet(
-                context: context,
-                statements: Rds.SelectItems(
+            var join = new SqlJoinCollection(
+                new SqlJoin(
+                    tableBracket: "\"Sites\"",
+                    joinType: SqlJoin.JoinTypes.Inner,
+                    joinExpression: "\"Items\".\"SiteId\"=\"Sites\".\"SiteId\""));
+            var where = Rds.ItemsWhere()
+                .ReferenceId(
+                    _operator: " in ",
+                    sub: select,
+                    subPrefix: false,
+                    _using: select != null)
+                .ReferenceId_In(
+                    selectedValues,
+                    _using: selectedValues?.Any() == true
+                        && Rds.ExecuteScalar_string(
+                            context: context,
+                            statements: Rds.SelectSites(
+                                column: Rds.SitesColumn().ReferenceType(),
+                                where: Rds.SitesWhere().SiteId(link.SiteId))) != "Wikis")
+                .ReferenceId_In(
+                    sub: new SqlStatement(LinkHashRelatingColumnsSubQuery(
+                        referenceType: referenceType,
+                        parentColumn: parentColumn,
+                        parentId: parentId)),
+                    _using: (referenceType == "Results"
+                        || referenceType == "Issues")
+                        && parentId != 0
+                        && parentColumn != null)
+                .ReferenceType("Sites", _operator: "<>")
+                .SiteId(link.SiteId)
+                .CanRead(context: context, idColumnBracket: "\"Items\".\"ReferenceId\"");
+            var statements = new List<SqlStatement>
+            {
+                Rds.SelectItems(
                     dataTableName: "Main",
                     column: Rds.ItemsColumn()
                         .ReferenceId()
                         .ReferenceType()
                         .SiteId()
                         .Title(),
-                    join: new SqlJoinCollection(
-                        new SqlJoin(
-                            tableBracket: "\"Sites\"",
-                            joinType: SqlJoin.JoinTypes.Inner,
-                            joinExpression: "\"Items\".\"SiteId\"=\"Sites\".\"SiteId\"")),
-                    where: Rds.ItemsWhere()
-                        .ReferenceId(
-                            _operator: " in ",
-                            sub: select,
-                            subPrefix: false,
-                            _using: select != null)
-                        .ReferenceId_In(
-                            selectedValues,
-                            _using: selectedValues?.Any() == true)
-                        .ReferenceId_In(
-                            sub: new SqlStatement(LinkHashRelatingColumnsSubQuery(
-                                referenceType: referenceType,
-                                parentColumn: parentColumn,
-                                parentId: parentId)),
-                            _using: (referenceType == "Results"
-                                || referenceType == "Issues")
-                                && parentId != 0
-                                && parentColumn != null)
-                        .ReferenceType("Sites", _operator: "<>")
-                        .SiteId(link.SiteId)
-                        .CanRead(context: context, idColumnBracket: "\"Items\".\"ReferenceId\""),
+                    join: join,
+                    where: where,
                     orderBy: Rds.ItemsOrderBy().ReferenceId(),
                     offset: !noLimit
                         ? offset
                         : 0,
                     pageSize: !noLimit
                         ? Parameters.General.DropDownSearchPageSize
-                        : 0));
+                        : 0)
+            };
+            if (setTotalCount)
+            {
+                statements.Add(
+                    Rds.SelectCount(
+                        tableName: "\"Items\"",
+                        join: join,
+                        where: where));
+            }
+            var dataSet = Rds.ExecuteDataSet(
+                context: context,
+                statements: statements.ToArray());
+
             var dataRows = dataSet.Tables["Main"].AsEnumerable();
-            GetColumn(context: context, columnName: link.ColumnName)
-                .TotalCount = Rds.Count(dataSet);
+            if (setTotalCount)
+            {
+                GetColumn(context: context, columnName: link.ColumnName)
+                    .TotalCount = Rds.Count(dataSet);
+            }
             if (dataRows.Any())
             {
                 hash.Add($"[[{link.SiteId}]]", LinkValue(
@@ -3309,7 +3417,8 @@ namespace Implem.Pleasanter.Libraries.Settings
                             factory: context,
                             tableName: tableName,
                             name: name,
-                            alias: alias),
+                            alias: alias,
+                            siteId: siteId),
                         _as: alias));
                     left.Add(part);
                     leftTableName = tableName;
@@ -3341,7 +3450,8 @@ namespace Implem.Pleasanter.Libraries.Settings
             ISqlObjectFactory factory,
             string tableName,
             string name,
-            string alias)
+            string alias,
+            long siteId)
         {
             return alias.Contains("~~")
                 ? $"\"{alias}_Items\".\"ReferenceId\"={factory.SqlCommandText.CreateTryCast(alias, name, "bigint")}"
@@ -3579,6 +3689,12 @@ namespace Implem.Pleasanter.Libraries.Settings
                     .Select(o => o.ColumnName)
                     .FirstOrDefault())
                 .SingleOrDefault();
+        }
+
+        private void RemoveSourceColumns(Context context)
+        {
+            GridColumns.RemoveAll(o => o.Contains("~~"));
+            FilterColumns.RemoveAll(o => o.Contains("~~"));
         }
 
         public bool GridColumnsHasSources()

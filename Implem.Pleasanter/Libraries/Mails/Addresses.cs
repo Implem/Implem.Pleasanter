@@ -64,7 +64,7 @@ namespace Implem.Pleasanter.Libraries.Mails
         public static string Get(string address)
         {
             return address.RegexFirst(
-                @"\b[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}\b",
+                Parameters.Mail.AddressValidation,
                 System.Text.RegularExpressions.RegexOptions.IgnoreCase);
         }
 

@@ -15,6 +15,19 @@
             <Button HorizontalAlignment="Left" VerticalAlignment="Center" Click="SysLog_Click" Margin="4" Padding="2">SysLogビューア</Button>
             <Button HorizontalAlignment="Left" VerticalAlignment="Center" Click="LdapSync_Click" Margin="4" Padding="2">LDAP同期テスト</Button>
         </StackPanel>
-        <ListView Grid.Row="1" ItemsSource="{Binding Logs}"></ListView>
+        <ListView Grid.Row="1" ItemsSource="{Binding Logs}">
+            <ListView.ItemContainerStyle>
+                <Style TargetType="{x:Type ListViewItem}">
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding LogLevel}" Value="Error">
+                            <Setter Property="Foreground" Value="Red"/>
+                        </DataTrigger>
+                        <DataTrigger Binding="{Binding LogLevel}" Value="Fatal">
+                            <Setter Property="Foreground" Value="Red"/>
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </ListView.ItemContainerStyle>
+        </ListView>
     </Grid>
 </Window>

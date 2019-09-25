@@ -3,7 +3,6 @@ using Implem.Pleasanter.NetCore.Libraries.Requests;
 using Implem.Pleasanter.NetCore.Libraries.Responses;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-
 namespace Implem.Pleasanter.NetCore.Controllers
 {
     [AllowAnonymous]

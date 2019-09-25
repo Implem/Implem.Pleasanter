@@ -49,6 +49,7 @@ $p.openSiteTitleDialog = function ($control) {
     $('#SiteTitleDialog').dialog({
         modal: true,
         width: '370px',
-        appendTo: '#Application'
+        appendTo: '#Application',
+        resizable: false
     });
 }

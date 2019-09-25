@@ -35,7 +35,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                             referenceType: referenceType)
                         .Search(
                             context: context,
-                            _using: useSearch))
+                            _using: useSearch && !Parameters.Search.DisableCrossSearch))
                 : hb;
         }
 
@@ -50,6 +50,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             var canManageSite = siteId != 0 && context.CanManageSite(ss: ss, site: true);
             var canManageDepts = Permissions.CanManageTenant(context: context);
             var canManageUsers = Permissions.CanManageTenant(context: context);
+            var canManageRegistrations = Permissions.CanManageRegistrations(context: context);
             var canManageTenants = Permissions.CanManageTenant(context: context)
                 || context.UserSettings?.EnableManageTenant == true;
             var canManageTrashBox = CanManageTrashBox(context: context, ss: ss);
@@ -102,6 +103,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                 canManageDepts: canManageDepts,
                                 canManageGroups: canManageGroups,
                                 canManageUsers: canManageUsers,
+                                canManageRegistrations: canManageRegistrations,
                                 canManageTenants: canManageTenants,
                                 canManageTrashBox: canManageTrashBox),
                         _using:
@@ -113,7 +115,9 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                         css: "sub-menu",
                         action: () => hb
                             .Div(
-                                attributes: new HtmlAttributes().DataId("AccountMenu"),
+                                attributes: new HtmlAttributes()
+                                    .DataId("AccountMenu")
+                                    .Id("AccountUserName"),
                                 action: () => hb
                                     .Span(css: "ui-icon ui-icon-person")
                                     .Text(text: SiteInfo.UserName(
@@ -212,6 +216,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             bool canManageDepts,
             bool canManageGroups,
             bool canManageUsers,
+            bool canManageRegistrations,
             bool canManageTenants,
             bool canManageTrashBox)
         {
@@ -278,6 +283,16 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     .Li(
                         action: () => hb
                             .A(
+                                href: Locations.Index(
+                                    context: context,
+                                    controller: "Registrations"),
+                                action: () => hb
+                                    .Span(css: "ui-icon ui-icon-gear")
+                                    .Text(text: Displays.Registrations(context: context))),
+                        _using: canManageRegistrations)
+                    .Li(
+                        action: () => hb
+                            .A(
                                 href: Locations.ItemTrashBox(
                                     context: context,
                                     id: siteId),
@@ -323,7 +338,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                             action: () => hb
                                 .Span(css: "ui-icon ui-icon-locked")
                                 .Text(text: Displays.LockTable(context: context))),
-                        _using: canManageSite);
+                        _using: canManageSite && ss.AllowLockTable == true);
                 }
                 else if (ss.LockedUser.Id == context.UserId)
                 {
@@ -336,7 +351,8 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                 .DataMethod("post"),
                             action: () => hb
                                 .Span(css: "ui-icon ui-icon-unlocked")
-                                .Text(text: Displays.UnlockTable(context: context))));
+                                .Text(text: Displays.UnlockTable(context: context)),
+                            _using: ss.AllowLockTable == true));
                 }
                 else if (context.HasPrivilege)
                 {
@@ -350,7 +366,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                         action: () => hb
                             .Span(css: "ui-icon ui-icon-unlocked")
                             .Text(text: Displays.ForceUnlockTable(context: context))),
-                        _using: canManageSite);
+                        _using: canManageSite && ss.AllowLockTable == true);
                 }
             }
             return hb;

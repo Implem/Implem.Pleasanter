@@ -65,7 +65,7 @@ namespace Implem.CodeDefiner.Functions.Rds
                 o.Unique.ToString())
                     .Join(string.Empty)
                     .Sha512Cng()
-                    .MaxLength(factory.SqlDataTypes.MaxIdentifierLength);
+                    .MaxLength(factory.SqlDefinitionSetting.IdentifierPostfixLength);
         }
     }
 }

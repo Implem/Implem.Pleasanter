@@ -1,4 +1,5 @@
-﻿using Implem.Libraries.Utilities;
+﻿using Implem.DefinitionAccessor;
+using Implem.Libraries.Utilities;
 using Implem.Pleasanter.Libraries.Requests;
 using Implem.Pleasanter.Libraries.Responses;
 using System.Collections.Generic;
@@ -27,18 +28,28 @@ namespace Implem.Pleasanter.Libraries.Settings
                     lessThan: true);
                 for (var num = min; num < max; num += step)
                 {
+                    if (data.Count < Parameters.General.DropDownSearchPageSize)
+                    {
+                        data.Add(
+                            context: context,
+                            column: column,
+                            from: num,
+                            to: num + step - Minimum(column));
+                    }
+                    else
+                    {
+                        break;
+                    }
+                }
+                if (data.Count < Parameters.General.DropDownSearchPageSize)
+                {
                     data.Add(
                         context: context,
                         column: column,
-                        from: num,
-                        to: num + step - Minimum(column));
+                        from: max,
+                        to: 0,
+                        over: true);
                 }
-                data.Add(
-                    context: context,
-                    column: column,
-                    from: max,
-                    to: 0,
-                    over: true);
             }
             return data;
         }

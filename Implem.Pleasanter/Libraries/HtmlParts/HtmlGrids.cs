@@ -176,7 +176,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             IEnumerable<Column> columns,
             EnumerableRowCollection<DataRow> dataRows,
             FormDataSet formDataSet = null,
-            bool checkAll = false,
+            GridSelector gridSelector = null,
             bool editRow = false,
             bool checkRow = true)
         {
@@ -186,7 +186,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     ss: ss,
                     dataRow: dataRow,
                     columns: columns,
-                    checkAll: checkAll,
+                    gridSelector: new GridSelector(context),
                     editRow: editRow,
                     checkRow: checkRow,
                     idColumn: Rds.IdColumn(ss.ReferenceType),
@@ -200,13 +200,13 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             SiteSettings ss,
             DataRow dataRow,
             IEnumerable<Column> columns,
-            bool checkAll,
             bool editRow,
             bool checkRow,
             string idColumn,
+            GridSelector gridSelector = null,
             FormDataSet formDataSet = null)
         {
-            var dataId = dataRow.Long(idColumn).ToString();
+            var dataId = dataRow.Long(idColumn);
             var dataVersion = dataRow.Int("Ver");
             var isHistory = dataRow.Bool("IsHistory");
             var EditColumns = !isHistory
@@ -219,7 +219,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             return hb.Tr(
                 attributes: new HtmlAttributes()
                     .Class("grid-row")
-                    .DataId(dataId)
+                    .DataId(dataId.ToString())
                     .DataVer(dataVersion)
                     .DataLatest(1, _using: !isHistory)
                     .Add(name: "data-history", value: "1", _using: isHistory),
@@ -256,13 +256,15 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                         hb.Td(action: () => hb
                             .CheckBox(
                                 controlCss: "grid-check",
-                                _checked: checkAll,
-                                dataId: dataId,
+                                _checked: gridSelector.Checked(dataId),
+                                dataId: dataId.ToString(),
                                 _using: !isHistory));
                     }
                     var depts = new Dictionary<string, DeptModel>();
                     var groups = new Dictionary<string, GroupModel>();
+                    var registrations = new Dictionary<string, RegistrationModel>();
                     var users = new Dictionary<string, UserModel>();
+                    var sites = new Dictionary<string, SiteModel>();
                     var issues = new Dictionary<string, IssueModel>();
                     var results = new Dictionary<string, ResultModel>();
                     columns.ForEach(column =>
@@ -284,24 +286,11 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                         context: context,
                                         mine: deptModel.Mine(context: context));
                                 }
-                                if (EditColumns.Get(column.ColumnName))
-                                {
-                                    hb.Td(action: () => hb.Field(
-                                        context: context,
-                                        column: column,
-                                        deptModel: deptModel,
-                                        ss: column.SiteSettings,
-                                        controlOnly: true,
-                                        idSuffix: null));
-                                }
-                                else
-                                {
-                                    hb.TdValue(
-                                        context: context,
-                                        ss: column.SiteSettings,
-                                        column: column,
-                                        deptModel: deptModel);
-                                }
+                                hb.TdValue(
+                                    context: context,
+                                    ss: column.SiteSettings,
+                                    column: column,
+                                    deptModel: deptModel);
                                 break;
                             case "Groups":
                                 var groupModel = groups.Get(key);
@@ -317,24 +306,31 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                         context: context,
                                         mine: groupModel.Mine(context: context));
                                 }
-                                if (EditColumns.Get(column.ColumnName))
+                                hb.TdValue(
+                                    context: context,
+                                    ss: column.SiteSettings,
+                                    column: column,
+                                    groupModel: groupModel);
+                                break;
+                            case "Registrations":
+                                var registrationModel = registrations.Get(key);
+                                if (registrationModel == null)
                                 {
-                                    hb.Td(action: () => hb.Field(
-                                        context: context,
-                                        column: column,
-                                        groupModel: groupModel,
-                                        ss: column.SiteSettings,
-                                        controlOnly: true,
-                                        idSuffix: null));
-                                }
-                                else
-                                {
-                                    hb.TdValue(
+                                    registrationModel = new RegistrationModel(
                                         context: context,
                                         ss: column.SiteSettings,
-                                        column: column,
-                                        groupModel: groupModel);
+                                        dataRow: dataRow,
+                                        tableAlias: column.TableAlias);
+                                    registrations.Add(key, registrationModel);
+                                    ss.SetColumnAccessControls(
+                                        context: context,
+                                        mine: registrationModel.Mine(context: context));
                                 }
+                                hb.TdValue(
+                                    context: context,
+                                    ss: column.SiteSettings,
+                                    column: column,
+                                    registrationModel: registrationModel);
                                 break;
                             case "Users":
                                 var userModel = users.Get(key);
@@ -350,24 +346,34 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                         context: context,
                                         mine: userModel.Mine(context: context));
                                 }
-                                if (EditColumns.Get(column.ColumnName))
+                                hb.TdValue(
+                                    context: context,
+                                    ss: column.SiteSettings,
+                                    column: column,
+                                    userModel: userModel);
+                                break;
+                            case "Sites":
+                                var siteModel = sites.Get(key);
+                                if (siteModel == null)
                                 {
-                                    hb.Td(action: () => hb.Field(
+                                    siteModel = new SiteModel(
                                         context: context,
-                                        column: column,
-                                        userModel: userModel,
-                                        ss: column.SiteSettings,
-                                        controlOnly: true,
-                                        idSuffix: null));
-                                }
-                                else
-                                {
-                                    hb.TdValue(
+                                        dataRow: dataRow,
+                                        formData: editRow
+                                            ? formDataSet?.FirstOrDefault(o =>
+                                                o.Id == dataRow.Long("SiteId"))?.Data
+                                            : null,
+                                        tableAlias: column.TableAlias);
+                                    sites.Add(key, siteModel);
+                                    ss.SetColumnAccessControls(
                                         context: context,
-                                        ss: column.SiteSettings,
-                                        column: column,
-                                        userModel: userModel);
+                                        mine: siteModel.Mine(context: context));
                                 }
+                                hb.TdValue(
+                                    context: context,
+                                    ss: column.SiteSettings,
+                                    column: column,
+                                    siteModel: siteModel);
                                 break;
                             case "Issues":
                                 var issueModel = issues.Get(key);

@@ -1,12 +1,9 @@
 ﻿using Implem.IRds;
+using System.Text.RegularExpressions;
 namespace Implem.PostgreSql
 {
-    internal class PostgreSqlDataTypes : ISqlDataTypes
+    internal class PostgreSqlDataType : ISqlDataType
     {
-        public int MaxIdentifierLength { get; } = 32;
-
-        public int NationalCharacterSizeCoefficient { get; } = 4;
-
         public string Convert(string name)
         {
             return name
@@ -31,6 +28,13 @@ namespace Implem.PostgreSql
                 .Replace("bool", "bit")
                 .Replace("bytea", "image")
                 .Replace("timestamp", "datetime");
+        }
+
+        public string DefaultDefinition(object dbRawValue)
+        {
+            string s = dbRawValue.ToString();
+            s = Regex.Replace(s, @"^(?<str>'.+')::.+$", "${str}");
+            return s;
         }
     }
 }

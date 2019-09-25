@@ -46,8 +46,9 @@ $p.syncSend = function ($control, formId) {
     return $p.send($control, formId, false);
 }
 
-$p.send = function ($control, formId, async) {
+$p.send = function ($control, formId, _async) {
     if ($p.outsideDialog($control)) return false;
+    if ($control.hasClass('no-send')) return false;
     $form = formId !== undefined
         ? $('#' + formId)
         : $control.closest('form');
@@ -57,13 +58,13 @@ $p.send = function ($control, formId, async) {
     var url = action !== undefined
         ? $form.attr('action').replace('_action_', action.toLowerCase())
         : location.href;
-    async = async !== undefined ? async : true;
+    _async = _async !== undefined ? _async : true;
     if (methodType !== 'get') {
         data.ControlId = $control.attr('id');
         $p.setMustData($form, action);
     }
     if ($control.hasClass('validate')) {
-        if ($p.before_validate($p.eventArgs(url, methodType, data, $control, async)) === false) {
+        if ($p.before_validate($p.eventArgs(url, methodType, data, $control, _async)) === false) {
             return false;
         }
         $form.validate();
@@ -77,7 +78,7 @@ $p.send = function ($control, formId, async) {
             }
             return false;
         }
-        if ($p.after_validate($p.eventArgs(url, methodType, data, $control, async)) === false) {
+        if ($p.after_validate($p.eventArgs(url, methodType, data, $control, _async)) === false) {
             return false;
         }
     }
@@ -87,7 +88,7 @@ $p.send = function ($control, formId, async) {
             methodType,
             methodType !== 'get' ? data : null,
             $control,
-            async);
+            _async);
     }
 }
 

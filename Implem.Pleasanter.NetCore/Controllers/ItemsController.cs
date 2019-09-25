@@ -5,7 +5,6 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
-
 namespace Implem.Pleasanter.NetCore.Controllers
 {
     [Authorize]
@@ -243,6 +242,42 @@ namespace Implem.Pleasanter.NetCore.Controllers
             return json;
         }
 
+        [HttpPost]
+        public string OpenBulkUpdateSelectorDialog(long id)
+        {
+            var context = new ContextImplement();
+            var controller = new Implem.Pleasanter.Controllers.ItemsController();
+            var json = controller.OpenBulkUpdateSelectorDialog(context: context, id: id);
+            return json;
+        }
+
+        [HttpPost]
+        public string BulkUpdateSelectChanged(long id)
+        {
+            var context = new ContextImplement();
+            var controller = new Implem.Pleasanter.Controllers.ItemsController();
+            var json = controller.BulkUpdateSelectChanged(context: context, id: id);
+            return json;
+        }
+
+        [HttpPost]
+        public string OpenSetNumericRangeDialog(long id)
+        {
+            var context = new ContextImplement();
+            var controller = new Implem.Pleasanter.Controllers.ItemsController();
+            var json = controller.OpenSetNumericRangeDialog(context: context, id: id);
+            return json;
+        }
+
+        [HttpPost]
+        public string OpenSetDateRangeDialog(long id)
+        {
+            var context = new ContextImplement();
+            var controller = new Implem.Pleasanter.Controllers.ItemsController();
+            var json = controller.OpenSetDateRangeDialog(context: context, id: id);
+            return json;
+        }
+
         [HttpGet]
         public ActionResult Export(long id)
         {
@@ -258,6 +293,15 @@ namespace Implem.Pleasanter.NetCore.Controllers
             {
                 return null;
             }
+        }
+
+        [HttpPost]
+        public string ExportAsync(long id)
+        {
+            var context = new ContextImplement();
+            var controller = new Implem.Pleasanter.Controllers.ItemsController();
+            var json = controller.ExportAsync(context: context, id: id);
+            return json;
         }
 
         [HttpGet]
@@ -425,6 +469,15 @@ namespace Implem.Pleasanter.NetCore.Controllers
             var context = new ContextImplement();
             var controller = new Implem.Pleasanter.Controllers.ItemsController();
             var json = controller.BulkUpdate(context: context, id: id);
+            return json;
+        }
+
+        [HttpPost]
+        public string UpdateByGrid(long id)
+        {
+            var context = new ContextImplement();
+            var controller = new Implem.Pleasanter.Controllers.ItemsController();
+            var json = controller.UpdateByGrid(context: context, id: id);
             return json;
         }
 
@@ -784,6 +837,15 @@ namespace Implem.Pleasanter.NetCore.Controllers
             var controller = new Implem.Pleasanter.Controllers.ItemsController();
             var json = controller.ForceUnlockTable(context: context, id: id);
             return json;
+        }
+
+        [HttpPost]
+        public ContentResult Get(long id)
+        {
+            var context = new ContextImplement();
+            var controller = new Implem.Pleasanter.Controllers.ItemsController();
+            var result = controller.Get(context: context, id: id);
+            return result.ToRecourceContentResult(request: Request);
         }
     }
 }

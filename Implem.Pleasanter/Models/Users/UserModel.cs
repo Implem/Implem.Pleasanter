@@ -1,5 +1,4 @@
 ﻿using Implem.DefinitionAccessor;
-using Implem.IRds;
 using Implem.Libraries.Classes;
 using Implem.Libraries.DataSources.SqlServer;
 using Implem.Libraries.Utilities;
@@ -1301,6 +1300,7 @@ namespace Implem.Pleasanter.Models
             SiteSettings ss,
             IEnumerable<string> permissions = null,
             bool permissionChanged = false,
+            bool updateMailAddresses = true,
             SqlParamCollection param = null,
             List<SqlStatement> additionalStatements = null,
             bool otherInitValue = false,
@@ -1348,7 +1348,10 @@ namespace Implem.Pleasanter.Models
             {
                 Get(context: context, ss: ss);
             }
-            UpdateMailAddresses(context: context);
+            if (updateMailAddresses)
+            {
+                UpdateMailAddresses(context: context);
+            }
             SetSiteInfo(context: context);
             return new ErrorData(type: Error.Types.None);
         }
@@ -1369,9 +1372,10 @@ namespace Implem.Pleasanter.Models
                 .UpdatedTime(timestamp, _using: timestamp.InRange());
             if (VerUp)
             {
-                statements.Add(CopyToStatement(
+                statements.Add(Rds.UsersCopyToStatement(
                     where: where,
-                    tableType: Sqls.TableTypes.History));
+                    tableType: Sqls.TableTypes.History,
+                    ColumnNames()));
                 Ver++;
             }
             statements.AddRange(UpdateStatements(
@@ -1386,64 +1390,6 @@ namespace Implem.Pleasanter.Models
                 statements.AddRange(additionalStatements);
             }
             return statements;
-        }
-
-        private SqlStatement CopyToStatement(SqlWhereCollection where, Sqls.TableTypes tableType)
-        {
-            var column = new Rds.UsersColumnCollection();
-            var param = new Rds.UsersParamCollection();
-            column.TenantId(function: Sqls.Functions.SingleColumn); param.TenantId();
-            column.UserId(function: Sqls.Functions.SingleColumn); param.UserId();
-            column.Ver(function: Sqls.Functions.SingleColumn); param.Ver();
-            column.LoginId(function: Sqls.Functions.SingleColumn); param.LoginId();
-            column.GlobalId(function: Sqls.Functions.SingleColumn); param.GlobalId();
-            column.Name(function: Sqls.Functions.SingleColumn); param.Name();
-            column.UserCode(function: Sqls.Functions.SingleColumn); param.UserCode();
-            column.Password(function: Sqls.Functions.SingleColumn); param.Password();
-            column.LastName(function: Sqls.Functions.SingleColumn); param.LastName();
-            column.FirstName(function: Sqls.Functions.SingleColumn); param.FirstName();
-            column.Birthday(function: Sqls.Functions.SingleColumn); param.Birthday();
-            column.Gender(function: Sqls.Functions.SingleColumn); param.Gender();
-            column.Language(function: Sqls.Functions.SingleColumn); param.Language();
-            column.TimeZone(function: Sqls.Functions.SingleColumn); param.TimeZone();
-            column.DeptId(function: Sqls.Functions.SingleColumn); param.DeptId();
-            column.FirstAndLastNameOrder(function: Sqls.Functions.SingleColumn); param.FirstAndLastNameOrder();
-            column.Body(function: Sqls.Functions.SingleColumn); param.Body();
-            column.LastLoginTime(function: Sqls.Functions.SingleColumn); param.LastLoginTime();
-            column.PasswordExpirationTime(function: Sqls.Functions.SingleColumn); param.PasswordExpirationTime();
-            column.PasswordChangeTime(function: Sqls.Functions.SingleColumn); param.PasswordChangeTime();
-            column.NumberOfLogins(function: Sqls.Functions.SingleColumn); param.NumberOfLogins();
-            column.NumberOfDenial(function: Sqls.Functions.SingleColumn); param.NumberOfDenial();
-            column.TenantManager(function: Sqls.Functions.SingleColumn); param.TenantManager();
-            column.ServiceManager(function: Sqls.Functions.SingleColumn); param.ServiceManager();
-            column.Disabled(function: Sqls.Functions.SingleColumn); param.Disabled();
-            column.Lockout(function: Sqls.Functions.SingleColumn); param.Lockout();
-            column.LockoutCounter(function: Sqls.Functions.SingleColumn); param.LockoutCounter();
-            column.Developer(function: Sqls.Functions.SingleColumn); param.Developer();
-            column.UserSettings(function: Sqls.Functions.SingleColumn); param.UserSettings();
-            column.ApiKey(function: Sqls.Functions.SingleColumn); param.ApiKey();
-            column.LdapSearchRoot(function: Sqls.Functions.SingleColumn); param.LdapSearchRoot();
-            column.SynchronizedTime(function: Sqls.Functions.SingleColumn); param.SynchronizedTime();
-            column.Comments(function: Sqls.Functions.SingleColumn); param.Comments();
-            column.Creator(function: Sqls.Functions.SingleColumn); param.Creator();
-            column.Updator(function: Sqls.Functions.SingleColumn); param.Updator();
-            column.CreatedTime(function: Sqls.Functions.SingleColumn); param.CreatedTime();
-            column.UpdatedTime(function: Sqls.Functions.SingleColumn); param.UpdatedTime();
-            ColumnNames().ForEach(columnName =>
-            {
-                column.Add(
-                    columnBracket: $"\"{columnName}\"",
-                    columnName: columnName,
-                    function: Sqls.Functions.SingleColumn);
-                param.Add(
-                    columnBracket: $"\"{columnName}\"",
-                    name: columnName);
-            });
-            return Rds.InsertUsers(
-                tableType: tableType,
-                param: param,
-                select: Rds.SelectUsers(column: column, where: where),
-                addUpdatorParam: false);
         }
 
         private List<SqlStatement> UpdateStatements(
@@ -1605,11 +1551,43 @@ namespace Implem.Pleasanter.Models
                         }
                         else
                         {
-                            Value(
+                            var column = ss.GetColumn(
                                 context: context,
-                                columnName: key.Split_2nd('_'),
-                                value: value,
-                                toUniversal: true);
+                                columnName: key.Split_2nd('_'));
+                            switch (Def.ExtendedColumnTypes.Get(column?.ColumnName))
+                            {
+                                case "Class":
+                                    Class(
+                                        columnName: column.ColumnName,
+                                        value: value);
+                                    break;
+                                case "Num":
+                                    Num(
+                                        columnName: column.ColumnName,
+                                        value: column.Round(value.ToDecimal(
+                                            cultureInfo: context.CultureInfo())));
+                                    break;
+                                case "Date":
+                                    Date(
+                                        columnName: column.ColumnName,
+                                        value: value.ToDateTime().ToUniversal(context: context));
+                                    break;
+                                case "Description":
+                                    Description(
+                                        columnName: column.ColumnName,
+                                        value: value);
+                                    break;
+                                case "Check":
+                                    Check(
+                                        columnName: column.ColumnName,
+                                        value: value.ToBool());
+                                    break;
+                                case "Attachments":
+                                    Attachments(
+                                        columnName: column.ColumnName,
+                                        value: value.Deserialize<Attachments>());
+                                    break;
+                            }
                         }
                         break;
                 }
@@ -1722,12 +1700,24 @@ namespace Implem.Pleasanter.Models
             if (data.SynchronizedTime != null) SynchronizedTime = data.SynchronizedTime.ToDateTime().ToDateTime().ToUniversal(context: context);
             if (data.Comments != null) Comments.Prepend(context: context, ss: ss, body: data.Comments);
             if (data.VerUp != null) VerUp = data.VerUp.ToBool();
-            ClassHash = data.ClassHash;
-            NumHash = data.NumHash;
-            DateHash = data.DateHash;
-            DescriptionHash = data.DescriptionHash;
-            CheckHash = data.CheckHash;
-            AttachmentsHash = data.AttachmentsHash;
+            data.ClassHash.ForEach(o => Class(
+                columnName: o.Key,
+                value: o.Value));
+            data.NumHash.ForEach(o => Num(
+                columnName: o.Key,
+                value: o.Value));
+            data.DateHash.ForEach(o => Date(
+                columnName: o.Key,
+                value: o.Value.ToUniversal(context: context)));
+            data.DescriptionHash.ForEach(o => Description(
+                columnName: o.Key,
+                value: o.Value));
+            data.CheckHash.ForEach(o => Check(
+                columnName: o.Key,
+                value: o.Value));
+            data.AttachmentsHash.ForEach(o => Attachments(
+                columnName: o.Key,
+                value: o.Value));
         }
 
         private void SetBySession(Context context)
@@ -1749,7 +1739,7 @@ namespace Implem.Pleasanter.Models
         private void Set(Context context, SiteSettings ss, DataRow dataRow, string tableAlias = null)
         {
             AccessStatus = Databases.AccessStatuses.Selected;
-            foreach (DataColumn dataColumn in dataRow.Table.Columns)
+            foreach(DataColumn dataColumn in dataRow.Table.Columns)
             {
                 var column = new ColumnNameInfo(dataColumn.ColumnName);
                 if (column.TableAlias == tableAlias)
@@ -2098,7 +2088,9 @@ namespace Implem.Pleasanter.Models
                 Get(
                     context: context,
                     ss: ss,
-                    where: Rds.UsersWhere().LoginId(loginId));
+                    where: Rds.UsersWhere()
+                        .TenantId(context.TenantId)
+                        .LoginId(loginId));
             }
         }
 

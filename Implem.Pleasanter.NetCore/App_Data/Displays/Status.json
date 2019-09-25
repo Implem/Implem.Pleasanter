@@ -1,0 +1,13 @@
+﻿{
+    "Id": "Status",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Status"
+        },
+        {
+            "Language": "ja",
+            "Body": "状況"
+        }
+    ]
+}

@@ -16,7 +16,8 @@ $p.openPermissionsDialog = function ($control) {
         $('#PermissionsDialog').dialog({
             modal: true,
             width: '700px',
-            appendTo: '#Editor'
+            appendTo: '#Editor',
+            resizable: false
         });
     }
 }
@@ -43,7 +44,8 @@ $p.openPermissionForCreatingDialog = function ($control) {
         $('#PermissionForCreatingDialog').dialog({
             modal: true,
             width: '700px',
-            appendTo: '#Editor'
+            appendTo: '#Editor',
+            resizable: false
         });
     }
 }

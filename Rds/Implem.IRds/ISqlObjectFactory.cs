@@ -12,6 +12,8 @@
 
         ISqlConnection CreateSqlConnection(string connectionString);
 
+        ISqlConnectionStringBuilder CreateSqlConnectionStringBuilder(string connectionString);
+
         ISqls Sqls { get; }
 
         ISqlCommandText SqlCommandText { get; }
@@ -20,6 +22,8 @@
 
         ISqlErrors SqlErrors { get; }
 
-        ISqlDataTypes SqlDataTypes { get; }
+        ISqlDataType SqlDataType { get; }
+
+        ISqlDefinitionSetting SqlDefinitionSetting { get; }
     }
 }

@@ -25,11 +25,12 @@ namespace Implem.Pleasanter.Libraries.Settings
                 column => new ControlData(column.GetLabelText(withSiteTitle: true)));
         }
 
-        public static ResponseFile Export(
+        public static string Export(
             Context context,
             SiteSettings ss,
             Export export,
-            SqlWhereCollection where)
+            SqlWhereCollection where,
+            View view)
         {
             switch (export.Type)
             {
@@ -38,29 +39,33 @@ namespace Implem.Pleasanter.Libraries.Settings
                         context: context,
                         ss: ss,
                         export: export,
-                        where: where);
+                        where: where,
+                        view: view);
                 case Settings.Export.Types.Json:
                     return Json(
                         context: context,
                         ss: ss,
                         export: export,
-                        where: where);
+                        where: where,
+                        view: view);
                 default:
                     return null;
             }
         }
 
-        private static ResponseFile Csv(
+        private static string Csv(
             Context context,
             SiteSettings ss,
             Export export,
-            SqlWhereCollection where)
+            SqlWhereCollection where,
+            View view)
         {
             var gridData = GridData(
                 context: context,
                 ss: ss,
                 export: export,
-                where: where);
+                where: where,
+                view: view);
             var csv = new System.Text.StringBuilder();
             if (export.Header == true)
             {
@@ -74,51 +79,39 @@ namespace Implem.Pleasanter.Libraries.Settings
                 ss: ss,
                 csv: csv,
                 exportColumns: export.Columns.Where(o => o.Column.CanRead));
-            return new ResponseFile(
-                fileContent: csv.ToString(),
-                fileDownloadName: FileName(
-                    context: context,
-                    ss: ss,
-                    name: export.Name,
-                    extension: export.Type.ToString()));
+            return csv.ToString();
         }
 
-        private static ResponseFile Json(
+        private static string Json(
             Context context,
             SiteSettings ss,
             Export export,
-            SqlWhereCollection where)
+            SqlWhereCollection where,
+            View view)
         {
-            return new ResponseFile(
-                fileContent: GridData(
-                    context: context,
-                    ss: ss,
-                    export: export,
-                    where: where)
-                        .Json(
-                            context: context,
-                            ss: ss,
-                            export: export),
-                fileDownloadName: FileName(
-                    context: context,
-                    ss: ss,
-                    name: export.Name,
-                    extension: export.Type.ToString()));
+            return GridData(
+                context: context,
+                ss: ss,
+                export: export,
+                where: where,
+                view: view)
+                    .Json(
+                        context: context,
+                        ss: ss,
+                        export: export);
         }
 
         private static GridData GridData(
             Context context,
             SiteSettings ss,
             Export export,
-            SqlWhereCollection where)
+            SqlWhereCollection where,
+            View view)
         {
             export.SetColumns(
                 context: context,
                 ss: ss);
             ss.SetColumnAccessControls(context: context);
-            var view = Views.GetBySession(
-                context: context,
-                ss: ss);
             view.GridColumns = export.Columns
                 .Where(o => o.Column.CanRead)
                 .Select(o => o.ColumnName)

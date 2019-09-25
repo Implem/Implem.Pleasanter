@@ -5,7 +5,8 @@
     data.ReturnUrl = $('#ReturnUrl').val();
     $('#ChangePasswordDialog').dialog({
         modal: true,
-        width: '420px'
+        width: '420px',
+        resizable: false
     });
 }
 

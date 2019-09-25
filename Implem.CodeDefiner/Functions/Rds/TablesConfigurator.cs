@@ -13,9 +13,55 @@ namespace Implem.CodeDefiner.Functions.Rds
         internal static void Configure(ISqlObjectFactory factory)
         {
             Def.TableNameCollection().ForEach(generalTableName =>
-                ConfigureTableSet(
+            {
+                try
+                {
+                    ConfigureTableSet(
+                        factory: factory,
+                        generalTableName: generalTableName);
+                }
+                catch (System.Data.SqlClient.SqlException e)
+                {
+                    Consoles.Write($"[{e.Number}] {e.Message}", Consoles.Types.Error);
+                }
+                catch (System.Exception e)
+                {
+                    Consoles.Write($"[{generalTableName}]: {e}", Consoles.Types.Error);
+                }
+            });
+            try
+            {
+                ConfigureFullTextIndex(factory: factory);
+            }
+            catch (System.Data.SqlClient.SqlException e)
+            {
+                Consoles.Write($"[{e.Number}] {e.Message}", Consoles.Types.Error);
+            }
+            catch (System.Exception e)
+            {
+                Consoles.Write($"[{nameof(ConfigureFullTextIndex)}]: {e}", Consoles.Types.Error);
+            }
+        }
+
+        private static void ConfigureFullTextIndex(ISqlObjectFactory factory)
+        {
+            Consoles.Write("", Consoles.Types.Info);
+            var pkItems = Def.SqlIoByAdmin(
+                factory: factory,
+                statements: new SqlStatement(Def.Sql.SelectPkName.Replace("#TableName#", "Items")))
+                    .ExecuteScalar_string(factory: factory, dbTransaction: null, dbConnection: null);
+            var pkBinaries = Def.SqlIoByAdmin(
+                factory: factory,
+                statements: new SqlStatement(Def.Sql.SelectPkName.Replace("#TableName#", "Binaries")))
+                    .ExecuteScalar_string(factory: factory, dbTransaction: null, dbConnection: null);
+            Def.SqlIoBySa(factory: factory, initialCatalog: Environments.ServiceName)
+                .ExecuteNonQuery(
                     factory: factory,
-                    generalTableName: generalTableName));
+                    dbTransaction: null,
+                    dbConnection: null,
+                    commandText: Def.Sql.CreateFullText
+                                    .Replace("#PKItems#", pkItems)
+                                    .Replace("#PKBinaries#", pkBinaries));
         }
 
         private static void ConfigureTableSet(ISqlObjectFactory factory, string generalTableName)

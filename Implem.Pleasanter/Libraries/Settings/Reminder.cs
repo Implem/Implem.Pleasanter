@@ -33,6 +33,7 @@ namespace Implem.Pleasanter.Libraries.Settings
         public bool? SendCompletedInPast;
         public bool? NotSendIfNotApplicable;
         public int Condition;
+        public bool? Disabled;
 
         public Reminder()
         {
@@ -59,7 +60,8 @@ namespace Implem.Pleasanter.Libraries.Settings
             int range,
             bool sendCompletedInPast,
             bool notSendIfNotApplicable,
-            int condition)
+            int condition,
+            bool disabled)
         {
             Id = id;
             Subject = subject;
@@ -74,6 +76,7 @@ namespace Implem.Pleasanter.Libraries.Settings
             SendCompletedInPast = sendCompletedInPast;
             NotSendIfNotApplicable = notSendIfNotApplicable;
             Condition = condition;
+            Disabled = disabled;
         }
 
         public void Update(
@@ -88,7 +91,8 @@ namespace Implem.Pleasanter.Libraries.Settings
             int range,
             bool sendCompletedInPast,
             bool notSendIfNotApplicable,
-            int condition)
+            int condition,
+            bool disabled)
         {
             Subject = subject;
             Body = body;
@@ -102,6 +106,7 @@ namespace Implem.Pleasanter.Libraries.Settings
             SendCompletedInPast = sendCompletedInPast;
             NotSendIfNotApplicable = notSendIfNotApplicable;
             Condition = condition;
+            Disabled = disabled;
         }
 
         public string DisplayLine(SiteSettings ss)
@@ -119,6 +124,10 @@ namespace Implem.Pleasanter.Libraries.Settings
 
         public void Remind(Context context, SiteSettings ss, bool test = false)
         {
+            if (Disabled == true && !test)
+            {
+                return;
+            }
             ss.SetChoiceHash(context: context, withLink: true, all: true);
             var dataSet = GetDataSet(context: context, ss: ss);
             if (Rds.Count(dataSet) > 0 || NotSendIfNotApplicable != true)
@@ -206,22 +215,13 @@ namespace Implem.Pleasanter.Libraries.Settings
         {
             var orderByColumn = ss.GetColumn(context: context, columnName: Column);
             var column = new SqlColumnCollection()
-                .Add(
+                .Add(context: context, column: ss.GetColumn(
                     context: context,
-                    ss: ss,
-                    column: ss.GetColumn(
-                        context: context,
-                        columnName: Rds.IdColumn(ss.ReferenceType)))
-                .Add(
-                    context: context,
-                    ss: ss,
-                    column: orderByColumn)
+                    columnName: Rds.IdColumn(ss.ReferenceType)))
+                .Add(context: context, column: orderByColumn)
                 .ItemTitle(ss.ReferenceType);
             var columns = ss.IncludedColumns(Line).ToList();
-            columns.ForEach(o => column.Add(
-                context: context,
-                ss: ss,
-                column: o));
+            columns.ForEach(o => column.Add(context: context, column: o));
             if (columns.Any(o => o.ColumnName == "Status"))
             {
                 columns.Add(ss.GetColumn(context: context, columnName: "Status"));
@@ -251,7 +251,9 @@ namespace Implem.Pleasanter.Libraries.Settings
                                 DateTime.Now.ToLocal(context: context).Date),
                             _using: SendCompletedInPast == true));
             var orderBy = new SqlOrderByCollection()
-                .Add(ss, orderByColumn, SqlOrderBy.Types.desc);
+                .Add(
+                    column: orderByColumn,
+                    orderType: SqlOrderBy.Types.desc);
             var dataSet = Repository.ExecuteDataSet(
                 context: context,
                 statements: new SqlStatement[]
@@ -316,6 +318,10 @@ namespace Implem.Pleasanter.Libraries.Settings
             if (NotSendIfNotApplicable == true)
             {
                 reminder.NotSendIfNotApplicable = NotSendIfNotApplicable;
+            }
+            if (Disabled == true)
+            {
+                reminder.Disabled = Disabled;
             }
             reminder.Condition = Condition;
             return reminder;

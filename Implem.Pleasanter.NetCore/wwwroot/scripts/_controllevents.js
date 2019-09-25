@@ -11,7 +11,6 @@
             } else if (parseInt($control.val()) > parseInt($control.attr('data-max'))) {
                 $control.val($control.attr('data-max'));
             }
-            $p.setFormChanged($control);
         }
         $p.setData($control);
         e.preventDefault();
@@ -21,7 +20,6 @@
         var data = $p.getData($control);
         data[this.id] = ui.value;
         $p.setGridTimestamp($control, data);
-        $p.setFormChanged($control);
     });
     $(document).on('change', '.control-checkbox.visible', function () {
         show(this.id.substring(7, this.id.length), $(this).prop('checked'));

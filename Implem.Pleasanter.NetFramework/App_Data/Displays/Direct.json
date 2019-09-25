@@ -1,0 +1,13 @@
+﻿{
+    "Id": "Direct",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Direct"
+        },
+        {
+            "Language": "ja",
+            "Body": "ダイレクト"
+        }
+    ]
+}

@@ -79,12 +79,15 @@ namespace Implem.DefinitionAccessor
             Parameters.ExtendedSqls = ExtendedSqls();
             Parameters.ExtendedStyles = ExtendedStyles();
             Parameters.ExtendedScripts = ExtendedScripts();
+            Parameters.ExtendedTags = ExtendedTags();
             Parameters.General = Read<ParameterAccessor.Parts.General>();
             Parameters.History = Read<ParameterAccessor.Parts.History>();
+            Parameters.Version = Read<ParameterAccessor.Parts.Version>();
             Parameters.Mail = Read<ParameterAccessor.Parts.Mail>();
             Parameters.Notification = Read<ParameterAccessor.Parts.Notification>();
             Parameters.Permissions = Read< ParameterAccessor.Parts.Permissions>();
             Parameters.Rds = Read<ParameterAccessor.Parts.Rds>();
+            Parameters.Registration = Read<ParameterAccessor.Parts.Registration>();
             Parameters.Reminder = Read<ParameterAccessor.Parts.Reminder>();
             Parameters.Search = Read<ParameterAccessor.Parts.Search>();
             Parameters.Security = Read<ParameterAccessor.Parts.Security>();
@@ -272,6 +275,25 @@ namespace Implem.DefinitionAccessor
             return list;
         }
 
+        private static Dictionary<string, string> ExtendedTags()
+        {
+            var hash = new Dictionary<string, string>();
+            var path = Path.Combine(
+                Environments.CurrentDirectoryPath,
+                "App_Data",
+                "Parameters",
+                "ExtendedTags");
+            var dir = new DirectoryInfo(path);
+            if (dir.Exists)
+            {
+                foreach (var file in dir.GetFiles("*.html"))
+                {
+                    hash.Add(Files.FileNameOnly(file.Name), Files.Read(file.FullName));
+                }
+            }
+            return hash;
+        }
+
         private static string ParametersPath(string name)
         {
             return Path.Combine(
@@ -300,130 +322,7 @@ namespace Implem.DefinitionAccessor
             Def.SetViewModeDefinition();
             Def.SetDemoDefinition();
             Def.SetSqlDefinition();
-            SetExtendedColumnDefinitions();
-            if (Parameters.Enterprise)
-            {
-                SetExtendedColumns();
-            }
             SetDisplayAccessor();
-        }
-
-        private static void SetExtendedColumnDefinitions()
-        {
-            var tableNames = new List<string>()
-            {
-                "Users",
-                "Issues",
-                "Results"
-            };
-            var types = new List<string>()
-            {
-                "Class",
-                "Num",
-                "Date",
-                "Description",
-                "Check",
-                "Attachments"
-            };
-            var prefixs = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
-            tableNames.ForEach(tableName =>
-            {
-                types.ForEach(type =>
-                {
-                    prefixs.ForEach(prefix =>
-                    {
-                        Def.ColumnDefinitionCollection.Add(ColumnDefinition(
-                            tableName: tableName,
-                            label: null,
-                            type: type,
-                            prefix: prefix.ToString()));
-                        Def.ExtendedColumnTypes.AddIfNotConainsKey(
-                            key: type + prefix,
-                            value: type);
-                    });
-                });
-            });
-        }
-
-        private static void SetExtendedColumns()
-        {
-            Parameters.ExtendedColumnsSet.ForEach(extendedColumns =>
-            {
-                var data = new Dictionary<string, int>
-                {
-                    { "Class", extendedColumns.Class },
-                    { "Num", extendedColumns.Num },
-                    { "Date", extendedColumns.Date },
-                    { "Description", extendedColumns.Description },
-                    { "Check", extendedColumns.Check },
-                    { "Attachments", extendedColumns.Attachments }
-                };
-                data.ForEach(part =>
-                {
-                    for (var i = 1; i <= part.Value; i++)
-                    {
-                        var prefix = string.Format("{0:D3}", i);
-                        Def.ColumnDefinitionCollection.Add(ColumnDefinition(
-                            tableName: extendedColumns.TableName,
-                            label: extendedColumns.Label,
-                            type: part.Key,
-                            prefix: prefix));
-                        Def.ExtendedColumnTypes.AddIfNotConainsKey(
-                            key: part.Key + prefix,
-                            value: part.Key);
-                    }
-                });
-                Def.ColumnDefinitionCollection.RemoveAll(def =>
-                    extendedColumns.DisabledColumns?
-                        .Select(columnName => $"{extendedColumns.TableName}_{columnName}")
-                        .Contains(def.Id) == true);
-            });
-        }
-
-        private static ColumnDefinition ColumnDefinition(
-            string tableName,
-            string label,
-            string type,
-            string prefix)
-        {
-            var def = ColumnDefinitionDefault(type: type);
-            var columnName = type + prefix;
-            def.Id = $"{tableName}_{columnName}";
-            def.ModelName = Def.ColumnDefinitionCollection
-                .FirstOrDefault(o => o.TableName == tableName).ModelName;
-            def.TableName = tableName;
-            def.Label = label ?? def.Label;
-            def.ColumnName = columnName;
-            def.LabelText = def.LabelText + prefix;
-            return def;
-        }
-
-        private static ColumnDefinition ColumnDefinitionDefault(string type)
-        {
-            var columnDefinition = Parameters.ExtendedColumnDefinitions
-                .Get(type)
-                .Deserialize<ColumnDefinition>();
-            switch (type)
-            {
-                case "Class":
-                    break;
-                case "Num":
-                    columnDefinition.ByForm = "ss.GetColumn(context: context, columnName: \"#ColumnName#\").Round(value.ToDecimal(context.CultureInfo()))";
-                    columnDefinition.ByApi= "ss.GetColumn(context: context, columnName: \"#ColumnName#\").Round(data.#ColumnName#.ToDecimal())";
-                    break;
-                case "Date":
-                    break;
-                case "Description":
-                    break;
-                case "Check":
-                    break;
-                case "Attachments":
-                    columnDefinition.RecordingData = ".RecordingJson()";
-                    columnDefinition.ByForm = "value.Deserialize<Attachments>()";
-                    columnDefinition.ByDataRow = "dataRow.String(column.ColumnName).Deserialize<Attachments>() ?? new Attachments()";
-                    break;
-            }
-            return columnDefinition;
         }
 
         public static XlsIo DefinitionFile(string fileName)

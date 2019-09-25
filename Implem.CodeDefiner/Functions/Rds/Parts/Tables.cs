@@ -29,7 +29,7 @@ namespace Implem.CodeDefiner.Functions.Rds.Parts
                 Sqls.SqlParamCollection());
             sqlStatement.CreateColumn(factory, sourceTableName, columnDefinitionCollection);
             sqlStatement.CreatePk(sourceTableName, columnDefinitionCollection, tableIndexCollection);
-            sqlStatement.CreateIx(factory: factory,generalTableName: generalTableName, sourceTableName: sourceTableName, tableType: tableType,  columnDefinitionCollection: columnDefinitionCollection);
+            sqlStatement.CreateIx(factory: factory, generalTableName: generalTableName, sourceTableName: sourceTableName, tableType: tableType, columnDefinitionCollection: columnDefinitionCollection);
             sqlStatement.CreateDefault(factory, tableNameTemp, columnDefinitionCollection);
             sqlStatement.DropConstraint(factory: factory, sourceTableName: sourceTableName, tableIndexCollection: tableIndexCollection);
             sqlStatement.CommandText = sqlStatement.CommandText.Replace("#TableName#", tableNameTemp);
@@ -111,9 +111,18 @@ namespace Implem.CodeDefiner.Functions.Rds.Parts
                         destinationColumnCollection.Add(destinationColumnNameBracket);
                         switch (columnDefinition.TypeName.CsTypeSummary())
                         {
-                            case Types.CsString: sourceColumnCollection.Add("@empty"); break;
-                            case Types.CsDateTime: sourceColumnCollection.Add("getdate()"); break;
-                            default: sourceColumnCollection.Add("0"); break;
+                            case Types.CsString:
+                                sourceColumnCollection.Add("''");
+                                break;
+                            case Types.CsDateTime:
+                                sourceColumnCollection.Add(factory.Sqls.CurrentDateTime.Trim());
+                                break;
+                            case Types.CsBool:
+                                sourceColumnCollection.Add(factory.Sqls.BooleanString(columnDefinition.Default));
+                                break;
+                            default:
+                                sourceColumnCollection.Add("0");
+                                break;
                         }
                     }
                 }
@@ -121,6 +130,10 @@ namespace Implem.CodeDefiner.Functions.Rds.Parts
                 {
                     destinationColumnCollection.Add(destinationColumnNameBracket);
                     sourceColumnCollection.Add(destinationColumnNameBracket);
+                }
+                if (columnDefinition.Identity)
+                {
+                    sql = sql.Replace("#ColumnName#", columnDefinition.ColumnName);
                 }
             });
             return sql
