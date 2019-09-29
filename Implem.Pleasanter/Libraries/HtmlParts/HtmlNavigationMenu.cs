@@ -381,6 +381,13 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                         action: () => hb
                             .Span(css: "ui-icon ui-icon-locked")
                             .Text(text: Displays.Logout(context: context))))
+                .Li(action: () => hb
+                    .A(
+                        href: Parameters.General.HtmlUsageGuideUrl,
+                        target: "_blank",
+                        action: () => hb
+                            .Span(css: "ui-icon ui-icon-help")
+                            .Text(text: Displays.UserManual(context: context))))
                 .Li(
                     action: () => hb
                         .A(
@@ -406,13 +413,6 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                 .Span(css: "ui-icon ui-icon-link")
                                 .Text(text: Displays.ApiSettings(context: context))),
                     _using: context.ContractSettings.Api != false && Parameters.Api.Enabled)
-                .Li(action: () => hb
-                    .A(
-                        href: Parameters.General.HtmlUsageGuideUrl,
-                        target: "_blank",
-                        action: () => hb
-                            .Span(css: "ui-icon ui-icon-help")
-                            .Text(text: Displays.UsageGuide(context: context))))
                 .Li(action: () => hb
                     .A(
                         href: Parameters.General.HtmlBlogUrl,
