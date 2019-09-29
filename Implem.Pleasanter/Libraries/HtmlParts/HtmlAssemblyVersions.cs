@@ -46,10 +46,28 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                             .Div(action: () => hb
                                 .Span(action: () => hb
                                     .Text(text: Displays.License(context: context)))
-                                .Span(action: () => hb
-                                    .Text(text: Parameters.CommercialLicense()
-                                        ? Displays.CommercialLicense(context: context)
-                                        : Displays.AGPL(context: context))))
+                                .Span(action: () =>
+                                {
+                                    if (Parameters.CommercialLicense())
+                                    {
+                                        hb.Text(text: Displays.CommercialLicense(context: context));
+                                    }
+                                    else
+                                    {
+                                        hb.A(
+                                            href: Parameters.General.HtmlAGPLUrl,
+                                            action: () => hb
+                                                .Text(text: Displays.AGPL(context: context)));
+                                    }
+                                }))
+                            .Div(
+                                action: () => hb
+                                    .Span(action: () => hb
+                                        .A(
+                                            href: Parameters.General.HtmlCommercialLicenseUrl,
+                                            action: () => hb
+                                                .Text(text: Displays.SwitchToCommercialLicense(context: context)))),
+                                _using: !Parameters.CommercialLicense())
                             .Div(
                                 action: () => hb
                                     .Span(action: () => hb

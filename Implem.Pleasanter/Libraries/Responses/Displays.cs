@@ -5778,6 +5778,16 @@ namespace Implem.Pleasanter.Libraries.Responses
                 data: data);
         }
 
+        public static string SwitchToCommercialLicense(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "SwitchToCommercialLicense",
+                data: data);
+        }
+
         public static string SwitchUser(
             Context context,
             params string[] data)
@@ -6208,13 +6218,13 @@ namespace Implem.Pleasanter.Libraries.Responses
                 data: data);
         }
 
-        public static string UsageGuide(
+        public static string UserManual(
             Context context,
             params string[] data)
         {
             return Get(
                 context: context,
-                id: "UsageGuide",
+                id: "UserManual",
                 data: data);
         }
 

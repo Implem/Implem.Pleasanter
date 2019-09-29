@@ -8,6 +8,8 @@
     "HtmlBlogUrl": "https://blog.implem.co.jp/",
     "HtmlSupportUrl": "https://implem.co.jp/service/",
     "HtmlContactUrl": "https://implem.co.jp/contact/",
+    "HtmlAGPLUrl": "https://github.com/Implem/Implem.Pleasanter/blob/master/LICENSE",
+    "HtmlCommercialLicenseUrl": "https://implem.co.jp/enterprise-edition/",
     "DisplayLogoText": false,
     "SiteMenuHotSpan": 30,
     "LimitWarning1": 86400,

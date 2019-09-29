@@ -3022,7 +3022,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                         .Title(),
                     join: join,
                     where: where,
-                    orderBy: Rds.ItemsOrderBy().ReferenceId(),
+                    orderBy: Rds.ItemsOrderBy().Title(),
                     offset: !noLimit
                         ? offset
                         : 0,
