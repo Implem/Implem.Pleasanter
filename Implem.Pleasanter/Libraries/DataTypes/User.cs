@@ -1,16 +1,16 @@
 ﻿using Implem.Libraries.Utilities;
 using Implem.Pleasanter.Interfaces;
-using Implem.Pleasanter.Libraries.Extensions;
 using Implem.Pleasanter.Libraries.DataSources;
+using Implem.Pleasanter.Libraries.Extensions;
 using Implem.Pleasanter.Libraries.Html;
 using Implem.Pleasanter.Libraries.HtmlParts;
+using Implem.Pleasanter.Libraries.Requests;
 using Implem.Pleasanter.Libraries.Responses;
+using Implem.Pleasanter.Libraries.Security;
 using Implem.Pleasanter.Libraries.Server;
 using Implem.Pleasanter.Libraries.Settings;
 using System;
 using System.Data;
-using Implem.Pleasanter.Libraries.Requests;
-using Implem.Pleasanter.Libraries.Security;
 namespace Implem.Pleasanter.Libraries.DataTypes
 {
     [Serializable]
@@ -23,6 +23,7 @@ namespace Implem.Pleasanter.Libraries.DataTypes
         public string LoginId;
         public string Name;
         public string UserCode;
+        public UserSettings UserSettings;
         public bool TenantManager;
         public bool ServiceManager;
         public bool Disabled;
@@ -51,6 +52,7 @@ namespace Implem.Pleasanter.Libraries.DataTypes
                             .LoginId()
                             .Name()
                             .UserCode()
+                            .UserSettings()
                             .TenantManager()
                             .ServiceManager()
                             .Disabled(),
@@ -58,9 +60,7 @@ namespace Implem.Pleasanter.Libraries.DataTypes
                             .UserId(userId)));
                 if (dataTable.Rows.Count == 1)
                 {
-                    Set(
-                        context: context,
-                        dataRow: dataTable.Rows[0]);
+                    Set(dataRow: dataTable.Rows[0]);
                 }
                 else
                 {
@@ -75,12 +75,10 @@ namespace Implem.Pleasanter.Libraries.DataTypes
 
         public User(Context context, DataRow dataRow)
         {
-            Set(
-                context: context,
-                dataRow: dataRow);
+            Set(dataRow: dataRow);
         }
 
-        private void Set(Context context, DataRow dataRow)
+        private void Set(DataRow dataRow)
         {
             TenantId = dataRow.Int("TenantId");
             Id = dataRow.Int("UserId");
@@ -91,6 +89,8 @@ namespace Implem.Pleasanter.Libraries.DataTypes
             LoginId = dataRow.String("LoginId");
             Name = dataRow.String("Name");
             UserCode = dataRow.String("UserCode");
+            UserSettings = dataRow.String("UserSettings").Deserialize<UserSettings>()
+                ?? new UserSettings();
             TenantManager = dataRow.Bool("TenantManager")
                 || Permissions.PrivilegedUsers(loginId: dataRow.String("LoginId"));
             ServiceManager = dataRow.Bool("ServiceManager");

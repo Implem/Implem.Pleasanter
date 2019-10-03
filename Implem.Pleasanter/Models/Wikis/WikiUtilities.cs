@@ -1050,9 +1050,9 @@ namespace Implem.Pleasanter.Models
                             context: context,
                             data: wikiModel.Title.Value));
                     var res = new WikisResponseCollection(wikiModel);
-                res
-                    .SetMemory("formChanged", false)
-                    .Invoke("back");
+                    res
+                        .SetMemory("formChanged", false)
+                        .Invoke("back");
                     return res.ToJson();
                 default:
                     return errorData.Type.MessageJson(context: context);

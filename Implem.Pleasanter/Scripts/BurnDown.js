@@ -20,10 +20,10 @@
     var minDate = new Date(d3.min(json, function (d) { return d.Day; }));
     var maxDate = new Date(d3.max(json, function (d) { return d.Day; }));
     var dayWidth = (bodyWidth - padding) / $p.dateDiff('d', maxDate, minDate);
-    var xScale = d3.time.scale()
+    var xScale = d3.scaleTime()
         .domain([minDate, maxDate])
         .range([padding, bodyWidth]);
-    var yScale = d3.scale.linear()
+    var yScale = d3.scaleLinear()
         .domain([d3.max(json, function (d) {
             return d.Total !== undefined || d.Earned !== undefined
                 ? Math.max.apply(null, [d.Total, d.Planned, d.Earned])
@@ -31,13 +31,10 @@
         }), 0])
         .range([padding, bodyHeight])
         .nice();
-    var xAxis = d3.svg.axis()
-        .scale(xScale)
-        .tickFormat(d3.time.format('%m/%d'))
-        .ticks(10);
-    var yAxis = d3.svg.axis()
-        .scale(yScale)
-        .orient('left');
+    var xAxis = d3.axisBottom(xScale)
+        .tickFormat(d3.timeFormat('%m/%d'))
+        .tickSizeInner(10);
+    var yAxis = d3.axisLeft(yScale);
     svg.append('g')
         .attr('class', 'axis')
         .attr('transform', 'translate(' + axisPadding + ', ' + (height - axisPadding) + ')')
@@ -56,7 +53,7 @@
     var nowLineData = [
         [now, axisPadding - 40],
         [now, yScale(0) + 20]];
-    var nowLine = d3.svg.line()
+    var nowLine = d3.line()
         .x(function (d) { return d[0]; })
         .y(function (d) { return d[1]; });
     svg.append('g').attr('class', 'now').append('path').attr('d', nowLine(nowLineData));
@@ -65,7 +62,7 @@
     draw('earned', 2, json.filter(function (d) { return d.Earned !== undefined; }));
 
     function draw(css, n, ds) {
-        var line = d3.svg.line()
+        var line = d3.line()
             .x(function (d) {
                 return ($p.dateDiff('d', new Date(d.Day), minDate) * dayWidth)
                     + axisPadding + padding;

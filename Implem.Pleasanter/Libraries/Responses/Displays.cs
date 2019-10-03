@@ -358,6 +358,16 @@ namespace Implem.Pleasanter.Libraries.Responses
                 data: data);
         }
 
+        public static string ApplicationBuildingGuide(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "ApplicationBuildingGuide",
+                data: data);
+        }
+
         public static string ApplicationError(
             Context context,
             params string[] data)
@@ -1858,6 +1868,16 @@ namespace Implem.Pleasanter.Libraries.Responses
                 data: data);
         }
 
+        public static string DisableStartGuide(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "DisableStartGuide",
+                data: data);
+        }
+
         public static string SendCompletedInPast(
             Context context,
             params string[] data)
@@ -2235,6 +2255,16 @@ namespace Implem.Pleasanter.Libraries.Responses
             return Get(
                 context: context,
                 id: "FailedReadFile",
+                data: data);
+        }
+
+        public static string Faq(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "Faq",
                 data: data);
         }
 
@@ -5425,6 +5455,16 @@ namespace Implem.Pleasanter.Libraries.Responses
             return Get(
                 context: context,
                 id: "ShowProgressRate",
+                data: data);
+        }
+
+        public static string ShowStartGuide(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "ShowStartGuide",
                 data: data);
         }
 

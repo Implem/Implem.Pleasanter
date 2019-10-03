@@ -28,7 +28,7 @@ $p.drawGantt = function () {
     var width = parseInt(svg.style('width'));
     var minDate = new Date($('#GanttMinDate').val());
     var maxDate = new Date($('#GanttMaxDate').val());
-    var xScale = d3.time.scale()
+    var xScale = d3.scaleTime()
         .domain([minDate, maxDate])
         .range([0, width - 60]);
     var xHarf = xScale(maxDate) / 2;
@@ -62,7 +62,7 @@ $p.drawGantt = function () {
     var currentDate = minDate;
     while (currentDate <= maxDate) {
         var axisLine = [[30 + xScale(currentDate), 25], [30 + xScale(currentDate), 45]];
-        var line = d3.svg.line()
+        var line = d3.line()
             .x(function (d) { return d[0]; })
             .y(function (d) { return d[1]; });
         axis.append('g').attr('class', 'date').append('path').attr('d', line(axisLine));
@@ -240,7 +240,7 @@ $p.drawGantt = function () {
         var nowLineData = [
             [day, padding - 10],
             [day, (padding + d3.max(json, function (d) { return d.Y })) + 10]];
-        var nowLine = d3.svg.line()
+        var nowLine = d3.line()
             .x(function (d) { return d[0]; })
             .y(function (d) { return d[1]; });
         svg.append('g').attr('class', css).append('path').attr('d', nowLine(nowLineData));

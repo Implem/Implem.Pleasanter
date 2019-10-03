@@ -96,6 +96,12 @@ namespace Implem.DefinitionAccessor
             Parameters.SysLog = Read<ParameterAccessor.Parts.SysLog>();
         }
 
+        public static void ReloadParameters()
+        {
+            SetParameters();
+            SetRdsParameters();
+        }
+
         private static T Read<T>()
         {
             var name = typeof(T).Name;
@@ -337,7 +343,7 @@ namespace Implem.DefinitionAccessor
             return xlsIo;
         }
 
-        private static void SetRdsParameters()
+        public static void SetRdsParameters()
         {
             Parameters.Rds.SaConnectionString = 
                 Parameters.Rds.SaConnectionString.Replace(
