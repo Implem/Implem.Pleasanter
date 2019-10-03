@@ -422,30 +422,32 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
 
         private static HtmlBuilder VideoDialog(this HtmlBuilder hb, Context context, SiteSettings ss)
         {
-            return context.ContractSettings.Attachments() != false && !context.Mobile
-                ? hb
-                    .Div(
-                        attributes: new HtmlAttributes()
-                            .Id("VideoDialog")
-                            .Class("dialog")
-                            .Title(Displays.Camera(context: context)),
-                        action: () => hb
-                            .Div(action: () => hb
-                                .Video(id: "Video"))
-                            .Hidden(controlId: "VideoTarget")
-                            .Div(css: "command-center", action: () => hb
-                                .Button(
-                                    text: Displays.ToShoot(context: context),
-                                    controlCss: "button-icon",
-                                    onClick: "$p.toShoot($(this));",
-                                    icon: "ui-icon-video")
-                                .Button(
-                                    text: Displays.Cancel(context: context),
-                                    controlCss: "button-icon",
-                                    onClick: "$p.closeDialog($(this));",
-                                    icon: "ui-icon-cancel")))
-                    .Canvas(id: "Canvas")
-                : hb;
+            return context.Authenticated
+                && context.ContractSettings.Attachments() != false
+                && !context.Mobile
+                    ? hb
+                        .Div(
+                            attributes: new HtmlAttributes()
+                                .Id("VideoDialog")
+                                .Class("dialog")
+                                .Title(Displays.Camera(context: context)),
+                            action: () => hb
+                                .Div(action: () => hb
+                                    .Video(id: "Video"))
+                                .Hidden(controlId: "VideoTarget")
+                                .Div(css: "command-center", action: () => hb
+                                    .Button(
+                                        text: Displays.ToShoot(context: context),
+                                        controlCss: "button-icon",
+                                        onClick: "$p.toShoot($(this));",
+                                        icon: "ui-icon-video")
+                                    .Button(
+                                        text: Displays.Cancel(context: context),
+                                        controlCss: "button-icon",
+                                        onClick: "$p.closeDialog($(this));",
+                                        icon: "ui-icon-cancel")))
+                        .Canvas(id: "Canvas")
+                    : hb;
         }
 
         private static HtmlBuilder HiddenData(

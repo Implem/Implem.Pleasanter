@@ -3514,9 +3514,8 @@ namespace Implem.Pleasanter.Models
                         issueId: issueModel.IssueId));
                 }
                 var addCommentCollection = new List<string>();
-                addCommentCollection.AddRange(hash.Select(o => "[{0}]({1}{2})  ".Params(
+                addCommentCollection.AddRange(hash.Select(o => "[{0}]({1})  ".Params(
                     context.Forms.Data("SeparateTitle_" + o.Key),
-                    context.Server,
                     Locations.ItemEdit(
                         context: context,
                         id: o.Value.IssueId))));

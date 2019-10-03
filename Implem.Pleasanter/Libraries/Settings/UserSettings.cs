@@ -1,4 +1,5 @@
-﻿using Implem.Libraries.Utilities;
+﻿using Implem.DefinitionAccessor;
+using Implem.Libraries.Utilities;
 using Implem.Pleasanter.Libraries.Requests;
 using System;
 namespace Implem.Pleasanter.Libraries.Settings
@@ -9,6 +10,7 @@ namespace Implem.Pleasanter.Libraries.Settings
         public bool? EnableManageTenant;
         public bool? DisableTopSiteCreation;
         public bool? DisableGroupAdmin;
+        public bool? DisableStartGuide;
 
         public string RecordingJson()
         {
@@ -21,6 +23,10 @@ namespace Implem.Pleasanter.Libraries.Settings
             {
                 us.DisableGroupAdmin = DisableGroupAdmin;
             }
+            if (DisableStartGuide == true)
+            {
+                us.DisableStartGuide = DisableStartGuide;
+            }
             return us.ToJson();
         }
 
@@ -32,6 +38,20 @@ namespace Implem.Pleasanter.Libraries.Settings
         public bool InitialValue(Context context)
         {
             return RecordingJson() == "[]";
+        }
+
+        public bool StartGuide()
+        {
+            return Parameters.Service.ShowStartGuide
+                && DisableStartGuide != true
+                && DisableTopSiteCreation != true;
+        }
+
+        public bool ShowStartGuideAvailable()
+        {
+            return Parameters.Service.ShowStartGuide
+                && DisableStartGuide == true
+                && DisableTopSiteCreation != true;
         }
     }
 }

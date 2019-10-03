@@ -8,7 +8,9 @@ namespace Implem.ParameterAccessor.Parts
         public string HtmlHeadViewport;
         public string HtmlLogoText;
         public string HtmlPortalUrl;
-        public string HtmlUsageGuideUrl;
+        public string HtmlApplicationBuildingGuideUrl;
+        public string HtmlUserManualUrl;
+        public string HtmlFaqUrl;
         public string HtmlBlogUrl;
         public string HtmlSupportUrl;
         public string HtmlContactUrl;

@@ -609,13 +609,20 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             string iconCss = null,
             string cssText = null,
             string text = null,
+            string onClick = null,
             bool _using = true)
         {
             return _using
                 ? hb
-                    .Span(css: "ui-icon " + iconCss)
-                    .Span(css: cssText, _using: text != string.Empty, action: () => hb
-                        .Text(text:text))
+                    .Span(
+                        css: "ui-icon " + iconCss,
+                        attributes: new HtmlAttributes()
+                            .OnClick(onClick))
+                    .Span(
+                        css: cssText,
+                        _using: text != string.Empty,
+                        action: () => hb
+                            .Text(text: text))
                 : hb;
         }
 

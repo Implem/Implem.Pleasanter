@@ -9,7 +9,7 @@ namespace Implem.Pleasanter.Libraries.Initializers
         {
             if (Permissions.CanManageTenant(context: context))
             {
-                Initializer.SetParameters();
+                Initializer.ReloadParameters();
             }
             return "[]";
         }

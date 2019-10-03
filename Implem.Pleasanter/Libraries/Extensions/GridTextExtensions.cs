@@ -2,9 +2,11 @@
 using Implem.Pleasanter.Interfaces;
 using Implem.Pleasanter.Libraries.DataTypes;
 using Implem.Pleasanter.Libraries.Requests;
+using Implem.Pleasanter.Libraries.Responses;
 using Implem.Pleasanter.Libraries.Server;
 using Implem.Pleasanter.Libraries.Settings;
 using System;
+using System.Linq;
 namespace Implem.Pleasanter.Libraries.Extensions
 {
     public static class GridTextExtensions
@@ -60,6 +62,13 @@ namespace Implem.Pleasanter.Libraries.Extensions
         public static string GridText(this TimeZoneInfo value, Context context, Column column)
         {
             return value.StandardName;
+        }
+
+        public static string GridText(this Attachments value, Context context, Column column)
+        {
+            return value
+                .Select(o => $"[{o.Name}]({Locations.Get(context, "binaries", o.Guid, "download")})")
+                .Join("\n");
         }
     }
 }

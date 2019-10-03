@@ -1262,6 +1262,9 @@
     <Content Include="App_Data\Parameters\ExtendedStyles\Sample.css.txt" />
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
+    <Content Include="Images\Hayato1.png" />
+    <Content Include="Images\Hayato2.png" />
+    <Content Include="Images\Hayato3.png" />
     <Content Include="Images\logo-version.png" />
     <Content Include="Images\loading.gif" />
     <Content Include="Images\logo-corp-with-title.png" />
@@ -1281,6 +1284,7 @@
     <Content Include="Scripts\SetDateRangeDialog.js" />
     <Content Include="Scripts\RelatingColumns.js" />
     <Content Include="Scripts\SetNumericRangeDialog.js" />
+    <Content Include="Scripts\StartGuide.js" />
     <Content Include="Scripts\Tenants.js" />
     <Content Include="Scripts\Users.js" />
     <Content Include="Scripts\_Api.js" />
@@ -1495,6 +1499,10 @@
     <Content Include="App_Data\Parameters\Registration.json" />
     <Content Include="App_Data\Parameters\Version.json" />
     <Content Include="App_Data\Displays\SwitchToCommercialLicense.json" />
+    <Content Include="App_Data\Displays\ApplicationBuildingGuide.json" />
+    <Content Include="App_Data\Displays\DisableStartGuide.json" />
+    <Content Include="App_Data\Displays\Faq.json" />
+    <Content Include="App_Data\Displays\ShowStartGuide.json" />
     <Content Include="Tools\BackgroundTasks.ps1" />
     <Content Include="Tools\SyncByLdap.ps1" />
     <Content Include="Views\Users\EditApi.cshtml" />

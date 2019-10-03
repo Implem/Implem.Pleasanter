@@ -97,6 +97,7 @@ namespace Implem.Pleasanter
                 "~/Scripts/SiteMenu.js",
                 "~/Scripts/SiteSettings.js",
                 "~/Scripts/SiteSettingsEvents.js",
+                "~/Scripts/StartGuide.js",
                 "~/Scripts/StatusEvents.js",
                 "~/Scripts/SubmitEvents.js",
                 "~/Scripts/Template.js",

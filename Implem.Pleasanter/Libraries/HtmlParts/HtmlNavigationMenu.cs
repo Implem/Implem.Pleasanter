@@ -383,11 +383,21 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                             .Text(text: Displays.Logout(context: context))))
                 .Li(action: () => hb
                     .A(
-                        href: Parameters.General.HtmlUsageGuideUrl,
+                        href: Parameters.General.HtmlUserManualUrl,
                         target: "_blank",
                         action: () => hb
                             .Span(css: "ui-icon ui-icon-help")
                             .Text(text: Displays.UserManual(context: context))))
+                .Li(
+                    action: () => hb
+                        .A(
+                            href: "javascript:void(0);",
+                            attributes: new HtmlAttributes()
+                                .OnClick("$p.setStartGuide(0,1);"),
+                            action: () => hb
+                                .Span(css: "ui-icon ui-icon-help")
+                                .Text(text: Displays.ShowStartGuide(context: context))),
+                    _using: context.User.UserSettings.ShowStartGuideAvailable())
                 .Li(
                     action: () => hb
                         .A(

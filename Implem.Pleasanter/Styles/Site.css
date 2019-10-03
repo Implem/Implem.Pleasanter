@@ -417,6 +417,61 @@ pre{
     margin:0px 10px 0px 0px;
 }
 
+#StartGuide{
+    width:100%;
+    display:block;
+    float:left;
+    margin:0px 0px 10px 0px;
+    padding:50px 0px 0px 0px;
+    background-color:whitesmoke;
+    position:relative;
+    border-radius:10px;
+}
+
+#StartGuide > #StartGuideContents{
+    width:750px;
+    margin:0px auto;
+}
+
+#StartGuide > #StartGuideContents > a{
+    width:150px;
+    display:block;
+    float:left;
+    margin:0px 50px;
+    padding:5px;
+    text-align:center;
+    border-radius:5px;
+}
+
+#StartGuide > #StartGuideContents > a:hover{
+    background-color:white;
+}
+
+#StartGuide > #StartGuideContents > a > *{
+    display:block;
+    text-align:center;
+    clear:both;
+}
+
+#StartGuide > #StartGuideContents > a > img{
+    width:50px;
+    margin:5px 50px;
+}
+
+#StartGuide > #DisableStartGuideField{
+    display:block;
+    float:left;
+    margin:50px 0px 0px 20px;
+    clear:both;
+}
+
+#StartGuide > .ui-icon{
+    position:absolute;
+    top:10px;
+    right:10px;
+    cursor:pointer;
+}
+
 #SiteImageIconContainer{
     float:left;
 }
