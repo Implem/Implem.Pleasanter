@@ -2265,7 +2265,7 @@ namespace Implem.Pleasanter.Models
                 .Or(or: Rds.ResultsWhere()
                     .Updator(context.UserId, _operator: "<>")
                     .UpdatedTime(
-                        DateTime.Today.ToUniversal(context: context),
+                        DateTime.Today.ToDateTime().ToUniversal(context: context),
                         _operator: "<"));
             var column = ss.GetColumn(
                 context: context,
