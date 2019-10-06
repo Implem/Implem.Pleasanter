@@ -1412,6 +1412,7 @@ namespace Implem.DefinitionAccessor
                     case "Tenants_ContractSettings": Column.Tenants_ContractSettings = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Tenants_ContractSettings, definitionRow, ColumnXls); break;
                     case "Tenants_ContractDeadline": Column.Tenants_ContractDeadline = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Tenants_ContractDeadline, definitionRow, ColumnXls); break;
                     case "Tenants_DisableAllUsersPermission": Column.Tenants_DisableAllUsersPermission = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Tenants_DisableAllUsersPermission, definitionRow, ColumnXls); break;
+                    case "Tenants_DisableStartGuide": Column.Tenants_DisableStartGuide = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Tenants_DisableStartGuide, definitionRow, ColumnXls); break;
                     case "Tenants_LogoType": Column.Tenants_LogoType = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Tenants_LogoType, definitionRow, ColumnXls); break;
                     case "Tenants_HtmlTitleTop": Column.Tenants_HtmlTitleTop = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Tenants_HtmlTitleTop, definitionRow, ColumnXls); break;
                     case "Tenants_HtmlTitleSite": Column.Tenants_HtmlTitleSite = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Tenants_HtmlTitleSite, definitionRow, ColumnXls); break;
@@ -2620,6 +2621,14 @@ namespace Implem.DefinitionAccessor
                     case "_sharp_LockedWarning_space___space_div": Css._sharp_LockedWarning_space___space_div = definitionRow[1].ToString(); SetCssTable(CssTable._sharp_LockedWarning_space___space_div, definitionRow, CssXls); break;
                     case "_sharp_Application": Css._sharp_Application = definitionRow[1].ToString(); SetCssTable(CssTable._sharp_Application, definitionRow, CssXls); break;
                     case "_sharp_Application_space___space__dot_site_image_icon": Css._sharp_Application_space___space__dot_site_image_icon = definitionRow[1].ToString(); SetCssTable(CssTable._sharp_Application_space___space__dot_site_image_icon, definitionRow, CssXls); break;
+                    case "_sharp_StartGuide": Css._sharp_StartGuide = definitionRow[1].ToString(); SetCssTable(CssTable._sharp_StartGuide, definitionRow, CssXls); break;
+                    case "_sharp_StartGuide_space___space__sharp_StartGuideContents": Css._sharp_StartGuide_space___space__sharp_StartGuideContents = definitionRow[1].ToString(); SetCssTable(CssTable._sharp_StartGuide_space___space__sharp_StartGuideContents, definitionRow, CssXls); break;
+                    case "_sharp_StartGuide_space___space__sharp_StartGuideContents_space___space_a": Css._sharp_StartGuide_space___space__sharp_StartGuideContents_space___space_a = definitionRow[1].ToString(); SetCssTable(CssTable._sharp_StartGuide_space___space__sharp_StartGuideContents_space___space_a, definitionRow, CssXls); break;
+                    case "_sharp_StartGuide_space___space__sharp_StartGuideContents_space___space_a_colon_hover": Css._sharp_StartGuide_space___space__sharp_StartGuideContents_space___space_a_colon_hover = definitionRow[1].ToString(); SetCssTable(CssTable._sharp_StartGuide_space___space__sharp_StartGuideContents_space___space_a_colon_hover, definitionRow, CssXls); break;
+                    case "_sharp_StartGuide_space___space__sharp_StartGuideContents_space___space_a_space___space__asterisk_": Css._sharp_StartGuide_space___space__sharp_StartGuideContents_space___space_a_space___space__asterisk_ = definitionRow[1].ToString(); SetCssTable(CssTable._sharp_StartGuide_space___space__sharp_StartGuideContents_space___space_a_space___space__asterisk_, definitionRow, CssXls); break;
+                    case "_sharp_StartGuide_space___space__sharp_StartGuideContents_space___space_a_space___space_img": Css._sharp_StartGuide_space___space__sharp_StartGuideContents_space___space_a_space___space_img = definitionRow[1].ToString(); SetCssTable(CssTable._sharp_StartGuide_space___space__sharp_StartGuideContents_space___space_a_space___space_img, definitionRow, CssXls); break;
+                    case "_sharp_StartGuide_space___space__sharp_DisableStartGuideField": Css._sharp_StartGuide_space___space__sharp_DisableStartGuideField = definitionRow[1].ToString(); SetCssTable(CssTable._sharp_StartGuide_space___space__sharp_DisableStartGuideField, definitionRow, CssXls); break;
+                    case "_sharp_StartGuide_space___space__dot_ui_icon": Css._sharp_StartGuide_space___space__dot_ui_icon = definitionRow[1].ToString(); SetCssTable(CssTable._sharp_StartGuide_space___space__dot_ui_icon, definitionRow, CssXls); break;
                     case "_sharp_SiteImageIconContainer": Css._sharp_SiteImageIconContainer = definitionRow[1].ToString(); SetCssTable(CssTable._sharp_SiteImageIconContainer, definitionRow, CssXls); break;
                     case "_sharp_SiteImageIconContainer_space___space__asterisk_": Css._sharp_SiteImageIconContainer_space___space__asterisk_ = definitionRow[1].ToString(); SetCssTable(CssTable._sharp_SiteImageIconContainer_space___space__asterisk_, definitionRow, CssXls); break;
                     case "_sharp_HeaderTitleContainer": Css._sharp_HeaderTitleContainer = definitionRow[1].ToString(); SetCssTable(CssTable._sharp_HeaderTitleContainer, definitionRow, CssXls); break;
@@ -8706,6 +8715,7 @@ namespace Implem.DefinitionAccessor
         public string Tenants_ContractSettings;
         public string Tenants_ContractDeadline;
         public string Tenants_DisableAllUsersPermission;
+        public string Tenants_DisableStartGuide;
         public string Tenants_LogoType;
         public string Tenants_HtmlTitleTop;
         public string Tenants_HtmlTitleSite;
@@ -9181,6 +9191,7 @@ namespace Implem.DefinitionAccessor
         public ColumnDefinition Tenants_ContractSettings = new ColumnDefinition();
         public ColumnDefinition Tenants_ContractDeadline = new ColumnDefinition();
         public ColumnDefinition Tenants_DisableAllUsersPermission = new ColumnDefinition();
+        public ColumnDefinition Tenants_DisableStartGuide = new ColumnDefinition();
         public ColumnDefinition Tenants_LogoType = new ColumnDefinition();
         public ColumnDefinition Tenants_HtmlTitleTop = new ColumnDefinition();
         public ColumnDefinition Tenants_HtmlTitleSite = new ColumnDefinition();
@@ -9937,6 +9948,14 @@ namespace Implem.DefinitionAccessor
         public string _sharp_LockedWarning_space___space_div;
         public string _sharp_Application;
         public string _sharp_Application_space___space__dot_site_image_icon;
+        public string _sharp_StartGuide;
+        public string _sharp_StartGuide_space___space__sharp_StartGuideContents;
+        public string _sharp_StartGuide_space___space__sharp_StartGuideContents_space___space_a;
+        public string _sharp_StartGuide_space___space__sharp_StartGuideContents_space___space_a_colon_hover;
+        public string _sharp_StartGuide_space___space__sharp_StartGuideContents_space___space_a_space___space__asterisk_;
+        public string _sharp_StartGuide_space___space__sharp_StartGuideContents_space___space_a_space___space_img;
+        public string _sharp_StartGuide_space___space__sharp_DisableStartGuideField;
+        public string _sharp_StartGuide_space___space__dot_ui_icon;
         public string _sharp_SiteImageIconContainer;
         public string _sharp_SiteImageIconContainer_space___space__asterisk_;
         public string _sharp_HeaderTitleContainer;
@@ -10437,6 +10456,14 @@ namespace Implem.DefinitionAccessor
         public CssDefinition _sharp_LockedWarning_space___space_div = new CssDefinition();
         public CssDefinition _sharp_Application = new CssDefinition();
         public CssDefinition _sharp_Application_space___space__dot_site_image_icon = new CssDefinition();
+        public CssDefinition _sharp_StartGuide = new CssDefinition();
+        public CssDefinition _sharp_StartGuide_space___space__sharp_StartGuideContents = new CssDefinition();
+        public CssDefinition _sharp_StartGuide_space___space__sharp_StartGuideContents_space___space_a = new CssDefinition();
+        public CssDefinition _sharp_StartGuide_space___space__sharp_StartGuideContents_space___space_a_colon_hover = new CssDefinition();
+        public CssDefinition _sharp_StartGuide_space___space__sharp_StartGuideContents_space___space_a_space___space__asterisk_ = new CssDefinition();
+        public CssDefinition _sharp_StartGuide_space___space__sharp_StartGuideContents_space___space_a_space___space_img = new CssDefinition();
+        public CssDefinition _sharp_StartGuide_space___space__sharp_DisableStartGuideField = new CssDefinition();
+        public CssDefinition _sharp_StartGuide_space___space__dot_ui_icon = new CssDefinition();
         public CssDefinition _sharp_SiteImageIconContainer = new CssDefinition();
         public CssDefinition _sharp_SiteImageIconContainer_space___space__asterisk_ = new CssDefinition();
         public CssDefinition _sharp_HeaderTitleContainer = new CssDefinition();

@@ -30,6 +30,7 @@ namespace Implem.Pleasanter.Models
         public ContractSettings ContractSettings = new ContractSettings();
         public DateTime ContractDeadline = 0.ToDateTime();
         public bool DisableAllUsersPermission = false;
+        public bool DisableStartGuide = false;
         public LogoTypes LogoType = (LogoTypes)0;
         public string HtmlTitleTop = "[ProductName]";
         public string HtmlTitleSite = "[ProductName]";
@@ -41,6 +42,7 @@ namespace Implem.Pleasanter.Models
         public string SavedContractSettings = string.Empty;
         public DateTime SavedContractDeadline = 0.ToDateTime();
         public bool SavedDisableAllUsersPermission = false;
+        public bool SavedDisableStartGuide = false;
         public int SavedLogoType = 0;
         public string SavedHtmlTitleTop = "[ProductName]";
         public string SavedHtmlTitleSite = "[ProductName]";
@@ -92,6 +94,14 @@ namespace Implem.Pleasanter.Models
                 (column == null ||
                 column.DefaultInput.IsNullOrEmpty() ||
                 column.GetDefaultInput(context: context).ToBool() != DisableAllUsersPermission);
+        }
+
+        public bool DisableStartGuide_Updated(Context context, Column column = null)
+        {
+            return DisableStartGuide != SavedDisableStartGuide &&
+                (column == null ||
+                column.DefaultInput.IsNullOrEmpty() ||
+                column.GetDefaultInput(context: context).ToBool() != DisableStartGuide);
         }
 
         public bool LogoType_Updated(Context context, Column column = null)
@@ -284,6 +294,7 @@ namespace Implem.Pleasanter.Models
                     case "ContractSettings": data.ContractSettings = ContractSettings?.RecordingJson(); break;
                     case "ContractDeadline": data.ContractDeadline = ContractDeadline.ToLocal(context: context); break;
                     case "DisableAllUsersPermission": data.DisableAllUsersPermission = DisableAllUsersPermission; break;
+                    case "DisableStartGuide": data.DisableStartGuide = DisableStartGuide; break;
                     case "LogoType": data.LogoType = LogoType.ToInt(); break;
                     case "HtmlTitleTop": data.HtmlTitleTop = HtmlTitleTop; break;
                     case "HtmlTitleSite": data.HtmlTitleSite = HtmlTitleSite; break;
@@ -556,6 +567,7 @@ namespace Implem.Pleasanter.Models
                     case "Tenants_Body": Body = value.ToString(); break;
                     case "Tenants_ContractDeadline": ContractDeadline = value.ToDateTime().ToUniversal(context: context); break;
                     case "Tenants_DisableAllUsersPermission": DisableAllUsersPermission = value.ToBool(); break;
+                    case "Tenants_DisableStartGuide": DisableStartGuide = value.ToBool(); break;
                     case "Tenants_LogoType": LogoType = (LogoTypes)value.ToInt(); break;
                     case "Tenants_HtmlTitleTop": HtmlTitleTop = value.ToString(); break;
                     case "Tenants_HtmlTitleSite": HtmlTitleSite = value.ToString(); break;
@@ -640,6 +652,7 @@ namespace Implem.Pleasanter.Models
             ContractSettings = tenantModel.ContractSettings;
             ContractDeadline = tenantModel.ContractDeadline;
             DisableAllUsersPermission = tenantModel.DisableAllUsersPermission;
+            DisableStartGuide = tenantModel.DisableStartGuide;
             LogoType = tenantModel.LogoType;
             HtmlTitleTop = tenantModel.HtmlTitleTop;
             HtmlTitleSite = tenantModel.HtmlTitleSite;
@@ -671,6 +684,7 @@ namespace Implem.Pleasanter.Models
             if (data.Body != null) Body = data.Body.ToString().ToString();
             if (data.ContractDeadline != null) ContractDeadline = data.ContractDeadline.ToDateTime().ToDateTime().ToUniversal(context: context);
             if (data.DisableAllUsersPermission != null) DisableAllUsersPermission = data.DisableAllUsersPermission.ToBool().ToBool();
+            if (data.DisableStartGuide != null) DisableStartGuide = data.DisableStartGuide.ToBool().ToBool();
             if (data.LogoType != null) LogoType = (LogoTypes)data.LogoType.ToInt().ToInt();
             if (data.HtmlTitleTop != null) HtmlTitleTop = data.HtmlTitleTop.ToString().ToString();
             if (data.HtmlTitleSite != null) HtmlTitleSite = data.HtmlTitleSite.ToString().ToString();
@@ -755,6 +769,10 @@ namespace Implem.Pleasanter.Models
                         case "DisableAllUsersPermission":
                             DisableAllUsersPermission = dataRow[column.ColumnName].ToBool();
                             SavedDisableAllUsersPermission = DisableAllUsersPermission;
+                            break;
+                        case "DisableStartGuide":
+                            DisableStartGuide = dataRow[column.ColumnName].ToBool();
+                            SavedDisableStartGuide = DisableStartGuide;
                             break;
                         case "LogoType":
                             LogoType = (LogoTypes)dataRow[column.ColumnName].ToInt();
@@ -866,6 +884,7 @@ namespace Implem.Pleasanter.Models
                 || ContractSettings_Updated(context: context)
                 || ContractDeadline_Updated(context: context)
                 || DisableAllUsersPermission_Updated(context: context)
+                || DisableStartGuide_Updated(context: context)
                 || LogoType_Updated(context: context)
                 || HtmlTitleTop_Updated(context: context)
                 || HtmlTitleSite_Updated(context: context)

@@ -545,7 +545,12 @@ namespace Implem.Pleasanter.Models
                             controlId: "Tenants_DisableAllUsersPermission",
                             fieldCss: "field-auto-thin",
                             _checked: tenantModel.DisableAllUsersPermission,
-                            labelText: Displays.Tenants_DisableAllUsersPermission(context: context)))
+                            labelText: Displays.Tenants_DisableAllUsersPermission(context: context))
+                        .FieldCheckBox(
+                            controlId: "Tenants_DisableStartGuide",
+                            fieldCss: "field-auto-thin",
+                            _checked: tenantModel.DisableStartGuide,
+                            labelText: Displays.Tenants_DisableStartGuide(context: context)))
                 .TenantImageSettingsEditor(context, tenantModel)
                 .FieldSet(
                     id: "HtmlTitleSettingsField",
@@ -811,6 +816,11 @@ namespace Implem.Pleasanter.Models
                             res.Val(
                                 "#Tenants_DisableAllUsersPermission" + idSuffix,
                                 tenantModel.DisableAllUsersPermission);
+                            break;
+                        case "DisableStartGuide":
+                            res.Val(
+                                "#Tenants_DisableStartGuide" + idSuffix,
+                                tenantModel.DisableStartGuide);
                             break;
                         case "LogoType":
                             res.Val(
