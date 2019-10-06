@@ -748,6 +748,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                         case "ContractSettings": return "[ContractSettings]";
                         case "ContractDeadline": return "[ContractDeadline]";
                         case "DisableAllUsersPermission": return "[DisableAllUsersPermission]";
+                        case "DisableStartGuide": return "[DisableStartGuide]";
                         case "LogoType": return "[LogoType]";
                         case "HtmlTitleTop": return "[HtmlTitleTop]";
                         case "HtmlTitleSite": return "[HtmlTitleSite]";
@@ -1441,6 +1442,11 @@ namespace Implem.Pleasanter.Libraries.DataSources
                                 function: function);
                         case "DisableAllUsersPermission":
                             return self.Tenants_DisableAllUsersPermission(
+                                tableName: column.TableName(),
+                                orderType: orderType,
+                                function: function);
+                        case "DisableStartGuide":
+                            return self.Tenants_DisableStartGuide(
                                 tableName: column.TableName(),
                                 orderType: orderType,
                                 function: function);
@@ -9192,6 +9198,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             column.ContractSettings(function: Sqls.Functions.SingleColumn); param.ContractSettings();
             column.ContractDeadline(function: Sqls.Functions.SingleColumn); param.ContractDeadline();
             column.DisableAllUsersPermission(function: Sqls.Functions.SingleColumn); param.DisableAllUsersPermission();
+            column.DisableStartGuide(function: Sqls.Functions.SingleColumn); param.DisableStartGuide();
             column.LogoType(function: Sqls.Functions.SingleColumn); param.LogoType();
             column.HtmlTitleTop(function: Sqls.Functions.SingleColumn); param.HtmlTitleTop();
             column.HtmlTitleSite(function: Sqls.Functions.SingleColumn); param.HtmlTitleSite();
@@ -11638,6 +11645,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     [Tenants_deleted].[ContractSettings],
                     [Tenants_deleted].[ContractDeadline],
                     [Tenants_deleted].[DisableAllUsersPermission],
+                    [Tenants_deleted].[DisableStartGuide],
                     [Tenants_deleted].[LogoType],
                     [Tenants_deleted].[HtmlTitleTop],
                     [Tenants_deleted].[HtmlTitleSite],
@@ -11659,6 +11667,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     [Tenants].[ContractSettings],
                     [Tenants].[ContractDeadline],
                     [Tenants].[DisableAllUsersPermission],
+                    [Tenants].[DisableStartGuide],
                     [Tenants].[LogoType],
                     [Tenants].[HtmlTitleTop],
                     [Tenants].[HtmlTitleSite],
@@ -12816,6 +12825,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     [Tenants].[ContractSettings],
                     [Tenants].[ContractDeadline],
                     [Tenants].[DisableAllUsersPermission],
+                    [Tenants].[DisableStartGuide],
                     [Tenants].[LogoType],
                     [Tenants].[HtmlTitleTop],
                     [Tenants].[HtmlTitleSite],
@@ -12837,6 +12847,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     [Tenants_deleted].[ContractSettings],
                     [Tenants_deleted].[ContractDeadline],
                     [Tenants_deleted].[DisableAllUsersPermission],
+                    [Tenants_deleted].[DisableStartGuide],
                     [Tenants_deleted].[LogoType],
                     [Tenants_deleted].[HtmlTitleTop],
                     [Tenants_deleted].[HtmlTitleSite],
@@ -14247,6 +14258,8 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     return self.ContractDeadline(_as: _as, function: function);
                 case "DisableAllUsersPermission":
                     return self.DisableAllUsersPermission(_as: _as, function: function);
+                case "DisableStartGuide":
+                    return self.DisableStartGuide(_as: _as, function: function);
                 case "LogoType":
                     return self.LogoType(_as: _as, function: function);
                 case "HtmlTitleTop":
@@ -14541,6 +14554,40 @@ namespace Implem.Pleasanter.Libraries.DataSources
         {
             return self.Add(
                 columnBracket: "[DisableAllUsersPermission]",
+                tableName: tableName,
+                columnName: columnName,
+                _as: _as,
+                function: function,
+                sub: sub);
+        }
+
+        public static TenantsColumnCollection DisableStartGuide(
+            this TenantsColumnCollection self,
+            string tableName = "Tenants",
+            string columnName = "DisableStartGuide",
+            string _as = null,
+            Sqls.Functions function = Sqls.Functions.None,
+            SqlStatement sub = null)
+        {
+            return self.Add(
+                columnBracket: "[DisableStartGuide]",
+                tableName: tableName,
+                columnName: columnName,
+                _as: _as,
+                function: function,
+                sub: sub);
+        }
+
+        public static SqlColumnCollection Tenants_DisableStartGuide(
+            this SqlColumnCollection self,
+            string tableName = "Tenants",
+            string columnName = "DisableStartGuide",
+            string _as = null,
+            Sqls.Functions function = Sqls.Functions.None,
+            SqlStatement sub = null)
+        {
+            return self.Add(
+                columnBracket: "[DisableStartGuide]",
                 tableName: tableName,
                 columnName: columnName,
                 _as: _as,
@@ -15318,6 +15365,64 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBrackets: new string[] { "[DisableAllUsersPermission]" },
                     tableName: tableName,
                     name: "DisableAllUsersPermission",
+                    value: value,
+                    _operator: _operator,
+                    multiColumnOperator: multiColumnOperator,
+                    multiParamOperator: multiParamOperator,
+                    subLeft: subLeft,
+                    sub: sub,
+                    subPrefix: subPrefix,
+                    raw: raw)
+                : self;
+        }
+
+        public static TenantsWhereCollection DisableStartGuide(
+            this TenantsWhereCollection self,
+            object value = null,
+            string tableName = "Tenants",
+            string _operator = "=",
+            string multiColumnOperator = " or ",
+            string multiParamOperator = " and ",
+            SqlStatement subLeft = null,
+            SqlStatement sub = null,
+            bool subPrefix = true,
+            string raw = null,
+            bool _using = true)
+        {
+            return _using
+                ? self.Add(
+                    columnBrackets: new string[] { "[DisableStartGuide]" },
+                    tableName: tableName,
+                    name: "DisableStartGuide",
+                    value: value,
+                    _operator: _operator,
+                    multiColumnOperator: multiColumnOperator,
+                    multiParamOperator: multiParamOperator,
+                    subLeft: subLeft,
+                    sub: sub,
+                    subPrefix: subPrefix,
+                    raw: raw)
+                : self;
+        }
+
+        public static SqlWhereCollection Tenants_DisableStartGuide(
+            this SqlWhereCollection self,
+            object value = null,
+            string tableName = "Tenants",
+            string _operator = "=",
+            string multiColumnOperator = " or ",
+            string multiParamOperator = " and ",
+            SqlStatement subLeft = null,
+            SqlStatement sub = null,
+            bool subPrefix = true,
+            string raw = null,
+            bool _using = true)
+        {
+            return _using
+                ? self.Add(
+                    columnBrackets: new string[] { "[DisableStartGuide]" },
+                    tableName: tableName,
+                    name: "DisableStartGuide",
                     value: value,
                     _operator: _operator,
                     multiColumnOperator: multiColumnOperator,
@@ -16350,6 +16455,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     case "ContractSettings": return self.ContractSettings();
                     case "ContractDeadline": return self.ContractDeadline();
                     case "DisableAllUsersPermission": return self.DisableAllUsersPermission();
+                    case "DisableStartGuide": return self.DisableStartGuide();
                     case "LogoType": return self.LogoType();
                     case "HtmlTitleTop": return self.HtmlTitleTop();
                     case "HtmlTitleSite": return self.HtmlTitleSite();
@@ -16465,6 +16571,18 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this SqlGroupByCollection self, string tableName = "Tenants")
         {
             return self.Add(columnBracket: "[DisableAllUsersPermission]", tableName: tableName);
+        }
+
+        public static TenantsGroupByCollection DisableStartGuide(
+            this TenantsGroupByCollection self, string tableName = "Tenants")
+        {
+            return self.Add(columnBracket: "[DisableStartGuide]", tableName: tableName);
+        }
+
+        public static SqlGroupByCollection Tenants_DisableStartGuide(
+            this SqlGroupByCollection self, string tableName = "Tenants")
+        {
+            return self.Add(columnBracket: "[DisableStartGuide]", tableName: tableName);
         }
 
         public static TenantsGroupByCollection LogoType(
@@ -16739,6 +16857,21 @@ namespace Implem.Pleasanter.Libraries.DataSources
             return self;
         }
 
+        public static TenantsOrderByCollection DisableStartGuide(
+            this TenantsOrderByCollection self,
+            SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
+            string tableName = "Tenants",
+            Sqls.Functions function = Sqls.Functions.None)
+        {
+            new List<string> { "[DisableStartGuide]" }.ForEach(columnBracket =>
+                self.Add(
+                    columnBracket: columnBracket,
+                    orderType: orderType,
+                    tableName: tableName,
+                    function: function));
+            return self;
+        }
+
         public static TenantsOrderByCollection LogoType(
             this TenantsOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
@@ -16986,6 +17119,21 @@ namespace Implem.Pleasanter.Libraries.DataSources
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "[DisableAllUsersPermission]" }.ForEach(columnBracket =>
+                self.Add(
+                    columnBracket: columnBracket,
+                    orderType: orderType,
+                    tableName: tableName,
+                    function: function));
+            return self;
+        }
+
+        public static SqlOrderByCollection Tenants_DisableStartGuide(
+            this SqlOrderByCollection self,
+            SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
+            string tableName = "Tenants",
+            Sqls.Functions function = Sqls.Functions.None)
+        {
+            new List<string> { "[DisableStartGuide]" }.ForEach(columnBracket =>
                 self.Add(
                     columnBracket: columnBracket,
                     orderType: orderType,
@@ -17405,6 +17553,40 @@ namespace Implem.Pleasanter.Libraries.DataSources
                 ? self.Add(
                     columnBracket: "[DisableAllUsersPermission]",
                     name: "DisableAllUsersPermission",
+                    value: value,
+                    sub: sub,
+                    raw: raw)
+                : self;
+        }
+
+        public static TenantsParamCollection DisableStartGuide(
+            this TenantsParamCollection self,
+            object value = null,
+            SqlStatement sub = null,
+            string raw = null,
+            bool _using = true)
+        {
+            return _using
+                ? self.Add(
+                    columnBracket: "[DisableStartGuide]",
+                    name: "DisableStartGuide",
+                    value: value,
+                    sub: sub,
+                    raw: raw)
+                : self;
+        }
+
+        public static SqlParamCollection Tenants_DisableStartGuide(
+            this SqlParamCollection self,
+            object value = null,
+            SqlStatement sub = null,
+            string raw = null,
+            bool _using = true)
+        {
+            return _using
+                ? self.Add(
+                    columnBracket: "[DisableStartGuide]",
+                    name: "DisableStartGuide",
                     value: value,
                     sub: sub,
                     raw: raw)
@@ -99430,6 +99612,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                 .ContractSettings()
                 .ContractDeadline()
                 .DisableAllUsersPermission()
+                .DisableStartGuide()
                 .LogoType()
                 .HtmlTitleTop()
                 .HtmlTitleSite()
@@ -99473,6 +99656,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                 .ContractSettings(tenantModel.ContractSettings?.RecordingJson(), _using: tenantModel.ContractSettings_Updated(context) || (otherInitValue && !tenantModel.ContractSettings.InitialValue(context)))
                 .ContractDeadline(tenantModel.ContractDeadline, _using: tenantModel.ContractDeadline_Updated(context) || (otherInitValue && !tenantModel.ContractDeadline.InitialValue(context)))
                 .DisableAllUsersPermission(tenantModel.DisableAllUsersPermission, _using: tenantModel.DisableAllUsersPermission_Updated(context) || (otherInitValue && !tenantModel.DisableAllUsersPermission.InitialValue(context)))
+                .DisableStartGuide(tenantModel.DisableStartGuide, _using: tenantModel.DisableStartGuide_Updated(context) || (otherInitValue && !tenantModel.DisableStartGuide.InitialValue(context)))
                 .LogoType(tenantModel.LogoType.ToInt(), _using: tenantModel.LogoType_Updated(context) || setDefault || (otherInitValue && !tenantModel.LogoType.InitialValue(context)))
                 .HtmlTitleTop(tenantModel.HtmlTitleTop.MaxLength(1024), _using: tenantModel.HtmlTitleTop_Updated(context) || setDefault || (otherInitValue && !tenantModel.HtmlTitleTop.InitialValue(context)))
                 .HtmlTitleSite(tenantModel.HtmlTitleSite.MaxLength(1024), _using: tenantModel.HtmlTitleSite_Updated(context) || setDefault || (otherInitValue && !tenantModel.HtmlTitleSite.InitialValue(context)))

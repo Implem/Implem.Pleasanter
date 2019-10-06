@@ -40,16 +40,18 @@ namespace Implem.Pleasanter.Libraries.Settings
             return RecordingJson() == "[]";
         }
 
-        public bool StartGuide()
+        public bool StartGuide(Context context)
         {
             return Parameters.Service.ShowStartGuide
+                && context.DisableStartGuide != true
                 && DisableStartGuide != true
                 && DisableTopSiteCreation != true;
         }
 
-        public bool ShowStartGuideAvailable()
+        public bool ShowStartGuideAvailable(Context context)
         {
             return Parameters.Service.ShowStartGuide
+                && context.DisableStartGuide != true
                 && DisableStartGuide == true
                 && DisableTopSiteCreation != true;
         }

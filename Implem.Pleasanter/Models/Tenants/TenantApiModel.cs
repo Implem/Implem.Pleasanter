@@ -13,6 +13,7 @@ namespace Implem.Pleasanter.Models
         public string ContractSettings { get; set; }
         public DateTime? ContractDeadline { get; set; }
         public bool? DisableAllUsersPermission { get; set; }
+        public bool? DisableStartGuide { get; set; }
         public int? LogoType { get; set; }
         public string HtmlTitleTop { get; set; }
         public string HtmlTitleSite { get; set; }

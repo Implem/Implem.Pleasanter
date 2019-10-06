@@ -6858,6 +6858,16 @@ namespace Implem.Pleasanter.Libraries.Responses
                 data: data);
         }
 
+        public static string Tenants_DisableStartGuide(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "Tenants_DisableStartGuide",
+                data: data);
+        }
+
         public static string Tenants_LogoType(
             Context context,
             params string[] data)
