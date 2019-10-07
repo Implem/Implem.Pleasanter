@@ -463,7 +463,7 @@ namespace Implem.Pleasanter.Libraries.Search
             SiteSettings ss, string searchText, IEnumerable<long> siteIdList, string like)
         {
             return Rds.SelectItems(
-                tableType: ss.TableType,
+                tableType: ss?.TableType ?? Sqls.TableTypes.Normal,
                 column: Rds.ItemsColumn().ReferenceId(),
                 where: Rds.ItemsWhere()
                     .SiteId_In(siteIdList)
