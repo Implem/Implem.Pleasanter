@@ -952,7 +952,8 @@ namespace Implem.Pleasanter.Models
                 siteModel.InheritPermission = context.Forms.Long("InheritPermission");
                 ss.InheritPermission = siteModel.InheritPermission;
             }
-            if (context.Forms.Exists("CurrentPermissionsAll"))
+            if (context.Forms.Exists("CurrentPermissionsAll")
+                && Parameters.Permissions.CheckManagePermission)
             {
                 if (!new PermissionCollection(
                     context: context,
