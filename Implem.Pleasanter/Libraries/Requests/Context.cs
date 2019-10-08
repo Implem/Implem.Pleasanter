@@ -74,7 +74,7 @@ namespace Implem.Pleasanter.Libraries.Requests
         public UserSettings UserSettings;
         public bool HasPrivilege;
         public ContractSettings ContractSettings = new ContractSettings();
-        public decimal ApiVersion;
+        public decimal ApiVersion = 1.000M;
         public string ApiRequestBody;
         public string RequestDataString { get => ApiRequestBody ?? FormString; }
 
@@ -234,6 +234,7 @@ namespace Implem.Pleasanter.Libraries.Requests
                 }
                 else if (!LoginId.IsNullOrEmpty())
                 {
+                    ApiVersion = api?.ApiVersion ?? ApiVersion;
                     SetUser(userModel: GetUser(where: Rds.UsersWhere()
                         .LoginId(Strings.CoalesceEmpty(
                             Permissions.PrivilegedUsers(
