@@ -695,7 +695,7 @@
     <Content Include="App_Data\Displays\ConfirmCreateLink.json" />
     <Content Include="App_Data\Displays\ConfirmDelete.json" />
     <Content Include="App_Data\Displays\ConfirmDeleteSite.json" />
-    <Content Include="App_Data\Displays\ConfirmPhyscalDelete.json" />
+    <Content Include="App_Data\Displays\ConfirmPhysicalDelete.json" />
     <Content Include="App_Data\Displays\ConfirmRebuildSearchIndex.json" />
     <Content Include="App_Data\Displays\ConfirmReset.json" />
     <Content Include="App_Data\Displays\ConfirmRestore.json" />
@@ -768,7 +768,7 @@
     <Content Include="App_Data\Displays\Direct.json" />
     <Content Include="App_Data\Displays\DirectUrlCopied.json" />
     <Content Include="App_Data\Displays\Disabled.json" />
-    <Content Include="App_Data\Displays\DisplayCompletedInPast.json" />
+    <Content Include="App_Data\Displays\SendCompletedInPast.json" />
     <Content Include="App_Data\Displays\DisplayName.json" />
     <Content Include="App_Data\Displays\Duplicated.json" />
     <Content Include="App_Data\Displays\EarnedValue.json" />
@@ -1165,7 +1165,7 @@
     <Content Include="App_Data\Displays\SynchronizationCompleted.json" />
     <Content Include="App_Data\Displays\Synchronize.json" />
     <Content Include="App_Data\Displays\Tables.json" />
-    <Content Include="App_Data\Displays\TableSettings.json" />
+    <Content Include="App_Data\Displays\ManageTable.json" />
     <Content Include="App_Data\Displays\Target.json" />
     <Content Include="App_Data\Displays\Teams.json" />
     <Content Include="App_Data\Displays\Template.json" />

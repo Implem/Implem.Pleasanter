@@ -1878,16 +1878,6 @@ namespace Implem.Pleasanter.Libraries.Responses
                 data: data);
         }
 
-        public static string SendCompletedInPast(
-            Context context,
-            params string[] data)
-        {
-            return Get(
-                context: context,
-                id: "SendCompletedInPast",
-                data: data);
-        }
-
         public static string DisplayName(
             Context context,
             params string[] data)
@@ -3708,6 +3698,16 @@ namespace Implem.Pleasanter.Libraries.Responses
                 data: data);
         }
 
+        public static string ManageTable(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "ManageTable",
+                data: data);
+        }
+
         public static string ManageWiki(
             Context context,
             params string[] data)
@@ -5338,6 +5338,16 @@ namespace Implem.Pleasanter.Libraries.Responses
                 data: data);
         }
 
+        public static string SendCompletedInPast(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "SendCompletedInPast",
+                data: data);
+        }
+
         public static string SendMail(
             Context context,
             params string[] data)
@@ -5875,16 +5885,6 @@ namespace Implem.Pleasanter.Libraries.Responses
             return Get(
                 context: context,
                 id: "Tables",
-                data: data);
-        }
-
-        public static string ManageTable(
-            Context context,
-            params string[] data)
-        {
-            return Get(
-                context: context,
-                id: "ManageTable",
                 data: data);
         }
 
