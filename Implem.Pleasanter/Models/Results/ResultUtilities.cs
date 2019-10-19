@@ -3965,12 +3965,17 @@ namespace Implem.Pleasanter.Models
                                         ? "text/csv"
                                         : "application/json"))
                         });
+                    var serverName = (Parameters.Service.AbsoluteUri == null)
+                        ? context.Server
+                        : System.Text.RegularExpressions.Regex.Replace(
+                            Parameters.Service.AbsoluteUri.TrimEnd('/'),
+                            $"{context.ApplicationPath.TrimEnd('/')}$",
+                            string.Empty);    
                     new OutgoingMailModel()
                     {
                         Title = new Title(Displays.ExportEmailTitle(context: context,fileName)),
                         Body = Displays.ExportEmailBody(context: context) + "\n" +
-                            $"{(Parameters.Service.AbsoluteUri ?? context.Server)}" +
-                            $"/{Locations.DownloadFile(context: context, guid: guid)}",
+                            $"{serverName}{Locations.DownloadFile(context: context, guid: guid)}",
                         From = new System.Net.Mail.MailAddress(Parameters.Mail.SupportFrom),
                         To = MailAddressUtilities.Get(context: context, context.UserId),
                     }.Send(context: context, ss);
