@@ -31,7 +31,7 @@
             if (!name) return;
             var input = document.createElement('input');
             input.setAttribute('type', 'hidden');
-            input.setAttribute('name', $('.main-form').attr('name').replace(/Form$/, '') + '_' + name);
+            input.setAttribute('name', $('#ReferenceType').val() + '_' + name);
             input.setAttribute('value', value);
             form.appendChild(input);
         }
