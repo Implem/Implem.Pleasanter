@@ -23,7 +23,6 @@ namespace Implem.Pleasanter.Libraries.DataTypes
         public string LoginId;
         public string Name;
         public string UserCode;
-        public UserSettings UserSettings;
         public bool TenantManager;
         public bool ServiceManager;
         public bool Disabled;
@@ -89,8 +88,6 @@ namespace Implem.Pleasanter.Libraries.DataTypes
             LoginId = dataRow.String("LoginId");
             Name = dataRow.String("Name");
             UserCode = dataRow.String("UserCode");
-            UserSettings = dataRow.String("UserSettings").Deserialize<UserSettings>()
-                ?? new UserSettings();
             TenantManager = dataRow.Bool("TenantManager")
                 || Permissions.PrivilegedUsers(loginId: dataRow.String("LoginId"));
             ServiceManager = dataRow.Bool("ServiceManager");

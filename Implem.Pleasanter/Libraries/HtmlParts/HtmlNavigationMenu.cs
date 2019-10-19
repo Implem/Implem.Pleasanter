@@ -397,7 +397,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                             action: () => hb
                                 .Span(css: "ui-icon ui-icon-help")
                                 .Text(text: Displays.ShowStartGuide(context: context))),
-                    _using: context.User.UserSettings.ShowStartGuideAvailable(context: context))
+                    _using: context.UserSettings.ShowStartGuideAvailable(context: context))
                 .Li(
                     action: () => hb
                         .A(
