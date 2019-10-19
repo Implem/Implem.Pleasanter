@@ -3654,7 +3654,7 @@ namespace Implem.Pleasanter.Models
         /// </summary>
         public static string SetStartGuide(Context context)
         {
-            context.User.UserSettings.DisableStartGuide = context.Forms.Bool("DisableStartGuide");
+            context.UserSettings.DisableStartGuide = context.Forms.Bool("DisableStartGuide");
             Rds.ExecuteNonQuery(
                 context: context,
                 statements: Rds.UpdateUsers(
@@ -3662,7 +3662,7 @@ namespace Implem.Pleasanter.Models
                         .TenantId(context.TenantId)
                         .UserId(context.UserId),
                     param: Rds.UsersParam()
-                        .UserSettings(context.User.UserSettings.RecordingJson()),
+                        .UserSettings(context.UserSettings.RecordingJson()),
                     addUpdatorParam: false,
                     addUpdatedTimeParam: false));
             return new ResponseCollection().ToJson();

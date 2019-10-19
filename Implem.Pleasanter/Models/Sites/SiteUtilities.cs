@@ -3160,7 +3160,7 @@ namespace Implem.Pleasanter.Models
         /// </summary>
         private static HtmlBuilder StartGuide(this HtmlBuilder hb, Context context)
         {
-            return context.User.UserSettings.StartGuide(context: context)
+            return context.UserSettings.StartGuide(context: context)
                 ? hb.Div(
                     id: "StartGuide",
                     action: () => hb
