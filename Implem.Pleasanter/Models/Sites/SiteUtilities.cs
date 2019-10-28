@@ -2393,7 +2393,9 @@ namespace Implem.Pleasanter.Models
                     invalid: invalid);
             }
             var ownerId = siteModel.SiteId == 0
-                ? context.UserId
+                ? Parameters.Site.TopOrderBy > 0 
+                    ? Parameters.Site.TopOrderBy
+                    : context.UserId
                 : 0;
             SortSiteMenu(
                 context: context,
@@ -2713,7 +2715,11 @@ namespace Implem.Pleasanter.Models
                 verType: verType,
                 methodType: BaseModel.MethodTypes.Index,
                 referenceType: "Sites",
-                script: "$p.setSiteMenu();",
+                script: (Parameters.Site.TopOrderBy <= 0
+                    || context.UserId == Parameters.Site.TopOrderBy
+                    || Permissions.PrivilegedUsers(loginId: context.LoginId))
+                        ? "$p.setSiteMenu();"
+                        : null,
                 action: () =>
                 {
                     hb

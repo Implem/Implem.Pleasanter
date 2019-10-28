@@ -18,6 +18,7 @@ namespace Implem.Libraries.DataSources.SqlServer
         public SqlStatement Sub;
         public bool SubPrefix;
         public string Raw;
+        public SqlWhereCollection And;
         public SqlWhereCollection Or;
         public bool Using = true;
 
@@ -33,6 +34,7 @@ namespace Implem.Libraries.DataSources.SqlServer
             SqlStatement sub = null,
             bool subPrefix = true,
             string raw = null,
+            SqlWhereCollection and = null,
             SqlWhereCollection or = null,
             bool _using = true)
         {
@@ -47,6 +49,7 @@ namespace Implem.Libraries.DataSources.SqlServer
             Sub = sub;
             SubPrefix = subPrefix;
             Raw = raw;
+            And = and;
             Or = or;
             Using = _using;
         }
@@ -84,12 +87,19 @@ namespace Implem.Libraries.DataSources.SqlServer
                         commandCount: commandCount,
                         select: select);
                 }
+                else if (And != null)
+                {
+                    return Sql_And(
+                        sqlContainer: sqlContainer,
+                        sqlCommand: sqlCommand,
+                        commandCount: commandCount,
+                        select: select);
+                }
                 else if (Or != null)
                 {
                     return Sql_Or(
                         sqlContainer: sqlContainer,
                         sqlCommand: sqlCommand,
-                        tableBracket: tableBracket,
                         commandCount: commandCount,
                         select: select);
                 }
@@ -301,21 +311,38 @@ namespace Implem.Libraries.DataSources.SqlServer
                 : raw;
         }
 
+        private string Sql_And(
+            SqlContainer sqlContainer,
+            SqlCommand sqlCommand,
+            int? commandCount,
+            bool select)
+        {
+            var commandText = new StringBuilder();
+            And.Clause = string.Empty;
+            And.BuildCommandText(
+                sqlContainer: sqlContainer,
+                sqlCommand: sqlCommand,
+                commandText: commandText,
+                commandCount: commandCount,
+                multiClauseOperator: " and ",
+                select: select);
+            return "(" + commandText + ")";
+        }
+
         private string Sql_Or(
             SqlContainer sqlContainer,
             SqlCommand sqlCommand,
-            string tableBracket,
             int? commandCount,
             bool select)
         {
             var commandText = new StringBuilder();
             Or.Clause = string.Empty;
-            Or.MultiClauseOperator = " or ";
             Or.BuildCommandText(
                 sqlContainer: sqlContainer,
                 sqlCommand: sqlCommand,
                 commandText: commandText,
                 commandCount: commandCount,
+                multiClauseOperator: " or ",
                 select: select);
             return "(" + commandText + ")";
         }

@@ -1672,17 +1672,17 @@ namespace Implem.Pleasanter.Models
                         .UserId()
                         .Admin(),
                     where: Rds.GroupMembersWhere()
-                        .Or(Rds.GroupMembersWhere()
+                        .GroupId(groupModel.GroupId)
+                        .Add(or: Rds.GroupMembersWhere()
                             .Sub(sub: Rds.ExistsDepts(where: Rds.DeptsWhere()
                                 .DeptId(raw: "[GroupMembers].[DeptId]")))
                             .Sub(sub: Rds.ExistsUsers(where: Rds.UsersWhere()
-                                .UserId(raw: "[GroupMembers].[UserId]"))))
-                        .GroupId(groupModel.GroupId)))
-                            .AsEnumerable()
-                            .ForEach(dataRow =>
-                                data.AddMember(
-                                    context: context,
-                                    dataRow: dataRow));
+                                .UserId(raw: "[GroupMembers].[UserId]"))))))
+                                    .AsEnumerable()
+                                    .ForEach(dataRow =>
+                                        data.AddMember(
+                                            context: context,
+                                            dataRow: dataRow));
             return data;
         }
 

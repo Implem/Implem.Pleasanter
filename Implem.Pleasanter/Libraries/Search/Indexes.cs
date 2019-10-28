@@ -556,7 +556,7 @@ namespace Implem.Pleasanter.Libraries.Search
             var tableName = ItemTableName(
                 ss: ss,
                 itemJoin: itemJoin);
-            return where.Add(Rds.ItemsWhere().SqlWhereLike(
+            return where.Add(or: Rds.ItemsWhere().SqlWhereLike(
                 tableName: "Items",
                 name: name,
                 searchText: searchText,

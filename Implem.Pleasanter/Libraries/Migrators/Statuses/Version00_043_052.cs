@@ -6,13 +6,12 @@ namespace Implem.Pleasanter.Libraries.Migrators.Statuses
     {
         public static void Migrate(Context context)
         {
-            var sub = Rds.SelectItems(
-                column: Rds.ItemsColumn().ReferenceId());
+            var sub = Rds.SelectItems(column: Rds.ItemsColumn().ReferenceId());
             Rds.ExecuteNonQuery(
                 context: context,
                 statements: Rds.PhysicalDeleteLinks(
                     where: Rds.LinksWhere()
-                        .Or(or: Rds.LinksWhere()
+                        .Add(or: Rds.LinksWhere()
                             .DestinationId_In(sub: sub, negative: true)
                             .SourceId_In(sub: sub, negative: true))));
         }
