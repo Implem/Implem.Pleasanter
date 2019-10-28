@@ -1503,6 +1503,7 @@
     <Content Include="App_Data\Displays\DisableStartGuide.json" />
     <Content Include="App_Data\Displays\Faq.json" />
     <Content Include="App_Data\Displays\ShowStartGuide.json" />
+    <Content Include="App_Data\Parameters\Site.json" />
     <Content Include="Tools\BackgroundTasks.ps1" />
     <Content Include="Tools\SyncByLdap.ps1" />
     <Content Include="Views\Users\EditApi.cshtml" />

@@ -2262,7 +2262,7 @@ namespace Implem.Pleasanter.Models
             var verUpWhere = Rds.ResultsWhere()
                 .SiteId(ss.SiteId)
                 .ResultId_In(sub: sub)
-                .Or(or: Rds.ResultsWhere()
+                .Add(or: Rds.ResultsWhere()
                     .Updator(context.UserId, _operator: "<>")
                     .UpdatedTime(
                         DateTime.Today.ToDateTime().ToUniversal(context: context),
@@ -4331,7 +4331,7 @@ namespace Implem.Pleasanter.Models
             }
             else
             {
-                where.Or(or: Rds.ResultsWhere()
+                where.Add(or: Rds.ResultsWhere()
                     .Add(raw: $"[Results].[{fromColumn.ColumnName}] between '{begin}' and '{end}'")
                     .Add(raw: $"[Results].[{toColumn.ColumnName}] between '{begin}' and '{end}'")
                     .Add(raw: $"[Results].[{fromColumn.ColumnName}]<='{begin}' and [Results].[{toColumn.ColumnName}]>='{end}'"));

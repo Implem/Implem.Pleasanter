@@ -6,6 +6,8 @@ using Implem.Pleasanter.Libraries.Server;
 using Implem.Pleasanter.Libraries.Settings;
 using System.Linq;
 using Implem.Pleasanter.Libraries.Requests;
+using Implem.Libraries.DataSources.SqlServer;
+
 namespace Implem.Pleasanter.Libraries.ViewModes
 {
     public static class GanttUtilities
@@ -29,26 +31,25 @@ namespace Implem.Pleasanter.Libraries.ViewModes
             }
         }
 
-        public static Rds.IssuesWhereCollection Where(
+        public static SqlWhereCollection Where(
             Context context, SiteSettings ss, View view)
         {
             var start = view.GanttStartDate.ToDateTime().ToUniversal(context: context);
             var end = start.AddDays(view.GanttPeriod.ToInt()).AddMilliseconds(-3);
-            return Rds.IssuesWhere()
-                .Or(Rds.IssuesWhere()
-                    .Add(raw: "(({0}) <= '{1}' and {2} >= '{3}')".Params(
-                        Def.Sql.StartTimeColumn,
-                        start,
-                        CompletionTimeSql(context: context, ss: ss),
-                        end))
-                    .Add(raw: "({0}) between '{1}' and '{2}'".Params(
-                        Def.Sql.StartTimeColumn,
-                        start,
-                        end))
-                    .Add(raw: "({0}) between '{1}' and '{2}'".Params(
-                        CompletionTimeSql(context: context, ss: ss),
-                        start,
-                        end)));
+            return Rds.IssuesWhere().Add(or: Rds.IssuesWhere()
+                .Add(raw: "(({0}) <= '{1}' and {2} >= '{3}')".Params(
+                    Def.Sql.StartTimeColumn,
+                    start,
+                    CompletionTimeSql(context: context, ss: ss),
+                    end))
+                .Add(raw: "({0}) between '{1}' and '{2}'".Params(
+                    Def.Sql.StartTimeColumn,
+                    start,
+                    end))
+                .Add(raw: "({0}) between '{1}' and '{2}'".Params(
+                    CompletionTimeSql(context: context, ss: ss),
+                    start,
+                    end)));
         }
 
         private static string CompletionTimeSql(Context context, SiteSettings ss)

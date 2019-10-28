@@ -315,14 +315,6 @@ namespace Implem.Pleasanter.Libraries.DataSources
             return $"[{ss.ReferenceType}].[{IdColumn(ss.ReferenceType)}]";
         }
 
-        public static SqlWhereCollection Or(
-            this SqlWhereCollection self,
-            SqlWhereCollection or,
-            bool _using = true)
-        {
-            return self.Add(or: or, _using: _using);
-        }
-
         public static SqlWhereCollection Bool(
             this SqlWhereCollection where, Column column, string _operator)
         {
@@ -3763,13 +3755,12 @@ namespace Implem.Pleasanter.Libraries.DataSources
                 .Where(o => !o.Disabled)
                 .Where(o => o.CommandText?.Any() == true)
                 .ForEach(o =>
-                    where.Add(new SqlWhereCollection()
-                       .Add(
-                            tableName: ss.ReferenceType,
-                            raw: o.CommandText
-                                .Replace("{{SiteId}}", ss.SiteId.ToString())
-                                .Replace("{{Id}}", id.ToString())
-                                .Replace("{{Timestamp}}", timestamp?.ToString("yyyy/M/d H:m:s.fff")))));
+                    where.Add(
+                        tableName: ss.ReferenceType,
+                        raw: o.CommandText
+                            .Replace("{{SiteId}}", ss.SiteId.ToString())
+                            .Replace("{{Id}}", id.ToString())
+                            .Replace("{{Timestamp}}", timestamp?.ToString("yyyy/M/d H:m:s.fff"))));
         }
 
         public static IssuesWhereCollection OnSelectingIssuesWhereExtendedSqls(
@@ -3795,12 +3786,10 @@ namespace Implem.Pleasanter.Libraries.DataSources
                 .Where(o => !o.Disabled)
                 .Where(o => o.CommandText?.Any() == true)
                 .ForEach(o =>
-                    where.Add(new IssuesWhereCollection()
-                        .Add(
-                            raw: o.CommandText
-                                .Replace("{{SiteId}}", issueModel.SiteId.ToString())
-                                .Replace("{{Id}}", id.ToString())
-                                .Replace("{{Timestamp}}", timestamp?.ToString("yyyy/M/d H:m:s.fff")))));
+                    where.Add(raw: o.CommandText
+                        .Replace("{{SiteId}}", issueModel.SiteId.ToString())
+                        .Replace("{{Id}}", id.ToString())
+                        .Replace("{{Timestamp}}", timestamp?.ToString("yyyy/M/d H:m:s.fff"))));
         }
 
         public static ResultsWhereCollection OnSelectingResultsWhereExtendedSqls(
@@ -3826,12 +3815,10 @@ namespace Implem.Pleasanter.Libraries.DataSources
                 .Where(o => !o.Disabled)
                 .Where(o => o.CommandText?.Any() == true)
                 .ForEach(o =>
-                    where.Add(new ResultsWhereCollection()
-                        .Add(
-                            raw: o.CommandText
-                                .Replace("{{SiteId}}", resultModel.SiteId.ToString())
-                                .Replace("{{Id}}", id.ToString())
-                                .Replace("{{Timestamp}}", timestamp?.ToString("yyyy/M/d H:m:s.fff")))));
+                    where.Add(raw: o.CommandText
+                        .Replace("{{SiteId}}", resultModel.SiteId.ToString())
+                        .Replace("{{Id}}", id.ToString())
+                        .Replace("{{Timestamp}}", timestamp?.ToString("yyyy/M/d H:m:s.fff"))));
         }
 
         public static SqlSelect SelectTenants(
@@ -16431,15 +16418,6 @@ namespace Implem.Pleasanter.Libraries.DataSources
                 : self;
         }
 
-        public static TenantsWhereCollection Or(
-            this TenantsWhereCollection self,
-            TenantsWhereCollection or,
-            bool _using = true)
-        {
-            self.Add(or: or, _using: _using);
-            return self;
-        }
-
         public static TenantsGroupByCollection TenantsGroupBy(
             this TenantsGroupByCollection self, string columnName, bool _using = true)
         {
@@ -19775,15 +19753,6 @@ namespace Implem.Pleasanter.Libraries.DataSources
                 : self;
         }
 
-        public static DemosWhereCollection Or(
-            this DemosWhereCollection self,
-            DemosWhereCollection or,
-            bool _using = true)
-        {
-            self.Add(or: or, _using: _using);
-            return self;
-        }
-
         public static DemosGroupByCollection DemosGroupBy(
             this DemosGroupByCollection self, string columnName, bool _using = true)
         {
@@ -22482,15 +22451,6 @@ namespace Implem.Pleasanter.Libraries.DataSources
                 ? self.Add(
                     null, null, null, value, _operator, sub: sub)
                 : self;
-        }
-
-        public static SessionsWhereCollection Or(
-            this SessionsWhereCollection self,
-            SessionsWhereCollection or,
-            bool _using = true)
-        {
-            self.Add(or: or, _using: _using);
-            return self;
         }
 
         public static SessionsGroupByCollection SessionsGroupBy(
@@ -28324,15 +28284,6 @@ namespace Implem.Pleasanter.Libraries.DataSources
                 : self;
         }
 
-        public static SysLogsWhereCollection Or(
-            this SysLogsWhereCollection self,
-            SysLogsWhereCollection or,
-            bool _using = true)
-        {
-            self.Add(or: or, _using: _using);
-            return self;
-        }
-
         public static SysLogsGroupByCollection SysLogsGroupBy(
             this SysLogsGroupByCollection self, string columnName, bool _using = true)
         {
@@ -32959,15 +32910,6 @@ namespace Implem.Pleasanter.Libraries.DataSources
                 : self;
         }
 
-        public static StatusesWhereCollection Or(
-            this StatusesWhereCollection self,
-            StatusesWhereCollection or,
-            bool _using = true)
-        {
-            self.Add(or: or, _using: _using);
-            return self;
-        }
-
         public static StatusesGroupByCollection StatusesGroupBy(
             this StatusesGroupByCollection self, string columnName, bool _using = true)
         {
@@ -35254,15 +35196,6 @@ namespace Implem.Pleasanter.Libraries.DataSources
                 ? self.Add(
                     null, null, null, value, _operator, sub: sub)
                 : self;
-        }
-
-        public static ReminderSchedulesWhereCollection Or(
-            this ReminderSchedulesWhereCollection self,
-            ReminderSchedulesWhereCollection or,
-            bool _using = true)
-        {
-            self.Add(or: or, _using: _using);
-            return self;
         }
 
         public static ReminderSchedulesGroupByCollection ReminderSchedulesGroupBy(
@@ -37843,15 +37776,6 @@ namespace Implem.Pleasanter.Libraries.DataSources
                 ? self.Add(
                     null, null, null, value, _operator, sub: sub)
                 : self;
-        }
-
-        public static DeptsWhereCollection Or(
-            this DeptsWhereCollection self,
-            DeptsWhereCollection or,
-            bool _using = true)
-        {
-            self.Add(or: or, _using: _using);
-            return self;
         }
 
         public static DeptsGroupByCollection DeptsGroupBy(
@@ -40447,15 +40371,6 @@ namespace Implem.Pleasanter.Libraries.DataSources
                 : self;
         }
 
-        public static GroupsWhereCollection Or(
-            this GroupsWhereCollection self,
-            GroupsWhereCollection or,
-            bool _using = true)
-        {
-            self.Add(or: or, _using: _using);
-            return self;
-        }
-
         public static GroupsGroupByCollection GroupsGroupBy(
             this GroupsGroupByCollection self, string columnName, bool _using = true)
         {
@@ -42951,15 +42866,6 @@ namespace Implem.Pleasanter.Libraries.DataSources
                 ? self.Add(
                     null, null, null, value, _operator, sub: sub)
                 : self;
-        }
-
-        public static GroupMembersWhereCollection Or(
-            this GroupMembersWhereCollection self,
-            GroupMembersWhereCollection or,
-            bool _using = true)
-        {
-            self.Add(or: or, _using: _using);
-            return self;
         }
 
         public static GroupMembersGroupByCollection GroupMembersGroupBy(
@@ -46637,15 +46543,6 @@ namespace Implem.Pleasanter.Libraries.DataSources
                 ? self.Add(
                     null, null, null, value, _operator, sub: sub)
                 : self;
-        }
-
-        public static RegistrationsWhereCollection Or(
-            this RegistrationsWhereCollection self,
-            RegistrationsWhereCollection or,
-            bool _using = true)
-        {
-            self.Add(or: or, _using: _using);
-            return self;
         }
 
         public static RegistrationsGroupByCollection RegistrationsGroupBy(
@@ -53143,15 +53040,6 @@ namespace Implem.Pleasanter.Libraries.DataSources
                 : self;
         }
 
-        public static UsersWhereCollection Or(
-            this UsersWhereCollection self,
-            UsersWhereCollection or,
-            bool _using = true)
-        {
-            self.Add(or: or, _using: _using);
-            return self;
-        }
-
         public static UsersGroupByCollection UsersGroupBy(
             this UsersGroupByCollection self, string columnName, bool _using = true)
         {
@@ -57836,15 +57724,6 @@ namespace Implem.Pleasanter.Libraries.DataSources
                 : self;
         }
 
-        public static LoginKeysWhereCollection Or(
-            this LoginKeysWhereCollection self,
-            LoginKeysWhereCollection or,
-            bool _using = true)
-        {
-            self.Add(or: or, _using: _using);
-            return self;
-        }
-
         public static LoginKeysGroupByCollection LoginKeysGroupBy(
             this LoginKeysGroupByCollection self, string columnName, bool _using = true)
         {
@@ -60357,15 +60236,6 @@ namespace Implem.Pleasanter.Libraries.DataSources
                 ? self.Add(
                     null, null, null, value, _operator, sub: sub)
                 : self;
-        }
-
-        public static MailAddressesWhereCollection Or(
-            this MailAddressesWhereCollection self,
-            MailAddressesWhereCollection or,
-            bool _using = true)
-        {
-            self.Add(or: or, _using: _using);
-            return self;
         }
 
         public static MailAddressesGroupByCollection MailAddressesGroupBy(
@@ -63817,15 +63687,6 @@ namespace Implem.Pleasanter.Libraries.DataSources
                 : self;
         }
 
-        public static OutgoingMailsWhereCollection Or(
-            this OutgoingMailsWhereCollection self,
-            OutgoingMailsWhereCollection or,
-            bool _using = true)
-        {
-            self.Add(or: or, _using: _using);
-            return self;
-        }
-
         public static OutgoingMailsGroupByCollection OutgoingMailsGroupBy(
             this OutgoingMailsGroupByCollection self, string columnName, bool _using = true)
         {
@@ -67188,15 +67049,6 @@ namespace Implem.Pleasanter.Libraries.DataSources
                 ? self.Add(
                     null, null, null, value, _operator, sub: sub)
                 : self;
-        }
-
-        public static ItemsWhereCollection Or(
-            this ItemsWhereCollection self,
-            ItemsWhereCollection or,
-            bool _using = true)
-        {
-            self.Add(or: or, _using: _using);
-            return self;
         }
 
         public static ItemsGroupByCollection ItemsGroupBy(
@@ -71290,15 +71142,6 @@ namespace Implem.Pleasanter.Libraries.DataSources
                 : self;
         }
 
-        public static SitesWhereCollection Or(
-            this SitesWhereCollection self,
-            SitesWhereCollection or,
-            bool _using = true)
-        {
-            self.Add(or: or, _using: _using);
-            return self;
-        }
-
         public static SitesGroupByCollection SitesGroupBy(
             this SitesGroupByCollection self, string columnName, bool _using = true)
         {
@@ -74611,15 +74454,6 @@ namespace Implem.Pleasanter.Libraries.DataSources
                 : self;
         }
 
-        public static OrdersWhereCollection Or(
-            this OrdersWhereCollection self,
-            OrdersWhereCollection or,
-            bool _using = true)
-        {
-            self.Add(or: or, _using: _using);
-            return self;
-        }
-
         public static OrdersGroupByCollection OrdersGroupBy(
             this OrdersGroupByCollection self, string columnName, bool _using = true)
         {
@@ -77231,15 +77065,6 @@ namespace Implem.Pleasanter.Libraries.DataSources
                 ? self.Add(
                     null, null, null, value, _operator, sub: sub)
                 : self;
-        }
-
-        public static ExportSettingsWhereCollection Or(
-            this ExportSettingsWhereCollection self,
-            ExportSettingsWhereCollection or,
-            bool _using = true)
-        {
-            self.Add(or: or, _using: _using);
-            return self;
         }
 
         public static ExportSettingsGroupByCollection ExportSettingsGroupBy(
@@ -80169,15 +79994,6 @@ namespace Implem.Pleasanter.Libraries.DataSources
                 ? self.Add(
                     null, null, null, value, _operator, sub: sub)
                 : self;
-        }
-
-        public static LinksWhereCollection Or(
-            this LinksWhereCollection self,
-            LinksWhereCollection or,
-            bool _using = true)
-        {
-            self.Add(or: or, _using: _using);
-            return self;
         }
 
         public static LinksGroupByCollection LinksGroupBy(
@@ -83854,15 +83670,6 @@ namespace Implem.Pleasanter.Libraries.DataSources
                 ? self.Add(
                     null, null, null, value, _operator, sub: sub)
                 : self;
-        }
-
-        public static BinariesWhereCollection Or(
-            this BinariesWhereCollection self,
-            BinariesWhereCollection or,
-            bool _using = true)
-        {
-            self.Add(or: or, _using: _using);
-            return self;
         }
 
         public static BinariesGroupByCollection BinariesGroupBy(
@@ -87727,15 +87534,6 @@ namespace Implem.Pleasanter.Libraries.DataSources
                 ? self.Add(
                     null, null, null, value, _operator, sub: sub)
                 : self;
-        }
-
-        public static PermissionsWhereCollection Or(
-            this PermissionsWhereCollection self,
-            PermissionsWhereCollection or,
-            bool _using = true)
-        {
-            self.Add(or: or, _using: _using);
-            return self;
         }
 
         public static PermissionsGroupByCollection PermissionsGroupBy(
@@ -91928,15 +91726,6 @@ namespace Implem.Pleasanter.Libraries.DataSources
                 : self;
         }
 
-        public static IssuesWhereCollection Or(
-            this IssuesWhereCollection self,
-            IssuesWhereCollection or,
-            bool _using = true)
-        {
-            self.Add(or: or, _using: _using);
-            return self;
-        }
-
         public static IssuesGroupByCollection IssuesGroupBy(
             this IssuesGroupByCollection self, string columnName, bool _using = true)
         {
@@ -95839,15 +95628,6 @@ namespace Implem.Pleasanter.Libraries.DataSources
                 : self;
         }
 
-        public static ResultsWhereCollection Or(
-            this ResultsWhereCollection self,
-            ResultsWhereCollection or,
-            bool _using = true)
-        {
-            self.Add(or: or, _using: _using);
-            return self;
-        }
-
         public static ResultsGroupByCollection ResultsGroupBy(
             this ResultsGroupByCollection self, string columnName, bool _using = true)
         {
@@ -98707,15 +98487,6 @@ namespace Implem.Pleasanter.Libraries.DataSources
                 ? self.Add(
                     null, null, null, value, _operator, sub: sub)
                 : self;
-        }
-
-        public static WikisWhereCollection Or(
-            this WikisWhereCollection self,
-            WikisWhereCollection or,
-            bool _using = true)
-        {
-            self.Add(or: or, _using: _using);
-            return self;
         }
 
         public static WikisGroupByCollection WikisGroupBy(

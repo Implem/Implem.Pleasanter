@@ -1016,7 +1016,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                             where.Bool(column, "=1");
                             break;
                         case ColumnUtilities.CheckFilterTypes.Off:
-                            where.Or(or: new SqlWhereCollection()
+                            where.Add(or: new SqlWhereCollection()
                                 .Bool(column, " is null")
                                 .Bool(column, "=0"));
                             break;
@@ -1283,11 +1283,18 @@ namespace Implem.Pleasanter.Libraries.Settings
             SqlWhereCollection where,
             bool itemJoin)
         {
-            if (Search.IsNullOrEmpty()) return;
-            where.FullTextWhere(
-                ss: ss,
-                searchText: Search,
-                itemJoin: itemJoin);
+            var or = new SqlWhereCollection();
+            Search?
+                .Replace("　", " ")
+                .Replace(" or ", "\n")
+                .Split('\n')
+                .Where(o => !o.IsNullOrEmpty())
+                .ForEach(search =>
+                    or.Add(and: new SqlWhereCollection().FullTextWhere(
+                        ss: ss,
+                        searchText: search,
+                        itemJoin: itemJoin)));
+            if (or.Any()) where.Add(or: or);
         }
 
         public bool RequestSearchCondition(Context context, SiteSettings ss)

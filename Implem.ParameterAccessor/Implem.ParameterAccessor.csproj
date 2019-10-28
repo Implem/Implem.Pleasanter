@@ -75,6 +75,7 @@
     <Compile Include="Parts\Rds.cs" />
     <Compile Include="Parts\Service.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Parts\Site.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Implem.DisplayAccessor\Implem.DisplayAccessor.csproj">

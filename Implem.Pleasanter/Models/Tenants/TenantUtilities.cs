@@ -550,7 +550,8 @@ namespace Implem.Pleasanter.Models
                             controlId: "Tenants_DisableStartGuide",
                             fieldCss: "field-auto-thin",
                             _checked: tenantModel.DisableStartGuide,
-                            labelText: Displays.Tenants_DisableStartGuide(context: context)))
+                            labelText: Displays.Tenants_DisableStartGuide(context: context),
+                            _using: Parameters.Service.ShowStartGuide == true))
                 .TenantImageSettingsEditor(context, tenantModel)
                 .FieldSet(
                     id: "HtmlTitleSettingsField",

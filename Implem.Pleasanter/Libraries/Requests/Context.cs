@@ -188,7 +188,7 @@ namespace Implem.Pleasanter.Libraries.Requests
                                     .ReferenceId()
                                     .Title(),
                                 where: Rds.ItemsWhere()
-                                    .Or(or: Rds.ItemsWhere()
+                                    .Add(or: Rds.ItemsWhere()
                                         .ReferenceId(Id)
                                         .ReferenceId(sub: Rds.SelectItems(
                                             column: Rds.ItemsColumn().SiteId(),

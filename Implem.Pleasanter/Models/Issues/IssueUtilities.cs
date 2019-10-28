@@ -2431,7 +2431,7 @@ namespace Implem.Pleasanter.Models
             var verUpWhere = Rds.IssuesWhere()
                 .SiteId(ss.SiteId)
                 .IssueId_In(sub: sub)
-                .Or(or: Rds.IssuesWhere()
+                .Add(or: Rds.IssuesWhere()
                     .Updator(context.UserId, _operator: "<>")
                     .UpdatedTime(
                         DateTime.Today.ToDateTime().ToUniversal(context: context),
@@ -4684,7 +4684,7 @@ namespace Implem.Pleasanter.Models
             }
             else
             {
-                where.Or(or: Rds.IssuesWhere()
+                where.Add(or: Rds.IssuesWhere()
                     .Add(raw: $"[Issues].[{fromColumn.ColumnName}] between '{begin}' and '{end}'")
                     .Add(raw: $"[Issues].[{toColumn.ColumnName}] between '{begin}' and '{end}'")
                     .Add(raw: $"[Issues].[{fromColumn.ColumnName}]<='{begin}' and [Issues].[{toColumn.ColumnName}]>='{end}'"));

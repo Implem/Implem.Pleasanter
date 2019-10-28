@@ -135,7 +135,7 @@ namespace Implem.Pleasanter.Libraries.Security
                 {
                     if (ss.AllowedIntegratedSites != null)
                     {
-                        where.Or(new SqlWhereCollection()
+                        where.Add(or: new SqlWhereCollection()
                             .Add(
                                 tableName: ss.ReferenceType,
                                 raw: "[{0}].[SiteId] in ({1})".Params(
@@ -169,7 +169,7 @@ namespace Implem.Pleasanter.Libraries.Security
                         .PermissionType(function: Sqls.Functions.Max),
                     where: Rds.PermissionsWhere()
                         .ReferenceId(siteId)
-                        .Or(Rds.PermissionsWhere()
+                        .Add(or: Rds.PermissionsWhere()
                             .DeptId(raw: deptRaw)
                             .Add(
                                 subLeft: Rds.SelectGroupMembers(
@@ -177,7 +177,7 @@ namespace Implem.Pleasanter.Libraries.Security
                                         .GroupMembersCount(),
                                     where: Rds.GroupMembersWhere()
                                         .GroupId(raw: "[Permissions].[GroupId]")
-                                        .Or(Rds.GroupMembersWhere()
+                                        .Add(or: Rds.GroupMembersWhere()
                                             .DeptId(raw: deptRaw)
                                             .UserId(raw: userRaw))
                                         .Add(raw: "[Permissions].[GroupId]>0")),
@@ -196,7 +196,7 @@ namespace Implem.Pleasanter.Libraries.Security
             return _using && !context.HasPrivilege
                 ? where
                     .Sites_TenantId(context.TenantId)
-                    .Or(or: new SqlWhereCollection()
+                    .Add(or: new SqlWhereCollection()
                         .Add(
                             tableName: null,
                             raw: Def.Sql.CanReadSites)
@@ -235,7 +235,7 @@ namespace Implem.Pleasanter.Libraries.Security
 
         private static SqlWhereCollection PermissionsWhere(this SqlWhereCollection where)
         {
-            return where.Or(Rds.PermissionsWhere()
+            return where.Add(or: Rds.PermissionsWhere()
                 .GroupId_In(sub: Rds.SelectGroupMembers(
                     column: Rds.GroupMembersColumn().GroupId(),
                     where: Rds.GroupMembersWhere()

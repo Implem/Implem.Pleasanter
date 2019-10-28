@@ -303,7 +303,9 @@ namespace Implem.Pleasanter.Models
             ReferenceId = referenceId;
             ReferenceType = referenceType;
             OwnerId = referenceId == 0
-                ? context.UserId
+                ? Parameters.Site.TopOrderBy > 0
+                    ? Parameters.Site.TopOrderBy
+                    : context.UserId
                 : 0;
             Get(context: context);
         }
