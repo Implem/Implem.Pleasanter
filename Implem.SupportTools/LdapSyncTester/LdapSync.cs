@@ -57,7 +57,10 @@ namespace Implem.SupportTools.LdapSyncTester
     public class Ldap
     {
         public string LdapSearchRoot;
+        public string LdapLoginPattern;
         public string LdapSearchProperty;
+        public string LdapSearchPattern;
+        public string LdapAuthenticationType;
         public string NetBiosDomainName;
         public int LdapTenantId;
         public string LdapDeptCode;
@@ -73,6 +76,7 @@ namespace Implem.SupportTools.LdapSyncTester
         public string LdapMailAddress;
         public string LdapMailAddressPattern;
         public List<LdapExtendedAttribute> LdapExtendedAttributes;
+        public int LdapSyncPageSize;
         public List<string> LdapSyncPatterns;
         public bool LdapExcludeAccountDisabled;
         public bool AutoDisable;
@@ -116,27 +120,30 @@ namespace Implem.SupportTools.LdapSyncTester
                 ldap.LdapSyncPassword,
                 ldap);
             directorySearcher.Filter = pattern;
-            directorySearcher.PageSize = 1000;
+            if (ldap.LdapSyncPageSize == 0)
+            {
+                directorySearcher.PageSize = 1000;
+            }
+            else if(ldap.LdapSyncPageSize > 0)
+            {
+                directorySearcher.PageSize = ldap.LdapSyncPageSize;
+            }
             var results = directorySearcher.FindAll();
             foreach (SearchResult result in results)
             {
-                DirectoryEntry entry = result.Entry(
-                    ldap.LdapSyncUser,
-                    ldap.LdapSyncPassword);
-                
-                    string loginId = entry.Property(ldap.LdapSearchProperty);
+                    string loginId = result.Property(ldap.LdapSearchProperty);
                     logger.Info(nameof(LdapSyncTester), $"processing...({loginId})");
 
                     var ldapResult = new LdapResult()
                     {
-                        LoginId = entry.Property(ldap.LdapSearchProperty),
-                        Name = Name(loginId, entry, ldap: ldap),
-                        Enabled = Enabled(entry, ldap)?"True":"False",
-                        MailAddress = entry.Property(ldap.LdapMailAddress, ldap.LdapMailAddressPattern),
-                        UserCode = entry.Property(ldap.LdapUserCode, ldap.LdapUserCodePattern),
-                        DeptCode = entry.Property(ldap.LdapDeptCode, ldap.LdapDeptCodePattern),
-                        DeptName = entry.Property(ldap.LdapDeptName, ldap.LdapDeptNamePattern),
-                        ExtendedAttributes = string.Join(", ", ldap.LdapExtendedAttributes?.Select(attr => entry.Property(attr.Name, attr.Pattern))?? new string[0] ),
+                        LoginId = result.Property(ldap.LdapSearchProperty),
+                        Name = Name(loginId, result, ldap: ldap),
+                        Enabled = Enabled(result, ldap)?"True":"False",
+                        MailAddress = result.Property(ldap.LdapMailAddress, ldap.LdapMailAddressPattern),
+                        UserCode = result.Property(ldap.LdapUserCode, ldap.LdapUserCodePattern),
+                        DeptCode = result.Property(ldap.LdapDeptCode, ldap.LdapDeptCodePattern),
+                        DeptName = result.Property(ldap.LdapDeptName, ldap.LdapDeptNamePattern),
+                        ExtendedAttributes = string.Join(", ", ldap.LdapExtendedAttributes?.Select(attr => result.Property(attr.Name, attr.Pattern))?? new string[0] ),
                     };
                     yield return ldapResult;
                 
@@ -146,39 +153,47 @@ namespace Implem.SupportTools.LdapSyncTester
         private static DirectorySearcher DirectorySearcher(
             string loginId, string password, Ldap ldap)
         {
-            return new DirectorySearcher(loginId != null && password != null
-                ? new DirectoryEntry(ldap.LdapSearchRoot, loginId, password)
-                : new DirectoryEntry(ldap.LdapSearchRoot));
+            if (!Enum.TryParse<AuthenticationTypes>(ldap.LdapAuthenticationType, out AuthenticationTypes type)
+                || !Enum.IsDefined(typeof(AuthenticationTypes), type))
+            {
+                type = AuthenticationTypes.Secure;
+            }
+            if (loginId == null || password == null)
+            {
+                type = AuthenticationTypes.Anonymous;
+            }
+            return new DirectorySearcher(new DirectoryEntry(ldap.LdapSearchRoot, loginId, password, type));
         }
 
-        private static DirectoryEntry Entry(
-            this SearchResult searchResult, string loginId, string password)
-        {
-            return loginId != null && password != null
-                ? new DirectoryEntry(searchResult.Path, loginId, password)
-                : new DirectoryEntry(searchResult.Path);
-        }
-
-        private static bool Enabled(DirectoryEntry entry, Ldap ldap)
+        private static bool Enabled(SearchResult result, Ldap ldap)
         {
             var accountDisabled = 2;
             return
-                !ldap.LdapExcludeAccountDisabled ||
-                (entry.Properties["UserAccountControl"].Value.ToLong() & accountDisabled) == 0;
+                !ldap.LdapExcludeAccountDisabled || !result.Properties.Contains("UserAccountControl") ||
+                (result.Properties["UserAccountControl"].ToLong() & accountDisabled) == 0;
         }
         private static string Property(
-            this DirectoryEntry entry, string name, string pattern = null)
+            this SearchResult result, string name, string pattern = null)
         {
 
             if (!string.IsNullOrEmpty(name))
             {
                 try
                 {
-                    return entry.Properties[name].Value != null
-                        ? string.IsNullOrEmpty(pattern)
-                            ? entry.Properties[name].Value.ToString()
-                            : entry.Properties[name].Value.ToString().RegexFirst(pattern)
-                        : string.Empty;
+                    if (result.Properties.Contains(name))
+                    {
+                        if (string.IsNullOrEmpty(pattern))
+                        {
+                            return result.Properties[name][0].ToString();
+                        }
+                        foreach (Object obj in result.Properties[name])
+                        {
+                            if (obj.ToString().RegexExists(pattern))
+                            {
+                                return obj.ToString().RegexFirst(pattern);
+                            }
+                        }
+                    }
                 }
                 catch (Exception e)
                 {
@@ -190,14 +205,14 @@ namespace Implem.SupportTools.LdapSyncTester
 
         private static string Name(
             string loginId,
-            DirectoryEntry entry,
+            SearchResult result,
             Ldap ldap)
         {
             var name = "{0} {1}".Params(
-                entry.Property(
+                result.Property(
                     name: ldap.LdapLastName,
                     pattern: ldap.LdapLastNamePattern),
-                entry.Property(
+                result.Property(
                     name: ldap.LdapFirstName,
                     pattern: ldap.LdapFirstNamePattern));
             return name != " "
@@ -206,9 +221,9 @@ namespace Implem.SupportTools.LdapSyncTester
         }
 
         public static string NetBiosName(
-            DirectoryEntry entry, Ldap ldap)
+            SearchResult result, Ldap ldap)
         {
-            return ldap.NetBiosDomainName + "\\" + entry.Property(name: "sAMAccountName");
+            return ldap.NetBiosDomainName + "\\" + result.Property(name: "sAMAccountName");
         }
 
         public static long ToLong(this object self)
@@ -238,6 +253,13 @@ namespace Implem.SupportTools.LdapSyncTester
                 return match.Value;
             }
             return string.Empty;
+        }
+        public static bool RegexExists(
+           this string self,
+           string pattern,
+           RegexOptions regexOptions = RegexOptions.Singleline)
+        {
+            return self.RegexMatches(pattern, regexOptions).Count > 0;
         }
 
         public static MatchCollection RegexMatches(

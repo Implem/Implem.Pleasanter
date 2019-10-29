@@ -4,7 +4,10 @@ namespace Implem.ParameterAccessor.Parts
     public class Ldap
     {
         public string LdapSearchRoot;
+        public string LdapLoginPattern;
         public string LdapSearchProperty;
+        public string LdapSearchPattern;
+        public string LdapAuthenticationType;
         public string NetBiosDomainName;
         public int LdapTenantId;
         public string LdapDeptCode;
@@ -20,6 +23,7 @@ namespace Implem.ParameterAccessor.Parts
         public string LdapMailAddress;
         public string LdapMailAddressPattern;
         public List<LdapExtendedAttribute> LdapExtendedAttributes;
+        public int LdapSyncPageSize;
         public List<string> LdapSyncPatterns;
         public bool LdapExcludeAccountDisabled;
         public bool AutoDisable;
