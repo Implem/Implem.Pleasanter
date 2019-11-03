@@ -131,10 +131,14 @@ namespace Implem.Pleasanter.Models
                         .Id("ExportSelectorDialog")
                         .Class("dialog")
                         .Title(Displays.Export(context: context)))
-                        .Div(attributes: new HtmlAttributes()
-                                .Id("BulkUpdateSelectorDialog")
-                                .Class("dialog")
-                                .Title(Displays.BulkUpdate(context: context))))
+                    .Div(attributes: new HtmlAttributes()
+                        .Id("ExportSitePackageDialog")
+                        .Class("dialog")
+                        .Title(Displays.ExportSitePackage(context: context)))
+                    .Div(attributes: new HtmlAttributes()
+                        .Id("BulkUpdateSelectorDialog")
+                        .Class("dialog")
+                        .Title(Displays.BulkUpdate(context: context))))
                     .ToString();
         }
 
@@ -2751,7 +2755,7 @@ namespace Implem.Pleasanter.Models
                 fileContent: csv.ToString(),
                 fileDownloadName: ExportUtilities.FileName(
                     context: context,
-                    ss: ss,
+                    title: ss.Title,
                     name: Displays.Users(context: context)));
         }
 

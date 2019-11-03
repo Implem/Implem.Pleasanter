@@ -347,6 +347,13 @@ namespace Implem.Pleasanter.Libraries.Security
                 || context.HasPrivilege;
         }
 
+        public static Types SiteTopPermission(this Context context)
+        {
+            return context.UserSettings?.DisableTopSiteCreation == true
+                ? Types.Read
+                : (Types)Parameters.Permissions.Manager;
+        }
+
         public static bool CanRead(this Context context, SiteSettings ss, bool site = false)
         {
             switch (context.Controller)

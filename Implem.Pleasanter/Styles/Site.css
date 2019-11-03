@@ -618,6 +618,11 @@ pre{
     cursor:pointer;
 }
 
+#SitePackagesSelectable span.include-data{
+    margin:0px 0px 0px 10px;
+    color:red;
+}
+
 #CalendarMonth{
     margin-right:10px;
 }

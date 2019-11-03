@@ -2650,6 +2650,7 @@ namespace Implem.DefinitionAccessor
                     case "_sharp_Aggregations_space__dot_data_dot_overdue": Css._sharp_Aggregations_space__dot_data_dot_overdue = definitionRow[1].ToString(); SetCssTable(CssTable._sharp_Aggregations_space__dot_data_dot_overdue, definitionRow, CssXls); break;
                     case "_sharp_Aggregations_space_em": Css._sharp_Aggregations_space_em = definitionRow[1].ToString(); SetCssTable(CssTable._sharp_Aggregations_space_em, definitionRow, CssXls); break;
                     case "_sharp_Aggregations_space___space__dot_display_control": Css._sharp_Aggregations_space___space__dot_display_control = definitionRow[1].ToString(); SetCssTable(CssTable._sharp_Aggregations_space___space__dot_display_control, definitionRow, CssXls); break;
+                    case "_sharp_SitePackagesSelectable_space_span_dot_include_data": Css._sharp_SitePackagesSelectable_space_span_dot_include_data = definitionRow[1].ToString(); SetCssTable(CssTable._sharp_SitePackagesSelectable_space_span_dot_include_data, definitionRow, CssXls); break;
                     case "_sharp_CalendarMonth": Css._sharp_CalendarMonth = definitionRow[1].ToString(); SetCssTable(CssTable._sharp_CalendarMonth, definitionRow, CssXls); break;
                     case "_sharp_CalendarBody_space_table": Css._sharp_CalendarBody_space_table = definitionRow[1].ToString(); SetCssTable(CssTable._sharp_CalendarBody_space_table, definitionRow, CssXls); break;
                     case "_sharp_CalendarBody_space_th": Css._sharp_CalendarBody_space_th = definitionRow[1].ToString(); SetCssTable(CssTable._sharp_CalendarBody_space_th, definitionRow, CssXls); break;
@@ -9977,6 +9978,7 @@ namespace Implem.DefinitionAccessor
         public string _sharp_Aggregations_space__dot_data_dot_overdue;
         public string _sharp_Aggregations_space_em;
         public string _sharp_Aggregations_space___space__dot_display_control;
+        public string _sharp_SitePackagesSelectable_space_span_dot_include_data;
         public string _sharp_CalendarMonth;
         public string _sharp_CalendarBody_space_table;
         public string _sharp_CalendarBody_space_th;
@@ -10485,6 +10487,7 @@ namespace Implem.DefinitionAccessor
         public CssDefinition _sharp_Aggregations_space__dot_data_dot_overdue = new CssDefinition();
         public CssDefinition _sharp_Aggregations_space_em = new CssDefinition();
         public CssDefinition _sharp_Aggregations_space___space__dot_display_control = new CssDefinition();
+        public CssDefinition _sharp_SitePackagesSelectable_space_span_dot_include_data = new CssDefinition();
         public CssDefinition _sharp_CalendarMonth = new CssDefinition();
         public CssDefinition _sharp_CalendarBody_space_table = new CssDefinition();
         public CssDefinition _sharp_CalendarBody_space_th = new CssDefinition();

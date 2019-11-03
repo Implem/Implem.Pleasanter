@@ -2251,6 +2251,97 @@ namespace Implem.Pleasanter.Models
             }
         }
 
+        public string OpenImportSitePackageDialog(Context context)
+        {
+            SetSite(
+                context: context,
+                initSiteSettings: true,
+                setSiteIntegration: true);
+            switch (Site.ReferenceType)
+            {
+                case "Sites":
+                    return Libraries.SitePackages.Utilities.OpenImportSitePackageDialog(
+                        context: context,
+                        ss: Site.SiteSettings);
+                case "Issues":
+                case "Results":
+                case "Wikis":
+                    return Libraries.SitePackages.Utilities.OpenImportSitePackageDialog(
+                        context: context,
+                        ss: Site.SiteSettings);
+                default:
+                    return Messages.ResponseNotFound(context: context).ToJson();
+            }
+        }
+
+        public string ImportSitePackage(Context context)
+        {
+            SetSite(
+                context: context,
+                initSiteSettings: true,
+                setSiteIntegration: true);
+            switch (Site.ReferenceType)
+            {
+                case "Sites":
+                    return Libraries.SitePackages.Utilities.ImportSitePackage(
+                        context: context,
+                        ss: Site.SiteSettings);
+                case "Issues":
+                case "Results":
+                case "Wikis":
+                default:
+                    throw new NotImplementedException();
+            }
+        }
+
+        public string OpenExportSitePackageDialog(Context context)
+        {
+            SetSite(
+                context: context,
+                initSiteSettings: true,
+                setSiteIntegration: true);
+            switch (Site.ReferenceType)
+            {
+                case "Sites":
+                    return Libraries.SitePackages.Utilities.OpenExportSitePackageDialog(
+                        context: context,
+                        ss: Site.SiteSettings,
+                        recursive: true);
+                case "Issues":
+                case "Results":
+                case "Wikis":
+                    return Libraries.SitePackages.Utilities.OpenExportSitePackageDialog(
+                        context: context,
+                        ss: Site.SiteSettings,
+                        recursive: false);
+                default:
+                    return Messages.ResponseNotFound(context: context).ToJson();
+            }
+        }
+
+        public ResponseFile ExportSitePackage(Context context)
+        {
+            SetSite(
+                context: context,
+                initSiteSettings: true,
+                setSiteIntegration: true);
+            switch (Site.ReferenceType)
+            {
+                case "Sites":
+                    return Libraries.SitePackages.Utilities.ExportSitePackage(
+                        context: context,
+                        ss: Site.SiteSettings);
+                case "Issues":
+                case "Results":
+                case "Wikis":
+                    return Libraries.SitePackages.Utilities.ExportSitePackage(
+                        context: context,
+                        ss: Site.SiteSettings);
+                default:
+                    return null;
+            }
+        }
+
         public string LockTable(Context context)
         {
             SetSite(

@@ -2,19 +2,22 @@
 using Implem.Libraries.Utilities;
 using Implem.Pleasanter.Interfaces;
 using Implem.Pleasanter.Libraries.DataTypes;
+using Implem.Pleasanter.Libraries.Models;
 using Implem.Pleasanter.Libraries.Requests;
 using Implem.Pleasanter.Libraries.Server;
 using Implem.Pleasanter.Libraries.Settings;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Data;
 namespace Implem.Pleasanter.Models
 {
     [Serializable]
+    [JsonConverter(typeof(DefaultConverer))]
     public class ResultExportModel : IExportModel
     {
         public string ItemTitle;
-        public long? SiteId;
+        public long? SiteId { get; set; }
         public Time UpdatedTime;
         public long? ResultId;
         public int? Ver;
@@ -32,6 +35,9 @@ namespace Implem.Pleasanter.Models
         public Dictionary<string, DateTime> DateHash = new Dictionary<string, DateTime>();
         public Dictionary<string, string> DescriptionHash = new Dictionary<string, string>();
         public Dictionary<string, bool> CheckHash = new Dictionary<string, bool>();
+        public List<IExportModel> Sources;
+        public string GetReferenceType() => "Results";
+        public long GetReferenceId() => ResultId ?? 0;
 
         public object Class(Column column)
         {
@@ -178,8 +184,6 @@ namespace Implem.Pleasanter.Models
             }
         }
 
-        public List<IExportModel> Sources;
-
         public ResultExportModel(
             Context context,
             SiteSettings ss,
@@ -299,6 +303,18 @@ namespace Implem.Pleasanter.Models
                 Sources = new List<IExportModel>();
             }
             Sources.Add(exportModel);
+        }
+
+        public void ReplaceIdHash(string columnName, IDictionary<long, long> idHash)
+        {
+            switch (Def.ExtendedColumnTypes.Get(columnName))
+            {
+                case "Class":
+                    Class(
+                        columnName: columnName,
+                        value: idHash.Get(ClassHash.Get(columnName).ToLong()));
+                    break;
+            }
         }
     }
 }

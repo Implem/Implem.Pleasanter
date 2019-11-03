@@ -221,7 +221,8 @@ namespace Implem.Pleasanter.Libraries.Settings
             Update_ColumnAccessControls();
             if (context.TrashboxActions())
             {
-                RemoveSourceColumns(context: context);
+                GridColumns.RemoveAll(o => o.Contains("~~"));
+                FilterColumns.RemoveAll(o => o.Contains("~~"));
             }
             if (Aggregations == null) Aggregations = new List<Aggregation>();
             if (Links == null) Links = new List<Link>();
@@ -490,6 +491,11 @@ namespace Implem.Pleasanter.Libraries.Settings
         }
 
         public string RecordingJson(Context context)
+        {
+            return RecordingData(context: context).ToJson();
+        }
+
+        public SiteSettings RecordingData(Context context)
         {
             var param = Parameters.General;
             var ss = new SiteSettings()
@@ -1042,7 +1048,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                     ss.Columns.Add(newColumn);
                 }
             });
-            return ss.ToJson();
+            return ss;
         }
 
         private void UpdateColumnDefinitionHash()
@@ -1496,7 +1502,10 @@ namespace Implem.Pleasanter.Libraries.Settings
                     SetColumnAccessControls(
                         context: context,
                         column: column);
-                    column.SetChoiceHash(context: context, siteId: ss.InheritPermission);
+                    column.ChoiceHash = ss.ColumnHash
+                        .Get(columnNameInfo.Name)
+                        .ChoiceHash
+                        ?.ToDictionary(o => o.Key, o => o.Value);
                     Columns.Add(column);
                     ColumnHash.Add(columnName, column);
                 }
@@ -2793,7 +2802,10 @@ namespace Implem.Pleasanter.Libraries.Settings
         public void SetChoiceHash(Context context, bool withLink = true, bool all = false)
         {
             SetAllChoices = all;
-            var siteIdList = LinkedSiteIdList();
+            var siteIdList = JoinedSsHash
+                ?.SelectMany(o => o.Value.Links.Select(p => p.SiteId))
+                .Distinct()
+                .ToList() ?? new List<long>();
             var linkHash = withLink
                 ? LinkHash(
                     context: context,
@@ -2801,17 +2813,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                     all: all,
                     searchIndexes: null)
                 : null;
-            SetChoiceHash(
-                context: context,
-                columnName: null,
-                searchIndexes: null,
-                linkHash: linkHash);
-            Destinations?.Values.ForEach(ss => ss.SetChoiceHash(
-                context: context,
-                columnName: null,
-                searchIndexes: null,
-                linkHash: linkHash));
-            Sources?.Values.ForEach(ss => ss.SetChoiceHash(
+            JoinedSsHash?.ForEach(data => data.Value.SetChoiceHash(
                 context: context,
                 columnName: null,
                 searchIndexes: null,
@@ -2907,18 +2909,6 @@ namespace Implem.Pleasanter.Libraries.Settings
                     siteId: siteId,
                     dataRows: dataSet.Tables[siteId.ToString()].AsEnumerable(),
                     searchIndexes: searchIndexes));
-        }
-
-        private List<long> LinkedSiteIdList()
-        {
-            var siteIdList = Links.Select(o => o.SiteId).ToList();
-            siteIdList.AddRange(Destinations
-                ?.Values
-                .SelectMany(o => o.Links.Select(p => p.SiteId)) ?? new List<long>());
-            siteIdList.AddRange(Sources
-                ?.Values
-                .SelectMany(o => o.Links.Select(p => p.SiteId)) ?? new List<long>());
-            return siteIdList.Distinct().ToList();
         }
 
         public Dictionary<string, List<string>> LinkHash(
@@ -3690,12 +3680,6 @@ namespace Implem.Pleasanter.Libraries.Settings
                 .SingleOrDefault();
         }
 
-        private void RemoveSourceColumns(Context context)
-        {
-            GridColumns.RemoveAll(o => o.Contains("~~"));
-            FilterColumns.RemoveAll(o => o.Contains("~~"));
-        }
-
         public bool GridColumnsHasSources()
         {
             return GridColumns?.Any(o => o.Contains("~~")) == true;
@@ -3713,8 +3697,8 @@ namespace Implem.Pleasanter.Libraries.Settings
                     || column.LabelText != column.LabelTextDefault)
                 .Select(column => new
                 {
-                    ColumnName = column.ColumnName,
-                    LabelText = column.LabelText
+                    column.ColumnName,
+                    column.LabelText
                 })
                 .ToJson();
         }
