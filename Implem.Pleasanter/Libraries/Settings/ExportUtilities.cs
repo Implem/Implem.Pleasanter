@@ -125,10 +125,10 @@ namespace Implem.Pleasanter.Libraries.Settings
         }
 
         public static string FileName(
-            Context context, SiteSettings ss, string name, string extension = "csv")
+            Context context, string title = null, string name = null, string extension = "csv")
         {
             return Files.ValidFileName("_".JoinParam(
-                ss.Title, name, DateTime.Now.ToLocal(
+                title, name, DateTime.Now.ToLocal(
                     context: context,
                     format: Displays.YmdhmsFormat(context: context)))
                         + "." + extension);

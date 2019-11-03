@@ -152,10 +152,14 @@ namespace Implem.Pleasanter.Models
                         .Id("ExportSelectorDialog")
                         .Class("dialog")
                         .Title(Displays.Export(context: context)))
-                        .Div(attributes: new HtmlAttributes()
-                                .Id("BulkUpdateSelectorDialog")
-                                .Class("dialog")
-                                .Title(Displays.BulkUpdate(context: context))))
+                    .Div(attributes: new HtmlAttributes()
+                        .Id("ExportSitePackageDialog")
+                        .Class("dialog")
+                        .Title(Displays.ExportSitePackage(context: context)))
+                    .Div(attributes: new HtmlAttributes()
+                        .Id("BulkUpdateSelectorDialog")
+                        .Class("dialog")
+                        .Title(Displays.BulkUpdate(context: context))))
                     .ToString();
         }
 
@@ -3904,7 +3908,7 @@ namespace Implem.Pleasanter.Models
                 fileContent: content,
                 fileDownloadName: ExportUtilities.FileName(
                     context: context,
-                    ss: ss,
+                    title: ss.Title,
                     name: export.Name,
                     extension: export.Type.ToString()));
         }
@@ -3931,7 +3935,7 @@ namespace Implem.Pleasanter.Models
                         id: context.Forms.Int("ExportId"));
                 var fileName = ExportUtilities.FileName(
                     context: context,
-                    ss: ss,
+                    title: ss.Title,
                     name: export.Name,
                     extension: export.Type.ToString());
                 try
@@ -4038,7 +4042,7 @@ namespace Implem.Pleasanter.Models
                     {
                         Name = ExportUtilities.FileName(
                             context: context,
-                            ss: ss,
+                            title: ss.Title,
                             name: export.Name,
                             extension: export.Type.ToString()),
                         Content = content
@@ -4104,7 +4108,7 @@ namespace Implem.Pleasanter.Models
                     dataRows: dataRows),
                 ExportUtilities.FileName(
                     context: context,
-                    ss: ss,
+                    title: ss.Title,
                     name: Displays.Crosstab(context: context)));
         }
 

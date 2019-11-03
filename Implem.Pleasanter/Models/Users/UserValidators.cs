@@ -247,7 +247,7 @@ namespace Implem.Pleasanter.Models
                         }
                         break;
                     case "Comments":
-                        if (!ss.GetColumn(context: context, columnName: "Comments").CanUpdate)
+                        if (userModel.Comments_Updated(context: context))
                         {
                             return new ErrorData(type: Error.Types.HasNotPermission);
                         }
@@ -496,7 +496,7 @@ namespace Implem.Pleasanter.Models
                         }
                         break;
                     case "Comments":
-                        if (!ss.GetColumn(context: context, columnName: "Comments").CanUpdate)
+                        if (userModel.Comments_Updated(context: context))
                         {
                             return new ErrorData(type: Error.Types.HasNotPermission);
                         }

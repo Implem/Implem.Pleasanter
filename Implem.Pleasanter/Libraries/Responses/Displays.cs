@@ -2098,6 +2098,16 @@ namespace Implem.Pleasanter.Libraries.Responses
                 data: data);
         }
 
+        public static string ExcludeData(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "ExcludeData",
+                data: data);
+        }
+
         public static string Expired(
             Context context,
             params string[] data)
@@ -2205,6 +2215,26 @@ namespace Implem.Pleasanter.Libraries.Responses
             return Get(
                 context: context,
                 id: "ExportNotSetEmail",
+                data: data);
+        }
+
+        public static string ExportSettings(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "ExportSettings",
+                data: data);
+        }
+
+        public static string ExportSitePackage(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "ExportSitePackage",
                 data: data);
         }
 
@@ -2785,6 +2815,66 @@ namespace Implem.Pleasanter.Libraries.Responses
             return Get(
                 context: context,
                 id: "ImportMax",
+                data: data);
+        }
+
+        public static string ImportSitePackage(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "ImportSitePackage",
+                data: data);
+        }
+
+        public static string IncludeColumnPermission(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "IncludeColumnPermission",
+                data: data);
+        }
+
+        public static string IncludeData(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "IncludeData",
+                data: data);
+        }
+
+        public static string IncludePermission(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "IncludePermission",
+                data: data);
+        }
+
+        public static string IncludeRecordPermission(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "IncludeRecordPermission",
+                data: data);
+        }
+
+        public static string IncludeSitePermission(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "IncludeSitePermission",
                 data: data);
         }
 
@@ -5528,6 +5618,26 @@ namespace Implem.Pleasanter.Libraries.Responses
                 data: data);
         }
 
+        public static string SitePackage(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "SitePackage",
+                data: data);
+        }
+
+        public static string SitePackageImported(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "SitePackageImported",
+                data: data);
+        }
+
         public static string SitesCreated(
             Context context,
             params string[] data)
@@ -6315,6 +6425,16 @@ namespace Implem.Pleasanter.Libraries.Responses
             return Get(
                 context: context,
                 id: "UseHalf",
+                data: data);
+        }
+
+        public static string UseIndentOption(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "UseIndentOption",
                 data: data);
         }
 
@@ -11555,16 +11675,6 @@ namespace Implem.Pleasanter.Libraries.Responses
             return Get(
                 context: context,
                 id: "Orders",
-                data: data);
-        }
-
-        public static string ExportSettings(
-            Context context,
-            params string[] data)
-        {
-            return Get(
-                context: context,
-                id: "ExportSettings",
                 data: data);
         }
 

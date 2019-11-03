@@ -1,0 +1,13 @@
+﻿{
+    "Id": "ExportSitePackage",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Export site package"
+        },
+        {
+            "Language": "ja",
+            "Body": "サイトパッケージのエクスポート"
+        }
+    ]
+}

@@ -983,6 +983,15 @@ namespace Implem.Pleasanter.Libraries.Responses
                 css: "alert-success");
         }
 
+        public static Message SitePackageImported(Context context, params string[] data)
+        {
+            return Get(
+                text: Displays.SitePackageImported(
+                    context: context,
+                    data: data),
+                css: "alert-success");
+        }
+
         public static Message SitesCreated(Context context, params string[] data)
         {
             return Get(
@@ -2173,6 +2182,16 @@ namespace Implem.Pleasanter.Libraries.Responses
         {
             return ResponseMessage(
                 message: Separated(
+                    context: context,
+                    data: data),
+                target: target);
+        }
+
+        public static ResponseCollection ResponseSitePackageImported(
+            Context context, string target = null, params string[] data)
+        {
+            return ResponseMessage(
+                message: SitePackageImported(
                     context: context,
                     data: data),
                 target: target);
