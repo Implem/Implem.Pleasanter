@@ -2802,22 +2802,33 @@ namespace Implem.Pleasanter.Libraries.Settings
         public void SetChoiceHash(Context context, bool withLink = true, bool all = false)
         {
             SetAllChoices = all;
-            var siteIdList = JoinedSsHash
-                ?.SelectMany(o => o.Value.Links.Select(p => p.SiteId))
-                .Distinct()
-                .ToList() ?? new List<long>();
-            var linkHash = withLink
-                ? LinkHash(
+            if (JoinedSsHash == null)
+            {
+                SetChoiceHash(
                     context: context,
-                    siteIdList: siteIdList,
-                    all: all,
-                    searchIndexes: null)
-                : null;
-            JoinedSsHash?.ForEach(data => data.Value.SetChoiceHash(
-                context: context,
-                columnName: null,
-                searchIndexes: null,
-                linkHash: linkHash));
+                    columnName: null,
+                    searchIndexes: null,
+                    linkHash: null);
+            }
+            else
+            {
+                var siteIdList = JoinedSsHash
+                    ?.SelectMany(o => o.Value.Links.Select(p => p.SiteId))
+                    .Distinct()
+                    .ToList() ?? new List<long>();
+                var linkHash = withLink
+                    ? LinkHash(
+                        context: context,
+                        siteIdList: siteIdList,
+                        all: all,
+                        searchIndexes: null)
+                    : null;
+                JoinedSsHash.ForEach(data => data.Value.SetChoiceHash(
+                    context: context,
+                    columnName: null,
+                    searchIndexes: null,
+                    linkHash: linkHash));
+            }
         }
 
         public void SetChoiceHash(
