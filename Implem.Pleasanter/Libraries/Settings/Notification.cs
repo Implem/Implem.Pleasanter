@@ -178,8 +178,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                 case Types.Teams:
                     if (Parameters.Notification.Teams)
                     {
-                        new Teams(context,
-                            "*{0}{1}*\n{2}\n{3}".Params(Prefix, title, url, body))
+                        new Teams(context, Prefix, title, url, body)
                                 .Send(Address);
                     }
                     break;
