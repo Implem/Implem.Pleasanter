@@ -242,7 +242,9 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             switch (column.TypeName.CsTypeSummary())
             {
                 case Types.CsBool:
-                    hb.CheckBox(
+                    if (Visible(column))
+                    {
+                        hb.CheckBox(
                         context: context,
                         ss: ss,
                         column: column,
@@ -250,6 +252,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                         idPrefix: idPrefix,
                         action: action,
                         controlOnly: controlOnly);
+                    }
                     break;
                 case Types.CsNumeric:
                     if (column.DateFilterSetMode == ColumnUtilities.DateFilterSetMode.Default)
@@ -402,44 +405,39 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             string action = null,
             bool controlOnly = false)
         {
-            var currentSs = column.SiteSettings;
-            if (currentSs.GridColumns.Contains(column.ColumnName) ||
-                currentSs.EditorColumns.Contains(column.ColumnName))
+            switch (column.CheckFilterControlType)
             {
-                switch (column.CheckFilterControlType)
-                {
-                    case ColumnUtilities.CheckFilterControlTypes.OnOnly:
-                        return hb.FieldCheckBox(
-                            controlId: idPrefix + column.ColumnName,
-                            fieldCss: "field-auto-thin",
-                            controlCss: " auto-postback",
-                            labelText: Displays.Get(
-                                context: context,
-                                id: column.GridLabelText),
-                            labelTitle: ss.LabelTitle(column),
-                            controlOnly: controlOnly,
-                            action: action,
-                            _checked: view.ColumnFilter(column.ColumnName).ToBool(),
-                            method: "post");
-                    case ColumnUtilities.CheckFilterControlTypes.OnAndOff:
-                        return hb.FieldDropDown(
+                case ColumnUtilities.CheckFilterControlTypes.OnOnly:
+                    return hb.FieldCheckBox(
+                        controlId: idPrefix + column.ColumnName,
+                        fieldCss: "field-auto-thin",
+                        controlCss: " auto-postback",
+                        labelText: Displays.Get(
                             context: context,
-                            controlId: idPrefix + column.ColumnName,
-                            fieldCss: "field-auto-thin",
-                            controlCss: " auto-postback",
-                            labelText: Displays.Get(
-                                context: context,
-                                id: column.GridLabelText),
-                            labelTitle: ss.LabelTitle(column),
-                            controlOnly: controlOnly,
-                            action: action,
-                            optionCollection: ColumnUtilities
-                                .CheckFilterTypeOptions(context: context),
-                            selectedValue: view.ColumnFilter(column.ColumnName),
-                            addSelectedValue: false,
-                            insertBlank: true,
-                            method: "post");
-                }
+                            id: column.GridLabelText),
+                        labelTitle: ss.LabelTitle(column),
+                        controlOnly: controlOnly,
+                        action: action,
+                        _checked: view.ColumnFilter(column.ColumnName).ToBool(),
+                        method: "post");
+                case ColumnUtilities.CheckFilterControlTypes.OnAndOff:
+                    return hb.FieldDropDown(
+                        context: context,
+                        controlId: idPrefix + column.ColumnName,
+                        fieldCss: "field-auto-thin",
+                        controlCss: " auto-postback",
+                        labelText: Displays.Get(
+                            context: context,
+                            id: column.GridLabelText),
+                        labelTitle: ss.LabelTitle(column),
+                        controlOnly: controlOnly,
+                        action: action,
+                        optionCollection: ColumnUtilities
+                            .CheckFilterTypeOptions(context: context),
+                        selectedValue: view.ColumnFilter(column.ColumnName),
+                        addSelectedValue: false,
+                        insertBlank: true,
+                        method: "post");
             }
             return hb;
         }

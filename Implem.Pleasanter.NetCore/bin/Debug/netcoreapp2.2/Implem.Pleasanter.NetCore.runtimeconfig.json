@@ -1,0 +1,12 @@
+{
+  "runtimeOptions": {
+    "tfm": "netcoreapp2.2",
+    "framework": {
+      "name": "Microsoft.AspNetCore.All",
+      "version": "2.2.1"
+    },
+    "configProperties": {
+      "System.GC.Server": true
+    }
+  }
+}

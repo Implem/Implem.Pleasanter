@@ -1,0 +1,13 @@
+﻿{
+    "Id": "MonthsAgo",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "{0} months excess"
+        },
+        {
+            "Language": "ja",
+            "Body": "{0} ヶ月前"
+        }
+    ]
+}

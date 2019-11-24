@@ -98,7 +98,8 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                         .LinkedStyles(context: context)
                         .ExtendedStyles(context: context)
                         .Title(action: () => hb
-                            .Text(text: HtmlTitle(context: context))))
+                            .Text(text: HtmlTitle(context: context)))
+                        .ExtendedHeader(ss: ss))
                     .Body(style: "visibility:hidden", action: action));
             }
             else
@@ -161,6 +162,19 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     .Replace("[RecordTitle]", context.RecordTitle),
                 context.TenantTitle,
                 Displays.ProductName(context: context));
+        }
+
+        private static HtmlBuilder ExtendedHeader(this HtmlBuilder hb, SiteSettings ss)
+        {
+            if (!ss.ExtendedHeader.IsNullOrEmpty())
+            {
+                hb.Raw(text: ss.ExtendedHeader);
+            }
+            else if (Parameters.ExtendedTags?.ContainsKey("Header") == true)
+            {
+                hb.Raw(text: Parameters.ExtendedTags["Header"]);
+            }
+            return hb;
         }
 
         public static HtmlBuilder MainContainer(

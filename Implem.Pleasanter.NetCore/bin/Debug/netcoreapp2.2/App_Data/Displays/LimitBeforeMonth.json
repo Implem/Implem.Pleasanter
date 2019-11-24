@@ -1,0 +1,13 @@
+﻿{
+    "Id": "LimitBeforeMonth",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "1 month excess"
+        },
+        {
+            "Language": "ja",
+            "Body": "1 ヶ月超過"
+        }
+    ]
+}

@@ -1,0 +1,13 @@
+﻿{
+    "Id": "ChangeHistoryList",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Change history list"
+        },
+        {
+            "Language": "ja",
+            "Body": "変更履歴の一覧"
+        }
+    ]
+}

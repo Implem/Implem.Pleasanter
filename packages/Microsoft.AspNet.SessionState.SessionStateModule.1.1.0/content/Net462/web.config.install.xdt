@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<configuration xmlns:xdt="http://schemas.microsoft.com/XML-Document-Transform">
+
+  <system.webServer xdt:Transform="InsertIfMissing">
+    <modules xdt:Transform="InsertIfMissing">
+    </modules>
+  </system.webServer>   
+
+  <system.webServer>
+    <modules>
+      <remove name="Session" xdt:Transform="InsertIfMissing" xdt:Locator="Match(name)" />
+      <add name="Session"
+           type="Microsoft.AspNet.SessionState.SessionStateModuleAsync, Microsoft.AspNet.SessionState.SessionStateModule, Version=1.1.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35"
+           preCondition="integratedMode" xdt:Transform="Insert" />
+    </modules>
+  </system.webServer>
+</configuration>

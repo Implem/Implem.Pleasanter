@@ -1,0 +1,13 @@
+﻿{
+    "Id": "LimitAfterMinutes",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "{0} minutes after"
+        },
+        {
+            "Language": "ja",
+            "Body": "{0} 分後"
+        }
+    ]
+}

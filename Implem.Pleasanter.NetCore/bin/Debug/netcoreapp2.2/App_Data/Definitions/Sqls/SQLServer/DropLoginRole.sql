@@ -1,0 +1,1 @@
+﻿drop login "#Uid#";

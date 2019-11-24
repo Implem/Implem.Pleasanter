@@ -1,0 +1,13 @@
+﻿{
+    "Id": "Date",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Date"
+        },
+        {
+            "Language": "ja",
+            "Body": "日付"
+        }
+    ]
+}

@@ -1,0 +1,13 @@
+﻿{
+    "Id": "StartDateTime",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Start date time"
+        },
+        {
+            "Language": "ja",
+            "Body": "開始日時"
+        }
+    ]
+}

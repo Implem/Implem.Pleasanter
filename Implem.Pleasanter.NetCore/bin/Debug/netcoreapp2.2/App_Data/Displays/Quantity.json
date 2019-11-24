@@ -1,0 +1,13 @@
+﻿{
+    "Id": "Quantity",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Q'ty"
+        },
+        {
+            "Language": "ja",
+            "Body": "件数"
+        }
+    ]
+}

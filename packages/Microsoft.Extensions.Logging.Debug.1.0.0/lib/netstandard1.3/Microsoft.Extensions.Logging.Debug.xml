@@ -1,0 +1,74 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Microsoft.Extensions.Logging.Debug</name>
+    </assembly>
+    <members>
+        <member name="T:Microsoft.Extensions.Logging.Debug.DebugLogger">
+            <summary>
+            A logger that writes messages in the debug output window only when a debugger is attached.
+            </summary>
+        </member>
+        <member name="M:Microsoft.Extensions.Logging.Debug.DebugLogger.#ctor(System.String)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Microsoft.Extensions.Logging.Debug.DebugLogger"/> class.
+            </summary>
+            <param name="name">The name of the logger.</param>
+        </member>
+        <member name="M:Microsoft.Extensions.Logging.Debug.DebugLogger.#ctor(System.String,System.Func{System.String,Microsoft.Extensions.Logging.LogLevel,System.Boolean})">
+            <summary>
+            Initializes a new instance of the <see cref="T:Microsoft.Extensions.Logging.Debug.DebugLogger"/> class.
+            </summary>
+            <param name="name">The name of the logger.</param>
+            <param name="filter">The function used to filter events based on the log level.</param>
+        </member>
+        <member name="M:Microsoft.Extensions.Logging.Debug.DebugLogger.BeginScope``1(``0)">
+            <inheritdoc />
+        </member>
+        <member name="M:Microsoft.Extensions.Logging.Debug.DebugLogger.IsEnabled(Microsoft.Extensions.Logging.LogLevel)">
+            <inheritdoc />
+        </member>
+        <member name="M:Microsoft.Extensions.Logging.Debug.DebugLogger.Log``1(Microsoft.Extensions.Logging.LogLevel,Microsoft.Extensions.Logging.EventId,``0,System.Exception,System.Func{``0,System.Exception,System.String})">
+            <inheritdoc />
+        </member>
+        <member name="T:Microsoft.Extensions.Logging.Debug.DebugLoggerProvider">
+            <summary>
+            The provider for the <see cref="T:Microsoft.Extensions.Logging.Debug.DebugLogger"/>.
+            </summary>
+        </member>
+        <member name="M:Microsoft.Extensions.Logging.Debug.DebugLoggerProvider.#ctor(System.Func{System.String,Microsoft.Extensions.Logging.LogLevel,System.Boolean})">
+            <summary>
+            Initializes a new instance of the <see cref="T:Microsoft.Extensions.Logging.Debug.DebugLoggerProvider"/> class.
+            </summary>
+            <param name="filter">The function used to filter events based on the log level.</param>
+        </member>
+        <member name="M:Microsoft.Extensions.Logging.Debug.DebugLoggerProvider.CreateLogger(System.String)">
+            <inheritdoc /> 
+        </member>
+        <member name="T:Microsoft.Extensions.Logging.DebugLoggerFactoryExtensions">
+            <summary>
+            Extension methods for the <see cref="T:Microsoft.Extensions.Logging.ILoggerFactory"/> class.
+            </summary>
+        </member>
+        <member name="M:Microsoft.Extensions.Logging.DebugLoggerFactoryExtensions.AddDebug(Microsoft.Extensions.Logging.ILoggerFactory)">
+            <summary>
+            Adds a debug logger that is enabled for <see cref="T:Microsoft.Extensions.Logging.LogLevel"/>.Information or higher.
+            </summary>
+            <param name="factory">The extension method argument.</param>
+        </member>
+        <member name="M:Microsoft.Extensions.Logging.DebugLoggerFactoryExtensions.AddDebug(Microsoft.Extensions.Logging.ILoggerFactory,System.Func{System.String,Microsoft.Extensions.Logging.LogLevel,System.Boolean})">
+            <summary>
+            Adds a debug logger that is enabled as defined by the filter function.
+            </summary>
+            <param name="factory">The extension method argument.</param>
+            <param name="filter">The function used to filter events based on the log level.</param>
+        </member>
+        <member name="M:Microsoft.Extensions.Logging.DebugLoggerFactoryExtensions.AddDebug(Microsoft.Extensions.Logging.ILoggerFactory,Microsoft.Extensions.Logging.LogLevel)">
+            <summary>
+            Adds a debug logger that is enabled for <see cref="T:Microsoft.Extensions.Logging.LogLevel"/>s of minLevel or higher.
+            </summary>
+            <param name="factory">The extension method argument.</param>
+            <param name="minLevel">The minimum <see cref="T:Microsoft.Extensions.Logging.LogLevel"/> to be logged</param>
+        </member>
+    </members>
+</doc>

@@ -1,0 +1,13 @@
+﻿{
+    "Id": "Range",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Range"
+        },
+        {
+            "Language": "ja",
+            "Body": "範囲"
+        }
+    ]
+}

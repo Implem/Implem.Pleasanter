@@ -1,0 +1,13 @@
+﻿{
+    "Id": "RecordAccessControl",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Record access control"
+        },
+        {
+            "Language": "ja",
+            "Body": "レコードのアクセス制御"
+        }
+    ]
+}

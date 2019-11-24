@@ -1,0 +1,13 @@
+﻿{
+    "Id": "Column",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "column"
+        },
+        {
+            "Language": "ja",
+            "Body": "項目"
+        }
+    ]
+}

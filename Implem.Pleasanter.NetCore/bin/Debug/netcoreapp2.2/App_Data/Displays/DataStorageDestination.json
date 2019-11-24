@@ -1,0 +1,13 @@
+﻿{
+    "Id": "DataStorageDestination",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Data storage destination"
+        },
+        {
+            "Language": "ja",
+            "Body": "データ保存先"
+        }
+    ]
+}

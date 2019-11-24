@@ -1,0 +1,13 @@
+﻿{
+    "Id": "DemoMailBody",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Thank you for your application to the demonstration environment available .\r\n\r\n, Please try to access the following URL .\r\n\r\n{0}\r\n\r\ncan be used for {1} days."
+        },
+        {
+            "Language": "ja",
+            "Body": "デモ環境ご利用へのお申し込みありがとうございます。\r\n\r\n下記のURLにアクセスしご試用ください。\r\n\r\n{0}\r\n\r\nデモ環境は{1}日間ご利用いただけます。"
+        }
+    ]
+}

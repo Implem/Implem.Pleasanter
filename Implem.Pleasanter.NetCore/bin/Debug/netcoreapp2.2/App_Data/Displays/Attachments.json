@@ -1,0 +1,13 @@
+﻿{
+    "Id": "Attachments",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Attachments"
+        },
+        {
+            "Language": "ja",
+            "Body": "添付ファイル"
+        }
+    ]
+}

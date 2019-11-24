@@ -1,0 +1,13 @@
+﻿{
+    "Id": "BulkDelete",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Bulk delete"
+        },
+        {
+            "Language": "ja",
+            "Body": "一括削除"
+        }
+    ]
+}

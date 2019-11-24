@@ -1,0 +1,13 @@
+﻿{
+    "Id": "InvalidRequest",
+    "Type": 240,
+    "Languages": [
+        {
+            "Body": "Invalid request."
+        },
+        {
+            "Language": "ja",
+            "Body": "不正なリクエストが送信されました。"
+        }
+    ]
+}

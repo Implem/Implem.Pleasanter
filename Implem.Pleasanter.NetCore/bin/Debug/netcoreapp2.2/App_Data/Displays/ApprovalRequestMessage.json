@@ -1,0 +1,13 @@
+﻿{
+  "Id": "ApprovalRequestMessage",
+  "Type": 210,
+  "Languages": [
+    {
+      "Body": "Approval request process of \" {0} \" was successful."
+    },
+    {
+      "Language": "ja",
+      "Body": "\" {0} \" を承認依頼しました。"
+    }
+  ]
+}

@@ -1,0 +1,60 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<doc>
+  <assembly>
+    <name>System.Web.WebPages.Deployment</name>
+  </assembly>
+  <members>
+    <member name="T:System.Web.WebPages.Deployment.PreApplicationStartCode">
+      <summary>Web ページ展開のアプリケーション開始前のスタート コードの登録ポイントを提供します。</summary>
+    </member>
+    <member name="M:System.Web.WebPages.Deployment.PreApplicationStartCode.Start">
+      <summary>Web ページ展開のアプリケーション開始前のスタート コードを登録します。</summary>
+    </member>
+    <member name="T:System.Web.WebPages.Deployment.WebPagesDeployment">
+      <summary>この型/メンバーは、.NET Framework インフラストラクチャをサポートします。独自に作成したコードから直接使用するためのものではありません。Web アプリケーションの展開に関する情報の取得に使用するメソッドを提供します。</summary>
+    </member>
+    <member name="M:System.Web.WebPages.Deployment.WebPagesDeployment.GetAssemblyPath(System.Version)">
+      <summary>この型/メンバーは、.NET Framework インフラストラクチャをサポートします。独自に作成したコードから直接使用するためのものではありません。Web ページ展開のアセンブリ パスを取得します。</summary>
+      <returns>Web ページ展開のアセンブリ パス。</returns>
+      <param name="version">Web ページのバージョン。</param>
+    </member>
+    <member name="M:System.Web.WebPages.Deployment.WebPagesDeployment.GetExplicitWebPagesVersion(System.String)">
+      <summary>この型/メンバーは、.NET Framework インフラストラクチャをサポートします。独自に作成したコードから直接使用するためのものではありません。Web ページのバージョンを指定されたバイナリ パスから取得します。</summary>
+      <returns>Web ページのバージョン。</returns>
+      <param name="path">Web ページのバイナリ パス。</param>
+    </member>
+    <member name="M:System.Web.WebPages.Deployment.WebPagesDeployment.GetIncompatibleDependencies(System.String)">
+      <summary>この型/メンバーは、.NET Framework インフラストラクチャをサポートします。独自に作成したコードから直接使用するためのものではありません。Web ページのバージョンに関わらず、指定されたパスからアセンブリ参照を取得します。</summary>
+      <returns>Web ページとそのバージョンのアセンブリ参照を含むディクショナリ。</returns>
+      <param name="appPath">Web ページ アプリケーションへのパス。</param>
+    </member>
+    <member name="M:System.Web.WebPages.Deployment.WebPagesDeployment.GetMaxVersion">
+      <summary>この型/メンバーは、.NET Framework インフラストラクチャをサポートします。独自に作成したコードから直接使用するためのものではありません。Web ページに読み込まれたアセンブリの最大バージョンを取得します。</summary>
+      <returns>Web ページに読み込まれたアセンブリの最大バージョン。</returns>
+    </member>
+    <member name="M:System.Web.WebPages.Deployment.WebPagesDeployment.GetVersion(System.String)">
+      <summary>Web ページのバージョンを指定されたパスから取得します。</summary>
+      <returns>Web ページのバージョン。</returns>
+      <param name="path">アプリケーションのルート ディレクトリのパス。</param>
+    </member>
+    <member name="M:System.Web.WebPages.Deployment.WebPagesDeployment.GetVersionWithoutEnabledCheck(System.String)">
+      <summary>この型/メンバーは、.NET Framework インフラストラクチャをサポートします。独自に作成したコードから直接使用するためのものではありません。指定されたパスの構成設定を使用して Web ページのバージョンを取得します。</summary>
+      <returns>Web ページのバージョン。</returns>
+      <param name="path">アプリケーション設定へのパス。</param>
+    </member>
+    <member name="M:System.Web.WebPages.Deployment.WebPagesDeployment.GetWebPagesAssemblies">
+      <summary>この型/メンバーは、.NET Framework インフラストラクチャをサポートします。独自に作成したコードから直接使用するためのものではありません。このWeb ページ展開のアセンブリを返します。</summary>
+      <returns>このWeb ページ展開のアセンブリを含む一覧。</returns>
+    </member>
+    <member name="M:System.Web.WebPages.Deployment.WebPagesDeployment.IsEnabled(System.String)">
+      <summary>この型/メンバーは、.NET Framework インフラストラクチャをサポートします。独自に作成したコードから直接使用するためのものではありません。Web ページ展開が有効であるかどうかを示します。</summary>
+      <returns>Web ページ展開が有効になっている場合は true。それ以外の場合は false。</returns>
+      <param name="path">Web ページ展開へのパス。</param>
+    </member>
+    <member name="M:System.Web.WebPages.Deployment.WebPagesDeployment.IsExplicitlyDisabled(System.String)">
+      <summary>この型/メンバーは、.NET Framework インフラストラクチャをサポートします。独自に作成したコードから直接使用するためのものではありません。Web ページ展開が明示的に無効になっているかどうかを示します。</summary>
+      <returns>Web ページ展開が明示的に無効になっている場合は true。それ以外の場合は false。</returns>
+      <param name="path">Web ページ展開へのパス。</param>
+    </member>
+  </members>
+</doc>

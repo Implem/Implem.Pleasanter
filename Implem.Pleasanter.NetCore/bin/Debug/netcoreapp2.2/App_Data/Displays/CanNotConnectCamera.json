@@ -1,0 +1,14 @@
+﻿{
+    "Id": "CanNotConnectCamera",
+    "Type": 410,
+    "ClientScript": true,
+    "Languages": [
+        {
+            "Body": "Can not connect to the camera."
+        },
+        {
+            "Language": "ja",
+            "Body": "カメラに接続できません。"
+        }
+    ]
+}

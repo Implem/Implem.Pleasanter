@@ -1,0 +1,14 @@
+﻿{
+    "Id": "ConfirmUnload",
+    "Type": 310,
+    "ClientScript": true,
+    "Languages": [
+        {
+            "Body": "Are you sure you want to unload this page?"
+        },
+        {
+            "Language": "ja",
+            "Body": "このページを離れますか? 行った変更が保存されない可能性があります。"
+        }
+    ]
+}

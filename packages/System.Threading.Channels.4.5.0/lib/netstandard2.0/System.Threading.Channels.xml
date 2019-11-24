@@ -1,0 +1,730 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>System.Threading.Channels</name>
+    </assembly>
+    <members>
+        <member name="T:System.VoidResult">
+            <summary>An empty struct, used to represent void in generic types.</summary>
+        </member>
+        <member name="T:System.Collections.Generic.Dequeue`1">
+            <summary>Provides a double-ended queue data structure.</summary>
+            <typeparam name="T">Type of the data stored in the dequeue.</typeparam>
+        </member>
+        <member name="T:System.Collections.Concurrent.SingleProducerSingleConsumerQueue`1">
+            <summary>
+            Provides a producer/consumer queue safe to be used by only one producer and one consumer concurrently.
+            </summary>
+            <typeparam name="T">Specifies the type of data contained in the queue.</typeparam>
+        </member>
+        <member name="F:System.Collections.Concurrent.SingleProducerSingleConsumerQueue`1.InitialSegmentSize">
+            <summary>The initial size to use for segments (in number of elements).</summary>
+        </member>
+        <member name="F:System.Collections.Concurrent.SingleProducerSingleConsumerQueue`1.MaxSegmentSize">
+            <summary>The maximum size to use for segments (in number of elements).</summary>
+        </member>
+        <member name="F:System.Collections.Concurrent.SingleProducerSingleConsumerQueue`1._head">
+            <summary>The head of the linked list of segments.</summary>
+        </member>
+        <member name="F:System.Collections.Concurrent.SingleProducerSingleConsumerQueue`1._tail">
+            <summary>The tail of the linked list of segments.</summary>
+        </member>
+        <member name="M:System.Collections.Concurrent.SingleProducerSingleConsumerQueue`1.#ctor">
+            <summary>Initializes the queue.</summary>
+        </member>
+        <member name="M:System.Collections.Concurrent.SingleProducerSingleConsumerQueue`1.Enqueue(`0)">
+            <summary>Enqueues an item into the queue.</summary>
+            <param name="item">The item to enqueue.</param>
+        </member>
+        <member name="M:System.Collections.Concurrent.SingleProducerSingleConsumerQueue`1.EnqueueSlow(`0,System.Collections.Concurrent.SingleProducerSingleConsumerQueue{`0}.Segment@)">
+            <summary>Enqueues an item into the queue.</summary>
+            <param name="item">The item to enqueue.</param>
+            <param name="segment">The segment in which to first attempt to store the item.</param>
+        </member>
+        <member name="M:System.Collections.Concurrent.SingleProducerSingleConsumerQueue`1.TryDequeue(`0@)">
+            <summary>Attempts to dequeue an item from the queue.</summary>
+            <param name="result">The dequeued item.</param>
+            <returns>true if an item could be dequeued; otherwise, false.</returns>
+        </member>
+        <member name="M:System.Collections.Concurrent.SingleProducerSingleConsumerQueue`1.TryDequeueSlow(System.Collections.Concurrent.SingleProducerSingleConsumerQueue{`0}.Segment@,`0[]@,`0@)">
+            <summary>Attempts to dequeue an item from the queue.</summary>
+            <param name="array">The array from which the item was dequeued.</param>
+            <param name="segment">The segment from which the item was dequeued.</param>
+            <param name="result">The dequeued item.</param>
+            <returns>true if an item could be dequeued; otherwise, false.</returns>
+        </member>
+        <member name="P:System.Collections.Concurrent.SingleProducerSingleConsumerQueue`1.IsEmpty">
+            <summary>Gets whether the collection is currently empty.</summary>
+        </member>
+        <member name="M:System.Collections.Concurrent.SingleProducerSingleConsumerQueue`1.GetEnumerator">
+            <summary>Gets an enumerable for the collection.</summary>
+            <remarks>This method is not safe to use concurrently with any other members that may mutate the collection.</remarks>
+        </member>
+        <member name="P:System.Collections.Concurrent.SingleProducerSingleConsumerQueue`1.Count">
+            <summary>Gets the number of items in the collection.</summary>
+            <remarks>This method is not safe to use concurrently with any other members that may mutate the collection.</remarks>
+        </member>
+        <member name="T:System.Collections.Concurrent.SingleProducerSingleConsumerQueue`1.Segment">
+            <summary>A segment in the queue containing one or more items.</summary>
+        </member>
+        <member name="F:System.Collections.Concurrent.SingleProducerSingleConsumerQueue`1.Segment._next">
+            <summary>The next segment in the linked list of segments.</summary>
+        </member>
+        <member name="F:System.Collections.Concurrent.SingleProducerSingleConsumerQueue`1.Segment._array">
+            <summary>The data stored in this segment.</summary>
+        </member>
+        <member name="F:System.Collections.Concurrent.SingleProducerSingleConsumerQueue`1.Segment._state">
+            <summary>Details about the segment.</summary>
+        </member>
+        <member name="M:System.Collections.Concurrent.SingleProducerSingleConsumerQueue`1.Segment.#ctor(System.Int32)">
+            <summary>Initializes the segment.</summary>
+            <param name="size">The size to use for this segment.</param>
+        </member>
+        <member name="T:System.Collections.Concurrent.SingleProducerSingleConsumerQueue`1.SegmentState">
+            <summary>Stores information about a segment.</summary>
+        </member>
+        <member name="F:System.Collections.Concurrent.SingleProducerSingleConsumerQueue`1.SegmentState._pad0">
+            <summary>Padding to reduce false sharing between the segment's array and _first.</summary>
+        </member>
+        <member name="F:System.Collections.Concurrent.SingleProducerSingleConsumerQueue`1.SegmentState._first">
+            <summary>The index of the current head in the segment.</summary>
+        </member>
+        <member name="F:System.Collections.Concurrent.SingleProducerSingleConsumerQueue`1.SegmentState._lastCopy">
+            <summary>A copy of the current tail index.</summary>
+        </member>
+        <member name="F:System.Collections.Concurrent.SingleProducerSingleConsumerQueue`1.SegmentState._pad1">
+            <summary>Padding to reduce false sharing between the first and last.</summary>
+        </member>
+        <member name="F:System.Collections.Concurrent.SingleProducerSingleConsumerQueue`1.SegmentState._firstCopy">
+            <summary>A copy of the current head index.</summary>
+        </member>
+        <member name="F:System.Collections.Concurrent.SingleProducerSingleConsumerQueue`1.SegmentState._last">
+            <summary>The index of the current tail in the segment.</summary>
+        </member>
+        <member name="F:System.Collections.Concurrent.SingleProducerSingleConsumerQueue`1.SegmentState._pad2">
+            <summary>Padding to reduce false sharing with the last and what's after the segment.</summary>
+        </member>
+        <member name="T:System.Collections.Concurrent.SingleProducerSingleConsumerQueue`1.SingleProducerSingleConsumerQueue_DebugView">
+            <summary>Debugger type proxy for a SingleProducerSingleConsumerQueue of T.</summary>
+        </member>
+        <member name="F:System.Collections.Concurrent.SingleProducerSingleConsumerQueue`1.SingleProducerSingleConsumerQueue_DebugView._queue">
+            <summary>The queue being visualized.</summary>
+        </member>
+        <member name="M:System.Collections.Concurrent.SingleProducerSingleConsumerQueue`1.SingleProducerSingleConsumerQueue_DebugView.#ctor(System.Collections.Concurrent.SingleProducerSingleConsumerQueue{`0})">
+            <summary>Initializes the debug view.</summary>
+            <param name="queue">The queue being debugged.</param>
+        </member>
+        <member name="P:System.Collections.Concurrent.SingleProducerSingleConsumerQueue`1.SingleProducerSingleConsumerQueue_DebugView.Items">
+            <summary>Gets the contents of the list.</summary>
+        </member>
+        <member name="T:System.Collections.Concurrent.PaddingHelpers">
+            <summary>A placeholder class for common padding constants and eventually routines.</summary>
+        </member>
+        <member name="F:System.Collections.Concurrent.PaddingHelpers.CACHE_LINE_SIZE">
+            <summary>A size greater than or equal to the size of the most common CPU cache lines.</summary>
+        </member>
+        <member name="T:System.Collections.Concurrent.PaddingFor32">
+            <summary>Padding structure used to minimize false sharing in SingleProducerSingleConsumerQueue{T}.</summary>
+        </member>
+        <member name="T:System.Threading.Channels.BoundedChannel`1">
+            <summary>Provides a channel with a bounded capacity.</summary>
+        </member>
+        <member name="F:System.Threading.Channels.BoundedChannel`1._mode">
+            <summary>The mode used when the channel hits its bound.</summary>
+        </member>
+        <member name="F:System.Threading.Channels.BoundedChannel`1._completion">
+            <summary>Task signaled when the channel has completed.</summary>
+        </member>
+        <member name="F:System.Threading.Channels.BoundedChannel`1._bufferedCapacity">
+            <summary>The maximum capacity of the channel.</summary>
+        </member>
+        <member name="F:System.Threading.Channels.BoundedChannel`1._items">
+            <summary>Items currently stored in the channel waiting to be read.</summary>
+        </member>
+        <member name="F:System.Threading.Channels.BoundedChannel`1._blockedReaders">
+            <summary>Readers waiting to read from the channel.</summary>
+        </member>
+        <member name="F:System.Threading.Channels.BoundedChannel`1._blockedWriters">
+            <summary>Writers waiting to write to the channel.</summary>
+        </member>
+        <member name="F:System.Threading.Channels.BoundedChannel`1._waitingReadersTail">
+            <summary>Linked list of WaitToReadAsync waiters.</summary>
+        </member>
+        <member name="F:System.Threading.Channels.BoundedChannel`1._waitingWritersTail">
+            <summary>Linked list of WaitToWriteAsync waiters.</summary>
+        </member>
+        <member name="F:System.Threading.Channels.BoundedChannel`1._runContinuationsAsynchronously">
+            <summary>Whether to force continuations to be executed asynchronously from producer writes.</summary>
+        </member>
+        <member name="F:System.Threading.Channels.BoundedChannel`1._doneWriting">
+            <summary>Set to non-null once Complete has been called.</summary>
+        </member>
+        <member name="P:System.Threading.Channels.BoundedChannel`1.SyncObj">
+            <summary>Gets an object used to synchronize all state on the instance.</summary>
+        </member>
+        <member name="M:System.Threading.Channels.BoundedChannel`1.#ctor(System.Int32,System.Threading.Channels.BoundedChannelFullMode,System.Boolean)">
+            <summary>Initializes the <see cref="T:System.Threading.Channels.BoundedChannel`1"/>.</summary>
+            <param name="bufferedCapacity">The positive bounded capacity for the channel.</param>
+            <param name="mode">The mode used when writing to a full channel.</param>
+            <param name="runContinuationsAsynchronously">Whether to force continuations to be executed asynchronously.</param>
+        </member>
+        <member name="M:System.Threading.Channels.BoundedChannel`1.BoundedChannelReader.DequeueItemAndPostProcess">
+            <summary>Dequeues an item, and then fixes up our state around writers and completion.</summary>
+            <returns>The dequeued item.</returns>
+        </member>
+        <member name="P:System.Threading.Channels.BoundedChannel`1.BoundedChannelReader.ItemsCountForDebugger">
+            <summary>Gets the number of items in the channel. This should only be used by the debugger.</summary>
+        </member>
+        <member name="M:System.Threading.Channels.BoundedChannel`1.BoundedChannelReader.System#Threading#Channels#IDebugEnumerable{T}#GetEnumerator">
+            <summary>Gets an enumerator the debugger can use to show the contents of the channel.</summary>
+        </member>
+        <member name="P:System.Threading.Channels.BoundedChannel`1.BoundedChannelWriter.ItemsCountForDebugger">
+            <summary>Gets the number of items in the channel. This should only be used by the debugger.</summary>
+        </member>
+        <member name="P:System.Threading.Channels.BoundedChannel`1.BoundedChannelWriter.CapacityForDebugger">
+            <summary>Gets the capacity of the channel. This should only be used by the debugger.</summary>
+        </member>
+        <member name="M:System.Threading.Channels.BoundedChannel`1.BoundedChannelWriter.System#Threading#Channels#IDebugEnumerable{T}#GetEnumerator">
+            <summary>Gets an enumerator the debugger can use to show the contents of the channel.</summary>
+        </member>
+        <member name="P:System.Threading.Channels.BoundedChannel`1.ItemsCountForDebugger">
+            <summary>Gets the number of items in the channel.  This should only be used by the debugger.</summary>
+        </member>
+        <member name="P:System.Threading.Channels.BoundedChannel`1.ChannelIsClosedForDebugger">
+            <summary>Report if the channel is closed or not. This should only be used by the debugger.</summary>
+        </member>
+        <member name="M:System.Threading.Channels.BoundedChannel`1.System#Threading#Channels#IDebugEnumerable{T}#GetEnumerator">
+            <summary>Gets an enumerator the debugger can use to show the contents of the channel.</summary>
+        </member>
+        <member name="T:System.Threading.Channels.BoundedChannelFullMode">
+            <summary>Specifies the behavior to use when writing to a bounded channel that is already full.</summary>
+        </member>
+        <member name="F:System.Threading.Channels.BoundedChannelFullMode.Wait">
+            <summary>Wait for space to be available in order to complete the write operation.</summary>
+        </member>
+        <member name="F:System.Threading.Channels.BoundedChannelFullMode.DropNewest">
+            <summary>Remove and ignore the newest item in the channel in order to make room for the item being written.</summary>
+        </member>
+        <member name="F:System.Threading.Channels.BoundedChannelFullMode.DropOldest">
+            <summary>Remove and ignore the oldest item in the channel in order to make room for the item being written.</summary>
+        </member>
+        <member name="F:System.Threading.Channels.BoundedChannelFullMode.DropWrite">
+            <summary>Drop the item being written.</summary>
+        </member>
+        <member name="T:System.Threading.Channels.Channel">
+            <summary>Provides static methods for creating channels.</summary>
+        </member>
+        <member name="M:System.Threading.Channels.Channel.CreateUnbounded``1">
+            <summary>Creates an unbounded channel usable by any number of readers and writers concurrently.</summary>
+            <returns>The created channel.</returns>
+        </member>
+        <member name="M:System.Threading.Channels.Channel.CreateUnbounded``1(System.Threading.Channels.UnboundedChannelOptions)">
+            <summary>Creates an unbounded channel subject to the provided options.</summary>
+            <typeparam name="T">Specifies the type of data in the channel.</typeparam>
+            <param name="options">Options that guide the behavior of the channel.</param>
+            <returns>The created channel.</returns>
+        </member>
+        <member name="M:System.Threading.Channels.Channel.CreateBounded``1(System.Int32)">
+            <summary>Creates a channel with the specified maximum capacity.</summary>
+            <typeparam name="T">Specifies the type of data in the channel.</typeparam>
+            <param name="capacity">The maximum number of items the channel may store.</param>
+            <returns>The created channel.</returns>
+            <remarks>
+            Channels created with this method apply the <see cref="F:System.Threading.Channels.BoundedChannelFullMode.Wait"/>
+            behavior and prohibit continuations from running synchronously.
+            </remarks>
+        </member>
+        <member name="M:System.Threading.Channels.Channel.CreateBounded``1(System.Threading.Channels.BoundedChannelOptions)">
+            <summary>Creates a channel with the specified maximum capacity.</summary>
+            <typeparam name="T">Specifies the type of data in the channel.</typeparam>
+            <param name="options">Options that guide the behavior of the channel.</param>
+            <returns>The created channel.</returns>
+        </member>
+        <member name="T:System.Threading.Channels.ChannelClosedException">
+            <summary>Exception thrown when a channel is used after it's been closed.</summary>
+        </member>
+        <member name="M:System.Threading.Channels.ChannelClosedException.#ctor">
+            <summary>Initializes a new instance of the <see cref="T:System.Threading.Channels.ChannelClosedException"/> class.</summary>
+        </member>
+        <member name="M:System.Threading.Channels.ChannelClosedException.#ctor(System.String)">
+            <summary>Initializes a new instance of the <see cref="T:System.Threading.Channels.ChannelClosedException"/> class.</summary>
+            <param name="message">The message that describes the error.</param>
+        </member>
+        <member name="M:System.Threading.Channels.ChannelClosedException.#ctor(System.Exception)">
+            <summary>Initializes a new instance of the <see cref="T:System.Threading.Channels.ChannelClosedException"/> class.</summary>
+            <param name="innerException">The exception that is the cause of this exception.</param>
+        </member>
+        <member name="M:System.Threading.Channels.ChannelClosedException.#ctor(System.String,System.Exception)">
+            <summary>Initializes a new instance of the <see cref="T:System.Threading.Channels.ChannelClosedException"/> class.</summary>
+            <param name="message">The message that describes the error.</param>
+            <param name="innerException">The exception that is the cause of this exception.</param>
+        </member>
+        <member name="T:System.Threading.Channels.ChannelOptions">
+            <summary>Provides options that control the behavior of channel instances.</summary>
+        </member>
+        <member name="P:System.Threading.Channels.ChannelOptions.SingleWriter">
+            <summary>
+            <code>true</code> if writers to the channel guarantee that there will only ever be at most one write operation
+            at a time; <code>false</code> if no such constraint is guaranteed.
+            </summary>
+            <remarks>
+            If true, the channel may be able to optimize certain operations based on knowing about the single-writer guarantee.
+            The default is false.
+            </remarks>
+        </member>
+        <member name="P:System.Threading.Channels.ChannelOptions.SingleReader">
+            <summary>
+            <code>true</code> readers from the channel guarantee that there will only ever be at most one read operation at a time;
+            <code>false</code> if no such constraint is guaranteed.
+            </summary>
+            <remarks>
+            If true, the channel may be able to optimize certain operations based on knowing about the single-reader guarantee.
+            The default is false.
+            </remarks>
+        </member>
+        <member name="P:System.Threading.Channels.ChannelOptions.AllowSynchronousContinuations">
+            <summary>
+            <code>true</code> if operations performed on a channel may synchronously invoke continuations subscribed to
+            notifications of pending async operations; <code>false</code> if all continuations should be invoked asynchronously.
+            </summary>
+            <remarks>
+            Setting this option to <code>true</code> can provide measurable throughput improvements by avoiding
+            scheduling additional work items. However, it may come at the cost of reduced parallelism, as for example a producer
+            may then be the one to execute work associated with a consumer, and if not done thoughtfully, this can lead
+            to unexpected interactions. The default is false.
+            </remarks>
+        </member>
+        <member name="T:System.Threading.Channels.BoundedChannelOptions">
+            <summary>Provides options that control the behavior of <see cref="T:System.Threading.Channels.BoundedChannel`1"/> instances.</summary>
+        </member>
+        <member name="F:System.Threading.Channels.BoundedChannelOptions._capacity">
+            <summary>The maximum number of items the bounded channel may store.</summary>
+        </member>
+        <member name="F:System.Threading.Channels.BoundedChannelOptions._mode">
+            <summary>The behavior incurred by write operations when the channel is full.</summary>
+        </member>
+        <member name="M:System.Threading.Channels.BoundedChannelOptions.#ctor(System.Int32)">
+            <summary>Initializes the options.</summary>
+            <param name="capacity">The maximum number of items the bounded channel may store.</param>
+        </member>
+        <member name="P:System.Threading.Channels.BoundedChannelOptions.Capacity">
+            <summary>Gets or sets the maximum number of items the bounded channel may store.</summary>
+        </member>
+        <member name="P:System.Threading.Channels.BoundedChannelOptions.FullMode">
+            <summary>Gets or sets the behavior incurred by write operations when the channel is full.</summary>
+        </member>
+        <member name="T:System.Threading.Channels.UnboundedChannelOptions">
+            <summary>Provides options that control the behavior of <see cref="T:System.Threading.Channels.UnboundedChannel`1"/> instances.</summary>
+        </member>
+        <member name="T:System.Threading.Channels.ChannelReader`1">
+            <summary>
+            Provides a base class for reading from a channel.
+            </summary>
+            <typeparam name="T">Specifies the type of data that may be read from the channel.</typeparam>
+        </member>
+        <member name="P:System.Threading.Channels.ChannelReader`1.Completion">
+            <summary>
+            Gets a <see cref="T:System.Threading.Tasks.Task"/> that completes when no more data will ever
+            be available to be read from this channel.
+            </summary>
+        </member>
+        <member name="M:System.Threading.Channels.ChannelReader`1.TryRead(`0@)">
+            <summary>Attempts to read an item to the channel.</summary>
+            <param name="item">The read item, or a default value if no item could be read.</param>
+            <returns>true if an item was read; otherwise, false if no item was read.</returns>
+        </member>
+        <member name="M:System.Threading.Channels.ChannelReader`1.WaitToReadAsync(System.Threading.CancellationToken)">
+            <summary>Returns a <see cref="T:System.Threading.Tasks.Task`1"/> that will complete when data is available to read.</summary>
+            <param name="cancellationToken">A <see cref="T:System.Threading.CancellationToken"/> used to cancel the wait operation.</param>
+            <returns>
+            A <see cref="T:System.Threading.Tasks.Task`1"/> that will complete with a <c>true</c> result when data is available to read
+            or with a <c>false</c> result when no further data will ever be available to be read.
+            </returns>
+        </member>
+        <member name="M:System.Threading.Channels.ChannelReader`1.ReadAsync(System.Threading.CancellationToken)">
+            <summary>Asynchronously reads an item from the channel.</summary>
+            <param name="cancellationToken">A <see cref="T:System.Threading.CancellationToken"/> used to cancel the read operation.</param>
+            <returns>A <see cref="T:System.Threading.Tasks.ValueTask`1"/> that represents the asynchronous read operation.</returns>
+        </member>
+        <member name="T:System.Threading.Channels.ChannelUtilities">
+            <summary>Provides internal helper methods for implementing channels.</summary>
+        </member>
+        <member name="F:System.Threading.Channels.ChannelUtilities.s_doneWritingSentinel">
+            <summary>Sentinel object used to indicate being done writing.</summary>
+        </member>
+        <member name="F:System.Threading.Channels.ChannelUtilities.s_trueTask">
+            <summary>A cached task with a Boolean true result.</summary>
+        </member>
+        <member name="F:System.Threading.Channels.ChannelUtilities.s_falseTask">
+            <summary>A cached task with a Boolean false result.</summary>
+        </member>
+        <member name="F:System.Threading.Channels.ChannelUtilities.s_neverCompletingTask">
+            <summary>A cached task that never completes.</summary>
+        </member>
+        <member name="M:System.Threading.Channels.ChannelUtilities.Complete(System.Threading.Tasks.TaskCompletionSource{System.VoidResult},System.Exception)">
+            <summary>Completes the specified TaskCompletionSource.</summary>
+            <param name="tcs">The source to complete.</param>
+            <param name="error">
+            The optional exception with which to complete.
+            If this is null or the DoneWritingSentinel, the source will be completed successfully.
+            If this is an OperationCanceledException, it'll be completed with the exception's token.
+            Otherwise, it'll be completed as faulted with the exception.
+            </param>
+        </member>
+        <member name="M:System.Threading.Channels.ChannelUtilities.GetInvalidCompletionValueTask``1(System.Exception)">
+            <summary>Gets a value task representing an error.</summary>
+            <typeparam name="T">Specifies the type of the value that would have been returned.</typeparam>
+            <param name="error">The error.  This may be <see cref="F:System.Threading.Channels.ChannelUtilities.s_doneWritingSentinel"/>.</param>
+            <returns>The failed task.</returns>
+        </member>
+        <member name="M:System.Threading.Channels.ChannelUtilities.FailOperations``2(System.Collections.Generic.Dequeue{``0},System.Exception)">
+            <summary>Removes all operations from the queue, failing each.</summary>
+            <param name="operations">The queue of operations to complete.</param>
+            <param name="error">The error with which to complete each operations.</param>
+        </member>
+        <member name="M:System.Threading.Channels.ChannelUtilities.CreateInvalidCompletionException(System.Exception)">
+            <summary>Creates and returns an exception object to indicate that a channel has been closed.</summary>
+        </member>
+        <member name="T:System.Threading.Channels.ChannelWriter`1">
+            <summary>
+            Provides a base class for writing to a channel.
+            </summary>
+            <typeparam name="T">Specifies the type of data that may be written to the channel.</typeparam>
+        </member>
+        <member name="M:System.Threading.Channels.ChannelWriter`1.TryComplete(System.Exception)">
+            <summary>Attempts to mark the channel as being completed, meaning no more data will be written to it.</summary>
+            <param name="error">An <see cref="T:System.Exception"/> indicating the failure causing no more data to be written, or null for success.</param>
+            <returns>
+            true if this operation successfully completes the channel; otherwise, false if the channel could not be marked for completion,
+            for example due to having already been marked as such, or due to not supporting completion.
+            </returns>
+        </member>
+        <member name="M:System.Threading.Channels.ChannelWriter`1.TryWrite(`0)">
+            <summary>Attempts to write the specified item to the channel.</summary>
+            <param name="item">The item to write.</param>
+            <returns>true if the item was written; otherwise, false if it wasn't written.</returns>
+        </member>
+        <member name="M:System.Threading.Channels.ChannelWriter`1.WaitToWriteAsync(System.Threading.CancellationToken)">
+            <summary>Returns a <see cref="T:System.Threading.Tasks.Task`1"/> that will complete when space is available to write an item.</summary>
+            <param name="cancellationToken">A <see cref="T:System.Threading.CancellationToken"/> used to cancel the wait operation.</param>
+            <returns>
+            A <see cref="T:System.Threading.Tasks.Task`1"/> that will complete with a <c>true</c> result when space is available to write an item
+            or with a <c>false</c> result when no further writing will be permitted.
+            </returns>
+        </member>
+        <member name="M:System.Threading.Channels.ChannelWriter`1.WriteAsync(`0,System.Threading.CancellationToken)">
+            <summary>Asynchronously writes an item to the channel.</summary>
+            <param name="item">The value to write to the channel.</param>
+            <param name="cancellationToken">A <see cref="T:System.Threading.CancellationToken"/> used to cancel the write operation.</param>
+            <returns>A <see cref="T:System.Threading.Tasks.Task"/> that represents the asynchronous write operation.</returns>
+        </member>
+        <member name="M:System.Threading.Channels.ChannelWriter`1.Complete(System.Exception)">
+            <summary>Mark the channel as being complete, meaning no more items will be written to it.</summary>
+            <param name="error">Optional Exception indicating a failure that's causing the channel to complete.</param>
+            <exception cref="T:System.InvalidOperationException">The channel has already been marked as complete.</exception>
+        </member>
+        <member name="T:System.Threading.Channels.Channel`1">
+            <summary>Provides a base class for channels that support reading and writing elements of type <typeparamref name="T"/>.</summary>
+            <typeparam name="T">Specifies the type of data readable and writable in the channel.</typeparam>
+        </member>
+        <member name="T:System.Threading.Channels.Channel`2">
+            <summary>
+            Provides a base class for channels that support reading elements of type <typeparamref name="TRead"/>
+            and writing elements of type <typeparamref name="TWrite"/>.
+            </summary>
+            <typeparam name="TWrite">Specifies the type of data that may be written to the channel.</typeparam>
+            <typeparam name="TRead">Specifies the type of data that may be read from the channel.</typeparam>
+        </member>
+        <member name="P:System.Threading.Channels.Channel`2.Reader">
+            <summary>Gets the readable half of this channel.</summary>
+        </member>
+        <member name="P:System.Threading.Channels.Channel`2.Writer">
+            <summary>Gets the writable half of this channel.</summary>
+        </member>
+        <member name="M:System.Threading.Channels.Channel`2.op_Implicit(System.Threading.Channels.Channel{`0,`1})~System.Threading.Channels.ChannelReader{`1}">
+            <summary>Implicit cast from a channel to its readable half.</summary>
+            <param name="channel">The channel being cast.</param>
+        </member>
+        <member name="M:System.Threading.Channels.Channel`2.op_Implicit(System.Threading.Channels.Channel{`0,`1})~System.Threading.Channels.ChannelWriter{`0}">
+            <summary>Implicit cast from a channel to its writable half.</summary>
+            <param name="channel">The channel being cast.</param>
+        </member>
+        <member name="F:System.Threading.Channels.AsyncOperation.s_availableSentinel">
+            <summary>Sentinel object used in a field to indicate the operation is available for use.</summary>
+        </member>
+        <member name="F:System.Threading.Channels.AsyncOperation.s_completedSentinel">
+            <summary>Sentinel object used in a field to indicate the operation has completed.</summary>
+        </member>
+        <member name="M:System.Threading.Channels.AsyncOperation.ThrowIncompleteOperationException">
+            <summary>Throws an exception indicating that the operation's result was accessed before the operation completed.</summary>
+        </member>
+        <member name="M:System.Threading.Channels.AsyncOperation.ThrowMultipleContinuations">
+            <summary>Throws an exception indicating that multiple continuations can't be set for the same operation.</summary>
+        </member>
+        <member name="M:System.Threading.Channels.AsyncOperation.ThrowIncorrectCurrentIdException">
+            <summary>Throws an exception indicating that the operation was used after it was supposed to be used.</summary>
+        </member>
+        <member name="T:System.Threading.Channels.AsyncOperation`1">
+            <summary>The representation of an asynchronous operation that has a result value.</summary>
+            <typeparam name="TResult">Specifies the type of the result.  May be <see cref="T:System.VoidResult"/>.</typeparam>
+        </member>
+        <member name="F:System.Threading.Channels.AsyncOperation`1._registration">
+            <summary>Registration with a provided cancellation token.</summary>
+        </member>
+        <member name="F:System.Threading.Channels.AsyncOperation`1._pooled">
+            <summary>true if this object is pooled and reused; otherwise, false.</summary>
+            <remarks>
+            If the operation is cancelable, then it can't be pooled.  And if it's poolable, there must never be race conditions to complete it,
+            which is the main reason poolable objects can't be cancelable, as then cancellation could fire, the object could get reused,
+            and then we may end up trying to complete an object that's used by someone else.
+            </remarks>
+        </member>
+        <member name="F:System.Threading.Channels.AsyncOperation`1._runContinuationsAsynchronously">
+            <summary>Whether continuations should be forced to run asynchronously.</summary>
+        </member>
+        <member name="F:System.Threading.Channels.AsyncOperation`1._completionReserved">
+            <summary>Only relevant to cancelable operations; 0 if the operation hasn't had completion reserved, 1 if it has.</summary>
+        </member>
+        <member name="F:System.Threading.Channels.AsyncOperation`1._result">
+            <summary>The result of the operation.</summary>
+        </member>
+        <member name="F:System.Threading.Channels.AsyncOperation`1._error">
+            <summary>Any error that occurred during the operation.</summary>
+        </member>
+        <member name="F:System.Threading.Channels.AsyncOperation`1._continuation">
+            <summary>The continuation callback.</summary>
+            <remarks>
+            This may be the completion sentinel if the operation has already completed.
+            This may be the available sentinel if the operation is being pooled and is available for use.
+            This may be null if the operation is pending.
+            This may be another callback if the operation has had a callback hooked up with OnCompleted.
+            </remarks>
+        </member>
+        <member name="F:System.Threading.Channels.AsyncOperation`1._continuationState">
+            <summary>State object to be passed to <see cref="F:System.Threading.Channels.AsyncOperation`1._continuation"/>.</summary>
+        </member>
+        <member name="F:System.Threading.Channels.AsyncOperation`1._schedulingContext">
+            <summary>Scheduling context (a <see cref="T:System.Threading.SynchronizationContext"/> or <see cref="T:System.Threading.Tasks.TaskScheduler"/>) to which to queue the continuation. May be null.</summary>
+        </member>
+        <member name="F:System.Threading.Channels.AsyncOperation`1._executionContext">
+            <summary>Execution context to use when invoking <see cref="F:System.Threading.Channels.AsyncOperation`1._continuation"/>. May be null.</summary>
+        </member>
+        <member name="F:System.Threading.Channels.AsyncOperation`1._currentId">
+            <summary>The token value associated with the current operation.</summary>
+            <remarks>
+            IValueTaskSource operations on this instance are only valid if the provided token matches this value,
+            which is incremented once GetResult is called to avoid multiple awaits on the same instance.
+            </remarks>
+        </member>
+        <member name="M:System.Threading.Channels.AsyncOperation`1.#ctor(System.Boolean,System.Threading.CancellationToken,System.Boolean)">
+            <summary>Initializes the interactor.</summary>
+            <param name="runContinuationsAsynchronously">true if continuations should be forced to run asynchronously; otherwise, false.</param>
+            <param name="cancellationToken">The cancellation token used to cancel the operation.</param>
+            <param name="pooled">Whether this instance is pooled and reused.</param>
+        </member>
+        <member name="P:System.Threading.Channels.AsyncOperation`1.Next">
+            <summary>Gets or sets the next operation in the linked list of operations.</summary>
+        </member>
+        <member name="P:System.Threading.Channels.AsyncOperation`1.CancellationToken">
+            <summary>Gets the cancellation token associated with this operation.</summary>
+        </member>
+        <member name="P:System.Threading.Channels.AsyncOperation`1.ValueTask">
+            <summary>Gets a <see cref="P:System.Threading.Channels.AsyncOperation`1.ValueTask"/> backed by this instance and its current token.</summary>
+        </member>
+        <member name="P:System.Threading.Channels.AsyncOperation`1.ValueTaskOfT">
+            <summary>Gets a <see cref="T:System.Threading.Tasks.ValueTask`1"/> backed by this instance and its current token.</summary>
+        </member>
+        <member name="M:System.Threading.Channels.AsyncOperation`1.GetStatus(System.Int16)">
+            <summary>Gets the current status of the operation.</summary>
+            <param name="token">The token that must match <see cref="F:System.Threading.Channels.AsyncOperation`1._currentId"/>.</param>
+        </member>
+        <member name="P:System.Threading.Channels.AsyncOperation`1.IsCompleted">
+            <summary>Gets whether the operation has completed.</summary>
+            <remarks>
+            The operation is considered completed if both a) it's in the completed state,
+            AND b) it has a non-null continuation.  We need to consider both because they're
+            not set atomically.  If we only considered the state, then if we set the state to
+            completed and then set the continuation, it's possible for an awaiter to check
+            IsCompleted, see true, call GetResult, and return the object to the pool, and only
+            then do we try to store the continuation into an object we no longer own.  If we
+            only considered the state, then if we set the continuation and then set the state,
+            a racing awaiter could see the continuation set before the state has transitioned
+            to completed and could end up calling GetResult in an incomplete state.  And if we
+            only considered the continuation, then we have issues if OnCompleted is used before
+            the operation completes, as the continuation will be 
+            </remarks>
+        </member>
+        <member name="M:System.Threading.Channels.AsyncOperation`1.GetResult(System.Int16)">
+            <summary>Gets the result of the operation.</summary>
+            <param name="token">The token that must match <see cref="F:System.Threading.Channels.AsyncOperation`1._currentId"/>.</param>
+        </member>
+        <member name="M:System.Threading.Channels.AsyncOperation`1.System#Threading#Tasks#Sources#IValueTaskSource#GetResult(System.Int16)">
+            <summary>Gets the result of the operation.</summary>
+            <param name="token">The token that must match <see cref="F:System.Threading.Channels.AsyncOperation`1._currentId"/>.</param>
+        </member>
+        <member name="M:System.Threading.Channels.AsyncOperation`1.TryOwnAndReset">
+            <summary>Attempts to take ownership of the pooled instance.</summary>
+            <returns>true if the instance is now owned by the caller, in which case its state has been reset; otherwise, false.</returns>
+        </member>
+        <member name="M:System.Threading.Channels.AsyncOperation`1.OnCompleted(System.Action{System.Object},System.Object,System.Int16,System.Threading.Tasks.Sources.ValueTaskSourceOnCompletedFlags)">
+            <summary>Hooks up a continuation callback for when the operation has completed.</summary>
+            <param name="continuation">The callback.</param>
+            <param name="state">The state to pass to the callback.</param>
+            <param name="token">The current token that must match <see cref="F:System.Threading.Channels.AsyncOperation`1._currentId"/>.</param>
+            <param name="flags">Flags that influence the behavior of the callback.</param>
+        </member>
+        <member name="M:System.Threading.Channels.AsyncOperation`1.UnregisterCancellation">
+            <summary>Unregisters from cancellation.</summary>
+            <remarks>
+            This is important for two reasons:
+            1. To avoid leaking a registration into a token, so it must be done prior to completing the operation.
+            2. To avoid having to worry about concurrent completion; once invoked, the caller can be guaranteed
+            that no one else will try to complete the operation (assuming the caller is properly constructed
+            and themselves guarantees only a single completer other than through cancellation). 
+            </remarks>
+        </member>
+        <member name="M:System.Threading.Channels.AsyncOperation`1.TrySetResult(`0)">
+            <summary>Completes the operation with a success state and the specified result.</summary>
+            <param name="item">The result value.</param>
+            <returns>true if the operation could be successfully transitioned to a completed state; false if it was already completed.</returns>
+        </member>
+        <member name="M:System.Threading.Channels.AsyncOperation`1.TrySetException(System.Exception)">
+            <summary>Completes the operation with a failed state and the specified error.</summary>
+            <param name="exception">The error.</param>
+            <returns>true if the operation could be successfully transitioned to a completed state; false if it was already completed.</returns>
+        </member>
+        <member name="M:System.Threading.Channels.AsyncOperation`1.TrySetCanceled(System.Threading.CancellationToken)">
+            <summary>Completes the operation with a failed state and a cancellation error.</summary>
+            <param name="cancellationToken">The cancellation token that caused the cancellation.</param>
+            <returns>true if the operation could be successfully transitioned to a completed state; false if it was already completed.</returns>
+        </member>
+        <member name="M:System.Threading.Channels.AsyncOperation`1.TryReserveCompletionIfCancelable">
+            <summary>Attempts to reserve this instance for completion.</summary>
+            <remarks>
+            This will always return true for non-cancelable objects, as they only ever have a single owner
+            responsible for completion.  For cancelable operations, this will attempt to atomically transition
+            from Initialized to CompletionReserved.
+            </remarks>
+        </member>
+        <member name="M:System.Threading.Channels.AsyncOperation`1.SignalCompletion">
+            <summary>Signals to a registered continuation that the operation has now completed.</summary>
+        </member>
+        <member name="M:System.Threading.Channels.AsyncOperation`1.SignalCompletionCore">
+            <summary>Invokes the registered continuation; separated out of SignalCompletion for convenience so that it may be invoked on multiple code paths.</summary>
+        </member>
+        <member name="T:System.Threading.Channels.VoidAsyncOperationWithData`1">
+            <summary>The representation of an asynchronous operation that has a result value and carries additional data with it.</summary>
+            <typeparam name="TData">Specifies the type of data being written.</typeparam>
+        </member>
+        <member name="M:System.Threading.Channels.VoidAsyncOperationWithData`1.#ctor(System.Boolean,System.Threading.CancellationToken,System.Boolean)">
+            <summary>Initializes the interactor.</summary>
+            <param name="runContinuationsAsynchronously">true if continuations should be forced to run asynchronously; otherwise, false.</param>
+            <param name="cancellationToken">The cancellation token used to cancel the operation.</param>
+            <param name="pooled">Whether this instance is pooled and reused.</param>
+        </member>
+        <member name="P:System.Threading.Channels.VoidAsyncOperationWithData`1.Item">
+            <summary>The item being written.</summary>
+        </member>
+        <member name="T:System.Threading.Channels.SingleConsumerUnboundedChannel`1">
+            <summary>
+            Provides a buffered channel of unbounded capacity for use by any number
+            of writers but at most a single reader at a time.
+            </summary>
+        </member>
+        <member name="F:System.Threading.Channels.SingleConsumerUnboundedChannel`1._completion">
+            <summary>Task that indicates the channel has completed.</summary>
+        </member>
+        <member name="F:System.Threading.Channels.SingleConsumerUnboundedChannel`1._items">
+            <summary>
+            A concurrent queue to hold the items for this channel.  The queue itself supports at most
+            one writer and one reader at a time; as a result, since this channel supports multiple writers,
+            all write access to the queue must be synchronized by the channel.
+            </summary>
+        </member>
+        <member name="F:System.Threading.Channels.SingleConsumerUnboundedChannel`1._runContinuationsAsynchronously">
+            <summary>Whether to force continuations to be executed asynchronously from producer writes.</summary>
+        </member>
+        <member name="F:System.Threading.Channels.SingleConsumerUnboundedChannel`1._doneWriting">
+            <summary>non-null if the channel has been marked as complete for writing.</summary>
+        </member>
+        <member name="F:System.Threading.Channels.SingleConsumerUnboundedChannel`1._blockedReader">
+            <summary>An <see cref="T:System.Threading.Channels.AsyncOperation`1"/> if there's a blocked reader.</summary>
+        </member>
+        <member name="F:System.Threading.Channels.SingleConsumerUnboundedChannel`1._waitingReader">
+            <summary>A waiting reader (e.g. WaitForReadAsync) if there is one.</summary>
+        </member>
+        <member name="M:System.Threading.Channels.SingleConsumerUnboundedChannel`1.#ctor(System.Boolean)">
+            <summary>Initialize the channel.</summary>
+            <param name="runContinuationsAsynchronously">Whether to force continuations to be executed asynchronously.</param>
+        </member>
+        <member name="P:System.Threading.Channels.SingleConsumerUnboundedChannel`1.UnboundedChannelReader.ItemsCountForDebugger">
+            <summary>Gets the number of items in the channel.  This should only be used by the debugger.</summary>
+        </member>
+        <member name="M:System.Threading.Channels.SingleConsumerUnboundedChannel`1.UnboundedChannelReader.System#Threading#Channels#IDebugEnumerable{T}#GetEnumerator">
+            <summary>Gets an enumerator the debugger can use to show the contents of the channel.</summary>
+        </member>
+        <member name="P:System.Threading.Channels.SingleConsumerUnboundedChannel`1.UnboundedChannelWriter.ItemsCountForDebugger">
+            <summary>Gets the number of items in the channel. This should only be used by the debugger.</summary>
+        </member>
+        <member name="M:System.Threading.Channels.SingleConsumerUnboundedChannel`1.UnboundedChannelWriter.System#Threading#Channels#IDebugEnumerable{T}#GetEnumerator">
+            <summary>Gets an enumerator the debugger can use to show the contents of the channel.</summary>
+        </member>
+        <member name="P:System.Threading.Channels.SingleConsumerUnboundedChannel`1.ItemsCountForDebugger">
+            <summary>Gets the number of items in the channel.  This should only be used by the debugger.</summary>
+        </member>
+        <member name="P:System.Threading.Channels.SingleConsumerUnboundedChannel`1.ChannelIsClosedForDebugger">
+            <summary>Report if the channel is closed or not. This should only be used by the debugger.</summary>
+        </member>
+        <member name="M:System.Threading.Channels.SingleConsumerUnboundedChannel`1.System#Threading#Channels#IDebugEnumerable{T}#GetEnumerator">
+            <summary>Gets an enumerator the debugger can use to show the contents of the channel.</summary>
+        </member>
+        <member name="T:System.Threading.Channels.UnboundedChannel`1">
+            <summary>Provides a buffered channel of unbounded capacity.</summary>
+        </member>
+        <member name="F:System.Threading.Channels.UnboundedChannel`1._completion">
+            <summary>Task that indicates the channel has completed.</summary>
+        </member>
+        <member name="F:System.Threading.Channels.UnboundedChannel`1._items">
+            <summary>The items in the channel.</summary>
+        </member>
+        <member name="F:System.Threading.Channels.UnboundedChannel`1._blockedReaders">
+            <summary>Readers blocked reading from the channel.</summary>
+        </member>
+        <member name="F:System.Threading.Channels.UnboundedChannel`1._runContinuationsAsynchronously">
+            <summary>Whether to force continuations to be executed asynchronously from producer writes.</summary>
+        </member>
+        <member name="F:System.Threading.Channels.UnboundedChannel`1._waitingReadersTail">
+            <summary>Readers waiting for a notification that data is available.</summary>
+        </member>
+        <member name="F:System.Threading.Channels.UnboundedChannel`1._doneWriting">
+            <summary>Set to non-null once Complete has been called.</summary>
+        </member>
+        <member name="M:System.Threading.Channels.UnboundedChannel`1.#ctor(System.Boolean)">
+            <summary>Initialize the channel.</summary>
+        </member>
+        <member name="P:System.Threading.Channels.UnboundedChannel`1.UnboundedChannelReader.ItemsCountForDebugger">
+            <summary>Gets the number of items in the channel.  This should only be used by the debugger.</summary>
+        </member>
+        <member name="M:System.Threading.Channels.UnboundedChannel`1.UnboundedChannelReader.System#Threading#Channels#IDebugEnumerable{T}#GetEnumerator">
+            <summary>Gets an enumerator the debugger can use to show the contents of the channel.</summary>
+        </member>
+        <member name="P:System.Threading.Channels.UnboundedChannel`1.UnboundedChannelWriter.ItemsCountForDebugger">
+            <summary>Gets the number of items in the channel. This should only be used by the debugger.</summary>
+        </member>
+        <member name="M:System.Threading.Channels.UnboundedChannel`1.UnboundedChannelWriter.System#Threading#Channels#IDebugEnumerable{T}#GetEnumerator">
+            <summary>Gets an enumerator the debugger can use to show the contents of the channel.</summary>
+        </member>
+        <member name="P:System.Threading.Channels.UnboundedChannel`1.SyncObj">
+            <summary>Gets the object used to synchronize access to all state on this instance.</summary>
+        </member>
+        <member name="P:System.Threading.Channels.UnboundedChannel`1.ItemsCountForDebugger">
+            <summary>Gets the number of items in the channel.  This should only be used by the debugger.</summary>
+        </member>
+        <member name="P:System.Threading.Channels.UnboundedChannel`1.ChannelIsClosedForDebugger">
+            <summary>Report if the channel is closed or not. This should only be used by the debugger.</summary>
+        </member>
+        <member name="M:System.Threading.Channels.UnboundedChannel`1.System#Threading#Channels#IDebugEnumerable{T}#GetEnumerator">
+            <summary>Gets an enumerator the debugger can use to show the contents of the channel.</summary>
+        </member>
+    </members>
+</doc>

@@ -1,0 +1,13 @@
+﻿{
+    "Id": "ExportFormat",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Export format"
+        },
+        {
+            "Language": "ja",
+            "Body": "エクスポートの書式"
+        }
+    ]
+}

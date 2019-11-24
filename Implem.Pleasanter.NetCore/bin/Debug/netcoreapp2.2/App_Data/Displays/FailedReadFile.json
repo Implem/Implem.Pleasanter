@@ -1,0 +1,13 @@
+﻿{
+    "Id": "FailedReadFile",
+    "Type": 240,
+    "Languages": [
+        {
+            "Body": "It failed to read the file."
+        },
+        {
+            "Language": "ja",
+            "Body": "ファイルの読込に失敗しました。"
+        }
+    ]
+}

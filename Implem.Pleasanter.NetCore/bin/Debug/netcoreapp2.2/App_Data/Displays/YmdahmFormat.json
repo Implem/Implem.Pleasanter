@@ -1,0 +1,13 @@
+﻿{
+    "Id": "YmdahmFormat",
+    "Type": 130,
+    "Languages": [
+        {
+            "Body": "MM/dd/yyyy ddd HH:mm"
+        },
+        {
+            "Language": "ja",
+            "Body": "yyyy/MM/dd ddd HH:mm"
+        }
+    ]
+}

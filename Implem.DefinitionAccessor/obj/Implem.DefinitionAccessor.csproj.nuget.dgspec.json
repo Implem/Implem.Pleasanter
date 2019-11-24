@@ -1,0 +1,351 @@
+{
+  "format": 1,
+  "restore": {
+    "C:\\Implem\\PleasanterYakushi\\Implem.DefinitionAccessor\\Implem.DefinitionAccessor.csproj": {}
+  },
+  "projects": {
+    "C:\\Implem\\PleasanterYakushi\\Implem.DefinitionAccessor\\Implem.DefinitionAccessor.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "C:\\Implem\\PleasanterYakushi\\Implem.DefinitionAccessor\\Implem.DefinitionAccessor.csproj",
+        "projectName": "Implem.DefinitionAccessor",
+        "projectPath": "C:\\Implem\\PleasanterYakushi\\Implem.DefinitionAccessor\\Implem.DefinitionAccessor.csproj",
+        "packagesPath": "C:\\Users\\内田太志\\.nuget\\packages\\",
+        "outputPath": "C:\\Implem\\PleasanterYakushi\\Implem.DefinitionAccessor\\obj\\",
+        "projectStyle": "PackageReference",
+        "fallbackFolders": [
+          "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
+        ],
+        "configFilePaths": [
+          "C:\\Users\\内田太志\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+        ],
+        "originalTargetFrameworks": [
+          "netstandard2.0"
+        ],
+        "sources": {
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "netstandard2.0": {
+            "projectReferences": {
+              "C:\\Implem\\PleasanterYakushi\\Implem.DisplayAccessor\\Implem.DisplayAccessor.csproj": {
+                "projectPath": "C:\\Implem\\PleasanterYakushi\\Implem.DisplayAccessor\\Implem.DisplayAccessor.csproj"
+              },
+              "C:\\Implem\\PleasanterYakushi\\Implem.Libraries\\Implem.Libraries.csproj": {
+                "projectPath": "C:\\Implem\\PleasanterYakushi\\Implem.Libraries\\Implem.Libraries.csproj"
+              },
+              "C:\\Implem\\PleasanterYakushi\\Implem.ParameterAccessor\\Implem.ParameterAccessor.csproj": {
+                "projectPath": "C:\\Implem\\PleasanterYakushi\\Implem.ParameterAccessor\\Implem.ParameterAccessor.csproj"
+              }
+            }
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        }
+      },
+      "frameworks": {
+        "netstandard2.0": {
+          "dependencies": {
+            "NETStandard.Library": {
+              "suppressParent": "All",
+              "target": "Package",
+              "version": "[2.0.3, )",
+              "autoReferenced": true
+            }
+          },
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.0.100\\RuntimeIdentifierGraph.json"
+        }
+      }
+    },
+    "C:\\Implem\\PleasanterYakushi\\Implem.DisplayAccessor\\Implem.DisplayAccessor.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "C:\\Implem\\PleasanterYakushi\\Implem.DisplayAccessor\\Implem.DisplayAccessor.csproj",
+        "projectName": "Implem.DisplayAccessor",
+        "projectPath": "C:\\Implem\\PleasanterYakushi\\Implem.DisplayAccessor\\Implem.DisplayAccessor.csproj",
+        "packagesPath": "C:\\Users\\内田太志\\.nuget\\packages\\",
+        "outputPath": "C:\\Implem\\PleasanterYakushi\\Implem.DisplayAccessor\\obj\\",
+        "projectStyle": "PackageReference",
+        "fallbackFolders": [
+          "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
+        ],
+        "configFilePaths": [
+          "C:\\Users\\内田太志\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+        ],
+        "originalTargetFrameworks": [
+          "netstandard2.0"
+        ],
+        "sources": {
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "netstandard2.0": {
+            "projectReferences": {}
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        }
+      },
+      "frameworks": {
+        "netstandard2.0": {
+          "dependencies": {
+            "NETStandard.Library": {
+              "suppressParent": "All",
+              "target": "Package",
+              "version": "[2.0.3, )",
+              "autoReferenced": true
+            }
+          },
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.0.100\\RuntimeIdentifierGraph.json"
+        }
+      }
+    },
+    "C:\\Implem\\PleasanterYakushi\\Implem.Libraries\\Implem.Libraries.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "C:\\Implem\\PleasanterYakushi\\Implem.Libraries\\Implem.Libraries.csproj",
+        "projectName": "Implem.Libraries",
+        "projectPath": "C:\\Implem\\PleasanterYakushi\\Implem.Libraries\\Implem.Libraries.csproj",
+        "packagesPath": "C:\\Users\\内田太志\\.nuget\\packages\\",
+        "outputPath": "C:\\Implem\\PleasanterYakushi\\Implem.Libraries\\obj\\",
+        "projectStyle": "PackageReference",
+        "fallbackFolders": [
+          "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
+        ],
+        "configFilePaths": [
+          "C:\\Users\\内田太志\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+        ],
+        "originalTargetFrameworks": [
+          "netstandard2.0"
+        ],
+        "sources": {
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "netstandard2.0": {
+            "projectReferences": {
+              "C:\\Implem\\PleasanterYakushi\\Implem.ParameterAccessor\\Implem.ParameterAccessor.csproj": {
+                "projectPath": "C:\\Implem\\PleasanterYakushi\\Implem.ParameterAccessor\\Implem.ParameterAccessor.csproj"
+              },
+              "C:\\Implem\\PleasanterYakushi\\Rds\\Implem.IRds\\Implem.IRds.csproj": {
+                "projectPath": "C:\\Implem\\PleasanterYakushi\\Rds\\Implem.IRds\\Implem.IRds.csproj"
+              }
+            }
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        }
+      },
+      "frameworks": {
+        "netstandard2.0": {
+          "dependencies": {
+            "CsvHelper": {
+              "target": "Package",
+              "version": "[12.1.2, )"
+            },
+            "DocumentFormat.OpenXml": {
+              "target": "Package",
+              "version": "[2.9.0, )"
+            },
+            "NETStandard.Library": {
+              "suppressParent": "All",
+              "target": "Package",
+              "version": "[2.0.3, )",
+              "autoReferenced": true
+            },
+            "Newtonsoft.Json": {
+              "target": "Package",
+              "version": "[12.0.1, )"
+            },
+            "System.Data.DataSetExtensions": {
+              "target": "Package",
+              "version": "[4.5.0, )"
+            },
+            "System.Drawing.Common": {
+              "target": "Package",
+              "version": "[4.5.1, )"
+            },
+            "System.IO.FileSystem.Primitives": {
+              "target": "Package",
+              "version": "[4.3.0, )"
+            },
+            "System.IO.Packaging": {
+              "target": "Package",
+              "version": "[4.5.0, )"
+            },
+            "System.ValueTuple": {
+              "target": "Package",
+              "version": "[4.5.0, )"
+            }
+          },
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.0.100\\RuntimeIdentifierGraph.json"
+        }
+      }
+    },
+    "C:\\Implem\\PleasanterYakushi\\Implem.ParameterAccessor\\Implem.ParameterAccessor.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "C:\\Implem\\PleasanterYakushi\\Implem.ParameterAccessor\\Implem.ParameterAccessor.csproj",
+        "projectName": "Implem.ParameterAccessor",
+        "projectPath": "C:\\Implem\\PleasanterYakushi\\Implem.ParameterAccessor\\Implem.ParameterAccessor.csproj",
+        "packagesPath": "C:\\Users\\内田太志\\.nuget\\packages\\",
+        "outputPath": "C:\\Implem\\PleasanterYakushi\\Implem.ParameterAccessor\\obj\\",
+        "projectStyle": "PackageReference",
+        "fallbackFolders": [
+          "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
+        ],
+        "configFilePaths": [
+          "C:\\Users\\内田太志\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+        ],
+        "originalTargetFrameworks": [
+          "netstandard2.0"
+        ],
+        "sources": {
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "netstandard2.0": {
+            "projectReferences": {
+              "C:\\Implem\\PleasanterYakushi\\Implem.DisplayAccessor\\Implem.DisplayAccessor.csproj": {
+                "projectPath": "C:\\Implem\\PleasanterYakushi\\Implem.DisplayAccessor\\Implem.DisplayAccessor.csproj"
+              }
+            }
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        }
+      },
+      "frameworks": {
+        "netstandard2.0": {
+          "dependencies": {
+            "NETStandard.Library": {
+              "suppressParent": "All",
+              "target": "Package",
+              "version": "[2.0.3, )",
+              "autoReferenced": true
+            }
+          },
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.0.100\\RuntimeIdentifierGraph.json"
+        }
+      }
+    },
+    "C:\\Implem\\PleasanterYakushi\\Rds\\Implem.IRds\\Implem.IRds.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "C:\\Implem\\PleasanterYakushi\\Rds\\Implem.IRds\\Implem.IRds.csproj",
+        "projectName": "Implem.IRds",
+        "projectPath": "C:\\Implem\\PleasanterYakushi\\Rds\\Implem.IRds\\Implem.IRds.csproj",
+        "packagesPath": "C:\\Users\\内田太志\\.nuget\\packages\\",
+        "outputPath": "C:\\Implem\\PleasanterYakushi\\Rds\\Implem.IRds\\obj\\",
+        "projectStyle": "PackageReference",
+        "fallbackFolders": [
+          "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
+        ],
+        "configFilePaths": [
+          "C:\\Users\\内田太志\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+        ],
+        "originalTargetFrameworks": [
+          "netstandard2.0"
+        ],
+        "sources": {
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "netstandard2.0": {
+            "projectReferences": {}
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        }
+      },
+      "frameworks": {
+        "netstandard2.0": {
+          "dependencies": {
+            "NETStandard.Library": {
+              "suppressParent": "All",
+              "target": "Package",
+              "version": "[2.0.3, )",
+              "autoReferenced": true
+            }
+          },
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.0.100\\RuntimeIdentifierGraph.json"
+        }
+      }
+    }
+  }
+}

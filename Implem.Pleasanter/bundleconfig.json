@@ -25,6 +25,7 @@
             "wwwroot/scripts/attachmentsevents.js",
             "wwwroot/scripts/basket.js",
             "wwwroot/scripts/basketevents.js",
+            "wwwroot/scripts/bulkupdate.js",
             "wwwroot/scripts/burndown.js",
             "wwwroot/scripts/burndownevents.js",
             "wwwroot/scripts/calendar.js",

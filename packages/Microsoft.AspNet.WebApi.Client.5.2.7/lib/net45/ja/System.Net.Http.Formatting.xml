@@ -1,0 +1,2240 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<doc>
+  <assembly>
+    <name>System.Net.Http.Formatting</name>
+  </assembly>
+  <members>
+    <member name="T:System.Net.Http.ByteRangeStreamContent">
+      <summary>HTTP 206 (Partial Content) バイト レンジの応答を生成するために使用されるストリームのバイト レンジのビューを提供する <see cref="T:System.Net.Http.HttpContent" /> の実装。<see cref="T:System.Net.Http.ByteRangeStreamContent" /> は、レンジが連続しているかどうかにかかわらず、1 つ以上のバイト レンジをサポートします。1 つのレンジのみがある場合、Content-Range ヘッダーを含む 1 つの部分的な応答の本体が生成されます。複数のレンジがある場合、multipart/byteranges 応答が生成され、各本体部分には関連付けられた Content-Range ヘッダー フィールドによって示されるレンジが含まれます。</summary>
+    </member>
+    <member name="M:System.Net.Http.ByteRangeStreamContent.#ctor(System.IO.Stream,System.Net.Http.Headers.RangeHeaderValue,System.Net.Http.Headers.MediaTypeHeaderValue)">
+      <summary>HTTP 206 (Partial Content) バイト レンジの応答を生成するために使用されるストリームのバイト レンジのビューを提供する <see cref="T:System.Net.Http.HttpContent" /> の実装。要求されたレンジのいずれも、content パラメーターで表される選択済みのリソースの現在の拡張と重複しない場合、コンテンツの有効な Content-Range を示す <see cref="T:System.Net.Http.InvalidByteRangeException" /> がスローされます。</summary>
+      <param name="content">バイト レンジのビューが生成されるストリーム。</param>
+      <param name="range">通常は Range HTTP 要求ヘッダー フィールドから取得される単一または複数のレンジ。</param>
+      <param name="mediaType">コンテンツ ストリームのメディアの種類。</param>
+    </member>
+    <member name="M:System.Net.Http.ByteRangeStreamContent.#ctor(System.IO.Stream,System.Net.Http.Headers.RangeHeaderValue,System.Net.Http.Headers.MediaTypeHeaderValue,System.Int32)">
+      <summary>HTTP 206 (Partial Content) バイト レンジの応答を生成するために使用されるストリームのバイト レンジのビューを提供する <see cref="T:System.Net.Http.HttpContent" /> の実装。要求されたレンジのいずれも、content パラメーターで表される選択済みのリソースの現在の拡張と重複しない場合、コンテンツの有効な Content-Range を示す <see cref="T:System.Net.Http.InvalidByteRangeException" /> がスローされます。</summary>
+      <param name="content">バイト レンジのビューが生成されるストリーム。</param>
+      <param name="range">通常は Range HTTP 要求ヘッダー フィールドから取得される単一または複数のレンジ。</param>
+      <param name="mediaType">コンテンツ ストリームのメディアの種類。</param>
+      <param name="bufferSize">コンテンツ ストリームをコピーするときに使用するバッファーのサイズ。</param>
+    </member>
+    <member name="M:System.Net.Http.ByteRangeStreamContent.#ctor(System.IO.Stream,System.Net.Http.Headers.RangeHeaderValue,System.String)">
+      <summary>HTTP 206 (Partial Content) バイト レンジの応答を生成するために使用されるストリームのバイト レンジのビューを提供する <see cref="T:System.Net.Http.HttpContent" /> の実装。要求されたレンジのいずれも、content パラメーターで表される選択済みのリソースの現在の拡張と重複しない場合、コンテンツの有効な Content-Range を示す <see cref="T:System.Net.Http.InvalidByteRangeException" /> がスローされます。</summary>
+      <param name="content">バイト レンジのビューが生成されるストリーム。</param>
+      <param name="range">通常は Range HTTP 要求ヘッダー フィールドから取得される単一または複数のレンジ。</param>
+      <param name="mediaType">コンテンツ ストリームのメディアの種類。</param>
+    </member>
+    <member name="M:System.Net.Http.ByteRangeStreamContent.#ctor(System.IO.Stream,System.Net.Http.Headers.RangeHeaderValue,System.String,System.Int32)">
+      <summary>HTTP 206 (Partial Content) バイト レンジの応答を生成するために使用されるストリームのバイト レンジのビューを提供する <see cref="T:System.Net.Http.HttpContent" /> の実装。要求されたレンジのいずれも、content パラメーターで表される選択済みのリソースの現在の拡張と重複しない場合、コンテンツの有効な Content-Range を示す <see cref="T:System.Net.Http.InvalidByteRangeException" /> がスローされます。</summary>
+      <param name="content">バイト レンジのビューが生成されるストリーム。</param>
+      <param name="range">通常は Range HTTP 要求ヘッダー フィールドから取得される単一または複数のレンジ。</param>
+      <param name="mediaType">コンテンツ ストリームのメディアの種類。</param>
+      <param name="bufferSize">コンテンツ ストリームをコピーするときに使用するバッファーのサイズ。</param>
+    </member>
+    <member name="M:System.Net.Http.ByteRangeStreamContent.Dispose(System.Boolean)">
+      <summary>
+        <see cref="T:System.Net.Http.ByteRangeStreamContent" /> クラスの現在のインスタンスによって使用されているリソースを解放します。</summary>
+      <param name="disposing">マネージ リソースとアンマネージ リソースを解放する場合は true。アンマネージ リソースだけを解放する場合は false。</param>
+    </member>
+    <member name="M:System.Net.Http.ByteRangeStreamContent.SerializeToStreamAsync(System.IO.Stream,System.Net.TransportContext)">
+      <summary>バイト レンジを非同期にシリアル化し、HTTP コンテンツ ストリームに書き込みます。</summary>
+      <returns>非同期操作を表すタスク オブジェクト。</returns>
+      <param name="stream">対象となるストリーム。</param>
+      <param name="context">トランスポートに関する情報。</param>
+    </member>
+    <member name="M:System.Net.Http.ByteRangeStreamContent.TryComputeLength(System.Int64@)">
+      <summary>バイト配列の長さがバイト単位で有効であるかどうかを確認します。</summary>
+      <returns>長さが有効である場合は true。それ以外の場合は false。</returns>
+      <param name="length">バイト配列の長さ (バイト単位)。</param>
+    </member>
+    <member name="T:System.Net.Http.HttpClientExtensions">
+      <summary>
+        <see cref="T:System.Net.Http.HttpClient" /> を使用して書式設定された要求の作成をサポートする拡張メソッドを提供します。</summary>
+    </member>
+    <member name="M:System.Net.Http.HttpClientExtensions.PostAsJsonAsync``1(System.Net.Http.HttpClient,System.String,``0)">
+      <typeparam name="T"></typeparam>
+    </member>
+    <member name="M:System.Net.Http.HttpClientExtensions.PostAsJsonAsync``1(System.Net.Http.HttpClient,System.String,``0,System.Threading.CancellationToken)">
+      <typeparam name="T"></typeparam>
+    </member>
+    <member name="M:System.Net.Http.HttpClientExtensions.PostAsJsonAsync``1(System.Net.Http.HttpClient,System.Uri,``0)">
+      <summary> JSON としてシリアル化された指定の value を使用して、指定された URI に非同期操作として POST 要求を送信します。</summary>
+      <returns>非同期操作を表すタスク オブジェクト。</returns>
+      <param name="client">要求の作成に使用するクライアント。</param>
+      <param name="requestUri">要求の送信先の URI。</param>
+      <param name="value">要求のエンティティ ボディに指定される値。</param>
+      <typeparam name="T">value の型。</typeparam>
+    </member>
+    <member name="M:System.Net.Http.HttpClientExtensions.PostAsJsonAsync``1(System.Net.Http.HttpClient,System.Uri,``0,System.Threading.CancellationToken)">
+      <summary> JSON としてシリアル化された指定の value を使用して、指定された URI に非同期操作として POST 要求を送信します。</summary>
+      <returns>非同期操作を表すタスク オブジェクト。</returns>
+      <param name="client">要求の作成に使用するクライアント。</param>
+      <param name="requestUri">要求の送信先の URI。</param>
+      <param name="value">要求のエンティティ ボディに指定される値。</param>
+      <param name="cancellationToken">キャンセル通知を受け取るために他のオブジェクトやスレッドで使用できるキャンセル トークン。</param>
+      <typeparam name="T">value の型。</typeparam>
+    </member>
+    <member name="M:System.Net.Http.HttpClientExtensions.PostAsXmlAsync``1(System.Net.Http.HttpClient,System.String,``0)">
+      <typeparam name="T"></typeparam>
+    </member>
+    <member name="M:System.Net.Http.HttpClientExtensions.PostAsXmlAsync``1(System.Net.Http.HttpClient,System.String,``0,System.Threading.CancellationToken)">
+      <typeparam name="T"></typeparam>
+    </member>
+    <member name="M:System.Net.Http.HttpClientExtensions.PostAsXmlAsync``1(System.Net.Http.HttpClient,System.Uri,``0)">
+      <summary> XML としてシリアル化された指定の value を使用して、指定された URI に非同期操作として POST 要求を送信します。</summary>
+      <returns>非同期操作を表すタスク オブジェクト。</returns>
+      <param name="client">要求の作成に使用するクライアント。</param>
+      <param name="requestUri">要求の送信先の URI。</param>
+      <param name="value">要求のエンティティ ボディに指定される値。</param>
+      <typeparam name="T">value の型。</typeparam>
+    </member>
+    <member name="M:System.Net.Http.HttpClientExtensions.PostAsXmlAsync``1(System.Net.Http.HttpClient,System.Uri,``0,System.Threading.CancellationToken)">
+      <summary> XML としてシリアル化された指定の value を使用して、指定された URI に非同期操作として POST 要求を送信します。</summary>
+      <returns>非同期操作を表すタスク オブジェクト。</returns>
+      <param name="client">要求の作成に使用するクライアント。</param>
+      <param name="requestUri">要求の送信先の URI。</param>
+      <param name="value">要求のエンティティ ボディに指定される値。</param>
+      <param name="cancellationToken">キャンセル通知を受け取るために他のオブジェクトやスレッドで使用できるキャンセル トークン。</param>
+      <typeparam name="T">value の型。</typeparam>
+    </member>
+    <member name="M:System.Net.Http.HttpClientExtensions.PostAsync``1(System.Net.Http.HttpClient,System.String,``0,System.Net.Http.Formatting.MediaTypeFormatter)">
+      <typeparam name="T"></typeparam>
+    </member>
+    <member name="M:System.Net.Http.HttpClientExtensions.PostAsync``1(System.Net.Http.HttpClient,System.String,``0,System.Net.Http.Formatting.MediaTypeFormatter,System.Net.Http.Headers.MediaTypeHeaderValue,System.Threading.CancellationToken)">
+      <typeparam name="T"></typeparam>
+    </member>
+    <member name="M:System.Net.Http.HttpClientExtensions.PostAsync``1(System.Net.Http.HttpClient,System.String,``0,System.Net.Http.Formatting.MediaTypeFormatter,System.String)">
+      <typeparam name="T"></typeparam>
+    </member>
+    <member name="M:System.Net.Http.HttpClientExtensions.PostAsync``1(System.Net.Http.HttpClient,System.String,``0,System.Net.Http.Formatting.MediaTypeFormatter,System.String,System.Threading.CancellationToken)">
+      <typeparam name="T"></typeparam>
+    </member>
+    <member name="M:System.Net.Http.HttpClientExtensions.PostAsync``1(System.Net.Http.HttpClient,System.String,``0,System.Net.Http.Formatting.MediaTypeFormatter,System.Threading.CancellationToken)">
+      <typeparam name="T"></typeparam>
+    </member>
+    <member name="M:System.Net.Http.HttpClientExtensions.PostAsync``1(System.Net.Http.HttpClient,System.Uri,``0,System.Net.Http.Formatting.MediaTypeFormatter)">
+      <summary> 指定された formatter を使用してシリアル化された value を使用して、指定された URI に非同期操作として POST 要求を送信します。</summary>
+      <returns>非同期操作を表すタスク オブジェクト。</returns>
+      <param name="client">要求の作成に使用するクライアント。</param>
+      <param name="requestUri">要求の送信先の URI。</param>
+      <param name="value">要求のエンティティ ボディに指定される値。</param>
+      <param name="formatter">value をシリアル化するために使用するフォーマッタ。</param>
+      <typeparam name="T">value の型。</typeparam>
+    </member>
+    <member name="M:System.Net.Http.HttpClientExtensions.PostAsync``1(System.Net.Http.HttpClient,System.Uri,``0,System.Net.Http.Formatting.MediaTypeFormatter,System.Net.Http.Headers.MediaTypeHeaderValue,System.Threading.CancellationToken)">
+      <summary> 指定された formatter を使用してシリアル化された value を使用して、指定された URI に非同期操作として POST 要求を送信します。</summary>
+      <returns>非同期操作を表すタスク オブジェクト。</returns>
+      <param name="client">要求の作成に使用するクライアント。</param>
+      <param name="requestUri">要求の送信先の URI。</param>
+      <param name="value">要求のエンティティ ボディに指定される値。</param>
+      <param name="formatter">value をシリアル化するために使用するフォーマッタ。</param>
+      <param name="mediaType">要求のコンテンツの Content-Type ヘッダーの優先される値。この値は、null にすることができます。その場合、既定のコンテンツ タイプである <paramref name="formatter" /> が使用されます。</param>
+      <param name="cancellationToken">キャンセル通知を受け取るために他のオブジェクトやスレッドで使用できるキャンセル トークン。</param>
+      <typeparam name="T">value の型。</typeparam>
+    </member>
+    <member name="M:System.Net.Http.HttpClientExtensions.PostAsync``1(System.Net.Http.HttpClient,System.Uri,``0,System.Net.Http.Formatting.MediaTypeFormatter,System.String)">
+      <summary> 指定された formatter を使用してシリアル化された value を使用して、指定された URI に非同期操作として POST 要求を送信します。</summary>
+      <returns>非同期操作を表すタスク オブジェクト。</returns>
+      <param name="client">要求の作成に使用するクライアント。</param>
+      <param name="requestUri">要求の送信先の URI。</param>
+      <param name="value">要求のエンティティ ボディに指定される値。</param>
+      <param name="formatter">value をシリアル化するために使用するフォーマッタ。</param>
+      <param name="mediaType">要求のコンテンツの Content-Type ヘッダーの優先される値。この値は、null にすることができます。その場合、既定のコンテンツ タイプである <paramref name="formatter" /> が使用されます。</param>
+      <typeparam name="T">value の型。</typeparam>
+    </member>
+    <member name="M:System.Net.Http.HttpClientExtensions.PostAsync``1(System.Net.Http.HttpClient,System.Uri,``0,System.Net.Http.Formatting.MediaTypeFormatter,System.String,System.Threading.CancellationToken)">
+      <summary> 指定された formatter を使用してシリアル化された value を使用して、指定された URI に非同期操作として POST 要求を送信します。</summary>
+      <returns>非同期操作を表すタスク オブジェクト。</returns>
+      <param name="client">要求の作成に使用するクライアント。</param>
+      <param name="requestUri">要求の送信先の URI。</param>
+      <param name="value">要求のエンティティ ボディに指定される値。</param>
+      <param name="formatter">value をシリアル化するために使用するフォーマッタ。</param>
+      <param name="mediaType">要求のコンテンツの Content-Type ヘッダーの優先される値。この値は、null にすることができます。その場合、既定のコンテンツ タイプである <paramref name="formatter" /> が使用されます。</param>
+      <param name="cancellationToken">キャンセル通知を受け取るために他のオブジェクトやスレッドで使用できるキャンセル トークン。</param>
+      <typeparam name="T">value の型。</typeparam>
+    </member>
+    <member name="M:System.Net.Http.HttpClientExtensions.PostAsync``1(System.Net.Http.HttpClient,System.Uri,``0,System.Net.Http.Formatting.MediaTypeFormatter,System.Threading.CancellationToken)">
+      <summary> 指定された formatter を使用してシリアル化された value を使用して、指定された URI に非同期操作として POST 要求を送信します。</summary>
+      <returns>非同期操作を表すタスク オブジェクト。</returns>
+      <param name="client">要求の作成に使用するクライアント。</param>
+      <param name="requestUri">要求の送信先の URI。</param>
+      <param name="value">要求のエンティティ ボディに指定される値。</param>
+      <param name="formatter">value をシリアル化するために使用するフォーマッタ。</param>
+      <param name="cancellationToken">キャンセル通知を受け取るために他のオブジェクトやスレッドで使用できるキャンセル トークン。</param>
+      <typeparam name="T">value の型。</typeparam>
+    </member>
+    <member name="M:System.Net.Http.HttpClientExtensions.PutAsJsonAsync``1(System.Net.Http.HttpClient,System.String,``0)">
+      <typeparam name="T"></typeparam>
+    </member>
+    <member name="M:System.Net.Http.HttpClientExtensions.PutAsJsonAsync``1(System.Net.Http.HttpClient,System.String,``0,System.Threading.CancellationToken)">
+      <typeparam name="T"></typeparam>
+    </member>
+    <member name="M:System.Net.Http.HttpClientExtensions.PutAsJsonAsync``1(System.Net.Http.HttpClient,System.Uri,``0)">
+      <summary> JSON としてシリアル化された指定の value を使用して、指定された URI に非同期操作として PUT 要求を送信します。</summary>
+      <returns>非同期操作を表すタスク オブジェクト。</returns>
+      <param name="client">要求の作成に使用するクライアント。</param>
+      <param name="requestUri">要求の送信先の URI。</param>
+      <param name="value">要求のエンティティ ボディに指定される値。</param>
+      <typeparam name="T">value の型。</typeparam>
+    </member>
+    <member name="M:System.Net.Http.HttpClientExtensions.PutAsJsonAsync``1(System.Net.Http.HttpClient,System.Uri,``0,System.Threading.CancellationToken)">
+      <summary> JSON としてシリアル化された指定の value を使用して、指定された URI に非同期操作として PUT 要求を送信します。</summary>
+      <returns>非同期操作を表すタスク オブジェクト。</returns>
+      <param name="client">要求の作成に使用するクライアント。</param>
+      <param name="requestUri">要求の送信先の URI。</param>
+      <param name="value">要求のエンティティ ボディに指定される値。</param>
+      <param name="cancellationToken">キャンセル通知を受け取るために他のオブジェクトやスレッドで使用できるキャンセル トークン。</param>
+      <typeparam name="T">value の型。</typeparam>
+    </member>
+    <member name="M:System.Net.Http.HttpClientExtensions.PutAsXmlAsync``1(System.Net.Http.HttpClient,System.String,``0)">
+      <typeparam name="T"></typeparam>
+    </member>
+    <member name="M:System.Net.Http.HttpClientExtensions.PutAsXmlAsync``1(System.Net.Http.HttpClient,System.String,``0,System.Threading.CancellationToken)">
+      <typeparam name="T"></typeparam>
+    </member>
+    <member name="M:System.Net.Http.HttpClientExtensions.PutAsXmlAsync``1(System.Net.Http.HttpClient,System.Uri,``0)">
+      <summary> XML としてシリアル化された指定の value を使用して、指定された URI に非同期操作として PUT 要求を送信します。</summary>
+      <returns>非同期操作を表すタスク オブジェクト。</returns>
+      <param name="client">要求の作成に使用するクライアント。</param>
+      <param name="requestUri">要求の送信先の URI。</param>
+      <param name="value">要求のエンティティ ボディに指定される値。</param>
+      <typeparam name="T">value の型。</typeparam>
+    </member>
+    <member name="M:System.Net.Http.HttpClientExtensions.PutAsXmlAsync``1(System.Net.Http.HttpClient,System.Uri,``0,System.Threading.CancellationToken)">
+      <summary> XML としてシリアル化された指定の value を使用して、指定された URI に非同期操作として PUT 要求を送信します。</summary>
+      <returns>非同期操作を表すタスク オブジェクト。</returns>
+      <param name="client">要求の作成に使用するクライアント。</param>
+      <param name="requestUri">要求の送信先の URI。</param>
+      <param name="value">要求のエンティティ ボディに指定される値。</param>
+      <param name="cancellationToken">キャンセル通知を受け取るために他のオブジェクトやスレッドで使用できるキャンセル トークン。</param>
+      <typeparam name="T">value の型。</typeparam>
+    </member>
+    <member name="M:System.Net.Http.HttpClientExtensions.PutAsync``1(System.Net.Http.HttpClient,System.String,``0,System.Net.Http.Formatting.MediaTypeFormatter)">
+      <typeparam name="T"></typeparam>
+    </member>
+    <member name="M:System.Net.Http.HttpClientExtensions.PutAsync``1(System.Net.Http.HttpClient,System.String,``0,System.Net.Http.Formatting.MediaTypeFormatter,System.Net.Http.Headers.MediaTypeHeaderValue,System.Threading.CancellationToken)">
+      <typeparam name="T"></typeparam>
+    </member>
+    <member name="M:System.Net.Http.HttpClientExtensions.PutAsync``1(System.Net.Http.HttpClient,System.String,``0,System.Net.Http.Formatting.MediaTypeFormatter,System.String)">
+      <typeparam name="T"></typeparam>
+    </member>
+    <member name="M:System.Net.Http.HttpClientExtensions.PutAsync``1(System.Net.Http.HttpClient,System.String,``0,System.Net.Http.Formatting.MediaTypeFormatter,System.String,System.Threading.CancellationToken)">
+      <typeparam name="T"></typeparam>
+    </member>
+    <member name="M:System.Net.Http.HttpClientExtensions.PutAsync``1(System.Net.Http.HttpClient,System.String,``0,System.Net.Http.Formatting.MediaTypeFormatter,System.Threading.CancellationToken)">
+      <typeparam name="T"></typeparam>
+    </member>
+    <member name="M:System.Net.Http.HttpClientExtensions.PutAsync``1(System.Net.Http.HttpClient,System.Uri,``0,System.Net.Http.Formatting.MediaTypeFormatter)">
+      <summary> 指定された formatter を使用してシリアル化された value を使用して、指定された URI に非同期操作として PUT 要求を送信します。</summary>
+      <returns>非同期操作を表すタスク オブジェクト。</returns>
+      <param name="client">要求の作成に使用するクライアント。</param>
+      <param name="requestUri">要求の送信先の URI。</param>
+      <param name="value">要求のエンティティ ボディに指定される値。</param>
+      <param name="formatter">value をシリアル化するために使用するフォーマッタ。</param>
+      <typeparam name="T">value の型。</typeparam>
+    </member>
+    <member name="M:System.Net.Http.HttpClientExtensions.PutAsync``1(System.Net.Http.HttpClient,System.Uri,``0,System.Net.Http.Formatting.MediaTypeFormatter,System.Net.Http.Headers.MediaTypeHeaderValue,System.Threading.CancellationToken)">
+      <summary> 指定された formatter を使用してシリアル化された value を使用して、指定された URI に非同期操作として PUT 要求を送信します。</summary>
+      <returns>非同期操作を表すタスク オブジェクト。</returns>
+      <param name="client">要求の作成に使用するクライアント。</param>
+      <param name="requestUri">要求の送信先の URI。</param>
+      <param name="value">要求のエンティティ ボディに指定される値。</param>
+      <param name="formatter">value をシリアル化するために使用するフォーマッタ。</param>
+      <param name="mediaType">要求のコンテンツの Content-Type ヘッダーの優先される値。この値は、null にすることができます。その場合、既定のコンテンツ タイプである <paramref name="formatter" /> が使用されます。</param>
+      <param name="cancellationToken">キャンセル通知を受け取るために他のオブジェクトやスレッドで使用できるキャンセル トークン。</param>
+      <typeparam name="T">value の型。</typeparam>
+    </member>
+    <member name="M:System.Net.Http.HttpClientExtensions.PutAsync``1(System.Net.Http.HttpClient,System.Uri,``0,System.Net.Http.Formatting.MediaTypeFormatter,System.String)">
+      <summary> 指定された formatter を使用してシリアル化された value を使用して、指定された URI に非同期操作として PUT 要求を送信します。</summary>
+      <returns>非同期操作を表すタスク オブジェクト。</returns>
+      <param name="client">要求の作成に使用するクライアント。</param>
+      <param name="requestUri">要求の送信先の URI。</param>
+      <param name="value">要求のエンティティ ボディに指定される値。</param>
+      <param name="formatter">value をシリアル化するために使用するフォーマッタ。</param>
+      <param name="mediaType">要求のコンテンツの Content-Type ヘッダーの優先される値。この値は、null にすることができます。その場合、既定のコンテンツ タイプである <paramref name="formatter" /> が使用されます。</param>
+      <typeparam name="T">value の型。</typeparam>
+    </member>
+    <member name="M:System.Net.Http.HttpClientExtensions.PutAsync``1(System.Net.Http.HttpClient,System.Uri,``0,System.Net.Http.Formatting.MediaTypeFormatter,System.String,System.Threading.CancellationToken)">
+      <summary> 指定された formatter を使用してシリアル化された value を使用して、指定された URI に非同期操作として PUT 要求を送信します。</summary>
+      <returns>非同期操作を表すタスク オブジェクト。</returns>
+      <param name="client">要求の作成に使用するクライアント。</param>
+      <param name="requestUri">要求の送信先の URI。</param>
+      <param name="value">要求のエンティティ ボディに指定される値。</param>
+      <param name="formatter">value をシリアル化するために使用するフォーマッタ。</param>
+      <param name="mediaType">要求のコンテンツの Content-Type ヘッダーの優先される値。この値は、null にすることができます。その場合、既定のコンテンツ タイプである <paramref name="formatter" /> が使用されます。</param>
+      <param name="cancellationToken">キャンセル通知を受け取るために他のオブジェクトやスレッドで使用できるキャンセル トークン。</param>
+      <typeparam name="T">value の型。</typeparam>
+    </member>
+    <member name="M:System.Net.Http.HttpClientExtensions.PutAsync``1(System.Net.Http.HttpClient,System.Uri,``0,System.Net.Http.Formatting.MediaTypeFormatter,System.Threading.CancellationToken)">
+      <summary> 指定された formatter を使用してシリアル化された value を使用して、指定された URI に非同期操作として PUT 要求を送信します。</summary>
+      <returns>非同期操作を表すタスク オブジェクト。</returns>
+      <param name="client">要求の作成に使用するクライアント。</param>
+      <param name="requestUri">要求の送信先の URI。</param>
+      <param name="value">要求のエンティティ ボディに指定される値。</param>
+      <param name="formatter">value をシリアル化するために使用するフォーマッタ。</param>
+      <param name="cancellationToken">キャンセル通知を受け取るために他のオブジェクトやスレッドで使用できるキャンセル トークン。</param>
+      <typeparam name="T">value の型。</typeparam>
+    </member>
+    <member name="T:System.Net.Http.HttpClientFactory">
+      <summary>
+        <see cref="T:System.Net.Http.HttpClient" /> の新しいインスタンスを作成するためのファクトリを表します。</summary>
+    </member>
+    <member name="M:System.Net.Http.HttpClientFactory.Create(System.Net.Http.DelegatingHandler[])">
+      <summary>
+        <see cref="T:System.Net.Http.HttpClient" /> の新しいインスタンスを作成します。</summary>
+      <returns>
+        <see cref="T:System.Net.Http.HttpClient" /> の新しいインスタンス。</returns>
+      <param name="handlers">HTTP 応答メッセージの処理を別のハンドラーにデリゲートする HTTP ハンドラーの一覧。</param>
+    </member>
+    <member name="M:System.Net.Http.HttpClientFactory.Create(System.Net.Http.HttpMessageHandler,System.Net.Http.DelegatingHandler[])">
+      <summary>
+        <see cref="T:System.Net.Http.HttpClient" /> の新しいインスタンスを作成します。</summary>
+      <returns>
+        <see cref="T:System.Net.Http.HttpClient" /> の新しいインスタンス。</returns>
+      <param name="innerHandler">HTTP 応答メッセージを処理する内部ハンドラー。</param>
+      <param name="handlers">HTTP 応答メッセージの処理を別のハンドラーにデリゲートする HTTP ハンドラーの一覧。</param>
+    </member>
+    <member name="M:System.Net.Http.HttpClientFactory.CreatePipeline(System.Net.Http.HttpMessageHandler,System.Collections.Generic.IEnumerable{System.Net.Http.DelegatingHandler})">
+      <summary>パイプラインを設定する必要がある <see cref="T:System.Net.Http.HttpClient" /> の新しいインスタンスを作成します。</summary>
+      <returns>パイプラインを設定する必要がある <see cref="T:System.Net.Http.HttpClient" /> の新しいインスタンス。</returns>
+      <param name="innerHandler">HTTP 応答メッセージを処理する内部ハンドラー。</param>
+      <param name="handlers">HTTP 応答メッセージの処理を別のハンドラーにデリゲートする HTTP ハンドラーの一覧。</param>
+    </member>
+    <member name="T:System.Net.Http.HttpContentExtensions">
+      <summary>厳密に型指定されたオブジェクトを HttpContent のインスタンスから読み取ることができるようにする拡張メソッドを指定します。</summary>
+    </member>
+    <member name="M:System.Net.Http.HttpContentExtensions.ReadAsAsync``1(System.Net.Http.HttpContent)">
+      <summary> 指定された &lt;typeparamref name="T" /&gt; 型のオブジェクトを content インスタンスから生成するタスクを返します。</summary>
+      <returns>指定された型のオブジェクト インスタンス。</returns>
+      <param name="content">読み取り元の HttpContent インスタンス。</param>
+      <typeparam name="T">読み取るオブジェクトの型。</typeparam>
+    </member>
+    <member name="M:System.Net.Http.HttpContentExtensions.ReadAsAsync``1(System.Net.Http.HttpContent,System.Collections.Generic.IEnumerable{System.Net.Http.Formatting.MediaTypeFormatter})">
+      <summary> 指定された &lt;typeparamref name="T" /&gt; 型のオブジェクトを content インスタンスから生成するタスクを返します。</summary>
+      <returns>指定された型のオブジェクト インスタンス。</returns>
+      <param name="content">読み取り元の HttpContent インスタンス。</param>
+      <param name="formatters">使用する MediaTyepFormatter インスタンスのコレクション。</param>
+      <typeparam name="T">読み取るオブジェクトの型。</typeparam>
+    </member>
+    <member name="M:System.Net.Http.HttpContentExtensions.ReadAsAsync``1(System.Net.Http.HttpContent,System.Collections.Generic.IEnumerable{System.Net.Http.Formatting.MediaTypeFormatter},System.Net.Http.Formatting.IFormatterLogger)">
+      <summary> 指定された &lt;typeparamref name="T" /&gt; 型のオブジェクトを content インスタンスから生成するタスクを返します。</summary>
+      <returns>指定された型のオブジェクト インスタンス。</returns>
+      <param name="content">読み取り元の HttpContent インスタンス。</param>
+      <param name="formatters">使用する MediaTypeFormatter インスタンスのコレクション。</param>
+      <param name="formatterLogger">イベントを記録する IFormatterLogger。</param>
+      <typeparam name="T">読み取るオブジェクトの型。</typeparam>
+    </member>
+    <member name="M:System.Net.Http.HttpContentExtensions.ReadAsAsync``1(System.Net.Http.HttpContent,System.Collections.Generic.IEnumerable{System.Net.Http.Formatting.MediaTypeFormatter},System.Net.Http.Formatting.IFormatterLogger,System.Threading.CancellationToken)">
+      <summary>コンテンツ インスタンスから指定された種類のオブジェクトを生成するタスクを返します。</summary>
+      <returns>指定された型のオブジェクト インスタンス。</returns>
+      <param name="content">読み取り元の HttpContent インスタンス。</param>
+      <param name="formatters">使用する MediaTypeFormatter インスタンスのコレクション。</param>
+      <param name="formatterLogger">イベントを記録する IFormatterLogger。</param>
+      <param name="cancellationToken">操作をキャンセルするトークン。</param>
+      <typeparam name="T">読み取るオブジェクトの型。</typeparam>
+    </member>
+    <member name="M:System.Net.Http.HttpContentExtensions.ReadAsAsync``1(System.Net.Http.HttpContent,System.Collections.Generic.IEnumerable{System.Net.Http.Formatting.MediaTypeFormatter},System.Threading.CancellationToken)">
+      <summary>コンテンツ インスタンスから指定された種類のオブジェクトを生成するタスクを返します。</summary>
+      <returns>指定された型のオブジェクト インスタンス。</returns>
+      <param name="content">読み取り元の HttpContent インスタンス。</param>
+      <param name="formatters">使用する MediaTypeFormatter インスタンスのコレクション。</param>
+      <param name="cancellationToken">操作をキャンセルするトークン。</param>
+      <typeparam name="T">読み取るオブジェクトの型。</typeparam>
+    </member>
+    <member name="M:System.Net.Http.HttpContentExtensions.ReadAsAsync``1(System.Net.Http.HttpContent,System.Threading.CancellationToken)">
+      <summary>コンテンツ インスタンスから指定された種類のオブジェクトを生成するタスクを返します。</summary>
+      <returns>指定された型のオブジェクト インスタンス。</returns>
+      <param name="content">読み取り元の HttpContent インスタンス。</param>
+      <param name="cancellationToken">操作をキャンセルするトークン。</param>
+      <typeparam name="T">読み取るオブジェクトの型。</typeparam>
+    </member>
+    <member name="M:System.Net.Http.HttpContentExtensions.ReadAsAsync(System.Net.Http.HttpContent,System.Type)">
+      <summary> 指定された type のオブジェクトを content インスタンスから生成するタスクを返します。</summary>
+      <returns>指定された型のオブジェクト インスタンスを生成するタスク。</returns>
+      <param name="content">読み取り元の HttpContent インスタンス。</param>
+      <param name="type">読み取るオブジェクトの型。</param>
+    </member>
+    <member name="M:System.Net.Http.HttpContentExtensions.ReadAsAsync(System.Net.Http.HttpContent,System.Type,System.Collections.Generic.IEnumerable{System.Net.Http.Formatting.MediaTypeFormatter})">
+      <summary> コンテンツを逆シリアル化するために提供された formatters のいずれかを使用し、指定された type のオブジェクトを content インスタンスから生成するタスクを返します。</summary>
+      <returns>指定された型のオブジェクト インスタンス。</returns>
+      <param name="content">読み取り元の HttpContent インスタンス。</param>
+      <param name="type">読み取るオブジェクトの型。</param>
+      <param name="formatters">使用する MediaTypeFormatter インスタンスのコレクション。</param>
+    </member>
+    <member name="M:System.Net.Http.HttpContentExtensions.ReadAsAsync(System.Net.Http.HttpContent,System.Type,System.Collections.Generic.IEnumerable{System.Net.Http.Formatting.MediaTypeFormatter},System.Net.Http.Formatting.IFormatterLogger)">
+      <summary> コンテンツを逆シリアル化するために提供された formatters のいずれかを使用し、指定された type のオブジェクトを content インスタンスから生成するタスクを返します。</summary>
+      <returns>指定された型のオブジェクト インスタンス。</returns>
+      <param name="content">読み取り元の HttpContent インスタンス。</param>
+      <param name="type">読み取るオブジェクトの型。</param>
+      <param name="formatters">使用する MediaTypeFormatter インスタンスのコレクション。</param>
+      <param name="formatterLogger">イベントを記録する IFormatterLogger。</param>
+    </member>
+    <member name="M:System.Net.Http.HttpContentExtensions.ReadAsAsync(System.Net.Http.HttpContent,System.Type,System.Collections.Generic.IEnumerable{System.Net.Http.Formatting.MediaTypeFormatter},System.Net.Http.Formatting.IFormatterLogger,System.Threading.CancellationToken)">
+      <summary>指定されたフォーマッタのいずれかを使用してコンテンツを逆シリアル化し、コンテンツ インスタンスから指定された種類のオブジェクトを生成するタスクを返します。</summary>
+      <returns>指定された型のオブジェクト インスタンス。</returns>
+      <param name="content">読み取り元の HttpContent インスタンス。</param>
+      <param name="type">読み取るオブジェクトの型。</param>
+      <param name="formatters">使用する MediaTypeFormatter インスタンスのコレクション。</param>
+      <param name="formatterLogger">イベントを記録する IFormatterLogger。</param>
+      <param name="cancellationToken">操作をキャンセルするトークン。</param>
+    </member>
+    <member name="M:System.Net.Http.HttpContentExtensions.ReadAsAsync(System.Net.Http.HttpContent,System.Type,System.Collections.Generic.IEnumerable{System.Net.Http.Formatting.MediaTypeFormatter},System.Threading.CancellationToken)">
+      <summary>指定されたフォーマッタのいずれかを使用してコンテンツを逆シリアル化し、コンテンツ インスタンスから指定された種類のオブジェクトを生成するタスクを返します。</summary>
+      <returns>指定された型のオブジェクト インスタンス。</returns>
+      <param name="content">読み取り元の HttpContent インスタンス。</param>
+      <param name="type">読み取るオブジェクトの型。</param>
+      <param name="formatters">使用する MediaTypeFormatter インスタンスのコレクション。</param>
+      <param name="cancellationToken">操作をキャンセルするトークン。</param>
+    </member>
+    <member name="M:System.Net.Http.HttpContentExtensions.ReadAsAsync(System.Net.Http.HttpContent,System.Type,System.Threading.CancellationToken)">
+      <summary>指定されたフォーマッタのいずれかを使用してコンテンツを逆シリアル化し、コンテンツ インスタンスから指定された種類のオブジェクトを生成するタスクを返します。</summary>
+      <returns>指定された型のオブジェクト インスタンス。</returns>
+      <param name="content">読み取り元の HttpContent インスタンス。</param>
+      <param name="type">読み取るオブジェクトの型。</param>
+      <param name="cancellationToken">操作をキャンセルするトークン。</param>
+    </member>
+    <member name="T:System.Net.Http.HttpContentFormDataExtensions">
+      <summary>
+        <see cref="T:System.Net.Http.HttpContent" /> のインスタンスから HTML フォームの URL エンコード データを読み取る拡張メソッド。</summary>
+    </member>
+    <member name="M:System.Net.Http.HttpContentFormDataExtensions.IsFormData(System.Net.Http.HttpContent)">
+      <summary>指定されたコンテンツが HTML フォームの URL エンコード データであるかどうかを確認します。</summary>
+      <returns>指定されたコンテンツが HTML フォームの URL エンコード データの場合は true。それ以外の場合は false。</returns>
+      <param name="content">コンテンツ。</param>
+    </member>
+    <member name="M:System.Net.Http.HttpContentFormDataExtensions.ReadAsFormDataAsync(System.Net.Http.HttpContent)">
+      <summary>
+        <see cref="T:System.Net.Http.HttpContent" /> インスタンスから HTML フォームの URL エンコード データを非同期で読み取り、結果を <see cref="T:System.Collections.Specialized.NameValueCollection" /> オブジェクトに格納します。</summary>
+      <returns>非同期操作を表すタスク オブジェクト。</returns>
+      <param name="content">コンテンツ。</param>
+    </member>
+    <member name="M:System.Net.Http.HttpContentFormDataExtensions.ReadAsFormDataAsync(System.Net.Http.HttpContent,System.Threading.CancellationToken)">
+      <summary>
+        <see cref="T:System.Net.Http.HttpContent" /> インスタンスから HTML フォームの URL エンコード データを非同期で読み取り、結果を <see cref="T:System.Collections.Specialized.NameValueCollection" /> オブジェクトに格納します。</summary>
+      <returns>非同期操作を表すタスク オブジェクト。</returns>
+      <param name="content">コンテンツ。</param>
+      <param name="cancellationToken">操作をキャンセルするトークン。</param>
+    </member>
+    <member name="T:System.Net.Http.HttpContentMessageExtensions">
+      <summary>
+        <see cref="T:System.Net.Http.HttpRequestMessage" /> および <see cref="T:System.Net.Http.HttpResponseMessage" /> エンティティを <see cref="T:System.Net.Http.HttpContent" /> のインスタンスから読み取る拡張メソッドを提供します。</summary>
+    </member>
+    <member name="M:System.Net.Http.HttpContentMessageExtensions.IsHttpRequestMessageContent(System.Net.Http.HttpContent)">
+      <summary>指定されたコンテンツが HTTP 要求メッセージ コンテンツかどうかを判断します。</summary>
+      <returns>指定されたコンテンツが HTTP メッセージ コンテンツである場合は true。それ以外の場合は false。</returns>
+      <param name="content">確認するコンテンツ。</param>
+    </member>
+    <member name="M:System.Net.Http.HttpContentMessageExtensions.IsHttpResponseMessageContent(System.Net.Http.HttpContent)">
+      <summary>指定されたコンテンツが HTTP 応答メッセージ コンテンツかどうかを判断します。</summary>
+      <returns>指定されたコンテンツが HTTP メッセージ コンテンツである場合は true。それ以外の場合は false。</returns>
+      <param name="content">確認するコンテンツ。</param>
+    </member>
+    <member name="M:System.Net.Http.HttpContentMessageExtensions.ReadAsHttpRequestMessageAsync(System.Net.Http.HttpContent)">
+      <summary>
+        <see cref="T:System.Net.Http.HttpContent" /> を <see cref="T:System.Net.Http.HttpRequestMessage" /> として読み取ります。</summary>
+      <returns>解析された <see cref="T:System.Net.Http.HttpRequestMessage" /> インスタンス。</returns>
+      <param name="content">読み取るコンテンツ。</param>
+    </member>
+    <member name="M:System.Net.Http.HttpContentMessageExtensions.ReadAsHttpRequestMessageAsync(System.Net.Http.HttpContent,System.String)">
+      <summary>
+        <see cref="T:System.Net.Http.HttpContent" /> を <see cref="T:System.Net.Http.HttpRequestMessage" /> として読み取ります。</summary>
+      <returns>解析された <see cref="T:System.Net.Http.HttpRequestMessage" /> インスタンス。</returns>
+      <param name="content">読み取るコンテンツ。</param>
+      <param name="uriScheme">要求 URI に使用する URI スキーム。</param>
+    </member>
+    <member name="M:System.Net.Http.HttpContentMessageExtensions.ReadAsHttpRequestMessageAsync(System.Net.Http.HttpContent,System.String,System.Int32)">
+      <summary>
+        <see cref="T:System.Net.Http.HttpContent" /> を <see cref="T:System.Net.Http.HttpRequestMessage" /> として読み取ります。</summary>
+      <returns>解析された <see cref="T:System.Net.Http.HttpRequestMessage" /> インスタンス。</returns>
+      <param name="content">読み取るコンテンツ。</param>
+      <param name="uriScheme">要求 URI に使用する URI スキーム。</param>
+      <param name="bufferSize">バッファーのサイズ。</param>
+    </member>
+    <member name="M:System.Net.Http.HttpContentMessageExtensions.ReadAsHttpRequestMessageAsync(System.Net.Http.HttpContent,System.String,System.Int32,System.Int32)">
+      <summary>
+        <see cref="T:System.Net.Http.HttpContent" /> を <see cref="T:System.Net.Http.HttpRequestMessage" /> として読み取ります。</summary>
+      <returns>解析された <see cref="T:System.Net.Http.HttpRequestMessage" /> インスタンス。</returns>
+      <param name="content">読み取るコンテンツ。</param>
+      <param name="uriScheme">要求 URI に使用する URI スキーム。</param>
+      <param name="bufferSize">バッファーのサイズ。</param>
+      <param name="maxHeaderSize">HTTP ヘッダーの最大長。</param>
+    </member>
+    <member name="M:System.Net.Http.HttpContentMessageExtensions.ReadAsHttpRequestMessageAsync(System.Net.Http.HttpContent,System.String,System.Int32,System.Int32,System.Threading.CancellationToken)"></member>
+    <member name="M:System.Net.Http.HttpContentMessageExtensions.ReadAsHttpRequestMessageAsync(System.Net.Http.HttpContent,System.String,System.Int32,System.Threading.CancellationToken)"></member>
+    <member name="M:System.Net.Http.HttpContentMessageExtensions.ReadAsHttpRequestMessageAsync(System.Net.Http.HttpContent,System.String,System.Threading.CancellationToken)"></member>
+    <member name="M:System.Net.Http.HttpContentMessageExtensions.ReadAsHttpRequestMessageAsync(System.Net.Http.HttpContent,System.Threading.CancellationToken)"></member>
+    <member name="M:System.Net.Http.HttpContentMessageExtensions.ReadAsHttpResponseMessageAsync(System.Net.Http.HttpContent)">
+      <summary>
+        <see cref="T:System.Net.Http.HttpContent" /> を <see cref="T:System.Net.Http.HttpResponseMessage" /> として読み取ります。</summary>
+      <returns>解析された <see cref="T:System.Net.Http.HttpResponseMessage" /> インスタンス。</returns>
+      <param name="content">読み取るコンテンツ。</param>
+    </member>
+    <member name="M:System.Net.Http.HttpContentMessageExtensions.ReadAsHttpResponseMessageAsync(System.Net.Http.HttpContent,System.Int32)">
+      <summary>
+        <see cref="T:System.Net.Http.HttpContent" /> を <see cref="T:System.Net.Http.HttpResponseMessage" /> として読み取ります。</summary>
+      <returns>解析された <see cref="T:System.Net.Http.HttpResponseMessage" /> インスタンス。</returns>
+      <param name="content">読み取るコンテンツ。</param>
+      <param name="bufferSize">バッファーのサイズ。</param>
+    </member>
+    <member name="M:System.Net.Http.HttpContentMessageExtensions.ReadAsHttpResponseMessageAsync(System.Net.Http.HttpContent,System.Int32,System.Int32)">
+      <summary>
+        <see cref="T:System.Net.Http.HttpContent" /> を <see cref="T:System.Net.Http.HttpResponseMessage" /> として読み取ります。</summary>
+      <returns>解析された <see cref="T:System.Net.Http.HttpResponseMessage" /> インスタンス。</returns>
+      <param name="content">読み取るコンテンツ。</param>
+      <param name="bufferSize">バッファーのサイズ。</param>
+      <param name="maxHeaderSize">HTTP ヘッダーの最大長。</param>
+    </member>
+    <member name="M:System.Net.Http.HttpContentMessageExtensions.ReadAsHttpResponseMessageAsync(System.Net.Http.HttpContent,System.Int32,System.Int32,System.Threading.CancellationToken)"></member>
+    <member name="M:System.Net.Http.HttpContentMessageExtensions.ReadAsHttpResponseMessageAsync(System.Net.Http.HttpContent,System.Int32,System.Threading.CancellationToken)"></member>
+    <member name="M:System.Net.Http.HttpContentMessageExtensions.ReadAsHttpResponseMessageAsync(System.Net.Http.HttpContent,System.Threading.CancellationToken)"></member>
+    <member name="T:System.Net.Http.HttpContentMultipartExtensions">
+      <summary>
+        <see cref="T:System.Net.Http.HttpContent" /> のインスタンスから MIME マルチパート エンティティを読み取る拡張メソッド。</summary>
+    </member>
+    <member name="M:System.Net.Http.HttpContentMultipartExtensions.IsMimeMultipartContent(System.Net.Http.HttpContent)">
+      <summary>指定されたコンテンツが MIME マルチパート コンテンツかどうかを判断します。</summary>
+      <returns>指定されたコンテンツが MIME マルチパート コンテンツの場合は true、それ以外の場合は false。</returns>
+      <param name="content">コンテンツ。</param>
+    </member>
+    <member name="M:System.Net.Http.HttpContentMultipartExtensions.IsMimeMultipartContent(System.Net.Http.HttpContent,System.String)">
+      <summary>指定されたコンテンツが、指定されたサブタイプの MIME マルチパート コンテンツかどうかを判断します。</summary>
+      <returns>指定されたコンテンツが、指定されたサブタイプの MIME マルチパート コンテンツの場合は true、それ以外の場合は false。</returns>
+      <param name="content">コンテンツ。</param>
+      <param name="subtype">一致させる MIME マルチパート サブタイプ。</param>
+    </member>
+    <member name="M:System.Net.Http.HttpContentMultipartExtensions.ReadAsMultipartAsync(System.Net.Http.HttpContent)">
+      <summary>MIME マルチパート メッセージ内のすべてのボディ パーツを読み取り、結果として <see cref="T:System.Net.Http.HttpContent" /> インスタンスのセットを作成します。</summary>
+      <returns>各インスタンスがボディ パーツを表す <see cref="T:System.Net.Http.HttpContent" /> インスタンスのコレクションを取得するタスクを表す <see cref="T:System.Threading.Tasks.Task`1" />。</returns>
+      <param name="content">オブジェクトのコンテンツに使用する既存の <see cref="T:System.Net.Http.HttpContent" /> インスタンス。</param>
+    </member>
+    <member name="M:System.Net.Http.HttpContentMultipartExtensions.ReadAsMultipartAsync(System.Net.Http.HttpContent,System.Threading.CancellationToken)">
+      <summary>MIME マルチパート メッセージ内のすべてのボディ パーツを読み取り、結果として <see cref="T:System.Net.Http.HttpContent" /> インスタンスのセットを作成します。</summary>
+      <returns>各インスタンスがボディ パーツを表す <see cref="T:System.Net.Http.HttpContent" /> インスタンスのコレクションを取得するタスクを表す <see cref="T:System.Threading.Tasks.Task`1" />。</returns>
+      <param name="content">オブジェクトのコンテンツに使用する既存の <see cref="T:System.Net.Http.HttpContent" /> インスタンス。</param>
+      <param name="cancellationToken">操作をキャンセルするトークン。</param>
+    </member>
+    <member name="M:System.Net.Http.HttpContentMultipartExtensions.ReadAsMultipartAsync``1(System.Net.Http.HttpContent,``0)">
+      <summary>MIME マルチパート メッセージ内のすべてのボディ パーツを読み取り、結果として、各ボディ パーツの書き込み先を決定するために streamProvider インスタンスを使用して、<see cref="T:System.Net.Http.HttpContent" /> インスタンスのセットを作成します。</summary>
+      <returns>各インスタンスがボディ パーツを表す <see cref="T:System.Net.Http.HttpContent" /> インスタンスのコレクションを取得するタスクを表す <see cref="T:System.Threading.Tasks.Task`1" />。</returns>
+      <param name="content">オブジェクトのコンテンツに使用する既存の <see cref="T:System.Net.Http.HttpContent" /> インスタンス。</param>
+      <param name="streamProvider">解析中にボディ パーツの書き込み先の出力ストリームを提供するストリーム プロバイダー。</param>
+      <typeparam name="T">MIME マルチパートの型。</typeparam>
+    </member>
+    <member name="M:System.Net.Http.HttpContentMultipartExtensions.ReadAsMultipartAsync``1(System.Net.Http.HttpContent,``0,System.Int32)">
+      <summary>MIME マルチパート メッセージ内のすべてのボディ パーツを読み取り、結果として、各ボディ パーツの書き込み先を決定するために streamProvider インスタンスを使用し、読み取りバッファーのサイズとして bufferSize インスタンスを使用して、<see cref="T:System.Net.Http.HttpContent" /> インスタンスのセットを作成します。</summary>
+      <returns>各インスタンスがボディ パーツを表す <see cref="T:System.Net.Http.HttpContent" /> インスタンスのコレクションを取得するタスクを表す <see cref="T:System.Threading.Tasks.Task`1" />。</returns>
+      <param name="content">オブジェクトのコンテンツに使用する既存の <see cref="T:System.Net.Http.HttpContent" /> インスタンス。</param>
+      <param name="streamProvider">解析中にボディ パーツの書き込み先の出力ストリームを提供するストリーム プロバイダー。</param>
+      <param name="bufferSize">コンテンツの読み取りに使用するバッファー サイズ。</param>
+      <typeparam name="T">MIME マルチパートの型。</typeparam>
+    </member>
+    <member name="M:System.Net.Http.HttpContentMultipartExtensions.ReadAsMultipartAsync``1(System.Net.Http.HttpContent,``0,System.Int32,System.Threading.CancellationToken)">
+      <summary>MIME マルチパート メッセージ内のすべてのボディ パーツを読み取り、結果として、各ボディ パーツの書き込み先を決定するために streamProvider インスタンスを使用し、読み取りバッファーのサイズとして bufferSize インスタンスを使用して、<see cref="T:System.Net.Http.HttpContent" /> インスタンスのセットを作成します。</summary>
+      <returns>各インスタンスがボディ パーツを表す <see cref="T:System.Net.Http.HttpContent" /> インスタンスのコレクションを取得するタスクを表す <see cref="T:System.Threading.Tasks.Task`1" />。</returns>
+      <param name="content">オブジェクトのコンテンツに使用する既存の <see cref="T:System.Net.Http.HttpContent" /> インスタンス。</param>
+      <param name="streamProvider">解析中にボディ パーツの書き込み先の出力ストリームを提供するストリーム プロバイダー。</param>
+      <param name="bufferSize">コンテンツの読み取りに使用するバッファー サイズ。</param>
+      <param name="cancellationToken">操作をキャンセルするトークン。</param>
+      <typeparam name="T">MIME マルチパートの型。</typeparam>
+    </member>
+    <member name="M:System.Net.Http.HttpContentMultipartExtensions.ReadAsMultipartAsync``1(System.Net.Http.HttpContent,``0,System.Threading.CancellationToken)">
+      <summary>MIME マルチパート メッセージ内のすべてのボディ パーツを読み取り、結果として、各ボディ パーツの書き込み先を決定するために streamProvider インスタンスを使用して、<see cref="T:System.Net.Http.HttpContent" /> インスタンスのセットを作成します。</summary>
+      <returns>各インスタンスがボディ パーツを表す <see cref="T:System.Net.Http.HttpContent" /> インスタンスのコレクションを取得するタスクを表す <see cref="T:System.Threading.Tasks.Task`1" />。</returns>
+      <param name="content">オブジェクトのコンテンツに使用する既存の <see cref="T:System.Net.Http.HttpContent" /> インスタンス。</param>
+      <param name="streamProvider">解析中にボディ パーツの書き込み先の出力ストリームを提供するストリーム プロバイダー。</param>
+      <param name="cancellationToken">操作をキャンセルするトークン。</param>
+      <typeparam name="T">MIME マルチパートの型。</typeparam>
+    </member>
+    <member name="T:System.Net.Http.HttpMessageContent">
+      <summary>
+        <see cref="P:System.Net.Http.HttpMessageContent.HttpResponseMessage" /> または <see cref="P:System.Net.Http.HttpMessageContent.HttpRequestMessage" /> を、メディアの種類 "application/http" を持つエンティティとしてカプセル化できる、<see cref="T:System.Net.Http.HttpContent" /> 派生クラス。</summary>
+    </member>
+    <member name="M:System.Net.Http.HttpMessageContent.#ctor(System.Net.Http.HttpRequestMessage)">
+      <summary>
+        <see cref="P:System.Net.Http.HttpMessageContent.HttpRequestMessage" /> をカプセル化する <see cref="T:System.Net.Http.HttpMessageContent" /> クラスの新しいインスタンスを初期化します。</summary>
+      <param name="httpRequest">カプセル化する <see cref="P:System.Net.Http.HttpMessageContent.HttpResponseMessage" /> インスタンス。</param>
+    </member>
+    <member name="M:System.Net.Http.HttpMessageContent.#ctor(System.Net.Http.HttpResponseMessage)">
+      <summary>
+        <see cref="P:System.Net.Http.HttpMessageContent.HttpResponseMessage" /> をカプセル化する <see cref="T:System.Net.Http.HttpMessageContent" /> クラスの新しいインスタンスを初期化します。</summary>
+      <param name="httpResponse">カプセル化する <see cref="P:System.Net.Http.HttpMessageContent.HttpResponseMessage" /> インスタンス。</param>
+    </member>
+    <member name="M:System.Net.Http.HttpMessageContent.Dispose(System.Boolean)">
+      <summary> アンマネージ リソースを解放し、必要に応じてマネージ リソースも解放します。</summary>
+      <param name="disposing">マネージ リソースとアンマネージ リソースの両方を解放する場合は true。アンマネージ リソースだけを解放する場合は false。</param>
+    </member>
+    <member name="P:System.Net.Http.HttpMessageContent.HttpRequestMessage">
+      <summary> HTTP 要求メッセージを取得します。</summary>
+    </member>
+    <member name="P:System.Net.Http.HttpMessageContent.HttpResponseMessage">
+      <summary> HTTP 応答メッセージを取得します。</summary>
+    </member>
+    <member name="M:System.Net.Http.HttpMessageContent.SerializeToStreamAsync(System.IO.Stream,System.Net.TransportContext)">
+      <summary> オブジェクトのコンテンツを指定された stream に非同期的にシリアル化します。</summary>
+      <returns>オブジェクトのコンテンツを非同期的にシリアル化する <see cref="T:System.Threading.Tasks.Task" /> インスタンス。</returns>
+      <param name="stream">書き込み先の <see cref="T:System.IO.Stream" />。</param>
+      <param name="context">関連付けられた <see cref="T:System.Net.TransportContext" />。</param>
+    </member>
+    <member name="M:System.Net.Http.HttpMessageContent.TryComputeLength(System.Int64@)">
+      <summary> 可能であればストリームの長さを計算します。</summary>
+      <returns>長さが計算された場合は true。それ以外の場合は false。</returns>
+      <param name="length">計算されたストリームの長さ。</param>
+    </member>
+    <member name="T:System.Net.Http.HttpRequestHeadersExtensions">
+      <summary>
+        <see cref="T:System.Net.Http.Headers.HttpRequestHeaders" /> クラスの拡張メソッドを提供します。</summary>
+    </member>
+    <member name="M:System.Net.Http.HttpRequestHeadersExtensions.GetCookies(System.Net.Http.Headers.HttpRequestHeaders)">
+      <summary>要求に存在するすべての Cookie のヘッダーを取得します。</summary>
+      <returns>
+        <see cref="T:System.Net.Http.Headers.CookieHeaderValue" /> のインスタンスのコレクション。</returns>
+      <param name="headers">要求のヘッダー。</param>
+    </member>
+    <member name="M:System.Net.Http.HttpRequestHeadersExtensions.GetCookies(System.Net.Http.Headers.HttpRequestHeaders,System.String)">
+      <summary>指定された値に一致する名前を持つ Cookie 状態が含まれる、要求に存在する Cookie ヘッダーを取得します。</summary>
+      <returns>
+        <see cref="T:System.Net.Http.Headers.CookieHeaderValue" /> のインスタンスのコレクション。</returns>
+      <param name="headers">要求のヘッダー。</param>
+      <param name="name">照合する Cookie 状態の名前。</param>
+    </member>
+    <member name="M:System.Net.Http.HttpRequestMessageExtensions.CreateResponse(System.Net.Http.HttpRequestMessage)"></member>
+    <member name="M:System.Net.Http.HttpRequestMessageExtensions.CreateResponse(System.Net.Http.HttpRequestMessage,System.Net.HttpStatusCode)"></member>
+    <member name="T:System.Net.Http.HttpResponseHeadersExtensions">
+      <summary>
+        <see cref="T:System.Net.Http.Headers.HttpResponseHeaders" /> クラスの拡張メソッドを提供します。</summary>
+    </member>
+    <member name="M:System.Net.Http.HttpResponseHeadersExtensions.AddCookies(System.Net.Http.Headers.HttpResponseHeaders,System.Collections.Generic.IEnumerable{System.Net.Http.Headers.CookieHeaderValue})">
+      <summary> 応答に Cookie を追加します。各 [Set-Cookie] ヘッダーは、1 つの <see cref="T:System.Net.Http.Headers.CookieHeaderValue" /> インスタンスとして表現されます。<see cref="T:System.Net.Http.Headers.CookieHeaderValue" /> には、ドメインやパスなどの Cookie 情報だけでなく、1 つ以上の <see cref="T:System.Net.Http.Headers.CookieState" /> インスタンスも含まれます。各 <see cref="T:System.Net.Http.Headers.CookieState" /> インスタンスには、Cookie の名前、およびその名前と関連付けられているすべての Cookie の状態が含まれます。状態の形式は <see cref="T:System.Collections.Specialized.NameValueCollection" /> で、ワイヤーは HTML フォームの URL エンコード データとしてエンコードされています。このような表現により、複数の関連した "Cookie" を同じ [Cookie] ヘッダー内で伝達すると同時に、各 Cookie で状態を分離することが可能になります。[Cookie] ヘッダーの例を以下に示します。この例には、それぞれ [state1] および [state2] という名前が含まれる 2 つの <see cref="T:System.Net.Http.Headers.CookieState" /> が存在します。さらに、各 Cookie の状態には 2 つの名前/値のペア (name1/value1 と name2/value2) および (name3/value3 と name4/value4) が含まれています。&lt;code&gt; Set-Cookie: state1:name1=value1&amp;amp;name2=value2; state2:name3=value3&amp;amp;name4=value4; domain=domain1; path=path1; &lt;/code&gt;</summary>
+      <param name="headers">応答のヘッダー</param>
+      <param name="cookies">応答に追加する Cookie の値。</param>
+    </member>
+    <member name="T:System.Net.Http.InvalidByteRangeException">
+      <summary>要求されたいずれのレンジも選択されたリソースの現在の範囲に重複しないときに <see cref="T:System.Net.Http.ByteRangeStreamContent" /> によってスローされる例外。リソースの現在の範囲は ContentRange プロパティに示されます。</summary>
+    </member>
+    <member name="M:System.Net.Http.InvalidByteRangeException.#ctor(System.Net.Http.Headers.ContentRangeHeaderValue)">
+      <summary>
+        <see cref="T:System.Net.Http.InvalidByteRangeException" /> クラスの新しいインスタンスを初期化します。</summary>
+    </member>
+    <member name="M:System.Net.Http.InvalidByteRangeException.#ctor(System.Net.Http.Headers.ContentRangeHeaderValue,System.Runtime.Serialization.SerializationInfo,System.Runtime.Serialization.StreamingContext)">
+      <summary>
+        <see cref="T:System.Net.Http.InvalidByteRangeException" /> クラスの新しいインスタンスを初期化します。</summary>
+    </member>
+    <member name="M:System.Net.Http.InvalidByteRangeException.#ctor(System.Net.Http.Headers.ContentRangeHeaderValue,System.String)">
+      <summary>
+        <see cref="T:System.Net.Http.InvalidByteRangeException" /> クラスの新しいインスタンスを初期化します。</summary>
+    </member>
+    <member name="M:System.Net.Http.InvalidByteRangeException.#ctor(System.Net.Http.Headers.ContentRangeHeaderValue,System.String,System.Exception)">
+      <summary>
+        <see cref="T:System.Net.Http.InvalidByteRangeException" /> クラスの新しいインスタンスを初期化します。</summary>
+    </member>
+    <member name="P:System.Net.Http.InvalidByteRangeException.ContentRange">
+      <summary> リソースの現在の範囲は ContentRange ヘッダー フィールドで示されます。 </summary>
+    </member>
+    <member name="T:System.Net.Http.MultipartFileData">
+      <summary>マルチパート ファイル データを表します。</summary>
+    </member>
+    <member name="M:System.Net.Http.MultipartFileData.#ctor(System.Net.Http.Headers.HttpContentHeaders,System.String)">
+      <summary>
+        <see cref="T:System.Net.Http.MultipartFileData" /> クラスの新しいインスタンスを初期化します。</summary>
+      <param name="headers">マルチパート ファイル データのヘッダー。</param>
+      <param name="localFileName">マルチパート ファイル データのローカル ファイルの名前。</param>
+    </member>
+    <member name="P:System.Net.Http.MultipartFileData.Headers">
+      <summary>マルチパート ファイル データのヘッダーを取得または設定します。</summary>
+      <returns>マルチパート ファイル データのヘッダー。</returns>
+    </member>
+    <member name="P:System.Net.Http.MultipartFileData.LocalFileName">
+      <summary>マルチパート ファイル データのローカル ファイルの名前を取得または設定します。</summary>
+      <returns>マルチパート ファイル データのローカル ファイルの名前。</returns>
+    </member>
+    <member name="T:System.Net.Http.MultipartFileStreamProvider">
+      <summary>
+        <see cref="T:System.IO.FileStream" /> を使用して、MIME マルチパート メッセージの各 MIME ボディ パーツをファイルに書き込むのに適した <see cref="T:System.Net.Http.IMultipartStreamProvider" /> を表します。</summary>
+    </member>
+    <member name="M:System.Net.Http.MultipartFileStreamProvider.#ctor(System.String)">
+      <summary>
+        <see cref="T:System.Net.Http.MultipartFileStreamProvider" /> クラスの新しいインスタンスを初期化します。</summary>
+      <param name="rootPath">MIME マルチパート ボディ パーツのコンテンツが書き込まれるルート パス。</param>
+    </member>
+    <member name="M:System.Net.Http.MultipartFileStreamProvider.#ctor(System.String,System.Int32)">
+      <summary>
+        <see cref="T:System.Net.Http.MultipartFileStreamProvider" /> クラスの新しいインスタンスを初期化します。</summary>
+      <param name="rootPath">MIME マルチパート ボディ パーツのコンテンツが書き込まれるルート パス。</param>
+      <param name="bufferSize">ファイルへの書き込みのためにバッファリングされるバイト数。</param>
+    </member>
+    <member name="P:System.Net.Http.MultipartFileStreamProvider.BufferSize">
+      <summary>ファイルへの書き込みのためにバッファリングされるバイト数を取得または設定します。</summary>
+      <returns>ファイルへの書き込みのためにバッファリングされるバイト数。</returns>
+    </member>
+    <member name="P:System.Net.Http.MultipartFileStreamProvider.FileData">
+      <summary>マルチパート ファイル データを取得または設定します。</summary>
+      <returns>マルチパート ファイル データ。</returns>
+    </member>
+    <member name="M:System.Net.Http.MultipartFileStreamProvider.GetLocalFileName(System.Net.Http.Headers.HttpContentHeaders)">
+      <summary>現在の MIME ボディ パーツのコンテンツが格納される絶対ファイル名を作成するためのルート パスと組み合わせられる、ローカル ファイルの名前を取得します。</summary>
+      <returns>パス コンポーネントを含まない相対ファイル名。</returns>
+      <param name="headers">現在の MIME ボディ パーツのヘッダー。</param>
+    </member>
+    <member name="M:System.Net.Http.MultipartFileStreamProvider.GetStream(System.Net.Http.HttpContent,System.Net.Http.Headers.HttpContentHeaders)">
+      <summary>メッセージのボディ パーツが書き込まれるストリーム インスタンスを取得します。</summary>
+      <returns>メッセージのボディ パーツが書き込まれる <see cref="T:System.IO.Stream" /> インスタンス。</returns>
+      <param name="parent">HTTP のコンテンツ。</param>
+      <param name="headers">ボディ パーツを記述するヘッダー フィールド。</param>
+    </member>
+    <member name="P:System.Net.Http.MultipartFileStreamProvider.RootPath">
+      <summary>MIME マルチパート ボディ パーツのコンテンツが書き込まれるルート パスを取得または設定します。</summary>
+      <returns>MIME マルチパート ボディ パーツのコンテンツが書き込まれるルート パス。</returns>
+    </member>
+    <member name="T:System.Net.Http.MultipartFormDataRemoteStreamProvider">
+      <summary>ファイル コンテンツをリモート ストレージ <see cref="T:System.IO.Stream" /> に書き込むための HTML ファイルのアップロードでの使用に適した <see cref="T:System.Net.Http.MultipartStreamProvider" /> の実装。ストリーム プロバイダーは Content-Disposition ヘッダー フィールドを確認し、filename パラメーターが存在するかどうかに応じて出力リモート <see cref="T:System.IO.Stream" /> を判断します。filename パラメーターが Content-Disposition ヘッダー フィールドに存在する場合は、ボディ パーツが <see cref="M:System.Net.Http.MultipartFormDataRemoteStreamProvider.GetRemoteStream(System.Net.Http.HttpContent,System.Net.Http.Headers.HttpContentHeaders)" /> によって提供されるリモート <see cref="T:System.IO.Stream" /> に書き込まれます。それ以外の場合は、<see cref="T:System.IO.MemoryStream" /> に書き込まれます。</summary>
+    </member>
+    <member name="M:System.Net.Http.MultipartFormDataRemoteStreamProvider.#ctor">
+      <summary>
+        <see cref="T:System.Net.Http.MultipartFormDataRemoteStreamProvider" /> クラスの新しいインスタンスを初期化します。</summary>
+    </member>
+    <member name="M:System.Net.Http.MultipartFormDataRemoteStreamProvider.ExecutePostProcessingAsync">
+      <summary>ファイルでないコンテンツをフォーム データとして読み取ります。</summary>
+      <returns>後処理を表す <see cref="T:System.Threading.Tasks.Task" />。</returns>
+    </member>
+    <member name="M:System.Net.Http.MultipartFormDataRemoteStreamProvider.ExecutePostProcessingAsync(System.Threading.CancellationToken)">
+      <summary>ファイルでないコンテンツをフォーム データとして読み取ります。</summary>
+      <returns>後処理を表す <see cref="T:System.Threading.Tasks.Task" />。</returns>
+      <param name="cancellationToken">キャンセル要求を監視するトークン。</param>
+    </member>
+    <member name="P:System.Net.Http.MultipartFormDataRemoteStreamProvider.FileData">
+      <summary>マルチパート フォーム データの一部として渡されるファイル データのコレクションを取得します。</summary>
+    </member>
+    <member name="P:System.Net.Http.MultipartFormDataRemoteStreamProvider.FormData">
+      <summary>マルチパート フォーム データの一部として渡されるフォーム データの <see cref="T:System.Collections.Specialized.NameValueCollection" /> を取得します。</summary>
+    </member>
+    <member name="M:System.Net.Http.MultipartFormDataRemoteStreamProvider.GetRemoteStream(System.Net.Http.HttpContent,System.Net.Http.Headers.HttpContentHeaders)">
+      <summary>
+        <see cref="M:System.Net.Http.MultipartFormDataRemoteStreamProvider.GetStream(System.Net.Http.HttpContent,System.Net.Http.Headers.HttpContentHeaders)" /> 用の <see cref="T:System.Net.Http.RemoteStreamInfo" /> を提供します。データを書き込むリモート ストリームを提供するには、このメソッドをオーバーライドします。</summary>
+      <returns>ファイルが書き込まれるリモート ストリームおよびファイルにアクセスできる場所を指定する結果。null にすることはできません。また、ストリームは書き込み可能である必要があります。</returns>
+      <param name="parent">親の <see cref="T:System.Net.Http.HttpContent" /> MIME マルチパート インスタンス。</param>
+      <param name="headers">ボディ パーツのコンテンツを記述するヘッダー フィールド。</param>
+    </member>
+    <member name="M:System.Net.Http.MultipartFormDataRemoteStreamProvider.GetStream(System.Net.Http.HttpContent,System.Net.Http.Headers.HttpContentHeaders)"></member>
+    <member name="T:System.Net.Http.MultipartFormDataStreamProvider">
+      <summary>ファイル コンテンツを <see cref="T:System.IO.FileStream" /> に書き込むための HTML ファイルのアップロードでの使用に適した <see cref="T:System.Net.Http.IMultipartStreamProvider" /> を表します。</summary>
+    </member>
+    <member name="M:System.Net.Http.MultipartFormDataStreamProvider.#ctor(System.String)">
+      <summary>
+        <see cref="T:System.Net.Http.MultipartFormDataStreamProvider" /> クラスの新しいインスタンスを初期化します。</summary>
+      <param name="rootPath">MIME マルチパート ボディ パーツのコンテンツが書き込まれるルート パス。</param>
+    </member>
+    <member name="M:System.Net.Http.MultipartFormDataStreamProvider.#ctor(System.String,System.Int32)">
+      <summary>
+        <see cref="T:System.Net.Http.MultipartFormDataStreamProvider" /> クラスの新しいインスタンスを初期化します。</summary>
+      <param name="rootPath">MIME マルチパート ボディ パーツのコンテンツが書き込まれるルート パス。</param>
+      <param name="bufferSize">ファイルへの書き込みのためにバッファリングされるバイト数。</param>
+    </member>
+    <member name="M:System.Net.Http.MultipartFormDataStreamProvider.ExecutePostProcessingAsync">
+      <summary>ファイルでないコンテンツをフォーム データとして読み取ります。</summary>
+      <returns>非同期操作を表すタスク。</returns>
+    </member>
+    <member name="M:System.Net.Http.MultipartFormDataStreamProvider.ExecutePostProcessingAsync(System.Threading.CancellationToken)"></member>
+    <member name="P:System.Net.Http.MultipartFormDataStreamProvider.FormData">
+      <summary>マルチパート フォーム データの一部として渡されるフォーム データの <see cref="T:System.Collections.Specialized.NameValueCollection" /> を取得します。</summary>
+      <returns>フォーム データの <see cref="T:System.Collections.Specialized.NameValueCollection" />。</returns>
+    </member>
+    <member name="M:System.Net.Http.MultipartFormDataStreamProvider.GetStream(System.Net.Http.HttpContent,System.Net.Http.Headers.HttpContentHeaders)">
+      <summary>メッセージのボディ パーツが書き込まれるストリーミング インスタンスを取得します。</summary>
+      <returns>メッセージのボディ パーツが書き込まれる <see cref="T:System.IO.Stream" /> インスタンス。</returns>
+      <param name="parent">このボディ パーツが含まれる HTTP コンテンツ。</param>
+      <param name="headers">ボディ パーツを示すヘッダー フィールド。</param>
+    </member>
+    <member name="T:System.Net.Http.MultipartMemoryStreamProvider">
+      <summary>マルチパート メモリ ストリーム プロバイダーを表します。</summary>
+    </member>
+    <member name="M:System.Net.Http.MultipartMemoryStreamProvider.#ctor">
+      <summary>
+        <see cref="T:System.Net.Http.MultipartMemoryStreamProvider" /> クラスの新しいインスタンスを初期化します。</summary>
+    </member>
+    <member name="M:System.Net.Http.MultipartMemoryStreamProvider.GetStream(System.Net.Http.HttpContent,System.Net.Http.Headers.HttpContentHeaders)">
+      <summary>
+        <see cref="T:System.Net.Http.MultipartMemoryStreamProvider" /> の <see cref="T:System.IO.Stream" /> を返します。</summary>
+      <returns>
+        <see cref="T:System.Net.Http.MultipartMemoryStreamProvider" /> の <see cref="T:System.IO.Stream" />。</returns>
+      <param name="parent">
+        <see cref="T:System.Net.Http.HttpContent" /> オブジェクト。</param>
+      <param name="headers">HTTP コンテンツ ヘッダー。</param>
+    </member>
+    <member name="T:System.Net.Http.MultipartRelatedStreamProvider">
+      <summary>マルチパートの関連マルチストリームのプロバイダーを表します。</summary>
+    </member>
+    <member name="M:System.Net.Http.MultipartRelatedStreamProvider.#ctor">
+      <summary>
+        <see cref="T:System.Net.Http.MultipartRelatedStreamProvider" /> クラスの新しいインスタンスを初期化します。</summary>
+    </member>
+    <member name="M:System.Net.Http.MultipartRelatedStreamProvider.GetStream(System.Net.Http.HttpContent,System.Net.Http.Headers.HttpContentHeaders)">
+      <summary>プロバイダーの関連ストリームを取得します。</summary>
+      <returns>コンテンツ ヘッダー。</returns>
+      <param name="parent">親コンテンツ。</param>
+      <param name="headers">HTTP コンテンツ ヘッダー。</param>
+    </member>
+    <member name="P:System.Net.Http.MultipartRelatedStreamProvider.RootContent">
+      <summary>
+        <see cref="T:System.Net.Http.MultipartRelatedStreamProvider" /> のルート コンテンツを取得します。</summary>
+      <returns>
+        <see cref="T:System.Net.Http.MultipartRelatedStreamProvider" /> のルート コンテンツ。</returns>
+    </member>
+    <member name="T:System.Net.Http.MultipartRemoteFileData">
+      <summary>リモート ストレージのマルチパート ファイル データを表します。</summary>
+    </member>
+    <member name="M:System.Net.Http.MultipartRemoteFileData.#ctor(System.Net.Http.Headers.HttpContentHeaders,System.String,System.String)">
+      <summary>
+        <see cref="T:System.Net.Http.MultipartRemoteFileData" /> クラスの新しいインスタンスを初期化します。</summary>
+      <param name="headers">マルチパート ファイル データのヘッダー。</param>
+      <param name="location">リモート ファイルの場所。</param>
+      <param name="fileName">リモート ファイルの名前。</param>
+    </member>
+    <member name="P:System.Net.Http.MultipartRemoteFileData.FileName">
+      <summary>リモート ファイルの名前を取得します。</summary>
+    </member>
+    <member name="P:System.Net.Http.MultipartRemoteFileData.Headers">
+      <summary>マルチパート ファイル データのヘッダーを取得します。</summary>
+    </member>
+    <member name="P:System.Net.Http.MultipartRemoteFileData.Location">
+      <summary>リモート ファイルの場所を取得します。</summary>
+    </member>
+    <member name="T:System.Net.Http.MultipartStreamProvider">
+      <summary>MIME マルチパート パーサーによって指定されたヘッダーを MIME マルチパート拡張メソッドの一部として確認し (<see cref="T:System.Net.Http.HttpContentMultipartExtensions" /> を参照)、書き込み先のボディ パーツに対して返すストリームの種類を決定する、ストリーム プロバイダーを表します。</summary>
+    </member>
+    <member name="M:System.Net.Http.MultipartStreamProvider.#ctor">
+      <summary>
+        <see cref="T:System.Net.Http.MultipartStreamProvider" /> クラスの新しいインスタンスを初期化します。</summary>
+    </member>
+    <member name="P:System.Net.Http.MultipartStreamProvider.Contents">
+      <summary>この <see cref="T:System.Net.Http.MultipartStreamProvider" /> のコンテンツを取得または設定します。</summary>
+      <returns>この <see cref="T:System.Net.Http.MultipartStreamProvider" /> のコンテンツ。</returns>
+    </member>
+    <member name="M:System.Net.Http.MultipartStreamProvider.ExecutePostProcessingAsync">
+      <summary>この <see cref="T:System.Net.Http.MultipartStreamProvider" /> の後処理操作を実行します。</summary>
+      <returns>この操作用の非同期タスク。</returns>
+    </member>
+    <member name="M:System.Net.Http.MultipartStreamProvider.ExecutePostProcessingAsync(System.Threading.CancellationToken)">
+      <summary>この <see cref="T:System.Net.Http.MultipartStreamProvider" /> の後処理操作を実行します。</summary>
+      <returns>この操作用の非同期タスク。</returns>
+      <param name="cancellationToken">操作をキャンセルするトークン。</param>
+    </member>
+    <member name="M:System.Net.Http.MultipartStreamProvider.GetStream(System.Net.Http.HttpContent,System.Net.Http.Headers.HttpContentHeaders)">
+      <summary>ボディ パーツの書き込み先であるストリームを取得します。MIME マルチパート ボディ パーツが解析されると、このメソッドが呼び出されます。</summary>
+      <returns>メッセージのボディ パーツが書き込まれる <see cref="T:System.IO.Stream" /> インスタンス。</returns>
+      <param name="parent">HTTP のコンテンツ。</param>
+      <param name="headers">ボディ パーツを記述するヘッダー フィールド。</param>
+    </member>
+    <member name="T:System.Net.Http.ObjectContent">
+      <summary> 値の他に、このコンテンツの書き込み時に値のシリアル化に使用する関連付けられた <see cref="T:System.Net.Http.Formatting.MediaTypeFormatter" /> を含みます。</summary>
+    </member>
+    <member name="M:System.Net.Http.ObjectContent.#ctor(System.Type,System.Object,System.Net.Http.Formatting.MediaTypeFormatter)">
+      <summary>
+        <see cref="T:System.Net.Http.ObjectContent" /> クラスの新しいインスタンスを初期化します。</summary>
+      <param name="type">このインスタンスが格納するオブジェクトの型。</param>
+      <param name="value">このインスタンスが格納するオブジェクトの値。</param>
+      <param name="formatter">値をシリアル化するときに使用するフォーマッタ。</param>
+    </member>
+    <member name="M:System.Net.Http.ObjectContent.#ctor(System.Type,System.Object,System.Net.Http.Formatting.MediaTypeFormatter,System.Net.Http.Headers.MediaTypeHeaderValue)">
+      <summary>
+        <see cref="T:System.Net.Http.ObjectContent" /> クラスの新しいインスタンスを初期化します。</summary>
+      <param name="type">このインスタンスが格納するオブジェクトの型。</param>
+      <param name="value">このインスタンスが格納するオブジェクトの値。</param>
+      <param name="formatter">値をシリアル化するときに使用するフォーマッタ。</param>
+      <param name="mediaType">Content-Type ヘッダーの優先する値。null にすることができます。null の場合、フォーマッタの既定のコンテンツ タイプが使用されます。</param>
+    </member>
+    <member name="M:System.Net.Http.ObjectContent.#ctor(System.Type,System.Object,System.Net.Http.Formatting.MediaTypeFormatter,System.String)">
+      <summary>
+        <see cref="T:System.Net.Http.ObjectContent" /> クラスの新しいインスタンスを初期化します。</summary>
+      <param name="type">このインスタンスが格納するオブジェクトの型。</param>
+      <param name="value">このインスタンスが格納するオブジェクトの値。</param>
+      <param name="formatter">値をシリアル化するときに使用するフォーマッタ。</param>
+      <param name="mediaType">Content-Type ヘッダーの優先する値。</param>
+    </member>
+    <member name="P:System.Net.Http.ObjectContent.Formatter">
+      <summary>このコンテンツ インスタンスに関連付けられたメディアの種類のフォーマッタを取得します。</summary>
+      <returns>このコンテンツ インスタンスに関連付けられたメディア タイプ フォーマッタ。</returns>
+    </member>
+    <member name="P:System.Net.Http.ObjectContent.ObjectType">
+      <summary>この <see cref="T:System.Net.Http.ObjectContent" /> インスタンスによって管理されるオブジェクトの型を取得します。</summary>
+      <returns>オブジェクトの型。</returns>
+    </member>
+    <member name="M:System.Net.Http.ObjectContent.SerializeToStreamAsync(System.IO.Stream,System.Net.TransportContext)">
+      <summary>オブジェクトのコンテンツを指定されたストリームに非同期にシリアル化します。</summary>
+      <returns>非同期操作を表すタスク オブジェクト。</returns>
+      <param name="stream">書き込み先のストリーム。</param>
+      <param name="context">関連付けられた <see cref="T:System.Net.TransportContext" />。</param>
+    </member>
+    <member name="M:System.Net.Http.ObjectContent.TryComputeLength(System.Int64@)">
+      <summary>可能であればストリームの長さを計算します。</summary>
+      <returns>長さが計算された場合は true。それ以外の場合は false。</returns>
+      <param name="length">計算されたストリームの長さを取得します。</param>
+    </member>
+    <member name="P:System.Net.Http.ObjectContent.Value">
+      <summary>コンテンツの値を取得または設定します。</summary>
+      <returns>コンテンツの値。</returns>
+    </member>
+    <member name="T:System.Net.Http.ObjectContent`1">
+      <summary> ジェネリック形式の <see cref="T:System.Net.Http.ObjectContent" />。</summary>
+      <typeparam name="T">このクラスが格納するオブジェクトの型。</typeparam>
+    </member>
+    <member name="M:System.Net.Http.ObjectContent`1.#ctor(`0,System.Net.Http.Formatting.MediaTypeFormatter)">
+      <summary>
+        <see cref="T:System.Net.Http.ObjectContent`1" /> クラスの新しいインスタンスを初期化します。</summary>
+      <param name="value">このインスタンスが格納するオブジェクトの値。</param>
+      <param name="formatter">値をシリアル化するときに使用するフォーマッタ。</param>
+    </member>
+    <member name="M:System.Net.Http.ObjectContent`1.#ctor(`0,System.Net.Http.Formatting.MediaTypeFormatter,System.Net.Http.Headers.MediaTypeHeaderValue)">
+      <summary> &lt;see cref="T:System.Net.Http.ObjectContent`1" /&gt; クラスの新しいインスタンスを初期化します。</summary>
+      <param name="value">このインスタンスが格納するオブジェクトの値。</param>
+      <param name="formatter">値をシリアル化するときに使用するフォーマッタ。</param>
+      <param name="mediaType">Content-Type ヘッダーの優先する値。null にすることができます。null の場合、フォーマッタの既定のコンテンツ タイプが使用されます。</param>
+    </member>
+    <member name="M:System.Net.Http.ObjectContent`1.#ctor(`0,System.Net.Http.Formatting.MediaTypeFormatter,System.String)">
+      <summary>
+        <see cref="T:System.Net.Http.ObjectContent`1" /> クラスの新しいインスタンスを初期化します。</summary>
+      <param name="value">このインスタンスが格納するオブジェクトの値。</param>
+      <param name="formatter">値をシリアル化するときに使用するフォーマッタ。</param>
+      <param name="mediaType">Content-Type ヘッダーの優先する値。</param>
+    </member>
+    <member name="T:System.Net.Http.PushStreamContent">
+      <summary>データ プロデューサーがストリームを使用して直接 (同期または非同期で) 書き込みを行う必要があるシナリオを有効にします。</summary>
+    </member>
+    <member name="M:System.Net.Http.PushStreamContent.#ctor(System.Action{System.IO.Stream,System.Net.Http.HttpContent,System.Net.TransportContext})">
+      <summary>
+        <see cref="T:System.Net.Http.PushStreamContent" /> クラスの新しいインスタンスを初期化します。</summary>
+      <param name="onStreamAvailable">アクションで直接書き込むことができる出力ストリームを使用可能に場合に呼び出されるアクション。</param>
+    </member>
+    <member name="M:System.Net.Http.PushStreamContent.#ctor(System.Action{System.IO.Stream,System.Net.Http.HttpContent,System.Net.TransportContext},System.Net.Http.Headers.MediaTypeHeaderValue)">
+      <summary>
+        <see cref="T:System.Net.Http.PushStreamContent" /> クラスの新しいインスタンスを初期化します。</summary>
+      <param name="onStreamAvailable">アクションで直接書き込むことができる出力ストリームを使用可能に場合に呼び出されるアクション。</param>
+      <param name="mediaType">メディアの種類。</param>
+    </member>
+    <member name="M:System.Net.Http.PushStreamContent.#ctor(System.Action{System.IO.Stream,System.Net.Http.HttpContent,System.Net.TransportContext},System.String)">
+      <summary>
+        <see cref="T:System.Net.Http.PushStreamContent" /> クラスの新しいインスタンスを初期化します。</summary>
+      <param name="onStreamAvailable">アクションで直接書き込むことができる出力ストリームを使用可能に場合に呼び出されるアクション。</param>
+      <param name="mediaType">メディアの種類。</param>
+    </member>
+    <member name="M:System.Net.Http.PushStreamContent.#ctor(System.Func{System.IO.Stream,System.Net.Http.HttpContent,System.Net.TransportContext,System.Threading.Tasks.Task})">
+      <summary>
+        <see cref="T:System.Net.Http.PushStreamContent" /> クラスの新しいインスタンスを初期化します。</summary>
+      <param name="onStreamAvailable">アクションで直接書き込むことができる出力ストリームを使用可能に場合に呼び出されるアクション。</param>
+    </member>
+    <member name="M:System.Net.Http.PushStreamContent.#ctor(System.Func{System.IO.Stream,System.Net.Http.HttpContent,System.Net.TransportContext,System.Threading.Tasks.Task},System.Net.Http.Headers.MediaTypeHeaderValue)">
+      <summary>
+        <see cref="T:System.Net.Http.PushStreamContent" /> クラスの新しいインスタンスを初期化します。</summary>
+      <param name="onStreamAvailable">アクションで直接書き込むことができる出力ストリームを使用可能に場合に呼び出されるアクション。</param>
+      <param name="mediaType">メディアの種類。</param>
+    </member>
+    <member name="M:System.Net.Http.PushStreamContent.#ctor(System.Func{System.IO.Stream,System.Net.Http.HttpContent,System.Net.TransportContext,System.Threading.Tasks.Task},System.String)">
+      <summary>
+        <see cref="T:System.Net.Http.PushStreamContent" /> クラスの新しいインスタンスを初期化します。</summary>
+      <param name="onStreamAvailable">アクションで直接書き込むことができる出力ストリームを使用可能に場合に呼び出されるアクション。</param>
+      <param name="mediaType">メディアの種類。</param>
+    </member>
+    <member name="M:System.Net.Http.PushStreamContent.SerializeToStreamAsync(System.IO.Stream,System.Net.TransportContext)">
+      <summary>ストリームへのプッシュ コンテンツを非同期にシリアル化します。</summary>
+      <returns>シリアル化されるプッシュ コンテンツ。</returns>
+      <param name="stream">プッシュ コンテンツがシリアル化されるストリーム。</param>
+      <param name="context">コンテキスト。</param>
+    </member>
+    <member name="M:System.Net.Http.PushStreamContent.TryComputeLength(System.Int64@)">
+      <summary>ストリーム コンテンツの長さがバイト単位で有効であるかどうかを確認します。</summary>
+      <returns>長さが有効である場合は true。それ以外の場合は false。</returns>
+      <param name="length">ストリーム コンテンツの長さ (バイト単位)。</param>
+    </member>
+    <member name="T:System.Net.Http.RemoteStreamInfo">
+      <summary>
+        <see cref="M:System.Net.Http.MultipartFormDataRemoteStreamProvider.GetRemoteStream(System.Net.Http.HttpContent,System.Net.Http.Headers.HttpContentHeaders)" /> の結果を表します。</summary>
+    </member>
+    <member name="M:System.Net.Http.RemoteStreamInfo.#ctor(System.IO.Stream,System.String,System.String)">
+      <summary>
+        <see cref="T:System.Net.Http.RemoteStreamInfo" /> クラスの新しいインスタンスを初期化します。</summary>
+      <param name="remoteStream">ファイルが書き込まれるリモート ストリーム インスタンス。</param>
+      <param name="location">リモート ファイルの場所。</param>
+      <param name="fileName">リモート ファイルの名前。</param>
+    </member>
+    <member name="P:System.Net.Http.RemoteStreamInfo.FileName">
+      <summary>リモート ファイルの場所を取得します。</summary>
+    </member>
+    <member name="P:System.Net.Http.RemoteStreamInfo.Location">
+      <summary>リモート ファイルの場所を取得します。</summary>
+    </member>
+    <member name="P:System.Net.Http.RemoteStreamInfo.RemoteStream">
+      <summary>ファイルが書き込まれるリモート ストリーム インスタンスを取得します。</summary>
+    </member>
+    <member name="T:System.Net.Http.UnsupportedMediaTypeException">
+      <summary> 要求のメディアの種類がサポートされていないことの通知の例外の種類を定義します。</summary>
+    </member>
+    <member name="M:System.Net.Http.UnsupportedMediaTypeException.#ctor(System.String,System.Net.Http.Headers.MediaTypeHeaderValue)">
+      <summary>
+        <see cref="T:System.Net.Http.UnsupportedMediaTypeException" /> クラスの新しいインスタンスを初期化します。</summary>
+      <param name="message">エラーを説明するメッセージ。</param>
+      <param name="mediaType">サポートされていないメディアの種類。</param>
+    </member>
+    <member name="P:System.Net.Http.UnsupportedMediaTypeException.MediaType">
+      <summary>メディアの種類を取得または設定します。</summary>
+      <returns>メディアの種類。</returns>
+    </member>
+    <member name="T:System.Net.Http.UriExtensions">
+      <summary>厳密に型指定されたオブジェクトを <see cref="T:System.Uri" /> インスタンスのクエリ コンポーネントから読み取ることができるようにする拡張メソッドを格納します。</summary>
+    </member>
+    <member name="M:System.Net.Http.UriExtensions.ParseQueryString(System.Uri)">
+      <summary>指定された URI のクエリ部分を解析します。</summary>
+      <returns>クエリ パラメーターが含まれる <see cref="T:System.Collections.Specialized.NameValueCollection" />。</returns>
+      <param name="address">解析する URI。</param>
+    </member>
+    <member name="M:System.Net.Http.UriExtensions.TryReadQueryAs(System.Uri,System.Type,System.Object@)">
+      <summary>URI クエリ文字列に指定された URL エンコード データを、指定された型のオブジェクトとして読み取ります。</summary>
+      <returns>URL のクエリ コンポーネントを指定された型として読み取ることができる場合は true。それ以外の場合は false。</returns>
+      <param name="address">読み取る URI。</param>
+      <param name="type">読み取るオブジェクトの型。</param>
+      <param name="value">このメソッドで戻り値の処理が行われた場合、URL のクエリ コンポーネントから初期化されたオブジェクトが格納されています。このパラメーターは未初期化として扱われます。</param>
+    </member>
+    <member name="M:System.Net.Http.UriExtensions.TryReadQueryAs``1(System.Uri,``0@)">
+      <summary>URI クエリ文字列に指定された URL エンコード データを、指定された型のオブジェクトとして読み取ります。</summary>
+      <returns>URL のクエリ コンポーネントを指定された型として読み取ることができる場合は true。それ以外の場合は false。</returns>
+      <param name="address">読み取る URI。</param>
+      <param name="value">このメソッドで戻り値の処理が行われた場合、URL のクエリ コンポーネントから初期化されたオブジェクトが格納されています。このパラメーターは未初期化として扱われます。</param>
+      <typeparam name="T">読み取るオブジェクトの型。</typeparam>
+    </member>
+    <member name="M:System.Net.Http.UriExtensions.TryReadQueryAsJson(System.Uri,Newtonsoft.Json.Linq.JObject@)">
+      <summary>
+        <see cref="T:System.Uri" /> クエリ コンポーネントで <see cref="T:Newtonsoft.Json.Linq.JObject" /> オブジェクトとして指定された、HTML フォームの URL エンコードされたデータを読み取ります。</summary>
+      <returns>  クエリ コンポーネントを <see cref="T:Newtonsoft.Json.Linq.JObject" /> として読み取ることができる場合は true。それ以外の場合は false。</returns>
+      <param name="address">読み取り元の <see cref="T:System.Uri" /> インスタンス。</param>
+      <param name="value">このインスタンスで初期化されるオブジェクト。変換できなかった場合は null。</param>
+    </member>
+    <member name="T:System.Net.Http.Formatting.BaseJsonMediaTypeFormatter">
+      <summary>Bson と Json をサポートするメディア タイプ フォーマッタの抽象クラス。</summary>
+    </member>
+    <member name="M:System.Net.Http.Formatting.BaseJsonMediaTypeFormatter.#ctor">
+      <summary>
+        <see cref="T:System.Net.Http.Formatting.BaseJsonMediaTypeFormatter" /> クラスの新しいインスタンスを初期化します。</summary>
+    </member>
+    <member name="M:System.Net.Http.Formatting.BaseJsonMediaTypeFormatter.#ctor(System.Net.Http.Formatting.BaseJsonMediaTypeFormatter)">
+      <summary>
+        <see cref="T:System.Net.Http.Formatting.BaseJsonMediaTypeFormatter" /> クラスの新しいインスタンスを初期化します。</summary>
+      <param name="formatter">設定のコピー元の <see cref="T:System.Net.Http.Formatting.BaseJsonMediaTypeFormatter" /> インスタンス。</param>
+    </member>
+    <member name="M:System.Net.Http.Formatting.BaseJsonMediaTypeFormatter.CanReadType(System.Type)">
+      <summary>このフォーマッタで指定されたタイプのオブジェクトを閲覧できるかどうかを決定します。</summary>
+      <returns>このタイプのオブジェクトを閲覧できる場合は true、それ以外の場合は false。</returns>
+      <param name="type">読み込まれるオブジェクトの型。</param>
+    </member>
+    <member name="M:System.Net.Http.Formatting.BaseJsonMediaTypeFormatter.CanWriteType(System.Type)">
+      <summary>このフォーマッタで指定されたタイプのオブジェクトを書き込めるかどうかを決定します。</summary>
+      <returns>このタイプのオブジェクトを書き込める場合は true、それ以外の場合は false。</returns>
+      <param name="type">書き込むオブジェクトの型。</param>
+    </member>
+    <member name="M:System.Net.Http.Formatting.BaseJsonMediaTypeFormatter.CreateDefaultSerializerSettings">
+      <summary>
+        <see cref="T:System.Net.Http.Formatting.BaseJsonMediaTypeFormatter" /> で使用される既定の設定を使用して <see cref="T:Newtonsoft.Json.JsonSerializerSettings" /> インスタンスを作成します。</summary>
+      <returns>
+        <see cref="T:Newtonsoft.Json.JsonSerializerSettings" /> を返します。</returns>
+    </member>
+    <member name="M:System.Net.Http.Formatting.BaseJsonMediaTypeFormatter.CreateJsonReader(System.Type,System.IO.Stream,System.Text.Encoding)">
+      <summary>
+        <see cref="T:Newtonsoft.Json.JsonReader" /> を取得するため、逆シリアル化中に呼び出されます。</summary>
+      <returns>逆シリアル化中に使用するリーダー。</returns>
+      <param name="type">読み取るオブジェクトの型。</param>
+      <param name="readStream">読み取り元のストリーム。</param>
+      <param name="effectiveEncoding">閲覧時に使用するエンコード。</param>
+    </member>
+    <member name="M:System.Net.Http.Formatting.BaseJsonMediaTypeFormatter.CreateJsonSerializer">
+      <summary>
+        <see cref="T:Newtonsoft.Json.JsonSerializer" /> を取得するため、シリアル化および逆シリアル化中に呼び出されます。</summary>
+      <returns>シリアル化および逆シリアル化中に使用される JsonSerializer。</returns>
+    </member>
+    <member name="M:System.Net.Http.Formatting.BaseJsonMediaTypeFormatter.CreateJsonWriter(System.Type,System.IO.Stream,System.Text.Encoding)">
+      <summary>
+        <see cref="T:Newtonsoft.Json.JsonWriter" /> を取得するため、シリアル化中に呼び出されます。</summary>
+      <returns>シリアル化中に使用するライター。</returns>
+      <param name="type">書き込むオブジェクトの型。</param>
+      <param name="writeStream">書き込み先のストリーム。</param>
+      <param name="effectiveEncoding">書き込み時に使用するエンコード。</param>
+    </member>
+    <member name="P:System.Net.Http.Formatting.BaseJsonMediaTypeFormatter.MaxDepth">
+      <summary>このフォーマッタで許可されている最大の深さを取得または設定します。</summary>
+      <returns>このフォーマッタで許可されている最大の深さ。</returns>
+    </member>
+    <member name="M:System.Net.Http.Formatting.BaseJsonMediaTypeFormatter.ReadFromStream(System.Type,System.IO.Stream,System.Text.Encoding,System.Net.Http.Formatting.IFormatterLogger)">
+      <summary>指定されたストリームから指定された種類のオブジェクトを閲覧するため、逆シリアル化中に呼び出されます。</summary>
+      <returns>閲覧したオブジェクト。</returns>
+      <param name="type">読み取るオブジェクトの型。</param>
+      <param name="readStream">読み取り元のストリーム。</param>
+      <param name="effectiveEncoding">閲覧時に使用するエンコード。</param>
+      <param name="formatterLogger">イベントをログするロガー。</param>
+    </member>
+    <member name="M:System.Net.Http.Formatting.BaseJsonMediaTypeFormatter.ReadFromStreamAsync(System.Type,System.IO.Stream,System.Net.Http.HttpContent,System.Net.Http.Formatting.IFormatterLogger)">
+      <summary>指定されたストリームから指定された種類のオブジェクトを閲覧するため、逆シリアル化中に呼び出されます。</summary>
+      <returns>結果が閲覧済みのオブジェクト インスタンスになるタスク。</returns>
+      <param name="type">読み取るオブジェクトの型。</param>
+      <param name="readStream">読み取り元のストリーム。</param>
+      <param name="content">読み取りされるコンテンツの <see cref="T:System.Net.Http.HttpContent" />。</param>
+      <param name="formatterLogger">イベントをログするロガー。</param>
+    </member>
+    <member name="P:System.Net.Http.Formatting.BaseJsonMediaTypeFormatter.SerializerSettings">
+      <summary>JsonSerializer の構成に使用する JsonSerializerSettings を取得または設定します。</summary>
+      <returns>JsonSerializer の構成に使用する JsonSerializerSettings。</returns>
+    </member>
+    <member name="M:System.Net.Http.Formatting.BaseJsonMediaTypeFormatter.WriteToStream(System.Type,System.Object,System.IO.Stream,System.Text.Encoding)">
+      <summary>指定されたストリームに指定された種類のオブジェクトを書き込むするため、シリアル化中に呼び出されます。</summary>
+      <param name="type">書き込むオブジェクトの型。</param>
+      <param name="value">書き込むオブジェクト。</param>
+      <param name="writeStream">書き込み先のストリーム。</param>
+      <param name="effectiveEncoding">書き込み時に使用するエンコード。</param>
+    </member>
+    <member name="M:System.Net.Http.Formatting.BaseJsonMediaTypeFormatter.WriteToStreamAsync(System.Type,System.Object,System.IO.Stream,System.Net.Http.HttpContent,System.Net.TransportContext,System.Threading.CancellationToken)">
+      <summary>指定されたストリームに指定された種類のオブジェクトを書き込むするため、シリアル化中に呼び出されます。</summary>
+      <returns>
+        <see cref="T:System.Threading.Tasks.Task" /> を返します。</returns>
+      <param name="type">書き込むオブジェクトの型。</param>
+      <param name="value">書き込むオブジェクト。</param>
+      <param name="writeStream">書き込み先のストリーム。</param>
+      <param name="content">書き込まれるコンテンツの <see cref="T:System.Net.Http.HttpContent" />。</param>
+      <param name="transportContext">トランスポート コンテキスト。</param>
+      <param name="cancellationToken">キャンセルを監視するトークン。</param>
+    </member>
+    <member name="T:System.Net.Http.Formatting.BsonMediaTypeFormatter">
+      <summary>Bson を扱うメディア タイプ フォーマッタを表します。</summary>
+    </member>
+    <member name="M:System.Net.Http.Formatting.BsonMediaTypeFormatter.#ctor">
+      <summary>
+        <see cref="T:System.Net.Http.Formatting.BsonMediaTypeFormatter" /> クラスの新しいインスタンスを初期化します。</summary>
+    </member>
+    <member name="M:System.Net.Http.Formatting.BsonMediaTypeFormatter.#ctor(System.Net.Http.Formatting.BsonMediaTypeFormatter)">
+      <summary>
+        <see cref="T:System.Net.Http.Formatting.BsonMediaTypeFormatter" /> クラスの新しいインスタンスを初期化します。</summary>
+      <param name="formatter">設定のコピー元のフォーマッタ。</param>
+    </member>
+    <member name="M:System.Net.Http.Formatting.BsonMediaTypeFormatter.CreateJsonReader(System.Type,System.IO.Stream,System.Text.Encoding)">
+      <summary>
+        <see cref="T:Newtonsoft.Json.JsonReader" /> を取得するため、逆シリアル化中に呼び出されます。</summary>
+      <returns>逆シリアル化中に使用するリーダー。</returns>
+      <param name="type">読み取るオブジェクトの型。</param>
+      <param name="readStream">読み取り元のストリーム。</param>
+      <param name="effectiveEncoding">閲覧時に使用するエンコード。</param>
+    </member>
+    <member name="M:System.Net.Http.Formatting.BsonMediaTypeFormatter.CreateJsonWriter(System.Type,System.IO.Stream,System.Text.Encoding)">
+      <summary>
+        <see cref="T:Newtonsoft.Json.JsonWriter" /> を取得するため、シリアル化中に呼び出されます。</summary>
+      <returns>シリアル化中に使用するライター。</returns>
+      <param name="type">書き込むオブジェクトの型。</param>
+      <param name="writeStream">書き込み先のストリーム。</param>
+      <param name="effectiveEncoding">書き込み時に使用するエンコード。</param>
+    </member>
+    <member name="P:System.Net.Http.Formatting.BsonMediaTypeFormatter.DefaultMediaType">
+      <summary>「application/bson」という名前の Json の既定のメディア タイプを取得します。</summary>
+      <returns>「application/bson」という名前の Json の既定のメディア タイプ。</returns>
+    </member>
+    <member name="P:System.Net.Http.Formatting.BsonMediaTypeFormatter.MaxDepth">
+      <summary>このフォーマッタで許可されている最大の深さを取得または設定します。</summary>
+      <returns>このフォーマッタで許可されている最大の深さ。</returns>
+    </member>
+    <member name="M:System.Net.Http.Formatting.BsonMediaTypeFormatter.ReadFromStream(System.Type,System.IO.Stream,System.Text.Encoding,System.Net.Http.Formatting.IFormatterLogger)">
+      <summary>指定されたストリームから指定された種類のオブジェクトを閲覧するため、逆シリアル化中に呼び出されます。</summary>
+      <returns>閲覧したオブジェクト。</returns>
+      <param name="type">読み取るオブジェクトの型。</param>
+      <param name="readStream">読み取り元のストリーム。</param>
+      <param name="effectiveEncoding">閲覧時に使用するエンコード。</param>
+      <param name="formatterLogger">イベントをログするロガー。</param>
+    </member>
+    <member name="M:System.Net.Http.Formatting.BsonMediaTypeFormatter.ReadFromStreamAsync(System.Type,System.IO.Stream,System.Net.Http.HttpContent,System.Net.Http.Formatting.IFormatterLogger)">
+      <summary>指定されたストリームから指定された種類のオブジェクトを閲覧するため、逆シリアル化中に呼び出されます。</summary>
+      <returns>結果が閲覧済みのオブジェクト インスタンスになるタスク。</returns>
+      <param name="type">読み取るオブジェクトの型。</param>
+      <param name="readStream">読み取り元のストリーム。</param>
+      <param name="content">読み取りされるコンテンツの <see cref="T:System.Net.Http.HttpContent" />。</param>
+      <param name="formatterLogger">イベントをログするロガー。</param>
+    </member>
+    <member name="M:System.Net.Http.Formatting.BsonMediaTypeFormatter.WriteToStream(System.Type,System.Object,System.IO.Stream,System.Text.Encoding)">
+      <summary>指定されたストリームに指定された種類のオブジェクトを書き込むするため、シリアル化中に呼び出されます。</summary>
+      <param name="type">書き込むオブジェクトの型。</param>
+      <param name="value">書き込むオブジェクト。</param>
+      <param name="writeStream">書き込み先のストリーム。</param>
+      <param name="effectiveEncoding">書き込み時に使用するエンコード。</param>
+    </member>
+    <member name="T:System.Net.Http.Formatting.BufferedMediaTypeFormatter">
+      <summary>非同期フォーマッタ インフラストラクチャ上で同期フォーマッタを許可するヘルパー クラスを表します。</summary>
+    </member>
+    <member name="M:System.Net.Http.Formatting.BufferedMediaTypeFormatter.#ctor">
+      <summary>
+        <see cref="T:System.Net.Http.Formatting.BufferedMediaTypeFormatter" /> クラスの新しいインスタンスを初期化します。</summary>
+    </member>
+    <member name="M:System.Net.Http.Formatting.BufferedMediaTypeFormatter.#ctor(System.Net.Http.Formatting.BufferedMediaTypeFormatter)">
+      <summary>
+        <see cref="T:System.Net.Http.Formatting.BufferedMediaTypeFormatter" /> クラスの新しいインスタンスを初期化します。</summary>
+      <param name="formatter">設定のコピー元の <see cref="T:System.Net.Http.Formatting.BufferedMediaTypeFormatter" /> インスタンス。</param>
+    </member>
+    <member name="P:System.Net.Http.Formatting.BufferedMediaTypeFormatter.BufferSize">
+      <summary>ストリームで使用するバッファーの推奨サイズ (バイト単位) を取得または設定します。</summary>
+      <returns>ストリームで使用するバッファーの推奨サイズ (バイト単位)。</returns>
+    </member>
+    <member name="M:System.Net.Http.Formatting.BufferedMediaTypeFormatter.ReadFromStream(System.Type,System.IO.Stream,System.Net.Http.HttpContent,System.Net.Http.Formatting.IFormatterLogger)">
+      <summary>バッファー済みストリームから同期で読み取ります。</summary>
+      <returns>指定された <paramref name="type" /> のオブジェクト。</returns>
+      <param name="type">逆シリアル化するオブジェクトの型。</param>
+      <param name="readStream">読み取り元のストリーム。</param>
+      <param name="content">使用可能な場合は <see cref="T:System.Net.Http.HttpContent" />。null にすることができます。</param>
+      <param name="formatterLogger">イベントを記録する <see cref="T:System.Net.Http.Formatting.IFormatterLogger" />。</param>
+    </member>
+    <member name="M:System.Net.Http.Formatting.BufferedMediaTypeFormatter.ReadFromStream(System.Type,System.IO.Stream,System.Net.Http.HttpContent,System.Net.Http.Formatting.IFormatterLogger,System.Threading.CancellationToken)">
+      <summary>バッファー済みストリームから同期で読み取ります。</summary>
+      <returns>指定された <paramref name="type" /> のオブジェクト。</returns>
+      <param name="type">逆シリアル化するオブジェクトの型。</param>
+      <param name="readStream">読み取り元のストリーム。</param>
+      <param name="content">使用可能な場合は <see cref="T:System.Net.Http.HttpContent" />。null にすることができます。</param>
+      <param name="formatterLogger">イベントを記録する <see cref="T:System.Net.Http.Formatting.IFormatterLogger" />。</param>
+      <param name="cancellationToken">操作をキャンセルするトークン。</param>
+    </member>
+    <member name="M:System.Net.Http.Formatting.BufferedMediaTypeFormatter.ReadFromStreamAsync(System.Type,System.IO.Stream,System.Net.Http.HttpContent,System.Net.Http.Formatting.IFormatterLogger)">
+      <summary>バッファー済みストリームから非同期で読み取ります。</summary>
+      <returns>非同期操作を表すタスク オブジェクト。</returns>
+      <param name="type">逆シリアル化するオブジェクトの型。</param>
+      <param name="readStream">読み取り元のストリーム。</param>
+      <param name="content">使用可能な場合は <see cref="T:System.Net.Http.HttpContent" />。null にすることができます。</param>
+      <param name="formatterLogger">イベントを記録する <see cref="T:System.Net.Http.Formatting.IFormatterLogger" />。</param>
+    </member>
+    <member name="M:System.Net.Http.Formatting.BufferedMediaTypeFormatter.ReadFromStreamAsync(System.Type,System.IO.Stream,System.Net.Http.HttpContent,System.Net.Http.Formatting.IFormatterLogger,System.Threading.CancellationToken)">
+      <summary>バッファー済みストリームから非同期で読み取ります。</summary>
+      <returns>非同期操作を表すタスク オブジェクト。</returns>
+      <param name="type">逆シリアル化するオブジェクトの型。</param>
+      <param name="readStream">読み取り元のストリーム。</param>
+      <param name="content">使用可能な場合は <see cref="T:System.Net.Http.HttpContent" />。null にすることができます。</param>
+      <param name="formatterLogger">イベントを記録する <see cref="T:System.Net.Http.Formatting.IFormatterLogger" />。</param>
+      <param name="cancellationToken">操作をキャンセルするトークン。</param>
+    </member>
+    <member name="M:System.Net.Http.Formatting.BufferedMediaTypeFormatter.WriteToStream(System.Type,System.Object,System.IO.Stream,System.Net.Http.HttpContent)">
+      <summary>バッファー済みストリームに同期で書き込みます。</summary>
+      <param name="type">シリアル化するオブジェクトの型。</param>
+      <param name="value">書き込むオブジェクトの値。null にすることができます。</param>
+      <param name="writeStream">書き込み先のストリーム。</param>
+      <param name="content">使用可能な場合は <see cref="T:System.Net.Http.HttpContent" />。null にすることができます。</param>
+    </member>
+    <member name="M:System.Net.Http.Formatting.BufferedMediaTypeFormatter.WriteToStream(System.Type,System.Object,System.IO.Stream,System.Net.Http.HttpContent,System.Threading.CancellationToken)">
+      <summary>バッファー済みストリームに同期で書き込みます。</summary>
+      <param name="type">シリアル化するオブジェクトの型。</param>
+      <param name="value">書き込むオブジェクトの値。null にすることができます。</param>
+      <param name="writeStream">書き込み先のストリーム。</param>
+      <param name="content">使用可能な場合は <see cref="T:System.Net.Http.HttpContent" />。null にすることができます。</param>
+      <param name="cancellationToken">操作をキャンセルするトークン。</param>
+    </member>
+    <member name="M:System.Net.Http.Formatting.BufferedMediaTypeFormatter.WriteToStreamAsync(System.Type,System.Object,System.IO.Stream,System.Net.Http.HttpContent,System.Net.TransportContext)">
+      <summary>バッファー済みストリームに非同期で書き込みます。</summary>
+      <returns>非同期操作を表すタスク オブジェクト。</returns>
+      <param name="type">シリアル化するオブジェクトの型。</param>
+      <param name="value">書き込むオブジェクトの値。null にすることができます。</param>
+      <param name="writeStream">書き込み先のストリーム。</param>
+      <param name="content">使用可能な場合は <see cref="T:System.Net.Http.HttpContent" />。null にすることができます。</param>
+      <param name="transportContext">トランスポート コンテキスト。</param>
+    </member>
+    <member name="M:System.Net.Http.Formatting.BufferedMediaTypeFormatter.WriteToStreamAsync(System.Type,System.Object,System.IO.Stream,System.Net.Http.HttpContent,System.Net.TransportContext,System.Threading.CancellationToken)">
+      <summary>バッファー済みストリームに非同期で書き込みます。</summary>
+      <returns>非同期操作を表すタスク オブジェクト。</returns>
+      <param name="type">シリアル化するオブジェクトの型。</param>
+      <param name="value">書き込むオブジェクトの値。null にすることができます。</param>
+      <param name="writeStream">書き込み先のストリーム。</param>
+      <param name="content">使用可能な場合は <see cref="T:System.Net.Http.HttpContent" />。null にすることができます。</param>
+      <param name="transportContext">トランスポート コンテキスト。</param>
+      <param name="cancellationToken">操作をキャンセルするトークン。</param>
+    </member>
+    <member name="T:System.Net.Http.Formatting.ContentNegotiationResult">
+      <summary> &lt;see cref="M:System.Net.Http.Formatting.IContentNegotiator.Negotiate(System.Type,System.Net.Http.HttpRequestMessage,System.Collections.Generic.IEnumerable{System.Net.Http.Formatting.MediaTypeFormatter})" /&gt; を使用して実行したコンテンツ ネゴシエーションの結果を表します。</summary>
+    </member>
+    <member name="M:System.Net.Http.Formatting.ContentNegotiationResult.#ctor(System.Net.Http.Formatting.MediaTypeFormatter,System.Net.Http.Headers.MediaTypeHeaderValue)">
+      <summary> コンテンツ ネゴシエーションの結果オブジェクトを作成します。</summary>
+      <param name="formatter">フォーマッタ。</param>
+      <param name="mediaType">推奨のメディアの種類。null にすることができます。</param>
+    </member>
+    <member name="P:System.Net.Http.Formatting.ContentNegotiationResult.Formatter">
+      <summary> シリアル化用に選択されたフォーマッタ。</summary>
+    </member>
+    <member name="P:System.Net.Http.Formatting.ContentNegotiationResult.MediaType">
+      <summary>シリアル化用に選択されたフォーマッタに関連付けられたメディアの種類。null にすることができます。</summary>
+    </member>
+    <member name="T:System.Net.Http.Formatting.DefaultContentNegotiator">
+      <summary>
+        <see cref="T:System.Net.Http.HttpRequestMessage" /> または <see cref="T:System.Net.Http.HttpResponseMessage" /> の <see cref="T:System.Net.Http.Formatting.MediaTypeFormatter" /> を選択するために使用される <see cref="T:System.Net.Http.Formatting.IContentNegotiator" /> の既定の実装。</summary>
+    </member>
+    <member name="M:System.Net.Http.Formatting.DefaultContentNegotiator.#ctor">
+      <summary>
+        <see cref="T:System.Net.Http.Formatting.DefaultContentNegotiator" /> クラスの新しいインスタンスを初期化します。</summary>
+    </member>
+    <member name="M:System.Net.Http.Formatting.DefaultContentNegotiator.#ctor(System.Boolean)">
+      <summary>
+        <see cref="T:System.Net.Http.Formatting.DefaultContentNegotiator" /> クラスの新しいインスタンスを初期化します。</summary>
+      <param name="excludeMatchOnTypeOnly">オブジェクトの型のみが一致するフォーマッタを除外する場合は true。それ以外の場合は false。</param>
+    </member>
+    <member name="M:System.Net.Http.Formatting.DefaultContentNegotiator.ComputeFormatterMatches(System.Type,System.Net.Http.HttpRequestMessage,System.Collections.Generic.IEnumerable{System.Net.Http.Formatting.MediaTypeFormatter})">
+      <summary>各フォーマッタが HTTP 要求に一致している度合いを判断します。</summary>
+      <returns>すべての一致を表す <see cref="T:System.Net.Http.Formatting.MediaTypeFormatterMatch" /> オブジェクトのコレクションを返します。</returns>
+      <param name="type">シリアル化される型。</param>
+      <param name="request">要求。</param>
+      <param name="formatters">選択対象の <see cref="T:System.Net.Http.Formatting.MediaTypeFormatter" /> オブジェクトのセット。</param>
+    </member>
+    <member name="P:System.Net.Http.Formatting.DefaultContentNegotiator.ExcludeMatchOnTypeOnly">
+      <summary>オブジェクトの型のみが一致するフォーマッタを除外する場合は true。それ以外の場合は false。</summary>
+      <returns>
+        <see cref="T:System.Boolean" /> を返します。</returns>
+    </member>
+    <member name="M:System.Net.Http.Formatting.DefaultContentNegotiator.MatchAcceptHeader(System.Collections.Generic.IEnumerable{System.Net.Http.Headers.MediaTypeWithQualityHeaderValue},System.Net.Http.Formatting.MediaTypeFormatter)">
+      <summary>一連の Accept ヘッダー フィールドを、フォーマッタでサポートされるメディアの種類と照合します。</summary>
+      <returns>一致の品質を示す <see cref="T:System.Net.Http.Formatting.MediaTypeFormatterMatch" /> オブジェクトを返します。一致が存在しない場合は null を返します。</returns>
+      <param name="sortedAcceptValues">q 要素の降順で並べ替えられた、Accept ヘッダー値の一覧。<see cref="M:System.Net.Http.Formatting.DefaultContentNegotiator.SortStringWithQualityHeaderValuesByQFactor(System.Collections.Generic.ICollection{System.Net.Http.Headers.StringWithQualityHeaderValue})" /> メッソドを呼び出すと、この一覧を作成できます。</param>
+      <param name="formatter">照合するフォーマッタ。</param>
+    </member>
+    <member name="M:System.Net.Http.Formatting.DefaultContentNegotiator.MatchMediaTypeMapping(System.Net.Http.HttpRequestMessage,System.Net.Http.Formatting.MediaTypeFormatter)">
+      <summary>要求を、メディアの種類のフォーマッタにある <see cref="T:System.Net.Http.Formatting.MediaTypeMapping" /> オブジェクトと照合します。</summary>
+      <returns>一致の品質を示す <see cref="T:System.Net.Http.Formatting.MediaTypeFormatterMatch" /> オブジェクトを返します。一致が存在しない場合は null を返します。</returns>
+      <param name="request">照合する要求。</param>
+      <param name="formatter">メディアの種類のフォーマッタ。</param>
+    </member>
+    <member name="M:System.Net.Http.Formatting.DefaultContentNegotiator.MatchRequestMediaType(System.Net.Http.HttpRequestMessage,System.Net.Http.Formatting.MediaTypeFormatter)">
+      <summary>要求のコンテンツの種類を、フォーマッタでサポートされるメディアの種類と照合します。</summary>
+      <returns>一致の品質を示す <see cref="T:System.Net.Http.Formatting.MediaTypeFormatterMatch" /> オブジェクトを返します。一致が存在しない場合は null を返します。</returns>
+      <param name="request">照合する要求。</param>
+      <param name="formatter">照合するフォーマッタ。</param>
+    </member>
+    <member name="M:System.Net.Http.Formatting.DefaultContentNegotiator.MatchType(System.Type,System.Net.Http.Formatting.MediaTypeFormatter)">
+      <summary>フォーマッタでサポートされている最初のメディアの種類を選択します。</summary>
+      <returns>
+        <see cref="P:System.Net.Http.Formatting.MediaTypeFormatterMatch.Ranking" /> が MatchOnCanWriteType に設定された <see cref="T:System.Net.Http.Formatting.MediaTypeFormatterMatch" /> を返します。一致が存在しない場合は null を返します。一致の品質を示す <see cref="T:System.Net.Http.Formatting.MediaTypeFormatterMatch" /> オブジェクトを返します。一致が存在しない場合は null を返します。</returns>
+      <param name="type">照合する型。</param>
+      <param name="formatter">照合するフォーマッタ。</param>
+    </member>
+    <member name="M:System.Net.Http.Formatting.DefaultContentNegotiator.Negotiate(System.Type,System.Net.Http.HttpRequestMessage,System.Collections.Generic.IEnumerable{System.Net.Http.Formatting.MediaTypeFormatter})">
+      <summary>指定された <paramref name="type" /> のオブジェクトをシリアル化できる、指定された <paramref name="request" /> について渡された <paramref name="formatters" /> の中で最も適切な <see cref="T:System.Net.Http.Formatting.MediaTypeFormatter" /> を選択して、コンテンツ ネゴシエーションを実行します。</summary>
+      <returns>最も適切な <see cref="T:System.Net.Http.Formatting.MediaTypeFormatter" /> インスタンスを格納するネゴシエーションの結果。適切なフォーマッタがない場合は null を返します。</returns>
+      <param name="type">シリアル化される型。</param>
+      <param name="request">要求。</param>
+      <param name="formatters">選択対象の <see cref="T:System.Net.Http.Formatting.MediaTypeFormatter" /> オブジェクトのセット。</param>
+    </member>
+    <member name="M:System.Net.Http.Formatting.DefaultContentNegotiator.SelectResponseCharacterEncoding(System.Net.Http.HttpRequestMessage,System.Net.Http.Formatting.MediaTypeFormatter)">
+      <summary>応答を書き込むために最適な文字エンコードを確認します。</summary>
+      <returns>最適な <see cref="T:System.Text.Encoding" /> を返します。</returns>
+      <param name="request">要求。</param>
+      <param name="formatter">選択されたメディアのフォーマッタ。</param>
+    </member>
+    <member name="M:System.Net.Http.Formatting.DefaultContentNegotiator.SelectResponseMediaTypeFormatter(System.Collections.Generic.ICollection{System.Net.Http.Formatting.MediaTypeFormatterMatch})">
+      <summary>見つかった一致候補で最適な一致を選択します。</summary>
+      <returns>最適である一致を表す <see cref="T:System.Net.Http.Formatting.MediaTypeFormatterMatch" /> オブジェクトを返します。</returns>
+      <param name="matches">一致のコレクション。</param>
+    </member>
+    <member name="M:System.Net.Http.Formatting.DefaultContentNegotiator.ShouldMatchOnType(System.Collections.Generic.IEnumerable{System.Net.Http.Headers.MediaTypeWithQualityHeaderValue})">
+      <summary> 種類が一致するかどうかを判定します。これは、要求内に一致するものがない場合に、406 応答を生成するか、または既定のメディア タイプ フォーマッタを使用するかを決定するために使用されます。ExcludeMatchOnTypeOnly が true の場合、Accept ヘッダーがない場合以外は、種類では一致しません。</summary>
+      <returns>ExcludeMatchOnTypeOnly ではなく、q-factor が 0.0 より大きい Accept ヘッダーが存在する場合は true。</returns>
+      <param name="sortedAcceptValues">照合する並べ替えられた Accept ヘッダー値。</param>
+    </member>
+    <member name="M:System.Net.Http.Formatting.DefaultContentNegotiator.SortMediaTypeWithQualityHeaderValuesByQFactor(System.Collections.Generic.ICollection{System.Net.Http.Headers.MediaTypeWithQualityHeaderValue})">
+      <summary>q 要素の降順で Accept ヘッダー値を並べ替えます。</summary>
+      <returns>MediaTypeWithQualityHeaderValue オブジェクトの並べ替えられた一覧を返します。</returns>
+      <param name="headerValues">ヘッダー フィールドを表す StringWithQualityHeaderValue オブジェクトのコレクション。</param>
+    </member>
+    <member name="M:System.Net.Http.Formatting.DefaultContentNegotiator.SortStringWithQualityHeaderValuesByQFactor(System.Collections.Generic.ICollection{System.Net.Http.Headers.StringWithQualityHeaderValue})">
+      <summary>q 要素の降順で、Accept-Charset、Accept-Encoding、Accept-Language または関連するヘッダー値の一覧を並べ替えます。</summary>
+      <returns>StringWithQualityHeaderValue オブジェクトの並べ替えられた一覧を返します。</returns>
+      <param name="headerValues">ヘッダー フィールドを表す StringWithQualityHeaderValue オブジェクトのコレクション。</param>
+    </member>
+    <member name="M:System.Net.Http.Formatting.DefaultContentNegotiator.UpdateBestMatch(System.Net.Http.Formatting.MediaTypeFormatterMatch,System.Net.Http.Formatting.MediaTypeFormatterMatch)">
+      <summary>特定の一致が現在の一致よりも適切であるかどうかを評価します。</summary>
+      <returns>
+        <see cref="T:System.Net.Http.Formatting.MediaTypeFormatterMatch" /> オブジェクトがより適切な一致である場合は常に戻り値を返します。</returns>
+      <param name="current">現在の一致。</param>
+      <param name="potentialReplacement">現在の一致に照らし合わせて評価する一致。</param>
+    </member>
+    <member name="T:System.Net.Http.Formatting.DelegatingEnumerable`1">
+      <summary> 具象実装を通じてデリゲートすることにより &lt;see cref="T:System.Collections.Generic.IEnumerable`1" /&gt; 型をシリアル化するヘルパー クラス。"/&amp;gt;.</summary>
+      <typeparam name="T">プロキシ処理用に実装するインターフェイス。</typeparam>
+    </member>
+    <member name="M:System.Net.Http.Formatting.DelegatingEnumerable`1.#ctor">
+      <summary>DelegatingEnumerable を初期化します。このコンストラクターは <see cref="T:System.Runtime.Serialization.DataContractSerializer" /> が機能するために必要です。</summary>
+    </member>
+    <member name="M:System.Net.Http.Formatting.DelegatingEnumerable`1.#ctor(System.Collections.Generic.IEnumerable{`0})">
+      <summary>&lt;see cref="T:System.Collections.Generic.IEnumerable`1" /&gt; の DelegatingEnumerable を初期化します。これは <see cref="T:System.Xml.Serialization.XmlSerializer" /> 用に &lt;see cref="T:System.Collections.Generic.IEnumerable`1" /&gt; インターフェイスをプロキシ処理するヘルパー クラスです。</summary>
+      <param name="source">列挙子の取得元となる &lt;see cref="T:System.Collections.Generic.IEnumerable`1" /&gt; インスタンス。</param>
+    </member>
+    <member name="M:System.Net.Http.Formatting.DelegatingEnumerable`1.Add(System.Object)">
+      <summary>このメソッドは実装されませんが、シリアル化が機能するために必要なメソッドです。使用しません。</summary>
+      <param name="item">追加する項目。未使用。</param>
+    </member>
+    <member name="M:System.Net.Http.Formatting.DelegatingEnumerable`1.GetEnumerator">
+      <summary> 関連付けられた &lt;see cref="T:System.Collections.Generic.IEnumerable`1" /&gt; の列挙子を取得します。</summary>
+      <returns>&lt;see cref="T:System.Collections.Generic.IEnumerable`1" /&gt; ソースの列挙子。</returns>
+    </member>
+    <member name="M:System.Net.Http.Formatting.DelegatingEnumerable`1.System#Collections#IEnumerable#GetEnumerator">
+      <summary> 関連付けられた &lt;see cref="T:System.Collections.Generic.IEnumerable`1" /&gt; の列挙子を取得します。</summary>
+      <returns>&lt;see cref="T:System.Collections.Generic.IEnumerable`1" /&gt; ソースの列挙子。</returns>
+    </member>
+    <member name="T:System.Net.Http.Formatting.FormDataCollection">
+      <summary>フォーム データのコレクションを表します。</summary>
+    </member>
+    <member name="M:System.Net.Http.Formatting.FormDataCollection.#ctor(System.Collections.Generic.IEnumerable{System.Collections.Generic.KeyValuePair{System.String,System.String}})">
+      <summary>
+        <see cref="T:System.Net.Http.Formatting.FormDataCollection" /> クラスの新しいインスタンスを初期化します。</summary>
+      <param name="pairs">ペア。</param>
+    </member>
+    <member name="M:System.Net.Http.Formatting.FormDataCollection.#ctor(System.String)">
+      <summary>
+        <see cref="T:System.Net.Http.Formatting.FormDataCollection" /> クラスの新しいインスタンスを初期化します。</summary>
+      <param name="query">クエリ。</param>
+    </member>
+    <member name="M:System.Net.Http.Formatting.FormDataCollection.#ctor(System.Uri)">
+      <summary>
+        <see cref="T:System.Net.Http.Formatting.FormDataCollection" /> クラスの新しいインスタンスを初期化します。</summary>
+      <param name="uri">URI</param>
+    </member>
+    <member name="M:System.Net.Http.Formatting.FormDataCollection.Get(System.String)">
+      <summary>フォーム データのコレクションを取得します。</summary>
+      <returns>フォーム データのコレクション。</returns>
+      <param name="key">キー。</param>
+    </member>
+    <member name="M:System.Net.Http.Formatting.FormDataCollection.GetEnumerator">
+      <summary>コレクションを反復処理する列挙子を取得します。</summary>
+      <returns>コレクションを反復処理する列挙子。</returns>
+    </member>
+    <member name="M:System.Net.Http.Formatting.FormDataCollection.GetValues(System.String)">
+      <summary>フォーム データのコレクションの値を取得します。</summary>
+      <returns>フォーム データのコレクションの値。</returns>
+      <param name="key">キー。</param>
+    </member>
+    <member name="P:System.Net.Http.Formatting.FormDataCollection.Item(System.String)">
+      <summary>指定されたキーと関連付けられた値を取得します。複数の値がある場合、値は連結されます。</summary>
+      <returns>指定されたキーと関連付けられた値。複数の値がある場合、値は連結されます。</returns>
+    </member>
+    <member name="M:System.Net.Http.Formatting.FormDataCollection.ReadAsNameValueCollection">
+      <summary>フォーム データのコレクションを名前の値のコレクションとして読み取ります。</summary>
+      <returns>名前の値のコレクションとしてのフォーム データのコレクション。</returns>
+    </member>
+    <member name="M:System.Net.Http.Formatting.FormDataCollection.System#Collections#IEnumerable#GetEnumerator">
+      <summary>コレクションを反復処理する列挙子を取得します。</summary>
+      <returns>コレクションを反復処理する列挙子。</returns>
+    </member>
+    <member name="T:System.Net.Http.Formatting.FormUrlEncodedMediaTypeFormatter">
+      <summary>HTML フォームの URL エンコード データを処理する <see cref="T:System.Net.Http.Formatting.MediaTypeFormatter" /> クラス。application/x-www-form-urlencoded とも呼ばれます。</summary>
+    </member>
+    <member name="M:System.Net.Http.Formatting.FormUrlEncodedMediaTypeFormatter.#ctor">
+      <summary>
+        <see cref="T:System.Net.Http.Formatting.FormUrlEncodedMediaTypeFormatter" /> クラスの新しいインスタンスを初期化します。</summary>
+    </member>
+    <member name="M:System.Net.Http.Formatting.FormUrlEncodedMediaTypeFormatter.#ctor(System.Net.Http.Formatting.FormUrlEncodedMediaTypeFormatter)">
+      <summary>
+        <see cref="T:System.Net.Http.Formatting.FormUrlEncodedMediaTypeFormatter" /> クラスの新しいインスタンスを初期化します。</summary>
+      <param name="formatter">設定のコピー元の <see cref="T:System.Net.Http.Formatting.FormUrlEncodedMediaTypeFormatter" /> インスタンス。</param>
+    </member>
+    <member name="M:System.Net.Http.Formatting.FormUrlEncodedMediaTypeFormatter.CanReadType(System.Type)">
+      <summary>
+        <see cref="T:System.Net.Http.Formatting.FormUrlEncodedMediaTypeFormatter" /> が、指定された型のオブジェクトを逆シリアル化できるかどうかを照会します。</summary>
+      <returns>
+        <see cref="T:System.Net.Http.Formatting.FormUrlEncodedMediaTypeFormatter" /> が型を逆シリアル化できる場合は true。それ以外の場合は false。</returns>
+      <param name="type">逆シリアル化する型。</param>
+    </member>
+    <member name="M:System.Net.Http.Formatting.FormUrlEncodedMediaTypeFormatter.CanWriteType(System.Type)">
+      <summary>
+        <see cref="T:System.Net.Http.Formatting.FormUrlEncodedMediaTypeFormatter" /> が、指定された型のオブジェクトをシリアル化できるかどうかを照会します。</summary>
+      <returns>
+        <see cref="T:System.Net.Http.Formatting.FormUrlEncodedMediaTypeFormatter" /> が型をシリアル化できる場合は true。それ以外の場合は false。</returns>
+      <param name="type">シリアル化する型。</param>
+    </member>
+    <member name="P:System.Net.Http.Formatting.FormUrlEncodedMediaTypeFormatter.DefaultMediaType">
+      <summary>HTML フォームの URL エンコード データの既定のメディアの種類 (application/x-www-form-urlencoded) を取得します。</summary>
+      <returns>HTML フォームの URL エンコード データの既定のメディアの種類。</returns>
+    </member>
+    <member name="P:System.Net.Http.Formatting.FormUrlEncodedMediaTypeFormatter.MaxDepth">
+      <summary>このフォーマッタで許可されている最大の深さを取得または設定します。</summary>
+      <returns>最大の深さ。</returns>
+    </member>
+    <member name="P:System.Net.Http.Formatting.FormUrlEncodedMediaTypeFormatter.ReadBufferSize">
+      <summary>着信ストリームを読み取るときのバッファーのサイズを取得または設定します。</summary>
+      <returns>バッファーのサイズ。</returns>
+    </member>
+    <member name="M:System.Net.Http.Formatting.FormUrlEncodedMediaTypeFormatter.ReadFromStreamAsync(System.Type,System.IO.Stream,System.Net.Http.HttpContent,System.Net.Http.Formatting.IFormatterLogger)">
+      <summary> 指定した型のオブジェクトを非同期で逆シリアル化します。</summary>
+      <returns>読み取ったオブジェクト インスタンスを生成する <see cref="T:System.Threading.Tasks.Task" />。</returns>
+      <param name="type">逆シリアル化するオブジェクトの型。</param>
+      <param name="readStream">読み取る <see cref="T:System.IO.Stream" />。</param>
+      <param name="content">読み取りされるコンテンツの <see cref="T:System.Net.Http.HttpContent" />。</param>
+      <param name="formatterLogger">イベントを記録する <see cref="T:System.Net.Http.Formatting.IFormatterLogger" />。</param>
+    </member>
+    <member name="T:System.Net.Http.Formatting.IContentNegotiator">
+      <summary>コンテンツ ネゴシエーションを実行します。これは、要求内のヘッダー値に従って応答ライター (フォーマッタ) を選択するプロセスです。</summary>
+    </member>
+    <member name="M:System.Net.Http.Formatting.IContentNegotiator.Negotiate(System.Type,System.Net.Http.HttpRequestMessage,System.Collections.Generic.IEnumerable{System.Net.Http.Formatting.MediaTypeFormatter})">
+      <summary> 指定された type のオブジェクトをシリアル化できる、指定された request について formatters で渡された <see cref="T:System.Net.Http.Formatting.MediaTypeFormatter" /> の中で最も適切なものを選択して、コンテンツ ネゴシエーションを実行します。</summary>
+      <returns>最も適切な <see cref="T:System.Net.Http.Formatting.MediaTypeFormatter" /> インスタンスを格納するネゴシエーションの結果。適切なフォーマッタがない場合は null。</returns>
+      <param name="type">シリアル化される型。</param>
+      <param name="request">ネゴシエーションの実行に使用されるヘッダー値を格納する要求メッセージ。</param>
+      <param name="formatters">選択対象の <see cref="T:System.Net.Http.Formatting.MediaTypeFormatter" /> オブジェクトのセット。</param>
+    </member>
+    <member name="T:System.Net.Http.Formatting.IFormatterLogger">
+      <summary>フォーマッタが読み取り中にエラーを記録するために使用できるコールバック インターフェイスを指定します。</summary>
+    </member>
+    <member name="M:System.Net.Http.Formatting.IFormatterLogger.LogError(System.String,System.Exception)">
+      <summary>エラーを記録します。</summary>
+      <param name="errorPath">エラーを記録するメンバーへのパス。</param>
+      <param name="exception">エラー メッセージ。</param>
+    </member>
+    <member name="M:System.Net.Http.Formatting.IFormatterLogger.LogError(System.String,System.String)">
+      <summary>エラーを記録します。</summary>
+      <param name="errorPath">エラーを記録するメンバーへのパス。</param>
+      <param name="errorMessage">記録するエラー メッセージ。</param>
+    </member>
+    <member name="T:System.Net.Http.Formatting.IRequiredMemberSelector">
+      <summary>指定されたメンバーが逆シリアル化で必要かどうかを判断するメソッドを定義します。</summary>
+    </member>
+    <member name="M:System.Net.Http.Formatting.IRequiredMemberSelector.IsRequiredMember(System.Reflection.MemberInfo)">
+      <summary>指定されたメンバーが逆シリアル化で必要かどうかを判断します。</summary>
+      <returns>
+        <paramref name="member" /> を必須のメンバーとして処理する必要がある場合は true。それ以外の場合は false。</returns>
+      <param name="member">逆シリアル化される <see cref="T:System.Reflection.MemberInfo" />。</param>
+    </member>
+    <member name="T:System.Net.Http.Formatting.JsonContractResolver">
+      <summary>
+        <see cref="T:System.Net.Http.Formatting.JsonMediaTypeFormatter" /> で使用される既定の <see cref="T:Newtonsoft.Json.Serialization.IContractResolver" /> を表します。フォーマッタの <see cref="T:System.Net.Http.Formatting.IRequiredMemberSelector" /> を使用して必要なメンバーを選択し、さらに <see cref="T:System.SerializableAttribute" /> 型の注釈を認識します。</summary>
+    </member>
+    <member name="M:System.Net.Http.Formatting.JsonContractResolver.#ctor(System.Net.Http.Formatting.MediaTypeFormatter)">
+      <summary>
+        <see cref="T:System.Net.Http.Formatting.JsonContractResolver" /> クラスの新しいインスタンスを初期化します。</summary>
+      <param name="formatter">必要なメンバーを解決するために使用するフォーマッタ。</param>
+    </member>
+    <member name="M:System.Net.Http.Formatting.JsonContractResolver.CreateProperty(System.Reflection.MemberInfo,Newtonsoft.Json.MemberSerialization)">
+      <summary>指定されたパラメーターを使用して、指定されたクラスでプロパティを作成します。</summary>
+      <returns>指定されたパラメーターを使用することにより、指定されたクラスに作成する <see cref="T:Newtonsoft.Json.Serialization.JsonProperty" />。</returns>
+      <param name="member">メンバー情報。</param>
+      <param name="memberSerialization">メンバーのシリアル化。</param>
+    </member>
+    <member name="T:System.Net.Http.Formatting.JsonMediaTypeFormatter">
+      <summary>JSON を処理する <see cref="T:System.Net.Http.Formatting.MediaTypeFormatter" /> クラスを表します。</summary>
+    </member>
+    <member name="M:System.Net.Http.Formatting.JsonMediaTypeFormatter.#ctor">
+      <summary>
+        <see cref="T:System.Net.Http.Formatting.JsonMediaTypeFormatter" /> クラスの新しいインスタンスを初期化します。 </summary>
+    </member>
+    <member name="M:System.Net.Http.Formatting.JsonMediaTypeFormatter.#ctor(System.Net.Http.Formatting.JsonMediaTypeFormatter)">
+      <summary>
+        <see cref="T:System.Net.Http.Formatting.JsonMediaTypeFormatter" /> クラスの新しいインスタンスを初期化します。</summary>
+      <param name="formatter">設定のコピー元の <see cref="T:System.Net.Http.Formatting.JsonMediaTypeFormatter" /> インスタンス。</param>
+    </member>
+    <member name="M:System.Net.Http.Formatting.JsonMediaTypeFormatter.CanReadType(System.Type)">
+      <summary>この <see cref="T:System.Net.Http.Formatting.JsonMediaTypeFormatter" /> が、指定された <paramref name="type" /> のオブジェクトを読み取ることができるかどうかを判断します。</summary>
+      <returns>この <paramref name="type" /> のオブジェクトを読み取ることができる場合は true。それ以外の場合は false。</returns>
+      <param name="type">読み込まれるオブジェクトの型。</param>
+    </member>
+    <member name="M:System.Net.Http.Formatting.JsonMediaTypeFormatter.CanWriteType(System.Type)">
+      <summary>この <see cref="T:System.Net.Http.Formatting.JsonMediaTypeFormatter" /> が、指定された <paramref name="type" /> のオブジェクトを書き込むことができるかどうかを判断します。</summary>
+      <returns>この <paramref name="type" /> のオブジェクトを書き込むことができる場合は true。それ以外の場合は false。</returns>
+      <param name="type">書き込まれるオブジェクトの型。</param>
+    </member>
+    <member name="M:System.Net.Http.Formatting.JsonMediaTypeFormatter.CreateDataContractSerializer(System.Type)">
+      <summary>
+        <see cref="T:System.Runtime.Serialization.Json.DataContractJsonSerializer" /> を取得するため、逆シリアル化中に呼び出されます。</summary>
+      <returns>シリアル化に使用されるオブジェクト。</returns>
+      <param name="type">シリアル化または逆シリアル化されるオブジェクトの種類。</param>
+    </member>
+    <member name="M:System.Net.Http.Formatting.JsonMediaTypeFormatter.CreateJsonReader(System.Type,System.IO.Stream,System.Text.Encoding)">
+      <summary>
+        <see cref="T:Newtonsoft.Json.JsonReader" /> を取得するため、逆シリアル化中に呼び出されます。</summary>
+      <returns>逆シリアル化中に使用するリーダー。</returns>
+      <param name="type">読み取るオブジェクトの型。</param>
+      <param name="readStream">読み取り元のストリーム。</param>
+      <param name="effectiveEncoding">閲覧時に使用するエンコード。</param>
+    </member>
+    <member name="M:System.Net.Http.Formatting.JsonMediaTypeFormatter.CreateJsonWriter(System.Type,System.IO.Stream,System.Text.Encoding)">
+      <summary>
+        <see cref="T:Newtonsoft.Json.JsonWriter" /> を取得するため、シリアル化中に呼び出されます。</summary>
+      <returns>シリアル化中に使用するライター。</returns>
+      <param name="type">書き込むオブジェクトの型。</param>
+      <param name="writeStream">書き込み先のストリーム。</param>
+      <param name="effectiveEncoding">書き込み時に使用するエンコード。</param>
+    </member>
+    <member name="P:System.Net.Http.Formatting.JsonMediaTypeFormatter.DefaultMediaType">
+      <summary>JSON の既定のメディアの種類 ("application/json") を取得します。</summary>
+      <returns>JSON の <see cref="T:System.Net.Http.Headers.MediaTypeHeaderValue" />。</returns>
+    </member>
+    <member name="P:System.Net.Http.Formatting.JsonMediaTypeFormatter.Indent">
+      <summary> データを書き込むときに要素をインデントするかどうかを指定する値を取得または設定します。</summary>
+      <returns>データを書き込むときに要素をインデントする場合は true。それ以外の場合は false。</returns>
+    </member>
+    <member name="P:System.Net.Http.Formatting.JsonMediaTypeFormatter.MaxDepth">
+      <summary>このフォーマッタで許可されている最大の深さを取得または設定します。</summary>
+      <returns>このフォーマッタで許可されている最大の深さ。</returns>
+    </member>
+    <member name="M:System.Net.Http.Formatting.JsonMediaTypeFormatter.ReadFromStream(System.Type,System.IO.Stream,System.Text.Encoding,System.Net.Http.Formatting.IFormatterLogger)">
+      <summary>指定されたストリームから指定された種類のオブジェクトを閲覧するため、逆シリアル化中に呼び出されます。</summary>
+      <returns>閲覧したオブジェクト。</returns>
+      <param name="type">読み取るオブジェクトの型。</param>
+      <param name="readStream">読み取り元のストリーム。</param>
+      <param name="effectiveEncoding">閲覧時に使用するエンコード。</param>
+      <param name="formatterLogger">イベントをログするロガー。</param>
+    </member>
+    <member name="P:System.Net.Http.Formatting.JsonMediaTypeFormatter.UseDataContractJsonSerializer">
+      <summary> 既定で <see cref="T:System.Runtime.Serialization.Json.DataContractJsonSerializer" /> を使用するかどうかを指定する値を取得または設定します。</summary>
+      <returns>既定で <see cref="T:System.Runtime.Serialization.Json.DataContractJsonSerializer" /> を使用する場合は true。それ以外の場合は false。</returns>
+    </member>
+    <member name="M:System.Net.Http.Formatting.JsonMediaTypeFormatter.WriteToStream(System.Type,System.Object,System.IO.Stream,System.Text.Encoding)">
+      <summary>指定されたストリームに指定された種類のオブジェクトを書き込むするため、シリアル化中に呼び出されます。</summary>
+      <param name="type">書き込むオブジェクトの型。</param>
+      <param name="value">書き込むオブジェクト。</param>
+      <param name="writeStream">書き込み先のストリーム。</param>
+      <param name="effectiveEncoding">書き込み時に使用するエンコード。</param>
+    </member>
+    <member name="M:System.Net.Http.Formatting.JsonMediaTypeFormatter.WriteToStreamAsync(System.Type,System.Object,System.IO.Stream,System.Net.Http.HttpContent,System.Net.TransportContext,System.Threading.CancellationToken)">
+      <summary>指定されたストリームに指定された種類のオブジェクトを書き込むするため、シリアル化中に呼び出されます。</summary>
+      <returns>
+        <see cref="T:System.Threading.Tasks.Task" /> を返します。</returns>
+      <param name="type">書き込むオブジェクトの型。</param>
+      <param name="value">書き込むオブジェクト。</param>
+      <param name="writeStream">書き込み先のストリーム。</param>
+      <param name="content">書き込まれるコンテンツの <see cref="T:System.Net.Http.HttpContent" />。</param>
+      <param name="transportContext">トランスポート コンテキスト。</param>
+      <param name="cancellationToken">キャンセルを監視するトークン。</param>
+    </member>
+    <member name="T:System.Net.Http.Formatting.MediaTypeFormatter">
+      <summary>
+        <see cref="T:System.Net.Http.ObjectContent" /> を使用して、厳密に型指定されたオブジェクトのシリアル化と逆シリアル化を処理する基本クラス。</summary>
+    </member>
+    <member name="M:System.Net.Http.Formatting.MediaTypeFormatter.#ctor">
+      <summary>
+        <see cref="T:System.Net.Http.Formatting.MediaTypeFormatter" /> クラスの新しいインスタンスを初期化します。</summary>
+    </member>
+    <member name="M:System.Net.Http.Formatting.MediaTypeFormatter.#ctor(System.Net.Http.Formatting.MediaTypeFormatter)">
+      <summary>
+        <see cref="T:System.Net.Http.Formatting.MediaTypeFormatter" /> クラスの新しいインスタンスを初期化します。</summary>
+      <param name="formatter">設定のコピー元の <see cref="T:System.Net.Http.Formatting.MediaTypeFormatter" /> インスタンス。</param>
+    </member>
+    <member name="M:System.Net.Http.Formatting.MediaTypeFormatter.CanReadType(System.Type)">
+      <summary>この <see cref="T:System.Net.Http.Formatting.MediaTypeFormatter" /> が、指定された型のオブジェクトを逆シリアル化できるかどうかを照会します。</summary>
+      <returns>
+        <see cref="T:System.Net.Http.Formatting.MediaTypeFormatter" /> が型を逆シリアル化できる場合は true。それ以外の場合は false。</returns>
+      <param name="type">逆シリアル化する型。</param>
+    </member>
+    <member name="M:System.Net.Http.Formatting.MediaTypeFormatter.CanWriteType(System.Type)">
+      <summary>この <see cref="T:System.Net.Http.Formatting.MediaTypeFormatter" /> が、指定された型のオブジェクトをシリアル化できるかどうかを照会します。</summary>
+      <returns>
+        <see cref="T:System.Net.Http.Formatting.MediaTypeFormatter" /> が型をシリアル化できる場合は true。それ以外の場合は false。</returns>
+      <param name="type">シリアル化する型。</param>
+    </member>
+    <member name="M:System.Net.Http.Formatting.MediaTypeFormatter.GetDefaultValueForType(System.Type)">
+      <summary>指定された型の既定値を取得します。</summary>
+      <returns>既定値。</returns>
+      <param name="type">既定値を取得する対象である型。</param>
+    </member>
+    <member name="M:System.Net.Http.Formatting.MediaTypeFormatter.GetPerRequestFormatterInstance(System.Type,System.Net.Http.HttpRequestMessage,System.Net.Http.Headers.MediaTypeHeaderValue)">
+      <summary>指定されたパラメーターの応答を書式設定できる <see cref="T:System.Net.Http.Formatting.MediaTypeFormatter" /> の特殊なインスタンスを返します。</summary>
+      <returns>
+        <see cref="T:System.Net.Http.Formatting.MediaTypeFormatter" /> を返します。</returns>
+      <param name="type">書式設定する型。</param>
+      <param name="request">要求。</param>
+      <param name="mediaType">メディアの種類。</param>
+    </member>
+    <member name="P:System.Net.Http.Formatting.MediaTypeFormatter.MaxHttpCollectionKeys">
+      <summary>T:<see cref="System.Collections.Specialized.NameValueCollection" /> に保存されるキーの最大数を取得または設定します。</summary>
+      <returns>キーの最大数。</returns>
+    </member>
+    <member name="P:System.Net.Http.Formatting.MediaTypeFormatter.MediaTypeMappings">
+      <summary>HTTP 要求をメディアの種類に照合させる <see cref="T:System.Net.Http.Formatting.MediaTypeMapping" /> オブジェクトの変更可能なコレクションを取得します。</summary>
+      <returns>
+        <see cref="T:System.Net.Http.Formatting.MediaTypeMapping" /> コレクション。</returns>
+    </member>
+    <member name="M:System.Net.Http.Formatting.MediaTypeFormatter.ReadFromStreamAsync(System.Type,System.IO.Stream,System.Net.Http.HttpContent,System.Net.Http.Formatting.IFormatterLogger)">
+      <summary>指定した型のオブジェクトを非同期で逆シリアル化します。</summary>
+      <returns>指定された型のオブジェクトを生成する <see cref="T:System.Threading.Tasks.Task" />。</returns>
+      <param name="type">逆シリアル化するオブジェクトの型。</param>
+      <param name="readStream">読み取る <see cref="T:System.IO.Stream" />。</param>
+      <param name="content">使用可能な場合は <see cref="T:System.Net.Http.HttpContent" />。null にすることができます。</param>
+      <param name="formatterLogger">イベントを記録する <see cref="T:System.Net.Http.Formatting.IFormatterLogger" />。</param>
+      <exception cref="T:System.NotSupportedException">派生型は読み取りをサポートする必要があります。</exception>
+    </member>
+    <member name="M:System.Net.Http.Formatting.MediaTypeFormatter.ReadFromStreamAsync(System.Type,System.IO.Stream,System.Net.Http.HttpContent,System.Net.Http.Formatting.IFormatterLogger,System.Threading.CancellationToken)">
+      <summary>指定した型のオブジェクトを非同期で逆シリアル化します。</summary>
+      <returns>指定された型のオブジェクトを生成する <see cref="T:System.Threading.Tasks.Task" />。</returns>
+      <param name="type">逆シリアル化するオブジェクトの型。</param>
+      <param name="readStream">読み取る <see cref="T:System.IO.Stream" />。</param>
+      <param name="content">使用可能な場合は <see cref="T:System.Net.Http.HttpContent" />。null にすることができます。</param>
+      <param name="formatterLogger">イベントを記録する <see cref="T:System.Net.Http.Formatting.IFormatterLogger" />。</param>
+      <param name="cancellationToken">操作をキャンセルするトークン。</param>
+    </member>
+    <member name="P:System.Net.Http.Formatting.MediaTypeFormatter.RequiredMemberSelector">
+      <summary>必須のメンバーを判断するために使用される <see cref="T:System.Net.Http.Formatting.IRequiredMemberSelector" /> インスタンスを取得または設定します。</summary>
+      <returns>
+        <see cref="T:System.Net.Http.Formatting.IRequiredMemberSelector" /> インスタンス。</returns>
+    </member>
+    <member name="M:System.Net.Http.Formatting.MediaTypeFormatter.SelectCharacterEncoding(System.Net.Http.Headers.HttpContentHeaders)">
+      <summary>一連のコンテンツ ヘッダーが指定された状態で、HTTP エンティティ ボディの読み取りまたは書き込みを行うための、最適な文字エンコードを判断します。</summary>
+      <returns>最適なエンコード。</returns>
+      <param name="contentHeaders">コンテンツ ヘッダー。</param>
+    </member>
+    <member name="M:System.Net.Http.Formatting.MediaTypeFormatter.SetDefaultContentHeaders(System.Type,System.Net.Http.Headers.HttpContentHeaders,System.Net.Http.Headers.MediaTypeHeaderValue)">
+      <summary>このフォーマッタを使用して書式設定されるコンテンツの既定のヘッダーを設定します。このメソッドは <see cref="T:System.Net.Http.ObjectContent" /> コンストラクターから呼び出されます。この実装は Content-Type ヘッダーを mediaType の値に設定します (null でない場合)。null の場合は、Content-Type をこのフォーマッタの既定のメディアの種類に設定します。Content-Type が文字セットを指定しない場合、<see cref="T:System.Text.Encoding" /> に構成されたこのフォーマッタを使用して文字セットを設定します。</summary>
+      <param name="type">シリアル化されているオブジェクトの型。「<see cref="T:System.Net.Http.ObjectContent" />」を参照してください。</param>
+      <param name="headers">構成する必要があるコンテンツ ヘッダー。</param>
+      <param name="mediaType">優先するメディアの種類。null にすることができます。</param>
+    </member>
+    <member name="P:System.Net.Http.Formatting.MediaTypeFormatter.SupportedEncodings">
+      <summary>この <see cref="T:System.Net.Http.Formatting.MediaTypeFormatter" /> によってサポートされる文字エンコードの変更可能なコレクションを取得します。</summary>
+      <returns>
+        <see cref="T:System.Text.Encoding" /> オブジェクトのコレクション。</returns>
+    </member>
+    <member name="P:System.Net.Http.Formatting.MediaTypeFormatter.SupportedMediaTypes">
+      <summary>この <see cref="T:System.Net.Http.Formatting.MediaTypeFormatter" /> によってサポートされるメディアの種類の変更可能なコレクションを取得します。</summary>
+      <returns>
+        <see cref="T:System.Net.Http.Headers.MediaTypeHeaderValue" /> オブジェクトのコレクション。</returns>
+    </member>
+    <member name="M:System.Net.Http.Formatting.MediaTypeFormatter.WriteToStreamAsync(System.Type,System.Object,System.IO.Stream,System.Net.Http.HttpContent,System.Net.TransportContext)">
+      <summary>指定した型のオブジェクトを非同期で書き込みます。</summary>
+      <returns>書き込みを実行する <see cref="T:System.Threading.Tasks.Task" />。</returns>
+      <param name="type">書き込むオブジェクトの型。</param>
+      <param name="value">書き込むオブジェクトの値。null にすることができます。</param>
+      <param name="writeStream">書き込み先の <see cref="T:System.IO.Stream" />。</param>
+      <param name="content">使用可能な場合は <see cref="T:System.Net.Http.HttpContent" />。null にすることができます。</param>
+      <param name="transportContext">使用可能な場合は <see cref="T:System.Net.TransportContext" />。null にすることができます。</param>
+      <exception cref="T:System.NotSupportedException">派生型は書き込みをサポートする必要があります。</exception>
+    </member>
+    <member name="M:System.Net.Http.Formatting.MediaTypeFormatter.WriteToStreamAsync(System.Type,System.Object,System.IO.Stream,System.Net.Http.HttpContent,System.Net.TransportContext,System.Threading.CancellationToken)">
+      <summary>指定した型のオブジェクトを非同期で書き込みます。</summary>
+      <returns>書き込みを実行する <see cref="T:System.Threading.Tasks.Task" />。</returns>
+      <param name="type">書き込むオブジェクトの型。</param>
+      <param name="value">書き込むオブジェクトの値。null にすることができます。</param>
+      <param name="writeStream">書き込み先の <see cref="T:System.IO.Stream" />。</param>
+      <param name="content">使用可能な場合は <see cref="T:System.Net.Http.HttpContent" />。null にすることができます。</param>
+      <param name="transportContext">使用可能な場合は <see cref="T:System.Net.TransportContext" />。null にすることができます。</param>
+      <param name="cancellationToken">操作をキャンセルするトークン。</param>
+      <exception cref="T:System.NotSupportedException">派生型は書き込みをサポートする必要があります。</exception>
+    </member>
+    <member name="T:System.Net.Http.Formatting.MediaTypeFormatterCollection">
+      <summary>
+        <see cref="T:System.Net.Http.Formatting.MediaTypeFormatter" /> インスタンスを格納するコレクション クラス。</summary>
+    </member>
+    <member name="M:System.Net.Http.Formatting.MediaTypeFormatterCollection.#ctor">
+      <summary>
+        <see cref="T:System.Net.Http.Formatting.MediaTypeFormatterCollection" /> クラスの新しいインスタンスを初期化します。</summary>
+    </member>
+    <member name="M:System.Net.Http.Formatting.MediaTypeFormatterCollection.#ctor(System.Collections.Generic.IEnumerable{System.Net.Http.Formatting.MediaTypeFormatter})">
+      <summary>
+        <see cref="T:System.Net.Http.Formatting.MediaTypeFormatterCollection" /> クラスの新しいインスタンスを初期化します。</summary>
+      <param name="formatters">コレクションに配置する <see cref="T:System.Net.Http.Formatting.MediaTypeFormatter" /> のインスタンスのコレクション。</param>
+    </member>
+    <member name="M:System.Net.Http.Formatting.MediaTypeFormatterCollection.AddRange(System.Collections.Generic.IEnumerable{System.Net.Http.Formatting.MediaTypeFormatter})">
+      <summary>指定されたコレクションの要素を <see cref="T:System.Net.Http.Formatting.MediaTypeFormatterCollection" /> の最後に追加します。</summary>
+      <param name="items">
+        <see cref="T:System.Net.Http.Formatting.MediaTypeFormatterCollection" /> の最後に追加する必要のあるアイテム。アイテム コレクション自体を <see cref="null" /> にすることはできませんが、<see cref="null" /> である要素を含むことはできます。</param>
+    </member>
+    <member name="M:System.Net.Http.Formatting.MediaTypeFormatterCollection.ClearItems">
+      <summary>コレクション内のすべての項目を削除します。</summary>
+    </member>
+    <member name="M:System.Net.Http.Formatting.MediaTypeFormatterCollection.FindReader(System.Type,System.Net.Http.Headers.MediaTypeHeaderValue)">
+      <summary>指定された mediaType で .NET 型を読み取ることができるフォーマッタのコレクションを検索するヘルパー。</summary>
+      <returns>型を読み取ることができるフォーマッタ。フォーマッタが見つからない場合は null。</returns>
+      <param name="type">読み取る .NET 型</param>
+      <param name="mediaType">一致させるメディアの種類。</param>
+    </member>
+    <member name="M:System.Net.Http.Formatting.MediaTypeFormatterCollection.FindWriter(System.Type,System.Net.Http.Headers.MediaTypeHeaderValue)">
+      <summary>指定された mediaType で .NET 型を書き込むことができるフォーマッタのコレクションを検索するヘルパー。</summary>
+      <returns>型を書き込むことができるフォーマッタ。フォーマッタが見つからない場合は null。</returns>
+      <param name="type">読み取る .NET 型</param>
+      <param name="mediaType">一致させるメディアの種類。</param>
+    </member>
+    <member name="P:System.Net.Http.Formatting.MediaTypeFormatterCollection.FormUrlEncodedFormatter">
+      <summary>application/x-www-form-urlencoded データに使用する <see cref="T:System.Net.Http.Formatting.MediaTypeFormatter" /> を取得します。</summary>
+      <returns>application/x-www-form-urlencoded データに使用する <see cref="T:System.Net.Http.Formatting.FormUrlEncodedMediaTypeFormatter" />。</returns>
+    </member>
+    <member name="M:System.Net.Http.Formatting.MediaTypeFormatterCollection.InsertItem(System.Int32,System.Net.Http.Formatting.MediaTypeFormatter)">
+      <summary>コレクション内で指定されたインデックス位置にある指定された項目を挿入します。</summary>
+      <param name="index">挿入する位置のインデックス。</param>
+      <param name="item">挿入する項目。</param>
+    </member>
+    <member name="M:System.Net.Http.Formatting.MediaTypeFormatterCollection.InsertRange(System.Int32,System.Collections.Generic.IEnumerable{System.Net.Http.Formatting.MediaTypeFormatter})">
+      <summary>コレクションの要素を <see cref="T:System.Net.Http.Formatting.MediaTypeFormatterCollection" /> の指定されたインデックス位置に挿入します。</summary>
+      <param name="index">新しい要素を挿入する位置の 0 から始まるインデックス。</param>
+      <param name="items">
+        <see cref="T:System.Net.Http.Formatting.MediaTypeFormatterCollection" /> に挿入する必要があるアイテム。アイテム コレクション自体を <see cref="null" /> にすることはできませんが、<see cref="null" /> である要素を含むことはできます。</param>
+    </member>
+    <member name="M:System.Net.Http.Formatting.MediaTypeFormatterCollection.IsTypeExcludedFromValidation(System.Type)">
+      <summary>型が、検証から除外する必要のある、型指定が厳密でない型である場合は、true を返します。</summary>
+      <returns>型を除外する必要がある場合は true。それ以外の場合は false。</returns>
+      <param name="type">検証する .NET <see cref="T:System.Type" />。</param>
+    </member>
+    <member name="P:System.Net.Http.Formatting.MediaTypeFormatterCollection.JsonFormatter">
+      <summary>JSON に使用する <see cref="T:System.Net.Http.Formatting.MediaTypeFormatter" /> を取得します。</summary>
+      <returns>JSON に使用する <see cref="T:System.Net.Http.Formatting.JsonMediaTypeFormatter" />。</returns>
+    </member>
+    <member name="M:System.Net.Http.Formatting.MediaTypeFormatterCollection.RemoveItem(System.Int32)">
+      <summary>指定したインデックス位置にある項目を削除します。</summary>
+      <param name="index">削除する項目のインデックス。</param>
+    </member>
+    <member name="M:System.Net.Http.Formatting.MediaTypeFormatterCollection.SetItem(System.Int32,System.Net.Http.Formatting.MediaTypeFormatter)">
+      <summary>コレクション内で指定されたインデックス位置にある項目を割り当てます。</summary>
+      <param name="index">挿入する位置のインデックス。</param>
+      <param name="item">割り当てる項目。</param>
+    </member>
+    <member name="P:System.Net.Http.Formatting.MediaTypeFormatterCollection.XmlFormatter">
+      <summary>XML に使用する <see cref="T:System.Net.Http.Formatting.MediaTypeFormatter" /> を取得します。</summary>
+      <returns>XML に使用する <see cref="T:System.Net.Http.Formatting.XmlMediaTypeFormatter" />。</returns>
+    </member>
+    <member name="M:System.Net.Http.Formatting.MediaTypeFormatterExtensions.AddQueryStringMapping(System.Net.Http.Formatting.MediaTypeFormatter,System.String,System.String,System.Net.Http.Headers.MediaTypeHeaderValue)"></member>
+    <member name="M:System.Net.Http.Formatting.MediaTypeFormatterExtensions.AddQueryStringMapping(System.Net.Http.Formatting.MediaTypeFormatter,System.String,System.String,System.String)"></member>
+    <member name="M:System.Net.Http.Formatting.MediaTypeFormatterExtensions.AddRequestHeaderMapping(System.Net.Http.Formatting.MediaTypeFormatter,System.String,System.String,System.StringComparison,System.Boolean,System.Net.Http.Headers.MediaTypeHeaderValue)"></member>
+    <member name="M:System.Net.Http.Formatting.MediaTypeFormatterExtensions.AddRequestHeaderMapping(System.Net.Http.Formatting.MediaTypeFormatter,System.String,System.String,System.StringComparison,System.Boolean,System.String)"></member>
+    <member name="T:System.Net.Http.Formatting.MediaTypeFormatterMatch">
+      <summary> このクラスは、特定の <see cref="T:System.Net.Http.Formatting.MediaTypeFormatter" /> が要求に一致する度合いを示します。</summary>
+    </member>
+    <member name="M:System.Net.Http.Formatting.MediaTypeFormatterMatch.#ctor(System.Net.Http.Formatting.MediaTypeFormatter,System.Net.Http.Headers.MediaTypeHeaderValue,System.Nullable{System.Double},System.Net.Http.Formatting.MediaTypeFormatterMatchRanking)">
+      <summary>
+        <see cref="T:System.Net.Http.Formatting.MediaTypeFormatterMatch" /> クラスの新しいインスタンスを初期化します。</summary>
+      <param name="formatter">一致するフォーマッタ。</param>
+      <param name="mediaType">メディアの種類。null にすることができます。この場合、メディアの種類 application/octet-stream が使用されます。</param>
+      <param name="quality">一致の品質。null にすることができます。この場合、値が 1.0 の完全な一致と見なされます。</param>
+      <param name="ranking">一致の種類。</param>
+    </member>
+    <member name="P:System.Net.Http.Formatting.MediaTypeFormatterMatch.Formatter">
+      <summary> メディア タイプ フォーマッタを取得します。</summary>
+    </member>
+    <member name="P:System.Net.Http.Formatting.MediaTypeFormatterMatch.MediaType">
+      <summary> 一致したメディアの種類を取得します。</summary>
+    </member>
+    <member name="P:System.Net.Http.Formatting.MediaTypeFormatterMatch.Quality">
+      <summary> 一致の品質を取得します。</summary>
+    </member>
+    <member name="P:System.Net.Http.Formatting.MediaTypeFormatterMatch.Ranking">
+      <summary> 発生した一致の種類を取得します。 </summary>
+    </member>
+    <member name="T:System.Net.Http.Formatting.MediaTypeFormatterMatchRanking">
+      <summary> 受信した要求で見つかった明示的または暗黙的な設定に <see cref="T:System.Net.Http.Formatting.MediaTypeFormatter" /> が一致する度合いに関する情報を格納します。</summary>
+    </member>
+    <member name="F:System.Net.Http.Formatting.MediaTypeFormatterMatchRanking.MatchOnCanWriteType">
+      <summary> 種類が一致しました。フォーマッタが種類をシリアル化できることを意味します。</summary>
+    </member>
+    <member name="F:System.Net.Http.Formatting.MediaTypeFormatterMatchRanking.MatchOnRequestAcceptHeaderAllMediaRange">
+      <summary>Accept ヘッダーの明示的な "*/*" 範囲に一致しました。</summary>
+    </member>
+    <member name="F:System.Net.Http.Formatting.MediaTypeFormatterMatchRanking.MatchOnRequestAcceptHeaderLiteral">
+      <summary>"application/json" など、明示的なリテラル Accept ヘッダーに一致しました。</summary>
+    </member>
+    <member name="F:System.Net.Http.Formatting.MediaTypeFormatterMatchRanking.MatchOnRequestAcceptHeaderSubtypeMediaRange">
+      <summary>"application/*" など、Accept ヘッダーの明示的なサブタイプ範囲に一致しました。</summary>
+    </member>
+    <member name="F:System.Net.Http.Formatting.MediaTypeFormatterMatchRanking.MatchOnRequestMediaType">
+      <summary> HTTP 要求メッセージのエンティティ ボディのメディアの種類に一致しました。</summary>
+    </member>
+    <member name="F:System.Net.Http.Formatting.MediaTypeFormatterMatchRanking.MatchOnRequestWithMediaTypeMapping">
+      <summary> さまざまな <see cref="T:System.Net.Http.Formatting.MediaTypeMapping" /> を適用した後で、<see cref="T:System.Net.Http.HttpRequestMessage" /> に一致しました。</summary>
+    </member>
+    <member name="F:System.Net.Http.Formatting.MediaTypeFormatterMatchRanking.None">
+      <summary> 一致するものが見つかりませんでした</summary>
+    </member>
+    <member name="T:System.Net.Http.Formatting.MediaTypeMapping">
+      <summary> 特定の特性および特定の <see cref="T:System.Net.Http.Headers.MediaTypeHeaderValue" /> を持つ <see cref="T:System.Net.Http.HttpRequestMessage" /> または <see cref="T:System.Net.Http.HttpResponseMessage" /> のインスタンス間の関連付けを作成するために使用される抽象基本クラス。</summary>
+    </member>
+    <member name="M:System.Net.Http.Formatting.MediaTypeMapping.#ctor(System.Net.Http.Headers.MediaTypeHeaderValue)">
+      <summary> 指定された mediaType 値を使用して <see cref="T:System.Net.Http.Formatting.MediaTypeMapping" /> の新しいインスタンスを初期化します。</summary>
+      <param name="mediaType"> 指定された特性の <see cref="T:System.Net.Http.Formatting.MediaTypeMapping" /> を持つ <see cref="T:System.Net.Http.HttpRequestMessage" /> または <see cref="T:System.Net.Http.HttpResponseMessage" /> インスタンスに関連付けられた <see cref="T:System.Net.Http.Headers.MediaTypeHeaderValue" />。</param>
+    </member>
+    <member name="M:System.Net.Http.Formatting.MediaTypeMapping.#ctor(System.String)">
+      <summary> 指定された mediaType 値を使用して <see cref="T:System.Net.Http.Formatting.MediaTypeMapping" /> の新しいインスタンスを初期化します。</summary>
+      <param name="mediaType"> 指定された特性の <see cref="T:System.Net.Http.Formatting.MediaTypeMapping" /> を持つ <see cref="T:System.Net.Http.HttpRequestMessage" /> または <see cref="T:System.Net.Http.HttpResponseMessage" /> インスタンスに関連付けられた <see cref="T:System.String" />。</param>
+    </member>
+    <member name="P:System.Net.Http.Formatting.MediaTypeMapping.MediaType">
+      <summary>
+        <see cref="T:System.Net.Http.Formatting.MediaTypeMapping" /> の特定の特性を持つ <see cref="T:System.Net.Http.HttpRequestMessage" /> または <see cref="T:System.Net.Http.HttpResponseMessage" /> のインスタンスと関連付けられた <see cref="T:System.Net.Http.Headers.MediaTypeHeaderValue" /> を取得します。</summary>
+    </member>
+    <member name="M:System.Net.Http.Formatting.MediaTypeMapping.TryMatchMediaType(System.Net.Http.HttpRequestMessage)">
+      <summary>request と関連付けられた <see cref="T:System.Net.Http.Headers.MediaTypeHeaderValue" /> の一致の品質を返します。</summary>
+      <returns>一致の品質。0.0 ～ 1.0 の範囲である必要があります。値 0.0 は一致しないことを意味します。値 1.0 は完全に一致することを意味します。</returns>
+      <param name="request">
+        <see cref="T:System.Net.Http.Formatting.MediaTypeMapping" /> の <see cref="T:System.Net.Http.Headers.MediaTypeHeaderValue" /> に関連付けられている特性を評価する <see cref="T:System.Net.Http.HttpRequestMessage" />。</param>
+    </member>
+    <member name="T:System.Net.Http.Formatting.QueryStringMapping">
+      <summary> クエリ文字列から <see cref="T:System.Net.Http.Headers.MediaTypeHeaderValue" /> を提供するクラス。</summary>
+    </member>
+    <member name="M:System.Net.Http.Formatting.QueryStringMapping.#ctor(System.String,System.String,System.Net.Http.Headers.MediaTypeHeaderValue)">
+      <summary>
+        <see cref="T:System.Net.Http.Formatting.QueryStringMapping" /> クラスの新しいインスタンスを初期化します。</summary>
+      <param name="queryStringParameterName">存在する場合、照合するクエリ文字列パラメーターの名前。</param>
+      <param name="queryStringParameterValue">queryStringParameterName によって指定されるクエリ文字列パラメーターの値。</param>
+      <param name="mediaType">queryStringParameterName で指定されたクエリ パラメーターが存在し、queryStringParameterValue で指定された値が割り当てられている場合に使用する <see cref="T:System.Net.Http.Headers.MediaTypeHeaderValue" />。</param>
+    </member>
+    <member name="M:System.Net.Http.Formatting.QueryStringMapping.#ctor(System.String,System.String,System.String)">
+      <summary>
+        <see cref="T:System.Net.Http.Formatting.QueryStringMapping" /> クラスの新しいインスタンスを初期化します。</summary>
+      <param name="queryStringParameterName">存在する場合、照合するクエリ文字列パラメーターの名前。</param>
+      <param name="queryStringParameterValue">queryStringParameterName によって指定されるクエリ文字列パラメーターの値。</param>
+      <param name="mediaType">queryStringParameterName で指定されたクエリ パラメーターが存在し、queryStringParameterValue で指定された値が割り当てられている場合に使用するメディアの種類。</param>
+    </member>
+    <member name="P:System.Net.Http.Formatting.QueryStringMapping.QueryStringParameterName">
+      <summary> クエリ文字列パラメーター名を取得します。</summary>
+    </member>
+    <member name="P:System.Net.Http.Formatting.QueryStringMapping.QueryStringParameterValue">
+      <summary> クエリ文字列パラメーターの値を取得します。</summary>
+    </member>
+    <member name="M:System.Net.Http.Formatting.QueryStringMapping.TryMatchMediaType(System.Net.Http.HttpRequestMessage)">
+      <summary> 現在の <see cref="T:System.Net.Http.Formatting.QueryStringMapping" /> インスタンスが、request から <see cref="T:System.Net.Http.Headers.MediaTypeHeaderValue" /> を返すことができるかどうかを示す値を返します。</summary>
+      <returns>このインスタンスが <see cref="T:System.Net.Http.Headers.MediaTypeHeaderValue" /> を request から生成できる場合は 1.0 を、それ以外の場合は 0.0 を返します。</returns>
+      <param name="request">確認する <see cref="T:System.Net.Http.HttpRequestMessage" />。</param>
+    </member>
+    <member name="T:System.Net.Http.Formatting.RequestHeaderMapping">
+      <summary>このクラスは、<see cref="T:System.Net.Http.HttpRequestMessage" /> または <see cref="T:System.Net.Http.HttpResponseMessage" /> のエンティティ ボディを処理するための <see cref="T:System.Net.Http.Formatting.MediaTypeFormatter" /> インスタンスの選択に使用される <see cref="T:System.Net.Http.Headers.MediaTypeHeaderValue" /> に対して、任意の HTTP 要求ヘッダー フィールドからマッピングを提供します。&lt;remarks&gt;このクラスは <see cref="M:HttpRequestMessage.Headers" /> に関連付けられているヘッダー フィールドのみについて一致を確認します。<see cref="M:HttpResponseMessage.Headers" /> または <see cref="M:HttpContent.Headers" /> のインスタンスに関連付けられているヘッダー フィールドは確認しません。&lt;/remarks&gt;</summary>
+    </member>
+    <member name="M:System.Net.Http.Formatting.RequestHeaderMapping.#ctor(System.String,System.String,System.StringComparison,System.Boolean,System.Net.Http.Headers.MediaTypeHeaderValue)">
+      <summary>
+        <see cref="T:System.Net.Http.Formatting.RequestHeaderMapping" /> クラスの新しいインスタンスを初期化します。</summary>
+      <param name="headerName">照合するヘッダーの名前。</param>
+      <param name="headerValue">照合するヘッダー値。</param>
+      <param name="valueComparison">headerValue を照合するときに使用する <see cref="T:System.StringComparison" />。</param>
+      <param name="isValueSubstring">true に設定した場合、headerValue が実際のヘッダー値の部分文字列と一致したときに一致と見なされます。</param>
+      <param name="mediaType">headerName および headerValue が一致すると見なされる場合に使用する <see cref="T:System.Net.Http.Headers.MediaTypeHeaderValue" />。</param>
+    </member>
+    <member name="M:System.Net.Http.Formatting.RequestHeaderMapping.#ctor(System.String,System.String,System.StringComparison,System.Boolean,System.String)">
+      <summary>
+        <see cref="T:System.Net.Http.Formatting.RequestHeaderMapping" /> クラスの新しいインスタンスを初期化します。</summary>
+      <param name="headerName">照合するヘッダーの名前。</param>
+      <param name="headerValue">照合するヘッダー値。</param>
+      <param name="valueComparison">headerValue を照合するときに使用する値の比較。</param>
+      <param name="isValueSubstring">true に設定した場合、headerValue が実際のヘッダー値の部分文字列と一致したときに一致と見なされます。</param>
+      <param name="mediaType">headerName および headerValue が一致すると見なされる場合に使用するメディアの種類。</param>
+    </member>
+    <member name="P:System.Net.Http.Formatting.RequestHeaderMapping.HeaderName">
+      <summary> 照合するヘッダーの名前を取得します。</summary>
+    </member>
+    <member name="P:System.Net.Http.Formatting.RequestHeaderMapping.HeaderValue">
+      <summary> 照合するヘッダーの値を取得します。</summary>
+    </member>
+    <member name="P:System.Net.Http.Formatting.RequestHeaderMapping.HeaderValueComparison">
+      <summary>
+        <see cref="M:HeaderValue" /> を照合する場合に使用する <see cref="T:System.StringComparison" /> を取得します。</summary>
+    </member>
+    <member name="P:System.Net.Http.Formatting.RequestHeaderMapping.IsValueSubstring">
+      <summary>実際のヘッダー値のサブ文字列として <see cref="M:HeaderValue" /> が一致するかどうかを示す値を取得します。このインスタンスは値のサブ文字列です。</summary>
+      <returns>true<see cref="P:System.Net.Http.Formatting.RequestHeaderMapping.HeaderValue" />false</returns>
+    </member>
+    <member name="M:System.Net.Http.Formatting.RequestHeaderMapping.TryMatchMediaType(System.Net.Http.HttpRequestMessage)">
+      <summary> 現在の <see cref="T:System.Net.Http.Formatting.RequestHeaderMapping" /> インスタンスが、request から <see cref="T:System.Net.Http.Headers.MediaTypeHeaderValue" /> を返すことができるかどうかを示す値を返します。</summary>
+      <returns>一致の品質。0.0 ～ 1.0 の範囲である必要があります。値 0.0 は一致しないことを意味します。値 1.0 は完全に一致することを意味します。</returns>
+      <param name="request">確認する <see cref="T:System.Net.Http.HttpRequestMessage" />。</param>
+    </member>
+    <member name="T:System.Net.Http.Formatting.XmlHttpRequestHeaderMapping">
+      <summary> 明示的な Accept ヘッダーフィールドが要求に存在しない場合に、AJAX XmlHttpRequest (XHR) によって設定された X-Requested-With http ヘッダー フィールドをメディアの種類 application/json にマップする <see cref="T:System.Net.Http.Formatting.RequestHeaderMapping" />。</summary>
+    </member>
+    <member name="M:System.Net.Http.Formatting.XmlHttpRequestHeaderMapping.#ctor">
+      <summary>
+        <see cref="T:System.Net.Http.Formatting.XmlHttpRequestHeaderMapping" /> クラスの新しいインスタンスを初期化します</summary>
+    </member>
+    <member name="M:System.Net.Http.Formatting.XmlHttpRequestHeaderMapping.TryMatchMediaType(System.Net.Http.HttpRequestMessage)">
+      <summary> 現在の <see cref="T:System.Net.Http.Formatting.RequestHeaderMapping" /> インスタンスが、request から <see cref="T:System.Net.Http.Headers.MediaTypeHeaderValue" /> を返すことができるかどうかを示す値を返します。</summary>
+      <returns>一致の品質。値 0.0 は一致しないことを意味します。値 1.0 は完全な一致で、要求は Accept ヘッダーのない XmlHttpRequest を使用して作成されたことを示します。</returns>
+      <param name="request">確認する <see cref="T:System.Net.Http.HttpRequestMessage" />。</param>
+    </member>
+    <member name="T:System.Net.Http.Formatting.XmlMediaTypeFormatter">
+      <summary>XML を処理する <see cref="T:System.Net.Http.Formatting.MediaTypeFormatter" /> クラス。</summary>
+    </member>
+    <member name="M:System.Net.Http.Formatting.XmlMediaTypeFormatter.#ctor">
+      <summary>
+        <see cref="T:System.Net.Http.Formatting.XmlMediaTypeFormatter" /> クラスの新しいインスタンスを初期化します。</summary>
+    </member>
+    <member name="M:System.Net.Http.Formatting.XmlMediaTypeFormatter.#ctor(System.Net.Http.Formatting.XmlMediaTypeFormatter)">
+      <summary>
+        <see cref="T:System.Net.Http.Formatting.XmlMediaTypeFormatter" /> クラスの新しいインスタンスを初期化します。</summary>
+      <param name="formatter">設定のコピー元の <see cref="T:System.Net.Http.Formatting.XmlMediaTypeFormatter" /> インスタンス。</param>
+    </member>
+    <member name="M:System.Net.Http.Formatting.XmlMediaTypeFormatter.CanReadType(System.Type)">
+      <summary>
+        <see cref="T:System.Net.Http.Formatting.XmlMediaTypeFormatter" /> が、指定された型のオブジェクトを逆シリアル化できるかどうかを照会します。</summary>
+      <returns>
+        <see cref="T:System.Net.Http.Formatting.XmlMediaTypeFormatter" /> が型を逆シリアル化できる場合は true。それ以外の場合は false。</returns>
+      <param name="type">逆シリアル化する型。</param>
+    </member>
+    <member name="M:System.Net.Http.Formatting.XmlMediaTypeFormatter.CanWriteType(System.Type)">
+      <summary>
+        <see cref="T:System.Net.Http.Formatting.XmlMediaTypeFormatter" /> が、指定された型のオブジェクトをシリアル化できるかどうかを照会します。</summary>
+      <returns>
+        <see cref="T:System.Net.Http.Formatting.XmlMediaTypeFormatter" /> が型をシリアル化できる場合は true。それ以外の場合は false。</returns>
+      <param name="type">シリアル化する型。</param>
+    </member>
+    <member name="M:System.Net.Http.Formatting.XmlMediaTypeFormatter.CreateDataContractSerializer(System.Type)">
+      <summary>DataContractSerializer シリアライザーを取得するため、逆シリアル化中に呼び出されます。</summary>
+      <returns>シリアル化に使用されるオブジェクト。</returns>
+      <param name="type">シリアル化または逆シリアル化されるオブジェクトの種類。</param>
+    </member>
+    <member name="M:System.Net.Http.Formatting.XmlMediaTypeFormatter.CreateXmlReader(System.IO.Stream,System.Net.Http.HttpContent)">
+      <summary>逆シリアル化中に呼び出され、ストリームからオブジェクトを読み取るために使用する XML リーダーを取得します。</summary>
+      <returns>オブジェクトの読み取りに使用する <see cref="T:System.Xml.XmlReader" />。</returns>
+      <param name="readStream">読み取り元の <see cref="T:System.IO.Stream" />。</param>
+      <param name="content">読み取りされるコンテンツの <see cref="T:System.Net.Http.HttpContent" />。</param>
+    </member>
+    <member name="M:System.Net.Http.Formatting.XmlMediaTypeFormatter.CreateXmlSerializer(System.Type)">
+      <summary>XML シリアライザーを取得するため、逆シリアル化中に呼び出されます。</summary>
+      <returns>シリアル化に使用されるオブジェクト。</returns>
+      <param name="type">シリアル化または逆シリアル化されるオブジェクトの種類。</param>
+    </member>
+    <member name="M:System.Net.Http.Formatting.XmlMediaTypeFormatter.CreateXmlWriter(System.IO.Stream,System.Net.Http.HttpContent)">
+      <summary>シリアル化中に呼び出され、ストリームにオブジェクトを書き込むために使用する XML ライターを取得します。</summary>
+      <returns>オブジェクトの書き込みに使用する <see cref="T:System.Xml.XmlWriter" />。</returns>
+      <param name="writeStream">書き込み先の <see cref="T:System.IO.Stream" />。</param>
+      <param name="content">書き込まれるコンテンツの <see cref="T:System.Net.Http.HttpContent" />。</param>
+    </member>
+    <member name="P:System.Net.Http.Formatting.XmlMediaTypeFormatter.DefaultMediaType">
+      <summary>XML フォーマッタの既定のメディアの種類を取得します。</summary>
+      <returns>"application/xml" である既定のメディアの種類。</returns>
+    </member>
+    <member name="M:System.Net.Http.Formatting.XmlMediaTypeFormatter.GetDeserializer(System.Type,System.Net.Http.HttpContent)">
+      <summary>逆シリアル化中に呼び出され、オブジェクトの逆シリアル化に使用する XML シリアライザーを取得します。</summary>
+      <returns>オブジェクトの逆シリアル化に使用する <see cref="T:System.Runtime.Serialization.XmlObjectSerializer" /> または <see cref="T:System.Xml.Serialization.XmlSerializer" /> のインスタンス。</returns>
+      <param name="type">逆シリアル化するオブジェクトの型。</param>
+      <param name="content">読み取りされるコンテンツの <see cref="T:System.Net.Http.HttpContent" />。</param>
+    </member>
+    <member name="M:System.Net.Http.Formatting.XmlMediaTypeFormatter.GetSerializer(System.Type,System.Object,System.Net.Http.HttpContent)">
+      <summary>シリアル化中に呼び出され、オブジェクトのシリアル化に使用する XML シリアライザーを取得します。</summary>
+      <returns>オブジェクトのシリアル化に使用する <see cref="T:System.Runtime.Serialization.XmlObjectSerializer" /> または <see cref="T:System.Xml.Serialization.XmlSerializer" /> のインスタンス。</returns>
+      <param name="type">シリアル化するオブジェクトの型。</param>
+      <param name="value">シリアル化するオブジェクト。</param>
+      <param name="content">書き込まれるコンテンツの <see cref="T:System.Net.Http.HttpContent" />。</param>
+    </member>
+    <member name="P:System.Net.Http.Formatting.XmlMediaTypeFormatter.Indent">
+      <summary>データを書き込むときに要素をインデントするかどうかを指定する値を取得または設定します。</summary>
+      <returns>要素をインデントする場合は true。それ以外の場合は false。</returns>
+    </member>
+    <member name="M:System.Net.Http.Formatting.XmlMediaTypeFormatter.InvokeCreateXmlReader(System.IO.Stream,System.Net.Http.HttpContent)">
+      <summary>このメソッドはインフラストラクチャのサポートを目的としており、ユーザーのコードから直接使用するものではありません。</summary>
+      <returns>
+        <see cref="T:System.Xml.XmlReader" /> を返します。</returns>
+    </member>
+    <member name="M:System.Net.Http.Formatting.XmlMediaTypeFormatter.InvokeCreateXmlWriter(System.IO.Stream,System.Net.Http.HttpContent)">
+      <summary>このメソッドはインフラストラクチャのサポートを目的としており、ユーザーのコードから直接使用するものではありません。</summary>
+      <returns>
+        <see cref="T:System.Xml.XmlWriter" /> を返します。</returns>
+    </member>
+    <member name="M:System.Net.Http.Formatting.XmlMediaTypeFormatter.InvokeGetDeserializer(System.Type,System.Net.Http.HttpContent)">
+      <summary>このメソッドはインフラストラクチャのサポートを目的としており、ユーザーのコードから直接使用するものではありません。</summary>
+      <returns>
+        <see cref="T:System.Object" /> を返します。</returns>
+    </member>
+    <member name="M:System.Net.Http.Formatting.XmlMediaTypeFormatter.InvokeGetSerializer(System.Type,System.Object,System.Net.Http.HttpContent)">
+      <summary>このメソッドはインフラストラクチャのサポートを目的としており、ユーザーのコードから直接使用するものではありません。</summary>
+      <returns>
+        <see cref="T:System.Object" /> を返します。</returns>
+    </member>
+    <member name="P:System.Net.Http.Formatting.XmlMediaTypeFormatter.MaxDepth">
+      <summary>入れ子になったノードの最大の深さを取得または設定します。</summary>
+      <returns>入れ子になったノードの最大の深さ。</returns>
+    </member>
+    <member name="M:System.Net.Http.Formatting.XmlMediaTypeFormatter.ReadFromStreamAsync(System.Type,System.IO.Stream,System.Net.Http.HttpContent,System.Net.Http.Formatting.IFormatterLogger)">
+      <summary> 逆シリアル化中に、指定された type のオブジェクトを指定された readStream から読み取るために呼び出されます。</summary>
+      <returns>読み取ったオブジェクト インスタンスを生成する <see cref="T:System.Threading.Tasks.Task" />。</returns>
+      <param name="type">読み取るオブジェクトの型。</param>
+      <param name="readStream">読み取り元の <see cref="T:System.IO.Stream" />。</param>
+      <param name="content">読み取りされるコンテンツの <see cref="T:System.Net.Http.HttpContent" />。</param>
+      <param name="formatterLogger">イベントを記録する <see cref="T:System.Net.Http.Formatting.IFormatterLogger" />。</param>
+    </member>
+    <member name="M:System.Net.Http.Formatting.XmlMediaTypeFormatter.RemoveSerializer(System.Type)">
+      <summary>現在指定された型に関連付けられているシリアライザーの登録を解除します。</summary>
+      <returns>型に対して以前にシリアライザーが登録された場合は true。それ以外の場合は false。</returns>
+      <param name="type">シリアライザーを削除する必要があるオブジェクトの型。</param>
+    </member>
+    <member name="M:System.Net.Http.Formatting.XmlMediaTypeFormatter.SetSerializer``1(System.Runtime.Serialization.XmlObjectSerializer)">
+      <summary>指定した型のオブジェクトの読み取りまたは書き込みを行う <see cref="T:System.Runtime.Serialization.XmlObjectSerializer" /> を登録します。</summary>
+      <param name="serializer">
+        <see cref="T:System.Runtime.Serialization.XmlObjectSerializer" /> インスタンス。</param>
+      <typeparam name="T">
+        <paramref name="serializer" /> によってシリアル化またはシリアル化解除されるオブジェクトの型。</typeparam>
+    </member>
+    <member name="M:System.Net.Http.Formatting.XmlMediaTypeFormatter.SetSerializer(System.Type,System.Runtime.Serialization.XmlObjectSerializer)">
+      <summary>指定した型のオブジェクトの読み取りまたは書き込みを行う <see cref="T:System.Runtime.Serialization.XmlObjectSerializer" /> を登録します。</summary>
+      <param name="type">
+        <paramref name="serializer" /> によってシリアル化またはシリアル化解除されるオブジェクトの型。</param>
+      <param name="serializer">
+        <see cref="T:System.Runtime.Serialization.XmlObjectSerializer" /> インスタンス。</param>
+    </member>
+    <member name="M:System.Net.Http.Formatting.XmlMediaTypeFormatter.SetSerializer(System.Type,System.Xml.Serialization.XmlSerializer)">
+      <summary>指定した型のオブジェクトの読み取りまたは書き込みを行う <see cref="T:System.Xml.Serialization.XmlSerializer" /> を登録します。</summary>
+      <param name="type">
+        <paramref name="serializer" /> によってシリアル化またはシリアル化解除されるオブジェクトの型。</param>
+      <param name="serializer">
+        <see cref="T:System.Xml.Serialization.XmlSerializer" /> インスタンス。</param>
+    </member>
+    <member name="M:System.Net.Http.Formatting.XmlMediaTypeFormatter.SetSerializer``1(System.Xml.Serialization.XmlSerializer)">
+      <summary>指定した型のオブジェクトの読み取りまたは書き込みを行う <see cref="T:System.Xml.Serialization.XmlSerializer" /> を登録します。</summary>
+      <param name="serializer">
+        <see cref="T:System.Xml.Serialization.XmlSerializer" /> インスタンス。</param>
+      <typeparam name="T">
+        <paramref name="serializer" /> によってシリアル化またはシリアル化解除されるオブジェクトの型。</typeparam>
+    </member>
+    <member name="P:System.Net.Http.Formatting.XmlMediaTypeFormatter.UseXmlSerializer">
+      <summary>
+        <see cref="T:System.Runtime.Serialization.DataContractSerializer" /> を使用するのではなく、既定のシリアライザーとして XML フォーマッタで <see cref="T:System.Xml.Serialization.XmlSerializer" /> を使用するかどうかを示す値を取得または設定します。</summary>
+      <returns>true である場合、既定でフォーマッタでは <see cref="T:System.Xml.Serialization.XmlSerializer" /> を使用します。それ以外の場合、既定でフォーマッタでは <see cref="T:System.Runtime.Serialization.DataContractSerializer" /> を使用します。</returns>
+    </member>
+    <member name="P:System.Net.Http.Formatting.XmlMediaTypeFormatter.WriterSettings">
+      <summary>書き込み中に使用する設定を取得します。</summary>
+      <returns>書き込み中に使用する設定。</returns>
+    </member>
+    <member name="M:System.Net.Http.Formatting.XmlMediaTypeFormatter.WriteToStreamAsync(System.Type,System.Object,System.IO.Stream,System.Net.Http.HttpContent,System.Net.TransportContext,System.Threading.CancellationToken)">
+      <summary>シリアル化中に、指定された type のオブジェクトを指定された writeStream に書き込むために呼び出されます。</summary>
+      <returns>ストリームに値を書き込む <see cref="T:System.Threading.Tasks.Task" />。</returns>
+      <param name="type">書き込むオブジェクトの型。</param>
+      <param name="value">書き込むオブジェクト。</param>
+      <param name="writeStream">書き込み先の <see cref="T:System.IO.Stream" />。</param>
+      <param name="content">書き込まれるコンテンツの <see cref="T:System.Net.Http.HttpContent" />。</param>
+      <param name="transportContext">
+        <see cref="T:System.Net.TransportContext" />。</param>
+      <param name="cancellationToken">キャンセルを監視するトークン。</param>
+    </member>
+    <member name="T:System.Net.Http.Handlers.HttpProgressEventArgs">
+      <summary>HTTP 進行のイベント引数を表します。</summary>
+    </member>
+    <member name="M:System.Net.Http.Handlers.HttpProgressEventArgs.#ctor(System.Int32,System.Object,System.Int64,System.Nullable{System.Int64})">
+      <summary>
+        <see cref="T:System.Net.Http.Handlers.HttpProgressEventArgs" /> クラスの新しいインスタンスを初期化します。</summary>
+      <param name="progressPercentage">進行の割合。</param>
+      <param name="userToken">ユーザー トークン。</param>
+      <param name="bytesTransferred">転送されたバイト数。</param>
+      <param name="totalBytes">転送された合計バイト数。</param>
+    </member>
+    <member name="P:System.Net.Http.Handlers.HttpProgressEventArgs.BytesTransferred"></member>
+    <member name="P:System.Net.Http.Handlers.HttpProgressEventArgs.TotalBytes"></member>
+    <member name="T:System.Net.Http.Handlers.ProgressMessageHandler">
+      <summary>アップロードされる要求エンティティとダウンロードされる応答エンティティの両方に対して進行状況の通知を生成します。</summary>
+    </member>
+    <member name="M:System.Net.Http.Handlers.ProgressMessageHandler.#ctor">
+      <summary>
+        <see cref="T:System.Net.Http.Handlers.ProgressMessageHandler" /> クラスの新しいインスタンスを初期化します。</summary>
+    </member>
+    <member name="M:System.Net.Http.Handlers.ProgressMessageHandler.#ctor(System.Net.Http.HttpMessageHandler)">
+      <summary>
+        <see cref="T:System.Net.Http.Handlers.ProgressMessageHandler" /> クラスの新しいインスタンスを初期化します。</summary>
+      <param name="innerHandler">内部メッセージ ハンドラー。</param>
+    </member>
+    <member name="E:System.Net.Http.Handlers.ProgressMessageHandler.HttpReceiveProgress">
+      <summary>イベント エンティティのダウンロード時に発生します。</summary>
+    </member>
+    <member name="E:System.Net.Http.Handlers.ProgressMessageHandler.HttpSendProgress">
+      <summary>イベント エンティティのアップロード時に発生します。</summary>
+    </member>
+    <member name="M:System.Net.Http.Handlers.ProgressMessageHandler.OnHttpRequestProgress(System.Net.Http.HttpRequestMessage,System.Net.Http.Handlers.HttpProgressEventArgs)">
+      <summary>進行状況の要求を処理するイベントを発生させます。</summary>
+      <param name="request">要求。</param>
+      <param name="e">要求のイベント ハンドラー。</param>
+    </member>
+    <member name="M:System.Net.Http.Handlers.ProgressMessageHandler.OnHttpResponseProgress(System.Net.Http.HttpRequestMessage,System.Net.Http.Handlers.HttpProgressEventArgs)">
+      <summary>進行状況の応答を処理するイベントを発生させます。</summary>
+      <param name="request">要求。</param>
+      <param name="e">要求のイベント ハンドラー。</param>
+    </member>
+    <member name="M:System.Net.Http.Handlers.ProgressMessageHandler.SendAsync(System.Net.Http.HttpRequestMessage,System.Threading.CancellationToken)">
+      <summary>指定された進行状況のメッセージを、配信用 HTTP サーバーに送信します。</summary>
+      <returns>送信された進行状況のメッセージ。</returns>
+      <param name="request">要求。</param>
+      <param name="cancellationToken">キャンセル トークン。</param>
+    </member>
+    <member name="T:System.Net.Http.Headers.CookieHeaderValue">
+      <summary>Cookie ヘッダーの値を提供します。</summary>
+    </member>
+    <member name="M:System.Net.Http.Headers.CookieHeaderValue.#ctor">
+      <summary>
+        <see cref="T:System.Net.Http.Headers.CookieHeaderValue" /> クラスの新しいインスタンスを初期化します。</summary>
+    </member>
+    <member name="M:System.Net.Http.Headers.CookieHeaderValue.#ctor(System.String,System.Collections.Specialized.NameValueCollection)">
+      <summary>
+        <see cref="T:System.Net.Http.Headers.CookieHeaderValue" /> クラスの新しいインスタンスを初期化します。</summary>
+      <param name="name">名前の値。</param>
+      <param name="values">値。</param>
+    </member>
+    <member name="M:System.Net.Http.Headers.CookieHeaderValue.#ctor(System.String,System.String)">
+      <summary>
+        <see cref="T:System.Net.Http.Headers.CookieHeaderValue" /> クラスの新しいインスタンスを初期化します。</summary>
+      <param name="name">名前の値。</param>
+      <param name="value">値。</param>
+    </member>
+    <member name="M:System.Net.Http.Headers.CookieHeaderValue.Clone">
+      <summary>Cookie の値のシャロー コピーを作成します。</summary>
+      <returns>Cookie の値のシャロー コピー。</returns>
+    </member>
+    <member name="P:System.Net.Http.Headers.CookieHeaderValue.Cookies">
+      <summary>クライアントにより送信される Cookie のコレクションを取得します。</summary>
+      <returns>クライアントの Cookie の変数を表すコレクション オブジェクト。</returns>
+    </member>
+    <member name="P:System.Net.Http.Headers.CookieHeaderValue.Domain">
+      <summary>Cookie を関連付けるドメインを取得または設定します。</summary>
+      <returns>Cookie を関連付けるドメインの名前。</returns>
+    </member>
+    <member name="P:System.Net.Http.Headers.CookieHeaderValue.Expires">
+      <summary>Cookie の有効期限の日付および時刻を取得または設定します。</summary>
+      <returns>Cookie が期限切れになる (クライアント上での) 時刻。</returns>
+    </member>
+    <member name="P:System.Net.Http.Headers.CookieHeaderValue.HttpOnly">
+      <summary>Cookie がクライアント側スクリプトによりアクセスできるかどうかを指定する値を取得または設定します。</summary>
+      <returns>Cookie に HttpOnly 属性があり、クライアント側スクリプト経由ではアクセスできない場合は true。それ以外の場合は false。</returns>
+    </member>
+    <member name="P:System.Net.Http.Headers.CookieHeaderValue.Item(System.String)">
+      <summary>Cookie のプロパティへのショートカットを取得します。</summary>
+      <returns>Cookie の値。</returns>
+    </member>
+    <member name="P:System.Net.Http.Headers.CookieHeaderValue.MaxAge">
+      <summary>リソースに許可される最長の経過時間を取得または設定します。</summary>
+      <returns>リソースに許可される最長の経過時間。</returns>
+    </member>
+    <member name="P:System.Net.Http.Headers.CookieHeaderValue.Path">
+      <summary>現在の Cookie で送信される仮想パスを取得または設定します。</summary>
+      <returns>Cookie で送信される仮想パス。</returns>
+    </member>
+    <member name="P:System.Net.Http.Headers.CookieHeaderValue.Secure">
+      <summary>SSL (Secure Sockets Layer) を使用して、つまり HTTPS 経由のみで Cookie を送信するかどうかを示す値を取得または設定します。</summary>
+      <returns>SSL 接続 (HTTPS) 経由で Cookie を送信する場合は true。それ以外の場合は false。</returns>
+    </member>
+    <member name="M:System.Net.Http.Headers.CookieHeaderValue.ToString">
+      <summary>現在のオブジェクトを表す文字列を返します。</summary>
+      <returns>現在のオブジェクトを表す文字列。</returns>
+    </member>
+    <member name="M:System.Net.Http.Headers.CookieHeaderValue.TryParse(System.String,System.Net.Http.Headers.CookieHeaderValue@)">
+      <summary>文字列表現が変換されるかどうかの値を示します。</summary>
+      <returns>文字列表現が変換される場合は true。それ以外の場合は false。</returns>
+      <param name="input">入力値。</param>
+      <param name="parsedValue">変換する解析済みの値。</param>
+    </member>
+    <member name="T:System.Net.Http.Headers.CookieState">
+      <summary>Cookie の名前、および関連付けられている Cookie の状態が含まれます。</summary>
+    </member>
+    <member name="M:System.Net.Http.Headers.CookieState.#ctor(System.String)">
+      <summary>
+        <see cref="T:System.Net.Http.Headers.CookieState" /> クラスの新しいインスタンスを初期化します。</summary>
+      <param name="name">Cookie の名前。</param>
+    </member>
+    <member name="M:System.Net.Http.Headers.CookieState.#ctor(System.String,System.Collections.Specialized.NameValueCollection)">
+      <summary>
+        <see cref="T:System.Net.Http.Headers.CookieState" /> クラスの新しいインスタンスを初期化します。</summary>
+      <param name="name">Cookie の名前。</param>
+      <param name="values">Cookie の名前と値のペアのコレクション。</param>
+    </member>
+    <member name="M:System.Net.Http.Headers.CookieState.#ctor(System.String,System.String)">
+      <summary>
+        <see cref="T:System.Net.Http.Headers.CookieState" /> クラスの新しいインスタンスを初期化します。</summary>
+      <param name="name">Cookie の名前。</param>
+      <param name="value">Cookie の値。</param>
+    </member>
+    <member name="M:System.Net.Http.Headers.CookieState.Clone">
+      <summary>現在のインスタンスのコピーである新しいオブジェクトを返します。</summary>
+      <returns>現在のインスタンスのコピーである新しいオブジェクト。</returns>
+    </member>
+    <member name="P:System.Net.Http.Headers.CookieState.Item(System.String)">
+      <summary>Cookie のデータが構造化されている場合は、指定された Cookie 名を使用して Cookie の値を取得または設定します。</summary>
+      <returns>指定された Cookie の名前を持つ Cookie の値。</returns>
+    </member>
+    <member name="P:System.Net.Http.Headers.CookieState.Name">
+      <summary>Cookie の名前を取得または設定します。</summary>
+      <returns>Cookie の名前。</returns>
+    </member>
+    <member name="M:System.Net.Http.Headers.CookieState.ToString">
+      <summary>現在のオブジェクトの文字列表現を返します。</summary>
+      <returns>現在のオブジェクトの文字列表現。</returns>
+    </member>
+    <member name="P:System.Net.Http.Headers.CookieState.Value">
+      <summary>Cookie のデータが単純な文字列値の場合、Cookie の値を取得または設定します。</summary>
+      <returns>Cookie の値。</returns>
+    </member>
+    <member name="P:System.Net.Http.Headers.CookieState.Values">
+      <summary>Cookie のデータが構造化されている場合は、名前と値のペアのコレクションを取得または設定します。</summary>
+      <returns>Cookie の名前と値のペアのコレクション。</returns>
+    </member>
+  </members>
+</doc>

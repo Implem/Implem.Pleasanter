@@ -1,0 +1,13 @@
+﻿{
+    "Id": "ApiSettings",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "API settings"
+        },
+        {
+            "Language": "ja",
+            "Body": "API設定"
+        }
+    ]
+}

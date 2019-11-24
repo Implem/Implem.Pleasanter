@@ -1,0 +1,16 @@
+﻿{
+    "LabelText": "チェック",
+    "No": "600",
+    "History": "600",
+    "Export": "600",
+    "GridColumn": "600",
+    "FilterColumn": "600",
+    "FilterEnabled": "1",
+    "EditorColumn": "600",
+    "TitleColumn": "600",
+    "LinkColumn": "600",
+    "HistoryColumn": "600",
+    "TypeName": "bit",
+    "Nullable": "1",
+    "ExtendedColumnType": "Check"
+}

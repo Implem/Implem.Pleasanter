@@ -1,0 +1,13 @@
+﻿{
+    "Id": "Invite",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Invite"
+        },
+        {
+            "Language": "ja",
+            "Body": "招待"
+        }
+    ]
+}

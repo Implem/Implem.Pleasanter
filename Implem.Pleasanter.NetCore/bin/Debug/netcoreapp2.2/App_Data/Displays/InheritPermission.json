@@ -1,0 +1,13 @@
+﻿{
+  "Id": "InheritPermission",
+  "Type": 110,
+  "Languages": [
+    {
+      "Body": "Inherit permission"
+    },
+    {
+      "Language": "ja",
+      "Body": "アクセス権の継承"
+    }
+  ]
+}

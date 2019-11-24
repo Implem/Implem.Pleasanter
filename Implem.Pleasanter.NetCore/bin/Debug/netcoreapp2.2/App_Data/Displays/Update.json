@@ -1,0 +1,13 @@
+﻿{
+    "Id": "Update",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Update"
+        },
+        {
+            "Language": "ja",
+            "Body": "更新"
+        }
+    ]
+}

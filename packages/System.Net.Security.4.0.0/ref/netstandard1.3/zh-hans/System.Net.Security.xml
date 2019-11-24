@@ -1,0 +1,480 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<doc>
+  <assembly>
+    <name>System.Net.Security</name>
+  </assembly>
+  <members>
+    <member name="T:System.Net.Security.EncryptionPolicy">
+      <summary>要使用的 EncryptionPolicy。</summary>
+    </member>
+    <member name="F:System.Net.Security.EncryptionPolicy.AllowNoEncryption">
+      <summary>虽然优先考虑使用完全加密，但若获得服务器同意，也可以使用 NULL 密码（不加密）。</summary>
+    </member>
+    <member name="F:System.Net.Security.EncryptionPolicy.NoEncryption">
+      <summary>允许不加密，并要求在另一个终结点可以处理 NULL 密码的情况下使用 NULL 密码。</summary>
+    </member>
+    <member name="F:System.Net.Security.EncryptionPolicy.RequireEncryption">
+      <summary>要求加密，并且绝不允许使用 NULL 密码。</summary>
+    </member>
+    <member name="T:System.Net.Security.LocalCertificateSelectionCallback">
+      <summary>选择用于身份验证的本地安全套接字层 (SSL) 证书。</summary>
+      <returns>
+        <see cref="T:System.Security.Cryptography.X509Certificates.X509Certificate" /> 用于建立 SSL 连接。</returns>
+      <param name="sender">一个对象，它包含此验证的状态信息。</param>
+      <param name="targetHost">客户端指定的主机服务器。</param>
+      <param name="localCertificates">
+        <see cref="T:System.Security.Cryptography.X509Certificates.X509CertificateCollection" /> 包含本地证书。</param>
+      <param name="remoteCertificate">用于对远程方进行身份验证的证书。</param>
+      <param name="acceptableIssuers">远程方可接受的证书颁发者的 <see cref="T:System.String" /> 数组。</param>
+    </member>
+    <member name="T:System.Net.Security.RemoteCertificateValidationCallback">
+      <summary>验证用于身份验证的远程安全套接字层 (SSL) 证书。</summary>
+      <returns>
+        <see cref="T:System.Boolean" /> 值，它确定是否接受指定证书进行身份验证。</returns>
+      <param name="sender">一个对象，它包含此验证的状态信息。</param>
+      <param name="certificate">用于对远程方进行身份验证的证书。</param>
+      <param name="chain">与远程证书关联的证书颁发机构链。</param>
+      <param name="sslPolicyErrors">与远程证书关联的一个或多个错误。</param>
+    </member>
+    <member name="T:System.Net.Security.SslStream">
+      <summary>提供一个用于客户端-服务器通信的流，此流使用安全套接字层 (SSL) 安全协议对服务器及客户端（可选）进行身份验证。</summary>
+    </member>
+    <member name="M:System.Net.Security.SslStream.#ctor(System.IO.Stream)">
+      <summary>使用指定 <see cref="T:System.IO.Stream" /> 初始化 <see cref="T:System.Net.Security.SslStream" /> 类的新实例。</summary>
+      <param name="innerStream">
+        <see cref="T:System.IO.Stream" /> 对象，<see cref="T:System.Net.Security.SslStream" /> 使用此对象发送和接收数据。</param>
+      <exception cref="T:System.ArgumentException">
+        <paramref name="innerStream" /> 不可读。- 或 -<paramref name="innerStream" /> 不可写。</exception>
+      <exception cref="T:System.ArgumentNullException">
+        <paramref name="innerStream" /> 为 null。- 或 -<paramref name="innerStream" /> 等于 <see cref="F:System.IO.Stream.Null" />。</exception>
+    </member>
+    <member name="M:System.Net.Security.SslStream.#ctor(System.IO.Stream,System.Boolean)">
+      <summary>使用指定的 <see cref="T:System.IO.Stream" /> 和流封闭行为初始化 <see cref="T:System.Net.Security.SslStream" /> 类的新实例。</summary>
+      <param name="innerStream">
+        <see cref="T:System.IO.Stream" /> 对象，<see cref="T:System.Net.Security.SslStream" /> 使用此对象发送和接收数据。</param>
+      <param name="leaveInnerStreamOpen">一个布尔值，它指示 <see cref="T:System.Net.Security.SslStream" /> 用来发送和接收数据的 <see cref="T:System.IO.Stream" /> 对象的封闭行为。此参数指示内部流是否保持打开状态。</param>
+      <exception cref="T:System.ArgumentException">
+        <paramref name="innerStream" /> 不可读。- 或 -<paramref name="innerStream" /> 不可写。</exception>
+      <exception cref="T:System.ArgumentNullException">
+        <paramref name="innerStream" /> 为 null。- 或 -<paramref name="innerStream" /> 等于 <see cref="F:System.IO.Stream.Null" />。</exception>
+    </member>
+    <member name="M:System.Net.Security.SslStream.#ctor(System.IO.Stream,System.Boolean,System.Net.Security.RemoteCertificateValidationCallback)">
+      <summary>使用指定的 <see cref="T:System.IO.Stream" />、流关闭行为和证书验证委托初始化 <see cref="T:System.Net.Security.SslStream" /> 类的新实例。</summary>
+      <param name="innerStream">
+        <see cref="T:System.IO.Stream" /> 对象，<see cref="T:System.Net.Security.SslStream" /> 使用此对象发送和接收数据。</param>
+      <param name="leaveInnerStreamOpen">一个布尔值，它指示 <see cref="T:System.Net.Security.SslStream" /> 用来发送和接收数据的 <see cref="T:System.IO.Stream" /> 对象的封闭行为。此参数指示内部流是否保持打开状态。</param>
+      <param name="userCertificateValidationCallback">
+        <see cref="T:System.Net.Security.RemoteCertificateValidationCallback" /> 委托，负责验证远程方提供的证书。</param>
+      <exception cref="T:System.ArgumentException">
+        <paramref name="innerStream" /> 不可读。- 或 -<paramref name="innerStream" /> 不可写。</exception>
+      <exception cref="T:System.ArgumentNullException">
+        <paramref name="innerStream" /> 为 null。- 或 -<paramref name="innerStream" /> 等于 <see cref="F:System.IO.Stream.Null" />。</exception>
+    </member>
+    <member name="M:System.Net.Security.SslStream.#ctor(System.IO.Stream,System.Boolean,System.Net.Security.RemoteCertificateValidationCallback,System.Net.Security.LocalCertificateSelectionCallback)">
+      <summary>使用指定的 <see cref="T:System.IO.Stream" />、流关闭行为、证书验证委托和证书选择委托初始化 <see cref="T:System.Net.Security.SslStream" /> 类的新实例。</summary>
+      <param name="innerStream">
+        <see cref="T:System.IO.Stream" /> 对象，<see cref="T:System.Net.Security.SslStream" /> 使用此对象发送和接收数据。</param>
+      <param name="leaveInnerStreamOpen">一个布尔值，它指示 <see cref="T:System.Net.Security.SslStream" /> 用来发送和接收数据的 <see cref="T:System.IO.Stream" /> 对象的封闭行为。此参数指示内部流是否保持打开状态。</param>
+      <param name="userCertificateValidationCallback">
+        <see cref="T:System.Net.Security.RemoteCertificateValidationCallback" /> 委托，负责验证远程方提供的证书。</param>
+      <param name="userCertificateSelectionCallback">
+        <see cref="T:System.Net.Security.LocalCertificateSelectionCallback" /> 委托，负责选择用于身份验证的证书。</param>
+      <exception cref="T:System.ArgumentException">
+        <paramref name="innerStream" /> 不可读。- 或 -<paramref name="innerStream" /> 不可写。</exception>
+      <exception cref="T:System.ArgumentNullException">
+        <paramref name="innerStream" /> 为 null。- 或 -<paramref name="innerStream" /> 等于 <see cref="F:System.IO.Stream.Null" />。</exception>
+    </member>
+    <member name="M:System.Net.Security.SslStream.#ctor(System.IO.Stream,System.Boolean,System.Net.Security.RemoteCertificateValidationCallback,System.Net.Security.LocalCertificateSelectionCallback,System.Net.Security.EncryptionPolicy)">
+      <summary>使用指定的 <see cref="T:System.IO.Stream" /> 初始化 <see cref="T:System.Net.Security.SslStream" /> 类的新实例</summary>
+      <param name="innerStream">
+        <see cref="T:System.IO.Stream" /> 对象，<see cref="T:System.Net.Security.SslStream" /> 使用此对象发送和接收数据。</param>
+      <param name="leaveInnerStreamOpen">一个布尔值，它指示 <see cref="T:System.Net.Security.SslStream" /> 用来发送和接收数据的 <see cref="T:System.IO.Stream" /> 对象的封闭行为。此参数指示内部流是否保持打开状态。</param>
+      <param name="userCertificateValidationCallback">
+        <see cref="T:System.Net.Security.RemoteCertificateValidationCallback" /> 委托，负责验证远程方提供的证书。</param>
+      <param name="userCertificateSelectionCallback">
+        <see cref="T:System.Net.Security.LocalCertificateSelectionCallback" /> 委托，负责选择用于身份验证的证书。</param>
+      <param name="encryptionPolicy">要使用的 <see cref="T:System.Net.Security.EncryptionPolicy" />。</param>
+      <exception cref="T:System.ArgumentException">
+        <paramref name="innerStream" /> 不可读。- 或 -<paramref name="innerStream" /> 不可写。- 或 -<paramref name="encryptionPolicy" /> 无效。</exception>
+      <exception cref="T:System.ArgumentNullException">
+        <paramref name="innerStream" /> 为 null。- 或 -<paramref name="innerStream" /> 等于 <see cref="F:System.IO.Stream.Null" />。</exception>
+    </member>
+    <member name="M:System.Net.Security.SslStream.AuthenticateAsClient(System.String)">
+      <summary>客户端调用此方法，以便对客户端-服务器连接中的服务器及客户端（可选）进行身份验证。</summary>
+      <param name="targetHost">共享此 <see cref="T:System.Net.Security.SslStream" /> 的服务器的名称。</param>
+      <exception cref="T:System.ArgumentNullException">
+        <paramref name="targetHost" /> 为 null。</exception>
+      <exception cref="T:System.Security.Authentication.AuthenticationException">身份验证失败，此对象处于不可用状态。</exception>
+      <exception cref="T:System.InvalidOperationException">已进行了身份验证。- 或 -此前已尝试过使用此 <see cref="T:System.Net.Security.SslStream" /> 进行服务器身份验证。- 或 -身份验证已在进行。</exception>
+      <exception cref="T:System.ObjectDisposedException">此对象已关闭。</exception>
+    </member>
+    <member name="M:System.Net.Security.SslStream.AuthenticateAsClient(System.String,System.Security.Cryptography.X509Certificates.X509CertificateCollection,System.Security.Authentication.SslProtocols,System.Boolean)">
+      <summary>客户端调用此方法，以便对客户端-服务器连接中的服务器及客户端（可选）进行身份验证。身份验证过程使用指定的证书集合和 SSL 协议。</summary>
+      <param name="targetHost">将共享此 <see cref="T:System.Net.Security.SslStream" /> 的服务器的名称。</param>
+      <param name="clientCertificates">包含客户端证书的 <see cref="T:System.Security.Cryptography.X509Certificates.X509CertificateCollection" />。</param>
+      <param name="enabledSslProtocols">代表用于身份验证的协议的 <see cref="T:System.Security.Authentication.SslProtocols" /> 值。</param>
+      <param name="checkCertificateRevocation">一个 <see cref="T:System.Boolean" /> 值，指定在身份验证过程中是否检查证书吊销列表。</param>
+    </member>
+    <member name="M:System.Net.Security.SslStream.AuthenticateAsClientAsync(System.String)">
+      <summary>客户端调用此方法，对客户端-服务器连接中的服务器及客户端（可选）进行身份验证以作为异步操作。</summary>
+      <returns>返回 <see cref="T:System.Threading.Tasks.Task" />表示异步操作的任务对象。</returns>
+      <param name="targetHost">共享此 <see cref="T:System.Net.Security.SslStream" /> 的服务器的名称。</param>
+      <exception cref="T:System.ArgumentNullException">
+        <paramref name="targetHost" /> 为 null。</exception>
+      <exception cref="T:System.Security.Authentication.AuthenticationException">身份验证失败，此对象处于不可用状态。</exception>
+      <exception cref="T:System.InvalidOperationException">已进行了身份验证。- 或 -此前已尝试过使用此 <see cref="T:System.Net.Security.SslStream" /> 进行服务器身份验证。- 或 -身份验证已在进行。</exception>
+      <exception cref="T:System.ObjectDisposedException">此对象已关闭。</exception>
+    </member>
+    <member name="M:System.Net.Security.SslStream.AuthenticateAsClientAsync(System.String,System.Security.Cryptography.X509Certificates.X509CertificateCollection,System.Security.Authentication.SslProtocols,System.Boolean)">
+      <summary>客户端调用此方法，对客户端-服务器连接中的服务器及客户端（可选）进行身份验证以作为异步操作。身份验证过程使用指定的证书集合和 SSL 协议。</summary>
+      <returns>返回 <see cref="T:System.Threading.Tasks.Task" />表示异步操作的任务对象。</returns>
+      <param name="targetHost">将共享此 <see cref="T:System.Net.Security.SslStream" /> 的服务器的名称。</param>
+      <param name="clientCertificates">包含客户端证书的 <see cref="T:System.Security.Cryptography.X509Certificates.X509CertificateCollection" />。</param>
+      <param name="enabledSslProtocols">代表用于身份验证的协议的 <see cref="T:System.Security.Authentication.SslProtocols" /> 值。</param>
+      <param name="checkCertificateRevocation">一个 <see cref="T:System.Boolean" /> 值，指定在身份验证过程中是否检查证书吊销列表。</param>
+    </member>
+    <member name="M:System.Net.Security.SslStream.AuthenticateAsServer(System.Security.Cryptography.X509Certificates.X509Certificate)">
+      <summary>服务器调用此方法，以便使用指定的证书对客户端-服务器连接中的服务器及客户端（可选）进行身份验证。</summary>
+      <param name="serverCertificate">用于对服务器进行身份验证的证书。</param>
+      <exception cref="T:System.ArgumentNullException">
+        <paramref name="serverCertificate" /> 为 null。</exception>
+      <exception cref="T:System.Security.Authentication.AuthenticationException">身份验证失败，此对象处于不可用状态。</exception>
+      <exception cref="T:System.InvalidOperationException">已进行了身份验证。- 或 -此前已尝试过使用此 <see cref="T:System.Net.Security.SslStream" /> 进行客户端身份验证。- 或 -身份验证已在进行。</exception>
+      <exception cref="T:System.ObjectDisposedException">此对象已关闭。</exception>
+      <exception cref="T:System.PlatformNotSupportedException">Windows 95、Windows 98 或 Windows Millennium 不支持 <see cref="Overload:System.Net.Security.SslStream.AuthenticateAsServer" /> 方法。</exception>
+    </member>
+    <member name="M:System.Net.Security.SslStream.AuthenticateAsServer(System.Security.Cryptography.X509Certificates.X509Certificate,System.Boolean,System.Security.Authentication.SslProtocols,System.Boolean)">
+      <summary>服务器调用此方法，使用指定的证书、要求和安全协议对客户端-服务器连接中的服务器及客户端（可选）进行身份验证。</summary>
+      <param name="serverCertificate">用于对服务器进行身份验证的 X509Certificate。</param>
+      <param name="clientCertificateRequired">一个 <see cref="T:System.Boolean" /> 值，指定客户端是否必须为身份验证提供证书。</param>
+      <param name="enabledSslProtocols">代表用于身份验证的协议的 <see cref="T:System.Security.Authentication.SslProtocols" /> 值。</param>
+      <param name="checkCertificateRevocation">一个 <see cref="T:System.Boolean" /> 值，指定在身份验证过程中是否检查证书吊销列表。</param>
+      <exception cref="T:System.ArgumentNullException">
+        <paramref name="serverCertificate" /> 为 null。</exception>
+      <exception cref="T:System.ArgumentException">
+        <paramref name="enabledSslProtocols" /> 不是有效的 <see cref="T:System.Security.Authentication.SslProtocols" /> 值。</exception>
+      <exception cref="T:System.Security.Authentication.AuthenticationException">身份验证失败，此对象处于不可用状态。</exception>
+      <exception cref="T:System.InvalidOperationException">已进行了身份验证。- 或 -此前已尝试过使用此 <see cref="T:System.Net.Security.SslStream" /> 进行客户端身份验证。- 或 -身份验证已在进行。</exception>
+      <exception cref="T:System.ObjectDisposedException">此对象已关闭。</exception>
+      <exception cref="T:System.PlatformNotSupportedException">Windows 95、Windows 98 或 Windows Millennium 不支持 <see cref="Overload:System.Net.Security.SslStream.AuthenticateAsServer" /> 方法。</exception>
+    </member>
+    <member name="M:System.Net.Security.SslStream.AuthenticateAsServerAsync(System.Security.Cryptography.X509Certificates.X509Certificate)">
+      <summary>服务器调用此方法，使用指定的证书对客户端-服务器连接中的服务器及客户端（可选）进行身份验证以作为异步操作。</summary>
+      <returns>返回 <see cref="T:System.Threading.Tasks.Task" />表示异步操作的任务对象。</returns>
+      <param name="serverCertificate">用于对服务器进行身份验证的证书。</param>
+      <exception cref="T:System.ArgumentNullException">
+        <paramref name="serverCertificate" /> 为 null。</exception>
+      <exception cref="T:System.Security.Authentication.AuthenticationException">身份验证失败，此对象处于不可用状态。</exception>
+      <exception cref="T:System.InvalidOperationException">已进行了身份验证。- 或 -此前已尝试过使用此 <see cref="T:System.Net.Security.SslStream" /> 进行客户端身份验证。- 或 -身份验证已在进行。</exception>
+      <exception cref="T:System.ObjectDisposedException">此对象已关闭。</exception>
+      <exception cref="T:System.PlatformNotSupportedException">Windows 95、Windows 98 或 Windows Millennium 不支持 <see cref="Overload:System.Net.Security.SslStream.AuthenticateAsServerAsync" /> 方法。</exception>
+    </member>
+    <member name="M:System.Net.Security.SslStream.AuthenticateAsServerAsync(System.Security.Cryptography.X509Certificates.X509Certificate,System.Boolean,System.Security.Authentication.SslProtocols,System.Boolean)">
+      <summary>服务器调用此方法，使用指定的证书、要求和安全协议对客户端-服务器连接中的服务器及客户端（可选）进行身份验证以作为异步操作。</summary>
+      <returns>返回 <see cref="T:System.Threading.Tasks.Task" />表示异步操作的任务对象。</returns>
+      <param name="serverCertificate">用于对服务器进行身份验证的 X509Certificate。</param>
+      <param name="clientCertificateRequired">一个 <see cref="T:System.Boolean" /> 值，指定客户端是否必须为身份验证提供证书。</param>
+      <param name="enabledSslProtocols">代表用于身份验证的协议的 <see cref="T:System.Security.Authentication.SslProtocols" /> 值。</param>
+      <param name="checkCertificateRevocation">一个 <see cref="T:System.Boolean" /> 值，指定在身份验证过程中是否检查证书吊销列表。</param>
+    </member>
+    <member name="P:System.Net.Security.SslStream.CanRead">
+      <summary>获取一个 <see cref="T:System.Boolean" /> 值，该值指示基础流是否可读。</summary>
+      <returns>如果已进行身份验证且基础流可读，则为 true；否则为 false。</returns>
+    </member>
+    <member name="P:System.Net.Security.SslStream.CanSeek">
+      <summary>获取一个 <see cref="T:System.Boolean" /> 值，该值指示基础流是否可查找。</summary>
+      <returns>该属性始终返回 false。</returns>
+    </member>
+    <member name="P:System.Net.Security.SslStream.CanTimeout">
+      <summary>获取一个 <see cref="T:System.Boolean" /> 值，该值指示基础流是否支持超时。</summary>
+      <returns>如果基础流支持超时，则为 true；否则为 false。</returns>
+    </member>
+    <member name="P:System.Net.Security.SslStream.CanWrite">
+      <summary>获取一个 <see cref="T:System.Boolean" /> 值，该值指示基础流是否可写。</summary>
+      <returns>如果已进行身份验证且基础流可写，则为 true；否则为 false。</returns>
+    </member>
+    <member name="P:System.Net.Security.SslStream.CheckCertRevocationStatus">
+      <summary>获取一个 <see cref="T:System.Boolean" /> 值，该值指示在证书验证过程中是否检查证书吊销列表。</summary>
+      <returns>如果检查证书吊销列表，则为 true；否则为 false。</returns>
+    </member>
+    <member name="P:System.Net.Security.SslStream.CipherAlgorithm">
+      <summary>获取一个值，该值确定此 <see cref="T:System.Net.Security.SslStream" /> 使用的批量加密算法。</summary>
+      <returns>一个 <see cref="T:System.Security.Authentication.CipherAlgorithmType" /> 值。</returns>
+      <exception cref="T:System.InvalidOperationException">
+        <see cref="P:System.Net.Security.SslStream.CipherAlgorithm" /> 属性是在身份验证过程未完成时访问的或者身份验证过程失败。</exception>
+    </member>
+    <member name="P:System.Net.Security.SslStream.CipherStrength">
+      <summary>获取一个值，该值确定此 <see cref="T:System.Net.Security.SslStream" /> 使用的密码算法的强度。</summary>
+      <returns>
+        <see cref="T:System.Int32" /> 值，该值指定算法的强度（以位为单位）。</returns>
+    </member>
+    <member name="M:System.Net.Security.SslStream.Flush">
+      <summary>导致所有缓冲数据都要写入基础设备。</summary>
+    </member>
+    <member name="P:System.Net.Security.SslStream.HashAlgorithm">
+      <summary>获取用于生成消息身份验证代码 (MAC) 的算法。</summary>
+      <returns>一个 <see cref="T:System.Security.Authentication.HashAlgorithmType" /> 值。</returns>
+      <exception cref="T:System.InvalidOperationException">
+        <see cref="P:System.Net.Security.SslStream.HashAlgorithm" /> 属性是在身份验证过程未完成时访问的或者身份验证过程失败。</exception>
+    </member>
+    <member name="P:System.Net.Security.SslStream.HashStrength">
+      <summary>获取一个值，该值标识此实例使用的哈希算法的强度。</summary>
+      <returns>一个 <see cref="T:System.Int32" /> 值，指定 <see cref="T:System.Security.Authentication.HashAlgorithmType" /> 算法的强度（以位为单位）。有效值为 128 或 160。</returns>
+    </member>
+    <member name="P:System.Net.Security.SslStream.KeyExchangeAlgorithm">
+      <summary>获取此 <see cref="T:System.Net.Security.SslStream" /> 使用的密钥交换算法。</summary>
+      <returns>一个 <see cref="T:System.Security.Authentication.ExchangeAlgorithmType" /> 值。</returns>
+    </member>
+    <member name="P:System.Net.Security.SslStream.KeyExchangeStrength">
+      <summary>获取一个值，该值指示此实例使用的密钥交换算法的强度。</summary>
+      <returns>一个 <see cref="T:System.Int32" /> 值，指定 <see cref="T:System.Security.Authentication.ExchangeAlgorithmType" /> 算法的强度（以位为单位）。</returns>
+    </member>
+    <member name="P:System.Net.Security.SslStream.Length">
+      <summary>获取基础流的长度。</summary>
+      <returns>
+        <see cref="T:System.Int64" />。基础流的长度。</returns>
+      <exception cref="T:System.NotSupportedException">当基础流为 <see cref="T:System.Net.Sockets.NetworkStream" /> 时，不支持获取此属性的值。</exception>
+    </member>
+    <member name="P:System.Net.Security.SslStream.LocalCertificate">
+      <summary>获取用于对本地终结点进行身份验证的证书。</summary>
+      <returns>一个 X509Certificate 对象，它表示为身份验证提供的证书；或者，如果没有提供证书，则为 null。</returns>
+      <exception cref="T:System.InvalidOperationException">身份验证失败或没有进行身份验证。</exception>
+    </member>
+    <member name="P:System.Net.Security.SslStream.Position">
+      <summary>获取或设置基础流中的当前位置。</summary>
+      <returns>
+        <see cref="T:System.Int64" />。基础流中的当前位置。</returns>
+      <exception cref="T:System.NotSupportedException">不支持设置此属性。- 或 -当基础流为 <see cref="T:System.Net.Sockets.NetworkStream" /> 时，不支持获取此属性的值。</exception>
+    </member>
+    <member name="M:System.Net.Security.SslStream.Read(System.Byte[],System.Int32,System.Int32)">
+      <summary>读取此流中的数据并将其存储在指定的数组中。</summary>
+      <returns>
+        <see cref="T:System.Int32" /> 值，该值指定读取的字节数。如果再也没有要读取的数据，将返回 0。</returns>
+      <param name="buffer">一个 <see cref="T:System.Byte" /> 数组，该数组接收从此流读取的字节。</param>
+      <param name="offset">
+        <see cref="T:System.Int32" />，它包含 <paramref name="buffer" /> 中从零开始的位置，从此处开始存储从此流读取的数据。</param>
+      <param name="count">
+        <see cref="T:System.Int32" />，包含要从此流读取的最大字节数。</param>
+      <exception cref="T:System.ArgumentNullException">
+        <paramref name="buffer" /> 为 null。</exception>
+      <exception cref="T:System.ArgumentException">
+        <paramref name="offset" />
+        <paramref name="&lt;" />
+        <paramref name="0" />.<paramref name="-or-" /><paramref name="offset" /> 大于 <paramref name="buffer" /> 的长度。- 或 -<paramref name="offset" /> 与计数之和大于 <paramref name="buffer" /> 的长度。</exception>
+      <exception cref="T:System.IO.IOException">读操作失败。检查内部异常（如果存在）以确定失败的原因。</exception>
+      <exception cref="T:System.NotSupportedException">已存在一个正在执行的读取操作。</exception>
+      <exception cref="T:System.ObjectDisposedException">此对象已关闭。</exception>
+      <exception cref="T:System.InvalidOperationException">未进行身份验证。</exception>
+    </member>
+    <member name="P:System.Net.Security.SslStream.ReadTimeout">
+      <summary>获取或设置读操作等待数据的时间。</summary>
+      <returns>
+        <see cref="T:System.Int32" />，指定同步读操作失败前经过的时间。</returns>
+    </member>
+    <member name="P:System.Net.Security.SslStream.RemoteCertificate">
+      <summary>获取用于对远程终结点进行身份验证的证书。</summary>
+      <returns>一个 X509Certificate 对象，它表示为身份验证提供的证书；或者，如果没有提供证书，则为 null。</returns>
+      <exception cref="T:System.InvalidOperationException">身份验证失败或没有进行身份验证。</exception>
+    </member>
+    <member name="M:System.Net.Security.SslStream.Seek(System.Int64,System.IO.SeekOrigin)">
+      <summary>引发 <see cref="T:System.NotSupportedException" />。</summary>
+      <returns>总是引发 <see cref="T:System.NotSupportedException" />。</returns>
+      <param name="offset">忽略此值。</param>
+      <param name="origin">忽略此值。</param>
+      <exception cref="T:System.NotSupportedException">
+        <see cref="T:System.Net.Security.SslStream" /> 对象不支持查找。</exception>
+    </member>
+    <member name="M:System.Net.Security.SslStream.SetLength(System.Int64)">
+      <summary>设置基础流的长度。</summary>
+      <param name="value">
+        <see cref="T:System.Int64" /> 值，该值指定流的长度。</param>
+    </member>
+    <member name="P:System.Net.Security.SslStream.SslProtocol">
+      <summary>获取一个值，该值指示用于对此连接进行身份验证的安全协议。</summary>
+      <returns>代表用于身份验证的协议的 <see cref="T:System.Security.Authentication.SslProtocols" /> 值。</returns>
+    </member>
+    <member name="P:System.Net.Security.SslStream.TransportContext">
+      <summary>获取用于采用扩展保护的身份验证的 <see cref="T:System.Net.TransportContext" />。</summary>
+      <returns>一个 <see cref="T:System.Net.TransportContext" /> 对象，它包含用于扩展保护的通道绑定令牌 (CBT)。</returns>
+    </member>
+    <member name="M:System.Net.Security.SslStream.Write(System.Byte[])">
+      <summary>将指定的数据写入此流。</summary>
+      <param name="buffer">一个 <see cref="T:System.Byte" /> 数组，该数组提供要写入流中的字节。</param>
+      <exception cref="T:System.ArgumentNullException">
+        <paramref name="buffer" /> 为 null。</exception>
+      <exception cref="T:System.IO.IOException">写操作失败。</exception>
+      <exception cref="T:System.NotSupportedException">已存在一个正在执行的写操作。</exception>
+      <exception cref="T:System.ObjectDisposedException">此对象已关闭。</exception>
+      <exception cref="T:System.InvalidOperationException">未进行身份验证。</exception>
+    </member>
+    <member name="M:System.Net.Security.SslStream.Write(System.Byte[],System.Int32,System.Int32)">
+      <summary>使用指定的缓冲区和偏移将指定数目的 <see cref="T:System.Byte" /> 写入基础流。</summary>
+      <param name="buffer">一个 <see cref="T:System.Byte" /> 数组，该数组提供要写入流中的字节。</param>
+      <param name="offset">
+        <see cref="T:System.Int32" />，它包含 <paramref name="buffer" /> 中从零开始的位置，将从此位置开始读取要写入流中的字节。</param>
+      <param name="count">
+        <see cref="T:System.Int32" />，包含要从 <paramref name="buffer" /> 中读取的字节数。</param>
+      <exception cref="T:System.ArgumentNullException">
+        <paramref name="buffer" /> 为 null。</exception>
+      <exception cref="T:System.ArgumentException">
+        <paramref name="offset" />
+        <paramref name="&lt;" />
+        <paramref name="0" />.<paramref name="-or-" /><paramref name="offset" /> 大于 <paramref name="buffer" /> 的长度。- 或 -<paramref name="offset" /> 与计数之和大于 <paramref name="buffer" /> 的长度。</exception>
+      <exception cref="T:System.IO.IOException">写操作失败。</exception>
+      <exception cref="T:System.NotSupportedException">已存在一个正在执行的写操作。</exception>
+      <exception cref="T:System.ObjectDisposedException">此对象已关闭。</exception>
+      <exception cref="T:System.InvalidOperationException">未进行身份验证。</exception>
+    </member>
+    <member name="P:System.Net.Security.SslStream.WriteTimeout">
+      <summary>获取或设置写操作等待数据的时间。</summary>
+      <returns>
+        <see cref="T:System.Int32" />，指定同步写操作失败前经过的时间。</returns>
+    </member>
+    <member name="T:System.Security.Authentication.AuthenticationException">
+      <summary>当身份验证流的身份验证失败时引发的异常。</summary>
+    </member>
+    <member name="M:System.Security.Authentication.AuthenticationException.#ctor">
+      <summary>不使用任何消息初始化 <see cref="T:System.Security.Authentication.AuthenticationException" /> 类的新实例。</summary>
+    </member>
+    <member name="M:System.Security.Authentication.AuthenticationException.#ctor(System.String)">
+      <summary>用指定消息初始化 <see cref="T:System.Security.Authentication.AuthenticationException" /> 类的新实例。</summary>
+      <param name="message">描述身份验证失败的 <see cref="T:System.String" />。</param>
+    </member>
+    <member name="M:System.Security.Authentication.AuthenticationException.#ctor(System.String,System.Exception)">
+      <summary>使用指定的消息和内部异常初始化 <see cref="T:System.Security.Authentication.AuthenticationException" /> 类的新实例。</summary>
+      <param name="message">描述身份验证失败的 <see cref="T:System.String" />。</param>
+      <param name="innerException">导致当前异常的 <see cref="T:System.Exception" />。</param>
+    </member>
+    <member name="T:System.Security.Authentication.ExtendedProtection.ExtendedProtectionPolicy">
+      <summary>
+        <see cref="T:System.Security.Authentication.ExtendedProtection.ExtendedProtectionPolicy" /> 类表示服务器用来验证传入客户端连接的扩展保护策略。</summary>
+    </member>
+    <member name="M:System.Security.Authentication.ExtendedProtection.ExtendedProtectionPolicy.#ctor(System.Security.Authentication.ExtendedProtection.PolicyEnforcement)">
+      <summary>初始化 <see cref="T:System.Security.Authentication.ExtendedProtection.ExtendedProtectionPolicy" /> 类的新实例，该类指定应何时强制实施扩展保护策略。</summary>
+      <param name="policyEnforcement">一个 <see cref="T:System.Security.Authentication.ExtendedProtection.PolicyEnforcement" /> 值，指示应何时强制实施扩展的保护策略。</param>
+    </member>
+    <member name="M:System.Security.Authentication.ExtendedProtection.ExtendedProtectionPolicy.#ctor(System.Security.Authentication.ExtendedProtection.PolicyEnforcement,System.Security.Authentication.ExtendedProtection.ChannelBinding)">
+      <summary>初始化 <see cref="T:System.Security.Authentication.ExtendedProtection.ExtendedProtectionPolicy" /> 类的新实例，该类指定应何时强制实施扩展保护策略以及指定要使用的通道绑定令牌 (CBT)。</summary>
+      <param name="policyEnforcement">一个 <see cref="T:System.Security.Authentication.ExtendedProtection.PolicyEnforcement" /> 值，指示应何时强制实施扩展的保护策略。</param>
+      <param name="customChannelBinding">
+        <see cref="T:System.Security.Authentication.ExtendedProtection.ChannelBinding" />，它包含用于验证的自定义通道绑定。</param>
+      <exception cref="T:System.ArgumentException">
+        <paramref name="policyEnforcement" /> 指定为 <see cref="F:System.Security.Authentication.ExtendedProtection.PolicyEnforcement.Never" />。</exception>
+      <exception cref="T:System.ArgumentNullException">
+        <paramref name="customChannelBinding " />为 null。</exception>
+    </member>
+    <member name="M:System.Security.Authentication.ExtendedProtection.ExtendedProtectionPolicy.#ctor(System.Security.Authentication.ExtendedProtection.PolicyEnforcement,System.Security.Authentication.ExtendedProtection.ProtectionScenario,System.Collections.ICollection)">
+      <summary>初始化 <see cref="T:System.Security.Authentication.ExtendedProtection.ExtendedProtectionPolicy" /> 类的新实例，该类指定应何时强制实施扩展保护策略、此策略强制实施的保护类型以及用于与客户端的 SPN 相匹配的自定义服务提供程序名称 (SPN) 列表。</summary>
+      <param name="policyEnforcement">一个 <see cref="T:System.Security.Authentication.ExtendedProtection.PolicyEnforcement" /> 值，指示应何时强制实施扩展的保护策略。</param>
+      <param name="protectionScenario">一个 <see cref="T:System.Security.Authentication.ExtendedProtection.ProtectionScenario" /> 值，该值指示此策略强制实施的保护类型。</param>
+      <param name="customServiceNames">
+        <see cref="T:System.Collections.ICollection" />，它包含用于与客户端的 SPN 相匹配的自定义 SPN 列表。</param>
+      <exception cref="T:System.ArgumentException">
+        <paramref name="policyEnforcement" /> 指定为 <see cref="F:System.Security.Authentication.ExtendedProtection.PolicyEnforcement.Never" />。</exception>
+      <exception cref="T:System.ArgumentNullException">
+        <paramref name="customServiceNames " /> 是  null 或空列表。</exception>
+    </member>
+    <member name="M:System.Security.Authentication.ExtendedProtection.ExtendedProtectionPolicy.#ctor(System.Security.Authentication.ExtendedProtection.PolicyEnforcement,System.Security.Authentication.ExtendedProtection.ProtectionScenario,System.Security.Authentication.ExtendedProtection.ServiceNameCollection)">
+      <summary>初始化 <see cref="T:System.Security.Authentication.ExtendedProtection.ExtendedProtectionPolicy" /> 类的新实例，该类指定应何时强制实施扩展保护策略、此策略强制实施的保护类型以及用于与客户端的 SPN 相匹配的自定义服务提供程序名称 (SPN) 列表。</summary>
+      <param name="policyEnforcement">一个 <see cref="T:System.Security.Authentication.ExtendedProtection.PolicyEnforcement" /> 值，指示应何时强制实施扩展的保护策略。</param>
+      <param name="protectionScenario">一个 <see cref="T:System.Security.Authentication.ExtendedProtection.ProtectionScenario" /> 值，该值指示此策略强制实施的保护类型。</param>
+      <param name="customServiceNames">
+        <see cref="T:System.Security.Authentication.ExtendedProtection.ServiceNameCollection" />，它包含用于与客户端的 SPN 相匹配的自定义 SPN 列表。</param>
+      <exception cref="T:System.ArgumentException">
+        <paramref name="policyEnforcement" /> 指定为 <see cref="F:System.Security.Authentication.ExtendedProtection.PolicyEnforcement.Never" />。</exception>
+      <exception cref="T:System.ArgumentNullException">
+        <paramref name="customServiceNames " /> 是  null 或空列表。</exception>
+    </member>
+    <member name="P:System.Security.Authentication.ExtendedProtection.ExtendedProtectionPolicy.CustomChannelBinding">
+      <summary>获取用于验证的自定义通道绑定令牌 (CBT)。</summary>
+      <returns>
+        <see cref="T:System.Security.Authentication.ExtendedProtection.ChannelBinding" />，它包含用于验证的自定义通道绑定。</returns>
+    </member>
+    <member name="P:System.Security.Authentication.ExtendedProtection.ExtendedProtectionPolicy.CustomServiceNames">
+      <summary>获取用于与客户端的 SPN 相匹配的自定义服务提供程序名称 (SPN) 列表。</summary>
+      <returns>
+        <see cref="T:System.Security.Authentication.ExtendedProtection.ServiceNameCollection" />，它包含用于与客户端的 SPN 相匹配的自定义 SPN 列表。</returns>
+    </member>
+    <member name="P:System.Security.Authentication.ExtendedProtection.ExtendedProtectionPolicy.OSSupportsExtendedProtection">
+      <summary>指示操作系统是否支持带扩展保护的集成 Windows 身份验证。</summary>
+      <returns>如果操作系统支持带扩展保护的集成 Windows 身份验证，则为 true；否则为 false。</returns>
+    </member>
+    <member name="P:System.Security.Authentication.ExtendedProtection.ExtendedProtectionPolicy.PolicyEnforcement">
+      <summary>获取应强制实施扩展保护策略的时间。</summary>
+      <returns>一个 <see cref="T:System.Security.Authentication.ExtendedProtection.PolicyEnforcement" /> 值，指示应何时强制实施扩展的保护策略。</returns>
+    </member>
+    <member name="P:System.Security.Authentication.ExtendedProtection.ExtendedProtectionPolicy.ProtectionScenario">
+      <summary>获取扩展保护策略强制实施的保护类型。</summary>
+      <returns>一个 <see cref="T:System.Security.Authentication.ExtendedProtection.ProtectionScenario" /> 值，该值指示此策略强制实施的保护类型。</returns>
+    </member>
+    <member name="M:System.Security.Authentication.ExtendedProtection.ExtendedProtectionPolicy.ToString">
+      <summary>获取扩展保护策略实例的字符串表示形式。</summary>
+      <returns>一个 <see cref="T:System.String" /> 实例，它包含 <see cref="T:System.Security.Authentication.ExtendedProtection.ExtendedProtectionPolicy" /> 实例的表示形式。</returns>
+    </member>
+    <member name="T:System.Security.Authentication.ExtendedProtection.PolicyEnforcement">
+      <summary>
+        <see cref="T:System.Security.Authentication.ExtendedProtection.PolicyEnforcement" /> 枚举指定应何时强制实施 <see cref="T:System.Security.Authentication.ExtendedProtection.ExtendedProtectionPolicy" />。</summary>
+    </member>
+    <member name="F:System.Security.Authentication.ExtendedProtection.PolicyEnforcement.Always">
+      <summary>总是强制实施 <see cref="T:System.Security.Authentication.ExtendedProtection.ExtendedProtectionPolicy" />。不支持扩展保护的客户端无法进行身份验证。</summary>
+    </member>
+    <member name="F:System.Security.Authentication.ExtendedProtection.PolicyEnforcement.Never">
+      <summary>绝不强制实施 <see cref="T:System.Security.Authentication.ExtendedProtection.ExtendedProtectionPolicy" />，并禁用扩展保护。</summary>
+    </member>
+    <member name="F:System.Security.Authentication.ExtendedProtection.PolicyEnforcement.WhenSupported">
+      <summary>仅在客户端和服务器支持扩展保护时强制实施 <see cref="T:System.Security.Authentication.ExtendedProtection.ExtendedProtectionPolicy" />。</summary>
+    </member>
+    <member name="T:System.Security.Authentication.ExtendedProtection.ProtectionScenario">
+      <summary>
+        <see cref="T:System.Security.Authentication.ExtendedProtection.ProtectionScenario" /> 枚举指定此策略强制实施的保护方案。</summary>
+    </member>
+    <member name="F:System.Security.Authentication.ExtendedProtection.ProtectionScenario.TransportSelected">
+      <summary>此传输将在安全保护方案和标准保护方案之间进行选择，具体取决于所使用的通道的类型。对于安全保护，将在安全通道中包装集成 Windows 身份验证，并包含无需执行服务提供程序名称 (SPN) 验证的精确匹配的通道绑定令牌。对于标准保护，可以选择在带可选通道绑定令牌的安全通道中包装集成 Windows 身份验证，但必须执行 SPN 验证。因此，如果请求是通过安全通道传入的，则检查通道绑定令牌 (CBT)；否则检查 SPN。</summary>
+    </member>
+    <member name="F:System.Security.Authentication.ExtendedProtection.ProtectionScenario.TrustedProxy">
+      <summary>在由受信任的代理终结的安全通道中包装集成 Windows 身份验证，并且包含需要 SPN 验证的通道绑定令牌。这要求存在 CBT，但在检查 SPN 时不会检查 CBT。</summary>
+    </member>
+    <member name="T:System.Security.Authentication.ExtendedProtection.ServiceNameCollection">
+      <summary>
+        <see cref="T:System.Security.Authentication.ExtendedProtection.ServiceNameCollection" /> 类是服务主体名称的只读集合。</summary>
+    </member>
+    <member name="M:System.Security.Authentication.ExtendedProtection.ServiceNameCollection.#ctor(System.Collections.ICollection)">
+      <summary>基于现有 <see cref="T:System.Collections.ICollection" /> 初始化 <see cref="T:System.Security.Authentication.ExtendedProtection.ServiceNameCollection" /> 类的新的只读实例。</summary>
+      <param name="items">
+        <see cref="T:System.Collections.ICollection" /> 类的一个实例，其中包含要用于初始化该类的服务名称的指定值。</param>
+      <exception cref="T:System.ArgumentNullException">
+        <paramref name="item " />为 null。</exception>
+      <exception cref="T:System.ArgumentException">
+        <paramref name="item" /> 为空。</exception>
+    </member>
+    <member name="M:System.Security.Authentication.ExtendedProtection.ServiceNameCollection.Contains(System.String)">
+      <summary>返回一个值，该值指示指定字符串是否出现在此 <see cref="T:System.Security.Authentication.ExtendedProtection.ServiceNameCollection" /> 实例中。</summary>
+      <returns>返回 <see cref="T:System.Boolean" />。如果 <paramref name="searchServiceName" /> 参数在此 <see cref="T:System.Security.Authentication.ExtendedProtection.ServiceNameCollection" /> 实例中出现，则为 true；否则为 false。</returns>
+      <param name="searchServiceName">要搜寻的字符串。</param>
+    </member>
+    <member name="P:System.Security.Authentication.ExtendedProtection.ServiceNameCollection.Count"></member>
+    <member name="M:System.Security.Authentication.ExtendedProtection.ServiceNameCollection.GetEnumerator"></member>
+    <member name="M:System.Security.Authentication.ExtendedProtection.ServiceNameCollection.Merge(System.Collections.IEnumerable)">
+      <summary>将当前的 <see cref="T:System.Security.Authentication.ExtendedProtection.ServiceNameCollection" /> 与指定的值合并以创建一个包含联合的新 <see cref="T:System.Security.Authentication.ExtendedProtection.ServiceNameCollection" />。</summary>
+      <returns>一个新的 <see cref="T:System.Security.Authentication.ExtendedProtection.ServiceNameCollection" /> 实例，它包含已与指定的值合并的现有 <see cref="T:System.Security.Authentication.ExtendedProtection.ServiceNameCollection" /> 实例的联合。</returns>
+      <param name="serviceNames">
+        <see cref="T:System.Collections.IEnumerable" /> 类的一个实例，其中包含要合并的服务名称的指定值。</param>
+      <exception cref="T:System.ArgumentNullException">
+        <paramref name="serviceNames " />为 null。</exception>
+      <exception cref="T:System.ArgumentException">
+        <paramref name="serviceNames" /> 为空。</exception>
+    </member>
+    <member name="M:System.Security.Authentication.ExtendedProtection.ServiceNameCollection.Merge(System.String)">
+      <summary>将当前的 <see cref="T:System.Security.Authentication.ExtendedProtection.ServiceNameCollection" /> 与指定的值合并以创建一个包含联合的新 <see cref="T:System.Security.Authentication.ExtendedProtection.ServiceNameCollection" />。</summary>
+      <returns>一个新的 <see cref="T:System.Security.Authentication.ExtendedProtection.ServiceNameCollection" /> 实例，它包含已与指定的值合并的现有 <see cref="T:System.Security.Authentication.ExtendedProtection.ServiceNameCollection" /> 实例的联合。</returns>
+      <param name="serviceName">一个字符串，它包含要用于初始化该类的服务名称的指定值。</param>
+      <exception cref="T:System.ArgumentNullException">
+        <paramref name="serviceNames " />为 null。</exception>
+      <exception cref="T:System.ArgumentException">
+        <paramref name="serviceNames" /> 为空。</exception>
+    </member>
+    <member name="M:System.Security.Authentication.ExtendedProtection.ServiceNameCollection.System#Collections#ICollection#CopyTo(System.Array,System.Int32)"></member>
+    <member name="P:System.Security.Authentication.ExtendedProtection.ServiceNameCollection.System#Collections#ICollection#IsSynchronized"></member>
+    <member name="P:System.Security.Authentication.ExtendedProtection.ServiceNameCollection.System#Collections#ICollection#SyncRoot"></member>
+  </members>
+</doc>

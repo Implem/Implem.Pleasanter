@@ -1,0 +1,113 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Sustainsys.Saml2.Mvc</name>
+    </assembly>
+    <members>
+        <member name="T:Sustainsys.Saml2.HttpModule.CommandResultHttpExtensions">
+            <summary>
+            Extension methods to CommandResult to update a HttpResponseBase.
+            </summary>
+        </member>
+        <member name="M:Sustainsys.Saml2.HttpModule.CommandResultHttpExtensions.ApplyCookies(Sustainsys.Saml2.WebSso.CommandResult,System.Web.HttpResponseBase)">
+            <summary>
+            Apply cookies of the CommandResult to the response.
+            </summary>
+            <param name="commandResult">Commandresult</param>
+            <param name="response">Response</param>
+        </member>
+        <member name="M:Sustainsys.Saml2.HttpModule.CommandResultHttpExtensions.ApplyHeaders(Sustainsys.Saml2.WebSso.CommandResult,System.Web.HttpResponseBase)">
+            <summary>
+            Apply headers of the command result to the response.
+            </summary>
+            <param name="commandResult">Command result containing headers.</param>
+            <param name="response">Response to set headers in.</param>
+        </member>
+        <member name="M:Sustainsys.Saml2.HttpModule.CommandResultHttpExtensions.SignInOrOutSessionAuthenticationModule(Sustainsys.Saml2.WebSso.CommandResult)">
+            <summary>
+            Establishes an application session by calling the session authentication module.
+            </summary>
+        </member>
+        <member name="T:Sustainsys.Saml2.HttpModule.HttpRequestBaseExtensions">
+            <summary>
+            Static class that hold extension methods for <see cref="T:System.Web.HttpRequestBase"/>.
+            </summary>
+        </member>
+        <member name="F:Sustainsys.Saml2.HttpModule.HttpRequestBaseExtensions.ProtectionPurpose">
+            <summary>
+            Purpose string used with data protection.
+            </summary>
+        </member>
+        <member name="M:Sustainsys.Saml2.HttpModule.HttpRequestBaseExtensions.ToHttpRequestData(System.Web.HttpRequestBase)">
+            <summary>
+            Extension method to convert a HttpRequestBase to a HttpRequestData.
+            </summary>
+            <param name="requestBase">The request object used to populate the <c>HttpRequestData</c>.</param>
+            <returns>The <c>HttpRequestData</c> object that has been populated by the request.</returns>
+        </member>
+        <member name="M:Sustainsys.Saml2.HttpModule.HttpRequestBaseExtensions.ToHttpRequestData(System.Web.HttpRequestBase,System.Boolean)">
+            <summary>
+            Extension method to convert a HttpRequestBase to a HttpRequestData.
+            </summary>
+            <param name="requestBase">The request object used to populate the <c>HttpRequestData</c>.</param>
+            <param name="ignoreCookies">Ignore cookies when extracting data.
+            This is useful for the stub idp that might see the relay state
+            and the requester's cookie, but shouldn't try to decrypt it.</param>
+            <returns>The <c>HttpRequestData</c> object that has been populated by the request.</returns>
+        </member>
+        <member name="T:Sustainsys.Saml2.Mvc.Saml2Controller">
+            <summary>
+            Mvc Controller that provides the authentication functionality.
+            </summary>
+        </member>
+        <member name="P:Sustainsys.Saml2.Mvc.Saml2Controller.Options">
+            <summary>
+            The options used by the controller. By default read from config, 
+            but can be set.
+            </summary>
+        </member>
+        <member name="M:Sustainsys.Saml2.Mvc.Saml2Controller.SignIn">
+            <summary>
+            SignIn action that sends the AuthnRequest to the Idp.
+            </summary>
+            <returns>Redirect with sign in request</returns>
+        </member>
+        <member name="M:Sustainsys.Saml2.Mvc.Saml2Controller.Acs">
+            <summary>
+            Assertion consumer Url that accepts the incoming Saml response.
+            </summary>
+            <returns>Redirect to start page on success.</returns>
+            <remarks>The action effectively accepts the SAMLResponse, but
+            due to using common infrastructure it is read for the current
+            http request.</remarks>
+        </member>
+        <member name="M:Sustainsys.Saml2.Mvc.Saml2Controller.Index">
+            <summary>
+            Metadata of the service provider.
+            </summary>
+            <returns>ActionResult with Metadata</returns>
+        </member>
+        <member name="M:Sustainsys.Saml2.Mvc.Saml2Controller.Logout">
+            <summary>
+            Logout locally and if Idp supports it, perform a federated logout
+            </summary>
+            <returns>ActionResult</returns>
+        </member>
+        <member name="T:Sustainsys.Saml2.Mvc.CommandResultExtensions">
+            <summary>
+            Extension methods for CommandResult for integrating CommandResults in
+            the MVC architecture.
+            </summary>
+        </member>
+        <member name="M:Sustainsys.Saml2.Mvc.CommandResultExtensions.ToActionResult(Sustainsys.Saml2.WebSso.CommandResult)">
+            <summary>
+            Converts a command result to an action result.
+            </summary>
+            <param name="commandResult">The source command result.</param>
+            <returns>Action result</returns>
+            <remarks>The reason to use a separate command result at all, instead
+            of simply using ActionResult is that the core library should not
+            be Mvc dependant.</remarks>
+        </member>
+    </members>
+</doc>

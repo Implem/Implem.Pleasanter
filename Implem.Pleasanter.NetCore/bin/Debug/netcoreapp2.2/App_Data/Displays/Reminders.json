@@ -1,0 +1,13 @@
+﻿{
+    "Id": "Reminders",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Reminders"
+        },
+        {
+            "Language": "ja",
+            "Body": "リマインダー"
+        }
+    ]
+}

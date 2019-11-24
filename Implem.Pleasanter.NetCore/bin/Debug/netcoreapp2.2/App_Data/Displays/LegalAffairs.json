@@ -1,0 +1,13 @@
+﻿{
+    "Id": "LegalAffairs",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "LegalAffairs"
+        },
+        {
+            "Language": "ja",
+            "Body": "法務"
+        }
+    ]
+}

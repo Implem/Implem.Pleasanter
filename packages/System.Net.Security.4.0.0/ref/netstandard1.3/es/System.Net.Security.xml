@@ -1,0 +1,456 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<doc>
+  <assembly>
+    <name>System.Net.Security</name>
+  </assembly>
+  <members>
+    <member name="T:System.Net.Security.EncryptionPolicy">
+      <summary>Representa el objeto EncryptionPolicy que se va a utilizar. </summary>
+    </member>
+    <member name="F:System.Net.Security.EncryptionPolicy.AllowNoEncryption">
+      <summary>Indica que se prefiere el cifrado completo pero que se permite el cifrado NULL (sin cifrado) si el servidor está de acuerdo. </summary>
+    </member>
+    <member name="F:System.Net.Security.EncryptionPolicy.NoEncryption">
+      <summary>Indica que no se permite el cifrado y que se solicita el cifrado NULL si el otro extremo puede administrarlo.</summary>
+    </member>
+    <member name="F:System.Net.Security.EncryptionPolicy.RequireEncryption">
+      <summary>Indica que se requiere el cifrado y que nunca se permitirá el cifrado NULL.</summary>
+    </member>
+    <member name="T:System.Net.Security.LocalCertificateSelectionCallback">
+      <summary>Selecciona el certificado SSL (Secure Sockets Layer) local que se utiliza para la autenticación.</summary>
+      <returns>
+        <see cref="T:System.Security.Cryptography.X509Certificates.X509Certificate" /> utilizado para establecer una conexión SSL.</returns>
+      <param name="sender">Objeto que contiene información de estado para esta validación.</param>
+      <param name="targetHost">Servidor host especificado por el cliente.</param>
+      <param name="localCertificates">
+        <see cref="T:System.Security.Cryptography.X509Certificates.X509CertificateCollection" /> que contiene los certificados locales.</param>
+      <param name="remoteCertificate">Certificado utilizado para autenticar la parte remota.</param>
+      <param name="acceptableIssuers">Matriz de <see cref="T:System.String" /> de emisores de certificados aceptables para la parte remota.</param>
+    </member>
+    <member name="T:System.Net.Security.RemoteCertificateValidationCallback">
+      <summary>Comprueba el certificado SSL (Secure Sockets Layer) remoto que se utiliza para la autenticación.</summary>
+      <returns>Un valor <see cref="T:System.Boolean" /> que determina si el certificado especificado es aceptado para autenticación.</returns>
+      <param name="sender">Objeto que contiene información de estado para esta validación.</param>
+      <param name="certificate">Certificado utilizado para autenticar la parte remota.</param>
+      <param name="chain">La cadena de entidades de certificación asociadas al certificado remoto.</param>
+      <param name="sslPolicyErrors">Uno o varios errores asociados al certificado remoto.</param>
+    </member>
+    <member name="T:System.Net.Security.SslStream">
+      <summary>Proporciona una secuencia utilizada para comunicaciones cliente y servidor que usa el protocolo de seguridad Capa de sockets seguros (SSL) para autenticar el servidor y, opcionalmente, el cliente.</summary>
+    </member>
+    <member name="M:System.Net.Security.SslStream.#ctor(System.IO.Stream)">
+      <summary>Inicializa una nueva instancia de la clase <see cref="T:System.Net.Security.SslStream" /> con la propiedad <see cref="T:System.IO.Stream" /> especificada.</summary>
+      <param name="innerStream">Objeto <see cref="T:System.IO.Stream" /> que utiliza <see cref="T:System.Net.Security.SslStream" /> para enviar y recibir datos.</param>
+      <exception cref="T:System.ArgumentException">
+        <paramref name="innerStream" /> no se puede leer.O bienNo se puede escribir en <paramref name="innerStream" />.</exception>
+      <exception cref="T:System.ArgumentNullException">
+        <paramref name="innerStream" /> es null.O bien<paramref name="innerStream" /> es igual a <see cref="F:System.IO.Stream.Null" />.</exception>
+    </member>
+    <member name="M:System.Net.Security.SslStream.#ctor(System.IO.Stream,System.Boolean)">
+      <summary>Inicializa una nueva instancia de la clase <see cref="T:System.Net.Security.SslStream" /> utilizando el objeto <see cref="T:System.IO.Stream" /> y el comportamiento de cierre de secuencias especificados.</summary>
+      <param name="innerStream">Objeto <see cref="T:System.IO.Stream" /> que utiliza <see cref="T:System.Net.Security.SslStream" /> para enviar y recibir datos.</param>
+      <param name="leaveInnerStreamOpen">Valor booleano que indica el comportamiento de cierre del objeto <see cref="T:System.IO.Stream" /> usado por <see cref="T:System.Net.Security.SslStream" /> para enviar y recibir datos.Este parámetro indica si se ha dejado abierta la secuencia interna.</param>
+      <exception cref="T:System.ArgumentException">
+        <paramref name="innerStream" /> no se puede leer.O bienNo se puede escribir en <paramref name="innerStream" />.</exception>
+      <exception cref="T:System.ArgumentNullException">
+        <paramref name="innerStream" /> es null.O bien<paramref name="innerStream" /> es igual a <see cref="F:System.IO.Stream.Null" />.</exception>
+    </member>
+    <member name="M:System.Net.Security.SslStream.#ctor(System.IO.Stream,System.Boolean,System.Net.Security.RemoteCertificateValidationCallback)">
+      <summary>Inicializa una nueva instancia de la clase <see cref="T:System.Net.Security.SslStream" /> utilizando el objeto <see cref="T:System.IO.Stream" />, el comportamiento de cierre de secuencias y el delegado de validación de certificados especificados.</summary>
+      <param name="innerStream">Objeto <see cref="T:System.IO.Stream" /> que utiliza <see cref="T:System.Net.Security.SslStream" /> para enviar y recibir datos.</param>
+      <param name="leaveInnerStreamOpen">Valor booleano que indica el comportamiento de cierre del objeto <see cref="T:System.IO.Stream" /> usado por <see cref="T:System.Net.Security.SslStream" /> para enviar y recibir datos.Este parámetro indica si se ha dejado abierta la secuencia interna.</param>
+      <param name="userCertificateValidationCallback">Delegado de <see cref="T:System.Net.Security.RemoteCertificateValidationCallback" /> responsable de la validación del certificado proporcionado por la parte remota.</param>
+      <exception cref="T:System.ArgumentException">
+        <paramref name="innerStream" /> no se puede leer.O bienNo se puede escribir en <paramref name="innerStream" />.</exception>
+      <exception cref="T:System.ArgumentNullException">
+        <paramref name="innerStream" /> es null.O bien<paramref name="innerStream" /> es igual a <see cref="F:System.IO.Stream.Null" />.</exception>
+    </member>
+    <member name="M:System.Net.Security.SslStream.#ctor(System.IO.Stream,System.Boolean,System.Net.Security.RemoteCertificateValidationCallback,System.Net.Security.LocalCertificateSelectionCallback)">
+      <summary>Inicializa una nueva instancia de la clase <see cref="T:System.Net.Security.SslStream" /> utilizando el objeto <see cref="T:System.IO.Stream" />, el delegado de validación de certificados y el delegado de selección de certificados especificados.</summary>
+      <param name="innerStream">Objeto <see cref="T:System.IO.Stream" /> que utiliza <see cref="T:System.Net.Security.SslStream" /> para enviar y recibir datos.</param>
+      <param name="leaveInnerStreamOpen">Valor booleano que indica el comportamiento de cierre del objeto <see cref="T:System.IO.Stream" /> usado por <see cref="T:System.Net.Security.SslStream" /> para enviar y recibir datos.Este parámetro indica si se ha dejado abierta la secuencia interna.</param>
+      <param name="userCertificateValidationCallback">Delegado de <see cref="T:System.Net.Security.RemoteCertificateValidationCallback" /> responsable de la validación del certificado proporcionado por la parte remota.</param>
+      <param name="userCertificateSelectionCallback">Delegado de <see cref="T:System.Net.Security.LocalCertificateSelectionCallback" /> responsable de seleccionar el certificado utilizado para la autenticación.</param>
+      <exception cref="T:System.ArgumentException">
+        <paramref name="innerStream" /> no se puede leer.O bienNo se puede escribir en <paramref name="innerStream" />.</exception>
+      <exception cref="T:System.ArgumentNullException">
+        <paramref name="innerStream" /> es null.O bien<paramref name="innerStream" /> es igual a <see cref="F:System.IO.Stream.Null" />.</exception>
+    </member>
+    <member name="M:System.Net.Security.SslStream.#ctor(System.IO.Stream,System.Boolean,System.Net.Security.RemoteCertificateValidationCallback,System.Net.Security.LocalCertificateSelectionCallback,System.Net.Security.EncryptionPolicy)">
+      <summary>Inicializa una nueva instancia de la clase <see cref="T:System.Net.Security.SslStream" /> usando el objeto <see cref="T:System.IO.Stream" /> especificado.</summary>
+      <param name="innerStream">Objeto <see cref="T:System.IO.Stream" /> que utiliza <see cref="T:System.Net.Security.SslStream" /> para enviar y recibir datos.</param>
+      <param name="leaveInnerStreamOpen">Valor booleano que indica el comportamiento de cierre del objeto <see cref="T:System.IO.Stream" /> usado por <see cref="T:System.Net.Security.SslStream" /> para enviar y recibir datos.Este parámetro indica si se ha dejado abierta la secuencia interna.</param>
+      <param name="userCertificateValidationCallback">Delegado de <see cref="T:System.Net.Security.RemoteCertificateValidationCallback" /> responsable de la validación del certificado proporcionado por la parte remota.</param>
+      <param name="userCertificateSelectionCallback">Delegado de <see cref="T:System.Net.Security.LocalCertificateSelectionCallback" /> responsable de seleccionar el certificado utilizado para la autenticación.</param>
+      <param name="encryptionPolicy">Objeto <see cref="T:System.Net.Security.EncryptionPolicy" /> que se va a usar.</param>
+      <exception cref="T:System.ArgumentException">
+        <paramref name="innerStream" /> no se puede leer.O bienNo se puede escribir en <paramref name="innerStream" />.O bien<paramref name="encryptionPolicy" /> no es válido.</exception>
+      <exception cref="T:System.ArgumentNullException">
+        <paramref name="innerStream" /> es null.O bien<paramref name="innerStream" /> es igual a <see cref="F:System.IO.Stream.Null" />.</exception>
+    </member>
+    <member name="M:System.Net.Security.SslStream.AuthenticateAsClient(System.String)">
+      <summary>Lo llaman los clientes para autenticar el servidor, y opcionalmente el cliente, en una conexión cliente-servidor.</summary>
+      <param name="targetHost">Nombre del servidor que comparte esta <see cref="T:System.Net.Security.SslStream" />.</param>
+      <exception cref="T:System.ArgumentNullException">
+        <paramref name="targetHost" /> es null.</exception>
+      <exception cref="T:System.Security.Authentication.AuthenticationException">Se ha producido un error de autenticación y este objeto ha quedado en un estado no utilizable.</exception>
+      <exception cref="T:System.InvalidOperationException">Ya se ha producido la autenticación.O bienSe intentó previamente la autenticación del servidor mediante esta <see cref="T:System.Net.Security.SslStream" />.O bien La autenticación ya está en curso.</exception>
+      <exception cref="T:System.ObjectDisposedException">Este objeto se ha cerrado.</exception>
+    </member>
+    <member name="M:System.Net.Security.SslStream.AuthenticateAsClient(System.String,System.Security.Cryptography.X509Certificates.X509CertificateCollection,System.Security.Authentication.SslProtocols,System.Boolean)">
+      <summary>Lo llaman los clientes para autenticar el servidor, y opcionalmente el cliente, en una conexión cliente-servidor.El proceso de autenticación utiliza la colección de certificados especificada y el protocolo SSL.</summary>
+      <param name="targetHost">Nombre del servidor que compartirá esta <see cref="T:System.Net.Security.SslStream" />.</param>
+      <param name="clientCertificates">
+        <see cref="T:System.Security.Cryptography.X509Certificates.X509CertificateCollection" /> que contiene los certificados de clientes.</param>
+      <param name="enabledSslProtocols">Valor de <see cref="T:System.Security.Authentication.SslProtocols" /> que representa el protocolo utilizado para la autenticación.</param>
+      <param name="checkCertificateRevocation">Valor <see cref="T:System.Boolean" /> que especifica si la lista de revocación de certificados se coteja durante la autenticación.</param>
+    </member>
+    <member name="M:System.Net.Security.SslStream.AuthenticateAsClientAsync(System.String)">
+      <summary>Lo llaman los clientes para autenticar el servidor, y opcionalmente el cliente, en una conexión cliente-servidor como una operación asincrónica.</summary>
+      <returns>Devuelve <see cref="T:System.Threading.Tasks.Task" />Objeto de tarea que representa la operación asincrónica.</returns>
+      <param name="targetHost">Nombre del servidor que comparte esta <see cref="T:System.Net.Security.SslStream" />.</param>
+      <exception cref="T:System.ArgumentNullException">
+        <paramref name="targetHost" /> es null.</exception>
+      <exception cref="T:System.Security.Authentication.AuthenticationException">Se ha producido un error de autenticación y este objeto ha quedado en un estado no utilizable.</exception>
+      <exception cref="T:System.InvalidOperationException">Ya se ha producido la autenticación.O bienSe intentó previamente la autenticación del servidor mediante esta <see cref="T:System.Net.Security.SslStream" />.O bien La autenticación ya está en curso.</exception>
+      <exception cref="T:System.ObjectDisposedException">Este objeto se ha cerrado.</exception>
+    </member>
+    <member name="M:System.Net.Security.SslStream.AuthenticateAsClientAsync(System.String,System.Security.Cryptography.X509Certificates.X509CertificateCollection,System.Security.Authentication.SslProtocols,System.Boolean)">
+      <summary>Lo llaman los clientes para autenticar el servidor, y opcionalmente el cliente, en una conexión cliente-servidor como una operación asincrónica.El proceso de autenticación utiliza la colección de certificados especificada y el protocolo SSL.</summary>
+      <returns>Devuelve <see cref="T:System.Threading.Tasks.Task" />Objeto de tarea que representa la operación asincrónica.</returns>
+      <param name="targetHost">Nombre del servidor que compartirá esta <see cref="T:System.Net.Security.SslStream" />.</param>
+      <param name="clientCertificates">
+        <see cref="T:System.Security.Cryptography.X509Certificates.X509CertificateCollection" /> que contiene los certificados de clientes.</param>
+      <param name="enabledSslProtocols">Valor de <see cref="T:System.Security.Authentication.SslProtocols" /> que representa el protocolo utilizado para la autenticación.</param>
+      <param name="checkCertificateRevocation">Valor <see cref="T:System.Boolean" /> que especifica si la lista de revocación de certificados se coteja durante la autenticación.</param>
+    </member>
+    <member name="M:System.Net.Security.SslStream.AuthenticateAsServer(System.Security.Cryptography.X509Certificates.X509Certificate)">
+      <summary>Lo llaman los servidores para autenticar el servidor, y opcionalmente el cliente, en una conexión cliente-servidor utilizando el certificado especificado.</summary>
+      <param name="serverCertificate">Certificado utilizado para autenticar el servidor.</param>
+      <exception cref="T:System.ArgumentNullException">
+        <paramref name="serverCertificate" /> es null.</exception>
+      <exception cref="T:System.Security.Authentication.AuthenticationException">Se ha producido un error de autenticación y este objeto ha quedado en un estado no utilizable.</exception>
+      <exception cref="T:System.InvalidOperationException">Ya se ha producido la autenticación.O bienLa autenticación del cliente utilizando este <see cref="T:System.Net.Security.SslStream" /> ya se ha intentado.O bien La autenticación ya está en curso.</exception>
+      <exception cref="T:System.ObjectDisposedException">Este objeto se ha cerrado.</exception>
+      <exception cref="T:System.PlatformNotSupportedException">El método <see cref="Overload:System.Net.Security.SslStream.AuthenticateAsServer" /> no es compatible con Windows 95, Windows 98 o Windows Millennium.</exception>
+    </member>
+    <member name="M:System.Net.Security.SslStream.AuthenticateAsServer(System.Security.Cryptography.X509Certificates.X509Certificate,System.Boolean,System.Security.Authentication.SslProtocols,System.Boolean)">
+      <summary>Lo llaman los servidores para comenzar una operación asincrónica para autenticar el servidor y, opcionalmente, el cliente en una conexión cliente-servidor mediante los certificados, requisitos y protocolo de seguridad especificados.</summary>
+      <param name="serverCertificate">Certificado X509 utilizado para autenticar el servidor.</param>
+      <param name="clientCertificateRequired">Valor <see cref="T:System.Boolean" /> que especifica si el cliente debe proporcionar un certificado para la autenticación.</param>
+      <param name="enabledSslProtocols">Valor de <see cref="T:System.Security.Authentication.SslProtocols" /> que representa el protocolo utilizado para la autenticación.</param>
+      <param name="checkCertificateRevocation">Valor <see cref="T:System.Boolean" /> que especifica si la lista de revocación de certificados se coteja durante la autenticación.</param>
+      <exception cref="T:System.ArgumentNullException">
+        <paramref name="serverCertificate" /> es null.</exception>
+      <exception cref="T:System.ArgumentException">
+        <paramref name="enabledSslProtocols" /> no es un valor <see cref="T:System.Security.Authentication.SslProtocols" /> válido.</exception>
+      <exception cref="T:System.Security.Authentication.AuthenticationException">Se ha producido un error de autenticación y este objeto ha quedado en un estado no utilizable.</exception>
+      <exception cref="T:System.InvalidOperationException">Ya se ha producido la autenticación.O bienLa autenticación del cliente utilizando este <see cref="T:System.Net.Security.SslStream" /> ya se ha intentado.O bien La autenticación ya está en curso.</exception>
+      <exception cref="T:System.ObjectDisposedException">Este objeto se ha cerrado.</exception>
+      <exception cref="T:System.PlatformNotSupportedException">El método <see cref="Overload:System.Net.Security.SslStream.AuthenticateAsServer" /> no es compatible con Windows 95, Windows 98 o Windows Millennium.</exception>
+    </member>
+    <member name="M:System.Net.Security.SslStream.AuthenticateAsServerAsync(System.Security.Cryptography.X509Certificates.X509Certificate)">
+      <summary>Lo llaman los servidores para autenticar el servidor, y opcionalmente el cliente, en una conexión cliente-servidor utilizando el certificado especificado como una operación asincrónica.</summary>
+      <returns>Devuelve <see cref="T:System.Threading.Tasks.Task" />Objeto de tarea que representa la operación asincrónica.</returns>
+      <param name="serverCertificate">Certificado utilizado para autenticar el servidor.</param>
+      <exception cref="T:System.ArgumentNullException">
+        <paramref name="serverCertificate" /> es null.</exception>
+      <exception cref="T:System.Security.Authentication.AuthenticationException">Se ha producido un error de autenticación y este objeto ha quedado en un estado no utilizable.</exception>
+      <exception cref="T:System.InvalidOperationException">Ya se ha producido la autenticación.O bienLa autenticación del cliente utilizando este <see cref="T:System.Net.Security.SslStream" /> ya se ha intentado.O bien La autenticación ya está en curso.</exception>
+      <exception cref="T:System.ObjectDisposedException">Este objeto se ha cerrado.</exception>
+      <exception cref="T:System.PlatformNotSupportedException">El método <see cref="Overload:System.Net.Security.SslStream.AuthenticateAsServerAsync" /> no es compatible con Windows 95, Windows 98 o Windows Millennium.</exception>
+    </member>
+    <member name="M:System.Net.Security.SslStream.AuthenticateAsServerAsync(System.Security.Cryptography.X509Certificates.X509Certificate,System.Boolean,System.Security.Authentication.SslProtocols,System.Boolean)">
+      <summary>Lo llaman los servidores para autenticar el servidor y, opcionalmente, el cliente en una conexión cliente-servidor utilizando los certificados, requisitos y protocolo de seguridad especificados como una operación asincrónica.</summary>
+      <returns>Devuelve <see cref="T:System.Threading.Tasks.Task" />Objeto de tarea que representa la operación asincrónica.</returns>
+      <param name="serverCertificate">Certificado X509 utilizado para autenticar el servidor.</param>
+      <param name="clientCertificateRequired">Valor <see cref="T:System.Boolean" /> que especifica si el cliente debe proporcionar un certificado para la autenticación.</param>
+      <param name="enabledSslProtocols">Valor de <see cref="T:System.Security.Authentication.SslProtocols" /> que representa el protocolo utilizado para la autenticación.</param>
+      <param name="checkCertificateRevocation">Valor <see cref="T:System.Boolean" /> que especifica si la lista de revocación de certificados se coteja durante la autenticación.</param>
+    </member>
+    <member name="P:System.Net.Security.SslStream.CanRead">
+      <summary>Obtiene un valor <see cref="T:System.Boolean" /> que indica si se puede leer la secuencia subyacente.</summary>
+      <returns>Es true si se produjo la autenticación y se puede leer la secuencia subyacente; en caso contrario, es false.</returns>
+    </member>
+    <member name="P:System.Net.Security.SslStream.CanSeek">
+      <summary>Obtiene un valor <see cref="T:System.Boolean" /> que indica si se puede buscar en la secuencia subyacente.</summary>
+      <returns>Esta propiedad devuelve siempre false.</returns>
+    </member>
+    <member name="P:System.Net.Security.SslStream.CanTimeout">
+      <summary>Obtiene un valor <see cref="T:System.Boolean" /> que indica si la secuencia subyacente admite tiempos de espera.</summary>
+      <returns>Es true si la secuencia subyacente admite tiempos de espera; en caso contrario, es false.</returns>
+    </member>
+    <member name="P:System.Net.Security.SslStream.CanWrite">
+      <summary>Obtiene un valor <see cref="T:System.Boolean" /> que indica si se puede escribir en la secuencia subyacente.</summary>
+      <returns>Es true si se produjo la autenticación y se puede escribir en la secuencia subyacente; en caso contrario, es false.</returns>
+    </member>
+    <member name="P:System.Net.Security.SslStream.CheckCertRevocationStatus">
+      <summary>Obtiene un valor <see cref="T:System.Boolean" /> que indica si la lista de revocación de certificados se coteja durante el proceso de validación de certificados.</summary>
+      <returns>Es true si la lista de revocación de certificados se comprueba; en caso contrario, es false.</returns>
+    </member>
+    <member name="P:System.Net.Security.SslStream.CipherAlgorithm">
+      <summary>Obtiene un valor que identifica el algoritmo de cifrado masivo utilizado por esta secuencia <see cref="T:System.Net.Security.SslStream" />.</summary>
+      <returns>Valor <see cref="T:System.Security.Authentication.CipherAlgorithmType" />.</returns>
+      <exception cref="T:System.InvalidOperationException">Se ha tenido acceso a la propiedad <see cref="P:System.Net.Security.SslStream.CipherAlgorithm" /> antes de finalizar el proceso de autenticación o se ha producido un error de dicho proceso.</exception>
+    </member>
+    <member name="P:System.Net.Security.SslStream.CipherStrength">
+      <summary>Obtiene un valor que identifica la intensidad del algoritmo de cifrado utilizado por esta secuencia <see cref="T:System.Net.Security.SslStream" />.</summary>
+      <returns>Valor de <see cref="T:System.Int32" /> que especifica la intensidad del algoritmo, en bits.</returns>
+    </member>
+    <member name="M:System.Net.Security.SslStream.Flush">
+      <summary>Provoca la escritura de los datos almacenados en el búfer del dispositivo subyacente.</summary>
+    </member>
+    <member name="P:System.Net.Security.SslStream.HashAlgorithm">
+      <summary>Obtiene el algoritmo utilizado para generar códigos de autenticación de mensajes (MAC).</summary>
+      <returns>Valor <see cref="T:System.Security.Authentication.HashAlgorithmType" />.</returns>
+      <exception cref="T:System.InvalidOperationException">Se ha tenido acceso a la propiedad <see cref="P:System.Net.Security.SslStream.HashAlgorithm" /> antes de finalizar el proceso de autenticación o se ha producido un error de dicho proceso.</exception>
+    </member>
+    <member name="P:System.Net.Security.SslStream.HashStrength">
+      <summary>Obtiene un valor que identifica la intensidad del algoritmo de hash utilizado por esta instancia.</summary>
+      <returns>Valor <see cref="T:System.Int32" /> que especifica la intensidad del algoritmo <see cref="T:System.Security.Authentication.HashAlgorithmType" />, en bits.Los valores válidos son 128 ó 160.</returns>
+    </member>
+    <member name="P:System.Net.Security.SslStream.KeyExchangeAlgorithm">
+      <summary>Obtiene el algoritmo de intercambio de claves utilizado por esta <see cref="T:System.Net.Security.SslStream" />.</summary>
+      <returns>Valor <see cref="T:System.Security.Authentication.ExchangeAlgorithmType" />.</returns>
+    </member>
+    <member name="P:System.Net.Security.SslStream.KeyExchangeStrength">
+      <summary>Obtiene un valor que identifica la intensidad del algoritmo de intercambio de claves utilizado por esta instancia.</summary>
+      <returns>Valor <see cref="T:System.Int32" /> que especifica la intensidad del algoritmo <see cref="T:System.Security.Authentication.ExchangeAlgorithmType" />, en bits.</returns>
+    </member>
+    <member name="P:System.Net.Security.SslStream.Length">
+      <summary>Obtiene la longitud de la secuencia subyacente.</summary>
+      <returns>
+        <see cref="T:System.Int64" />.Longitud de la secuencia subyacente.</returns>
+      <exception cref="T:System.NotSupportedException">La obtención del valor de esta propiedad no se admite cuando la secuencia subyacente es una <see cref="T:System.Net.Sockets.NetworkStream" />.</exception>
+    </member>
+    <member name="P:System.Net.Security.SslStream.LocalCertificate">
+      <summary>Obtiene el certificado utilizado para autenticar el extremo local.</summary>
+      <returns>Objeto X509Certificate que representa el certificado proporcionado para autenticación o null si no se proporciona ningún certificado.</returns>
+      <exception cref="T:System.InvalidOperationException">Se produjo un error de autenticación o ésta no se produjo.</exception>
+    </member>
+    <member name="P:System.Net.Security.SslStream.Position">
+      <summary>Obtiene o establece la posición actual en la secuencia subyacente.</summary>
+      <returns>
+        <see cref="T:System.Int64" />.La posición actual en la secuencia subyacente.</returns>
+      <exception cref="T:System.NotSupportedException">No se admite el establecimiento de esta propiedad.O bienLa obtención del valor de esta propiedad no se admite cuando la secuencia subyacente es una <see cref="T:System.Net.Sockets.NetworkStream" />.</exception>
+    </member>
+    <member name="M:System.Net.Security.SslStream.Read(System.Byte[],System.Int32,System.Int32)">
+      <summary>Lee datos de esta secuencia y los almacena en la matriz especificada.</summary>
+      <returns>Valor de <see cref="T:System.Int32" /> que especifica el número de bytes leídos.Cuando ya no quedan datos por leer, devuelve 0.</returns>
+      <param name="buffer">Matriz de <see cref="T:System.Byte" /> que recibe los bytes leídos de esta secuencia.</param>
+      <param name="offset">
+        <see cref="T:System.Int32" /> que contiene la posición de base cero de <paramref name="buffer" /> donde se empiezan a almacenar los datos leídos de esta secuencia.</param>
+      <param name="count">
+        <see cref="T:System.Int32" /> que contiene un número máximo de bytes que se van a leer de esta secuencia.</param>
+      <exception cref="T:System.ArgumentNullException">
+        <paramref name="buffer" /> es null.</exception>
+      <exception cref="T:System.ArgumentException">
+        <paramref name="offset" />
+        <paramref name="&lt;" />
+        <paramref name="0" />.<paramref name="-or-" /><paramref name="offset" /> &gt; la longitud de <paramref name="buffer" />.O bien<paramref name="offset" /> + recuento &gt; la longitud de <paramref name="buffer" />.</exception>
+      <exception cref="T:System.IO.IOException">Se ha producido un error en la operación de lectura.Compruebe la excepción interna, si existe para determinar la causa del error.</exception>
+      <exception cref="T:System.NotSupportedException">Ya hay una operación de lectura en curso.</exception>
+      <exception cref="T:System.ObjectDisposedException">Este objeto se ha cerrado.</exception>
+      <exception cref="T:System.InvalidOperationException">No se ha producido la autenticación.</exception>
+    </member>
+    <member name="P:System.Net.Security.SslStream.ReadTimeout">
+      <summary>Obtiene o establece el período de tiempo que se bloquea una operación de lectura mientras espera datos.</summary>
+      <returns>
+        <see cref="T:System.Int32" /> que especifica el período de tiempo que transcurre antes de que se produzca un error en la operación de lectura sincrónica.</returns>
+    </member>
+    <member name="P:System.Net.Security.SslStream.RemoteCertificate">
+      <summary>Obtiene el certificado utilizado para autenticar el extremo remoto.</summary>
+      <returns>Objeto X509Certificate que representa el certificado proporcionado para autenticación o null si no se proporciona ningún certificado.</returns>
+      <exception cref="T:System.InvalidOperationException">Se produjo un error de autenticación o ésta no se produjo.</exception>
+    </member>
+    <member name="M:System.Net.Security.SslStream.Seek(System.Int64,System.IO.SeekOrigin)">
+      <summary>Produce una excepción <see cref="T:System.NotSupportedException" />.</summary>
+      <returns>Siempre inicia una excepción <see cref="T:System.NotSupportedException" />.</returns>
+      <param name="offset">Este valor se omite.</param>
+      <param name="origin">Este valor se omite.</param>
+      <exception cref="T:System.NotSupportedException">Los objetos <see cref="T:System.Net.Security.SslStream" /> no admiten búsquedas.</exception>
+    </member>
+    <member name="M:System.Net.Security.SslStream.SetLength(System.Int64)">
+      <summary>Establece la longitud de la secuencia subyacente.</summary>
+      <param name="value">Valor de <see cref="T:System.Int64" /> que especifica la longitud de la secuencia.</param>
+    </member>
+    <member name="P:System.Net.Security.SslStream.SslProtocol">
+      <summary>Obtiene un valor que indica el protocolo de seguridad utilizado para autenticar esta conexión.</summary>
+      <returns>Valor de <see cref="T:System.Security.Authentication.SslProtocols" /> que representa el protocolo utilizado para la autenticación.</returns>
+    </member>
+    <member name="P:System.Net.Security.SslStream.TransportContext">
+      <summary>Obtiene el objeto <see cref="T:System.Net.TransportContext" /> utilizado para la autenticación utilizando la protección extendida.</summary>
+      <returns>El objeto <see cref="T:System.Net.TransportContext" /> que contiene el token de enlace de canal (CBT) utilizado para la protección extendida.</returns>
+    </member>
+    <member name="M:System.Net.Security.SslStream.Write(System.Byte[])">
+      <summary>Escribe los datos especificados en esta secuencia.</summary>
+      <param name="buffer">Matriz de <see cref="T:System.Byte" /> que proporciona los bytes escritos en la secuencia.</param>
+      <exception cref="T:System.ArgumentNullException">
+        <paramref name="buffer" /> es null.</exception>
+      <exception cref="T:System.IO.IOException">No se pudo realizar la operación de escritura.</exception>
+      <exception cref="T:System.NotSupportedException">Ya hay una operación de escritura en curso.</exception>
+      <exception cref="T:System.ObjectDisposedException">Este objeto se ha cerrado.</exception>
+      <exception cref="T:System.InvalidOperationException">No se ha producido la autenticación.</exception>
+    </member>
+    <member name="M:System.Net.Security.SslStream.Write(System.Byte[],System.Int32,System.Int32)">
+      <summary>Escriba el número especificado de <see cref="T:System.Byte" />s en la secuencia subyacente mediante el búfer y el desplazamiento especificados.</summary>
+      <param name="buffer">Matriz de <see cref="T:System.Byte" /> que proporciona los bytes escritos en la secuencia.</param>
+      <param name="offset">
+        <see cref="T:System.Int32" /> que contiene la ubicación de base cero de <paramref name="buffer" /> donde empieza la lectura de los bytes que se van a escribir en la secuencia.</param>
+      <param name="count">
+        <see cref="T:System.Int32" /> que contiene un número de bytes que se van a leer del <paramref name="buffer" />.</param>
+      <exception cref="T:System.ArgumentNullException">
+        <paramref name="buffer" /> es null.</exception>
+      <exception cref="T:System.ArgumentException">
+        <paramref name="offset" />
+        <paramref name="&lt;" />
+        <paramref name="0" />.<paramref name="-or-" /><paramref name="offset" /> &gt; la longitud de <paramref name="buffer" />.O bien<paramref name="offset" /> + recuento &gt; la longitud de <paramref name="buffer" />.</exception>
+      <exception cref="T:System.IO.IOException">No se pudo realizar la operación de escritura.</exception>
+      <exception cref="T:System.NotSupportedException">Ya hay una operación de escritura en curso.</exception>
+      <exception cref="T:System.ObjectDisposedException">Este objeto se ha cerrado.</exception>
+      <exception cref="T:System.InvalidOperationException">No se ha producido la autenticación.</exception>
+    </member>
+    <member name="P:System.Net.Security.SslStream.WriteTimeout">
+      <summary>Obtiene o establece el período de tiempo que se bloquea una operación de escritura mientras espera datos.</summary>
+      <returns>
+        <see cref="T:System.Int32" /> que especifica el período de tiempo que transcurre antes de que se produzca un error en la operación de escritura sincrónica. </returns>
+    </member>
+    <member name="T:System.Security.Authentication.AuthenticationException">
+      <summary>Excepción que se produce cuando una secuencia de autenticación no supera la autenticación.</summary>
+    </member>
+    <member name="M:System.Security.Authentication.AuthenticationException.#ctor">
+      <summary>Inicializa una nueva instancia de la clase <see cref="T:System.Security.Authentication.AuthenticationException" /> sin mensajes.</summary>
+    </member>
+    <member name="M:System.Security.Authentication.AuthenticationException.#ctor(System.String)">
+      <summary>Inicializa una nueva instancia de la clase <see cref="T:System.Security.Authentication.AuthenticationException" /> con el mensaje especificado.</summary>
+      <param name="message">Objeto <see cref="T:System.String" /> que describe el error de autenticación.</param>
+    </member>
+    <member name="M:System.Security.Authentication.AuthenticationException.#ctor(System.String,System.Exception)">
+      <summary>Inicializa una nueva instancia de la clase <see cref="T:System.Security.Authentication.AuthenticationException" /> con el mensaje y la excepción interna especificadas.</summary>
+      <param name="message">Objeto <see cref="T:System.String" /> que describe el error de autenticación.</param>
+      <param name="innerException">Clase <see cref="T:System.Exception" /> que es la causa de la excepción actual.</param>
+    </member>
+    <member name="T:System.Security.Authentication.ExtendedProtection.ExtendedProtectionPolicy">
+      <summary>La clase <see cref="T:System.Security.Authentication.ExtendedProtection.ExtendedProtectionPolicy" /> representa la directiva de protección extendida usada por el servidor para validar las conexiones de cliente entrantes. </summary>
+    </member>
+    <member name="M:System.Security.Authentication.ExtendedProtection.ExtendedProtectionPolicy.#ctor(System.Security.Authentication.ExtendedProtection.PolicyEnforcement)">
+      <summary>Inicializa una nueva instancia de la clase <see cref="T:System.Security.Authentication.ExtendedProtection.ExtendedProtectionPolicy" /> que especifica cuándo debe aplicarse la directiva de protección extendida.</summary>
+      <param name="policyEnforcement">Valor de <see cref="T:System.Security.Authentication.ExtendedProtection.PolicyEnforcement" /> que indica cuándo debe aplicarse la directiva de protección extendida.</param>
+    </member>
+    <member name="M:System.Security.Authentication.ExtendedProtection.ExtendedProtectionPolicy.#ctor(System.Security.Authentication.ExtendedProtection.PolicyEnforcement,System.Security.Authentication.ExtendedProtection.ChannelBinding)">
+      <summary>Inicializa una nueva instancia de la clase <see cref="T:System.Security.Authentication.ExtendedProtection.ExtendedProtectionPolicy" /> que especifica cuándo debe aplicarse la directiva de protección extendida y el token de enlace de canal (CBT) que se va a utilizar.</summary>
+      <param name="policyEnforcement">Valor de <see cref="T:System.Security.Authentication.ExtendedProtection.PolicyEnforcement" /> que indica cuándo debe aplicarse la directiva de protección extendida.</param>
+      <param name="customChannelBinding">
+        <see cref="T:System.Security.Authentication.ExtendedProtection.ChannelBinding" /> que contiene el enlace de canal personalizado que se va a utilizar para la validación.</param>
+      <exception cref="T:System.ArgumentException">
+        <paramref name="policyEnforcement" /> se especifica como <see cref="F:System.Security.Authentication.ExtendedProtection.PolicyEnforcement.Never" />.</exception>
+      <exception cref="T:System.ArgumentNullException">El valor de <paramref name="customChannelBinding " />es null. </exception>
+    </member>
+    <member name="M:System.Security.Authentication.ExtendedProtection.ExtendedProtectionPolicy.#ctor(System.Security.Authentication.ExtendedProtection.PolicyEnforcement,System.Security.Authentication.ExtendedProtection.ProtectionScenario,System.Collections.ICollection)">
+      <summary>Inicializa una nueva instancia de la clase <see cref="T:System.Security.Authentication.ExtendedProtection.ExtendedProtectionPolicy" /> que especifica cuándo debe aplicarse la directiva de protección extendida, el tipo de protección aplicado por la directiva y una lista personalizada de nombres de proveedores de servicios (SPN) que se va a comparar con el SPN de un cliente.</summary>
+      <param name="policyEnforcement">Valor de <see cref="T:System.Security.Authentication.ExtendedProtection.PolicyEnforcement" /> que indica cuándo debe aplicarse la directiva de protección extendida.</param>
+      <param name="protectionScenario">Valor de <see cref="T:System.Security.Authentication.ExtendedProtection.ProtectionScenario" /> que indica el tipo de protección aplicado por la directiva.</param>
+      <param name="customServiceNames">
+        <see cref="T:System.Collections.ICollection" /> que contiene la lista personalizada de nombres SPN que se va a comparar con el SPN de un cliente.</param>
+      <exception cref="T:System.ArgumentException">
+        <paramref name="policyEnforcement" /> se especifica como <see cref="F:System.Security.Authentication.ExtendedProtection.PolicyEnforcement.Never" />.</exception>
+      <exception cref="T:System.ArgumentNullException">
+        <paramref name="customServiceNames " />es nullo una lista vacía. </exception>
+    </member>
+    <member name="M:System.Security.Authentication.ExtendedProtection.ExtendedProtectionPolicy.#ctor(System.Security.Authentication.ExtendedProtection.PolicyEnforcement,System.Security.Authentication.ExtendedProtection.ProtectionScenario,System.Security.Authentication.ExtendedProtection.ServiceNameCollection)">
+      <summary>Inicializa una nueva instancia de la clase <see cref="T:System.Security.Authentication.ExtendedProtection.ExtendedProtectionPolicy" /> que especifica cuándo debe aplicarse la directiva de protección extendida, el tipo de protección aplicado por la directiva y una lista personalizada de nombres de proveedores de servicios (SPN) que se va a comparar con el SPN de un cliente.</summary>
+      <param name="policyEnforcement">Valor de <see cref="T:System.Security.Authentication.ExtendedProtection.PolicyEnforcement" /> que indica cuándo debe aplicarse la directiva de protección extendida.</param>
+      <param name="protectionScenario">Valor de <see cref="T:System.Security.Authentication.ExtendedProtection.ProtectionScenario" /> que indica el tipo de protección aplicado por la directiva.</param>
+      <param name="customServiceNames">
+        <see cref="T:System.Security.Authentication.ExtendedProtection.ServiceNameCollection" /> que contiene la lista personalizada de nombres SPN que se va a comparar con el SPN de un cliente.</param>
+      <exception cref="T:System.ArgumentException">
+        <paramref name="policyEnforcement" /> se especifica como <see cref="F:System.Security.Authentication.ExtendedProtection.PolicyEnforcement.Never" />.</exception>
+      <exception cref="T:System.ArgumentNullException">
+        <paramref name="customServiceNames " />es nullo una lista vacía. </exception>
+    </member>
+    <member name="P:System.Security.Authentication.ExtendedProtection.ExtendedProtectionPolicy.CustomChannelBinding">
+      <summary>Obtiene un token de enlace de canal (CBT) personalizado que se va a utilizar para la validación.</summary>
+      <returns>
+        <see cref="T:System.Security.Authentication.ExtendedProtection.ChannelBinding" /> que contiene el enlace de canal personalizado que se va a utilizar para la validación.</returns>
+    </member>
+    <member name="P:System.Security.Authentication.ExtendedProtection.ExtendedProtectionPolicy.CustomServiceNames">
+      <summary>Obtiene la lista personalizada de nombres de proveedores de servicios (SPN) que se va a comparar con el SPN de un cliente.</summary>
+      <returns>
+        <see cref="T:System.Security.Authentication.ExtendedProtection.ServiceNameCollection" /> que contiene la lista personalizada de nombres SPN que se va a comparar con el SPN de un cliente.</returns>
+    </member>
+    <member name="P:System.Security.Authentication.ExtendedProtection.ExtendedProtectionPolicy.OSSupportsExtendedProtection">
+      <summary>Indica si el sistema operativo admite la autenticación de Windows integrada con protección extendida.</summary>
+      <returns>true si el sistema operativo admite la autenticación de Windows integrada con protección extendida; de lo contrario, false.</returns>
+    </member>
+    <member name="P:System.Security.Authentication.ExtendedProtection.ExtendedProtectionPolicy.PolicyEnforcement">
+      <summary>Obtiene un valor que indica cuándo debe aplicarse la directiva de protección extendida.</summary>
+      <returns>Valor de <see cref="T:System.Security.Authentication.ExtendedProtection.PolicyEnforcement" /> que indica cuándo debe aplicarse la directiva de protección extendida. </returns>
+    </member>
+    <member name="P:System.Security.Authentication.ExtendedProtection.ExtendedProtectionPolicy.ProtectionScenario">
+      <summary>Obtiene un valor que indica el tipo de protección aplicado por la directiva de protección extendida.</summary>
+      <returns>Valor de <see cref="T:System.Security.Authentication.ExtendedProtection.ProtectionScenario" /> que indica el tipo de protección aplicado por la directiva. </returns>
+    </member>
+    <member name="M:System.Security.Authentication.ExtendedProtection.ExtendedProtectionPolicy.ToString">
+      <summary>Obtiene una representación de cadena para la instancia de directiva de protección extendida.</summary>
+      <returns>Una instancia de <see cref="T:System.String" /> que contiene la representación de la instancia de <see cref="T:System.Security.Authentication.ExtendedProtection.ExtendedProtectionPolicy" />.</returns>
+    </member>
+    <member name="T:System.Security.Authentication.ExtendedProtection.PolicyEnforcement">
+      <summary>La enumeración <see cref="T:System.Security.Authentication.ExtendedProtection.PolicyEnforcement" /> especifica cuándo debe forzarse <see cref="T:System.Security.Authentication.ExtendedProtection.ExtendedProtectionPolicy" />.</summary>
+    </member>
+    <member name="F:System.Security.Authentication.ExtendedProtection.PolicyEnforcement.Always">
+      <summary>El objeto <see cref="T:System.Security.Authentication.ExtendedProtection.ExtendedProtectionPolicy" /> siempre se fuerza.Los clientes que no admitan la protección extendida no podrán autenticarse.</summary>
+    </member>
+    <member name="F:System.Security.Authentication.ExtendedProtection.PolicyEnforcement.Never">
+      <summary>El objeto <see cref="T:System.Security.Authentication.ExtendedProtection.ExtendedProtectionPolicy" /> nunca se fuerza y la protección extendida está deshabilitada.</summary>
+    </member>
+    <member name="F:System.Security.Authentication.ExtendedProtection.PolicyEnforcement.WhenSupported">
+      <summary>
+        <see cref="T:System.Security.Authentication.ExtendedProtection.ExtendedProtectionPolicy" /> solamente se fuerza si el cliente y el servidor admiten la protección extendida.</summary>
+    </member>
+    <member name="T:System.Security.Authentication.ExtendedProtection.ProtectionScenario">
+      <summary>La enumeración <see cref="T:System.Security.Authentication.ExtendedProtection.ProtectionScenario" /> especifica el escenario de protección exigido por la directiva.</summary>
+    </member>
+    <member name="F:System.Security.Authentication.ExtendedProtection.ProtectionScenario.TransportSelected">
+      <summary>El transporte seleccionará un escenario de protección seguro o estándar en función del tipo de canal que se use.En la protección segura, la autenticación integrada de Windows se encapsula en un canal seguro y tiene un token de enlace de canal que coincide exactamente sin validación del nombre del proveedor de servicios (SPN).En la protección estándar, la autenticación integrada de Windows puede encapsularse, de manera opcional, en un canal seguro con un token de enlace de canal opcional y se requiere la validación SPN.Por tanto, si la solicitud pasa por un canal seguro, se comprueba el token de enlace de canal (CBT) o, de lo contrario, se comprueba SPN.</summary>
+    </member>
+    <member name="F:System.Security.Authentication.ExtendedProtection.ProtectionScenario.TrustedProxy">
+      <summary>La autenticación integrada de Windows se encapsula en un canal seguro que un proxy de confianza finaliza y tiene un token de enlace de canal con la validación SPN requerida.Esto requiere la presencia de CBT, pero no se comprueba CBT aunque se compruebe SPN.</summary>
+    </member>
+    <member name="T:System.Security.Authentication.ExtendedProtection.ServiceNameCollection">
+      <summary>La clase <see cref="T:System.Security.Authentication.ExtendedProtection.ServiceNameCollection" /> es una colección de solo lectura de nombres de entidad de seguridad de servicio. </summary>
+    </member>
+    <member name="M:System.Security.Authentication.ExtendedProtection.ServiceNameCollection.#ctor(System.Collections.ICollection)">
+      <summary>Inicializa una nueva instancia de solo lectura de la clase <see cref="T:System.Security.Authentication.ExtendedProtection.ServiceNameCollection" /> a partir de un <see cref="T:System.Collections.ICollection" /> existente. </summary>
+      <param name="items">Una instancia de la clase <see cref="T:System.Collections.ICollection" /> que contiene los valores especificados de nombres de servicio que se van a usar para inicializar la clase.</param>
+      <exception cref="T:System.ArgumentNullException">El valor de <paramref name="item " />es null. </exception>
+      <exception cref="T:System.ArgumentException">
+        <paramref name="item" /> está vacío.</exception>
+    </member>
+    <member name="M:System.Security.Authentication.ExtendedProtection.ServiceNameCollection.Contains(System.String)">
+      <summary>Devuelve un valor que indica si la cadena especificada aparece dentro de esta instancia <see cref="T:System.Security.Authentication.ExtendedProtection.ServiceNameCollection" />.</summary>
+      <returns>Devuelve <see cref="T:System.Boolean" />.true si el parámetro de <paramref name="searchServiceName" /> aparece dentro de esta instancia de <see cref="T:System.Security.Authentication.ExtendedProtection.ServiceNameCollection" />; si no, false.</returns>
+      <param name="searchServiceName">Cadena que se va a buscar.</param>
+    </member>
+    <member name="P:System.Security.Authentication.ExtendedProtection.ServiceNameCollection.Count"></member>
+    <member name="M:System.Security.Authentication.ExtendedProtection.ServiceNameCollection.GetEnumerator"></member>
+    <member name="M:System.Security.Authentication.ExtendedProtection.ServiceNameCollection.Merge(System.Collections.IEnumerable)">
+      <summary>Combina la colección <see cref="T:System.Security.Authentication.ExtendedProtection.ServiceNameCollection" /> actual con los valores especificados para crear una nueva colección <see cref="T:System.Security.Authentication.ExtendedProtection.ServiceNameCollection" /> que contenga la unión.</summary>
+      <returns>Nueva instancia de <see cref="T:System.Security.Authentication.ExtendedProtection.ServiceNameCollection" /> que contiene la unión de la instancia <see cref="T:System.Security.Authentication.ExtendedProtection.ServiceNameCollection" /> existente combinada con los valores especificados.</returns>
+      <param name="serviceNames">Una instancia de la clase <see cref="T:System.Collections.IEnumerable" /> que contiene los valores especificados de nombres de servicio que se van a combinar.</param>
+      <exception cref="T:System.ArgumentNullException">El valor de <paramref name="serviceNames " />es null. </exception>
+      <exception cref="T:System.ArgumentException">
+        <paramref name="serviceNames" /> está vacío.</exception>
+    </member>
+    <member name="M:System.Security.Authentication.ExtendedProtection.ServiceNameCollection.Merge(System.String)">
+      <summary>Combina la colección <see cref="T:System.Security.Authentication.ExtendedProtection.ServiceNameCollection" /> actual con los valores especificados para crear una nueva colección <see cref="T:System.Security.Authentication.ExtendedProtection.ServiceNameCollection" /> que contenga la unión.</summary>
+      <returns>Nueva instancia de <see cref="T:System.Security.Authentication.ExtendedProtection.ServiceNameCollection" /> que contiene la unión de la instancia <see cref="T:System.Security.Authentication.ExtendedProtection.ServiceNameCollection" /> existente combinada con los valores especificados.</returns>
+      <param name="serviceName">Una cadena que contiene los valores especificados de los nombres de servicio que se usan para inicializar la clase.</param>
+      <exception cref="T:System.ArgumentNullException">El valor de <paramref name="serviceNames " />es null. </exception>
+      <exception cref="T:System.ArgumentException">
+        <paramref name="serviceNames" /> está vacío.</exception>
+    </member>
+    <member name="M:System.Security.Authentication.ExtendedProtection.ServiceNameCollection.System#Collections#ICollection#CopyTo(System.Array,System.Int32)"></member>
+    <member name="P:System.Security.Authentication.ExtendedProtection.ServiceNameCollection.System#Collections#ICollection#IsSynchronized"></member>
+    <member name="P:System.Security.Authentication.ExtendedProtection.ServiceNameCollection.System#Collections#ICollection#SyncRoot"></member>
+  </members>
+</doc>

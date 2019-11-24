@@ -1,0 +1,13 @@
+﻿{
+    "Id": "Off",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Off"
+        },
+        {
+            "Language": "ja",
+            "Body": "オフ"
+        }
+    ]
+}

@@ -1,0 +1,13 @@
+﻿{
+  "Id": "RestoredFromHistory",
+  "Type": 210,
+  "Languages": [
+    {
+      "Body": "restored from version {0}."
+    },
+    {
+      "Language": "ja",
+      "Body": "バージョン {0} から復元しました。"
+    }
+  ]
+}

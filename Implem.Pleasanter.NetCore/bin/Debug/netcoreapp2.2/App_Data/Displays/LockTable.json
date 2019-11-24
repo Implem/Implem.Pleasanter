@@ -1,0 +1,13 @@
+﻿{
+    "Id": "LockTable",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Lock the table"
+        },
+        {
+            "Language": "ja",
+            "Body": "テーブルをロック"
+        }
+    ]
+}

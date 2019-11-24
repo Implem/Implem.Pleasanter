@@ -1,0 +1,477 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<doc>
+  <assembly>
+    <name>System.Net.Security</name>
+  </assembly>
+  <members>
+    <member name="T:System.Net.Security.EncryptionPolicy">
+      <summary>使用する暗号化ポリシーです。</summary>
+    </member>
+    <member name="F:System.Net.Security.EncryptionPolicy.AllowNoEncryption">
+      <summary>暗号化の使用が推奨される場合に、サーバーの同意があれば NULL 暗号 (暗号化なし) の使用を許可します。</summary>
+    </member>
+    <member name="F:System.Net.Security.EncryptionPolicy.NoEncryption">
+      <summary>他のエンドポイントが NULL 暗号を処理できる場合、暗号化の使用を許可せず、NULL 暗号の使用を要求します。</summary>
+    </member>
+    <member name="F:System.Net.Security.EncryptionPolicy.RequireEncryption">
+      <summary>暗号化を必要とし、NULL 暗号の使用を一切許可しません。</summary>
+    </member>
+    <member name="T:System.Net.Security.LocalCertificateSelectionCallback">
+      <summary>認証に使用するローカルの SSL (Secure Sockets Layer) 証明書を選択します。</summary>
+      <returns>SSL 接続の確立に使用する <see cref="T:System.Security.Cryptography.X509Certificates.X509Certificate" />。</returns>
+      <param name="sender">この検証のステータス情報を格納するオブジェクト。</param>
+      <param name="targetHost">クライアントが指定したホスト サーバー。</param>
+      <param name="localCertificates">ローカルの証明書を格納している <see cref="T:System.Security.Cryptography.X509Certificates.X509CertificateCollection" />。</param>
+      <param name="remoteCertificate">リモート側の認証に使用される証明書。</param>
+      <param name="acceptableIssuers">リモート側が受け入れることのできる証明書発行者の <see cref="T:System.String" /> 配列。</param>
+    </member>
+    <member name="T:System.Net.Security.RemoteCertificateValidationCallback">
+      <summary>認証に使用されるリモートの SSL (Secure Sockets Layer) 証明書を検証します。</summary>
+      <returns>指定した証明書が認証に使用できるかどうかを判断する <see cref="T:System.Boolean" /> 値。</returns>
+      <param name="sender">この検証のステータス情報を格納するオブジェクト。</param>
+      <param name="certificate">リモート側の認証に使用される証明書。</param>
+      <param name="chain">リモートの証明書に関連付けられた証明機関のチェーン。</param>
+      <param name="sslPolicyErrors">リモートの証明書に関連付けられた 1 つ以上のエラー。</param>
+    </member>
+    <member name="T:System.Net.Security.SslStream">
+      <summary>クライアントとサーバー間の通信に使用するストリームを提供します。このクライアントとサーバー間の通信では、SSL (Secure Socket Layer) セキュリティ プロトコルを使用して、サーバーとオプションでクライアントを認証します。</summary>
+    </member>
+    <member name="M:System.Net.Security.SslStream.#ctor(System.IO.Stream)">
+      <summary>指定した <see cref="T:System.IO.Stream" /> を使用して、<see cref="T:System.Net.Security.SslStream" /> クラスの新しいインスタンスを初期化します。</summary>
+      <param name="innerStream">
+        <see cref="T:System.Net.Security.SslStream" /> がデータの送受信に使用する <see cref="T:System.IO.Stream" /> オブジェクト。</param>
+      <exception cref="T:System.ArgumentException">
+        <paramref name="innerStream" /> が読み取り可能ではありません。または<paramref name="innerStream" /> が書き込み可能ではありません。</exception>
+      <exception cref="T:System.ArgumentNullException">
+        <paramref name="innerStream" /> は null なので、または<paramref name="innerStream" /> と <see cref="F:System.IO.Stream.Null" /> が等価です。</exception>
+    </member>
+    <member name="M:System.Net.Security.SslStream.#ctor(System.IO.Stream,System.Boolean)">
+      <summary>指定した <see cref="T:System.IO.Stream" /> とストリームを閉じる動作を使用して、<see cref="T:System.Net.Security.SslStream" /> クラスの新しいインスタンスを初期化します。</summary>
+      <param name="innerStream">
+        <see cref="T:System.Net.Security.SslStream" /> がデータの送受信に使用する <see cref="T:System.IO.Stream" /> オブジェクト。</param>
+      <param name="leaveInnerStreamOpen">
+        <see cref="T:System.Net.Security.SslStream" /> がデータの送受信に使用する <see cref="T:System.IO.Stream" /> オブジェクトの閉じる動作を示すブール値。このパラメーターは、内部ストリームを開いたままにするかどうかを示します。</param>
+      <exception cref="T:System.ArgumentException">
+        <paramref name="innerStream" /> が読み取り可能ではありません。または<paramref name="innerStream" /> が書き込み可能ではありません。</exception>
+      <exception cref="T:System.ArgumentNullException">
+        <paramref name="innerStream" /> は null なので、または<paramref name="innerStream" /> と <see cref="F:System.IO.Stream.Null" /> が等価です。</exception>
+    </member>
+    <member name="M:System.Net.Security.SslStream.#ctor(System.IO.Stream,System.Boolean,System.Net.Security.RemoteCertificateValidationCallback)">
+      <summary>指定した <see cref="T:System.IO.Stream" />、ストリームを閉じる動作、および証明書検証デリゲートを使用して、<see cref="T:System.Net.Security.SslStream" /> クラスの新しいインスタンスを初期化します。</summary>
+      <param name="innerStream">
+        <see cref="T:System.Net.Security.SslStream" /> がデータの送受信に使用する <see cref="T:System.IO.Stream" /> オブジェクト。</param>
+      <param name="leaveInnerStreamOpen">
+        <see cref="T:System.Net.Security.SslStream" /> がデータの送受信に使用する <see cref="T:System.IO.Stream" /> オブジェクトの閉じる動作を示すブール値。このパラメーターは、内部ストリームを開いたままにするかどうかを示します。</param>
+      <param name="userCertificateValidationCallback">リモート側によって提供される証明書を検証する <see cref="T:System.Net.Security.RemoteCertificateValidationCallback" /> デリゲート。</param>
+      <exception cref="T:System.ArgumentException">
+        <paramref name="innerStream" /> が読み取り可能ではありません。または<paramref name="innerStream" /> が書き込み可能ではありません。</exception>
+      <exception cref="T:System.ArgumentNullException">
+        <paramref name="innerStream" /> は null なので、または<paramref name="innerStream" /> と <see cref="F:System.IO.Stream.Null" /> が等価です。</exception>
+    </member>
+    <member name="M:System.Net.Security.SslStream.#ctor(System.IO.Stream,System.Boolean,System.Net.Security.RemoteCertificateValidationCallback,System.Net.Security.LocalCertificateSelectionCallback)">
+      <summary>指定した <see cref="T:System.IO.Stream" />、ストリームを閉じる動作、証明書検証デリゲート、および証明書選択デリゲートを使用して、<see cref="T:System.Net.Security.SslStream" /> クラスの新しいインスタンスを初期化します。</summary>
+      <param name="innerStream">
+        <see cref="T:System.Net.Security.SslStream" /> がデータの送受信に使用する <see cref="T:System.IO.Stream" /> オブジェクト。</param>
+      <param name="leaveInnerStreamOpen">
+        <see cref="T:System.Net.Security.SslStream" /> がデータの送受信に使用する <see cref="T:System.IO.Stream" /> オブジェクトの閉じる動作を示すブール値。このパラメーターは、内部ストリームを開いたままにするかどうかを示します。</param>
+      <param name="userCertificateValidationCallback">リモート側によって提供される証明書を検証する <see cref="T:System.Net.Security.RemoteCertificateValidationCallback" /> デリゲート。</param>
+      <param name="userCertificateSelectionCallback">認証に使用する証明書を選択する <see cref="T:System.Net.Security.LocalCertificateSelectionCallback" /> デリゲート。</param>
+      <exception cref="T:System.ArgumentException">
+        <paramref name="innerStream" /> が読み取り可能ではありません。または<paramref name="innerStream" /> が書き込み可能ではありません。</exception>
+      <exception cref="T:System.ArgumentNullException">
+        <paramref name="innerStream" /> は null なので、または<paramref name="innerStream" /> と <see cref="F:System.IO.Stream.Null" /> が等価です。</exception>
+    </member>
+    <member name="M:System.Net.Security.SslStream.#ctor(System.IO.Stream,System.Boolean,System.Net.Security.RemoteCertificateValidationCallback,System.Net.Security.LocalCertificateSelectionCallback,System.Net.Security.EncryptionPolicy)">
+      <summary>
+        <see cref="T:System.IO.Stream" /> を指定して、<see cref="T:System.Net.Security.SslStream" /> クラスの新しいインスタンスを初期化します。</summary>
+      <param name="innerStream">
+        <see cref="T:System.Net.Security.SslStream" /> がデータの送受信に使用する <see cref="T:System.IO.Stream" /> オブジェクト。</param>
+      <param name="leaveInnerStreamOpen">
+        <see cref="T:System.Net.Security.SslStream" /> がデータの送受信に使用する <see cref="T:System.IO.Stream" /> オブジェクトの閉じる動作を示すブール値。このパラメーターは、内部ストリームを開いたままにするかどうかを示します。</param>
+      <param name="userCertificateValidationCallback">リモート側によって提供される証明書を検証する <see cref="T:System.Net.Security.RemoteCertificateValidationCallback" /> デリゲート。</param>
+      <param name="userCertificateSelectionCallback">認証に使用する証明書を選択する <see cref="T:System.Net.Security.LocalCertificateSelectionCallback" /> デリゲート。</param>
+      <param name="encryptionPolicy">使用する <see cref="T:System.Net.Security.EncryptionPolicy" />。</param>
+      <exception cref="T:System.ArgumentException">
+        <paramref name="innerStream" /> が読み取り可能ではありません。または<paramref name="innerStream" /> が書き込み可能ではありません。または<paramref name="encryptionPolicy" /> が無効です。</exception>
+      <exception cref="T:System.ArgumentNullException">
+        <paramref name="innerStream" /> は null なので、または<paramref name="innerStream" /> と <see cref="F:System.IO.Stream.Null" /> が等価です。</exception>
+    </member>
+    <member name="M:System.Net.Security.SslStream.AuthenticateAsClient(System.String)">
+      <summary>クライアントによって呼び出され、クライアントとサーバー間の接続でサーバーとオプションでクライアントを認証します。</summary>
+      <param name="targetHost">この <see cref="T:System.Net.Security.SslStream" /> を共有するサーバーの名前。</param>
+      <exception cref="T:System.ArgumentNullException">
+        <paramref name="targetHost" /> は null なので、</exception>
+      <exception cref="T:System.Security.Authentication.AuthenticationException">認証に失敗し、このオブジェクトは使用できない状態のままになりました。</exception>
+      <exception cref="T:System.InvalidOperationException">認証は既に行われています。またはこの <see cref="T:System.Net.Security.SslStream" /> を使用したサーバー認証は以前に試行されました。または認証は既に実行中です。</exception>
+      <exception cref="T:System.ObjectDisposedException">このオブジェクトは閉じられています。</exception>
+    </member>
+    <member name="M:System.Net.Security.SslStream.AuthenticateAsClient(System.String,System.Security.Cryptography.X509Certificates.X509CertificateCollection,System.Security.Authentication.SslProtocols,System.Boolean)">
+      <summary>クライアントによって呼び出され、クライアントとサーバー間の接続でサーバーとオプションでクライアントを認証します。認証プロセスには、指定した証明書コレクションおよび SSL プロトコルが使用されます。</summary>
+      <param name="targetHost">この <see cref="T:System.Net.Security.SslStream" /> を共有するサーバーの名前。</param>
+      <param name="clientCertificates">クライアント証明書を格納している <see cref="T:System.Security.Cryptography.X509Certificates.X509CertificateCollection" />。</param>
+      <param name="enabledSslProtocols">認証に使用するプロトコルを表す <see cref="T:System.Security.Authentication.SslProtocols" /> 値。</param>
+      <param name="checkCertificateRevocation">認証の実行時に証明書失効リストをチェックするかどうかを指定する <see cref="T:System.Boolean" /> 値。</param>
+    </member>
+    <member name="M:System.Net.Security.SslStream.AuthenticateAsClientAsync(System.String)">
+      <summary>クライアントによって呼び出され、クライアントとサーバー間の接続で非同期操作としてサーバーと (オプションで) クライアントを認証します。</summary>
+      <returns>
+        <see cref="T:System.Threading.Tasks.Task" /> を返す非同期操作を表すタスク オブジェクト。</returns>
+      <param name="targetHost">この <see cref="T:System.Net.Security.SslStream" /> を共有するサーバーの名前。</param>
+      <exception cref="T:System.ArgumentNullException">
+        <paramref name="targetHost" /> は null なので、</exception>
+      <exception cref="T:System.Security.Authentication.AuthenticationException">認証に失敗し、このオブジェクトは使用できない状態のままになりました。</exception>
+      <exception cref="T:System.InvalidOperationException">認証は既に行われています。またはこの <see cref="T:System.Net.Security.SslStream" /> を使用したサーバー認証は以前に試行されました。または認証は既に実行中です。</exception>
+      <exception cref="T:System.ObjectDisposedException">このオブジェクトは閉じられています。</exception>
+    </member>
+    <member name="M:System.Net.Security.SslStream.AuthenticateAsClientAsync(System.String,System.Security.Cryptography.X509Certificates.X509CertificateCollection,System.Security.Authentication.SslProtocols,System.Boolean)">
+      <summary>クライアントによって呼び出され、クライアントとサーバー間の接続で非同期操作としてサーバーと (オプションで) クライアントを認証します。認証プロセスには、指定した証明書コレクションおよび SSL プロトコルが使用されます。</summary>
+      <returns>
+        <see cref="T:System.Threading.Tasks.Task" /> を返す非同期操作を表すタスク オブジェクト。</returns>
+      <param name="targetHost">この <see cref="T:System.Net.Security.SslStream" /> を共有するサーバーの名前。</param>
+      <param name="clientCertificates">クライアント証明書を格納している <see cref="T:System.Security.Cryptography.X509Certificates.X509CertificateCollection" />。</param>
+      <param name="enabledSslProtocols">認証に使用するプロトコルを表す <see cref="T:System.Security.Authentication.SslProtocols" /> 値。</param>
+      <param name="checkCertificateRevocation">認証の実行時に証明書失効リストをチェックするかどうかを指定する <see cref="T:System.Boolean" /> 値。</param>
+    </member>
+    <member name="M:System.Net.Security.SslStream.AuthenticateAsServer(System.Security.Cryptography.X509Certificates.X509Certificate)">
+      <summary>サーバーによって呼び出され、指定した証明書を使用して、クライアントとサーバー間の接続でサーバーとオプションでクライアントを認証します。</summary>
+      <param name="serverCertificate">サーバーの認証に使用する証明書。</param>
+      <exception cref="T:System.ArgumentNullException">
+        <paramref name="serverCertificate" /> は null なので、</exception>
+      <exception cref="T:System.Security.Authentication.AuthenticationException">認証に失敗し、このオブジェクトは使用できない状態のままになりました。</exception>
+      <exception cref="T:System.InvalidOperationException">認証は既に行われています。またはこの <see cref="T:System.Net.Security.SslStream" /> を使用したクライアント認証は以前に試行されました。または認証は既に実行中です。</exception>
+      <exception cref="T:System.ObjectDisposedException">このオブジェクトは閉じられています。</exception>
+      <exception cref="T:System.PlatformNotSupportedException">
+        <see cref="Overload:System.Net.Security.SslStream.AuthenticateAsServer" /> メソッドは、Windows 95、Windows 98、および Windows Millennium ではサポートされていません。</exception>
+    </member>
+    <member name="M:System.Net.Security.SslStream.AuthenticateAsServer(System.Security.Cryptography.X509Certificates.X509Certificate,System.Boolean,System.Security.Authentication.SslProtocols,System.Boolean)">
+      <summary>サーバーによって呼び出され、指定した証明書、要件、およびセキュリティ プロトコルを使用して、クライアントとサーバー間の接続でサーバーと (オプションで) クライアントを認証します。</summary>
+      <param name="serverCertificate">サーバーの認証に使用する X509Certificate。</param>
+      <param name="clientCertificateRequired">認証に使用する証明書をクライアントが指定する必要があるかどうかを示す <see cref="T:System.Boolean" /> 値。</param>
+      <param name="enabledSslProtocols">認証に使用するプロトコルを表す <see cref="T:System.Security.Authentication.SslProtocols" /> 値。</param>
+      <param name="checkCertificateRevocation">認証の実行時に証明書失効リストをチェックするかどうかを指定する <see cref="T:System.Boolean" /> 値。</param>
+      <exception cref="T:System.ArgumentNullException">
+        <paramref name="serverCertificate" /> は null なので、</exception>
+      <exception cref="T:System.ArgumentException">
+        <paramref name="enabledSslProtocols" /> が有効な <see cref="T:System.Security.Authentication.SslProtocols" /> 値ではありません。</exception>
+      <exception cref="T:System.Security.Authentication.AuthenticationException">認証に失敗し、このオブジェクトは使用できない状態のままになりました。</exception>
+      <exception cref="T:System.InvalidOperationException">認証は既に行われています。またはこの <see cref="T:System.Net.Security.SslStream" /> を使用したクライアント認証は以前に試行されました。または認証は既に実行中です。</exception>
+      <exception cref="T:System.ObjectDisposedException">このオブジェクトは閉じられています。</exception>
+      <exception cref="T:System.PlatformNotSupportedException">
+        <see cref="Overload:System.Net.Security.SslStream.AuthenticateAsServer" /> メソッドは、Windows 95、Windows 98、および Windows Millennium ではサポートされていません。</exception>
+    </member>
+    <member name="M:System.Net.Security.SslStream.AuthenticateAsServerAsync(System.Security.Cryptography.X509Certificates.X509Certificate)">
+      <summary>サーバーによって呼び出され、指定した証明書を使用して、クライアントとサーバー間の接続で非同期操作としてサーバーと (オプションで) クライアントを認証します。</summary>
+      <returns>
+        <see cref="T:System.Threading.Tasks.Task" /> を返す非同期操作を表すタスク オブジェクト。</returns>
+      <param name="serverCertificate">サーバーの認証に使用する証明書。</param>
+      <exception cref="T:System.ArgumentNullException">
+        <paramref name="serverCertificate" /> は null なので、</exception>
+      <exception cref="T:System.Security.Authentication.AuthenticationException">認証に失敗し、このオブジェクトは使用できない状態のままになりました。</exception>
+      <exception cref="T:System.InvalidOperationException">認証は既に行われています。またはこの <see cref="T:System.Net.Security.SslStream" /> を使用したクライアント認証は以前に試行されました。または認証は既に実行中です。</exception>
+      <exception cref="T:System.ObjectDisposedException">このオブジェクトは閉じられています。</exception>
+      <exception cref="T:System.PlatformNotSupportedException">
+        <see cref="Overload:System.Net.Security.SslStream.AuthenticateAsServerAsync" /> メソッドは、Windows 95、Windows 98、および Windows Millennium ではサポートされていません。</exception>
+    </member>
+    <member name="M:System.Net.Security.SslStream.AuthenticateAsServerAsync(System.Security.Cryptography.X509Certificates.X509Certificate,System.Boolean,System.Security.Authentication.SslProtocols,System.Boolean)">
+      <summary>サーバーによって呼び出され、指定した証明書、要件、およびセキュリティ プロトコルを使用して、クライアントとサーバー間の接続で非同期操作としてサーバーと (オプションで) クライアントを認証します。</summary>
+      <returns>
+        <see cref="T:System.Threading.Tasks.Task" /> を返す非同期操作を表すタスク オブジェクト。</returns>
+      <param name="serverCertificate">サーバーの認証に使用する X509Certificate。</param>
+      <param name="clientCertificateRequired">認証に使用する証明書をクライアントが指定する必要があるかどうかを示す <see cref="T:System.Boolean" /> 値。</param>
+      <param name="enabledSslProtocols">認証に使用するプロトコルを表す <see cref="T:System.Security.Authentication.SslProtocols" /> 値。</param>
+      <param name="checkCertificateRevocation">認証の実行時に証明書失効リストをチェックするかどうかを指定する <see cref="T:System.Boolean" /> 値。</param>
+    </member>
+    <member name="P:System.Net.Security.SslStream.CanRead">
+      <summary>基になるストリームが読み取り可能かどうかを示す <see cref="T:System.Boolean" /> 値を取得します。</summary>
+      <returns>認証が行われており、基になるストリームが読み取り可能な場合は true。それ以外の場合は false。</returns>
+    </member>
+    <member name="P:System.Net.Security.SslStream.CanSeek">
+      <summary>基になるストリームがシークできるかどうかを示す <see cref="T:System.Boolean" /> 値を取得します。</summary>
+      <returns>このプロパティは常に false を返します。</returns>
+    </member>
+    <member name="P:System.Net.Security.SslStream.CanTimeout">
+      <summary>基になるストリームがタイムアウトをサポートしているかどうかを示す <see cref="T:System.Boolean" /> 値を取得します。</summary>
+      <returns>基になるストリームがタイムアウトをサポートしている場合は true。それ以外の場合は false。</returns>
+    </member>
+    <member name="P:System.Net.Security.SslStream.CanWrite">
+      <summary>基になるストリームが書き込み可能かどうかを示す <see cref="T:System.Boolean" /> 値を取得します。</summary>
+      <returns>認証が行われており、基になるストリームが書き込み可能な場合は true。それ以外の場合は false。</returns>
+    </member>
+    <member name="P:System.Net.Security.SslStream.CheckCertRevocationStatus">
+      <summary>証明書検証プロセスで、証明書失効リストを照合するかどうかを示す <see cref="T:System.Boolean" /> 値を取得します。</summary>
+      <returns>証明書失効リストが照合される場合は true。それ以外の場合は false。</returns>
+    </member>
+    <member name="P:System.Net.Security.SslStream.CipherAlgorithm">
+      <summary>この <see cref="T:System.Net.Security.SslStream" /> が使用する一括暗号化アルゴリズムを識別する値を取得します。</summary>
+      <returns>
+        <see cref="T:System.Security.Authentication.CipherAlgorithmType" /> 値。</returns>
+      <exception cref="T:System.InvalidOperationException">認証プロセスの完了前に <see cref="P:System.Net.Security.SslStream.CipherAlgorithm" /> プロパティにアクセスしました。または、認証プロセスでエラーが発生しました。</exception>
+    </member>
+    <member name="P:System.Net.Security.SslStream.CipherStrength">
+      <summary>この <see cref="T:System.Net.Security.SslStream" /> が使用する暗号アルゴリズムの強度を識別する値を取得します。</summary>
+      <returns>アルゴリズムの強度をビット単位で指定する <see cref="T:System.Int32" /> 値。</returns>
+    </member>
+    <member name="M:System.Net.Security.SslStream.Flush">
+      <summary>バッファーに格納されたデータが基になるデバイスに書き込まれるようにします。</summary>
+    </member>
+    <member name="P:System.Net.Security.SslStream.HashAlgorithm">
+      <summary>メッセージ認証コード (MAC: Message Authentication Code) の生成に使用するアルゴリズムを取得します。</summary>
+      <returns>
+        <see cref="T:System.Security.Authentication.HashAlgorithmType" /> 値。</returns>
+      <exception cref="T:System.InvalidOperationException">認証プロセスの完了前に <see cref="P:System.Net.Security.SslStream.HashAlgorithm" /> プロパティにアクセスしました。または、認証プロセスでエラーが発生しました。</exception>
+    </member>
+    <member name="P:System.Net.Security.SslStream.HashStrength">
+      <summary>このインスタンスが使用するハッシュ アルゴリズムの強度を識別する値を取得します。</summary>
+      <returns>
+        <see cref="T:System.Security.Authentication.HashAlgorithmType" /> アルゴリズムの強度をビット単位で指定する <see cref="T:System.Int32" /> 値。有効値は 128 または 160 です。</returns>
+    </member>
+    <member name="P:System.Net.Security.SslStream.KeyExchangeAlgorithm">
+      <summary>この <see cref="T:System.Net.Security.SslStream" /> が使用するキー交換アルゴリズムを取得します。</summary>
+      <returns>
+        <see cref="T:System.Security.Authentication.ExchangeAlgorithmType" /> 値です。</returns>
+    </member>
+    <member name="P:System.Net.Security.SslStream.KeyExchangeStrength">
+      <summary>このインスタンスが使用するキー交換アルゴリズムの強度を識別する値を取得します。</summary>
+      <returns>
+        <see cref="T:System.Security.Authentication.ExchangeAlgorithmType" /> アルゴリズムの強度をビット単位で指定する <see cref="T:System.Int32" /> 値。</returns>
+    </member>
+    <member name="P:System.Net.Security.SslStream.Length">
+      <summary>基になるストリームの長さを取得します。</summary>
+      <returns>
+        <see cref="T:System.Int64" />基になるストリームの長さ。</returns>
+      <exception cref="T:System.NotSupportedException">基になるストリームが <see cref="T:System.Net.Sockets.NetworkStream" /> の場合、このプロパティの値の取得はサポートされていません。</exception>
+    </member>
+    <member name="P:System.Net.Security.SslStream.LocalCertificate">
+      <summary>ローカル エンドポイントの認証に使用する証明書を取得します。</summary>
+      <returns>認証用に提供された証明書を表す X509Certificate オブジェクト。証明書が提供されなかった場合は null。</returns>
+      <exception cref="T:System.InvalidOperationException">認証に失敗したか、認証が行われていません。</exception>
+    </member>
+    <member name="P:System.Net.Security.SslStream.Position">
+      <summary>基になるストリーム内の現在位置を取得または設定します。</summary>
+      <returns>
+        <see cref="T:System.Int64" />基になるストリームの現在の位置。</returns>
+      <exception cref="T:System.NotSupportedException">このプロパティの設定は、サポートされていません。または基になるストリームが <see cref="T:System.Net.Sockets.NetworkStream" /> の場合、このプロパティの値の取得はサポートされていません。</exception>
+    </member>
+    <member name="M:System.Net.Security.SslStream.Read(System.Byte[],System.Int32,System.Int32)">
+      <summary>このストリームからデータを読み取り、指定した配列に格納します。</summary>
+      <returns>読み取るバイト数を指定する <see cref="T:System.Int32" /> 値。読み取るデータがこれ以上存在しない場合は 0 を返します。</returns>
+      <param name="buffer">このストリームから読み取ったバイトを受け取る <see cref="T:System.Byte" /> 配列。</param>
+      <param name="offset">このストリームから読み取ったデータの格納を開始する位置を示す、<paramref name="buffer" /> 内のインデックス番号が 0 から始まる位置を格納する <see cref="T:System.Int32" />。</param>
+      <param name="count">このストリームから読み取る最大バイト数を格納する <see cref="T:System.Int32" />。</param>
+      <exception cref="T:System.ArgumentNullException">
+        <paramref name="buffer" /> は null なので、</exception>
+      <exception cref="T:System.ArgumentException">
+        <paramref name="offset" />
+        <paramref name="&lt;" />
+        <paramref name="0" />.<paramref name="-or-" /><paramref name="offset" /> が <paramref name="buffer" /> の長さを超えています。または<paramref name="offset" /> と count の合計が <paramref name="buffer" /> の長さを超えています。</exception>
+      <exception cref="T:System.IO.IOException">読み取り操作に失敗しました。内部例外が存在する場合は、その例外をチェックしてエラーの原因を確認してください。</exception>
+      <exception cref="T:System.NotSupportedException">既に実行中の読み取り操作が存在します。</exception>
+      <exception cref="T:System.ObjectDisposedException">このオブジェクトは閉じられています。</exception>
+      <exception cref="T:System.InvalidOperationException">認証が行われていません。</exception>
+    </member>
+    <member name="P:System.Net.Security.SslStream.ReadTimeout">
+      <summary>読み取り操作がブロックしてデータを待機する時間を取得または設定します。</summary>
+      <returns>同期読み取り操作が失敗するまでの時間を指定する <see cref="T:System.Int32" />。</returns>
+    </member>
+    <member name="P:System.Net.Security.SslStream.RemoteCertificate">
+      <summary>リモート エンドポイントの認証に使用する証明書を取得します。</summary>
+      <returns>認証用に提供された証明書を表す X509Certificate オブジェクト。証明書が提供されなかった場合は null。</returns>
+      <exception cref="T:System.InvalidOperationException">認証に失敗したか、認証が行われていません。</exception>
+    </member>
+    <member name="M:System.Net.Security.SslStream.Seek(System.Int64,System.IO.SeekOrigin)">
+      <summary>
+        <see cref="T:System.NotSupportedException" /> をスローします。</summary>
+      <returns>常に <see cref="T:System.NotSupportedException" /> をスローします。</returns>
+      <param name="offset">この値は無視されます。</param>
+      <param name="origin">この値は無視されます。</param>
+      <exception cref="T:System.NotSupportedException">シークは <see cref="T:System.Net.Security.SslStream" /> オブジェクトでサポートされていません。</exception>
+    </member>
+    <member name="M:System.Net.Security.SslStream.SetLength(System.Int64)">
+      <summary>基になるストリームの長さを設定します。</summary>
+      <param name="value">ストリームの長さを指定する <see cref="T:System.Int64" /> 値。</param>
+    </member>
+    <member name="P:System.Net.Security.SslStream.SslProtocol">
+      <summary>この接続の認証に使用するセキュリティ プロトコルを示す値を取得します。</summary>
+      <returns>認証に使用するプロトコルを表す <see cref="T:System.Security.Authentication.SslProtocols" /> 値。</returns>
+    </member>
+    <member name="P:System.Net.Security.SslStream.TransportContext">
+      <summary>拡張保護を使用した認証に使用する <see cref="T:System.Net.TransportContext" /> を取得します。</summary>
+      <returns>拡張保護に使用するチャネル バインディング トークン (CBT: Channel Binding Token) を格納している <see cref="T:System.Net.TransportContext" /> オブジェクト。</returns>
+    </member>
+    <member name="M:System.Net.Security.SslStream.Write(System.Byte[])">
+      <summary>このストリームに指定したデータを書き込みます。</summary>
+      <param name="buffer">ストリームに書き込むバイトを提供する <see cref="T:System.Byte" /> 配列。</param>
+      <exception cref="T:System.ArgumentNullException">
+        <paramref name="buffer" /> は null なので、</exception>
+      <exception cref="T:System.IO.IOException">書き込み操作に失敗しました。</exception>
+      <exception cref="T:System.NotSupportedException">既に実行中の書き込み操作が存在します。</exception>
+      <exception cref="T:System.ObjectDisposedException">このオブジェクトは閉じられています。</exception>
+      <exception cref="T:System.InvalidOperationException">認証が行われていません。</exception>
+    </member>
+    <member name="M:System.Net.Security.SslStream.Write(System.Byte[],System.Int32,System.Int32)">
+      <summary>指定したバッファーとオフセットを使用して、基になるストリームに指定した <see cref="T:System.Byte" /> 数を書き込みます。</summary>
+      <param name="buffer">ストリームに書き込むバイトを提供する <see cref="T:System.Byte" /> 配列。</param>
+      <param name="offset">ストリームに書き込むバイトの読み取りを開始する位置を示す、<paramref name="buffer" /> 内のインデックス番号が 0 から始まる位置を格納する <see cref="T:System.Int32" />。</param>
+      <param name="count">
+        <paramref name="buffer" /> から読み取るバイト数を格納する <see cref="T:System.Int32" />。</param>
+      <exception cref="T:System.ArgumentNullException">
+        <paramref name="buffer" /> は null なので、</exception>
+      <exception cref="T:System.ArgumentException">
+        <paramref name="offset" />
+        <paramref name="&lt;" />
+        <paramref name="0" />.<paramref name="-or-" /><paramref name="offset" /> が <paramref name="buffer" /> の長さを超えています。または<paramref name="offset" /> と count の合計が <paramref name="buffer" /> の長さを超えています。</exception>
+      <exception cref="T:System.IO.IOException">書き込み操作に失敗しました。</exception>
+      <exception cref="T:System.NotSupportedException">既に実行中の書き込み操作が存在します。</exception>
+      <exception cref="T:System.ObjectDisposedException">このオブジェクトは閉じられています。</exception>
+      <exception cref="T:System.InvalidOperationException">認証が行われていません。</exception>
+    </member>
+    <member name="P:System.Net.Security.SslStream.WriteTimeout">
+      <summary>書き込み操作がブロックしてデータを待機する時間を取得または設定します。</summary>
+      <returns>同期書き込み操作が失敗するまでの時間を指定する <see cref="T:System.Int32" />。</returns>
+    </member>
+    <member name="T:System.Security.Authentication.AuthenticationException">
+      <summary>認証ストリームの認証が失敗した場合にスローされる例外。</summary>
+    </member>
+    <member name="M:System.Security.Authentication.AuthenticationException.#ctor">
+      <summary>メッセージを指定せずに、<see cref="T:System.Security.Authentication.AuthenticationException" /> クラスの新しいインスタンスを初期化します。</summary>
+    </member>
+    <member name="M:System.Security.Authentication.AuthenticationException.#ctor(System.String)">
+      <summary>指定したメッセージを使用して、<see cref="T:System.Security.Authentication.AuthenticationException" /> クラスの新しいインスタンスを初期化します。</summary>
+      <param name="message">認証エラーを説明する <see cref="T:System.String" />。</param>
+    </member>
+    <member name="M:System.Security.Authentication.AuthenticationException.#ctor(System.String,System.Exception)">
+      <summary>指定したメッセージと内部例外を使用して、<see cref="T:System.Security.Authentication.AuthenticationException" /> クラスの新しいインスタンスを初期化します。</summary>
+      <param name="message">認証エラーを説明する <see cref="T:System.String" />。</param>
+      <param name="innerException">現在の例外の原因である <see cref="T:System.Exception" />。</param>
+    </member>
+    <member name="T:System.Security.Authentication.ExtendedProtection.ExtendedProtectionPolicy">
+      <summary>
+        <see cref="T:System.Security.Authentication.ExtendedProtection.ExtendedProtectionPolicy" /> クラスは、受信クライアント接続を検証するためにサーバーによって使用される拡張保護ポリシーを表します。</summary>
+    </member>
+    <member name="M:System.Security.Authentication.ExtendedProtection.ExtendedProtectionPolicy.#ctor(System.Security.Authentication.ExtendedProtection.PolicyEnforcement)">
+      <summary>拡張保護ポリシーを適用するタイミングを指定する <see cref="T:System.Security.Authentication.ExtendedProtection.ExtendedProtectionPolicy" /> クラスの新しいインスタンスを初期化します。</summary>
+      <param name="policyEnforcement">拡張保護ポリシーを適用するタイミングを示す <see cref="T:System.Security.Authentication.ExtendedProtection.PolicyEnforcement" /> 値。</param>
+    </member>
+    <member name="M:System.Security.Authentication.ExtendedProtection.ExtendedProtectionPolicy.#ctor(System.Security.Authentication.ExtendedProtection.PolicyEnforcement,System.Security.Authentication.ExtendedProtection.ChannelBinding)">
+      <summary>拡張保護ポリシーを適用するタイミング、および使用するチャネル バインディング トークン (CBT: Channel Binding Token) を指定する <see cref="T:System.Security.Authentication.ExtendedProtection.ExtendedProtectionPolicy" /> クラスの新しいインスタンスを初期化します。</summary>
+      <param name="policyEnforcement">拡張保護ポリシーを適用するタイミングを示す <see cref="T:System.Security.Authentication.ExtendedProtection.PolicyEnforcement" /> 値。</param>
+      <param name="customChannelBinding">検証に使用するカスタム チャネル バインディングを格納している <see cref="T:System.Security.Authentication.ExtendedProtection.ChannelBinding" />。</param>
+      <exception cref="T:System.ArgumentException">
+        <paramref name="policyEnforcement" /> が <see cref="F:System.Security.Authentication.ExtendedProtection.PolicyEnforcement.Never" /> と指定されています。</exception>
+      <exception cref="T:System.ArgumentNullException">
+        <paramref name="customChannelBinding " />が null です。</exception>
+    </member>
+    <member name="M:System.Security.Authentication.ExtendedProtection.ExtendedProtectionPolicy.#ctor(System.Security.Authentication.ExtendedProtection.PolicyEnforcement,System.Security.Authentication.ExtendedProtection.ProtectionScenario,System.Collections.ICollection)">
+      <summary>拡張保護ポリシーを適用するタイミング、ポリシーによって適用される保護の種類、およびクライアントのサービス プロバイダー名 (SPN) との照合に使用されるカスタム SPN リストを指定する <see cref="T:System.Security.Authentication.ExtendedProtection.ExtendedProtectionPolicy" /> クラスの新しいインスタンスを初期化します。</summary>
+      <param name="policyEnforcement">拡張保護ポリシーを適用するタイミングを示す <see cref="T:System.Security.Authentication.ExtendedProtection.PolicyEnforcement" /> 値。</param>
+      <param name="protectionScenario">ポリシーによって適用される保護の種類を示す <see cref="T:System.Security.Authentication.ExtendedProtection.ProtectionScenario" /> 値。</param>
+      <param name="customServiceNames">クライアントの SPN との照合に使用されるカスタム SPN リストを格納している <see cref="T:System.Collections.ICollection" />。</param>
+      <exception cref="T:System.ArgumentException">
+        <paramref name="policyEnforcement" /> が <see cref="F:System.Security.Authentication.ExtendedProtection.PolicyEnforcement.Never" /> と指定されています。</exception>
+      <exception cref="T:System.ArgumentNullException">
+        <paramref name="customServiceNames " />が nullまたは空のリストです。</exception>
+    </member>
+    <member name="M:System.Security.Authentication.ExtendedProtection.ExtendedProtectionPolicy.#ctor(System.Security.Authentication.ExtendedProtection.PolicyEnforcement,System.Security.Authentication.ExtendedProtection.ProtectionScenario,System.Security.Authentication.ExtendedProtection.ServiceNameCollection)">
+      <summary>拡張保護ポリシーを適用するタイミング、ポリシーによって適用される保護の種類、およびクライアントのサービス プロバイダー名 (SPN) との照合に使用されるカスタム SPN リストを指定する <see cref="T:System.Security.Authentication.ExtendedProtection.ExtendedProtectionPolicy" /> クラスの新しいインスタンスを初期化します。</summary>
+      <param name="policyEnforcement">拡張保護ポリシーを適用するタイミングを示す <see cref="T:System.Security.Authentication.ExtendedProtection.PolicyEnforcement" /> 値。</param>
+      <param name="protectionScenario">ポリシーによって適用される保護の種類を示す <see cref="T:System.Security.Authentication.ExtendedProtection.ProtectionScenario" /> 値。</param>
+      <param name="customServiceNames">クライアントの SPN との照合に使用されるカスタム SPN リストを格納している <see cref="T:System.Security.Authentication.ExtendedProtection.ServiceNameCollection" />。</param>
+      <exception cref="T:System.ArgumentException">
+        <paramref name="policyEnforcement" /> が <see cref="F:System.Security.Authentication.ExtendedProtection.PolicyEnforcement.Never" /> と指定されています。</exception>
+      <exception cref="T:System.ArgumentNullException">
+        <paramref name="customServiceNames " />が nullまたは空のリストです。</exception>
+    </member>
+    <member name="P:System.Security.Authentication.ExtendedProtection.ExtendedProtectionPolicy.CustomChannelBinding">
+      <summary>検証に使用するカスタム チャネル バインディング トークン (CBT) を取得します。</summary>
+      <returns>検証に使用するカスタム チャネル バインディングを格納している <see cref="T:System.Security.Authentication.ExtendedProtection.ChannelBinding" />。</returns>
+    </member>
+    <member name="P:System.Security.Authentication.ExtendedProtection.ExtendedProtectionPolicy.CustomServiceNames">
+      <summary>クライアントの サービス プロバイダー名 (SPN) との照合に使用されるカスタム SPN リストを取得します。</summary>
+      <returns>クライアントの SPN との照合に使用されるカスタム SPN リストを格納している <see cref="T:System.Security.Authentication.ExtendedProtection.ServiceNameCollection" />。</returns>
+    </member>
+    <member name="P:System.Security.Authentication.ExtendedProtection.ExtendedProtectionPolicy.OSSupportsExtendedProtection">
+      <summary>オペレーティング システムが拡張保護を使用した統合 Windows 認証をサポートしているかどうかを示します。</summary>
+      <returns>オペレーティング システムが拡張保護を使用した統合 Windows 認証をサポートしている場合は true。それ以外の場合は false。</returns>
+    </member>
+    <member name="P:System.Security.Authentication.ExtendedProtection.ExtendedProtectionPolicy.PolicyEnforcement">
+      <summary>拡張保護ポリシーを適用するタイミングを取得します。</summary>
+      <returns>拡張保護ポリシーを適用するタイミングを示す <see cref="T:System.Security.Authentication.ExtendedProtection.PolicyEnforcement" /> 値。</returns>
+    </member>
+    <member name="P:System.Security.Authentication.ExtendedProtection.ExtendedProtectionPolicy.ProtectionScenario">
+      <summary>拡張保護ポリシーによって適用される保護の種類を取得します。</summary>
+      <returns>ポリシーによって適用される保護の種類を示す <see cref="T:System.Security.Authentication.ExtendedProtection.ProtectionScenario" /> 値。</returns>
+    </member>
+    <member name="M:System.Security.Authentication.ExtendedProtection.ExtendedProtectionPolicy.ToString">
+      <summary>拡張保護ポリシー インスタンスの文字列形式を取得します。</summary>
+      <returns>
+        <see cref="T:System.Security.Authentication.ExtendedProtection.ExtendedProtectionPolicy" /> インスタンスの表現を格納している <see cref="T:System.String" /> インスタンス。</returns>
+    </member>
+    <member name="T:System.Security.Authentication.ExtendedProtection.PolicyEnforcement">
+      <summary>
+        <see cref="T:System.Security.Authentication.ExtendedProtection.PolicyEnforcement" /> 列挙体は、<see cref="T:System.Security.Authentication.ExtendedProtection.ExtendedProtectionPolicy" /> を適用するタイミングを指定します。</summary>
+    </member>
+    <member name="F:System.Security.Authentication.ExtendedProtection.PolicyEnforcement.Always">
+      <summary>
+        <see cref="T:System.Security.Authentication.ExtendedProtection.ExtendedProtectionPolicy" /> は常に適用されます。拡張保護をサポートしていないクライアントは認証に失敗します。</summary>
+    </member>
+    <member name="F:System.Security.Authentication.ExtendedProtection.PolicyEnforcement.Never">
+      <summary>
+        <see cref="T:System.Security.Authentication.ExtendedProtection.ExtendedProtectionPolicy" /> が適用されることはなく、拡張保護は無効になります。</summary>
+    </member>
+    <member name="F:System.Security.Authentication.ExtendedProtection.PolicyEnforcement.WhenSupported">
+      <summary>
+        <see cref="T:System.Security.Authentication.ExtendedProtection.ExtendedProtectionPolicy" /> が適用されるのは、クライアントとサーバーが拡張保護をサポートしている場合のみです。</summary>
+    </member>
+    <member name="T:System.Security.Authentication.ExtendedProtection.ProtectionScenario">
+      <summary>
+        <see cref="T:System.Security.Authentication.ExtendedProtection.ProtectionScenario" /> 列挙体は、ポリシーによって適用される保護シナリオを指定します。</summary>
+    </member>
+    <member name="F:System.Security.Authentication.ExtendedProtection.ProtectionScenario.TransportSelected">
+      <summary>トランスポートは、使用されるチャネルの種類に応じて、セキュリティで保護された保護シナリオか標準の保護シナリオのどちらかを選択します。セキュリティで保護された保護の場合、統合 Windows 認証は、セキュリティで保護されたチャネルにラップされ、サービス プロバイダー名 (SPN: Service Provider Name) 検証が行われていない完全に一致するチャネル バインディング トークン (CBT: Channel Binding Token) を使用します。標準の保護の場合、統合 Windows 認証は、必要に応じてオプションのチャネル バインディング トークンを使用してセキュリティで保護されたチャネルにラップされ、SPN 検証を必要とします。したがって、セキュリティで保護されたチャネルを経由して要求が届く場合はチャネル バインディング トークンがチェックされます。それ以外の場合は SPN がチェックされます。</summary>
+    </member>
+    <member name="F:System.Security.Authentication.ExtendedProtection.ProtectionScenario.TrustedProxy">
+      <summary>統合 Windows 認証は、信頼できるプロキシで終了するセキュリティで保護されたチャネルにラップされ、SPN 検証が必要なチャネル バインディング トークンを使用します。この場合、CBT が存在する必要がありますが、SPN のチェック中は CTB はチェックされません。</summary>
+    </member>
+    <member name="T:System.Security.Authentication.ExtendedProtection.ServiceNameCollection">
+      <summary>
+        <see cref="T:System.Security.Authentication.ExtendedProtection.ServiceNameCollection" /> クラスは、サービス プリンシパル名の読み取り専用コレクションです。</summary>
+    </member>
+    <member name="M:System.Security.Authentication.ExtendedProtection.ServiceNameCollection.#ctor(System.Collections.ICollection)">
+      <summary>既存の <see cref="T:System.Collections.ICollection" /> に基づいて、<see cref="T:System.Security.Authentication.ExtendedProtection.ServiceNameCollection" /> クラスの新しい読み取り専用インスタンスを初期化します。</summary>
+      <param name="items">クラスの初期化に使用されるサービス名の指定された値を格納する <see cref="T:System.Collections.ICollection" /> クラスのインスタンス。</param>
+      <exception cref="T:System.ArgumentNullException">
+        <paramref name="item " />が null です。</exception>
+      <exception cref="T:System.ArgumentException">
+        <paramref name="item" /> が空です。</exception>
+    </member>
+    <member name="M:System.Security.Authentication.ExtendedProtection.ServiceNameCollection.Contains(System.String)">
+      <summary>この <see cref="T:System.Security.Authentication.ExtendedProtection.ServiceNameCollection" /> インスタンス内に指定した文字列が存在するかどうかを示す値を返します。</summary>
+      <returns>
+        <see cref="T:System.Boolean" /> を返します。<paramref name="searchServiceName" /> パラメーターがこの <see cref="T:System.Security.Authentication.ExtendedProtection.ServiceNameCollection" /> インスタンス内で発生する場合は true。それ以外の場合は false。</returns>
+      <param name="searchServiceName">シークする文字列。</param>
+    </member>
+    <member name="P:System.Security.Authentication.ExtendedProtection.ServiceNameCollection.Count"></member>
+    <member name="M:System.Security.Authentication.ExtendedProtection.ServiceNameCollection.GetEnumerator"></member>
+    <member name="M:System.Security.Authentication.ExtendedProtection.ServiceNameCollection.Merge(System.Collections.IEnumerable)">
+      <summary>現在の <see cref="T:System.Security.Authentication.ExtendedProtection.ServiceNameCollection" /> を指定された値とマージして、結合領域を包む新しい <see cref="T:System.Security.Authentication.ExtendedProtection.ServiceNameCollection" /> を作成します。</summary>
+      <returns>指定された値とマージされる既存の <see cref="T:System.Security.Authentication.ExtendedProtection.ServiceNameCollection" /> インスタンスの結合領域を包む新しい <see cref="T:System.Security.Authentication.ExtendedProtection.ServiceNameCollection" /> インスタンス。</returns>
+      <param name="serviceNames">マージされるサービス名の指定された値を格納する <see cref="T:System.Collections.IEnumerable" /> クラスのインスタンス。</param>
+      <exception cref="T:System.ArgumentNullException">
+        <paramref name="serviceNames " />が null です。</exception>
+      <exception cref="T:System.ArgumentException">
+        <paramref name="serviceNames" /> が空です。</exception>
+    </member>
+    <member name="M:System.Security.Authentication.ExtendedProtection.ServiceNameCollection.Merge(System.String)">
+      <summary>現在の <see cref="T:System.Security.Authentication.ExtendedProtection.ServiceNameCollection" /> を指定された値とマージして、結合領域を包む新しい <see cref="T:System.Security.Authentication.ExtendedProtection.ServiceNameCollection" /> を作成します。</summary>
+      <returns>指定された値とマージされる既存の <see cref="T:System.Security.Authentication.ExtendedProtection.ServiceNameCollection" /> インスタンスの結合領域を包む新しい <see cref="T:System.Security.Authentication.ExtendedProtection.ServiceNameCollection" /> インスタンス。</returns>
+      <param name="serviceName">クラスの初期化に使用されるサービス名の指定された値を格納する文字列。</param>
+      <exception cref="T:System.ArgumentNullException">
+        <paramref name="serviceNames " />が null です。</exception>
+      <exception cref="T:System.ArgumentException">
+        <paramref name="serviceNames" /> が空です。</exception>
+    </member>
+    <member name="M:System.Security.Authentication.ExtendedProtection.ServiceNameCollection.System#Collections#ICollection#CopyTo(System.Array,System.Int32)"></member>
+    <member name="P:System.Security.Authentication.ExtendedProtection.ServiceNameCollection.System#Collections#ICollection#IsSynchronized"></member>
+    <member name="P:System.Security.Authentication.ExtendedProtection.ServiceNameCollection.System#Collections#ICollection#SyncRoot"></member>
+  </members>
+</doc>

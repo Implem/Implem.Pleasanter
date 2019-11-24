@@ -1,0 +1,13 @@
+﻿{
+    "Id": "TenantImageType",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Logo type"
+        },
+        {
+            "Language": "ja",
+            "Body": "ロゴタイプ"
+        }
+    ]
+}

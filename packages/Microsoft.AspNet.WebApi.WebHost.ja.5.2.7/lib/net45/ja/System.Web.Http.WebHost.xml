@@ -1,0 +1,141 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<doc>
+  <assembly>
+    <name>System.Web.Http.WebHost</name>
+  </assembly>
+  <members>
+    <member name="T:System.Web.Http.GlobalConfiguration">
+      <summary> ASP.NET アプリケーション用のグローバル <see cref="T:System.Web.Http.HttpConfiguration" /> を提供します。</summary>
+    </member>
+    <member name="P:System.Web.Http.GlobalConfiguration.Configuration"></member>
+    <member name="M:System.Web.Http.GlobalConfiguration.Configure(System.Action{System.Web.Http.HttpConfiguration})"></member>
+    <member name="P:System.Web.Http.GlobalConfiguration.DefaultHandler"></member>
+    <member name="P:System.Web.Http.GlobalConfiguration.DefaultServer">
+      <summary> グローバル <see cref="T:System.Web.Http.HttpServer" /> を取得します。</summary>
+      <returns>グローバル <see cref="T:System.Web.Http.HttpServer" />。</returns>
+    </member>
+    <member name="T:System.Web.Http.RouteCollectionExtensions">
+      <summary>
+        <see cref="T:System.Web.Routing.RouteCollection" /> の拡張メソッド。</summary>
+    </member>
+    <member name="M:System.Web.Http.RouteCollectionExtensions.MapHttpRoute(System.Web.Routing.RouteCollection,System.String,System.String)">
+      <summary>指定されたルート テンプレートをマップします。</summary>
+      <returns>マップされたルートへの参照。</returns>
+      <param name="routes">アプリケーションのルートのコレクション。</param>
+      <param name="name">マップするルートの名前。</param>
+      <param name="routeTemplate">ルートのルート テンプレート。</param>
+    </member>
+    <member name="M:System.Web.Http.RouteCollectionExtensions.MapHttpRoute(System.Web.Routing.RouteCollection,System.String,System.String,System.Object)">
+      <summary>指定されたルート テンプレートをマップし、既定のルートを設定します。</summary>
+      <returns>マップされたルートへの参照。</returns>
+      <param name="routes">アプリケーションのルートのコレクション。</param>
+      <param name="name">マップするルートの名前。</param>
+      <param name="routeTemplate">ルートのルート テンプレート。</param>
+      <param name="defaults">既定のルートの値を格納しているオブジェクト。</param>
+    </member>
+    <member name="M:System.Web.Http.RouteCollectionExtensions.MapHttpRoute(System.Web.Routing.RouteCollection,System.String,System.String,System.Object,System.Object)">
+      <summary>指定されたルート テンプレートをマップし、既定のルートの値および制約を設定します。</summary>
+      <returns>マップされたルートへの参照。</returns>
+      <param name="routes">アプリケーションのルートのコレクション。</param>
+      <param name="name">マップするルートの名前。</param>
+      <param name="routeTemplate">ルートのルート テンプレート。</param>
+      <param name="defaults">既定のルートの値を格納しているオブジェクト。</param>
+      <param name="constraints">routeTemplate の値を指定する式のセット。</param>
+    </member>
+    <member name="M:System.Web.Http.RouteCollectionExtensions.MapHttpRoute(System.Web.Routing.RouteCollection,System.String,System.String,System.Object,System.Object,System.Net.Http.HttpMessageHandler)">
+      <summary>指定されたルート テンプレートをマップし、既定のルートの値、制約、およびエンドポイント メッセージ ハンドラーを設定します。</summary>
+      <returns>マップされたルートへの参照。</returns>
+      <param name="routes">アプリケーションのルートのコレクション。</param>
+      <param name="name">マップするルートの名前。</param>
+      <param name="routeTemplate">ルートのルート テンプレート。</param>
+      <param name="defaults">既定のルートの値を格納しているオブジェクト。</param>
+      <param name="constraints">routeTemplate の値を指定する式のセット。</param>
+      <param name="handler">要求のディスパッチ先ハンドラー。</param>
+    </member>
+    <member name="T:System.Web.Http.WebHost.HttpControllerHandler">
+      <summary>ASP.NET 要求を <see cref="T:System.Web.Http.HttpServer" /> パイプラインに渡し、結果を書き戻す <see cref="T:System.Web.IHttpTaskAsyncHandler" />。</summary>
+    </member>
+    <member name="M:System.Web.Http.WebHost.HttpControllerHandler.#ctor(System.Web.Routing.RouteData)">
+      <summary>
+        <see cref="T:System.Web.Http.WebHost.HttpControllerHandler" /> クラスの新しいインスタンスを初期化します。</summary>
+      <param name="routeData">ルート データ。</param>
+    </member>
+    <member name="M:System.Web.Http.WebHost.HttpControllerHandler.#ctor(System.Web.Routing.RouteData,System.Net.Http.HttpMessageHandler)">
+      <summary>
+        <see cref="T:System.Web.Http.WebHost.HttpControllerHandler" /> クラスの新しいインスタンスを初期化します。</summary>
+      <param name="routeData">ルート データ。</param>
+      <param name="handler">要求のディスパッチ先のメッセージ ハンドラー。</param>
+    </member>
+    <member name="M:System.Web.Http.WebHost.HttpControllerHandler.ProcessRequestAsync(System.Web.HttpContext)">
+      <summary>非同期タスクを処理するコードを提供します。</summary>
+      <returns>非同期タスク。</returns>
+      <param name="context">HTTP コンテキスト。</param>
+    </member>
+    <member name="T:System.Web.Http.WebHost.HttpControllerRouteHandler">
+      <summary> 要求を指定された <see cref="T:System.Web.Http.HttpServer" /> インスタンスに渡すことができる <see cref="T:System.Web.Routing.IRouteHandler" /> のインスタンスを返す <see cref="T:System.Web.Http.WebHost.HttpControllerHandler" />。</summary>
+    </member>
+    <member name="M:System.Web.Http.WebHost.HttpControllerRouteHandler.#ctor">
+      <summary>
+        <see cref="T:System.Web.Http.WebHost.HttpControllerRouteHandler" /> クラスの新しいインスタンスを初期化します。</summary>
+    </member>
+    <member name="M:System.Web.Http.WebHost.HttpControllerRouteHandler.GetHttpHandler(System.Web.Routing.RequestContext)">
+      <summary> 要求を処理するオブジェクトを提供します。</summary>
+      <returns> 要求を処理するオブジェクト。</returns>
+      <param name="requestContext">要求に関する情報をカプセル化しているオブジェクト。</param>
+    </member>
+    <member name="P:System.Web.Http.WebHost.HttpControllerRouteHandler.Instance">
+      <summary> シングルトン <see cref="T:System.Web.Http.WebHost.HttpControllerRouteHandler" /> インスタンスを取得します。</summary>
+    </member>
+    <member name="M:System.Web.Http.WebHost.HttpControllerRouteHandler.System#Web#Routing#IRouteHandler#GetHttpHandler(System.Web.Routing.RequestContext)">
+      <summary> 要求を処理するオブジェクトを提供します。</summary>
+      <returns> 要求を処理するオブジェクト。 </returns>
+      <param name="requestContext">要求に関する情報をカプセル化しているオブジェクト。</param>
+    </member>
+    <member name="T:System.Web.Http.WebHost.PreApplicationStartCode">
+      <summary>簡易なメンバーシップ アプリケーション開始前のスタート コードの登録ポイントを提供します。</summary>
+    </member>
+    <member name="M:System.Web.Http.WebHost.PreApplicationStartCode.Start">
+      <summary>簡易なメンバーシップ アプリケーション開始前のスタート コードを登録します。</summary>
+    </member>
+    <member name="T:System.Web.Http.WebHost.WebHostBufferPolicySelector">
+      <summary>Web ホスト バッファー ポリシー セレクターを表します。</summary>
+    </member>
+    <member name="M:System.Web.Http.WebHost.WebHostBufferPolicySelector.#ctor">
+      <summary>
+        <see cref="T:System.Web.Http.WebHost.WebHostBufferPolicySelector" /> クラスの新しいインスタンスを初期化します。</summary>
+    </member>
+    <member name="M:System.Web.Http.WebHost.WebHostBufferPolicySelector.UseBufferedInputStream(System.Object)">
+      <summary>ホストで HTTP 要求のエンティティ ボディをバッファーする必要があるかどうかを示す値を取得します。</summary>
+      <returns>バッファリングを使用する場合は true。それ以外の場合は、ストリーミングされた要求が使用されます。</returns>
+      <param name="hostContext">ホストのコンテキスト。</param>
+    </member>
+    <member name="M:System.Web.Http.WebHost.WebHostBufferPolicySelector.UseBufferedOutputStream(System.Net.Http.HttpResponseMessage)">
+      <summary>Web ホストにバッファーされた出力ストリームを使用します。</summary>
+      <returns>バッファーされた出力ストリーム。</returns>
+      <param name="response">応答。</param>
+    </member>
+    <member name="T:System.Web.Http.WebHost.WebHostExceptionCatchBlocks">
+      <summary>このアセンブリ内で使用される catch ブロックを提供します。</summary>
+    </member>
+    <member name="P:System.Web.Http.WebHost.WebHostExceptionCatchBlocks.HttpControllerHandlerBufferContent">
+      <summary>System.Web.Http.WebHost.HttpControllerHandler.WriteBufferedResponseContentAsync の catch ブロックのラベルを取得します。</summary>
+      <returns>System.Web.Http.WebHost.HttpControllerHandler.WriteBufferedResponseContentAsync の catch ブロックのラベル。</returns>
+    </member>
+    <member name="P:System.Web.Http.WebHost.WebHostExceptionCatchBlocks.HttpControllerHandlerBufferError">
+      <summary>System.Web.Http.WebHost.HttpControllerHandler.WriteErrorResponseContentAsync の catch ブロックのラベルを取得します。</summary>
+      <returns>System.Web.Http.WebHost.HttpControllerHandler.WriteErrorResponseContentAsync の catch ブロックのラベル。</returns>
+    </member>
+    <member name="P:System.Web.Http.WebHost.WebHostExceptionCatchBlocks.HttpControllerHandlerComputeContentLength">
+      <summary>System.Web.Http.WebHost.HttpControllerHandler.ComputeContentLength の catch ブロックのラベルを取得します。</summary>
+      <returns>System.Web.Http.WebHost.HttpControllerHandler.ComputeContentLength の catch ブロックのラベル。</returns>
+    </member>
+    <member name="P:System.Web.Http.WebHost.WebHostExceptionCatchBlocks.HttpControllerHandlerStreamContent">
+      <summary>System.Web.Http.WebHost.HttpControllerHandler.WriteStreamedResponseContentAsync の catch ブロックのラベルを取得します。</summary>
+      <returns>System.Web.Http.WebHost.HttpControllerHandler.WriteStreamedResponseContentAsync の catch ブロックのラベル。</returns>
+    </member>
+    <member name="P:System.Web.Http.WebHost.WebHostExceptionCatchBlocks.HttpWebRoute">
+      <summary>System.Web.Http.WebHost.WebHostExceptionCatchBlocks.HttpWebRoute.GetRouteData の catch ブロックのラベルを取得します。</summary>
+      <returns>System.Web.Http.WebHost.WebHostExceptionCatchBlocks.HttpWebRoute.GetRouteData の catch ブロック。</returns>
+    </member>
+  </members>
+</doc>

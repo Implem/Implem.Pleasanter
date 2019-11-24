@@ -1,0 +1,13 @@
+﻿{
+    "Id": "ApprovalMailBody",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Approval completion email to the status management system. \r\n\r\n, Please try to access the following URL .\r\n\r\n{0}\r\n\r\n"
+        },
+        {
+            "Language": "ja",
+            "Body": "{0}への承認完了メールです。\r\n\r\n下記のURLにアクセスし利用開始してください。\r\n\r\n{1}\r\n\r\n"
+        }
+    ]
+}

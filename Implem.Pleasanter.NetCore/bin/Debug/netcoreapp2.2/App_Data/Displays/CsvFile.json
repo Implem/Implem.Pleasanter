@@ -1,0 +1,13 @@
+﻿{
+    "Id": "CsvFile",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "CSV file"
+        },
+        {
+            "Language": "ja",
+            "Body": "CSVファイル"
+        }
+    ]
+}

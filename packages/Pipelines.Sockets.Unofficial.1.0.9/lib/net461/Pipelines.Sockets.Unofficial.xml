@@ -1,0 +1,734 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Pipelines.Sockets.Unofficial</name>
+    </assembly>
+    <members>
+        <member name="T:Pipelines.Sockets.Unofficial.ConnectionAbortedException">
+            <summary>
+            Indicates that a connection was aborted
+            </summary>
+        </member>
+        <member name="M:Pipelines.Sockets.Unofficial.ConnectionAbortedException.#ctor">
+            <summary>
+            Create a new instance of ConnectionAbortedException
+            </summary>
+        </member>
+        <member name="M:Pipelines.Sockets.Unofficial.ConnectionAbortedException.#ctor(System.String)">
+            <summary>
+            Create a new instance of ConnectionAbortedException
+            </summary>
+        </member>
+        <member name="M:Pipelines.Sockets.Unofficial.ConnectionAbortedException.#ctor(System.String,System.Exception)">
+            <summary>
+            Create a new instance of ConnectionAbortedException
+            </summary>
+        </member>
+        <member name="T:Pipelines.Sockets.Unofficial.ConnectionResetException">
+            <summary>
+            Indicates that a connection was reset
+            </summary>
+        </member>
+        <member name="M:Pipelines.Sockets.Unofficial.ConnectionResetException.#ctor(System.String)">
+            <summary>
+            Create a new ConnectionResetException instance
+            </summary>
+        </member>
+        <member name="M:Pipelines.Sockets.Unofficial.ConnectionResetException.#ctor(System.String,System.Exception)">
+            <summary>
+            Create a new ConnectionResetException instance
+            </summary>
+        </member>
+        <member name="T:Pipelines.Sockets.Unofficial.DedicatedThreadPoolPipeScheduler">
+            <summary>
+            An implementation of a pipe-scheduler that uses a dedicated pool of threads, deferring to
+            the thread-pool if that becomes too backlogged
+            </summary>
+        </member>
+        <member name="P:Pipelines.Sockets.Unofficial.DedicatedThreadPoolPipeScheduler.Default">
+            <summary>
+            Reusable shared scheduler instance
+            </summary>
+        </member>
+        <member name="M:Pipelines.Sockets.Unofficial.DedicatedThreadPoolPipeScheduler.ToString">
+            <summary>
+            The name of the pool
+            </summary>
+        </member>
+        <member name="P:Pipelines.Sockets.Unofficial.DedicatedThreadPoolPipeScheduler.WorkerCount">
+            <summary>
+            The number of workers associated with this pool
+            </summary>
+        </member>
+        <member name="M:Pipelines.Sockets.Unofficial.DedicatedThreadPoolPipeScheduler.#ctor(System.String,System.Int32,System.Int32,System.Threading.ThreadPriority)">
+            <summary>
+            Create a new dedicated thread-pool
+            </summary>
+        </member>
+        <member name="P:Pipelines.Sockets.Unofficial.DedicatedThreadPoolPipeScheduler.TotalServicedByQueue">
+            <summary>
+            The total number of operations serviced by the queue
+            </summary>
+        </member>
+        <member name="P:Pipelines.Sockets.Unofficial.DedicatedThreadPoolPipeScheduler.TotalServicedByPool">
+            <summary>
+            The total number of operations that could not be serviced by the queue, but which were sent to the thread-pool instead
+            </summary>
+        </member>
+        <member name="M:Pipelines.Sockets.Unofficial.DedicatedThreadPoolPipeScheduler.Schedule(System.Action{System.Object},System.Object)">
+            <summary>
+            Requests <paramref name="action"/> to be run on scheduler with <paramref name="state"/> being passed in
+            </summary>
+        </member>
+        <member name="P:Pipelines.Sockets.Unofficial.DedicatedThreadPoolPipeScheduler.AvailableCount">
+            <summary>
+            The number of workers currently actively engaged in work
+            </summary>
+        </member>
+        <member name="M:Pipelines.Sockets.Unofficial.DedicatedThreadPoolPipeScheduler.Dispose">
+            <summary>
+            Release the threads associated with this pool; if additional work is requested, it will
+            be sent to the main thread-pool
+            </summary>
+        </member>
+        <member name="T:Pipelines.Sockets.Unofficial.IMeasuredDuplexPipe">
+            <summary>
+            A duplex pipe that measures the bytes sent/received
+            </summary>
+        </member>
+        <member name="P:Pipelines.Sockets.Unofficial.IMeasuredDuplexPipe.TotalBytesSent">
+            <summary>
+            The total number of bytes sent to the pipe
+            </summary>
+        </member>
+        <member name="P:Pipelines.Sockets.Unofficial.IMeasuredDuplexPipe.TotalBytesReceived">
+            <summary>
+            The total number of bytes received by the pipe
+            </summary>
+        </member>
+        <member name="T:Pipelines.Sockets.Unofficial.MemoryMappedPipeReader">
+            <summary>
+            Represents a pipe that iterates over a memory-mapped file
+            </summary>
+        </member>
+        <member name="M:Pipelines.Sockets.Unofficial.MemoryMappedPipeReader.ToString">
+            <summary>
+            Get a string representation of the object
+            </summary>
+        </member>
+        <member name="P:Pipelines.Sockets.Unofficial.MemoryMappedPipeReader.IsAvailable">
+            <summary>
+            Indicates whether this API is likely to work
+            </summary>
+        </member>
+        <member name="M:Pipelines.Sockets.Unofficial.MemoryMappedPipeReader.Create(System.String,System.Int32)">
+            <summary>
+            Create a pipe-reader over the provided file
+            </summary>
+        </member>
+        <member name="M:Pipelines.Sockets.Unofficial.MemoryMappedPipeReader.Complete(System.Exception)">
+            <summary>
+            Mark the reader as complete
+            </summary>
+            <param name="exception"></param>
+        </member>
+        <member name="M:Pipelines.Sockets.Unofficial.MemoryMappedPipeReader.Dispose">
+            <summary>
+            Releases all resources associated with the object
+            </summary>
+        </member>
+        <member name="M:Pipelines.Sockets.Unofficial.MemoryMappedPipeReader.OnWriterCompleted(System.Action{System.Exception,System.Object},System.Object)">
+            <summary>
+            Not implemented
+            </summary>
+        </member>
+        <member name="M:Pipelines.Sockets.Unofficial.MemoryMappedPipeReader.CancelPendingRead">
+            <summary>
+            Cancels an in-progress read
+            </summary>
+        </member>
+        <member name="M:Pipelines.Sockets.Unofficial.MemoryMappedPipeReader.AdvanceTo(System.SequencePosition)">
+            <summary>
+            Indicates how much data was consumed from a read operation
+            </summary>
+        </member>
+        <member name="M:Pipelines.Sockets.Unofficial.MemoryMappedPipeReader.AdvanceTo(System.SequencePosition,System.SequencePosition)">
+            <summary>
+            Indicates how much data was consumed, and how much examined, from a read operation
+            </summary>
+        </member>
+        <member name="M:Pipelines.Sockets.Unofficial.MemoryMappedPipeReader.ReadAsync(System.Threading.CancellationToken)">
+            <summary>
+            Perform an asynchronous read operation
+            </summary>
+        </member>
+        <member name="M:Pipelines.Sockets.Unofficial.MemoryMappedPipeReader.TryRead(System.IO.Pipelines.ReadResult@)">
+            <summary>
+            Attempt to perfom a synchronous read operation
+            </summary>
+        </member>
+        <member name="T:Pipelines.Sockets.Unofficial.SocketAwaitableEventArgs">
+            <summary>
+            Awaitable SocketAsyncEventArgs, where awaiting the args yields either the BytesTransferred or throws the relevant socket exception
+            </summary>
+        </member>
+        <member name="M:Pipelines.Sockets.Unofficial.SocketAwaitableEventArgs.Abort(System.Net.Sockets.SocketError)">
+            <summary>
+            Abort the current async operation (and prevent future operations)
+            </summary>
+        </member>
+        <member name="M:Pipelines.Sockets.Unofficial.SocketAwaitableEventArgs.#ctor(System.IO.Pipelines.PipeScheduler)">
+            <summary>
+            Create a new SocketAwaitableEventArgs instance, optionally providing a scheduler for callbacks
+            </summary>
+            <param name="ioScheduler"></param>
+        </member>
+        <member name="M:Pipelines.Sockets.Unofficial.SocketAwaitableEventArgs.GetAwaiter">
+            <summary>
+            Get the awaiter for this instance; used as part of "await"
+            </summary>
+        </member>
+        <member name="P:Pipelines.Sockets.Unofficial.SocketAwaitableEventArgs.IsCompleted">
+            <summary>
+            Indicates whether the current operation is complete; used as part of "await"
+            </summary>
+        </member>
+        <member name="M:Pipelines.Sockets.Unofficial.SocketAwaitableEventArgs.GetResult">
+            <summary>
+            Gets the result of the async operation is complete; used as part of "await"
+            </summary>
+        </member>
+        <member name="M:Pipelines.Sockets.Unofficial.SocketAwaitableEventArgs.OnCompleted(System.Action)">
+            <summary>
+            Schedules a continuation for this operation; used as part of "await"
+            </summary>
+        </member>
+        <member name="M:Pipelines.Sockets.Unofficial.SocketAwaitableEventArgs.UnsafeOnCompleted(System.Action)">
+            <summary>
+            Schedules a continuation for this operation; used as part of "await"
+            </summary>
+        </member>
+        <member name="M:Pipelines.Sockets.Unofficial.SocketAwaitableEventArgs.Complete">
+            <summary>
+            Marks the operation as complete - this should be invoked whenever a SocketAsyncEventArgs operation returns false
+            </summary>
+        </member>
+        <member name="M:Pipelines.Sockets.Unofficial.SocketAwaitableEventArgs.OnCompleted(System.Net.Sockets.SocketAsyncEventArgs)">
+            <summary>
+            Invoked automatically when an operation completes asynchronously
+            </summary>
+        </member>
+        <member name="T:Pipelines.Sockets.Unofficial.SocketConnection">
+            <summary>
+            Reperesents a duplex pipe over managed sockets
+            </summary>
+        </member>
+        <member name="M:Pipelines.Sockets.Unofficial.SocketConnection.ConnectAsync(System.Net.EndPoint,System.IO.Pipelines.PipeOptions,Pipelines.Sockets.Unofficial.SocketConnectionOptions,System.Func{Pipelines.Sockets.Unofficial.SocketConnection,System.Threading.Tasks.Task},System.Net.Sockets.Socket,System.String)">
+            <summary>
+            Open a new or existing socket as a client
+            </summary>
+        </member>
+        <member name="M:Pipelines.Sockets.Unofficial.SocketConnection.ConnectAsync(System.Net.EndPoint,System.IO.Pipelines.PipeOptions,System.IO.Pipelines.PipeOptions,Pipelines.Sockets.Unofficial.SocketConnectionOptions,System.Func{Pipelines.Sockets.Unofficial.SocketConnection,System.Threading.Tasks.Task},System.Net.Sockets.Socket,System.String)">
+            <summary>
+            Open a new or existing socket as a client
+            </summary>
+        </member>
+        <member name="M:Pipelines.Sockets.Unofficial.SocketConnection.AssertDependencies">
+            <summary>
+            Check that all dependencies are available
+            </summary>
+        </member>
+        <member name="P:Pipelines.Sockets.Unofficial.SocketConnection.ShutdownKind">
+            <summary>
+            When possible, determines how the pipe first reached a close state
+            </summary>
+        </member>
+        <member name="P:Pipelines.Sockets.Unofficial.SocketConnection.SocketError">
+            <summary>
+            When the ShutdownKind relates to a socket error, may contain the socket error code
+            </summary>
+        </member>
+        <member name="M:Pipelines.Sockets.Unofficial.SocketConnection.TrySetProtocolShutdown(Pipelines.Sockets.Unofficial.PipeShutdownKind)">
+            <summary>
+            Try to signal the pipe shutdown reason as being due to an application protocol event
+            </summary>
+            <param name="kind">The kind of shutdown; only protocol-related reasons will succeed</param>
+            <returns>True if successful</returns>
+        </member>
+        <member name="M:Pipelines.Sockets.Unofficial.SocketConnection.SetRecommendedClientOptions(System.Net.Sockets.Socket)">
+            <summary>
+            Set recommended socket options for client sockets
+            </summary>
+            <param name="socket">The socket to set options against</param>
+        </member>
+        <member name="M:Pipelines.Sockets.Unofficial.SocketConnection.SetRecommendedServerOptions(System.Net.Sockets.Socket)">
+            <summary>
+            Set recommended socket options for server sockets
+            </summary>
+            <param name="socket">The socket to set options against</param>
+        </member>
+        <member name="M:Pipelines.Sockets.Unofficial.SocketConnection.Dispose">
+            <summary>
+            Release any resources held by this instance
+            </summary>
+        </member>
+        <member name="P:Pipelines.Sockets.Unofficial.SocketConnection.Input">
+            <summary>
+            Connection for receiving data
+            </summary>
+        </member>
+        <member name="P:Pipelines.Sockets.Unofficial.SocketConnection.Output">
+            <summary>
+            Connection for sending data
+            </summary>
+        </member>
+        <member name="M:Pipelines.Sockets.Unofficial.SocketConnection.ToString">
+            <summary>
+            Gets a string representation of this object
+            </summary>
+        </member>
+        <member name="P:Pipelines.Sockets.Unofficial.SocketConnection.Socket">
+            <summary>
+            The underlying socket for this connection
+            </summary>
+        </member>
+        <member name="M:Pipelines.Sockets.Unofficial.SocketConnection.Create(System.Net.Sockets.Socket,System.IO.Pipelines.PipeOptions,Pipelines.Sockets.Unofficial.SocketConnectionOptions,System.String)">
+            <summary>
+            Create a SocketConnection instance over an existing socket
+            </summary>
+        </member>
+        <member name="M:Pipelines.Sockets.Unofficial.SocketConnection.Create(System.Net.Sockets.Socket,System.IO.Pipelines.PipeOptions,System.IO.Pipelines.PipeOptions,Pipelines.Sockets.Unofficial.SocketConnectionOptions,System.String)">
+            <summary>
+            Create a SocketConnection instance over an existing socket
+            </summary>
+        </member>
+        <member name="P:Pipelines.Sockets.Unofficial.SocketConnection.BytesRead">
+            <summary>
+            The total number of bytes read from the socket
+            </summary>
+        </member>
+        <member name="P:Pipelines.Sockets.Unofficial.SocketConnection.LastReceived">
+            <summary>
+            The number of bytes received in the last read
+            </summary>
+        </member>
+        <member name="P:Pipelines.Sockets.Unofficial.SocketConnection.BytesSent">
+            <summary>
+            The total number of bytes sent to the socket
+            </summary>
+        </member>
+        <member name="T:Pipelines.Sockets.Unofficial.PipeShutdownKind">
+            <summary>
+            When possible, determines how the pipe first reached a close state
+            </summary>
+        </member>
+        <member name="F:Pipelines.Sockets.Unofficial.PipeShutdownKind.None">
+            <summary>
+            The pipe is still open
+            </summary>
+        </member>
+        <member name="F:Pipelines.Sockets.Unofficial.PipeShutdownKind.PipeDisposed">
+            <summary>
+            The pipe itself was disposed
+            </summary>
+        </member>
+        <member name="F:Pipelines.Sockets.Unofficial.PipeShutdownKind.ReadEndOfStream">
+            <summary>
+            The socket-reader reached a natural EOF from the socket
+            </summary>
+        </member>
+        <member name="F:Pipelines.Sockets.Unofficial.PipeShutdownKind.ReadDisposed">
+            <summary>
+            The socket-reader encountered a dispose failure
+            </summary>
+        </member>
+        <member name="F:Pipelines.Sockets.Unofficial.PipeShutdownKind.ReadIOException">
+            <summary>
+            The socket-reader encountered an IO failure
+            </summary>
+        </member>
+        <member name="F:Pipelines.Sockets.Unofficial.PipeShutdownKind.ReadException">
+            <summary>
+            The socket-reader encountered a general failure
+            </summary>
+        </member>
+        <member name="F:Pipelines.Sockets.Unofficial.PipeShutdownKind.ReadSocketError">
+            <summary>
+            The socket-reader encountered a socket failure - the SocketError may be populated
+            </summary>
+        </member>
+        <member name="F:Pipelines.Sockets.Unofficial.PipeShutdownKind.ReadFlushCompleted">
+            <summary>
+            When attempting to flush incoming data, the pipe indicated that it was complete
+            </summary>
+        </member>
+        <member name="F:Pipelines.Sockets.Unofficial.PipeShutdownKind.ReadFlushCanceled">
+            <summary>
+            When attempting to flush incoming data, the pipe indicated cancelation
+            </summary>
+        </member>
+        <member name="F:Pipelines.Sockets.Unofficial.PipeShutdownKind.WriteEndOfStream">
+            <summary>
+            The socket-writerreached a natural EOF from the pipe
+            </summary>
+        </member>
+        <member name="F:Pipelines.Sockets.Unofficial.PipeShutdownKind.WriteDisposed">
+            <summary>
+            The socket-writer encountered a dispose failure
+            </summary>
+        </member>
+        <member name="F:Pipelines.Sockets.Unofficial.PipeShutdownKind.WriteIOException">
+            <summary>
+            The socket-writer encountered an IO failure
+            </summary>
+        </member>
+        <member name="F:Pipelines.Sockets.Unofficial.PipeShutdownKind.WriteException">
+            <summary>
+            The socket-writer encountered a general failure
+            </summary>
+        </member>
+        <member name="F:Pipelines.Sockets.Unofficial.PipeShutdownKind.WriteSocketError">
+            <summary>
+            The socket-writer encountered a socket failure - the SocketError may be populated
+            </summary>
+        </member>
+        <member name="F:Pipelines.Sockets.Unofficial.PipeShutdownKind.InputReaderCompleted">
+            <summary>
+            The input's reader was completed
+            </summary>
+        </member>
+        <member name="F:Pipelines.Sockets.Unofficial.PipeShutdownKind.InputWriterCompleted">
+            <summary>
+            The input's writer was completed
+            </summary>
+        </member>
+        <member name="F:Pipelines.Sockets.Unofficial.PipeShutdownKind.OutputReaderCompleted">
+            <summary>
+            The output's reader was completed
+            </summary>
+        </member>
+        <member name="F:Pipelines.Sockets.Unofficial.PipeShutdownKind.OutputWriterCompleted">
+            <summary>
+            The input's writer was completed
+            </summary>
+        </member>
+        <member name="F:Pipelines.Sockets.Unofficial.PipeShutdownKind.ProtocolExitClient">
+            <summary>
+            An application defined exit was triggered by the client
+            </summary>
+        </member>
+        <member name="F:Pipelines.Sockets.Unofficial.PipeShutdownKind.ProtocolExitServer">
+            <summary>
+            An application defined exit was triggered by the server
+            </summary>
+        </member>
+        <member name="T:Pipelines.Sockets.Unofficial.SocketConnectionOptions">
+            <summary>
+            Flags that influence the behavior of SocketConnection
+            </summary>
+        </member>
+        <member name="F:Pipelines.Sockets.Unofficial.SocketConnectionOptions.None">
+            <summary>
+            Default
+            </summary>
+        </member>
+        <member name="F:Pipelines.Sockets.Unofficial.SocketConnectionOptions.ZeroLengthReads">
+            <summary>
+            When no data is currently available, perform a zero-length read as a buffer-free wait mechanism
+            </summary>
+        </member>
+        <member name="F:Pipelines.Sockets.Unofficial.SocketConnectionOptions.InlineReads">
+            <summary>
+            During async reads, the awaiter should continue on the IO thread
+            </summary>
+        </member>
+        <member name="F:Pipelines.Sockets.Unofficial.SocketConnectionOptions.InlineWrites">
+            <summary>
+            During async writes, the awaiter should continue on the IO thread
+            </summary>
+        </member>
+        <member name="F:Pipelines.Sockets.Unofficial.SocketConnectionOptions.InlineConnect">
+            <summary>
+            During async connects, the awaiter should continue on the IO thread
+            </summary>
+        </member>
+        <member name="T:Pipelines.Sockets.Unofficial.SocketServer">
+            <summary>
+            Represents a multi-client socket-server capable of dispatching pipeline clients
+            </summary>
+        </member>
+        <member name="M:Pipelines.Sockets.Unofficial.SocketServer.Listen(System.Net.EndPoint,System.Net.Sockets.AddressFamily,System.Net.Sockets.SocketType,System.Net.Sockets.ProtocolType,System.IO.Pipelines.PipeOptions,System.IO.Pipelines.PipeOptions)">
+            <summary>
+            Start listening as a server
+            </summary>
+        </member>
+        <member name="M:Pipelines.Sockets.Unofficial.SocketServer.Stop">
+            <summary>
+            Stop listening as a server
+            </summary>
+        </member>
+        <member name="M:Pipelines.Sockets.Unofficial.SocketServer.Dispose">
+            <summary>
+            Release any resources associated with this instance
+            </summary>
+        </member>
+        <member name="M:Pipelines.Sockets.Unofficial.SocketServer.Dispose(System.Boolean)">
+            <summary>
+            Release any resources associated with this instance
+            </summary>
+        </member>
+        <member name="M:Pipelines.Sockets.Unofficial.SocketServer.#ctor">
+            <summary>
+            Create a new instance of a socket server
+            </summary>
+        </member>
+        <member name="M:Pipelines.Sockets.Unofficial.SocketServer.OnServerFaulted(System.Exception)">
+            <summary>
+            Invoked when the server has faulted
+            </summary>
+        </member>
+        <member name="M:Pipelines.Sockets.Unofficial.SocketServer.OnClientFaulted(Pipelines.Sockets.Unofficial.SocketServer.ClientConnection@,System.Exception)">
+            <summary>
+            Invoked when a client has faulted
+            </summary>
+        </member>
+        <member name="M:Pipelines.Sockets.Unofficial.SocketServer.OnStarted(System.Net.EndPoint)">
+            <summary>
+            Invoked when the server starts
+            </summary>
+        </member>
+        <member name="M:Pipelines.Sockets.Unofficial.SocketServer.OnClientConnectedAsync(Pipelines.Sockets.Unofficial.SocketServer.ClientConnection@)">
+            <summary>
+            Invoked when a new client connects
+            </summary>
+        </member>
+        <member name="T:Pipelines.Sockets.Unofficial.SocketServer.ClientConnection">
+            <summary>
+            The state of a client connection
+            </summary>
+        </member>
+        <member name="P:Pipelines.Sockets.Unofficial.SocketServer.ClientConnection.Transport">
+            <summary>
+            The transport to use for this connection
+            </summary>
+        </member>
+        <member name="P:Pipelines.Sockets.Unofficial.SocketServer.ClientConnection.RemoteEndPoint">
+            <summary>
+            The remote endpoint that the client connected from
+            </summary>
+        </member>
+        <member name="T:Pipelines.Sockets.Unofficial.StreamConnection">
+            <summary>
+            Provides serves to shim between streams and pipelines
+            </summary>
+        </member>
+        <member name="T:Pipelines.Sockets.Unofficial.StreamConnection.AsyncPipeStream">
+            <summary>
+            Exposes a Stream as a duplex pipe
+            </summary>
+        </member>
+        <member name="M:Pipelines.Sockets.Unofficial.StreamConnection.AsyncPipeStream.ToString">
+            <summary>
+            Gets a string representation of this object
+            </summary>
+        </member>
+        <member name="P:Pipelines.Sockets.Unofficial.StreamConnection.AsyncPipeStream.CanRead">
+            <summary>
+            Gets whether read operations are available
+            </summary>
+        </member>
+        <member name="P:Pipelines.Sockets.Unofficial.StreamConnection.AsyncPipeStream.CanWrite">
+            <summary>
+            Gets whether write operations are available
+            </summary>
+        </member>
+        <member name="P:Pipelines.Sockets.Unofficial.StreamConnection.AsyncPipeStream.CanTimeout">
+            <summary>
+            Gets whether the stream can timeout
+            </summary>
+        </member>
+        <member name="P:Pipelines.Sockets.Unofficial.StreamConnection.AsyncPipeStream.CanSeek">
+            <summary>
+            Gets whether the seek operations are supported on this stream
+            </summary>
+        </member>
+        <member name="M:Pipelines.Sockets.Unofficial.StreamConnection.AsyncPipeStream.Seek(System.Int64,System.IO.SeekOrigin)">
+            <summary>
+            Change the position of the stream
+            </summary>
+        </member>
+        <member name="P:Pipelines.Sockets.Unofficial.StreamConnection.AsyncPipeStream.Length">
+            <summary>
+            Query the length of the stream
+            </summary>
+        </member>
+        <member name="P:Pipelines.Sockets.Unofficial.StreamConnection.AsyncPipeStream.Position">
+            <summary>
+            Get or set the position of the stream
+            </summary>
+        </member>
+        <member name="M:Pipelines.Sockets.Unofficial.StreamConnection.AsyncPipeStream.SetLength(System.Int64)">
+            <summary>
+            Specify the length of the stream
+            </summary>
+        </member>
+        <member name="M:Pipelines.Sockets.Unofficial.StreamConnection.AsyncPipeStream.Read(System.Byte[],System.Int32,System.Int32)">
+            <summary>
+            Read a buffer from the stream
+            </summary>
+        </member>
+        <member name="M:Pipelines.Sockets.Unofficial.StreamConnection.AsyncPipeStream.ReadByte">
+            <summary>
+            Reads a single byte
+            </summary>
+        </member>
+        <member name="M:Pipelines.Sockets.Unofficial.StreamConnection.AsyncPipeStream.Write(System.Byte[],System.Int32,System.Int32)">
+            <summary>
+            Write a buffer to the stream
+            </summary>
+        </member>
+        <member name="M:Pipelines.Sockets.Unofficial.StreamConnection.AsyncPipeStream.WriteAsync(System.Byte[],System.Int32,System.Int32,System.Threading.CancellationToken)">
+            <summary>
+            Perform an asynchronous write operation
+            </summary>
+        </member>
+        <member name="M:Pipelines.Sockets.Unofficial.StreamConnection.AsyncPipeStream.WriteByte(System.Byte)">
+            <summary>
+            Write a single byte
+            </summary>
+        </member>
+        <member name="M:Pipelines.Sockets.Unofficial.StreamConnection.AsyncPipeStream.BeginWrite(System.Byte[],System.Int32,System.Int32,System.AsyncCallback,System.Object)">
+            <summary>
+            Begin an asynchronous write operation
+            </summary>
+        </member>
+        <member name="M:Pipelines.Sockets.Unofficial.StreamConnection.AsyncPipeStream.EndWrite(System.IAsyncResult)">
+            <summary>
+            End an asynchronous write operation
+            </summary>
+        </member>
+        <member name="M:Pipelines.Sockets.Unofficial.StreamConnection.AsyncPipeStream.Flush">
+            <summary>
+            Signal that the written data should be read; this may awaken the reader if inactive,
+            and suspend the writer if the backlog is too large
+            </summary>
+        </member>
+        <member name="M:Pipelines.Sockets.Unofficial.StreamConnection.AsyncPipeStream.FlushAsync(System.Threading.CancellationToken)">
+            <summary>
+            Signal that the written data should be read; this may awaken the reader if inactive,
+            and suspend the writer if the backlog is too large
+            </summary>
+        </member>
+        <member name="M:Pipelines.Sockets.Unofficial.StreamConnection.AsyncPipeStream.Close">
+            <summary>
+            Close the stream
+            </summary>
+        </member>
+        <member name="M:Pipelines.Sockets.Unofficial.StreamConnection.AsyncPipeStream.CloseWrite">
+            <summary>
+            Signals that writing is complete; no more data will be written
+            </summary>
+        </member>
+        <member name="M:Pipelines.Sockets.Unofficial.StreamConnection.AsyncPipeStream.CloseRead">
+            <summary>
+            Signals that reading is complete; no more data will be read
+            </summary>
+        </member>
+        <member name="M:Pipelines.Sockets.Unofficial.StreamConnection.AsyncPipeStream.BeginRead(System.Byte[],System.Int32,System.Int32,System.AsyncCallback,System.Object)">
+            <summary>
+            Begin an asynchronous read operation
+            </summary>
+        </member>
+        <member name="M:Pipelines.Sockets.Unofficial.StreamConnection.AsyncPipeStream.EndRead(System.IAsyncResult)">
+            <summary>
+            End an asynchronous read operation
+            </summary>
+        </member>
+        <member name="M:Pipelines.Sockets.Unofficial.StreamConnection.AsyncPipeStream.ReadAsync(System.Byte[],System.Int32,System.Int32,System.Threading.CancellationToken)">
+            <summary>
+            Perform an asynchronous read operation
+            </summary>
+        </member>
+        <member name="M:Pipelines.Sockets.Unofficial.StreamConnection.GetDuplex(System.IO.Stream,System.IO.Pipelines.PipeOptions,System.String)">
+            <summary>
+            Create a duplex pipe that represents the provided stream
+            </summary>
+        </member>
+        <member name="M:Pipelines.Sockets.Unofficial.StreamConnection.GetDuplex(System.IO.Stream,System.IO.Pipelines.PipeOptions,System.IO.Pipelines.PipeOptions,System.String)">
+            <summary>
+            Create a duplex pipe that represents the provided stream
+            </summary>
+        </member>
+        <member name="M:Pipelines.Sockets.Unofficial.StreamConnection.GetReader(System.IO.Stream,System.IO.Pipelines.PipeOptions,System.String)">
+            <summary>
+            Create a PipeReader that consumes the provided stream
+            </summary>
+        </member>
+        <member name="M:Pipelines.Sockets.Unofficial.StreamConnection.GetWriter(System.IO.Stream,System.IO.Pipelines.PipeOptions,System.String)">
+            <summary>
+            Create a PipeWriter feeds the provided stream
+            </summary>
+        </member>
+        <member name="M:Pipelines.Sockets.Unofficial.StreamConnection.GetDuplex(System.IO.Pipelines.PipeReader,System.IO.Pipelines.PipeWriter,System.String)">
+            <summary>
+            Create a duplex stream that represents the provided reader and writer
+            </summary>
+        </member>
+        <member name="M:Pipelines.Sockets.Unofficial.StreamConnection.GetDuplex(System.IO.Pipelines.IDuplexPipe,System.String)">
+            <summary>
+            Create a duplex stream that represents the provided pipe
+            </summary>
+        </member>
+        <member name="M:Pipelines.Sockets.Unofficial.StreamConnection.GetWriter(System.IO.Pipelines.PipeWriter,System.String)">
+            <summary>
+            Create a write-only stream that feeds the provided PipeReader
+            </summary>
+            <param name="writer">The writer to wrap</param>
+            <param name="name">The logical name of the reader</param>
+        </member>
+        <member name="M:Pipelines.Sockets.Unofficial.StreamConnection.GetReader(System.IO.Pipelines.PipeReader,System.String)">
+            <summary>
+            Create a read-only stream that consumes the provided PipeReader
+            </summary>
+            <param name="reader">The reader to wrap</param>
+            <param name="name">The logical name of the reader</param>
+        </member>
+        <member name="T:Pipelines.Sockets.Unofficial.UnmanagedMemoryManager`1">
+            <summary>
+            A MemoryManager over a raw pointer
+            </summary>
+            <remarks>The pointer is assumed to be fully unmanaged, or externally pinned - no attempt will be made to pin this data</remarks>
+        </member>
+        <member name="M:Pipelines.Sockets.Unofficial.UnmanagedMemoryManager`1.#ctor(System.Span{`0})">
+            <summary>
+            Create a new UnmanagedMemoryManager instance at the given pointer and size
+            </summary>
+            <remarks>It is assumed that the span provided is already unmanaged or externally pinned</remarks>
+        </member>
+        <member name="M:Pipelines.Sockets.Unofficial.UnmanagedMemoryManager`1.#ctor(`0*,System.Int32)">
+            <summary>
+            Create a new UnmanagedMemoryManager instance at the given pointer and size
+            </summary>
+        </member>
+        <member name="M:Pipelines.Sockets.Unofficial.UnmanagedMemoryManager`1.GetSpan">
+            <summary>
+            Obtains a span that represents the region
+            </summary>
+        </member>
+        <member name="M:Pipelines.Sockets.Unofficial.UnmanagedMemoryManager`1.Pin(System.Int32)">
+            <summary>
+            Provides access to a pointer that represents the data (note: no actual pin occurs)
+            </summary>
+        </member>
+        <member name="M:Pipelines.Sockets.Unofficial.UnmanagedMemoryManager`1.Unpin">
+            <summary>
+            Has no effect
+            </summary>
+        </member>
+        <member name="M:Pipelines.Sockets.Unofficial.UnmanagedMemoryManager`1.Dispose(System.Boolean)">
+            <summary>
+            Releases all resources associated with this object
+            </summary>
+        </member>
+    </members>
+</doc>

@@ -1,0 +1,13 @@
+﻿{
+    "Id": "MoveTargetsSettings",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Move targets settings"
+        },
+        {
+            "Language": "ja",
+            "Body": "移動先の設定"
+        }
+    ]
+}

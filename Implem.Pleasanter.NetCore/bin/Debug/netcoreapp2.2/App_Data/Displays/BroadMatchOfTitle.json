@@ -1,0 +1,13 @@
+﻿{
+    "Id": "BroadMatchOfTitle",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Broad match of the title"
+        },
+        {
+            "Language": "ja",
+            "Body": "タイトルの部分一致"
+        }
+    ]
+}

@@ -1,0 +1,13 @@
+﻿{
+    "Id": "DisplayName",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Display name"
+        },
+        {
+            "Language": "ja",
+            "Body": "表示名"
+        }
+    ]
+}

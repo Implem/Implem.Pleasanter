@@ -1,0 +1,13 @@
+﻿{
+    "Id": "GridStyle",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Grid style"
+        },
+        {
+            "Language": "ja",
+            "Body": "一覧画面スタイル"
+        }
+    ]
+}

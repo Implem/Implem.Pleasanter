@@ -1,0 +1,13 @@
+﻿{
+    "Id": "HasNotPermission",
+    "Type": 240,
+    "Languages": [
+        {
+            "Body": "You do not have permission to perform this operation."
+        },
+        {
+            "Language": "ja",
+            "Body": "この操作を行うための権限がありません。"
+        }
+    ]
+}

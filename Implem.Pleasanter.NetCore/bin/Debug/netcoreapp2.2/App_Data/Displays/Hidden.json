@@ -1,0 +1,13 @@
+﻿{
+    "Id": "Hidden",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Hidden"
+        },
+        {
+            "Language": "ja",
+            "Body": "非表示"
+        }
+    ]
+}
