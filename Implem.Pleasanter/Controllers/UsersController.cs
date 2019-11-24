@@ -484,5 +484,16 @@ namespace Implem.Pleasanter.Controllers
             log.Finish(context: context, responseSize: json.Length);
             return json;
         }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        public string SetStartGuide(Context context)
+        {
+            var log = new SysLogModel(context: context);
+            var json = UserUtilities.SetStartGuide(context: context);
+            log.Finish(context: context, responseSize: json.Length);
+            return json;
+        }
     }
 }

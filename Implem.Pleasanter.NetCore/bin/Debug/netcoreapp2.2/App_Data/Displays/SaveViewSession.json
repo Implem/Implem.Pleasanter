@@ -1,0 +1,13 @@
+﻿{
+    "Id": "SaveViewSession",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Session"
+        },
+        {
+            "Language": "ja",
+            "Body": "セッション"
+        }
+    ]
+}

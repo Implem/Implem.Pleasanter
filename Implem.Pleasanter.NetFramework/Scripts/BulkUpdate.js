@@ -19,5 +19,3 @@ $p.bulkUpdate = function () {
     $p.setData($('#' + key));
     $p.send($('#BulkUpdate'));
 }
-
-

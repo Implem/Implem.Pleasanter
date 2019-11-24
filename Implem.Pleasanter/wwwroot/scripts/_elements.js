@@ -47,6 +47,13 @@ $p.getControl = function (name) {
         : undefined;
 }
 
+$p.getField = function (name) {
+    var columnName = $p.getColumnName(name);
+    return columnName !== undefined
+        ? $('#' + $('#ReferenceType').val() + '_' + columnName + 'Field')
+        : undefined;
+}
+
 $p.getGridRow = function (id) {
     return $('#Grid > tbody > tr[data-id="' + id + '"]');
 }

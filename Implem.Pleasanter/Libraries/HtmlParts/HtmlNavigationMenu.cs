@@ -381,6 +381,23 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                         action: () => hb
                             .Span(css: "ui-icon ui-icon-locked")
                             .Text(text: Displays.Logout(context: context))))
+                .Li(action: () => hb
+                    .A(
+                        href: Parameters.General.HtmlUserManualUrl,
+                        target: "_blank",
+                        action: () => hb
+                            .Span(css: "ui-icon ui-icon-help")
+                            .Text(text: Displays.UserManual(context: context))))
+                .Li(
+                    action: () => hb
+                        .A(
+                            href: "javascript:void(0);",
+                            attributes: new HtmlAttributes()
+                                .OnClick("$p.setStartGuide(0,1);"),
+                            action: () => hb
+                                .Span(css: "ui-icon ui-icon-help")
+                                .Text(text: Displays.ShowStartGuide(context: context))),
+                    _using: context.UserSettings.ShowStartGuideAvailable(context: context))
                 .Li(
                     action: () => hb
                         .A(
@@ -406,13 +423,6 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                 .Span(css: "ui-icon ui-icon-link")
                                 .Text(text: Displays.ApiSettings(context: context))),
                     _using: context.ContractSettings.Api != false && Parameters.Api.Enabled)
-                .Li(action: () => hb
-                    .A(
-                        href: Parameters.General.HtmlUsageGuideUrl,
-                        target: "_blank",
-                        action: () => hb
-                            .Span(css: "ui-icon ui-icon-help")
-                            .Text(text: Displays.UsageGuide(context: context))))
                 .Li(action: () => hb
                     .A(
                         href: Parameters.General.HtmlBlogUrl,
@@ -460,7 +470,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                             controlId: "Search",
                             controlCss: " w150 redirect",
                             placeholder: Displays.Search(context: context),
-                            disabled: true))
+                            disabled: !context.Mobile))
                 : hb;
         }
 

@@ -85,6 +85,7 @@ namespace Implem.Pleasanter.App_Start
                 "~/scripts/sitemenu.js",
                 "~/scripts/sitesettings.js",
                 "~/scripts/sitesettingsevents.js",
+                "~/scripts/startguide.js",
                 "~/scripts/statusevents.js",
                 "~/scripts/submitevents.js",
                 "~/scripts/template.js",

@@ -5,3 +5,4 @@ C:\Implem\PleasanterYakushi\Implem.DisplayAccessor\obj\Debug\netstandard2.0\Impl
 C:\Implem\PleasanterYakushi\Implem.DisplayAccessor\obj\Debug\netstandard2.0\Implem.DisplayAccessor.AssemblyInfo.cs
 C:\Implem\PleasanterYakushi\Implem.DisplayAccessor\obj\Debug\netstandard2.0\Implem.DisplayAccessor.dll
 C:\Implem\PleasanterYakushi\Implem.DisplayAccessor\obj\Debug\netstandard2.0\Implem.DisplayAccessor.pdb
+C:\Implem\PleasanterYakushi\Implem.DisplayAccessor\obj\Debug\netstandard2.0\Implem.DisplayAccessor.csprojAssemblyReference.cache

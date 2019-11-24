@@ -1,0 +1,396 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Microsoft.AspNet.SessionState.SessionStateModule</name>
+    </assembly>
+    <members>
+        <member name="T:Microsoft.AspNet.SessionState.InProcSessionStateStoreAsync">
+            <summary>
+            Default in-memory SessionState provider for async SessionState module
+            </summary>
+        </member>
+        <member name="M:Microsoft.AspNet.SessionState.InProcSessionStateStoreAsync.Initialize(System.String,System.Collections.Specialized.NameValueCollection)">
+            <inheritdoc />
+        </member>
+        <member name="M:Microsoft.AspNet.SessionState.InProcSessionStateStoreAsync.CreateNewStoreData(System.Web.HttpContextBase,System.Int32)">
+            <inheritdoc />
+        </member>
+        <member name="M:Microsoft.AspNet.SessionState.InProcSessionStateStoreAsync.CreateUninitializedItemAsync(System.Web.HttpContextBase,System.String,System.Int32,System.Threading.CancellationToken)">
+            <inheritdoc />
+        </member>
+        <member name="M:Microsoft.AspNet.SessionState.InProcSessionStateStoreAsync.Dispose">
+            <inheritdoc />
+        </member>
+        <member name="M:Microsoft.AspNet.SessionState.InProcSessionStateStoreAsync.EndRequestAsync(System.Web.HttpContextBase)">
+            <inheritdoc />
+        </member>
+        <member name="M:Microsoft.AspNet.SessionState.InProcSessionStateStoreAsync.GetItemAsync(System.Web.HttpContextBase,System.String,System.Threading.CancellationToken)">
+            <inheritdoc />
+        </member>
+        <member name="M:Microsoft.AspNet.SessionState.InProcSessionStateStoreAsync.GetItemExclusiveAsync(System.Web.HttpContextBase,System.String,System.Threading.CancellationToken)">
+            <inheritdoc />
+        </member>
+        <member name="M:Microsoft.AspNet.SessionState.InProcSessionStateStoreAsync.InitializeRequest(System.Web.HttpContextBase)">
+            <inheritdoc />
+        </member>
+        <member name="M:Microsoft.AspNet.SessionState.InProcSessionStateStoreAsync.ReleaseItemExclusiveAsync(System.Web.HttpContextBase,System.String,System.Object,System.Threading.CancellationToken)">
+            <inheritdoc />
+        </member>
+        <member name="M:Microsoft.AspNet.SessionState.InProcSessionStateStoreAsync.RemoveItemAsync(System.Web.HttpContextBase,System.String,System.Object,System.Web.SessionState.SessionStateStoreData,System.Threading.CancellationToken)">
+            <inheritdoc />
+        </member>
+        <member name="M:Microsoft.AspNet.SessionState.InProcSessionStateStoreAsync.ResetItemTimeoutAsync(System.Web.HttpContextBase,System.String,System.Threading.CancellationToken)">
+            <inheritdoc />
+        </member>
+        <member name="M:Microsoft.AspNet.SessionState.InProcSessionStateStoreAsync.SetAndReleaseItemExclusiveAsync(System.Web.HttpContextBase,System.String,System.Web.SessionState.SessionStateStoreData,System.Object,System.Boolean,System.Threading.CancellationToken)">
+            <inheritdoc />
+        </member>
+        <member name="M:Microsoft.AspNet.SessionState.InProcSessionStateStoreAsync.SetItemExpireCallback(System.Web.SessionState.SessionStateItemExpireCallback)">
+            <inheritdoc />
+        </member>
+        <member name="T:Microsoft.AspNet.SessionState.InProcSessionState">
+            <summary>
+            The data structure used to store a session in the memory
+            </summary>
+        </member>
+        <member name="P:Microsoft.AspNet.SessionState.InProcSessionState.SessionItems">
+            <summary>
+            Gets session state items
+            </summary>
+        </member>
+        <member name="P:Microsoft.AspNet.SessionState.InProcSessionState.StaticObjects">
+            <summary>
+            Gets a static objects collection
+            </summary>
+        </member>
+        <member name="P:Microsoft.AspNet.SessionState.InProcSessionState.Timeout">
+            <summary>
+            Gets timeout of a Session
+            </summary>
+        </member>
+        <member name="P:Microsoft.AspNet.SessionState.InProcSessionState.Locked">
+            <summary>
+            Gets or sets if a session is locked
+            </summary>
+        </member>
+        <member name="P:Microsoft.AspNet.SessionState.InProcSessionState.LockDate">
+            <summary>
+            Gets or sets the lock date of a session
+            </summary>
+        </member>
+        <member name="P:Microsoft.AspNet.SessionState.InProcSessionState.LockCookie">
+            <summary>
+            Gets or sets the lock id of a session
+            </summary>
+        </member>
+        <member name="F:Microsoft.AspNet.SessionState.InProcSessionState.SpinLock">
+            <summary>
+            The locker of a session
+            </summary>
+        </member>
+        <member name="F:Microsoft.AspNet.SessionState.InProcSessionState.Flags">
+            <summary>
+            SessionStateItem flags
+            </summary>
+        </member>
+        <member name="M:Microsoft.AspNet.SessionState.InProcSessionState.#ctor(System.Web.SessionState.ISessionStateItemCollection,System.Web.HttpStaticObjectsCollection,System.Int32,System.Boolean,System.DateTime,System.Int32,System.Int32)">
+            <summary>
+            Constructor
+            </summary>
+            <param name="sessionItems">Session state items</param>
+            <param name="staticObjects">A static objects collection</param>
+            <param name="timeout">Timeout of the session</param>
+            <param name="locked">Whether the session is locked or not</param>
+            <param name="utcLockDate">Datetime the session is locked</param>
+            <param name="lockCookie">The lock id of the session</param>
+            <param name="flags">SessionStateItem flags</param>
+        </member>
+        <member name="M:Microsoft.AspNet.SessionState.InProcSessionState.Copy(System.Web.SessionState.ISessionStateItemCollection,System.Web.HttpStaticObjectsCollection,System.Int32,System.Boolean,System.DateTime,System.Int32,System.Int32)">
+            <summary>
+            Copy InProcSessionState data to the instance
+            </summary>
+            <param name="sessionItems">Session state items</param>
+            <param name="staticObjects">A static objects collection</param>
+            <param name="timeout">Timeout of the session</param>
+            <param name="locked">Whether the session is locked or not</param>
+            <param name="utcLockDate">Datetime the session is locked</param>
+            <param name="lockCookie">The lock id of the session</param>
+            <param name="flags">SessionStateItem flags</param>
+        </member>
+        <member name="T:Microsoft.AspNet.SessionState.SessionStateItemFlags">
+            <summary>
+            The state of session state item
+            </summary>
+        </member>
+        <member name="F:Microsoft.AspNet.SessionState.SessionStateItemFlags.None">
+            <summary>
+            No flag
+            </summary>
+        </member>
+        <member name="F:Microsoft.AspNet.SessionState.SessionStateItemFlags.Uninitialized">
+            <summary>
+            Unintialized session state
+            </summary>
+        </member>
+        <member name="F:Microsoft.AspNet.SessionState.SessionStateItemFlags.IgnoreCacheItemRemoved">
+            <summary>
+            Avoid to trigger cache item removed callback due to the sessionstate timeout change
+            </summary>
+        </member>
+        <member name="T:Microsoft.AspNet.SessionState.Resources.SR">
+            <summary>
+              A strongly-typed resource class, for looking up localized strings, etc.
+            </summary>
+        </member>
+        <member name="P:Microsoft.AspNet.SessionState.Resources.SR.ResourceManager">
+            <summary>
+              Returns the cached ResourceManager instance used by this class.
+            </summary>
+        </member>
+        <member name="P:Microsoft.AspNet.SessionState.Resources.SR.Culture">
+            <summary>
+              Overrides the current thread's CurrentUICulture property for all
+              resource lookups using this strongly typed resource class.
+            </summary>
+        </member>
+        <member name="P:Microsoft.AspNet.SessionState.Resources.SR.Error_Occured_Reading_Config_Secion">
+            <summary>
+              Looks up a localized string similar to Error occured when reading config secion &apos;{0}&apos;..
+            </summary>
+        </member>
+        <member name="P:Microsoft.AspNet.SessionState.Resources.SR.Invalid_session_custom_provider">
+            <summary>
+              Looks up a localized string similar to The custom session state store provider name &apos;{0}&apos; is invalid..
+            </summary>
+        </member>
+        <member name="P:Microsoft.AspNet.SessionState.Resources.SR.Missing_session_custom_provider">
+            <summary>
+              Looks up a localized string similar to The custom session state store provider &apos;{0}&apos; is not found..
+            </summary>
+        </member>
+        <member name="P:Microsoft.AspNet.SessionState.Resources.SR.Not_Support_SessionState_Mode">
+            <summary>
+              Looks up a localized string similar to SessionStateAsync module only supports InProce and Custom mode..
+            </summary>
+        </member>
+        <member name="P:Microsoft.AspNet.SessionState.Resources.SR.Null_value_for_SessionStateItemCollection">
+            <summary>
+              Looks up a localized string similar to The SessionStateStoreData returned by ISessionStateStore has a null value for Items..
+            </summary>
+        </member>
+        <member name="P:Microsoft.AspNet.SessionState.Resources.SR.Request_Queue_Limit_Per_Session_Exceeded">
+            <summary>
+              Looks up a localized string similar to The request queue limit of the session is exceeded..
+            </summary>
+        </member>
+        <member name="P:Microsoft.AspNet.SessionState.Resources.SR.Session_id_too_long">
+            <summary>
+              Looks up a localized string similar to SessionId is too long..
+            </summary>
+        </member>
+        <member name="P:Microsoft.AspNet.SessionState.Resources.SR.Type_doesnt_inherit_from_type">
+            <summary>
+              Looks up a localized string similar to Type &apos;{0}&apos; does not inherit from &apos;{1}&apos;..
+            </summary>
+        </member>
+        <member name="T:Microsoft.AspNet.SessionState.SessionStateModuleAsync">
+            <summary>
+            Async version of SessionState module which requires .Net framework 4.6.2
+            </summary>
+        </member>
+        <member name="M:Microsoft.AspNet.SessionState.SessionStateModuleAsync.#ctor">
+            <summary>
+            Initializes a new instance of the <see cref='T:Microsoft.AspNet.SessionState.SessionStateModuleAsync' />
+            </summary>
+        </member>
+        <member name="P:Microsoft.AspNet.SessionState.SessionStateModuleAsync.ConfigCookieless">
+            <summary>
+            Get the HttpCookieMode setting of the module
+            </summary>
+        </member>
+        <member name="P:Microsoft.AspNet.SessionState.SessionStateModuleAsync.ConfigMode">
+            <summary>
+            Get the SessionStateMode setting of the module
+            </summary>
+        </member>
+        <member name="M:Microsoft.AspNet.SessionState.SessionStateModuleAsync.Init(System.Web.HttpApplication)">
+            <summary>
+            Initialize the module
+            </summary>
+            <param name="app"></param>
+        </member>
+        <member name="M:Microsoft.AspNet.SessionState.SessionStateModuleAsync.Dispose">
+            <inheritdoc />
+        </member>
+        <member name="M:Microsoft.AspNet.SessionState.SessionStateModuleAsync.ReleaseSessionState(System.Web.HttpContext)">
+            <inheritdoc />
+        </member>
+        <member name="M:Microsoft.AspNet.SessionState.SessionStateModuleAsync.ReleaseSessionStateAsync(System.Web.HttpContext)">
+            <inheritdoc />
+        </member>
+        <member name="E:Microsoft.AspNet.SessionState.SessionStateModuleAsync.Start">
+            <summary>
+            Session start event handler
+            </summary>
+        </member>
+        <member name="E:Microsoft.AspNet.SessionState.SessionStateModuleAsync.End">
+            <summary>
+            Session end event handler
+            </summary>
+        </member>
+        <member name="M:Microsoft.AspNet.SessionState.SessionStateModuleAsync.OnEndRequestAsync(System.Web.HttpApplication)">
+            <devdoc>
+                <para>[To be supplied.]</para>
+            </devdoc>
+        </member>
+        <member name="T:Microsoft.AspNet.SessionState.GetItemResult">
+            <summary>
+            The retrieved result from the sessionstate data store
+            </summary>
+        </member>
+        <member name="M:Microsoft.AspNet.SessionState.GetItemResult.#ctor(System.Web.SessionState.SessionStateStoreData,System.Boolean,System.TimeSpan,System.Object,System.Web.SessionState.SessionStateActions)">
+            <summary>
+            Constructor
+            </summary>
+            <param name="item">SessionState data</param>
+            <param name="locked">Whether the session is locked or not</param>
+            <param name="lockAge">How long the session is locked</param>
+            <param name="lockId">Lock ID</param>
+            <param name="actions">SessionState action</param>
+        </member>
+        <member name="P:Microsoft.AspNet.SessionState.GetItemResult.Item">
+            <summary>
+            SessionState store data
+            </summary>
+        </member>
+        <member name="P:Microsoft.AspNet.SessionState.GetItemResult.Locked">
+            <summary>
+            Gets or sets whether the session item is locked or not
+            </summary>
+        </member>
+        <member name="P:Microsoft.AspNet.SessionState.GetItemResult.LockAge">
+            <summary>
+            Gets or sets the duration for which session item is locked
+            </summary>
+        </member>
+        <member name="P:Microsoft.AspNet.SessionState.GetItemResult.LockId">
+            <summary>
+            Gets or sets the lock context
+            </summary>
+        </member>
+        <member name="P:Microsoft.AspNet.SessionState.GetItemResult.Actions">
+            <summary>
+            Gets or sets session state action
+            </summary>
+        </member>
+        <member name="T:Microsoft.AspNet.SessionState.SessionStateStoreProviderAsyncBase">
+            <summary>
+            The base class of async version sessionstate provider
+            </summary>
+        </member>
+        <member name="M:Microsoft.AspNet.SessionState.SessionStateStoreProviderAsyncBase.CreateNewStoreData(System.Web.HttpContextBase,System.Int32)">
+            <summary>
+            Creates a new SessionStateStoreData object to be used for the current request.
+            </summary>
+            <param name="context">The HttpContext for the current request</param>
+            <param name="timeout">The session state timeout value for the new SessionStateStoreData</param>
+            <returns></returns>
+        </member>
+        <member name="M:Microsoft.AspNet.SessionState.SessionStateStoreProviderAsyncBase.CreateUninitializedItemAsync(System.Web.HttpContextBase,System.String,System.Int32,System.Threading.CancellationToken)">
+            <summary>
+            Create uninitialized session item
+            </summary>
+            <param name="context">HttpContext</param>
+            <param name="id">Session ID</param>
+            <param name="timeout">The session state timeout value</param>
+            <param name="cancellationToken">Cancellation token for the async task</param>
+            <returns></returns>
+        </member>
+        <member name="M:Microsoft.AspNet.SessionState.SessionStateStoreProviderAsyncBase.Dispose">
+            <summary>
+            Dispose resource
+            </summary>
+        </member>
+        <member name="M:Microsoft.AspNet.SessionState.SessionStateStoreProviderAsyncBase.EndRequestAsync(System.Web.HttpContextBase)">
+            <summary>
+            Async callback for EndRequest event
+            </summary>
+            <param name="context"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Microsoft.AspNet.SessionState.SessionStateStoreProviderAsyncBase.GetItemAsync(System.Web.HttpContextBase,System.String,System.Threading.CancellationToken)">
+            <summary>
+            Retrieve session item without lock
+            </summary>
+            <param name="context">HttpContext</param>
+            <param name="id">Session ID</param>
+            <param name="cancellationToken">Cancellation token for the async task</param>
+            <returns>A task that retrieves the session item without lock</returns>
+        </member>
+        <member name="M:Microsoft.AspNet.SessionState.SessionStateStoreProviderAsyncBase.GetItemExclusiveAsync(System.Web.HttpContextBase,System.String,System.Threading.CancellationToken)">
+            <summary>
+            Retrieve sessionitem with lock
+            </summary>
+            <param name="context">HttpContext</param>
+            <param name="id">Session ID</param>
+            <param name="cancellationToken">Cancellation token for the async task</param>
+            <returns>A task that retrieves the session item with lock</returns>
+        </member>
+        <member name="M:Microsoft.AspNet.SessionState.SessionStateStoreProviderAsyncBase.InitializeRequest(System.Web.HttpContextBase)">
+            <summary>
+            Called at the beginning of the AcquireRequestState event
+            </summary>
+            <param name="context">The HttpContext for the current request</param>
+        </member>
+        <member name="M:Microsoft.AspNet.SessionState.SessionStateStoreProviderAsyncBase.ReleaseItemExclusiveAsync(System.Web.HttpContextBase,System.String,System.Object,System.Threading.CancellationToken)">
+            <summary>
+            Unlock an item locked by GetExclusive
+            </summary>
+            <param name="context">The HttpContext for the current request</param>
+            <param name="id">Session ID</param>
+            <param name="lockId">Session item lock context</param>
+            <param name="cancellationToken">Cancellation token for the async task</param>
+            <returns></returns>
+        </member>
+        <member name="M:Microsoft.AspNet.SessionState.SessionStateStoreProviderAsyncBase.RemoveItemAsync(System.Web.HttpContextBase,System.String,System.Object,System.Web.SessionState.SessionStateStoreData,System.Threading.CancellationToken)">
+            <summary>
+            Remove the session item from the store
+            </summary>
+            <param name="context">The HttpContext for the current request</param>
+            <param name="id">Session ID</param>
+            <param name="lockId">Session item lock context</param>
+            <param name="item">Session data</param>
+            <param name="cancellationToken">Cancellation token for the async task</param>
+            <returns></returns>
+        </member>
+        <member name="M:Microsoft.AspNet.SessionState.SessionStateStoreProviderAsyncBase.ResetItemTimeoutAsync(System.Web.HttpContextBase,System.String,System.Threading.CancellationToken)">
+            <summary>
+            Reset the expire time of an item based on its timeout value
+            </summary>
+            <param name="context">The HttpContext for the current request</param>
+            <param name="id">Session ID</param>
+            <param name="cancellationToken">Cancellation token for the async task</param>
+            <returns></returns>
+        </member>
+        <member name="M:Microsoft.AspNet.SessionState.SessionStateStoreProviderAsyncBase.SetAndReleaseItemExclusiveAsync(System.Web.HttpContextBase,System.String,System.Web.SessionState.SessionStateStoreData,System.Object,System.Boolean,System.Threading.CancellationToken)">
+            <summary>
+            Updates the session-item information in the session-state data store with values from the current request, 
+            and clears the lock on the data
+            </summary>
+            <param name="context">The HttpContext for the current request</param>
+            <param name="id">Session ID</param>
+            <param name="item">Session data</param>
+            <param name="lockId">Session item lock context</param>
+            <param name="newItem">Whether it is a new session item</param>
+            <param name="cancellationToken">Cancellation token for the async task</param>
+            <returns></returns>
+        </member>
+        <member name="M:Microsoft.AspNet.SessionState.SessionStateStoreProviderAsyncBase.SetItemExpireCallback(System.Web.SessionState.SessionStateItemExpireCallback)">
+            <summary>
+            Sets a reference to the SessionStateItemExpireCallback delegate for the Session_OnEnd event
+            </summary>
+            <param name="expireCallback"></param>
+            <returns></returns>
+        </member>
+    </members>
+</doc>

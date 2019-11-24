@@ -361,5 +361,17 @@ namespace Implem.Pleasanter.NetCore.Controllers
             var json = controller.ReturnOriginalUser(context: context);
             return json;
         }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        [HttpPost]
+        public string SetStartGuide()
+        {
+            var context = new ContextImplement();
+            var controller = new Implem.Pleasanter.Controllers.UsersController();
+            var json = controller.SetStartGuide(context: context);
+            return json;
+        }
     }
 }

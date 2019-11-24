@@ -1497,7 +1497,10 @@ namespace Implem.Pleasanter.Libraries.Settings
                     SetColumnAccessControls(
                         context: context,
                         column: column);
-                    column.SetChoiceHash(context: context, siteId: ss.InheritPermission);
+                    column.ChoiceHash = ss.ColumnHash
+                        .Get(columnNameInfo.Name)
+                        .ChoiceHash
+                        ?.ToDictionary(o => o.Key, o => o.Value);
                     Columns.Add(column);
                     ColumnHash.Add(columnName, column);
                 }
@@ -2794,29 +2797,33 @@ namespace Implem.Pleasanter.Libraries.Settings
         public void SetChoiceHash(Context context, bool withLink = true, bool all = false)
         {
             SetAllChoices = all;
-            var siteIdList = LinkedSiteIdList();
-            var linkHash = withLink
-                ? LinkHash(
+            if (JoinedSsHash == null)
+            {
+                SetChoiceHash(
                     context: context,
-                    siteIdList: siteIdList,
-                    all: all,
-                    searchIndexes: null)
-                : null;
-            SetChoiceHash(
-                context: context,
-                columnName: null,
-                searchIndexes: null,
-                linkHash: linkHash);
-            Destinations?.Values.ForEach(ss => ss.SetChoiceHash(
-                context: context,
-                columnName: null,
-                searchIndexes: null,
-                linkHash: linkHash));
-            Sources?.Values.ForEach(ss => ss.SetChoiceHash(
-                context: context,
-                columnName: null,
-                searchIndexes: null,
-                linkHash: linkHash));
+                    columnName: null,
+                    searchIndexes: null,
+                    linkHash: null);
+            }
+            else
+            {
+                var siteIdList = JoinedSsHash
+                    ?.SelectMany(o => o.Value.Links.Select(p => p.SiteId))
+                    .Distinct()
+                    .ToList() ?? new List<long>();
+                var linkHash = withLink
+                    ? LinkHash(
+                        context: context,
+                        siteIdList: siteIdList,
+                        all: all,
+                        searchIndexes: null)
+                    : null;
+                JoinedSsHash.ForEach(data => data.Value.SetChoiceHash(
+                    context: context,
+                    columnName: null,
+                    searchIndexes: null,
+                    linkHash: linkHash));
+            }
         }
 
         public void SetChoiceHash(
@@ -3024,7 +3031,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                         .Title(),
                     join: join,
                     where: where,
-                    orderBy: Rds.ItemsOrderBy().ReferenceId(),
+                    orderBy: Rds.ItemsOrderBy().Title(),
                     offset: !noLimit
                         ? offset
                         : 0,

@@ -1,0 +1,14 @@
+﻿{
+    "Id": "ConfirmPhysicalDelete",
+    "Type": 310,
+    "ClientScript": true,
+    "Languages": [
+        {
+            "Body": "Are you sure you want to delete ?"
+        },
+        {
+            "Language": "ja",
+            "Body": "この操作を行うと元に戻すことはできません。本当に削除してもよろしいですか？"
+        }
+    ]
+}

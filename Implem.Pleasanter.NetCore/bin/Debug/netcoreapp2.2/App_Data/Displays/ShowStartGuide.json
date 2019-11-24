@@ -1,0 +1,13 @@
+﻿{
+    "Id": "ShowStartGuide",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Show start guide"
+        },
+        {
+            "Language": "ja",
+            "Body": "スタートガイドを表示"
+        }
+    ]
+}

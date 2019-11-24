@@ -6,6 +6,7 @@
     "AbsoluteUri": null,
     "RequireHttps": false,
     "ShowProfiles": true,
-    "Demo": false,
+    "ShowStartGuide": true,
+    "Demo": true,
     "DemoUsagePeriod": 30
 }

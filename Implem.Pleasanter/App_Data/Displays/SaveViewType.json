@@ -1,0 +1,13 @@
+﻿{
+    "Id": "SaveViewType",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Save view type"
+        },
+        {
+            "Language": "ja",
+            "Body": "ビューの保存種別"
+        }
+    ]
+}

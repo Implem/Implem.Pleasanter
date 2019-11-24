@@ -93,8 +93,15 @@ namespace Implem.DefinitionAccessor
             Parameters.Security = Read<ParameterAccessor.Parts.Security>();
             Parameters.Service = Read<ParameterAccessor.Parts.Service>();
             Parameters.Session = Read<ParameterAccessor.Parts.Session>();
+            Parameters.Site = Read<ParameterAccessor.Parts.Site>();
             Parameters.SysLog = Read<ParameterAccessor.Parts.SysLog>();
             Parameters.Parameter = Read<ParameterAccessor.Parts.Parameter>();
+        }
+
+        public static void ReloadParameters()
+        {
+            SetParameters();
+            SetRdsParameters();
         }
 
         private static T Read<T>()
@@ -345,7 +352,7 @@ namespace Implem.DefinitionAccessor
             return def;
         }
 
-        private static void SetRdsParameters()
+        public static void SetRdsParameters()
         {
             Parameters.Rds.SaConnectionString = 
                 Parameters.Rds.SaConnectionString.Replace(

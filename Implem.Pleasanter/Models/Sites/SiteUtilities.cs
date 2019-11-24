@@ -952,7 +952,8 @@ namespace Implem.Pleasanter.Models
                 siteModel.InheritPermission = context.Forms.Long("InheritPermission");
                 ss.InheritPermission = siteModel.InheritPermission;
             }
-            if (context.Forms.Exists("CurrentPermissionsAll"))
+            if (context.Forms.Exists("CurrentPermissionsAll")
+                && Parameters.Permissions.CheckManagePermission)
             {
                 if (!new PermissionCollection(
                     context: context,
@@ -1157,9 +1158,11 @@ namespace Implem.Pleasanter.Models
                             context: context,
                             data: siteModel.Title.Value));
                     var res = new SitesResponseCollection(siteModel);
-                res
-                    .SetMemory("formChanged", false)
-                    .Invoke("back");
+                    res
+                        .SetMemory("formChanged", false)
+                        .Href(Locations.ItemIndex(
+                            context: context,
+                            id: siteModel.ParentId));
                     return res.ToJson();
                 default:
                     return errorData.Type.MessageJson(context: context);
@@ -2396,7 +2399,9 @@ namespace Implem.Pleasanter.Models
                     invalid: invalid);
             }
             var ownerId = siteModel.SiteId == 0
-                ? context.UserId
+                ? Parameters.Site.TopOrderBy > 0
+                    ? Parameters.Site.TopOrderBy
+                    : context.UserId
                 : 0;
             SortSiteMenu(
                 context: context,
@@ -2728,6 +2733,7 @@ namespace Implem.Pleasanter.Models
                                     context: context,
                                     id: 0)),
                             action: () => hb
+                                .StartGuide(context: context)
                                 .SiteMenu(
                                     context: context,
                                     siteModel: null,
@@ -3155,6 +3161,55 @@ namespace Implem.Pleasanter.Models
                     .Id("SortSiteMenu")
                     .DataAction("SortSiteMenu")
                     .DataMethod("put"));
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        private static HtmlBuilder StartGuide(this HtmlBuilder hb, Context context)
+        {
+            return context.UserSettings.StartGuide(context: context)
+                ? hb.Div(
+                    id: "StartGuide",
+                    action: () => hb
+                        .Div(
+                            id: "StartGuideContents",
+                            action: () => hb
+                                .A(
+                                    href: Parameters.General.HtmlApplicationBuildingGuideUrl,
+                                    action: () => hb
+                                        .Img(src: Locations.Get(
+                                            context: context,
+                                            "Images",
+                                            "Hayato1.png"))
+                                        .Div(action: () => hb
+                                            .Text(text: Displays.ApplicationBuildingGuide(context: context))))
+                                .A(
+                                    href: Parameters.General.HtmlUserManualUrl,
+                                    action: () => hb
+                                        .Img(src: Locations.Get(
+                                            context: context,
+                                            "Images",
+                                            "Hayato2.png"))
+                                        .Text(text: Displays.UserManual(context: context)))
+                                .A(
+                                    href: Parameters.General.HtmlFaqUrl,
+                                    action: () => hb
+                                        .Img(src: Locations.Get(
+                                            context: context,
+                                            "Images",
+                                            "Hayato3.png"))
+                                        .Text(text: Displays.Faq(context: context))))
+                        .FieldCheckBox(
+                            fieldId: "DisableStartGuideField",
+                            controlId: "DisableStartGuide",
+                            fieldCss: "field-auto-thin",
+                            labelText: Displays.DisableStartGuide(context: context),
+                            onChange: "$p.setStartGuide($(this).prop('checked'));")
+                        .Icon(
+                            iconCss: "ui-icon ui-icon-closethick",
+                            onClick: "$('#StartGuide').hide();"))
+                : hb;
         }
 
         /// <summary>
@@ -4039,12 +4094,12 @@ namespace Implem.Pleasanter.Models
                 .FieldCheckBox(
                     controlId: "UseFiltersArea",
                     fieldCss: "field-auto-thin both",
-                    labelText: "フィルタ設定領域を使用する",
+                    labelText: Displays.UseFiltersArea(context: context),
                     _checked: ss.UseFiltersArea == true)
                 .FieldCheckBox(
                     controlId: "UseGridHeaderFilters",
                     fieldCss: "field-auto-thin",
-                    labelText: "一覧のヘッダメニューでフィルタを使用する",
+                    labelText: Displays.UseGridHeaderFilters(context: context),
                     _checked: ss.UseGridHeaderFilters == true));
         }
 

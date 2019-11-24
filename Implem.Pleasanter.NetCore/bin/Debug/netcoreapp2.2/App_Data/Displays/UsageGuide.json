@@ -1,13 +1,13 @@
 ﻿{
-    "Id": "UsageGuide",
+    "Id": "UserManual",
     "Type": 110,
     "Languages": [
         {
-            "Body": "Usage guide"
+            "Body": "User manual"
         },
         {
             "Language": "ja",
-            "Body": "利用ガイド"
+            "Body": "ユーザーマニュアル"
         }
     ]
 }

@@ -1979,9 +1979,10 @@ namespace Implem.Pleasanter.Models
                 context: context,
                 ss: ss,
                 join: Rds.ItemsJoin().Add(new SqlJoin(
-                    "\"Items\"",
-                    SqlJoin.JoinTypes.Inner,
-                    "\"Issues\".\"IssueId\"=\"Items\".\"ReferenceId\"")),
+                    tableBracket: "\"Items\"",
+                    joinType: SqlJoin.JoinTypes.Inner,
+                    joinExpression: "\"Results\".\"ResultId\"=\"Issues_Items\".\"ReferenceId\"",
+                    _as: "Issues_Items")),
                 where: view.Where(context: context, ss: ss),
                 orderBy: view.OrderBy(
                     context: context,
@@ -2434,7 +2435,7 @@ namespace Implem.Pleasanter.Models
                 .Or(or: Rds.IssuesWhere()
                     .Updator(context.UserId, _operator: "<>")
                     .UpdatedTime(
-                        DateTime.Today.ToUniversal(context: context),
+                        DateTime.Today.ToDateTime().ToUniversal(context: context),
                         _operator: "<"));
             var column = ss.GetColumn(
                 context: context,
@@ -3516,9 +3517,8 @@ namespace Implem.Pleasanter.Models
                         issueId: issueModel.IssueId));
                 }
                 var addCommentCollection = new List<string>();
-                addCommentCollection.AddRange(hash.Select(o => "[{0}]({1}{2})  ".Params(
+                addCommentCollection.AddRange(hash.Select(o => "[{0}]({1})  ".Params(
                     context.Forms.Data("SeparateTitle_" + o.Key),
-                    context.Server,
                     Locations.ItemEdit(
                         context: context,
                         id: o.Value.IssueId))));
@@ -4319,12 +4319,17 @@ namespace Implem.Pleasanter.Models
                                         ? "text/csv"
                                         : "application/json"))
                         });
+                    var serverName = (Parameters.Service.AbsoluteUri == null)
+                        ? context.Server
+                        : System.Text.RegularExpressions.Regex.Replace(
+                            Parameters.Service.AbsoluteUri.TrimEnd('/'),
+                            $"{context.ApplicationPath.TrimEnd('/')}$",
+                            string.Empty);
                     new OutgoingMailModel()
                     {
-                        Title = new Title(Displays.ExportEmailTitle(context: context,fileName)),
+                        Title = new Title(Displays.ExportEmailTitle(context: context, fileName)),
                         Body = Displays.ExportEmailBody(context: context) + "\n" +
-                            $"{(Parameters.Service.AbsoluteUri ?? context.Server)}" +
-                            $"/{Locations.DownloadFile(context: context, guid: guid)}",
+                            $"{serverName}{Locations.DownloadFile(context: context, guid: guid)}",
                         From = new System.Net.Mail.MailAddress(Parameters.Mail.SupportFrom),
                         To = MailAddressUtilities.Get(context: context, context.UserId),
                     }.Send(context: context, ss);

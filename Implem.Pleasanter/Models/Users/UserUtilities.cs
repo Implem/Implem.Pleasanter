@@ -3653,6 +3653,25 @@ namespace Implem.Pleasanter.Models
         /// <summary>
         /// Fixed:
         /// </summary>
+        public static string SetStartGuide(Context context)
+        {
+            context.UserSettings.DisableStartGuide = context.Forms.Bool("DisableStartGuide");
+            Rds.ExecuteNonQuery(
+                context: context,
+                statements: Rds.UpdateUsers(
+                    where: Rds.UsersWhere()
+                        .TenantId(context.TenantId)
+                        .UserId(context.UserId),
+                    param: Rds.UsersParam()
+                        .UserSettings(context.UserSettings.RecordingJson()),
+                    addUpdatorParam: false,
+                    addUpdatedTimeParam: false));
+            return new ResponseCollection().ToJson();
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
         public static System.Web.Mvc.ContentResult CreateByApi(Context context, SiteSettings ss)
         {
             if (context.ContractSettings.UsersLimit(context: context))

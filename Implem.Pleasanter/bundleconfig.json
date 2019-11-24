@@ -84,6 +84,7 @@
             "wwwroot/scripts/sitemenu.js",
             "wwwroot/scripts/sitesettings.js",
             "wwwroot/scripts/sitesettingsevents.js",
+            "wwwroot/scripts/startguide.js",
             "wwwroot/scripts/statusevents.js",
             "wwwroot/scripts/submitevents.js",
             "wwwroot/scripts/template.js",

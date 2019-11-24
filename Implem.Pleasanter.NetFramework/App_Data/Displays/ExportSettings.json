@@ -1,0 +1,13 @@
+﻿{
+    "Id": "ExportSettings",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Export settings"
+        },
+        {
+            "Language": "ja",
+            "Body": "エクスポートの設定"
+        }
+    ]
+}

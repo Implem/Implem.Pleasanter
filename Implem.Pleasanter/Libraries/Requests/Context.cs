@@ -47,6 +47,8 @@ namespace Implem.Pleasanter.Libraries.Requests
         public abstract string SiteTitle { get; set; }
         public abstract string RecordTitle { get; set; }
         public abstract bool DisableAllUsersPermission { get; set; }
+        public bool DisableStartGuide { get; set; }
+
         public abstract string HtmlTitleTop { get; set; }
         public abstract string HtmlTitleSite { get; set; }
         public abstract string HtmlTitleRecord { get; set; }

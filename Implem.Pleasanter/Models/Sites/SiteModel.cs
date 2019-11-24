@@ -993,22 +993,22 @@ namespace Implem.Pleasanter.Models
             if (data.ApiCount != null) ApiCount = data.ApiCount.ToInt().ToInt();
             if (data.Comments != null) Comments.Prepend(context: context, ss: ss, body: data.Comments);
             if (data.VerUp != null) VerUp = data.VerUp.ToBool();
-            data.ClassHash.ForEach(o => Class(
+            data.ClassHash?.ForEach(o => Class(
                 columnName: o.Key,
                 value: o.Value));
-            data.NumHash.ForEach(o => Num(
+            data.NumHash?.ForEach(o => Num(
                 columnName: o.Key,
                 value: o.Value));
-            data.DateHash.ForEach(o => Date(
+            data.DateHash?.ForEach(o => Date(
                 columnName: o.Key,
                 value: o.Value.ToUniversal(context: context)));
-            data.DescriptionHash.ForEach(o => Description(
+            data.DescriptionHash?.ForEach(o => Description(
                 columnName: o.Key,
                 value: o.Value));
-            data.CheckHash.ForEach(o => Check(
+            data.CheckHash?.ForEach(o => Check(
                 columnName: o.Key,
                 value: o.Value));
-            data.AttachmentsHash.ForEach(o => Attachments(
+            data.AttachmentsHash?.ForEach(o => Attachments(
                 columnName: o.Key,
                 value: o.Value));
             SetSiteSettings(context: context);

@@ -1,0 +1,13 @@
+﻿{
+    "Id": "IncludePermission",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Include permission"
+        },
+        {
+            "Language": "ja",
+            "Body": "アクセス制御を含める"
+        }
+    ]
+}

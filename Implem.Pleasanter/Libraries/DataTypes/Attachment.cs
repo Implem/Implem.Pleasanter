@@ -5,6 +5,7 @@ using Implem.Pleasanter.Libraries.DataSources;
 using Implem.Pleasanter.Libraries.Requests;
 using System.Collections.Generic;
 using System.IO;
+using System.Runtime.Serialization;
 namespace Implem.Pleasanter.Libraries.DataTypes
 {
     public class Attachment
@@ -17,6 +18,24 @@ namespace Implem.Pleasanter.Libraries.DataTypes
         public string ContentType;
         public bool? Added;
         public bool? Deleted;
+        public string Base64;
+
+        public Attachment()
+        {
+        }
+
+        [OnDeserialized]
+        private void OnDeserialized(StreamingContext streamingContext)
+        {
+            if (!Base64.IsNullOrEmpty())
+            {
+                Guid = Strings.NewGuid();
+                Size = GetBin().Length;
+                Extention = Path.GetExtension(Name);
+                ContentType = Strings.CoalesceEmpty(ContentType, "text/plain");
+                Added = true;
+            }
+        }
 
         public string DisplaySize()
         {
@@ -81,7 +100,7 @@ namespace Implem.Pleasanter.Libraries.DataTypes
                             .Size(Size)
                             .ContentType(ContentType)));
                 }
-                Directory.Delete(Path.Combine(Directories.Temp(), Guid), recursive: true);
+                DataSources.File.DeleteTemp(Guid);
             }
             else if (Deleted == true)
             {
@@ -93,7 +112,9 @@ namespace Implem.Pleasanter.Libraries.DataTypes
 
         private byte[] GetBin()
         {
-            return Files.Bytes(Path.Combine(Directories.Temp(), Guid, Name));
+            return Base64.IsNullOrEmpty()
+                ? Files.Bytes(Path.Combine(Directories.Temp(), Guid, Name))
+                : System.Convert.FromBase64String(Base64);
         }
     }
 }

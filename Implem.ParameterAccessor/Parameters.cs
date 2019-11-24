@@ -33,6 +33,7 @@ namespace Implem.DefinitionAccessor
         public static Security Security;
         public static Service Service;
         public static Session Session;
+        public static Site Site;
         public static SysLog SysLog;
 
         public static bool CommercialLicense()

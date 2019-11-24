@@ -1,0 +1,13 @@
+﻿{
+    "Provider": "Local",
+    "TimeZoneInfo": "Tokyo Standard Time",
+    "SaConnectionString": "Server=(local);Database=master;UID=sa;PWD=SetSaPWD;Connection Timeout=30;",
+    "OwnerConnectionString": "Server=(local);Database=#ServiceName#;UID=#ServiceName#_Owner;PWD=SetAdminsPWD;Connection Timeout=30;",
+    "UserConnectionString": "Server=(local);Database=#ServiceName#;UID=#ServiceName#_User;PWD=SetUsersPWD;Connection Timeout=30;",
+    "SqlCommandTimeOut": 600,
+    "SqlAzureRetryCount": 4,
+    "SqlAzureRetryInterval": 3,
+    "MinimumTime": 3,
+    "DeadlockRetryCount": 4,
+    "DeadlockRetryInterval": 1000
+}

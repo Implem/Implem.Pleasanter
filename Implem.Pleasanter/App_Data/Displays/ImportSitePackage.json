@@ -1,0 +1,13 @@
+﻿{
+    "Id": "ImportSitePackage",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Import site package"
+        },
+        {
+            "Language": "ja",
+            "Body": "サイトパッケージのインポート"
+        }
+    ]
+}
