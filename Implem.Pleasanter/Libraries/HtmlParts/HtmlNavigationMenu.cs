@@ -283,6 +283,37 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     .Li(
                         action: () => hb
                             .A(
+                                href: "javascript:void(0);",
+                                attributes: new HtmlAttributes()
+                                    .OnClick("$p.openImportSitePackageDialog($(this));")
+                                    .DataAction("OpenImportSitePackageDialog")
+                                    .DataMethod("post"),
+                                action: () => hb
+                                    .Span(css: "ui-icon ui-icon-arrowreturnthick-1-e")
+                                    .Text(text: Displays.ImportSitePackage(context: context))),
+                        _using: Parameters.SitePackage.Import
+                            && canManageSite
+                            && ss.IsSite(context: context)
+                            && ss.ReferenceType == "Sites"
+                            || (ss.SiteId == 0
+                                && context.UserSettings.DisableTopSiteCreation != true))
+                    .Li(
+                        action: () => hb
+                            .A(
+                                href: "javascript:void(0);",
+                                attributes: new HtmlAttributes()
+                                    .OnClick("$p.openExportSitePackageDialog($(this));")
+                                    .DataAction("OpenExportSitePackageDialog")
+                                    .DataMethod("post"),
+                                action: () => hb
+                                    .Span(css: "ui-icon ui-icon-arrowreturnthick-1-w")
+                                    .Text(text: Displays.ExportSitePackage(context: context))),
+                        _using: Parameters.SitePackage.Export
+                            && canManageSite
+                            && ss.IsSite(context: context))
+                    .Li(
+                        action: () => hb
+                            .A(
                                 href: Locations.Index(
                                     context: context,
                                     controller: "Registrations"),

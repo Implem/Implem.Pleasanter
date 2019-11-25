@@ -24,22 +24,19 @@
     var minDate = new Date(d3.min(elements, function (d) { return d.Day; }));
     var maxDate = new Date(d3.max(elements, function (d) { return d.Day; }));
     var dayWidth = (bodyWidth - padding) / $p.dateDiff('d', maxDate, minDate);
-    var xScale = d3.time.scale()
+    var xScale = d3.scaleTime()
         .domain([minDate, maxDate])
         .range([padding, bodyWidth]);
-    var yScale = d3.scale.linear()
+    var yScale = d3.scaleLinear()
         .domain([d3.max(elements, function (d) {
             return d.Y;
         }), 0])
         .range([padding, bodyHeight])
         .nice();
-    var xAxis = d3.svg.axis()
-        .scale(xScale)
-        .tickFormat(d3.time.format('%m/%d'))
+    var xAxis = d3.axisBottom(xScale)
+        .tickFormat(d3.timeFormat('%m/%d'))
         .ticks(10);
-    var yAxis = d3.svg.axis()
-        .scale(yScale)
-        .orient('left');
+    var yAxis = d3.axisLeft(yScale);
     svg.append('g')
         .attr('class', 'axis')
         .attr('transform', 'translate(' + axisPaddingX + ', ' + (height - axisPaddingY) + ')')
@@ -75,7 +72,7 @@
     });
 
     function draw(ds) {
-        var area = d3.svg.area()
+        var area = d3.area()
             .x(function (d) {
                 return ($p.dateDiff('d', new Date(d.Day), minDate) * dayWidth)
                     + axisPaddingX + padding;

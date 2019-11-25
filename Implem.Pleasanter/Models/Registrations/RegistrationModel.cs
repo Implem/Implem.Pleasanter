@@ -537,7 +537,7 @@ namespace Implem.Pleasanter.Models
             {
                 Rds.DeleteRegistrations(factory: context, where: where),
             });
-            var response = Rds.ExecuteScalar_response(
+            var response = Repository.ExecuteScalar_response(
                 context: context,
                 transactional: true,
                 statements: statements.ToArray());

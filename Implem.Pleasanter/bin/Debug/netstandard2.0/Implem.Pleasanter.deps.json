@@ -10,6 +10,7 @@
       "Implem.Pleasanter/1.0.0": {
         "dependencies": {
           "Antlr3.Runtime": "3.5.1",
+          "BuildBundlerMinifier": "3.2.435",
           "ClosedXML": "0.92.1",
           "DocumentFormat.OpenXml": "2.9.0",
           "ExcelNumberFormat": "1.0.3",
@@ -87,6 +88,11 @@
             "assemblyVersion": "3.5.0.2",
             "fileVersion": "3.5.1.0"
           }
+        }
+      },
+      "BuildBundlerMinifier/3.2.435": {
+        "dependencies": {
+          "NETStandard.Library": "2.0.3"
         }
       },
       "ClosedXML/0.92.1": {
@@ -1868,6 +1874,13 @@
       "sha512": "sha512-ZwCEpLCLZXkjzf1lYEixp9hgVlYYk33ACHn6xjFyVhGRi2BpoYQez0qtatbetdylASWYTG+cGz0CGR4z66JM4w==",
       "path": "antlr3.runtime/3.5.1",
       "hashPath": "antlr3.runtime.3.5.1.nupkg.sha512"
+    },
+    "BuildBundlerMinifier/3.2.435": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-6i5tLEU9c1o8+y01Ie9J+y8CY8x4P0R1G56KNDtgJmPI3Vd/GzqMqnTxoe8wpg/MAl15jk0KuIzerY1Kxu/WAg==",
+      "path": "buildbundlerminifier/3.2.435",
+      "hashPath": "buildbundlerminifier.3.2.435.nupkg.sha512"
     },
     "ClosedXML/0.92.1": {
       "type": "package",

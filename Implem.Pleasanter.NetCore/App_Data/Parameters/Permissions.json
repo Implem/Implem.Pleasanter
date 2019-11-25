@@ -1,4 +1,5 @@
 ﻿{
+    "CheckManagePermission": true,
     "General": 31,
     "Manager": 511,
     "Pattern": {

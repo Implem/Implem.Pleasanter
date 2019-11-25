@@ -222,7 +222,8 @@ namespace Implem.Pleasanter.Libraries.Settings
             Update_ColumnAccessControls();
             if (context.TrashboxActions())
             {
-                RemoveSourceColumns(context: context);
+                GridColumns.RemoveAll(o => o.Contains("~~"));
+                FilterColumns.RemoveAll(o => o.Contains("~~"));
             }
             if (Aggregations == null) Aggregations = new List<Aggregation>();
             if (Links == null) Links = new List<Link>();
@@ -491,6 +492,11 @@ namespace Implem.Pleasanter.Libraries.Settings
         }
 
         public string RecordingJson(Context context)
+        {
+            return RecordingData(context: context).ToJson();
+        }
+
+        public SiteSettings RecordingData(Context context)
         {
             var param = Parameters.General;
             var ss = new SiteSettings()
@@ -1043,7 +1049,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                     ss.Columns.Add(newColumn);
                 }
             });
-            return ss.ToJson();
+            return ss;
         }
 
         private void UpdateColumnDefinitionHash()
@@ -2880,7 +2886,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                 .Select(o => o.SiteId)
                 .Distinct()
                 .ToList();
-            var dataSet = siteIdList.Any() ? Rds.ExecuteDataSet(
+            var dataSet = siteIdList.Any() ? Repository.ExecuteDataSet(
                 context: context,
                 statements: siteIdList.Select(siteId =>
                     Rds.SelectItems(
@@ -3003,7 +3009,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                 .ReferenceId_In(
                     selectedValues,
                     _using: selectedValues?.Any() == true
-                        && Rds.ExecuteScalar_string(
+                        && Repository.ExecuteScalar_string(
                             context: context,
                             statements: Rds.SelectSites(
                                 column: Rds.SitesColumn().ReferenceType(),
@@ -3047,7 +3053,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                         join: join,
                         where: where));
             }
-            var dataSet = Rds.ExecuteDataSet(
+            var dataSet = Repository.ExecuteDataSet(
                 context: context,
                 statements: statements.ToArray());
 
@@ -3703,12 +3709,6 @@ namespace Implem.Pleasanter.Libraries.Settings
                 .SingleOrDefault();
         }
 
-        private void RemoveSourceColumns(Context context)
-        {
-            GridColumns.RemoveAll(o => o.Contains("~~"));
-            FilterColumns.RemoveAll(o => o.Contains("~~"));
-        }
-
         public bool GridColumnsHasSources()
         {
             return GridColumns?.Any(o => o.Contains("~~")) == true;
@@ -3726,8 +3726,8 @@ namespace Implem.Pleasanter.Libraries.Settings
                     || column.LabelText != column.LabelTextDefault)
                 .Select(column => new
                 {
-                    ColumnName = column.ColumnName,
-                    LabelText = column.LabelText
+                    column.ColumnName,
+                    column.LabelText
                 })
                 .ToJson();
         }

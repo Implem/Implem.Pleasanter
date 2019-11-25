@@ -2752,7 +2752,7 @@ namespace Implem.Pleasanter.Models
                 fileContent: csv.ToString(),
                 fileDownloadName: ExportUtilities.FileName(
                     context: context,
-                    ss: ss,
+                    title: ss.Title,
                     name: Displays.Users(context: context)));
         }
 
@@ -3656,7 +3656,7 @@ namespace Implem.Pleasanter.Models
         public static string SetStartGuide(Context context)
         {
             context.UserSettings.DisableStartGuide = context.Forms.Bool("DisableStartGuide");
-            Rds.ExecuteNonQuery(
+            Repository.ExecuteNonQuery(
                 context: context,
                 statements: Rds.UpdateUsers(
                     where: Rds.UsersWhere()

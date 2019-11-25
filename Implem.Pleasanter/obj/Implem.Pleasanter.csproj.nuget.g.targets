@@ -5,5 +5,6 @@
   </PropertyGroup>
   <ImportGroup Condition=" '$(ExcludeRestorePackageImports)' != 'true' ">
     <Import Project="C:\Program Files\dotnet\sdk\NuGetFallbackFolder\netstandard.library\2.0.3\build\netstandard2.0\NETStandard.Library.targets" Condition="Exists('C:\Program Files\dotnet\sdk\NuGetFallbackFolder\netstandard.library\2.0.3\build\netstandard2.0\NETStandard.Library.targets')" />
+    <Import Project="$(NuGetPackageRoot)buildbundlerminifier\3.2.435\build\BuildBundlerMinifier.targets" Condition="Exists('$(NuGetPackageRoot)buildbundlerminifier\3.2.435\build\BuildBundlerMinifier.targets')" />
   </ImportGroup>
 </Project>

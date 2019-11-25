@@ -152,10 +152,14 @@ namespace Implem.Pleasanter.Models
                         .Id("ExportSelectorDialog")
                         .Class("dialog")
                         .Title(Displays.Export(context: context)))
-                        .Div(attributes: new HtmlAttributes()
-                                .Id("BulkUpdateSelectorDialog")
-                                .Class("dialog")
-                                .Title(Displays.BulkUpdate(context: context))))
+                    .Div(attributes: new HtmlAttributes()
+                        .Id("ExportSitePackageDialog")
+                        .Class("dialog")
+                        .Title(Displays.ExportSitePackage(context: context)))
+                    .Div(attributes: new HtmlAttributes()
+                        .Id("BulkUpdateSelectorDialog")
+                        .Class("dialog")
+                        .Title(Displays.BulkUpdate(context: context))))
                     .ToString();
         }
 
@@ -2533,7 +2537,7 @@ namespace Implem.Pleasanter.Models
                 param: param));
             statements.Add(Rds.RowCount());
             statements.OnBulkUpdatedExtendedSqls(ss.SiteId);
-            return Rds.ExecuteScalar_response(
+            return Repository.ExecuteScalar_response(
                 context: context,
                 transactional: true,
                 statements: statements.ToArray())
@@ -3155,7 +3159,7 @@ namespace Implem.Pleasanter.Models
                     .Select(o => o.ColumnName)
                     .ForEach(columnName =>
                         column.Add($"\"{columnName}\""));
-                var attachments = Rds.ExecuteTable(
+                var attachments = Repository.ExecuteTable(
                     context: context,
                     statements: Rds.SelectIssues(
                         tableType: Sqls.TableTypes.Deleted,
@@ -3180,7 +3184,7 @@ namespace Implem.Pleasanter.Models
                     })
                     .Where(o => o.attachments.Length > 0);
             var guid = Strings.NewGuid();
-            var count = Rds.ExecuteScalar_response(
+            var count = Repository.ExecuteScalar_response(
                 context: context,
                 connectionString: Parameters.Rds.OwnerConnectionString,
                 transactional: true,
@@ -3215,7 +3219,7 @@ namespace Implem.Pleasanter.Models
         private static void RestoreAttachments(Context context, long issueId, IList<string> attachments)
         {
             var raw = $" ({string.Join(", ", attachments.Select(o => $"'{o}'"))}) ";
-            Rds.ExecuteNonQuery(
+            Repository.ExecuteNonQuery(
                 context: context,
                 connectionString: Parameters.Rds.OwnerConnectionString,
                 statements: new SqlStatement[] {
@@ -4256,7 +4260,7 @@ namespace Implem.Pleasanter.Models
                 fileContent: content,
                 fileDownloadName: ExportUtilities.FileName(
                     context: context,
-                    ss: ss,
+                    title: ss.Title,
                     name: export.Name,
                     extension: export.Type.ToString()));
         }
@@ -4283,7 +4287,7 @@ namespace Implem.Pleasanter.Models
                         id: context.Forms.Int("ExportId"));
                 var fileName = ExportUtilities.FileName(
                     context: context,
-                    ss: ss,
+                    title: ss.Title,
                     name: export.Name,
                     extension: export.Type.ToString());
                 try
@@ -4300,7 +4304,7 @@ namespace Implem.Pleasanter.Models
                             ss: ss));
                     var guid = Strings.NewGuid();
                     var bytes = content.ToBytes();
-                    Rds.ExecuteNonQuery(
+                    Repository.ExecuteNonQuery(
                         context: context,
                         statements: new SqlStatement[]
                         {
@@ -4390,7 +4394,7 @@ namespace Implem.Pleasanter.Models
                     {
                         Name = ExportUtilities.FileName(
                             context: context,
-                            ss: ss,
+                            title: ss.Title,
                             name: export.Name,
                             extension: export.Type.ToString()),
                         Content = content
@@ -4456,7 +4460,7 @@ namespace Implem.Pleasanter.Models
                     dataRows: dataRows),
                 ExportUtilities.FileName(
                     context: context,
-                    ss: ss,
+                    title: ss.Title,
                     name: Displays.Crosstab(context: context)));
         }
 
@@ -5003,7 +5007,7 @@ namespace Implem.Pleasanter.Models
                         context: context,
                         ss: ss,
                         column: groupByY);
-                dataRows = Rds.ExecuteTable(
+                dataRows = Repository.ExecuteTable(
                     context: context,
                     statements: Rds.SelectIssues(
                         column: column,

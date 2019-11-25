@@ -509,6 +509,10 @@
               "target": "Package",
               "version": "[3.5.1, )"
             },
+            "BuildBundlerMinifier": {
+              "target": "Package",
+              "version": "[3.2.435, )"
+            },
             "ClosedXML": {
               "target": "Package",
               "version": "[0.92.1, )"

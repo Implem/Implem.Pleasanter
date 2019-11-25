@@ -230,6 +230,47 @@ namespace Implem.Pleasanter.Libraries.Models
             return data.ToJson(formatting: Formatting.Indented);
         }
 
+        public JsonExport GetJsonExport(
+            Context context,
+            SiteSettings ss,
+            Export export)
+        {
+            var data = new JsonExport();
+            var idColumn = Rds.IdColumn(ss.ReferenceType);
+            if (export.Header == true)
+            {
+                data.Header = new List<JsonExportColumn>();
+                export.Columns
+                    .Where(o => o.Column.CanRead)
+                    .ForEach(exportColumn =>
+                    {
+                        if (!data.Header.Any(o => o.SiteId == exportColumn.SiteId))
+                        {
+                            data.Header.Add(new JsonExportColumn(
+                                siteId: exportColumn.SiteId ?? 0,
+                                siteTitle: exportColumn.SiteTitle));
+                        }
+                        data.Header.FirstOrDefault(o => o.SiteId == exportColumn.SiteId)
+                            ?.Columns.AddIfNotConainsKey(
+                                exportColumn.Column.Name,
+                                exportColumn.GetLabelText());
+                    });
+            }
+            data.Body = new List<IExportModel>();
+            DataRows
+                .GroupBy(o => o.Long(idColumn))
+                .Select(o => o.ToList())
+                .ForEach(dataRows =>
+                {
+                    data.Body.Add(JsonStacks(
+                        context: context,
+                        ss: ss,
+                        idColumn: idColumn,
+                        dataRows: dataRows));
+                });
+            return data;
+        }
+
         private IExportModel JsonStacks(
             Context context,
             SiteSettings ss,

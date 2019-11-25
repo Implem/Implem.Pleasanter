@@ -14,5 +14,6 @@
   </PropertyGroup>
   <PropertyGroup Condition=" '$(ExcludeRestorePackageImports)' != 'true' ">
     <PkgWebGrease Condition=" '$(PkgWebGrease)' == '' ">C:\Users\内田太志\.nuget\packages\webgrease\1.6.0</PkgWebGrease>
+    <PkgBuildBundlerMinifier Condition=" '$(PkgBuildBundlerMinifier)' == '' ">C:\Users\内田太志\.nuget\packages\buildbundlerminifier\3.2.435</PkgBuildBundlerMinifier>
   </PropertyGroup>
 </Project>

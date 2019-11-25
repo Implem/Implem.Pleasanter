@@ -71,6 +71,7 @@
           "lib/netstandard2.0/AspNetCoreCurrentRequestContext.dll": {}
         }
       },
+      "BuildBundlerMinifier/3.2.435": {},
       "ClosedXML/0.92.1": {
         "dependencies": {
           "DocumentFormat.OpenXml": "2.9.0",
@@ -1103,6 +1104,7 @@
       "Implem.Pleasanter/1.0.0": {
         "dependencies": {
           "Antlr3.Runtime": "3.5.1",
+          "BuildBundlerMinifier": "3.2.435",
           "ClosedXML": "0.92.1",
           "DocumentFormat.OpenXml": "2.9.0",
           "ExcelNumberFormat": "1.0.3",
@@ -4743,6 +4745,13 @@
       "sha512": "sha512-S85CBtt1B8Ufea5kEOhWho8M6DaY18BmqWTKDjYQAB7RfyaEcu/M4QX44pmKMnIsE0KuGtLbBqeSmlpXpzKh6w==",
       "path": "aspnetcorecurrentrequestcontext/2.0.0",
       "hashPath": "aspnetcorecurrentrequestcontext.2.0.0.nupkg.sha512"
+    },
+    "BuildBundlerMinifier/3.2.435": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-6i5tLEU9c1o8+y01Ie9J+y8CY8x4P0R1G56KNDtgJmPI3Vd/GzqMqnTxoe8wpg/MAl15jk0KuIzerY1Kxu/WAg==",
+      "path": "buildbundlerminifier/3.2.435",
+      "hashPath": "buildbundlerminifier.3.2.435.nupkg.sha512"
     },
     "ClosedXML/0.92.1": {
       "type": "package",

@@ -35,6 +35,12 @@
           "lib/netstandard2.0/AspNetCoreCurrentRequestContext.dll": {}
         }
       },
+      "BuildBundlerMinifier/3.2.435": {
+        "type": "package",
+        "build": {
+          "build/_._": {}
+        }
+      },
       "ClosedXML/0.92.1": {
         "type": "package",
         "dependencies": {
@@ -6187,6 +6193,7 @@
         "framework": ".NETStandard,Version=v2.0",
         "dependencies": {
           "Antlr3.Runtime": "3.5.1",
+          "BuildBundlerMinifier": "3.2.435",
           "ClosedXML": "0.92.1",
           "DocumentFormat.OpenXml": "2.9.0",
           "ExcelNumberFormat": "1.0.3",
@@ -6335,6 +6342,31 @@
         "lib/netstandard1.6/AspNetCoreCurrentRequestContext.xml",
         "lib/netstandard2.0/AspNetCoreCurrentRequestContext.dll",
         "lib/netstandard2.0/AspNetCoreCurrentRequestContext.xml"
+      ]
+    },
+    "BuildBundlerMinifier/3.2.435": {
+      "sha512": "6i5tLEU9c1o8+y01Ie9J+y8CY8x4P0R1G56KNDtgJmPI3Vd/GzqMqnTxoe8wpg/MAl15jk0KuIzerY1Kxu/WAg==",
+      "type": "package",
+      "path": "buildbundlerminifier/3.2.435",
+      "hasTools": true,
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "build/BuildBundlerMinifier.targets",
+        "buildbundlerminifier.3.2.435.nupkg.sha512",
+        "buildbundlerminifier.nuspec",
+        "tools/net46/BundlerMinifier.dll",
+        "tools/net46/NUglify.dll",
+        "tools/net46/Newtonsoft.Json.dll",
+        "tools/netcoreapp2.0/BundlerMinifier.dll",
+        "tools/netcoreapp2.0/NUglify.dll",
+        "tools/netcoreapp2.0/Newtonsoft.Json.dll",
+        "tools/netcoreapp3.0/BundlerMinifier.dll",
+        "tools/netcoreapp3.0/NUglify.dll",
+        "tools/netcoreapp3.0/Newtonsoft.Json.dll",
+        "tools/netstandard1.3/BundlerMinifier.dll",
+        "tools/netstandard1.3/NUglify.dll",
+        "tools/netstandard1.3/Newtonsoft.Json.dll"
       ]
     },
     "ClosedXML/0.92.1": {

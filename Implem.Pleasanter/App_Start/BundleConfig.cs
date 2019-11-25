@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
+﻿using System.Collections.Generic;
 namespace Implem.Pleasanter.App_Start
 {
     static class BundleConfig
@@ -80,9 +77,12 @@ namespace Implem.Pleasanter.App_Start
                 "~/scripts/security.js",
                 "~/scripts/selectable.js",
                 "~/scripts/separate.js",
+                "~/scripts/setdaterangedialog.js",
+                "~/scripts/setnumericrangedialog.js",
                 "~/scripts/site.js",
                 "~/scripts/siteinfo.js",
                 "~/scripts/sitemenu.js",
+                "~/scripts/sitepackage.js",
                 "~/scripts/sitesettings.js",
                 "~/scripts/sitesettingsevents.js",
                 "~/scripts/startguide.js",
@@ -97,9 +97,7 @@ namespace Implem.Pleasanter.App_Start
                 "~/scripts/_show.js",
                 "~/scripts/relatingcolumns.js",
                 "~/scripts/fieldselectable.js",
-                "~/scripts/tenants.js",
-                "~/scripts/setdaterangedialog.js",
-                "~/scripts/setnumericrangedialog.js"
+                "~/scripts/tenants.js"
             };
         }
     }

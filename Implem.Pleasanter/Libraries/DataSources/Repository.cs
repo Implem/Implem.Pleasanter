@@ -1,13 +1,10 @@
-﻿using Implem.Pleasanter.Libraries.Requests;
+﻿using Implem.DefinitionAccessor;
+using Implem.Libraries.DataSources.SqlServer;
+using Implem.Pleasanter.Libraries.Requests;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using Implem.Libraries.DataSources.SqlServer;
-using Implem.Libraries.Utilities;
-using Implem.DefinitionAccessor;
 using System.Data;
-
+using System.Linq;
 namespace Implem.Pleasanter.Libraries.DataSources
 {
     public static class Repository

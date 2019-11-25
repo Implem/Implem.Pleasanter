@@ -1,8 +1,6 @@
 ﻿using Implem.Pleasanter.Libraries.Requests;
-using Implem.Pleasanter.Libraries.Responses;
 using Implem.Pleasanter.Libraries.Search;
 using Implem.Pleasanter.Models;
-using System.Web;
 using System.Web.Mvc;
 namespace Implem.Pleasanter.Controllers
 {
@@ -647,6 +645,68 @@ namespace Implem.Pleasanter.Controllers
             return json;
         }
 
+        [HttpPost]
+        public string OpenImportSitePackageDialog(Context context, long id)
+        {
+            var log = new SysLogModel(context: context);
+            var json = new ItemModel(
+                context: context,
+                referenceId: id)
+                    .OpenImportSitePackageDialog(context: context);
+            log.Finish(context: context, responseSize: json.Length);
+            return json;
+        }
+
+        [HttpPost]
+        public string ImportSitePackage(Context context, long id, IHttpPostedFile[] file)
+        {
+            var log = new SysLogModel(context: context);
+            var json = new ItemModel(
+                context: context,
+                referenceId: id)
+                    .ImportSitePackage(context: context);
+            log.Finish(
+                context: context,
+                responseSize: json.Length);
+            return json;
+        }
+
+        [HttpPost]
+        public string OpenExportSitePackageDialog(Context context, long id)
+        {
+            var log = new SysLogModel(context: context);
+            var json = new ItemModel(
+                context: context,
+                referenceId: id)
+                    .OpenExportSitePackageDialog(context: context);
+            log.Finish(
+                context: context,
+                responseSize: json.Length);
+            return json;
+        }
+
+        [HttpGet]
+        public FileContentResult ExportSitePackage(Context context, long id)
+        {
+            var log = new SysLogModel(context: context);
+            var responseFile = new ItemModel(
+                context: context,
+                referenceId: id)
+                    .ExportSitePackage(context: context);
+            if (responseFile != null)
+            {
+                log.Finish(
+                    context: context,
+                    responseSize: responseFile.Length);
+                return responseFile.ToFile();
+            }
+            else
+            {
+                log.Finish(context: context);
+                return null;
+            }
+        }
+
         public string RebuildSearchIndexes(Context context, long id)
         {
             var log = new SysLogModel(context: context);
@@ -655,7 +715,9 @@ namespace Implem.Pleasanter.Controllers
                 siteModel: new SiteModel(
                     context: context,
                     siteId: id));
-            log.Finish(context: context, responseSize: json.Length);
+            log.Finish(
+                context: context,
+                responseSize: json.Length);
             return json;
         }
 

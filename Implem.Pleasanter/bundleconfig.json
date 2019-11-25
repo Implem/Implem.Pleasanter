@@ -79,9 +79,12 @@
             "wwwroot/scripts/security.js",
             "wwwroot/scripts/selectable.js",
             "wwwroot/scripts/separate.js",
+            "wwwroot/scripts/setdaterangedialog.js",
+            "wwwroot/scripts/setnumericrangedialog.js",
             "wwwroot/scripts/site.js",
             "wwwroot/scripts/siteinfo.js",
             "wwwroot/scripts/sitemenu.js",
+            "wwwroot/scripts/sitepackage.js",
             "wwwroot/scripts/sitesettings.js",
             "wwwroot/scripts/sitesettingsevents.js",
             "wwwroot/scripts/startguide.js",
@@ -96,9 +99,7 @@
             "wwwroot/scripts/_show.js",
             "wwwroot/scripts/relatingcolumns.js",
             "wwwroot/scripts/fieldselectable.js",
-            "wwwroot/scripts/tenants.js",
-            "wwwroot/scripts/setDateRangeDialog.js",
-            "wwwroot/scripts/setNumericRangeDialog.js"
+            "wwwroot/scripts/tenants.js"
         ]
     }
 ]

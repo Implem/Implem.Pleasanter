@@ -46,7 +46,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                            onClick: "$p.bulkUpdate();",
                            icon: "ui-icon-copy",
                            action: "BulkUpdate",
-                           method: "put")
+                           method: "post")
                        .Button(
                            text: Displays.Cancel(context: context),
                            controlCss: "button-icon",

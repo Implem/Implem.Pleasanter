@@ -1136,7 +1136,7 @@ namespace Implem.Pleasanter.Models
                     .Select(o => o.ColumnName)
                     .ForEach(columnName =>
                         column.Add($"[{columnName}]"));
-                var attachments = Rds.ExecuteTable(
+                var attachments = Repository.ExecuteTable(
                     context: context,
                     statements: Rds.SelectWikis(
                         tableType: Sqls.TableTypes.Deleted,
@@ -1196,7 +1196,7 @@ namespace Implem.Pleasanter.Models
         private static void RestoreAttachments(Context context, long wikiId, IList<string> attachments)
         {
             var raw = $" ({string.Join(", ", attachments.Select(o => $"'{o}'"))}) ";
-            Rds.ExecuteNonQuery(
+            Repository.ExecuteNonQuery(
                 context: context,
                 connectionString: Parameters.Rds.OwnerConnectionString,
                 statements: new SqlStatement[] {

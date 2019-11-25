@@ -28,6 +28,8 @@
         ConfirmUnload_ja: 'このページを離れますか? 行った変更が保存されない可能性があります。',
         DirectUrlCopied: 'Copied to Clipboard',
         DirectUrlCopied_ja: 'クリップボードにコピーしました',
+        IncludeData: 'Include data',
+        IncludeData_ja: 'データを含める',
         Manager: 'Manager',
         Manager_ja: '管理者',
         OrderAsc: 'Asc',

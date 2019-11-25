@@ -246,7 +246,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                                     icon: "ui-icon-disk",
                                                     action: "OpenBulkUpdateSelectorDialog",
                                                     method: "post",
-                                                    _using: context.CanUpdate(ss: ss) 
+                                                    _using: context.CanUpdate(ss: ss)
                                                         && ss.GetAllowBulkUpdateColumns(context, ss).Any())
                                                 .Button(
                                                     text: Displays.EditMode(context: context),

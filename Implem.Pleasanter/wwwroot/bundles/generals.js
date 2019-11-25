@@ -507,6 +507,13 @@ $p.getControl = function (name) {
         : undefined;
 }
 
+$p.getField = function (name) {
+    var columnName = $p.getColumnName(name);
+    return columnName !== undefined
+        ? $('#' + $('#ReferenceType').val() + '_' + columnName + 'Field')
+        : undefined;
+}
+
 $p.getGridRow = function (id) {
     return $('#Grid > tbody > tr[data-id="' + id + '"]');
 }
@@ -946,6 +953,27 @@ $(function () {
         $p.setData($control);
     });
 });
+$p.openBulkUpdateSelectorDialog = function ($control) {
+    error = $p.send($control);
+    if (error === 0) {
+        $('#BulkUpdateSelectorDialog').dialog({
+            modal: true,
+            width: '520px',
+            resizable: false
+        });
+    }
+}
+
+$p.bulkUpdate = function () {
+    var maindata = $p.getData($('.main-form'));
+    var data = $p.getData($('#BulkUpdateSelectorForm'));
+    var key = $('#ReferenceType').val() + '_' + $('#BulkUpdateColumnName').val();
+    data.GridCheckAll = maindata.GridCheckAll;
+    data.GridUnCheckedItems = maindata.GridUnCheckedItems;
+    data.GridCheckedItems = maindata.GridCheckedItems;
+    $p.setData($('#' + key));
+    $p.send($('#BulkUpdate'));
+}
 $p.drawBurnDown = function () {
     var $svg = $('#BurnDown');
     if ($svg.length !== 1) {
@@ -968,10 +996,10 @@ $p.drawBurnDown = function () {
     var minDate = new Date(d3.min(json, function (d) { return d.Day; }));
     var maxDate = new Date(d3.max(json, function (d) { return d.Day; }));
     var dayWidth = (bodyWidth - padding) / $p.dateDiff('d', maxDate, minDate);
-    var xScale = d3.time.scale()
+    var xScale = d3.scaleTime()
         .domain([minDate, maxDate])
         .range([padding, bodyWidth]);
-    var yScale = d3.scale.linear()
+    var yScale = d3.scaleLinear()
         .domain([d3.max(json, function (d) {
             return d.Total !== undefined || d.Earned !== undefined
                 ? Math.max.apply(null, [d.Total, d.Planned, d.Earned])
@@ -979,13 +1007,12 @@ $p.drawBurnDown = function () {
         }), 0])
         .range([padding, bodyHeight])
         .nice();
-    var xAxis = d3.svg.axis()
-        .scale(xScale)
-        .tickFormat(d3.time.format('%m/%d'))
-        .ticks(10);
-    var yAxis = d3.svg.axis()
-        .scale(yScale)
-        .orient('left');
+    var xAxis = d3.axisBottom(xScale)
+        .tickFormat(d3.timeFormat('%m/%d'))
+        .tickSizeInner(10);
+    var yAxis = d3.axisLeft(yScale)
+        .tickSizeInner(0)
+        .tickFormat("");
     svg.append('g')
         .attr('class', 'axis')
         .attr('transform', 'translate(' + axisPadding + ', ' + (height - axisPadding) + ')')
@@ -1004,7 +1031,7 @@ $p.drawBurnDown = function () {
     var nowLineData = [
         [now, axisPadding - 40],
         [now, yScale(0) + 20]];
-    var nowLine = d3.svg.line()
+    var nowLine = d3.line()
         .x(function (d) { return d[0]; })
         .y(function (d) { return d[1]; });
     svg.append('g').attr('class', 'now').append('path').attr('d', nowLine(nowLineData));
@@ -1013,13 +1040,13 @@ $p.drawBurnDown = function () {
     draw('earned', 2, json.filter(function (d) { return d.Earned !== undefined; }));
 
     function draw(css, n, ds) {
-        var line = d3.svg.line()
+        var line = d3.line()
             .x(function (d) {
                 return ($p.dateDiff('d', new Date(d.Day), minDate) * dayWidth)
                     + axisPadding + padding;
             })
             .y(function (d) {
-                return yScale(prop(d));
+                return yScale(prop(d)) - 100;
             });
         var g = svg.append('g').attr('class', css);
         g.append('path').attr('d', line(ds));
@@ -1028,7 +1055,7 @@ $p.drawBurnDown = function () {
             .enter()
             .append('circle')
             .attr('cx', function (d, i) { return i * dayWidth + axisPadding + padding })
-            .attr('cy', function (d) { return yScale(prop(d)); })
+            .attr('cy', function (d) { return yScale(prop(d)) - 100; })
             .attr('r', 4)
             .append('title')
             .text(function (d) { return prop(d); });
@@ -1305,7 +1332,7 @@ $(function () {
             if (!name) return;
             var input = document.createElement('input');
             input.setAttribute('type', 'hidden');
-            input.setAttribute('name', $('.main-form').attr('name').replace(/Form$/, '') + '_' + name);
+            input.setAttribute('name', $('#ReferenceType').val() + '_' + name);
             input.setAttribute('value', value);
             form.appendChild(input);
         }
@@ -1470,6 +1497,8 @@ $p.display = function (defaultId) {
         ConfirmUnload_ja: 'このページを離れますか? 行った変更が保存されない可能性があります。',
         DirectUrlCopied: 'Copied to Clipboard',
         DirectUrlCopied_ja: 'クリップボードにコピーしました',
+        IncludeData: 'Include data',
+        IncludeData_ja: 'データを含める',
         Manager: 'Manager',
         Manager_ja: '管理者',
         OrderAsc: 'Asc',
@@ -1646,7 +1675,7 @@ $p.drawGantt = function () {
     var width = parseInt(svg.style('width'));
     var minDate = new Date($('#GanttMinDate').val());
     var maxDate = new Date($('#GanttMaxDate').val());
-    var xScale = d3.time.scale()
+    var xScale = d3.scaleTime()
         .domain([minDate, maxDate])
         .range([0, width - 60]);
     var xHarf = xScale(maxDate) / 2;
@@ -1680,7 +1709,7 @@ $p.drawGantt = function () {
     var currentDate = minDate;
     while (currentDate <= maxDate) {
         var axisLine = [[30 + xScale(currentDate), 25], [30 + xScale(currentDate), 45]];
-        var line = d3.svg.line()
+        var line = d3.line()
             .x(function (d) { return d[0]; })
             .y(function (d) { return d[1]; });
         axis.append('g').attr('class', 'date').append('path').attr('d', line(axisLine));
@@ -1703,8 +1732,7 @@ $p.drawGantt = function () {
     axis.append('g')
         .attr('class', 'title')
         .selectAll('text')
-        .data(days.filter(function (d)
-        {
+        .data(days.filter(function (d) {
             return days.length <= 90 || [5, 10, 15, 20, 25, 30].indexOf(d.getDate()) > -1;
         }))
         .enter()
@@ -1796,12 +1824,12 @@ $p.drawGantt = function () {
         .attr('class', function (d) {
             var ret = d.ProgressRate < 100 &&
                 (padding + xScale(new Date(d.StartTime)) +
-                ((xScale(new Date(d.CompletionTime)) - xScale(new Date(d.StartTime)))
-                * d.ProgressRate * 0.01)) < now
-                    ? 'delay'
-                    : d.ProgressRate === 100 && d.Completed
-                        ? 'completed'
-                        : ''
+                    ((xScale(new Date(d.CompletionTime)) - xScale(new Date(d.StartTime)))
+                        * d.ProgressRate * 0.01)) < now
+                ? 'delay'
+                : d.ProgressRate === 100 && d.Completed
+                    ? 'completed'
+                    : ''
             return d.GroupSummary
                 ? ret + ' summary'
                 : ret;
@@ -1833,11 +1861,11 @@ $p.drawGantt = function () {
         .attr('class', function (d) {
             var ret = d.ProgressRate < 100 &&
                 (padding + xScale(new Date(d.StartTime)) +
-                ((xScale(new Date(d.CompletionTime)) - xScale(new Date(d.StartTime)))
-                * d.ProgressRate * 0.01)) < now &&
+                    ((xScale(new Date(d.CompletionTime)) - xScale(new Date(d.StartTime)))
+                        * d.ProgressRate * 0.01)) < now &&
                 ($('#ShowGanttProgressRate').val() === '1' || !d.Completed)
-                    ? 'delay'
-                    : '';
+                ? 'delay'
+                : '';
             return d.GroupSummary
                 ? ret + ' summary'
                 : ret;
@@ -1858,7 +1886,7 @@ $p.drawGantt = function () {
         var nowLineData = [
             [day, padding - 10],
             [day, (padding + d3.max(json, function (d) { return d.Y })) + 10]];
-        var nowLine = d3.svg.line()
+        var nowLine = d3.line()
             .x(function (d) { return d[0]; })
             .y(function (d) { return d[1]; });
         svg.append('g').attr('class', css).append('path').attr('d', nowLine(nowLineData));
@@ -3326,6 +3354,125 @@ $p.separateSettings = function () {
         }).reduce(function (x, y) { return x + y; });
     }
 }
+$p.openSetDateRangeDialog = function ($control) {
+    $control.blur();
+    $p.set($control, $control.val());
+    error = $p.send($control);
+    if (error === 0) {
+        $('#SetDateRangeDialog').dialog({
+            autoOpen: false,
+            modal: true,
+            height: 'auto',
+            width: 'auto',
+            resizable: false,
+            position: { my: 'center top', at: 'center bottom', of: $control }
+        });
+        $('#SetDateRangeDialog').dialog("open");
+    }
+}
+$p.openSiteSetDateRangeDialog = function ($control, timepicker) {
+    $control.blur();
+    $p.openSiteSettingsDialog($control, '#SetDateRangeDialog', 'auto');
+    $target = $('#' + $control.attr('id').replace("_DateRange", ""));
+    var initValue = JSON.parse($target.val() || "null");
+    var startValue = "";
+    var endValue = "";
+    if (Array.isArray(initValue) && initValue.length > 0) {
+        var values = initValue[0].split(',');
+        if (values.length > 0) {
+            startValue = timepicker ? values[0] : values[0].split(' ')[0];
+        }
+        if (values.length > 1) {
+            endValue = timepicker ? values[1] : values[1].split(' ')[0];
+        }
+    }
+    $('#dateRangeStart').val(startValue);
+    $('#dateRangeEnd').val(endValue);
+}
+$p.openSetDateRangeOK = function ($controlID, timepicker) {
+    var sdval = $('#dateRangeStart').val();
+    var edval = $('#dateRangeEnd').val();
+    var setval = "";
+    var dispval = "";
+    if (sdval || edval) {
+        dispval = sdval + "-" + edval;
+        if (!timepicker && sdval) { sdval += " 00:00:00.000"; }
+        if (!timepicker && edval) { edval += " 23:59:59.997"; }
+        setval = '["' + sdval + ',' + edval + '"]';
+    }
+    $control = $('#' + $controlID);
+    $target = $('#' + $controlID.replace("_DateRange", ""));
+    $control.val(dispval);
+    $p.set($target, setval);
+    $('#SetDateRangeDialog').dialog("close");
+    $p.send($target);
+}
+$p.openSetDateRangeClear = function () {
+    $('#dateRangeStart').val("");
+    $('#dateRangeEnd').val("");
+}
+$p.openSetNumericRangeDialog = function ($control) {
+    $control.blur();
+    $p.set($control, $control.val());
+    error = $p.send($control);
+    if (error === 0) {
+        $('#SetNumericRangeDialog').dialog({
+            modal: true,
+            height: 'auto',
+            width: 'auto',
+            resizable: false,
+            position: { my: 'center top', at: 'center bottom', of: $control }
+        });
+    }
+}
+$p.openSiteSetNumericRangeDialog = function ($control) {
+    $control.blur();
+    $p.openSiteSettingsDialog($control, '#SetNumericRangeDialog', 'auto');
+    $target = $('#' + $control.attr('id').replace("_NumericRange", ""));
+    var initValue = JSON.parse($target.val() || "null");
+    var startValue = "";
+    var endValue = "";
+    if (Array.isArray(initValue) && initValue.length > 0) {
+        var values = initValue[0].split(',');
+        if (values.length > 0) {
+            startValue = values[0];
+        }
+        if (values.length > 1) {
+            endValue = values[1];
+        }
+    }
+    $('#numericRangeStart').val(startValue);
+    $('#numericRangeEnd').val(endValue);
+}
+$p.openSetNumericRangeOK = function ($controlID) {
+    $start = $('#numericRangeStart');
+    $end = $('#numericRangeEnd');
+    $start.validate();
+    $end.validate();
+    if (!$start.valid() || !$end.valid()) {
+        $p.setErrorMessage('ValidationError');
+        return false;
+    }
+    $control = $('#' + $controlID);
+    $target = $('#' + $controlID.replace("_NumericRange", ""));
+    var sdval = $("#numericRangeStart").val();
+    var edval = $("#numericRangeEnd").val();
+    var setval = "";
+    var dispval = "";
+    if (sdval || edval) {
+        dispval = sdval + " - " + edval;
+        setval = '["'+ sdval + ',' + edval + '"]';
+    }
+    $control.val(dispval);
+    $p.set($target, setval);
+    $('#SetNumericRangeDialog').dialog("close");
+    $p.send($target);
+}
+$p.openSetNumericRangeClear = function ($control) {
+    $("#numericRangeStart").val("");
+    $("#numericRangeEnd").val("");
+    $p.clearMessage();
+}
 $p.openDeleteSiteDialog = function () {
     $('#DeleteSiteDialog input').val('');
     $('#DeleteSiteDialog').dialog({
@@ -3371,6 +3518,97 @@ $p.openLinkDialog = function () {
         appendTo: '.main-form',
         resizable: false
     });
+}
+$p.openImportSitePackageDialog = function ($control) {
+    error = $p.syncSend($control, 'MainForm');
+    if (error === 0) {
+        $('#ImportSitePackageDialog').dialog({
+            modal: true,
+            width: '520px'
+        });
+    }
+}
+
+$p.importSitePackage = function ($control) {
+    $p.setData($('#IncludeData'));
+    $p.setData($('#IncludeSitePermission'));
+    $p.setData($('#IncludeRecordPermission'));
+    $p.setData($('#IncludeColumnPermission'));
+    var data = new FormData();
+    data.append('file', $('#Import').prop('files')[0]);
+    data.append('IncludeData', $('#IncludeData').prop('checked'));
+    data.append('IncludeSitePermission', $('#IncludeSitePermission').prop('checked'));
+    data.append('IncludeRecordPermission', $('#IncludeRecordPermission').prop('checked'));
+    data.append('IncludeColumnPermission', $('#IncludeColumnPermission').prop('checked'));
+    $p.multiUpload(
+        $('.main-form').attr('action').replace('_action_', $control.attr('data-action')),
+        data,
+        $control);
+}
+
+$p.openExportSitePackageDialog = function ($control) {
+    error = $p.syncSend($control, 'MainForm');
+    if (error === 0) {
+        $('#ExportSitePackageDialog').dialog({
+            modal: true,
+            width: '720px'
+        });
+    }
+}
+
+$p.exportSitePackage = function () {
+    $p.setData($('#SitePackagesSelectable'));
+    $p.setData($('#SitePackagesSelectableAll'));
+    $p.setData($('#SitePackagesSource'));
+    $p.setData($('#UseIndentOption'));
+    $p.setData($('#IncludeSitePermission'));
+    $p.setData($('#IncludeRecordPermission'));
+    $p.setData($('#IncludeColumnPermission'));
+    var data = $p.getData($('#SitePackageForm'));
+    location.href = $('.main-form').attr('action').replace('_action_', 'ExportSitePackage')
+        + '?SitePackagesSelectableAll=' + data.SitePackagesSelectableAll
+        + '&UseIndentOption=' + data.UseIndentOption
+        + '&IncludeSitePermission=' + data.IncludeSitePermission
+        + '&IncludeRecordPermission=' + data.IncludeRecordPermission
+        + '&IncludeColumnPermission=' + data.IncludeColumnPermission;
+    $p.closeDialog($('#ExportSitePackageDialog'));
+    $('#ExportSitePackageDialog').html('');
+}
+
+$p.siteSelected = function ($control, $target) {
+    $control
+        .closest('.container-selectable')
+        .find('.ui-selected[data-value!=' + $('#Id').val() + ']')
+        .appendTo($target);
+    var $itemsContainer = $('#SitePackagesSelectable');
+    var $items = $('#SitePackagesSelectable li');
+    $items.sort(function (a, b) {
+        return parseInt($(a).attr('data-order')) > parseInt($(b).attr('data-order'))
+            ? 1
+            : -1;
+    });
+    $itemsContainer.html('');
+    $items.each(function () {
+        $itemsContainer.append($(this));
+    });
+    $p.setData($target);
+}
+
+$p.setIncludeExportData = function ($control) {
+    $('#SitePackagesSelectable').find('.ui-selected').each(function () {
+        var $selected = $(this);
+        if ($selected.attr('data-value') == undefined) {
+            return true;
+        }
+        var data = $selected.attr('data-value').split('-');
+        var type = $control.attr('id');
+        $selected.attr('data-value', data[0] + '-' + (type === 'IncludeData'));
+        $selected.find('span.include-data').remove();
+        if (type === 'IncludeData') {
+            $selected.append('<span class="include-data">(' + $p.display('IncludeData') + ')</span>');
+        }
+    });
+    $p.setData($('#SitePackagesSelectable'));
 }
 $p.uploadSiteImage = function ($control) {
     var data = new FormData();
@@ -3623,6 +3861,19 @@ $(function () {
         }
     });
 });
+$p.setStartGuide = function (disable, redirect) {
+    var data = {};
+    data.DisableStartGuide = disable;
+    $p.ajax(
+        $('#ApplicationPath').val() + 'Users/SetStartGuide',
+        'POST',
+        data,
+        undefined,
+        true);
+    if (redirect === 1) {
+        location.href = $('#ApplicationPath').val();
+    }
+}
 $(function () {
     $(document).on('change', '.control-dropdown', function () {
         var selectedCss = $(this).find('option:selected').attr('data-class');
@@ -3720,22 +3971,19 @@ $p.drawTimeSeries = function () {
     var minDate = new Date(d3.min(elements, function (d) { return d.Day; }));
     var maxDate = new Date(d3.max(elements, function (d) { return d.Day; }));
     var dayWidth = (bodyWidth - padding) / $p.dateDiff('d', maxDate, minDate);
-    var xScale = d3.time.scale()
+    var xScale = d3.scaleTime()
         .domain([minDate, maxDate])
         .range([padding, bodyWidth]);
-    var yScale = d3.scale.linear()
+    var yScale = d3.scaleLinear()
         .domain([d3.max(elements, function (d) {
             return d.Y;
         }), 0])
         .range([padding, bodyHeight])
         .nice();
-    var xAxis = d3.svg.axis()
-        .scale(xScale)
-        .tickFormat(d3.time.format('%m/%d'))
+    var xAxis = d3.axisBottom(xScale)
+        .tickFormat(d3.timeFormat('%m/%d'))
         .ticks(10);
-    var yAxis = d3.svg.axis()
-        .scale(yScale)
-        .orient('left');
+    var yAxis = d3.axisLeft(yScale);
     svg.append('g')
         .attr('class', 'axis')
         .attr('transform', 'translate(' + axisPaddingX + ', ' + (height - axisPaddingY) + ')')
@@ -3771,7 +4019,7 @@ $p.drawTimeSeries = function () {
     });
 
     function draw(ds) {
-        var area = d3.svg.area()
+        var area = d3.area()
             .x(function (d) {
                 return ($p.dateDiff('d', new Date(d.Day), minDate) * dayWidth)
                     + axisPaddingX + padding;
@@ -4189,124 +4437,4 @@ $p.uploadTenantImage = function ($control) {
         $('.main-form').attr('action').replace('_action_', $control.attr('data-action')),
         data,
         $control);
-}
-
-$p.openSetDateRangeDialog = function ($control) {
-    $control.blur();
-    $p.set($control, $control.val());
-    error = $p.send($control);
-    if (error === 0) {
-        $('#SetDateRangeDialog').dialog({
-            autoOpen: false,
-            modal: true,
-            height: 'auto',
-            width: 'auto',
-            resizable: false,
-            position: { my: 'center top', at: 'center bottom', of: $control }
-        });
-        $('#SetDateRangeDialog').dialog("open");
-    }
-}
-$p.openSiteSetDateRangeDialog = function ($control, timepicker) {
-    $control.blur();
-    $p.openSiteSettingsDialog($control, '#SetDateRangeDialog', 'auto');
-    $target = $('#' + $control.attr('id').replace("_DateRange", ""));
-    var initValue = JSON.parse($target.val() || "null");
-    var startValue = "";
-    var endValue = "";
-    if (Array.isArray(initValue) && initValue.length > 0) {
-        var values = initValue[0].split(',');
-        if (values.length > 0) {
-            startValue = timepicker ? values[0] : values[0].split(' ')[0];
-        }
-        if (values.length > 1) {
-            endValue = timepicker ? values[1] : values[1].split(' ')[0];
-        }
-    }
-    $('#dateRangeStart').val(startValue);
-    $('#dateRangeEnd').val(endValue);
-}
-$p.openSetDateRangeOK = function ($controlID, timepicker) {
-    var sdval = $('#dateRangeStart').val();
-    var edval = $('#dateRangeEnd').val();
-    var setval = "";
-    var dispval = "";
-    if (sdval || edval) {
-        dispval = sdval + "-" + edval;
-        if (!timepicker && sdval) { sdval += " 00:00:00.000"; }
-        if (!timepicker && edval) { edval += " 23:59:59.997"; }
-        setval = '["' + sdval + ',' + edval + '"]';
-    }
-    $control = $('#' + $controlID);
-    $target = $('#' + $controlID.replace("_DateRange", ""));
-    $control.val(dispval);
-    $p.set($target, setval);
-    $('#SetDateRangeDialog').dialog("close");
-    $p.send($target);
-}
-$p.openSetDateRangeClear = function () {
-    $('#dateRangeStart').val("");
-    $('#dateRangeEnd').val("");
-}
-$p.openSetNumericRangeDialog = function ($control) {
-    $control.blur();
-    $p.set($control, $control.val());
-    error = $p.send($control);
-    if (error === 0) {
-        $('#SetNumericRangeDialog').dialog({
-            modal: true,
-            height: 'auto',
-            width: 'auto',
-            resizable: false,
-            position: { my: 'center top', at: 'center bottom', of: $control }
-        });
-    }
-}
-$p.openSiteSetNumericRangeDialog = function ($control) {
-    $control.blur();
-    $p.openSiteSettingsDialog($control, '#SetNumericRangeDialog', 'auto');
-    $target = $('#' + $control.attr('id').replace("_NumericRange", ""));
-    var initValue = JSON.parse($target.val() || "null");
-    var startValue = "";
-    var endValue = "";
-    if (Array.isArray(initValue) && initValue.length > 0) {
-        var values = initValue[0].split(',');
-        if (values.length > 0) {
-            startValue = values[0];
-        }
-        if (values.length > 1) {
-            endValue = values[1];
-        }
-    }
-    $('#numericRangeStart').val(startValue);
-    $('#numericRangeEnd').val(endValue);
-}
-$p.openSetNumericRangeOK = function ($controlID) {
-    $start = $('#numericRangeStart');
-    $end = $('#numericRangeEnd');
-    $start.validate();
-    $end.validate();
-    if (!$start.valid() || !$end.valid()) {
-        $p.setErrorMessage('ValidationError');
-        return false;
-    }
-    $control = $('#' + $controlID);
-    $target = $('#' + $controlID.replace("_NumericRange", ""));
-    var sdval = $("#numericRangeStart").val();
-    var edval = $("#numericRangeEnd").val();
-    var setval = "";
-    var dispval = "";
-    if (sdval || edval) {
-        dispval = sdval + " - " + edval;
-        setval = '["'+ sdval + ',' + edval + '"]';
-    }
-    $control.val(dispval);
-    $p.set($target, setval);
-    $('#SetNumericRangeDialog').dialog("close");
-    $p.send($target);
-}
-$p.openSetNumericRangeClear = function ($control) {
-    $("#numericRangeStart").val("");
-    $("#numericRangeEnd").val("");
-    $p.clearMessage();
 }

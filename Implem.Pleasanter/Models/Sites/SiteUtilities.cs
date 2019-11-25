@@ -134,10 +134,14 @@ namespace Implem.Pleasanter.Models
                         .Id("ExportSelectorDialog")
                         .Class("dialog")
                         .Title(Displays.Export(context: context)))
-                        .Div(attributes: new HtmlAttributes()
-                                .Id("BulkUpdateSelectorDialog")
-                                .Class("dialog")
-                                .Title(Displays.BulkUpdate(context: context))))
+                    .Div(attributes: new HtmlAttributes()
+                        .Id("ExportSitePackageDialog")
+                        .Class("dialog")
+                        .Title(Displays.ExportSitePackage(context: context)))
+                    .Div(attributes: new HtmlAttributes()
+                        .Id("BulkUpdateSelectorDialog")
+                        .Class("dialog")
+                        .Title(Displays.BulkUpdate(context: context))))
                     .ToString();
         }
 
@@ -885,7 +889,7 @@ namespace Implem.Pleasanter.Models
             }
             if (parentId == 0)
             {
-                ss.PermissionType = SiteTopPermission(context: context);
+                ss.PermissionType = context.SiteTopPermission();
             }
             var invalid = SiteValidators.OnCreating(
                 context: context,
@@ -1604,7 +1608,7 @@ namespace Implem.Pleasanter.Models
             }
             if (parentId == 0)
             {
-                ss.PermissionType = SiteTopPermission(context: context);
+                ss.PermissionType = context.SiteTopPermission();
             }
             var invalid = SiteValidators.OnCreating(
                 context: context, ss: ss, siteModel: siteModel);
@@ -1973,7 +1977,7 @@ namespace Implem.Pleasanter.Models
             }
             if (parentId == 0)
             {
-                ss.PermissionType = SiteTopPermission(context: context);
+                ss.PermissionType = context.SiteTopPermission();
             }
             var invalid = SiteValidators.OnCreating(
                 context: context, ss: ss, siteModel: siteModel);
@@ -2018,7 +2022,7 @@ namespace Implem.Pleasanter.Models
                 context: context, referenceId: siteModel.ParentId);
             if (siteModel.ParentId == 0)
             {
-                ss.PermissionType = SiteTopPermission(context: context);
+                ss.PermissionType = context.SiteTopPermission();
             }
             var invalid = SiteValidators.OnCreating(
                 context: context, ss: ss, siteModel: siteModel);
@@ -2059,7 +2063,7 @@ namespace Implem.Pleasanter.Models
         {
             var siteModel = new SiteModel(context: context, siteId: id);
             siteModel.SiteSettings.PermissionType = id == 0
-                ? SiteTopPermission(context: context)
+                ? context.SiteTopPermission()
                 : Permissions.Get(context: context, siteId: id);
             var sourceSiteModel = new SiteModel(
                 context: context, siteId: context.Forms.Long("SiteId"));
@@ -2708,7 +2712,7 @@ namespace Implem.Pleasanter.Models
             var hb = new HtmlBuilder();
             var ss = new SiteSettings();
             ss.ReferenceType = "Sites";
-            ss.PermissionType = SiteTopPermission(context: context);
+            ss.PermissionType = context.SiteTopPermission();
             var verType = Versions.VerTypes.Latest;
             var siteConditions = SiteInfo.TenantCaches
                 .Get(context.TenantId)?
@@ -2740,6 +2744,10 @@ namespace Implem.Pleasanter.Models
                                     siteConditions: siteConditions)
                                 .SiteMenuData()
                                 .LinkDialog(context: context))
+                        .Div(attributes: new HtmlAttributes()
+                            .Id("ImportSitePackageDialog")
+                            .Class("dialog")
+                            .Title(Displays.ImportSitePackage(context: context)))
                         .SiteTitleDialog(
                             context: context,
                             ss: ss)
@@ -2797,6 +2805,14 @@ namespace Implem.Pleasanter.Models
                                     siteConditions: siteConditions)
                                 .SiteMenuData()
                                 .LinkDialog(context: context))
+                        .Div(attributes: new HtmlAttributes()
+                            .Id("ImportSitePackageDialog")
+                            .Class("dialog")
+                            .Title(Displays.ImportSitePackage(context: context)))
+                        .Div(attributes: new HtmlAttributes()
+                            .Id("ExportSitePackageDialog")
+                            .Class("dialog")
+                            .Title(Displays.ExportSitePackage(context: context)))
                         .SiteTitleDialog(
                             context: context,
                             ss: siteModel.SiteSettings);
@@ -2821,10 +2837,12 @@ namespace Implem.Pleasanter.Models
         {
             var ss = siteModel != null
                 ? siteModel.SiteSettings
-                : SiteSettingsUtilities.SitesSiteSettings(context: context, siteId: 0);
+                : SiteSettingsUtilities.SitesSiteSettings(
+                    context: context,
+                    siteId: 0);
             ss.PermissionType = siteModel != null
                 ? siteModel.SiteSettings.PermissionType
-                : SiteTopPermission(context: context);
+                : context.SiteTopPermission();
             return hb.Div(id: "SiteMenu", action: () => hb
                 .Nav(css: "cf", _using: siteModel != null, action: () => hb
                     .Ul(css: "nav-sites", action: () => hb
@@ -3561,6 +3579,11 @@ namespace Implem.Pleasanter.Models
                         .Id("SetDateRangeDialog")
                         .Class("dialog")
                         .Title(Displays.DateRange(context)))
+                .Div(attributes: new HtmlAttributes()
+                    .Id("ExportSelectorDialog")
+                    .Class("dialog")
+                    .Title(Displays.Export(context: context)),
+                    _using: context.ContractSettings.Export != false)
                 .PermissionsDialog(context: context)
                 .PermissionForCreatingDialog(context: context)
                 .ColumnAccessControlDialog(context: context));
@@ -3578,34 +3601,6 @@ namespace Implem.Pleasanter.Models
                     return context.CanManagePermission(ss: siteModel.SiteSettings);
                 default:
                     return false;
-            }
-        }
-
-        /// <summary>
-        /// Fixed:
-        /// </summary>
-        private static string EditorBackUrl(Context context, SiteModel siteModel)
-        {
-            switch (siteModel.ReferenceType)
-            {
-                case "Wikis":
-                    var wikiId = Repository.ExecuteScalar_long(
-                        context: context,
-                        statements: Rds.SelectWikis(
-                            top: 1,
-                            column: Rds.WikisColumn().WikiId(),
-                            where: Rds.WikisWhere().SiteId(siteModel.SiteId)));
-                    return wikiId != 0
-                        ? Locations.ItemEdit(
-                            context: context,
-                            id: wikiId)
-                        : Locations.ItemIndex(
-                            context: context,
-                            id: siteModel.ParentId);
-                default:
-                    return Locations.ItemIndex(
-                        context: context,
-                        id: siteModel.SiteId);
             }
         }
 
@@ -8979,7 +8974,7 @@ namespace Implem.Pleasanter.Models
         /// </summary>
         public static void UpdateApiCount(Context context, SiteSettings ss)
         {
-            Rds.ExecuteNonQuery(
+            Repository.ExecuteNonQuery(
                 context: context,
                 statements: Rds.UpdateSites(
                     where: Rds.SitesWhere()
