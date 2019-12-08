@@ -2,6 +2,7 @@
 using Implem.Libraries.DataSources.SqlServer;
 using Implem.Libraries.Utilities;
 using Implem.Pleasanter.Libraries.DataSources;
+using Implem.Pleasanter.Libraries.General;
 using Implem.Pleasanter.Libraries.Requests;
 using Implem.Pleasanter.Libraries.Security;
 using System.Data;
@@ -14,17 +15,61 @@ namespace Implem.Pleasanter.Libraries.Responses
     {
         public static FileContentResult Download(Context context, string guid)
         {
-            var dataRow = Rds.ExecuteTable(
+            DataRow dataRow = GetBinariesTable(context, guid);
+            return dataRow != null
+                ? new ResponseFile(
+                    new MemoryStream(Bytes(dataRow), false),
+                    dataRow.String("FileName"),
+                    dataRow.String("ContentType")).FileStream()
+                : null;
+        }
+
+        public static ContentResult DownloadByApi(Context context, string guid)
+        {
+            DataRow dataRow = GetBinariesTable(context, guid);
+            return dataRow != null
+                ? new ResponseFile(
+                    new MemoryStream(Bytes(dataRow), false),
+                    dataRow.String("FileName"),
+                    dataRow.String("ContentType"))
+                        .ToContentResult(
+                            id: dataRow.Long("BinaryId"),
+                            referenceId: dataRow.Long("ReferenceId"),
+                            binaryType: dataRow.String("BinaryType"),
+                            guid: dataRow.String("Guid"),
+                            extension: dataRow.String("Extension"),
+                            size: dataRow.Long("Size"),
+                            creator: dataRow.Long("Creator"),
+                            updator: dataRow.Long("Updator"),
+                            createdTime: dataRow.String("CreatedTime"),
+                            updatedTime: dataRow.String("UpdatedTime"))
+                : ApiResults.Error(
+                    context: context,
+                    errorData: new ErrorData(type: Error.Types.NotFound));
+        }
+
+        private static DataRow GetBinariesTable(Context context, string guid)
+        {
+            if (guid.IsNullOrEmpty()) return null;
+            return Rds.ExecuteTable(
                 context: context,
                 statements: new SqlStatement[]
                 {
                     Rds.SelectBinaries(
                         column: Rds.BinariesColumn()
+                            .BinaryId()
+                            .ReferenceId()
                             .Guid()
                             .BinaryType()
                             .Bin()
                             .FileName()
-                            .ContentType(),
+                            .ContentType()
+                            .Extension()
+                            .Size()
+                            .Creator()
+                            .Updator()
+                            .CreatedTime()
+                            .UpdatedTime(),
                         join: Rds.BinariesJoinDefault()
                             .Add(new SqlJoin(
                                 tableBracket: "[Items]",
@@ -43,11 +88,19 @@ namespace Implem.Pleasanter.Libraries.Responses
                                 _using: !context.Publish)),
                     Rds.SelectBinaries(
                         column: Rds.BinariesColumn()
+                            .BinaryId()
+                            .ReferenceId()
                             .Guid()
                             .BinaryType()
                             .Bin()
                             .FileName()
-                            .ContentType(),
+                            .ContentType()
+                            .Extension()
+                            .Size()
+                            .Creator()
+                            .Updator()
+                            .CreatedTime()
+                            .UpdatedTime(),
                         join: Rds.BinariesJoinDefault()
                             .Add(new SqlJoin(
                                 tableBracket: "[Items]",
@@ -61,16 +114,9 @@ namespace Implem.Pleasanter.Libraries.Responses
                             .TenantId(context.TenantId)
                             .Guid(guid)
                             .Add(raw: $"([Binaries].[CreatedTime]=[Binaries].[UpdatedTime] and [Binaries].[Creator]={context.UserId})"),
-                        unionType: Sqls.UnionTypes.UnionAll)
-                })
-                    .AsEnumerable()
-                    .FirstOrDefault();
-            return dataRow != null
-                ? new ResponseFile(
-                    new MemoryStream(Bytes(dataRow), false),
-                    dataRow.String("FileName"),
-                    dataRow.String("ContentType")).FileStream()
-                : null;
+                        unionType: Sqls.UnionTypes.UnionAll)})
+                            .AsEnumerable()
+                            .FirstOrDefault();
         }
 
         private static byte[] Bytes(DataRow dataRow)
@@ -78,7 +124,7 @@ namespace Implem.Pleasanter.Libraries.Responses
             switch (Parameters.BinaryStorage.Provider)
             {
                 case "Local":
-                    return Implem.Libraries.Utilities.Files.Bytes(
+                    return Files.Bytes(
                         Path.Combine(Directories.BinaryStorage(),
                         dataRow.String("BinaryType"),
                         dataRow.String("Guid")));

@@ -213,6 +213,7 @@
     <Compile Include="App_Start\ApiRouteConfig.cs" />
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="Controllers\AdminsController.cs" />
+    <Compile Include="Controllers\Api\BinariesController.cs" />
     <Compile Include="Controllers\Api\DeptsController.cs" />
     <Compile Include="Controllers\Api\GroupsController.cs" />
     <Compile Include="Controllers\Api\ItemsController.cs" />
@@ -1531,6 +1532,13 @@
     <Content Include="App_Data\Displays\SitePackage.json" />
     <Content Include="App_Data\Displays\SitePackageImported.json" />
     <Content Include="App_Data\Displays\UseIndentOption.json" />
+    <Content Include="App_Data\Displays\UseFiltersArea.json" />
+    <Content Include="App_Data\Displays\UseGridHeaderFilters.json" />
+    <Content Include="App_Data\Displays\SaveViewType.json" />
+    <Content Include="App_Data\Displays\SaveViewNone.json" />
+    <Content Include="App_Data\Displays\SaveViewSession.json" />
+    <Content Include="App_Data\Displays\SaveViewUser.json" />
+    <Content Include="App_Data\Displays\ViewSettings.json" />
     <Content Include="Tools\BackgroundTasks.ps1" />
     <Content Include="Tools\SyncByLdap.ps1" />
     <Content Include="Views\Users\EditApi.cshtml" />

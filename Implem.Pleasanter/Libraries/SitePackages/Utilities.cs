@@ -322,6 +322,11 @@ namespace Implem.Pleasanter.Libraries.SitePackages
                         }
                     }
                 }
+                Rds.ExecuteNonQuery(
+                    context: context,
+                    statements: StatusUtilities.UpdateStatus(
+                        tenantId: context.TenantId,
+                        type: StatusUtilities.Types.UsersUpdated));
                 SessionUtilities.Set(
                     context: context,
                     message: Messages.SitePackageImported(

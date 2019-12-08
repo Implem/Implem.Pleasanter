@@ -914,9 +914,18 @@ namespace Implem.Pleasanter.Models
             data.CheckHash?.ForEach(o => Check(
                 columnName: o.Key,
                 value: o.Value));
-            data.AttachmentsHash?.ForEach(o => Attachments(
-                columnName: o.Key,
-                value: o.Value));
+            data.AttachmentsHash?.ForEach(o =>
+            {
+                string columnName = o.Key;
+                Attachments newAttachments = o.Value;
+                Attachments oldAttachments = AttachmentsHash.Get(columnName);
+                if (oldAttachments != null)
+                {
+                    var newGuidSet = new HashSet<string>(newAttachments.Select(x => x.Guid).Distinct());
+                    newAttachments.AddRange(oldAttachments.Where((oldvalue) => !newGuidSet.Contains(oldvalue.Guid)));
+                }
+                Attachments(columnName: columnName, value: newAttachments);
+            });
             SetByFormula(context: context, ss: ss);
             SetChoiceHash(context: context, ss: ss);
         }

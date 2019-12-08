@@ -1247,6 +1247,7 @@ namespace Implem.Pleasanter.Libraries.Settings
         public SqlOrderByCollection OrderBy(
             Context context,
             SiteSettings ss,
+            string itemsTableName = "Items",
             SqlOrderByCollection orderBy = null)
         {
             orderBy = orderBy ?? new SqlOrderByCollection();
@@ -1260,7 +1261,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                             orderBy.Add(new SqlOrderBy(
                                 columnBracket: "[Title]",
                                 orderType: data.Value,
-                                tableName: "Items"));
+                                tableName: itemsTableName));
                             break;
                         default:
                             orderBy.Add(

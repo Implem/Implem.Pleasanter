@@ -13,7 +13,10 @@ namespace Implem.Pleasanter.Controllers.Api
         public async Task<HttpResponseMessage> Get()
         {
             var body = await Request.Content.ReadAsStringAsync();
-            var context = new Context(sessionStatus: false, sessionData: false, apiRequestBody: body);
+            var context = new Context(
+                sessionStatus: User?.Identity?.IsAuthenticated == true,
+                sessionData: User?.Identity?.IsAuthenticated == true,
+                apiRequestBody: body);
             var log = new SysLogModel(context: context);
             var result = context.Authenticated
                 ? new DeptModel().GetByApi(context: context)

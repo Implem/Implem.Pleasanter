@@ -501,7 +501,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                             controlId: "Search",
                             controlCss: " w150 redirect",
                             placeholder: Displays.Search(context: context),
-                            disabled: true))
+                            disabled: !context.Mobile))
                 : hb;
         }
 

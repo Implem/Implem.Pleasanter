@@ -1,0 +1,13 @@
+﻿{
+    "Id": "UseFiltersArea",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Use filters area"
+        },
+        {
+            "Language": "ja",
+            "Body": "フィルタ設定領域を使用する"
+        }
+    ]
+}

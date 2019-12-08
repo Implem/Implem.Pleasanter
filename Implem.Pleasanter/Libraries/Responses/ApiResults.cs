@@ -77,6 +77,14 @@ namespace Implem.Pleasanter.Libraries.Responses
             return Get(ApiResponses.Forbidden(context: context));
         }
 
+        public static ContentResult OverTenantStorageSize(Context context, decimal? maxSize)
+        {
+            var result = Get(ApiResponses.OverTenantStorageSize(
+                context: context,
+                maxSize: maxSize));
+            return result;
+        }
+
         public static HttpResponseMessage ToHttpResponse(this ContentResult self, HttpRequestMessage request)
         {
             var content = Newtonsoft.Json.JsonConvert.DeserializeObject<ApiResponse>(self.Content);

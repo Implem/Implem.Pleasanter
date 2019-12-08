@@ -1983,13 +1983,15 @@ namespace Implem.Pleasanter.Models
                 context: context,
                 ss: ss,
                 join: Rds.ItemsJoin().Add(new SqlJoin(
-                    "[Items]",
-                    SqlJoin.JoinTypes.Inner,
-                    "[Issues].[IssueId]=[Items].[ReferenceId]")),
+                    tableBracket: "[Items]",
+                    joinType: SqlJoin.JoinTypes.Inner,
+                    joinExpression: "[Issues].[IssueId]=[Issues_Items].[ReferenceId]",
+                    _as: "Issues_Items")),
                 where: view.Where(context: context, ss: ss),
                 orderBy: view.OrderBy(
                     context: context,
-                    ss: ss),
+                    ss: ss,
+                    itemsTableName: "Issues_Items"),
                 offset: api.Offset,
                 pageSize: pageSize,
                 tableType: tableType);

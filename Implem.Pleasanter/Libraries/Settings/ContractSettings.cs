@@ -94,6 +94,14 @@ namespace Implem.Pleasanter.Libraries.Settings
                         where: Rds.ItemsWhere().SiteId(siteId))) + number > Items;
         }
 
+        public bool OverTenantStorageSize(
+            decimal totalFileSize, decimal newTotalFileSize, decimal? limit)
+        {
+            if (limit != null &&
+                (totalFileSize + newTotalFileSize) > limit * 1024 * 1024 * 1024) return true;
+            return false;
+        }
+
         public bool Attachments()
         {
             return Parameters.BinaryStorage.Attachments && StorageSize != 0;

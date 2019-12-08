@@ -19,7 +19,7 @@ namespace Implem.Libraries.Utilities
 
         public static string Read(string path)
         {
-            using (var reader = new StreamReader(path, Encoding.GetEncoding("shift_jis")))
+            using (var reader = new StreamReader(path))
             {
                 return reader.ReadToEnd();
             }

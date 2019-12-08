@@ -37,6 +37,13 @@ namespace Implem.Pleasanter.Libraries.Settings
             BroadMatchOfTitle = 30,
         }
 
+        public enum SaveViewTypes : int
+        {
+            None = 0,
+            Session = 1,
+            User = 2
+        }
+
         public decimal Version;
         [NonSerialized]
         public bool Migrated;
@@ -141,6 +148,7 @@ namespace Implem.Pleasanter.Libraries.Settings
         public bool? UseGridHeaderFilters;
         public string TitleSeparator;
         public SearchTypes? SearchType;
+        public SaveViewTypes? SaveViewType;
         public string AddressBook;
         public string MailToDefault;
         public string MailCcDefault;
@@ -252,6 +260,7 @@ namespace Implem.Pleasanter.Libraries.Settings
             UseFiltersArea = UseFiltersArea ?? true;
             UseGridHeaderFilters = UseGridHeaderFilters ?? false;
             SearchType = SearchType ?? SearchTypes.PartialMatch;
+            SaveViewType = SaveViewType ?? SaveViewTypes.Session;
         }
 
         public void SetLinkedSiteSettings(
@@ -627,6 +636,10 @@ namespace Implem.Pleasanter.Libraries.Settings
             if (SearchType != SearchTypes.PartialMatch)
             {
                 ss.SearchType = SearchType;
+            }
+            if(SaveViewType != SaveViewTypes.Session)
+            {
+                ss.SaveViewType = SaveViewType;
             }
             if (!LinkColumns.SequenceEqual(DefaultLinkColumns(context: context)))
             {
@@ -2464,6 +2477,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                 case "UseGridHeaderFilters": UseGridHeaderFilters = value.ToBool(); break;
                 case "ImageLibPageSize": ImageLibPageSize = value.ToInt(); break;
                 case "SearchType": SearchType = (SearchTypes)value.ToInt(); break;
+                case "SaveViewType": SaveViewType = (SaveViewTypes)value.ToInt(); break;
                 case "AddressBook": AddressBook = value; break;
                 case "MailToDefault": MailToDefault = value; break;
                 case "MailCcDefault": MailCcDefault = value; break;

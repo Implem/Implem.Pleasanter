@@ -145,7 +145,10 @@ namespace Implem.Pleasanter.Models
             SetSite(context: context);
             if (!WithinApiLimits(context: context, siteModel: Site))
             {
-                return ApiResults.Get(ApiResponses.OverLimit(context: context, Site.SiteId, Parameters.Api.LimitPerSite));
+                return ApiResults.Get(ApiResponses.OverLimitApi(
+                    context: context,
+                    siteId: Site.SiteId,
+                    limitPerSite: Parameters.Api.LimitPerSite));
             }
             switch (Site.ReferenceType)
             {
@@ -1389,7 +1392,10 @@ namespace Implem.Pleasanter.Models
             SetSite(context: context);
             if (!WithinApiLimits(context: context, siteModel: Site))
             {
-                return ApiResults.Get(ApiResponses.OverLimit(context: context, Site.SiteId, Parameters.Api.LimitPerSite));
+                return ApiResults.Get(ApiResponses.OverLimitApi(
+                    context: context,
+                    siteId: Site.SiteId,
+                    limitPerSite: Parameters.Api.LimitPerSite));
             }
             switch (Site.ReferenceType)
             {
@@ -1434,7 +1440,7 @@ namespace Implem.Pleasanter.Models
                             internalRequest: internalRequest);
                     }
                 default:
-                    return ApiResults.Get(ApiResponses.BadRequest(context: context));
+                    return ApiResults.Get(ApiResponses.NotFound(context: context));
             }
         }
 
@@ -1485,7 +1491,10 @@ namespace Implem.Pleasanter.Models
             SetSite(context: context);
             if (!WithinApiLimits(context: context, siteModel: Site))
             {
-                return ApiResults.Get(ApiResponses.OverLimit(context: context, Site.SiteId, Parameters.Api.LimitPerSite));
+                return ApiResults.Get(ApiResponses.OverLimitApi(
+                    context: context,
+                    siteId: Site.SiteId,
+                    limitPerSite: Parameters.Api.LimitPerSite));
             }
             switch (Site.ReferenceType)
             {
@@ -1502,7 +1511,7 @@ namespace Implem.Pleasanter.Models
                             context: context,
                             referenceId: ReferenceId));
                 default:
-                    return ApiResults.Get(ApiResponses.BadRequest(context: context));
+                    return ApiResults.Get(ApiResponses.NotFound(context: context));
             }
         }
 
@@ -1683,7 +1692,10 @@ namespace Implem.Pleasanter.Models
             SetSite(context: context);
             if (!WithinApiLimits(context: context, siteModel: Site))
             {
-                return ApiResults.Get(ApiResponses.OverLimit(context: context, Site.SiteId, Parameters.Api.LimitPerSite));
+                return ApiResults.Get(ApiResponses.OverLimitApi(
+                    context: context,
+                    siteId: Site.SiteId,
+                    limitPerSite: Parameters.Api.LimitPerSite));
             }
             switch (Site.ReferenceType)
             {
@@ -1702,7 +1714,7 @@ namespace Implem.Pleasanter.Models
                             referenceId: ReferenceId),
                         resultId: ReferenceId);
                 default:
-                    return ApiResults.Get(ApiResponses.BadRequest(context: context));
+                    return ApiResults.Get(ApiResponses.NotFound(context: context));
             }
         }
 
@@ -1873,7 +1885,10 @@ namespace Implem.Pleasanter.Models
             SetSite(context: context);
             if (!WithinApiLimits(context: context, siteModel: Site))
             {
-                return ApiResults.Get(ApiResponses.OverLimit(context: context, Site.SiteId, Parameters.Api.LimitPerSite));
+                return ApiResults.Get(ApiResponses.OverLimitApi(
+                    context: context,
+                    siteId: Site.SiteId,
+                    limitPerSite: Parameters.Api.LimitPerSite));
             }
             switch (Site.ReferenceType)
             {
@@ -1892,7 +1907,7 @@ namespace Implem.Pleasanter.Models
                             referenceId: ReferenceId),
                         resultId: ReferenceId);
                 default:
-                    return ApiResults.Get(ApiResponses.BadRequest(context: context));
+                    return ApiResults.Get(ApiResponses.NotFound(context: context));
             }
         }
 

@@ -25,6 +25,7 @@ namespace Implem.Pleasanter.Libraries.Requests
         public bool SwitchUser;
         public string SessionGuid = Strings.NewGuid();
         public Dictionary<string, string> SessionData = new Dictionary<string, string>();
+        public Dictionary<string, string> UserSessionData = new Dictionary<string, string>();
         public bool Publish;
         public QueryStrings QueryStrings = new QueryStrings();
         public Forms Forms = new Forms();
@@ -247,6 +248,10 @@ namespace Implem.Pleasanter.Libraries.Requests
                 {
                     if (sessionStatus) Language = SessionLanguage();
                 }
+                UserSessionData = SessionUtilities.Get(
+                    context: this,
+                    includeUserArea: Controller == "sessions",
+                    sessionGuid: "@" + UserId);
             }
         }
 

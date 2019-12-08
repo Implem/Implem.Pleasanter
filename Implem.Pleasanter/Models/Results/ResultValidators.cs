@@ -4,6 +4,7 @@ using Implem.Pleasanter.Libraries.General;
 using Implem.Pleasanter.Libraries.Requests;
 using Implem.Pleasanter.Libraries.Security;
 using Implem.Pleasanter.Libraries.Settings;
+using System.Collections.Generic;
 using System.Linq;
 namespace Implem.Pleasanter.Models
 {
@@ -17,7 +18,9 @@ namespace Implem.Pleasanter.Models
             }
             return context.HasPermission(ss: ss)
                 ? new ErrorData(type: Error.Types.None)
-                : new ErrorData(type: Error.Types.HasNotPermission);
+                : !context.CanRead(ss: ss)
+                    ? new ErrorData(type: Error.Types.NotFound)
+                    : new ErrorData(type: Error.Types.HasNotPermission);
         }
 
         public static ErrorData OnReading(Context context, SiteSettings ss, bool api = false)
@@ -49,7 +52,9 @@ namespace Implem.Pleasanter.Models
                 case BaseModel.MethodTypes.New:
                     return context.CanCreate(ss: ss)
                         ? new ErrorData(type: Error.Types.None)
-                        : new ErrorData(type: Error.Types.HasNotPermission);
+                        : !context.CanRead(ss: ss)
+                            ? new ErrorData(type: Error.Types.NotFound)
+                            : new ErrorData(type: Error.Types.HasNotPermission);
                 default:
                     return new ErrorData(type: Error.Types.NotFound);
             }
@@ -64,7 +69,9 @@ namespace Implem.Pleasanter.Models
             }
             if (!context.CanCreate(ss: ss))
             {
-                return new ErrorData(type: Error.Types.HasNotPermission);
+                return !context.CanRead(ss: ss)
+                    ? new ErrorData(type: Error.Types.NotFound)
+                    : new ErrorData(type: Error.Types.HasNotPermission);
             }
             ss.SetColumnAccessControls(context: context, mine: resultModel.Mine(context: context));
             foreach (var column in ss.Columns
@@ -171,6 +178,14 @@ namespace Implem.Pleasanter.Models
                         break;
                 }
             }
+            var errorData = OnAttaching(
+                context: context,
+                ss: ss,
+                resultModel: resultModel);
+            if (errorData.Type != Error.Types.None)
+            {
+                return errorData;
+            }
             return new ErrorData(type: Error.Types.None);
         }
 
@@ -183,7 +198,9 @@ namespace Implem.Pleasanter.Models
             }
             if (!context.CanUpdate(ss: ss))
             {
-                return new ErrorData(type: Error.Types.HasNotPermission);
+                return !context.CanRead(ss: ss)
+                    ? new ErrorData(type: Error.Types.NotFound)
+                    : new ErrorData(type: Error.Types.HasNotPermission);
             }
             ss.SetColumnAccessControls(context: context, mine: resultModel.Mine(context: context));
             foreach (var column in ss.Columns
@@ -289,6 +306,14 @@ namespace Implem.Pleasanter.Models
                         break;
                 }
             }
+            var errorData = OnAttaching(
+                context: context,
+                ss: ss,
+                resultModel: resultModel);
+            if (errorData.Type != Error.Types.None)
+            {
+                return errorData;
+            }
             return new ErrorData(type: Error.Types.None);
         }
 
@@ -311,7 +336,9 @@ namespace Implem.Pleasanter.Models
             }
             return context.CanDelete(ss: ss)
                 ? new ErrorData(type: Error.Types.None)
-                : new ErrorData(type: Error.Types.HasNotPermission);
+                : !context.CanRead(ss: ss)
+                    ? new ErrorData(type: Error.Types.NotFound)
+                    : new ErrorData(type: Error.Types.HasNotPermission);
         }
 
         public static ErrorData OnRestoring(Context context, bool api = false)
@@ -333,7 +360,47 @@ namespace Implem.Pleasanter.Models
             }
             return context.CanExport(ss: ss)
                 ? new ErrorData(type: Error.Types.None)
-                : new ErrorData(type: Error.Types.HasNotPermission);
+                : !context.CanRead(ss: ss)
+                    ? new ErrorData(type: Error.Types.NotFound)
+                    : new ErrorData(type: Error.Types.HasNotPermission);
+        }
+
+        private static ErrorData OnAttaching(
+            Context context, SiteSettings ss, ResultModel resultModel)
+        {
+            foreach (var column in ss.Columns.Where(o => o.TypeCs == "Attachments"))
+            {
+                if (resultModel.Attachments_Updated(
+                    columnName: column.Name,
+                    context: context,
+                    column: column))
+                {
+                    var invalid = BinaryValidators.OnUploading(
+                        context: context,
+                        ss: ss,
+                        attachmentsHash: resultModel.AttachmentsHash);
+                    switch (invalid)
+                    {
+                        case Error.Types.OverLimitQuantity:
+                            return new ErrorData(
+                                type: Error.Types.OverLimitQuantity,
+                                data: column.LimitQuantity.ToInt().ToString());
+                        case Error.Types.OverLimitSize:
+                            return new ErrorData(
+                                type: Error.Types.OverLimitSize,
+                                data: column.LimitSize.ToInt().ToString());
+                        case Error.Types.OverTotalLimitSize:
+                            return new ErrorData(
+                                type: Error.Types.OverTotalLimitSize,
+                                data: column.TotalLimitSize.ToInt().ToString());
+                        case Error.Types.OverTenantStorageSize:
+                            return new ErrorData(
+                                type: Error.Types.OverTenantStorageSize,
+                                data: context.ContractSettings.StorageSize.ToInt().ToString());
+                    }
+                }
+            }
+            return new ErrorData(type: Error.Types.None);
         }
     }
 }

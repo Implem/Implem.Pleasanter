@@ -5288,6 +5288,46 @@ namespace Implem.Pleasanter.Libraries.Responses
                 data: data);
         }
 
+        public static string SaveViewNone(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "SaveViewNone",
+                data: data);
+        }
+
+        public static string SaveViewSession(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "SaveViewSession",
+                data: data);
+        }
+
+        public static string SaveViewType(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "SaveViewType",
+                data: data);
+        }
+
+        public static string SaveViewUser(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "SaveViewUser",
+                data: data);
+        }
+
         public static string Script(
             Context context,
             params string[] data)
@@ -6408,6 +6448,16 @@ namespace Implem.Pleasanter.Libraries.Responses
                 data: data);
         }
 
+        public static string UseFiltersArea(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "UseFiltersArea",
+                data: data);
+        }
+
         public static string UseFy(
             Context context,
             params string[] data)
@@ -6415,6 +6465,16 @@ namespace Implem.Pleasanter.Libraries.Responses
             return Get(
                 context: context,
                 id: "UseFy",
+                data: data);
+        }
+
+        public static string UseGridHeaderFilters(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "UseGridHeaderFilters",
                 data: data);
         }
 
@@ -6665,6 +6725,16 @@ namespace Implem.Pleasanter.Libraries.Responses
             return Get(
                 context: context,
                 id: "ViewDemoEnvironment",
+                data: data);
+        }
+
+        public static string ViewSettings(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "ViewSettings",
                 data: data);
         }
 

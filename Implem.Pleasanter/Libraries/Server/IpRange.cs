@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-
-namespace Implem.Pleasanter.Libraries.Server
+﻿namespace Implem.Pleasanter.Libraries.Server
 {
     public class IpRange
     {
@@ -25,6 +20,7 @@ namespace Implem.Pleasanter.Libraries.Server
             Start = start;
             End = end;
         }
+
         public bool InRange(uint ipNum)
         {
             return Start.Value <= ipNum && ipNum <= End.Value;
@@ -56,7 +52,6 @@ namespace Implem.Pleasanter.Libraries.Server
                 maskbits = 32;
             }
             uint mask = 0xffffffff << (32 - maskbits);
-
             return new IpRange()
             {
                 Start = new IpAddress(ip.Value & mask),

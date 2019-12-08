@@ -1,16 +1,17 @@
 ﻿using Implem.Libraries.Utilities;
 using Implem.ParameterAccessor.Parts;
-using Implem.Pleasanter.Libraries.Html;
 using Implem.Pleasanter.Libraries.Requests;
 using System.Linq;
 namespace Implem.Pleasanter.Libraries.Responses
 {
     public static class Messages
     {
-        private static Message Get(string text, string css)
+        private static Message Get(string id, string text, string css)
         {
-            var hb = new HtmlBuilder();
-            return new Message(text, css);
+            return new Message(
+                id: id,
+                text: text,
+                css: css);
         }
 
         private static ResponseCollection ResponseMessage(Message message, string target = null)
@@ -24,6 +25,7 @@ namespace Implem.Pleasanter.Libraries.Responses
         {
             return new ResponseCollection().Message(policy.Languages?.Any() == true
                 ? new Message(
+                    id: null,
                     text: policy.Display(context: context),
                     css: "alert-error")
                 : PasswordPolicyViolation(context: context));
@@ -32,6 +34,7 @@ namespace Implem.Pleasanter.Libraries.Responses
         public static Message AlreadyAdded(Context context, params string[] data)
         {
             return Get(
+                id: "AlreadyAdded",
                 text: Displays.AlreadyAdded(
                     context: context,
                     data: data),
@@ -41,6 +44,7 @@ namespace Implem.Pleasanter.Libraries.Responses
         public static Message AlreadyLinked(Context context, params string[] data)
         {
             return Get(
+                id: "AlreadyLinked",
                 text: Displays.AlreadyLinked(
                     context: context,
                     data: data),
@@ -50,6 +54,7 @@ namespace Implem.Pleasanter.Libraries.Responses
         public static Message ApiKeyCreated(Context context, params string[] data)
         {
             return Get(
+                id: "ApiKeyCreated",
                 text: Displays.ApiKeyCreated(
                     context: context,
                     data: data),
@@ -59,6 +64,7 @@ namespace Implem.Pleasanter.Libraries.Responses
         public static Message ApiKeyDeleted(Context context, params string[] data)
         {
             return Get(
+                id: "ApiKeyDeleted",
                 text: Displays.ApiKeyDeleted(
                     context: context,
                     data: data),
@@ -68,6 +74,7 @@ namespace Implem.Pleasanter.Libraries.Responses
         public static Message ApplicationError(Context context, params string[] data)
         {
             return Get(
+                id: "ApplicationError",
                 text: Displays.ApplicationError(
                     context: context,
                     data: data),
@@ -77,6 +84,7 @@ namespace Implem.Pleasanter.Libraries.Responses
         public static Message ApprovalMessage(Context context, params string[] data)
         {
             return Get(
+                id: "ApprovalMessage",
                 text: Displays.ApprovalMessage(
                     context: context,
                     data: data),
@@ -86,6 +94,7 @@ namespace Implem.Pleasanter.Libraries.Responses
         public static Message ApprovalMessageInvited(Context context, params string[] data)
         {
             return Get(
+                id: "ApprovalMessageInvited",
                 text: Displays.ApprovalMessageInvited(
                     context: context,
                     data: data),
@@ -95,6 +104,7 @@ namespace Implem.Pleasanter.Libraries.Responses
         public static Message ApprovalMessageInviting(Context context, params string[] data)
         {
             return Get(
+                id: "ApprovalMessageInviting",
                 text: Displays.ApprovalMessageInviting(
                     context: context,
                     data: data),
@@ -104,6 +114,7 @@ namespace Implem.Pleasanter.Libraries.Responses
         public static Message ApprovalRequestMessage(Context context, params string[] data)
         {
             return Get(
+                id: "ApprovalRequestMessage",
                 text: Displays.ApprovalRequestMessage(
                     context: context,
                     data: data),
@@ -113,6 +124,7 @@ namespace Implem.Pleasanter.Libraries.Responses
         public static Message ApprovalRequestMessageRequesting(Context context, params string[] data)
         {
             return Get(
+                id: "ApprovalRequestMessageRequesting",
                 text: Displays.ApprovalRequestMessageRequesting(
                     context: context,
                     data: data),
@@ -122,6 +134,7 @@ namespace Implem.Pleasanter.Libraries.Responses
         public static Message Authentication(Context context, params string[] data)
         {
             return Get(
+                id: "Authentication",
                 text: Displays.Authentication(
                     context: context,
                     data: data),
@@ -131,6 +144,7 @@ namespace Implem.Pleasanter.Libraries.Responses
         public static Message BadFormat(Context context, params string[] data)
         {
             return Get(
+                id: "BadFormat",
                 text: Displays.BadFormat(
                     context: context,
                     data: data),
@@ -140,6 +154,7 @@ namespace Implem.Pleasanter.Libraries.Responses
         public static Message BadMailAddress(Context context, params string[] data)
         {
             return Get(
+                id: "BadMailAddress",
                 text: Displays.BadMailAddress(
                     context: context,
                     data: data),
@@ -149,6 +164,7 @@ namespace Implem.Pleasanter.Libraries.Responses
         public static Message BadRequest(Context context, params string[] data)
         {
             return Get(
+                id: "BadRequest",
                 text: Displays.BadRequest(
                     context: context,
                     data: data),
@@ -158,6 +174,7 @@ namespace Implem.Pleasanter.Libraries.Responses
         public static Message BulkDeleted(Context context, params string[] data)
         {
             return Get(
+                id: "BulkDeleted",
                 text: Displays.BulkDeleted(
                     context: context,
                     data: data),
@@ -167,6 +184,7 @@ namespace Implem.Pleasanter.Libraries.Responses
         public static Message BulkMoved(Context context, params string[] data)
         {
             return Get(
+                id: "BulkMoved",
                 text: Displays.BulkMoved(
                     context: context,
                     data: data),
@@ -176,6 +194,7 @@ namespace Implem.Pleasanter.Libraries.Responses
         public static Message BulkRestored(Context context, params string[] data)
         {
             return Get(
+                id: "BulkRestored",
                 text: Displays.BulkRestored(
                     context: context,
                     data: data),
@@ -185,6 +204,7 @@ namespace Implem.Pleasanter.Libraries.Responses
         public static Message BulkUpdated(Context context, params string[] data)
         {
             return Get(
+                id: "BulkUpdated",
                 text: Displays.BulkUpdated(
                     context: context,
                     data: data),
@@ -194,6 +214,7 @@ namespace Implem.Pleasanter.Libraries.Responses
         public static Message CanNotChangeInheritance(Context context, params string[] data)
         {
             return Get(
+                id: "CanNotChangeInheritance",
                 text: Displays.CanNotChangeInheritance(
                     context: context,
                     data: data),
@@ -203,6 +224,7 @@ namespace Implem.Pleasanter.Libraries.Responses
         public static Message CanNotDisabled(Context context, params string[] data)
         {
             return Get(
+                id: "CanNotDisabled",
                 text: Displays.CanNotDisabled(
                     context: context,
                     data: data),
@@ -212,6 +234,7 @@ namespace Implem.Pleasanter.Libraries.Responses
         public static Message CanNotInherit(Context context, params string[] data)
         {
             return Get(
+                id: "CanNotInherit",
                 text: Displays.CanNotInherit(
                     context: context,
                     data: data),
@@ -221,6 +244,7 @@ namespace Implem.Pleasanter.Libraries.Responses
         public static Message CanNotLink(Context context, params string[] data)
         {
             return Get(
+                id: "CanNotLink",
                 text: Displays.CanNotLink(
                     context: context,
                     data: data),
@@ -230,6 +254,7 @@ namespace Implem.Pleasanter.Libraries.Responses
         public static Message CanNotPerformed(Context context, params string[] data)
         {
             return Get(
+                id: "CanNotPerformed",
                 text: Displays.CanNotPerformed(
                     context: context,
                     data: data),
@@ -239,6 +264,7 @@ namespace Implem.Pleasanter.Libraries.Responses
         public static Message CanNotUpdate(Context context, params string[] data)
         {
             return Get(
+                id: "CanNotUpdate",
                 text: Displays.CanNotUpdate(
                     context: context,
                     data: data),
@@ -248,6 +274,7 @@ namespace Implem.Pleasanter.Libraries.Responses
         public static Message CantSetAtTopOfSite(Context context, params string[] data)
         {
             return Get(
+                id: "CantSetAtTopOfSite",
                 text: Displays.CantSetAtTopOfSite(
                     context: context,
                     data: data),
@@ -257,6 +284,7 @@ namespace Implem.Pleasanter.Libraries.Responses
         public static Message ChangingPasswordComplete(Context context, params string[] data)
         {
             return Get(
+                id: "ChangingPasswordComplete",
                 text: Displays.ChangingPasswordComplete(
                     context: context,
                     data: data),
@@ -266,6 +294,7 @@ namespace Implem.Pleasanter.Libraries.Responses
         public static Message CodeDefinerBackupCompleted(Context context, params string[] data)
         {
             return Get(
+                id: "CodeDefinerBackupCompleted",
                 text: Displays.CodeDefinerBackupCompleted(
                     context: context,
                     data: data),
@@ -275,6 +304,7 @@ namespace Implem.Pleasanter.Libraries.Responses
         public static Message CodeDefinerCompleted(Context context, params string[] data)
         {
             return Get(
+                id: "CodeDefinerCompleted",
                 text: Displays.CodeDefinerCompleted(
                     context: context,
                     data: data),
@@ -284,6 +314,7 @@ namespace Implem.Pleasanter.Libraries.Responses
         public static Message CodeDefinerCssCompleted(Context context, params string[] data)
         {
             return Get(
+                id: "CodeDefinerCssCompleted",
                 text: Displays.CodeDefinerCssCompleted(
                     context: context,
                     data: data),
@@ -293,6 +324,7 @@ namespace Implem.Pleasanter.Libraries.Responses
         public static Message CodeDefinerDefCompleted(Context context, params string[] data)
         {
             return Get(
+                id: "CodeDefinerDefCompleted",
                 text: Displays.CodeDefinerDefCompleted(
                     context: context,
                     data: data),
@@ -302,6 +334,7 @@ namespace Implem.Pleasanter.Libraries.Responses
         public static Message CodeDefinerErrorCount(Context context, params string[] data)
         {
             return Get(
+                id: "CodeDefinerErrorCount",
                 text: Displays.CodeDefinerErrorCount(
                     context: context,
                     data: data),
@@ -311,6 +344,7 @@ namespace Implem.Pleasanter.Libraries.Responses
         public static Message CodeDefinerInsertTestDataCompleted(Context context, params string[] data)
         {
             return Get(
+                id: "CodeDefinerInsertTestDataCompleted",
                 text: Displays.CodeDefinerInsertTestDataCompleted(
                     context: context,
                     data: data),
@@ -320,6 +354,7 @@ namespace Implem.Pleasanter.Libraries.Responses
         public static Message CodeDefinerMvcCompleted(Context context, params string[] data)
         {
             return Get(
+                id: "CodeDefinerMvcCompleted",
                 text: Displays.CodeDefinerMvcCompleted(
                     context: context,
                     data: data),
@@ -329,6 +364,7 @@ namespace Implem.Pleasanter.Libraries.Responses
         public static Message CodeDefinerRdsCompleted(Context context, params string[] data)
         {
             return Get(
+                id: "CodeDefinerRdsCompleted",
                 text: Displays.CodeDefinerRdsCompleted(
                     context: context,
                     data: data),
@@ -338,6 +374,7 @@ namespace Implem.Pleasanter.Libraries.Responses
         public static Message CommentDeleted(Context context, params string[] data)
         {
             return Get(
+                id: "CommentDeleted",
                 text: Displays.CommentDeleted(
                     context: context,
                     data: data),
@@ -347,6 +384,7 @@ namespace Implem.Pleasanter.Libraries.Responses
         public static Message Copied(Context context, params string[] data)
         {
             return Get(
+                id: "Copied",
                 text: Displays.Copied(
                     context: context,
                     data: data),
@@ -356,6 +394,7 @@ namespace Implem.Pleasanter.Libraries.Responses
         public static Message Created(Context context, params string[] data)
         {
             return Get(
+                id: "Created",
                 text: Displays.Created(
                     context: context,
                     data: data),
@@ -365,6 +404,7 @@ namespace Implem.Pleasanter.Libraries.Responses
         public static Message DefinitionNotFound(Context context, params string[] data)
         {
             return Get(
+                id: "DefinitionNotFound",
                 text: Displays.DefinitionNotFound(
                     context: context,
                     data: data),
@@ -374,6 +414,7 @@ namespace Implem.Pleasanter.Libraries.Responses
         public static Message DeleteConflicts(Context context, params string[] data)
         {
             return Get(
+                id: "DeleteConflicts",
                 text: Displays.DeleteConflicts(
                     context: context,
                     data: data),
@@ -383,6 +424,7 @@ namespace Implem.Pleasanter.Libraries.Responses
         public static Message Deleted(Context context, params string[] data)
         {
             return Get(
+                id: "Deleted",
                 text: Displays.Deleted(
                     context: context,
                     data: data),
@@ -392,6 +434,7 @@ namespace Implem.Pleasanter.Libraries.Responses
         public static Message DeletedImage(Context context, params string[] data)
         {
             return Get(
+                id: "DeletedImage",
                 text: Displays.DeletedImage(
                     context: context,
                     data: data),
@@ -401,6 +444,7 @@ namespace Implem.Pleasanter.Libraries.Responses
         public static Message Duplicated(Context context, params string[] data)
         {
             return Get(
+                id: "Duplicated",
                 text: Displays.Duplicated(
                     context: context,
                     data: data),
@@ -410,6 +454,7 @@ namespace Implem.Pleasanter.Libraries.Responses
         public static Message EmptyUserName(Context context, params string[] data)
         {
             return Get(
+                id: "EmptyUserName",
                 text: Displays.EmptyUserName(
                     context: context,
                     data: data),
@@ -419,6 +464,7 @@ namespace Implem.Pleasanter.Libraries.Responses
         public static Message Expired(Context context, params string[] data)
         {
             return Get(
+                id: "Expired",
                 text: Displays.Expired(
                     context: context,
                     data: data),
@@ -428,6 +474,7 @@ namespace Implem.Pleasanter.Libraries.Responses
         public static Message ExportAccepted(Context context, params string[] data)
         {
             return Get(
+                id: "ExportAccepted",
                 text: Displays.ExportAccepted(
                     context: context,
                     data: data),
@@ -437,6 +484,7 @@ namespace Implem.Pleasanter.Libraries.Responses
         public static Message ExportNotSetEmail(Context context, params string[] data)
         {
             return Get(
+                id: "ExportNotSetEmail",
                 text: Displays.ExportNotSetEmail(
                     context: context,
                     data: data),
@@ -446,6 +494,7 @@ namespace Implem.Pleasanter.Libraries.Responses
         public static Message ExternalMailAddress(Context context, params string[] data)
         {
             return Get(
+                id: "ExternalMailAddress",
                 text: Displays.ExternalMailAddress(
                     context: context,
                     data: data),
@@ -455,6 +504,7 @@ namespace Implem.Pleasanter.Libraries.Responses
         public static Message FailedReadFile(Context context, params string[] data)
         {
             return Get(
+                id: "FailedReadFile",
                 text: Displays.FailedReadFile(
                     context: context,
                     data: data),
@@ -464,6 +514,7 @@ namespace Implem.Pleasanter.Libraries.Responses
         public static Message FileDeleteCompleted(Context context, params string[] data)
         {
             return Get(
+                id: "FileDeleteCompleted",
                 text: Displays.FileDeleteCompleted(
                     context: context,
                     data: data),
@@ -473,6 +524,7 @@ namespace Implem.Pleasanter.Libraries.Responses
         public static Message FileDragDrop(Context context, params string[] data)
         {
             return Get(
+                id: "FileDragDrop",
                 text: Displays.FileDragDrop(
                     context: context,
                     data: data),
@@ -482,6 +534,7 @@ namespace Implem.Pleasanter.Libraries.Responses
         public static Message FileNotFound(Context context, params string[] data)
         {
             return Get(
+                id: "FileNotFound",
                 text: Displays.FileNotFound(
                     context: context,
                     data: data),
@@ -491,6 +544,7 @@ namespace Implem.Pleasanter.Libraries.Responses
         public static Message FileUpdateCompleted(Context context, params string[] data)
         {
             return Get(
+                id: "FileUpdateCompleted",
                 text: Displays.FileUpdateCompleted(
                     context: context,
                     data: data),
@@ -500,6 +554,7 @@ namespace Implem.Pleasanter.Libraries.Responses
         public static Message HasBeenDeleted(Context context, params string[] data)
         {
             return Get(
+                id: "HasBeenDeleted",
                 text: Displays.HasBeenDeleted(
                     context: context,
                     data: data),
@@ -509,6 +564,7 @@ namespace Implem.Pleasanter.Libraries.Responses
         public static Message HasBeenMoved(Context context, params string[] data)
         {
             return Get(
+                id: "HasBeenMoved",
                 text: Displays.HasBeenMoved(
                     context: context,
                     data: data),
@@ -518,6 +574,7 @@ namespace Implem.Pleasanter.Libraries.Responses
         public static Message HasNotPermission(Context context, params string[] data)
         {
             return Get(
+                id: "HasNotPermission",
                 text: Displays.HasNotPermission(
                     context: context,
                     data: data),
@@ -527,6 +584,7 @@ namespace Implem.Pleasanter.Libraries.Responses
         public static Message HistoryDeleted(Context context, params string[] data)
         {
             return Get(
+                id: "HistoryDeleted",
                 text: Displays.HistoryDeleted(
                     context: context,
                     data: data),
@@ -536,6 +594,7 @@ namespace Implem.Pleasanter.Libraries.Responses
         public static Message Imported(Context context, params string[] data)
         {
             return Get(
+                id: "Imported",
                 text: Displays.Imported(
                     context: context,
                     data: data),
@@ -545,6 +604,7 @@ namespace Implem.Pleasanter.Libraries.Responses
         public static Message ImportMax(Context context, params string[] data)
         {
             return Get(
+                id: "ImportMax",
                 text: Displays.ImportMax(
                     context: context,
                     data: data),
@@ -554,6 +614,7 @@ namespace Implem.Pleasanter.Libraries.Responses
         public static Message InCompression(Context context, params string[] data)
         {
             return Get(
+                id: "InCompression",
                 text: Displays.InCompression(
                     context: context,
                     data: data),
@@ -563,6 +624,7 @@ namespace Implem.Pleasanter.Libraries.Responses
         public static Message InCopying(Context context, params string[] data)
         {
             return Get(
+                id: "InCopying",
                 text: Displays.InCopying(
                     context: context,
                     data: data),
@@ -572,6 +634,7 @@ namespace Implem.Pleasanter.Libraries.Responses
         public static Message IncorrectCurrentPassword(Context context, params string[] data)
         {
             return Get(
+                id: "IncorrectCurrentPassword",
                 text: Displays.IncorrectCurrentPassword(
                     context: context,
                     data: data),
@@ -581,6 +644,7 @@ namespace Implem.Pleasanter.Libraries.Responses
         public static Message IncorrectFileFormat(Context context, params string[] data)
         {
             return Get(
+                id: "IncorrectFileFormat",
                 text: Displays.IncorrectFileFormat(
                     context: context,
                     data: data),
@@ -590,6 +654,7 @@ namespace Implem.Pleasanter.Libraries.Responses
         public static Message IncorrectSiteDeleting(Context context, params string[] data)
         {
             return Get(
+                id: "IncorrectSiteDeleting",
                 text: Displays.IncorrectSiteDeleting(
                     context: context,
                     data: data),
@@ -599,6 +664,7 @@ namespace Implem.Pleasanter.Libraries.Responses
         public static Message InputMailAddress(Context context, params string[] data)
         {
             return Get(
+                id: "InputMailAddress",
                 text: Displays.InputMailAddress(
                     context: context,
                     data: data),
@@ -608,6 +674,7 @@ namespace Implem.Pleasanter.Libraries.Responses
         public static Message InternalServerError(Context context, params string[] data)
         {
             return Get(
+                id: "InternalServerError",
                 text: Displays.InternalServerError(
                     context: context,
                     data: data),
@@ -617,6 +684,7 @@ namespace Implem.Pleasanter.Libraries.Responses
         public static Message InvalidCsvData(Context context, params string[] data)
         {
             return Get(
+                id: "InvalidCsvData",
                 text: Displays.InvalidCsvData(
                     context: context,
                     data: data),
@@ -626,6 +694,7 @@ namespace Implem.Pleasanter.Libraries.Responses
         public static Message InvalidFormula(Context context, params string[] data)
         {
             return Get(
+                id: "InvalidFormula",
                 text: Displays.InvalidFormula(
                     context: context,
                     data: data),
@@ -635,6 +704,7 @@ namespace Implem.Pleasanter.Libraries.Responses
         public static Message InvalidIpAddress(Context context, params string[] data)
         {
             return Get(
+                id: "InvalidIpAddress",
                 text: Displays.InvalidIpAddress(
                     context: context,
                     data: data),
@@ -644,6 +714,7 @@ namespace Implem.Pleasanter.Libraries.Responses
         public static Message InvalidRequest(Context context, params string[] data)
         {
             return Get(
+                id: "InvalidRequest",
                 text: Displays.InvalidRequest(
                     context: context,
                     data: data),
@@ -653,6 +724,7 @@ namespace Implem.Pleasanter.Libraries.Responses
         public static Message InvalidSsoCode(Context context, params string[] data)
         {
             return Get(
+                id: "InvalidSsoCode",
                 text: Displays.InvalidSsoCode(
                     context: context,
                     data: data),
@@ -662,6 +734,7 @@ namespace Implem.Pleasanter.Libraries.Responses
         public static Message InviteMessage(Context context, params string[] data)
         {
             return Get(
+                id: "InviteMessage",
                 text: Displays.InviteMessage(
                     context: context,
                     data: data),
@@ -671,6 +744,7 @@ namespace Implem.Pleasanter.Libraries.Responses
         public static Message ItemsLimit(Context context, params string[] data)
         {
             return Get(
+                id: "ItemsLimit",
                 text: Displays.ItemsLimit(
                     context: context,
                     data: data),
@@ -680,6 +754,7 @@ namespace Implem.Pleasanter.Libraries.Responses
         public static Message JoeAccountCheck(Context context, params string[] data)
         {
             return Get(
+                id: "JoeAccountCheck",
                 text: Displays.JoeAccountCheck(
                     context: context,
                     data: data),
@@ -689,6 +764,7 @@ namespace Implem.Pleasanter.Libraries.Responses
         public static Message LinkCreated(Context context, params string[] data)
         {
             return Get(
+                id: "LinkCreated",
                 text: Displays.LinkCreated(
                     context: context,
                     data: data),
@@ -698,6 +774,7 @@ namespace Implem.Pleasanter.Libraries.Responses
         public static Message LoginIdAlreadyUse(Context context, params string[] data)
         {
             return Get(
+                id: "LoginIdAlreadyUse",
                 text: Displays.LoginIdAlreadyUse(
                     context: context,
                     data: data),
@@ -707,6 +784,7 @@ namespace Implem.Pleasanter.Libraries.Responses
         public static Message LoginIn(Context context, params string[] data)
         {
             return Get(
+                id: "LoginIn",
                 text: Displays.LoginIn(
                     context: context,
                     data: data),
@@ -716,6 +794,7 @@ namespace Implem.Pleasanter.Libraries.Responses
         public static Message MailAddressHasNotSet(Context context, params string[] data)
         {
             return Get(
+                id: "MailAddressHasNotSet",
                 text: Displays.MailAddressHasNotSet(
                     context: context,
                     data: data),
@@ -725,6 +804,7 @@ namespace Implem.Pleasanter.Libraries.Responses
         public static Message MailTransmissionCompletion(Context context, params string[] data)
         {
             return Get(
+                id: "MailTransmissionCompletion",
                 text: Displays.MailTransmissionCompletion(
                     context: context,
                     data: data),
@@ -734,6 +814,7 @@ namespace Implem.Pleasanter.Libraries.Responses
         public static Message Moved(Context context, params string[] data)
         {
             return Get(
+                id: "Moved",
                 text: Displays.Moved(
                     context: context,
                     data: data),
@@ -743,6 +824,7 @@ namespace Implem.Pleasanter.Libraries.Responses
         public static Message NoLinks(Context context, params string[] data)
         {
             return Get(
+                id: "NoLinks",
                 text: Displays.NoLinks(
                     context: context,
                     data: data),
@@ -752,6 +834,7 @@ namespace Implem.Pleasanter.Libraries.Responses
         public static Message NotFound(Context context, params string[] data)
         {
             return Get(
+                id: "NotFound",
                 text: Displays.NotFound(
                     context: context,
                     data: data),
@@ -761,6 +844,7 @@ namespace Implem.Pleasanter.Libraries.Responses
         public static Message NotRequiredColumn(Context context, params string[] data)
         {
             return Get(
+                id: "NotRequiredColumn",
                 text: Displays.NotRequiredColumn(
                     context: context,
                     data: data),
@@ -770,6 +854,7 @@ namespace Implem.Pleasanter.Libraries.Responses
         public static Message OverLimitApi(Context context, params string[] data)
         {
             return Get(
+                id: "OverLimitApi",
                 text: Displays.OverLimitApi(
                     context: context,
                     data: data),
@@ -779,6 +864,7 @@ namespace Implem.Pleasanter.Libraries.Responses
         public static Message OverLimitQuantity(Context context, params string[] data)
         {
             return Get(
+                id: "OverLimitQuantity",
                 text: Displays.OverLimitQuantity(
                     context: context,
                     data: data),
@@ -788,6 +874,7 @@ namespace Implem.Pleasanter.Libraries.Responses
         public static Message OverLimitSize(Context context, params string[] data)
         {
             return Get(
+                id: "OverLimitSize",
                 text: Displays.OverLimitSize(
                     context: context,
                     data: data),
@@ -797,6 +884,7 @@ namespace Implem.Pleasanter.Libraries.Responses
         public static Message OverTenantStorageSize(Context context, params string[] data)
         {
             return Get(
+                id: "OverTenantStorageSize",
                 text: Displays.OverTenantStorageSize(
                     context: context,
                     data: data),
@@ -806,6 +894,7 @@ namespace Implem.Pleasanter.Libraries.Responses
         public static Message OverTotalLimitSize(Context context, params string[] data)
         {
             return Get(
+                id: "OverTotalLimitSize",
                 text: Displays.OverTotalLimitSize(
                     context: context,
                     data: data),
@@ -815,6 +904,7 @@ namespace Implem.Pleasanter.Libraries.Responses
         public static Message ParameterSyntaxError(Context context, params string[] data)
         {
             return Get(
+                id: "ParameterSyntaxError",
                 text: Displays.ParameterSyntaxError(
                     context: context,
                     data: data),
@@ -824,6 +914,7 @@ namespace Implem.Pleasanter.Libraries.Responses
         public static Message PasswordNotChanged(Context context, params string[] data)
         {
             return Get(
+                id: "PasswordNotChanged",
                 text: Displays.PasswordNotChanged(
                     context: context,
                     data: data),
@@ -833,6 +924,7 @@ namespace Implem.Pleasanter.Libraries.Responses
         public static Message PasswordPolicyViolation(Context context, params string[] data)
         {
             return Get(
+                id: "PasswordPolicyViolation",
                 text: Displays.PasswordPolicyViolation(
                     context: context,
                     data: data),
@@ -842,6 +934,7 @@ namespace Implem.Pleasanter.Libraries.Responses
         public static Message PasswordResetCompleted(Context context, params string[] data)
         {
             return Get(
+                id: "PasswordResetCompleted",
                 text: Displays.PasswordResetCompleted(
                     context: context,
                     data: data),
@@ -851,6 +944,7 @@ namespace Implem.Pleasanter.Libraries.Responses
         public static Message PermissionNotSelfChange(Context context, params string[] data)
         {
             return Get(
+                id: "PermissionNotSelfChange",
                 text: Displays.PermissionNotSelfChange(
                     context: context,
                     data: data),
@@ -860,6 +954,7 @@ namespace Implem.Pleasanter.Libraries.Responses
         public static Message PhysicalDeleted(Context context, params string[] data)
         {
             return Get(
+                id: "PhysicalDeleted",
                 text: Displays.PhysicalDeleted(
                     context: context,
                     data: data),
@@ -869,6 +964,7 @@ namespace Implem.Pleasanter.Libraries.Responses
         public static Message ReadOnlyBecausePreviousVer(Context context, params string[] data)
         {
             return Get(
+                id: "ReadOnlyBecausePreviousVer",
                 text: Displays.ReadOnlyBecausePreviousVer(
                     context: context,
                     data: data),
@@ -878,6 +974,7 @@ namespace Implem.Pleasanter.Libraries.Responses
         public static Message RebuildingCompleted(Context context, params string[] data)
         {
             return Get(
+                id: "RebuildingCompleted",
                 text: Displays.RebuildingCompleted(
                     context: context,
                     data: data),
@@ -887,6 +984,7 @@ namespace Implem.Pleasanter.Libraries.Responses
         public static Message RequireMailAddresses(Context context, params string[] data)
         {
             return Get(
+                id: "RequireMailAddresses",
                 text: Displays.RequireMailAddresses(
                     context: context,
                     data: data),
@@ -896,6 +994,7 @@ namespace Implem.Pleasanter.Libraries.Responses
         public static Message RequireManagePermission(Context context, params string[] data)
         {
             return Get(
+                id: "RequireManagePermission",
                 text: Displays.RequireManagePermission(
                     context: context,
                     data: data),
@@ -905,6 +1004,7 @@ namespace Implem.Pleasanter.Libraries.Responses
         public static Message RequireTo(Context context, params string[] data)
         {
             return Get(
+                id: "RequireTo",
                 text: Displays.RequireTo(
                     context: context,
                     data: data),
@@ -914,6 +1014,7 @@ namespace Implem.Pleasanter.Libraries.Responses
         public static Message RestoredFromHistory(Context context, params string[] data)
         {
             return Get(
+                id: "RestoredFromHistory",
                 text: Displays.RestoredFromHistory(
                     context: context,
                     data: data),
@@ -923,6 +1024,7 @@ namespace Implem.Pleasanter.Libraries.Responses
         public static Message Restricted(Context context, params string[] data)
         {
             return Get(
+                id: "Restricted",
                 text: Displays.Restricted(
                     context: context,
                     data: data),
@@ -932,6 +1034,7 @@ namespace Implem.Pleasanter.Libraries.Responses
         public static Message SamlLoginFailed(Context context, params string[] data)
         {
             return Get(
+                id: "SamlLoginFailed",
                 text: Displays.SamlLoginFailed(
                     context: context,
                     data: data),
@@ -941,6 +1044,7 @@ namespace Implem.Pleasanter.Libraries.Responses
         public static Message SelectFile(Context context, params string[] data)
         {
             return Get(
+                id: "SelectFile",
                 text: Displays.SelectFile(
                     context: context,
                     data: data),
@@ -950,6 +1054,7 @@ namespace Implem.Pleasanter.Libraries.Responses
         public static Message SelectOne(Context context, params string[] data)
         {
             return Get(
+                id: "SelectOne",
                 text: Displays.SelectOne(
                     context: context,
                     data: data),
@@ -959,6 +1064,7 @@ namespace Implem.Pleasanter.Libraries.Responses
         public static Message SelectTargets(Context context, params string[] data)
         {
             return Get(
+                id: "SelectTargets",
                 text: Displays.SelectTargets(
                     context: context,
                     data: data),
@@ -968,6 +1074,7 @@ namespace Implem.Pleasanter.Libraries.Responses
         public static Message SentAcceptanceMail (Context context, params string[] data)
         {
             return Get(
+                id: "SentAcceptanceMail ",
                 text: Displays.SentAcceptanceMail (
                     context: context,
                     data: data),
@@ -977,6 +1084,7 @@ namespace Implem.Pleasanter.Libraries.Responses
         public static Message Separated(Context context, params string[] data)
         {
             return Get(
+                id: "Separated",
                 text: Displays.Separated(
                     context: context,
                     data: data),
@@ -986,6 +1094,7 @@ namespace Implem.Pleasanter.Libraries.Responses
         public static Message SitePackageImported(Context context, params string[] data)
         {
             return Get(
+                id: "SitePackageImported",
                 text: Displays.SitePackageImported(
                     context: context,
                     data: data),
@@ -995,6 +1104,7 @@ namespace Implem.Pleasanter.Libraries.Responses
         public static Message SitesCreated(Context context, params string[] data)
         {
             return Get(
+                id: "SitesCreated",
                 text: Displays.SitesCreated(
                     context: context,
                     data: data),
@@ -1004,6 +1114,7 @@ namespace Implem.Pleasanter.Libraries.Responses
         public static Message SitesLimit(Context context, params string[] data)
         {
             return Get(
+                id: "SitesLimit",
                 text: Displays.SitesLimit(
                     context: context,
                     data: data),
@@ -1013,6 +1124,7 @@ namespace Implem.Pleasanter.Libraries.Responses
         public static Message SynchronizationCompleted(Context context, params string[] data)
         {
             return Get(
+                id: "SynchronizationCompleted",
                 text: Displays.SynchronizationCompleted(
                     context: context,
                     data: data),
@@ -1022,6 +1134,7 @@ namespace Implem.Pleasanter.Libraries.Responses
         public static Message TooManyCases(Context context, params string[] data)
         {
             return Get(
+                id: "TooManyCases",
                 text: Displays.TooManyCases(
                     context: context,
                     data: data),
@@ -1031,6 +1144,7 @@ namespace Implem.Pleasanter.Libraries.Responses
         public static Message TooManyColumnCases(Context context, params string[] data)
         {
             return Get(
+                id: "TooManyColumnCases",
                 text: Displays.TooManyColumnCases(
                     context: context,
                     data: data),
@@ -1040,6 +1154,7 @@ namespace Implem.Pleasanter.Libraries.Responses
         public static Message TooManyRowCases(Context context, params string[] data)
         {
             return Get(
+                id: "TooManyRowCases",
                 text: Displays.TooManyRowCases(
                     context: context,
                     data: data),
@@ -1049,6 +1164,7 @@ namespace Implem.Pleasanter.Libraries.Responses
         public static Message Unauthorized(Context context, params string[] data)
         {
             return Get(
+                id: "Unauthorized",
                 text: Displays.Unauthorized(
                     context: context,
                     data: data),
@@ -1058,6 +1174,7 @@ namespace Implem.Pleasanter.Libraries.Responses
         public static Message UpdateConflicts(Context context, params string[] data)
         {
             return Get(
+                id: "UpdateConflicts",
                 text: Displays.UpdateConflicts(
                     context: context,
                     data: data),
@@ -1067,6 +1184,7 @@ namespace Implem.Pleasanter.Libraries.Responses
         public static Message Updated(Context context, params string[] data)
         {
             return Get(
+                id: "Updated",
                 text: Displays.Updated(
                     context: context,
                     data: data),
@@ -1076,6 +1194,7 @@ namespace Implem.Pleasanter.Libraries.Responses
         public static Message UpdatedByGrid(Context context, params string[] data)
         {
             return Get(
+                id: "UpdatedByGrid",
                 text: Displays.UpdatedByGrid(
                     context: context,
                     data: data),
@@ -1085,6 +1204,7 @@ namespace Implem.Pleasanter.Libraries.Responses
         public static Message UserDisabled(Context context, params string[] data)
         {
             return Get(
+                id: "UserDisabled",
                 text: Displays.UserDisabled(
                     context: context,
                     data: data),
@@ -1094,6 +1214,7 @@ namespace Implem.Pleasanter.Libraries.Responses
         public static Message UserLockout(Context context, params string[] data)
         {
             return Get(
+                id: "UserLockout",
                 text: Displays.UserLockout(
                     context: context,
                     data: data),
@@ -1103,6 +1224,7 @@ namespace Implem.Pleasanter.Libraries.Responses
         public static Message UserNotSelfDelete(Context context, params string[] data)
         {
             return Get(
+                id: "UserNotSelfDelete",
                 text: Displays.UserNotSelfDelete(
                     context: context,
                     data: data),
@@ -1112,6 +1234,7 @@ namespace Implem.Pleasanter.Libraries.Responses
         public static Message UsersLimit(Context context, params string[] data)
         {
             return Get(
+                id: "UsersLimit",
                 text: Displays.UsersLimit(
                     context: context,
                     data: data),
@@ -1121,6 +1244,7 @@ namespace Implem.Pleasanter.Libraries.Responses
         public static Message UserSwitched(Context context, params string[] data)
         {
             return Get(
+                id: "UserSwitched",
                 text: Displays.UserSwitched(
                     context: context,
                     data: data),

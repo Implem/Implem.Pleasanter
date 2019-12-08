@@ -61,15 +61,19 @@ namespace Implem.Pleasanter.Libraries.DataTypes
 
         public void Write(Context context, List<SqlStatement> statements, long referenceId)
         {
-            ForEach(attachment =>
-            {
-                if (Parameters.BinaryStorage.IsLocal())
+            this
+                .Where(o => !o.Guid.IsNullOrEmpty())
+                .ForEach(attachment =>
                 {
-                    attachment.WriteToLocal(context: context);
-                }
-                attachment.SqlStatement(
-                    context: context, statements: statements, referenceId: referenceId);
-            });
+                    if (Parameters.BinaryStorage.IsLocal())
+                    {
+                        attachment.WriteToLocal(context: context);
+                    }
+                    attachment.SqlStatement(
+                        context: context,
+                        statements: statements,
+                        referenceId: referenceId);
+                });
         }
 
         public bool InitialValue(Context context)

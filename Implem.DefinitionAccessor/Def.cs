@@ -695,6 +695,8 @@ namespace Implem.DefinitionAccessor
                     case "Model_ValidatorMethods_Binaries": Code.Model_ValidatorMethods_Binaries = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_ValidatorMethods_Binaries, definitionRow, CodeXls); break;
                     case "Model_Validator_Api": Code.Model_Validator_Api = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Validator_Api, definitionRow, CodeXls); break;
                     case "Model_Validator_ShowProfiles": Code.Model_Validator_ShowProfiles = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Validator_ShowProfiles, definitionRow, CodeXls); break;
+                    case "Model_Validator_OnAttaching": Code.Model_Validator_OnAttaching = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Validator_OnAttaching, definitionRow, CodeXls); break;
+                    case "Model_Validator_OnAttachingMethod": Code.Model_Validator_OnAttachingMethod = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Validator_OnAttachingMethod, definitionRow, CodeXls); break;
                     case "Model_Api": Code.Model_Api = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Api, definitionRow, CodeXls); break;
                     case "Model_ApiPropertyCases": Code.Model_ApiPropertyCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_ApiPropertyCases, definitionRow, CodeXls); break;
                     case "Model_ApiPropertyNullType": Code.Model_ApiPropertyNullType = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_ApiPropertyNullType, definitionRow, CodeXls); break;
@@ -7442,6 +7444,8 @@ namespace Implem.DefinitionAccessor
         public string Model_ValidatorMethods_Binaries;
         public string Model_Validator_Api;
         public string Model_Validator_ShowProfiles;
+        public string Model_Validator_OnAttaching;
+        public string Model_Validator_OnAttachingMethod;
         public string Model_Api;
         public string Model_ApiPropertyCases;
         public string Model_ApiPropertyNullType;
@@ -8060,6 +8064,8 @@ namespace Implem.DefinitionAccessor
         public CodeDefinition Model_ValidatorMethods_Binaries = new CodeDefinition();
         public CodeDefinition Model_Validator_Api = new CodeDefinition();
         public CodeDefinition Model_Validator_ShowProfiles = new CodeDefinition();
+        public CodeDefinition Model_Validator_OnAttaching = new CodeDefinition();
+        public CodeDefinition Model_Validator_OnAttachingMethod = new CodeDefinition();
         public CodeDefinition Model_Api = new CodeDefinition();
         public CodeDefinition Model_ApiPropertyCases = new CodeDefinition();
         public CodeDefinition Model_ApiPropertyNullType = new CodeDefinition();

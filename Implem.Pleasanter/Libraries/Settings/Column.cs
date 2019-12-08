@@ -287,17 +287,17 @@ namespace Implem.Pleasanter.Libraries.Settings
         {
             IEnumerable<int> users = null;
             var showDeptName = false;
-            settings?
-                .RegexFirst(@"(?<=\[\[).+(?=\]\])")?
-                .Split(',')
+            settings
+                ?.RegexFirst(@"(?<=\[\[).+(?=\]\])")
+                ?.Split(',')
                 .Select((o, i) => new { Index = i, Setting = o })
                 .ForEach(data =>
                 {
                     if (data.Index == 0)
                     {
                         users = data.Setting == "Users*"
-                            ? SiteInfo.TenantCaches.Get(context.TenantId)?
-                                .UserHash
+                            ? SiteInfo.TenantCaches.Get(context.TenantId)
+                                ?.UserHash
                                 .Where(o => o.Value.TenantId == context.TenantId)
                                 .Select(o => o.Value.Id)
                             : SiteInfo.SiteUsers(context: context, siteId: siteId);
@@ -313,7 +313,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                     }
                 });
             users
-                .Select(userId => SiteInfo.User(
+                ?.Select(userId => SiteInfo.User(
                     context: context,
                     userId: userId))
                 .Where(user => !user.Disabled)

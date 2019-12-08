@@ -1,0 +1,13 @@
+﻿{
+    "Id": "SaveViewUser",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "User"
+        },
+        {
+            "Language": "ja",
+            "Body": "ユーザ"
+        }
+    ]
+}

@@ -97,7 +97,8 @@ $p.setByJsonElement = function (jsonElement, data, $control) {
             break;
         case 'CloseDialog':
             $p.clearMessage();
-            if (target !== undefined) {
+            if (target !== undefined
+                && $(target).hasClass('.ui-dialog-content')) {
                 $(target).dialog('close');
             } else {
                 $('.ui-dialog-content').dialog('close');

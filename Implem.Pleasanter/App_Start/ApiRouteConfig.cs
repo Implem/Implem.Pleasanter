@@ -8,15 +8,28 @@ namespace Implem.Pleasanter
             config.MapHttpAttributeRoutes();
 
             config.Routes.MapHttpRoute(
+                name: "BinariesApi",
+                routeTemplate: "api/binaries/{guid}/{action}",
+                defaults: new
+                {
+                    Controller = "Binaries",
+                    Action = "Get",
+                    Id = RouteParameter.Optional
+                });
+            config.Routes.MapHttpRoute(
                 name: "DefaultApi",
                 routeTemplate: "api/{controller}/{id}/{action}",
-                defaults: new { id = RouteParameter.Optional }
-            );
+                defaults: new
+                {
+                    Id = RouteParameter.Optional
+                });
             config.Routes.MapHttpRoute(
                 name: "WithoutId",
                 routeTemplate: "api/{controller}/{action}",
-                defaults: new { id = RouteParameter.Optional }
-            );
+                defaults: new
+                {
+                    Id = RouteParameter.Optional
+                });
         }
     }
 }

@@ -19,6 +19,22 @@ $p.set = function ($control, val) {
             default:
                 switch ($control.prop('tagName')) {
                     case 'SELECT':
+                        if ($control.hasClass('search') && val) {
+                            var $form = $('#MainForm');
+                            var url = $form.attr('action').replace('_action_', 'SelectSearchDropDown');
+                            var arr = new Array(val.toString());
+                            if (arr.length === 1) {
+                                var data = {};
+                                data.DropDownSearchTarget = $control.attr('id');
+                                data.DropDownSearchResults = JSON.stringify(arr);
+                                $p.ajax(
+                                    url,
+                                    'post',
+                                    data,
+                                    $form,
+                                    false);
+                            }
+                        }
                         $control.val(val);
                         $control.change();
                         break;

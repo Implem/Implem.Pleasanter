@@ -530,6 +530,18 @@ namespace Implem.Pleasanter.Models
         /// <summary>
         /// Fixed:
         /// </summary>
+        public static System.Web.Mvc.ContentResult ApiDonwload(Context context, string guid)
+        {
+            if (!context.ContractSettings.Attachments())
+            {
+                return null;
+            }
+            return FileContentResults.DownloadByApi(context: context, guid: guid);
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
         public static System.Web.Mvc.FileContentResult DownloadTemp(Context context, string guid)
         {
             if (!context.ContractSettings.Attachments())

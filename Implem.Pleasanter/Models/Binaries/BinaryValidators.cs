@@ -4,6 +4,7 @@ using Implem.Pleasanter.Libraries.General;
 using Implem.Pleasanter.Libraries.Requests;
 using Implem.Pleasanter.Libraries.Security;
 using Implem.Pleasanter.Libraries.Settings;
+using System.Collections.Generic;
 using System.Linq;
 namespace Implem.Pleasanter.Models
 {
@@ -153,28 +154,34 @@ namespace Implem.Pleasanter.Models
                 return Error.Types.BadRequest;
             }
             if (OverLimitQuantity(
-                attachments?.Count().ToDecimal() ?? 0,
-                context.PostedFiles?.Count().ToDecimal() ?? 0,
-                column.LimitQuantity))
+                attachments: attachments,
+                limitQuantity: column.LimitQuantity))
             {
                 return Error.Types.OverLimitQuantity;
             }
-            if (OverLimitSize(context, column.LimitSize))
+            if (OverLimitSize(
+                attachments: attachments,
+                limitSize: column.LimitSize))
             {
                 return Error.Types.OverLimitSize;
             }
-            var newTotalFileSize = context.PostedFiles.Sum(x => x.Size.ToDecimal());
             if (OverTotalLimitSize(
-                attachments?.Select(x => x.Size.ToDecimal()).Sum() ?? 0,
-                newTotalFileSize,
-                column.TotalLimitSize))
+                attachments: attachments,
+                totalLimitSize: column.TotalLimitSize))
             {
                 return Error.Types.OverTotalLimitSize;
             }
             if (OverTenantStorageSize(
-                BinaryUtilities.UsedTenantStorageSize(context: context),
-                newTotalFileSize,
-                context.ContractSettings.StorageSize))
+                totalFileSize: BinaryUtilities.UsedTenantStorageSize(context: context),
+                newTotalFileSize: attachments
+                    .Select(o => o.Added == true
+                        ? o.Size
+                        : o.Deleted == true
+                            ? o.Size * -1
+                            : 0)
+                    .Sum()
+                    .ToDecimal(),
+                storageSize: context.ContractSettings.StorageSize))
             {
                 return Error.Types.OverTenantStorageSize;
             }
@@ -184,44 +191,101 @@ namespace Implem.Pleasanter.Models
         /// <summary>
         /// Fixed:
         /// </summary>
-        private static bool OverLimitQuantity(
-            decimal fileCount, decimal newFileCount, decimal? limit)
+        public static Error.Types OnUploading(
+            Context context,
+            SiteSettings ss,
+            Dictionary<string, Libraries.DataTypes.Attachments> attachmentsHash)
         {
-            if ((fileCount + newFileCount) > limit) return true;
-            return false;
+            if (!context.ContractSettings.Attachments())
+            {
+                return Error.Types.BadRequest;
+            }
+            foreach (var keyValue in attachmentsHash)
+            {
+                var column = ss.GetColumn(
+                    context: context,
+                    columnName: keyValue.Key);
+                var attachments = keyValue.Value;
+                if (OverLimitQuantity(
+                    attachments: attachments,
+                    limitQuantity: column.LimitQuantity))
+                {
+                    return Error.Types.OverLimitQuantity;
+                }
+                if (OverLimitSize(
+                    attachments: attachments,
+                    limitSize: column.LimitSize))
+                {
+                    return Error.Types.OverLimitSize;
+                }
+                if (OverTotalLimitSize(
+                    attachments: attachments,
+                    totalLimitSize: column.TotalLimitSize))
+                {
+                    return Error.Types.OverTotalLimitSize;
+                }
+                if (OverTenantStorageSize(
+                    totalFileSize: BinaryUtilities.UsedTenantStorageSize(context: context),
+                    newTotalFileSize: attachmentsHash
+                        .Select(o =>
+                            o.Value.Where(p => p.Added == true).Select(p => p.Size).Sum()
+                                - o.Value.Where(p => p.Deleted == true).Select(p => p.Size).Sum())
+                        .Sum()
+                        .ToDecimal(),
+                    storageSize: context.ContractSettings.StorageSize))
+                {
+                    return Error.Types.OverTenantStorageSize;
+                }
+            }
+            return Error.Types.None;
         }
 
         /// <summary>
         /// Fixed:
         /// </summary>
-        private static bool OverLimitSize(Context context, decimal? limit)
+        private static bool OverLimitQuantity(
+            Libraries.DataTypes.Attachments attachments, decimal? limitQuantity)
         {
-            foreach (var item in context.PostedFiles)
-            {
-                if (item.Size > limit * 1024 * 1024) return true;
-            }
-            return false;
+            return attachments
+                .Where(o => o.Deleted != true)
+                .Count()
+                    > limitQuantity;
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        private static bool OverLimitSize(
+            Libraries.DataTypes.Attachments attachments, decimal? limitSize)
+        {
+            return attachments.Any(o =>
+                o.Added == true
+                && o.Deleted != true
+                && o.Size
+                    > limitSize * 1024 * 1024);
         }
 
         /// <summary>
         /// Fixed:
         /// </summary>
         private static bool OverTotalLimitSize(
-            decimal totalFileSize, decimal newTotalFileSize, decimal? limit)
+            Libraries.DataTypes.Attachments attachments, decimal? totalLimitSize)
         {
-            if ((totalFileSize + newTotalFileSize) > limit * 1024 * 1024) return true;
-            return false;
+            return attachments
+                .Where(o => o.Deleted != true)
+                .Select(o => o.Size)
+                .Sum()
+                    > totalLimitSize * 1024 * 1024;
         }
 
         /// <summary>
         /// Fixed:
         /// </summary>
         private static bool OverTenantStorageSize(
-            decimal totalFileSize, decimal newTotalFileSize, decimal? limit)
+            decimal totalFileSize, decimal newTotalFileSize, decimal? storageSize)
         {
-            if (limit != null &&
-                (totalFileSize + newTotalFileSize) > limit * 1024 * 1024 * 1024) return true;
-            return false;
+            return storageSize != null && (totalFileSize + newTotalFileSize)
+                > storageSize * 1024 * 1024 * 1024;
         }
     }
 }
