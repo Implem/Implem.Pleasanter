@@ -3919,6 +3919,7 @@ namespace Implem.Pleasanter.Models
             {
                 var columnName = controlId
                     .Replace("ViewFilters__", string.Empty)
+                    .Replace("ViewFiltersOnGridHeader__", string.Empty)
                     .Replace("_NumericRange", string.Empty);
                 var column = SiteSettings.GetColumn(
                     context: context,
@@ -3946,6 +3947,7 @@ namespace Implem.Pleasanter.Models
             {
                 var columnName = context.Forms.ControlId()
                     .Replace("ViewFilters__", string.Empty)
+                    .Replace("ViewFiltersOnGridHeader__", string.Empty)
                     .Replace("_DateRange", string.Empty);
                 var column = SiteSettings.GetColumn(
                     context: context,

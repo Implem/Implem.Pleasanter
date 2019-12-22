@@ -1331,7 +1331,7 @@ namespace Implem.Pleasanter.Models
                             controller: context.Controller,
                             id: ss.Columns.Any(o => o.Linking)
                                 ? context.Forms.Long("LinkId")
-                                : groupModel.GroupId))
+                                : groupModel.GroupId) + "?new=1")
                         .ToJson();
                 default:
                     return errorData.Type.MessageJson(context: context);

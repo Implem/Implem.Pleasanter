@@ -2261,6 +2261,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                         .Where(o => !o.Joined)
                         .Where(o => ss.EditorColumns.Contains(o.Name))
                         .Where(o => o.CanRead)
+                        .OrderBy(o => o.LabelText)
                         .ToDictionary(
                             o => ColumnUtilities.ColumnName(join.Key, o.Name),
                             o => join.Value + " " + o.LabelText));

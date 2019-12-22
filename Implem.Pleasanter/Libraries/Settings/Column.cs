@@ -245,11 +245,14 @@ namespace Implem.Pleasanter.Libraries.Settings
                 default:
                     if (line.RegexExists(@"^\[\[Users.*\]\]$"))
                     {
-                        AddUsersToChoiceHash(
-                            context: context,
-                            siteId: siteId,
-                            settings: line,
-                            searchIndexes: searchIndexes);
+                        if (UseSearch != true || searchIndexes != null)
+                        {
+                            AddUsersToChoiceHash(
+                                context: context,
+                                siteId: siteId,
+                                settings: line,
+                                searchIndexes: searchIndexes);
+                        }
                     }
                     else if (Linked())
                     {
@@ -324,6 +327,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                         user.LoginId,
                         user.Dept.Code,
                         user.Dept.Name).RegexLike(p).Any()))
+                .Take(Parameters.General.DropDownSearchPageSize)
                 .ForEach(user => AddToChoiceHash(
                     user.Id.ToString(),
                     SiteInfo.UserName(

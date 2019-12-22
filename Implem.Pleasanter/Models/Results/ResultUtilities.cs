@@ -1926,7 +1926,7 @@ namespace Implem.Pleasanter.Models
                             controller: context.Controller,
                             id: ss.Columns.Any(o => o.Linking)
                                 ? context.Forms.Long("LinkId")
-                                : resultModel.ResultId))
+                                : resultModel.ResultId) + "?new=1")
                         .ToJson();
                 case Error.Types.Duplicated:
                     return Messages.ResponseDuplicated(
