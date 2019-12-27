@@ -1856,22 +1856,27 @@ namespace Implem.Pleasanter.Models
                 var dataSet = Rds.ExecuteDataSet(
                     context: context,
                     statements: notifications.Select(notification =>
-                        Rds.SelectResults(
+                    {
+                        var where = ss.Views?.Get(before
+                            ? notification.BeforeCondition
+                            : notification.AfterCondition)
+                                ?.Where(
+                                    context: context,
+                                    ss: ss,
+                                    where: Rds.ResultsWhere().ResultId(ResultId))
+                                        ?? Rds.ResultsWhere().ResultId(ResultId);
+                        return Rds.SelectResults(
                             dataTableName: notification.Index.ToString(),
                             tableType: tableTypes,
                             column: Rds.ResultsColumn().ResultId(),
-                            where: ss.Views?.Get(before
-                                ? notification.BeforeCondition
-                                : notification.AfterCondition)
-                                    ?.Where(
-                                        context: context,
-                                        ss: ss,
-                                        where: Rds.ResultsWhere().ResultId(ResultId))
-                                            ?? Rds.ResultsWhere().ResultId(ResultId)))
-                                                .ToArray());
+                            join: ss.Join(
+                                context: context,
+                                join: where),
+                            where: where);
+                    }).ToArray());
                 return notifications
                     .Where(notification =>
-                        dataSet.Tables[notification.Index.ToString()].Rows.Count == 1 )
+                        dataSet.Tables[notification.Index.ToString()].Rows.Count == 1)
                     .ToList();
             }
             else

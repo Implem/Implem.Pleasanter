@@ -32,6 +32,14 @@ namespace Implem.Pleasanter.Libraries.Extensions
             return column.HasChoices()
                 ? hb.Td(action: () =>
                 {
+                    if (column.UserColumn && column.UseSearch == true && !value.IsNullOrEmpty())
+                    {
+                        column.ChoiceHash.AddIfNotConainsKey(
+                            value,
+                            new Choice(SiteInfo.UserName(
+                                context: context,
+                                userId: value.ToInt())));
+                    }
                     var choice = column.Choice(
                         value,
                         nullCase: value.IsNullOrEmpty()

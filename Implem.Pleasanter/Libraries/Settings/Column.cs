@@ -176,22 +176,12 @@ namespace Implem.Pleasanter.Libraries.Settings
             ColumnName = columnName;
         }
 
-        public void SetChoiceHash(Context context, bool searchColumnOnly = false)
-        {
-            SetChoiceHash(
-                context: context,
-                siteId: SiteSettings.SiteId,
-                linkHash: SiteSettings.LinkHash(
-                    context: context,
-                    columnName: Name,
-                    searchColumnOnly: searchColumnOnly));
-        }
-
         public void SetChoiceHash(
             Context context,
             long siteId,
             Dictionary<string, List<string>> linkHash = null,
-            IEnumerable<string> searchIndexes = null)
+            IEnumerable<string> searchIndexes = null,
+            bool setAllChoices = false)
         {
             ChoiceHash = new Dictionary<string, Choice>();
             ChoicesText.SplitReturn()
@@ -204,7 +194,8 @@ namespace Implem.Pleasanter.Libraries.Settings
                         linkHash: linkHash,
                         searchIndexes: searchIndexes,
                         index: data.Index,
-                        line: data.Line));
+                        line: data.Line,
+                        setAllChoices: setAllChoices));
             if (searchIndexes?.Any() == true)
             {
                 ChoiceHash = ChoiceHash.Take(Parameters.General.DropDownSearchPageSize)
@@ -218,7 +209,8 @@ namespace Implem.Pleasanter.Libraries.Settings
             Dictionary<string, List<string>> linkHash,
             IEnumerable<string> searchIndexes,
             int index,
-            string line)
+            string line,
+            bool setAllChoices)
         {
             switch (line)
             {
@@ -245,13 +237,15 @@ namespace Implem.Pleasanter.Libraries.Settings
                 default:
                     if (line.RegexExists(@"^\[\[Users.*\]\]$"))
                     {
-                        if (UseSearch != true || searchIndexes != null)
+                        UserColumn = true;
+                        if (UseSearch != true || searchIndexes != null || setAllChoices)
                         {
                             AddUsersToChoiceHash(
                                 context: context,
                                 siteId: siteId,
                                 settings: line,
-                                searchIndexes: searchIndexes);
+                                searchIndexes: searchIndexes,
+                                setAllChoices: setAllChoices);
                         }
                     }
                     else if (Linked())
@@ -286,7 +280,11 @@ namespace Implem.Pleasanter.Libraries.Settings
         }
 
         public void AddUsersToChoiceHash(
-            Context context, long siteId, string settings, IEnumerable<string> searchIndexes)
+            Context context,
+            long siteId,
+            string settings,
+            IEnumerable<string> searchIndexes,
+            bool setAllChoices)
         {
             IEnumerable<int> users = null;
             var showDeptName = false;
@@ -315,6 +313,9 @@ namespace Implem.Pleasanter.Libraries.Settings
                         }
                     }
                 });
+            var take = setAllChoices
+                ? int.MaxValue
+                : Parameters.General.DropDownSearchPageSize;
             users
                 ?.Select(userId => SiteInfo.User(
                     context: context,
@@ -327,7 +328,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                         user.LoginId,
                         user.Dept.Code,
                         user.Dept.Name).RegexLike(p).Any()))
-                .Take(Parameters.General.DropDownSearchPageSize)
+                .Take(take)
                 .ForEach(user => AddToChoiceHash(
                     user.Id.ToString(),
                     SiteInfo.UserName(

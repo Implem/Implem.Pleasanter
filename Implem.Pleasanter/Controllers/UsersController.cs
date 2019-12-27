@@ -270,7 +270,7 @@ namespace Implem.Pleasanter.Controllers
             }
             var html = UserUtilities.HtmlLogin(
                 context: context,
-                returnUrl: returnUrl,
+                returnUrl: Url.IsLocalUrl(returnUrl) ? returnUrl : "",
                 message: Request.QueryString["expired"] == "1" && !Request.IsAjaxRequest()
                     ? Messages.Expired(context: context).Text
                     : string.Empty);

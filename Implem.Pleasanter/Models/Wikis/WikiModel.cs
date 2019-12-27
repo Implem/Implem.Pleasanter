@@ -1098,22 +1098,27 @@ namespace Implem.Pleasanter.Models
                 var dataSet = Rds.ExecuteDataSet(
                     context: context,
                     statements: notifications.Select(notification =>
-                        Rds.SelectWikis(
+                    {
+                        var where = ss.Views?.Get(before
+                            ? notification.BeforeCondition
+                            : notification.AfterCondition)
+                                ?.Where(
+                                    context: context,
+                                    ss: ss,
+                                    where: Rds.WikisWhere().WikiId(WikiId))
+                                        ?? Rds.WikisWhere().WikiId(WikiId);
+                        return Rds.SelectWikis(
                             dataTableName: notification.Index.ToString(),
                             tableType: tableTypes,
                             column: Rds.WikisColumn().WikiId(),
-                            where: ss.Views?.Get(before
-                                ? notification.BeforeCondition
-                                : notification.AfterCondition)
-                                    ?.Where(
-                                        context: context,
-                                        ss: ss,
-                                        where: Rds.WikisWhere().WikiId(WikiId))
-                                            ?? Rds.WikisWhere().WikiId(WikiId)))
-                                                .ToArray());
+                            join: ss.Join(
+                                context: context,
+                                join: where),
+                            where: where);
+                    }).ToArray());
                 return notifications
                     .Where(notification =>
-                        dataSet.Tables[notification.Index.ToString()].Rows.Count == 1 )
+                        dataSet.Tables[notification.Index.ToString()].Rows.Count == 1)
                     .ToList();
             }
             else

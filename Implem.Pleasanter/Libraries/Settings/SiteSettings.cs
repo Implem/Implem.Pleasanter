@@ -2883,7 +2883,8 @@ namespace Implem.Pleasanter.Libraries.Settings
                         context: context,
                         siteId: InheritPermission,
                         linkHash: linkHash,
-                        searchIndexes: searchIndexes));
+                        searchIndexes: searchIndexes,
+                        setAllChoices: SetAllChoices));
         }
 
         private Dictionary<string, List<string>> LinkHash(
