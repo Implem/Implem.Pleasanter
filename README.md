@@ -12,7 +12,7 @@ Pleasanter（プリザンター）はオープンソースのビジネスアプ�
 http://pleasanter.org
 
 ## デモサイト
-下記のサイトでe-mailアドレスを登録すると30日間試用することが出来ます。  
+下記のサイトでe-mailアドレスを登録すると60日間試用することが出来ます。  
 https://pleasanter.azurewebsites.net
 
 ## 資料
