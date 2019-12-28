@@ -1226,7 +1226,7 @@ namespace Implem.Pleasanter.Models
                 addNotSet: true)?
                     .Where(o => selected.Contains(o.Key))
                     .ToDictionary(o => o.Key, o => o.Value);
-            return optionCollection?.Any() == true
+            return optionCollection?.Any() == true || !selected.Any()
                 ? new ResponseCollection()
                     .CloseDialog("#DropDownSearchDialog")
                     .Html("[id=\"" + controlId + "\"]", new HtmlBuilder()

@@ -1,7 +1,9 @@
 ﻿using Implem.Libraries.Utilities;
+using Implem.Pleasanter.Libraries.DataTypes;
 using Implem.Pleasanter.Libraries.Html;
 using Implem.Pleasanter.Libraries.Requests;
 using Implem.Pleasanter.Libraries.Responses;
+using Implem.Pleasanter.Libraries.Server;
 using Implem.Pleasanter.Libraries.Settings;
 using Implem.Pleasanter.Models;
 using System.Collections.Generic;
@@ -453,6 +455,33 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             string action = null,
             bool controlOnly = false)
         {
+            var selectedValue = view.ColumnFilter(column.ColumnName);
+            if (column.UseSearch == true)
+            {
+                selectedValue?.Deserialize<List<string>>()?.ForEach(value =>
+                {
+                    if (column.UserColumn)
+                    {
+                        var userId = value.ToInt();
+                        if (userId > 0 && userId != User.UserTypes.Anonymous.ToInt())
+                        {
+                            optionCollection.Add(value, new ControlData(SiteInfo.UserName(
+                                context: context,
+                                userId: userId)));
+                        }
+                    }
+                    else
+                    {
+                        HtmlFields.EditChoices(
+                            context: context,
+                            ss: ss,
+                            column: column,
+                            value: value)
+                                .ForEach(data =>
+                                    optionCollection.AddIfNotConainsKey(data.Key, data.Value));
+                    }
+                });
+            }
             return hb.FieldDropDown(
                 context: context,
                 controlId: idPrefix + column.ColumnName,
@@ -467,7 +496,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                 controlOnly: controlOnly,
                 action: action,
                 optionCollection: optionCollection,
-                selectedValue: view.ColumnFilter(column.ColumnName),
+                selectedValue: selectedValue,
                 multiple: true,
                 addSelectedValue: false,
                 method: "post");

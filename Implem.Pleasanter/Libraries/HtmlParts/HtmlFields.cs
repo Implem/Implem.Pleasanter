@@ -110,7 +110,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     : string.Empty);
         }
 
-        private static Dictionary<string, ControlData> EditChoices(
+        public static Dictionary<string, ControlData> EditChoices(
             Context context, SiteSettings ss, Column column, string value)
         {
             var editChoices = column.EditChoices(context: context);

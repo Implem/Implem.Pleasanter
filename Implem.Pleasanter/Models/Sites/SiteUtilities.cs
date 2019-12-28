@@ -3492,6 +3492,9 @@ namespace Implem.Pleasanter.Models
                     referenceType: "Sites",
                     referenceId: siteModel.SiteId,
                     referenceVer: siteModel.Ver)
+                .DropDownSearchDialog(
+                    context: context,
+                    id: ss.SiteId)
                 .CopyDialog(
                     context: context,
                     referenceType: "items",
@@ -6336,7 +6339,9 @@ namespace Implem.Pleasanter.Models
                             context: context,
                             controlId: controlId,
                             fieldCss: "field-auto-thin",
-                            controlCss: " auto-postback",
+                            controlCss: " auto-postback" + (column.UseSearch == true
+                                ? " search"
+                                : string.Empty),
                             labelText: column.LabelText,
                             labelTitle: labelTitle,
                             optionCollection: column.EditChoices(context: context),
