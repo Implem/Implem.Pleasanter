@@ -6,6 +6,7 @@ using Implem.Pleasanter.Libraries.DataSources;
 using Implem.Pleasanter.Libraries.DataTypes;
 using Implem.Pleasanter.Libraries.General;
 using Implem.Pleasanter.Libraries.HtmlParts;
+using Implem.Pleasanter.Libraries.Models;
 using Implem.Pleasanter.Libraries.Requests;
 using Implem.Pleasanter.Libraries.Responses;
 using Implem.Pleasanter.Libraries.Search;
@@ -131,6 +132,7 @@ namespace Implem.Pleasanter.Libraries.Settings
         public SettingList<Script> Scripts;
         public SettingList<RelatingColumn> RelatingColumns;
         public string ExtendedHeader;
+        public Versions.AutoVerUpTypes? AutoVerUpType;
         public bool? AllowEditingComments;
         public bool? AllowSeparate;
         public bool? AllowLockTable;
@@ -243,6 +245,7 @@ namespace Implem.Pleasanter.Libraries.Settings
             if (Styles == null) Styles = new SettingList<Style>();
             if (Scripts == null) Scripts = new SettingList<Script>();
             if (RelatingColumns == null) RelatingColumns = new SettingList<RelatingColumn>();
+            AutoVerUpType = AutoVerUpType ?? Versions.AutoVerUpTypes.Default;
             AllowEditingComments = AllowEditingComments ?? false;
             AllowSeparate = AllowSeparate ?? false;
             AllowLockTable = AllowLockTable ?? false;
@@ -568,6 +571,10 @@ namespace Implem.Pleasanter.Libraries.Settings
             if (!TitleColumns.SequenceEqual(DefaultTitleColumns()))
             {
                 ss.TitleColumns = TitleColumns;
+            }
+            if (AutoVerUpType != Versions.AutoVerUpTypes.Default)
+            {
+                ss.AutoVerUpType = AutoVerUpType;
             }
             if (AllowEditingComments == true)
             {
@@ -2462,6 +2469,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                 case "LinkTableView": LinkTableView = value.ToInt(); break;
                 case "FirstDayOfWeek": FirstDayOfWeek = value.ToInt(); break;
                 case "FirstMonth": FirstMonth = value.ToInt(); break;
+                case "AutoVerUpType": AutoVerUpType = (Versions.AutoVerUpTypes)value.ToInt(); break;
                 case "AllowEditingComments": AllowEditingComments = value.ToBool(); break;
                 case "AllowSeparate": AllowSeparate = value.ToBool(); break;
                 case "AllowLockTable": AllowLockTable = value.ToBool(); break;

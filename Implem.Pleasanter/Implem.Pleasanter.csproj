@@ -1539,6 +1539,8 @@
     <Content Include="App_Data\Displays\SaveViewSession.json" />
     <Content Include="App_Data\Displays\SaveViewUser.json" />
     <Content Include="App_Data\Displays\ViewSettings.json" />
+    <Content Include="App_Data\Displays\AutoVerUpType.json" />
+    <Content Include="App_Data\Displays\Always.json" />
     <Content Include="Tools\BackgroundTasks.ps1" />
     <Content Include="Tools\SyncByLdap.ps1" />
     <Content Include="Views\Users\EditApi.cshtml" />

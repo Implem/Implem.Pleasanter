@@ -2089,12 +2089,16 @@ namespace Implem.Pleasanter.Models
             }
             else
             {
+                var verUp = Versions.VerUp(
+                    context: context,
+                    ss: ss,
+                    verUp: false);
                 return res
                     .Ver(context: context, ss: ss)
                     .Timestamp(context: context, ss: ss)
                     .FieldResponse(context: context, ss: ss, resultModel: resultModel)
-                    .Val("#VerUp", false)
-                    .Disabled("#VerUp", false)
+                    .Val("#VerUp", verUp)
+                    .Disabled("#VerUp", verUp)
                     .Html("#HeaderTitle", resultModel.Title.DisplayValue)
                     .Html("#RecordInfo", new HtmlBuilder().RecordInfo(
                         context: context,
@@ -2408,6 +2412,7 @@ namespace Implem.Pleasanter.Models
                     }
                     resultModel.VerUp = Versions.MustVerUp(
                         context: context,
+                        ss: ss,
                         baseModel: resultModel);
                     statements.AddRange(resultModel.UpdateStatements(
                         context: context,
@@ -2638,6 +2643,7 @@ namespace Implem.Pleasanter.Models
                 ss: ss);
             resultModel.VerUp = Versions.MustVerUp(
                 context: context,
+                ss: ss,
                 baseModel: resultModel);
             var errorData = resultModel.Update(
                 context: context,
@@ -3770,7 +3776,9 @@ namespace Implem.Pleasanter.Models
                     if (resultModel.AccessStatus == Databases.AccessStatuses.Selected)
                     {
                         resultModel.VerUp = Versions.MustVerUp(
-                            context: context, baseModel: resultModel);
+                            context: context,
+                            ss: ss,
+                            baseModel: resultModel);
                         if (resultModel.Updated(context: context))
                         {
                             var errorData = resultModel.Update(
@@ -4208,7 +4216,9 @@ namespace Implem.Pleasanter.Models
                 return Messages.ResponseDeleteConflicts(context: context).ToJson();
             }
             resultModel.VerUp = Versions.MustVerUp(
-                context: context, baseModel: resultModel);
+                context: context,
+                ss: ss,
+                baseModel: resultModel);
             resultModel.Update(
                 context: context,
                 ss: ss,
@@ -5137,7 +5147,9 @@ namespace Implem.Pleasanter.Models
                 return Messages.ResponseDeleteConflicts(context: context).ToJson();
             }
             resultModel.VerUp = Versions.MustVerUp(
-                context: context, baseModel: resultModel);
+                context: context,
+                ss: ss,
+                baseModel: resultModel);
             resultModel.Update(
                 context: context,
                 ss: ss,

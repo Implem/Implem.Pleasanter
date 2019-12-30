@@ -2076,12 +2076,16 @@ namespace Implem.Pleasanter.Models
             }
             else
             {
+                var verUp = Versions.VerUp(
+                    context: context,
+                    ss: ss,
+                    verUp: false);
                 return res
                     .Ver(context: context, ss: ss)
                     .Timestamp(context: context, ss: ss)
                     .FieldResponse(context: context, ss: ss, userModel: userModel)
-                    .Val("#VerUp", false)
-                    .Disabled("#VerUp", false)
+                    .Val("#VerUp", verUp)
+                    .Disabled("#VerUp", verUp)
                     .Html("#HeaderTitle", userModel.Title.Value)
                     .Html("#RecordInfo", new HtmlBuilder().RecordInfo(
                         context: context,
@@ -2551,6 +2555,7 @@ namespace Implem.Pleasanter.Models
                         var mailAddressUpdated = UpdateMailAddresses(context, userModel);
                         userModel.VerUp = Versions.MustVerUp(
                             context: context,
+                            ss: ss,
                             baseModel: userModel);
                         if (userModel.Updated(context: context))
                         {

@@ -1045,11 +1045,15 @@ namespace Implem.Pleasanter.Models
             }
             else
             {
+                var verUp = Versions.VerUp(
+                    context: context,
+                    ss: ss,
+                    verUp: false);
                 return res
                     .Ver(context: context, ss: ss)
                     .Timestamp(context: context, ss: ss)
-                    .Val("#VerUp", false)
-                    .Disabled("#VerUp", false)
+                    .Val("#VerUp", verUp)
+                    .Disabled("#VerUp", verUp)
                     .Html("#HeaderTitle", siteModel.Title.Value)
                     .Html("#RecordInfo", new HtmlBuilder().RecordInfo(
                         context: context,
@@ -4492,9 +4496,30 @@ namespace Implem.Pleasanter.Models
                     .EditRelatingColumns(
                         context: context,
                         ss: ss))
+                    .FieldDropDown(
+                        context: context,
+                        controlId: "AutoVerUpType",
+                        fieldCss: "field-auto-thin both",
+                        labelText: Displays.AutoVerUpType(context: context),
+                        optionCollection: new Dictionary<string, string>
+                        {
+                            {
+                                Versions.AutoVerUpTypes.Default.ToInt().ToString(),
+                                Displays.Default(context: context)
+                            },
+                            {
+                                Versions.AutoVerUpTypes.Always.ToInt().ToString(),
+                                Displays.Always(context: context)
+                            },
+                            {
+                                Versions.AutoVerUpTypes.Disabled.ToInt().ToString(),
+                                Displays.Disabled(context: context)
+                            }
+                        },
+                        selectedValue: ss.AutoVerUpType.ToInt().ToString())
                     .FieldCheckBox(
                         controlId: "AllowEditingComments",
-                        fieldCss: "field-auto-thin both",
+                        fieldCss: "field-auto-thin",
                         labelText: Displays.AllowEditingComments(context: context),
                         _checked: ss.AllowEditingComments == true)
                     .FieldCheckBox(

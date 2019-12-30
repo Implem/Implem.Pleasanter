@@ -1096,7 +1096,10 @@ namespace Implem.Pleasanter.Models
             var where = Rds.IssuesWhereDefault(this)
                 .UpdatedTime(timestamp, _using: timestamp.InRange());
             statements.AddRange(IfDuplicatedStatements(ss: ss));
-            if (VerUp)
+            if (Versions.VerUp(
+                context: context,
+                ss: ss,
+                verUp: VerUp))
             {
                 statements.Add(Rds.IssuesCopyToStatement(
                     where: where,

@@ -1,0 +1,13 @@
+﻿{
+    "Id": "AutoVerUpType",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Automatic version upgrade"
+        },
+        {
+            "Language": "ja",
+            "Body": "自動バージョンアップ"
+        }
+    ]
+}

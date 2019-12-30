@@ -1419,12 +1419,16 @@ namespace Implem.Pleasanter.Models
             }
             else
             {
+                var verUp = Versions.VerUp(
+                    context: context,
+                    ss: ss,
+                    verUp: false);
                 return res
                     .Ver(context: context, ss: ss)
                     .Timestamp(context: context, ss: ss)
                     .FieldResponse(context: context, ss: ss, deptModel: deptModel)
-                    .Val("#VerUp", false)
-                    .Disabled("#VerUp", false)
+                    .Val("#VerUp", verUp)
+                    .Disabled("#VerUp", verUp)
                     .Html("#HeaderTitle", deptModel.Title.Value)
                     .Html("#RecordInfo", new HtmlBuilder().RecordInfo(
                         context: context,

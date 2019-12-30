@@ -377,7 +377,10 @@ namespace Implem.Pleasanter.Models
             var statements = new List<SqlStatement>();
             var where = Rds.BinariesWhereDefault(this)
                 .UpdatedTime(timestamp, _using: timestamp.InRange());
-            if (VerUp)
+            if (Versions.VerUp(
+                context: context,
+                ss: ss,
+                verUp: VerUp))
             {
                 statements.Add(Rds.BinariesCopyToStatement(
                     where: where,
