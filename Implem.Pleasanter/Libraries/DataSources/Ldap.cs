@@ -20,8 +20,12 @@ namespace Implem.Pleasanter.Libraries.DataSources
             {
                 try
                 {
-                    searcher = DirectorySearcher(ldap.LdapLoginPattern != null ?
-                        ldap.LdapLoginPattern.Replace("{loginId}", loginId) : loginId, password, ldap);
+                    searcher = DirectorySearcher(
+                        loginId: ldap.LdapLoginPattern != null
+                            ? ldap.LdapLoginPattern.Replace("{loginId}", loginId)
+                            : loginId,
+                        password: password,
+                        ldap: ldap);
                 }
                 catch (Exception e)
                 {
@@ -29,8 +33,9 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     return false;
                 }
                 SearchResult result = null;
-                searcher.Filter = ldap.LdapSearchPattern != null ? 
-                    ldap.LdapSearchPattern.Replace("{loginId}", loginId) : $"({ldap.LdapSearchProperty}={loginId})";
+                searcher.Filter = ldap.LdapSearchPattern != null
+                    ? ldap.LdapSearchPattern.Replace("{loginId}", loginId)
+                    : $"({ldap.LdapSearchProperty}={loginId})";
                 try
                 {
                     result = searcher.FindOne();
@@ -60,8 +65,9 @@ namespace Implem.Pleasanter.Libraries.DataSources
             {
                 var root = new DirectoryEntry(ldap.LdapSearchRoot);
                 var searcher = new DirectorySearcher(root);
-                searcher.Filter = ldap.LdapSearchPattern != null ?
-                    ldap.LdapSearchPattern.Replace("{loginId}", loginId) : $"({ldap.LdapSearchProperty}={loginId.Split_2nd('\\')})";
+                searcher.Filter = ldap.LdapSearchPattern != null
+                    ? ldap.LdapSearchPattern.Replace("{loginId}", loginId)
+                    : $"({ldap.LdapSearchProperty}={loginId.Split_2nd('\\')})";
                 try
                 {
                     SearchResult result = searcher.FindOne();
@@ -282,15 +288,15 @@ namespace Implem.Pleasanter.Libraries.DataSources
         private static bool Enabled(SearchResult result, ParameterAccessor.Parts.Ldap ldap)
         {
             var accountDisabled = 2;
-            return
-                !ldap.LdapExcludeAccountDisabled || !result.Properties.Contains("UserAccountControl") ||
-                (result.Properties["UserAccountControl"].ToLong() & accountDisabled) == 0;
+            return !ldap.LdapExcludeAccountDisabled
+                || !result.Properties.Contains("UserAccountControl")
+                || (result.Properties["UserAccountControl"].ToLong() & accountDisabled) == 0;
         }
 
         private static DirectorySearcher DirectorySearcher(
             string loginId, string password, ParameterAccessor.Parts.Ldap ldap)
         {
-            if (!Enum.TryParse<AuthenticationTypes>(ldap.LdapAuthenticationType, out AuthenticationTypes type)
+            if (!Enum.TryParse(ldap.LdapAuthenticationType, out AuthenticationTypes type)
                 || !Enum.IsDefined(typeof(AuthenticationTypes), type))
             {
                 type = AuthenticationTypes.Secure;
@@ -299,7 +305,8 @@ namespace Implem.Pleasanter.Libraries.DataSources
             {
                 type = AuthenticationTypes.Anonymous;
             }
-            return new DirectorySearcher(new DirectoryEntry(ldap.LdapSearchRoot, loginId, password, type));
+            return new DirectorySearcher(
+                new DirectoryEntry(ldap.LdapSearchRoot, loginId, password, type));
         }
 
         private static string Property(
@@ -315,7 +322,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                         {
                             return result.Properties[name][0].ToString();
                         }
-                        foreach (Object obj in result.Properties[name])
+                        foreach (object obj in result.Properties[name])
                         {
                             if (obj.ToString().RegexExists(pattern))
                             {
