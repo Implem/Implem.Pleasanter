@@ -8,6 +8,9 @@
     {
       "LdapSearchRoot": null,
       "LdapSearchProperty": "sAMAccountName",
+      "LdapSearchPattern": null,
+      "LdapLoginPattern": null,
+      "LdapAuthenticationType": null,
       "NetBiosDomainName": null,
       "LdapTenantId": 1,
       "LdapDeptCode": null,
@@ -22,6 +25,7 @@
       "LdapLastNamePattern": null,
       "LdapMailAddress": "mail",
       "LdapMailAddressPattern": null,
+      "LdapSyncPageSize": 0,
       "LdapSyncPatterns": [
         "(&(ObjectCategory=User)(ObjectClass=Person))"
       ],
