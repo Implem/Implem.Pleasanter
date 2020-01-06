@@ -1,5 +1,5 @@
 ﻿$p.openBulkUpdateSelectorDialog = function ($control) {
-    error = $p.send($control);
+    var error = $p.syncSend($control);
     if (error === 0) {
         $('#BulkUpdateSelectorDialog').dialog({
             modal: true,

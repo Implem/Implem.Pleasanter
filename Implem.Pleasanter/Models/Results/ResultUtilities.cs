@@ -2124,6 +2124,13 @@ namespace Implem.Pleasanter.Models
 
         public static string OpenBulkUpdateSelectorDialog(Context context, SiteSettings ss)
         {
+            var where = SelectedWhere(
+                context: context,
+                ss: ss);
+            if (where == null)
+            {
+                return Messages.ResponseSelectTargets(context: context).ToJson();
+            }
             var resultModel = new ResultModel(
                 context: context,
                 ss: ss,
@@ -2210,6 +2217,10 @@ namespace Implem.Pleasanter.Models
                 var where = SelectedWhere(
                     context: context,
                     ss: ss);
+                if (where == null)
+                {
+                    return Messages.ResponseSelectTargets(context: context).ToJson();
+                }
                 var count = BulkUpdate(
                     context: context,
                     ss: ss,
