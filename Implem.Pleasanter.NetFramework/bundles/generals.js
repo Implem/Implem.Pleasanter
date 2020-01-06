@@ -3580,17 +3580,20 @@ $p.siteSelected = function ($control, $target) {
         .closest('.container-selectable')
         .find('.ui-selected[data-value!=' + $('#Id').val() + ']')
         .appendTo($target);
-    var $itemsContainer = $('#SitePackagesSelectable');
-    var $items = $('#SitePackagesSelectable li');
-    $items.sort(function (a, b) {
-        return parseInt($(a).attr('data-order')) > parseInt($(b).attr('data-order'))
-            ? 1
-            : -1;
-    });
-    $itemsContainer.html('');
-    $items.each(function () {
-        $itemsContainer.append($(this));
-    });
+    var container = document.getElementById("SitePackagesSelectable");
+    var items = container.getElementsByTagName("li");
+    var itemArray = Array.prototype.slice.call(items);
+    function compareText(a, b) {
+        if (a.attributes.getNamedItem("data-order").value > b.attributes.getNamedItem("data-order").value)
+            return 1;
+        else if (a.attributes.getNamedItem("data-order").value < b.attributes.getNamedItem("data-order").value)
+            return -1;
+        return 0;
+    }
+    itemArray.sort(compareText);
+    for (var i = 0; i < itemArray.length; i++) {
+        container.appendChild(container.removeChild(itemArray[i]))
+    }
     $p.setData($target);
 }
 

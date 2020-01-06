@@ -13,7 +13,7 @@ namespace Implem.Pleasanter.NetFramework.Controllers.Api
         {
             var body = await Request.Content.ReadAsStringAsync();
             var context = new ContextImplement(apiRequestBody: body);
-            var controller = new Implem.Pleasanter.Controllers.Api.SessionsController();
+            var controller = new Pleasanter.Controllers.Api.SessionsController();
             var result = controller.Get(context: context);
             return result.ToHttpResponse(Request);
         }
@@ -23,7 +23,7 @@ namespace Implem.Pleasanter.NetFramework.Controllers.Api
         {
             var body = await Request.Content.ReadAsStringAsync();
             var context = new ContextImplement(apiRequestBody: body);
-            var controller = new Implem.Pleasanter.Controllers.Api.SessionsController();
+            var controller = new Pleasanter.Controllers.Api.SessionsController();
             var result = controller.Set(context: context);
             return result.ToHttpResponse(Request);
         }
@@ -33,7 +33,7 @@ namespace Implem.Pleasanter.NetFramework.Controllers.Api
         {
             var body = await Request.Content.ReadAsStringAsync();
             var context = new ContextImplement(apiRequestBody: body);
-            var controller = new Implem.Pleasanter.Controllers.Api.SessionsController();
+            var controller = new Pleasanter.Controllers.Api.SessionsController();
             var result = controller.Delete(context: context);
             return result.ToHttpResponse(Request);
         }

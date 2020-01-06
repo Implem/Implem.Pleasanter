@@ -8974,14 +8974,20 @@ namespace Implem.Pleasanter.Models
         /// </summary>
         public static void UpdateApiCount(Context context, SiteSettings ss)
         {
-            Repository.ExecuteNonQuery(
-                context: context,
-                statements: Rds.UpdateSites(
-                    where: Rds.SitesWhere()
-                        .SiteId(ss.SiteId),
-                param: Rds.SitesParam()
-                    .ApiCountDate(ss.ApiCountDate)
-                    .ApiCount(++ss.ApiCount)));
+            if (Parameters.Api.LimitPerSite > 0)
+            {
+                Rds.ExecuteNonQuery(
+                    context: context,
+                    statements: Rds.UpdateSites(
+                        where: Rds.SitesWhere()
+                            .TenantId(context.TenantId)
+                            .SiteId(ss.SiteId),
+                        param: Rds.SitesParam()
+                            .ApiCountDate(ss.ApiCountDate)
+                            .ApiCount(++ss.ApiCount),
+                        addUpdatorParam: false,
+                        addUpdatedTimeParam: false));
+            }
         }
     }
 }
