@@ -2449,14 +2449,10 @@ namespace Implem.Pleasanter.Models
             var sub = Rds.SelectIssues(
                 column: Rds.IssuesColumn().IssueId(),
                 where: where);
-            var verUpWhere = Rds.IssuesWhere()
-                .SiteId(ss.SiteId)
-                .IssueId_In(sub: sub)
-                .Add(or: Rds.IssuesWhere()
-                    .Updator(context.UserId, _operator: "<>")
-                    .UpdatedTime(
-                        DateTime.Today.ToDateTime().ToUniversal(context: context),
-                        _operator: "<"));
+            var verUpWhere = VerUpWhere(
+                context: context,
+                ss: ss, 
+                sub: sub);
             var column = ss.GetColumn(
                 context: context,
                 columnName: context.Forms.Data("BulkUpdateColumnName"));
@@ -2560,6 +2556,27 @@ namespace Implem.Pleasanter.Models
                     .Count.ToInt();
         }
 
+        private static SqlWhereCollection VerUpWhere(
+            Context context, SiteSettings ss, SqlSelect sub)
+        {
+            var where = Rds.IssuesWhere()
+                .SiteId(ss.SiteId)
+                .IssueId_In(sub: sub);
+            switch (ss.AutoVerUpType)
+            {
+                case Versions.AutoVerUpTypes.Always:
+                    return where;
+                case Versions.AutoVerUpTypes.Disabled:
+                    return where.Add(raw: "0=1");
+                default:
+                    return where.Add(or: Rds.IssuesWhere()
+                        .Updator(context.UserId, _operator: "<>")
+                        .UpdatedTime(
+                            DateTime.Today.ToDateTime().ToUniversal(context: context),
+                            _operator: "<"));
+            }
+        }
+
         public static string UpdateByGrid(Context context, SiteSettings ss)
         {
             var formDataSet = new FormDataSet(
@@ -2602,10 +2619,6 @@ namespace Implem.Pleasanter.Models
                         case Error.Types.None: break;
                         default: return invalid.Type.MessageJson(context: context);
                     }
-                    issueModel.VerUp = Versions.MustVerUp(
-                        context: context,
-                        ss: ss,
-                        baseModel: issueModel);
                     statements.AddRange(issueModel.UpdateStatements(
                         context: context,
                         ss: ss,
@@ -2833,10 +2846,6 @@ namespace Implem.Pleasanter.Models
             issueModel.SetTitle(
                 context: context,
                 ss: ss);
-            issueModel.VerUp = Versions.MustVerUp(
-                context: context,
-                ss: ss,
-                baseModel: issueModel);
             var errorData = issueModel.Update(
                 context: context,
                 ss: ss,
@@ -4127,10 +4136,6 @@ namespace Implem.Pleasanter.Models
                     issueModel.SetTitle(context: context, ss: ss);
                     if (issueModel.AccessStatus == Databases.AccessStatuses.Selected)
                     {
-                        issueModel.VerUp = Versions.MustVerUp(
-                            context: context,
-                            ss: ss,
-                            baseModel: issueModel);
                         if (issueModel.Updated(context: context))
                         {
                             var errorData = issueModel.Update(
@@ -4579,10 +4584,6 @@ namespace Implem.Pleasanter.Models
             {
                 return Messages.ResponseDeleteConflicts(context: context).ToJson();
             }
-            issueModel.VerUp = Versions.MustVerUp(
-                context: context,
-                ss: ss,
-                baseModel: issueModel);
             issueModel.Update(
                 context: context,
                 ss: ss,
@@ -5891,10 +5892,6 @@ namespace Implem.Pleasanter.Models
             {
                 return Messages.ResponseDeleteConflicts(context: context).ToJson();
             }
-            issueModel.VerUp = Versions.MustVerUp(
-                context: context,
-                ss: ss,
-                baseModel: issueModel);
             issueModel.Update(
                 context: context,
                 ss: ss,

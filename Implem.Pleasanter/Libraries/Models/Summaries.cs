@@ -178,10 +178,6 @@ namespace Implem.Pleasanter.Libraries.Models
                     if (issueModel.Updated(context: context))
                     {
                         issueModel.SetByFormula(context: context, ss: destinationSs);
-                        issueModel.VerUp = Versions.MustVerUp(
-                            context: context,
-                            ss: ss,
-                            baseModel: issueModel);
                         issueModel.SetChoiceHash(context: context, ss: destinationSs);
                         issueModel.Update(
                             context: context,
@@ -332,10 +328,6 @@ namespace Implem.Pleasanter.Libraries.Models
                     if (resultModel.Updated(context: context))
                     {
                         resultModel.SetByFormula(context: context, ss: destinationSs);
-                        resultModel.VerUp = Versions.MustVerUp(
-                            context: context,
-                            ss: ss,
-                            baseModel: resultModel);
                         resultModel.SetChoiceHash(context: context, ss: destinationSs);
                         resultModel.Update(
                             context: context,

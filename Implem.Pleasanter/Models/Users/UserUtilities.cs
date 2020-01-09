@@ -2553,10 +2553,6 @@ namespace Implem.Pleasanter.Models
                     if (userModel.AccessStatus == Databases.AccessStatuses.Selected)
                     {
                         var mailAddressUpdated = UpdateMailAddresses(context, userModel);
-                        userModel.VerUp = Versions.MustVerUp(
-                            context: context,
-                            ss: ss,
-                            baseModel: userModel);
                         if (userModel.Updated(context: context))
                         {
                             var errorData = userModel.Update(

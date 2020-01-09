@@ -22,7 +22,7 @@ namespace Implem.Pleasanter.Libraries.Models
         {
             return verUp ||
                 (ss.SiteId > 0
-                && !ss.IsSite(context: context)
+                && !(ss.IsSite(context: context) && context.Action == "update")
                 && ss.AutoVerUpType == AutoVerUpTypes.Always);
         }
 

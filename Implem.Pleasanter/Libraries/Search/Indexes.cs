@@ -426,7 +426,7 @@ namespace Implem.Pleasanter.Libraries.Search
             switch (ss?.SearchType)
             {
                 case SiteSettings.SearchTypes.FullText:
-                    var words = Words(searchText);
+                    var words = Words(searchText.SearchIndexes().Join(" "));
                     if (words?.Any() != true) return null;
                     return SelectByFullText(
                         context: context,
@@ -450,7 +450,7 @@ namespace Implem.Pleasanter.Libraries.Search
                 default:
                     return Select(
                         ss: ss,
-                        searchText: searchText,
+                        searchText: searchText.SearchIndexes().Join(" "),
                         siteIdList: siteIdList,
                         like: Rds.Items_FullText_WhereLike(forward: false));
             }
