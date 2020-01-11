@@ -22,7 +22,9 @@ $p.set = function ($control, val) {
                         if ($control.hasClass('search') && val) {
                             var $form = $('#MainForm');
                             var url = $form.attr('action').replace('_action_', 'SelectSearchDropDown');
-                            var arr = new Array(val.toString());
+                            var arr = $control.attr('multiple')
+                                ? JSON.stringify(val)
+                                : new Array(val.toString());
                             if (arr.length === 1) {
                                 var data = {};
                                 data.DropDownSearchTarget = $control.attr('id');
@@ -35,8 +37,12 @@ $p.set = function ($control, val) {
                                     false);
                             }
                         }
-                        $control.val(val);
-                        $control.change();
+                        if ($control.attr('multiple')) {
+                            $p.selectMultiSelect($control, val);
+                        } else {
+                            $control.val(val);
+                            $control.change();
+                        }
                         break;
                     default:
                         $control.val(val);

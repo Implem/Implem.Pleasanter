@@ -2405,19 +2405,19 @@ namespace Implem.Pleasanter.Libraries.Settings
             else
             {
                 ss.JoinStacks.ForEach(joinStack =>
-                    hash.Add(
+                    hash.AddIfNotConainsKey(
                         joinStack.TableName(),
                         joinStack.DisplayName(currentTitle: Title)));
             }
             if (destinations)
             {
                 ss.Destinations?.Values.ForEach(currentSs =>
-                    hash.AddRange(JoinOptions(ss: currentSs)));
+                    hash.AddRangeIfNotConainsKey(JoinOptions(ss: currentSs)));
             }
             if (sources)
             {
                 ss.Sources?.Values.ForEach(currentSs =>
-                    hash.AddRange(JoinOptions(ss: currentSs)));
+                    hash.AddRangeIfNotConainsKey(JoinOptions(ss: currentSs)));
             }
             return hash;
         }
