@@ -515,7 +515,7 @@ namespace Implem.Pleasanter.Models
             {
                 Rds.DeleteTenants(where: where)
             });
-            var response = Rds.ExecuteScalar_response(
+            Rds.ExecuteNonQuery(
                 context: context,
                 transactional: true,
                 statements: statements.ToArray());

@@ -1170,11 +1170,6 @@ namespace Implem.Pleasanter.Models
 
         public ErrorData Delete(Context context, SiteSettings ss, bool notice = false)
         {
-            var notifications = GetNotifications(
-                context: context,
-                ss: ss,
-                notice: notice,
-                before: true);
             var statements = new List<SqlStatement>();
             var where = Rds.ResultsWhere().SiteId(SiteId).ResultId(ResultId);
             statements.OnDeletingExtendedSqls(SiteId, ResultId);
@@ -1189,7 +1184,7 @@ namespace Implem.Pleasanter.Models
                 Rds.DeleteResults(where: where)
             });
             statements.OnDeletedExtendedSqls(SiteId, ResultId);
-            var response = Rds.ExecuteScalar_response(
+            Rds.ExecuteNonQuery(
                 context: context,
                 transactional: true,
                 statements: statements.ToArray());
@@ -2087,6 +2082,14 @@ namespace Implem.Pleasanter.Models
                                     saved: SavedCheck(columnName: column.Name),
                                     column: column,
                                     updated: Check_Updated(columnName: column.Name),
+                                    update: update));
+                                break;
+                            case "Attachments":
+                                body.Append(Attachments(columnName: column.Name).ToNotice(
+                                    context: context,
+                                    saved: SavedAttachments(columnName: column.Name),
+                                    column: column,
+                                    updated: Attachments_Updated(columnName: column.Name),
                                     update: update));
                                 break;
                         }

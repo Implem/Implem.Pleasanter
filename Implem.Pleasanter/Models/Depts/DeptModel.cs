@@ -469,7 +469,7 @@ namespace Implem.Pleasanter.Models
                     tenantId: context.TenantId,
                     type: StatusUtilities.Types.DeptsUpdated),
             });
-            var response = Rds.ExecuteScalar_response(
+            Rds.ExecuteNonQuery(
                 context: context,
                 transactional: true,
                 statements: statements.ToArray());

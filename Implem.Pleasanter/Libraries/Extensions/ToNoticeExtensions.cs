@@ -1,8 +1,12 @@
 ﻿using Implem.Libraries.Utilities;
+using Implem.Pleasanter.Libraries.DataTypes;
 using Implem.Pleasanter.Libraries.Requests;
+using Implem.Pleasanter.Libraries.Responses;
 using Implem.Pleasanter.Libraries.Server;
 using Implem.Pleasanter.Libraries.Settings;
 using System;
+using System.Text;
+
 namespace Implem.Pleasanter.Libraries.Extensions
 {
     public static class ToNoticeExtensions
@@ -120,6 +124,35 @@ namespace Implem.Pleasanter.Libraries.Extensions
                     update: update);
         }
 
+        public static string ToNotice(
+            this Attachments self,
+            Context context,
+            string saved,
+            Column column,
+            bool updated,
+            bool update)
+        {
+            var body = new StringBuilder();
+            self.ForEach(attachment =>
+            {
+                if (attachment.Added == true)
+                {
+                    body.Append("  {0} - {1}\r\n".Params(
+                        Displays.Add(context: context),
+                        attachment.Name));
+                }
+                else if (attachment.Deleted == true)
+                {
+                    body.Append("  {0} - {1}\r\n".Params(
+                        Displays.Delete(context: context),
+                        attachment.Name));
+                }
+            });
+            return body.ToString().IsNullOrEmpty()
+                ? string.Empty
+                : column.LabelText + " : \r\n" + body;
+        }
+
         public static string ToNoticeLine(
             this string self,
             Context context,
@@ -135,7 +168,7 @@ namespace Implem.Pleasanter.Libraries.Extensions
                         ? "{0}{3} : {2} => {1}\r\n".Params(column.LabelText, self, saved, suffix)
                         : "{0}{2} : {1}\r\n".Params(column.LabelText, self, suffix)
                     : string.Empty
-                : "{0}{2}: {1}\r\n".Params(column.LabelText, self, suffix);
+                : "{0}{2} : {1}\r\n".Params(column.LabelText, self, suffix);
         }
     }
 }

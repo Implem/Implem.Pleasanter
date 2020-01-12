@@ -438,7 +438,7 @@ namespace Implem.Pleasanter.Models
             {
                 Rds.DeleteOutgoingMails(where: where)
             });
-            var response = Rds.ExecuteScalar_response(
+            Rds.ExecuteNonQuery(
                 context: context,
                 transactional: true,
                 statements: statements.ToArray());
