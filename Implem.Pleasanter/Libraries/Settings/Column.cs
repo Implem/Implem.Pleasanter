@@ -497,11 +497,7 @@ namespace Implem.Pleasanter.Libraries.Settings
             Context context, decimal value, bool unit = false, bool format = true)
         {
             return (!Format.IsNullOrEmpty() && format
-                ? value.ToString(
-                    Format + (Format == "C" && DecimalPlaces.ToInt() == 0
-                        ? string.Empty
-                        : DecimalPlaces.ToString()),
-                    context.CultureInfo())
+                ? value.ToString(Format, context.CultureInfo())
                 : DecimalPlaces.ToInt() == 0
                     ? value.ToString("0", "0")
                     : DisplayValue(value))
@@ -668,6 +664,18 @@ namespace Implem.Pleasanter.Libraries.Settings
             return UserColumn && value.IsNullOrEmpty()
                 ? User.UserTypes.Anonymous.ToInt().ToString()
                 : value;
+        }
+
+        public long? RelatingSrcId()
+        {
+            var link = ChoicesText.SplitReturn()
+                .Select(o => o.Trim())
+                .Where(o => o.RegexExists(@"^\[\[.+\]\]$"))
+                .Select(settings => new Link(
+                    columnName: ColumnName,
+                    settings: settings))
+                .FirstOrDefault(o => o.SiteId != 0);
+            return link?.SiteId;
         }
 
         private void SelectColumns(

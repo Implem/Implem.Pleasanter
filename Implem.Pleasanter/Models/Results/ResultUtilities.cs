@@ -1132,7 +1132,6 @@ namespace Implem.Pleasanter.Models
                             context: context,
                             ss: ss,
                             resultModel: resultModel)
-                        .Hidden(controlId: "TriggerRelatingColumns", value: Jsons.ToJson(ss.RelatingColumns))
                         .Hidden(controlId: "DropDownSearchPageSize", value: Parameters.General.DropDownSearchPageSize.ToString()))
                             .ToString();
         }
@@ -1236,7 +1235,10 @@ namespace Implem.Pleasanter.Models
                             controlId: "SwitchTargets",
                             css: "always-send",
                             value: resultModel.SwitchTargets?.Join(),
-                            _using: !context.Ajax))
+                            _using: !context.Ajax)
+                        .Hidden(
+                            controlId: "TriggerRelatingColumns_Editor", 
+                            value: Jsons.ToJson(ss.RelatingColumns)))
                 .OutgoingMailsForm(
                     context: context,
                     ss: ss,
@@ -4088,9 +4090,6 @@ namespace Implem.Pleasanter.Models
                 default: return null;
             }
             var view = Views.GetBySession(context: context, ss: ss);
-            var viewMode = ViewModes.GetSessionData(
-                context: context,
-                siteId: ss.SiteId);
             var groupByX = ss.GetColumn(
                 context: context,
                 columnName: view.GetCrosstabGroupByX(context: context, ss: ss));
@@ -4520,9 +4519,6 @@ namespace Implem.Pleasanter.Models
                 return Messages.ResponseHasNotPermission(context: context).ToJson();
             }
             var view = Views.GetBySession(context: context, ss: ss);
-            var viewMode = ViewModes.GetSessionData(
-                context: context,
-                siteId: ss.SiteId);
             var groupByX = ss.GetColumn(
                 context: context,
                 columnName: view.GetCrosstabGroupByX(context: context, ss: ss));

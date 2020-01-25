@@ -114,7 +114,7 @@ $p.setByJsonElement = function (jsonElement, data, $control) {
             $(target).trigger(value);
             break;
         case 'Invoke':
-            $p[target]();
+            $p[target](value);
             break;
         case 'Events':
             $p.execEvents(target,'');

@@ -489,7 +489,6 @@ namespace Implem.Pleasanter.Models
                             context: context,
                             ss: ss,
                             wikiModel: wikiModel)
-                        .Hidden(controlId: "TriggerRelatingColumns", value: Jsons.ToJson(ss.RelatingColumns))
                         .Hidden(controlId: "DropDownSearchPageSize", value: Parameters.General.DropDownSearchPageSize.ToString()))
                             .ToString();
         }
@@ -580,7 +579,10 @@ namespace Implem.Pleasanter.Models
                             controlId: "SwitchTargets",
                             css: "always-send",
                             value: wikiModel.WikiId.ToString(),
-                            _using: !context.Ajax || context.Action == "create"))
+                            _using: !context.Ajax || context.Action == "create")
+                        .Hidden(
+                            controlId: "TriggerRelatingColumns_Editor", 
+                            value: Jsons.ToJson(ss.RelatingColumns)))
                 .OutgoingMailsForm(
                     context: context,
                     ss: ss,

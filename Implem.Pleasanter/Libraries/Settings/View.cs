@@ -162,10 +162,15 @@ namespace Implem.Pleasanter.Libraries.Settings
         {
             if (CrosstabMonth?.InRange() != true)
             {
-                var now = DateTime.Now;
-                CrosstabMonth = new DateTime(now.Year, now.Month, 1);
+                CrosstabMonth = GetCrosstabMonthDefault();
             }
             return CrosstabMonth.ToDateTime();
+        }
+
+        private DateTime GetCrosstabMonthDefault()
+        {
+            var now = DateTime.Now;
+            return new DateTime(now.Year, now.Month, 1);
         }
 
         public string GetGanttGroupBy()
@@ -735,6 +740,10 @@ namespace Implem.Pleasanter.Libraries.Settings
             if (!CrosstabTimePeriod.IsNullOrEmpty())
             {
                 view.CrosstabTimePeriod = CrosstabTimePeriod;
+            }
+            if (CrosstabMonth != GetCrosstabMonthDefault())
+            {
+                view.CrosstabMonth = CrosstabMonth;
             }
             if (!GanttGroupBy.IsNullOrEmpty())
             {

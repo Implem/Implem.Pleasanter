@@ -148,6 +148,7 @@ namespace Implem.Pleasanter.Libraries.Settings
         public int? ImageLibPageSize;
         public bool? UseFiltersArea;
         public bool? UseGridHeaderFilters;
+        public bool? UseRelatingColumnsOnFilter;
         public string TitleSeparator;
         public SearchTypes? SearchType;
         public SaveViewTypes? SaveViewType;
@@ -262,6 +263,7 @@ namespace Implem.Pleasanter.Libraries.Settings
             TitleSeparator = TitleSeparator ?? ")";
             UseFiltersArea = UseFiltersArea ?? true;
             UseGridHeaderFilters = UseGridHeaderFilters ?? false;
+            UseRelatingColumnsOnFilter = UseRelatingColumnsOnFilter ?? false;
             SearchType = SearchType ?? SearchTypes.PartialMatch;
             SaveViewType = SaveViewType ?? SaveViewTypes.Session;
         }
@@ -631,6 +633,10 @@ namespace Implem.Pleasanter.Libraries.Settings
             if (UseGridHeaderFilters == true)
             {
                 ss.UseGridHeaderFilters = UseGridHeaderFilters;
+            }
+            if(UseRelatingColumnsOnFilter == true)
+            {
+                ss.UseRelatingColumnsOnFilter = UseRelatingColumnsOnFilter;
             }
             if (ImageLibPageSize != Parameters.General.ImageLibPageSize)
             {
@@ -2484,6 +2490,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                 case "EnableImageLib": EnableImageLib = value.ToBool(); break;
                 case "UseFiltersArea": UseFiltersArea = value.ToBool(); break;
                 case "UseGridHeaderFilters": UseGridHeaderFilters = value.ToBool(); break;
+                case "UseRelatingColumnsOnFilter": UseRelatingColumnsOnFilter = value.ToBool(); break;
                 case "ImageLibPageSize": ImageLibPageSize = value.ToInt(); break;
                 case "SearchType": SearchType = (SearchTypes)value.ToInt(); break;
                 case "SaveViewType": SaveViewType = (SaveViewTypes)value.ToInt(); break;
@@ -2955,7 +2962,7 @@ namespace Implem.Pleasanter.Libraries.Settings
             int offset = 0,
             bool noLimit = false,
             string parentClass = "",
-            int parentId = 0,
+            IEnumerable<long> parentIds = null,
             bool setTotalCount = false)
         {
             var hash = new Dictionary<string, List<string>>();
@@ -2982,7 +2989,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                         .Select(d => d.ReferenceType)
                         .FirstOrDefault(),
                     parentColumn: GetColumn(context: context, columnName: parentClass),
-                    parentId: parentId,
+                    parentIds: parentIds,
                     setTotalCount: setTotalCount));
             return hash;
         }
@@ -2997,7 +3004,7 @@ namespace Implem.Pleasanter.Libraries.Settings
             bool noLimit,
             string referenceType,
             Column parentColumn,
-            int parentId,
+            IEnumerable<long> parentIds,
             bool setTotalCount = false)
         {
             var select = Indexes.Select(
@@ -3028,10 +3035,10 @@ namespace Implem.Pleasanter.Libraries.Settings
                     sub: new SqlStatement(LinkHashRelatingColumnsSubQuery(
                         referenceType: referenceType,
                         parentColumn: parentColumn,
-                        parentId: parentId)),
+                        parentIds: parentIds)),
                     _using: (referenceType == "Results"
                         || referenceType == "Issues")
-                        && parentId != 0
+                        && (parentIds?.Any() ?? false)
                         && parentColumn != null)
                 .ReferenceType("Sites", _operator: "<>")
                 .SiteId(link.SiteId)
@@ -3654,13 +3661,22 @@ namespace Implem.Pleasanter.Libraries.Settings
                         .Where(o => o.StartsWith("Class")).ToList<string>());
         }
 
-        private static string LinkHashRelatingColumnsSubQuery(string referenceType, Column parentColumn, int parentId)
+        private static string LinkHashRelatingColumnsSubQuery(string referenceType, Column parentColumn, IEnumerable<long> parentIds)
         {
-            return (parentColumn == null
+            if (parentColumn == null
                 || referenceType == "Wikis"
-                || referenceType == "Sites")
-                    ? null
-                    : $"select [{Rds.IdColumn(referenceType)}] from [{referenceType}] where try_cast([{parentColumn.ColumnName}] as bigint) = {parentId}";
+                || referenceType == "Sites"
+                || parentIds == null)
+            {
+                return null;
+            }
+            var whereNullorEmpty = parentIds?.Contains(-1) == true
+                ? $"[{parentColumn.ColumnName}] is null or [{parentColumn.ColumnName}] = '' " : string.Empty;
+            var whereIn = parentIds.Where(n => n >= 0).Any()
+                ? $"try_cast([{parentColumn.ColumnName}] as bigint) in ({parentIds.Where(n => n >= 0).Join()})"
+                : string.Empty;
+            var Or = (whereNullorEmpty == string.Empty || whereIn == string.Empty) ? string.Empty : " or ";
+            return $"select [{Rds.IdColumn(referenceType)}] from [{referenceType}] where " + whereNullorEmpty + Or + whereIn;
         }
 
         public void SetRelatingColumnsLinkedClass()

@@ -1,4 +1,4 @@
-﻿$p.ajax = function (url, methodType, data, $control, _async) {
+﻿$p.ajax = function (url, methodType, data, $control, _async, clearMessage) {
     if ($p.before_send($p.eventArgs(url, methodType, data, $control, _async)) === false) {
         return false;
     }
@@ -13,7 +13,9 @@
     $p.loading($control);
     var ret = 0;
     _async = _async !== undefined ? _async : true;
-    $p.clearMessage();
+    if (clearMessage !== false) {
+        $p.clearMessage();
+    }
     $.ajax({
         url: url,
         type: methodType,

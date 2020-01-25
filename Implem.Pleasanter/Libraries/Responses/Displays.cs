@@ -6558,6 +6558,16 @@ namespace Implem.Pleasanter.Libraries.Responses
                 data: data);
         }
 
+        public static string UseRelatingColumns(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "UseRelatingColumns",
+                data: data);
+        }
+
         public static string UserLockout(
             Context context,
             params string[] data)

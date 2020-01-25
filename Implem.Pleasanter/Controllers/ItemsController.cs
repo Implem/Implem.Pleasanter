@@ -418,6 +418,16 @@ namespace Implem.Pleasanter.Controllers
         }
 
         [HttpPost]
+        public ActionResult RelatingDropDown(long id = 0)
+        {
+            var context = new Context();
+            var log = new SysLogModel(context: context);
+            var json = new ItemModel(context: context, referenceId: id).RelatingDropDown(context: context);
+            log.Finish(context: context, responseSize: json.Length);
+            return Content(json);
+        }
+
+        [HttpPost]
         public ActionResult SelectSearchDropDown(long id = 0)
         {
             var context = new Context();

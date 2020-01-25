@@ -128,7 +128,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             else
             {
                 var referenceId = value.ToLong();
-                if (referenceId > 0 && ss.Links?.Any() == true)
+                if (referenceId > 0 && column.Linked())
                 {
                     var title = ss.LinkedItemTitle(
                         context: context,

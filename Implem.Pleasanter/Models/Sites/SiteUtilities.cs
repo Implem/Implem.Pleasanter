@@ -4100,7 +4100,13 @@ namespace Implem.Pleasanter.Models
                     controlId: "UseGridHeaderFilters",
                     fieldCss: "field-auto-thin",
                     labelText: Displays.UseGridHeaderFilters(context: context),
-                    _checked: ss.UseGridHeaderFilters == true));
+                    _checked: ss.UseRelatingColumnsOnFilter == false && ss.UseGridHeaderFilters == true,
+                    disabled: ss.UseRelatingColumnsOnFilter != false)
+                .FieldCheckBox(
+                    controlId: "UseRelatingColumnsOnFilter",
+                    fieldCss: "field-auto-thin",
+                    labelText: Displays.UseRelatingColumns(context: context),
+                    _checked: ss.UseRelatingColumnsOnFilter == true));
         }
 
         /// <summary>

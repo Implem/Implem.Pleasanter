@@ -154,10 +154,10 @@ namespace Implem.Pleasanter.Libraries.Responses
             return _using ? Add("Trigger", name, _event) : this;
         }
 
-        public ResponseCollection Invoke(string methodName, bool _using = true)
+        public ResponseCollection Invoke(string methodName,　string args = null, bool _using = true)
         {
             return !methodName.IsNullOrEmpty() && _using
-                ? Add("Invoke", methodName)
+                ? Add("Invoke", methodName, args)
                 : this;
         }
 

@@ -301,12 +301,9 @@ namespace Implem.Pleasanter.Libraries.DataSources
             {
                 type = AuthenticationTypes.Secure;
             }
-            if (loginId == null || password == null)
-            {
-                type = AuthenticationTypes.Anonymous;
-            }
-            return new DirectorySearcher(
-                new DirectoryEntry(ldap.LdapSearchRoot, loginId, password, type));
+            return new DirectorySearcher(loginId == null || password == null
+                ? new DirectoryEntry(ldap.LdapSearchRoot)
+                : new DirectoryEntry(ldap.LdapSearchRoot, loginId, password, type));
         }
 
         private static string Property(

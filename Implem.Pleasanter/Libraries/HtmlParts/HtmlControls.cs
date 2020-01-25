@@ -285,16 +285,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             Column column = null,
             bool _using = true)
         {
-            var link = column == null 
-                ? null 
-                : column.ChoicesText.SplitReturn()
-                    .Select(o => o.Trim())
-                    .Where(o => o.RegexExists(@"^\[\[.+\]\]$"))
-                    .Select(settings => new Link(
-                        columnName: column.ColumnName,
-                        settings: settings))
-                    .FirstOrDefault(o => o.SiteId != 0);
-            var srcId = link?.SiteId.ToString() ?? string.Empty;
+            var srcId = column?.RelatingSrcId().ToString() ?? string.Empty;
             return _using
                 ? hb.Select(
                     attributes: new HtmlAttributes()

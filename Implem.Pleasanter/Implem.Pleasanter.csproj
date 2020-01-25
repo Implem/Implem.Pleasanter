@@ -218,6 +218,7 @@
     <Compile Include="Controllers\Api\GroupsController.cs" />
     <Compile Include="Controllers\Api\ItemsController.cs" />
     <Compile Include="Controllers\Api\SessionsController.cs" />
+    <Compile Include="Controllers\Api\ExtendedController.cs" />
     <Compile Include="Controllers\Api\UsersController.cs" />
     <Compile Include="Controllers\Api_DeptsController.cs" />
     <Compile Include="Controllers\Api_GroupsController.cs" />
@@ -326,6 +327,7 @@
     <Compile Include="Libraries\Models\JsonConverter.cs" />
     <Compile Include="Libraries\Models\JsonExport.cs" />
     <Compile Include="Libraries\Models\JsonExportColumn.cs" />
+    <Compile Include="Libraries\Requests\ExtendedApi.cs" />
     <Compile Include="Libraries\Requests\ExportApi.cs" />
     <Compile Include="Libraries\Requests\SessionApi.cs" />
     <Compile Include="Libraries\Requests\Api.cs" />
@@ -338,6 +340,7 @@
     <Compile Include="Libraries\Resources\JavaScripts.cs" />
     <Compile Include="Libraries\Resources\Css.cs" />
     <Compile Include="Libraries\Responses\Actions.cs" />
+    <Compile Include="Libraries\Api\Extended.cs" />
     <Compile Include="Libraries\Responses\ApiResponse.cs" />
     <Compile Include="Libraries\Responses\ApiResponses.cs" />
     <Compile Include="Libraries\Responses\ApiResults.cs" />
@@ -1541,6 +1544,7 @@
     <Content Include="App_Data\Displays\ViewSettings.json" />
     <Content Include="App_Data\Displays\AutoVerUpType.json" />
     <Content Include="App_Data\Displays\Always.json" />
+    <Content Include="App_Data\Displays\UseRelatingColumns.json" />
     <Content Include="Tools\BackgroundTasks.ps1" />
     <Content Include="Tools\SyncByLdap.ps1" />
     <Content Include="Views\Users\EditApi.cshtml" />

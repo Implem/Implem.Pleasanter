@@ -1,109 +1,92 @@
 ﻿$(document).ready(function () {
-    $p.initRelatingColumn();
-});
+    var methodType = $('#MethodType').val();
+    if (methodType === 'edit' || methodType === 'new') {
+        initRelatingColumn(
+            $('#TriggerRelatingColumns_Editor'),
+            $('#TableName').val());
+    } else {
+        initRelatingColumn(
+            $('#TriggerRelatingColumns_Filter'),
+            'ViewFilters_');
+    }
+    $p.initRelatingColumn = function () {
+        initRelatingColumn(
+            $('#TriggerRelatingColumns_Dialog'),
+            $('#TableName').val());
+    };
 
-$p.initRelatingColumn = function () {
-    var param = $('#TriggerRelatingColumns').val();
-    if (param === undefined) return;
-    var rcols = JSON.parse(param);
-    for (var k in rcols) {
-        var prekey = '';
-        for (var k2 in rcols[k].Columns) {
-            if (prekey !== '' && rcols[k].Columns[k2] !== null && rcols[k].ColumnsLinkedClass[rcols[k].Columns[k2]] !== null) {
-                $p.applyRelatingColumn(prekey, rcols[k].Columns[k2], rcols[k].ColumnsLinkedClass[rcols[k].Columns[k2]]);
+    function initRelatingColumn($trigger, tablename) {
+        var param = $trigger.val();
+        if (param === undefined) return;
+        if (tablename === undefined) return;
+        var rcols = JSON.parse(param);
+        for (var k in rcols) {
+            var prekey = '';
+            for (var k2 in rcols[k].Columns) {
+                if (prekey !== '' && rcols[k].Columns[k2] !== null && rcols[k].ColumnsLinkedClass[rcols[k].Columns[k2]] !== null) {
+                    applyRelatingColumn(
+                        prekey,
+                        rcols[k].Columns[k2],
+                        rcols[k].ColumnsLinkedClass[rcols[k].Columns[k2]],
+                        tablename,
+                        $trigger);
+                }
+                prekey = rcols[k].Columns[k2];
             }
-            prekey = rcols[k].Columns[k2];
         }
     }
-};
-$p.applyRelatingColumn = function (prnt, chld, linkedClass) {
-    $(document).ready(function () {
-        var tablename = $('#TableName').val();
-        if (tablename === undefined) return;
-        var siteid = $('#' + tablename + '_' + chld).attr('data-id');
-        if (siteid === undefined || isNaN(siteid)) return;
-        c_change(tablename, siteid, linkedClass);
-        $('#' + tablename + '_' + prnt).change(function () {
-            c_change(tablename, siteid, linkedClass);
+
+    function applyRelatingColumn(prnt, chld, linkedClass, tablename, $trigger) {
+        $(document).ready(function () {
+            c_change(tablename);
+            $(document).on(
+                'change',
+                '#' + tablename + '_' + prnt,
+                function () {
+                    c_change(tablename);
+                });
         });
-    });
-
-    var c_change = function (tablename, siteid) {
-        var parentId = $('#' + tablename + '_' + prnt + ' option:selected').val();
-        var childId = $('#' + tablename + '_' + chld + ' option:selected').val();
-        var childDisabled = $('#' + tablename + '_' + chld).prop('disabled');
-        $('#' + tablename + '_' + chld).prop('disabled', true);
-        $('#' + tablename + '_' + chld).empty();
-        $('#' + tablename + '_' + chld)
-            .append($('<option>')
-                .val(childId)
-                .prop('id', 'Temporary_' + chld)
-                .prop('selected', true));
-        $('#' + tablename + '_' + chld).append($('<option>').val(''));
-        refreshCombo(tablename, siteid, null, parentId, childId, false, childDisabled);
-    };
-
-    var refreshCombo = function (tablename, siteid, json, parentSelectedId, childSelectedId, childSelected, childDisabled) {
-        $('#' + tablename + '_' + chld).attr('parent-data-class', linkedClass);
-        $('#' + tablename + '_' + chld).attr('parent-data-id', parentSelectedId === '' ? '-1' : parentSelectedId);
-        var offset = 0;
-        var pagesize = 0;
-        var totalcount = 0;
-        if (json !== null) {
-            offset = json.Response.Offset;
-            pagesize = json.Response.PageSize;
-            totalcount = json.Response.TotalCount;
-            var loopmax = ((pagesize + offset) < totalcount) ?
-                pagesize : (totalcount - offset);
-            for (var i = 0; i < loopmax; i++) {
-                var id = json.Response.Data[i].ResultId;
-                if (id === undefined) id = json.Response.Data[i].IssueId;
-                var title = json.Response.Data[i].ItemTitle;
-                var isSelected = false;
-                if (id === Number(childSelectedId)) {
-                    childSelected = true;
-                    isSelected = true;
-                }
-                $('#' + tablename + '_' + chld).append($('<option>').val(id).prop('selected', isSelected).text(title));
-            }
-        }
-        if (json === null || (offset + pagesize) < totalcount) {
-            var param = new Object();
-            param.ApiKey = '';
-            param.Offset = offset + pagesize;
-            param.View = new Object();
-            param.View.ColumnFilterHash = new Object();
-            param.View.ColumnFilterHash[linkedClass] = '["' + parentSelectedId + '"]';
-            param.View.ColumnSorterHash = new Object();
-            param.View.ColumnSorterHash['ItemTitle'] = 0;
-            var urlpath = $('#ApplicationPath').val() +
-                'items/' + escape((siteid - 0)) + '/get';
-            $.ajax({
-                type: 'POST',
-                url: urlpath,
-                dataType: 'json',
-                data: JSON.stringify(param),
-                scriptCharset: 'utf-8',
-                async: false
-            }).done(function (json) {
-                if (json.StatusCode === 200) {
-                    refreshCombo(tablename, siteid, json, parentSelectedId, childSelectedId, childSelected, childDisabled);
-                } else {
-                    alert('Error\r\nStatusCode:' + json.StatusCode);
-                }
-            }).fail(function (XMLHttpRequest, textStatus, errorThrown) {
-                alert(textStatus + '\r\n' + errorThrown);
-                $('#' + tablename + '_' + chld).prop('disabled', childDisabled);
+        var c_change = function (tablename) {
+            var parentIds = [];
+            var $parent = $('#' + tablename + '_' + prnt + ' option:selected');
+            $parent.each(function (index, element) {
+                var value = $(element).val();
+                if (value === '\t') {
+                    value = '-1';
+                } 
+                parentIds.push(value);
             });
-        } else {
-            if (childSelectedId > 0
-                && childSelectedId !== undefined
-                && !childSelected) {
-                $('#' + tablename + '_' + chld).val('');
-                $('#' + tablename + '_' + chld).trigger('change');
-            }
-            $('#Temporary_' + chld).remove();
-            $('#' + tablename + '_' + chld).prop('disabled', childDisabled);
+            var childIds = [];
+            var $child = $('#' + tablename + '_' + chld + ' option:selected');
+            $child.each(function (index, element) {
+                childIds.push($(element).val());
+            });
+            $('#' + tablename + '_' + chld).attr('parent-data-class', linkedClass);
+            $('#' + tablename + '_' + chld).attr('parent-data-id', JSON.stringify(parentIds));
+            $('#' + tablename + '_' + chld).attr('selected-options', JSON.stringify(childIds));
+            var formData = $p.getData($trigger.closest('form'));
+            formData["RelatingDropDownControlId"] = tablename + '_' + chld;
+            formData["RelatingDropDownSelected"] = JSON.stringify(childIds);
+            formData["RelatingDropDownParentClass"] = linkedClass;
+            formData["RelatingDropDownParentDataId"] = JSON.stringify(parentIds);
+            $trigger.attr('parent-data-class', linkedClass);
+            $trigger.attr('parent-data-id', JSON.stringify(parentIds));
+            $trigger.attr('data-action', 'RelatingDropDown');
+            $trigger.attr('data-method', 'post');
+            const formId = undefined;
+            const _async = true;
+            const clearMessage = false;
+            $p.send($trigger, formId, _async, clearMessage);
+        };
+    }
+    $p.callbackRelatingColumn = function (targetId) {
+        var $target = $(targetId);
+        if ($target.length === 0) {
+            return;
         }
+        $p.RefreshMultiSelectRelatingColum($target);
+        $target.addClass('not-set-form-changed');
+        $target.trigger('change');
+        $target.removeClass('not-set-form-changed');
     };
-}
+});

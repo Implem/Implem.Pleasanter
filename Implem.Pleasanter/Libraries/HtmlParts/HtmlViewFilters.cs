@@ -51,7 +51,11 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                 view: view)
                             .Search(
                                 context: context,
-                                view: view))
+                                view: view)
+                            .Hidden(
+                                controlId: "TriggerRelatingColumns_Filter",
+                                value: Jsons.ToJson(ss?.RelatingColumns),
+                                _using: ss?.UseRelatingColumnsOnFilter == true))
                     : hb.Div(
                         id: "ViewFilters",
                         css: "reduced",
@@ -59,7 +63,11 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                             .DisplayControl(
                                 context: context,
                                 id: "ExpandViewFilters",
-                                icon: "ui-icon-folder-open"))
+                                icon: "ui-icon-folder-open")
+                            .Hidden(
+                                controlId: "TriggerRelatingColumns_Filter",
+                                value: Jsons.ToJson(ss?.RelatingColumns),
+                                _using: ss?.UseRelatingColumnsOnFilter == true))
                 : hb;
         }
 
@@ -499,7 +507,8 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                 selectedValue: selectedValue,
                 multiple: true,
                 addSelectedValue: false,
-                method: "post");
+                method: "post",
+                column: column);
         }
 
         private static HtmlBuilder Search(this HtmlBuilder hb, Context context, View view)
