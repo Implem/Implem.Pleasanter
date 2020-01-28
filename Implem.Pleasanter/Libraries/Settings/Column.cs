@@ -580,7 +580,9 @@ namespace Implem.Pleasanter.Libraries.Settings
 
         public DateTime DefaultTime()
         {
-            return DateTime.Now.AddDays(DefaultInput.ToInt());
+            return DefaultInput.IsNullOrEmpty()
+                ? 0.ToDateTime()
+                : DateTime.Now.AddDays(DefaultInput.ToInt());
         }
 
         public string GetDefaultInput(Context context)
