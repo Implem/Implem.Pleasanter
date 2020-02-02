@@ -2126,6 +2126,10 @@ namespace Implem.Pleasanter.Models
 
         public static string OpenBulkUpdateSelectorDialog(Context context, SiteSettings ss)
         {
+            if (!context.CanUpdate(ss: ss))
+            {
+                return Messages.ResponseHasNotPermission(context: context).ToJson();
+            }
             var where = SelectedWhere(
                 context: context,
                 ss: ss);
@@ -2133,20 +2137,7 @@ namespace Implem.Pleasanter.Models
             {
                 return Messages.ResponseSelectTargets(context: context).ToJson();
             }
-            var resultModel = new ResultModel(
-                context: context,
-                ss: ss,
-                resultId: 0,
-                formData: context.Forms);
-            var invalid = ResultValidators.OnUpdating(
-                context: context,
-                ss: ss,
-                resultModel: resultModel);
-            switch (invalid.Type)
-            {
-                case Error.Types.None: break;
-                default: return invalid.Type.MessageJson(context: context);
-            }
+            ss.SetColumnAccessControls(context: context);
             var columns = ss.GetAllowBulkUpdateColumns(context, ss);
             var column = columns.FirstOrDefault();
             var hb = new HtmlBuilder();
@@ -2161,7 +2152,7 @@ namespace Implem.Pleasanter.Models
                             .Field(
                                 context: context,
                                 ss: ss,
-                                resultModel: resultModel,
+                                resultModel: new ResultModel(),
                                 column: column,
                                 alwaysSend: true,
                                 disableSection: true)))
@@ -2170,19 +2161,9 @@ namespace Implem.Pleasanter.Models
 
         public static string BulkUpdateSelectChanged(Context context, SiteSettings ss)
         {
-            var resultModel = new ResultModel(
-                context: context,
-                ss: ss,
-                resultId: 0,
-                formData: context.Forms);
-            var invalid = ResultValidators.OnUpdating(
-                context: context,
-                ss: ss,
-                resultModel: resultModel);
-            switch (invalid.Type)
+            if (!context.CanUpdate(ss: ss))
             {
-                case Error.Types.None: break;
-                default: return invalid.Type.MessageJson(context: context);
+                return Messages.ResponseHasNotPermission(context: context).ToJson();
             }
             var column = ss.GetColumn(
                 context: context,
@@ -2193,7 +2174,7 @@ namespace Implem.Pleasanter.Models
                     new HtmlBuilder().Field(
                         context: context,
                         ss: ss,
-                        resultModel: resultModel,
+                        resultModel: new ResultModel(),
                         column: column,
                         alwaysSend: true,
                         disableSection: true))
@@ -2202,10 +2183,19 @@ namespace Implem.Pleasanter.Models
 
         public static string BulkUpdate(Context context, SiteSettings ss)
         {
+            if (!context.CanUpdate(ss: ss))
+            {
+                return Messages.ResponseHasNotPermission(context: context).ToJson();
+            }
             var param = new Rds.ResultsParamCollection();
             var column = ss.GetColumn(
                 context: context,
                 columnName: context.Forms.Data("BulkUpdateColumnName"));
+            ss.SetColumnAccessControls(context: context);
+            if (!column.CanUpdate)
+            {
+                return Messages.ResponseHasNotPermission(context: context).ToJson();
+            }
             var resultModel = new ResultModel(
                 context: context,
                 ss: ss,
@@ -2214,64 +2204,57 @@ namespace Implem.Pleasanter.Models
             resultModel.PropertyValue(
                 context: context,
                 name: column.ColumnName);
-            if (context.CanUpdate(ss: ss))
+            var where = SelectedWhere(
+                context: context,
+                ss: ss);
+            if (where == null)
             {
-                var where = SelectedWhere(
+                return Messages.ResponseSelectTargets(context: context).ToJson();
+            }
+            var count = BulkUpdate(
+                context: context,
+                ss: ss,
+                where: Views.GetBySession(
                     context: context,
-                    ss: ss);
-                if (where == null)
-                {
-                    return Messages.ResponseSelectTargets(context: context).ToJson();
-                }
-                var count = BulkUpdate(
+                    ss: ss)
+                        .Where(
+                            context: context,
+                            ss: ss,
+                            where: where,
+                            itemJoin: false));
+            Summaries.Synchronize(context: context, ss: ss);
+            ss.Notifications.ForEach(notification =>
+            {
+                var body = new Dictionary<string, string>();
+                body.Add(
+                    Displays.Results_Updator(context: context),
+                    context.User.Name);
+                body.Add(
+                    Displays.Column(context: context),
+                    column.LabelText);
+                body.Add(
+                    Displays.Value(context: context),
+                    resultModel.PropertyValue(
+                          context: context,
+                          name: column.ColumnName));
+                notification.Send(
                     context: context,
                     ss: ss,
-                    where: Views.GetBySession(
+                    title: Displays.BulkUpdated(
                         context: context,
-                        ss: ss)
-                            .Where(
-                                context: context,
-                                ss: ss,
-                                where: where,
-                                itemJoin: false));
-                Summaries.Synchronize(context: context, ss: ss);
-                ss.Notifications.ForEach(notification =>
-                {
-                    var body = new Dictionary<string, string>();
-                    body.Add(
-                        Displays.Results_Updator(context: context),
-                        context.User.Name);
-                    body.Add(
-                        Displays.Column(context: context),
-                        column.LabelText);
-                    body.Add(
-                        Displays.Value(context: context),
-                        resultModel.PropertyValue(
-                              context: context,
-                              name: column.ColumnName));
-                    notification.Send(
+                        data: count.ToString()).ToString(),
+                    url: Locations.ItemIndex(
                         context: context,
-                        ss: ss,
-                        title: Displays.BulkUpdated(
-                            context: context,
-                            data: count.ToString()).ToString(),
-                        url: Locations.ItemIndex(
-                            context: context,
-                            ss.SiteId),
-                        body: body.Select(o => o.Key + ":" + o.Value).Join("\n"));
-                });
-                return GridRows(
+                        ss.SiteId),
+                    body: body.Select(o => o.Key + ":" + o.Value).Join("\n"));
+            });
+            return GridRows(
+                context: context,
+                ss: ss,
+                clearCheck: true,
+                message: Messages.BulkUpdated(
                     context: context,
-                    ss: ss,
-                    clearCheck: true,
-                    message: Messages.BulkUpdated(
-                        context: context,
-                        data: count.ToString()));
-            }
-            else
-            {
-                return Messages.ResponseHasNotPermission(context: context).ToJson();
-            }
+                    data: count.ToString()));
         }
 
         private static int BulkUpdate(

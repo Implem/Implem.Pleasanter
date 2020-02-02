@@ -38,13 +38,22 @@
 
     function applyRelatingColumn(prnt, chld, linkedClass, tablename, $trigger) {
         $(document).ready(function () {
+            var debounce = function (fn, interval) {
+                let timer;
+                return function () {
+                    clearTimeout(timer);
+                    timer = setTimeout(function () {
+                        fn();
+                    }, interval);
+                };
+            };
             c_change(tablename);
             $(document).on(
                 'change',
                 '#' + tablename + '_' + prnt,
-                function () {
+                debounce(function () {
                     c_change(tablename);
-                });
+                }, 500));
         });
         var c_change = function (tablename) {
             var parentIds = [];

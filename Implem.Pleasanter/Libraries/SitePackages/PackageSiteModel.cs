@@ -224,8 +224,20 @@ namespace Implem.Pleasanter.Libraries.SitePackages
 
         internal static string ReplaceChoicesText(SitePackage.Header header, string source = "")
         {
-            var match = System.Text.RegularExpressions.Regex.Match(source, @"(?<=\[\[)\d+(?=\]\])");
-            string srcId = (match?.Success == true) ? match.Value.Split_1st().ToString() : "";
+            var srcId = string.Empty;
+            switch (source)
+            {
+                case "[[Users]]":
+                case "[[Users*]]":
+                case "[[Depts]]":
+                    break;
+                default:
+                    var match = System.Text.RegularExpressions.Regex.Match(source, @"(?<=\[\[).+(?=\]\])");
+                    srcId = (match?.Success == true) 
+                        ? match.Value.Split_1st().ToString() 
+                        : string.Empty;
+                    break;
+            }
             if (!srcId.IsNullOrEmpty())
             {
                 var newId = header.GetConvertedId(srcId.ToLong());

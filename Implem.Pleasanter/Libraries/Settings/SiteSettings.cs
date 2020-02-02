@@ -1652,10 +1652,6 @@ namespace Implem.Pleasanter.Libraries.Settings
 
         public List<Column> GetAllowBulkUpdateColumns(Context context, SiteSettings ss)
         {
-            var formula = new Formula();
-            var data = new Dictionary<string, decimal>();
-            var getResult = formula.GetResult(data);
-            var formulaColumns = ss.Formulas.Select(set => set.Formula.ColumnName).ToList();
             return GetEditorColumns(context: context)
                 .Where(c => !c.Id_Ver)
                 .Where(c => c.EditorReadOnly != true)
@@ -1669,7 +1665,6 @@ namespace Implem.Pleasanter.Libraries.Settings
                 .Where(column => column.AllowBulkUpdate == true)
                 .Where(column => column.CanUpdate)
                 .ToList();
-            
         }
 
         private bool ContainsFormulaColumn(string columnName, List<Formula> children)
