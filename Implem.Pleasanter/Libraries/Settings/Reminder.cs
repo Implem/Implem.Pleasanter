@@ -240,6 +240,10 @@ namespace Implem.Pleasanter.Libraries.Settings
                         .Add(
                             tableName: ss.ReferenceType,
                             columnBrackets: new string[] { "[Status]" },
+                            _operator: " is null")
+                        .Add(
+                            tableName: ss.ReferenceType,
+                            columnBrackets: new string[] { "[Status]" },
                             _operator: "<{0}".Params(Parameters.General.CompletionCode))
                         .Add(
                             tableName: ss.ReferenceType,

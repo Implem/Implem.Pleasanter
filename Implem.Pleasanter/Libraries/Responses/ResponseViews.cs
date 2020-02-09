@@ -10,8 +10,14 @@ namespace Implem.Pleasanter.Libraries.Responses
             this ResponseCollection res, Context context, SiteSettings ss, View view)
         {
             return res
-                .ViewFilters(context: context, ss: ss, view: view)
-                .ClearFormData("View", "startsWith");
+                .ViewFilters(
+                    context: context,
+                    ss: ss,
+                    view: view)
+                .ClearFormData(
+                    target: "View",
+                    type: "startsWith",
+                    _using: ss.SaveViewType != SiteSettings.SaveViewTypes.None);
         }
 
         private static ResponseCollection ViewFilters(
@@ -24,7 +30,7 @@ namespace Implem.Pleasanter.Libraries.Responses
                 case "ExpandViewFilters":
                     return res.ReplaceAll("#ViewFilters", new HtmlBuilder()
                         .ViewFilters(context: context, ss: ss, view: view))
-                        .ReplaceAll("#ShowHistoryField", 
+                        .ReplaceAll("#ShowHistoryField",
                             new HtmlBuilder().FieldCheckBox(
                                 fieldId: "ShowHistoryField",
                                 fieldCss: "field-auto-thin",

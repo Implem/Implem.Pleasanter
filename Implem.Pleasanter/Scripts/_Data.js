@@ -145,28 +145,36 @@ $p.setMustData = function ($form, action) {
 
 $p.clearData = function (target, data, type) {
     if (!data) {
-        data = $p.getData($('.main-form'))
+        data = $p.getData($('.main-form'));
     }
     if (target === undefined) {
         for (controlId in data) {
             if (!$('#' + controlId).hasClass('control-selectable')) {
-                delete data[controlId];
+                Delete(controlId);
             }
         }
     } else if (type === 'startsWith') {
         for (controlId in data) {
             if (controlId.indexOf(target) === 0) {
-                delete data[controlId];
+                Delete(controlId);
             }
         }
     } else {
         if (target in data) {
-            delete data[target];
+            Delete(target);
         } else if ($(target).length !== 0) {
-            delete data[$(target).attr('id')];
+            Delete($(target).attr('id'));
         }
     }
-}
+    function Delete(key) {
+        if (type === 'ignoreView') {
+            if (key.indexOf('View') === 0) {
+                return;
+            }
+        }
+        delete data[key];
+    }
+};
 
 $p.toJson = function ($control) {
     return JSON.stringify($control.map(function () {

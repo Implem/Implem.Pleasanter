@@ -74,11 +74,18 @@ namespace Implem.Pleasanter.Libraries.Responses
                         .Where(o => o.Suffix.IsNullOrEmpty())
                         .ForEach(formData =>
                             formData.Data.Keys.ForEach(controlId =>
-                                res.ClearFormData(controlId)));
+                                res.ClearFormData(
+                                    controlId,
+                                    type: ss.SaveViewType == SiteSettings.SaveViewTypes.None 
+                                        ? "ignoreView" 
+                                        : null)));
             }
             else
             {
-                res.ClearFormData();
+                res.ClearFormData(
+                    type: ss.SaveViewType == SiteSettings.SaveViewTypes.None
+                        ? "ignoreView"
+                        : null);
             }
             return res;
         }

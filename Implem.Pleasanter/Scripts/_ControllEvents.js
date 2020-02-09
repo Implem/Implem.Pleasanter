@@ -43,7 +43,7 @@
         var $control = $(this);
         $p.setData($control);
         if (e.keyCode === 13) {
-            $p.send($control);
+            $p.sendDebounce(500, $control);
             delete $p.getData($control)[$control.attr('id')];
         }
     });

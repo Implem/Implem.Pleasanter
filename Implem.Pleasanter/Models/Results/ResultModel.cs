@@ -1732,15 +1732,18 @@ namespace Implem.Pleasanter.Models
 
         public void SetTitle(Context context, SiteSettings ss)
         {
-            Title = new Title(
-                context: context,
-                ss: ss,
-                id: ResultId,
-                ver: Ver,
-                isHistory: VerType == Versions.VerTypes.History,
-                data: PropertyValues(
+            if (Title?.ItemTitle != true)
+            {
+                Title = new Title(
                     context: context,
-                    names: ss.TitleColumns));
+                    ss: ss,
+                    id: ResultId,
+                    ver: Ver,
+                    isHistory: VerType == Versions.VerTypes.History,
+                    data: PropertyValues(
+                        context: context,
+                        names: ss.TitleColumns));
+            }
         }
 
         private bool Matched(Context context, SiteSettings ss, View view)

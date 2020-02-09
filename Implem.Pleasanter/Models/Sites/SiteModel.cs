@@ -3916,8 +3916,12 @@ namespace Implem.Pleasanter.Models
         /// <summary>
         /// Fixed:
         /// </summary>
-        public string OpenSetNumericRangeDialog(Context context, ResponseCollection res, string controlId)
+        public string OpenSetNumericRangeDialog(
+            Context context, ResponseCollection res, string controlId)
         {
+            SiteSettings.SetPermissions(
+                context: context,
+                referenceId: SiteId);
             if (context.CanRead(SiteSettings))
             {
                 var columnName = controlId
@@ -3928,12 +3932,12 @@ namespace Implem.Pleasanter.Models
                     context: context,
                     columnName: columnName);
                 return res.Html(
-                            "#SetNumericRangeDialog",
-                            new HtmlBuilder().SetNumericRangeDialog(
-                                context: context,
-                                ss: SiteSettings,
-                                column: column))
-                        .ToJson();
+                    target: "#SetNumericRangeDialog",
+                    value: new HtmlBuilder().SetNumericRangeDialog(
+                        context: context,
+                        ss: SiteSettings,
+                        column: column))
+                            .ToJson();
             }
             else
             {
@@ -3944,11 +3948,15 @@ namespace Implem.Pleasanter.Models
         /// <summary>
         /// Fixed:
         /// </summary>
-        public string OpenSetDateRangeDialog(Context context, ResponseCollection res, string controlId)
+        public string OpenSetDateRangeDialog(
+            Context context, ResponseCollection res, string controlId)
         {
+            SiteSettings.SetPermissions(
+                context: context,
+                referenceId: SiteId);
             if (context.CanRead(SiteSettings))
             {
-                var columnName = context.Forms.ControlId()
+                var columnName = controlId
                     .Replace("ViewFilters__", string.Empty)
                     .Replace("ViewFiltersOnGridHeader__", string.Empty)
                     .Replace("_DateRange", string.Empty);
@@ -3956,16 +3964,15 @@ namespace Implem.Pleasanter.Models
                     context: context,
                     columnName: columnName);
                 return res.Html(
-                            "#SetDateRangeDialog",
-                            new HtmlBuilder()
-                                .Input(
-                                    attributes: new HtmlAttributes()
-                                        .Style("opacity: 0; position: absolute; top: 0; left: 0;"))
-                                .SetDateRangeDialog(
-                                    context: context,
-                                    ss: SiteSettings,
-                                    column: column))
-                        .ToJson();
+                    target: "#SetDateRangeDialog",
+                    value: new HtmlBuilder()
+                        .Input(attributes: new HtmlAttributes()
+                            .Style("opacity: 0; position: absolute; top: 0; left: 0;"))
+                        .SetDateRangeDialog(
+                            context: context,
+                            ss: SiteSettings,
+                            column: column))
+                                .ToJson();
             }
             else
             {

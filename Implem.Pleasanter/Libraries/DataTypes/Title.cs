@@ -24,6 +24,7 @@ namespace Implem.Pleasanter.Libraries.DataTypes
         public string Value = string.Empty;
         public string DisplayValue;
         public List<string> PartCollection;
+        public bool ItemTitle;
 
         public Title()
         {
@@ -48,7 +49,8 @@ namespace Implem.Pleasanter.Libraries.DataTypes
             Ver = dataRow.Int("Ver");
             Value = dataRow.String(Rds.DataColumnName(column, "Title"));
             var itemTitlePath = Rds.DataColumnName(column, "ItemTitle");
-            var displayValue = dataRow.Table.Columns.Contains(itemTitlePath)
+            ItemTitle = dataRow.Table.Columns.Contains(itemTitlePath);
+            var displayValue = ItemTitle
                 ? dataRow.String(itemTitlePath)
                 : ss.GetTitleColumns(context: context)
                     .Select(o => GetDisplayValue(
