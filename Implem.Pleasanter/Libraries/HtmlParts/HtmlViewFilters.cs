@@ -473,9 +473,10 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                         var userId = value.ToInt();
                         if (userId > 0 && userId != User.UserTypes.Anonymous.ToInt())
                         {
-                            optionCollection.Add(value, new ControlData(SiteInfo.UserName(
-                                context: context,
-                                userId: userId)));
+                            optionCollection.AddIfNotConainsKey(
+                                value, new ControlData(SiteInfo.UserName(
+                                    context: context,
+                                    userId: userId)));
                         }
                     }
                     else
