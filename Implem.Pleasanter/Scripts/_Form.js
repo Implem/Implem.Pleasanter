@@ -99,22 +99,22 @@ $p.setFormChanged = function ($control) {
     }
 }
 
-$p.sendThrottle = (function () {
+$p.throttle = (function () {
     var lastTime = 0;
-    return function (interval, $control, formId, _async, clearMessage) {
+    return function (action, interval) {
         if (lastTime + interval <= new Date().getTime()) {
             lastTime = new Date().getTime();
-            $p.send($control, formId, _async, clearMessage);
+            action();
         }
     };
 })();
 
-$p.sendDebounce = (function () {
+$p.debounce = (function () {
     let timer;
-    return function (interval, $control, formId, _async, clearMessage) {
+    return function (action, interval) {
         clearTimeout(timer);
         timer = setTimeout(function () {
-            $p.send($control, formId, _async, clearMessage);
+            action();
         }, interval);
     };
 })();
