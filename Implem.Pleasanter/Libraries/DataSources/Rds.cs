@@ -1009,7 +1009,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                         case "Gender": return "[Gender]";
                         case "Language": return "[Language]";
                         case "TimeZone": return "[TimeZone]";
-                        case "TimeZoneInfo": return "[TimeZoneInfo]";
+                        case "TimeZoneInfo": return "[TimeZone]";
                         case "DeptCode": return "[DeptCode]";
                         case "DeptId": return "[DeptId]";
                         case "Dept": return "[DeptId]";
@@ -2349,6 +2349,11 @@ namespace Implem.Pleasanter.Libraries.DataSources
                                 function: function);
                         case "TimeZone":
                             return self.Users_TimeZone(
+                                tableName: column.TableName(),
+                                orderType: orderType,
+                                function: function);
+                        case "TimeZoneInfo":
+                            return self.Users_TimeZoneInfo(
                                 tableName: column.TableName(),
                                 orderType: orderType,
                                 function: function);
@@ -48413,6 +48418,8 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     return self.Language(_as: _as, function: function);
                 case "TimeZone":
                     return self.TimeZone(_as: _as, function: function);
+                case "TimeZoneInfo":
+                    return self.TimeZoneInfo(_as: _as, function: function);
                 case "DeptCode":
                     return self.DeptCode(_as: _as, function: function);
                 case "DeptId":
@@ -49759,6 +49766,40 @@ namespace Implem.Pleasanter.Libraries.DataSources
         {
             return self.Add(
                 columnBracket: "[UpdatedTime]",
+                tableName: tableName,
+                columnName: columnName,
+                _as: _as,
+                function: function,
+                sub: sub);
+        }
+
+        public static UsersColumnCollection TimeZoneInfo(
+            this UsersColumnCollection self,
+            string tableName = "Users",
+            string columnName = "TimeZoneInfo",
+            string _as = "TimeZoneInfo",
+            Sqls.Functions function = Sqls.Functions.None,
+            SqlStatement sub = null)
+        {
+            return self.Add(
+                columnBracket: "[TimeZone]",
+                tableName: tableName,
+                columnName: columnName,
+                _as: _as,
+                function: function,
+                sub: sub);
+        }
+
+        public static SqlColumnCollection Users_TimeZoneInfo(
+            this SqlColumnCollection self,
+            string tableName = "Users",
+            string columnName = "TimeZoneInfo",
+            string _as = "TimeZoneInfo",
+            Sqls.Functions function = Sqls.Functions.None,
+            SqlStatement sub = null)
+        {
+            return self.Add(
+                columnBracket: "[TimeZone]",
                 tableName: tableName,
                 columnName: columnName,
                 _as: _as,
@@ -52015,6 +52056,60 @@ namespace Implem.Pleasanter.Libraries.DataSources
                 : self;
         }
 
+        public static UsersWhereCollection TimeZoneInfo(
+            this UsersWhereCollection self,
+            object value = null,
+            string tableName = "Users",
+            string _operator = "=",
+            string multiColumnOperator = " or ",
+            string multiParamOperator = " and ",
+            SqlStatement sub = null,
+            bool subPrefix = true,
+            string raw = null,
+            bool _using = true)
+        {
+            return _using
+                ? self.Add(
+                    columnBrackets: new string[] { "[TimeZone]" },
+                    tableName: tableName,
+                    name: "TimeZoneInfo",
+                    value: value,
+                    _operator: _operator,
+                    multiColumnOperator: multiColumnOperator,
+                    multiParamOperator: multiParamOperator,
+                    sub: sub,
+                    subPrefix: subPrefix,
+                    raw: raw)
+                : self;
+        }
+
+        public static SqlWhereCollection Users_TimeZoneInfo(
+            this SqlWhereCollection self,
+            object value = null,
+            string tableName = "Users",
+            string _operator = "=",
+            string multiColumnOperator = " or ",
+            string multiParamOperator = " and ",
+            SqlStatement sub = null,
+            bool subPrefix = true,
+            string raw = null,
+            bool _using = true)
+        {
+            return _using
+                ? self.Add(
+                    columnBrackets: new string[] { "[TimeZone]" },
+                    tableName: tableName,
+                    name: "TimeZoneInfo",
+                    value: value,
+                    _operator: _operator,
+                    multiColumnOperator: multiColumnOperator,
+                    multiParamOperator: multiParamOperator,
+                    sub: sub,
+                    subPrefix: subPrefix,
+                    raw: raw)
+                : self;
+        }
+
         public static UsersWhereCollection Dept(
             this UsersWhereCollection self,
             object value = null,
@@ -53061,6 +53156,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     case "Gender": return self.Gender();
                     case "Language": return self.Language();
                     case "TimeZone": return self.TimeZone();
+                    case "TimeZoneInfo": return self.TimeZoneInfo();
                     case "DeptCode": return self.DeptCode();
                     case "DeptId": return self.DeptId();
                     case "Dept": return self.Dept();
@@ -53261,6 +53357,18 @@ namespace Implem.Pleasanter.Libraries.DataSources
         }
 
         public static SqlGroupByCollection Users_TimeZone(
+            this SqlGroupByCollection self, string tableName = "Users")
+        {
+            return self.Add(columnBracket: "[TimeZone]", tableName: tableName);
+        }
+
+        public static UsersGroupByCollection TimeZoneInfo(
+            this UsersGroupByCollection self, string tableName = "Users")
+        {
+            return self.Add(columnBracket: "[TimeZone]", tableName: tableName);
+        }
+
+        public static SqlGroupByCollection Users_TimeZoneInfo(
             this SqlGroupByCollection self, string tableName = "Users")
         {
             return self.Add(columnBracket: "[TimeZone]", tableName: tableName);
@@ -53806,6 +53914,21 @@ namespace Implem.Pleasanter.Libraries.DataSources
         }
 
         public static UsersOrderByCollection TimeZone(
+            this UsersOrderByCollection self,
+            SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
+            string tableName = "Users",
+            Sqls.Functions function = Sqls.Functions.None)
+        {
+            new List<string> { "[TimeZone]" }.ForEach(columnBracket =>
+                self.Add(
+                    columnBracket: columnBracket,
+                    orderType: orderType,
+                    tableName: tableName,
+                    function: function));
+            return self;
+        }
+
+        public static UsersOrderByCollection TimeZoneInfo(
             this UsersOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "Users",
@@ -54391,6 +54514,21 @@ namespace Implem.Pleasanter.Libraries.DataSources
         }
 
         public static SqlOrderByCollection Users_TimeZone(
+            this SqlOrderByCollection self,
+            SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
+            string tableName = "Users",
+            Sqls.Functions function = Sqls.Functions.None)
+        {
+            new List<string> { "[TimeZone]" }.ForEach(columnBracket =>
+                self.Add(
+                    columnBracket: columnBracket,
+                    orderType: orderType,
+                    tableName: tableName,
+                    function: function));
+            return self;
+        }
+
+        public static SqlOrderByCollection Users_TimeZoneInfo(
             this SqlOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
             string tableName = "Users",
@@ -100525,6 +100663,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                 .Gender()
                 .Language()
                 .TimeZone()
+                .TimeZoneInfo()
                 .DeptCode()
                 .DeptId()
                 .Dept()

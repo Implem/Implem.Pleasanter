@@ -8,6 +8,12 @@ namespace Implem.Pleasanter.Libraries.Extensions
     public static class ToExportExtensions
     {
         public static string ToExport(
+            this TimeZoneInfo value, Context context, Column column, ExportColumn exportColumn = null)
+        {
+            return value.StandardName;
+        }
+
+        public static string ToExport(
             this string value, Context context, Column column, ExportColumn exportColumn = null)
         {
             return column.HasChoices()

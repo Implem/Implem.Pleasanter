@@ -607,6 +607,19 @@ namespace Implem.Pleasanter.Models
                                 exportColumn: exportColumn)
                             : string.Empty;
                     break;
+                case "TimeZoneInfo":
+                    value = ss.ReadColumnAccessControls.Allowed(
+                        context: context,
+                        ss: ss,
+                        column: column,
+                        type: ss.PermissionType,
+                        mine: mine)
+                            ? TimeZoneInfo.ToExport(
+                                context: context,
+                                column: column,
+                                exportColumn: exportColumn)
+                            : string.Empty;
+                    break;
                 case "DeptCode":
                     value = ss.ReadColumnAccessControls.Allowed(
                         context: context,
