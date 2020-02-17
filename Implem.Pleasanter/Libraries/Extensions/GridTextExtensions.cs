@@ -61,7 +61,7 @@ namespace Implem.Pleasanter.Libraries.Extensions
 
         public static string GridText(this TimeZoneInfo value, Context context, Column column)
         {
-            return value.StandardName;
+            return value?.StandardName;
         }
 
         public static string GridText(this Attachments value, Context context, Column column)

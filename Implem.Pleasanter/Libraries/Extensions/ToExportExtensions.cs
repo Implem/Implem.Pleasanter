@@ -10,7 +10,7 @@ namespace Implem.Pleasanter.Libraries.Extensions
         public static string ToExport(
             this TimeZoneInfo value, Context context, Column column, ExportColumn exportColumn = null)
         {
-            return value.StandardName;
+            return value?.StandardName;
         }
 
         public static string ToExport(

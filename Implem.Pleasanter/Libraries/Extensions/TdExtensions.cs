@@ -23,7 +23,7 @@ namespace Implem.Pleasanter.Libraries.Extensions
             this HtmlBuilder hb, Context context, Column column, TimeZoneInfo value)
         {
             return hb.Td(action: () => hb
-                .Text(text: value.StandardName));
+                .Text(text: value?.StandardName));
         }
 
         public static HtmlBuilder Td(

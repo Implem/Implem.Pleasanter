@@ -232,7 +232,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                     TimeZoneInfo.GetSystemTimeZones()
                         .ForEach(o => AddToChoiceHash(
                             o.Id,
-                            o.StandardName));
+                            o?.StandardName ?? string.Empty));
                     break;
                 default:
                     if (line.RegexExists(@"^\[\[Users.*\]\]$"))
