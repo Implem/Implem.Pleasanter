@@ -497,7 +497,11 @@ namespace Implem.Pleasanter.Libraries.Settings
             Context context, decimal value, bool unit = false, bool format = true)
         {
             return (!Format.IsNullOrEmpty() && format
-                ? value.ToString(Format, context.CultureInfo())
+                ? value.ToString(
+                    Format + (Format == "C" && DecimalPlaces.ToInt() > 0
+                        ? DecimalPlaces.ToString()
+                        : string.Empty),
+                    context.CultureInfo())
                 : DecimalPlaces.ToInt() == 0
                     ? value.ToString("0", "0")
                     : DisplayValue(value))
