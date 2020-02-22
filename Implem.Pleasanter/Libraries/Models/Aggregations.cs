@@ -17,7 +17,7 @@ namespace Implem.Pleasanter.Libraries.Models
 
         public Aggregations(Context context, SiteSettings ss, View view)
         {
-            var tableType = (view.ShowHistory == true)
+            var tableType = view.ShowHistory == true
                 ? Sqls.TableTypes.Normal
                 : ss.TableType;
             var where = view.Where(
@@ -56,7 +56,8 @@ namespace Implem.Pleasanter.Libraries.Models
                 .ForEach(data =>
                 {
                     var groupByColumn = ss?.GetColumn(
-                        context: context, columnName: data.Aggregation.GroupBy);
+                        context: context,
+                        columnName: data.Aggregation.GroupBy);
                     dataSet.Tables["Aggregation" + data.Index]
                         .AsEnumerable()
                         .ForEach(dataRow =>

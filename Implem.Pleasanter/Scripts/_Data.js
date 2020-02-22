@@ -23,7 +23,7 @@ $p.set = function ($control, val) {
                             var $form = $('#MainForm');
                             var url = $form.attr('action').replace('_action_', 'SelectSearchDropDown');
                             var arr = $control.attr('multiple')
-                                ? JSON.stringify(val)
+                                ? JSON.parse(val)
                                 : new Array(val.toString());
                             if (arr.length === 1) {
                                 var data = {};

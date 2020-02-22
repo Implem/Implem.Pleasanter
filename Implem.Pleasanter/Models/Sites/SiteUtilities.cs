@@ -1631,7 +1631,7 @@ namespace Implem.Pleasanter.Models
                                 text: Displays.GoBack(context: context),
                                 controlCss: "button-icon",
                                 accessKey: "q",
-                                onClick: "$p.send($(this),'SitesForm');",
+                                onClick: "$p.send($(this),'MainForm');",
                                 icon: "ui-icon-disk",
                                 action: "SiteMenu",
                                 method: "post")

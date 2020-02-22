@@ -2558,6 +2558,7 @@ namespace Implem.Pleasanter.Models
                             var errorData = userModel.Update(
                                 context: context,
                                 ss: ss,
+                                updateMailAddresses: false,
                                 get: false);
                             switch (errorData.Type)
                             {
@@ -2629,14 +2630,16 @@ namespace Implem.Pleasanter.Models
                         .Join() != mailAddresses)
                 {
                     var statements = new List<SqlStatement>()
-                            {
-                                Rds.PhysicalDeleteMailAddresses(where: where)
-                            };
-                    userModel.MailAddresses.ForEach(mailAddress =>
-                        statements.Add(Rds.InsertMailAddresses(param: Rds.MailAddressesParam()
-                            .OwnerId(userModel.UserId)
-                            .OwnerType("Users")
-                            .MailAddress(mailAddress))));
+                    {
+                        Rds.PhysicalDeleteMailAddresses(where: where)
+                    };
+                    userModel.MailAddresses
+                        .Where(mailAddress => !Libraries.Mails.Addresses.Get(mailAddress).IsNullOrEmpty())
+                        .ForEach(mailAddress =>
+                            statements.Add(Rds.InsertMailAddresses(param: Rds.MailAddressesParam()
+                                .OwnerId(userModel.UserId)
+                                .OwnerType("Users")
+                                .MailAddress(mailAddress))));
                     Rds.ExecuteNonQuery(
                         context: context,
                         transactional: true,

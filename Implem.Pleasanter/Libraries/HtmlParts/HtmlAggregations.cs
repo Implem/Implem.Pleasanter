@@ -1,4 +1,6 @@
-﻿using Implem.Libraries.Utilities;
+﻿using Implem.DefinitionAccessor;
+using Implem.Libraries.Utilities;
+using Implem.Pleasanter.Libraries.DataSources;
 using Implem.Pleasanter.Libraries.DataTypes;
 using Implem.Pleasanter.Libraries.Html;
 using Implem.Pleasanter.Libraries.Models;
@@ -8,6 +10,8 @@ using Implem.Pleasanter.Libraries.Security;
 using Implem.Pleasanter.Libraries.Server;
 using Implem.Pleasanter.Libraries.Settings;
 using Implem.Pleasanter.Models;
+using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 namespace Implem.Pleasanter.Libraries.HtmlParts
 {
@@ -16,7 +20,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
         public static HtmlBuilder Aggregations(
             this HtmlBuilder hb, Context context, SiteSettings ss, View view)
         {
-            return !Reduced(context: context, siteId: ss.SiteId)
+            return !Reduced(context: context)
                 ? hb.Div(
                     id: "Aggregations",
                     action: () => hb
@@ -38,7 +42,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                             icon: "ui-icon-folder-open"));
         }
 
-        private static bool Reduced(Context context, long siteId)
+        private static bool Reduced(Context context)
         {
             var key = "ReduceAggregations";
             if (context.Forms.ControlId() == key)
@@ -147,22 +151,32 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                 {
                     var html = string.Empty;
                     var groupBy = ss.GetColumn(
-                        context: context, columnName: aggregation.GroupBy);
+                        context: context,
+                        columnName: aggregation.GroupBy);
                     var targetColumn = ss.GetColumn(
-                        context: context, columnName: aggregation.Target);
+                        context: context,
+                        columnName: aggregation.Target);
+                    var linkedLabelHash = LinkedLabelHash(
+                        context: context,
+                        ss: ss,
+                        groupBy: groupBy,
+                        aggregation: aggregation);
                     if (aggregation.Data.Count > 0)
+                    {
                         hb.GroupBy(
                             context: context,
                             groupBy: groupBy,
                             targetColumn: targetColumn,
                             aggregation: aggregation);
+                    }
                     aggregation.Data.OrderByDescending(o => o.Value).ForEach(data =>
                         hb.LabelValue(
                             label: groupBy != null
                                 ? Label(
                                     context: context,
                                     groupBy: groupBy,
-                                    selectedValue: data.Key)
+                                    selectedValue: data.Key,
+                                    linkedLabelHash: linkedLabelHash)
                                 : string.Empty,
                             value: (targetColumn != null
                                 ? targetColumn.Display(
@@ -172,11 +186,46 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                     (aggregation.Type != Aggregation.Types.Count
                                         ? targetColumn?.Unit
                                         : string.Empty),
-                            bold: Bold(groupBy, data.Key),
+                            bold: Bold(
+                                groupBy: groupBy,
+                                key: data.Key,
+                                linkedLabelHash: linkedLabelHash),
                             attributes: new HtmlAttributes()
                                 .Attributes(ss, aggregation, groupBy, data.Key)));
                 });
             return hb;
+        }
+
+        private static Dictionary<string, string> LinkedLabelHash(
+            Context context, SiteSettings ss, Column groupBy, Aggregation aggregation)
+        {
+            if (groupBy?.Linked() == true)
+            {
+                var link = ss?.Links?.FirstOrDefault(o => o.ColumnName == groupBy.ColumnName);
+                if (link != null)
+                {
+                    var currentSs = ss.Destinations.Get(link.SiteId);
+                    if (currentSs != null && context.CanRead(ss: currentSs))
+                    {
+                        return Rds.ExecuteTable(
+                            context: context,
+                            statements: Rds.SelectItems(
+                                column: Rds.ItemsColumn()
+                                    .ReferenceId()
+                                    .Title(),
+                                where: Rds.ItemsWhere()
+                                    .SiteId(currentSs.SiteId)
+                                    .ReferenceId_In(aggregation.Data
+                                        .Select(o => o.Key.ToLong())
+                                        .Take(Parameters.General.DropDownSearchPageSize))))
+                                            .AsEnumerable()
+                                            .ToDictionary(
+                                                dataRow => dataRow.String("ReferenceId"),
+                                                dataRow => dataRow.String("Title"));
+                    }
+                }
+            }
+            return null;
         }
 
         private static HtmlBuilder GroupBy(
@@ -207,7 +256,11 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                 .Text(text: text));
         }
 
-        private static string Label(Context context, Column groupBy, string selectedValue)
+        private static string Label(
+            Context context,
+            Column groupBy,
+            string selectedValue,
+            Dictionary<string, string> linkedLabelHash)
         {
             if (groupBy.UserColumn)
             {
@@ -217,7 +270,9 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             }
             else if (groupBy.HasChoices())
             {
-                var label = groupBy.Choice(selectedValue).TextMini;
+                var label = groupBy.Linked()
+                    ? linkedLabelHash?.Get(selectedValue)
+                    : groupBy.Choice(selectedValue).TextMini;
                 return label.IsNullOrEmpty()
                     ? NumericZero(groupBy, selectedValue)
                         ? Displays.NotSet(context: context)
@@ -298,29 +353,37 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             });
         }
 
-        private static bool Bold(Column groupBy, string value)
+        private static bool Bold(
+            Column groupBy, string key, Dictionary<string, string> linkedLabelHash)
         {
             return groupBy?.HasChoices() == true
-                ? groupBy.ChoiceHash.Get(value) != null ||
-                    UserNotSet(groupBy, value) ||
-                    NumericZero(groupBy, value) ||
-                    StringEmpty(groupBy, value)
+                ? groupBy.ChoiceHash.Get(key) != null
+                    || linkedLabelHash?.Get(key) != null
+                    || UserNotSet(
+                        groupBy: groupBy,
+                        key: key)
+                    || NumericZero(
+                        groupBy: groupBy,
+                        key: key)
+                    || StringEmpty(
+                        groupBy: groupBy,
+                        key: key)
                 : true;
         }
 
-        private static bool UserNotSet(Column column, string value)
+        private static bool UserNotSet(Column groupBy, string key)
         {
-            return column.UserColumn && (value == "0" || value == "2");
+            return groupBy.UserColumn && (key == "0" || key == "2");
         }
 
-        private static bool NumericZero(Column column, string value)
+        private static bool NumericZero(Column groupBy, string key)
         {
-            return column.TypeName.CsTypeSummary() == Types.CsNumeric && value == "0";
+            return groupBy.TypeName.CsTypeSummary() == Types.CsNumeric && key == "0";
         }
 
-        private static bool StringEmpty(Column column, string value)
+        private static bool StringEmpty(Column groupBy, string key)
         {
-            return column.TypeName.CsTypeSummary() == Types.CsString && value == string.Empty;
+            return groupBy.TypeName.CsTypeSummary() == Types.CsString && key == string.Empty;
         }
     }
 }
