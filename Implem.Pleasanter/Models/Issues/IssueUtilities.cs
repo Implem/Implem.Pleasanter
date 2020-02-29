@@ -3976,13 +3976,13 @@ namespace Implem.Pleasanter.Models
                 context: context,
                 referenceId: siteModel.SiteId,
                 setAllChoices: true);
-            if (context.ContractSettings.Import == false)
+            var invalid = IssueValidators.OnImporting(
+                context: context,
+                ss: ss);
+            switch (invalid.Type)
             {
-                return Messages.ResponseRestricted(context: context).ToJson();
-            }
-            if (!context.CanCreate(ss: ss))
-            {
-                return Messages.ResponseHasNotPermission(context: context).ToJson();
+                case Error.Types.None: break;
+                default: return invalid.Type.MessageJson(context: context);
             }
             var res = new ResponseCollection();
             Csv csv;
@@ -4022,8 +4022,8 @@ namespace Implem.Pleasanter.Models
                     }
                     if (column != null) columnHash.Add(data.Index, column);
                 });
-                var invalid = Imports.ColumnValidate(context, ss, columnHash.Values.Select(o => o.ColumnName), "CompletionTime");
-                if (invalid != null) return invalid;
+                var invalidColumn = Imports.ColumnValidate(context, ss, columnHash.Values.Select(o => o.ColumnName), "CompletionTime");
+                if (invalidColumn != null) return invalidColumn;
                 Rds.ExecuteNonQuery(
                     context: context,
                     transactional: true,
@@ -4256,8 +4256,8 @@ namespace Implem.Pleasanter.Models
                 default: return null;
             }
             var export = ss.GetExport(
-                    context: context,
-                    id: context.QueryStrings.Int("id"));
+                context: context,
+                id: context.QueryStrings.Int("id"));
             var content = ExportUtilities.Export(
                 context: context,
                 ss: ss,
@@ -4295,8 +4295,8 @@ namespace Implem.Pleasanter.Models
             System.Threading.Tasks.Task.Factory.StartNew(() =>
             {
                 var export = ss.GetExport(
-                        context: context,
-                        id: context.Forms.Int("ExportId"));
+                    context: context,
+                    id: context.Forms.Int("ExportId"));
                 var fileName = ExportUtilities.FileName(
                     context: context,
                     title: ss.Title,

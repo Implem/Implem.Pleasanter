@@ -2372,9 +2372,13 @@ namespace Implem.Pleasanter.Models
             {
                 return Messages.ResponseRestricted(context: context).ToJson();
             }
-            if (!context.CanCreate(ss: ss))
+            var invalid = UserValidators.OnImporting(
+                context: context,
+                ss: ss);
+            switch (invalid.Type)
             {
-                return Messages.ResponseHasNotPermission(context: context).ToJson();
+                case Error.Types.None: break;
+                default: return invalid.Type.MessageJson(context: context);
             }
             var res = new ResponseCollection();
             Csv csv;
@@ -2415,7 +2419,7 @@ namespace Implem.Pleasanter.Models
                     }
                     if (column != null) columnHash.Add(data.Index, column);
                 });
-                var invalid = Imports.ColumnValidate(
+                var invalidColumn = Imports.ColumnValidate(
                     context: context,
                     ss: ss,
                     headers: columnHash.Values.Select(o => o.ColumnName),
@@ -2424,7 +2428,7 @@ namespace Implem.Pleasanter.Models
                         "LoginId",
                         "Name"
                     });
-                if (invalid != null) return invalid;
+                if (invalidColumn != null) return invalidColumn;
                 var userHash = new Dictionary<int, UserModel>();
                 csv.Rows.Select((o, i) => new { Row = o, Index = i }).ForEach(data =>
                 {

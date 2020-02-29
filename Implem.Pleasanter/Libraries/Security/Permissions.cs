@@ -507,7 +507,7 @@ namespace Implem.Pleasanter.Libraries.Security
 
         public static bool CanExport(this Context context, SiteSettings ss, bool site = false)
         {
-            if (context.ContractSettings.Import == false) return false;
+            if (context.ContractSettings.Export == false) return false;
             switch (context.Controller)
             {
                 case "tenants":

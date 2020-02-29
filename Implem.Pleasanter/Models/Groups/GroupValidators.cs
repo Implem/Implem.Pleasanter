@@ -302,6 +302,19 @@ namespace Implem.Pleasanter.Models
                 : new ErrorData(type: Error.Types.HasNotPermission);
         }
 
+        public static ErrorData OnImporting(Context context, SiteSettings ss, bool api = false)
+        {
+            if (api && (context.ContractSettings.Api == false || !Parameters.Api.Enabled))
+            {
+                return new ErrorData(type: Error.Types.InvalidRequest);
+            }
+            return context.CanImport(ss: ss)
+                ? new ErrorData(type: Error.Types.None)
+                : !context.CanRead(ss: ss)
+                    ? new ErrorData(type: Error.Types.NotFound)
+                    : new ErrorData(type: Error.Types.HasNotPermission);
+        }
+
         public static ErrorData OnExporting(Context context, SiteSettings ss, bool api = false)
         {
             if (api && (context.ContractSettings.Api == false || !Parameters.Api.Enabled))
