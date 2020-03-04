@@ -1899,7 +1899,7 @@ namespace Implem.Pleasanter.Models
             {
                 if (notification.HasRelatedUsers())
                 {
-                    var users = new List<long>();
+                    var users = new List<int>();
                     Rds.ExecuteTable(
                         context: context,
                         statements: Rds.SelectResults(
@@ -1914,10 +1914,10 @@ namespace Implem.Pleasanter.Models
                                 .AsEnumerable()
                                 .ForEach(dataRow =>
                                 {
-                                    users.Add(dataRow.Long("Manager"));
-                                    users.Add(dataRow.Long("Owner"));
-                                    users.Add(dataRow.Long("Creator"));
-                                    users.Add(dataRow.Long("Updator"));
+                                    users.Add(dataRow.Int("Manager"));
+                                    users.Add(dataRow.Int("Owner"));
+                                    users.Add(dataRow.Int("Creator"));
+                                    users.Add(dataRow.Int("Updator"));
                                 });
                     notification.ReplaceRelatedUsers(
                         context: context,

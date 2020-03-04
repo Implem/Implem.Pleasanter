@@ -66,6 +66,8 @@ namespace Implem.Libraries.Utilities
             {
                 switch (dataRow.Table.Columns[name].DataType.Name)
                 {
+                    case "Boolean":
+                        return dataRow.Field<bool>(name).ToString();
                     case "Int32":
                         return dataRow.Field<int>(name).ToString();
                     case "Int64":
