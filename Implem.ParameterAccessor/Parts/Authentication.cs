@@ -8,5 +8,6 @@ namespace Implem.ParameterAccessor.Parts
         public string ExtensionUrl;
         public bool RejectUnregisteredUser;
         public List<Ldap> LdapParameters;
+        public Saml SamlParameters;
     }
 }

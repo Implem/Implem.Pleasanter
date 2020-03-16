@@ -2041,21 +2041,24 @@ namespace Implem.Pleasanter.Models
         /// </summary>
         private void UpdateMailAddresses(Context context)
         {
-            var statements = new List<SqlStatement>();
-            Session_MailAddresses(context: context)?.ForEach(mailAddress =>
-                statements.Add(Rds.InsertMailAddresses(
-                    param: Rds.MailAddressesParam()
+            if (UserId > 0)
+            {
+                var statements = new List<SqlStatement>();
+                Session_MailAddresses(context: context)?.ForEach(mailAddress =>
+                    statements.Add(Rds.InsertMailAddresses(
+                        param: Rds.MailAddressesParam()
+                            .OwnerId(UserId)
+                            .OwnerType("Users")
+                            .MailAddress(mailAddress))));
+                statements.Insert(0, Rds.PhysicalDeleteMailAddresses(
+                    where: Rds.MailAddressesWhere()
                         .OwnerId(UserId)
-                        .OwnerType("Users")
-                        .MailAddress(mailAddress))));
-            statements.Insert(0, Rds.PhysicalDeleteMailAddresses(
-                where: Rds.MailAddressesWhere()
-                    .OwnerId(UserId)
-                    .OwnerType("Users")));
-            Rds.ExecuteNonQuery(
-                context: context,
-                transactional: true,
-                statements: statements.ToArray());
+                        .OwnerType("Users")));
+                Rds.ExecuteNonQuery(
+                    context: context,
+                    transactional: true,
+                    statements: statements.ToArray());
+            }
         }
 
         /// <summary>
@@ -2214,6 +2217,7 @@ namespace Implem.Pleasanter.Models
                         userModel: this);
                     break;
                 case "SAML":
+                case "SAML-MultiTenant":
                     ret = GetByCredentials(
                         context: context,
                         loginId: LoginId,

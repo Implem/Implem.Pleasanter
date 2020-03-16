@@ -2996,3 +2996,9 @@ textarea:focus{
     background-color:#ffffcc;
 }
 
+.ssoLoginMessage{
+    margin:10px;
+    padding:6px;
+    border-top:solid 1px silver;
+}
+

@@ -252,7 +252,7 @@ namespace Implem.Pleasanter.Controllers
                 log.Finish(context: context);
                 return base.Redirect(Locations.Top(context: context));
             }
-            if ((Parameters.Authentication.Provider == "SAML") && (ssocode != string.Empty))
+            if ((Parameters.Authentication.Provider == "SAML-MultiTenant") && (ssocode != string.Empty))
             {
                 var tenant = new TenantModel().Get(
                     context: context,
@@ -285,84 +285,95 @@ namespace Implem.Pleasanter.Controllers
         public ActionResult SamlLogin()
         {
             var context = new Context();
-            if (HttpContext.User?.Identity?.AuthenticationType == "Federation"
-                && HttpContext.User?.Identity?.IsAuthenticated == true)
+            if (!Authentications.SAML() 
+                || HttpContext.User?.Identity?.AuthenticationType != "Federation"
+                || HttpContext.User?.Identity?.IsAuthenticated != true)
             {
-                Authentications.SignOut(context: context);
-                var loginId = ClaimsPrincipal.Current.FindFirst(ClaimTypes.NameIdentifier);
-                var firstName = string.Empty;
-                var lastName = string.Empty;
-                var tenantManager = false;
-                foreach(var claim in ClaimsPrincipal.Current.Claims)
-                {
-                    switch (claim.Type)
-                    {
-                        case "FirstName":
-                            firstName = claim.Value;
-                            break;
-                        case "LastName":
-                            lastName = claim.Value;
-                            break;
-                        case "TenantManager":
-                            tenantManager = claim.Value.ToLower() == "true" ? true : false;
-                            break;
-                    }
-                }
-                var space = (string.IsNullOrEmpty(lastName) || string.IsNullOrEmpty(firstName)) ? string.Empty : "　";
-                var name = lastName + space + firstName;
-                if(name == string.Empty)
+                return new RedirectResult(Locations.SamlLoginFailed(context: context));
+            }
+            Authentications.SignOut(context: context);
+            var loginId = ClaimsPrincipal.Current.FindFirst(ClaimTypes.NameIdentifier);
+            var attributes = Saml.MapAttributes(ClaimsPrincipal.Current.Claims, loginId.Value);
+            var name = attributes.UserName;
+            TenantModel tenant;
+            if (Parameters.Authentication.Provider == "SAML-MultiTenant")
+            {
+                if (string.IsNullOrEmpty(name))
                 {
                     return new RedirectResult(Locations.EmptyUserName(context: context));
                 }
                 var ssocode = loginId.Issuer.TrimEnd('/').Substring(loginId.Issuer.TrimEnd('/').LastIndexOf('/') + 1);
-                var tenant = new TenantModel().Get(
+                tenant = new TenantModel().Get(
                     context: context,
-                    ss:SiteSettingsUtilities.TenantsSiteSettings(context), 
+                    ss: SiteSettingsUtilities.TenantsSiteSettings(context),
                     where: Rds.TenantsWhere().Comments(ssocode));
-                try
-                {
-                    Saml.UpdateOrInsert(
-                        context: context,
-                        tenantId: tenant.TenantId,
-                        loginId: loginId.Value,
-                        name: name,
-                        mailAddress: loginId.Value,
-                        tenantManager: tenantManager,
-                        synchronizedTime: System.DateTime.Now);
-                }
-                catch (System.Data.SqlClient.SqlException e)
-                {
-                    if (e.Number == 2601)
-                    {
-                        return new RedirectResult(Locations.LoginIdAlreadyUse(context: context));
-                    }
-                    throw;
-                }
-                var user = new UserModel().Get(
+            }
+            else
+            {
+                tenant = new TenantModel().Get(
                     context: context,
-                    ss: null,
-                    where: Rds.UsersWhere()
-                        .TenantId(tenant.TenantId)
-                        .LoginId(loginId.Value));
-                if (user.AccessStatus == Databases.AccessStatuses.Selected)
+                    ss: SiteSettingsUtilities.TenantsSiteSettings(context),
+                    where: Rds.TenantsWhere().TenantId(Parameters.Authentication.SamlParameters.SamlTenantId));
+                if (tenant.AccessStatus != Databases.AccessStatuses.Selected)
                 {
-                    if (user.Disabled)
-                    {
-                        return new RedirectResult(Locations.UserDisabled(context: context));
-                    }
-                    if (user.Lockout)
-                    {
-                        return new RedirectResult(Locations.UserLockout(context: context));
-                    }
-                    user.Allow(context: context, returnUrl: Locations.Top(context), createPersistentCookie: true);
-                    return new RedirectResult(Locations.Top(context));
-                }
-                else
-                {
-                    return new RedirectResult(Locations.SamlLoginFailed(context: context));
+                    Rds.ExecuteNonQuery(
+                        context: context,
+                        connectionString: Parameters.Rds.OwnerConnectionString,
+                        statements: new[] {
+                        Rds.IdentityInsertTenants(on:true),
+                        Rds.InsertTenants(
+                            param: Rds.TenantsParam()
+                                .TenantId(Parameters.Authentication.SamlParameters.SamlTenantId)
+                                .TenantName("DefaultTenant")),
+                        Rds.IdentityInsertTenants(on: false)
+                        });
+                    tenant.TenantId = Parameters.Authentication.SamlParameters.SamlTenantId;
                 }
             }
-            return new RedirectResult(Locations.SamlLoginFailed(context: context));
+            try
+            {
+                Saml.UpdateOrInsert(
+                    context: context,
+                    tenantId: tenant.TenantId,
+                    loginId: loginId.Value,
+                    name: string.IsNullOrEmpty(name)
+                        ? loginId.Value
+                        : name,
+                    mailAddress: attributes["MailAddress"],
+                    synchronizedTime: System.DateTime.Now,
+                    attributes: attributes);
+            }
+            catch (System.Data.SqlClient.SqlException e)
+            {
+                if (e.Number == 2601)
+                {
+                    return new RedirectResult(Locations.LoginIdAlreadyUse(context: context));
+                }
+                throw;
+            }
+            var user = new UserModel().Get(
+                context: context,
+                ss: null,
+                where: Rds.UsersWhere()
+                    .TenantId(tenant.TenantId)
+                    .LoginId(loginId.Value));
+            if (user.AccessStatus == Databases.AccessStatuses.Selected)
+            {
+                if (user.Disabled)
+                {
+                    return new RedirectResult(Locations.UserDisabled(context: context));
+                }
+                if (user.Lockout)
+                {
+                    return new RedirectResult(Locations.UserLockout(context: context));
+                }
+                user.Allow(context: context, returnUrl: Locations.Top(context), createPersistentCookie: true);
+                return new RedirectResult(Locations.Top(context));
+            }
+            else
+            {
+                return new RedirectResult(Locations.SamlLoginFailed(context: context));
+            }
         }
 
         /// <summary>

@@ -50,6 +50,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Parameters.cs" />
+    <Compile Include="Parts\SamlAttributes.cs" />
+    <Compile Include="Parts\Saml.cs" />
     <Compile Include="Parts\SitePackage.cs" />
     <Compile Include="Parts\Registration.cs" />
     <Compile Include="Parts\Version.cs" />

@@ -34,5 +34,21 @@
             "LdapSyncUser": null,
             "LdapSyncPassword": null
         }
-    ]
+    ],
+    "SamlParameters": {
+        "Attributes": {
+            "Name": "Name",
+            "UserCode": "UserCode",
+            "Birthday": "Birthday",
+            "Gender": "Gender",
+            "Language": "Language",
+            "TimeZone": "TimeZone",
+            "TenantManager": "TenantManager",
+            "DeptCode": "DeptCode",
+            "Dept": "Dept",
+            "Body": "Body",
+            "MailAddress": "{NameId}"
+        },
+        "SamlTenantId": 1
+    }
 }

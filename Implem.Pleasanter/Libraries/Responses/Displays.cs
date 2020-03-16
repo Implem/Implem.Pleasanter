@@ -5798,6 +5798,26 @@ namespace Implem.Pleasanter.Libraries.Responses
                 data: data);
         }
 
+        public static string SsoLogin(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "SsoLogin",
+                data: data);
+        }
+
+        public static string SsoLoginMessage(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "SsoLoginMessage",
+                data: data);
+        }
+
         public static string Standard(
             Context context,
             params string[] data)
