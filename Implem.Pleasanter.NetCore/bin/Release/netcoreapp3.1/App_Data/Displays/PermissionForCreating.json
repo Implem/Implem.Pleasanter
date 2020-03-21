@@ -1,0 +1,13 @@
+﻿{
+    "Id": "PermissionForCreating",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Permission for creating records"
+        },
+        {
+            "Language": "ja",
+            "Body": "レコード作成時の許可"
+        }
+    ]
+}

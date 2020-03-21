@@ -27,3 +27,4 @@ C:\Implem\PleasanterYakushi\Implem.CodeDefiner\obj\Debug\netstandard2.0\Implem.C
 C:\Implem\PleasanterYakushi\Implem.CodeDefiner\obj\Debug\netstandard2.0\Implem.CodeDefiner.csproj.CopyComplete
 C:\Implem\PleasanterYakushi\Implem.CodeDefiner\obj\Debug\netstandard2.0\Implem.CodeDefiner.dll
 C:\Implem\PleasanterYakushi\Implem.CodeDefiner\obj\Debug\netstandard2.0\Implem.CodeDefiner.pdb
+C:\Implem\PleasanterYakushi\Implem.CodeDefiner\obj\Debug\netstandard2.0\Implem.CodeDefiner.csproj.CoreCompileInputs.cache

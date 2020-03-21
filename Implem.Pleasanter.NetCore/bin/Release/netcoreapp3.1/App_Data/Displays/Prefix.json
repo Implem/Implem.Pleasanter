@@ -1,0 +1,13 @@
+﻿{
+    "Id": "Prefix",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Prefix"
+        },
+        {
+            "Language": "ja",
+            "Body": "プレフィックス"
+        }
+    ]
+}

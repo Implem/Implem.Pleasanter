@@ -1,0 +1,13 @@
+﻿{
+    "Id": "UseSearch",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Use search"
+        },
+        {
+            "Language": "ja",
+            "Body": "検索機能を使う"
+        }
+    ]
+}

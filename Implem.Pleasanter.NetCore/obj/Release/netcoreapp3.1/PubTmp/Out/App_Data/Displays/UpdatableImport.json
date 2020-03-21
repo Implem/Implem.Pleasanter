@@ -1,0 +1,13 @@
+﻿{
+    "Id": "UpdatableImport",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Update record whose ID matches."
+        },
+        {
+            "Language": "ja",
+            "Body": "IDが一致するレコードを更新する"
+        }
+    ]
+}

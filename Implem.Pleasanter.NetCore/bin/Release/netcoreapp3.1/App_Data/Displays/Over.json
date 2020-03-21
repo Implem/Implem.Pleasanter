@@ -1,0 +1,13 @@
+﻿{
+    "Id": "Over",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Over {0}"
+        },
+        {
+            "Language": "ja",
+            "Body": "{0} ～"
+        }
+    ]
+}

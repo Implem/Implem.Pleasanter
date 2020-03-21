@@ -24,3 +24,4 @@ C:\Implem\PleasanterYakushi\Implem.SupportTools\LdapSyncTester\obj\Debug\Implem.
 C:\Implem\PleasanterYakushi\Implem.SupportTools\LdapSyncTester\obj\Debug\Implem.SupportTools.LdapSyncTester.csproj.CopyComplete
 C:\Implem\PleasanterYakushi\Implem.SupportTools\LdapSyncTester\obj\Debug\Implem.SupportTools.LdapSyncTester.dll
 C:\Implem\PleasanterYakushi\Implem.SupportTools\LdapSyncTester\obj\Debug\Implem.SupportTools.LdapSyncTester.pdb
+C:\Implem\PleasanterYakushi\Implem.SupportTools\LdapSyncTester\obj\Debug\Implem.SupportTools.LdapSyncTester.csproj.CoreCompileInputs.cache

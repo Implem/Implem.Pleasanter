@@ -1,0 +1,13 @@
+﻿{
+    "Id": "Histories",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Histories"
+        },
+        {
+            "Language": "ja",
+            "Body": "履歴"
+        }
+    ]
+}

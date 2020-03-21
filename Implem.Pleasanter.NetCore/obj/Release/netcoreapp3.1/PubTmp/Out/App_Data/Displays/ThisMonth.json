@@ -1,0 +1,13 @@
+﻿{
+    "Id": "ThisMonth",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "This month"
+        },
+        {
+            "Language": "ja",
+            "Body": "今月"
+        }
+    ]
+}

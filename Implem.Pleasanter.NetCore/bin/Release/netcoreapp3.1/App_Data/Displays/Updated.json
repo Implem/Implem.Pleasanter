@@ -1,0 +1,13 @@
+﻿{
+    "Id": "Updated",
+    "Type": 210,
+    "Languages": [
+        {
+            "Body": "Update process of \" {0} \" was successful."
+        },
+        {
+            "Language": "ja",
+            "Body": "\" {0} \" を更新しました。"
+        }
+    ]
+}

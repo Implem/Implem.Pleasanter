@@ -1,0 +1,13 @@
+﻿{
+    "Id": "PartialMatch",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Partial match"
+        },
+        {
+            "Language": "ja",
+            "Body": "部分一致"
+        }
+    ]
+}

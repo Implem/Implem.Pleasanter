@@ -1,0 +1,13 @@
+﻿{
+    "Id": "Default",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Default"
+        },
+        {
+            "Language": "ja",
+            "Body": "既定"
+        }
+    ]
+}

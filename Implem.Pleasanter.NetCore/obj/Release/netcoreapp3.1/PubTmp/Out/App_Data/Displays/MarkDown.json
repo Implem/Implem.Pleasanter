@@ -1,0 +1,13 @@
+﻿{
+    "Id": "MarkDown",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Markdown"
+        },
+        {
+            "Language": "ja",
+            "Body": "マークダウン"
+        }
+    ]
+}

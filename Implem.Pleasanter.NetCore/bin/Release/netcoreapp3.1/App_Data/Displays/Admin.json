@@ -1,0 +1,13 @@
+﻿{
+    "Id": "Admin",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Admin"
+        },
+        {
+            "Language": "ja",
+            "Body": "管理"
+        }
+    ]
+}

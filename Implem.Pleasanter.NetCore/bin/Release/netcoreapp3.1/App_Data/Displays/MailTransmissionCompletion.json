@@ -1,0 +1,13 @@
+﻿{
+    "Id": "MailTransmissionCompletion",
+    "Type": 210,
+    "Languages": [
+        {
+            "Body": "E-mail transmission completion."
+        },
+        {
+            "Language": "ja",
+            "Body": "メールを送信しました。"
+        }
+    ]
+}

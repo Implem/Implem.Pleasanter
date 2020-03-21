@@ -1,0 +1,13 @@
+﻿{
+    "Id": "CantSetAtTopOfSite",
+    "Type": 240,
+    "Languages": [
+        {
+            "Body": "You can not be set at the top of the site."
+        },
+        {
+            "Language": "ja",
+            "Body": "最上位のサイトで設定することはできません。"
+        }
+    ]
+}

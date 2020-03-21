@@ -1,0 +1,13 @@
+﻿{
+    "Id": "CanNotInherit",
+    "Type": 240,
+    "Languages": [
+        {
+            "Body": "Inherited sites can not be inherited."
+        },
+        {
+            "Language": "ja",
+            "Body": "継承中のサイトは継承できません。"
+        }
+    ]
+}

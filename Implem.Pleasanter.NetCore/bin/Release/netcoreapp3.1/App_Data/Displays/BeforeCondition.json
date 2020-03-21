@@ -1,0 +1,13 @@
+﻿{
+    "Id": "BeforeCondition",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Before condition"
+        },
+        {
+            "Language": "ja",
+            "Body": "変更前の条件"
+        }
+    ]
+}

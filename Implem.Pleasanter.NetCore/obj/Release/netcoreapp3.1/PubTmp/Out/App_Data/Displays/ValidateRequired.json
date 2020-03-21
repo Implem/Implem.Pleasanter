@@ -1,0 +1,14 @@
+﻿{
+    "Id": "ValidateRequired",
+    "Type": 410,
+    "ClientScript": true,
+    "Languages": [
+        {
+            "Body": "This information is required."
+        },
+        {
+            "Language": "ja",
+            "Body": "入力必須項目です。"
+        }
+    ]
+}

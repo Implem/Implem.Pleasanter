@@ -1,0 +1,13 @@
+﻿{
+    "Id": "ForceUnlockTable",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Force unlocking of the table"
+        },
+        {
+            "Language": "ja",
+            "Body": "テーブルのロックを強制解除"
+        }
+    ]
+}

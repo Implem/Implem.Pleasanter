@@ -1,0 +1,13 @@
+﻿{
+    "Id": "ReadColumnAccessControl",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Read access control"
+        },
+        {
+            "Language": "ja",
+            "Body": "読取り時のアクセス制御"
+        }
+    ]
+}

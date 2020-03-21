@@ -1,0 +1,13 @@
+﻿{
+    "Id": "Storage",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Storage"
+        },
+        {
+            "Language": "ja",
+            "Body": "ストレージ"
+        }
+    ]
+}

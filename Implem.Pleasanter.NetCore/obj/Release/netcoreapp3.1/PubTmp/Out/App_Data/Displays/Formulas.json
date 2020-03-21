@@ -1,0 +1,13 @@
+﻿{
+    "Id": "Formulas",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Formulas"
+        },
+        {
+            "Language": "ja",
+            "Body": "計算式"
+        }
+    ]
+}

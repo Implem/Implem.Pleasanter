@@ -1,0 +1,13 @@
+﻿{
+    "Id": "Ymdahms",
+    "Type": 120,
+    "Languages": [
+        {
+            "Body": "Date, week and seconds"
+        },
+        {
+            "Language": "ja",
+            "Body": "日付と曜日と時刻(秒)"
+        }
+    ]
+}

@@ -1,0 +1,13 @@
+﻿{
+    "Id": "CanNotLink",
+    "Type": 240,
+    "Languages": [
+        {
+            "Body": "There are no items that can be linked."
+        },
+        {
+            "Language": "ja",
+            "Body": "リンクできる項目がありません。"
+        }
+    ]
+}

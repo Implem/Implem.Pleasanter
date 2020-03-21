@@ -1,0 +1,13 @@
+﻿{
+    "Id": "Move",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Move"
+        },
+        {
+            "Language": "ja",
+            "Body": "移動"
+        }
+    ]
+}

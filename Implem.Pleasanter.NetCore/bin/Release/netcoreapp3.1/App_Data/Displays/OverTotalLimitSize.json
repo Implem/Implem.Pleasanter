@@ -1,0 +1,13 @@
+﻿{
+    "Id": "OverTotalLimitSize",
+    "Type": 240,
+    "Languages": [
+        {
+            "Body": "Attachable Size is up to {0} Mbyte."
+        },
+        {
+            "Language": "ja",
+            "Body": "添付可能な容量は{0}Mbyteまでです。"
+        }
+    ]
+}

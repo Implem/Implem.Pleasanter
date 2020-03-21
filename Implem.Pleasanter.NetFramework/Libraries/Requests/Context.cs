@@ -444,7 +444,7 @@ namespace Implem.Pleasanter.NetFramework.Libraries.Requests
                     .GetRouteData(new HttpContextWrapper(HttpContext.Current))?
                     .Values
                     .ToDictionary(
-                        o => o.Key,
+                        o => o.Key.ToLower(),
                         o => o.Value.ToString()) ?? new Dictionary<string, string>()
                 : new Dictionary<string, string>();
         }

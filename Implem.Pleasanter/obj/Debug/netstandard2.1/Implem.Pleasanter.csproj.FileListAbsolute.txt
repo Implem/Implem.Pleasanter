@@ -1,0 +1,3 @@
+C:\Implem\PleasanterYakushi\Implem.Pleasanter\obj\Debug\netstandard2.1\Implem.Pleasanter.csprojAssemblyReference.cache
+C:\Implem\PleasanterYakushi\Implem.Pleasanter\obj\Debug\netstandard2.1\Implem.Pleasanter.AssemblyInfoInputs.cache
+C:\Implem\PleasanterYakushi\Implem.Pleasanter\obj\Debug\netstandard2.1\Implem.Pleasanter.AssemblyInfo.cs

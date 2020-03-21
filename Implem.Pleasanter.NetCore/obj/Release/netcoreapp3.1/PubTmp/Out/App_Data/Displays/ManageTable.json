@@ -1,0 +1,13 @@
+﻿{
+    "Id": "ManageTable",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Manage table"
+        },
+        {
+            "Language": "ja",
+            "Body": "テーブルの管理"
+        }
+    ]
+}

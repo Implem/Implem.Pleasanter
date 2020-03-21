@@ -1,0 +1,13 @@
+﻿{
+    "Id": "NumberPerPage",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Number per page"
+        },
+        {
+            "Language": "ja",
+            "Body": "ページ当たりの表示件数"
+        }
+    ]
+}

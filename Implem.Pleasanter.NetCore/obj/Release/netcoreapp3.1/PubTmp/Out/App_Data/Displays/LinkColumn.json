@@ -1,0 +1,13 @@
+﻿{
+    "Id": "LinkColumn",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Link column"
+        },
+        {
+            "Language": "ja",
+            "Body": "リンク項目"
+        }
+    ]
+}

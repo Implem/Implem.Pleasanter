@@ -1,0 +1,13 @@
+﻿{
+    "Id": "BusinessImprovement",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "BusinessImprovement"
+        },
+        {
+            "Language": "ja",
+            "Body": "業務改善"
+        }
+    ]
+}

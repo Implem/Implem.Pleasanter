@@ -1,0 +1,13 @@
+﻿{
+    "Id": "Expired",
+    "Type": 240,
+    "Languages": [
+        {
+            "Body": "This license is expired and can not be used."
+        },
+        {
+            "Language": "ja",
+            "Body": "本ライセンスは失効しているためご利用いただけません。"
+        }
+    ]
+}

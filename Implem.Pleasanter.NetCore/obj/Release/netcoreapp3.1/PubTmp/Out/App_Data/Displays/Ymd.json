@@ -1,0 +1,13 @@
+﻿{
+    "Id": "Ymd",
+    "Type": 120,
+    "Languages": [
+        {
+            "Body": "Date"
+        },
+        {
+            "Language": "ja",
+            "Body": "年月日"
+        }
+    ]
+}

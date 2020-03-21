@@ -1,0 +1,13 @@
+﻿{
+    "Id": "LogoImage",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Logo Image"
+        },
+        {
+            "Language": "ja",
+            "Body": "ロゴ画像"
+        }
+    ]
+}

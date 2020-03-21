@@ -1,0 +1,13 @@
+﻿{
+    "Id": "SaveViewNone",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "No save"
+        },
+        {
+            "Language": "ja",
+            "Body": "保存しない"
+        }
+    ]
+}

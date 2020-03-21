@@ -1,0 +1,13 @@
+﻿{
+    "Id": "BulkMove",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Bulk move"
+        },
+        {
+            "Language": "ja",
+            "Body": "一括移動"
+        }
+    ]
+}

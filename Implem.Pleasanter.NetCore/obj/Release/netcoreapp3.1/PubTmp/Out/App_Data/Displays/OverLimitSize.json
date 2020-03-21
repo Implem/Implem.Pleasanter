@@ -1,0 +1,13 @@
+﻿{
+    "Id": "OverLimitSize",
+    "Type": 240,
+    "Languages": [
+        {
+            "Body": "There is a file that exceeds the limit size of {0} Mbyte."
+        },
+        {
+            "Language": "ja",
+            "Body": "制限容量{0}Mbyteを超えているファイルがあります。"
+        }
+    ]
+}

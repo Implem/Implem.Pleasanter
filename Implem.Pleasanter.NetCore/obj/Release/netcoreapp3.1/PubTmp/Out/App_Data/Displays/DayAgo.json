@@ -1,0 +1,13 @@
+﻿{
+    "Id": "DayAgo",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "1 day excess"
+        },
+        {
+            "Language": "ja",
+            "Body": "1 日前"
+        }
+    ]
+}

@@ -1,0 +1,13 @@
+﻿{
+    "Id": "Sales",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Sales"
+        },
+        {
+            "Language": "ja",
+            "Body": "営業"
+        }
+    ]
+}

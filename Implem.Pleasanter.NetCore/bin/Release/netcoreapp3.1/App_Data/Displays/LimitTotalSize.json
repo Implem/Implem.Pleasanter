@@ -1,0 +1,13 @@
+﻿{
+    "Id": "LimitTotalSize",
+    "Type": 110,
+    "Languages": [
+      {
+        "Body": "Limit total size"
+      },
+      {
+        "Language": "ja",
+        "Body": "全容量制限(MB)"
+      }
+    ]
+}

@@ -1,0 +1,13 @@
+﻿{
+    "Id": "ItemsLimit",
+    "Type": 240,
+    "Languages": [
+        {
+            "Body": "The number of record has reached the limit."
+        },
+        {
+            "Language": "ja",
+            "Body": "レコード数が上限に達しました。"
+        }
+    ]
+}

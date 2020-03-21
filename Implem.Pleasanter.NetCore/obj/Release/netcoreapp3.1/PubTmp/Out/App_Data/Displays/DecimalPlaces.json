@@ -1,0 +1,13 @@
+﻿{
+    "Id": "DecimalPlaces",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Decimal places"
+        },
+        {
+            "Language": "ja",
+            "Body": "小数点以下桁数"
+        }
+    ]
+}

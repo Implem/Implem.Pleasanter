@@ -1,0 +1,13 @@
+﻿{
+    "Id": "Min",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Min"
+        },
+        {
+            "Language": "ja",
+            "Body": "最小"
+        }
+    ]
+}

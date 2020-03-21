@@ -1,0 +1,13 @@
+﻿{
+    "Id": "NoData",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "There is no corresponding data."
+        },
+        {
+            "Language": "ja",
+            "Body": "該当するデータがありません"
+        }
+    ]
+}

@@ -1,0 +1,13 @@
+﻿{
+    "Id": "NumericRange",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Numeric Range"
+        },
+        {
+            "Language": "ja",
+            "Body": "数値の範囲"
+        }
+    ]
+}

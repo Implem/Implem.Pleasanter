@@ -1,0 +1,13 @@
+﻿{
+    "Id": "Format",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Format"
+        },
+        {
+            "Language": "ja",
+            "Body": "書式"
+        }
+    ]
+}

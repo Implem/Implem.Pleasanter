@@ -1,0 +1,13 @@
+﻿{
+    "Id": "Enabled",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Enabled"
+        },
+        {
+            "Language": "ja",
+            "Body": "有効"
+        }
+    ]
+}

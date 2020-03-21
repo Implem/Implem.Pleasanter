@@ -1,0 +1,13 @@
+﻿{
+    "Id": "LimitSize",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Limit size"
+        },
+        {
+            "Language": "ja",
+            "Body": "容量制限(MB)"
+        }
+    ]
+}

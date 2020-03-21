@@ -29,3 +29,4 @@ C:\Implem\PleasanterYakushi\Implem.SupportTools\SysLogViewer\obj\Debug\Implem.Su
 C:\Implem\PleasanterYakushi\Implem.SupportTools\SysLogViewer\obj\Debug\Implem.SupportTools.SysLogViewer.csproj.CopyComplete
 C:\Implem\PleasanterYakushi\Implem.SupportTools\SysLogViewer\obj\Debug\Implem.SupportTools.SysLogViewer.dll
 C:\Implem\PleasanterYakushi\Implem.SupportTools\SysLogViewer\obj\Debug\Implem.SupportTools.SysLogViewer.pdb
+C:\Implem\PleasanterYakushi\Implem.SupportTools\SysLogViewer\obj\Debug\Implem.SupportTools.SysLogViewer.csproj.CoreCompileInputs.cache

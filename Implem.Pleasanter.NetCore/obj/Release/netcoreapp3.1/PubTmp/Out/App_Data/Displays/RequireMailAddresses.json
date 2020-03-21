@@ -1,0 +1,13 @@
+﻿{
+    "Id": "RequireMailAddresses",
+    "Type": 240,
+    "Languages": [
+        {
+            "Body": "Add one or more destinations."
+        },
+        {
+            "Language": "ja",
+            "Body": "1つ以上の宛先を追加してください。"
+        }
+    ]
+}

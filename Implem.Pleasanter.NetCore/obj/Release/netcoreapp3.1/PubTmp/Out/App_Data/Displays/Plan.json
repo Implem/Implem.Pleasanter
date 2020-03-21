@@ -1,0 +1,13 @@
+﻿{
+    "Id": "Plan",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Plan"
+        },
+        {
+            "Language": "ja",
+            "Body": "プラン"
+        }
+    ]
+}

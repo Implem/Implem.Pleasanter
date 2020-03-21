@@ -1,0 +1,13 @@
+﻿{
+    "Id": "Logistics",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Logistics"
+        },
+        {
+            "Language": "ja",
+            "Body": "物流"
+        }
+    ]
+}

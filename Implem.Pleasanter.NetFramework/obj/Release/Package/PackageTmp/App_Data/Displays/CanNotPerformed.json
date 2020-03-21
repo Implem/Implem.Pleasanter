@@ -1,0 +1,13 @@
+﻿{
+    "Id": "CanNotPerformed",
+    "Type": 240,
+    "Languages": [
+        {
+            "Body": "This operation can not be performed."
+        },
+        {
+            "Language": "ja",
+            "Body": "この操作は行なえません。"
+        }
+    ]
+}

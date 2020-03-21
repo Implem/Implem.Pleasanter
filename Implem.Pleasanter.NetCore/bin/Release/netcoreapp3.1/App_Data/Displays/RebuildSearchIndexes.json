@@ -1,0 +1,13 @@
+﻿{
+    "Id": "RebuildSearchIndexes",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Rebuild search indexes"
+        },
+        {
+            "Language": "ja",
+            "Body": "検索インデックスの再構築"
+        }
+    ]
+}

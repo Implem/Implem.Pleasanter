@@ -1,0 +1,13 @@
+﻿{
+    "Id": "CharacterCode",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Character code"
+        },
+        {
+            "Language": "ja",
+            "Body": "文字コード"
+        }
+    ]
+}

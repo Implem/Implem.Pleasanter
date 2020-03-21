@@ -456,9 +456,9 @@ namespace Implem.Pleasanter.NetCore.Libraries.Requests
         {
             return AspNetCoreHttpContext.Current.GetRouteData()?.Values?
                     .ToDictionary(
-                        o => o.Key,
+                        o => o.Key.ToLower(),
                         o => o.Value.ToString())
-                        ?? new Dictionary<string, string>();
+                            ?? new Dictionary<string, string>();
         }
 
         private string SessionLanguage()

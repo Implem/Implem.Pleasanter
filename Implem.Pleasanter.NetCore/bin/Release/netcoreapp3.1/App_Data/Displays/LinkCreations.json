@@ -1,0 +1,13 @@
+﻿{
+    "Id": "LinkCreations",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "The creation of the linked items"
+        },
+        {
+            "Language": "ja",
+            "Body": "リンクしたアイテムの作成"
+        }
+    ]
+}

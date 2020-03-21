@@ -1,0 +1,13 @@
+﻿{
+    "Id": "OK",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "OK"
+        },
+        {
+            "Language": "ja",
+            "Body": "OK"
+        }
+    ]
+}

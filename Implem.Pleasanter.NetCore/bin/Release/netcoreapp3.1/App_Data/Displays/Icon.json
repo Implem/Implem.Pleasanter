@@ -1,0 +1,13 @@
+﻿{
+    "Id": "Icon",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Icon"
+        },
+        {
+            "Language": "ja",
+            "Body": "アイコン"
+        }
+    ]
+}

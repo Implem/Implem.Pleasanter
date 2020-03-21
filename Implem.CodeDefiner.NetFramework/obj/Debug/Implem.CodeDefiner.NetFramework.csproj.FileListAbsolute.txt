@@ -34,3 +34,4 @@ C:\Implem\PleasanterYakushi\Implem.CodeDefiner.NetFramework\obj\Debug\Implem.Cod
 C:\Implem\PleasanterYakushi\Implem.CodeDefiner.NetFramework\obj\Debug\Implem.CodeDefiner.NetFramework.csproj.CopyComplete
 C:\Implem\PleasanterYakushi\Implem.CodeDefiner.NetFramework\obj\Debug\Implem.CodeDefiner.NetFramework.exe
 C:\Implem\PleasanterYakushi\Implem.CodeDefiner.NetFramework\obj\Debug\Implem.CodeDefiner.NetFramework.pdb
+C:\Implem\PleasanterYakushi\Implem.CodeDefiner.NetFramework\obj\Debug\Implem.CodeDefiner.NetFramework.csproj.CoreCompileInputs.cache

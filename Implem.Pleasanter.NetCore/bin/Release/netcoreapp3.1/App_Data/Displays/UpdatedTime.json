@@ -1,0 +1,13 @@
+﻿{
+    "Id": "UpdatedTime",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Updated time"
+        },
+        {
+            "Language": "ja",
+            "Body": "更新日時"
+        }
+    ]
+}

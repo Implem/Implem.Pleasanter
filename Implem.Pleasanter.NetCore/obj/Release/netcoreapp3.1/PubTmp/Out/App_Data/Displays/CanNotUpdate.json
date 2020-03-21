@@ -1,0 +1,13 @@
+﻿{
+    "Id": "CanNotUpdate",
+    "Type": 220,
+    "Languages": [
+        {
+            "Body": "You can not update for read-only."
+        },
+        {
+            "Language": "ja",
+            "Body": "読み取り専用のため更新できません。"
+        }
+    ]
+}

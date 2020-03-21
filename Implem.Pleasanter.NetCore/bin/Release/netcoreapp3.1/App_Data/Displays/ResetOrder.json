@@ -1,0 +1,14 @@
+﻿{
+    "Id": "ResetOrder",
+    "Type": 110,
+    "ClientScript": true,
+    "Languages": [
+        {
+            "Body": "Reset"
+        },
+        {
+            "Language": "ja",
+            "Body": "リセット"
+        }
+    ]
+}

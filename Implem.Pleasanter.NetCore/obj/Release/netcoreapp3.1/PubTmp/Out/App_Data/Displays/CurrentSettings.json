@@ -1,0 +1,13 @@
+﻿{
+    "Id": "CurrentSettings",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Current settings"
+        },
+        {
+            "Language": "ja",
+            "Body": "現在の設定"
+        }
+    ]
+}

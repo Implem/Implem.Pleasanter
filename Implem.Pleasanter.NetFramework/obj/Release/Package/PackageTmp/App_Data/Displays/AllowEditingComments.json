@@ -1,0 +1,13 @@
+﻿{
+    "Id": "AllowEditingComments",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Allow editing of comments"
+        },
+        {
+            "Language": "ja",
+            "Body": "コメントの編集を許可"
+        }
+    ]
+}

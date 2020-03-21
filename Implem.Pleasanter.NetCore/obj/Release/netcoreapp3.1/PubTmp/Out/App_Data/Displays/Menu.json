@@ -1,0 +1,13 @@
+﻿{
+    "Id": "Menu",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Menu"
+        },
+        {
+            "Language": "ja",
+            "Body": "メニュー"
+        }
+    ]
+}

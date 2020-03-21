@@ -1,0 +1,13 @@
+﻿{
+    "Id": "FirstDay",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "First day"
+        },
+        {
+            "Language": "ja",
+            "Body": "初日"
+        }
+    ]
+}

@@ -1,0 +1,13 @@
+﻿{
+    "Id": "Monthly",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Monthly"
+        },
+        {
+            "Language": "ja",
+            "Body": "毎月"
+        }
+    ]
+}

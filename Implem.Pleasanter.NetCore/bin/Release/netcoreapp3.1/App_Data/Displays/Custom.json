@@ -1,0 +1,13 @@
+﻿{
+    "Id": "Custom",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Custom"
+        },
+        {
+            "Language": "ja",
+            "Body": "カスタム"
+        }
+    ]
+}

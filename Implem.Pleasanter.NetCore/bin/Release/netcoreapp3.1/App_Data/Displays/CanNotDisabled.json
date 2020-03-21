@@ -1,0 +1,13 @@
+﻿{
+    "Id": "CanNotDisabled",
+    "Type": 240,
+    "Languages": [
+        {
+            "Body": "You can not be disabled the {0}."
+        },
+        {
+            "Language": "ja",
+            "Body": "{0} を無効化できません。"
+        }
+    ]
+}

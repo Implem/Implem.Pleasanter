@@ -1,0 +1,13 @@
+﻿{
+    "Id": "Summaries",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Summaries"
+        },
+        {
+            "Language": "ja",
+            "Body": "サマリ"
+        }
+    ]
+}

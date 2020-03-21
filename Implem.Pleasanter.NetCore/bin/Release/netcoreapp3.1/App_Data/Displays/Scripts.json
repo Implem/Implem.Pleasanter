@@ -1,0 +1,13 @@
+﻿{
+    "Id": "Scripts",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Scripts"
+        },
+        {
+            "Language": "ja",
+            "Body": "スクリプト"
+        }
+    ]
+}

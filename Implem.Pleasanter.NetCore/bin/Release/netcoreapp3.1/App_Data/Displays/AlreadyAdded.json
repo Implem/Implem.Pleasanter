@@ -1,0 +1,13 @@
+﻿{
+    "Id": "AlreadyAdded",
+    "Type": 240,
+    "Languages": [
+        {
+            "Body": "It has already been added."
+        },
+        {
+            "Language": "ja",
+            "Body": "既に追加されています。"
+        }
+    ]
+}

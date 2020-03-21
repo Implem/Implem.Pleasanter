@@ -1,0 +1,13 @@
+﻿{
+    "Id": "InvalidFormula",
+    "Type": 240,
+    "Languages": [
+        {
+            "Body": "Invalid formula."
+        },
+        {
+            "Language": "ja",
+            "Body": "不正な計算式です。"
+        }
+    ]
+}

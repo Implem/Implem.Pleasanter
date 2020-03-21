@@ -1,0 +1,13 @@
+﻿{
+    "Id": "Deleted",
+    "Type": 210,
+    "Languages": [
+        {
+            "Body": "Delete process of \" {0} \" was successful."
+        },
+        {
+            "Language": "ja",
+            "Body": "\" {0} \" を削除しました。"
+        }
+    ]
+}

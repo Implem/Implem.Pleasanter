@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
-    <TargetFramework>netcoreapp2.2</TargetFramework>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
     <Version>0.50.78</Version>
     <Copyright>Copyright © Implem Inc 2014 - 2019</Copyright>
     <Product>Implem.Pleasanter</Product>
@@ -13,9 +13,7 @@
 
   <ItemGroup>
     <PackageReference Include="AspNetCoreCurrentRequestContext" Version="2.0.0" />
-    <PackageReference Include="Microsoft.AspNetCore.All" Version="2.2.1" />
     <PackageReference Include="Microsoft.AspNetCore.App" />
-    <PackageReference Include="Microsoft.AspNetCore.Razor.Design" Version="2.2.0" />
     <PackageReference Include="Microsoft.Extensions.Caching.Abstractions" Version="2.2.0" />
     <PackageReference Include="Microsoft.Extensions.Caching.Memory" Version="2.2.0" />
     <PackageReference Include="System.Text.Encoding.CodePages" Version="4.5.0" />

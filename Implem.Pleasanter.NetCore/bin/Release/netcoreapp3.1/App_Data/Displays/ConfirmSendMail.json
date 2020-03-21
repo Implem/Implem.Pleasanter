@@ -1,0 +1,14 @@
+﻿{
+    "Id": "ConfirmSendMail",
+    "Type": 310,
+    "ClientScript": true,
+    "Languages": [
+        {
+            "Body": "Are you sure you want to send an email ?"
+        },
+        {
+            "Language": "ja",
+            "Body": "メールを送信してもよろしいですか？"
+        }
+    ]
+}

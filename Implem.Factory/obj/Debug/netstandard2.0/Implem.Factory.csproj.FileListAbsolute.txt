@@ -13,3 +13,4 @@ C:\Implem\PleasanterYakushi\Implem.Factory\obj\Debug\netstandard2.0\Implem.Facto
 C:\Implem\PleasanterYakushi\Implem.Factory\obj\Debug\netstandard2.0\Implem.Factory.csproj.CopyComplete
 C:\Implem\PleasanterYakushi\Implem.Factory\obj\Debug\netstandard2.0\Implem.Factory.dll
 C:\Implem\PleasanterYakushi\Implem.Factory\obj\Debug\netstandard2.0\Implem.Factory.pdb
+C:\Implem\PleasanterYakushi\Implem.Factory\obj\Debug\netstandard2.0\Implem.Factory.csproj.CoreCompileInputs.cache

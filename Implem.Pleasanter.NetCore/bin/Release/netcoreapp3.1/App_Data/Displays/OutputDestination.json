@@ -1,0 +1,13 @@
+﻿{
+    "Id": "OutputDestination",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Output destination"
+        },
+        {
+            "Language": "ja",
+            "Body": "出力先"
+        }
+    ]
+}

@@ -3,3 +3,4 @@ C:\Implem\PleasanterYakushi\Implem.SupportTools\Common\bin\Debug\Implem.SupportT
 C:\Implem\PleasanterYakushi\Implem.SupportTools\Common\obj\Debug\Implem.SupportTools.Common.dll
 C:\Implem\PleasanterYakushi\Implem.SupportTools\Common\obj\Debug\Implem.SupportTools.Common.pdb
 C:\Implem\PleasanterYakushi\Implem.SupportTools\Common\obj\Debug\Implem.SupportTools.Common.csprojAssemblyReference.cache
+C:\Implem\PleasanterYakushi\Implem.SupportTools\Common\obj\Debug\Implem.SupportTools.Common.csproj.CoreCompileInputs.cache

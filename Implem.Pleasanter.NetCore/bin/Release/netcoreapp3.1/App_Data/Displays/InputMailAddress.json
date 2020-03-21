@@ -1,0 +1,13 @@
+﻿{
+    "Id": "InputMailAddress",
+    "Type": 240,
+    "Languages": [
+        {
+            "Body": "Please input mail address"
+        },
+        {
+            "Language": "ja",
+            "Body": "メールアドレスを入力してください。"
+        }
+    ]
+}

@@ -1,0 +1,13 @@
+﻿{
+    "Id": "ExportEmailBody",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Please download from the link below."
+        },
+        {
+            "Language": "ja",
+            "Body": "以下のリンクからダウンロードしてください。"
+        }
+    ]
+}

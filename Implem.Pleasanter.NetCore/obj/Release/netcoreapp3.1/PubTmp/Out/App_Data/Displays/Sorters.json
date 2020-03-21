@@ -1,0 +1,13 @@
+﻿{
+    "Id": "Sorters",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Sorters"
+        },
+        {
+            "Language": "ja",
+            "Body": "ソータ"
+        }
+    ]
+}

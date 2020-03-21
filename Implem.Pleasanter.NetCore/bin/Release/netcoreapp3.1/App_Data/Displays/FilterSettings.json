@@ -1,0 +1,13 @@
+﻿{
+    "Id": "FilterSettings",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Filter settings"
+        },
+        {
+            "Language": "ja",
+            "Body": "フィルタの設定"
+        }
+    ]
+}

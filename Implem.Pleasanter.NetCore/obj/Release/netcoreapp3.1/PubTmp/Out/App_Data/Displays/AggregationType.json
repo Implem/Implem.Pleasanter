@@ -1,0 +1,13 @@
+﻿{
+    "Id": "AggregationType",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Aggregation type"
+        },
+        {
+            "Language": "ja",
+            "Body": "集計種別"
+        }
+    ]
+}

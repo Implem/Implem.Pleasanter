@@ -1,0 +1,13 @@
+﻿{
+    "Id": "CopySettings",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Copy settings"
+        },
+        {
+            "Language": "ja",
+            "Body": "コピー設定"
+        }
+    ]
+}

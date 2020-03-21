@@ -1,0 +1,13 @@
+﻿{
+    "Id": "AllowSeparate",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Allow separating record"
+        },
+        {
+            "Language": "ja",
+            "Body": "分割を許可"
+        }
+    ]
+}

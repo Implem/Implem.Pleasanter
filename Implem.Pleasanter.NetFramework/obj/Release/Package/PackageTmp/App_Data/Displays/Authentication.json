@@ -1,0 +1,13 @@
+﻿{
+    "Id": "Authentication",
+    "Type": 240,
+    "Languages": [
+        {
+            "Body": "The specified user name or password is incorrect."
+        },
+        {
+            "Language": "ja",
+            "Body": "指定されたログインIDまたはパスワードが不正です。"
+        }
+    ]
+}

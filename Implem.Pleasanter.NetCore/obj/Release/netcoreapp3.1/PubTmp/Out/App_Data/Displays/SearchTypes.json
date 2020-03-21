@@ -1,0 +1,13 @@
+﻿{
+    "Id": "SearchTypes",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Search types"
+        },
+        {
+            "Language": "ja",
+            "Body": "検索の種類"
+        }
+    ]
+}

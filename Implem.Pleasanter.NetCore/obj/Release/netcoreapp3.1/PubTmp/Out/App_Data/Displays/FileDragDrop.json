@@ -1,0 +1,13 @@
+﻿{
+    "Id": "FileDragDrop",
+    "Type": 210,
+    "Languages": [
+      {
+            "Body": "Please drag and drop files."
+      },
+        {
+            "Language": "ja",
+            "Body": "ファイルをドラッグ＆ドロップしてください"
+        }
+    ]
+}

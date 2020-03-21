@@ -1,0 +1,13 @@
+﻿{
+    "Id": "Disabled",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Disabled"
+        },
+        {
+            "Language": "ja",
+            "Body": "無効"
+        }
+    ]
+}

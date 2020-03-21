@@ -1,0 +1,14 @@
+﻿{
+    "Id": "ValidateNumber",
+    "Type": 410,
+    "ClientScript": true,
+    "Languages": [
+        {
+            "Body": "You can not enter a non-numeric."
+        },
+        {
+            "Language": "ja",
+            "Body": "数値以外入力不可です。"
+        }
+    ]
+}

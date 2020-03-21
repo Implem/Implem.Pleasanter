@@ -1,0 +1,13 @@
+﻿{
+    "Id": "ReadOnlyBecausePreviousVer",
+    "Type": 220,
+    "Languages": [
+        {
+            "Body": "Can not be updated because of the previous version."
+        },
+        {
+            "Language": "ja",
+            "Body": "旧バージョンのため更新できません。"
+        }
+    ]
+}

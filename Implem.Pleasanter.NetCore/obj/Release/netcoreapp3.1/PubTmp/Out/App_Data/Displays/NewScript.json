@@ -1,0 +1,13 @@
+﻿{
+    "Id": "NewScript",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "New screen script"
+        },
+        {
+            "Language": "ja",
+            "Body": "新規画面スクリプト"
+        }
+    ]
+}

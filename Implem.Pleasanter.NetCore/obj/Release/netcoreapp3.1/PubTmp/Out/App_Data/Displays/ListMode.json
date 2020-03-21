@@ -1,0 +1,13 @@
+﻿{
+    "Id": "ListMode",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "List mode"
+        },
+        {
+            "Language": "ja",
+            "Body": "一覧モード"
+        }
+    ]
+}

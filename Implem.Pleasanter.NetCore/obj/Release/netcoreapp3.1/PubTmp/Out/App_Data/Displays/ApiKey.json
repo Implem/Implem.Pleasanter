@@ -1,0 +1,13 @@
+﻿{
+    "Id": "ApiKey",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "API key"
+        },
+        {
+            "Language": "ja",
+            "Body": "APIキー"
+        }
+    ]
+}

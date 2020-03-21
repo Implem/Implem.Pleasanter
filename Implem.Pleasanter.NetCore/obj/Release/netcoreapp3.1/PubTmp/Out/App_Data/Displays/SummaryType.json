@@ -1,0 +1,13 @@
+﻿{
+    "Id": "SummaryType",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Summary type"
+        },
+        {
+            "Language": "ja",
+            "Body": "サマリ種別"
+        }
+    ]
+}

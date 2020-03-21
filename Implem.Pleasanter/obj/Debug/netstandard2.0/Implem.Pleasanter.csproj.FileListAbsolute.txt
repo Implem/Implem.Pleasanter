@@ -20,3 +20,4 @@ C:\Implem\PleasanterYakushi\Implem.Pleasanter\obj\Debug\netstandard2.0\Implem.Pl
 C:\Implem\PleasanterYakushi\Implem.Pleasanter\obj\Debug\netstandard2.0\Implem.Pleasanter.csproj.CopyComplete
 C:\Implem\PleasanterYakushi\Implem.Pleasanter\obj\Debug\netstandard2.0\Implem.Pleasanter.dll
 C:\Implem\PleasanterYakushi\Implem.Pleasanter\obj\Debug\netstandard2.0\Implem.Pleasanter.pdb
+C:\Implem\PleasanterYakushi\Implem.Pleasanter\obj\Debug\netstandard2.0\Implem.Pleasanter.csproj.CoreCompileInputs.cache

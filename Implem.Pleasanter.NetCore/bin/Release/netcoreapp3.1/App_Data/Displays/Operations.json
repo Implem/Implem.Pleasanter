@@ -1,0 +1,13 @@
+﻿{
+    "Id": "Operations",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Operations"
+        },
+        {
+            "Language": "ja",
+            "Body": "操作"
+        }
+    ]
+}

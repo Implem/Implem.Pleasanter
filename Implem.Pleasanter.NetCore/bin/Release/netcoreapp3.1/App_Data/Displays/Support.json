@@ -1,0 +1,13 @@
+﻿{
+    "Id": "Support",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Support"
+        },
+        {
+            "Language": "ja",
+            "Body": "サポート"
+        }
+    ]
+}

@@ -1,0 +1,13 @@
+﻿{
+    "Id": "Created",
+    "Type": 210,
+    "Languages": [
+        {
+            "Body": "Create process of \" {0} \" was successful."
+        },
+        {
+            "Language": "ja",
+            "Body": "\" {0} \" を作成しました。"
+        }
+    ]
+}

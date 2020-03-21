@@ -566,8 +566,7 @@
       },
       "Implem.ParameterAccessor/1.0.0": {
         "dependencies": {
-          "Implem.DisplayAccessor": "1.0.0",
-          "Implem.License": "1.0.0.0"
+          "Implem.DisplayAccessor": "1.0.0"
         },
         "runtime": {
           "Implem.ParameterAccessor.dll": {}
@@ -592,7 +591,7 @@
           "Implem.SqlServer.dll": {}
         }
       },
-      "Implem.License.Reference/1.0.0.0": {
+      "Implem.License/1.0.0.0": {
         "runtime": {
           "Implem.License.dll": {
             "assemblyVersion": "1.0.0.0",
@@ -1045,7 +1044,7 @@
       "serviceable": false,
       "sha512": ""
     },
-    "Implem.License.Reference/1.0.0.0": {
+    "Implem.License/1.0.0.0": {
       "type": "reference",
       "serviceable": false,
       "sha512": ""

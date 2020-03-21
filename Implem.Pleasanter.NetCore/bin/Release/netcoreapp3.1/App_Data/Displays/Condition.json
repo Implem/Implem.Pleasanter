@@ -1,0 +1,13 @@
+﻿{
+    "Id": "Condition",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Condition"
+        },
+        {
+            "Language": "ja",
+            "Body": "条件"
+        }
+    ]
+}

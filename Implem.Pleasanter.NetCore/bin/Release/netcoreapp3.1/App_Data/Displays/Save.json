@@ -1,0 +1,13 @@
+﻿{
+    "Id": "Save",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Save"
+        },
+        {
+            "Language": "ja",
+            "Body": "保存"
+        }
+    ]
+}

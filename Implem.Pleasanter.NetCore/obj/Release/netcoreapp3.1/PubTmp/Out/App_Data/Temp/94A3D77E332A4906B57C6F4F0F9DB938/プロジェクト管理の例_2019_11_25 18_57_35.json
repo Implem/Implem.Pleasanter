@@ -1,0 +1,3512 @@
+﻿{
+  "HeaderInfo": {
+    "BaseSiteId": 1,
+    "Server": "http://localhost:59802",
+    "CreatorName": "テスト ユーザ",
+    "PackageTime": "2019-11-25T18:57:35.3950309+09:00",
+    "Convertors": [
+      {
+        "SiteId": 1,
+        "SiteTitle": "プロジェクト管理の例",
+        "ReferenceType": "Sites",
+        "IncludeData": true,
+        "Order": "[356,2,3,4]"
+      },
+      {
+        "SiteId": 2,
+        "SiteTitle": "WBS",
+        "ReferenceType": "Issues",
+        "IncludeData": true
+      },
+      {
+        "SiteId": 3,
+        "SiteTitle": "課題管理",
+        "ReferenceType": "Issues",
+        "IncludeData": true
+      },
+      {
+        "SiteId": 4,
+        "SiteTitle": "レビュー記録",
+        "ReferenceType": "Results",
+        "IncludeData": true
+      }
+    ],
+    "IncludeSitePermission": true,
+    "IncludeRecordPermission": true,
+    "IncludeColumnPermission": true
+  },
+  "Sites": [
+    {
+      "TenantId": 1,
+      "SiteId": 1,
+      "Title": "プロジェクト管理の例",
+      "Body": "",
+      "GridGuide": "",
+      "EditorGuide": "",
+      "ReferenceType": "Sites",
+      "ParentId": 0,
+      "InheritPermission": 1,
+      "SiteSettings": {
+        "Version": 1.016,
+        "ReferenceType": "Sites"
+      },
+      "Publish": false,
+      "Comments": []
+    },
+    {
+      "TenantId": 1,
+      "SiteId": 2,
+      "Title": "WBS",
+      "Body": "",
+      "GridGuide": "",
+      "EditorGuide": "",
+      "ReferenceType": "Issues",
+      "ParentId": 1,
+      "InheritPermission": 1,
+      "SiteSettings": {
+        "Version": 1.016,
+        "ReferenceType": "Issues",
+        "GridView": 1,
+        "GridEditorType": 10,
+        "GridColumns": [
+          "IssueId",
+          "ClassA",
+          "ClassB",
+          "TitleBody",
+          "Comments",
+          "Manager",
+          "Owner",
+          "StartTime",
+          "CompletionTime",
+          "WorkValue",
+          "ProgressRate",
+          "RemainingWorkValue",
+          "Status",
+          "Updator",
+          "UpdatedTime"
+        ],
+        "EditorColumns": [
+          "IssueId",
+          "Ver",
+          "Title",
+          "Body",
+          "StartTime",
+          "CompletionTime",
+          "WorkValue",
+          "ProgressRate",
+          "RemainingWorkValue",
+          "Status",
+          "Manager",
+          "Owner",
+          "ClassA",
+          "ClassB",
+          "ClassC",
+          "AttachmentsA",
+          "Comments"
+        ],
+        "TitleColumns": [
+          "ClassA",
+          "ClassB",
+          "Title"
+        ],
+        "Columns": [
+          {
+            "ColumnName": "AttachmentsA",
+            "LabelText": "添付資料"
+          },
+          {
+            "ColumnName": "ClassA",
+            "LabelText": "作業工程",
+            "ChoicesText": "要件定義\n設計\n構築\nテスト\nリリース・展開\n初期サポート\n運用",
+            "AllowBulkUpdate": true
+          },
+          {
+            "ColumnName": "ClassB",
+            "LabelText": "作業内容",
+            "ChoicesText": "調査\n調整/依頼\n申請\nドキュメント作成\n作業[定型]\n作業[非定型]\n打ち合わせ\nその他"
+          },
+          {
+            "ColumnName": "ClassC",
+            "LabelText": "機能分類",
+            "ChoicesText": "ネットワーク・セキュリティ\nサーバ\n運用\n業務\n"
+          }
+        ],
+        "Aggregations": [
+          {
+            "Id": 1,
+            "GroupBy": "[NotGroupBy]",
+            "Type": 1,
+            "Target": "WorkValue"
+          },
+          {
+            "Id": 2,
+            "GroupBy": "[NotGroupBy]",
+            "Type": 1,
+            "Target": "RemainingWorkValue"
+          },
+          {
+            "Id": 3,
+            "GroupBy": "Owner",
+            "Type": 1,
+            "Target": "RemainingWorkValue"
+          }
+        ],
+        "ViewLatestId": 1,
+        "Views": [
+          {
+            "Id": 1,
+            "Name": "標準",
+            "TimeSeriesGroupBy": "ClassC",
+            "TimeSeriesAggregateType": "Total",
+            "KambanGroupByY": "ClassC"
+          }
+        ],
+        "SwitchRecordWithAjax": true,
+        "TitleSeparator": "）"
+      },
+      "Publish": false,
+      "Comments": []
+    },
+    {
+      "TenantId": 1,
+      "SiteId": 3,
+      "Title": "課題管理",
+      "Body": "",
+      "GridGuide": "",
+      "EditorGuide": "",
+      "ReferenceType": "Issues",
+      "ParentId": 1,
+      "InheritPermission": 1,
+      "SiteSettings": {
+        "Version": 1.016,
+        "ReferenceType": "Issues",
+        "GridColumns": [
+          "IssueId",
+          "TitleBody",
+          "Comments",
+          "StartTime",
+          "CompletionTime",
+          "WorkValue",
+          "ProgressRate",
+          "RemainingWorkValue",
+          "Status",
+          "Manager",
+          "Owner",
+          "ClassB",
+          "Updator",
+          "UpdatedTime"
+        ],
+        "EditorColumns": [
+          "IssueId",
+          "Ver",
+          "Title",
+          "Body",
+          "StartTime",
+          "CompletionTime",
+          "WorkValue",
+          "ProgressRate",
+          "RemainingWorkValue",
+          "Status",
+          "Manager",
+          "Owner",
+          "ClassA",
+          "ClassB",
+          "AttachmentsA",
+          "Comments"
+        ],
+        "Columns": [
+          {
+            "ColumnName": "AttachmentsA",
+            "LabelText": "添付資料"
+          },
+          {
+            "ColumnName": "ClassA",
+            "LabelText": "WBS",
+            "ChoicesText": "[[2]]",
+            "Link": true
+          },
+          {
+            "ColumnName": "ClassB",
+            "LabelText": "区分",
+            "ChoicesText": "ハードウェア\nソフトウェア\nその他"
+          }
+        ],
+        "Aggregations": [
+          {
+            "Id": 1,
+            "GroupBy": "ClassB",
+            "Type": 0,
+            "Target": ""
+          }
+        ],
+        "Links": [
+          {
+            "ColumnName": "ClassA",
+            "SiteId": 2
+          }
+        ],
+        "SwitchRecordWithAjax": true
+      },
+      "Publish": false,
+      "Comments": []
+    },
+    {
+      "TenantId": 1,
+      "SiteId": 4,
+      "Title": "レビュー記録",
+      "Body": "",
+      "GridGuide": "",
+      "EditorGuide": "",
+      "ReferenceType": "Results",
+      "ParentId": 1,
+      "InheritPermission": 1,
+      "SiteSettings": {
+        "Version": 1.016,
+        "ReferenceType": "Results",
+        "EditorColumns": [
+          "Comments",
+          "ResultId",
+          "Ver",
+          "Title",
+          "Body",
+          "Status",
+          "Manager",
+          "Owner",
+          "ClassA",
+          "ClassB",
+          "AttachmentsA",
+          "Comments"
+        ],
+        "Columns": [
+          {
+            "ColumnName": "AttachmentsA",
+            "LabelText": "添付資料"
+          },
+          {
+            "ColumnName": "ClassA",
+            "LabelText": "WBS",
+            "ChoicesText": "[[2]]",
+            "Link": true
+          },
+          {
+            "ColumnName": "ClassB",
+            "LabelText": "指摘区分",
+            "ChoicesText": "誤字脱字\n不明瞭な説明\n設計方式\n設計パラメータ\nその他"
+          }
+        ],
+        "Links": [
+          {
+            "ColumnName": "ClassA",
+            "SiteId": 2
+          }
+        ],
+        "SwitchRecordWithAjax": true
+      },
+      "Publish": false,
+      "Comments": []
+    }
+  ],
+  "Data": [
+    {
+      "Header": [
+        {
+          "SiteId": 2,
+          "SiteTitle": "WBS",
+          "Columns": {
+            "IssueId": "ID",
+            "Title": "タイトル",
+            "Body": "内容",
+            "TitleBody": "タイトル/内容",
+            "Comments": "コメント",
+            "StartTime": "開始",
+            "CompletionTime": "完了",
+            "WorkValue": "作業量",
+            "ProgressRate": "進捗率",
+            "RemainingWorkValue": "残作業量",
+            "Status": "状況",
+            "Manager": "管理者",
+            "Owner": "担当者",
+            "ClassA": "作業工程",
+            "ClassB": "作業内容",
+            "ClassC": "機能分類",
+            "AttachmentsA": "添付資料",
+            "Creator": "作成者",
+            "Updator": "更新者",
+            "UpdatedTime": "更新日時"
+          }
+        }
+      ],
+      "Body": [
+        {
+          "IssueId": 165,
+          "Title": {
+            "Id": 165,
+            "Ver": 0,
+            "IsHistory": false,
+            "Value": "業務アプリケーション設定のデザインシート作成",
+            "DisplayValue": "設計）ドキュメント作成）業務アプリケーション設定のデザインシート作成"
+          },
+          "Body": "構築する業務アプリケーションのデザインシートを作成します。\r\n　・データベース設定\r\n　・バックアップ設定\r\n　・セキュリティ設定\r\n　・業務パラメータ設定\r\n\r\nファイルの保存先は以下です。\r\n\r\n\\\\fileserver_example\\01_demoプロジェクト\\02_構成管理",
+          "StartTime": "2019-11-17T00:00:00",
+          "CompletionTime": {
+            "Status": {
+              "Value": 200
+            },
+            "UpdatedTime": "2019-11-25T18:57:12",
+            "Value": "2019-12-03T00:00:00",
+            "DisplayValue": "2019-12-02T00:00:00"
+          },
+          "WorkValue": {
+            "Value": 30.0000,
+            "ProgressRate": 48.0
+          },
+          "ProgressRate": {
+            "CreatedTime": "2019-11-05T14:11:00",
+            "StartTime": "2019-11-17T00:00:00",
+            "CompletionTime": "2019-12-03T00:00:00",
+            "Value": 48.0,
+            "UpdatedTime": "2019-11-25T18:57:12"
+          },
+          "RemainingWorkValue": 15.6000000,
+          "Status": {
+            "Value": 200
+          },
+          "Manager": {
+            "TenantId": 1,
+            "Id": 7,
+            "DeptId": 7,
+            "Dept": {
+              "TenantId": 1,
+              "Id": 7,
+              "Code": "000510",
+              "Name": "開発1部"
+            },
+            "LoginId": "Tenant1_User7",
+            "Name": "鈴木 洋一",
+            "UserCode": "",
+            "TenantManager": true,
+            "ServiceManager": false,
+            "Disabled": false
+          },
+          "Owner": {
+            "TenantId": 1,
+            "Id": 3,
+            "DeptId": 5,
+            "Dept": {
+              "TenantId": 1,
+              "Id": 5,
+              "Code": "000310",
+              "Name": "総務部"
+            },
+            "LoginId": "Tenant1_User3",
+            "Name": "高橋 一郎",
+            "UserCode": "",
+            "TenantManager": true,
+            "ServiceManager": false,
+            "Disabled": false
+          },
+          "Comments": [],
+          "Creator": {
+            "TenantId": 1,
+            "Id": 7,
+            "DeptId": 7,
+            "Dept": {
+              "TenantId": 1,
+              "Id": 7,
+              "Code": "000510",
+              "Name": "開発1部"
+            },
+            "LoginId": "Tenant1_User7",
+            "Name": "鈴木 洋一",
+            "UserCode": "",
+            "TenantManager": true,
+            "ServiceManager": false,
+            "Disabled": false
+          },
+          "Updator": {
+            "TenantId": 1,
+            "Id": 1,
+            "DeptId": 3,
+            "Dept": {
+              "TenantId": 1,
+              "Id": 3,
+              "Code": "000110",
+              "Name": "人事部"
+            },
+            "LoginId": "Tenant1_User1",
+            "Name": "テスト ユーザ",
+            "UserCode": "",
+            "TenantManager": true,
+            "ServiceManager": false,
+            "Disabled": false
+          },
+          "CreatedTime": {
+            "Value": "2019-11-05T14:11:00",
+            "DisplayValue": "2019-11-05T14:11:00"
+          },
+          "ClassHash": {
+            "ClassA": "設計",
+            "ClassB": "ドキュメント作成",
+            "ClassC": "業務"
+          },
+          "NumHash": {},
+          "DateHash": {},
+          "DescriptionHash": {},
+          "CheckHash": {},
+          "SiteId": 2
+        },
+        {
+          "IssueId": 167,
+          "Title": {
+            "Id": 167,
+            "Ver": 0,
+            "IsHistory": false,
+            "Value": "ネットワークの構築",
+            "DisplayValue": "構築）作業[定型]）ネットワークの構築"
+          },
+          "Body": "ネットワークを構築します。\r\n　・VLANの設定\r\n　・スイッチの設定",
+          "StartTime": "2019-11-19T00:00:00",
+          "CompletionTime": {
+            "Status": {
+              "Value": 100
+            },
+            "UpdatedTime": "2019-11-22T13:02:00",
+            "Value": "2019-11-22T00:00:00",
+            "DisplayValue": "2019-11-21T00:00:00"
+          },
+          "WorkValue": {
+            "Value": 12.0000,
+            "ProgressRate": 85.0
+          },
+          "ProgressRate": {
+            "CreatedTime": "2019-11-06T16:56:00",
+            "StartTime": "2019-11-19T00:00:00",
+            "CompletionTime": "2019-11-22T00:00:00",
+            "Value": 85.0,
+            "UpdatedTime": "2019-11-22T13:02:00"
+          },
+          "RemainingWorkValue": 1.8000000,
+          "Status": {
+            "Value": 100
+          },
+          "Manager": {
+            "TenantId": 1,
+            "Id": 13,
+            "DeptId": 8,
+            "Dept": {
+              "TenantId": 1,
+              "Id": 8,
+              "Code": "000610",
+              "Name": "開発2部"
+            },
+            "LoginId": "Tenant1_User13",
+            "Name": "加藤 誠",
+            "UserCode": "",
+            "TenantManager": true,
+            "ServiceManager": false,
+            "Disabled": false
+          },
+          "Owner": {
+            "TenantId": 1,
+            "Id": 13,
+            "DeptId": 8,
+            "Dept": {
+              "TenantId": 1,
+              "Id": 8,
+              "Code": "000610",
+              "Name": "開発2部"
+            },
+            "LoginId": "Tenant1_User13",
+            "Name": "加藤 誠",
+            "UserCode": "",
+            "TenantManager": true,
+            "ServiceManager": false,
+            "Disabled": false
+          },
+          "Comments": [],
+          "Creator": {
+            "TenantId": 1,
+            "Id": 13,
+            "DeptId": 8,
+            "Dept": {
+              "TenantId": 1,
+              "Id": 8,
+              "Code": "000610",
+              "Name": "開発2部"
+            },
+            "LoginId": "Tenant1_User13",
+            "Name": "加藤 誠",
+            "UserCode": "",
+            "TenantManager": true,
+            "ServiceManager": false,
+            "Disabled": false
+          },
+          "Updator": {
+            "TenantId": 1,
+            "Id": 13,
+            "DeptId": 8,
+            "Dept": {
+              "TenantId": 1,
+              "Id": 8,
+              "Code": "000610",
+              "Name": "開発2部"
+            },
+            "LoginId": "Tenant1_User13",
+            "Name": "加藤 誠",
+            "UserCode": "",
+            "TenantManager": true,
+            "ServiceManager": false,
+            "Disabled": false
+          },
+          "CreatedTime": {
+            "Value": "2019-11-06T16:56:00",
+            "DisplayValue": "2019-11-06T16:56:00"
+          },
+          "ClassHash": {
+            "ClassA": "構築",
+            "ClassB": "作業[定型]",
+            "ClassC": "ネットワーク・セキュリティ"
+          },
+          "NumHash": {},
+          "DateHash": {},
+          "DescriptionHash": {},
+          "CheckHash": {},
+          "SiteId": 2
+        },
+        {
+          "IssueId": 168,
+          "Title": {
+            "Id": 168,
+            "Ver": 0,
+            "IsHistory": false,
+            "Value": "サーバの構築",
+            "DisplayValue": "構築）作業[定型]）サーバの構築"
+          },
+          "Body": "サーバを構築します。\r\n　・OSのインストール\r\n　・セキュリティパッチインストール\r\n　・不要なサービスの停止\r\n　・システムバックアップ\r\n",
+          "StartTime": "2019-11-19T00:00:00",
+          "CompletionTime": {
+            "Status": {
+              "Value": 900
+            },
+            "UpdatedTime": "2019-11-21T21:23:00",
+            "Value": "2019-11-22T00:00:00",
+            "DisplayValue": "2019-11-21T00:00:00"
+          },
+          "WorkValue": {
+            "Value": 8.0000,
+            "ProgressRate": 100.0
+          },
+          "ProgressRate": {
+            "CreatedTime": "2019-11-06T16:56:00",
+            "StartTime": "2019-11-19T00:00:00",
+            "CompletionTime": "2019-11-22T00:00:00",
+            "Value": 100.0,
+            "UpdatedTime": "2019-11-21T21:23:00"
+          },
+          "RemainingWorkValue": 0.0000000,
+          "Status": {
+            "Value": 900
+          },
+          "Manager": {
+            "TenantId": 1,
+            "Id": 4,
+            "DeptId": 6,
+            "Dept": {
+              "TenantId": 1,
+              "Id": 6,
+              "Code": "000410",
+              "Name": "営業部"
+            },
+            "LoginId": "Tenant1_User4",
+            "Name": "斎藤 美樹",
+            "UserCode": "",
+            "TenantManager": true,
+            "ServiceManager": false,
+            "Disabled": false
+          },
+          "Owner": {
+            "TenantId": 1,
+            "Id": 4,
+            "DeptId": 6,
+            "Dept": {
+              "TenantId": 1,
+              "Id": 6,
+              "Code": "000410",
+              "Name": "営業部"
+            },
+            "LoginId": "Tenant1_User4",
+            "Name": "斎藤 美樹",
+            "UserCode": "",
+            "TenantManager": true,
+            "ServiceManager": false,
+            "Disabled": false
+          },
+          "Comments": [
+            {
+              "CommentId": 1,
+              "CreatedTime": "2019-11-19T10:01:00",
+              "Creator": 4,
+              "Body": "作業を開始しました。"
+            },
+            {
+              "CommentId": 2,
+              "CreatedTime": "2019-11-21T21:23:00",
+              "Creator": 4,
+              "Body": "作業を完了しました。"
+            }
+          ],
+          "Creator": {
+            "TenantId": 1,
+            "Id": 4,
+            "DeptId": 6,
+            "Dept": {
+              "TenantId": 1,
+              "Id": 6,
+              "Code": "000410",
+              "Name": "営業部"
+            },
+            "LoginId": "Tenant1_User4",
+            "Name": "斎藤 美樹",
+            "UserCode": "",
+            "TenantManager": true,
+            "ServiceManager": false,
+            "Disabled": false
+          },
+          "Updator": {
+            "TenantId": 1,
+            "Id": 4,
+            "DeptId": 6,
+            "Dept": {
+              "TenantId": 1,
+              "Id": 6,
+              "Code": "000410",
+              "Name": "営業部"
+            },
+            "LoginId": "Tenant1_User4",
+            "Name": "斎藤 美樹",
+            "UserCode": "",
+            "TenantManager": true,
+            "ServiceManager": false,
+            "Disabled": false
+          },
+          "CreatedTime": {
+            "Value": "2019-11-06T16:56:00",
+            "DisplayValue": "2019-11-06T16:56:00"
+          },
+          "ClassHash": {
+            "ClassA": "構築",
+            "ClassB": "作業[定型]",
+            "ClassC": "サーバ"
+          },
+          "NumHash": {},
+          "DateHash": {},
+          "DescriptionHash": {},
+          "CheckHash": {},
+          "SiteId": 2
+        },
+        {
+          "IssueId": 166,
+          "Title": {
+            "Id": 166,
+            "Ver": 0,
+            "IsHistory": false,
+            "Value": "データ移行プログラムの作成",
+            "DisplayValue": "構築）作業[非定型]）データ移行プログラムの作成"
+          },
+          "Body": "データ移行は単純移行の予定でしたが、マスタデータの一部を変換する作業が計画に漏れていたため、新たなWBSとして追加します。\r\n　・ユーザマスタの変換\r\n　・区分マスタの変換",
+          "StartTime": "2019-11-21T00:00:00",
+          "CompletionTime": {
+            "Status": {
+              "Value": 100
+            },
+            "UpdatedTime": "2019-11-21T11:22:00",
+            "Value": "2019-12-01T00:00:00",
+            "DisplayValue": "2019-11-30T00:00:00"
+          },
+          "WorkValue": {
+            "Value": 60.0000,
+            "ProgressRate": 0.0
+          },
+          "ProgressRate": {
+            "CreatedTime": "2019-11-21T11:22:00",
+            "StartTime": "2019-11-21T00:00:00",
+            "CompletionTime": "2019-12-01T00:00:00",
+            "Value": 0.0,
+            "UpdatedTime": "2019-11-21T11:22:00"
+          },
+          "RemainingWorkValue": 60.0000000,
+          "Status": {
+            "Value": 100
+          },
+          "Manager": {
+            "TenantId": 1,
+            "Id": 17,
+            "DeptId": 8,
+            "Dept": {
+              "TenantId": 1,
+              "Id": 8,
+              "Code": "000610",
+              "Name": "開発2部"
+            },
+            "LoginId": "Tenant1_User17",
+            "Name": "山口 太郎",
+            "UserCode": "",
+            "TenantManager": true,
+            "ServiceManager": false,
+            "Disabled": false
+          },
+          "Owner": {
+            "TenantId": 1,
+            "Id": 17,
+            "DeptId": 8,
+            "Dept": {
+              "TenantId": 1,
+              "Id": 8,
+              "Code": "000610",
+              "Name": "開発2部"
+            },
+            "LoginId": "Tenant1_User17",
+            "Name": "山口 太郎",
+            "UserCode": "",
+            "TenantManager": true,
+            "ServiceManager": false,
+            "Disabled": false
+          },
+          "Comments": [],
+          "Creator": {
+            "TenantId": 1,
+            "Id": 17,
+            "DeptId": 8,
+            "Dept": {
+              "TenantId": 1,
+              "Id": 8,
+              "Code": "000610",
+              "Name": "開発2部"
+            },
+            "LoginId": "Tenant1_User17",
+            "Name": "山口 太郎",
+            "UserCode": "",
+            "TenantManager": true,
+            "ServiceManager": false,
+            "Disabled": false
+          },
+          "Updator": {
+            "TenantId": 1,
+            "Id": 17,
+            "DeptId": 8,
+            "Dept": {
+              "TenantId": 1,
+              "Id": 8,
+              "Code": "000610",
+              "Name": "開発2部"
+            },
+            "LoginId": "Tenant1_User17",
+            "Name": "山口 太郎",
+            "UserCode": "",
+            "TenantManager": true,
+            "ServiceManager": false,
+            "Disabled": false
+          },
+          "CreatedTime": {
+            "Value": "2019-11-21T11:22:00",
+            "DisplayValue": "2019-11-21T11:22:00"
+          },
+          "ClassHash": {
+            "ClassA": "構築",
+            "ClassB": "作業[非定型]",
+            "ClassC": "業務"
+          },
+          "NumHash": {},
+          "DateHash": {},
+          "DescriptionHash": {},
+          "CheckHash": {},
+          "SiteId": 2
+        },
+        {
+          "IssueId": 162,
+          "Title": {
+            "Id": 162,
+            "Ver": 0,
+            "IsHistory": false,
+            "Value": "ネットワークのデザインシート作成",
+            "DisplayValue": "設計）ドキュメント作成）ネットワークのデザインシート作成"
+          },
+          "Body": "構築するネットワークのデザインシートを作成します。\r\n　・ネットワーク構成図\r\n　・IPアドレス一覧\r\n　・ルーティング構成\r\n\r\nファイルの保存先は以下です。\r\n\r\n\\\\fileserver_example\\01_demoプロジェクト\\02_構成管理",
+          "StartTime": "2019-11-15T00:00:00",
+          "CompletionTime": {
+            "Status": {
+              "Value": 900
+            },
+            "UpdatedTime": "2019-11-18T20:51:00",
+            "Value": "2019-11-17T00:00:00",
+            "DisplayValue": "2019-11-16T00:00:00"
+          },
+          "WorkValue": {
+            "Value": 11.0000,
+            "ProgressRate": 100.0
+          },
+          "ProgressRate": {
+            "CreatedTime": "2019-11-05T10:41:00",
+            "StartTime": "2019-11-15T00:00:00",
+            "CompletionTime": "2019-11-17T00:00:00",
+            "Value": 100.0,
+            "UpdatedTime": "2019-11-18T20:51:00"
+          },
+          "RemainingWorkValue": 0.0000000,
+          "Status": {
+            "Value": 900
+          },
+          "Manager": {
+            "TenantId": 1,
+            "Id": 13,
+            "DeptId": 8,
+            "Dept": {
+              "TenantId": 1,
+              "Id": 8,
+              "Code": "000610",
+              "Name": "開発2部"
+            },
+            "LoginId": "Tenant1_User13",
+            "Name": "加藤 誠",
+            "UserCode": "",
+            "TenantManager": true,
+            "ServiceManager": false,
+            "Disabled": false
+          },
+          "Owner": {
+            "TenantId": 1,
+            "Id": 13,
+            "DeptId": 8,
+            "Dept": {
+              "TenantId": 1,
+              "Id": 8,
+              "Code": "000610",
+              "Name": "開発2部"
+            },
+            "LoginId": "Tenant1_User13",
+            "Name": "加藤 誠",
+            "UserCode": "",
+            "TenantManager": true,
+            "ServiceManager": false,
+            "Disabled": false
+          },
+          "Comments": [
+            {
+              "CommentId": 1,
+              "CreatedTime": "2019-11-18T20:51:00",
+              "Creator": 13,
+              "Body": "ネットワーク構成が確定しましたので、すべての作業が完了しました。"
+            },
+            {
+              "CommentId": 2,
+              "CreatedTime": "2019-11-16T10:38:00",
+              "Creator": 17,
+              "Body": "＞ネットワーク構成は、決まっていますか\r\n\r\nすいません、まだ未定です。課題に登録しました。"
+            },
+            {
+              "CommentId": 3,
+              "CreatedTime": "2019-11-15T16:25:00",
+              "Creator": 3,
+              "Body": "ネットワーク構成は、決まっていますか（IPアドレス、サブネットマスクなど）？"
+            }
+          ],
+          "Creator": {
+            "TenantId": 1,
+            "Id": 13,
+            "DeptId": 8,
+            "Dept": {
+              "TenantId": 1,
+              "Id": 8,
+              "Code": "000610",
+              "Name": "開発2部"
+            },
+            "LoginId": "Tenant1_User13",
+            "Name": "加藤 誠",
+            "UserCode": "",
+            "TenantManager": true,
+            "ServiceManager": false,
+            "Disabled": false
+          },
+          "Updator": {
+            "TenantId": 1,
+            "Id": 13,
+            "DeptId": 8,
+            "Dept": {
+              "TenantId": 1,
+              "Id": 8,
+              "Code": "000610",
+              "Name": "開発2部"
+            },
+            "LoginId": "Tenant1_User13",
+            "Name": "加藤 誠",
+            "UserCode": "",
+            "TenantManager": true,
+            "ServiceManager": false,
+            "Disabled": false
+          },
+          "CreatedTime": {
+            "Value": "2019-11-05T10:41:00",
+            "DisplayValue": "2019-11-05T10:41:00"
+          },
+          "ClassHash": {
+            "ClassA": "設計",
+            "ClassB": "ドキュメント作成",
+            "ClassC": "ネットワーク・セキュリティ"
+          },
+          "NumHash": {},
+          "DateHash": {},
+          "DescriptionHash": {},
+          "CheckHash": {},
+          "SiteId": 2
+        },
+        {
+          "IssueId": 163,
+          "Title": {
+            "Id": 163,
+            "Ver": 0,
+            "IsHistory": false,
+            "Value": "サーバのデザインシート作成",
+            "DisplayValue": "設計）ドキュメント作成）サーバのデザインシート作成"
+          },
+          "Body": "構築するサーバのデザインシートを作成します。\r\n　・OSの基本構成\r\n　・ネットワーク設定\r\n　・ユーザ設定\r\n　・サービス設定\r\n　・セキュリティ設定\r\n　・バックアップ設定\r\n\r\nファイルの保存先は以下です。\r\n\r\n\\\\fileserver_example\\01_demoプロジェクト\\02_構成管理",
+          "StartTime": "2019-11-15T00:00:00",
+          "CompletionTime": {
+            "Status": {
+              "Value": 900
+            },
+            "UpdatedTime": "2019-11-18T16:09:00",
+            "Value": "2019-11-17T00:00:00",
+            "DisplayValue": "2019-11-16T00:00:00"
+          },
+          "WorkValue": {
+            "Value": 10.0000,
+            "ProgressRate": 100.0
+          },
+          "ProgressRate": {
+            "CreatedTime": "2019-11-05T11:03:00",
+            "StartTime": "2019-11-15T00:00:00",
+            "CompletionTime": "2019-11-17T00:00:00",
+            "Value": 100.0,
+            "UpdatedTime": "2019-11-18T16:09:00"
+          },
+          "RemainingWorkValue": 0.0000000,
+          "Status": {
+            "Value": 900
+          },
+          "Manager": {
+            "TenantId": 1,
+            "Id": 2,
+            "DeptId": 4,
+            "Dept": {
+              "TenantId": 1,
+              "Id": 4,
+              "Code": "000210",
+              "Name": "経理部"
+            },
+            "LoginId": "Tenant1_User2",
+            "Name": "佐藤 由香",
+            "UserCode": "",
+            "TenantManager": true,
+            "ServiceManager": false,
+            "Disabled": false
+          },
+          "Owner": {
+            "TenantId": 1,
+            "Id": 2,
+            "DeptId": 4,
+            "Dept": {
+              "TenantId": 1,
+              "Id": 4,
+              "Code": "000210",
+              "Name": "経理部"
+            },
+            "LoginId": "Tenant1_User2",
+            "Name": "佐藤 由香",
+            "UserCode": "",
+            "TenantManager": true,
+            "ServiceManager": false,
+            "Disabled": false
+          },
+          "Comments": [],
+          "Creator": {
+            "TenantId": 1,
+            "Id": 2,
+            "DeptId": 4,
+            "Dept": {
+              "TenantId": 1,
+              "Id": 4,
+              "Code": "000210",
+              "Name": "経理部"
+            },
+            "LoginId": "Tenant1_User2",
+            "Name": "佐藤 由香",
+            "UserCode": "",
+            "TenantManager": true,
+            "ServiceManager": false,
+            "Disabled": false
+          },
+          "Updator": {
+            "TenantId": 1,
+            "Id": 2,
+            "DeptId": 4,
+            "Dept": {
+              "TenantId": 1,
+              "Id": 4,
+              "Code": "000210",
+              "Name": "経理部"
+            },
+            "LoginId": "Tenant1_User2",
+            "Name": "佐藤 由香",
+            "UserCode": "",
+            "TenantManager": true,
+            "ServiceManager": false,
+            "Disabled": false
+          },
+          "CreatedTime": {
+            "Value": "2019-11-05T11:03:00",
+            "DisplayValue": "2019-11-05T11:03:00"
+          },
+          "ClassHash": {
+            "ClassA": "設計",
+            "ClassB": "ドキュメント作成",
+            "ClassC": "サーバ"
+          },
+          "NumHash": {},
+          "DateHash": {},
+          "DescriptionHash": {},
+          "CheckHash": {},
+          "SiteId": 2
+        },
+        {
+          "IssueId": 164,
+          "Title": {
+            "Id": 164,
+            "Ver": 0,
+            "IsHistory": false,
+            "Value": "運用管理ソフトウェアのデザインシート作成",
+            "DisplayValue": "設計）ドキュメント作成）運用管理ソフトウェアのデザインシート作成"
+          },
+          "Body": "構築する運用管理システムのデザインシートを作成します。\r\n　・監視設定\r\n　・ジョブ設定\r\n\r\nファイルの保存先は以下です。\r\n\r\n\\\\fileserver_example\\01_demoプロジェクト\\02_構成管理",
+          "StartTime": "2019-11-17T00:00:00",
+          "CompletionTime": {
+            "Status": {
+              "Value": 900
+            },
+            "UpdatedTime": "2019-11-18T12:16:00",
+            "Value": "2019-11-19T00:00:00",
+            "DisplayValue": "2019-11-18T00:00:00"
+          },
+          "WorkValue": {
+            "Value": 11.0000,
+            "ProgressRate": 100.0
+          },
+          "ProgressRate": {
+            "CreatedTime": "2019-11-05T09:34:00",
+            "StartTime": "2019-11-17T00:00:00",
+            "CompletionTime": "2019-11-19T00:00:00",
+            "Value": 100.0,
+            "UpdatedTime": "2019-11-18T12:16:00"
+          },
+          "RemainingWorkValue": 0.0000000,
+          "Status": {
+            "Value": 900
+          },
+          "Manager": {
+            "TenantId": 1,
+            "Id": 6,
+            "DeptId": 7,
+            "Dept": {
+              "TenantId": 1,
+              "Id": 7,
+              "Code": "000510",
+              "Name": "開発1部"
+            },
+            "LoginId": "Tenant1_User6",
+            "Name": "Brown Emily",
+            "UserCode": "",
+            "TenantManager": true,
+            "ServiceManager": false,
+            "Disabled": false
+          },
+          "Owner": {
+            "TenantId": 1,
+            "Id": 6,
+            "DeptId": 7,
+            "Dept": {
+              "TenantId": 1,
+              "Id": 7,
+              "Code": "000510",
+              "Name": "開発1部"
+            },
+            "LoginId": "Tenant1_User6",
+            "Name": "Brown Emily",
+            "UserCode": "",
+            "TenantManager": true,
+            "ServiceManager": false,
+            "Disabled": false
+          },
+          "Comments": [],
+          "Creator": {
+            "TenantId": 1,
+            "Id": 6,
+            "DeptId": 7,
+            "Dept": {
+              "TenantId": 1,
+              "Id": 7,
+              "Code": "000510",
+              "Name": "開発1部"
+            },
+            "LoginId": "Tenant1_User6",
+            "Name": "Brown Emily",
+            "UserCode": "",
+            "TenantManager": true,
+            "ServiceManager": false,
+            "Disabled": false
+          },
+          "Updator": {
+            "TenantId": 1,
+            "Id": 6,
+            "DeptId": 7,
+            "Dept": {
+              "TenantId": 1,
+              "Id": 7,
+              "Code": "000510",
+              "Name": "開発1部"
+            },
+            "LoginId": "Tenant1_User6",
+            "Name": "Brown Emily",
+            "UserCode": "",
+            "TenantManager": true,
+            "ServiceManager": false,
+            "Disabled": false
+          },
+          "CreatedTime": {
+            "Value": "2019-11-05T09:34:00",
+            "DisplayValue": "2019-11-05T09:34:00"
+          },
+          "ClassHash": {
+            "ClassA": "設計",
+            "ClassB": "ドキュメント作成",
+            "ClassC": "運用"
+          },
+          "NumHash": {},
+          "DateHash": {},
+          "DescriptionHash": {},
+          "CheckHash": {},
+          "SiteId": 2
+        },
+        {
+          "IssueId": 160,
+          "Title": {
+            "Id": 160,
+            "Ver": 0,
+            "IsHistory": false,
+            "Value": "セキュリティ要件の確認",
+            "DisplayValue": "要件定義）作業[非定型]）セキュリティ要件の確認"
+          },
+          "Body": "システム構築の依頼元に確認を行い、要件定義書を作成します。\r\n要件定義書は、下記のフォルダに格納してください。\r\n\r\n\\\\fileserver_example\\01_demoプロジェクト\\01_要件定義",
+          "StartTime": "2019-11-12T00:00:00",
+          "CompletionTime": {
+            "Status": {
+              "Value": 300
+            },
+            "UpdatedTime": "2019-11-15T12:48:00",
+            "Value": "2019-11-15T00:00:00",
+            "DisplayValue": "2019-11-14T00:00:00"
+          },
+          "WorkValue": {
+            "Value": 12.0000,
+            "ProgressRate": 90.0
+          },
+          "ProgressRate": {
+            "CreatedTime": "2019-11-05T16:33:00",
+            "StartTime": "2019-11-12T00:00:00",
+            "CompletionTime": "2019-11-15T00:00:00",
+            "Value": 90.0,
+            "UpdatedTime": "2019-11-15T12:48:00"
+          },
+          "RemainingWorkValue": 1.2000000,
+          "Status": {
+            "Value": 300
+          },
+          "Manager": {
+            "TenantId": 1,
+            "Id": 13,
+            "DeptId": 8,
+            "Dept": {
+              "TenantId": 1,
+              "Id": 8,
+              "Code": "000610",
+              "Name": "開発2部"
+            },
+            "LoginId": "Tenant1_User13",
+            "Name": "加藤 誠",
+            "UserCode": "",
+            "TenantManager": true,
+            "ServiceManager": false,
+            "Disabled": false
+          },
+          "Owner": {
+            "TenantId": 1,
+            "Id": 13,
+            "DeptId": 8,
+            "Dept": {
+              "TenantId": 1,
+              "Id": 8,
+              "Code": "000610",
+              "Name": "開発2部"
+            },
+            "LoginId": "Tenant1_User13",
+            "Name": "加藤 誠",
+            "UserCode": "",
+            "TenantManager": true,
+            "ServiceManager": false,
+            "Disabled": false
+          },
+          "Comments": [
+            {
+              "CommentId": 1,
+              "CreatedTime": "2019-11-15T09:31:00",
+              "Creator": 2,
+              "Body": "業務アプリケーションが使用するポートについての情報が不足しているため完了していません。現在、担当者に確認をとっています。"
+            }
+          ],
+          "Creator": {
+            "TenantId": 1,
+            "Id": 13,
+            "DeptId": 8,
+            "Dept": {
+              "TenantId": 1,
+              "Id": 8,
+              "Code": "000610",
+              "Name": "開発2部"
+            },
+            "LoginId": "Tenant1_User13",
+            "Name": "加藤 誠",
+            "UserCode": "",
+            "TenantManager": true,
+            "ServiceManager": false,
+            "Disabled": false
+          },
+          "Updator": {
+            "TenantId": 1,
+            "Id": 13,
+            "DeptId": 8,
+            "Dept": {
+              "TenantId": 1,
+              "Id": 8,
+              "Code": "000610",
+              "Name": "開発2部"
+            },
+            "LoginId": "Tenant1_User13",
+            "Name": "加藤 誠",
+            "UserCode": "",
+            "TenantManager": true,
+            "ServiceManager": false,
+            "Disabled": false
+          },
+          "CreatedTime": {
+            "Value": "2019-11-05T16:33:00",
+            "DisplayValue": "2019-11-05T16:33:00"
+          },
+          "ClassHash": {
+            "ClassA": "要件定義",
+            "ClassB": "作業[非定型]",
+            "ClassC": "ネットワーク・セキュリティ"
+          },
+          "NumHash": {},
+          "DateHash": {},
+          "DescriptionHash": {},
+          "CheckHash": {},
+          "SiteId": 2
+        },
+        {
+          "IssueId": 159,
+          "Title": {
+            "Id": 159,
+            "Ver": 0,
+            "IsHistory": false,
+            "Value": "サーバ要件の確認",
+            "DisplayValue": "要件定義）作業[非定型]）サーバ要件の確認"
+          },
+          "Body": "システム構築の依頼元に確認を行い、要件定義書を作成します。\r\n要件定義書は、下記のフォルダに格納してください。\r\n\r\n\\\\fileserver_example\\01_demoプロジェクト\\01_要件定義",
+          "StartTime": "2019-11-09T00:00:00",
+          "CompletionTime": {
+            "Status": {
+              "Value": 900
+            },
+            "UpdatedTime": "2019-11-15T09:31:00",
+            "Value": "2019-11-14T00:00:00",
+            "DisplayValue": "2019-11-13T00:00:00"
+          },
+          "WorkValue": {
+            "Value": 16.0000,
+            "ProgressRate": 100.0
+          },
+          "ProgressRate": {
+            "CreatedTime": "2019-11-05T12:02:00",
+            "StartTime": "2019-11-09T00:00:00",
+            "CompletionTime": "2019-11-14T00:00:00",
+            "Value": 100.0,
+            "UpdatedTime": "2019-11-15T09:31:00"
+          },
+          "RemainingWorkValue": 0.0000000,
+          "Status": {
+            "Value": 900
+          },
+          "Manager": {
+            "TenantId": 1,
+            "Id": 2,
+            "DeptId": 4,
+            "Dept": {
+              "TenantId": 1,
+              "Id": 4,
+              "Code": "000210",
+              "Name": "経理部"
+            },
+            "LoginId": "Tenant1_User2",
+            "Name": "佐藤 由香",
+            "UserCode": "",
+            "TenantManager": true,
+            "ServiceManager": false,
+            "Disabled": false
+          },
+          "Owner": {
+            "TenantId": 1,
+            "Id": 2,
+            "DeptId": 4,
+            "Dept": {
+              "TenantId": 1,
+              "Id": 4,
+              "Code": "000210",
+              "Name": "経理部"
+            },
+            "LoginId": "Tenant1_User2",
+            "Name": "佐藤 由香",
+            "UserCode": "",
+            "TenantManager": true,
+            "ServiceManager": false,
+            "Disabled": false
+          },
+          "Comments": [],
+          "Creator": {
+            "TenantId": 1,
+            "Id": 2,
+            "DeptId": 4,
+            "Dept": {
+              "TenantId": 1,
+              "Id": 4,
+              "Code": "000210",
+              "Name": "経理部"
+            },
+            "LoginId": "Tenant1_User2",
+            "Name": "佐藤 由香",
+            "UserCode": "",
+            "TenantManager": true,
+            "ServiceManager": false,
+            "Disabled": false
+          },
+          "Updator": {
+            "TenantId": 1,
+            "Id": 2,
+            "DeptId": 4,
+            "Dept": {
+              "TenantId": 1,
+              "Id": 4,
+              "Code": "000210",
+              "Name": "経理部"
+            },
+            "LoginId": "Tenant1_User2",
+            "Name": "佐藤 由香",
+            "UserCode": "",
+            "TenantManager": true,
+            "ServiceManager": false,
+            "Disabled": false
+          },
+          "CreatedTime": {
+            "Value": "2019-11-05T12:02:00",
+            "DisplayValue": "2019-11-05T12:02:00"
+          },
+          "ClassHash": {
+            "ClassA": "要件定義",
+            "ClassB": "作業[非定型]",
+            "ClassC": "サーバ"
+          },
+          "NumHash": {},
+          "DateHash": {},
+          "DescriptionHash": {},
+          "CheckHash": {},
+          "SiteId": 2
+        },
+        {
+          "IssueId": 158,
+          "Title": {
+            "Id": 158,
+            "Ver": 0,
+            "IsHistory": false,
+            "Value": "ネットワーク要件の確認",
+            "DisplayValue": "要件定義）作業[非定型]）ネットワーク要件の確認"
+          },
+          "Body": "システム構築の依頼元に確認を行い、要件定義書を作成します。\r\n要件定義書は、下記のフォルダに格納してください。\r\n\r\n\\\\fileserver_example\\01_demoプロジェクト\\01_要件定義",
+          "StartTime": "2019-11-07T00:00:00",
+          "CompletionTime": {
+            "Status": {
+              "Value": 900
+            },
+            "UpdatedTime": "2019-11-14T16:45:00",
+            "Value": "2019-11-13T00:00:00",
+            "DisplayValue": "2019-11-12T00:00:00"
+          },
+          "WorkValue": {
+            "Value": 18.0000,
+            "ProgressRate": 100.0
+          },
+          "ProgressRate": {
+            "CreatedTime": "2019-11-05T09:24:00",
+            "StartTime": "2019-11-07T00:00:00",
+            "CompletionTime": "2019-11-13T00:00:00",
+            "Value": 100.0,
+            "UpdatedTime": "2019-11-14T16:45:00"
+          },
+          "RemainingWorkValue": 0.0000000,
+          "Status": {
+            "Value": 900
+          },
+          "Manager": {
+            "TenantId": 1,
+            "Id": 13,
+            "DeptId": 8,
+            "Dept": {
+              "TenantId": 1,
+              "Id": 8,
+              "Code": "000610",
+              "Name": "開発2部"
+            },
+            "LoginId": "Tenant1_User13",
+            "Name": "加藤 誠",
+            "UserCode": "",
+            "TenantManager": true,
+            "ServiceManager": false,
+            "Disabled": false
+          },
+          "Owner": {
+            "TenantId": 1,
+            "Id": 13,
+            "DeptId": 8,
+            "Dept": {
+              "TenantId": 1,
+              "Id": 8,
+              "Code": "000610",
+              "Name": "開発2部"
+            },
+            "LoginId": "Tenant1_User13",
+            "Name": "加藤 誠",
+            "UserCode": "",
+            "TenantManager": true,
+            "ServiceManager": false,
+            "Disabled": false
+          },
+          "Comments": [
+            {
+              "CommentId": 1,
+              "CreatedTime": "2019-11-13T16:45:00",
+              "Creator": 2,
+              "Body": "要件定義書の作成、完了しました。成果物は所定のフォルダに格納済です。"
+            }
+          ],
+          "Creator": {
+            "TenantId": 1,
+            "Id": 13,
+            "DeptId": 8,
+            "Dept": {
+              "TenantId": 1,
+              "Id": 8,
+              "Code": "000610",
+              "Name": "開発2部"
+            },
+            "LoginId": "Tenant1_User13",
+            "Name": "加藤 誠",
+            "UserCode": "",
+            "TenantManager": true,
+            "ServiceManager": false,
+            "Disabled": false
+          },
+          "Updator": {
+            "TenantId": 1,
+            "Id": 13,
+            "DeptId": 8,
+            "Dept": {
+              "TenantId": 1,
+              "Id": 8,
+              "Code": "000610",
+              "Name": "開発2部"
+            },
+            "LoginId": "Tenant1_User13",
+            "Name": "加藤 誠",
+            "UserCode": "",
+            "TenantManager": true,
+            "ServiceManager": false,
+            "Disabled": false
+          },
+          "CreatedTime": {
+            "Value": "2019-11-05T09:24:00",
+            "DisplayValue": "2019-11-05T09:24:00"
+          },
+          "ClassHash": {
+            "ClassA": "要件定義",
+            "ClassB": "作業[非定型]",
+            "ClassC": "ネットワーク・セキュリティ"
+          },
+          "NumHash": {},
+          "DateHash": {},
+          "DescriptionHash": {},
+          "CheckHash": {},
+          "SiteId": 2
+        },
+        {
+          "IssueId": 161,
+          "Title": {
+            "Id": 161,
+            "Ver": 0,
+            "IsHistory": false,
+            "Value": "運用管理システム要件の確認",
+            "DisplayValue": "要件定義）作業[非定型]）運用管理システム要件の確認"
+          },
+          "Body": "システム構築の依頼元に確認を行い、要件定義書を作成します。\r\n要件定義書は、下記のフォルダに格納してください。\r\n\r\n\\\\fileserver_example\\01_demoプロジェクト\\01_要件定義",
+          "StartTime": "2019-11-06T00:00:00",
+          "CompletionTime": {
+            "Status": {
+              "Value": 900
+            },
+            "UpdatedTime": "2019-11-14T10:08:00",
+            "Value": "2019-11-13T00:00:00",
+            "DisplayValue": "2019-11-12T00:00:00"
+          },
+          "WorkValue": {
+            "Value": 18.0000,
+            "ProgressRate": 100.0
+          },
+          "ProgressRate": {
+            "CreatedTime": "2019-11-05T18:03:00",
+            "StartTime": "2019-11-06T00:00:00",
+            "CompletionTime": "2019-11-13T00:00:00",
+            "Value": 100.0,
+            "UpdatedTime": "2019-11-14T10:08:00"
+          },
+          "RemainingWorkValue": 0.0000000,
+          "Status": {
+            "Value": 900
+          },
+          "Manager": {
+            "TenantId": 1,
+            "Id": 6,
+            "DeptId": 7,
+            "Dept": {
+              "TenantId": 1,
+              "Id": 7,
+              "Code": "000510",
+              "Name": "開発1部"
+            },
+            "LoginId": "Tenant1_User6",
+            "Name": "Brown Emily",
+            "UserCode": "",
+            "TenantManager": true,
+            "ServiceManager": false,
+            "Disabled": false
+          },
+          "Owner": {
+            "TenantId": 1,
+            "Id": 6,
+            "DeptId": 7,
+            "Dept": {
+              "TenantId": 1,
+              "Id": 7,
+              "Code": "000510",
+              "Name": "開発1部"
+            },
+            "LoginId": "Tenant1_User6",
+            "Name": "Brown Emily",
+            "UserCode": "",
+            "TenantManager": true,
+            "ServiceManager": false,
+            "Disabled": false
+          },
+          "Comments": [],
+          "Creator": {
+            "TenantId": 1,
+            "Id": 6,
+            "DeptId": 7,
+            "Dept": {
+              "TenantId": 1,
+              "Id": 7,
+              "Code": "000510",
+              "Name": "開発1部"
+            },
+            "LoginId": "Tenant1_User6",
+            "Name": "Brown Emily",
+            "UserCode": "",
+            "TenantManager": true,
+            "ServiceManager": false,
+            "Disabled": false
+          },
+          "Updator": {
+            "TenantId": 1,
+            "Id": 6,
+            "DeptId": 7,
+            "Dept": {
+              "TenantId": 1,
+              "Id": 7,
+              "Code": "000510",
+              "Name": "開発1部"
+            },
+            "LoginId": "Tenant1_User6",
+            "Name": "Brown Emily",
+            "UserCode": "",
+            "TenantManager": true,
+            "ServiceManager": false,
+            "Disabled": false
+          },
+          "CreatedTime": {
+            "Value": "2019-11-05T18:03:00",
+            "DisplayValue": "2019-11-05T18:03:00"
+          },
+          "ClassHash": {
+            "ClassA": "要件定義",
+            "ClassB": "作業[非定型]",
+            "ClassC": "運用"
+          },
+          "NumHash": {},
+          "DateHash": {},
+          "DescriptionHash": {},
+          "CheckHash": {},
+          "SiteId": 2
+        },
+        {
+          "IssueId": 180,
+          "Title": {
+            "Id": 180,
+            "Ver": 0,
+            "IsHistory": false,
+            "Value": "稼動レポートの作成",
+            "DisplayValue": "初期サポート）ドキュメント作成）稼動レポートの作成"
+          },
+          "Body": "初期サポート期間における稼動レポートを作成します。\r\n\r\n　・パフォーマンス　（CPU/メモリ/HDDのI/O）\r\n　・ユーザアクセス数\r\n",
+          "StartTime": "2019-12-17T00:00:00",
+          "CompletionTime": {
+            "Status": {
+              "Value": 100
+            },
+            "UpdatedTime": "2019-11-08T18:03:00",
+            "Value": "2020-01-01T00:00:00",
+            "DisplayValue": "2019-12-31T00:00:00"
+          },
+          "WorkValue": {
+            "Value": 40.0000,
+            "ProgressRate": 0.0
+          },
+          "ProgressRate": {
+            "CreatedTime": "2019-11-08T18:03:00",
+            "StartTime": "2019-12-17T00:00:00",
+            "CompletionTime": "2020-01-01T00:00:00",
+            "Value": 0.0,
+            "UpdatedTime": "2019-11-08T18:03:00"
+          },
+          "RemainingWorkValue": 40.0000000,
+          "Status": {
+            "Value": 100
+          },
+          "Manager": {
+            "TenantId": 1,
+            "Id": 14,
+            "DeptId": 8,
+            "Dept": {
+              "TenantId": 1,
+              "Id": 8,
+              "Code": "000610",
+              "Name": "開発2部"
+            },
+            "LoginId": "Tenant1_User14",
+            "Name": "吉田 結",
+            "UserCode": "",
+            "TenantManager": true,
+            "ServiceManager": false,
+            "Disabled": false
+          },
+          "Owner": {
+            "TenantId": 1,
+            "Id": 14,
+            "DeptId": 8,
+            "Dept": {
+              "TenantId": 1,
+              "Id": 8,
+              "Code": "000610",
+              "Name": "開発2部"
+            },
+            "LoginId": "Tenant1_User14",
+            "Name": "吉田 結",
+            "UserCode": "",
+            "TenantManager": true,
+            "ServiceManager": false,
+            "Disabled": false
+          },
+          "Comments": [],
+          "Creator": {
+            "TenantId": 1,
+            "Id": 14,
+            "DeptId": 8,
+            "Dept": {
+              "TenantId": 1,
+              "Id": 8,
+              "Code": "000610",
+              "Name": "開発2部"
+            },
+            "LoginId": "Tenant1_User14",
+            "Name": "吉田 結",
+            "UserCode": "",
+            "TenantManager": true,
+            "ServiceManager": false,
+            "Disabled": false
+          },
+          "Updator": {
+            "TenantId": 1,
+            "Id": 14,
+            "DeptId": 8,
+            "Dept": {
+              "TenantId": 1,
+              "Id": 8,
+              "Code": "000610",
+              "Name": "開発2部"
+            },
+            "LoginId": "Tenant1_User14",
+            "Name": "吉田 結",
+            "UserCode": "",
+            "TenantManager": true,
+            "ServiceManager": false,
+            "Disabled": false
+          },
+          "CreatedTime": {
+            "Value": "2019-11-08T18:03:00",
+            "DisplayValue": "2019-11-08T18:03:00"
+          },
+          "ClassHash": {
+            "ClassA": "初期サポート",
+            "ClassB": "ドキュメント作成",
+            "ClassC": "業務"
+          },
+          "NumHash": {},
+          "DateHash": {},
+          "DescriptionHash": {},
+          "CheckHash": {},
+          "SiteId": 2
+        },
+        {
+          "IssueId": 176,
+          "Title": {
+            "Id": 176,
+            "Ver": 0,
+            "IsHistory": false,
+            "Value": "利用者向けマニュアルを作成する",
+            "DisplayValue": "構築）ドキュメント作成）利用者向けマニュアルを作成する"
+          },
+          "Body": "利用者向けのマニュアルを作成します。\r\n　・業務アプリケーションの起動\r\n　・業務アプリケーションの操作",
+          "StartTime": "2019-12-10T00:00:00",
+          "CompletionTime": {
+            "Status": {
+              "Value": 100
+            },
+            "UpdatedTime": "2019-11-08T16:56:00",
+            "Value": "2019-12-15T00:00:00",
+            "DisplayValue": "2019-12-14T00:00:00"
+          },
+          "WorkValue": {
+            "Value": 90.0000,
+            "ProgressRate": 0.0
+          },
+          "ProgressRate": {
+            "CreatedTime": "2019-11-08T16:56:00",
+            "StartTime": "2019-12-10T00:00:00",
+            "CompletionTime": "2019-12-15T00:00:00",
+            "Value": 0.0,
+            "UpdatedTime": "2019-11-08T16:56:00"
+          },
+          "RemainingWorkValue": 90.0000000,
+          "Status": {
+            "Value": 100
+          },
+          "Manager": {
+            "TenantId": 1,
+            "Id": 9,
+            "DeptId": 7,
+            "Dept": {
+              "TenantId": 1,
+              "Id": 7,
+              "Code": "000510",
+              "Name": "開発1部"
+            },
+            "LoginId": "Tenant1_User9",
+            "Name": "渡邉 博",
+            "UserCode": "",
+            "TenantManager": true,
+            "ServiceManager": false,
+            "Disabled": false
+          },
+          "Owner": {
+            "TenantId": 1,
+            "Id": 9,
+            "DeptId": 7,
+            "Dept": {
+              "TenantId": 1,
+              "Id": 7,
+              "Code": "000510",
+              "Name": "開発1部"
+            },
+            "LoginId": "Tenant1_User9",
+            "Name": "渡邉 博",
+            "UserCode": "",
+            "TenantManager": true,
+            "ServiceManager": false,
+            "Disabled": false
+          },
+          "Comments": [],
+          "Creator": {
+            "TenantId": 1,
+            "Id": 9,
+            "DeptId": 7,
+            "Dept": {
+              "TenantId": 1,
+              "Id": 7,
+              "Code": "000510",
+              "Name": "開発1部"
+            },
+            "LoginId": "Tenant1_User9",
+            "Name": "渡邉 博",
+            "UserCode": "",
+            "TenantManager": true,
+            "ServiceManager": false,
+            "Disabled": false
+          },
+          "Updator": {
+            "TenantId": 1,
+            "Id": 9,
+            "DeptId": 7,
+            "Dept": {
+              "TenantId": 1,
+              "Id": 7,
+              "Code": "000510",
+              "Name": "開発1部"
+            },
+            "LoginId": "Tenant1_User9",
+            "Name": "渡邉 博",
+            "UserCode": "",
+            "TenantManager": true,
+            "ServiceManager": false,
+            "Disabled": false
+          },
+          "CreatedTime": {
+            "Value": "2019-11-08T16:56:00",
+            "DisplayValue": "2019-11-08T16:56:00"
+          },
+          "ClassHash": {
+            "ClassA": "構築",
+            "ClassB": "ドキュメント作成",
+            "ClassC": "業務"
+          },
+          "NumHash": {},
+          "DateHash": {},
+          "DescriptionHash": {},
+          "CheckHash": {},
+          "SiteId": 2
+        },
+        {
+          "IssueId": 177,
+          "Title": {
+            "Id": 177,
+            "Ver": 0,
+            "IsHistory": false,
+            "Value": "サポート体制の確立",
+            "DisplayValue": "リリース・展開）打ち合わせ）サポート体制の確立"
+          },
+          "Body": "利用者向けサポート体制を確立します。\r\n　・問い合わせ窓口の案内\r\n　・インシデント一覧の作成\r\n　・窓口当番表の作成",
+          "StartTime": "2019-12-10T00:00:00",
+          "CompletionTime": {
+            "Status": {
+              "Value": 100
+            },
+            "UpdatedTime": "2019-11-08T16:56:00",
+            "Value": "2019-12-15T00:00:00",
+            "DisplayValue": "2019-12-14T00:00:00"
+          },
+          "WorkValue": {
+            "Value": 22.0000,
+            "ProgressRate": 0.0
+          },
+          "ProgressRate": {
+            "CreatedTime": "2019-11-08T16:56:00",
+            "StartTime": "2019-12-10T00:00:00",
+            "CompletionTime": "2019-12-15T00:00:00",
+            "Value": 0.0,
+            "UpdatedTime": "2019-11-08T16:56:00"
+          },
+          "RemainingWorkValue": 22.0000000,
+          "Status": {
+            "Value": 100
+          },
+          "Manager": {
+            "TenantId": 1,
+            "Id": 10,
+            "DeptId": 7,
+            "Dept": {
+              "TenantId": 1,
+              "Id": 7,
+              "Code": "000510",
+              "Name": "開発1部"
+            },
+            "LoginId": "Tenant1_User10",
+            "Name": "山本 陽子",
+            "UserCode": "",
+            "TenantManager": true,
+            "ServiceManager": false,
+            "Disabled": false
+          },
+          "Owner": {
+            "TenantId": 1,
+            "Id": 10,
+            "DeptId": 7,
+            "Dept": {
+              "TenantId": 1,
+              "Id": 7,
+              "Code": "000510",
+              "Name": "開発1部"
+            },
+            "LoginId": "Tenant1_User10",
+            "Name": "山本 陽子",
+            "UserCode": "",
+            "TenantManager": true,
+            "ServiceManager": false,
+            "Disabled": false
+          },
+          "Comments": [],
+          "Creator": {
+            "TenantId": 1,
+            "Id": 10,
+            "DeptId": 7,
+            "Dept": {
+              "TenantId": 1,
+              "Id": 7,
+              "Code": "000510",
+              "Name": "開発1部"
+            },
+            "LoginId": "Tenant1_User10",
+            "Name": "山本 陽子",
+            "UserCode": "",
+            "TenantManager": true,
+            "ServiceManager": false,
+            "Disabled": false
+          },
+          "Updator": {
+            "TenantId": 1,
+            "Id": 10,
+            "DeptId": 7,
+            "Dept": {
+              "TenantId": 1,
+              "Id": 7,
+              "Code": "000510",
+              "Name": "開発1部"
+            },
+            "LoginId": "Tenant1_User10",
+            "Name": "山本 陽子",
+            "UserCode": "",
+            "TenantManager": true,
+            "ServiceManager": false,
+            "Disabled": false
+          },
+          "CreatedTime": {
+            "Value": "2019-11-08T16:56:00",
+            "DisplayValue": "2019-11-08T16:56:00"
+          },
+          "ClassHash": {
+            "ClassA": "リリース・展開",
+            "ClassB": "打ち合わせ",
+            "ClassC": "業務"
+          },
+          "NumHash": {},
+          "DateHash": {},
+          "DescriptionHash": {},
+          "CheckHash": {},
+          "SiteId": 2
+        },
+        {
+          "IssueId": 179,
+          "Title": {
+            "Id": 179,
+            "Ver": 0,
+            "IsHistory": false,
+            "Value": "本番切り替え",
+            "DisplayValue": "リリース・展開）作業[非定型]）本番切り替え"
+          },
+          "Body": "旧システムから新システムへの移行を実施します。\r\n　・ネットワーク切り替え\r\n　・データ移行",
+          "StartTime": "2019-12-15T00:00:00",
+          "CompletionTime": {
+            "Status": {
+              "Value": 100
+            },
+            "UpdatedTime": "2019-11-08T16:33:00",
+            "Value": "2019-12-17T00:00:00",
+            "DisplayValue": "2019-12-16T00:00:00"
+          },
+          "WorkValue": {
+            "Value": 48.0000,
+            "ProgressRate": 0.0
+          },
+          "ProgressRate": {
+            "CreatedTime": "2019-11-08T16:33:00",
+            "StartTime": "2019-12-15T00:00:00",
+            "CompletionTime": "2019-12-17T00:00:00",
+            "Value": 0.0,
+            "UpdatedTime": "2019-11-08T16:33:00"
+          },
+          "RemainingWorkValue": 48.0000000,
+          "Status": {
+            "Value": 100
+          },
+          "Manager": {
+            "TenantId": 1,
+            "Id": 13,
+            "DeptId": 8,
+            "Dept": {
+              "TenantId": 1,
+              "Id": 8,
+              "Code": "000610",
+              "Name": "開発2部"
+            },
+            "LoginId": "Tenant1_User13",
+            "Name": "加藤 誠",
+            "UserCode": "",
+            "TenantManager": true,
+            "ServiceManager": false,
+            "Disabled": false
+          },
+          "Owner": {
+            "TenantId": 1,
+            "Id": 13,
+            "DeptId": 8,
+            "Dept": {
+              "TenantId": 1,
+              "Id": 8,
+              "Code": "000610",
+              "Name": "開発2部"
+            },
+            "LoginId": "Tenant1_User13",
+            "Name": "加藤 誠",
+            "UserCode": "",
+            "TenantManager": true,
+            "ServiceManager": false,
+            "Disabled": false
+          },
+          "Comments": [],
+          "Creator": {
+            "TenantId": 1,
+            "Id": 13,
+            "DeptId": 8,
+            "Dept": {
+              "TenantId": 1,
+              "Id": 8,
+              "Code": "000610",
+              "Name": "開発2部"
+            },
+            "LoginId": "Tenant1_User13",
+            "Name": "加藤 誠",
+            "UserCode": "",
+            "TenantManager": true,
+            "ServiceManager": false,
+            "Disabled": false
+          },
+          "Updator": {
+            "TenantId": 1,
+            "Id": 13,
+            "DeptId": 8,
+            "Dept": {
+              "TenantId": 1,
+              "Id": 8,
+              "Code": "000610",
+              "Name": "開発2部"
+            },
+            "LoginId": "Tenant1_User13",
+            "Name": "加藤 誠",
+            "UserCode": "",
+            "TenantManager": true,
+            "ServiceManager": false,
+            "Disabled": false
+          },
+          "CreatedTime": {
+            "Value": "2019-11-08T16:33:00",
+            "DisplayValue": "2019-11-08T16:33:00"
+          },
+          "ClassHash": {
+            "ClassA": "リリース・展開",
+            "ClassB": "作業[非定型]",
+            "ClassC": "業務"
+          },
+          "NumHash": {},
+          "DateHash": {},
+          "DescriptionHash": {},
+          "CheckHash": {},
+          "SiteId": 2
+        },
+        {
+          "IssueId": 175,
+          "Title": {
+            "Id": 175,
+            "Ver": 0,
+            "IsHistory": false,
+            "Value": "運用者向けマニュアルを作成する",
+            "DisplayValue": "構築）ドキュメント作成）運用者向けマニュアルを作成する"
+          },
+          "Body": "運用者向けのマニュアルを作成します。\r\n　・定常業務手順\r\n　・バックアップ手順\r\n　・トラブル対応手順",
+          "StartTime": "2019-12-10T00:00:00",
+          "CompletionTime": {
+            "Status": {
+              "Value": 100
+            },
+            "UpdatedTime": "2019-11-08T14:11:00",
+            "Value": "2019-12-15T00:00:00",
+            "DisplayValue": "2019-12-14T00:00:00"
+          },
+          "WorkValue": {
+            "Value": 45.0000,
+            "ProgressRate": 0.0
+          },
+          "ProgressRate": {
+            "CreatedTime": "2019-11-08T14:11:00",
+            "StartTime": "2019-12-10T00:00:00",
+            "CompletionTime": "2019-12-15T00:00:00",
+            "Value": 0.0,
+            "UpdatedTime": "2019-11-08T14:11:00"
+          },
+          "RemainingWorkValue": 45.0000000,
+          "Status": {
+            "Value": 100
+          },
+          "Manager": {
+            "TenantId": 1,
+            "Id": 8,
+            "DeptId": 7,
+            "Dept": {
+              "TenantId": 1,
+              "Id": 7,
+              "Code": "000510",
+              "Name": "開発1部"
+            },
+            "LoginId": "Tenant1_User8",
+            "Name": "田中 恵子",
+            "UserCode": "",
+            "TenantManager": true,
+            "ServiceManager": false,
+            "Disabled": false
+          },
+          "Owner": {
+            "TenantId": 1,
+            "Id": 8,
+            "DeptId": 7,
+            "Dept": {
+              "TenantId": 1,
+              "Id": 7,
+              "Code": "000510",
+              "Name": "開発1部"
+            },
+            "LoginId": "Tenant1_User8",
+            "Name": "田中 恵子",
+            "UserCode": "",
+            "TenantManager": true,
+            "ServiceManager": false,
+            "Disabled": false
+          },
+          "Comments": [],
+          "Creator": {
+            "TenantId": 1,
+            "Id": 8,
+            "DeptId": 7,
+            "Dept": {
+              "TenantId": 1,
+              "Id": 7,
+              "Code": "000510",
+              "Name": "開発1部"
+            },
+            "LoginId": "Tenant1_User8",
+            "Name": "田中 恵子",
+            "UserCode": "",
+            "TenantManager": true,
+            "ServiceManager": false,
+            "Disabled": false
+          },
+          "Updator": {
+            "TenantId": 1,
+            "Id": 8,
+            "DeptId": 7,
+            "Dept": {
+              "TenantId": 1,
+              "Id": 7,
+              "Code": "000510",
+              "Name": "開発1部"
+            },
+            "LoginId": "Tenant1_User8",
+            "Name": "田中 恵子",
+            "UserCode": "",
+            "TenantManager": true,
+            "ServiceManager": false,
+            "Disabled": false
+          },
+          "CreatedTime": {
+            "Value": "2019-11-08T14:11:00",
+            "DisplayValue": "2019-11-08T14:11:00"
+          },
+          "ClassHash": {
+            "ClassA": "構築",
+            "ClassB": "ドキュメント作成",
+            "ClassC": "運用"
+          },
+          "NumHash": {},
+          "DateHash": {},
+          "DescriptionHash": {},
+          "CheckHash": {},
+          "SiteId": 2
+        },
+        {
+          "IssueId": 178,
+          "Title": {
+            "Id": 178,
+            "Ver": 0,
+            "IsHistory": false,
+            "Value": "システムテスト",
+            "DisplayValue": "テスト）作業[非定型]）システムテスト"
+          },
+          "Body": "業務シナリオに基づくシステムテストを実施します。",
+          "StartTime": "2019-12-10T00:00:00",
+          "CompletionTime": {
+            "Status": {
+              "Value": 100
+            },
+            "UpdatedTime": "2019-11-08T09:24:00",
+            "Value": "2019-12-15T00:00:00",
+            "DisplayValue": "2019-12-14T00:00:00"
+          },
+          "WorkValue": {
+            "Value": 80.0000,
+            "ProgressRate": 0.0
+          },
+          "ProgressRate": {
+            "CreatedTime": "2019-11-08T09:24:00",
+            "StartTime": "2019-12-10T00:00:00",
+            "CompletionTime": "2019-12-15T00:00:00",
+            "Value": 0.0,
+            "UpdatedTime": "2019-11-08T09:24:00"
+          },
+          "RemainingWorkValue": 80.0000000,
+          "Status": {
+            "Value": 100
+          },
+          "Manager": {
+            "TenantId": 1,
+            "Id": 11,
+            "DeptId": 7,
+            "Dept": {
+              "TenantId": 1,
+              "Id": 7,
+              "Code": "000510",
+              "Name": "開発1部"
+            },
+            "LoginId": "Tenant1_User11",
+            "Name": "中村 隆",
+            "UserCode": "",
+            "TenantManager": true,
+            "ServiceManager": false,
+            "Disabled": false
+          },
+          "Owner": {
+            "TenantId": 1,
+            "Id": 11,
+            "DeptId": 7,
+            "Dept": {
+              "TenantId": 1,
+              "Id": 7,
+              "Code": "000510",
+              "Name": "開発1部"
+            },
+            "LoginId": "Tenant1_User11",
+            "Name": "中村 隆",
+            "UserCode": "",
+            "TenantManager": true,
+            "ServiceManager": false,
+            "Disabled": false
+          },
+          "Comments": [],
+          "Creator": {
+            "TenantId": 1,
+            "Id": 11,
+            "DeptId": 7,
+            "Dept": {
+              "TenantId": 1,
+              "Id": 7,
+              "Code": "000510",
+              "Name": "開発1部"
+            },
+            "LoginId": "Tenant1_User11",
+            "Name": "中村 隆",
+            "UserCode": "",
+            "TenantManager": true,
+            "ServiceManager": false,
+            "Disabled": false
+          },
+          "Updator": {
+            "TenantId": 1,
+            "Id": 11,
+            "DeptId": 7,
+            "Dept": {
+              "TenantId": 1,
+              "Id": 7,
+              "Code": "000510",
+              "Name": "開発1部"
+            },
+            "LoginId": "Tenant1_User11",
+            "Name": "中村 隆",
+            "UserCode": "",
+            "TenantManager": true,
+            "ServiceManager": false,
+            "Disabled": false
+          },
+          "CreatedTime": {
+            "Value": "2019-11-08T09:24:00",
+            "DisplayValue": "2019-11-08T09:24:00"
+          },
+          "ClassHash": {
+            "ClassA": "テスト",
+            "ClassB": "作業[非定型]",
+            "ClassC": "業務"
+          },
+          "NumHash": {},
+          "DateHash": {},
+          "DescriptionHash": {},
+          "CheckHash": {},
+          "SiteId": 2
+        },
+        {
+          "IssueId": 173,
+          "Title": {
+            "Id": 173,
+            "Ver": 0,
+            "IsHistory": false,
+            "Value": "運用管理システムのテスト",
+            "DisplayValue": "テスト）作業[定型]）運用管理システムのテスト"
+          },
+          "Body": "運用管理システム構築後のテストを行います。\r\n　・監視テスト\r\n　・ジョブテスト\r\n",
+          "StartTime": "2019-12-01T00:00:00",
+          "CompletionTime": {
+            "Status": {
+              "Value": 100
+            },
+            "UpdatedTime": "2019-11-07T11:03:00",
+            "Value": "2019-12-03T00:00:00",
+            "DisplayValue": "2019-12-02T00:00:00"
+          },
+          "WorkValue": {
+            "Value": 10.0000,
+            "ProgressRate": 0.0
+          },
+          "ProgressRate": {
+            "CreatedTime": "2019-11-07T11:03:00",
+            "StartTime": "2019-12-01T00:00:00",
+            "CompletionTime": "2019-12-03T00:00:00",
+            "Value": 0.0,
+            "UpdatedTime": "2019-11-07T11:03:00"
+          },
+          "RemainingWorkValue": 10.0000000,
+          "Status": {
+            "Value": 100
+          },
+          "Manager": {
+            "TenantId": 1,
+            "Id": 6,
+            "DeptId": 7,
+            "Dept": {
+              "TenantId": 1,
+              "Id": 7,
+              "Code": "000510",
+              "Name": "開発1部"
+            },
+            "LoginId": "Tenant1_User6",
+            "Name": "Brown Emily",
+            "UserCode": "",
+            "TenantManager": true,
+            "ServiceManager": false,
+            "Disabled": false
+          },
+          "Owner": {
+            "TenantId": 1,
+            "Id": 6,
+            "DeptId": 7,
+            "Dept": {
+              "TenantId": 1,
+              "Id": 7,
+              "Code": "000510",
+              "Name": "開発1部"
+            },
+            "LoginId": "Tenant1_User6",
+            "Name": "Brown Emily",
+            "UserCode": "",
+            "TenantManager": true,
+            "ServiceManager": false,
+            "Disabled": false
+          },
+          "Comments": [],
+          "Creator": {
+            "TenantId": 1,
+            "Id": 6,
+            "DeptId": 7,
+            "Dept": {
+              "TenantId": 1,
+              "Id": 7,
+              "Code": "000510",
+              "Name": "開発1部"
+            },
+            "LoginId": "Tenant1_User6",
+            "Name": "Brown Emily",
+            "UserCode": "",
+            "TenantManager": true,
+            "ServiceManager": false,
+            "Disabled": false
+          },
+          "Updator": {
+            "TenantId": 1,
+            "Id": 6,
+            "DeptId": 7,
+            "Dept": {
+              "TenantId": 1,
+              "Id": 7,
+              "Code": "000510",
+              "Name": "開発1部"
+            },
+            "LoginId": "Tenant1_User6",
+            "Name": "Brown Emily",
+            "UserCode": "",
+            "TenantManager": true,
+            "ServiceManager": false,
+            "Disabled": false
+          },
+          "CreatedTime": {
+            "Value": "2019-11-07T11:03:00",
+            "DisplayValue": "2019-11-07T11:03:00"
+          },
+          "ClassHash": {
+            "ClassA": "テスト",
+            "ClassB": "作業[定型]",
+            "ClassC": "運用"
+          },
+          "NumHash": {},
+          "DateHash": {},
+          "DescriptionHash": {},
+          "CheckHash": {},
+          "SiteId": 2
+        },
+        {
+          "IssueId": 174,
+          "Title": {
+            "Id": 174,
+            "Ver": 0,
+            "IsHistory": false,
+            "Value": "業務アプリケーションのテスト",
+            "DisplayValue": "テスト）作業[定型]）業務アプリケーションのテスト"
+          },
+          "Body": "業務アプリケーション構築後のテストを行います。\r\n　・起動確認\r\n　・認証連携\r\n　・メール送信\r\n　・ホスト連携",
+          "StartTime": "2019-12-08T00:00:00",
+          "CompletionTime": {
+            "Status": {
+              "Value": 100
+            },
+            "UpdatedTime": "2019-11-07T09:34:00",
+            "Value": "2019-12-10T00:00:00",
+            "DisplayValue": "2019-12-09T00:00:00"
+          },
+          "WorkValue": {
+            "Value": 60.0000,
+            "ProgressRate": 0.0
+          },
+          "ProgressRate": {
+            "CreatedTime": "2019-11-07T09:34:00",
+            "StartTime": "2019-12-08T00:00:00",
+            "CompletionTime": "2019-12-10T00:00:00",
+            "Value": 0.0,
+            "UpdatedTime": "2019-11-07T09:34:00"
+          },
+          "RemainingWorkValue": 60.0000000,
+          "Status": {
+            "Value": 100
+          },
+          "Manager": {
+            "TenantId": 1,
+            "Id": 7,
+            "DeptId": 7,
+            "Dept": {
+              "TenantId": 1,
+              "Id": 7,
+              "Code": "000510",
+              "Name": "開発1部"
+            },
+            "LoginId": "Tenant1_User7",
+            "Name": "鈴木 洋一",
+            "UserCode": "",
+            "TenantManager": true,
+            "ServiceManager": false,
+            "Disabled": false
+          },
+          "Owner": {
+            "TenantId": 1,
+            "Id": 7,
+            "DeptId": 7,
+            "Dept": {
+              "TenantId": 1,
+              "Id": 7,
+              "Code": "000510",
+              "Name": "開発1部"
+            },
+            "LoginId": "Tenant1_User7",
+            "Name": "鈴木 洋一",
+            "UserCode": "",
+            "TenantManager": true,
+            "ServiceManager": false,
+            "Disabled": false
+          },
+          "Comments": [],
+          "Creator": {
+            "TenantId": 1,
+            "Id": 7,
+            "DeptId": 7,
+            "Dept": {
+              "TenantId": 1,
+              "Id": 7,
+              "Code": "000510",
+              "Name": "開発1部"
+            },
+            "LoginId": "Tenant1_User7",
+            "Name": "鈴木 洋一",
+            "UserCode": "",
+            "TenantManager": true,
+            "ServiceManager": false,
+            "Disabled": false
+          },
+          "Updator": {
+            "TenantId": 1,
+            "Id": 7,
+            "DeptId": 7,
+            "Dept": {
+              "TenantId": 1,
+              "Id": 7,
+              "Code": "000510",
+              "Name": "開発1部"
+            },
+            "LoginId": "Tenant1_User7",
+            "Name": "鈴木 洋一",
+            "UserCode": "",
+            "TenantManager": true,
+            "ServiceManager": false,
+            "Disabled": false
+          },
+          "CreatedTime": {
+            "Value": "2019-11-07T09:34:00",
+            "DisplayValue": "2019-11-07T09:34:00"
+          },
+          "ClassHash": {
+            "ClassA": "テスト",
+            "ClassB": "作業[定型]",
+            "ClassC": "業務"
+          },
+          "NumHash": {},
+          "DateHash": {},
+          "DescriptionHash": {},
+          "CheckHash": {},
+          "SiteId": 2
+        },
+        {
+          "IssueId": 170,
+          "Title": {
+            "Id": 170,
+            "Ver": 0,
+            "IsHistory": false,
+            "Value": "業務アプリケーションの構築",
+            "DisplayValue": "構築）作業[非定型]）業務アプリケーションの構築"
+          },
+          "Body": "業務アプリケーションを構築します。\r\n　・データベースの構築\r\n　・業務アプリケーションの構築\r\n　・資源の最新化\r\n　・設定ファイルの更新",
+          "StartTime": "2019-12-03T00:00:00",
+          "CompletionTime": {
+            "Status": {
+              "Value": 100
+            },
+            "UpdatedTime": "2019-11-06T11:03:00",
+            "Value": "2019-12-08T00:00:00",
+            "DisplayValue": "2019-12-07T00:00:00"
+          },
+          "WorkValue": {
+            "Value": 60.0000,
+            "ProgressRate": 0.0
+          },
+          "ProgressRate": {
+            "CreatedTime": "2019-11-06T11:03:00",
+            "StartTime": "2019-12-03T00:00:00",
+            "CompletionTime": "2019-12-08T00:00:00",
+            "Value": 0.0,
+            "UpdatedTime": "2019-11-06T11:03:00"
+          },
+          "RemainingWorkValue": 60.0000000,
+          "Status": {
+            "Value": 100
+          },
+          "Manager": {
+            "TenantId": 1,
+            "Id": 7,
+            "DeptId": 7,
+            "Dept": {
+              "TenantId": 1,
+              "Id": 7,
+              "Code": "000510",
+              "Name": "開発1部"
+            },
+            "LoginId": "Tenant1_User7",
+            "Name": "鈴木 洋一",
+            "UserCode": "",
+            "TenantManager": true,
+            "ServiceManager": false,
+            "Disabled": false
+          },
+          "Owner": {
+            "TenantId": 1,
+            "Id": 7,
+            "DeptId": 7,
+            "Dept": {
+              "TenantId": 1,
+              "Id": 7,
+              "Code": "000510",
+              "Name": "開発1部"
+            },
+            "LoginId": "Tenant1_User7",
+            "Name": "鈴木 洋一",
+            "UserCode": "",
+            "TenantManager": true,
+            "ServiceManager": false,
+            "Disabled": false
+          },
+          "Comments": [],
+          "Creator": {
+            "TenantId": 1,
+            "Id": 7,
+            "DeptId": 7,
+            "Dept": {
+              "TenantId": 1,
+              "Id": 7,
+              "Code": "000510",
+              "Name": "開発1部"
+            },
+            "LoginId": "Tenant1_User7",
+            "Name": "鈴木 洋一",
+            "UserCode": "",
+            "TenantManager": true,
+            "ServiceManager": false,
+            "Disabled": false
+          },
+          "Updator": {
+            "TenantId": 1,
+            "Id": 7,
+            "DeptId": 7,
+            "Dept": {
+              "TenantId": 1,
+              "Id": 7,
+              "Code": "000510",
+              "Name": "開発1部"
+            },
+            "LoginId": "Tenant1_User7",
+            "Name": "鈴木 洋一",
+            "UserCode": "",
+            "TenantManager": true,
+            "ServiceManager": false,
+            "Disabled": false
+          },
+          "CreatedTime": {
+            "Value": "2019-11-06T11:03:00",
+            "DisplayValue": "2019-11-06T11:03:00"
+          },
+          "ClassHash": {
+            "ClassA": "構築",
+            "ClassB": "作業[非定型]",
+            "ClassC": "業務"
+          },
+          "NumHash": {},
+          "DateHash": {},
+          "DescriptionHash": {},
+          "CheckHash": {},
+          "SiteId": 2
+        },
+        {
+          "IssueId": 169,
+          "Title": {
+            "Id": 169,
+            "Ver": 0,
+            "IsHistory": false,
+            "Value": "運用管理システムの構築",
+            "DisplayValue": "構築）作業[定型]）運用管理システムの構築"
+          },
+          "Body": "運用管理システムを構築します。\r\n　・監視設定\r\n　・ジョブ設定",
+          "StartTime": "2019-11-26T00:00:00",
+          "CompletionTime": {
+            "Status": {
+              "Value": 100
+            },
+            "UpdatedTime": "2019-11-06T09:22:00",
+            "Value": "2019-12-01T00:00:00",
+            "DisplayValue": "2019-11-30T00:00:00"
+          },
+          "WorkValue": {
+            "Value": 50.0000,
+            "ProgressRate": 0.0
+          },
+          "ProgressRate": {
+            "CreatedTime": "2019-11-06T09:22:00",
+            "StartTime": "2019-11-26T00:00:00",
+            "CompletionTime": "2019-12-01T00:00:00",
+            "Value": 0.0,
+            "UpdatedTime": "2019-11-06T09:22:00"
+          },
+          "RemainingWorkValue": 50.0000000,
+          "Status": {
+            "Value": 100
+          },
+          "Manager": {
+            "TenantId": 1,
+            "Id": 6,
+            "DeptId": 7,
+            "Dept": {
+              "TenantId": 1,
+              "Id": 7,
+              "Code": "000510",
+              "Name": "開発1部"
+            },
+            "LoginId": "Tenant1_User6",
+            "Name": "Brown Emily",
+            "UserCode": "",
+            "TenantManager": true,
+            "ServiceManager": false,
+            "Disabled": false
+          },
+          "Owner": {
+            "TenantId": 1,
+            "Id": 6,
+            "DeptId": 7,
+            "Dept": {
+              "TenantId": 1,
+              "Id": 7,
+              "Code": "000510",
+              "Name": "開発1部"
+            },
+            "LoginId": "Tenant1_User6",
+            "Name": "Brown Emily",
+            "UserCode": "",
+            "TenantManager": true,
+            "ServiceManager": false,
+            "Disabled": false
+          },
+          "Comments": [],
+          "Creator": {
+            "TenantId": 1,
+            "Id": 6,
+            "DeptId": 7,
+            "Dept": {
+              "TenantId": 1,
+              "Id": 7,
+              "Code": "000510",
+              "Name": "開発1部"
+            },
+            "LoginId": "Tenant1_User6",
+            "Name": "Brown Emily",
+            "UserCode": "",
+            "TenantManager": true,
+            "ServiceManager": false,
+            "Disabled": false
+          },
+          "Updator": {
+            "TenantId": 1,
+            "Id": 6,
+            "DeptId": 7,
+            "Dept": {
+              "TenantId": 1,
+              "Id": 7,
+              "Code": "000510",
+              "Name": "開発1部"
+            },
+            "LoginId": "Tenant1_User6",
+            "Name": "Brown Emily",
+            "UserCode": "",
+            "TenantManager": true,
+            "ServiceManager": false,
+            "Disabled": false
+          },
+          "CreatedTime": {
+            "Value": "2019-11-06T09:22:00",
+            "DisplayValue": "2019-11-06T09:22:00"
+          },
+          "ClassHash": {
+            "ClassA": "構築",
+            "ClassB": "作業[定型]",
+            "ClassC": "運用"
+          },
+          "NumHash": {},
+          "DateHash": {},
+          "DescriptionHash": {},
+          "CheckHash": {},
+          "SiteId": 2
+        },
+        {
+          "IssueId": 171,
+          "Title": {
+            "Id": 171,
+            "Ver": 0,
+            "IsHistory": false,
+            "Value": "ネットワークのテスト",
+            "DisplayValue": "テスト）作業[定型]）ネットワークのテスト"
+          },
+          "Body": "ネットワーク構築後のテストを行います。\r\n　・疎通確認\r\n",
+          "StartTime": "2019-11-22T00:00:00",
+          "CompletionTime": {
+            "Status": {
+              "Value": 200
+            },
+            "UpdatedTime": "2019-11-05T18:03:00",
+            "Value": "2019-11-24T00:00:00",
+            "DisplayValue": "2019-11-23T00:00:00"
+          },
+          "WorkValue": {
+            "Value": 12.0000,
+            "ProgressRate": 22.0
+          },
+          "ProgressRate": {
+            "CreatedTime": "2019-11-07T18:03:00",
+            "StartTime": "2019-11-22T00:00:00",
+            "CompletionTime": "2019-11-24T00:00:00",
+            "Value": 22.0,
+            "UpdatedTime": "2019-11-05T18:03:00"
+          },
+          "RemainingWorkValue": 9.3600000,
+          "Status": {
+            "Value": 200
+          },
+          "Manager": {
+            "TenantId": 1,
+            "Id": 13,
+            "DeptId": 8,
+            "Dept": {
+              "TenantId": 1,
+              "Id": 8,
+              "Code": "000610",
+              "Name": "開発2部"
+            },
+            "LoginId": "Tenant1_User13",
+            "Name": "加藤 誠",
+            "UserCode": "",
+            "TenantManager": true,
+            "ServiceManager": false,
+            "Disabled": false
+          },
+          "Owner": {
+            "TenantId": 1,
+            "Id": 13,
+            "DeptId": 8,
+            "Dept": {
+              "TenantId": 1,
+              "Id": 8,
+              "Code": "000610",
+              "Name": "開発2部"
+            },
+            "LoginId": "Tenant1_User13",
+            "Name": "加藤 誠",
+            "UserCode": "",
+            "TenantManager": true,
+            "ServiceManager": false,
+            "Disabled": false
+          },
+          "Comments": [],
+          "Creator": {
+            "TenantId": 1,
+            "Id": 13,
+            "DeptId": 8,
+            "Dept": {
+              "TenantId": 1,
+              "Id": 8,
+              "Code": "000610",
+              "Name": "開発2部"
+            },
+            "LoginId": "Tenant1_User13",
+            "Name": "加藤 誠",
+            "UserCode": "",
+            "TenantManager": true,
+            "ServiceManager": false,
+            "Disabled": false
+          },
+          "Updator": {
+            "TenantId": 1,
+            "Id": 13,
+            "DeptId": 8,
+            "Dept": {
+              "TenantId": 1,
+              "Id": 8,
+              "Code": "000610",
+              "Name": "開発2部"
+            },
+            "LoginId": "Tenant1_User13",
+            "Name": "加藤 誠",
+            "UserCode": "",
+            "TenantManager": true,
+            "ServiceManager": false,
+            "Disabled": false
+          },
+          "CreatedTime": {
+            "Value": "2019-11-07T18:03:00",
+            "DisplayValue": "2019-11-07T18:03:00"
+          },
+          "ClassHash": {
+            "ClassA": "テスト",
+            "ClassB": "作業[定型]",
+            "ClassC": "ネットワーク・セキュリティ"
+          },
+          "NumHash": {},
+          "DateHash": {},
+          "DescriptionHash": {},
+          "CheckHash": {},
+          "SiteId": 2
+        },
+        {
+          "IssueId": 172,
+          "Title": {
+            "Id": 172,
+            "Ver": 0,
+            "IsHistory": false,
+            "Value": "サーバのテスト",
+            "DisplayValue": "テスト）作業[定型]）サーバのテスト"
+          },
+          "Body": "サーバ構築後のテストを行います。\r\n　・OSの基本動作確認（起動、停止）\r\n　・バックアップ/リストアテスト\r\n",
+          "StartTime": "2019-11-22T00:00:00",
+          "CompletionTime": {
+            "Status": {
+              "Value": 200
+            },
+            "UpdatedTime": "2019-11-05T15:13:00",
+            "Value": "2019-11-24T00:00:00",
+            "DisplayValue": "2019-11-23T00:00:00"
+          },
+          "WorkValue": {
+            "Value": 16.0000,
+            "ProgressRate": 90.0
+          },
+          "ProgressRate": {
+            "CreatedTime": "2019-11-07T10:41:00",
+            "StartTime": "2019-11-22T00:00:00",
+            "CompletionTime": "2019-11-24T00:00:00",
+            "Value": 90.0,
+            "UpdatedTime": "2019-11-05T15:13:00"
+          },
+          "RemainingWorkValue": 1.6000000,
+          "Status": {
+            "Value": 200
+          },
+          "Manager": {
+            "TenantId": 1,
+            "Id": 4,
+            "DeptId": 6,
+            "Dept": {
+              "TenantId": 1,
+              "Id": 6,
+              "Code": "000410",
+              "Name": "営業部"
+            },
+            "LoginId": "Tenant1_User4",
+            "Name": "斎藤 美樹",
+            "UserCode": "",
+            "TenantManager": true,
+            "ServiceManager": false,
+            "Disabled": false
+          },
+          "Owner": {
+            "TenantId": 1,
+            "Id": 4,
+            "DeptId": 6,
+            "Dept": {
+              "TenantId": 1,
+              "Id": 6,
+              "Code": "000410",
+              "Name": "営業部"
+            },
+            "LoginId": "Tenant1_User4",
+            "Name": "斎藤 美樹",
+            "UserCode": "",
+            "TenantManager": true,
+            "ServiceManager": false,
+            "Disabled": false
+          },
+          "Comments": [],
+          "Creator": {
+            "TenantId": 1,
+            "Id": 4,
+            "DeptId": 6,
+            "Dept": {
+              "TenantId": 1,
+              "Id": 6,
+              "Code": "000410",
+              "Name": "営業部"
+            },
+            "LoginId": "Tenant1_User4",
+            "Name": "斎藤 美樹",
+            "UserCode": "",
+            "TenantManager": true,
+            "ServiceManager": false,
+            "Disabled": false
+          },
+          "Updator": {
+            "TenantId": 1,
+            "Id": 4,
+            "DeptId": 6,
+            "Dept": {
+              "TenantId": 1,
+              "Id": 6,
+              "Code": "000410",
+              "Name": "営業部"
+            },
+            "LoginId": "Tenant1_User4",
+            "Name": "斎藤 美樹",
+            "UserCode": "",
+            "TenantManager": true,
+            "ServiceManager": false,
+            "Disabled": false
+          },
+          "CreatedTime": {
+            "Value": "2019-11-07T10:41:00",
+            "DisplayValue": "2019-11-07T10:41:00"
+          },
+          "ClassHash": {
+            "ClassA": "テスト",
+            "ClassB": "作業[定型]",
+            "ClassC": "サーバ"
+          },
+          "NumHash": {},
+          "DateHash": {},
+          "DescriptionHash": {},
+          "CheckHash": {},
+          "SiteId": 2
+        }
+      ]
+    },
+    {
+      "Header": [
+        {
+          "SiteId": 3,
+          "SiteTitle": "課題管理",
+          "Columns": {
+            "IssueId": "ID",
+            "Title": "タイトル",
+            "Body": "内容",
+            "TitleBody": "タイトル/内容",
+            "Comments": "コメント",
+            "StartTime": "開始",
+            "CompletionTime": "完了",
+            "WorkValue": "作業量",
+            "ProgressRate": "進捗率",
+            "RemainingWorkValue": "残作業量",
+            "Status": "状況",
+            "Manager": "管理者",
+            "Owner": "担当者",
+            "ClassA": "WBS",
+            "ClassB": "区分",
+            "AttachmentsA": "添付資料",
+            "Creator": "作成者",
+            "Updator": "更新者",
+            "UpdatedTime": "更新日時"
+          }
+        }
+      ],
+      "Body": [
+        {
+          "IssueId": 256,
+          "Title": {
+            "Id": 256,
+            "Ver": 0,
+            "IsHistory": false,
+            "Value": "ネットワーク構成が決まっていない",
+            "DisplayValue": "ネットワーク構成が決まっていない"
+          },
+          "Body": "サーバの設計にあたり、ネットワーク構成を決める必要があります。",
+          "StartTime": "2019-12-31T00:00:00",
+          "CompletionTime": {
+            "Status": {
+              "Value": 900
+            },
+            "UpdatedTime": "2019-11-08T16:56:00",
+            "Value": "2020-01-12T00:00:00",
+            "DisplayValue": "2020-01-11T00:00:00"
+          },
+          "WorkValue": {
+            "Value": 0.0000,
+            "ProgressRate": 0.0
+          },
+          "ProgressRate": {
+            "CreatedTime": "2019-11-08T16:56:00",
+            "StartTime": "2019-12-31T00:00:00",
+            "CompletionTime": "2020-01-12T00:00:00",
+            "Value": 0.0,
+            "UpdatedTime": "2019-11-08T16:56:00"
+          },
+          "RemainingWorkValue": 0.0000000,
+          "Status": {
+            "Value": 900
+          },
+          "Manager": {
+            "TenantId": 1,
+            "Id": 15,
+            "DeptId": 8,
+            "Dept": {
+              "TenantId": 1,
+              "Id": 8,
+              "Code": "000610",
+              "Name": "開発2部"
+            },
+            "LoginId": "Tenant1_User15",
+            "Name": "伊藤 大輔",
+            "UserCode": "",
+            "TenantManager": true,
+            "ServiceManager": false,
+            "Disabled": false
+          },
+          "Owner": {
+            "TenantId": 1,
+            "Id": 15,
+            "DeptId": 8,
+            "Dept": {
+              "TenantId": 1,
+              "Id": 8,
+              "Code": "000610",
+              "Name": "開発2部"
+            },
+            "LoginId": "Tenant1_User15",
+            "Name": "伊藤 大輔",
+            "UserCode": "",
+            "TenantManager": true,
+            "ServiceManager": false,
+            "Disabled": false
+          },
+          "Comments": [],
+          "Creator": {
+            "TenantId": 1,
+            "Id": 15,
+            "DeptId": 8,
+            "Dept": {
+              "TenantId": 1,
+              "Id": 8,
+              "Code": "000610",
+              "Name": "開発2部"
+            },
+            "LoginId": "Tenant1_User15",
+            "Name": "伊藤 大輔",
+            "UserCode": "",
+            "TenantManager": true,
+            "ServiceManager": false,
+            "Disabled": false
+          },
+          "Updator": {
+            "TenantId": 1,
+            "Id": 15,
+            "DeptId": 8,
+            "Dept": {
+              "TenantId": 1,
+              "Id": 8,
+              "Code": "000610",
+              "Name": "開発2部"
+            },
+            "LoginId": "Tenant1_User15",
+            "Name": "伊藤 大輔",
+            "UserCode": "",
+            "TenantManager": true,
+            "ServiceManager": false,
+            "Disabled": false
+          },
+          "CreatedTime": {
+            "Value": "2019-11-08T16:56:00",
+            "DisplayValue": "2019-11-08T16:56:00"
+          },
+          "ClassHash": {
+            "ClassA": "163",
+            "ClassB": ""
+          },
+          "NumHash": {},
+          "DateHash": {},
+          "DescriptionHash": {},
+          "CheckHash": {},
+          "SiteId": 3
+        }
+      ]
+    },
+    {
+      "Header": [
+        {
+          "SiteId": 4,
+          "SiteTitle": "レビュー記録",
+          "Columns": {
+            "ResultId": "ID",
+            "Title": "タイトル",
+            "Body": "内容",
+            "TitleBody": "タイトル/内容",
+            "Comments": "コメント",
+            "Status": "状況",
+            "Manager": "管理者",
+            "Owner": "担当者",
+            "ClassA": "WBS",
+            "ClassB": "指摘区分",
+            "AttachmentsA": "添付資料",
+            "Creator": "作成者",
+            "Updator": "更新者",
+            "UpdatedTime": "更新日時"
+          }
+        }
+      ],
+      "Body": [
+        {
+          "ResultId": 292,
+          "Title": {
+            "Id": 292,
+            "Ver": 0,
+            "IsHistory": false,
+            "Value": "ディスク容量の要件に誤り",
+            "DisplayValue": "ディスク容量の要件に誤り"
+          },
+          "Body": "要件定義書に記載されたディスク容量について誤りがありますので修正してください。\r\n\r\n誤\r\n  Cドライブ: 100GB\r\n  Dドライブ: 250GB\r\n\r\n正\r\n  Cドライブ: 80GB\r\n  Dドライブ: 500GB",
+          "Status": {
+            "Value": 900
+          },
+          "Manager": {
+            "TenantId": 1,
+            "Id": 16,
+            "DeptId": 8,
+            "Dept": {
+              "TenantId": 1,
+              "Id": 8,
+              "Code": "000610",
+              "Name": "開発2部"
+            },
+            "LoginId": "Tenant1_User16",
+            "Name": "佐々木 春香",
+            "UserCode": "",
+            "TenantManager": true,
+            "ServiceManager": false,
+            "Disabled": false
+          },
+          "Owner": {
+            "TenantId": 1,
+            "Id": 16,
+            "DeptId": 8,
+            "Dept": {
+              "TenantId": 1,
+              "Id": 8,
+              "Code": "000610",
+              "Name": "開発2部"
+            },
+            "LoginId": "Tenant1_User16",
+            "Name": "佐々木 春香",
+            "UserCode": "",
+            "TenantManager": true,
+            "ServiceManager": false,
+            "Disabled": false
+          },
+          "Comments": [
+            {
+              "CommentId": 1,
+              "CreatedTime": "2019-11-15T12:35:00",
+              "Creator": 2,
+              "Body": "修正完了しました。"
+            }
+          ],
+          "Creator": {
+            "TenantId": 1,
+            "Id": 16,
+            "DeptId": 8,
+            "Dept": {
+              "TenantId": 1,
+              "Id": 8,
+              "Code": "000610",
+              "Name": "開発2部"
+            },
+            "LoginId": "Tenant1_User16",
+            "Name": "佐々木 春香",
+            "UserCode": "",
+            "TenantManager": true,
+            "ServiceManager": false,
+            "Disabled": false
+          },
+          "Updator": {
+            "TenantId": 1,
+            "Id": 16,
+            "DeptId": 8,
+            "Dept": {
+              "TenantId": 1,
+              "Id": 8,
+              "Code": "000610",
+              "Name": "開発2部"
+            },
+            "LoginId": "Tenant1_User16",
+            "Name": "佐々木 春香",
+            "UserCode": "",
+            "TenantManager": true,
+            "ServiceManager": false,
+            "Disabled": false
+          },
+          "ClassHash": {
+            "ClassA": "163",
+            "ClassB": ""
+          },
+          "NumHash": {},
+          "DateHash": {},
+          "DescriptionHash": {},
+          "CheckHash": {},
+          "SiteId": 4
+        }
+      ]
+    }
+  ],
+  "Permissions": [
+    {
+      "SiteId": 1,
+      "Permissions": [
+        {
+          "ReferenceId": 1,
+          "DeptId": 0,
+          "GroupId": 0,
+          "UserId": 1,
+          "PermissionType": 511
+        },
+        {
+          "ReferenceId": 1,
+          "DeptId": 1,
+          "GroupId": 0,
+          "UserId": 0,
+          "PermissionType": 31
+        },
+        {
+          "ReferenceId": 1,
+          "DeptId": 2,
+          "GroupId": 0,
+          "UserId": 0,
+          "PermissionType": 31
+        },
+        {
+          "ReferenceId": 1,
+          "DeptId": 3,
+          "GroupId": 0,
+          "UserId": 0,
+          "PermissionType": 31
+        },
+        {
+          "ReferenceId": 1,
+          "DeptId": 4,
+          "GroupId": 0,
+          "UserId": 0,
+          "PermissionType": 31
+        },
+        {
+          "ReferenceId": 1,
+          "DeptId": 5,
+          "GroupId": 0,
+          "UserId": 0,
+          "PermissionType": 31
+        },
+        {
+          "ReferenceId": 1,
+          "DeptId": 6,
+          "GroupId": 0,
+          "UserId": 0,
+          "PermissionType": 31
+        },
+        {
+          "ReferenceId": 1,
+          "DeptId": 7,
+          "GroupId": 0,
+          "UserId": 0,
+          "PermissionType": 31
+        },
+        {
+          "ReferenceId": 1,
+          "DeptId": 8,
+          "GroupId": 0,
+          "UserId": 0,
+          "PermissionType": 31
+        },
+        {
+          "ReferenceId": 1,
+          "DeptId": 9,
+          "GroupId": 0,
+          "UserId": 0,
+          "PermissionType": 31
+        }
+      ]
+    },
+    {
+      "SiteId": 2,
+      "Permissions": []
+    },
+    {
+      "SiteId": 3,
+      "Permissions": []
+    },
+    {
+      "SiteId": 4,
+      "Permissions": []
+    }
+  ],
+  "PermissionIdList": {
+    "DeptIdList": [
+      {
+        "DeptId": 1,
+        "DeptCode": "000000"
+      },
+      {
+        "DeptId": 2,
+        "DeptCode": "000010"
+      },
+      {
+        "DeptId": 3,
+        "DeptCode": "000110"
+      },
+      {
+        "DeptId": 4,
+        "DeptCode": "000210"
+      },
+      {
+        "DeptId": 5,
+        "DeptCode": "000310"
+      },
+      {
+        "DeptId": 6,
+        "DeptCode": "000410"
+      },
+      {
+        "DeptId": 7,
+        "DeptCode": "000510"
+      },
+      {
+        "DeptId": 8,
+        "DeptCode": "000610"
+      },
+      {
+        "DeptId": 9,
+        "DeptCode": "000710"
+      }
+    ],
+    "GroupIdList": [],
+    "UserIdList": [
+      {
+        "UserId": 1,
+        "LoginId": "Tenant1_User1"
+      }
+    ]
+  }
+}

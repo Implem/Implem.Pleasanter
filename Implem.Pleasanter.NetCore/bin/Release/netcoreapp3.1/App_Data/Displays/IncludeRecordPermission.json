@@ -1,0 +1,13 @@
+﻿{
+    "Id": "IncludeRecordPermission",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Include record permission"
+        },
+        {
+            "Language": "ja",
+            "Body": "レコードのアクセス制御を含める"
+        }
+    ]
+}

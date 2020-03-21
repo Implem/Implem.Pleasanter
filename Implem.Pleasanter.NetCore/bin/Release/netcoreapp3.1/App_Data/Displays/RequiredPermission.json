@@ -1,0 +1,13 @@
+﻿{
+    "Id": "RequiredPermission",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Required permission"
+        },
+        {
+            "Language": "ja",
+            "Body": "必要なアクセス許可"
+        }
+    ]
+}

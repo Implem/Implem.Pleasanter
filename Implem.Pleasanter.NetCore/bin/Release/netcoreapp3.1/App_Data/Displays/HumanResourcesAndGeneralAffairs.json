@@ -1,0 +1,13 @@
+﻿{
+    "Id": "HumanResourcesAndGeneralAffairs",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Human Resources and General Affairs"
+        },
+        {
+            "Language": "ja",
+            "Body": "人事・総務"
+        }
+    ]
+}

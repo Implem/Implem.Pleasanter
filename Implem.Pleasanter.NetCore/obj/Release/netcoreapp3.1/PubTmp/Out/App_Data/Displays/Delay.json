@@ -1,0 +1,13 @@
+﻿{
+    "Id": "Delay",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Delay"
+        },
+        {
+            "Language": "ja",
+            "Body": "遅延"
+        }
+    ]
+}

@@ -1,0 +1,13 @@
+﻿{
+    "Id": "Crosstab",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Crosstab"
+        },
+        {
+            "Language": "ja",
+            "Body": "クロス集計"
+        }
+    ]
+}

@@ -1,11 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Reflection;
-using System.Threading.Tasks;
-using System.Web.Mvc;
-using Implem.DefinitionAccessor;
+﻿using Implem.DefinitionAccessor;
 using Implem.Libraries.Utilities;
 using Implem.Pleasanter.Libraries.DataSources;
 using Implem.Pleasanter.Libraries.Initializers;
@@ -21,12 +14,15 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.HttpsPolicy;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Authorization;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-
+using Microsoft.Extensions.Hosting;
+using System;
+using System.IO;
+using System.Linq;
+using System.Reflection;
+using System.Threading.Tasks;
 namespace Implem.Pleasanter.NetCore
 {
     public class Startup
@@ -43,6 +39,7 @@ namespace Implem.Pleasanter.NetCore
 
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddControllersWithViews();
             services.AddDistributedMemoryCache();
             services.AddMvc().AddSessionStateTempDataProvider();
             services.AddSession();
@@ -68,22 +65,21 @@ namespace Implem.Pleasanter.NetCore
             }
         }
 
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             app.UseCurrentRequestContext();
-
             ContextImplement.Init();
-            Initializer.Initialize(path: env.ContentRootPath, assemblyVersion: System.Reflection.Assembly.GetExecutingAssembly().GetName().Version.ToString());
-
+            Initializer.Initialize(
+                path: env.ContentRootPath,
+                assemblyVersion: Assembly.GetExecutingAssembly().GetName().Version.ToString());
             app.UseHttpsRedirection();
             app.UsePathBase(configuration["pathBase"]);
             app.UseStaticFiles();
             app.UseSession();
+            app.UseRouting();
+            app.UseCors();
             app.UseAuthentication();
-
-            var lifetime = app.ApplicationServices.GetRequiredService<IApplicationLifetime>();
-            lifetime.ApplicationStopping.Register(OnShutdown);
-
+            app.UseAuthorization();
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
@@ -101,15 +97,14 @@ namespace Implem.Pleasanter.NetCore
                 else context.HttpContext.Response.Redirect("/errors/internalservererror");
                 return Task.CompletedTask;
             });
-
             app.Use(async (context, next) => await Invoke(context, next));
             app.UseSessionMiddleware();
-
-            app.UseMvc(routes =>
+            app.UseEndpoints(endpoints =>
             {
-                routes.MapRoute(
+                endpoints.MapRazorPages();
+                endpoints.MapControllerRoute(
                     name: "Default",
-                    template: "{controller}/{action}",
+                    pattern: "{controller}/{action}",
                     defaults: new
                     {
                         Controller = "Items",
@@ -121,9 +116,9 @@ namespace Implem.Pleasanter.NetCore
                         Action = "[A-Za-z][A-Za-z0-9_]*"
                     }
                 );
-                routes.MapRoute(
+                endpoints.MapControllerRoute(
                     name: "Others",
-                    template: "{reference}/{id}/{controller}/{action}",
+                    pattern: "{reference}/{id}/{controller}/{action}",
                     defaults: new
                     {
                         Action = "Index"
@@ -136,9 +131,9 @@ namespace Implem.Pleasanter.NetCore
                         Action = "[A-Za-z][A-Za-z0-9_]*"
                     }
                 );
-                routes.MapRoute(
+                endpoints.MapControllerRoute(
                     name: "Item",
-                    template: "{controller}/{id}/{action}",
+                    pattern: "{controller}/{id}/{action}",
                     defaults: new
                     {
                         Controller = "Items",
@@ -150,9 +145,9 @@ namespace Implem.Pleasanter.NetCore
                         Action = "[A-Za-z][A-Za-z0-9_]*"
                     }
                 );
-                routes.MapRoute(
+                endpoints.MapControllerRoute(
                     name: "Binaries",
-                    template: "binaries/{guid}/{action}",
+                    pattern: "binaries/{guid}/{action}",
                     defaults: new
                     {
                         Controller = "Binaries"
@@ -163,7 +158,6 @@ namespace Implem.Pleasanter.NetCore
                         Action = "[A-Za-z][A-Za-z0-9_]*"
                     }
                 );
-
             });
         }
 

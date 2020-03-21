@@ -1,0 +1,24 @@
+{
+  "runtimeTarget": {
+    "name": ".NETStandard,Version=v2.1/",
+    "signature": ""
+  },
+  "compilationOptions": {},
+  "targets": {
+    ".NETStandard,Version=v2.1": {},
+    ".NETStandard,Version=v2.1/": {
+      "Implem.DisplayAccessor/1.0.0": {
+        "runtime": {
+          "Implem.DisplayAccessor.dll": {}
+        }
+      }
+    }
+  },
+  "libraries": {
+    "Implem.DisplayAccessor/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    }
+  }
+}

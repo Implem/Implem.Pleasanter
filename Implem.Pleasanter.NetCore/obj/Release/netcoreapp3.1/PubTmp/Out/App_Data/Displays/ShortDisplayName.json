@@ -1,0 +1,13 @@
+﻿{
+    "Id": "ShortDisplayName",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Short display name"
+        },
+        {
+            "Language": "ja",
+            "Body": "短い表示名"
+        }
+    ]
+}

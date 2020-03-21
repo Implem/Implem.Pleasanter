@@ -1,0 +1,1 @@
+﻿alter table "#TableName#" add constraint "#PkName#" primary key (#PkColumnsWithoutOrderType#);

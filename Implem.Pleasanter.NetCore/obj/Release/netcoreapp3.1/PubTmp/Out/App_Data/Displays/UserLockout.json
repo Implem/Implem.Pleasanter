@@ -1,0 +1,13 @@
+﻿{
+    "Id": "UserLockout",
+    "Type": 240,
+    "Languages": [
+        {
+            "Body": "This user is locked."
+        },
+        {
+            "Language": "ja",
+            "Body": "このユーザはロックされています。"
+        }
+    ]
+}

@@ -1,0 +1,13 @@
+﻿{
+    "Id": "Logout",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Logout"
+        },
+        {
+            "Language": "ja",
+            "Body": "ログアウト"
+        }
+    ]
+}

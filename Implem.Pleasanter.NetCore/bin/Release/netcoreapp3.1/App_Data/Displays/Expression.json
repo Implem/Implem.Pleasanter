@@ -1,0 +1,13 @@
+﻿{
+    "Id": "Expression",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Expression"
+        },
+        {
+            "Language": "ja",
+            "Body": "論理式"
+        }
+    ]
+}

@@ -1,0 +1,13 @@
+﻿{
+    "Id": "ApiKeyCreated",
+    "Type": 210,
+    "Languages": [
+        {
+            "Body": "The API Key was created."
+        },
+        {
+            "Language": "ja",
+            "Body": "APIキーが作成されました。"
+        }
+    ]
+}

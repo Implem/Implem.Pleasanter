@@ -1,0 +1,13 @@
+﻿{
+    "Id": "SitePackageImported",
+    "Type": 210,
+    "Languages": [
+        {
+            "Body": "{0} sites were imported and {1} records were inserted."
+        },
+        {
+            "Language": "ja",
+            "Body": "サイト {0} 件、データ {1} 件 インポートしました。"
+        }
+    ]
+}

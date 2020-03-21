@@ -1,0 +1,13 @@
+﻿{
+    "Id": "HourAgo",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "1 hour excess"
+        },
+        {
+            "Language": "ja",
+            "Body": "1 時間前"
+        }
+    ]
+}

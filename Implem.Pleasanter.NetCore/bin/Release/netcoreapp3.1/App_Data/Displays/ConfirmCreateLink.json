@@ -1,0 +1,14 @@
+﻿{
+    "Id": "ConfirmCreateLink",
+    "Type": 310,
+    "ClientScript": true,
+    "Languages": [
+        {
+            "Body": "Would you like to create a link ?"
+        },
+        {
+            "Language": "ja",
+            "Body": "リンクを作成しますか？"
+        }
+    ]
+}

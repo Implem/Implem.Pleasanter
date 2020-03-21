@@ -1,0 +1,13 @@
+﻿{
+    "Id": "ListSettings",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "List settings"
+        },
+        {
+            "Language": "ja",
+            "Body": "一覧の設定"
+        }
+    ]
+}

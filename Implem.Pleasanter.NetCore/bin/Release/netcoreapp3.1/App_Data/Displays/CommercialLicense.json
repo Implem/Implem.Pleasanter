@@ -1,0 +1,13 @@
+﻿{
+    "Id": "CommercialLicense",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Commercial license"
+        },
+        {
+            "Language": "ja",
+            "Body": "商用ライセンス"
+        }
+    ]
+}

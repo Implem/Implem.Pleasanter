@@ -1,0 +1,13 @@
+﻿{
+    "Id": "LinkCreated",
+    "Type": 210,
+    "Languages": [
+        {
+            "Body": "Link creation is completed."
+        },
+        {
+            "Language": "ja",
+            "Body": "リンクを作成しました。"
+        }
+    ]
+}

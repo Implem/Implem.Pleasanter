@@ -1,0 +1,14 @@
+﻿{
+    "Id": "ValidateEqualTo",
+    "Type": 410,
+    "ClientScript": true,
+    "Languages": [
+        {
+            "Body": "Please enter the same value again."
+        },
+        {
+            "Language": "ja",
+            "Body": "入力した文字列が一致しません。"
+        }
+    ]
+}

@@ -1,0 +1,13 @@
+﻿{
+    "Id": "Customer",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Customer"
+        },
+        {
+            "Language": "ja",
+            "Body": "顧客・サービス"
+        }
+    ]
+}

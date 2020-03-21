@@ -25,3 +25,4 @@ C:\Implem\PleasanterYakushi\Implem.SupportTools\MailTester\obj\Debug\Implem.Supp
 C:\Implem\PleasanterYakushi\Implem.SupportTools\MailTester\obj\Debug\Implem.SupportTools.MailTester.csproj.CopyComplete
 C:\Implem\PleasanterYakushi\Implem.SupportTools\MailTester\obj\Debug\Implem.SupportTools.MailTester.dll
 C:\Implem\PleasanterYakushi\Implem.SupportTools\MailTester\obj\Debug\Implem.SupportTools.MailTester.pdb
+C:\Implem\PleasanterYakushi\Implem.SupportTools\MailTester\obj\Debug\Implem.SupportTools.MailTester.csproj.CoreCompileInputs.cache

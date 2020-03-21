@@ -1,0 +1,13 @@
+﻿{
+    "Id": "CanNotChangeInheritance",
+    "Type": 240,
+    "Languages": [
+        {
+            "Body": "You can not change inheritance settings on inherited sites."
+        },
+        {
+            "Language": "ja",
+            "Body": "既に継承されているサイトは継承の設定を変更できません。"
+        }
+    ]
+}

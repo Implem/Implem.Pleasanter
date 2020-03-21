@@ -1,0 +1,13 @@
+﻿{
+    "Id": "InvalidCsvData",
+    "Type": 240,
+    "Languages": [
+        {
+            "Body": "Invalid csv data. row: {0} column: {1}"
+        },
+        {
+            "Language": "ja",
+            "Body": "データが不正です。 行: {0} 列: {1}"
+        }
+    ]
+}

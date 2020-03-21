@@ -31,3 +31,5 @@ C:\Implem\PleasanterYakushi\Implem.CodeDefiner.NetCore\obj\Debug\netcoreapp2.2\I
 C:\Implem\PleasanterYakushi\Implem.CodeDefiner.NetCore\obj\Debug\netcoreapp2.2\Implem.CodeDefiner.NetCore.csproj.CopyComplete
 C:\Implem\PleasanterYakushi\Implem.CodeDefiner.NetCore\obj\Debug\netcoreapp2.2\Implem.CodeDefiner.NetCore.dll
 C:\Implem\PleasanterYakushi\Implem.CodeDefiner.NetCore\obj\Debug\netcoreapp2.2\Implem.CodeDefiner.NetCore.pdb
+C:\Implem\PleasanterYakushi\Implem.CodeDefiner.NetCore\obj\Debug\netcoreapp2.2\Implem.CodeDefiner.NetCore.csproj.CoreCompileInputs.cache
+C:\Implem\PleasanterYakushi\Implem.CodeDefiner.NetCore\obj\Debug\netcoreapp2.2\Implem.CodeDefiner.NetCore.genruntimeconfig.cache
