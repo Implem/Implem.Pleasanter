@@ -1,0 +1,25 @@
+public static string Restore#TableName#Statement(ISqlObjectFactory factory)
+{
+    return @"
+        update ""#TableName#_deleted""
+        set
+            ""Updator"" = {Parameters.Parameter.SqlParameterPrefix}U,
+            ""UpdatedTime"" = {factory.Sqls.CurrentDateTime} {{0}};
+        <!--Rds_Restore_IdentityOn-->
+        insert into ""#TableName#""
+        (
+
+<!--Rds_Restore_Columns-->
+
+            {{2}}
+        )
+        (
+        select
+
+<!--Rds_Restore_DeletedColumns--> 
+
+            {{1}}
+        from [#TableName#_deleted] {0});
+        <!--Rds_Restore_IdentityOff-->
+        delete from [#TableName#_deleted] {{0}}".Params(DeleteParams(tableName: "#TableName#"));
+}

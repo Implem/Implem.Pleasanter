@@ -1,0 +1,24 @@
+try
+{
+    var response = Repository.ExecuteScalar_response(
+        context: context,
+        transactional: true,
+        statements: statements.ToArray());
+    if (response.Event == "Conflicted")
+    {
+        return new ErrorData(
+            type: Error.Types.UpdateConflicts,
+            id: UserId);
+    }
+}
+catch (DbException e)
+{
+    if (context.SqlErrors.ErrorCode(e) == 2601)
+    {
+        return new ErrorData(type: Error.Types.LoginIdAlreadyUse);
+    }
+    else
+    {
+        throw;
+    }
+}

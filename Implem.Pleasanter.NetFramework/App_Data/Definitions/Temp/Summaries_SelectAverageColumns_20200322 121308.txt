@@ -1,0 +1,23 @@
+private static SqlColumnCollection #TableName#AverageColumn(
+    string linkColumn, string sourceColumn)
+{
+    var #tableName#Column = Rds.#TableName#Column().#TableName#Column(linkColumn, _as: "Id");
+    switch (sourceColumn)
+    {
+
+<!--Summaries_SelectAverageColumnCases-->
+
+        default:
+            switch (Def.ExtendedColumnTypes.Get(sourceColumn))
+            {
+                case "Num":
+                    return #tableName#Column.Add(
+                        columnBracket: $"\"{sourceColumn}\"",
+                        columnName: sourceColumn,
+                        _as: "Value",
+                        function: Sqls.Functions.Avg);
+                default:
+                    return null;
+            }
+    }
+}

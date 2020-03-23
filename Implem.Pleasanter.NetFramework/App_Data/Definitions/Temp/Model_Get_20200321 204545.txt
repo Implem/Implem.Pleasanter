@@ -1,0 +1,30 @@
+public #ModelName#Model Get(
+    Context context,
+
+    <!--Model_SiteSettingsParameter-->
+
+    Sqls.TableTypes tableType = Sqls.TableTypes.Normal,
+    SqlColumnCollection column = null,
+    SqlJoinCollection join = null,
+    SqlWhereCollection where = null,
+    SqlOrderByCollection orderBy = null,
+    SqlParamCollection param = null,
+    bool distinct = false,
+    int top = 0)
+{
+    Set(context, <!--Model_SiteSettings-->RdsRepository.ExecuteTable(
+        context: context,
+        statements: Rds.Select#TableName#(
+            tableType: tableType,
+            column: column ?? <!--Model_GetDefaultColumns--><!--Model_GetSitesDefaultColumns--><!--Model_GetItemsDefaultColumns-->,
+            join: join ??  Rds.#TableName#JoinDefault(),
+            where: where ?? Rds.#TableName#WhereDefault(this),
+            orderBy: orderBy,
+            param: param,
+            distinct: distinct,
+            top: top)));
+
+<!--Model_SetSiteSettingsProperties-->
+
+    return this;
+}

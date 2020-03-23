@@ -1,0 +1,13 @@
+﻿{
+    "Id": "LimitAfterSecond",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "1 second after"
+        },
+        {
+            "Language": "ja",
+            "Body": "1 秒後"
+        }
+    ]
+}

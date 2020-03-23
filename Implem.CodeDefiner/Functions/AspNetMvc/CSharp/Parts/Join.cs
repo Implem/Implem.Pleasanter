@@ -210,15 +210,15 @@ namespace Implem.CodeDefiner.Functions.AspNetMvc.CSharp.Parts
             string tableNameAlias,
             string columnNameAlias = "")
         {
-            return "\"" + ColumnName(columnDefinition, tableNameAlias).ReplaceTableName(
-                columnDefinition, tableNameAlias) + "\"" + ColumnNameAliasCode(columnNameAlias);
+            return "\\\"" + ColumnName(columnDefinition, tableNameAlias).ReplaceTableName(
+                columnDefinition, tableNameAlias) + "\\\"" + ColumnNameAliasCode(columnNameAlias);
         }
 
         private static string ColumnBracket(ColumnDefinition columnDefinition)
         {
             return !columnDefinition.ComputeColumn.IsNullOrEmpty()
                 ? columnDefinition.ComputeColumn
-                : "\"" + columnDefinition.ColumnName + "\"";
+                : "\\\"" + columnDefinition.ColumnName + "\\\"";
         }
 
         private static string ComputeColumn(

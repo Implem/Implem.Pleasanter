@@ -1,0 +1,53 @@
+public string LockTable(Context context)
+{
+    SetSite(
+        context: context,
+        initSiteSettings: true);
+    switch (Site.ReferenceType)
+    {
+
+<!--Model_LockCases-->
+
+            return SiteUtilities.LockTable(
+                context: context,
+                ss: Site.SiteSettings);
+        default:
+            return Messages.ResponseNotFound(context: context).ToJson();
+    }
+}
+
+public string UnlockTable(Context context)
+{
+    SetSite(
+        context: context,
+        initSiteSettings: true);
+    switch (Site.ReferenceType)
+    {
+
+<!--Model_LockCases-->
+
+            return SiteUtilities.UnlockTable(
+                context: context,
+                ss: Site.SiteSettings);
+        default:
+            return Messages.ResponseNotFound(context: context).ToJson();
+    }
+}
+
+public string ForceUnlockTable(Context context)
+{
+    SetSite(
+        context: context,
+        initSiteSettings: true);
+    switch (Site.ReferenceType)
+    {
+
+<!--Model_LockCases-->
+
+            return SiteUtilities.ForceUnlockTable(
+                context: context,
+                ss: Site.SiteSettings);
+        default:
+            return Messages.ResponseNotFound(context: context).ToJson();
+    }
+}

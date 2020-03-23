@@ -1,0 +1,233 @@
+public static string OpenBulkUpdateSelectorDialog(Context context, SiteSettings ss)
+{
+    var #modelName#Model = new #ModelName#Model(
+        context: context,
+        ss: ss,
+        #modelName#Id: 0,
+        formData: context.Forms);
+    var invalid = #ModelName#Validators.OnUpdating(
+        context: context,
+        ss: ss,
+        #modelName#Model: #modelName#Model);
+    switch (invalid.Type)
+    {
+        case Error.Types.None: break;
+        default: return invalid.Type.MessageJson(context: context);
+    }
+    var columns = ss.GetAllowBulkUpdateColumns(context, ss);
+    var column = columns.FirstOrDefault();
+    var hb = new HtmlBuilder();
+    return new ResponseCollection()
+        .Html(
+            "#BulkUpdateSelectorDialog",
+            hb.BulkUpdateSelectorDialog(
+                context: context,
+                ss: ss,
+                columns: columns,
+                action: () => hb
+                    .Field(
+                        context: context,
+                        ss: ss,
+                        #modelName#Model: #modelName#Model,
+                        column: column,
+                        alwaysSend: true,
+                        disableSection: true)))
+        .ToJson();
+}
+
+public static string BulkUpdateSelectChanged(Context context, SiteSettings ss)
+{
+    var #modelName#Model = new #ModelName#Model(
+        context: context,
+        ss: ss,
+        #modelName#Id: 0,
+        formData: context.Forms);
+    var invalid = #ModelName#Validators.OnUpdating(
+        context: context,
+        ss: ss,
+        #modelName#Model: #modelName#Model);
+    switch (invalid.Type)
+    {
+        case Error.Types.None: break;
+        default: return invalid.Type.MessageJson(context: context);
+    }
+    var column = ss.GetColumn(
+        context: context,
+        columnName: context.Forms.Data("BulkUpdateColumnName"));
+    return new ResponseCollection()
+        .Html(
+            "#BulkUpdateSelectedField",
+            new HtmlBuilder().Field(
+                context: context,
+                ss: ss,
+                #modelName#Model: #modelName#Model,
+                column: column,
+                alwaysSend: true,
+                disableSection: true))
+        .ToJson();
+}
+
+public static string BulkUpdate(Context context, SiteSettings ss)
+{
+    var param = new Rds.#TableName#ParamCollection();
+    var column = ss.GetColumn(
+        context: context,
+        columnName: context.Forms.Data("BulkUpdateColumnName"));
+    var #modelName#Model = new #ModelName#Model(
+        context: context,
+        ss: ss,
+        #modelName#Id: 0,
+        formData: context.Forms);
+    #modelName#Model.PropertyValue(
+        context: context,
+        name: column.ColumnName);
+    if (context.CanUpdate(ss: ss))
+    {
+        var where = SelectedWhere(
+            context: context,
+            ss: ss);
+        var count = BulkUpdate(
+            context: context,
+            ss: ss,
+            where: Views.GetBySession(
+                context: context,
+                ss: ss)
+                    .Where(
+                        context: context,
+                        ss: ss,
+                        where: where,
+                        itemJoin: false));
+        Summaries.Synchronize(context: context, ss: ss);
+        ss.Notifications.ForEach(notification =>
+        {
+            var body = new Dictionary<string, string>();
+            body.Add(
+                Displays.#TableName#_Updator(context: context),
+                context.User.Name);
+            body.Add(
+                Displays.Column(context: context),
+                column.LabelText);
+            body.Add(
+                Displays.Value(context: context),
+                #modelName#Model.PropertyValue(
+                      context: context,
+                      name: column.ColumnName));
+            notification.Send(
+                context: context,
+                ss: ss,
+                title: Displays.BulkUpdated(
+                    context: context,
+                    data: count.ToString()).ToString(),
+                url: Locations.ItemIndex(
+                    context: context,
+                    ss.SiteId),
+                body: body.Select(o => o.Key + ":" + o.Value).Join("\n"));
+        });
+        return GridRows(
+            context: context,
+            ss: ss,
+            clearCheck: true,
+            message: Messages.BulkUpdated(
+                context: context,
+                data: count.ToString()));
+    }
+    else
+    {
+        return Messages.ResponseHasNotPermission(context: context).ToJson();
+    }
+}
+
+private static int BulkUpdate(
+    Context context,
+    SiteSettings ss,
+    SqlWhereCollection where)
+{
+    var sub = Rds.Select#TableName#(
+        column: Rds.#TableName#Column().#ModelName#Id(),
+        where: where);
+    var verUpWhere = Rds.#TableName#Where()
+        .SiteId(ss.SiteId)
+        .#ModelName#Id_In(sub: sub)
+        .Or(or: Rds.#TableName#Where()
+            .Updator(context.UserId, _operator: "<>")
+            .UpdatedTime(
+                DateTime.Today.ToDateTime().ToUniversal(context: context),
+                _operator: "<"));
+    var column = ss.GetColumn(
+        context: context,
+        columnName: context.Forms.Data("BulkUpdateColumnName"));
+    var #modelName#Model = new #ModelName#Model(
+        context: context,
+        ss: ss,
+        #modelName#Id: 0,
+        formData: context.Forms);
+        #modelName#Model.PropertyValue(
+            context: context,
+            name: column.ColumnName);
+    var statements = new List<SqlStatement>();
+    statements.OnBulkUpdatingExtendedSqls(ss.SiteId);
+    statements.Add(Rds.#TableName#CopyToStatement(
+        where: verUpWhere,
+        tableType: Sqls.TableTypes.History,
+        #modelName#Model.ColumnNames()));
+    statements.Add(Rds.Update#TableName#(
+        where: verUpWhere,
+        param: Rds.#TableName#Param().Ver(raw: "\"Ver\"+1"),
+        addUpdatorParam: false,
+        addUpdatedTimeParam: false));
+    var param = new Rds.#TableName#ParamCollection();
+    switch (column.ColumnName)
+    {
+            
+<!-- Model_Utilities_BulkUpdate_ColumnCases -->
+
+        default:
+            var columnNameBracket = $"[{column.ColumnName}]";
+            switch (Def.ExtendedColumnTypes.Get(column.ColumnName))
+            {
+                case "Class":
+                    param.Add(
+                        columnBracket: columnNameBracket,
+                        name: column.ColumnName,
+                        value: #modelName#Model.Class(column.ColumnName).MaxLength(1024));
+                    break;
+                case "Num":
+                    param.Add(
+                        columnBracket: columnNameBracket,
+                        name: column.ColumnName,
+                        value: #modelName#Model.Num(column.ColumnName));
+                    break;
+                case "Date":
+                    param.Add(
+                        columnBracket: columnNameBracket,
+                        name: column.ColumnName,
+                        value: #modelName#Model.Date(column.ColumnName));
+                    break;
+                case "Check":
+                    param.Add(
+                        columnBracket: columnNameBracket,
+                        name: column.ColumnName,
+                        value: #modelName#Model.Check(column.ColumnName));
+                    break;
+                case "Description":
+                    param.Add(
+                        columnBracket: columnNameBracket,
+                        name: column.ColumnName,
+                        value: #modelName#Model.Description(column.ColumnName));
+                    break;
+            }
+            break;
+    }
+    statements.Add(Rds.Update#TableName#(
+        where: Rds.#TableName#Where()
+            .SiteId(ss.SiteId)
+            .#ModelName#Id_In(sub: sub),
+        param: param));
+    statements.Add(Rds.RowCount());
+    statements.OnBulkUpdatedExtendedSqls(ss.SiteId);
+    return Repository.ExecuteScalar_response(
+        context: context,
+        transactional: true,
+        statements: statements.ToArray())
+            .Count.ToInt();
+}

@@ -1,0 +1,14 @@
+public static SqlOrderByCollection #TableName#_#ColumnName#(
+    this SqlOrderByCollection self,
+    SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
+    string tableName = "#JoinTableName#",
+    Sqls.Functions function = Sqls.Functions.None)
+{
+    new List<string> { #OrderByColumns# }.ForEach(columnBracket =>
+        self.Add(
+            columnBracket: columnBracket,
+            orderType: orderType,
+            tableName: tableName,
+            function: function));
+    return self;
+}

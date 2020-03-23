@@ -1,0 +1,75 @@
+private static void Update#ModelName#Titles(
+    Context context, SiteSettings ss, IList<long> idList)
+{
+    var #tableName# = Get#TableName#(
+        context: context,
+        ss: ss,
+        idList: idList);
+    ss.Links?
+        .ForEach(link =>
+            ss.SetChoiceHash(
+                context: context,
+                columnName: link.ColumnName,
+                selectedValues: #tableName#
+                    .Select(o => o.PropertyValue(
+                        context: context,
+                        name: link.ColumnName))
+                    .Distinct(),
+                noLimit: true,
+                searchColumnOnly: false));
+    if (ss.Links?.Any(o => ss.TitleColumns.Any(p => p == o.ColumnName)) == true)
+    {
+        #tableName#.ForEach(#modelName#Model =>
+            #modelName#Model.Title = new Title(
+                context: context,
+                ss: ss,
+                id: #modelName#Model.#ModelName#Id,
+                ver: #modelName#Model.Ver,
+                isHistory: #modelName#Model.VerType == Versions.VerTypes.History, 
+                data: #modelName#Model.PropertyValues(
+                    context: context,
+                    names: ss.TitleColumns)));
+    }
+    #tableName#.ForEach(#modelName#Model =>
+        Repository.ExecuteNonQuery(
+            context: context,
+            statements: Rds.UpdateItems(
+                param: Rds.ItemsParam()
+                    .Title(#modelName#Model.Title.DisplayValue)
+                    .SearchIndexCreatedTime(raw: "null"),
+                where: Rds.ItemsWhere()
+                    .ReferenceId(#modelName#Model.#ModelName#Id)
+                    .SiteId(ss.SiteId),
+                addUpdatorParam: false,
+                addUpdatedTimeParam: false)));
+    if (ss.Sources?.Any() == true)
+    {
+        UpdateSourceTitles(
+            context: context,
+            ss: ss,
+            idList: #tableName#.Select(o => o.#ModelName#Id).ToList());
+    }
+}
+
+private static List<#ModelName#Model> Get#TableName#(
+    Context context, SiteSettings ss, IList<long> idList)
+{
+    var column = Rds.#TableName#Column()
+        .#ModelName#Id()
+        .Title();
+    ss.TitleColumns.ForEach(columnName =>
+        column.#TableName#Column(columnName: columnName));
+    return idList?.Count <= 100
+        ? new #ModelName#Collection(
+            context: context,
+            ss: ss,
+            column: column,
+            where: Rds.#TableName#Where()
+                .SiteId(ss.SiteId)
+                .#ModelName#Id_In(idList))
+        : new #ModelName#Collection(
+            context: context,
+            ss: ss,
+            column: column,
+            where: Rds.#TableName#Where().SiteId(ss.SiteId));
+}

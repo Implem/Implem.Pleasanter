@@ -1,0 +1,13 @@
+﻿{
+    "Id": "SummarySourceColumn",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Summary source column"
+        },
+        {
+            "Language": "ja",
+            "Body": "サマリ項目"
+        }
+    ]
+}

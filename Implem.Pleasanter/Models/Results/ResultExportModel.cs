@@ -16,20 +16,20 @@ namespace Implem.Pleasanter.Models
     [JsonConverter(typeof(DefaultConverer))]
     public class ResultExportModel : IExportModel
     {
-        public string ItemTitle;
+        public string ItemTitle { get; set; }
         public long? SiteId { get; set; }
-        public Time UpdatedTime;
-        public long? ResultId;
-        public int? Ver;
-        public Title Title;
-        public string Body;
-        public Status Status;
-        public User Manager;
-        public User Owner;
-        public Comments Comments;
-        public User Creator;
-        public User Updator;
-        public Time CreatedTime;
+        public Time UpdatedTime { get; set; }
+        public long? ResultId { get; set; }
+        public int? Ver { get; set; }
+        public Title Title { get; set; }
+        public string Body { get; set; }
+        public Status Status { get; set; }
+        public User Manager { get; set; }
+        public User Owner { get; set; }
+        public Comments Comments { get; set; }
+        public User Creator { get; set; }
+        public User Updator { get; set; }
+        public Time CreatedTime { get; set; }
         public Dictionary<string, object> ClassHash = new Dictionary<string, object>();
         public Dictionary<string, decimal> NumHash = new Dictionary<string, decimal>();
         public Dictionary<string, DateTime> DateHash = new Dictionary<string, DateTime>();

@@ -1,0 +1,91 @@
+public static System.Web.Mvc.ContentResult GetByApi(Context context, SiteSettings ss, bool internalRequest)
+{
+    var invalid = #ModelName#Validators.OnEntry(
+        context: context,
+        ss: ss,
+        api: !internalRequest);
+    switch (invalid.Type)
+    {
+        case Error.Types.None: break;
+        default: return ApiResults.Error(
+            context: context,
+            errorData: invalid);
+    }
+    var api = context.RequestDataString.Deserialize<Api>();
+    if (api == null)
+    {
+        return ApiResults.Get(ApiResponses.BadRequest(context: context));
+    }
+    var view = api.View ?? new View();
+    var pageSize = Parameters.Api.PageSize;
+    var tableType = (api?.TableType) ?? Sqls.TableTypes.Normal;
+    var #modelName#Collection = new #ModelName#Collection(
+        context: context,
+        ss: ss,
+        join: Rds.ItemsJoin().Add(new SqlJoin(
+            "[Items]",
+            SqlJoin.JoinTypes.Inner,
+            joinExpression: "\"#TableName#\".\"#ModelName#Id\"=\"#TableName#_Items\".\"ReferenceId\"",
+            _as: "#TableName#_Items")),
+        where: view.Where(context: context, ss: ss),
+        orderBy: view.OrderBy(
+            context: context,
+            ss: ss),
+        offset: api.Offset,
+        pageSize: pageSize,
+        tableType: tableType);
+    SiteUtilities.UpdateApiCount(context, ss);
+    return ApiResults.Get(
+        statusCode: 200,
+        limitPerDate: Parameters.Api.LimitPerSite,
+        limitRemaining: Parameters.Api.LimitPerSite - ss.ApiCount,
+        response: new
+        {
+            api.Offset,
+            PageSize = pageSize,
+            #modelName#Collection.TotalCount,
+            Data = #modelName#Collection.Select(o => o.GetByApi(
+                context: context,
+                ss: ss))
+        });
+}
+
+public static System.Web.Mvc.ContentResult GetByApi(
+    Context context, SiteSettings ss, long #modelName#Id, bool internalRequest)
+{
+    var #modelName#Model = new #ModelName#Model(
+        context: context,
+        ss: ss,
+        #modelName#Id: #modelName#Id,
+        methodType: BaseModel.MethodTypes.Edit);
+    if (#modelName#Model.AccessStatus != Databases.AccessStatuses.Selected)
+    {
+        return ApiResults.Get(ApiResponses.NotFound(context: context));
+    }
+    var invalid = #ModelName#Validators.OnEditing(
+        context: context,
+        ss: ss,
+        #modelName#Model: #modelName#Model,
+        api: !internalRequest);
+    switch (invalid.Type)
+    {
+        case Error.Types.None: break;
+        default: return ApiResults.Error(
+            context: context,
+            errorData: invalid);
+    }
+    ss.SetColumnAccessControls(
+        context: context,
+        mine: #modelName#Model.Mine(context: context));
+    SiteUtilities.UpdateApiCount(context, ss);
+    return ApiResults.Get(
+        statusCode: 200,
+        limitPerDate: Parameters.Api.LimitPerSite,
+        limitRemaining: Parameters.Api.LimitPerSite - ss.ApiCount,
+        response: new
+        {
+            Data = #modelName#Model.GetByApi(
+                context: context,
+                ss: ss).ToSingleList()
+        });
+}

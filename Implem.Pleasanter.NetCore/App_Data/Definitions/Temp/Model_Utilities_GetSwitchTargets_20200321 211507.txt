@@ -1,0 +1,41 @@
+private static List<#IdType#> GetSwitchTargets(Context context, SiteSettings ss, #IdType# #modelName#Id<!--Model_Utilities_SiteIdParam-->)
+{
+    var view = Views.GetBySession(
+        context: context,
+        ss: ss,
+        setSession: false);
+    var where = view.Where(context: context, ss: ss<!--Model_Utilities_SqlWhereTenantId-->);
+    var orderBy = view.OrderBy(
+        context: context,
+        ss: ss)
+            .#TableName#_UpdatedTime(SqlOrderBy.Types.desc);
+    var join = ss.Join(
+        context: context,
+        join: new IJoin[]
+        {
+            where,
+            orderBy
+        });
+    var switchTargets = Repository.ExecuteScalar_int(
+        context: context,
+        statements: Rds.Select#TableName#(
+            column: Rds.#TableName#Column().#TableName#Count(),
+            join: join,
+            where: where)) <= Parameters.General.SwitchTargetsLimit
+                ? Repository.ExecuteTable(
+                    context: context,
+                    statements: Rds.Select#TableName#(
+                        column: Rds.#TableName#Column().#ModelName#Id(),
+                        join: join,
+                        where: where,
+                        orderBy: orderBy))
+                            .AsEnumerable()
+                            .Select(o => o["#ModelName#Id"]#CastIdType#)
+                            .ToList()
+                : new List<#IdType#>();
+    if (!switchTargets.Contains(#modelName#Id))
+    {
+        switchTargets.Add(#modelName#Id);
+    }
+    return switchTargets;
+}

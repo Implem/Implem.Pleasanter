@@ -60,8 +60,8 @@ namespace Implem.CodeDefiner.Functions.Rds
                     dbTransaction: null,
                     dbConnection: null,
                     commandText: Def.Sql.CreateFullText
-                                    .Replace("#PKItems#", pkItems)
-                                    .Replace("#PKBinaries#", pkBinaries));
+                        .Replace("#PKItems#", pkItems)
+                        .Replace("#PKBinaries#", pkBinaries));
         }
 
         private static void ConfigureTableSet(ISqlObjectFactory factory, string generalTableName)

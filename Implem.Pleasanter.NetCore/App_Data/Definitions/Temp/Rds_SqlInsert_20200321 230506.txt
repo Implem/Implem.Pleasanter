@@ -1,0 +1,46 @@
+public static SqlInsert Insert#TableName#(
+    string dataTableName = null,
+    bool selectIdentity = false,
+    Sqls.TableTypes tableType = Sqls.TableTypes.Normal,
+    SqlParamCollection param = null,
+    SqlStatement select = null,
+    bool addUpdatorParam = true,
+    string _if = null,
+    bool _using = true)
+{
+    return new SqlInsert
+    {
+        DataTableName = dataTableName,
+        TableType = tableType,
+        TableBracket = "\"#TableName#\"",
+        HistoryTableBracket = "\"#TableName#_history\"",
+        DeletedTableBracket = "\"#TableName#_deleted\"",
+        SelectIdentity = selectIdentity,
+        SqlParamCollection = param,
+        Select = select,
+        AddUpdatorParam = addUpdatorParam,
+        If = _if,
+        Using = _using
+    };
+}
+
+public static SqlStatement IdentityInsert#TableName#(bool on)
+{
+    return on
+        ? new SqlStatement("set identity_insert [#TableName#] on;")
+        : new SqlStatement("set identity_insert [#TableName#] off;");
+}
+
+public static SqlStatement IdentityInsert#TableName#_Deleted(bool on)
+{
+    return on
+        ? new SqlStatement("set identity_insert [#TableName#_Deleted] on;")
+        : new SqlStatement("set identity_insert [#TableName#_Deleted] off;");
+}
+
+public static SqlStatement IdentityInsert#TableName#_History(bool on)
+{
+    return on
+        ? new SqlStatement("set identity_insert [#TableName#_History] on;")
+        : new SqlStatement("set identity_insert [#TableName#_History] off;");
+}

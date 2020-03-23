@@ -474,7 +474,7 @@ namespace Implem.Pleasanter.Libraries.Initializers
                                                         .FullText(fullText, _using: fullText != null)
                                                         .SearchIndexCreatedTime(DateTime.Now)),
                                                 Rds.IdentityInsertItems(
-                                                    factory:context,
+                                                    factory: context,
                                                     on: false)
                                             });
                                     }

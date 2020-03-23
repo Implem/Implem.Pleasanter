@@ -1,0 +1,9 @@
+public static Message #DisplayId#(Context context, params string[] data)
+{
+    return Get(
+        id: "#DisplayId#",
+        text: Displays.#DisplayId#(
+            context: context,
+            data: data),
+        css: "#DisplayCssClass#");
+}

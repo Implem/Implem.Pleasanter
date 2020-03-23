@@ -1,0 +1,13 @@
+﻿{
+    "Id": "ShowHistory",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Show history"
+        },
+        {
+            "Language": "ja",
+            "Body": "履歴も表示"
+        }
+    ]
+}

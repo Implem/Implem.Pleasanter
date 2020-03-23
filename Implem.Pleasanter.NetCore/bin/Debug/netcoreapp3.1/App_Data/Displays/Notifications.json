@@ -1,0 +1,13 @@
+﻿{
+    "Id": "Notifications",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Notifications"
+        },
+        {
+            "Language": "ja",
+            "Body": "通知"
+        }
+    ]
+}

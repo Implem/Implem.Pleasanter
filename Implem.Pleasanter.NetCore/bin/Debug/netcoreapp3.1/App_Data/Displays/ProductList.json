@@ -1,0 +1,13 @@
+﻿{
+    "Id": "ProductList",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "ProductList"
+        },
+        {
+            "Language": "ja",
+            "Body": "商品一覧"
+        }
+    ]
+}

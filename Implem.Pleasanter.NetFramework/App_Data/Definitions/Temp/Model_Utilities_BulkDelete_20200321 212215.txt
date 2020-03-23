@@ -1,0 +1,85 @@
+public static string BulkDelete(Context context, SiteSettings ss)
+{
+    if (context.CanDelete(ss: ss))
+    {
+        var where = SelectedWhere(
+            context: context,
+            ss: ss);
+        if (where == null)
+        {
+            return Messages.ResponseSelectTargets(context: context).ToJson();
+        }
+        var count = BulkDelete(
+            context: context,
+            ss: ss,
+            where: Views.GetBySession(
+                context: context,
+                ss: ss)
+                    .Where(
+                        context: context,
+                        ss: ss,
+                        where: where,
+                        itemJoin: false));
+        Summaries.Synchronize(context: context, ss: ss);
+        return GridRows(
+            context: context,
+            ss: ss,
+            clearCheck: true,
+            message: Messages.BulkDeleted(
+                context: context,
+                data: count.ToString()));
+    }
+    else
+    {
+        return Messages.ResponseHasNotPermission(context: context).ToJson();
+    }
+}
+
+private static int BulkDelete(
+    Context context,
+    SiteSettings ss,
+    SqlWhereCollection where)
+{
+    var sub = Rds.Select#TableName#(
+        column: Rds.#TableName#Column().#ModelName#Id(),
+        join: ss.Join(
+            context: context,
+            join: where),
+        where: where);
+    var statements = new List<SqlStatement>();
+    var guid = Strings.NewGuid();
+    statements.OnBulkDeletingExtendedSqls(ss.SiteId);
+    statements.Add(Rds.UpdateItems(
+        where: Rds.ItemsWhere()
+            .SiteId(ss.SiteId)
+            .ReferenceId_In(sub: sub),
+        param: Rds.ItemsParam()
+            .ReferenceType(guid)));
+    statements.Add(Rds.DeleteBinaries(
+        factory: context,
+        where: Rds.BinariesWhere()
+            .TenantId(context.TenantId)
+            .ReferenceId_In(sub: sub)));
+    statements.Add(Rds.Delete#TableName#(
+        factory: context,
+        where: where));
+    statements.Add(Rds.RowCount());
+    statements.Add(Rds.DeleteItems(
+        factory: context,
+        where: Rds.ItemsWhere()
+            .SiteId(ss.SiteId)
+            .ReferenceType(guid)));
+    statements.Add(Rds.UpdateItems(
+        tableType: Sqls.TableTypes.Deleted,
+        where: Rds.ItemsWhere()
+            .SiteId(ss.SiteId)
+            .ReferenceType(guid),
+        param: Rds.ItemsParam()
+            .ReferenceType(ss.ReferenceType)));
+    statements.OnBulkDeletedExtendedSqls(ss.SiteId);
+    return Repository.ExecuteScalar_response(
+        context: context,
+        transactional: true,
+        statements: statements.ToArray())
+            .Count.ToInt();
+}

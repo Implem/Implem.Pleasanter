@@ -1,0 +1,140 @@
+public ErrorData Update(
+    Context context,
+    SiteSettings ss,
+
+<!--Model_UpdateParams_Permissions-->
+<!--Model_UpdateParams_Items-->
+<!--Model_UpdateParams_Users-->
+
+    SqlParamCollection param = null,
+    List<SqlStatement> additionalStatements = null,
+    bool otherInitValue = false,
+    bool setBySession = true,
+    bool get = true)
+{
+
+<!--Model_CheckNotificationConditions-->
+
+    if (setBySession)
+    {
+        SetBySession(context: context);
+    }
+    var statements = new List<SqlStatement>();
+
+<!--Model_OnUpdatingExtendedSqls-->
+
+    statements.AddRange(UpdateStatements(
+        context: context,
+        ss: ss,
+
+<!--Model_UpdatePermissionsParams-->
+
+        param: param,
+        otherInitValue: otherInitValue,
+        additionalStatements: additionalStatements));
+
+<!--Model_UpdateReminders-->
+<!--Model_UpdateExecute-->
+<!--Model_UpdateExecute_User-->
+<!--Model_ForceSynchronizeSummaryExecute-->
+<!--Model_UpdateWikiTitle-->
+<!--Model_OnUpdatedNotice-->
+
+    if (get)
+    {
+        Get(context: context<!--Model_SiteSettingsBeforeComma-->);
+    }
+
+<!--Model_UpdateRelatedRecords-->
+<!--Model_OnUpdated_Depts-->
+<!--Model_OnUpdated_Groups-->
+<!--Model_OnUpdated_Users-->
+<!--Model_OnUpdated_SetSiteMenu-->
+
+    return new ErrorData(type: Error.Types.None);
+}
+
+public List<SqlStatement> UpdateStatements(
+    Context context,
+    SiteSettings ss,
+    string dataTableName = null,
+
+<!--Model_UpdateParams_Permissions-->
+
+    SqlParamCollection param = null,
+    bool otherInitValue = false,
+    List<SqlStatement> additionalStatements = null)
+{
+    var timestamp = Timestamp.ToDateTime();
+    var statements = new List<SqlStatement>();
+    var where = Rds.#TableName#WhereDefault(this)
+        .UpdatedTime(timestamp, _using: timestamp.InRange());
+
+<!--Model_IfDuplicated-->
+
+    if (VerUp)
+    {
+        statements.Add(Rds.#TableName#CopyToStatement(
+            where: where,
+            tableType: Sqls.TableTypes.History,
+            ColumnNames()));
+        Ver++;
+    }
+    statements.AddRange(UpdateStatements(
+        context: context,
+        dataTableName: dataTableName,
+        where: where,
+        param: param,
+        otherInitValue: otherInitValue));
+    statements.AddRange(UpdateAttachmentsStatements(context: context));
+
+<!--Model_UpdatePermissions-->
+
+    if (additionalStatements?.Any() == true)
+    {
+        statements.AddRange(additionalStatements);
+    }
+    return statements;
+}
+
+private List<SqlStatement> UpdateStatements(
+    Context context,
+    string dataTableName = null,
+    SqlWhereCollection where = null,
+    SqlParamCollection param = null,
+    bool otherInitValue = false)
+{
+    return new List<SqlStatement>
+    {
+        Rds.Update#TableName#(
+            dataTableName: dataTableName,
+            where: where,
+            param: param ?? Rds.#TableName#ParamDefault(
+                context: context,
+                #modelName#Model: this,
+                otherInitValue: otherInitValue)),
+        new SqlStatement(Def.Sql.IfConflicted.Params(#ModelName#Id)) {
+            IfConflicted = true,
+            Id = #ModelName#Id<!--Comma ( UpdateMonitor = 1 ) -->
+        }
+
+<!--Model_UpdateStatus-->
+
+    };
+}
+
+private List<SqlStatement> UpdateAttachmentsStatements(Context context)
+{
+    var statements = new List<SqlStatement>();
+    ColumnNames()
+        .Where(columnName => columnName.StartsWith("Attachments"))
+        .Where(columnName => Attachments_Updated(columnName: columnName))
+        .ForEach(columnName =>
+            Attachments(columnName: columnName).Write(
+                context: context,
+                statements: statements,
+                referenceId: #ModelName#Id));
+    return statements;
+}
+
+<!--Model_UpdateRelatedRecordsMethod-->

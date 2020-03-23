@@ -1,0 +1,13 @@
+﻿{
+    "Id": "NoWrap",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "No wrap"
+        },
+        {
+            "Language": "ja",
+            "Body": "回り込みしない"
+        }
+    ]
+}

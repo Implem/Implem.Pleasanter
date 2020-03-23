@@ -1,0 +1,16 @@
+public static IEnumerable<SqlStatement> Aggregations(
+    Context context,
+    SiteSettings ss,
+    Sqls.TableTypes tableType,
+    SqlJoinCollection join,
+    SqlWhereCollection where)
+{
+    switch (ss.ReferenceType)
+    {
+
+<!--Rds_AggregationTableCases-->
+
+        default:
+            return null;
+    }
+}

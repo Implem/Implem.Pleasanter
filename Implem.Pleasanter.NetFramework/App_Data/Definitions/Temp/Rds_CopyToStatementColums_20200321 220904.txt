@@ -1,0 +1,1 @@
+column.#ColumnName#(function: Sqls.Functions.SingleColumn); param.#ColumnName#();

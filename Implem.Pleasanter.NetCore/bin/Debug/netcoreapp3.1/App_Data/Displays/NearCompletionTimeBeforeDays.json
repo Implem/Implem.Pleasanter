@@ -1,0 +1,13 @@
+﻿{
+    "Id": "NearCompletionTimeBeforeDays",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Near deadline before days"
+        },
+        {
+            "Language": "ja",
+            "Body": "「期限が近い」の日数（前）"
+        }
+    ]
+}

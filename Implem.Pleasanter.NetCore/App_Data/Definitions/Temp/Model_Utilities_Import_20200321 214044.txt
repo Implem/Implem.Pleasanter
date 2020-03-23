@@ -1,0 +1,192 @@
+public static string Import(Context context, SiteModel siteModel)
+{
+    var ss = siteModel.#TableName#SiteSettings(
+        context: context,
+        referenceId: siteModel.SiteId,
+        setAllChoices: true);
+    if (context.ContractSettings.Import == false)
+    {
+        return Messages.ResponseRestricted(context: context).ToJson();
+    }
+    if (!context.CanCreate(ss: ss))
+    {
+        return Messages.ResponseHasNotPermission(context: context).ToJson();
+    }
+    var res = new ResponseCollection();
+    Csv csv;
+    try
+    {
+        csv = new Csv(
+            csv: context.PostedFiles.FirstOrDefault().Byte(),
+            encoding: context.Forms.Data("Encoding"));
+    }
+    catch
+    {
+        return Messages.ResponseFailedReadFile(context: context).ToJson();
+    }
+    var count = csv.Rows.Count();
+    if (Parameters.General.ImportMax > 0 && Parameters.General.ImportMax < count)
+    {
+        return Error.Types.ImportMax.MessageJson(
+            context: context,
+            data: Parameters.General.ImportMax.ToString());
+    }
+    if (context.ContractSettings.ItemsLimit(context: context, siteId: ss.SiteId, number: count))
+    {
+        return Error.Types.ItemsLimit.MessageJson(context: context);
+    }
+    if (csv != null && count > 0)
+    {
+        var idColumn = -1;
+        var columnHash = new Dictionary<int, Column>();
+        csv.Headers.Select((o, i) => new { Header = o, Index = i }).ForEach(data =>
+        {
+            var column = ss.Columns
+                .Where(o => o.LabelText == data.Header)
+                .FirstOrDefault();
+            if (column?.ColumnName == "#ModelName#Id")
+            {
+                idColumn = data.Index;
+            }
+            if (column != null) columnHash.Add(data.Index, column);
+        });
+        var invalid = Imports.ColumnValidate(context, ss, columnHash.Values.Select(o => o.ColumnName)<!--Model_Utilities_ImportValidatorHeaders-->);
+        if (invalid != null) return invalid;
+        Repository.ExecuteNonQuery(
+            context: context,
+            transactional: true,
+            statements: new List<SqlStatement>()
+                .OnImportingExtendedSqls(ss.SiteId).ToArray());
+        var #modelName#Hash = new Dictionary<int, #ModelName#Model>();
+        csv.Rows.Select((o, i) => new { Row = o, Index = i }).ForEach(data =>
+        {
+            var #modelName#Model = new #ModelName#Model() { SiteId = ss.SiteId };
+            if (context.Forms.Bool("UpdatableImport") && idColumn > -1)
+            {
+                var model = new #ModelName#Model(
+                    context: context,
+                    ss: ss,
+                    #modelName#Id: data.Row[idColumn].ToLong());
+                if (model.AccessStatus == Databases.AccessStatuses.Selected)
+                {
+                    #modelName#Model = model;
+                }
+            }
+            columnHash.ForEach(column =>
+            {
+                var recordingData = ImportRecordingData(
+                    context: context,
+                    column: column.Value,
+                    value: data.Row[column.Key],
+                    inheritPermission: ss.InheritPermission);
+                switch (column.Value.ColumnName)
+                {
+
+<!--Model_Utilities_ImportColumnCases-->
+<!--Model_Utilities_ImportUserColumnCases-->
+
+                    case "Comments":
+                        if (#modelName#Model.AccessStatus != Databases.AccessStatuses.Selected &&
+                            !data.Row[column.Key].IsNullOrEmpty())
+                        {
+                            #modelName#Model.Comments.Prepend(
+                                context: context,
+                                ss: ss,
+                                body: data.Row[column.Key]);
+                        }
+                        break;
+                    default:
+                        #modelName#Model.Value(
+                            context: context,
+                            columnName: column.Value.ColumnName,
+                            value: recordingData);
+                        break;
+                }
+            });
+            #modelName#Hash.Add(data.Index, #modelName#Model);
+        });
+
+<!--Model_Utilities_ImportValidatorCases-->
+
+        var insertCount = 0;
+        var updateCount = 0;
+        foreach (var #modelName#Model in #modelName#Hash.Values)
+        {
+            #modelName#Model.SetByFormula(context: context, ss: ss);
+            #modelName#Model.SetTitle(context: context, ss: ss);
+            if (#modelName#Model.AccessStatus == Databases.AccessStatuses.Selected)
+            {
+                #modelName#Model.VerUp = Versions.MustVerUp(
+                    context: context, baseModel: #modelName#Model);
+                if (#modelName#Model.Updated(context: context))
+                {
+                    var errorData = #modelName#Model.Update(
+                        context: context,
+                        ss: ss,
+                        extendedSqls: false,
+                        get: false);
+                    switch (errorData.Type)
+                    {
+                        case Error.Types.None:
+                            break;
+
+<!--Model_Utilities_DuplicatedMessage (Indent = 8) -->
+
+                        default:
+                            return errorData.Type.MessageJson(context: context);
+                    }
+                    updateCount++;
+                }
+            }
+            else
+            {
+                var errorData = #modelName#Model.Create(
+                    context: context,
+                    ss: ss,
+                    extendedSqls: false,
+                    get: false);
+                switch (errorData.Type)
+                {
+                    case Error.Types.None:
+                        break;
+
+<!--Model_Utilities_DuplicatedMessage (Indent = 7) -->
+
+                    default:
+                        return errorData.Type.MessageJson(context: context);
+                }
+                insertCount++;
+            }
+        }
+        Repository.ExecuteNonQuery(
+            context: context,
+            transactional: true,
+            statements: new List<SqlStatement>()
+                .OnImportedExtendedSqls(ss.SiteId).ToArray());
+        return GridRows(
+            context: context,
+            ss: ss,
+            res: res.WindowScrollTop(),
+            message: Messages.Imported(
+                context: context,
+                data: new string[]
+                {
+                    insertCount.ToString(),
+                    updateCount.ToString()
+                }));
+    }
+    else
+    {
+        return Messages.ResponseFileNotFound(context: context).ToJson();
+    }
+}
+
+private static string ImportRecordingData(
+    Context context, Column column, string value, long inheritPermission)
+{
+    var recordingData = column.RecordingData(
+        context: context,
+        value: value,
+        siteId: inheritPermission);
+    return recordingData;
+}

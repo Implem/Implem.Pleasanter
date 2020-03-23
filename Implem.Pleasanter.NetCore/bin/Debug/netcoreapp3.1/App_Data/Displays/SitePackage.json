@@ -1,0 +1,13 @@
+﻿{
+    "Id": "SitePackage",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Site package"
+        },
+        {
+            "Language": "ja",
+            "Body": "サイトパッケージ"
+        }
+    ]
+}

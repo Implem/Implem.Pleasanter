@@ -260,7 +260,7 @@ C:\Implem\PleasanterYakushi\Implem.Pleasanter.NetFramework\bin\ja\System.Web.Web
 C:\Implem\PleasanterYakushi\Implem.Pleasanter.NetFramework\bin\ja\System.Web.WebPages.Razor.resources.dll
 C:\Implem\PleasanterYakushi\Implem.Pleasanter.NetFramework\obj\Debug\Implem.Pleasanter.NetFramework.csproj.App.config
 C:\Implem\PleasanterYakushi\Implem.Pleasanter.NetFramework\obj\Debug\Implem.Pleasanter.NetFramework.csprojAssemblyReference.cache
+C:\Implem\PleasanterYakushi\Implem.Pleasanter.NetFramework\obj\Debug\Implem.Pleasanter.NetFramework.csproj.CoreCompileInputs.cache
 C:\Implem\PleasanterYakushi\Implem.Pleasanter.NetFramework\obj\Debug\Implem.Pleasanter.NetFramework.csproj.CopyComplete
 C:\Implem\PleasanterYakushi\Implem.Pleasanter.NetFramework\obj\Debug\Implem.Pleasanter.NetFramework.dll
 C:\Implem\PleasanterYakushi\Implem.Pleasanter.NetFramework\obj\Debug\Implem.Pleasanter.NetFramework.pdb
-C:\Implem\PleasanterYakushi\Implem.Pleasanter.NetFramework\obj\Debug\Implem.Pleasanter.NetFramework.csproj.CoreCompileInputs.cache

@@ -1,0 +1,13 @@
+﻿{
+    "Id": "OverLimitQuantity",
+    "Type": 240,
+    "Languages": [
+        {
+            "Body": "The number of attachable files is {0}."
+        },
+        {
+            "Language": "ja",
+            "Body": "添付可能のファイル数は{0}件までです。"
+        }
+    ]
+}

@@ -1,0 +1,210 @@
+public static string Gantt(Context context, SiteSettings ss)
+{
+    if (!ss.EnableViewMode(context: context, name: "Gantt"))
+    {
+        return HtmlTemplates.Error(
+            context: context,
+            errorData: new ErrorData(type: Error.Types.HasNotPermission));
+    }
+    var hb = new HtmlBuilder();
+    var view = Views.GetBySession(context: context, ss: ss);
+    var viewMode = ViewModes.GetSessionData(
+        context: context,
+        siteId: ss.SiteId);
+    var groupBy = ss.GetColumn(
+        context: context,
+        columnName: view.GetGanttGroupBy());
+    var sortBy = ss.GetColumn(
+        context: context,
+        columnName: view.GetGanttSortBy());
+    var range = new Libraries.ViewModes.GanttRange(
+        context: context,
+        ss: ss,
+        view: view);
+    var dataRows = GanttDataRows(
+        context: context,
+        ss: ss,
+        view: view,
+        groupBy: groupBy,
+        sortBy: sortBy);
+    var inRange = dataRows.Count() <= Parameters.General.GanttLimit;
+    if (!inRange)
+    {
+        SessionUtilities.Set(
+            context: context,
+            message: Messages.TooManyCases(
+                context: context,
+                data: Parameters.General.GanttLimit.ToString()));
+    }
+    return hb.ViewModeTemplate(
+        context: context,
+        ss: ss,
+        view: view,
+        viewMode: viewMode,
+        viewModeBody: () => hb
+            .Gantt(
+                context: context,
+                ss: ss,
+                view: view,
+                dataRows: dataRows,
+                groupBy: groupBy,
+                sortBy: sortBy,
+                period: view.GanttPeriod.ToInt(),
+                startDate: view.GanttStartDate.ToDateTime(),
+                range: range,
+                bodyOnly: false,
+                inRange: inRange));
+}
+
+public static string GanttJson(Context context, SiteSettings ss)
+{
+    if (!ss.EnableViewMode(context: context, name: "Gantt"))
+    {
+        return Messages.ResponseHasNotPermission(context: context).ToJson();
+    }
+    var view = Views.GetBySession(context: context, ss: ss);
+    var bodyOnly = context.Forms.ControlId().StartsWith("Gantt");
+    var range = new Libraries.ViewModes.GanttRange(
+        context: context,
+        ss: ss,
+        view: view);
+    var groupBy = ss.GetColumn(
+        context: context,
+        columnName: view.GetGanttGroupBy());
+    var sortBy = ss.GetColumn(
+        context: context,
+        columnName: view.GetGanttSortBy());
+    var period = view.GanttPeriod.ToInt();
+    var startDate = view.GanttStartDate.ToDateTime();
+    var dataRows = GanttDataRows(
+        context: context,
+        ss: ss,
+        view: view,
+        groupBy: groupBy,
+        sortBy: sortBy);
+    if (dataRows.Count() <= Parameters.General.GanttLimit)
+    {
+        return new ResponseCollection()
+            .ViewMode(
+                context: context,
+                ss: ss,
+                view: view,
+                invoke: "drawGantt",
+                bodyOnly: bodyOnly,
+                bodySelector: "#GanttBody",
+                body: new HtmlBuilder()
+                    .Gantt(
+                        context: context,
+                        ss: ss,
+                        view: view,
+                        dataRows: dataRows,
+                        groupBy: groupBy,
+                        sortBy: sortBy,
+                        period: period,
+                        startDate: startDate,
+                        range: range,
+                        bodyOnly: bodyOnly,
+                        inRange: true))
+            .ToJson();
+    }
+    else
+    {
+        return new ResponseCollection()
+            .ViewMode(
+                context: context,
+                ss: ss,
+                view: view,
+                message: Messages.TooManyCases(
+                    context: context,
+                    data: Parameters.General.GanttLimit.ToString()),
+                bodyOnly: bodyOnly,
+                bodySelector: "#GanttBody",
+                body: new HtmlBuilder()
+                    .Gantt(
+                        context: context,
+                        ss: ss,
+                        view: view,
+                        dataRows: dataRows,
+                        groupBy: groupBy,
+                        sortBy: sortBy,
+                        period: view.GanttPeriod.ToInt(),
+                        startDate: view.GanttStartDate.ToDateTime(),
+                        range: range,
+                        bodyOnly: bodyOnly,
+                        inRange: false))
+            .ToJson();
+    }
+}
+
+private static HtmlBuilder Gantt(
+    this HtmlBuilder hb,
+    Context context,
+    SiteSettings ss,
+    View view,
+    EnumerableRowCollection<DataRow> dataRows,
+    Column groupBy,
+    Column sortBy,
+    int period,
+    DateTime startDate,
+    Libraries.ViewModes.GanttRange range,
+    bool bodyOnly,
+    bool inRange = true)
+{
+    return !bodyOnly
+        ? hb.Gantt(
+            context: context,
+            ss: ss,
+            groupBy: groupBy,
+            sortBy: sortBy,
+            period: period,
+            startDate: startDate,
+            range: range,
+            dataRows: dataRows,
+            inRange: inRange)
+        : hb.GanttBody(
+            context: context,
+            ss: ss,
+            groupBy: groupBy,
+            sortBy: sortBy,
+            period: period,
+            startDate: startDate,
+            range: range,
+            dataRows: dataRows,
+            inRange: inRange);
+}
+
+private static EnumerableRowCollection<DataRow> GanttDataRows(
+    Context context, SiteSettings ss, View view, Column groupBy, Column sortBy)
+{
+    var where = view.Where(
+        context: context,
+        ss: ss,
+        where: Libraries.ViewModes.GanttUtilities.Where(
+            context: context, ss: ss, view: view));
+    return Repository.ExecuteTable(
+        context: context,
+        statements: Rds.Select#TableName#(
+            column: Rds.#ModelName#sTitleColumn(context: context, ss: ss)
+                .#ModelName#Id()
+                .WorkValue()
+                .StartTime()
+                .CompletionTime()
+                .ProgressRate()
+                .Status()
+                .Owner()
+                .Updator()
+                .CreatedTime()
+                .UpdatedTime()
+                .ItemTitle(ss.ReferenceType)
+                .Add(
+                    column: groupBy,
+                    function: Sqls.Functions.SingleColumn)
+                .Add(
+                    column: sortBy,
+                    function: Sqls.Functions.SingleColumn),
+            join: ss.Join(
+                context: context,
+                join: where),
+            where: where))
+                        .AsEnumerable();
+}

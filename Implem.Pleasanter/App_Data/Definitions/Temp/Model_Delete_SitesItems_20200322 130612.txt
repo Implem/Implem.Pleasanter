@@ -1,0 +1,5 @@
+Rds.Delete#TableName#(
+    factory: context,
+    where: Rds.#TableName#Where().SiteId_In(siteMenu
+        .Where(o => o.ReferenceType == "#TableName#")
+        .Select(o => o.SiteId))),

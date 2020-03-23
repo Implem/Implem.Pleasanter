@@ -1135,31 +1135,31 @@ namespace Implem.Pleasanter.Models
                     .Where(o => o.TypeCs == "Attachments")
                     .Select(o => o.ColumnName)
                     .ForEach(columnName =>
-                        column.Add($"[{columnName}]"));
-                var attachments = Repository.ExecuteTable(
-                    context: context,
-                    statements: Rds.SelectWikis(
-                        tableType: Sqls.TableTypes.Deleted,
-                        column: column,
-                        where: Rds.WikisWhere()
-                            .SiteId(ss.SiteId)
-                            .WikiId_In(sub: sub)))
-                    .AsEnumerable()
-                    .Select(dataRow => new
-                    {
-                        wikiId = dataRow.Long("WikiId"),
-                        attachments = dataRow
-                            .Columns()
-                            .Where(columnName => columnName.StartsWith("Attachments"))
-                            .SelectMany(columnName => 
-                                Jsons.Deserialize<IEnumerable<Attachment>>(dataRow.String(columnName)) 
-                                    ?? Enumerable.Empty<Attachment>())
-                            .Where(o => o != null)
-                            .Select(o => o.Guid)
-                            .Distinct()
-                            .ToArray()
-                    })
-                    .Where(o => o.attachments.Length > 0);
+                        column.Add($"\"{columnName}\""));
+            var attachments = Repository.ExecuteTable(
+                context: context,
+                statements: Rds.SelectWikis(
+                    tableType: Sqls.TableTypes.Deleted,
+                    column: column,
+                    where: Rds.WikisWhere()
+                        .SiteId(ss.SiteId)
+                        .WikiId_In(sub: sub)))
+                .AsEnumerable()
+                .Select(dataRow => new
+                {
+                    wikiId = dataRow.Long("WikiId"),
+                    attachments = dataRow
+                        .Columns()
+                        .Where(columnName => columnName.StartsWith("Attachments"))
+                        .SelectMany(columnName => 
+                            Jsons.Deserialize<IEnumerable<Attachment>>(dataRow.String(columnName)) 
+                                ?? Enumerable.Empty<Attachment>())
+                        .Where(o => o != null)
+                        .Select(o => o.Guid)
+                        .Distinct()
+                        .ToArray()
+                })
+                .Where(o => o.attachments.Length > 0);
             var guid = Strings.NewGuid();
             var count = Repository.ExecuteScalar_response(
                 context: context,
@@ -1174,11 +1174,15 @@ namespace Implem.Pleasanter.Models
                             .ReferenceId_In(sub: sub),
                         param: Rds.ItemsParam()
                             .ReferenceType(guid)),
-                    Rds.RestoreWikis(factory: context, where: where),
+                    Rds.RestoreWikis(
+                        factory: context,
+                        where: where),
                     Rds.RowCount(),
-                    Rds.RestoreItems(factory: context, where: Rds.ItemsWhere()
-                        .SiteId(ss.SiteId)
-                        .ReferenceType(guid)),
+                    Rds.RestoreItems(
+                        factory: context,
+                        where: Rds.ItemsWhere()
+                            .SiteId(ss.SiteId)
+                            .ReferenceType(guid)),
                     Rds.UpdateItems(
                         where: Rds.ItemsWhere()
                             .SiteId(ss.SiteId)

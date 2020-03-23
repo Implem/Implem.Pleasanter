@@ -1,0 +1,13 @@
+﻿{
+    "Id": "Manufacture",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Manufacture"
+        },
+        {
+            "Language": "ja",
+            "Body": "製造・生産"
+        }
+    ]
+}

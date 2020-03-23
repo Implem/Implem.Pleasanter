@@ -1,0 +1,13 @@
+﻿{
+    "Id": "Version",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Version"
+        },
+        {
+            "Language": "ja",
+            "Body": "バージョン"
+        }
+    ]
+}

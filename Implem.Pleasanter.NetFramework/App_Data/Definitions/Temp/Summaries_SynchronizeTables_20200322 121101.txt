@@ -1,0 +1,143 @@
+private static void Synchronize#TableName#(
+    Context context,
+    SiteSettings ss,
+    SiteSettings destinationSs,
+    long destinationSiteId,
+    string destinationColumn,
+    View destinationCondition,
+    bool setZeroWhenOutOfCondition,
+    long sourceSiteId,
+    string sourceReferenceType,
+    string linkColumn,
+    string type,
+    string sourceColumn,
+    View sourceCondition,
+    long #modelName#Id = 0)
+{
+    if (context.CanUpdate(ss: destinationSs))
+    {
+        var where = Rds.#TableName#Where()
+            .SiteId(destinationSiteId)
+            .#ModelName#Id(#modelName#Id, _using: #modelName#Id != 0);
+        var #modelName#Collection = new #ModelName#Collection(
+            context: context,
+            ss: destinationSs,
+            where: Where(
+                context: context, ss: destinationSs, view: null, where: where));
+        var matchingConditions = destinationCondition != null
+            ? Repository.ExecuteTable(
+                context: context,
+                statements: Rds.Select#TableName#(
+                    column: Rds.#TableName#Column().#ModelName#Id(),
+                    where: Where(
+                        context: context,
+                        ss: destinationSs,
+                        view: destinationCondition,
+                        where: where)))
+                            .AsEnumerable()
+                            .Select(dataRow => dataRow.Long("#ModelName#Id"))
+                            .ToList()
+            : #modelName#Collection
+                .Select(o => o.#ModelName#Id)
+                .ToList();
+        var data = #modelName#Collection.Any()
+            ? Data(
+                context: context,
+                ss: ss,
+                destinationColumn: destinationColumn,
+                destinations: #modelName#Collection.Select(o => o.#ModelName#Id),
+                sourceSiteId: sourceSiteId,
+                sourceReferenceType: sourceReferenceType,
+                linkColumn: linkColumn,
+                type: type,
+                sourceColumn: sourceColumn,
+                sourceCondition: sourceCondition)
+            : new Dictionary<long, decimal>();
+        #modelName#Collection.ForEach(#modelName#Model =>
+        {
+            if (matchingConditions.Any(o => o == #modelName#Model.#ModelName#Id))
+            {
+                Set(
+                    #modelName#Model,
+                    destinationColumn,
+                    data.Get(#modelName#Model.#ModelName#Id));
+            }
+            else if (setZeroWhenOutOfCondition)
+            {
+                Set(#modelName#Model, destinationColumn, 0);
+            }
+            if (#modelName#Model.Updated(context: context))
+            {
+                #modelName#Model.SetByFormula(context: context, ss: destinationSs);
+                #modelName#Model.VerUp = Versions.MustVerUp(
+                    context: context, baseModel: #modelName#Model);
+                #modelName#Model.SetChoiceHash(context: context, ss: destinationSs);
+                #modelName#Model.Update(
+                    context: context,
+                    ss: destinationSs,
+                    synchronizeSummary: false,
+                    get: false);
+            }
+        });
+    }
+}
+
+private static EnumerableRowCollection<DataRow> #TableName#DataRows(
+    Context context,
+    SiteSettings ss,
+    string destinationColumn,
+    IEnumerable<long> destinations,
+    long sourceSiteId,
+    string sourceReferenceType,
+    string linkColumn,
+    string type,
+    string sourceColumn,
+    View sourceCondition)
+{
+    switch (destinationColumn)
+    {
+
+<!--Summaries_ParamCases-->
+
+        default:
+            switch (Def.ExtendedColumnTypes.Get(destinationColumn))
+            {
+                case "Num":
+                    return Repository.ExecuteTable(
+                        context: context,
+                        statements: Select(
+                            context: context,
+                            ss: ss,
+                            destinations: destinations,
+                            sourceSiteId: sourceSiteId,
+                            sourceReferenceType: sourceReferenceType,
+                            linkColumn: linkColumn,
+                            type: type,
+                            sourceColumn: sourceColumn,
+                            sourceCondition: sourceCondition)).AsEnumerable();
+                default:
+                    return null;
+            }
+    }
+}
+
+private static void Set(
+    #ModelName#Model #modelName#Model, string destinationColumn, decimal value)
+{
+    switch (destinationColumn)
+    {
+
+<!--Summaries_SetColumnCases-->
+
+        default:
+            switch (Def.ExtendedColumnTypes.Get(destinationColumn))
+            {
+                case "Num":
+                    #modelName#Model.Num(
+                        columnName: destinationColumn,
+                        value: value);
+                    break;
+            }
+            break;
+    }
+}

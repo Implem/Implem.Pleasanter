@@ -1,0 +1,14 @@
+private static SqlWhereCollection #TableName#Where(
+    IEnumerable<long> destinations, long sourceSiteId, string linkColumn)
+{
+    return Def.ExtendedColumnTypes.ContainsKey(linkColumn)
+        ? Rds.#TableName#Where()
+            .SiteId(value: sourceSiteId)
+            .Add(
+                columnBrackets: new string[] { $"\"{linkColumn}\"" },
+                raw: "({0})".Params(destinations
+                    .Select(o => "'" + o + "'")
+                    .Join(",")),
+                _operator: " in ")
+            : null;
+}

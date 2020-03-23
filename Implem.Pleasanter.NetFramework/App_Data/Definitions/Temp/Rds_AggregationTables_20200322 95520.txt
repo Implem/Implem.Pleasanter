@@ -1,0 +1,80 @@
+public static IEnumerable<SqlStatement> #TableName#Aggregations(
+    Context context,
+    IEnumerable<Aggregation> aggregations,
+    Sqls.TableTypes tableType,
+    SqlWhereCollection where)
+{
+    var statementCollection = new List<SqlStatement>()
+    {
+        Select#TableName#(
+            dataTableName: "Count",
+            tableType: tableType,
+            column: #TableName#Column().#TableName#Count(),
+            where: where)
+    };
+    if (tableType != Sqls.TableTypes.Normal)
+    {
+        return statementCollection;
+    }
+    aggregations
+        .Select((o, i) => new { Aggregation = o, Index = i })
+        .ForEach(data =>
+        {
+            var groupBy = #TableName#GroupBy();
+            var column = #TableName#Column();
+            switch (data.Aggregation.GroupBy)
+            {
+
+<!--Rds_AggregationGroupByCases-->
+
+                case "[NotGroupBy]":
+                    break;
+                default:
+                    groupBy.#TableName#GroupBy(columnName: data.Aggregation.GroupBy);
+                    column.#TableName#Column(columnName: data.Aggregation.GroupBy);
+                    break;
+            }
+            switch (data.Aggregation.Type)
+            {
+                case Aggregation.Types.Count:
+                    column.#TableName#Count(); break;
+                case Aggregation.Types.Total:
+                    switch (data.Aggregation.Target)
+                    {
+
+<!--Rds_AggregationTotalCases-->
+
+                        default:
+                            column.#TableName#Column(
+                                columnName: data.Aggregation.Target,
+                                function: Sqls.Functions.Sum);
+                            break;
+                    }
+                    break;
+                case Aggregation.Types.Average:
+                    switch (data.Aggregation.Target)
+                    {
+
+<!--Rds_AggregationAverageCases-->
+
+                        default:
+                            column.#TableName#Column(
+                                columnName: data.Aggregation.Target,
+                                function: Sqls.Functions.Avg);
+                            break;
+                    }
+                    break;
+                default: break;
+            }
+            var statement = Select#TableName#(
+                dataTableName: "Aggregation" + data.Index,
+                column: column,
+                where: where,
+                groupBy: groupBy);
+            statementCollection.Add(statement);
+        });
+
+<!--Rds_AggregationOverdue-->
+
+    return statementCollection;
+}

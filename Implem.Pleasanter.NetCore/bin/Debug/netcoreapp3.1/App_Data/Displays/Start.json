@@ -1,0 +1,13 @@
+﻿{
+    "Id": "Start",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Start"
+        },
+        {
+            "Language": "ja",
+            "Body": "開始"
+        }
+    ]
+}

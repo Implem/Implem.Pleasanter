@@ -1,0 +1,13 @@
+﻿{
+    "Id": "Section",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Section"
+        },
+        {
+            "Language": "ja",
+            "Body": "セクション"
+        }
+    ]
+}

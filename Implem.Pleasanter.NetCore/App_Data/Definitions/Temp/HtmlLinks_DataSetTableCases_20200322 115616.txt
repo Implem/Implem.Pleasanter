@@ -1,0 +1,30 @@
+ss.Sources
+    .Values
+    .Where(currentSs => currentSs.ReferenceType == "#TableName#")
+    .ForEach(currentSs =>
+        statements.Add(Select#TableName#(
+            context: context,
+            ss: currentSs,
+            view: Views.GetBySession(
+                context: context,
+                ss: currentSs,
+                dataTableName: DataTableName(
+                    ss: currentSs,
+                    direction: "Source")),
+            id: id,
+            direction: "Source")));
+ss.Destinations
+    .Values
+    .Where(currentSs => currentSs.ReferenceType == "#TableName#")
+    .ForEach(currentSs =>
+        statements.Add(Select#TableName#(
+            context: context,
+            ss: currentSs,
+            view: Views.GetBySession(
+                context: context,
+                ss: currentSs,
+                dataTableName: DataTableName(
+                    ss: currentSs,
+                    direction: "Destination")),
+            id: id,
+            direction: "Destination")));

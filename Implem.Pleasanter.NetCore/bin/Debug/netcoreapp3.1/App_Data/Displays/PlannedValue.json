@@ -1,0 +1,13 @@
+﻿{
+    "Id": "PlannedValue",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Planned value"
+        },
+        {
+            "Language": "ja",
+            "Body": "予定"
+        }
+    ]
+}

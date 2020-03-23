@@ -1,0 +1,14 @@
+﻿{
+    "Id": "ConfirmSeparate",
+    "Type": 310,
+    "ClientScript": true,
+    "Languages": [
+        {
+            "Body": "Are you sure you want to separate ?"
+        },
+        {
+            "Language": "ja",
+            "Body": "分割してもよろしいですか？"
+        }
+    ]
+}

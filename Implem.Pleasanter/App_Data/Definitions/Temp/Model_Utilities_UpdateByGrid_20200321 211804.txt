@@ -1,0 +1,243 @@
+public static string UpdateByGrid(Context context, SiteSettings ss)
+{
+    var formDataSet = new FormDataSet(
+        context: context,
+        ss: ss)
+            .Where(o => !o.Suffix.IsNullOrEmpty())
+            .Where(o => o.SiteId == ss.SiteId)
+            .ToList();
+    var statements = new List<SqlStatement>();
+    var #modelName#Collection = new #ModelName#Collection(
+        context: context,
+        ss: ss,
+        where: Rds.#TableName#Where()
+            .#ModelName#Id_In(formDataSet
+                .Where(formData => formData.Id > 0)
+                .Select(formData => formData.Id)),
+        formDataSet: formDataSet);
+    var notificationHash = #modelName#Collection.ToDictionary(
+        o => o.#ModelName#Id,
+        o => o.GetNotifications(
+            context: context,
+            ss: ss,
+            notice: true,
+            before: true));
+    foreach (var formData in formDataSet)
+    {
+        var #modelName#Model = #modelName#Collection
+            .FirstOrDefault(o => o.#ModelName#Id == formData.Id);
+        if (#modelName#Model != null)
+        {
+            ss.SetColumnAccessControls(
+                context: context,
+                mine: #modelName#Model.Mine(context: context));
+            var invalid = #ModelName#Validators.OnUpdating(
+                context: context,
+                ss: ss,
+                #modelName#Model: #modelName#Model);
+            switch (invalid.Type)
+            {
+                case Error.Types.None: break;
+                default: return invalid.Type.MessageJson(context: context);
+            }
+            #modelName#Model.VerUp = Versions.MustVerUp(
+                context: context,
+                baseModel: #modelName#Model);
+            statements.AddRange(#modelName#Model.UpdateStatements(
+                context: context,
+                ss: ss,
+                dataTableName: formData.Id.ToString()));
+        }
+        else if (formData.Id < 0)
+        {
+            #modelName#Model = new #ModelName#Model(
+                context: context,
+                ss: ss,
+                formData: formData.Data);
+            ss.SetColumnAccessControls(
+                context: context,
+                mine: #modelName#Model.Mine(context: context));
+            var invalid = #ModelName#Validators.OnCreating(
+                context: context,
+                ss: ss,
+                #modelName#Model: #modelName#Model);
+            switch (invalid.Type)
+            {
+                case Error.Types.None: break;
+                default: return invalid.Type.MessageJson(context: context);
+            }
+            statements.AddRange(#modelName#Model.CreateStatements(
+                context: context,
+                ss: ss,
+                dataTableName: formData.Id.ToString()));
+        }
+        else
+        {
+            return ItemUtilities.ClearItemDataResponse(
+                context: context,
+                ss: ss,
+                id: formData.Id)
+                    .Remove($"[data-id=\"{formData.Id}\"][data-latest]")
+                    .Message(Messages.NotFound(context: context))
+                    .ToJson();
+        }
+    }
+    var responses = Repository.ExecuteDataSet_responses(
+        context: context,
+        transactional: true,
+        statements: statements.ToArray());
+    var response = responses.FirstOrDefault(o => !o.Event.IsNullOrEmpty());
+    switch (response?.Event)
+    {
+        case "Duplicated":
+            return UpdateByGridDuplicated(
+                context: context,
+                ss: ss,
+                response: response);
+        case "Conflicted":
+            return UpdateByGridConflicted(
+                context: context,
+                ss: ss,
+                response: response);
+        default:
+            return UpdateByGridSuccess(
+                context: context,
+                ss: ss,
+                formDataSet: formDataSet,
+                #modelName#Collection: #modelName#Collection,
+                responses: responses,
+                notificationHash: notificationHash);
+    }
+}
+
+private static string UpdateByGridDuplicated(
+    Context context, SiteSettings ss, SqlResponse response)
+{
+    return Messages.ResponseDuplicated(
+        context: context,
+        target: "row_" + response.Id,
+        data: ss.GetColumn(
+            context: context,
+            columnName: response.ColumnName)?.LabelText)
+                .ToJson();
+}
+
+private static string UpdateByGridConflicted(
+    Context context, SiteSettings ss, SqlResponse response)
+{
+    var target = "row_" + response.Id;
+    var #modelName#Model = new #ModelName#Model(
+        context: context,
+        ss: ss,
+        #modelName#Id: response.Id.ToLong());
+    return #modelName#Model.AccessStatus == Databases.AccessStatuses.Selected
+        ? Messages.ResponseUpdateConflicts(
+            context: context,
+            target: target,
+            data: #modelName#Model.Updator.Name)
+                .ToJson()
+        : Messages.ResponseNotFound(
+            context: context,
+            target: target)
+                .ToJson();
+}
+
+private static string UpdateByGridSuccess(
+    Context context,
+    SiteSettings ss,
+    List<FormData> formDataSet,
+    #ModelName#Collection #modelName#Collection,
+    List<SqlResponse> responses,
+    Dictionary<long, List<Notification>> notificationHash)
+{
+    responses
+        .Where(o => o.DataTableName.ToInt() < 0)
+        .ForEach(response =>
+            #modelName#Collection.Add(new #ModelName#Model(
+                context: context,
+                ss: ss,
+                #modelName#Id: response.Id.ToLong())));
+    #modelName#Collection.ForEach(#modelName#Model =>
+    {
+        #modelName#Model.SynchronizeSummary(
+            context: context,
+            ss: ss);
+        var response = responses.FirstOrDefault(o => o.Id == #modelName#Model.#ModelName#Id);
+        if (response?.DataTableName.ToInt() < 0)
+        {
+            #modelName#Model.Notice(
+                context: context,
+                ss: ss,
+                notifications: #modelName#Model.GetNotifications(
+                    context: context,
+                    ss: ss,
+                    notice: true),
+                type: "Created");
+        }
+        else
+        {
+            #modelName#Model.Notice(
+                context: context,
+                ss: ss,
+                notifications: NotificationUtilities.MeetConditions(
+                    ss: ss,
+                    before: notificationHash.Get(#modelName#Model.#ModelName#Id),
+                    after: #modelName#Model.GetNotifications(
+                        context: context,
+                        ss: ss,
+                        notice: true)),
+                type: "Updated");
+        }
+    });
+    Rds.ExecuteNonQuery(
+        context: context,
+        transactional: true,
+        statements: new #ModelName#Collection(
+            context: context,
+            ss: ss,
+            column: Rds.#TableName#EditorColumns(ss: ss),
+            where: Rds.#TableName#Where()
+                .SiteId(ss.SiteId)
+                .#ModelName#Id_In(responses.Select(o => o.Id.ToLong())))
+                    .SelectMany(o => o.UpdateRelatedRecordsStatements(
+                        context: context,
+                        ss: ss))
+                            .ToArray());
+    var res = new ResponseCollection();
+    var view = Views.GetBySession(
+        context: context,
+        ss: ss);
+    var gridData = new GridData(
+        context: context,
+        ss: ss,
+        view: view,
+        tableType: Sqls.TableTypes.Normal,
+        where: Rds.#TableName#Where()
+            .SiteId(ss.SiteId)
+            .#ModelName#Id_In(responses.Select(o => o.Id.ToLong())));
+    var columns = ss.GetGridColumns(
+        context: context,
+        view: view,
+        checkPermission: true);
+    gridData.DataRows.ForEach(dataRow =>
+        res.ReplaceAll(
+            $"[data-id=\"{responses.FirstOrDefault(o => o.Id == dataRow.Long("#ModelName#Id"))?.DataTableName}\"][data-latest]",
+            new HtmlBuilder().Tr(
+                context: context,
+                ss: ss,
+                dataRow: dataRow,
+                columns: columns,
+                gridSelector: null,
+                editRow: true,
+                checkRow: false,
+                idColumn: "#ModelName#Id")));
+    formDataSet.ForEach(formData =>
+        formData.Data.Keys.ForEach(controlId =>
+            res.ClearFormData(controlId + formData.Suffix)));
+    return res
+        .SetMemory("formChanged", false)
+        .Message(Messages.UpdatedByGrid(
+            context: context,
+            data: responses.Count().ToString()))
+        .ToJson();
+}

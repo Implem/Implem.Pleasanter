@@ -1,0 +1,236 @@
+public static string Restore(Context context, SiteSettings ss)
+{
+    if (!Parameters.Deleted.Restore)
+    {
+        return Error.Types.InvalidRequest.MessageJson(context: context);
+    }
+    else if (context.CanManageSite(ss: ss))
+    {
+        var selector = new GridSelector(context: context);
+        var count = 0;
+        if (selector.All)
+        {
+            count = Restore(
+                context: context,
+                ss: ss,
+                selected: selector.Selected,
+                negative: true);
+        }
+        else
+        {
+            if (selector.Selected.Any())
+            {
+                count = Restore(
+                    context: context,
+                    ss: ss,
+                    selected: selector.Selected);
+            }
+            else
+            {
+                return Messages.ResponseSelectTargets(context: context).ToJson();
+            }
+        }
+        Summaries.Synchronize(context: context, ss: ss);
+        return GridRows(
+            context: context,
+            ss: ss,
+            clearCheck: true,
+            message: Messages.BulkRestored(
+                context: context,
+                data: count.ToString()));
+    }
+    else
+    {
+        return Messages.ResponseHasNotPermission(context: context).ToJson();
+    }
+}
+
+public static int Restore(
+    Context context, SiteSettings ss, List<long> selected, bool negative = false)
+{
+    var where = Rds.#TableName#Where()
+        .SiteId(
+            value: ss.SiteId,
+            tableName: "#TableName#_Deleted")
+        .#ModelName#Id_In(
+            value: selected,
+            tableName: "#TableName#_Deleted",
+            negative: negative,
+            _using: selected.Any())
+        .#ModelName#Id_In(
+            tableName: "#TableName#_Deleted",
+            sub: Rds.Select#TableName#(
+                tableType: Sqls.TableTypes.Deleted,
+                column: Rds.#TableName#Column().#ModelName#Id(),
+                where: Views.GetBySession(
+                    context: context,
+                    ss: ss)
+                        .Where(
+                            context: context,
+                            ss: ss,
+                            itemJoin: false)));
+    var sub = Rds.Select#TableName#(
+        tableType: Sqls.TableTypes.Deleted,
+        _as: "#TableName#_Deleted",
+        column: Rds.#TableName#Column()
+            .#ModelName#Id(tableName: "#TableName#_Deleted"),
+        where: where);
+    var column = new Rds.#TableName#ColumnCollection();
+        column.#ModelName#Id();
+        ss.Columns
+            .Where(o => o.TypeCs == "Attachments")
+            .Select(o => o.ColumnName)
+            .ForEach(columnName =>
+                column.Add($"\"{columnName}\""));
+    var attachments = Repository.ExecuteTable(
+        context: context,
+        statements: Rds.Select#TableName#(
+            tableType: Sqls.TableTypes.Deleted,
+            column: column,
+            where: Rds.#TableName#Where()
+                .SiteId(ss.SiteId)
+                .#ModelName#Id_In(sub: sub)))
+        .AsEnumerable()
+        .Select(dataRow => new
+        {
+            #modelName#Id = dataRow.Long("#ModelName#Id"),
+            attachments = dataRow
+                .Columns()
+                .Where(columnName => columnName.StartsWith("Attachments"))
+                .SelectMany(columnName => 
+                    Jsons.Deserialize<IEnumerable<Attachment>>(dataRow.String(columnName)) 
+                        ?? Enumerable.Empty<Attachment>())
+                .Where(o => o != null)
+                .Select(o => o.Guid)
+                .Distinct()
+                .ToArray()
+        })
+        .Where(o => o.attachments.Length > 0);
+    var guid = Strings.NewGuid();
+    var count = Repository.ExecuteScalar_response(
+        context: context,
+        connectionString: Parameters.Rds.OwnerConnectionString,
+        transactional: true,
+        statements: new SqlStatement[]
+        {
+            Rds.UpdateItems(
+                tableType: Sqls.TableTypes.Deleted,
+                where: Rds.ItemsWhere()
+                    .SiteId(ss.SiteId)
+                    .ReferenceId_In(sub: sub),
+                param: Rds.ItemsParam()
+                    .ReferenceType(guid)),
+            Rds.Restore#TableName#(factory:context, where: where),
+            Rds.RowCount(),
+            Rds.RestoreItems(factory:context, where: Rds.ItemsWhere()
+                .SiteId(ss.SiteId)
+                .ReferenceType(guid)),
+            Rds.UpdateItems(
+                where: Rds.ItemsWhere()
+                    .SiteId(ss.SiteId)
+                    .ReferenceType(guid),
+                param: Rds.ItemsParam()
+                    .ReferenceType(ss.ReferenceType))
+        }).Count.ToInt();
+    attachments.ForEach(o =>
+    {
+        RestoreAttachments(context, o.#modelName#Id, o.attachments);
+    });    
+    return count;
+}
+
+private static void RestoreAttachments(Context context, long #modelName#Id, IList<string> attachments)
+{
+    var raw = $" ({string.Join(", ", attachments.Select(o => $"'{o}'"))}) ";
+    Repository.ExecuteNonQuery(
+        context: context,
+        connectionString: Parameters.Rds.OwnerConnectionString,
+        statements: new SqlStatement[] {
+            Rds.DeleteBinaries(
+                factory: context,
+                where: Rds.BinariesWhere()
+                    .ReferenceId(#modelName#Id)
+                    .BinaryType("Attachments")
+                    .Binaries_Guid(
+                        _operator:" not in ",
+                        raw: raw,
+                        _using: attachments.Any())),
+            Rds.RestoreBinaries(
+                factory: context,
+                where: Rds.BinariesWhere()
+                    .ReferenceId(#modelName#Id)
+                    .BinaryType("Attachments")
+                    .Binaries_Guid(
+                        _operator: $" in ",
+                        raw: raw),
+                _using: attachments.Any())
+    }, transactional: true);
+}
+
+public static string RestoreFromHistory(
+    Context context, SiteSettings ss, long #modelName#Id)
+{
+    if (!Parameters.History.Restore)
+    {
+        return Error.Types.InvalidRequest.MessageJson(context: context);
+    }
+    var #modelName#Model = new #ModelName#Model(context, <!--Model_SiteSettings-->#modelName#Id);
+    var invalid = #ModelName#Validators.OnUpdating(
+        context: context,
+        ss: ss,
+        #modelName#Model: #modelName#Model);
+    switch (invalid.Type)
+    {
+        case Error.Types.None: break;
+        default: return invalid.Type.MessageJson(context: context);
+    }
+    var ver = context.Forms.Data("GridCheckedItems")
+        .Split(',')
+        .Where(o => !o.IsNullOrEmpty())
+        .ToList();
+    if (ver.Count() != 1)
+    {
+        return Error.Types.SelectOne.MessageJson(context: context);
+    }
+    #modelName#Model.SetByModel(new #ModelName#Model().Get(
+        context: context,
+
+        <!--Model_SiteSettingsWithParameterNameLower-->
+
+        tableType: Sqls.TableTypes.History,
+        where: Rds.#TableName#Where()
+            .SiteId(ss.SiteId)
+            .#ModelName#Id(#modelName#Id)
+            .Ver(ver.First())));
+    #modelName#Model.VerUp = true;
+    var errorData = #modelName#Model.Update(
+        context: context,
+        ss: ss,
+        otherInitValue: true);
+    switch (errorData.Type)
+    {
+        case Error.Types.None:
+            RestoreAttachments(
+                context: context,
+                #modelName#Id: #modelName#Model.#ModelName#Id,
+                attachments: #modelName#Model
+                    .AttachmentsHash
+                    .Values
+                    .SelectMany(o => o.AsEnumerable())
+                    .Select(o => o.Guid)
+                    .Distinct().ToArray());
+            SessionUtilities.Set(
+                context: context,
+                message: Messages.RestoredFromHistory(
+                    context: context,
+                    data: ver.First().ToString()));
+            return new ResponseCollection()
+                .SetMemory("formChanged", false)
+                .Href(Locations.ItemEdit(
+                    context: context,
+                    id: #modelName#Id))
+                .ToJson();
+        default:
+            return errorData.Type.MessageJson(context: context);
+    }
+}

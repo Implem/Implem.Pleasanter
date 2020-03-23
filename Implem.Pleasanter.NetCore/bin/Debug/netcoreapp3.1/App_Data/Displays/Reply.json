@@ -1,0 +1,13 @@
+﻿{
+    "Id": "Reply",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Reply"
+        },
+        {
+            "Language": "ja",
+            "Body": "返信"
+        }
+    ]
+}

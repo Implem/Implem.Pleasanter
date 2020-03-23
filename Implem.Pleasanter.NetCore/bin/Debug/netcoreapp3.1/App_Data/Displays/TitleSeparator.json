@@ -1,0 +1,13 @@
+﻿{
+    "Id": "TitleSeparator",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Title separator"
+        },
+        {
+            "Language": "ja",
+            "Body": "タイトル区切り文字"
+        }
+    ]
+}

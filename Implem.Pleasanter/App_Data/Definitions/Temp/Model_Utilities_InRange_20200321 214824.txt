@@ -1,0 +1,17 @@
+private static bool InRange(Context context, SiteSettings ss, View view, int limit)
+{
+    var where = view.Where(
+        context: context,
+        ss: ss);
+    return Repository.ExecuteScalar_int(
+        context: context,
+        statements: Rds.Select#TableName#(
+            column: Rds.#TableName#Column().#TableName#Count(),
+            join: ss.Join(
+                context: context,
+                join: new IJoin[]
+                {
+                    where
+                }),
+            where: where)) <= limit;
+}

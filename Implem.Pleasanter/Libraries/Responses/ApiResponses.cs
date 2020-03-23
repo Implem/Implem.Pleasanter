@@ -54,9 +54,54 @@ namespace Implem.Pleasanter.Libraries.Responses
             return new ApiResponse(403, Displays.HasNotPermission(context: context));
         }
 
-        public static ApiResponse OverLimit(Context context,long siteId, int limit)
+        public static ApiResponse OverLimitApi(Context context, long siteId, int limitPerSite)
         {
-            return new ApiResponse(429, Displays.OverLimitApi(context: context, siteId.ToString(), limit.ToString()));
+            return new ApiResponse(
+                id: context.Id,
+                statusCode: 429,
+                message: Displays.OverLimitApi(
+                    context: context, siteId.ToString(),
+                    limitPerSite.ToString()));
+        }
+
+        public static ApiResponse OverLimitQuantity(Context context, decimal? maxSize)
+        {
+            return new ApiResponse(
+                id: context.Id,
+                statusCode: 441,
+                message: Displays.OverLimitQuantity(
+                    context: context,
+                    data: maxSize.ToString()));
+        }
+
+        public static ApiResponse OverLimitSize(Context context, decimal? maxSize)
+        {
+            return new ApiResponse(
+                id: context.Id,
+                statusCode: 442,
+                message: Displays.OverLimitSize(
+                    context: context,
+                    data: maxSize.ToString()));
+        }
+
+        public static ApiResponse OverTotalLimitSize(Context context, decimal? maxSize)
+        {
+            return new ApiResponse(
+                id: context.Id,
+                statusCode: 443,
+                message: Displays.OverTotalLimitSize(
+                    context: context,
+                    data: maxSize.ToString()));
+        }
+
+        public static ApiResponse OverTenantStorageSize(Context context, decimal? maxSize)
+        {
+            return new ApiResponse(
+                id: context.Id,
+                statusCode: 444,
+                message: Displays.OverTenantStorageSize(
+                    context: context,
+                    data: maxSize.ToString()));
         }
     }
 }

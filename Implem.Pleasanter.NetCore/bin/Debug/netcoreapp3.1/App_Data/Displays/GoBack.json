@@ -1,0 +1,13 @@
+﻿{
+    "Id": "GoBack",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Back"
+        },
+        {
+            "Language": "ja",
+            "Body": "戻る"
+        }
+    ]
+}

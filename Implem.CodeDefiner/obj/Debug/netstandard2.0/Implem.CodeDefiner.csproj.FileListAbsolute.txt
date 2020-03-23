@@ -22,9 +22,9 @@ C:\Implem\PleasanterYakushi\Implem.CodeDefiner\bin\Debug\netstandard2.0\Implem.I
 C:\Implem\PleasanterYakushi\Implem.CodeDefiner\bin\Debug\netstandard2.0\Implem.PostgreSql.pdb
 C:\Implem\PleasanterYakushi\Implem.CodeDefiner\bin\Debug\netstandard2.0\Implem.SqlServer.pdb
 C:\Implem\PleasanterYakushi\Implem.CodeDefiner\obj\Debug\netstandard2.0\Implem.CodeDefiner.csprojAssemblyReference.cache
+C:\Implem\PleasanterYakushi\Implem.CodeDefiner\obj\Debug\netstandard2.0\Implem.CodeDefiner.csproj.CoreCompileInputs.cache
 C:\Implem\PleasanterYakushi\Implem.CodeDefiner\obj\Debug\netstandard2.0\Implem.CodeDefiner.AssemblyInfoInputs.cache
 C:\Implem\PleasanterYakushi\Implem.CodeDefiner\obj\Debug\netstandard2.0\Implem.CodeDefiner.AssemblyInfo.cs
 C:\Implem\PleasanterYakushi\Implem.CodeDefiner\obj\Debug\netstandard2.0\Implem.CodeDefiner.csproj.CopyComplete
 C:\Implem\PleasanterYakushi\Implem.CodeDefiner\obj\Debug\netstandard2.0\Implem.CodeDefiner.dll
 C:\Implem\PleasanterYakushi\Implem.CodeDefiner\obj\Debug\netstandard2.0\Implem.CodeDefiner.pdb
-C:\Implem\PleasanterYakushi\Implem.CodeDefiner\obj\Debug\netstandard2.0\Implem.CodeDefiner.csproj.CoreCompileInputs.cache

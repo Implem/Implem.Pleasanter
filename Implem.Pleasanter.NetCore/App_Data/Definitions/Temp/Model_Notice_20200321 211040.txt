@@ -1,0 +1,187 @@
+public List<Notification> GetNotifications(
+    Context context,
+    SiteSettings ss,
+    bool notice,
+    bool before = false,
+    Sqls.TableTypes tableTypes = Sqls.TableTypes.Normal)
+{
+    if (context.ContractSettings.Notice == false || !notice)
+    {
+        return null;
+    }
+    var notifications = NotificationUtilities.Get(
+        context: context,
+        ss: ss);
+    if (notifications?.Any() == true)
+    {
+        var dataSet = Repository.ExecuteDataSet(
+            context: context,
+            statements: notifications.Select(notification =>
+                Rds.Select#TableName#(
+                    dataTableName: notification.Index.ToString(),
+                    tableType: tableTypes,
+                    column: Rds.#TableName#Column().#ModelName#Id(),
+                    where: ss.Views?.Get(before
+                        ? notification.BeforeCondition
+                        : notification.AfterCondition)
+                            ?.Where(
+                                context: context,
+                                ss: ss,
+                                where: Rds.#TableName#Where().#ModelName#Id(#ModelName#Id))
+                                    ?? Rds.#TableName#Where().#ModelName#Id(#ModelName#Id)))
+                                        .ToArray());
+        return notifications
+            .Where(notification =>
+                dataSet.Tables[notification.Index.ToString()].Rows.Count == 1 )
+            .ToList();
+    }
+    else
+    {
+        return null;
+    }
+}
+
+public void Notice(
+    Context context,
+    SiteSettings ss,
+    List<Notification> notifications,
+    string type)
+{
+    var url = Locations.ItemEditAbsoluteUri(
+        context: context,
+        id: #ModelName#Id);
+    notifications?.ForEach(notification =>
+    {
+        if (notification.HasRelatedUsers())
+        {
+            var users = new List<long>();
+            Rds.ExecuteTable(
+                context: context,
+                statements: Rds.Select#TableName#(
+                    tableType: Sqls.TableTypes.All,
+                    distinct: true,
+                    column: Rds.#TableName#Column()
+
+<!--Model_Notice_RelatedColumnCases-->,
+
+                    where: Rds.#TableName#Where().#ModelName#Id(#ModelName#Id)))
+                        .AsEnumerable()
+                        .ForEach(dataRow =>
+                        {
+
+<!--Model_Notice_RelatedDataColumnCases-->
+
+                        });
+            notification.ReplaceRelatedUsers(
+                context: context,
+                users: users);
+        }
+        switch (type)
+        {
+            case "Created":
+                notification.Send(
+                    context: context,
+                    ss: ss,
+                    title: Displays.Created(
+                        context: context,
+                        data: Title.DisplayValue).ToString(),
+                    url: url,
+                    body: NoticeBody(
+                        context: context,
+                        ss: ss,
+                        notification: notification));
+                break;
+            case "Updated":
+                var body = NoticeBody(
+                    context: context,
+                    ss: ss,
+                    notification: notification, update: true);
+                if (body.Length > 0)
+                {
+                    notification.Send(
+                        context: context,
+                        ss: ss,
+                        title: Displays.Updated(
+                            context: context,
+                            data: Title.DisplayValue).ToString(),
+                        url: url,
+                        body: body);
+                }
+                break;
+            case "Deleted":
+                notification.Send(
+                    context: context,
+                    ss: ss,
+                    title: Displays.Deleted(
+                        context: context,
+                        data: Title.DisplayValue).ToString(),
+                    url: url,
+                    body: NoticeBody(
+                        context: context,
+                        ss: ss,
+                        notification: notification));
+                break;
+        }
+    });
+}
+
+private string NoticeBody(
+    Context context, SiteSettings ss, Notification notification, bool update = false)
+{
+    var body = new System.Text.StringBuilder();
+    notification.ColumnCollection(context, ss, update)?.ForEach(column =>
+    {
+        switch (column.Name)
+        {
+
+<!--Model_NoticeColumnCases-->
+
+            default:
+                switch (Def.ExtendedColumnTypes.Get(column.Name))
+                {
+                    case "Class":
+                        body.Append(Class(columnName: column.Name).ToNotice(
+                            context: context,
+                            saved: SavedClass(columnName: column.Name),
+                            column: column,
+                            updated: Class_Updated(columnName: column.Name),
+                            update: update));
+                        break;
+                    case "Num":
+                        body.Append(Num(columnName: column.Name).ToNotice(
+                            context: context,
+                            saved: SavedNum(columnName: column.Name),
+                            column: column,
+                            updated: Num_Updated(columnName: column.Name),
+                            update: update));
+                        break;
+                    case "Date":
+                        body.Append(Date(columnName: column.Name).ToNotice(
+                            context: context,
+                            saved: SavedDate(columnName: column.Name),
+                            column: column,
+                            updated: Date_Updated(columnName: column.Name),
+                            update: update));
+                        break;
+                    case "Description":
+                        body.Append(Description(columnName: column.Name).ToNotice(
+                            context: context,
+                            saved: SavedDescription(columnName: column.Name),
+                            column: column,
+                            updated: Description_Updated(columnName: column.Name),
+                            update: update));
+                        break;
+                    case "Check":
+                        body.Append(Check(columnName: column.Name).ToNotice(
+                            context: context,
+                            saved: SavedCheck(columnName: column.Name),
+                            column: column,
+                            updated: Check_Updated(columnName: column.Name),
+                            update: update));
+                        break;
+                }
+                break;
+        }
+    });
+    return body.ToString();
+}

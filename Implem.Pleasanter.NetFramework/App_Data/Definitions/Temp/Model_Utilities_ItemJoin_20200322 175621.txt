@@ -1,0 +1,29 @@
+public static SqlJoinCollection ItemJoin(
+    this SqlJoinCollection join,
+    Sqls.TableTypes tableType,
+    string tableName)
+{
+    switch (tableName)
+    {
+
+<!--Model_Utilities_ItemJoinCases-->
+
+            var tableTypeName = string.Empty;
+            switch (tableType)
+            {
+                case Sqls.TableTypes.History:
+                    tableTypeName = "_history";
+                    break;
+                case Sqls.TableTypes.Deleted:
+                    tableTypeName = "_deleted";
+                    break;
+            }
+            return join.Add(
+                tableName: $"\"Items{tableTypeName}\"",
+                joinType: SqlJoin.JoinTypes.Inner,
+                joinExpression: $"\"{tableName}\".\"{Rds.IdColumn(tableName)}\"=\"{tableName}_Items\".\"ReferenceId\"",
+                _as: tableName + "_Items");
+        default:
+            return join;
+    }
+}

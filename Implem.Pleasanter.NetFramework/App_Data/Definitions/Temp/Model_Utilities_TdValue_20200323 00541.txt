@@ -1,0 +1,180 @@
+public static HtmlBuilder TdValue(
+    this HtmlBuilder hb,
+    Context context,
+    SiteSettings ss,
+    Column column,
+    #ModelName#Model #modelName#Model)
+{
+    if (!column.GridDesign.IsNullOrEmpty())
+    {
+        return hb.TdCustomValue(
+            context: context,
+            ss: ss,
+            gridDesign: column.GridDesign,
+            #modelName#Model: #modelName#Model);
+    }
+    else
+    {
+        var mine = #modelName#Model.Mine(context: context);
+        switch (column.Name)
+        {
+
+<!--Model_Utilities_TdValueCases-->
+
+            default:
+                switch (Def.ExtendedColumnTypes.Get(column.Name))
+                {
+                    case "Class":
+                        return ss.ReadColumnAccessControls.Allowed(
+                            context: context,
+                            ss: ss,
+                            column: column,
+                            type: ss.PermissionType,
+                            mine: mine)
+                                ? hb.Td(
+                                    context: context,
+                                    column: column,
+                                    value: #modelName#Model.Class(columnName: column.Name))
+                                : hb.Td(
+                                    context: context,
+                                    column: column,
+                                    value: string.Empty);
+                    case "Num":
+                        return ss.ReadColumnAccessControls.Allowed(
+                            context: context,
+                            ss: ss,
+                            column: column,
+                            type: ss.PermissionType,
+                            mine: mine)
+                                ? hb.Td(
+                                    context: context,
+                                    column: column,
+                                    value: #modelName#Model.Num(columnName: column.Name))
+                                : hb.Td(
+                                    context: context,
+                                    column: column,
+                                    value: string.Empty);
+                    case "Date":
+                        return ss.ReadColumnAccessControls.Allowed(
+                            context: context,
+                            ss: ss,
+                            column: column,
+                            type: ss.PermissionType,
+                            mine: mine)
+                                ? hb.Td(
+                                    context: context,
+                                    column: column,
+                                    value: #modelName#Model.Date(columnName: column.Name))
+                                : hb.Td(
+                                    context: context,
+                                    column: column,
+                                    value: string.Empty);
+                    case "Description":
+                        return ss.ReadColumnAccessControls.Allowed(
+                            context: context,
+                            ss: ss,
+                            column: column,
+                            type: ss.PermissionType,
+                            mine: mine)
+                                ? hb.Td(
+                                    context: context,
+                                    column: column,
+                                    value: #modelName#Model.Description(columnName: column.Name))
+                                : hb.Td(
+                                    context: context,
+                                    column: column,
+                                    value: string.Empty);
+                    case "Check":
+                        return ss.ReadColumnAccessControls.Allowed(
+                            context: context,
+                            ss: ss,
+                            column: column,
+                            type: ss.PermissionType,
+                            mine: mine)
+                                ? hb.Td(
+                                    context: context,
+                                    column: column,
+                                    value: #modelName#Model.Check(columnName: column.Name))
+                                : hb.Td(
+                                    context: context,
+                                    column: column,
+                                    value: string.Empty);
+                    case "Attachments":
+                        return ss.ReadColumnAccessControls.Allowed(
+                            context: context,
+                            ss: ss,
+                            column: column,
+                            type: ss.PermissionType,
+                            mine: mine)
+                                ? hb.Td(
+                                    context: context,
+                                    column: column,
+                                    value: #modelName#Model.Attachments(columnName: column.Name))
+                                : hb.Td(
+                                    context: context,
+                                    column: column,
+                                    value: string.Empty);
+                    default:
+                        return hb;
+                }
+        }
+    }
+}
+private static HtmlBuilder TdCustomValue(
+    this HtmlBuilder hb,
+    Context context,
+    SiteSettings ss,
+    string gridDesign,
+    #ModelName#Model #modelName#Model)
+{
+    ss.IncludedColumns(gridDesign).ForEach(column =>
+    {
+        var value = string.Empty;
+        switch (column.Name)
+        {
+
+<!--Model_Utilities_TdValueCustomValueCases-->
+
+
+            default:
+                switch (Def.ExtendedColumnTypes.Get(column.Name))
+                {
+                    case "Class":
+                        value = #modelName#Model.Class(columnName: column.Name).GridText(
+                            context: context,
+                            column: column);
+                        break;
+                    case "Num":
+                        value = #modelName#Model.Num(columnName: column.Name).GridText(
+                            context: context,
+                            column: column);
+                        break;
+                    case "Date":
+                        value = #modelName#Model.Date(columnName: column.Name).GridText(
+                            context: context,
+                            column: column);
+                        break;
+                    case "Description":
+                        value = #modelName#Model.Description(columnName: column.Name).GridText(
+                            context: context,
+                            column: column);
+                        break;
+                    case "Check":
+                        value = #modelName#Model.Check(columnName: column.Name).GridText(
+                            context: context,
+                            column: column);
+                        break;
+                    case "Attachments":
+                        value = #modelName#Model.Attachments(columnName: column.Name).GridText(
+                            context: context,
+                            column: column);
+                        break;
+                }
+                break;
+        }
+        gridDesign = gridDesign.Replace("\"" + column.ColumnName + "\"", value);
+    });
+    return hb.Td(action: () => hb
+        .Div(css: "markup", action: () => hb
+            .Text(text: gridDesign)));
+}

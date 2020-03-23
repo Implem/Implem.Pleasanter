@@ -1,0 +1,13 @@
+﻿{
+    "Id": "UpdateColumnAccessControl",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Update access control"
+        },
+        {
+            "Language": "ja",
+            "Body": "更新時のアクセス制御"
+        }
+    ]
+}

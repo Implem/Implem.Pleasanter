@@ -1,0 +1,13 @@
+﻿{
+  "Id": "Restore",
+  "Type": 110,
+  "Languages": [
+    {
+      "Body": "Restore"
+    },
+    {
+      "Language": "ja",
+      "Body": "復元"
+    }
+  ]
+}

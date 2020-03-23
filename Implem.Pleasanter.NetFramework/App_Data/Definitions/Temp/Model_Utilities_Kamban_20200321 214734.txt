@@ -1,0 +1,198 @@
+public static string Kamban(Context context, SiteSettings ss)
+{
+    if (!ss.EnableViewMode(context: context, name: "Kamban"))
+    {
+        return HtmlTemplates.Error(
+            context: context,
+            errorData: new ErrorData(type: Error.Types.HasNotPermission));
+    }
+    var hb = new HtmlBuilder();
+    var view = Views.GetBySession(context: context, ss: ss);
+    var viewMode = ViewModes.GetSessionData(
+        context: context,
+        siteId: ss.SiteId);
+    var inRange = InRange(
+        context: context,
+        ss: ss,
+        view: view,
+        limit: Parameters.General.KambanLimit);
+    if (!inRange)
+    {
+        SessionUtilities.Set(
+            context: context,
+            message: Messages.TooManyCases(
+                context: context,
+                data: Parameters.General.KambanLimit.ToString()));
+    }
+    return hb.ViewModeTemplate(
+        context: context,
+        ss: ss,
+        view: view,
+        viewMode: viewMode,
+        viewModeBody: () => hb
+            .Kamban(
+                context: context,
+                ss: ss,
+                view: view,
+                bodyOnly: false,
+                inRange: inRange));
+}
+
+public static string KambanJson(Context context, SiteSettings ss)
+{
+    if (!ss.EnableViewMode(context: context, name: "Kamban"))
+    {
+        return Messages.ResponseHasNotPermission(context: context).ToJson();
+    }
+    var view = Views.GetBySession(context: context, ss: ss);
+    var bodyOnly = context.Forms.ControlId().StartsWith("Kamban");
+    return InRange(
+        context: context,
+        ss: ss,
+        view: view,
+        limit: Parameters.General.KambanLimit)
+            ? new ResponseCollection()
+                .ViewMode(
+                    context: context,
+                    ss: ss,
+                    view: view,
+                    invoke: "setKamban",
+                    bodyOnly: bodyOnly,
+                    bodySelector: "#KambanBody",
+                    body: new HtmlBuilder()
+                        .Kamban(
+                            context: context,
+                            ss: ss,
+                            view: view,
+                            bodyOnly: bodyOnly,
+                            changedItemId: context.Forms.Long("KambanId")))
+                .ToJson()
+            : new ResponseCollection()
+                .ViewMode(
+                    context: context,
+                    ss: ss,
+                    view: view,
+                    message: Messages.TooManyCases(
+                        context: context,
+                        data: Parameters.General.KambanLimit.ToString()),
+                    bodyOnly: bodyOnly,
+                    bodySelector: "#KambanBody",
+                    body: new HtmlBuilder()
+                        .Kamban(
+                            context: context,
+                            ss: ss,
+                            view: view,
+                            bodyOnly: bodyOnly,
+                            inRange: false))
+                .ToJson();
+}
+
+private static HtmlBuilder Kamban(
+    this HtmlBuilder hb,
+    Context context,
+    SiteSettings ss,
+    View view,
+    bool bodyOnly,
+    long changedItemId = 0,
+    bool inRange = true)
+{
+    var groupByX = ss.GetColumn(
+        context: context,
+        columnName: view.GetKambanGroupByX(
+            context: context,
+            ss: ss));
+    if (groupByX == null)
+    {
+        return hb;
+    }
+    var groupByY = ss.GetColumn(
+        context: context,
+        columnName: view.GetKambanGroupByY(
+            context: context,
+            ss: ss));
+    var aggregateType = view.GetKambanAggregationType(
+        context: context,
+        ss: ss);
+    var value = ss.GetColumn(
+        context: context,
+        columnName: view.GetKambanValue(ss));
+    var aggregationView = view.KambanAggregationView ?? false;
+    var columns = view.GetKambanColumns();
+    var data = KambanData(
+        context: context,
+        ss: ss,
+        view: view,
+        groupByX: groupByX,
+        groupByY: groupByY,
+        value: value);
+    return !bodyOnly
+        ? hb.Kamban(
+            context: context,
+            ss: ss,
+            view: view,
+            groupByX: groupByX,
+            groupByY: groupByY,
+            aggregateType: aggregateType,
+            value: value,
+            columns: columns,
+            aggregationView: aggregationView,
+            data: data,
+            inRange: inRange)
+        : hb.KambanBody(
+            context: context,
+            ss: ss,
+            view: view,
+            groupByX: groupByX,
+            groupByY: groupByY,
+            aggregateType: aggregateType,
+            value: value,
+            columns: columns,
+            aggregationView: aggregationView,
+            data: data,
+            changedItemId: changedItemId,
+            inRange: inRange);
+}
+
+private static IEnumerable<Libraries.ViewModes.KambanElement> KambanData(
+    Context context, 
+    SiteSettings ss,
+    View view,
+    Column groupByX,
+    Column groupByY,
+    Column value)
+{
+    var column = Rds.#TableName#Column()
+        .#ModelName#Id()
+        .ItemTitle(ss.ReferenceType)
+        .Add(
+            context: context,
+            column: groupByX)
+        .Add(
+            context: context,
+            column: groupByY)
+        .Add(
+            context: context,
+            column: value);
+    var where = view.Where(context: context, ss: ss);
+    return Repository.ExecuteTable(
+        context: context,
+        statements: Rds.Select#TableName#(
+            column: column,
+            join: ss.Join(
+                context: context,
+                join: new IJoin[]
+                {
+                    column,
+                    where
+                }),
+            where: where))
+                .AsEnumerable()
+                .Select(o => new Libraries.ViewModes.KambanElement()
+                {
+                    Id = o.Long("#ModelName#Id"),
+                    Title = o.String("ItemTitle"),
+                    GroupX = groupByX.ConvertIfUserColumn(o),
+                    GroupY = groupByY?.ConvertIfUserColumn(o),
+                    Value = o.Decimal(value.ColumnName)
+                });
+}

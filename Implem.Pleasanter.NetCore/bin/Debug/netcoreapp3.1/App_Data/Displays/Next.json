@@ -1,0 +1,13 @@
+﻿{
+    "Id": "Next",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Next"
+        },
+        {
+            "Language": "ja",
+            "Body": "次"
+        }
+    ]
+}

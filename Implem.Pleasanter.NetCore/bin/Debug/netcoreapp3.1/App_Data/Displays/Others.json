@@ -1,0 +1,13 @@
+﻿{
+    "Id": "Others",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Others"
+        },
+        {
+            "Language": "ja",
+            "Body": "その他"
+        }
+    ]
+}

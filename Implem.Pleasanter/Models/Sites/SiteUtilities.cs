@@ -1162,11 +1162,11 @@ namespace Implem.Pleasanter.Models
                             context: context,
                             data: siteModel.Title.Value));
                     var res = new SitesResponseCollection(siteModel);
-                    res
-                        .SetMemory("formChanged", false)
-                        .Href(Locations.ItemIndex(
-                            context: context,
-                            id: siteModel.ParentId));
+                res
+                    .SetMemory("formChanged", false)
+                    .Href(Locations.ItemIndex(
+                        context: context,
+                        id: siteModel.ParentId));
                     return res.ToJson();
                 default:
                     return errorData.Type.MessageJson(context: context);
@@ -1248,12 +1248,11 @@ namespace Implem.Pleasanter.Models
                     Rds.RestoreItems(
                         factory: context,
                         where: Rds.ItemsWhere()
-                        .ReferenceId_In(sub:
-                            Rds.SelectWikis(
+                            .ReferenceId_In(sub: Rds.SelectWikis(
                                 tableType: Sqls.TableTypes.Deleted,
                                 column: Rds.WikisColumn().WikiId(),
                                 where: Rds.WikisWhere().SiteId_In(sub: sub)))
-                        .ReferenceType("Wikis")),
+                            .ReferenceType("Wikis")),
                     Rds.RestoreWikis(
                         factory: context,
                         where: Rds.WikisWhere().SiteId_In(sub: sub)),

@@ -1,0 +1,201 @@
+public static string OpenExportSelectorDialog(
+    Context context, SiteSettings ss, SiteModel siteModel)
+{
+    if (context.ContractSettings.Export == false)
+    {
+        return HtmlTemplates.Error(
+            context: context,
+            errorData: new ErrorData(type: Error.Types.InvalidRequest));
+    }
+    var invalid = #ModelName#Validators.OnExporting(
+        context: context,
+        ss: ss);
+    switch (invalid.Type)
+    {
+        case Error.Types.None: break;
+        default: return invalid.Type.MessageJson(context: context);
+    }
+    return new ResponseCollection()
+        .Html(
+            "#ExportSelectorDialog",
+            new HtmlBuilder().ExportSelectorDialog(
+                context: context,
+                ss: ss))
+        .ToJson();
+}
+
+public static ResponseFile Export(
+    Context context, SiteSettings ss, SiteModel siteModel)
+{
+    if (context.ContractSettings.Export == false)
+    {
+        return null;
+    }
+    var invalid = #ModelName#Validators.OnExporting(
+        context: context,
+        ss: ss);
+    switch (invalid.Type)
+    {
+        case Error.Types.None: break;
+        default: return null;
+    }
+    var export = ss.GetExport(
+            context: context,
+            id: context.QueryStrings.Int("id"));
+    var content = ExportUtilities.Export(
+        context: context,
+        ss: ss,
+        export: export,
+        where: SelectedWhere(
+            context: context,
+            ss: ss),
+        view: Views.GetBySession(
+            context: context,
+            ss: ss));
+    return new ResponseFile(
+        fileContent: content,
+        fileDownloadName: ExportUtilities.FileName(
+            context: context,
+            title: ss.Title,
+            name: export.Name,
+            extension: export.Type.ToString()));
+}
+
+public static string ExportAsync(
+    Context context, SiteSettings ss, SiteModel siteModel)
+{
+    if (context.ContractSettings.Export == false)
+    {
+        return Error.Types.InvalidRequest.MessageJson(context: context);
+    }
+    var invalid = #ModelName#Validators.OnExporting(
+        context: context,
+        ss: ss);
+    switch (invalid.Type)
+    {
+        case Error.Types.None: break;
+        default: return invalid.Type.MessageJson(context: context);
+    }
+    System.Threading.Tasks.Task.Factory.StartNew(() =>
+    {
+        var export = ss.GetExport(
+                context: context,
+                id: context.Forms.Int("ExportId"));
+        var fileName = ExportUtilities.FileName(
+            context: context,
+            title: ss.Title,
+            name: export.Name,
+            extension: export.Type.ToString());
+        try
+        {
+            var content = ExportUtilities.Export(
+                context: context,
+                ss: ss,
+                export: export,
+                where: SelectedWhere(
+                    context: context,
+                    ss: ss),
+                view: Views.GetBySession(
+                    context: context,
+                    ss: ss));
+            var guid = Strings.NewGuid();
+            
+            var bytes = content.ToBytes();
+            Repository.ExecuteNonQuery(
+                context: context,
+                statements: new SqlStatement[]
+                {
+                    Rds.InsertBinaries(
+                        param: Rds.BinariesParam()
+                            .TenantId(context.TenantId)
+                            .ReferenceId(ss.SiteId)
+                            .Guid(guid)
+                            .Title(fileName)
+                            .BinaryType("Attachments")
+                            .Bin(bytes)
+                            .FileName(fileName)
+                            .Extension(export.Type.ToString())
+                            .Size(bytes.Length)
+                            .ContentType(export.Type == Libraries.Settings.Export.Types.Csv
+                                ? "text/csv"
+                                : "application/json"))
+                });
+            var serverName = (Parameters.Service.AbsoluteUri == null)
+                ? context.Server
+                : System.Text.RegularExpressions.Regex.Replace(
+                    Parameters.Service.AbsoluteUri.TrimEnd('/'),
+                    $"{context.ApplicationPath.TrimEnd('/')}$",
+                    string.Empty);
+            new OutgoingMailModel()
+            {
+                Title = new Title(Displays.ExportEmailTitle(
+                    context: context,
+                    data: new string[] { fileName })),
+                Body = Displays.ExportEmailBody(context: context) + "\n" +
+                    $"{serverName}{Locations.DownloadFile(context: context, guid: guid)}",
+                From = new System.Net.Mail.MailAddress(Parameters.Mail.SupportFrom),
+                To = MailAddressUtilities.Get(context: context, context.UserId),
+            }.Send(context: context, ss);
+        }
+        catch(Exception e)
+        {
+            new OutgoingMailModel()
+            {
+                Title = new Title(Displays.ExportEmailTitleFaild(context: context)),
+                Body = Displays.ExportEmailBodyFaild(context: context, fileName, e.Message),
+                From = new System.Net.Mail.MailAddress(Parameters.Mail.SupportFrom),
+                To = MailAddressUtilities.Get(context: context, context.UserId),
+            }.Send(context: context, ss);
+        }
+    });
+    return Messages.ResponseExportAccepted(context: context).ToJson();
+}
+
+public static System.Web.Mvc.ContentResult ExportByApi(
+    Context context, SiteSettings ss, SiteModel siteModel)
+{
+    if (context.ContractSettings.Export == false)
+    {
+        return null;
+    }
+    var invalid = #ModelName#Validators.OnExporting(
+        context: context,
+        ss: ss);
+    switch (invalid.Type)
+    {
+        case Error.Types.None: break;
+        default: return ApiResults.Error(
+            context: context,
+            errorData: invalid);
+    }
+    var api = context.RequestDataString.Deserialize<ExportApi>();
+    if (api == null)
+    {
+        return ApiResults.Get(ApiResponses.BadRequest(context: context));
+    }
+    var export = api.Export ?? ss.GetExport(
+        context: context,
+        id: api.ExportId);
+    var content = ExportUtilities.Export(
+        context: context,
+        ss: ss,
+        export: export,
+        where: SelectedWhere(
+            context: context,
+            ss: ss),
+        view: api.View ?? new View());
+        SiteUtilities.UpdateApiCount(context: context, ss: ss);
+        return ApiResults.Get(
+            statusCode: 200,
+            limitPerDate: Parameters.Api.LimitPerSite,
+            limitRemaining: Parameters.Api.LimitPerSite - ss.ApiCount,
+            response: new
+            {
+                Name = ExportUtilities.FileName(
+                    context: context,
+                    title: ss.Title,
+                    name: export.Name,
+                    extension: export.Type.ToString()),
+                Content = content
+            });
+}

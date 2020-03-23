@@ -1,0 +1,14 @@
+﻿{
+    "Id": "ValidateMaxNumber",
+    "Type": 410,
+    "ClientScript": true,
+    "Languages": [
+        {
+            "Body": "The number entered is too large."
+        },
+        {
+            "Language": "ja",
+            "Body": "入力された数字が大きすぎます。"
+        }
+    ]
+}

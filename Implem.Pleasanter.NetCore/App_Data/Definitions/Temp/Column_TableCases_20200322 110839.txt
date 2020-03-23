@@ -1,0 +1,26 @@
+case "#TableName#":
+    switch (columnName)
+    {
+
+<!--Column_ColumnCases-->
+<!--Column_ItemTitleColumn-->
+
+        default:
+            switch (Def.ExtendedColumnTypes.Get(columnName))
+            {
+                case "Class":
+                case "Num":
+                case "Date":
+                case "Description":
+                case "Check":
+                case "Attachments":
+                    sql.Add(
+                        columnBracket: $"\"{columnName}\"",
+                        tableName: path,
+                        columnName: columnName,
+                        _as: _as);
+                break;
+            }
+            break;
+    }
+    break;

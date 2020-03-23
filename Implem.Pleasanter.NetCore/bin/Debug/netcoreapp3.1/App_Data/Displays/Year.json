@@ -1,0 +1,13 @@
+﻿{
+    "Id": "Year",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Year"
+        },
+        {
+            "Language": "ja",
+            "Body": "年"
+        }
+    ]
+}

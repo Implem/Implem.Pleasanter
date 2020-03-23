@@ -1,0 +1,13 @@
+﻿{
+    "Id": "CorporatePlanning",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Corporate planning"
+        },
+        {
+            "Language": "ja",
+            "Body": "経営企画"
+        }
+    ]
+}

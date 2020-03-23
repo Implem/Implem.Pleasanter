@@ -17,6 +17,7 @@ using Implem.Pleasanter.Libraries.Settings;
 using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Data.Common;
 using System.Linq;
 namespace Implem.Pleasanter.Models
 {
@@ -487,7 +488,10 @@ namespace Implem.Pleasanter.Models
                         context: context,
                         registrationModel: this,
                         otherInitValue: otherInitValue)),
-                new SqlStatement(Def.Sql.IfConflicted.Params(RegistrationId)),
+                new SqlStatement(Def.Sql.IfConflicted.Params(RegistrationId)) {
+                    IfConflicted = true,
+                    Id = RegistrationId
+                },
             };
         }
 
@@ -735,9 +739,18 @@ namespace Implem.Pleasanter.Models
             data.CheckHash?.ForEach(o => Check(
                 columnName: o.Key,
                 value: o.Value));
-            data.AttachmentsHash?.ForEach(o => Attachments(
-                columnName: o.Key,
-                value: o.Value));
+            data.AttachmentsHash?.ForEach(o =>
+            {
+                string columnName = o.Key;
+                Attachments newAttachments = o.Value;
+                Attachments oldAttachments = AttachmentsHash.Get(columnName);
+                if (oldAttachments != null)
+                {
+                    var newGuidSet = new HashSet<string>(newAttachments.Select(x => x.Guid).Distinct());
+                    newAttachments.AddRange(oldAttachments.Where((oldvalue) => !newGuidSet.Contains(oldvalue.Guid)));
+                }
+                Attachments(columnName: columnName, value: newAttachments);
+            });
         }
 
         private void SetBySession(Context context)

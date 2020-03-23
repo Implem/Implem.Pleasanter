@@ -1,0 +1,22 @@
+var fullText = FullText(context, <!--Model_SiteSettingsOnly--><!--Model_SiteSettings_SitesOnly-->, onCreating: true);
+statements = new List<SqlStatement>();
+statements.Add(Rds.UpdateItems(
+    param: Rds.ItemsParam()
+        .Title(Title.DisplayValue)
+        .FullText(fullText, _using: fullText != null)
+        .SearchIndexCreatedTime(DateTime.Now, _using: fullText != null),
+    where: Rds.ItemsWhere().ReferenceId(#ModelName#Id)));
+statements.Add(BinaryUtilities.UpdateReferenceId(
+    context: context,
+    ss: ss,
+    referenceId: #ModelName#Id,
+    values: fullText));
+
+<!--Model_OnCreatedExtendedSqls-->
+
+Repository.ExecuteNonQuery(
+    context: context,
+    transactional: true,
+    statements: statements.ToArray());
+
+<!--Model_GetAfterCreatedExtendedSqls-->

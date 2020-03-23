@@ -1,0 +1,11 @@
+public ErrorData PhysicalDelete(
+    Context context, <!--Model_SiteSettingsParameter-->Sqls.TableTypes tableType = Sqls.TableTypes.Normal)
+{
+    Repository.ExecuteNonQuery(
+        context: context,
+        transactional: true,
+        statements: Rds.PhysicalDelete#TableName#(
+            tableType: tableType,
+            param: Rds.#TableName#Param()<!--Model_AddSqlParamIdentity--><!--Model_AddSqlParamPk-->));
+    return new ErrorData(type: Error.Types.None);
+}

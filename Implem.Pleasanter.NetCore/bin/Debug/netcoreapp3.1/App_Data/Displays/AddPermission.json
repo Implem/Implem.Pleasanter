@@ -1,0 +1,13 @@
+﻿{
+    "Id": "AddPermission",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Add permission"
+        },
+        {
+            "Language": "ja",
+            "Body": "権限追加"
+        }
+    ]
+}

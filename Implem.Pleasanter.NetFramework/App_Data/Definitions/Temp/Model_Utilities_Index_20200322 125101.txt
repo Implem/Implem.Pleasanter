@@ -1,0 +1,404 @@
+public static string Index(Context context, SiteSettings ss)
+{
+    var hb = new HtmlBuilder();
+    var view = Views.GetBySession(
+        context: context,
+        ss: ss);
+    var gridData = GetGridData(
+        context: context,
+        ss: ss,
+        view: view);
+    var viewMode = ViewModes.GetSessionData(
+        context: context,
+        siteId: ss.SiteId);
+    return hb.ViewModeTemplate(
+        context: context,
+        ss: ss,
+        view: view,
+        viewMode: viewMode,
+        viewModeBody: () => hb.Grid(
+           context: context,
+           gridData: gridData,
+           ss: ss,
+           view: view));
+}
+
+private static string ViewModeTemplate(
+    this HtmlBuilder hb,
+    Context context,
+    SiteSettings ss,
+    View view,
+    string viewMode,
+    Action viewModeBody)
+{
+    var invalid = #ModelName#Validators.OnEntry(
+        context: context,
+        ss: ss);
+    switch (invalid.Type)
+    {
+        case Error.Types.None: break;
+        default: return HtmlTemplates.Error(
+            context: context,
+            errorData: invalid);
+    }
+    return hb.Template(
+        context: context,
+        ss: ss,
+        view: view,
+        verType: Versions.VerTypes.Latest,
+        methodType: BaseModel.MethodTypes.Index,
+        siteId: ss.SiteId,
+        parentId: ss.ParentId,
+        referenceType: "#TableName#",
+        script: JavaScripts.ViewMode(viewMode),
+        userScript: ss.ViewModeScripts(context: context),
+        userStyle: ss.ViewModeStyles(context: context),
+        action: () => hb
+            .Form(
+                attributes: new HtmlAttributes()
+                    .Id("MainForm")
+                    .Class("main-form")
+                    .Action(Locations.Action(
+                        context: context,
+                        controller: context.Controller,
+                        id: ss.SiteId)),
+                action: () => hb
+
+<!--Model_Utilities_ViewSelectorField-->
+<!--Model_Utilities_ViewSelectorFieldWithShowHistory-->
+
+                    .ViewFilters(
+                        context: context,
+                        ss: ss,
+                        view: view)
+                    .Aggregations(
+                        context: context,
+                        ss: ss,
+                        view: view)
+                    .Div(id: "ViewModeContainer", action: () => viewModeBody())
+                    .MainCommands(
+                        context: context,
+                        ss: ss,
+                        verType: Versions.VerTypes.Latest,
+                        backButton: !context.Publish)
+                    .Div(css: "margin-bottom")
+                    .Hidden(
+                        controlId: "TableName",
+                        value: "#TableName#")
+                    .Hidden(
+                        controlId: "BaseUrl",
+                        value: Locations.BaseUrl(context: context))
+                    .Hidden(
+                        controlId: "EditOnGrid",
+                        css: "always-send",
+                        value: context.Forms.Data("EditOnGrid"))
+                    .Hidden(
+                        controlId: "NewRowId",
+                        css: "always-send",
+                        value: context.Forms.Data("NewRowId")))
+
+<!--Model_Utilities_EditorDialog-->
+<!--Model_Utilities_DropDownSearchDialog-->
+
+            .MoveDialog(context: context, bulk: true)
+
+<!--Model_Utilities_ImportSettings-->
+<!--Model_Utilities_SetNumericRangeDialog-->
+<!--Model_Utilities_SetDateRangeDialog-->
+
+            .Div(attributes: new HtmlAttributes()
+                .Id("ExportSelectorDialog")
+                .Class("dialog")
+                .Title(Displays.Export(context: context)))
+            .Div(attributes: new HtmlAttributes()
+                .Id("ExportSitePackageDialog")
+                .Class("dialog")
+                .Title(Displays.ExportSitePackage(context: context)))
+            .Div(attributes: new HtmlAttributes()
+                .Id("BulkUpdateSelectorDialog")
+                .Class("dialog")
+                .Title(Displays.BulkUpdate(context: context))))
+            .ToString();
+}
+
+public static string IndexJson(Context context, SiteSettings ss)
+{
+    var view = Views.GetBySession(context: context, ss: ss);
+    var gridData = GetGridData(context: context, ss: ss, view: view);
+    return new ResponseCollection()
+        .ViewMode(
+            context: context,
+            ss: ss,
+            view: view,
+            invoke: "setGrid",
+            editOnGrid: context.Forms.Bool("EditOnGrid"),
+            body: new HtmlBuilder()
+                .Grid(
+                    context: context,
+                    ss: ss,
+                    gridData: gridData,
+                    view: view))
+        .Events("on_grid_load")
+        .ToJson();
+}
+
+private static GridData GetGridData(
+    Context context, SiteSettings ss, View view, int offset = 0)
+{
+    ss.SetColumnAccessControls(context: context);
+    return new GridData(
+        context: context,
+        ss: ss,
+        view: view,
+
+<!--Model_Utilities_WhereTenantId-->
+
+        offset: offset,
+        pageSize: ss.GridPageSize.ToInt());
+}
+
+private static HtmlBuilder Grid(
+    this HtmlBuilder hb,
+    Context context,
+    SiteSettings ss,
+    GridData gridData,
+    View view,
+    string action = "GridRows")
+{
+    var columns = ss.GetGridColumns(
+        context: context,
+        view: view,
+        checkPermission: true);
+    return hb
+        .Table(
+            attributes: new HtmlAttributes()
+                .Id("Grid")
+                .Class(ss.GridCss(context: context))
+                .DataValue("back", _using: ss?.IntegratedSites?.Any() == true)
+                .DataAction(action)
+                .DataMethod("post"),
+            action: () => hb
+                .GridRows(
+                    context: context,
+                    ss: ss,
+                    gridData: gridData,
+                    columns: columns,
+                    view: view,
+
+<!--Model_Utilities_SetEditRowParameterByContext-->
+
+                    action: action))
+        .GridHeaderMenus(
+            context: context,
+            ss: ss,
+            view: view,
+            columns: columns)
+        .Hidden(
+            controlId: "GridOffset",
+            value: ss.GridNextOffset(
+                0,
+                gridData.DataRows.Count(),
+                gridData.TotalCount)
+                    .ToString())
+        .Hidden(
+            controlId: "GridRowIds",
+            value: gridData.DataRows.Select(g => g.Long("#ModelName#Id")).ToJson())
+        .Hidden(
+            controlId: "GridColumns",
+            value: columns.Select(o => o.ColumnName).ToJson())
+        .Button(
+            controlId: "ViewSorters_Reset",
+            controlCss: "hidden",
+            action: action,
+            method: "post");
+}
+
+public static string GridRows(
+    Context context,
+    SiteSettings ss,
+    ResponseCollection res = null,
+    int offset = 0,
+    bool clearCheck = false,
+    string action = "GridRows",
+    Message message = null)
+{
+    var view = Views.GetBySession(context: context, ss: ss);
+    var gridData = GetGridData(
+        context: context,
+        ss: ss,
+        view: view,
+        offset: offset);
+    var columns = ss.GetGridColumns(
+        context: context,
+        view: view,
+        checkPermission: true);
+
+<!--Model_Utilities_GridNewRowParameters-->
+
+    return (res ?? new ResponseCollection())
+        .Remove(".grid tr", _using: offset == 0)
+        .ClearFormData("GridOffset")
+        .ClearFormData("GridCheckAll", _using: clearCheck)
+        .ClearFormData("GridUnCheckedItems", _using: clearCheck)
+        .ClearFormData("GridCheckedItems", _using: clearCheck)
+
+<!--Model_Utilities_ClearOriginalId-->
+
+        .CloseDialog()
+        .ReplaceAll("#CopyDirectUrlToClipboard", new HtmlBuilder()
+            .CopyDirectUrlToClipboard(
+                context: context,
+                view: view))
+        .ReplaceAll(
+            "#Aggregations",
+            new HtmlBuilder().Aggregations(
+                context: context,
+                ss: ss,
+                view: view),
+            _using: offset == 0)
+        .ReplaceAll(
+            "#ViewFilters",
+            new HtmlBuilder()
+                .ViewFilters(
+                    context: context,
+                    ss: ss,
+                    view: view),
+            _using: context.Forms.ControlId().StartsWith("ViewFiltersOnGridHeader__"))
+        .Append("#Grid", new HtmlBuilder().GridRows(
+            context: context,
+            ss: ss,
+            gridData: gridData,
+            columns: columns,
+            view: view,
+
+<!--Model_Utilities_SetNewRowParameters-->
+
+            offset: offset,
+            clearCheck: clearCheck,
+            action: action))
+
+<!--Model_Utilities_NewRowVal-->
+
+        .Val("#GridOffset", ss.GridNextOffset(
+            offset,
+            gridData.DataRows.Count(),
+            gridData.TotalCount))
+        .Val("#GridRowIds", gridData.DataRows.Select(g => g.Long("#ModelName#Id")).ToJson())
+        .Val("#GridColumns", columns.Select(o => o.ColumnName).ToJson())
+        .Paging("#Grid")
+        .Message(message)
+        .ToJson();
+}
+
+private static HtmlBuilder GridRows(
+    this HtmlBuilder hb,
+    Context context,
+    SiteSettings ss,
+    GridData gridData,
+    List<Column> columns,
+    View view,
+
+<!--Model_Utilities_NewRowParameters-->
+
+    int offset = 0,
+    bool clearCheck = false,
+    string action = "GridRows")
+{
+    var checkRow = !ss.GridColumnsHasSources();
+    var checkAll = clearCheck
+        ? false
+        : context.Forms.Bool("GridCheckAll");
+
+<!--Model_Utilities_GetFormDataSet-->
+
+    return hb
+        .THead(
+            _using: offset == 0,
+            action: () => hb
+                .GridHeader(
+                    context: context,
+                    ss: ss,
+                    columns: columns, 
+                    view: view,
+
+<!--Model_Utilities_Index_NoSort-->
+<!--Model_Utilities_SetEditRowParameter (Indent = 7) -->
+
+                    checkRow: checkRow,
+                    checkAll: checkAll,
+                    action: action))
+        .TBody(action: () => hb
+
+<!--Model_Utilities_ExecGridNewRows-->
+
+            .GridRows(
+                context: context,
+                ss: ss,
+                dataRows: gridData.DataRows,
+                columns: columns,
+
+<!--Model_Utilities_FormDataSet-->
+
+                gridSelector: null,
+
+<!--Model_Utilities_SetEditRowParameter-->
+
+                checkRow: checkRow));
+}
+
+<!--Model_Utilities_GridNewRows-->
+<!--Model_Utilities_GridCopyRowFormData-->
+
+private static SqlWhereCollection SelectedWhere(
+    Context context, SiteSettings ss)
+{
+    var selector = new GridSelector(context: context);
+    return !selector.Nothing
+        ? Rds.#TableName#Where().#ModelName#Id_In(
+            value: selector.Selected.Select(o => o#CastIdType#),
+            negative: selector.All)
+        : null;
+}
+
+public static string ReloadRow(Context context, SiteSettings ss, long #modelName#Id)
+{
+    ss.SetColumnAccessControls(context: context);
+    var view = Views.GetBySession(
+        context: context,
+        ss: ss);
+    var dataRow = new GridData(
+        context: context,
+        ss: ss,
+        view: view,
+        tableType: Sqls.TableTypes.Normal,
+        where: Rds.#TableName#Where().#ModelName#Id(#modelName#Id))
+            .DataRows
+            .FirstOrDefault();
+    var res = ItemUtilities.ClearItemDataResponse(
+        context: context,
+        ss: ss,
+        id: #modelName#Id);
+    return dataRow == null
+        ? res
+            .Remove($"[data-id=\"{#modelName#Id}\"][data-latest]")
+            .Message(
+                message: Messages.NotFound(context: context),
+                target: "row_" + #modelName#Id)
+            .ToJson()
+        : res
+            .ReplaceAll(
+                $"[data-id=\"{dataRow.Long("#ModelName#Id")}\"][data-latest]",
+                new HtmlBuilder().Tr(
+                    context: context,
+                    ss: ss,
+                    dataRow: dataRow,
+                    columns: ss.GetGridColumns(
+                        context: context,
+                        view: view,
+                        checkPermission: true),
+                    gridSelector: null,
+                    editRow: true,
+                    checkRow: false,
+                    idColumn: "#ModelName#Id"))
+            .ToJson();
+}

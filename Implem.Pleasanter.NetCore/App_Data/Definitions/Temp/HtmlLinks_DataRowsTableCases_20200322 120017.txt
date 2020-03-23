@@ -1,0 +1,10 @@
+case "#TableName#":
+    return Repository.ExecuteTable(
+        context: context,
+        statements: Select#TableName#(
+            context: context,
+            ss: ss,
+            view: view,
+            id: id,
+            direction: direction))
+                .AsEnumerable();

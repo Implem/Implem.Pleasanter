@@ -1,0 +1,409 @@
+using Implem.IRds;
+using Implem.Libraries.Classes;
+using Implem.Libraries.DataSources.SqlServer;
+using Implem.Libraries.Utilities;
+using System;
+using System.Collections;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+namespace Implem.DefinitionAccessor
+{
+    public static class Def
+    {
+        public static Dictionary<string, string> ExtendedColumnTypes = new Dictionary<string, string>();
+
+        public static bool ExistsModel(
+            string modelName,
+            Func<ColumnDefinition, bool> peredicate = null)
+        {
+            return ColumnDefinitionCollection
+                .Where(o => o.ModelName == modelName)
+                .Where(peredicate.IsNullCaseToTrue())
+                .Any();
+        }
+
+        public static bool ExistsTable(
+            string tableName,
+            Func<ColumnDefinition,
+            bool> peredicate = null)
+        {
+            return ColumnDefinitionCollection
+                .Where(o => o.TableName == tableName)
+                .Where(peredicate.IsNullCaseToTrue())
+                .Any();
+        }
+
+        public static bool ExistsColumnBase(
+            Func<ColumnDefinition, bool> peredicate = null)
+        {
+            return ColumnDefinitionCollection
+                .Where(o => o.ModelName == "_Base")
+                .Where(peredicate.IsNullCaseToTrue())
+                .Any();
+        }
+
+        public static bool ExistsColumnBaseItem(
+            Func<ColumnDefinition, bool> peredicate = null)
+        {
+            return ColumnDefinitionCollection
+                .Where(o => o.ModelName.StartsWith("_Base"))
+                .Where(peredicate.IsNullCaseToTrue())
+                .Where(o => ColumnDefinitionCollection
+                    .Where(p => p.ModelName.StartsWith("_Base"))
+                    .Where(p =>
+                        p.ColumnName == o.ColumnName).Count() == 1 ||
+                        o.ModelName == "_BaseItem").Any();
+        }
+
+        public static IEnumerable<string> ModelNameCollection(
+            Func<ColumnDefinition, bool> peredicate = null,
+            string order = "")
+        {
+            return ColumnDefinitionCollection
+                .Where(o => !o.ModelName.StartsWith("_Base"))
+                .Where(peredicate.IsNullCaseToTrue())
+                .OrderBy(o => o[Strings.CoalesceEmpty(order, "No")])
+                .Select(o => o.ModelName)
+                .Distinct();
+        }
+
+        public static List<string> ItemModelNameCollection(
+            Func<ColumnDefinition, bool> peredicate = null,
+            string order = "")
+        {
+            return ColumnDefinitionCollection
+                .Where(o => !o.ModelName.StartsWith("_Base"))
+                .Where(o => o.ItemId > 0)
+                .Where(peredicate.IsNullCaseToTrue())
+                .OrderBy(o => o[Strings.CoalesceEmpty(order, "No")])
+                .Select(o => o.ModelName)
+                .Distinct()
+                .ToList<string>();
+        }
+
+        public static IEnumerable<string> TableNameCollection(
+            Func<ColumnDefinition, bool> peredicate = null,
+            string order = "")
+        {
+            return ColumnDefinitionCollection
+                .Where(o => !o.ModelName.StartsWith("_Base"))
+                .Where(peredicate.IsNullCaseToTrue())
+                .OrderBy(o => o[Strings.CoalesceEmpty(order, "No")])
+                .Select(o => o.TableName)
+                .Distinct();
+        }
+
+        public static List<string> ItemTableNameCollection(
+            Func<ColumnDefinition, bool> peredicate = null,
+            string order = "")
+        {
+            return ColumnDefinitionCollection
+                .Where(o => !o.ModelName.StartsWith("_Base"))
+                .Where(o => o.ItemId > 0)
+                .Where(peredicate.IsNullCaseToTrue())
+                .OrderBy(o => o[Strings.CoalesceEmpty(order, "No")])
+                .Select(o => o.TableName)
+                .Distinct()
+                .ToList<string>();
+        }
+
+        public static string TableNameByModelName(string modelName)
+        {
+            return ColumnDefinitionCollection
+                .Where(o => o.ModelName == modelName)
+                .Select(o => o.TableName)
+                .FirstOrDefault();
+        }
+
+        public static string ModelNameByTableName(string tableName)
+        {
+            return ColumnDefinitionCollection
+                .Where(o => o.TableName.ToLower() == tableName.ToLower())
+                .Select(o => o.ModelName)
+                .FirstOrDefault();
+        }
+
+        public static IEnumerable<ColumnDefinition> BaseColumnDefinitionCollection(
+            Func<ColumnDefinition, bool> peredicate = null,
+            string order = "")
+        {
+            return ColumnDefinitionCollection
+                .Where(o => o.ModelName == "_Base")
+                .Where(peredicate.IsNullCaseToTrue())
+                .OrderBy(o => o[Strings.CoalesceEmpty(order, "No")]);
+        }
+
+        public static IEnumerable<ColumnDefinition> BaseItemColumnDefinitionCollection(
+            Func<ColumnDefinition, bool> peredicate = null,
+            string order = "")
+        {
+            return ColumnDefinitionCollection
+                .Where(o => o.ModelName == "_BaseItem")
+                .Where(peredicate.IsNullCaseToTrue())
+                .OrderBy(o => o[Strings.CoalesceEmpty(order, "No")])
+                .Where(o => !ExistsColumnBase(p => p.ColumnName == o.ColumnName));
+        }
+
+        public static SqlIo SqlIoBySa(
+            ISqlObjectFactory factory,
+            RdsUser rdsUser = null,
+            bool transactional = false,
+            bool selectIdentity = false,
+            bool writeSqlToDebugLog = true,
+            string initialCatalog = null,
+            params SqlStatement[] statements)
+        {
+            var connectionString = Parameters.Rds.SaConnectionString;
+            if (!string.IsNullOrEmpty(initialCatalog))
+            {
+                var builder = factory.CreateSqlConnectionStringBuilder(connectionString);
+                builder.InitialCatalog = initialCatalog;
+                connectionString = builder.ConnectionString;
+            }
+            return new SqlIo(
+                factory: factory,
+                sqlContainer: CommandContainer(
+                    connectionString: connectionString,
+                    rdsUser: rdsUser,
+                    transactional: transactional,
+                    selectIdentity: selectIdentity,
+                    writeSqlToDebugLog: writeSqlToDebugLog,
+                    statements: statements));
+        }
+
+        public static SqlIo SqlIoByAdmin(
+            ISqlObjectFactory factory,
+            RdsUser rdsUser = null,
+            bool transactional = false,
+            bool selectIdentity = false,
+            bool writeSqlToDebugLog = true,
+            params SqlStatement[] statements)
+        {
+            return new SqlIo(
+                factory: factory,
+                sqlContainer: CommandContainer(
+                    connectionString: Parameters.Rds.OwnerConnectionString,
+                    rdsUser: rdsUser,
+                    transactional: transactional,
+                    writeSqlToDebugLog: writeSqlToDebugLog,
+                    statements: statements));
+        }
+
+        public static SqlIo SqlIoByUser(
+            ISqlObjectFactory factory,
+            string connectionString = null,
+            RdsUser rdsUser = null,
+            bool transactional = false,
+            bool selectIdentity = false,
+            bool writeSqlToDebugLog = true,
+            params SqlStatement[] statements)
+        {
+            return new SqlIo(
+                factory: factory,
+                sqlContainer: CommandContainer(
+                    connectionString: !connectionString.IsNullOrEmpty()
+                    ? connectionString
+                    : Parameters.Rds.UserConnectionString,
+                    rdsUser: rdsUser,
+                    transactional: transactional,
+                    selectIdentity: selectIdentity,
+                    writeSqlToDebugLog: writeSqlToDebugLog,
+                    statements: statements));
+        }
+
+        private static SqlContainer CommandContainer(
+            string connectionString,
+            RdsUser rdsUser = null,
+            bool transactional = false,
+            bool selectIdentity = false,
+            bool writeSqlToDebugLog = true,
+            params SqlStatement[] statements)
+        {
+            return new SqlContainer
+            {
+                RdsUser = rdsUser ?? new RdsUser(RdsUser.UserTypes.System),
+                RdsName = Environments.ServiceName,
+                RdsProvider = Environments.RdsProvider,
+                ConnectionString = connectionString,
+                SqlStatementCollection = SqlStatementCollection(statements),
+                CommandTimeOut = Parameters.Rds.SqlCommandTimeOut,
+                Transactional = transactional,
+                SelectIdentity = selectIdentity,
+                WriteSqlToDebugLog = writeSqlToDebugLog
+            };
+        }
+
+        private static List<SqlStatement> SqlStatementCollection(
+            params SqlStatement[] statements)
+        {
+            return statements == null
+                ? new List<SqlStatement>()
+                : statements.Where(o => o != null).ToList();
+        }
+
+        public static Func<ColumnDefinition, bool> IsNullCaseToTrue(
+            this Func<ColumnDefinition, bool> peredicate)
+        {
+            return peredicate != null
+                ? peredicate
+                : (o) => true;
+        }
+
+<!--Def_FileDefinition-->
+<!--Def_SetDefinitionOption-->
+
+        private static void SetExtendedColumnDefinitions(
+            List<Dictionary<string, string>> definitionRows)
+        {
+            var tableNames = new List<string>()
+            {
+                "Depts",
+                "Users",
+                "Issues",
+                "Results"
+            };
+            var types = new List<string>()
+            {
+                "Class",
+                "Num",
+                "Date",
+                "Description",
+                "Check",
+                "Attachments"
+            };
+            var suffixes = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+            tableNames.ForEach(tableName =>
+            {
+                types.ForEach(type =>
+                {
+                    suffixes
+                        .Where(suffix => !DisabledColumns(
+                            tableName: tableName,
+                            type: type,
+                            suffix: suffix))
+                        .ForEach(suffix =>
+                        {
+                            definitionRows.Add(ColumnDefinition(
+                                tableName: tableName,
+                                type: type,
+                                suffix: suffix.ToString()));
+                            ExtendedColumnTypes.AddIfNotConainsKey(
+                                key: type + suffix,
+                                value: type);
+                        });
+                });
+            });
+        }
+
+        private static bool DisabledColumns(string tableName, string type, char suffix)
+        {
+            return Parameters.CommercialLicense()
+                ? Parameters.ExtendedColumnsSet.Any(o =>
+                    o.TableName == tableName
+                    && o.DisabledColumns?.Contains(type + suffix) == true)
+                : false;
+        }
+
+        private static void SetExtendedColumns(
+            List<Dictionary<string, string>> definitionRows)
+        {
+            Parameters.ExtendedColumnsSet.ForEach(extendedColumns =>
+            {
+                var data = new Dictionary<string, int>
+                {
+                    { "Class", extendedColumns.Class },
+                    { "Num", extendedColumns.Num },
+                    { "Date", extendedColumns.Date },
+                    { "Description", extendedColumns.Description },
+                    { "Check", extendedColumns.Check },
+                    { "Attachments", extendedColumns.Attachments }
+                };
+                data.ForEach(part =>
+                {
+                    for (var i = 1; i <= part.Value; i++)
+                    {
+                        var suffix = string.Format("{0:D3}", i);
+                        definitionRows.Add(ColumnDefinition(
+                            tableName: extendedColumns.TableName,
+                            type: part.Key,
+                            suffix: suffix));
+                        ExtendedColumnTypes.AddIfNotConainsKey(
+                            key: part.Key + suffix,
+                            value: part.Key);
+                    }
+                });
+            });
+        }
+
+        private static Dictionary<string, string> ColumnDefinition(
+            string tableName,
+            string type,
+            string suffix)
+        {
+            var columnDefinition = ColumnDefinitionDefault(type: type);
+            var columnName = type + suffix;
+            columnDefinition.Add("Id", $"{tableName}_{columnName}");
+            switch (tableName)
+            {
+                case "Depts":
+                    columnDefinition.Add("ModelName", "Dept");
+                    break;
+                case "Users":
+                    columnDefinition.Add("ModelName", "User");
+                    break;
+                case "Issues":
+                    columnDefinition.Add("ModelName", "Issue");
+                    break;
+                case "Results":
+                    columnDefinition.Add("ModelName", "Result");
+                    break;
+            }
+            columnDefinition.Add("TableName", tableName);
+            columnDefinition.Add("ColumnName", columnName);
+            columnDefinition["LabelText"] = columnDefinition.Get("LabelText") + suffix;
+            return columnDefinition;
+        }
+
+        private static Dictionary<string, string> ColumnDefinitionDefault(string type)
+        {
+            var columnDefinition = Parameters.ExtendedColumnDefinitions
+                .Get(type)
+                .Deserialize<Dictionary<string, string>>();
+            switch (type)
+            {
+                case "Class":
+                    break;
+                case "Num":
+                    columnDefinition.AddIfNotConainsKey(
+                        "ByForm",
+                        "ss.GetColumn(context: context, columnName: \"#ColumnName#\").Round(value.ToDecimal(context.CultureInfo()))");
+                    columnDefinition.AddIfNotConainsKey(
+                        "ByApi",
+                        "ss.GetColumn(context: context, columnName: \"#ColumnName#\").Round(data.#ColumnName#.ToDecimal())");
+                    break;
+                case "Date":
+                    break;
+                case "Description":
+                    break;
+                case "Check":
+                    break;
+                case "Attachments":
+                    columnDefinition.AddIfNotConainsKey(
+                        "RecordingData",
+                        ".RecordingJson()");
+                    columnDefinition.AddIfNotConainsKey(
+                        "ByForm",
+                        "value.Deserialize<Attachments>()");
+                    columnDefinition.AddIfNotConainsKey(
+                        "ByDataRow",
+                        "dataRow.String(column.ColumnName).Deserialize<Attachments>() ?? new Attachments()");
+                    break;
+            }
+            return columnDefinition;
+        }
+    }
+
+<!--Def_DefinitionClass-->
+
+}

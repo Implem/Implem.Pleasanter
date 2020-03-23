@@ -1,0 +1,11 @@
+case "#TableName#":
+    switch (column.Name)
+    {
+
+<!--Rds_ColumnBracketColumnCases-->
+
+        default: 
+            return Def.ExtendedColumnTypes.ContainsKey(column.Name)
+                ? $"[{column.Name}]"
+                : null;
+    }

@@ -1,0 +1,14 @@
+public static SqlStatement #TableName#CopyToStatement(SqlWhereCollection where, Sqls.TableTypes tableType, List<String> columnNames)
+{
+    var column = new #TableName#ColumnCollection();
+    var param = new #TableName#ParamCollection();
+
+<!--Rds_CopyToStatementColums-->
+<!--Rds_CopyToStatementColums_Extended-->
+
+    return Insert#TableName#(
+        tableType: tableType,
+        param: param,
+        select: Select#TableName#(column: column, where: where),
+        addUpdatorParam: false);
+}

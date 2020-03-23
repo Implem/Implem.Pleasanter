@@ -1335,7 +1335,7 @@ namespace Implem.Pleasanter.Models
             }
             catch (DbException e)
             {
-                if (context.SqlErrors.ErrorCode(e) == 2601)
+                if (context.SqlErrors.ErrorCode(e) == context.SqlErrors.ErrorCodeDuplicateKey)
                 {
                     return new ErrorData(type: Error.Types.LoginIdAlreadyUse);
                 }
@@ -1408,9 +1408,9 @@ namespace Implem.Pleasanter.Models
                         context: context,
                         userModel: this,
                         otherInitValue: otherInitValue)),
-                new SqlStatement(Def.Sql.IfConflicted.Params(UserId))
-                {
-                    IfConflicted = true
+                new SqlStatement(Def.Sql.IfConflicted.Params(UserId)) {
+                    IfConflicted = true,
+                    Id = UserId
                 },
                 StatusUtilities.UpdateStatus(
                     tenantId: context.TenantId,
@@ -1715,9 +1715,18 @@ namespace Implem.Pleasanter.Models
             data.CheckHash?.ForEach(o => Check(
                 columnName: o.Key,
                 value: o.Value));
-            data.AttachmentsHash?.ForEach(o => Attachments(
-                columnName: o.Key,
-                value: o.Value));
+            data.AttachmentsHash?.ForEach(o =>
+            {
+                string columnName = o.Key;
+                Attachments newAttachments = o.Value;
+                Attachments oldAttachments = AttachmentsHash.Get(columnName);
+                if (oldAttachments != null)
+                {
+                    var newGuidSet = new HashSet<string>(newAttachments.Select(x => x.Guid).Distinct());
+                    newAttachments.AddRange(oldAttachments.Where((oldvalue) => !newGuidSet.Contains(oldvalue.Guid)));
+                }
+                Attachments(columnName: columnName, value: newAttachments);
+            });
         }
 
         private void SetBySession(Context context)

@@ -26,10 +26,10 @@ C:\Implem\PleasanterYakushi\Implem.CodeDefiner.NetCore\bin\Debug\netcoreapp2.2\I
 C:\Implem\PleasanterYakushi\Implem.CodeDefiner.NetCore\bin\Debug\netcoreapp2.2\Implem.PostgreSql.pdb
 C:\Implem\PleasanterYakushi\Implem.CodeDefiner.NetCore\bin\Debug\netcoreapp2.2\Implem.SqlServer.pdb
 C:\Implem\PleasanterYakushi\Implem.CodeDefiner.NetCore\obj\Debug\netcoreapp2.2\Implem.CodeDefiner.NetCore.csprojAssemblyReference.cache
+C:\Implem\PleasanterYakushi\Implem.CodeDefiner.NetCore\obj\Debug\netcoreapp2.2\Implem.CodeDefiner.NetCore.csproj.CoreCompileInputs.cache
 C:\Implem\PleasanterYakushi\Implem.CodeDefiner.NetCore\obj\Debug\netcoreapp2.2\Implem.CodeDefiner.NetCore.AssemblyInfoInputs.cache
 C:\Implem\PleasanterYakushi\Implem.CodeDefiner.NetCore\obj\Debug\netcoreapp2.2\Implem.CodeDefiner.NetCore.AssemblyInfo.cs
 C:\Implem\PleasanterYakushi\Implem.CodeDefiner.NetCore\obj\Debug\netcoreapp2.2\Implem.CodeDefiner.NetCore.csproj.CopyComplete
 C:\Implem\PleasanterYakushi\Implem.CodeDefiner.NetCore\obj\Debug\netcoreapp2.2\Implem.CodeDefiner.NetCore.dll
 C:\Implem\PleasanterYakushi\Implem.CodeDefiner.NetCore\obj\Debug\netcoreapp2.2\Implem.CodeDefiner.NetCore.pdb
-C:\Implem\PleasanterYakushi\Implem.CodeDefiner.NetCore\obj\Debug\netcoreapp2.2\Implem.CodeDefiner.NetCore.csproj.CoreCompileInputs.cache
 C:\Implem\PleasanterYakushi\Implem.CodeDefiner.NetCore\obj\Debug\netcoreapp2.2\Implem.CodeDefiner.NetCore.genruntimeconfig.cache

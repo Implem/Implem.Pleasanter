@@ -1,0 +1,41 @@
+public static SqlSelect Select#TableName#(
+    string dataTableName = null,
+    Sqls.TableTypes tableType = Sqls.TableTypes.Normal,
+    string _as = null,
+    SqlColumnCollection column = null,
+    SqlJoinCollection join = null,
+    SqlWhereCollection where = null,
+    SqlGroupByCollection groupBy = null,
+    SqlHavingCollection having = null,
+    SqlOrderByCollection orderBy = null,
+    SqlParamCollection param = null,
+    bool distinct = false,
+    int top = 0,
+    int offset = 0,
+    int pageSize = 0,
+    Sqls.UnionTypes unionType = Sqls.UnionTypes.None,
+    bool _using = true)
+{
+    return new SqlSelect
+    {
+        DataTableName = dataTableName,
+        TableType = tableType,
+        TableBracket = "\"#TableName#\"",
+        HistoryTableBracket = "\"#TableName#_history\"",
+        DeletedTableBracket = "\"#TableName#_deleted\"",
+        As = _as,
+        SqlColumnCollection = column,
+        SqlJoinCollection = join,
+        SqlWhereCollection = where,
+        SqlGroupByCollection = groupBy,
+        SqlHavingCollection = having,
+        SqlOrderByCollection = orderBy,
+        SqlParamCollection = param,
+        Distinct = distinct,
+        Top = top,
+        Offset = offset,
+        PageSize = pageSize,
+        UnionType = unionType,
+        Using = _using
+    };
+}

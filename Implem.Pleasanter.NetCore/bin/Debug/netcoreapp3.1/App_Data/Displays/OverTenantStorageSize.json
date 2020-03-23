@@ -1,0 +1,13 @@
+﻿{
+    "Id": "OverTenantStorageSize",
+    "Type": 240,
+    "Languages": [
+        {
+            "Body": "This operation can not be executed because the disk usage exceeds {0} Gbytes."
+        },
+        {
+            "Language": "ja",
+            "Body": "ご利用可能なストレージ容量{0}Gbyteを超過するため、この操作は行なえません。"
+        }
+    ]
+}

@@ -17,6 +17,7 @@ using Implem.Pleasanter.Libraries.Settings;
 using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Data.Common;
 using System.Linq;
 namespace Implem.Pleasanter.Models
 {
@@ -331,9 +332,9 @@ namespace Implem.Pleasanter.Models
                         context: context,
                         demoModel: this,
                         otherInitValue: otherInitValue)),
-                new SqlStatement(Def.Sql.IfConflicted.Params(DemoId))
-                {
-                    IfConflicted = true
+                new SqlStatement(Def.Sql.IfConflicted.Params(DemoId)) {
+                    IfConflicted = true,
+                    Id = DemoId
                 }
             };
         }

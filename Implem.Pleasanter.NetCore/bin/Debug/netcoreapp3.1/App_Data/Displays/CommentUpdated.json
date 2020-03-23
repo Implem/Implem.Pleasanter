@@ -1,0 +1,13 @@
+﻿{
+    "Id": "CommentUpdated",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Updated"
+        },
+        {
+            "Language": "ja",
+            "Body": "更新"
+        }
+    ]
+}

@@ -1,12 +1,10 @@
 ﻿using Implem.DefinitionAccessor;
 using Implem.IRds;
-using Implem.Libraries.Classes;
 using Implem.Libraries.DataSources.SqlServer;
 using Implem.Libraries.Utilities;
 using Implem.ParameterAccessor.Parts;
 using Implem.Pleasanter.Libraries.Extensions;
 using Implem.Pleasanter.Libraries.Requests;
-using Implem.Pleasanter.Libraries.Server;
 using Implem.Pleasanter.Libraries.Settings;
 using Implem.Pleasanter.Models;
 using System;
@@ -36,7 +34,10 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     writeSqlToDebugLog: writeSqlToDebugLog,
                     statements: statements))
                 {
-                    return io.ExecuteNonQuery(factory: context, dbTransaction: dbTransaction, dbConnection: dbConnection);
+                    return io.ExecuteNonQuery(
+                        factory: context,
+                        dbTransaction: dbTransaction,
+                        dbConnection: dbConnection);
                 }
             }
             return 0;
@@ -783,7 +784,9 @@ namespace Implem.Pleasanter.Libraries.DataSources
         {
             if (column != null)
             {
-                sqlColumn.Add(context: context, column: column);
+                sqlColumn.Add(
+                    context: context,
+                    column: column);
                 var link = column.SiteSettings.Links
                     .Where(o => ss.JoinedSsHash.ContainsKey(o.SiteId))
                     .FirstOrDefault(o => o.ColumnName == column.Name);
@@ -828,18 +831,19 @@ namespace Implem.Pleasanter.Libraries.DataSources
             return groupBy;
         }
 
-        public static SqlOrderByCollection Add(
-            this SqlOrderByCollection self,
-            SiteSettings ss,
+        public static SqlColumnCollection Add(
+            this SqlColumnCollection self,
             Column column,
-            SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
+            string _as = null,
+            Sqls.Functions function = Sqls.Functions.None,
             bool _using = true)
         {
-            return _using
+            return column != null && _using
                 ? self.Add(
-                    tableName: column.TableName(),
-                    columnBracket: ColumnBracket(column),
-                    orderType: orderType)
+                   tableName: column.TableName(),
+                   columnBracket: ColumnBracket(column),
+                   _as: _as ?? column.ColumnName,
+                   function: function)
                 : self;
         }
 
@@ -870,6 +874,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                         case "ContractSettings": return "\"ContractSettings\"";
                         case "ContractDeadline": return "\"ContractDeadline\"";
                         case "DisableAllUsersPermission": return "\"DisableAllUsersPermission\"";
+                        case "DisableStartGuide": return "\"DisableStartGuide\"";
                         case "LogoType": return "\"LogoType\"";
                         case "HtmlTitleTop": return "\"HtmlTitleTop\"";
                         case "HtmlTitleSite": return "\"HtmlTitleSite\"";
@@ -1563,6 +1568,11 @@ namespace Implem.Pleasanter.Libraries.DataSources
                                 function: function);
                         case "DisableAllUsersPermission":
                             return self.Tenants_DisableAllUsersPermission(
+                                tableName: column.TableName(),
+                                orderType: orderType,
+                                function: function);
+                        case "DisableStartGuide":
+                            return self.Tenants_DisableStartGuide(
                                 tableName: column.TableName(),
                                 orderType: orderType,
                                 function: function);
@@ -5521,18 +5531,26 @@ namespace Implem.Pleasanter.Libraries.DataSources
             };
         }
 
-        public static SqlStatement IdentityInsertDemos(bool on)
+        public static SqlStatement IdentityInsertDemos(
+            ISqlObjectFactory factory,
+            bool on)
         {
             return on
-                ? new SqlStatement("set identity_insert \"Demos\" on;")
-                : new SqlStatement("set identity_insert \"Demos\" off;");
+                ? new SqlStatement(factory.SqlCommandText.CreateIdentityInsert(
+                    template: "set identity_insert \"Demos\" on;"))
+                : new SqlStatement(factory.SqlCommandText.CreateIdentityInsert(
+                    template: "set identity_insert \"Demos\" off;"));
         }
 
-        public static SqlStatement IdentityInsertDemos_Deleted(bool on)
+        public static SqlStatement IdentityInsertDemos_Deleted(
+            ISqlObjectFactory factory,
+            bool on)
         {
             return on
-                ? new SqlStatement("set identity_insert \"Demos_Deleted\" on;")
-                : new SqlStatement("set identity_insert \"Demos_Deleted\" off;");
+                ? new SqlStatement(factory.SqlCommandText.CreateIdentityInsert(
+                    template: "set identity_insert \"Demos_Deleted\" on;"))
+                : new SqlStatement(factory.SqlCommandText.CreateIdentityInsert(
+                    template: "set identity_insert \"Demos_Deleted\" off;"));
         }
 
         public static SqlStatement IdentityInsertDemos_History(bool on)
@@ -5568,18 +5586,26 @@ namespace Implem.Pleasanter.Libraries.DataSources
             };
         }
 
-        public static SqlStatement IdentityInsertSessions(bool on)
+        public static SqlStatement IdentityInsertSessions(
+            ISqlObjectFactory factory,
+            bool on)
         {
             return on
-                ? new SqlStatement("set identity_insert \"Sessions\" on;")
-                : new SqlStatement("set identity_insert \"Sessions\" off;");
+                ? new SqlStatement(factory.SqlCommandText.CreateIdentityInsert(
+                    template: "set identity_insert \"Sessions\" on;"))
+                : new SqlStatement(factory.SqlCommandText.CreateIdentityInsert(
+                    template: "set identity_insert \"Sessions\" off;"));
         }
 
-        public static SqlStatement IdentityInsertSessions_Deleted(bool on)
+        public static SqlStatement IdentityInsertSessions_Deleted(
+            ISqlObjectFactory factory,
+            bool on)
         {
             return on
-                ? new SqlStatement("set identity_insert \"Sessions_Deleted\" on;")
-                : new SqlStatement("set identity_insert \"Sessions_Deleted\" off;");
+                ? new SqlStatement(factory.SqlCommandText.CreateIdentityInsert(
+                    template: "set identity_insert \"Sessions_Deleted\" on;"))
+                : new SqlStatement(factory.SqlCommandText.CreateIdentityInsert(
+                    template: "set identity_insert \"Sessions_Deleted\" off;"));
         }
 
         public static SqlStatement IdentityInsertSessions_History(bool on)
@@ -5616,18 +5642,26 @@ namespace Implem.Pleasanter.Libraries.DataSources
             };
         }
 
-        public static SqlStatement IdentityInsertSysLogs(bool on)
+        public static SqlStatement IdentityInsertSysLogs(
+            ISqlObjectFactory factory,
+            bool on)
         {
             return on
-                ? new SqlStatement("set identity_insert \"SysLogs\" on;")
-                : new SqlStatement("set identity_insert \"SysLogs\" off;");
+                ? new SqlStatement(factory.SqlCommandText.CreateIdentityInsert(
+                    template: "set identity_insert \"SysLogs\" on;"))
+                : new SqlStatement(factory.SqlCommandText.CreateIdentityInsert(
+                    template: "set identity_insert \"SysLogs\" off;"));
         }
 
-        public static SqlStatement IdentityInsertSysLogs_Deleted(bool on)
+        public static SqlStatement IdentityInsertSysLogs_Deleted(
+            ISqlObjectFactory factory,
+            bool on)
         {
             return on
-                ? new SqlStatement("set identity_insert \"SysLogs_Deleted\" on;")
-                : new SqlStatement("set identity_insert \"SysLogs_Deleted\" off;");
+                ? new SqlStatement(factory.SqlCommandText.CreateIdentityInsert(
+                    template: "set identity_insert \"SysLogs_Deleted\" on;"))
+                : new SqlStatement(factory.SqlCommandText.CreateIdentityInsert(
+                    template: "set identity_insert \"SysLogs_Deleted\" off;"));
         }
 
         public static SqlStatement IdentityInsertSysLogs_History(bool on)
@@ -5663,18 +5697,26 @@ namespace Implem.Pleasanter.Libraries.DataSources
             };
         }
 
-        public static SqlStatement IdentityInsertStatuses(bool on)
+        public static SqlStatement IdentityInsertStatuses(
+            ISqlObjectFactory factory,
+            bool on)
         {
             return on
-                ? new SqlStatement("set identity_insert \"Statuses\" on;")
-                : new SqlStatement("set identity_insert \"Statuses\" off;");
+                ? new SqlStatement(factory.SqlCommandText.CreateIdentityInsert(
+                    template: "set identity_insert \"Statuses\" on;"))
+                : new SqlStatement(factory.SqlCommandText.CreateIdentityInsert(
+                    template: "set identity_insert \"Statuses\" off;"));
         }
 
-        public static SqlStatement IdentityInsertStatuses_Deleted(bool on)
+        public static SqlStatement IdentityInsertStatuses_Deleted(
+            ISqlObjectFactory factory,
+            bool on)
         {
             return on
-                ? new SqlStatement("set identity_insert \"Statuses_Deleted\" on;")
-                : new SqlStatement("set identity_insert \"Statuses_Deleted\" off;");
+                ? new SqlStatement(factory.SqlCommandText.CreateIdentityInsert(
+                    template: "set identity_insert \"Statuses_Deleted\" on;"))
+                : new SqlStatement(factory.SqlCommandText.CreateIdentityInsert(
+                    template: "set identity_insert \"Statuses_Deleted\" off;"));
         }
 
         public static SqlStatement IdentityInsertStatuses_History(bool on)
@@ -5710,18 +5752,26 @@ namespace Implem.Pleasanter.Libraries.DataSources
             };
         }
 
-        public static SqlStatement IdentityInsertReminderSchedules(bool on)
+        public static SqlStatement IdentityInsertReminderSchedules(
+            ISqlObjectFactory factory,
+            bool on)
         {
             return on
-                ? new SqlStatement("set identity_insert \"ReminderSchedules\" on;")
-                : new SqlStatement("set identity_insert \"ReminderSchedules\" off;");
+                ? new SqlStatement(factory.SqlCommandText.CreateIdentityInsert(
+                    template: "set identity_insert \"ReminderSchedules\" on;"))
+                : new SqlStatement(factory.SqlCommandText.CreateIdentityInsert(
+                    template: "set identity_insert \"ReminderSchedules\" off;"));
         }
 
-        public static SqlStatement IdentityInsertReminderSchedules_Deleted(bool on)
+        public static SqlStatement IdentityInsertReminderSchedules_Deleted(
+            ISqlObjectFactory factory,
+            bool on)
         {
             return on
-                ? new SqlStatement("set identity_insert \"ReminderSchedules_Deleted\" on;")
-                : new SqlStatement("set identity_insert \"ReminderSchedules_Deleted\" off;");
+                ? new SqlStatement(factory.SqlCommandText.CreateIdentityInsert(
+                    template: "set identity_insert \"ReminderSchedules_Deleted\" on;"))
+                : new SqlStatement(factory.SqlCommandText.CreateIdentityInsert(
+                    template: "set identity_insert \"ReminderSchedules_Deleted\" off;"));
         }
 
         public static SqlStatement IdentityInsertReminderSchedules_History(bool on)
@@ -5758,18 +5808,26 @@ namespace Implem.Pleasanter.Libraries.DataSources
             };
         }
 
-        public static SqlStatement IdentityInsertDepts(bool on)
+        public static SqlStatement IdentityInsertDepts(
+            ISqlObjectFactory factory,
+            bool on)
         {
             return on
-                ? new SqlStatement("set identity_insert \"Depts\" on;")
-                : new SqlStatement("set identity_insert \"Depts\" off;");
+                ? new SqlStatement(factory.SqlCommandText.CreateIdentityInsert(
+                    template: "set identity_insert \"Depts\" on;"))
+                : new SqlStatement(factory.SqlCommandText.CreateIdentityInsert(
+                    template: "set identity_insert \"Depts\" off;"));
         }
 
-        public static SqlStatement IdentityInsertDepts_Deleted(bool on)
+        public static SqlStatement IdentityInsertDepts_Deleted(
+            ISqlObjectFactory factory,
+            bool on)
         {
             return on
-                ? new SqlStatement("set identity_insert \"Depts_Deleted\" on;")
-                : new SqlStatement("set identity_insert \"Depts_Deleted\" off;");
+                ? new SqlStatement(factory.SqlCommandText.CreateIdentityInsert(
+                    template: "set identity_insert \"Depts_Deleted\" on;"))
+                : new SqlStatement(factory.SqlCommandText.CreateIdentityInsert(
+                    template: "set identity_insert \"Depts_Deleted\" off;"));
         }
 
         public static SqlStatement IdentityInsertDepts_History(bool on)
@@ -5806,18 +5864,26 @@ namespace Implem.Pleasanter.Libraries.DataSources
             };
         }
 
-        public static SqlStatement IdentityInsertGroups(bool on)
+        public static SqlStatement IdentityInsertGroups(
+            ISqlObjectFactory factory,
+            bool on)
         {
             return on
-                ? new SqlStatement("set identity_insert \"Groups\" on;")
-                : new SqlStatement("set identity_insert \"Groups\" off;");
+                ? new SqlStatement(factory.SqlCommandText.CreateIdentityInsert(
+                    template: "set identity_insert \"Groups\" on;"))
+                : new SqlStatement(factory.SqlCommandText.CreateIdentityInsert(
+                    template: "set identity_insert \"Groups\" off;"));
         }
 
-        public static SqlStatement IdentityInsertGroups_Deleted(bool on)
+        public static SqlStatement IdentityInsertGroups_Deleted(
+            ISqlObjectFactory factory,
+            bool on)
         {
             return on
-                ? new SqlStatement("set identity_insert \"Groups_Deleted\" on;")
-                : new SqlStatement("set identity_insert \"Groups_Deleted\" off;");
+                ? new SqlStatement(factory.SqlCommandText.CreateIdentityInsert(
+                    template: "set identity_insert \"Groups_Deleted\" on;"))
+                : new SqlStatement(factory.SqlCommandText.CreateIdentityInsert(
+                    template: "set identity_insert \"Groups_Deleted\" off;"));
         }
 
         public static SqlStatement IdentityInsertGroups_History(bool on)
@@ -5853,18 +5919,26 @@ namespace Implem.Pleasanter.Libraries.DataSources
             };
         }
 
-        public static SqlStatement IdentityInsertGroupMembers(bool on)
+        public static SqlStatement IdentityInsertGroupMembers(
+            ISqlObjectFactory factory,
+            bool on)
         {
             return on
-                ? new SqlStatement("set identity_insert \"GroupMembers\" on;")
-                : new SqlStatement("set identity_insert \"GroupMembers\" off;");
+                ? new SqlStatement(factory.SqlCommandText.CreateIdentityInsert(
+                    template: "set identity_insert \"GroupMembers\" on;"))
+                : new SqlStatement(factory.SqlCommandText.CreateIdentityInsert(
+                    template: "set identity_insert \"GroupMembers\" off;"));
         }
 
-        public static SqlStatement IdentityInsertGroupMembers_Deleted(bool on)
+        public static SqlStatement IdentityInsertGroupMembers_Deleted(
+            ISqlObjectFactory factory,
+            bool on)
         {
             return on
-                ? new SqlStatement("set identity_insert \"GroupMembers_Deleted\" on;")
-                : new SqlStatement("set identity_insert \"GroupMembers_Deleted\" off;");
+                ? new SqlStatement(factory.SqlCommandText.CreateIdentityInsert(
+                    template: "set identity_insert \"GroupMembers_Deleted\" on;"))
+                : new SqlStatement(factory.SqlCommandText.CreateIdentityInsert(
+                    template: "set identity_insert \"GroupMembers_Deleted\" off;"));
         }
 
         public static SqlStatement IdentityInsertGroupMembers_History(bool on)
@@ -5889,6 +5963,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                 DataTableName = dataTableName,
                 TableType = tableType,
                 TableBracket = "\"Registrations\"",
+                IdentityColumnName = "\"RegistrationId\"",
                 HistoryTableBracket = "\"Registrations_history\"",
                 DeletedTableBracket = "\"Registrations_deleted\"",
                 SelectIdentity = selectIdentity,
@@ -5900,18 +5975,26 @@ namespace Implem.Pleasanter.Libraries.DataSources
             };
         }
 
-        public static SqlStatement IdentityInsertRegistrations(bool on)
+        public static SqlStatement IdentityInsertRegistrations(
+            ISqlObjectFactory factory,
+            bool on)
         {
             return on
-                ? new SqlStatement("set identity_insert \"Registrations\" on;")
-                : new SqlStatement("set identity_insert \"Registrations\" off;");
+                ? new SqlStatement(factory.SqlCommandText.CreateIdentityInsert(
+                    template: "set identity_insert \"Registrations\" on;"))
+                : new SqlStatement(factory.SqlCommandText.CreateIdentityInsert(
+                    template: "set identity_insert \"Registrations\" off;"));
         }
 
-        public static SqlStatement IdentityInsertRegistrations_Deleted(bool on)
+        public static SqlStatement IdentityInsertRegistrations_Deleted(
+            ISqlObjectFactory factory,
+            bool on)
         {
             return on
-                ? new SqlStatement("set identity_insert \"Registrations_Deleted\" on;")
-                : new SqlStatement("set identity_insert \"Registrations_Deleted\" off;");
+                ? new SqlStatement(factory.SqlCommandText.CreateIdentityInsert(
+                    template: "set identity_insert \"Registrations_Deleted\" on;"))
+                : new SqlStatement(factory.SqlCommandText.CreateIdentityInsert(
+                    template: "set identity_insert \"Registrations_Deleted\" off;"));
         }
 
         public static SqlStatement IdentityInsertRegistrations_History(bool on)
@@ -5948,18 +6031,26 @@ namespace Implem.Pleasanter.Libraries.DataSources
             };
         }
 
-        public static SqlStatement IdentityInsertUsers(bool on)
+        public static SqlStatement IdentityInsertUsers(
+            ISqlObjectFactory factory,
+            bool on)
         {
             return on
-                ? new SqlStatement("set identity_insert \"Users\" on;")
-                : new SqlStatement("set identity_insert \"Users\" off;");
+                ? new SqlStatement(factory.SqlCommandText.CreateIdentityInsert(
+                    template: "set identity_insert \"Users\" on;"))
+                : new SqlStatement(factory.SqlCommandText.CreateIdentityInsert(
+                    template: "set identity_insert \"Users\" off;"));
         }
 
-        public static SqlStatement IdentityInsertUsers_Deleted(bool on)
+        public static SqlStatement IdentityInsertUsers_Deleted(
+            ISqlObjectFactory factory,
+            bool on)
         {
             return on
-                ? new SqlStatement("set identity_insert \"Users_Deleted\" on;")
-                : new SqlStatement("set identity_insert \"Users_Deleted\" off;");
+                ? new SqlStatement(factory.SqlCommandText.CreateIdentityInsert(
+                    template: "set identity_insert \"Users_Deleted\" on;"))
+                : new SqlStatement(factory.SqlCommandText.CreateIdentityInsert(
+                    template: "set identity_insert \"Users_Deleted\" off;"));
         }
 
         public static SqlStatement IdentityInsertUsers_History(bool on)
@@ -5995,18 +6086,26 @@ namespace Implem.Pleasanter.Libraries.DataSources
             };
         }
 
-        public static SqlStatement IdentityInsertLoginKeys(bool on)
+        public static SqlStatement IdentityInsertLoginKeys(
+            ISqlObjectFactory factory,
+            bool on)
         {
             return on
-                ? new SqlStatement("set identity_insert \"LoginKeys\" on;")
-                : new SqlStatement("set identity_insert \"LoginKeys\" off;");
+                ? new SqlStatement(factory.SqlCommandText.CreateIdentityInsert(
+                    template: "set identity_insert \"LoginKeys\" on;"))
+                : new SqlStatement(factory.SqlCommandText.CreateIdentityInsert(
+                    template: "set identity_insert \"LoginKeys\" off;"));
         }
 
-        public static SqlStatement IdentityInsertLoginKeys_Deleted(bool on)
+        public static SqlStatement IdentityInsertLoginKeys_Deleted(
+            ISqlObjectFactory factory,
+            bool on)
         {
             return on
-                ? new SqlStatement("set identity_insert \"LoginKeys_Deleted\" on;")
-                : new SqlStatement("set identity_insert \"LoginKeys_Deleted\" off;");
+                ? new SqlStatement(factory.SqlCommandText.CreateIdentityInsert(
+                    template: "set identity_insert \"LoginKeys_Deleted\" on;"))
+                : new SqlStatement(factory.SqlCommandText.CreateIdentityInsert(
+                    template: "set identity_insert \"LoginKeys_Deleted\" off;"));
         }
 
         public static SqlStatement IdentityInsertLoginKeys_History(bool on)
@@ -6031,6 +6130,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                 DataTableName = dataTableName,
                 TableType = tableType,
                 TableBracket = "\"MailAddresses\"",
+                IdentityColumnName = "\"MailAddressId\"",
                 HistoryTableBracket = "\"MailAddresses_history\"",
                 DeletedTableBracket = "\"MailAddresses_deleted\"",
                 SelectIdentity = selectIdentity,
@@ -6042,18 +6142,26 @@ namespace Implem.Pleasanter.Libraries.DataSources
             };
         }
 
-        public static SqlStatement IdentityInsertMailAddresses(bool on)
+        public static SqlStatement IdentityInsertMailAddresses(
+            ISqlObjectFactory factory,
+            bool on)
         {
             return on
-                ? new SqlStatement("set identity_insert \"MailAddresses\" on;")
-                : new SqlStatement("set identity_insert \"MailAddresses\" off;");
+                ? new SqlStatement(factory.SqlCommandText.CreateIdentityInsert(
+                    template: "set identity_insert \"MailAddresses\" on;"))
+                : new SqlStatement(factory.SqlCommandText.CreateIdentityInsert(
+                    template: "set identity_insert \"MailAddresses\" off;"));
         }
 
-        public static SqlStatement IdentityInsertMailAddresses_Deleted(bool on)
+        public static SqlStatement IdentityInsertMailAddresses_Deleted(
+            ISqlObjectFactory factory,
+            bool on)
         {
             return on
-                ? new SqlStatement("set identity_insert \"MailAddresses_Deleted\" on;")
-                : new SqlStatement("set identity_insert \"MailAddresses_Deleted\" off;");
+                ? new SqlStatement(factory.SqlCommandText.CreateIdentityInsert(
+                    template: "set identity_insert \"MailAddresses_Deleted\" on;"))
+                : new SqlStatement(factory.SqlCommandText.CreateIdentityInsert(
+                    template: "set identity_insert \"MailAddresses_Deleted\" off;"));
         }
 
         public static SqlStatement IdentityInsertMailAddresses_History(bool on)
@@ -6090,18 +6198,26 @@ namespace Implem.Pleasanter.Libraries.DataSources
             };
         }
 
-        public static SqlStatement IdentityInsertOutgoingMails(bool on)
+        public static SqlStatement IdentityInsertOutgoingMails(
+            ISqlObjectFactory factory,
+            bool on)
         {
             return on
-                ? new SqlStatement("set identity_insert \"OutgoingMails\" on;")
-                : new SqlStatement("set identity_insert \"OutgoingMails\" off;");
+                ? new SqlStatement(factory.SqlCommandText.CreateIdentityInsert(
+                    template: "set identity_insert \"OutgoingMails\" on;"))
+                : new SqlStatement(factory.SqlCommandText.CreateIdentityInsert(
+                    template: "set identity_insert \"OutgoingMails\" off;"));
         }
 
-        public static SqlStatement IdentityInsertOutgoingMails_Deleted(bool on)
+        public static SqlStatement IdentityInsertOutgoingMails_Deleted(
+            ISqlObjectFactory factory,
+            bool on)
         {
             return on
-                ? new SqlStatement("set identity_insert \"OutgoingMails_Deleted\" on;")
-                : new SqlStatement("set identity_insert \"OutgoingMails_Deleted\" off;");
+                ? new SqlStatement(factory.SqlCommandText.CreateIdentityInsert(
+                    template: "set identity_insert \"OutgoingMails_Deleted\" on;"))
+                : new SqlStatement(factory.SqlCommandText.CreateIdentityInsert(
+                    template: "set identity_insert \"OutgoingMails_Deleted\" off;"));
         }
 
         public static SqlStatement IdentityInsertOutgoingMails_History(bool on)
@@ -6143,12 +6259,10 @@ namespace Implem.Pleasanter.Libraries.DataSources
             bool on)
         {
             return on
-                ? new SqlStatement(
-                    factory.SqlCommandText.CreateIdentityInsert(
-                        "set identity_insert \"Items\" on;"))
-                : new SqlStatement(
-                    factory.SqlCommandText.CreateIdentityInsert(
-                        "set identity_insert \"Items\" off;"));
+                ? new SqlStatement(factory.SqlCommandText.CreateIdentityInsert(
+                    template: "set identity_insert \"Items\" on;"))
+                : new SqlStatement(factory.SqlCommandText.CreateIdentityInsert(
+                    template: "set identity_insert \"Items\" off;"));
         }
 
         public static SqlStatement IdentityInsertItems_Deleted(
@@ -6156,25 +6270,17 @@ namespace Implem.Pleasanter.Libraries.DataSources
             bool on)
         {
             return on
-                ? new SqlStatement(
-                    factory.SqlCommandText.CreateIdentityInsert(
-                        "set identity_insert \"Items_Deleted\" on;"))
-                : new SqlStatement(
-                    factory.SqlCommandText.CreateIdentityInsert(
-                        "set identity_insert \"Items_Deleted\" off;"));
+                ? new SqlStatement(factory.SqlCommandText.CreateIdentityInsert(
+                    template: "set identity_insert \"Items_Deleted\" on;"))
+                : new SqlStatement(factory.SqlCommandText.CreateIdentityInsert(
+                    template: "set identity_insert \"Items_Deleted\" off;"));
         }
 
-        public static SqlStatement IdentityInsertItems_History(
-            ISqlObjectFactory factory,
-            bool on)
+        public static SqlStatement IdentityInsertItems_History(bool on)
         {
             return on
-                ? new SqlStatement(
-                    factory.SqlCommandText.CreateIdentityInsert(
-                        "set identity_insert \"Items_History\" on;"))
-                : new SqlStatement(
-                    factory.SqlCommandText.CreateIdentityInsert(
-                        "set identity_insert \"Items_History\" off;"));
+                ? new SqlStatement("set identity_insert \"Items_History\" on;")
+                : new SqlStatement("set identity_insert \"Items_History\" off;");
         }
 
         public static SqlInsert InsertSites(
@@ -6203,18 +6309,26 @@ namespace Implem.Pleasanter.Libraries.DataSources
             };
         }
 
-        public static SqlStatement IdentityInsertSites(bool on)
+        public static SqlStatement IdentityInsertSites(
+            ISqlObjectFactory factory,
+            bool on)
         {
             return on
-                ? new SqlStatement("set identity_insert \"Sites\" on;")
-                : new SqlStatement("set identity_insert \"Sites\" off;");
+                ? new SqlStatement(factory.SqlCommandText.CreateIdentityInsert(
+                    template: "set identity_insert \"Sites\" on;"))
+                : new SqlStatement(factory.SqlCommandText.CreateIdentityInsert(
+                    template: "set identity_insert \"Sites\" off;"));
         }
 
-        public static SqlStatement IdentityInsertSites_Deleted(bool on)
+        public static SqlStatement IdentityInsertSites_Deleted(
+            ISqlObjectFactory factory,
+            bool on)
         {
             return on
-                ? new SqlStatement("set identity_insert \"Sites_Deleted\" on;")
-                : new SqlStatement("set identity_insert \"Sites_Deleted\" off;");
+                ? new SqlStatement(factory.SqlCommandText.CreateIdentityInsert(
+                    template: "set identity_insert \"Sites_Deleted\" on;"))
+                : new SqlStatement(factory.SqlCommandText.CreateIdentityInsert(
+                    template: "set identity_insert \"Sites_Deleted\" off;"));
         }
 
         public static SqlStatement IdentityInsertSites_History(bool on)
@@ -6250,18 +6364,26 @@ namespace Implem.Pleasanter.Libraries.DataSources
             };
         }
 
-        public static SqlStatement IdentityInsertOrders(bool on)
+        public static SqlStatement IdentityInsertOrders(
+            ISqlObjectFactory factory,
+            bool on)
         {
             return on
-                ? new SqlStatement("set identity_insert \"Orders\" on;")
-                : new SqlStatement("set identity_insert \"Orders\" off;");
+                ? new SqlStatement(factory.SqlCommandText.CreateIdentityInsert(
+                    template: "set identity_insert \"Orders\" on;"))
+                : new SqlStatement(factory.SqlCommandText.CreateIdentityInsert(
+                    template: "set identity_insert \"Orders\" off;"));
         }
 
-        public static SqlStatement IdentityInsertOrders_Deleted(bool on)
+        public static SqlStatement IdentityInsertOrders_Deleted(
+            ISqlObjectFactory factory,
+            bool on)
         {
             return on
-                ? new SqlStatement("set identity_insert \"Orders_Deleted\" on;")
-                : new SqlStatement("set identity_insert \"Orders_Deleted\" off;");
+                ? new SqlStatement(factory.SqlCommandText.CreateIdentityInsert(
+                    template: "set identity_insert \"Orders_Deleted\" on;"))
+                : new SqlStatement(factory.SqlCommandText.CreateIdentityInsert(
+                    template: "set identity_insert \"Orders_Deleted\" off;"));
         }
 
         public static SqlStatement IdentityInsertOrders_History(bool on)
@@ -6286,6 +6408,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                 DataTableName = dataTableName,
                 TableType = tableType,
                 TableBracket = "\"ExportSettings\"",
+                IdentityColumnName = "\"ExportSettingId\"",
                 HistoryTableBracket = "\"ExportSettings_history\"",
                 DeletedTableBracket = "\"ExportSettings_deleted\"",
                 SelectIdentity = selectIdentity,
@@ -6297,18 +6420,26 @@ namespace Implem.Pleasanter.Libraries.DataSources
             };
         }
 
-        public static SqlStatement IdentityInsertExportSettings(bool on)
+        public static SqlStatement IdentityInsertExportSettings(
+            ISqlObjectFactory factory,
+            bool on)
         {
             return on
-                ? new SqlStatement("set identity_insert \"ExportSettings\" on;")
-                : new SqlStatement("set identity_insert \"ExportSettings\" off;");
+                ? new SqlStatement(factory.SqlCommandText.CreateIdentityInsert(
+                    template: "set identity_insert \"ExportSettings\" on;"))
+                : new SqlStatement(factory.SqlCommandText.CreateIdentityInsert(
+                    template: "set identity_insert \"ExportSettings\" off;"));
         }
 
-        public static SqlStatement IdentityInsertExportSettings_Deleted(bool on)
+        public static SqlStatement IdentityInsertExportSettings_Deleted(
+            ISqlObjectFactory factory,
+            bool on)
         {
             return on
-                ? new SqlStatement("set identity_insert \"ExportSettings_Deleted\" on;")
-                : new SqlStatement("set identity_insert \"ExportSettings_Deleted\" off;");
+                ? new SqlStatement(factory.SqlCommandText.CreateIdentityInsert(
+                    template: "set identity_insert \"ExportSettings_Deleted\" on;"))
+                : new SqlStatement(factory.SqlCommandText.CreateIdentityInsert(
+                    template: "set identity_insert \"ExportSettings_Deleted\" off;"));
         }
 
         public static SqlStatement IdentityInsertExportSettings_History(bool on)
@@ -6344,18 +6475,26 @@ namespace Implem.Pleasanter.Libraries.DataSources
             };
         }
 
-        public static SqlStatement IdentityInsertLinks(bool on)
+        public static SqlStatement IdentityInsertLinks(
+            ISqlObjectFactory factory,
+            bool on)
         {
             return on
-                ? new SqlStatement("set identity_insert \"Links\" on;")
-                : new SqlStatement("set identity_insert \"Links\" off;");
+                ? new SqlStatement(factory.SqlCommandText.CreateIdentityInsert(
+                    template: "set identity_insert \"Links\" on;"))
+                : new SqlStatement(factory.SqlCommandText.CreateIdentityInsert(
+                    template: "set identity_insert \"Links\" off;"));
         }
 
-        public static SqlStatement IdentityInsertLinks_Deleted(bool on)
+        public static SqlStatement IdentityInsertLinks_Deleted(
+            ISqlObjectFactory factory,
+            bool on)
         {
             return on
-                ? new SqlStatement("set identity_insert \"Links_Deleted\" on;")
-                : new SqlStatement("set identity_insert \"Links_Deleted\" off;");
+                ? new SqlStatement(factory.SqlCommandText.CreateIdentityInsert(
+                    template: "set identity_insert \"Links_Deleted\" on;"))
+                : new SqlStatement(factory.SqlCommandText.CreateIdentityInsert(
+                    template: "set identity_insert \"Links_Deleted\" off;"));
         }
 
         public static SqlStatement IdentityInsertLinks_History(bool on)
@@ -6380,6 +6519,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                 DataTableName = dataTableName,
                 TableType = tableType,
                 TableBracket = "\"Binaries\"",
+                IdentityColumnName = "\"BinaryId\"",
                 HistoryTableBracket = "\"Binaries_history\"",
                 DeletedTableBracket = "\"Binaries_deleted\"",
                 SelectIdentity = selectIdentity,
@@ -6391,18 +6531,26 @@ namespace Implem.Pleasanter.Libraries.DataSources
             };
         }
 
-        public static SqlStatement IdentityInsertBinaries(bool on)
+        public static SqlStatement IdentityInsertBinaries(
+            ISqlObjectFactory factory,
+            bool on)
         {
             return on
-                ? new SqlStatement("set identity_insert \"Binaries\" on;")
-                : new SqlStatement("set identity_insert \"Binaries\" off;");
+                ? new SqlStatement(factory.SqlCommandText.CreateIdentityInsert(
+                    template: "set identity_insert \"Binaries\" on;"))
+                : new SqlStatement(factory.SqlCommandText.CreateIdentityInsert(
+                    template: "set identity_insert \"Binaries\" off;"));
         }
 
-        public static SqlStatement IdentityInsertBinaries_Deleted(bool on)
+        public static SqlStatement IdentityInsertBinaries_Deleted(
+            ISqlObjectFactory factory,
+            bool on)
         {
             return on
-                ? new SqlStatement("set identity_insert \"Binaries_Deleted\" on;")
-                : new SqlStatement("set identity_insert \"Binaries_Deleted\" off;");
+                ? new SqlStatement(factory.SqlCommandText.CreateIdentityInsert(
+                    template: "set identity_insert \"Binaries_Deleted\" on;"))
+                : new SqlStatement(factory.SqlCommandText.CreateIdentityInsert(
+                    template: "set identity_insert \"Binaries_Deleted\" off;"));
         }
 
         public static SqlStatement IdentityInsertBinaries_History(bool on)
@@ -6438,18 +6586,26 @@ namespace Implem.Pleasanter.Libraries.DataSources
             };
         }
 
-        public static SqlStatement IdentityInsertPermissions(bool on)
+        public static SqlStatement IdentityInsertPermissions(
+            ISqlObjectFactory factory,
+            bool on)
         {
             return on
-                ? new SqlStatement("set identity_insert \"Permissions\" on;")
-                : new SqlStatement("set identity_insert \"Permissions\" off;");
+                ? new SqlStatement(factory.SqlCommandText.CreateIdentityInsert(
+                    template: "set identity_insert \"Permissions\" on;"))
+                : new SqlStatement(factory.SqlCommandText.CreateIdentityInsert(
+                    template: "set identity_insert \"Permissions\" off;"));
         }
 
-        public static SqlStatement IdentityInsertPermissions_Deleted(bool on)
+        public static SqlStatement IdentityInsertPermissions_Deleted(
+            ISqlObjectFactory factory,
+            bool on)
         {
             return on
-                ? new SqlStatement("set identity_insert \"Permissions_Deleted\" on;")
-                : new SqlStatement("set identity_insert \"Permissions_Deleted\" off;");
+                ? new SqlStatement(factory.SqlCommandText.CreateIdentityInsert(
+                    template: "set identity_insert \"Permissions_Deleted\" on;"))
+                : new SqlStatement(factory.SqlCommandText.CreateIdentityInsert(
+                    template: "set identity_insert \"Permissions_Deleted\" off;"));
         }
 
         public static SqlStatement IdentityInsertPermissions_History(bool on)
@@ -6485,18 +6641,26 @@ namespace Implem.Pleasanter.Libraries.DataSources
             };
         }
 
-        public static SqlStatement IdentityInsertIssues(bool on)
+        public static SqlStatement IdentityInsertIssues(
+            ISqlObjectFactory factory,
+            bool on)
         {
             return on
-                ? new SqlStatement("set identity_insert \"Issues\" on;")
-                : new SqlStatement("set identity_insert \"Issues\" off;");
+                ? new SqlStatement(factory.SqlCommandText.CreateIdentityInsert(
+                    template: "set identity_insert \"Issues\" on;"))
+                : new SqlStatement(factory.SqlCommandText.CreateIdentityInsert(
+                    template: "set identity_insert \"Issues\" off;"));
         }
 
-        public static SqlStatement IdentityInsertIssues_Deleted(bool on)
+        public static SqlStatement IdentityInsertIssues_Deleted(
+            ISqlObjectFactory factory,
+            bool on)
         {
             return on
-                ? new SqlStatement("set identity_insert \"Issues_Deleted\" on;")
-                : new SqlStatement("set identity_insert \"Issues_Deleted\" off;");
+                ? new SqlStatement(factory.SqlCommandText.CreateIdentityInsert(
+                    template: "set identity_insert \"Issues_Deleted\" on;"))
+                : new SqlStatement(factory.SqlCommandText.CreateIdentityInsert(
+                    template: "set identity_insert \"Issues_Deleted\" off;"));
         }
 
         public static SqlStatement IdentityInsertIssues_History(bool on)
@@ -6532,18 +6696,26 @@ namespace Implem.Pleasanter.Libraries.DataSources
             };
         }
 
-        public static SqlStatement IdentityInsertResults(bool on)
+        public static SqlStatement IdentityInsertResults(
+            ISqlObjectFactory factory,
+            bool on)
         {
             return on
-                ? new SqlStatement("set identity_insert \"Results\" on;")
-                : new SqlStatement("set identity_insert \"Results\" off;");
+                ? new SqlStatement(factory.SqlCommandText.CreateIdentityInsert(
+                    template: "set identity_insert \"Results\" on;"))
+                : new SqlStatement(factory.SqlCommandText.CreateIdentityInsert(
+                    template: "set identity_insert \"Results\" off;"));
         }
 
-        public static SqlStatement IdentityInsertResults_Deleted(bool on)
+        public static SqlStatement IdentityInsertResults_Deleted(
+            ISqlObjectFactory factory,
+            bool on)
         {
             return on
-                ? new SqlStatement("set identity_insert \"Results_Deleted\" on;")
-                : new SqlStatement("set identity_insert \"Results_Deleted\" off;");
+                ? new SqlStatement(factory.SqlCommandText.CreateIdentityInsert(
+                    template: "set identity_insert \"Results_Deleted\" on;"))
+                : new SqlStatement(factory.SqlCommandText.CreateIdentityInsert(
+                    template: "set identity_insert \"Results_Deleted\" off;"));
         }
 
         public static SqlStatement IdentityInsertResults_History(bool on)
@@ -6579,18 +6751,26 @@ namespace Implem.Pleasanter.Libraries.DataSources
             };
         }
 
-        public static SqlStatement IdentityInsertWikis(bool on)
+        public static SqlStatement IdentityInsertWikis(
+            ISqlObjectFactory factory,
+            bool on)
         {
             return on
-                ? new SqlStatement("set identity_insert \"Wikis\" on;")
-                : new SqlStatement("set identity_insert \"Wikis\" off;");
+                ? new SqlStatement(factory.SqlCommandText.CreateIdentityInsert(
+                    template: "set identity_insert \"Wikis\" on;"))
+                : new SqlStatement(factory.SqlCommandText.CreateIdentityInsert(
+                    template: "set identity_insert \"Wikis\" off;"));
         }
 
-        public static SqlStatement IdentityInsertWikis_Deleted(bool on)
+        public static SqlStatement IdentityInsertWikis_Deleted(
+            ISqlObjectFactory factory,
+            bool on)
         {
             return on
-                ? new SqlStatement("set identity_insert \"Wikis_Deleted\" on;")
-                : new SqlStatement("set identity_insert \"Wikis_Deleted\" off;");
+                ? new SqlStatement(factory.SqlCommandText.CreateIdentityInsert(
+                    template: "set identity_insert \"Wikis_Deleted\" on;"))
+                : new SqlStatement(factory.SqlCommandText.CreateIdentityInsert(
+                    template: "set identity_insert \"Wikis_Deleted\" off;"));
         }
 
         public static SqlStatement IdentityInsertWikis_History(bool on)
@@ -9396,6 +9576,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             column.ContractSettings(function: Sqls.Functions.SingleColumn); param.ContractSettings();
             column.ContractDeadline(function: Sqls.Functions.SingleColumn); param.ContractDeadline();
             column.DisableAllUsersPermission(function: Sqls.Functions.SingleColumn); param.DisableAllUsersPermission();
+            column.DisableStartGuide(function: Sqls.Functions.SingleColumn); param.DisableStartGuide();
             column.LogoType(function: Sqls.Functions.SingleColumn); param.LogoType();
             column.HtmlTitleTop(function: Sqls.Functions.SingleColumn); param.HtmlTitleTop();
             column.HtmlTitleSite(function: Sqls.Functions.SingleColumn); param.HtmlTitleSite();
@@ -10040,18 +10221,9 @@ namespace Implem.Pleasanter.Libraries.DataSources
         {
             switch (ss.ReferenceType)
             {
-                case "Tenants":
-                    return TenantsAggregations(
-                        aggregations: ss.Aggregations,
-                        tableType: tableType,
-                        where: TenantsWhere()
-                            .TenantId_In(sub: SelectTenants(
-                                tableType: tableType,
-                                column: TenantsColumn().TenantId(),
-                                join: join,
-                                where: where)));
                 case "Depts":
                     return DeptsAggregations(
+                        context: context,
                         aggregations: ss.Aggregations,
                         tableType: tableType,
                         where: DeptsWhere()
@@ -10063,6 +10235,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                                 where: where)));
                 case "Groups":
                     return GroupsAggregations(
+                        context: context,
                         aggregations: ss.Aggregations,
                         tableType: tableType,
                         where: GroupsWhere()
@@ -10074,6 +10247,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                                 where: where)));
                 case "Registrations":
                     return RegistrationsAggregations(
+                        context: context,
                         aggregations: ss.Aggregations,
                         tableType: tableType,
                         where: RegistrationsWhere()
@@ -10085,6 +10259,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                                 where: where)));
                 case "Users":
                     return UsersAggregations(
+                        context: context,
                         aggregations: ss.Aggregations,
                         tableType: tableType,
                         where: UsersWhere()
@@ -10096,6 +10271,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                                 where: where)));
                 case "Sites":
                     return SitesAggregations(
+                        context: context,
                         aggregations: ss.Aggregations,
                         tableType: tableType,
                         where: SitesWhere()
@@ -10118,6 +10294,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                                 where: where)));
                 case "Results":
                     return ResultsAggregations(
+                        context: context,
                         aggregations: ss.Aggregations,
                         tableType: tableType,
                         where: ResultsWhere()
@@ -10128,6 +10305,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                                 where: where)));
                 case "Wikis":
                     return WikisAggregations(
+                        context: context,
                         aggregations: ss.Aggregations,
                         tableType: tableType,
                         where: WikisWhere()
@@ -10142,6 +10320,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
         }
 
         public static IEnumerable<SqlStatement> TenantsAggregations(
+            Context context,
             IEnumerable<Aggregation> aggregations,
             Sqls.TableTypes tableType,
             SqlWhereCollection where)
@@ -10210,6 +10389,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
         }
 
         public static IEnumerable<SqlStatement> DemosAggregations(
+            Context context,
             IEnumerable<Aggregation> aggregations,
             Sqls.TableTypes tableType,
             SqlWhereCollection where)
@@ -10278,6 +10458,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
         }
 
         public static IEnumerable<SqlStatement> SessionsAggregations(
+            Context context,
             IEnumerable<Aggregation> aggregations,
             Sqls.TableTypes tableType,
             SqlWhereCollection where)
@@ -10346,6 +10527,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
         }
 
         public static IEnumerable<SqlStatement> SysLogsAggregations(
+            Context context,
             IEnumerable<Aggregation> aggregations,
             Sqls.TableTypes tableType,
             SqlWhereCollection where)
@@ -10414,6 +10596,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
         }
 
         public static IEnumerable<SqlStatement> StatusesAggregations(
+            Context context,
             IEnumerable<Aggregation> aggregations,
             Sqls.TableTypes tableType,
             SqlWhereCollection where)
@@ -10482,6 +10665,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
         }
 
         public static IEnumerable<SqlStatement> ReminderSchedulesAggregations(
+            Context context,
             IEnumerable<Aggregation> aggregations,
             Sqls.TableTypes tableType,
             SqlWhereCollection where)
@@ -10550,6 +10734,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
         }
 
         public static IEnumerable<SqlStatement> DeptsAggregations(
+            Context context,
             IEnumerable<Aggregation> aggregations,
             Sqls.TableTypes tableType,
             SqlWhereCollection where)
@@ -10618,6 +10803,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
         }
 
         public static IEnumerable<SqlStatement> GroupsAggregations(
+            Context context,
             IEnumerable<Aggregation> aggregations,
             Sqls.TableTypes tableType,
             SqlWhereCollection where)
@@ -10686,6 +10872,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
         }
 
         public static IEnumerable<SqlStatement> GroupMembersAggregations(
+            Context context,
             IEnumerable<Aggregation> aggregations,
             Sqls.TableTypes tableType,
             SqlWhereCollection where)
@@ -10754,6 +10941,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
         }
 
         public static IEnumerable<SqlStatement> RegistrationsAggregations(
+            Context context,
             IEnumerable<Aggregation> aggregations,
             Sqls.TableTypes tableType,
             SqlWhereCollection where)
@@ -10822,6 +11010,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
         }
 
         public static IEnumerable<SqlStatement> UsersAggregations(
+            Context context,
             IEnumerable<Aggregation> aggregations,
             Sqls.TableTypes tableType,
             SqlWhereCollection where)
@@ -10890,6 +11079,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
         }
 
         public static IEnumerable<SqlStatement> LoginKeysAggregations(
+            Context context,
             IEnumerable<Aggregation> aggregations,
             Sqls.TableTypes tableType,
             SqlWhereCollection where)
@@ -10958,6 +11148,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
         }
 
         public static IEnumerable<SqlStatement> MailAddressesAggregations(
+            Context context,
             IEnumerable<Aggregation> aggregations,
             Sqls.TableTypes tableType,
             SqlWhereCollection where)
@@ -11026,6 +11217,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
         }
 
         public static IEnumerable<SqlStatement> OutgoingMailsAggregations(
+            Context context,
             IEnumerable<Aggregation> aggregations,
             Sqls.TableTypes tableType,
             SqlWhereCollection where)
@@ -11094,6 +11286,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
         }
 
         public static IEnumerable<SqlStatement> ItemsAggregations(
+            Context context,
             IEnumerable<Aggregation> aggregations,
             Sqls.TableTypes tableType,
             SqlWhereCollection where)
@@ -11162,6 +11355,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
         }
 
         public static IEnumerable<SqlStatement> SitesAggregations(
+            Context context,
             IEnumerable<Aggregation> aggregations,
             Sqls.TableTypes tableType,
             SqlWhereCollection where)
@@ -11230,6 +11424,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
         }
 
         public static IEnumerable<SqlStatement> OrdersAggregations(
+            Context context,
             IEnumerable<Aggregation> aggregations,
             Sqls.TableTypes tableType,
             SqlWhereCollection where)
@@ -11298,6 +11493,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
         }
 
         public static IEnumerable<SqlStatement> ExportSettingsAggregations(
+            Context context,
             IEnumerable<Aggregation> aggregations,
             Sqls.TableTypes tableType,
             SqlWhereCollection where)
@@ -11366,6 +11562,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
         }
 
         public static IEnumerable<SqlStatement> LinksAggregations(
+            Context context,
             IEnumerable<Aggregation> aggregations,
             Sqls.TableTypes tableType,
             SqlWhereCollection where)
@@ -11434,6 +11631,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
         }
 
         public static IEnumerable<SqlStatement> BinariesAggregations(
+            Context context,
             IEnumerable<Aggregation> aggregations,
             Sqls.TableTypes tableType,
             SqlWhereCollection where)
@@ -11502,6 +11700,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
         }
 
         public static IEnumerable<SqlStatement> PermissionsAggregations(
+            Context context,
             IEnumerable<Aggregation> aggregations,
             Sqls.TableTypes tableType,
             SqlWhereCollection where)
@@ -11682,6 +11881,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
         }
 
         public static IEnumerable<SqlStatement> ResultsAggregations(
+            Context context,
             IEnumerable<Aggregation> aggregations,
             Sqls.TableTypes tableType,
             SqlWhereCollection where)
@@ -11762,6 +11962,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
         }
 
         public static IEnumerable<SqlStatement> WikisAggregations(
+            Context context,
             IEnumerable<Aggregation> aggregations,
             Sqls.TableTypes tableType,
             SqlWhereCollection where)
@@ -11846,6 +12047,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     ""ContractSettings"",
                     ""ContractDeadline"",
                     ""DisableAllUsersPermission"",
+                    ""DisableStartGuide"",
                     ""LogoType"",
                     ""HtmlTitleTop"",
                     ""HtmlTitleSite"",
@@ -11854,7 +12056,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     ""Creator"",
                     ""Updator"",
                     ""CreatedTime"",
-                    ""UpdatedTime""
+                    ""UpdatedTime"" 
                     {{1}}
                 )
                 (
@@ -11867,6 +12069,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     ""Tenants"".""ContractSettings"",
                     ""Tenants"".""ContractDeadline"",
                     ""Tenants"".""DisableAllUsersPermission"",
+                    ""Tenants"".""DisableStartGuide"",
                     ""Tenants"".""LogoType"",
                     ""Tenants"".""HtmlTitleTop"",
                     ""Tenants"".""HtmlTitleSite"",
@@ -11875,7 +12078,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     ""Tenants"".""Creator"",
                     ""Tenants"".""Updator"",
                     ""Tenants"".""CreatedTime"",
-                    ""Tenants"".""UpdatedTime"" 
+                    ""Tenants"".""UpdatedTime""
                     {{2}}
                 from ""Tenants"" {{0}});
                 delete from ""Tenants"" {{0}}".Params(DeleteParams(tableName: "Tenants"));
@@ -11902,7 +12105,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     ""Creator"",
                     ""Updator"",
                     ""CreatedTime"",
-                    ""UpdatedTime""
+                    ""UpdatedTime"" 
                     {{1}}
                 )
                 (
@@ -11919,7 +12122,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     ""Demos"".""Creator"",
                     ""Demos"".""Updator"",
                     ""Demos"".""CreatedTime"",
-                    ""Demos"".""UpdatedTime"" 
+                    ""Demos"".""UpdatedTime""
                     {{2}}
                 from ""Demos"" {{0}});
                 delete from ""Demos"" {{0}}".Params(DeleteParams(tableName: "Demos"));
@@ -11945,7 +12148,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     ""Creator"",
                     ""Updator"",
                     ""CreatedTime"",
-                    ""UpdatedTime""
+                    ""UpdatedTime"" 
                     {{1}}
                 )
                 (
@@ -11961,7 +12164,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     ""Sessions"".""Creator"",
                     ""Sessions"".""Updator"",
                     ""Sessions"".""CreatedTime"",
-                    ""Sessions"".""UpdatedTime"" 
+                    ""Sessions"".""UpdatedTime""
                     {{2}}
                 from ""Sessions"" {{0}});
                 delete from ""Sessions"" {{0}}".Params(DeleteParams(tableName: "Sessions"));
@@ -12015,7 +12218,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     ""Comments"",
                     ""Creator"",
                     ""Updator"",
-                    ""UpdatedTime""
+                    ""UpdatedTime"" 
                     {{1}}
                 )
                 (
@@ -12059,7 +12262,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     ""SysLogs"".""Comments"",
                     ""SysLogs"".""Creator"",
                     ""SysLogs"".""Updator"",
-                    ""SysLogs"".""UpdatedTime"" 
+                    ""SysLogs"".""UpdatedTime""
                     {{2}}
                 from ""SysLogs"" {{0}});
                 delete from ""SysLogs"" {{0}}".Params(DeleteParams(tableName: "SysLogs"));
@@ -12082,7 +12285,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     ""Creator"",
                     ""Updator"",
                     ""CreatedTime"",
-                    ""UpdatedTime""
+                    ""UpdatedTime"" 
                     {{1}}
                 )
                 (
@@ -12095,7 +12298,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     ""Statuses"".""Creator"",
                     ""Statuses"".""Updator"",
                     ""Statuses"".""CreatedTime"",
-                    ""Statuses"".""UpdatedTime"" 
+                    ""Statuses"".""UpdatedTime""
                     {{2}}
                 from ""Statuses"" {{0}});
                 delete from ""Statuses"" {{0}}".Params(DeleteParams(tableName: "Statuses"));
@@ -12118,7 +12321,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     ""Creator"",
                     ""Updator"",
                     ""CreatedTime"",
-                    ""UpdatedTime""
+                    ""UpdatedTime"" 
                     {{1}}
                 )
                 (
@@ -12131,7 +12334,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     ""ReminderSchedules"".""Creator"",
                     ""ReminderSchedules"".""Updator"",
                     ""ReminderSchedules"".""CreatedTime"",
-                    ""ReminderSchedules"".""UpdatedTime"" 
+                    ""ReminderSchedules"".""UpdatedTime""
                     {{2}}
                 from ""ReminderSchedules"" {{0}});
                 delete from ""ReminderSchedules"" {{0}}".Params(DeleteParams(tableName: "ReminderSchedules"));
@@ -12156,7 +12359,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     ""Creator"",
                     ""Updator"",
                     ""CreatedTime"",
-                    ""UpdatedTime""
+                    ""UpdatedTime"" 
                     {{1}}
                 )
                 (
@@ -12171,7 +12374,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     ""Depts"".""Creator"",
                     ""Depts"".""Updator"",
                     ""Depts"".""CreatedTime"",
-                    ""Depts"".""UpdatedTime"" 
+                    ""Depts"".""UpdatedTime""
                     {{2}}
                 from ""Depts"" {{0}});
                 delete from ""Depts"" {{0}}".Params(DeleteParams(tableName: "Depts"));
@@ -12195,7 +12398,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     ""Creator"",
                     ""Updator"",
                     ""CreatedTime"",
-                    ""UpdatedTime""
+                    ""UpdatedTime"" 
                     {{1}}
                 )
                 (
@@ -12209,7 +12412,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     ""Groups"".""Creator"",
                     ""Groups"".""Updator"",
                     ""Groups"".""CreatedTime"",
-                    ""Groups"".""UpdatedTime"" 
+                    ""Groups"".""UpdatedTime""
                     {{2}}
                 from ""Groups"" {{0}});
                 delete from ""Groups"" {{0}}".Params(DeleteParams(tableName: "Groups"));
@@ -12233,7 +12436,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     ""Creator"",
                     ""Updator"",
                     ""CreatedTime"",
-                    ""UpdatedTime""
+                    ""UpdatedTime"" 
                     {{1}}
                 )
                 (
@@ -12247,7 +12450,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     ""GroupMembers"".""Creator"",
                     ""GroupMembers"".""Updator"",
                     ""GroupMembers"".""CreatedTime"",
-                    ""GroupMembers"".""UpdatedTime"" 
+                    ""GroupMembers"".""UpdatedTime""
                     {{2}}
                 from ""GroupMembers"" {{0}});
                 delete from ""GroupMembers"" {{0}}".Params(DeleteParams(tableName: "GroupMembers"));
@@ -12281,7 +12484,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     ""Creator"",
                     ""Updator"",
                     ""CreatedTime"",
-                    ""UpdatedTime""
+                    ""UpdatedTime"" 
                     {{1}}
                 )
                 (
@@ -12305,10 +12508,10 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     ""Registrations"".""Creator"",
                     ""Registrations"".""Updator"",
                     ""Registrations"".""CreatedTime"",
-                    ""Registrations"".""UpdatedTime"" 
+                    ""Registrations"".""UpdatedTime""
                     {{2}}
                 from ""Registrations"" {{0}});
-                delete from ""Registrations] {{0}}".Params(DeleteParams(tableName: "Registrations"));
+                delete from ""Registrations"" {{0}}".Params(DeleteParams(tableName: "Registrations"));
         }
 
         public static string DeleteUsersStatement(ISqlObjectFactory factory)
@@ -12356,7 +12559,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     ""Creator"",
                     ""Updator"",
                     ""CreatedTime"",
-                    ""UpdatedTime""
+                    ""UpdatedTime"" 
                     {{1}}
                 )
                 (
@@ -12397,7 +12600,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     ""Users"".""Creator"",
                     ""Users"".""Updator"",
                     ""Users"".""CreatedTime"",
-                    ""Users"".""UpdatedTime"" 
+                    ""Users"".""UpdatedTime""
                     {{2}}
                 from ""Users"" {{0}});
                 delete from ""Users"" {{0}}".Params(DeleteParams(tableName: "Users"));
@@ -12412,17 +12615,17 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     ""UpdatedTime"" = {factory.Sqls.CurrentDateTime} {{0}};
                 insert into ""LoginKeys_deleted""
                 (
-                    ""LoginKeys_deleted"".""LoginId"",
-                    ""LoginKeys_deleted"".""Key"",
-                    ""LoginKeys_deleted"".""Ver"",
-                    ""LoginKeys_deleted"".""TenantNames"",
-                    ""LoginKeys_deleted"".""TenantId"",
-                    ""LoginKeys_deleted"".""UserId"",
-                    ""LoginKeys_deleted"".""Comments"",
-                    ""LoginKeys_deleted"".""Creator"",
-                    ""LoginKeys_deleted"".""Updator"",
-                    ""LoginKeys_deleted"".""CreatedTime"",
-                    ""LoginKeys_deleted"".""UpdatedTime""
+                    ""LoginId"",
+                    ""Key"",
+                    ""Ver"",
+                    ""TenantNames"",
+                    ""TenantId"",
+                    ""UserId"",
+                    ""Comments"",
+                    ""Creator"",
+                    ""Updator"",
+                    ""CreatedTime"",
+                    ""UpdatedTime"" 
                     {{1}}
                 )
                 (
@@ -12437,7 +12640,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     ""LoginKeys"".""Creator"",
                     ""LoginKeys"".""Updator"",
                     ""LoginKeys"".""CreatedTime"",
-                    ""LoginKeys"".""UpdatedTime"" 
+                    ""LoginKeys"".""UpdatedTime""
                     {{2}}
                 from ""LoginKeys"" {{0}});
                 delete from ""LoginKeys"" {{0}}".Params(DeleteParams(tableName: "LoginKeys"));
@@ -12461,7 +12664,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     ""Creator"",
                     ""Updator"",
                     ""CreatedTime"",
-                    ""UpdatedTime""
+                    ""UpdatedTime"" 
                     {{1}}
                 )
                 (
@@ -12475,7 +12678,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     ""MailAddresses"".""Creator"",
                     ""MailAddresses"".""Updator"",
                     ""MailAddresses"".""CreatedTime"",
-                    ""MailAddresses"".""UpdatedTime"" 
+                    ""MailAddresses"".""UpdatedTime""
                     {{2}}
                 from ""MailAddresses"" {{0}});
                 delete from ""MailAddresses"" {{0}}".Params(DeleteParams(tableName: "MailAddresses"));
@@ -12508,7 +12711,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     ""Creator"",
                     ""Updator"",
                     ""CreatedTime"",
-                    ""UpdatedTime""
+                    ""UpdatedTime"" 
                     {{1}}
                 )
                 (
@@ -12531,7 +12734,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     ""OutgoingMails"".""Creator"",
                     ""OutgoingMails"".""Updator"",
                     ""OutgoingMails"".""CreatedTime"",
-                    ""OutgoingMails"".""UpdatedTime"" 
+                    ""OutgoingMails"".""UpdatedTime""
                     {{2}}
                 from ""OutgoingMails"" {{0}});
                 delete from ""OutgoingMails"" {{0}}".Params(DeleteParams(tableName: "OutgoingMails"));
@@ -12557,7 +12760,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     ""Creator"",
                     ""Updator"",
                     ""CreatedTime"",
-                    ""UpdatedTime""
+                    ""UpdatedTime"" 
                     {{1}}
                 )
                 (
@@ -12573,7 +12776,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     ""Items"".""Creator"",
                     ""Items"".""Updator"",
                     ""Items"".""CreatedTime"",
-                    ""Items"".""UpdatedTime"" 
+                    ""Items"".""UpdatedTime""
                     {{2}}
                 from ""Items"" {{0}});
                 delete from ""Items"" {{0}}".Params(DeleteParams(tableName: "Items"));
@@ -12608,7 +12811,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     ""Comments"",
                     ""Creator"",
                     ""Updator"",
-                    ""CreatedTime""
+                    ""CreatedTime"" 
                     {{1}}
                 )
                 (
@@ -12628,12 +12831,12 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     ""Sites"".""Publish"",
                     ""Sites"".""LockedTime"",
                     ""Sites"".""LockedUser"",
-                    ""ApiCountDate"",
-                    ""ApiCount"",
+                    ""Sites"".""ApiCountDate"",
+                    ""Sites"".""ApiCount"",
                     ""Sites"".""Comments"",
                     ""Sites"".""Creator"",
                     ""Sites"".""Updator"",
-                    ""Sites"".""CreatedTime"" 
+                    ""Sites"".""CreatedTime""
                     {{2}}
                 from ""Sites"" {{0}});
                 delete from ""Sites"" {{0}}".Params(DeleteParams(tableName: "Sites"));
@@ -12657,7 +12860,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     ""Creator"",
                     ""Updator"",
                     ""CreatedTime"",
-                    ""UpdatedTime""
+                    ""UpdatedTime"" 
                     {{1}}
                 )
                 (
@@ -12671,7 +12874,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     ""Orders"".""Creator"",
                     ""Orders"".""Updator"",
                     ""Orders"".""CreatedTime"",
-                    ""Orders"".""UpdatedTime"" 
+                    ""Orders"".""UpdatedTime""
                     {{2}}
                 from ""Orders"" {{0}});
                 delete from ""Orders"" {{0}}".Params(DeleteParams(tableName: "Orders"));
@@ -12697,7 +12900,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     ""Creator"",
                     ""Updator"",
                     ""CreatedTime"",
-                    ""UpdatedTime""
+                    ""UpdatedTime"" 
                     {{1}}
                 )
                 (
@@ -12713,7 +12916,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     ""ExportSettings"".""Creator"",
                     ""ExportSettings"".""Updator"",
                     ""ExportSettings"".""CreatedTime"",
-                    ""ExportSettings"".""UpdatedTime"" 
+                    ""ExportSettings"".""UpdatedTime""
                     {{2}}
                 from ""ExportSettings"" {{0}});
                 delete from ""ExportSettings"" {{0}}".Params(DeleteParams(tableName: "ExportSettings"));
@@ -12735,7 +12938,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     ""Creator"",
                     ""Updator"",
                     ""CreatedTime"",
-                    ""UpdatedTime""
+                    ""UpdatedTime"" 
                     {{1}}
                 )
                 (
@@ -12747,7 +12950,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     ""Links"".""Creator"",
                     ""Links"".""Updator"",
                     ""Links"".""CreatedTime"",
-                    ""Links"".""UpdatedTime"" 
+                    ""Links"".""UpdatedTime""
                     {{2}}
                 from ""Links"" {{0}});
                 delete from ""Links"" {{0}}".Params(DeleteParams(tableName: "Links"));
@@ -12782,7 +12985,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     ""Creator"",
                     ""Updator"",
                     ""CreatedTime"",
-                    ""UpdatedTime""
+                    ""UpdatedTime"" 
                     {{1}}
                 )
                 (
@@ -12807,7 +13010,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     ""Binaries"".""Creator"",
                     ""Binaries"".""Updator"",
                     ""Binaries"".""CreatedTime"",
-                    ""Binaries"".""UpdatedTime"" 
+                    ""Binaries"".""UpdatedTime""
                     {{2}}
                 from ""Binaries"" {{0}});
                 delete from ""Binaries"" {{0}}".Params(DeleteParams(tableName: "Binaries"));
@@ -12832,7 +13035,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     ""Creator"",
                     ""Updator"",
                     ""CreatedTime"",
-                    ""UpdatedTime""
+                    ""UpdatedTime"" 
                     {{1}}
                 )
                 (
@@ -12847,7 +13050,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     ""Permissions"".""Creator"",
                     ""Permissions"".""Updator"",
                     ""Permissions"".""CreatedTime"",
-                    ""Permissions"".""UpdatedTime"" 
+                    ""Permissions"".""UpdatedTime""
                     {{2}}
                 from ""Permissions"" {{0}});
                 delete from ""Permissions"" {{0}}".Params(DeleteParams(tableName: "Permissions"));
@@ -12878,7 +13081,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     ""Comments"",
                     ""Creator"",
                     ""Updator"",
-                    ""CreatedTime""
+                    ""CreatedTime"" 
                     {{1}}
                 )
                 (
@@ -12899,7 +13102,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     ""Issues"".""Comments"",
                     ""Issues"".""Creator"",
                     ""Issues"".""Updator"",
-                    ""Issues"".""CreatedTime"" 
+                    ""Issues"".""CreatedTime""
                     {{2}}
                 from ""Issues"" {{0}});
                 delete from ""Issues"" {{0}}".Params(DeleteParams(tableName: "Issues"));
@@ -12926,7 +13129,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     ""Comments"",
                     ""Creator"",
                     ""Updator"",
-                    ""CreatedTime""
+                    ""CreatedTime"" 
                     {{1}}
                 )
                 (
@@ -12943,7 +13146,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     ""Results"".""Comments"",
                     ""Results"".""Creator"",
                     ""Results"".""Updator"",
-                    ""Results"".""CreatedTime"" 
+                    ""Results"".""CreatedTime""
                     {{2}}
                 from ""Results"" {{0}});
                 delete from ""Results"" {{0}}".Params(DeleteParams(tableName: "Results"));
@@ -12967,7 +13170,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     ""Comments"",
                     ""Creator"",
                     ""Updator"",
-                    ""CreatedTime""
+                    ""CreatedTime"" 
                     {{1}}
                 )
                 (
@@ -12981,7 +13184,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     ""Wikis"".""Comments"",
                     ""Wikis"".""Creator"",
                     ""Wikis"".""Updator"",
-                    ""Wikis"".""CreatedTime"" 
+                    ""Wikis"".""CreatedTime""
                     {{2}}
                 from ""Wikis"" {{0}});
                 delete from ""Wikis"" {{0}}".Params(DeleteParams(tableName: "Wikis"));
@@ -13024,6 +13227,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     ""ContractSettings"",
                     ""ContractDeadline"",
                     ""DisableAllUsersPermission"",
+                    ""DisableStartGuide"",
                     ""LogoType"",
                     ""HtmlTitleTop"",
                     ""HtmlTitleSite"",
@@ -13033,7 +13237,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     ""Updator"",
                     ""CreatedTime"",
                     ""UpdatedTime""
-                    {{{2}}}
+                    {{2}}
                 )
                 (
                 select
@@ -13045,6 +13249,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     ""Tenants_deleted"".""ContractSettings"",
                     ""Tenants_deleted"".""ContractDeadline"",
                     ""Tenants_deleted"".""DisableAllUsersPermission"",
+                    ""Tenants_deleted"".""DisableStartGuide"",
                     ""Tenants_deleted"".""LogoType"",
                     ""Tenants_deleted"".""HtmlTitleTop"",
                     ""Tenants_deleted"".""HtmlTitleSite"",
@@ -13739,7 +13944,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                 set
                     ""Updator"" = {Parameters.Parameter.SqlParameterPrefix}U,
                     ""UpdatedTime"" = {factory.Sqls.CurrentDateTime} {{0}};
-                {factory.SqlCommandText.CreateIdentityInsert(template: @"set identity_insert ""Items"" on;")}
+                set identity_insert ""Items"" on; 
                 insert into ""Items""
                 (
                     ""ReferenceId"",
@@ -13772,7 +13977,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     ""Items_deleted"".""UpdatedTime"" 
                     {{1}}
                 from ""Items_deleted"" {{0}});
-                {factory.SqlCommandText.CreateIdentityInsert(template: @"set identity_insert ""Items"" off;")}
+                set identity_insert ""Items"" off; 
                 delete from ""Items_deleted"" {{0}}".Params(DeleteParams(tableName: "Items"));
         }
 
@@ -14461,6 +14666,8 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     return self.ContractDeadline(_as: _as, function: function);
                 case "DisableAllUsersPermission":
                     return self.DisableAllUsersPermission(_as: _as, function: function);
+                case "DisableStartGuide":
+                    return self.DisableStartGuide(_as: _as, function: function);
                 case "LogoType":
                     return self.LogoType(_as: _as, function: function);
                 case "HtmlTitleTop":
@@ -14755,6 +14962,40 @@ namespace Implem.Pleasanter.Libraries.DataSources
         {
             return self.Add(
                 columnBracket: "\"DisableAllUsersPermission\"",
+                tableName: tableName,
+                columnName: columnName,
+                _as: _as,
+                function: function,
+                sub: sub);
+        }
+
+        public static TenantsColumnCollection DisableStartGuide(
+            this TenantsColumnCollection self,
+            string tableName = "Tenants",
+            string columnName = "DisableStartGuide",
+            string _as = null,
+            Sqls.Functions function = Sqls.Functions.None,
+            SqlStatement sub = null)
+        {
+            return self.Add(
+                columnBracket: "\"DisableStartGuide\"",
+                tableName: tableName,
+                columnName: columnName,
+                _as: _as,
+                function: function,
+                sub: sub);
+        }
+
+        public static SqlColumnCollection Tenants_DisableStartGuide(
+            this SqlColumnCollection self,
+            string tableName = "Tenants",
+            string columnName = "DisableStartGuide",
+            string _as = null,
+            Sqls.Functions function = Sqls.Functions.None,
+            SqlStatement sub = null)
+        {
+            return self.Add(
+                columnBracket: "\"DisableStartGuide\"",
                 tableName: tableName,
                 columnName: columnName,
                 _as: _as,
@@ -15532,6 +15773,64 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBrackets: new string[] { "\"DisableAllUsersPermission\"" },
                     tableName: tableName,
                     name: "DisableAllUsersPermission",
+                    value: value,
+                    _operator: _operator,
+                    multiColumnOperator: multiColumnOperator,
+                    multiParamOperator: multiParamOperator,
+                    subLeft: subLeft,
+                    sub: sub,
+                    subPrefix: subPrefix,
+                    raw: raw)
+                : self;
+        }
+
+        public static TenantsWhereCollection DisableStartGuide(
+            this TenantsWhereCollection self,
+            object value = null,
+            string tableName = "Tenants",
+            string _operator = "=",
+            string multiColumnOperator = " or ",
+            string multiParamOperator = " and ",
+            SqlStatement subLeft = null,
+            SqlStatement sub = null,
+            bool subPrefix = true,
+            string raw = null,
+            bool _using = true)
+        {
+            return _using
+                ? self.Add(
+                    columnBrackets: new string[] { "\"DisableStartGuide\"" },
+                    tableName: tableName,
+                    name: "DisableStartGuide",
+                    value: value,
+                    _operator: _operator,
+                    multiColumnOperator: multiColumnOperator,
+                    multiParamOperator: multiParamOperator,
+                    subLeft: subLeft,
+                    sub: sub,
+                    subPrefix: subPrefix,
+                    raw: raw)
+                : self;
+        }
+
+        public static SqlWhereCollection Tenants_DisableStartGuide(
+            this SqlWhereCollection self,
+            object value = null,
+            string tableName = "Tenants",
+            string _operator = "=",
+            string multiColumnOperator = " or ",
+            string multiParamOperator = " and ",
+            SqlStatement subLeft = null,
+            SqlStatement sub = null,
+            bool subPrefix = true,
+            string raw = null,
+            bool _using = true)
+        {
+            return _using
+                ? self.Add(
+                    columnBrackets: new string[] { "\"DisableStartGuide\"" },
+                    tableName: tableName,
+                    name: "DisableStartGuide",
                     value: value,
                     _operator: _operator,
                     multiColumnOperator: multiColumnOperator,
@@ -16564,6 +16863,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     case "ContractSettings": return self.ContractSettings();
                     case "ContractDeadline": return self.ContractDeadline();
                     case "DisableAllUsersPermission": return self.DisableAllUsersPermission();
+                    case "DisableStartGuide": return self.DisableStartGuide();
                     case "LogoType": return self.LogoType();
                     case "HtmlTitleTop": return self.HtmlTitleTop();
                     case "HtmlTitleSite": return self.HtmlTitleSite();
@@ -16679,6 +16979,18 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this SqlGroupByCollection self, string tableName = "Tenants")
         {
             return self.Add(columnBracket: "\"DisableAllUsersPermission\"", tableName: tableName);
+        }
+
+        public static TenantsGroupByCollection DisableStartGuide(
+            this TenantsGroupByCollection self, string tableName = "Tenants")
+        {
+            return self.Add(columnBracket: "\"DisableStartGuide\"", tableName: tableName);
+        }
+
+        public static SqlGroupByCollection Tenants_DisableStartGuide(
+            this SqlGroupByCollection self, string tableName = "Tenants")
+        {
+            return self.Add(columnBracket: "\"DisableStartGuide\"", tableName: tableName);
         }
 
         public static TenantsGroupByCollection LogoType(
@@ -16953,6 +17265,21 @@ namespace Implem.Pleasanter.Libraries.DataSources
             return self;
         }
 
+        public static TenantsOrderByCollection DisableStartGuide(
+            this TenantsOrderByCollection self,
+            SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
+            string tableName = "Tenants",
+            Sqls.Functions function = Sqls.Functions.None)
+        {
+            new List<string> { "\"DisableStartGuide\"" }.ForEach(columnBracket =>
+                self.Add(
+                    columnBracket: columnBracket,
+                    orderType: orderType,
+                    tableName: tableName,
+                    function: function));
+            return self;
+        }
+
         public static TenantsOrderByCollection LogoType(
             this TenantsOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
@@ -17200,6 +17527,21 @@ namespace Implem.Pleasanter.Libraries.DataSources
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"DisableAllUsersPermission\"" }.ForEach(columnBracket =>
+                self.Add(
+                    columnBracket: columnBracket,
+                    orderType: orderType,
+                    tableName: tableName,
+                    function: function));
+            return self;
+        }
+
+        public static SqlOrderByCollection Tenants_DisableStartGuide(
+            this SqlOrderByCollection self,
+            SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
+            string tableName = "Tenants",
+            Sqls.Functions function = Sqls.Functions.None)
+        {
+            new List<string> { "\"DisableStartGuide\"" }.ForEach(columnBracket =>
                 self.Add(
                     columnBracket: columnBracket,
                     orderType: orderType,
@@ -17619,6 +17961,40 @@ namespace Implem.Pleasanter.Libraries.DataSources
                 ? self.Add(
                     columnBracket: "\"DisableAllUsersPermission\"",
                     name: "DisableAllUsersPermission",
+                    value: value,
+                    sub: sub,
+                    raw: raw)
+                : self;
+        }
+
+        public static TenantsParamCollection DisableStartGuide(
+            this TenantsParamCollection self,
+            object value = null,
+            SqlStatement sub = null,
+            string raw = null,
+            bool _using = true)
+        {
+            return _using
+                ? self.Add(
+                    columnBracket: "\"DisableStartGuide\"",
+                    name: "DisableStartGuide",
+                    value: value,
+                    sub: sub,
+                    raw: raw)
+                : self;
+        }
+
+        public static SqlParamCollection Tenants_DisableStartGuide(
+            this SqlParamCollection self,
+            object value = null,
+            SqlStatement sub = null,
+            string raw = null,
+            bool _using = true)
+        {
+            return _using
+                ? self.Add(
+                    columnBracket: "\"DisableStartGuide\"",
+                    name: "DisableStartGuide",
                     value: value,
                     sub: sub,
                     raw: raw)
@@ -44740,7 +45116,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             SqlStatement sub = null)
         {
             return self.Add(
-                columnBracket: "[CreatedTime\"",
+                columnBracket: "\"CreatedTime\"",
                 tableName: tableName,
                 columnName: columnName,
                 _as: _as,
@@ -44866,7 +45242,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
         {
             return _using
                 ? self.Add(
-                    columnBrackets: new string[] { "\"RegistrationId]" },
+                    columnBrackets: new string[] { "\"RegistrationId\"" },
                     tableName: tableName,
                     name: "RegistrationId",
                     value: value,
@@ -99671,6 +100047,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                 .ContractSettings()
                 .ContractDeadline()
                 .DisableAllUsersPermission()
+                .DisableStartGuide()
                 .LogoType()
                 .HtmlTitleTop()
                 .HtmlTitleSite()
@@ -99714,6 +100091,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                 .ContractSettings(tenantModel.ContractSettings?.RecordingJson(), _using: tenantModel.ContractSettings_Updated(context) || (otherInitValue && !tenantModel.ContractSettings.InitialValue(context)))
                 .ContractDeadline(tenantModel.ContractDeadline, _using: tenantModel.ContractDeadline_Updated(context) || (otherInitValue && !tenantModel.ContractDeadline.InitialValue(context)))
                 .DisableAllUsersPermission(tenantModel.DisableAllUsersPermission, _using: tenantModel.DisableAllUsersPermission_Updated(context) || (otherInitValue && !tenantModel.DisableAllUsersPermission.InitialValue(context)))
+                .DisableStartGuide(tenantModel.DisableStartGuide, _using: tenantModel.DisableStartGuide_Updated(context) || (otherInitValue && !tenantModel.DisableStartGuide.InitialValue(context)))
                 .LogoType(tenantModel.LogoType.ToInt(), _using: tenantModel.LogoType_Updated(context) || setDefault || (otherInitValue && !tenantModel.LogoType.InitialValue(context)))
                 .HtmlTitleTop(tenantModel.HtmlTitleTop.MaxLength(1024), _using: tenantModel.HtmlTitleTop_Updated(context) || setDefault || (otherInitValue && !tenantModel.HtmlTitleTop.InitialValue(context)))
                 .HtmlTitleSite(tenantModel.HtmlTitleSite.MaxLength(1024), _using: tenantModel.HtmlTitleSite_Updated(context) || setDefault || (otherInitValue && !tenantModel.HtmlTitleSite.InitialValue(context)))
@@ -99725,7 +100103,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                         .InitialValue(context: context)))
                 .ForEach(o =>
                     param.Add(
-                        columnBracket: o.Key,
+                        columnBracket: $"\"{o.Key}\"",
                         name: o.Key,
                         value: o.Value.MaxLength(1024)));
             tenantModel.NumHash
@@ -99734,7 +100112,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                         .InitialValue(context: context)))
                 .ForEach(o =>
                     param.Add(
-                        columnBracket: o.Key,
+                        columnBracket: $"\"{o.Key}\"",
                         name: o.Key,
                         value: o.Value));
             tenantModel.DateHash
@@ -99743,7 +100121,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                         .InitialValue(context: context)))
                 .ForEach(o =>
                     param.Add(
-                        columnBracket: o.Key,
+                        columnBracket: $"\"{o.Key}\"",
                         name: o.Key,
                         value: o.Value));
             tenantModel.DescriptionHash
@@ -99752,7 +100130,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                         .InitialValue(context: context)))
                 .ForEach(o =>
                     param.Add(
-                        columnBracket: o.Key,
+                        columnBracket: $"\"{o.Key}\"",
                         name: o.Key,
                         value: o.Value));
             tenantModel.CheckHash
@@ -99761,7 +100139,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                         .InitialValue(context: context)))
                 .ForEach(o =>
                     param.Add(
-                        columnBracket: o.Key,
+                        columnBracket: $"\"{o.Key}\"",
                         name: o.Key,
                         value: o.Value));
             tenantModel.AttachmentsHash
@@ -99770,7 +100148,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                         .InitialValue(context: context)))
                 .ForEach(o =>
                     param.Add(
-                        columnBracket: o.Key,
+                        columnBracket: $"\"{o.Key}\"",
                         name: o.Key,
                         value: o.Value?.RecordingJson() ?? string.Empty));
             return param;
@@ -99833,7 +100211,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                         .InitialValue(context: context)))
                 .ForEach(o =>
                     param.Add(
-                        columnBracket: o.Key,
+                        columnBracket: $"\"{o.Key}\"",
                         name: o.Key,
                         value: o.Value.MaxLength(1024)));
             demoModel.NumHash
@@ -99842,7 +100220,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                         .InitialValue(context: context)))
                 .ForEach(o =>
                     param.Add(
-                        columnBracket: o.Key,
+                        columnBracket: $"\"{o.Key}\"",
                         name: o.Key,
                         value: o.Value));
             demoModel.DateHash
@@ -99851,7 +100229,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                         .InitialValue(context: context)))
                 .ForEach(o =>
                     param.Add(
-                        columnBracket: o.Key,
+                        columnBracket: $"\"{o.Key}\"",
                         name: o.Key,
                         value: o.Value));
             demoModel.DescriptionHash
@@ -99860,7 +100238,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                         .InitialValue(context: context)))
                 .ForEach(o =>
                     param.Add(
-                        columnBracket: o.Key,
+                        columnBracket: $"\"{o.Key}\"",
                         name: o.Key,
                         value: o.Value));
             demoModel.CheckHash
@@ -99869,7 +100247,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                         .InitialValue(context: context)))
                 .ForEach(o =>
                     param.Add(
-                        columnBracket: o.Key,
+                        columnBracket: $"\"{o.Key}\"",
                         name: o.Key,
                         value: o.Value));
             demoModel.AttachmentsHash
@@ -99878,7 +100256,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                         .InitialValue(context: context)))
                 .ForEach(o =>
                     param.Add(
-                        columnBracket: o.Key,
+                        columnBracket: $"\"{o.Key}\"",
                         name: o.Key,
                         value: o.Value?.RecordingJson() ?? string.Empty));
             return param;
@@ -99942,7 +100320,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                         .InitialValue(context: context)))
                 .ForEach(o =>
                     param.Add(
-                        columnBracket: o.Key,
+                        columnBracket: $"\"{o.Key}\"",
                         name: o.Key,
                         value: o.Value.MaxLength(1024)));
             sessionModel.NumHash
@@ -99951,7 +100329,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                         .InitialValue(context: context)))
                 .ForEach(o =>
                     param.Add(
-                        columnBracket: o.Key,
+                        columnBracket: $"\"{o.Key}\"",
                         name: o.Key,
                         value: o.Value));
             sessionModel.DateHash
@@ -99960,7 +100338,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                         .InitialValue(context: context)))
                 .ForEach(o =>
                     param.Add(
-                        columnBracket: o.Key,
+                        columnBracket: $"\"{o.Key}\"",
                         name: o.Key,
                         value: o.Value));
             sessionModel.DescriptionHash
@@ -99969,7 +100347,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                         .InitialValue(context: context)))
                 .ForEach(o =>
                     param.Add(
-                        columnBracket: o.Key,
+                        columnBracket: $"\"{o.Key}\"",
                         name: o.Key,
                         value: o.Value));
             sessionModel.CheckHash
@@ -99978,7 +100356,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                         .InitialValue(context: context)))
                 .ForEach(o =>
                     param.Add(
-                        columnBracket: o.Key,
+                        columnBracket: $"\"{o.Key}\"",
                         name: o.Key,
                         value: o.Value));
             sessionModel.AttachmentsHash
@@ -99987,7 +100365,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                         .InitialValue(context: context)))
                 .ForEach(o =>
                     param.Add(
-                        columnBracket: o.Key,
+                        columnBracket: $"\"{o.Key}\"",
                         name: o.Key,
                         value: o.Value?.RecordingJson() ?? string.Empty));
             return param;
@@ -100104,7 +100482,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                         .InitialValue(context: context)))
                 .ForEach(o =>
                     param.Add(
-                        columnBracket: o.Key,
+                        columnBracket: $"\"{o.Key}\"",
                         name: o.Key,
                         value: o.Value.MaxLength(1024)));
             sysLogModel.NumHash
@@ -100113,7 +100491,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                         .InitialValue(context: context)))
                 .ForEach(o =>
                     param.Add(
-                        columnBracket: o.Key,
+                        columnBracket: $"\"{o.Key}\"",
                         name: o.Key,
                         value: o.Value));
             sysLogModel.DateHash
@@ -100122,7 +100500,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                         .InitialValue(context: context)))
                 .ForEach(o =>
                     param.Add(
-                        columnBracket: o.Key,
+                        columnBracket: $"\"{o.Key}\"",
                         name: o.Key,
                         value: o.Value));
             sysLogModel.DescriptionHash
@@ -100131,7 +100509,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                         .InitialValue(context: context)))
                 .ForEach(o =>
                     param.Add(
-                        columnBracket: o.Key,
+                        columnBracket: $"\"{o.Key}\"",
                         name: o.Key,
                         value: o.Value));
             sysLogModel.CheckHash
@@ -100140,7 +100518,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                         .InitialValue(context: context)))
                 .ForEach(o =>
                     param.Add(
-                        columnBracket: o.Key,
+                        columnBracket: $"\"{o.Key}\"",
                         name: o.Key,
                         value: o.Value));
             sysLogModel.AttachmentsHash
@@ -100149,7 +100527,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                         .InitialValue(context: context)))
                 .ForEach(o =>
                     param.Add(
-                        columnBracket: o.Key,
+                        columnBracket: $"\"{o.Key}\"",
                         name: o.Key,
                         value: o.Value?.RecordingJson() ?? string.Empty));
             return param;
@@ -100206,7 +100584,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                         .InitialValue(context: context)))
                 .ForEach(o =>
                     param.Add(
-                        columnBracket: o.Key,
+                        columnBracket: $"\"{o.Key}\"",
                         name: o.Key,
                         value: o.Value.MaxLength(1024)));
             statusModel.NumHash
@@ -100215,7 +100593,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                         .InitialValue(context: context)))
                 .ForEach(o =>
                     param.Add(
-                        columnBracket: o.Key,
+                        columnBracket: $"\"{o.Key}\"",
                         name: o.Key,
                         value: o.Value));
             statusModel.DateHash
@@ -100224,7 +100602,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                         .InitialValue(context: context)))
                 .ForEach(o =>
                     param.Add(
-                        columnBracket: o.Key,
+                        columnBracket: $"\"{o.Key}\"",
                         name: o.Key,
                         value: o.Value));
             statusModel.DescriptionHash
@@ -100233,7 +100611,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                         .InitialValue(context: context)))
                 .ForEach(o =>
                     param.Add(
-                        columnBracket: o.Key,
+                        columnBracket: $"\"{o.Key}\"",
                         name: o.Key,
                         value: o.Value));
             statusModel.CheckHash
@@ -100242,7 +100620,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                         .InitialValue(context: context)))
                 .ForEach(o =>
                     param.Add(
-                        columnBracket: o.Key,
+                        columnBracket: $"\"{o.Key}\"",
                         name: o.Key,
                         value: o.Value));
             statusModel.AttachmentsHash
@@ -100251,7 +100629,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                         .InitialValue(context: context)))
                 .ForEach(o =>
                     param.Add(
-                        columnBracket: o.Key,
+                        columnBracket: $"\"{o.Key}\"",
                         name: o.Key,
                         value: o.Value?.RecordingJson() ?? string.Empty));
             return param;
@@ -100308,7 +100686,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                         .InitialValue(context: context)))
                 .ForEach(o =>
                     param.Add(
-                        columnBracket: o.Key,
+                        columnBracket: $"\"{o.Key}\"",
                         name: o.Key,
                         value: o.Value.MaxLength(1024)));
             reminderScheduleModel.NumHash
@@ -100317,7 +100695,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                         .InitialValue(context: context)))
                 .ForEach(o =>
                     param.Add(
-                        columnBracket: o.Key,
+                        columnBracket: $"\"{o.Key}\"",
                         name: o.Key,
                         value: o.Value));
             reminderScheduleModel.DateHash
@@ -100326,7 +100704,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                         .InitialValue(context: context)))
                 .ForEach(o =>
                     param.Add(
-                        columnBracket: o.Key,
+                        columnBracket: $"\"{o.Key}\"",
                         name: o.Key,
                         value: o.Value));
             reminderScheduleModel.DescriptionHash
@@ -100335,7 +100713,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                         .InitialValue(context: context)))
                 .ForEach(o =>
                     param.Add(
-                        columnBracket: o.Key,
+                        columnBracket: $"\"{o.Key}\"",
                         name: o.Key,
                         value: o.Value));
             reminderScheduleModel.CheckHash
@@ -100344,7 +100722,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                         .InitialValue(context: context)))
                 .ForEach(o =>
                     param.Add(
-                        columnBracket: o.Key,
+                        columnBracket: $"\"{o.Key}\"",
                         name: o.Key,
                         value: o.Value));
             reminderScheduleModel.AttachmentsHash
@@ -100353,7 +100731,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                         .InitialValue(context: context)))
                 .ForEach(o =>
                     param.Add(
-                        columnBracket: o.Key,
+                        columnBracket: $"\"{o.Key}\"",
                         name: o.Key,
                         value: o.Value?.RecordingJson() ?? string.Empty));
             return param;
@@ -100414,7 +100792,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                         .InitialValue(context: context)))
                 .ForEach(o =>
                     param.Add(
-                        columnBracket: o.Key,
+                        columnBracket: $"\"{o.Key}\"",
                         name: o.Key,
                         value: o.Value.MaxLength(1024)));
             deptModel.NumHash
@@ -100423,7 +100801,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                         .InitialValue(context: context)))
                 .ForEach(o =>
                     param.Add(
-                        columnBracket: o.Key,
+                        columnBracket: $"\"{o.Key}\"",
                         name: o.Key,
                         value: o.Value));
             deptModel.DateHash
@@ -100432,7 +100810,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                         .InitialValue(context: context)))
                 .ForEach(o =>
                     param.Add(
-                        columnBracket: o.Key,
+                        columnBracket: $"\"{o.Key}\"",
                         name: o.Key,
                         value: o.Value));
             deptModel.DescriptionHash
@@ -100441,7 +100819,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                         .InitialValue(context: context)))
                 .ForEach(o =>
                     param.Add(
-                        columnBracket: o.Key,
+                        columnBracket: $"\"{o.Key}\"",
                         name: o.Key,
                         value: o.Value));
             deptModel.CheckHash
@@ -100450,7 +100828,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                         .InitialValue(context: context)))
                 .ForEach(o =>
                     param.Add(
-                        columnBracket: o.Key,
+                        columnBracket: $"\"{o.Key}\"",
                         name: o.Key,
                         value: o.Value));
             deptModel.AttachmentsHash
@@ -100459,7 +100837,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                         .InitialValue(context: context)))
                 .ForEach(o =>
                     param.Add(
-                        columnBracket: o.Key,
+                        columnBracket: $"\"{o.Key}\"",
                         name: o.Key,
                         value: o.Value?.RecordingJson() ?? string.Empty));
             return param;
@@ -100517,7 +100895,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                         .InitialValue(context: context)))
                 .ForEach(o =>
                     param.Add(
-                        columnBracket: o.Key,
+                        columnBracket: $"\"{o.Key}\"",
                         name: o.Key,
                         value: o.Value.MaxLength(1024)));
             groupModel.NumHash
@@ -100526,7 +100904,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                         .InitialValue(context: context)))
                 .ForEach(o =>
                     param.Add(
-                        columnBracket: o.Key,
+                        columnBracket: $"\"{o.Key}\"",
                         name: o.Key,
                         value: o.Value));
             groupModel.DateHash
@@ -100535,7 +100913,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                         .InitialValue(context: context)))
                 .ForEach(o =>
                     param.Add(
-                        columnBracket: o.Key,
+                        columnBracket: $"\"{o.Key}\"",
                         name: o.Key,
                         value: o.Value));
             groupModel.DescriptionHash
@@ -100544,7 +100922,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                         .InitialValue(context: context)))
                 .ForEach(o =>
                     param.Add(
-                        columnBracket: o.Key,
+                        columnBracket: $"\"{o.Key}\"",
                         name: o.Key,
                         value: o.Value));
             groupModel.CheckHash
@@ -100553,7 +100931,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                         .InitialValue(context: context)))
                 .ForEach(o =>
                     param.Add(
-                        columnBracket: o.Key,
+                        columnBracket: $"\"{o.Key}\"",
                         name: o.Key,
                         value: o.Value));
             groupModel.AttachmentsHash
@@ -100562,7 +100940,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                         .InitialValue(context: context)))
                 .ForEach(o =>
                     param.Add(
-                        columnBracket: o.Key,
+                        columnBracket: $"\"{o.Key}\"",
                         name: o.Key,
                         value: o.Value?.RecordingJson() ?? string.Empty));
             return param;
@@ -100620,7 +100998,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                         .InitialValue(context: context)))
                 .ForEach(o =>
                     param.Add(
-                        columnBracket: o.Key,
+                        columnBracket: $"\"{o.Key}\"",
                         name: o.Key,
                         value: o.Value.MaxLength(1024)));
             groupMemberModel.NumHash
@@ -100629,7 +101007,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                         .InitialValue(context: context)))
                 .ForEach(o =>
                     param.Add(
-                        columnBracket: o.Key,
+                        columnBracket: $"\"{o.Key}\"",
                         name: o.Key,
                         value: o.Value));
             groupMemberModel.DateHash
@@ -100638,7 +101016,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                         .InitialValue(context: context)))
                 .ForEach(o =>
                     param.Add(
-                        columnBracket: o.Key,
+                        columnBracket: $"\"{o.Key}\"",
                         name: o.Key,
                         value: o.Value));
             groupMemberModel.DescriptionHash
@@ -100647,7 +101025,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                         .InitialValue(context: context)))
                 .ForEach(o =>
                     param.Add(
-                        columnBracket: o.Key,
+                        columnBracket: $"\"{o.Key}\"",
                         name: o.Key,
                         value: o.Value));
             groupMemberModel.CheckHash
@@ -100656,7 +101034,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                         .InitialValue(context: context)))
                 .ForEach(o =>
                     param.Add(
-                        columnBracket: o.Key,
+                        columnBracket: $"\"{o.Key}\"",
                         name: o.Key,
                         value: o.Value));
             groupMemberModel.AttachmentsHash
@@ -100665,7 +101043,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                         .InitialValue(context: context)))
                 .ForEach(o =>
                     param.Add(
-                        columnBracket: o.Key,
+                        columnBracket: $"\"{o.Key}\"",
                         name: o.Key,
                         value: o.Value?.RecordingJson() ?? string.Empty));
             return param;
@@ -100743,7 +101121,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                         .InitialValue(context: context)))
                 .ForEach(o =>
                     param.Add(
-                        columnBracket: o.Key,
+                        columnBracket: $"\"{o.Key}\"",
                         name: o.Key,
                         value: o.Value.MaxLength(1024)));
             registrationModel.NumHash
@@ -100752,7 +101130,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                         .InitialValue(context: context)))
                 .ForEach(o =>
                     param.Add(
-                        columnBracket: o.Key,
+                        columnBracket: $"\"{o.Key}\"",
                         name: o.Key,
                         value: o.Value));
             registrationModel.DateHash
@@ -100761,7 +101139,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                         .InitialValue(context: context)))
                 .ForEach(o =>
                     param.Add(
-                        columnBracket: o.Key,
+                        columnBracket: $"\"{o.Key}\"",
                         name: o.Key,
                         value: o.Value));
             registrationModel.DescriptionHash
@@ -100770,7 +101148,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                         .InitialValue(context: context)))
                 .ForEach(o =>
                     param.Add(
-                        columnBracket: o.Key,
+                        columnBracket: $"\"{o.Key}\"",
                         name: o.Key,
                         value: o.Value));
             registrationModel.CheckHash
@@ -100779,7 +101157,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                         .InitialValue(context: context)))
                 .ForEach(o =>
                     param.Add(
-                        columnBracket: o.Key,
+                        columnBracket: $"\"{o.Key}\"",
                         name: o.Key,
                         value: o.Value));
             registrationModel.AttachmentsHash
@@ -100788,7 +101166,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                         .InitialValue(context: context)))
                 .ForEach(o =>
                     param.Add(
-                        columnBracket: o.Key,
+                        columnBracket: $"\"{o.Key}\"",
                         name: o.Key,
                         value: o.Value?.RecordingJson() ?? string.Empty));
             return param;
@@ -100906,7 +101284,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                         .InitialValue(context: context)))
                 .ForEach(o =>
                     param.Add(
-                        columnBracket: o.Key,
+                        columnBracket: $"\"{o.Key}\"",
                         name: o.Key,
                         value: o.Value.MaxLength(1024)));
             userModel.NumHash
@@ -100915,7 +101293,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                         .InitialValue(context: context)))
                 .ForEach(o =>
                     param.Add(
-                        columnBracket: o.Key,
+                        columnBracket: $"\"{o.Key}\"",
                         name: o.Key,
                         value: o.Value));
             userModel.DateHash
@@ -100924,7 +101302,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                         .InitialValue(context: context)))
                 .ForEach(o =>
                     param.Add(
-                        columnBracket: o.Key,
+                        columnBracket: $"\"{o.Key}\"",
                         name: o.Key,
                         value: o.Value));
             userModel.DescriptionHash
@@ -100933,7 +101311,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                         .InitialValue(context: context)))
                 .ForEach(o =>
                     param.Add(
-                        columnBracket: o.Key,
+                        columnBracket: $"\"{o.Key}\"",
                         name: o.Key,
                         value: o.Value));
             userModel.CheckHash
@@ -100942,7 +101320,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                         .InitialValue(context: context)))
                 .ForEach(o =>
                     param.Add(
-                        columnBracket: o.Key,
+                        columnBracket: $"\"{o.Key}\"",
                         name: o.Key,
                         value: o.Value));
             userModel.AttachmentsHash
@@ -100951,7 +101329,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                         .InitialValue(context: context)))
                 .ForEach(o =>
                     param.Add(
-                        columnBracket: o.Key,
+                        columnBracket: $"\"{o.Key}\"",
                         name: o.Key,
                         value: o.Value?.RecordingJson() ?? string.Empty));
             return param;
@@ -101012,7 +101390,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                         .InitialValue(context: context)))
                 .ForEach(o =>
                     param.Add(
-                        columnBracket: o.Key,
+                        columnBracket: $"\"{o.Key}\"",
                         name: o.Key,
                         value: o.Value.MaxLength(1024)));
             loginKeyModel.NumHash
@@ -101021,7 +101399,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                         .InitialValue(context: context)))
                 .ForEach(o =>
                     param.Add(
-                        columnBracket: o.Key,
+                        columnBracket: $"\"{o.Key}\"",
                         name: o.Key,
                         value: o.Value));
             loginKeyModel.DateHash
@@ -101030,7 +101408,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                         .InitialValue(context: context)))
                 .ForEach(o =>
                     param.Add(
-                        columnBracket: o.Key,
+                        columnBracket: $"\"{o.Key}\"",
                         name: o.Key,
                         value: o.Value));
             loginKeyModel.DescriptionHash
@@ -101039,7 +101417,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                         .InitialValue(context: context)))
                 .ForEach(o =>
                     param.Add(
-                        columnBracket: o.Key,
+                        columnBracket: $"\"{o.Key}\"",
                         name: o.Key,
                         value: o.Value));
             loginKeyModel.CheckHash
@@ -101048,7 +101426,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                         .InitialValue(context: context)))
                 .ForEach(o =>
                     param.Add(
-                        columnBracket: o.Key,
+                        columnBracket: $"\"{o.Key}\"",
                         name: o.Key,
                         value: o.Value));
             loginKeyModel.AttachmentsHash
@@ -101057,7 +101435,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                         .InitialValue(context: context)))
                 .ForEach(o =>
                     param.Add(
-                        columnBracket: o.Key,
+                        columnBracket: $"\"{o.Key}\"",
                         name: o.Key,
                         value: o.Value?.RecordingJson() ?? string.Empty));
             return param;
@@ -101116,7 +101494,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                         .InitialValue(context: context)))
                 .ForEach(o =>
                     param.Add(
-                        columnBracket: o.Key,
+                        columnBracket: $"\"{o.Key}\"",
                         name: o.Key,
                         value: o.Value.MaxLength(1024)));
             mailAddressModel.NumHash
@@ -101125,7 +101503,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                         .InitialValue(context: context)))
                 .ForEach(o =>
                     param.Add(
-                        columnBracket: o.Key,
+                        columnBracket: $"\"{o.Key}\"",
                         name: o.Key,
                         value: o.Value));
             mailAddressModel.DateHash
@@ -101134,7 +101512,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                         .InitialValue(context: context)))
                 .ForEach(o =>
                     param.Add(
-                        columnBracket: o.Key,
+                        columnBracket: $"\"{o.Key}\"",
                         name: o.Key,
                         value: o.Value));
             mailAddressModel.DescriptionHash
@@ -101143,7 +101521,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                         .InitialValue(context: context)))
                 .ForEach(o =>
                     param.Add(
-                        columnBracket: o.Key,
+                        columnBracket: $"\"{o.Key}\"",
                         name: o.Key,
                         value: o.Value));
             mailAddressModel.CheckHash
@@ -101152,7 +101530,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                         .InitialValue(context: context)))
                 .ForEach(o =>
                     param.Add(
-                        columnBracket: o.Key,
+                        columnBracket: $"\"{o.Key}\"",
                         name: o.Key,
                         value: o.Value));
             mailAddressModel.AttachmentsHash
@@ -101161,7 +101539,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                         .InitialValue(context: context)))
                 .ForEach(o =>
                     param.Add(
-                        columnBracket: o.Key,
+                        columnBracket: $"\"{o.Key}\"",
                         name: o.Key,
                         value: o.Value?.RecordingJson() ?? string.Empty));
             return param;
@@ -101239,7 +101617,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                         .InitialValue(context: context)))
                 .ForEach(o =>
                     param.Add(
-                        columnBracket: o.Key,
+                        columnBracket: $"\"{o.Key}\"",
                         name: o.Key,
                         value: o.Value.MaxLength(1024)));
             outgoingMailModel.NumHash
@@ -101248,7 +101626,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                         .InitialValue(context: context)))
                 .ForEach(o =>
                     param.Add(
-                        columnBracket: o.Key,
+                        columnBracket: $"\"{o.Key}\"",
                         name: o.Key,
                         value: o.Value));
             outgoingMailModel.DateHash
@@ -101257,7 +101635,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                         .InitialValue(context: context)))
                 .ForEach(o =>
                     param.Add(
-                        columnBracket: o.Key,
+                        columnBracket: $"\"{o.Key}\"",
                         name: o.Key,
                         value: o.Value));
             outgoingMailModel.DescriptionHash
@@ -101266,7 +101644,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                         .InitialValue(context: context)))
                 .ForEach(o =>
                     param.Add(
-                        columnBracket: o.Key,
+                        columnBracket: $"\"{o.Key}\"",
                         name: o.Key,
                         value: o.Value));
             outgoingMailModel.CheckHash
@@ -101275,7 +101653,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                         .InitialValue(context: context)))
                 .ForEach(o =>
                     param.Add(
-                        columnBracket: o.Key,
+                        columnBracket: $"\"{o.Key}\"",
                         name: o.Key,
                         value: o.Value));
             outgoingMailModel.AttachmentsHash
@@ -101284,7 +101662,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                         .InitialValue(context: context)))
                 .ForEach(o =>
                     param.Add(
-                        columnBracket: o.Key,
+                        columnBracket: $"\"{o.Key}\"",
                         name: o.Key,
                         value: o.Value?.RecordingJson() ?? string.Empty));
             return param;
@@ -101345,7 +101723,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                         .InitialValue(context: context)))
                 .ForEach(o =>
                     param.Add(
-                        columnBracket: o.Key,
+                        columnBracket: $"\"{o.Key}\"",
                         name: o.Key,
                         value: o.Value.MaxLength(1024)));
             itemModel.NumHash
@@ -101354,7 +101732,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                         .InitialValue(context: context)))
                 .ForEach(o =>
                     param.Add(
-                        columnBracket: o.Key,
+                        columnBracket: $"\"{o.Key}\"",
                         name: o.Key,
                         value: o.Value));
             itemModel.DateHash
@@ -101363,7 +101741,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                         .InitialValue(context: context)))
                 .ForEach(o =>
                     param.Add(
-                        columnBracket: o.Key,
+                        columnBracket: $"\"{o.Key}\"",
                         name: o.Key,
                         value: o.Value));
             itemModel.DescriptionHash
@@ -101372,7 +101750,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                         .InitialValue(context: context)))
                 .ForEach(o =>
                     param.Add(
-                        columnBracket: o.Key,
+                        columnBracket: $"\"{o.Key}\"",
                         name: o.Key,
                         value: o.Value));
             itemModel.CheckHash
@@ -101381,7 +101759,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                         .InitialValue(context: context)))
                 .ForEach(o =>
                     param.Add(
-                        columnBracket: o.Key,
+                        columnBracket: $"\"{o.Key}\"",
                         name: o.Key,
                         value: o.Value));
             itemModel.AttachmentsHash
@@ -101390,7 +101768,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                         .InitialValue(context: context)))
                 .ForEach(o =>
                     param.Add(
-                        columnBracket: o.Key,
+                        columnBracket: $"\"{o.Key}\"",
                         name: o.Key,
                         value: o.Value?.RecordingJson() ?? string.Empty));
             return param;
@@ -101472,7 +101850,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                         .InitialValue(context: context)))
                 .ForEach(o =>
                     param.Add(
-                        columnBracket: o.Key,
+                        columnBracket: $"\"{o.Key}\"",
                         name: o.Key,
                         value: o.Value.MaxLength(1024)));
             siteModel.NumHash
@@ -101481,7 +101859,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                         .InitialValue(context: context)))
                 .ForEach(o =>
                     param.Add(
-                        columnBracket: o.Key,
+                        columnBracket: $"\"{o.Key}\"",
                         name: o.Key,
                         value: o.Value));
             siteModel.DateHash
@@ -101490,7 +101868,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                         .InitialValue(context: context)))
                 .ForEach(o =>
                     param.Add(
-                        columnBracket: o.Key,
+                        columnBracket: $"\"{o.Key}\"",
                         name: o.Key,
                         value: o.Value));
             siteModel.DescriptionHash
@@ -101499,7 +101877,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                         .InitialValue(context: context)))
                 .ForEach(o =>
                     param.Add(
-                        columnBracket: o.Key,
+                        columnBracket: $"\"{o.Key}\"",
                         name: o.Key,
                         value: o.Value));
             siteModel.CheckHash
@@ -101508,7 +101886,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                         .InitialValue(context: context)))
                 .ForEach(o =>
                     param.Add(
-                        columnBracket: o.Key,
+                        columnBracket: $"\"{o.Key}\"",
                         name: o.Key,
                         value: o.Value));
             siteModel.AttachmentsHash
@@ -101517,7 +101895,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                         .InitialValue(context: context)))
                 .ForEach(o =>
                     param.Add(
-                        columnBracket: o.Key,
+                        columnBracket: $"\"{o.Key}\"",
                         name: o.Key,
                         value: o.Value?.RecordingJson() ?? string.Empty));
             return param;
@@ -101577,7 +101955,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                         .InitialValue(context: context)))
                 .ForEach(o =>
                     param.Add(
-                        columnBracket: o.Key,
+                        columnBracket: $"\"{o.Key}\"",
                         name: o.Key,
                         value: o.Value.MaxLength(1024)));
             orderModel.NumHash
@@ -101586,7 +101964,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                         .InitialValue(context: context)))
                 .ForEach(o =>
                     param.Add(
-                        columnBracket: o.Key,
+                        columnBracket: $"\"{o.Key}\"",
                         name: o.Key,
                         value: o.Value));
             orderModel.DateHash
@@ -101595,7 +101973,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                         .InitialValue(context: context)))
                 .ForEach(o =>
                     param.Add(
-                        columnBracket: o.Key,
+                        columnBracket: $"\"{o.Key}\"",
                         name: o.Key,
                         value: o.Value));
             orderModel.DescriptionHash
@@ -101604,7 +101982,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                         .InitialValue(context: context)))
                 .ForEach(o =>
                     param.Add(
-                        columnBracket: o.Key,
+                        columnBracket: $"\"{o.Key}\"",
                         name: o.Key,
                         value: o.Value));
             orderModel.CheckHash
@@ -101613,7 +101991,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                         .InitialValue(context: context)))
                 .ForEach(o =>
                     param.Add(
-                        columnBracket: o.Key,
+                        columnBracket: $"\"{o.Key}\"",
                         name: o.Key,
                         value: o.Value));
             orderModel.AttachmentsHash
@@ -101622,7 +102000,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                         .InitialValue(context: context)))
                 .ForEach(o =>
                     param.Add(
-                        columnBracket: o.Key,
+                        columnBracket: $"\"{o.Key}\"",
                         name: o.Key,
                         value: o.Value?.RecordingJson() ?? string.Empty));
             return param;
@@ -101685,7 +102063,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                         .InitialValue(context: context)))
                 .ForEach(o =>
                     param.Add(
-                        columnBracket: o.Key,
+                        columnBracket: $"\"{o.Key}\"",
                         name: o.Key,
                         value: o.Value.MaxLength(1024)));
             exportSettingModel.NumHash
@@ -101694,7 +102072,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                         .InitialValue(context: context)))
                 .ForEach(o =>
                     param.Add(
-                        columnBracket: o.Key,
+                        columnBracket: $"\"{o.Key}\"",
                         name: o.Key,
                         value: o.Value));
             exportSettingModel.DateHash
@@ -101703,7 +102081,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                         .InitialValue(context: context)))
                 .ForEach(o =>
                     param.Add(
-                        columnBracket: o.Key,
+                        columnBracket: $"\"{o.Key}\"",
                         name: o.Key,
                         value: o.Value));
             exportSettingModel.DescriptionHash
@@ -101712,7 +102090,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                         .InitialValue(context: context)))
                 .ForEach(o =>
                     param.Add(
-                        columnBracket: o.Key,
+                        columnBracket: $"\"{o.Key}\"",
                         name: o.Key,
                         value: o.Value));
             exportSettingModel.CheckHash
@@ -101721,7 +102099,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                         .InitialValue(context: context)))
                 .ForEach(o =>
                     param.Add(
-                        columnBracket: o.Key,
+                        columnBracket: $"\"{o.Key}\"",
                         name: o.Key,
                         value: o.Value));
             exportSettingModel.AttachmentsHash
@@ -101730,7 +102108,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                         .InitialValue(context: context)))
                 .ForEach(o =>
                     param.Add(
-                        columnBracket: o.Key,
+                        columnBracket: $"\"{o.Key}\"",
                         name: o.Key,
                         value: o.Value?.RecordingJson() ?? string.Empty));
             return param;
@@ -101798,7 +102176,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                         .InitialValue(context: context)))
                 .ForEach(o =>
                     param.Add(
-                        columnBracket: o.Key,
+                        columnBracket: $"\"{o.Key}\"",
                         name: o.Key,
                         value: o.Value.MaxLength(1024)));
             linkModel.NumHash
@@ -101807,7 +102185,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                         .InitialValue(context: context)))
                 .ForEach(o =>
                     param.Add(
-                        columnBracket: o.Key,
+                        columnBracket: $"\"{o.Key}\"",
                         name: o.Key,
                         value: o.Value));
             linkModel.DateHash
@@ -101816,7 +102194,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                         .InitialValue(context: context)))
                 .ForEach(o =>
                     param.Add(
-                        columnBracket: o.Key,
+                        columnBracket: $"\"{o.Key}\"",
                         name: o.Key,
                         value: o.Value));
             linkModel.DescriptionHash
@@ -101825,7 +102203,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                         .InitialValue(context: context)))
                 .ForEach(o =>
                     param.Add(
-                        columnBracket: o.Key,
+                        columnBracket: $"\"{o.Key}\"",
                         name: o.Key,
                         value: o.Value));
             linkModel.CheckHash
@@ -101834,7 +102212,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                         .InitialValue(context: context)))
                 .ForEach(o =>
                     param.Add(
-                        columnBracket: o.Key,
+                        columnBracket: $"\"{o.Key}\"",
                         name: o.Key,
                         value: o.Value));
             linkModel.AttachmentsHash
@@ -101843,7 +102221,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                         .InitialValue(context: context)))
                 .ForEach(o =>
                     param.Add(
-                        columnBracket: o.Key,
+                        columnBracket: $"\"{o.Key}\"",
                         name: o.Key,
                         value: o.Value?.RecordingJson() ?? string.Empty));
             return param;
@@ -101922,7 +102300,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                         .InitialValue(context: context)))
                 .ForEach(o =>
                     param.Add(
-                        columnBracket: o.Key,
+                        columnBracket: $"\"{o.Key}\"",
                         name: o.Key,
                         value: o.Value.MaxLength(1024)));
             binaryModel.NumHash
@@ -101931,7 +102309,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                         .InitialValue(context: context)))
                 .ForEach(o =>
                     param.Add(
-                        columnBracket: o.Key,
+                        columnBracket: $"\"{o.Key}\"",
                         name: o.Key,
                         value: o.Value));
             binaryModel.DateHash
@@ -101940,7 +102318,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                         .InitialValue(context: context)))
                 .ForEach(o =>
                     param.Add(
-                        columnBracket: o.Key,
+                        columnBracket: $"\"{o.Key}\"",
                         name: o.Key,
                         value: o.Value));
             binaryModel.DescriptionHash
@@ -101949,7 +102327,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                         .InitialValue(context: context)))
                 .ForEach(o =>
                     param.Add(
-                        columnBracket: o.Key,
+                        columnBracket: $"\"{o.Key}\"",
                         name: o.Key,
                         value: o.Value));
             binaryModel.CheckHash
@@ -101958,7 +102336,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                         .InitialValue(context: context)))
                 .ForEach(o =>
                     param.Add(
-                        columnBracket: o.Key,
+                        columnBracket: $"\"{o.Key}\"",
                         name: o.Key,
                         value: o.Value));
             binaryModel.AttachmentsHash
@@ -101967,7 +102345,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                         .InitialValue(context: context)))
                 .ForEach(o =>
                     param.Add(
-                        columnBracket: o.Key,
+                        columnBracket: $"\"{o.Key}\"",
                         name: o.Key,
                         value: o.Value?.RecordingJson() ?? string.Empty));
             return param;
@@ -102042,7 +102420,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                         .InitialValue(context: context)))
                 .ForEach(o =>
                     param.Add(
-                        columnBracket: o.Key,
+                        columnBracket: $"\"{o.Key}\"",
                         name: o.Key,
                         value: o.Value.MaxLength(1024)));
             permissionModel.NumHash
@@ -102051,7 +102429,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                         .InitialValue(context: context)))
                 .ForEach(o =>
                     param.Add(
-                        columnBracket: o.Key,
+                        columnBracket: $"\"{o.Key}\"",
                         name: o.Key,
                         value: o.Value));
             permissionModel.DateHash
@@ -102060,7 +102438,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                         .InitialValue(context: context)))
                 .ForEach(o =>
                     param.Add(
-                        columnBracket: o.Key,
+                        columnBracket: $"\"{o.Key}\"",
                         name: o.Key,
                         value: o.Value));
             permissionModel.DescriptionHash
@@ -102069,7 +102447,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                         .InitialValue(context: context)))
                 .ForEach(o =>
                     param.Add(
-                        columnBracket: o.Key,
+                        columnBracket: $"\"{o.Key}\"",
                         name: o.Key,
                         value: o.Value));
             permissionModel.CheckHash
@@ -102078,7 +102456,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                         .InitialValue(context: context)))
                 .ForEach(o =>
                     param.Add(
-                        columnBracket: o.Key,
+                        columnBracket: $"\"{o.Key}\"",
                         name: o.Key,
                         value: o.Value));
             permissionModel.AttachmentsHash
@@ -102087,7 +102465,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                         .InitialValue(context: context)))
                 .ForEach(o =>
                     param.Add(
-                        columnBracket: o.Key,
+                        columnBracket: $"\"{o.Key}\"",
                         name: o.Key,
                         value: o.Value?.RecordingJson() ?? string.Empty));
             return param;
@@ -102436,7 +102814,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                         .InitialValue(context: context)))
                 .ForEach(o =>
                     param.Add(
-                        columnBracket: o.Key,
+                        columnBracket: $"\"{o.Key}\"",
                         name: o.Key,
                         value: o.Value.MaxLength(1024)));
             wikiModel.NumHash
@@ -102445,7 +102823,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                         .InitialValue(context: context)))
                 .ForEach(o =>
                     param.Add(
-                        columnBracket: o.Key,
+                        columnBracket: $"\"{o.Key}\"",
                         name: o.Key,
                         value: o.Value));
             wikiModel.DateHash
@@ -102454,7 +102832,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                         .InitialValue(context: context)))
                 .ForEach(o =>
                     param.Add(
-                        columnBracket: o.Key,
+                        columnBracket: $"\"{o.Key}\"",
                         name: o.Key,
                         value: o.Value));
             wikiModel.DescriptionHash
@@ -102463,7 +102841,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                         .InitialValue(context: context)))
                 .ForEach(o =>
                     param.Add(
-                        columnBracket: o.Key,
+                        columnBracket: $"\"{o.Key}\"",
                         name: o.Key,
                         value: o.Value));
             wikiModel.CheckHash
@@ -102472,7 +102850,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                         .InitialValue(context: context)))
                 .ForEach(o =>
                     param.Add(
-                        columnBracket: o.Key,
+                        columnBracket: $"\"{o.Key}\"",
                         name: o.Key,
                         value: o.Value));
             wikiModel.AttachmentsHash
@@ -102481,7 +102859,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                         .InitialValue(context: context)))
                 .ForEach(o =>
                     param.Add(
-                        columnBracket: o.Key,
+                        columnBracket: $"\"{o.Key}\"",
                         name: o.Key,
                         value: o.Value?.RecordingJson() ?? string.Empty));
             return param;

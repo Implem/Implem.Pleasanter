@@ -17,6 +17,7 @@ using Implem.Pleasanter.Libraries.Settings;
 using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Data.Common;
 using System.Linq;
 namespace Implem.Pleasanter.Models
 {
@@ -407,9 +408,9 @@ namespace Implem.Pleasanter.Models
                         context: context,
                         deptModel: this,
                         otherInitValue: otherInitValue)),
-                new SqlStatement(Def.Sql.IfConflicted.Params(DeptId))
-                {
-                    IfConflicted = true
+                new SqlStatement(Def.Sql.IfConflicted.Params(DeptId)) {
+                    IfConflicted = true,
+                    Id = DeptId
                 },
                 StatusUtilities.UpdateStatus(
                     tenantId: context.TenantId,
@@ -478,6 +479,25 @@ namespace Implem.Pleasanter.Models
             {
                 deptHash.Remove(DeptId);
             }
+            return new ErrorData(type: Error.Types.None);
+        }
+
+        public ErrorData Restore(Context context, SiteSettings ss,int deptId)
+        {
+            DeptId = deptId;
+            Repository.ExecuteNonQuery(
+                context: context,
+                connectionString: Parameters.Rds.OwnerConnectionString,
+                transactional: true,
+                statements: new SqlStatement[]
+                {
+                    Rds.RestoreDepts(
+                        factory: context,
+                        where: Rds.DeptsWhere().DeptId(DeptId)),
+                    StatusUtilities.UpdateStatus(
+                        tenantId: context.TenantId,
+                        type: StatusUtilities.Types.DeptsUpdated),
+                });
             return new ErrorData(type: Error.Types.None);
         }
 
@@ -627,9 +647,18 @@ namespace Implem.Pleasanter.Models
             data.CheckHash?.ForEach(o => Check(
                 columnName: o.Key,
                 value: o.Value));
-            data.AttachmentsHash?.ForEach(o => Attachments(
-                columnName: o.Key,
-                value: o.Value));
+            data.AttachmentsHash?.ForEach(o =>
+            {
+                string columnName = o.Key;
+                Attachments newAttachments = o.Value;
+                Attachments oldAttachments = AttachmentsHash.Get(columnName);
+                if (oldAttachments != null)
+                {
+                    var newGuidSet = new HashSet<string>(newAttachments.Select(x => x.Guid).Distinct());
+                    newAttachments.AddRange(oldAttachments.Where((oldvalue) => !newGuidSet.Contains(oldvalue.Guid)));
+                }
+                Attachments(columnName: columnName, value: newAttachments);
+            });
         }
 
         private void SetBySession(Context context)

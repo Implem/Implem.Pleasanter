@@ -1,0 +1,10 @@
+columnNames.ForEach(columnName =>
+{
+    column.Add(
+        columnBracket: $"\"{columnName}\"",
+        columnName: columnName,
+        function: Sqls.Functions.SingleColumn);
+    param.Add(
+        columnBracket: $"\"{columnName}\"",
+        name: columnName);
+});

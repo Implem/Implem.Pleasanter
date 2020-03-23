@@ -1,0 +1,13 @@
+﻿{
+    "Id": "LimitBeforeHours",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "{0} hours excess"
+        },
+        {
+            "Language": "ja",
+            "Body": "{0} 時間超過"
+        }
+    ]
+}

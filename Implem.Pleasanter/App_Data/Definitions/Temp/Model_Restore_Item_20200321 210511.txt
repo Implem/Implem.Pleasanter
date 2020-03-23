@@ -1,0 +1,3 @@
+Rds.RestoreItems(
+    factory: context,
+    where: Rds.ItemsWhere().ReferenceId(#ModelName#Id)),

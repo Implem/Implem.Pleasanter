@@ -1,0 +1,13 @@
+﻿{
+    "Id": "Description",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Description"
+        },
+        {
+            "Language": "ja",
+            "Body": "説明"
+        }
+    ]
+}

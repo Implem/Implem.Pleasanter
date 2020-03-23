@@ -1,0 +1,33 @@
+public void UpdateFormulaColumns(
+    Context context, SiteSettings ss, IEnumerable<int> selected = null)
+{
+    SetByFormula(context: context, ss: ss);
+    var param = Rds.#TableName#Param();
+    ss.Formulas?
+        .Where(o => selected == null || selected.Contains(o.Id))
+        .ForEach(formulaSet =>
+        {
+            switch (formulaSet.Target)
+            {
+
+<!--Model_UpdateFormulaColumns_ColumnCases-->
+
+                default:
+                    if (Def.ExtendedColumnTypes.ContainsKey(formulaSet.Target))
+                    {
+                        param.Add(
+                            columnBracket: $"\"{formulaSet.Target}\"",
+                            name: formulaSet.Target,
+                            value: Num(formulaSet.Target));
+                    }
+                    break;
+            }
+        });
+    Repository.ExecuteNonQuery(
+        context: context,
+        statements: Rds.Update#TableName#(
+            param: param,
+            where: Rds.#TableName#WhereDefault(this),
+            addUpdatedTimeParam: false,
+            addUpdatorParam: false));
+}

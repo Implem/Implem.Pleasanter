@@ -1,0 +1,13 @@
+﻿{
+    "Id": "AlreadyLinked",
+    "Type": 240,
+    "Languages": [
+        {
+            "Body": "It is already linked."
+        },
+        {
+            "Language": "ja",
+            "Body": "既にリンクされています。"
+        }
+    ]
+}

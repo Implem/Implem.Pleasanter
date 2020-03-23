@@ -1,0 +1,13 @@
+﻿{
+    "Id": "Editor",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Editor"
+        },
+        {
+            "Language": "ja",
+            "Body": "エディタ"
+        }
+    ]
+}

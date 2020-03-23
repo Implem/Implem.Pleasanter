@@ -576,6 +576,7 @@
     <Content Include="App_Data\Displays\UpdatedByGrid.json" />
     <Content Include="App_Data\Displays\UsedRateStorageCapacity.json" />
     <Content Include="App_Data\Displays\UsedStorageCapacity.json" />
+    <Content Include="App_Data\Parameters\SitePackage.json" />
     <None Include="packages.config" />
     <None Include="Properties\PublishProfiles\FolderProfile.pubxml" />
   </ItemGroup>

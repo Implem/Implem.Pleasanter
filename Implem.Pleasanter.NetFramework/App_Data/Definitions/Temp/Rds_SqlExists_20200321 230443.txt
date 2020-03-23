@@ -1,0 +1,19 @@
+public static SqlExists Exists#TableName#(
+    Sqls.TableTypes tableType = Sqls.TableTypes.Normal,
+    bool not = false,
+    SqlJoinCollection join = null,
+    SqlWhereCollection where = null,
+    bool _using = true)
+{
+    return new SqlExists
+    {
+        TableType = tableType,
+        Not = not,
+        TableBracket = "\"#TableName#\"",
+        HistoryTableBracket = "\"#TableName#_history\"",
+        DeletedTableBracket = "\"#TableName#_deleted\"",
+        SqlJoinCollection = join,
+        SqlWhereCollection = where,
+        Using = _using
+    };
+}

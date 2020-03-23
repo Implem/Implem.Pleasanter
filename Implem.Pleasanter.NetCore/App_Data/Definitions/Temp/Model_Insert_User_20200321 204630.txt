@@ -1,0 +1,20 @@
+try
+{
+    var response = Repository.ExecuteScalar_response(
+        context: context,
+        transactional: true,
+        selectIdentity: true,
+        statements: statements.ToArray());
+    UserId = response.Id.ToInt();
+}
+catch (System.Data.SqlClient.SqlException e)
+{
+    if (e.Number == 2601)
+    {
+        return new ErrorData(type: Error.Types.LoginIdAlreadyUse);
+    }
+    else
+    {
+        throw;
+    }
+}

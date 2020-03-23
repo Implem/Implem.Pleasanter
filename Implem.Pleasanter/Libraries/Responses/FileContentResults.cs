@@ -60,7 +60,7 @@ namespace Implem.Pleasanter.Libraries.Responses
                         where: Rds.BinariesWhere()
                             .TenantId(context.TenantId)
                             .Guid(guid)
-                            .Add(raw: $"(\"Binaries\".\"CreatedTime\"=\"Binaries\".\"UpdatedTime\" and \"Binaries\".\"Creator\"=\"context.UserId\")"),
+                            .Add(raw: $"(\"Binaries\".\"CreatedTime\"=\"Binaries\".\"UpdatedTime\" and \"Binaries\".\"Creator\"={context.UserId})"),
                         unionType: Sqls.UnionTypes.UnionAll)
                 })
                     .AsEnumerable()

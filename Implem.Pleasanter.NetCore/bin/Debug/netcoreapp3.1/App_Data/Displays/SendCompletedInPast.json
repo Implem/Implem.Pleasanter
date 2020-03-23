@@ -1,0 +1,13 @@
+﻿{
+    "Id": "SendCompletedInPast",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Send what you completed in the past"
+        },
+        {
+            "Language": "ja",
+            "Body": "過去に完了したものも送信"
+        }
+    ]
+}

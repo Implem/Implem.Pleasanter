@@ -1,0 +1,13 @@
+﻿{
+    "Id": "Assembly",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Assembly"
+        },
+        {
+            "Language": "ja",
+            "Body": "アセンブリ"
+        }
+    ]
+}

@@ -1,0 +1,13 @@
+﻿{
+    "Id": "DateFilterSetMode",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Mode Selection"
+        },
+        {
+            "Language": "ja",
+            "Body": "モード選択"
+        }
+    ]
+}

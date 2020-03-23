@@ -1,0 +1,5 @@
+case "#ColumnName#":
+    return self.#TableName#_#ColumnName#(
+        tableName: column.TableName(),
+        orderType: orderType,
+        function: function);

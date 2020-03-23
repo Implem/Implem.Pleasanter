@@ -1,0 +1,13 @@
+﻿{
+    "Id": "Links",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Links"
+        },
+        {
+            "Language": "ja",
+            "Body": "リンク"
+        }
+    ]
+}

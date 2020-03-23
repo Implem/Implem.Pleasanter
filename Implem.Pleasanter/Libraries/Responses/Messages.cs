@@ -1071,11 +1071,11 @@ namespace Implem.Pleasanter.Libraries.Responses
                 css: "alert-error");
         }
 
-        public static Message SentAcceptanceMail(Context context, params string[] data)
+        public static Message SentAcceptanceMail (Context context, params string[] data)
         {
             return Get(
                 id: "SentAcceptanceMail ",
-                text: Displays.SentAcceptanceMail(
+                text: Displays.SentAcceptanceMail (
                     context: context,
                     data: data),
                 css: "alert-success");
@@ -2291,11 +2291,11 @@ namespace Implem.Pleasanter.Libraries.Responses
                 target: target);
         }
 
-        public static ResponseCollection ResponseSentAcceptanceMail(
+        public static ResponseCollection ResponseSentAcceptanceMail (
             Context context, string target = null, params string[] data)
         {
             return ResponseMessage(
-                message: SentAcceptanceMail(
+                message: SentAcceptanceMail (
                     context: context,
                     data: data),
                 target: target);

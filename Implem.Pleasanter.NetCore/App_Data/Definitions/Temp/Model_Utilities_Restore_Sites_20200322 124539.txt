@@ -1,0 +1,145 @@
+public static string Restore(Context context, SiteSettings ss)
+{
+    if (!Parameters.Deleted.Restore)
+    {
+        return Error.Types.InvalidRequest.MessageJson(context: context);
+    }
+    else if (context.CanManageSite(ss: ss))
+    {
+        var selector = new GridSelector(context: context);
+        var count = 0;
+        if (selector.All)
+        {
+            count = Restore(
+                context: context,
+                ss: ss,
+                selected: selector.Selected,
+                negative: true);
+        }
+        else
+        {
+            if (selector.Selected.Any())
+            {
+                count = Restore(
+                    context: context,
+                    ss: ss,
+                    selected: selector.Selected);
+            }
+            else
+            {
+                return Messages.ResponseSelectTargets(context: context).ToJson();
+            }
+        }
+        return GridRows(
+            context: context,
+            ss: ss,
+            clearCheck: true,
+            message: Messages.BulkRestored(
+                context: context,
+                data: count.ToString()));
+    }
+    else
+    {
+        return Messages.ResponseHasNotPermission(context: context).ToJson();
+    }
+}
+
+public static int Restore(Context context, SiteSettings ss, List<long> selected, bool negative = false)
+{
+    var where = Rds.SitesWhere()
+        .TenantId(
+            value: context.TenantId,
+            tableName: "Sites_Deleted")
+        .ParentId(
+            value: ss.SiteId,
+            tableName: "Sites_Deleted")
+        .SiteId_In(
+            value: selected,
+            tableName: "Sites_Deleted",
+            negative: negative,
+            _using: selected.Any());
+    var sub = Rds.SelectSites(
+        tableType: Sqls.TableTypes.Deleted,
+        _as: "Sites_Deleted",
+        column: Rds.SitesColumn()
+            .SiteId(tableName: "Sites_Deleted"),
+        where: where);
+    return Repository.ExecuteScalar_response(
+        context: context,
+        connectionString: Parameters.Rds.OwnerConnectionString,
+        transactional: true,
+        statements: new SqlStatement[]
+        {
+            Rds.RestoreItems(
+                factory: context,
+                where: Rds.ItemsWhere()
+                    .ReferenceId_In(sub: Rds.SelectWikis(
+                        tableType: Sqls.TableTypes.Deleted,
+                        column: Rds.WikisColumn().WikiId(),
+                        where: Rds.WikisWhere().SiteId_In(sub: sub)))
+                    .ReferenceType("Wikis")),
+            Rds.RestoreWikis(
+                factory: context,
+                where: Rds.WikisWhere().SiteId_In(sub: sub)),
+            Rds.RestoreItems(
+                factory: context,
+                where: Rds.ItemsWhere().ReferenceId_In(sub: sub)),
+            Rds.RestoreSites(factory: context, where: where),
+            Rds.RowCount()
+        }).Count.ToInt();
+}
+
+public static string RestoreFromHistory(Context context, SiteSettings ss, long siteId)
+{
+    if (!Parameters.History.Restore)
+    {
+        return Error.Types.InvalidRequest.MessageJson(context: context);
+    }
+    var siteModel = new SiteModel(
+        context: context,
+        siteId: siteId);
+    var invalid = SiteValidators.OnUpdating(
+        context: context,
+        ss: ss,
+        siteModel: siteModel);
+    switch (invalid.Type)
+    {
+        case Error.Types.None: break;
+        default: return invalid.Type.MessageJson(context: context);
+    }
+    var ver = context.Forms.Data("GridCheckedItems")
+        .Split(',')
+        .Where(o => !o.IsNullOrEmpty())
+        .ToList();
+    if (ver.Count() != 1)
+    {
+        return Error.Types.SelectOne.MessageJson(context: context);
+    }
+    siteModel.SetByModel(new SiteModel().Get(
+        context: context,
+        tableType: Sqls.TableTypes.History,
+        where: Rds.SitesWhere()
+            .SiteId(ss.SiteId)
+            .SiteId(siteId)
+            .Ver(ver.First())));
+    siteModel.VerUp = true;
+    var errorData = siteModel.Update(
+        context: context, ss: ss, setBySession: false, otherInitValue: true);
+    switch (errorData.Type)
+    {
+        case Error.Types.None:
+            SessionUtilities.Set(
+                context: context,
+                message: Messages.RestoredFromHistory(
+                    context: context,
+                    data: ver.First().ToString()));
+            return  new ResponseCollection()
+                .SetMemory("formChanged", false)
+                .Href(Locations.ItemEdit(
+                    context: context,
+                    id: siteId))
+                .ToJson();
+        default:
+            return errorData.Type.MessageJson(context: context);
+    }
+}

@@ -1,0 +1,14 @@
+case "#TableName#":
+    return #TableName#Aggregations(
+        context: context,
+        aggregations: ss.Aggregations,
+        tableType: tableType,
+        where: #TableName#Where()
+
+<!--Rds_AggregationWhereTenantId-->
+
+            .#ModelName#Id_In(sub: Select#TableName#(
+                tableType: tableType,
+                column: #TableName#Column().#ModelName#Id(),
+                join: join,
+                where: where)));

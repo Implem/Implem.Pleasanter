@@ -1,0 +1,13 @@
+﻿{
+    "Id": "TimeSeries",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Time series chart"
+        },
+        {
+            "Language": "ja",
+            "Body": "時系列チャート"
+        }
+    ]
+}

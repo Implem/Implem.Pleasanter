@@ -1,0 +1,13 @@
+﻿{
+    "Id": "Output",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Output"
+        },
+        {
+            "Language": "ja",
+            "Body": "出力"
+        }
+    ]
+}

@@ -1,0 +1,13 @@
+﻿{
+    "Id": "GeneralUser",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "General user"
+        },
+        {
+            "Language": "ja",
+            "Body": "一般ユーザ"
+        }
+    ]
+}

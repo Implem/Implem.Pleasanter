@@ -1,0 +1,348 @@
+public static string Crosstab(Context context, SiteSettings ss)
+{
+    if (!ss.EnableViewMode(context: context, name: "Crosstab"))
+    {
+        return HtmlTemplates.Error(
+            context: context,
+            errorData: new ErrorData(type: Error.Types.HasNotPermission));
+    }
+    var hb = new HtmlBuilder();
+    var view = Views.GetBySession(context: context, ss: ss);
+    var viewMode = ViewModes.GetSessionData(
+        context: context,
+        siteId: ss.SiteId);
+    var groupByX = ss.GetColumn(
+        context: context,
+        columnName: view.GetCrosstabGroupByX(context: context, ss: ss));
+    var groupByY = ss.GetColumn(
+        context: context,
+        columnName: view.GetCrosstabGroupByY(context: context, ss: ss));
+    var columns = CrosstabColumns(context: context, ss: ss, view: view);
+    var aggregateType = view.GetCrosstabAggregateType(ss);
+    var value = ss.GetColumn(
+        context: context,
+        columnName: view.GetCrosstabValue(ss));
+    if (value == null)
+    {
+        value = ss.GetColumn(context: context, columnName: "#ModelName#Id");
+        aggregateType = "Count";
+    }
+    var timePeriod = view.GetCrosstabTimePeriod(ss);
+    var month = view.GetCrosstabMonth(ss);
+    var dataRows = CrosstabDataRows(
+        context: context,
+        ss: ss,
+        view: view,
+        groupByX: groupByX,
+        groupByY: groupByY,
+        columns: columns,
+        value: value,
+        aggregateType: aggregateType,
+        timePeriod: timePeriod,
+        month: month);
+    var inRangeX = Libraries.ViewModes.CrosstabUtilities.InRangeX(
+        context: context,
+        dataRows: dataRows);
+    var inRangeY =
+        view.CrosstabGroupByY == "Columns"
+            || Libraries.ViewModes.CrosstabUtilities.InRangeY(
+                context: context,
+                dataRows: dataRows);
+    if (!inRangeX)
+    {
+        SessionUtilities.Set(
+            context: context,
+            message: Messages.TooManyColumnCases(
+                context: context,
+                data: Parameters.General.CrosstabXLimit.ToString()));
+    }
+    else if (!inRangeY)
+    {
+        SessionUtilities.Set(
+            context: context,
+            message: Messages.TooManyColumnCases(
+                context: context,
+                data: Parameters.General.CrosstabYLimit.ToString()));
+    }
+    return hb.ViewModeTemplate(
+        context: context,
+        ss: ss,
+        view: view,
+        viewMode: viewMode,
+        viewModeBody: () => hb
+            .Crosstab(
+                context: context,
+                ss: ss,
+                view: view,
+                groupByX: groupByX,
+                groupByY: groupByY,
+                columns: columns,
+                aggregateType: aggregateType,
+                value: value,
+                timePeriod: timePeriod,
+                month: month,
+                dataRows: dataRows,
+                inRange: inRangeX && inRangeY));
+}
+
+public static string CrosstabJson(Context context, SiteSettings ss)
+{
+    if (!ss.EnableViewMode(context: context, name: "Crosstab"))
+    {
+        return Messages.ResponseHasNotPermission(context: context).ToJson();
+    }
+    var view = Views.GetBySession(context: context, ss: ss);
+    var viewMode = ViewModes.GetSessionData(
+        context: context,
+        siteId: ss.SiteId);
+    var groupByX = ss.GetColumn(
+        context: context,
+        columnName: view.GetCrosstabGroupByX(context: context, ss: ss));
+    var groupByY = ss.GetColumn(
+        context: context,
+        columnName: view.GetCrosstabGroupByY(context: context, ss: ss));
+    var columns = CrosstabColumns(context: context, ss: ss, view: view);
+    var aggregateType = view.GetCrosstabAggregateType(ss);
+    var value = ss.GetColumn(
+        context: context,
+        columnName: view.GetCrosstabValue(ss));
+    if (value == null)
+    {
+        value = ss.GetColumn(context: context, columnName: "#ModelName#Id");
+        aggregateType = "Count";
+    }
+    var timePeriod = view.GetCrosstabTimePeriod(ss);
+    var month = view.GetCrosstabMonth(ss);
+    var dataRows = CrosstabDataRows(
+        context: context,
+        ss: ss,
+        view: view,
+        groupByX: groupByX,
+        groupByY: groupByY,
+        columns: columns,
+        value: value,
+        aggregateType: aggregateType,
+        timePeriod: timePeriod,
+        month: month);
+    var inRangeX = Libraries.ViewModes.CrosstabUtilities.InRangeX(
+        context: context,
+        dataRows: dataRows);
+    var inRangeY =
+        view.CrosstabGroupByY == "Columns"
+            || Libraries.ViewModes.CrosstabUtilities.InRangeY(
+                context: context,
+                dataRows: dataRows);
+    var bodyOnly = context.Forms.ControlId().StartsWith("Crosstab");
+    return inRangeX && inRangeY
+        ? new ResponseCollection()
+            .ViewMode(
+                context: context,
+                ss: ss,
+                view: view,
+                invoke: "setCrosstab",
+                bodyOnly: bodyOnly,
+                bodySelector: "#CrosstabBody",
+                body: !bodyOnly
+                    ? new HtmlBuilder().Crosstab(
+                        context: context,
+                        ss: ss,
+                        view: view,
+                        groupByX: groupByX,
+                        groupByY: groupByY,
+                        columns: columns,
+                        aggregateType: aggregateType,
+                        value: value,
+                        timePeriod: timePeriod,
+                        month: month,
+                        dataRows: dataRows)
+                    : new HtmlBuilder().CrosstabBody(
+                        context: context,
+                        ss: ss,
+                        view: view,
+                        groupByX: groupByX,
+                        groupByY: groupByY,
+                        columns: columns,
+                        aggregateType: aggregateType,
+                        value: value,
+                        timePeriod: timePeriod,
+                        month: month,
+                        dataRows: dataRows))
+            .ToJson()
+        : new ResponseCollection()
+            .ViewMode(
+                context: context,
+                ss: ss,
+                view: view,
+                message: !inRangeX
+                    ? Messages.TooManyColumnCases(
+                        context: context,
+                        data: Parameters.General.CrosstabXLimit.ToString())
+                    : Messages.TooManyRowCases(
+                        context: context,
+                        data: Parameters.General.CrosstabYLimit.ToString()),
+                bodyOnly: bodyOnly,
+                bodySelector: "#CrosstabBody",
+                body: !bodyOnly
+                    ? new HtmlBuilder().Crosstab(
+                        context: context,
+                        ss: ss,
+                        view: view,
+                        groupByX: groupByX,
+                        groupByY: groupByY,
+                        columns: columns,
+                        aggregateType: aggregateType,
+                        value: value,
+                        timePeriod: timePeriod,
+                        month: month,
+                        dataRows: dataRows,
+                        inRange: false)
+                    : new HtmlBuilder())
+            .ToJson();
+}
+
+private static List<Column> CrosstabColumns(
+    Context context, SiteSettings ss, View view)
+{
+    return Libraries.ViewModes.CrosstabUtilities.GetColumns(
+        context: context,
+        ss: ss,
+        columns: view.CrosstabColumns?.Deserialize<IEnumerable<string>>()?
+            .Select(columnName => ss.GetColumn(context: context, columnName: columnName))
+            .ToList());
+}
+
+private static EnumerableRowCollection<DataRow> CrosstabDataRows(
+    Context context,
+    SiteSettings ss,
+    View view,
+    Column groupByX,
+    Column groupByY,
+    List<Column> columns,
+    Column value,
+    string aggregateType,
+    string timePeriod,
+    DateTime month)
+{
+    EnumerableRowCollection<DataRow> dataRows;
+    if (groupByX?.TypeName != "datetime")
+    {
+        var column = Rds.#TableName#Column()
+            .WithItemTitle(
+                ss: ss,
+                column: groupByX)
+            .CrosstabColumns(
+                context: context,
+                ss: ss,
+                view: view,
+                groupByY: groupByY,
+                columns: columns,
+                value: value,
+                aggregateType: aggregateType);
+        var where = view.Where(
+            context: context,
+            ss: ss);
+        var groupBy = Rds.#TableName#GroupBy()
+            .WithItemTitle(
+                ss: ss,
+                column: groupByX)
+            .WithItemTitle(
+                ss: ss,
+                column: groupByY);
+        dataRows = Repository.ExecuteTable(
+            context: context,
+            statements: Rds.Select#TableName#(
+                column: column,
+                join: ss.Join(
+                    context: context,
+                    join: new IJoin[]
+                    {
+                        column,
+                        where,
+                        groupBy
+                    }),
+                where: where,
+                groupBy: groupBy))
+                    .AsEnumerable();
+    }
+    else
+    {
+        var dateGroup = Libraries.ViewModes.CrosstabUtilities.DateGroup(
+            context: context,
+            ss: ss,
+            column: groupByX,
+            timePeriod: timePeriod);
+        var column = Rds.#TableName#Column()
+            .Add(dateGroup, _as: groupByX.ColumnName)
+            .CrosstabColumns(
+                context: context,
+                ss: ss,
+                view: view,
+                groupByY: groupByY,
+                columns: columns,
+                value: value,
+                aggregateType: aggregateType);
+        var where = view.Where(
+            context: context,
+            ss: ss,
+            where: Libraries.ViewModes.CrosstabUtilities.Where(
+                context: context,
+                ss: ss,
+                column: groupByX,
+                timePeriod: timePeriod,
+                month: month));
+        var groupBy = Rds.#TableName#GroupBy()
+            .Add(dateGroup)
+            .WithItemTitle(
+                ss: ss,
+                column: groupByY);
+        dataRows = Repository.ExecuteTable(
+            context: context,
+            statements: Rds.Select#TableName#(
+                column: column,
+                join: ss.Join(
+                    context: context,
+                    join: new IJoin[]
+                    {
+                        column,
+                        where,
+                        groupBy
+                    }),
+                where: where,
+                groupBy: groupBy))
+                    .AsEnumerable();
+    }
+    ss.SetChoiceHash(dataRows: dataRows);
+    return dataRows;
+}
+
+private static SqlColumnCollection CrosstabColumns(
+    this SqlColumnCollection self,
+    Context context,
+    SiteSettings ss,
+    View view,
+    Column groupByY,
+    List<Column> columns,
+    Column value,
+    string aggregateType)
+{
+    if (view.CrosstabGroupByY != "Columns")
+    {
+        return self
+            .WithItemTitle(
+                ss: ss,
+                column: groupByY)
+            .Add(
+                column: value,
+                _as: "Value",
+                function: Sqls.Function(aggregateType));
+    }
+    else
+    {
+        columns.ForEach(column =>
+            self.Add(
+                column: column,
+                _as: column.ColumnName,
+                function: Sqls.Function(aggregateType)));
+        return self;
+    }
+}

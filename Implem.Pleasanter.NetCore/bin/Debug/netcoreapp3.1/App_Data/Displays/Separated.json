@@ -1,0 +1,13 @@
+﻿{
+    "Id": "Separated",
+    "Type": 210,
+    "Languages": [
+        {
+            "Body": "It was separated."
+        },
+        {
+            "Language": "ja",
+            "Body": "分割しました。"
+        }
+    ]
+}

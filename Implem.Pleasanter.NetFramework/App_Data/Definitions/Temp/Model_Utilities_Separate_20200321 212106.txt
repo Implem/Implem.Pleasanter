@@ -1,0 +1,140 @@
+public static string EditSeparateSettings(
+    Context context, SiteSettings ss, #IdType# #modelName#Id)
+{
+    if (ss.AllowSeparate != true)
+    {
+        return Error.Types.InvalidRequest.MessageJson(context: context);
+    }
+    var #modelName#Model = new #ModelName#Model(
+        context: context,
+        ss: ss,
+        #modelName#Id: #modelName#Id);
+    var invalid = #ModelName#Validators.OnUpdating(
+        context: context,
+        ss: ss,
+        #modelName#Model: #modelName#Model);
+    switch (invalid.Type)
+    {
+        case Error.Types.None: break;
+        default: return invalid.Type.MessageJson(context: context);
+    }
+    return new ResponseCollection()
+        .Html(
+            "#SeparateSettingsDialog",
+            new HtmlBuilder().SeparateSettings(
+                context: context,
+                ss: ss,
+                title: #modelName#Model.Title.Value,
+                workValue: #modelName#Model.WorkValue.Value,
+                mine: #modelName#Model.Mine(context: context)))
+        .Invoke("separateSettings")
+        .ToJson();
+}
+
+public static string Separate(Context context, SiteSettings ss, long #modelName#Id)
+{
+    if (ss.AllowSeparate != true)
+    {
+        return Error.Types.InvalidRequest.MessageJson(context: context);
+    }
+    var number = context.Forms.Int("SeparateNumber");
+    if (context.ContractSettings.ItemsLimit(
+        context: context,
+        siteId: ss.SiteId,
+        number: number - 1))
+    {
+        return Error.Types.ItemsLimit.MessageJson(context: context);
+    }
+    var #modelName#Model = new #ModelName#Model(
+        context: context,
+        ss: ss,
+        #modelName#Id: #modelName#Id);
+    var invalid = #ModelName#Validators.OnUpdating(
+        context: context,
+        ss: ss,
+        #modelName#Model: #modelName#Model);
+    switch (invalid.Type)
+    {
+        case Error.Types.None: break;
+        default: return invalid.Type.MessageJson(context: context);
+    }
+    if (number >= 2)
+    {
+        var hash = new Dictionary<int, #ModelName#Model>
+        {
+            {
+                1,
+                new #ModelName#Model(
+                    context: context,
+                    ss: ss,
+                    #modelName#Id: #modelName#Model.#ModelName#Id)
+            }
+        };
+        var ver = #modelName#Model.Ver;
+        var comments = #modelName#Model.Comments.ToJson();
+        for (var index = 2; index <= number; index++)
+        {
+            #modelName#Model.SetCopyDefault(
+                context: context,
+                ss: ss);
+            #modelName#Model.#ModelName#Id = 0;
+            #modelName#Model.Create(
+                context: context,
+                ss: ss,
+                otherInitValue: true,
+                get: false);
+            hash.Add(index, new #ModelName#Model(
+                context: context,
+                ss: ss,
+                #modelName#Id: #modelName#Model.#ModelName#Id));
+        }
+        var addCommentCollection = new List<string>();
+        addCommentCollection.AddRange(hash.Select(o => "[{0}]({1})  ".Params(
+            context.Forms.Data("SeparateTitle_" + o.Key),
+            Locations.ItemEdit(
+                context: context,
+                id: o.Value.#ModelName#Id))));
+        var addComment = "[md]\n{0}  \n{1}".Params(
+            Displays.Separated(context: context),
+            addCommentCollection.Join("\n"));
+        for (var index = number; index >= 1; index--)
+        {
+            var source = index == 1;
+            #modelName#Model = hash[index];
+            #modelName#Model.Ver = source
+                ? ver
+                : 1;
+            #modelName#Model.Title.Value = context.Forms.Data("SeparateTitle_" + index);
+            #modelName#Model.WorkValue.Value = source
+                ? context.Forms.Decimal(
+                    context: context,
+                    key: "SourceWorkValue")
+                : context.Forms.Decimal(
+                    context: context,
+                    key: "SeparateWorkValue_" + index);
+            #modelName#Model.Comments.Clear();
+            if (source || context.Forms.Bool("SeparateCopyWithComments"))
+            {
+                #modelName#Model.Comments = comments.Deserialize<Comments>();
+            }
+            #modelName#Model.Comments.Prepend(
+                context: context,
+                ss: ss,
+                body: addComment);
+            #modelName#Model.Update(
+                context: context,
+                ss: ss,
+                forceSynchronizeSourceSummary: true,
+                otherInitValue: true);
+        }
+        return EditorResponse(
+            context: context,
+            ss: ss,
+            #modelName#Model: #modelName#Model,
+            message: Messages.Separated(context: context)).ToJson();
+    }
+    else
+    {
+        return Messages.ResponseInvalidRequest(context: context).ToJson();
+    }
+}

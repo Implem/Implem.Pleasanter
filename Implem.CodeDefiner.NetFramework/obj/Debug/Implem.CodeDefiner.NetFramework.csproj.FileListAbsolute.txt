@@ -31,7 +31,7 @@ C:\Implem\PleasanterYakushi\Implem.CodeDefiner.NetFramework\bin\Debug\Implem.Fac
 C:\Implem\PleasanterYakushi\Implem.CodeDefiner.NetFramework\bin\Debug\Implem.SqlServer.pdb
 C:\Implem\PleasanterYakushi\Implem.CodeDefiner.NetFramework\bin\Debug\Implem.PostgreSql.pdb
 C:\Implem\PleasanterYakushi\Implem.CodeDefiner.NetFramework\obj\Debug\Implem.CodeDefiner.NetFramework.csprojAssemblyReference.cache
+C:\Implem\PleasanterYakushi\Implem.CodeDefiner.NetFramework\obj\Debug\Implem.CodeDefiner.NetFramework.csproj.CoreCompileInputs.cache
 C:\Implem\PleasanterYakushi\Implem.CodeDefiner.NetFramework\obj\Debug\Implem.CodeDefiner.NetFramework.csproj.CopyComplete
 C:\Implem\PleasanterYakushi\Implem.CodeDefiner.NetFramework\obj\Debug\Implem.CodeDefiner.NetFramework.exe
 C:\Implem\PleasanterYakushi\Implem.CodeDefiner.NetFramework\obj\Debug\Implem.CodeDefiner.NetFramework.pdb
-C:\Implem\PleasanterYakushi\Implem.CodeDefiner.NetFramework\obj\Debug\Implem.CodeDefiner.NetFramework.csproj.CoreCompileInputs.cache

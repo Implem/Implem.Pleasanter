@@ -1,0 +1,13 @@
+﻿{
+    "Id": "NearCompletionTime",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Near completion time"
+        },
+        {
+            "Language": "ja",
+            "Body": "期限が近い"
+        }
+    ]
+}

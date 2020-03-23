@@ -1,0 +1,13 @@
+﻿{
+    "Id": "EmptyUserName",
+    "Type": 240,
+    "Languages": [
+        {
+            "Body": "User name is not set."
+        },
+        {
+            "Language": "ja",
+            "Body": "ユーザー名が未設定です。"
+        }
+    ]
+}

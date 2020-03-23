@@ -1,0 +1,13 @@
+﻿{
+    "Id": "SummaryLinkColumn",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Summary link column"
+        },
+        {
+            "Language": "ja",
+            "Body": "リンク項目"
+        }
+    ]
+}

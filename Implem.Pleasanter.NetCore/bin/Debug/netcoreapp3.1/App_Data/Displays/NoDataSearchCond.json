@@ -1,0 +1,13 @@
+﻿{
+    "Id": "NoDataSearchCondition",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Please specify the search condition."
+        },
+        {
+            "Language": "ja",
+            "Body": "検索条件を指定してください"
+        }
+    ]
+}

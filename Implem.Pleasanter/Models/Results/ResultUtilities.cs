@@ -2978,30 +2978,30 @@ namespace Implem.Pleasanter.Models
                     .Select(o => o.ColumnName)
                     .ForEach(columnName =>
                         column.Add($"\"{columnName}\""));
-                var attachments = Repository.ExecuteTable(
-                    context: context,
-                    statements: Rds.SelectResults(
-                        tableType: Sqls.TableTypes.Deleted,
-                        column: column,
-                        where: Rds.ResultsWhere()
-                            .SiteId(ss.SiteId)
-                            .ResultId_In(sub: sub)))
-                    .AsEnumerable()
-                    .Select(dataRow => new
-                    {
-                        resultId = dataRow.Long("ResultId"),
-                        attachments = dataRow
-                            .Columns()
-                            .Where(columnName => columnName.StartsWith("Attachments"))
-                            .SelectMany(columnName => 
-                                Jsons.Deserialize<IEnumerable<Attachment>>(dataRow.String(columnName)) 
-                                    ?? Enumerable.Empty<Attachment>())
-                            .Where(o => o != null)
-                            .Select(o => o.Guid)
-                            .Distinct()
-                            .ToArray()
-                    })
-                    .Where(o => o.attachments.Length > 0);
+            var attachments = Repository.ExecuteTable(
+                context: context,
+                statements: Rds.SelectResults(
+                    tableType: Sqls.TableTypes.Deleted,
+                    column: column,
+                    where: Rds.ResultsWhere()
+                        .SiteId(ss.SiteId)
+                        .ResultId_In(sub: sub)))
+                .AsEnumerable()
+                .Select(dataRow => new
+                {
+                    resultId = dataRow.Long("ResultId"),
+                    attachments = dataRow
+                        .Columns()
+                        .Where(columnName => columnName.StartsWith("Attachments"))
+                        .SelectMany(columnName => 
+                            Jsons.Deserialize<IEnumerable<Attachment>>(dataRow.String(columnName)) 
+                                ?? Enumerable.Empty<Attachment>())
+                        .Where(o => o != null)
+                        .Select(o => o.Guid)
+                        .Distinct()
+                        .ToArray()
+                })
+                .Where(o => o.attachments.Length > 0);
             var guid = Strings.NewGuid();
             var count = Repository.ExecuteScalar_response(
                 context: context,
@@ -3016,13 +3016,15 @@ namespace Implem.Pleasanter.Models
                             .ReferenceId_In(sub: sub),
                         param: Rds.ItemsParam()
                             .ReferenceType(guid)),
-                    Rds.RestoreResults(factory: context, where: where),
+                    Rds.RestoreResults(
+                        factory: context,
+                        where: where),
                     Rds.RowCount(),
                     Rds.RestoreItems(
                         factory: context,
                         where: Rds.ItemsWhere()
-                        .SiteId(ss.SiteId)
-                        .ReferenceType(guid)),
+                            .SiteId(ss.SiteId)
+                            .ReferenceType(guid)),
                     Rds.UpdateItems(
                         where: Rds.ItemsWhere()
                             .SiteId(ss.SiteId)
@@ -3120,7 +3122,7 @@ namespace Implem.Pleasanter.Models
                         message: Messages.RestoredFromHistory(
                             context: context,
                             data: ver.First().ToString()));
-                    return  new ResponseCollection()
+                    return new ResponseCollection()
                         .SetMemory("formChanged", false)
                         .Href(Locations.ItemEdit(
                             context: context,
@@ -3421,7 +3423,9 @@ namespace Implem.Pleasanter.Models
                 where: Rds.BinariesWhere()
                     .TenantId(context.TenantId)
                     .ReferenceId_In(sub: sub)));
-            statements.Add(Rds.DeleteResults(factory: context, where: where));
+            statements.Add(Rds.DeleteResults(
+                factory: context,
+                where: where));
             statements.Add(Rds.RowCount());
             statements.Add(Rds.DeleteItems(
                 factory: context,
@@ -3606,8 +3610,7 @@ namespace Implem.Pleasanter.Models
                             ss: ss)
                                 .Where(
                                     context: context,
-                                    ss: ss,
-                                    itemJoin: false)));
+                                    ss: ss)));
             var sub = Rds.SelectResults(
                 tableType: Sqls.TableTypes.Deleted,
                 _as: "Results_Deleted",
@@ -3984,7 +3987,9 @@ namespace Implem.Pleasanter.Models
                             string.Empty);
                     new OutgoingMailModel()
                     {
-                        Title = new Title(Displays.ExportEmailTitle(context: context, fileName)),
+                        Title = new Title(Displays.ExportEmailTitle(
+                            context: context,
+                            data: new string[] { fileName })),
                         Body = Displays.ExportEmailBody(context: context) + "\n" +
                             $"{serverName}{Locations.DownloadFile(context: context, guid: guid)}",
                         From = new System.Net.Mail.MailAddress(Parameters.Mail.SupportFrom),
@@ -4907,8 +4912,12 @@ namespace Implem.Pleasanter.Models
                     .ResultId(_as: "Id")
                     .Ver()
                     .UpdatedTime()
-                    .Add(context: context, column: groupBy)
-                    .Add(context: context, column: value);
+                    .Add(
+                        context: context,
+                        column: groupBy)
+                    .Add(
+                        context: context,
+                        column: value);
                 var where = view.Where(context: context, ss: ss);
                 var dataRows = Repository.ExecuteTable(
                     context: context,
@@ -5295,7 +5304,9 @@ namespace Implem.Pleasanter.Models
 
         private static bool InRange(Context context, SiteSettings ss, View view, int limit)
         {
-            var where = view.Where(context: context, ss: ss);
+            var where = view.Where(
+                context: context,
+                ss: ss);
             return Repository.ExecuteScalar_int(
                 context: context,
                 statements: Rds.SelectResults(

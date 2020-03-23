@@ -1,0 +1,26 @@
+if (context.Forms.Exists("InheritPermission"))
+{
+    siteModel.InheritPermission = context.Forms.Long("InheritPermission");
+    ss.InheritPermission = siteModel.InheritPermission;
+}
+if (context.Forms.Exists("CurrentPermissionsAll")
+    && Parameters.Permissions.CheckManagePermission)
+{
+    if (!new PermissionCollection(
+        context: context,
+        referenceId: siteModel.SiteId,
+        permissions: context.Forms.List("CurrentPermissionsAll"))
+            .Any(permission =>
+                permission.PermissionType.HasFlag(
+                    Permissions.Types.ManagePermission
+                    | Permissions.Types.ManageSite)))
+    {
+        return Messages.ResponseRequireManagePermission(context: context).ToJson();
+    }
+}
+var errorData = siteModel.Update(
+    context: context,
+    ss: ss,
+    permissions: context.Forms.List("CurrentPermissionsAll"),
+    permissionChanged: context.Forms.Exists("InheritPermission")
+        || context.Forms.Exists("CurrentPermissionsAll"));

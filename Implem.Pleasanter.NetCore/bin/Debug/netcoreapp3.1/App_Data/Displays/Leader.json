@@ -1,0 +1,13 @@
+﻿{
+    "Id": "Leader",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Leader"
+        },
+        {
+            "Language": "ja",
+            "Body": "リーダー"
+        }
+    ]
+}

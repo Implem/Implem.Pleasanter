@@ -1,0 +1,13 @@
+﻿{
+    "Id": "LimitAfterYears",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "{0} years after"
+        },
+        {
+            "Language": "ja",
+            "Body": "{0} 年後"
+        }
+    ]
+}

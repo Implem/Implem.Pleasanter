@@ -1,0 +1,18 @@
+public static SqlRestore Restore#TableName#(
+    SqlWhereCollection where = null,
+    SqlParamCollection param = null,
+    string _if = null,
+    bool _using = true)
+{
+    return new SqlRestore()
+    {
+        CommandText = Restore#TableName#Statement(), 
+        TableBracket = "\"#TableName#\"",
+        HistoryTableBracket = "\"#TableName#_history\"",
+        DeletedTableBracket = "\"#TableName#_deleted\"",
+        SqlWhereCollection = where,
+        SqlParamCollection = param,
+        If = _if,
+        Using = _using
+    };
+}

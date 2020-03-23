@@ -1,0 +1,5 @@
+res
+    .SetMemory("formChanged", false)
+    .Href(Locations.ItemIndex(
+        context: context,
+        id: siteModel.ParentId));

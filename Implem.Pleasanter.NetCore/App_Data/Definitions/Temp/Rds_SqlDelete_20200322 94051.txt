@@ -1,0 +1,20 @@
+public static SqlDelete Delete#TableName#(
+    string dataTableName = null,
+    SqlWhereCollection where = null,
+    SqlParamCollection param = null,
+    string _if = null,
+    bool _using = true)
+{
+    return new SqlDelete()
+    {
+        DataTableName = dataTableName,
+        CommandText = Delete#TableName#Statement(),
+        TableBracket = "\"#TableName#\"",
+        HistoryTableBracket = "\"#TableName#_history\"",
+        DeletedTableBracket = "\"#TableName#_deleted\"",
+        SqlWhereCollection = where,
+        SqlParamCollection = param,
+        If = _if,
+        Using = _using
+    };
+}

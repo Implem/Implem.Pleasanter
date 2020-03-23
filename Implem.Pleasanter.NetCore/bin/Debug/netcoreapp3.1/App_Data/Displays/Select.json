@@ -1,0 +1,13 @@
+﻿{
+    "Id": "Select",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Select"
+        },
+        {
+            "Language": "ja",
+            "Body": "選択"
+        }
+    ]
+}

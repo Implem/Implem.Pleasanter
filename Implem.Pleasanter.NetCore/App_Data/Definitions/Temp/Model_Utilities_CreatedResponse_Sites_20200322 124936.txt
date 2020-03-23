@@ -1,0 +1,19 @@
+SessionUtilities.Set(
+    context: context,
+    message: Messages.Created(
+        context: context,
+        data: siteModel.Title.<!--Model_Utilities_TitleDisplay-->Value));
+return new ResponseCollection()
+    .Response("id", #modelName#Model.#ModelName#Id.ToString())
+    .SetMemory("formChanged", false)
+    .Href(Locations.Edit(
+        context: context,
+        controller: context.Controller,
+        id: siteModel.ReferenceType == "Wikis"
+            ? Repository.ExecuteScalar_long(
+                context: context,
+                statements: Rds.SelectWikis(
+                    column: Rds.WikisColumn().WikiId(),
+                    where: Rds.WikisWhere().SiteId(siteModel.SiteId)))
+            : siteModel.SiteId))
+    .ToJson();

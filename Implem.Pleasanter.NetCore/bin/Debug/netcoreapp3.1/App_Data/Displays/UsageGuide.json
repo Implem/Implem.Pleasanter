@@ -1,0 +1,13 @@
+﻿{
+    "Id": "UserManual",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "User manual"
+        },
+        {
+            "Language": "ja",
+            "Body": "ユーザーマニュアル"
+        }
+    ]
+}

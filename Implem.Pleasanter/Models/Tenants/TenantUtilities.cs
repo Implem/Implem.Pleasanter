@@ -818,6 +818,11 @@ namespace Implem.Pleasanter.Models
                                 "#Tenants_DisableAllUsersPermission" + idSuffix,
                                 tenantModel.DisableAllUsersPermission);
                             break;
+                        case "DisableStartGuide":
+                            res.Val(
+                                "#Tenants_DisableStartGuide" + idSuffix,
+                                tenantModel.DisableStartGuide);
+                            break;
                         case "LogoType":
                             res.Val(
                                 "#Tenants_LogoType" + idSuffix,

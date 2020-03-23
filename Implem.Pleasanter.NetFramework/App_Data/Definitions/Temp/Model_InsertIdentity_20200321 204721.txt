@@ -1,0 +1,5 @@
+var response = Repository.ExecuteScalar_response(
+    context: context,
+    transactional: true,
+    selectIdentity: true,
+    statements: statements.ToArray());
