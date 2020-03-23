@@ -1,7 +1,6 @@
 C:\Implem\PleasanterYakushi\Rds\Implem.IRds\bin\Debug\netstandard2.0\Implem.IRds.deps.json
 C:\Implem\PleasanterYakushi\Rds\Implem.IRds\bin\Debug\netstandard2.0\Implem.IRds.dll
 C:\Implem\PleasanterYakushi\Rds\Implem.IRds\bin\Debug\netstandard2.0\Implem.IRds.pdb
-C:\Implem\PleasanterYakushi\Rds\Implem.IRds\obj\Debug\netstandard2.0\Implem.IRds.csprojAssemblyReference.cache
 C:\Implem\PleasanterYakushi\Rds\Implem.IRds\obj\Debug\netstandard2.0\Implem.IRds.csproj.CoreCompileInputs.cache
 C:\Implem\PleasanterYakushi\Rds\Implem.IRds\obj\Debug\netstandard2.0\Implem.IRds.AssemblyInfoInputs.cache
 C:\Implem\PleasanterYakushi\Rds\Implem.IRds\obj\Debug\netstandard2.0\Implem.IRds.AssemblyInfo.cs

@@ -1,4 +1,0 @@
-join.Add(new SqlJoin(
-    tableBracket: "\"#JoinTableName#\"",
-    joinType: #JoinType#,
-    joinExpression: "#JoinExpression#"));

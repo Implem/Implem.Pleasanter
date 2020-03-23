@@ -1,9 +1,0 @@
-﻿{
-    "Id": "CodeDefinerRdsCompleted",
-    "Type": 210,
-    "Languages": [
-        {
-            "Body": "Database configuration is complete."
-        }
-    ]
-}

@@ -1,8 +1,0 @@
-Rds.DeleteItems(
-    factory: context,
-    where: Rds.ItemsWhere().ReferenceId(#ModelName#Id)),
-Rds.DeleteBinaries(
-    factory: context,
-    where: Rds.BinariesWhere()
-        .TenantId(context.TenantId)
-        .ReferenceId(#ModelName#Id)),

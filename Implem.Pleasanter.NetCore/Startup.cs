@@ -211,7 +211,6 @@ namespace Implem.Pleasanter.NetCore
         {
             var context = new ContextImplement();
             var log = new SysLogModel(context: context);
-            Performances.PerformanceCollection.Save(Directories.Logs());
             log.Finish(context: context);
         }
 
