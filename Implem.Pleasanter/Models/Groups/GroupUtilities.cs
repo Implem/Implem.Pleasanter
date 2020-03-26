@@ -1172,23 +1172,28 @@ namespace Implem.Pleasanter.Models
                     where,
                     orderBy
                 });
-            var switchTargets = Rds.ExecuteScalar_int(
-                context: context,
-                statements: Rds.SelectGroups(
-                    column: Rds.GroupsColumn().GroupsCount(),
-                    join: join,
-                    where: where)) <= Parameters.General.SwitchTargetsLimit
-                        ? Rds.ExecuteTable(
-                            context: context,
-                            statements: Rds.SelectGroups(
-                                column: Rds.GroupsColumn().GroupId(),
-                                join: join,
-                                where: where,
-                                orderBy: orderBy))
-                                    .AsEnumerable()
-                                    .Select(o => o["GroupId"].ToInt())
-                                    .ToList()
-                        : new List<int>();
+            var switchTargets = new List<int>();
+            if (Parameters.General.SwitchTargetsLimit > 0)
+            {
+                if (Rds.ExecuteScalar_long(
+                    context: context,
+                    statements: Rds.SelectGroups(
+                        column: Rds.GroupsColumn().GroupsCount(),
+                        join: join,
+                        where: where)) <= Parameters.General.SwitchTargetsLimit)
+                {
+                    switchTargets = Rds.ExecuteTable(
+                        context: context,
+                        statements: Rds.SelectGroups(
+                            column: Rds.GroupsColumn().GroupId(),
+                            join: join,
+                            where: where,
+                            orderBy: orderBy))
+                                .AsEnumerable()
+                                .Select(o => o["GroupId"].ToInt())
+                                .ToList();
+                }
+            }
             if (!switchTargets.Contains(groupId))
             {
                 switchTargets.Add(groupId);

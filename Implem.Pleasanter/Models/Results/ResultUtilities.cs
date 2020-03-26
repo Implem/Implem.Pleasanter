@@ -1585,23 +1585,28 @@ namespace Implem.Pleasanter.Models
                     where,
                     orderBy
                 });
-            var switchTargets = Rds.ExecuteScalar_int(
-                context: context,
-                statements: Rds.SelectResults(
-                    column: Rds.ResultsColumn().ResultsCount(),
-                    join: join,
-                    where: where)) <= Parameters.General.SwitchTargetsLimit
-                        ? Rds.ExecuteTable(
-                            context: context,
-                            statements: Rds.SelectResults(
-                                column: Rds.ResultsColumn().ResultId(),
-                                join: join,
-                                where: where,
-                                orderBy: orderBy))
-                                    .AsEnumerable()
-                                    .Select(o => o["ResultId"].ToLong())
-                                    .ToList()
-                        : new List<long>();
+            var switchTargets = new List<long>();
+            if (Parameters.General.SwitchTargetsLimit > 0)
+            {
+                if (Rds.ExecuteScalar_long(
+                    context: context,
+                    statements: Rds.SelectResults(
+                        column: Rds.ResultsColumn().ResultsCount(),
+                        join: join,
+                        where: where)) <= Parameters.General.SwitchTargetsLimit)
+                {
+                    switchTargets = Rds.ExecuteTable(
+                        context: context,
+                        statements: Rds.SelectResults(
+                            column: Rds.ResultsColumn().ResultId(),
+                            join: join,
+                            where: where,
+                            orderBy: orderBy))
+                                .AsEnumerable()
+                                .Select(o => o["ResultId"].ToLong())
+                                .ToList();
+                }
+            }
             if (!switchTargets.Contains(resultId))
             {
                 switchTargets.Add(resultId);
