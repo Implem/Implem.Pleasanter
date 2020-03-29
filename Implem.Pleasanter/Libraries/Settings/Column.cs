@@ -176,22 +176,12 @@ namespace Implem.Pleasanter.Libraries.Settings
             ColumnName = columnName;
         }
 
-        public void SetChoiceHash(Context context, bool searchColumnOnly = false)
-        {
-            SetChoiceHash(
-                context: context,
-                siteId: SiteSettings.SiteId,
-                linkHash: SiteSettings.LinkHash(
-                    context: context,
-                    columnName: Name,
-                    searchColumnOnly: searchColumnOnly));
-        }
-
         public void SetChoiceHash(
             Context context,
             long siteId,
             Dictionary<string, List<string>> linkHash = null,
-            IEnumerable<string> searchIndexes = null)
+            IEnumerable<string> searchIndexes = null,
+            bool setAllChoices = false)
         {
             ChoiceHash = new Dictionary<string, Choice>();
             ChoicesText.SplitReturn()
@@ -204,7 +194,8 @@ namespace Implem.Pleasanter.Libraries.Settings
                         linkHash: linkHash,
                         searchIndexes: searchIndexes,
                         index: data.Index,
-                        line: data.Line));
+                        line: data.Line,
+                        setAllChoices: setAllChoices));
             if (searchIndexes?.Any() == true)
             {
                 ChoiceHash = ChoiceHash.Take(Parameters.General.DropDownSearchPageSize)
@@ -218,7 +209,8 @@ namespace Implem.Pleasanter.Libraries.Settings
             Dictionary<string, List<string>> linkHash,
             IEnumerable<string> searchIndexes,
             int index,
-            string line)
+            string line,
+            bool setAllChoices)
         {
             switch (line)
             {
@@ -240,16 +232,21 @@ namespace Implem.Pleasanter.Libraries.Settings
                     TimeZoneInfo.GetSystemTimeZones()
                         .ForEach(o => AddToChoiceHash(
                             o.Id,
-                            o.StandardName));
+                            o?.StandardName ?? string.Empty));
                     break;
                 default:
                     if (line.RegexExists(@"^\[\[Users.*\]\]$"))
                     {
-                        AddUsersToChoiceHash(
-                            context: context,
-                            siteId: siteId,
-                            settings: line,
-                            searchIndexes: searchIndexes);
+                        UserColumn = true;
+                        if (UseSearch != true || searchIndexes != null || setAllChoices)
+                        {
+                            AddUsersToChoiceHash(
+                                context: context,
+                                siteId: siteId,
+                                settings: line,
+                                searchIndexes: searchIndexes,
+                                setAllChoices: setAllChoices);
+                        }
                     }
                     else if (Linked())
                     {
@@ -283,21 +280,25 @@ namespace Implem.Pleasanter.Libraries.Settings
         }
 
         public void AddUsersToChoiceHash(
-            Context context, long siteId, string settings, IEnumerable<string> searchIndexes)
+            Context context,
+            long siteId,
+            string settings,
+            IEnumerable<string> searchIndexes,
+            bool setAllChoices)
         {
             IEnumerable<int> users = null;
             var showDeptName = false;
-            settings?
-                .RegexFirst(@"(?<=\[\[).+(?=\]\])")?
-                .Split(',')
+            settings
+                ?.RegexFirst(@"(?<=\[\[).+(?=\]\])")
+                ?.Split(',')
                 .Select((o, i) => new { Index = i, Setting = o })
                 .ForEach(data =>
                 {
                     if (data.Index == 0)
                     {
                         users = data.Setting == "Users*"
-                            ? SiteInfo.TenantCaches.Get(context.TenantId)?
-                                .UserHash
+                            ? SiteInfo.TenantCaches.Get(context.TenantId)
+                                ?.UserHash
                                 .Where(o => o.Value.TenantId == context.TenantId)
                                 .Select(o => o.Value.Id)
                             : SiteInfo.SiteUsers(context: context, siteId: siteId);
@@ -312,8 +313,11 @@ namespace Implem.Pleasanter.Libraries.Settings
                         }
                     }
                 });
+            var take = setAllChoices
+                ? int.MaxValue
+                : Parameters.General.DropDownSearchPageSize;
             users
-                .Select(userId => SiteInfo.User(
+                ?.Select(userId => SiteInfo.User(
                     context: context,
                     userId: userId))
                 .Where(user => !user.Disabled)
@@ -324,6 +328,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                         user.LoginId,
                         user.Dept.Code,
                         user.Dept.Name).RegexLike(p).Any()))
+                .Take(take)
                 .ForEach(user => AddToChoiceHash(
                     user.Id.ToString(),
                     SiteInfo.UserName(
@@ -491,27 +496,16 @@ namespace Implem.Pleasanter.Libraries.Settings
         public string Display(
             Context context, decimal value, bool unit = false, bool format = true)
         {
-            var formatted =
-                (!Format.IsNullOrEmpty() && format
+            return (!Format.IsNullOrEmpty() && format
                 ? value.ToString(
-                    Format + (Format == "C" && DecimalPlaces.ToInt() == 0
-                        ? string.Empty
-                        : DecimalPlaces.ToString()),
+                    Format + (Format == "C" && DecimalPlaces.ToInt() > 0
+                        ? DecimalPlaces.ToString()
+                        : string.Empty),
                     context.CultureInfo())
                 : DecimalPlaces.ToInt() == 0
                     ? value.ToString("0", "0")
                     : DisplayValue(value))
                         + (unit ? Unit : string.Empty);
-            if (format && Format == "C")
-            {
-                formatted =
-                    value.ToString(DecimalPlaces.ToInt() == 0
-                        ? "0"
-                        : $"0.{string.Empty.PadRight(DecimalPlaces.ToInt(), '0')}",
-                        context.CultureInfo());
-                formatted = $"{(char)165}{formatted}";
-            }
-            return formatted;
         }
 
         private string DisplayValue(decimal value)
@@ -590,7 +584,9 @@ namespace Implem.Pleasanter.Libraries.Settings
 
         public DateTime DefaultTime()
         {
-            return DateTime.Now.AddDays(DefaultInput.ToInt());
+            return DefaultInput.IsNullOrEmpty()
+                ? 0.ToDateTime()
+                : DateTime.Now.AddDays(DefaultInput.ToInt());
         }
 
         public string GetDefaultInput(Context context)
@@ -675,6 +671,18 @@ namespace Implem.Pleasanter.Libraries.Settings
             return UserColumn && value.IsNullOrEmpty()
                 ? User.UserTypes.Anonymous.ToInt().ToString()
                 : value;
+        }
+
+        public long? RelatingSrcId()
+        {
+            var link = ChoicesText.SplitReturn()
+                .Select(o => o.Trim())
+                .Where(o => o.RegexExists(@"^\[\[.+\]\]$"))
+                .Select(settings => new Link(
+                    columnName: ColumnName,
+                    settings: settings))
+                .FirstOrDefault(o => o.SiteId != 0);
+            return link?.SiteId;
         }
 
         private void SelectColumns(

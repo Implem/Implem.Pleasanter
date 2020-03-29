@@ -40,7 +40,7 @@ namespace Implem.Pleasanter.Libraries.DataTypes
         public string DisplaySize()
         {
             string strSize = "0" + unit[0];
-            var size = Size;
+            var size = Size?.ToDecimal() ?? 0;
             if (size != 0)
             {
                 for (int index = 0; index < unit.Length; index++)
@@ -53,7 +53,7 @@ namespace Implem.Pleasanter.Libraries.DataTypes
                     {
                         strSize = (index == 0)
                             ? size.ToString() + unit[index]
-                            : size?.ToString("#.#0") + unit[index];
+                            : size.ToString("#.#0") + unit[index];
                         break;
                     }
                 }

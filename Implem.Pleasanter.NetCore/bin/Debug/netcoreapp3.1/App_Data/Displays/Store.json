@@ -1,0 +1,13 @@
+﻿{
+    "Id": "Store",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Store"
+        },
+        {
+            "Language": "ja",
+            "Body": "店舗・販売"
+        }
+    ]
+}

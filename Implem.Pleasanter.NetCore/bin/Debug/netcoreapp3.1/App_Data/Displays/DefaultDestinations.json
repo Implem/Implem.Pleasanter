@@ -1,0 +1,13 @@
+﻿{
+    "Id": "DefaultDestinations",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Default destinations"
+        },
+        {
+            "Language": "ja",
+            "Body": "既定の宛先"
+        }
+    ]
+}

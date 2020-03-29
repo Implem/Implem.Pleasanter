@@ -1,7 +1,6 @@
 ﻿using Implem.Libraries.Utilities;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Web;
 namespace Implem.Pleasanter.Libraries.Html
 {
@@ -40,6 +39,14 @@ namespace Implem.Pleasanter.Libraries.Html
             {
                 Add("id");
                 Add(value);
+            }
+            return this;
+        }
+
+        public HtmlAttributes Name(string value, bool _using = true)
+        {
+            if (!value.IsNullOrEmpty() && _using)
+            {
                 Add("name");
                 Add(value);
             }
@@ -179,6 +186,16 @@ namespace Implem.Pleasanter.Libraries.Html
             if (!value.IsNullOrEmpty() && _using)
             {
                 Add("for");
+                Add(value);
+            }
+            return this;
+        }
+
+        public HtmlAttributes Alt(string value, bool _using = true)
+        {
+            if (!value.IsNullOrEmpty() && _using)
+            {
+                Add("alt");
                 Add(value);
             }
             return this;

@@ -6,5 +6,6 @@
     var $data = $('#MessageData');
     if ($data.length === 1) {
         $p.setMessage('#Message', $data.val());
+        $data.remove();
     }
 });

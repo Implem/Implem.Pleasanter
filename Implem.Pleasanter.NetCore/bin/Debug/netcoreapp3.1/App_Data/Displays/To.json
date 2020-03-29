@@ -1,0 +1,13 @@
+﻿{
+    "Id": "To",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "To"
+        },
+        {
+            "Language": "ja",
+            "Body": "宛先"
+        }
+    ]
+}

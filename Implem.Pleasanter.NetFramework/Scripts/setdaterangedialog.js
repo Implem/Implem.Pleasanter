@@ -7,9 +7,9 @@
             autoOpen: false,
             modal: true,
             height: 'auto',
-            width: 'auto',
+            width: '700px',
             resizable: false,
-            position: { my: 'center top', at: 'center bottom', of: $control }
+            position: { of: window }
         });
         $('#SetDateRangeDialog').dialog("open");
     }

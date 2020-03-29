@@ -1,0 +1,13 @@
+﻿{
+    "Id": "ShowProgressRate",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Show progress rate"
+        },
+        {
+            "Language": "ja",
+            "Body": "進捗率を表示"
+        }
+    ]
+}

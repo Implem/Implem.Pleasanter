@@ -1,0 +1,13 @@
+﻿{
+    "Id": "PermissionNotSelfChange",
+    "Type": 240,
+    "Languages": [
+        {
+            "Body": "It is not possible to change your own permissions."
+        },
+        {
+            "Language": "ja",
+            "Body": "自分自身の権限を変更することはできません。"
+        }
+    ]
+}

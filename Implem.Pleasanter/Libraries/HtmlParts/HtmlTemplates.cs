@@ -6,6 +6,7 @@ using Implem.Pleasanter.Libraries.Images;
 using Implem.Pleasanter.Libraries.Models;
 using Implem.Pleasanter.Libraries.Requests;
 using Implem.Pleasanter.Libraries.Responses;
+using Implem.Pleasanter.Libraries.Security;
 using Implem.Pleasanter.Libraries.Settings;
 using Implem.Pleasanter.Models;
 using System;
@@ -84,10 +85,10 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
         {
             if (!context.Ajax)
             {
-                return hb.Html(action: () => hb
-                    .Head(action: () => hb
+                return hb.Html(
+                    lang: context.Language,
+                    action: () => hb.Head(action: () => hb
                         .Meta(httpEquiv: "X-UA-Compatible", content: "IE=edge")
-                        .Meta(httpEquiv: "content-language", content: context.Language)
                         .Meta(charset: "utf-8")
                         .Meta(name: "keywords", content: Parameters.General.HtmlHeadKeywords)
                         .Meta(name: "description", content: Description(
@@ -98,7 +99,9 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                         .LinkedStyles(context: context)
                         .ExtendedStyles(context: context)
                         .Title(action: () => hb
-                            .Text(text: HtmlTitle(context: context)))
+                            .Text(text: HtmlTitle(
+                                context: context,
+                                ss: ss)))
                         .ExtendedHeader(ss: ss))
                     .Body(style: "visibility:hidden", action: action));
             }
@@ -121,7 +124,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     .Join(" "));
         }
 
-        private static string HtmlTitle(Context context)
+        private static string HtmlTitle(Context context, SiteSettings ss)
         {
             switch (context.Controller)
             {
@@ -131,37 +134,44 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     {
                         return FormattedHtmlTitle(
                             context: context,
+                            ss: ss,
                             format: context.HtmlTitleTop);
                     }
                     else if (context.Id == context.SiteId)
                     {
                         return FormattedHtmlTitle(
                             context: context,
+                            ss: ss,
                             format: context.HtmlTitleSite);
                     }
                     else
                     {
                         return FormattedHtmlTitle(
                             context: context,
+                            ss: ss,
                             format: context.HtmlTitleRecord);
                     }
                 default:
                     return FormattedHtmlTitle(
                         context: context,
+                        ss: ss,
                         format: context.HtmlTitleTop);
             }
         }
 
-        private static string FormattedHtmlTitle(Context context, string format)
+        private static string FormattedHtmlTitle(
+            Context context, SiteSettings ss, string format, bool publishes = false)
         {
-            return Strings.CoalesceEmpty(
-                format?
-                    .Replace("[ProductName]", Displays.ProductName(context: context))
-                    .Replace("[TenantTitle]", context.TenantTitle)
-                    .Replace("[SiteTitle]", context.SiteTitle)
-                    .Replace("[RecordTitle]", context.RecordTitle),
-                context.TenantTitle,
-                Displays.ProductName(context: context));
+            return context.CanRead(ss: ss)
+                ? Strings.CoalesceEmpty(
+                    format?
+                        .Replace("[ProductName]", Displays.ProductName(context: context))
+                        .Replace("[TenantTitle]", context.TenantTitle)
+                        .Replace("[SiteTitle]", context.SiteTitle)
+                        .Replace("[RecordTitle]", context.RecordTitle),
+                    context.TenantTitle,
+                    Displays.ProductName(context: context))
+                : Displays.ProductName(context: context);
         }
 
         private static HtmlBuilder ExtendedHeader(this HtmlBuilder hb, SiteSettings ss)
@@ -217,7 +227,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     useBreadcrumb: useBreadcrumb,
                     useTitle: useTitle,
                     action: action)
-                .Div(id: "BottomMargin both")
+                .Div(id: "BottomMargin")
                 .Footer()
                 .BackUrl(
                     context: context,
@@ -240,7 +250,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             bool useTitle = true,
             Action action = null)
         {
-            return hb.Article(id: "Application", action: () =>
+            return hb.Div(id: "Application", action: () =>
             {
                 if (!errorType.Has())
                 {

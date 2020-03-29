@@ -138,6 +138,7 @@ namespace Implem.Libraries.DataSources.SqlServer
                                 commandCount);
                         }
                     }
+                    AddParams_Where(factory, sqlCommand, sqlWhere.And, commandCount);
                     AddParams_Where(factory, sqlCommand, sqlWhere.Or, commandCount);
                 });
         }

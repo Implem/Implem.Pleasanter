@@ -13,6 +13,10 @@ namespace Implem.Libraries.DataSources.SqlServer
         public bool Using = true;
         public bool Updating = true;
 
+        public SqlParam()
+        {
+        }
+
         public SqlParam(
             string columnBracket,
             string name,

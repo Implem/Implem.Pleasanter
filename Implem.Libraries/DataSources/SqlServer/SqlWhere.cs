@@ -19,6 +19,7 @@ namespace Implem.Libraries.DataSources.SqlServer
         public SqlStatement Sub;
         public bool SubPrefix;
         public string Raw;
+        public SqlWhereCollection And;
         public SqlWhereCollection Or;
         public bool Using = true;
 
@@ -34,6 +35,7 @@ namespace Implem.Libraries.DataSources.SqlServer
             SqlStatement sub = null,
             bool subPrefix = true,
             string raw = null,
+            SqlWhereCollection and = null,
             SqlWhereCollection or = null,
             bool _using = true)
         {
@@ -48,6 +50,7 @@ namespace Implem.Libraries.DataSources.SqlServer
             Sub = sub;
             SubPrefix = subPrefix;
             Raw = raw;
+            And = and;
             Or = or;
             Using = _using;
         }
@@ -85,6 +88,15 @@ namespace Implem.Libraries.DataSources.SqlServer
                         sqlCommand: sqlCommand,
                         left: left,
                         tableBracket: tableBracket,
+                        commandCount: commandCount,
+                        select: select);
+                }
+                else if (And != null)
+                {
+                    return Sql_And(
+                        factory: factory,
+                        sqlContainer: sqlContainer,
+                        sqlCommand: sqlCommand,
                         commandCount: commandCount,
                         select: select);
                 }
@@ -308,6 +320,26 @@ namespace Implem.Libraries.DataSources.SqlServer
                 : raw;
         }
 
+        private string Sql_And(
+            ISqlObjectFactory factory,
+            SqlContainer sqlContainer,
+            ISqlCommand sqlCommand,
+            int? commandCount,
+            bool select)
+        {
+            var commandText = new StringBuilder();
+            And.Clause = string.Empty;
+            And.BuildCommandText(
+                factory: factory,
+                sqlContainer: sqlContainer,
+                sqlCommand: sqlCommand,
+                commandText: commandText,
+                commandCount: commandCount,
+                multiClauseOperator: " and ",
+                select: select);
+            return "(" + commandText + ")";
+        }
+
         private string Sql_Or(
             ISqlObjectFactory factory,
             SqlContainer sqlContainer,
@@ -325,6 +357,7 @@ namespace Implem.Libraries.DataSources.SqlServer
                 sqlCommand: sqlCommand,
                 commandText: commandText,
                 commandCount: commandCount,
+                multiClauseOperator: " or ",
                 select: select);
             return "(" + commandText + ")";
         }

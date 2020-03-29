@@ -3,7 +3,7 @@ var $p = {
     events: {},
     ex: {}
 };
-$p.ajax = function (url, methodType, data, $control, _async) {
+$p.ajax = function (url, methodType, data, $control, _async, clearMessage) {
     if ($p.before_send($p.eventArgs(url, methodType, data, $control, _async)) === false) {
         return false;
     }
@@ -18,7 +18,9 @@ $p.ajax = function (url, methodType, data, $control, _async) {
     $p.loading($control);
     var ret = 0;
     _async = _async !== undefined ? _async : true;
-    $p.clearMessage();
+    if (clearMessage !== false) {
+        $p.clearMessage();
+    }
     $.ajax({
         url: url,
         type: methodType,
@@ -27,22 +29,22 @@ $p.ajax = function (url, methodType, data, $control, _async) {
         data: data,
         dataType: 'json'
     })
-    .done(function (json, textStatus, jqXHR) {
-        $p.setByJson(url, methodType, data, $control, _async, json);
-        ret = json.filter(function (i) {
-            return i.Method === 'Message' && JSON.parse(i.Value).Css === 'alert-error';
-        }).length !== 0
-            ? -1
-            : 0;
-    })
-    .fail(function (jqXHR, textStatus, errorThrown) {
-        alert(textStatus + '\n' +
-            $(jqXHR.responseText).text().trim().replace('\n', ''));
-        ret = -1;
-    })
-    .always(function (jqXHR, textStatus) {
-        $p.clearData('ControlId', data);
-        $p.loaded();
+        .done(function (json, textStatus, jqXHR) {
+            $p.setByJson(url, methodType, data, $control, _async, json);
+            ret = json.filter(function (i) {
+                return i.Method === 'Message' && JSON.parse(i.Value).Css === 'alert-error';
+            }).length !== 0
+                ? -1
+                : 0;
+        })
+        .fail(function (jqXHR, textStatus, errorThrown) {
+            alert(textStatus + '\n' +
+                $(jqXHR.responseText).text().trim().replace('\n', ''));
+            ret = -1;
+        })
+        .always(function (jqXHR, textStatus) {
+            $p.clearData('ControlId', data);
+            $p.loaded();
         });
     $p.after_send($p.eventArgs(url, methodType, data, $control, _async, ret));
     return ret;
@@ -107,30 +109,32 @@ $p.apiUrl = function (id, action) {
 }
 
 $p.apiGet = function (args) {
-    $p.apiExec($p.apiUrl(args.id, 'get'), args);
+    return $p.apiExec($p.apiUrl(args.id, 'get'), args);
 }
 
 $p.apiCreate = function (args) {
-    $p.apiExec($p.apiUrl(args.id, 'create'), args);
+    return $p.apiExec($p.apiUrl(args.id, 'create'), args);
 }
 
 $p.apiUpdate = function (args) {
-    $p.apiExec($p.apiUrl(args.id, 'update'), args);
+    return $p.apiExec($p.apiUrl(args.id, 'update'), args);
 }
 
 $p.apiDelete = function (args) {
-    $p.apiExec($p.apiUrl(args.id, 'delete'), args);
+    return $p.apiExec($p.apiUrl(args.id, 'delete'), args);
 }
 
 $p.apiExec = function (url, args) {
-    $.ajax({
-        type: 'post',
+    return $.ajax({
+        type: 'Post',
         url: url,
-        cache: false,
-        contentType: 'application/json',
-        data: JSON.stringify(args.data),
+        data: args.data !== undefined
+            ? JSON.stringify(args.data)
+            : "",
         dataType: 'json',
-        async: args.async !== undefined ? args.async : true
+        async: args.async !== undefined
+            ? args.async
+            : true
     })
         .done(args.done)
         .fail(args.fail)
@@ -151,19 +155,19 @@ $p.apiUsersUrl = function (action, id) {
 }
 
 $p.apiUsersGet = function (args) {
-    $p.apiExec($p.apiUsersUrl('get'), args);
+    return $p.apiExec($p.apiUsersUrl('get'), args);
 }
 
 $p.apiUsersCreate = function (args) {
-    $p.apiExec($p.apiUsersUrl('create'), args);
+    return $p.apiExec($p.apiUsersUrl('create'), args);
 }
 
 $p.apiUsersUpdate = function (args) {
-    $p.apiExec($p.apiUsersUrl('update', args.id), args);
+    return $p.apiExec($p.apiUsersUrl('update', args.id), args);
 }
 
 $p.apiUsersDelete = function (args) {
-    $p.apiExec($p.apiUsersUrl('delete', args.id), args);
+    return $p.apiExec($p.apiUsersUrl('delete', args.id), args);
 }
 
 $p.getData = function ($control) {
@@ -187,8 +191,30 @@ $p.set = function ($control, val) {
             default:
                 switch ($control.prop('tagName')) {
                     case 'SELECT':
-                        $control.val(val);
-                        $control.change();
+                        if ($control.hasClass('search') && val) {
+                            var $form = $('#MainForm');
+                            var url = $form.attr('action').replace('_action_', 'SelectSearchDropDown');
+                            var arr = $control.attr('multiple')
+                                ? JSON.parse(val)
+                                : new Array(val.toString());
+                            if (arr.length === 1) {
+                                var data = {};
+                                data.DropDownSearchTarget = $control.attr('id');
+                                data.DropDownSearchResults = JSON.stringify(arr);
+                                $p.ajax(
+                                    url,
+                                    'post',
+                                    data,
+                                    $form,
+                                    false);
+                            }
+                        }
+                        if ($control.attr('multiple')) {
+                            $p.selectMultiSelect($control, val);
+                        } else {
+                            $control.val(val);
+                            $control.change();
+                        }
                         break;
                     default:
                         $control.val(val);
@@ -291,28 +317,36 @@ $p.setMustData = function ($form, action) {
 
 $p.clearData = function (target, data, type) {
     if (!data) {
-        data = $p.getData($('.main-form'))
+        data = $p.getData($('.main-form'));
     }
     if (target === undefined) {
         for (controlId in data) {
             if (!$('#' + controlId).hasClass('control-selectable')) {
-                delete data[controlId];
+                Delete(controlId);
             }
         }
     } else if (type === 'startsWith') {
         for (controlId in data) {
             if (controlId.indexOf(target) === 0) {
-                delete data[controlId];
+                Delete(controlId);
             }
         }
     } else {
         if (target in data) {
-            delete data[target];
+            Delete(target);
         } else if ($(target).length !== 0) {
-            delete data[$(target).attr('id')];
+            Delete($(target).attr('id'));
         }
     }
-}
+    function Delete(key) {
+        if (type === 'ignoreView') {
+            if (key.indexOf('View') === 0) {
+                return;
+            }
+        }
+        delete data[key];
+    }
+};
 
 $p.toJson = function ($control) {
     return JSON.stringify($control.map(function () {
@@ -420,7 +454,8 @@ $p.setByJsonElement = function (jsonElement, data, $control) {
             break;
         case 'CloseDialog':
             $p.clearMessage();
-            if (target !== undefined) {
+            if (target !== undefined
+                && $(target).hasClass('ui-dialog-content')) {
                 $(target).dialog('close');
             } else {
                 $('.ui-dialog-content').dialog('close');
@@ -436,10 +471,10 @@ $p.setByJsonElement = function (jsonElement, data, $control) {
             $(target).trigger(value);
             break;
         case 'Invoke':
-            $p[target]();
+            $p[target](value);
             break;
         case 'Events':
-            $p.execEvents(target,'');
+            $p.execEvents(target, '');
             break;
         case 'WindowScrollTop':
             $(window).scrollTop(value);
@@ -611,13 +646,11 @@ $p.clear = function ($control) {
 }
 
 $p.outsideDialog = function ($control) {
-    var dialogs = $('.ui-dialog:visible').map(function (i, e)
-    {
+    var dialogs = $('.ui-dialog:visible').map(function (i, e) {
         return $('#' + e.getAttribute('aria-describedby'));
     });
     return dialogs.length !== 0 &&
-        dialogs.filter(function (i, e)
-        {
+        dialogs.filter(function (i, e) {
             return $control.closest(e).length === 1
         }).length === 0;
 }
@@ -626,7 +659,7 @@ $p.syncSend = function ($control, formId) {
     return $p.send($control, formId, false);
 }
 
-$p.send = function ($control, formId, _async) {
+$p.send = function ($control, formId, _async, clearMessage) {
     if ($p.outsideDialog($control)) return false;
     if ($control.hasClass('no-send')) return false;
     $form = formId !== undefined
@@ -668,7 +701,8 @@ $p.send = function ($control, formId, _async) {
             methodType,
             methodType !== 'get' ? data : null,
             $control,
-            _async);
+            _async,
+            clearMessage);
     }
 }
 
@@ -677,6 +711,26 @@ $p.setFormChanged = function ($control) {
         $p.formChanged = true;
     }
 }
+
+$p.throttle = (function () {
+    var lastTime = 0;
+    return function (action, interval) {
+        if (lastTime + interval <= new Date().getTime()) {
+            lastTime = new Date().getTime();
+            action();
+        }
+    };
+})();
+
+$p.debounce = (function () {
+    let timer;
+    return function (action, interval) {
+        clearTimeout(timer);
+        timer = setTimeout(function () {
+            action();
+        }, interval);
+    };
+})();
 $p.dateAdd = function (type, num, date) {
     switch (type) {
         case 'd':
@@ -780,8 +834,10 @@ $(function () {
         var $control = $(this);
         $p.setData($control);
         if (e.keyCode === 13) {
-            $p.send($control);
-            delete $p.getData($control)[$control.attr('id')];
+            $p.debounce(function () {
+                $p.send($control);
+                delete $p.getData($control)[$control.attr('id')];
+            }, 500);
         }
     });
 });
@@ -954,7 +1010,7 @@ $(function () {
     });
 });
 $p.openBulkUpdateSelectorDialog = function ($control) {
-    error = $p.send($control);
+    var error = $p.syncSend($control);
     if (error === 0) {
         $('#BulkUpdateSelectorDialog').dialog({
             modal: true,
@@ -2912,6 +2968,7 @@ $(function () {
     var $data = $('#MessageData');
     if ($data.length === 1) {
         $p.setMessage('#Message', $data.val());
+        $data.remove();
     }
 });
 $p.moveTargets = function ($control) {
@@ -2928,7 +2985,7 @@ $p.changeMultiSelect = function ($control) {
         $p.send($control);
     }
     $control.removeClass('no-postback');
-}
+};
 
 $p.setMultiSelectData = function ($control) {
     $p.getData($control)[$control.attr('id')] = JSON.stringify(
@@ -2936,7 +2993,51 @@ $p.setMultiSelectData = function ($control) {
             .filter(function () { return $(this).prop('checked'); })
             .map(function () { return $(this).val() })
             .toArray());
-}
+};
+
+$p.selectMultiSelect = function ($control, json) {
+    $control.find('option').each(function (index, element) {
+        var $element = $(element);
+        $element.prop('selected', false);
+        if (JSON.parse(json).indexOf($element.val()) > -1) {
+            $element.prop('selected', true);
+        }
+    });
+    $control.multiselect('refresh');
+};
+
+$p.RefreshMultiSelectRelatingColum = function ($target) {
+    if ($target.length === 0) {
+        return;
+    }
+    if ($target.prop('multiple')) {
+        $target.multiselect('refresh');
+        var $currentOptions = $('#' + $target.attr('id') + ' option:selected');
+        var curOptions = [];
+        $currentOptions.each(function (index, element) {
+            curOptions.push($(element).val());
+        });
+        var oldOptions = JSON.parse($target.attr('selected-options'));
+        if (!Array.isArray(oldOptions)) {
+            return false;
+        }
+        if (curOptions.length !== oldOptions.length) {
+            $p.setData($target);
+            $p.send($target);
+            return;
+        }
+        var equals = true;
+        curOptions.forEach(function (item) {
+            if (!oldOptions.includes(item)) {
+                equals = false;
+            }
+        });
+        if (!equals) {
+            $p.setData($target);
+            $p.send($target);
+        }
+    }
+};
 $p.currentIndex = function (array) {
     return array.indexOf($('#Id').val())
 }
@@ -3363,9 +3464,9 @@ $p.openSetDateRangeDialog = function ($control) {
             autoOpen: false,
             modal: true,
             height: 'auto',
-            width: 'auto',
+            width: '700px',
             resizable: false,
-            position: { my: 'center top', at: 'center bottom', of: $control }
+            position: { of: window }
         });
         $('#SetDateRangeDialog').dialog("open");
     }
@@ -3419,9 +3520,9 @@ $p.openSetNumericRangeDialog = function ($control) {
         $('#SetNumericRangeDialog').dialog({
             modal: true,
             height: 'auto',
-            width: 'auto',
+            width: '700px',
             resizable: false,
-            position: { my: 'center top', at: 'center bottom', of: $control }
+            position: { of: window }
         });
     }
 }
@@ -3461,7 +3562,7 @@ $p.openSetNumericRangeOK = function ($controlID) {
     var dispval = "";
     if (sdval || edval) {
         dispval = sdval + " - " + edval;
-        setval = '["'+ sdval + ',' + edval + '"]';
+        setval = '["' + sdval + ',' + edval + '"]';
     }
     $control.val(dispval);
     $p.set($target, setval);
@@ -3584,9 +3685,11 @@ $p.siteSelected = function ($control, $target) {
     var items = container.getElementsByTagName("li");
     var itemArray = Array.prototype.slice.call(items);
     function compareText(a, b) {
-        if (a.attributes.getNamedItem("data-order").value > b.attributes.getNamedItem("data-order").value)
+        var _a = parseInt(a.attributes.getNamedItem("data-order").value);
+        var _b = parseInt(b.attributes.getNamedItem("data-order").value);
+        if (_a > _b)
             return 1;
-        else if (a.attributes.getNamedItem("data-order").value < b.attributes.getNamedItem("data-order").value)
+        else if (_a < _b)
             return -1;
         return 0;
     }
@@ -3861,6 +3964,14 @@ $(function () {
             $('#FilterColumnSettingField').removeClass('hidden');
         } else {
             $('#FilterColumnSettingField').addClass('hidden');
+        }
+    });
+    $(document).on('change', '#UseRelatingColumnsOnFilter', function () {
+        if ($('#UseRelatingColumnsOnFilter').prop('checked')) {
+            $p.set($('#UseGridHeaderFilters'), false);
+            $('#UseGridHeaderFilters').prop('disabled', true);
+        } else {
+            $('#UseGridHeaderFilters').prop('disabled', false);
         }
     });
 });
@@ -4171,115 +4282,106 @@ $(function () {
     $('body').css({ visibility: 'visible' });
 });
 $(document).ready(function () {
-    $p.initRelatingColumn();
-});
+    var methodType = $('#MethodType').val();
+    if (methodType === 'edit' || methodType === 'new') {
+        initRelatingColumn(
+            $('#TriggerRelatingColumns_Editor'),
+            $('#TableName').val());
+    } else {
+        initRelatingColumn(
+            $('#TriggerRelatingColumns_Filter'),
+            'ViewFilters_');
+    }
+    $p.initRelatingColumn = function () {
+        initRelatingColumn(
+            $('#TriggerRelatingColumns_Dialog'),
+            $('#TableName').val());
+    };
 
-$p.initRelatingColumn = function () {
-    var param = $('#TriggerRelatingColumns').val();
-    if (param === undefined) return;
-    var rcols = JSON.parse(param);
-    for (var k in rcols) {
-        var prekey = '';
-        for (var k2 in rcols[k].Columns) {
-            if (prekey !== '' && rcols[k].Columns[k2] !== null && rcols[k].ColumnsLinkedClass[rcols[k].Columns[k2]] !== null) {
-                $p.applyRelatingColumn(prekey, rcols[k].Columns[k2], rcols[k].ColumnsLinkedClass[rcols[k].Columns[k2]]);
+    function initRelatingColumn($trigger, tablename) {
+        var param = $trigger.val();
+        if (param === undefined) return;
+        if (tablename === undefined) return;
+        var rcols = JSON.parse(param);
+        for (var k in rcols) {
+            var prekey = '';
+            for (var k2 in rcols[k].Columns) {
+                if (prekey !== '' && rcols[k].Columns[k2] !== null && rcols[k].ColumnsLinkedClass[rcols[k].Columns[k2]] !== null) {
+                    applyRelatingColumn(
+                        prekey,
+                        rcols[k].Columns[k2],
+                        rcols[k].ColumnsLinkedClass[rcols[k].Columns[k2]],
+                        tablename,
+                        $trigger);
+                }
+                prekey = rcols[k].Columns[k2];
             }
-            prekey = rcols[k].Columns[k2];
         }
     }
-};
-$p.applyRelatingColumn = function (prnt, chld, linkedClass) {
-    $(document).ready(function () {
-        var tablename = $('#TableName').val();
-        if (tablename === undefined) return;
-        var siteid = $('#' + tablename + '_' + chld).attr('data-id');
-        if (siteid === undefined || isNaN(siteid)) return;
-        c_change(tablename, siteid, linkedClass);
-        $('#' + tablename + '_' + prnt).change(function () {
-            c_change(tablename, siteid, linkedClass);
+
+    function applyRelatingColumn(prnt, chld, linkedClass, tablename, $trigger) {
+        $(document).ready(function () {
+            var debounce = function (fn, interval) {
+                let timer;
+                return function () {
+                    clearTimeout(timer);
+                    timer = setTimeout(function () {
+                        fn();
+                    }, interval);
+                };
+            };
+            c_change(tablename);
+            $(document).on(
+                'change',
+                '#' + tablename + '_' + prnt,
+                debounce(function () {
+                    c_change(tablename);
+                }, 500));
         });
-    });
-
-    var c_change = function (tablename, siteid) {
-        var parentId = $('#' + tablename + '_' + prnt + ' option:selected').val();
-        var childId = $('#' + tablename + '_' + chld + ' option:selected').val();
-        var childDisabled = $('#' + tablename + '_' + chld).prop('disabled');
-        $('#' + tablename + '_' + chld).prop('disabled', true);
-        $('#' + tablename + '_' + chld).empty();
-        $('#' + tablename + '_' + chld)
-            .append($('<option>')
-                .val(childId)
-                .prop('id', 'Temporary_' + chld)
-                .prop('selected', true));
-        $('#' + tablename + '_' + chld).append($('<option>').val(''));
-        refreshCombo(tablename, siteid, null, parentId, childId, false, childDisabled);
-    };
-
-    var refreshCombo = function (tablename, siteid, json, parentSelectedId, childSelectedId, childSelected, childDisabled) {
-        $('#' + tablename + '_' + chld).attr('parent-data-class', linkedClass);
-        $('#' + tablename + '_' + chld).attr('parent-data-id', parentSelectedId === '' ? '-1' : parentSelectedId);
-        var offset = 0;
-        var pagesize = 0;
-        var totalcount = 0;
-        if (json !== null) {
-            offset = json.Response.Offset;
-            pagesize = json.Response.PageSize;
-            totalcount = json.Response.TotalCount;
-            var loopmax = ((pagesize + offset) < totalcount) ?
-                pagesize : (totalcount - offset);
-            for (var i = 0; i < loopmax; i++) {
-                var id = json.Response.Data[i].ResultId;
-                if (id === undefined) id = json.Response.Data[i].IssueId;
-                var title = json.Response.Data[i].ItemTitle;
-                var isSelected = false;
-                if (id === Number(childSelectedId)) {
-                    childSelected = true;
-                    isSelected = true;
+        var c_change = function (tablename) {
+            var parentIds = [];
+            var $parent = $('#' + tablename + '_' + prnt + ' option:selected');
+            $parent.each(function (index, element) {
+                var value = $(element).val();
+                if (value === '\t') {
+                    value = '-1';
                 }
-                $('#' + tablename + '_' + chld).append($('<option>').val(id).prop('selected', isSelected).text(title));
-            }
-        }
-        if (json === null || (offset + pagesize) < totalcount) {
-            var param = new Object();
-            param.ApiKey = '';
-            param.Offset = offset + pagesize;
-            param.View = new Object();
-            param.View.ColumnFilterHash = new Object();
-            param.View.ColumnFilterHash[linkedClass] = '["' + parentSelectedId + '"]';
-            param.View.ColumnSorterHash = new Object();
-            param.View.ColumnSorterHash['ItemTitle'] = 0;
-            var urlpath = $('#ApplicationPath').val() +
-                'items/' + escape((siteid - 0)) + '/get';
-            $.ajax({
-                type: 'POST',
-                url: urlpath,
-                dataType: 'json',
-                data: JSON.stringify(param),
-                contentType: 'application/json',
-                scriptCharset: 'utf-8',
-                async: false
-            }).done(function (json) {
-                if (json.StatusCode === 200) {
-                    refreshCombo(tablename, siteid, json, parentSelectedId, childSelectedId, childSelected, childDisabled);
-                } else {
-                    alert('Error\r\nStatusCode:' + json.StatusCode);
-                }
-            }).fail(function (XMLHttpRequest, textStatus, errorThrown) {
-                alert(textStatus + '\r\n' + errorThrown);
-                $('#' + tablename + '_' + chld).prop('disabled', childDisabled);
+                parentIds.push(value);
             });
-        } else {
-            if (childSelectedId > 0
-                && childSelectedId !== undefined
-                && !childSelected) {
-                $('#' + tablename + '_' + chld).val('');
-                $('#' + tablename + '_' + chld).trigger('change');
-            }
-            $('#Temporary_' + chld).remove();
-            $('#' + tablename + '_' + chld).prop('disabled', childDisabled);
+            var childIds = [];
+            var $child = $('#' + tablename + '_' + chld + ' option:selected');
+            $child.each(function (index, element) {
+                childIds.push($(element).val());
+            });
+            $('#' + tablename + '_' + chld).attr('parent-data-class', linkedClass);
+            $('#' + tablename + '_' + chld).attr('parent-data-id', JSON.stringify(parentIds));
+            $('#' + tablename + '_' + chld).attr('selected-options', JSON.stringify(childIds));
+            var formData = $p.getData($trigger.closest('form'));
+            formData["RelatingDropDownControlId"] = tablename + '_' + chld;
+            formData["RelatingDropDownSelected"] = JSON.stringify(childIds);
+            formData["RelatingDropDownParentClass"] = linkedClass;
+            formData["RelatingDropDownParentDataId"] = JSON.stringify(parentIds);
+            $trigger.attr('parent-data-class', linkedClass);
+            $trigger.attr('parent-data-id', JSON.stringify(parentIds));
+            $trigger.attr('data-action', 'RelatingDropDown');
+            $trigger.attr('data-method', 'post');
+            const formId = undefined;
+            const _async = true;
+            const clearMessage = false;
+            $p.send($trigger, formId, _async, clearMessage);
+        };
+    }
+    $p.callbackRelatingColumn = function (targetId) {
+        var $target = $(targetId);
+        if ($target.length === 0) {
+            return;
         }
+        $p.RefreshMultiSelectRelatingColum($target);
+        $target.addClass('not-set-form-changed');
+        $target.trigger('change');
+        $target.removeClass('not-set-form-changed');
     };
-}
+});
 $p.moveColumns = function ($control, columnHeader, isKeepSource, isJoin) {
     if (formId === undefined) return false;
     return $p.moveColumnsById($control,

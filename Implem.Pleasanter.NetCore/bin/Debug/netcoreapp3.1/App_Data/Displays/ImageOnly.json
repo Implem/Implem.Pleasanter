@@ -1,0 +1,13 @@
+﻿{
+    "Id": "ImageOnly",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Image only"
+        },
+        {
+            "Language": "ja",
+            "Body": "画像のみ"
+        }
+    ]
+}

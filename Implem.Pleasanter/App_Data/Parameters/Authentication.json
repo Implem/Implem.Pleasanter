@@ -1,5 +1,5 @@
 ﻿{
-    "Provider": null,
+    "Provider": "",
     "ServiceId": null,
     "ExtensionUrl": null,
     "RejectUnregisteredUser": false,
@@ -7,6 +7,9 @@
         {
             "LdapSearchRoot": null,
             "LdapSearchProperty": "sAMAccountName",
+            "LdapSearchPattern": null,
+            "LdapLoginPattern": null,
+            "LdapAuthenticationType": null,
             "NetBiosDomainName": null,
             "LdapTenantId": 1,
             "LdapDeptCode": null,
@@ -21,6 +24,7 @@
             "LdapLastNamePattern": null,
             "LdapMailAddress": "mail",
             "LdapMailAddressPattern": null,
+            "LdapSyncPageSize": 0,
             "LdapSyncPatterns": [
                 "(&(ObjectCategory=User)(ObjectClass=Person))"
             ],
@@ -30,5 +34,21 @@
             "LdapSyncUser": null,
             "LdapSyncPassword": null
         }
-    ]
+    ],
+    "SamlParameters": {
+        "Attributes": {
+            "Name": "Name",
+            "UserCode": "UserCode",
+            "Birthday": "Birthday",
+            "Gender": "Gender",
+            "Language": "Language",
+            "TimeZone": "TimeZone",
+            "TenantManager": "TenantManager",
+            "DeptCode": "DeptCode",
+            "Dept": "Dept",
+            "Body": "Body",
+            "MailAddress": "{NameId}"
+        },
+        "SamlTenantId": 1
+    }
 }

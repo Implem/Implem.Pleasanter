@@ -1,0 +1,13 @@
+﻿{
+    "Id": "Check",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Check"
+        },
+        {
+            "Language": "ja",
+            "Body": "チェック"
+        }
+    ]
+}

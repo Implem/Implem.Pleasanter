@@ -1222,7 +1222,6 @@ namespace Implem.Pleasanter.Models
                             context: context,
                             ss: ss,
                             issueModel: issueModel)
-                        .Hidden(controlId: "TriggerRelatingColumns", value: Jsons.ToJson(ss.RelatingColumns))
                         .Hidden(controlId: "DropDownSearchPageSize", value: Parameters.General.DropDownSearchPageSize.ToString()))
                             .ToString();
         }
@@ -1326,7 +1325,10 @@ namespace Implem.Pleasanter.Models
                             controlId: "SwitchTargets",
                             css: "always-send",
                             value: issueModel.SwitchTargets?.Join(),
-                            _using: !context.Ajax))
+                            _using: !context.Ajax)
+                        .Hidden(
+                            controlId: "TriggerRelatingColumns_Editor", 
+                            value: Jsons.ToJson(ss.RelatingColumns)))
                 .OutgoingMailsForm(
                     context: context,
                     ss: ss,
@@ -1867,10 +1869,8 @@ namespace Implem.Pleasanter.Models
                                                 columnName: column.ColumnName,
                                                 fieldCss: column.FieldCss,
                                                 fieldDescription: column.Description,
-                                                controlCss: column.ControlCss,
                                                 labelText: column.LabelText,
                                                 value: issueModel.Attachments(columnName: column.Name).ToJson(),
-                                                placeholder: column.LabelText,
                                                 readOnly: column.ColumnPermissionType(context: context)
                                                     != Permissions.ColumnPermissionTypes.Update));
                                     break;
@@ -1990,7 +1990,8 @@ namespace Implem.Pleasanter.Models
                 where: view.Where(context: context, ss: ss),
                 orderBy: view.OrderBy(
                     context: context,
-                    ss: ss),
+                    ss: ss,
+                    itemsTableName: "Issues_Items"),
                 offset: api.Offset,
                 pageSize: pageSize,
                 tableType: tableType);
@@ -2087,7 +2088,7 @@ namespace Implem.Pleasanter.Models
                             controller: context.Controller,
                             id: ss.Columns.Any(o => o.Linking)
                                 ? context.Forms.Long("LinkId")
-                                : issueModel.IssueId))
+                                : issueModel.IssueId) + "?new=1")
                         .ToJson();
                 case Error.Types.Duplicated:
                     return Messages.ResponseDuplicated(
@@ -2257,12 +2258,16 @@ namespace Implem.Pleasanter.Models
             }
             else
             {
+                var verUp = Versions.VerUp(
+                    context: context,
+                    ss: ss,
+                    verUp: false);
                 return res
                     .Ver(context: context, ss: ss)
                     .Timestamp(context: context, ss: ss)
                     .FieldResponse(context: context, ss: ss, issueModel: issueModel)
-                    .Val("#VerUp", false)
-                    .Disabled("#VerUp", false)
+                    .Val("#VerUp", verUp)
+                    .Disabled("#VerUp", verUp)
                     .Html("#HeaderTitle", issueModel.Title.DisplayValue)
                     .Html("#RecordInfo", new HtmlBuilder().RecordInfo(
                         context: context,
@@ -2288,20 +2293,18 @@ namespace Implem.Pleasanter.Models
 
         public static string OpenBulkUpdateSelectorDialog(Context context, SiteSettings ss)
         {
-            var issueModel = new IssueModel(
-                context: context,
-                ss: ss,
-                issueId: 0,
-                formData: context.Forms);
-            var invalid = IssueValidators.OnUpdating(
-                context: context,
-                ss: ss,
-                issueModel: issueModel);
-            switch (invalid.Type)
+            if (!context.CanUpdate(ss: ss))
             {
-                case Error.Types.None: break;
-                default: return invalid.Type.MessageJson(context: context);
+                return Messages.ResponseHasNotPermission(context: context).ToJson();
             }
+            var where = SelectedWhere(
+                context: context,
+                ss: ss);
+            if (where == null)
+            {
+                return Messages.ResponseSelectTargets(context: context).ToJson();
+            }
+            ss.SetColumnAccessControls(context: context);
             var columns = ss.GetAllowBulkUpdateColumns(context, ss);
             var column = columns.FirstOrDefault();
             var hb = new HtmlBuilder();
@@ -2316,7 +2319,7 @@ namespace Implem.Pleasanter.Models
                             .Field(
                                 context: context,
                                 ss: ss,
-                                issueModel: issueModel,
+                                issueModel: new IssueModel(),
                                 column: column,
                                 alwaysSend: true,
                                 disableSection: true)))
@@ -2325,19 +2328,9 @@ namespace Implem.Pleasanter.Models
 
         public static string BulkUpdateSelectChanged(Context context, SiteSettings ss)
         {
-            var issueModel = new IssueModel(
-                context: context,
-                ss: ss,
-                issueId: 0,
-                formData: context.Forms);
-            var invalid = IssueValidators.OnUpdating(
-                context: context,
-                ss: ss,
-                issueModel: issueModel);
-            switch (invalid.Type)
+            if (!context.CanUpdate(ss: ss))
             {
-                case Error.Types.None: break;
-                default: return invalid.Type.MessageJson(context: context);
+                return Messages.ResponseHasNotPermission(context: context).ToJson();
             }
             var column = ss.GetColumn(
                 context: context,
@@ -2348,7 +2341,7 @@ namespace Implem.Pleasanter.Models
                     new HtmlBuilder().Field(
                         context: context,
                         ss: ss,
-                        issueModel: issueModel,
+                        issueModel: new IssueModel(),
                         column: column,
                         alwaysSend: true,
                         disableSection: true))
@@ -2357,10 +2350,19 @@ namespace Implem.Pleasanter.Models
 
         public static string BulkUpdate(Context context, SiteSettings ss)
         {
+            if (!context.CanUpdate(ss: ss))
+            {
+                return Messages.ResponseHasNotPermission(context: context).ToJson();
+            }
             var param = new Rds.IssuesParamCollection();
             var column = ss.GetColumn(
                 context: context,
                 columnName: context.Forms.Data("BulkUpdateColumnName"));
+            ss.SetColumnAccessControls(context: context);
+            if (!column.CanUpdate)
+            {
+                return Messages.ResponseHasNotPermission(context: context).ToJson();
+            }
             var issueModel = new IssueModel(
                 context: context,
                 ss: ss,
@@ -2369,60 +2371,57 @@ namespace Implem.Pleasanter.Models
             issueModel.PropertyValue(
                 context: context,
                 name: column.ColumnName);
-            if (context.CanUpdate(ss: ss))
+            var where = SelectedWhere(
+                context: context,
+                ss: ss);
+            if (where == null)
             {
-                var where = SelectedWhere(
+                return Messages.ResponseSelectTargets(context: context).ToJson();
+            }
+            var count = BulkUpdate(
+                context: context,
+                ss: ss,
+                where: Views.GetBySession(
                     context: context,
-                    ss: ss);
-                var count = BulkUpdate(
+                    ss: ss)
+                        .Where(
+                            context: context,
+                            ss: ss,
+                            where: where,
+                            itemJoin: false));
+            Summaries.Synchronize(context: context, ss: ss);
+            ss.Notifications.ForEach(notification =>
+            {
+                var body = new Dictionary<string, string>();
+                body.Add(
+                    Displays.Issues_Updator(context: context),
+                    context.User.Name);
+                body.Add(
+                    Displays.Column(context: context),
+                    column.LabelText);
+                body.Add(
+                    Displays.Value(context: context),
+                    issueModel.PropertyValue(
+                          context: context,
+                          name: column.ColumnName));
+                notification.Send(
                     context: context,
                     ss: ss,
-                    where: Views.GetBySession(
+                    title: Displays.BulkUpdated(
                         context: context,
-                        ss: ss)
-                            .Where(
-                                context: context,
-                                ss: ss,
-                                where: where,
-                                itemJoin: false));
-                Summaries.Synchronize(context: context, ss: ss);
-                ss.Notifications.ForEach(notification =>
-                {
-                    var body = new Dictionary<string, string>();
-                    body.Add(
-                        Displays.Issues_Updator(context: context),
-                        context.User.Name);
-                    body.Add(
-                        Displays.Column(context: context),
-                        column.LabelText);
-                    body.Add(
-                        Displays.Value(context: context),
-                        issueModel.PropertyValue(
-                              context: context,
-                              name: column.ColumnName));
-                    notification.Send(
+                        data: count.ToString()).ToString(),
+                    url: Locations.ItemIndex(
                         context: context,
-                        ss: ss,
-                        title: Displays.BulkUpdated(
-                            context: context,
-                            data: count.ToString()).ToString(),
-                        url: Locations.ItemIndex(
-                            context: context,
-                            ss.SiteId),
-                        body: body.Select(o => o.Key + ":" + o.Value).Join("\n"));
-                });
-                return GridRows(
+                        ss.SiteId),
+                    body: body.Select(o => o.Key + ":" + o.Value).Join("\n"));
+            });
+            return GridRows(
+                context: context,
+                ss: ss,
+                clearCheck: true,
+                message: Messages.BulkUpdated(
                     context: context,
-                    ss: ss,
-                    clearCheck: true,
-                    message: Messages.BulkUpdated(
-                        context: context,
-                        data: count.ToString()));
-            }
-            else
-            {
-                return Messages.ResponseHasNotPermission(context: context).ToJson();
-            }
+                    data: count.ToString()));
         }
 
         private static int BulkUpdate(
@@ -2433,14 +2432,10 @@ namespace Implem.Pleasanter.Models
             var sub = Rds.SelectIssues(
                 column: Rds.IssuesColumn().IssueId(),
                 where: where);
-            var verUpWhere = Rds.IssuesWhere()
-                .SiteId(ss.SiteId)
-                .IssueId_In(sub: sub)
-                .Or(or: Rds.IssuesWhere()
-                    .Updator(context.UserId, _operator: "<>")
-                    .UpdatedTime(
-                        DateTime.Today.ToDateTime().ToUniversal(context: context),
-                        _operator: "<"));
+            var verUpWhere = VerUpWhere(
+                context: context,
+                ss: ss, 
+                sub: sub);
             var column = ss.GetColumn(
                 context: context,
                 columnName: context.Forms.Data("BulkUpdateColumnName"));
@@ -2494,7 +2489,7 @@ namespace Implem.Pleasanter.Models
                     param.Owner(issueModel.Owner.Id);
                     break;
                 default:
-                    var columnNameBracket = $"\"{column.ColumnName}\"";
+                    var columnNameBracket = $"[{column.ColumnName}]";
                     switch (Def.ExtendedColumnTypes.Get(column.ColumnName))
                     {
                         case "Class":
@@ -2537,11 +2532,32 @@ namespace Implem.Pleasanter.Models
                 param: param));
             statements.Add(Rds.RowCount());
             statements.OnBulkUpdatedExtendedSqls(ss.SiteId);
-            return Repository.ExecuteScalar_response(
+            return Rds.ExecuteScalar_response(
                 context: context,
                 transactional: true,
                 statements: statements.ToArray())
                     .Count.ToInt();
+        }
+
+        private static SqlWhereCollection VerUpWhere(
+            Context context, SiteSettings ss, SqlSelect sub)
+        {
+            var where = Rds.IssuesWhere()
+                .SiteId(ss.SiteId)
+                .IssueId_In(sub: sub);
+            switch (ss.AutoVerUpType)
+            {
+                case Versions.AutoVerUpTypes.Always:
+                    return where;
+                case Versions.AutoVerUpTypes.Disabled:
+                    return where.Add(raw: "0=1");
+                default:
+                    return where.Add(or: Rds.IssuesWhere()
+                        .Updator(context.UserId, _operator: "<>")
+                        .UpdatedTime(
+                            DateTime.Today.ToDateTime().ToUniversal(context: context),
+                            _operator: "<"));
+            }
         }
 
         public static string UpdateByGrid(Context context, SiteSettings ss)
@@ -2586,9 +2602,6 @@ namespace Implem.Pleasanter.Models
                         case Error.Types.None: break;
                         default: return invalid.Type.MessageJson(context: context);
                     }
-                    issueModel.VerUp = Versions.MustVerUp(
-                        context: context,
-                        baseModel: issueModel);
                     statements.AddRange(issueModel.UpdateStatements(
                         context: context,
                         ss: ss,
@@ -2816,9 +2829,6 @@ namespace Implem.Pleasanter.Models
             issueModel.SetTitle(
                 context: context,
                 ss: ss);
-            issueModel.VerUp = Versions.MustVerUp(
-                context: context,
-                baseModel: issueModel);
             var errorData = issueModel.Update(
                 context: context,
                 ss: ss,
@@ -4029,7 +4039,9 @@ namespace Implem.Pleasanter.Models
                 var issueHash = new Dictionary<int, IssueModel>();
                 csv.Rows.Select((o, i) => new { Row = o, Index = i }).ForEach(data =>
                 {
-                    var issueModel = new IssueModel() { SiteId = ss.SiteId };
+                    var issueModel = new IssueModel(
+                        context: context,
+                        ss: ss);
                     if (context.Forms.Bool("UpdatableImport") && idColumn > -1)
                     {
                         var model = new IssueModel(
@@ -4116,8 +4128,6 @@ namespace Implem.Pleasanter.Models
                     issueModel.SetTitle(context: context, ss: ss);
                     if (issueModel.AccessStatus == Databases.AccessStatuses.Selected)
                     {
-                        issueModel.VerUp = Versions.MustVerUp(
-                            context: context, baseModel: issueModel);
                         if (issueModel.Updated(context: context))
                         {
                             var errorData = issueModel.Update(
@@ -4425,9 +4435,6 @@ namespace Implem.Pleasanter.Models
                 default: return null;
             }
             var view = Views.GetBySession(context: context, ss: ss);
-            var viewMode = ViewModes.GetSessionData(
-                context: context,
-                siteId: ss.SiteId);
             var groupByX = ss.GetColumn(
                 context: context,
                 columnName: view.GetCrosstabGroupByX(context: context, ss: ss));
@@ -4568,8 +4575,6 @@ namespace Implem.Pleasanter.Models
             {
                 return Messages.ResponseDeleteConflicts(context: context).ToJson();
             }
-            issueModel.VerUp = Versions.MustVerUp(
-                context: context, baseModel: issueModel);
             issueModel.Update(
                 context: context,
                 ss: ss,
@@ -4698,7 +4703,7 @@ namespace Implem.Pleasanter.Models
             }
             else
             {
-                where.Or(or: Rds.IssuesWhere()
+                where.Add(or: Rds.IssuesWhere()
                     .Add(raw: $"\"Issues\".\"{fromColumn.ColumnName}\" between '{begin}' and '{end}'")
                     .Add(raw: $"\"Issues\".\"{toColumn.ColumnName}\" between '{begin}' and '{end}'")
                     .Add(raw: $"\"Issues\".\"{fromColumn.ColumnName}\"<='{begin}' and \"Issues\".\"{toColumn.ColumnName}\">='{end}'"));
@@ -4859,9 +4864,6 @@ namespace Implem.Pleasanter.Models
                 return Messages.ResponseHasNotPermission(context: context).ToJson();
             }
             var view = Views.GetBySession(context: context, ss: ss);
-            var viewMode = ViewModes.GetSessionData(
-                context: context,
-                siteId: ss.SiteId);
             var groupByX = ss.GetColumn(
                 context: context,
                 columnName: view.GetCrosstabGroupByX(context: context, ss: ss));
@@ -5897,8 +5899,6 @@ namespace Implem.Pleasanter.Models
             {
                 return Messages.ResponseDeleteConflicts(context: context).ToJson();
             }
-            issueModel.VerUp = Versions.MustVerUp(
-                context: context, baseModel: issueModel);
             issueModel.Update(
                 context: context,
                 ss: ss,

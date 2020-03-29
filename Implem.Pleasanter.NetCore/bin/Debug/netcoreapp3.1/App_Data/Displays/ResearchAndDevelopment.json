@@ -1,0 +1,13 @@
+﻿{
+    "Id": "ResearchAndDevelopment",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Research and development"
+        },
+        {
+            "Language": "ja",
+            "Body": "研究・開発"
+        }
+    ]
+}

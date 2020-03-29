@@ -29,6 +29,8 @@ namespace Implem.Libraries.DataSources.SqlServer
             SqlStatement sub = null,
             bool subPrefix = true,
             string raw = null,
+            SqlWhereCollection and = null,
+            SqlWhereCollection or = null,
             bool _using = true)
         {
             Add(new SqlWhere(
@@ -43,11 +45,13 @@ namespace Implem.Libraries.DataSources.SqlServer
                 sub: sub,
                 subPrefix: subPrefix,
                 raw: raw,
+                and: and,
+                or: or,
                 _using: _using));
             return this;
         }
 
-        public SqlWhereCollection Add(SqlWhereCollection or = null, bool _using = true)
+        public SqlWhereCollection Or(SqlWhereCollection or = null, bool _using = true)
         {
             Add(new SqlWhere(or: or, _using: _using));
             return this;
@@ -59,12 +63,14 @@ namespace Implem.Libraries.DataSources.SqlServer
             ISqlCommand sqlCommand,
             StringBuilder commandText,
             int? commandCount,
+            string multiClauseOperator = " and ",
             bool select = false)
         {
             commandText.Append(Sql(
                 factory: factory,
                 sqlContainer: sqlContainer,
                 sqlCommand: sqlCommand,
+                multiClauseOperator: multiClauseOperator,
                 commandCount: commandCount,
                 select: select));
         }
@@ -74,6 +80,7 @@ namespace Implem.Libraries.DataSources.SqlServer
             SqlContainer sqlContainer,
             ISqlCommand sqlCommand,
             int? commandCount,
+            string multiClauseOperator = " and ",
             bool select = false)
         {
             if (!select)
@@ -93,7 +100,7 @@ namespace Implem.Libraries.DataSources.SqlServer
                         tableBracket: Sqls.GetTableBracket(o.TableName),
                         commandCount: commandCount,
                         select: select))
-                    .Join(MultiClauseOperator) + " "
+                    .Join(multiClauseOperator) + " "
                 : string.Empty;
         }
 
@@ -112,6 +119,11 @@ namespace Implem.Libraries.DataSources.SqlServer
                 .Select(o => o.TableName.CutEnd("_Items"))
                 .Where(o => o?.Contains("~") == true)
                 .ToList();
+            this
+                .Where(o => o != null)
+                .Select(o => o.And)
+                .Where(o => o != null)
+                .ForEach(o => data.AddRange(o.JoinTableNames()));
             this
                 .Where(o => o != null)
                 .Select(o => o.Or)

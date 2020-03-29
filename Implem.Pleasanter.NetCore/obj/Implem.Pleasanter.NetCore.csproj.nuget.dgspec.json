@@ -244,11 +244,11 @@
           "dependencies": {
             "CsvHelper": {
               "target": "Package",
-              "version": "[12.1.2, )"
+              "version": "[15.0.3, )"
             },
             "DocumentFormat.OpenXml": {
               "target": "Package",
-              "version": "[2.9.0, )"
+              "version": "[2.10.1, )"
             },
             "NETStandard.Library": {
               "suppressParent": "All",
@@ -258,7 +258,7 @@
             },
             "Newtonsoft.Json": {
               "target": "Package",
-              "version": "[12.0.1, )"
+              "version": "[12.0.3, )"
             },
             "System.Data.DataSetExtensions": {
               "target": "Package",
@@ -266,7 +266,7 @@
             },
             "System.Drawing.Common": {
               "target": "Package",
-              "version": "[4.5.1, )"
+              "version": "[4.7.0, )"
             },
             "System.IO.FileSystem.Primitives": {
               "target": "Package",
@@ -274,7 +274,7 @@
             },
             "System.IO.Packaging": {
               "target": "Package",
-              "version": "[4.5.0, )"
+              "version": "[4.7.0, )"
             },
             "System.ValueTuple": {
               "target": "Package",
@@ -407,15 +407,15 @@
             },
             "Microsoft.Extensions.Caching.Abstractions": {
               "target": "Package",
-              "version": "[2.2.0, )"
+              "version": "[3.1.3, )"
             },
             "Microsoft.Extensions.Caching.Memory": {
               "target": "Package",
-              "version": "[2.2.0, )"
+              "version": "[3.1.3, )"
             },
             "System.Text.Encoding.CodePages": {
               "target": "Package",
-              "version": "[4.5.0, )"
+              "version": "[4.7.0, )"
             }
           },
           "imports": [
@@ -503,23 +503,23 @@
             },
             "ClosedXML": {
               "target": "Package",
-              "version": "[0.92.1, )"
+              "version": "[0.94.2, )"
             },
             "DocumentFormat.OpenXml": {
               "target": "Package",
-              "version": "[2.9.0, )"
+              "version": "[2.10.1, )"
             },
             "ExcelNumberFormat": {
               "target": "Package",
-              "version": "[1.0.3, )"
+              "version": "[1.0.10, )"
             },
             "FastMember": {
               "target": "Package",
-              "version": "[1.4.1, )"
+              "version": "[1.5.0, )"
             },
             "FastMember.Signed": {
               "target": "Package",
-              "version": "[1.4.1, )"
+              "version": "[1.5.0, )"
             },
             "Microsoft.AspNet.Mvc": {
               "target": "Package",
@@ -527,47 +527,47 @@
             },
             "Microsoft.CSharp": {
               "target": "Package",
-              "version": "[4.5.0, )"
+              "version": "[4.7.0, )"
             },
             "Microsoft.Extensions.Caching.Abstractions": {
               "target": "Package",
-              "version": "[2.2.0, )"
+              "version": "[3.1.3, )"
             },
             "Microsoft.Extensions.Caching.Memory": {
               "target": "Package",
-              "version": "[2.2.0, )"
+              "version": "[3.1.3, )"
             },
             "Microsoft.Extensions.DependencyInjection.Abstractions": {
               "target": "Package",
-              "version": "[2.2.0, )"
+              "version": "[3.1.3, )"
             },
             "Microsoft.Extensions.Options": {
               "target": "Package",
-              "version": "[2.2.0, )"
+              "version": "[3.1.3, )"
             },
             "Microsoft.Extensions.Primitives": {
               "target": "Package",
-              "version": "[2.2.0, )"
+              "version": "[3.1.3, )"
             },
             "Microsoft.IdentityModel.Logging": {
               "target": "Package",
-              "version": "[5.4.0, )"
+              "version": "[6.5.0, )"
             },
             "Microsoft.IdentityModel.Protocols": {
               "target": "Package",
-              "version": "[5.4.0, )"
+              "version": "[6.5.0, )"
             },
             "Microsoft.IdentityModel.Tokens": {
               "target": "Package",
-              "version": "[5.4.0, )"
+              "version": "[6.5.0, )"
             },
             "Microsoft.IdentityModel.Tokens.Saml": {
               "target": "Package",
-              "version": "[5.4.0, )"
+              "version": "[6.5.0, )"
             },
             "Microsoft.IdentityModel.Xml": {
               "target": "Package",
-              "version": "[5.4.0, )"
+              "version": "[6.5.0, )"
             },
             "Microsoft.Web.Infrastructure": {
               "target": "Package",
@@ -581,27 +581,27 @@
             },
             "Newtonsoft.Json": {
               "target": "Package",
-              "version": "[12.0.1, )"
+              "version": "[12.0.3, )"
             },
             "Novell.Directory.Ldap.NETStandard": {
               "target": "Package",
-              "version": "[2.3.8, )"
+              "version": "[3.0.3, )"
             },
             "Pipelines.Sockets.Unofficial": {
               "target": "Package",
-              "version": "[1.0.9, )"
+              "version": "[2.1.1, )"
             },
             "SendGrid.SmtpApi": {
               "target": "Package",
-              "version": "[1.3.3, )"
+              "version": "[1.3.6, )"
             },
             "Sendgrid": {
               "target": "Package",
-              "version": "[6.3.4, )"
+              "version": "[9.13.1, )"
             },
             "StackExchange.Redis": {
               "target": "Package",
-              "version": "[2.0.519, )"
+              "version": "[2.0.601, )"
             },
             "StackExchange.Redis.StrongName": {
               "target": "Package",
@@ -609,27 +609,27 @@
             },
             "Sustainsys.Saml2": {
               "target": "Package",
-              "version": "[2.2.0, )"
+              "version": "[2.6.0, )"
             },
             "Sustainsys.Saml2.Mvc": {
               "target": "Package",
-              "version": "[2.2.0, )"
+              "version": "[2.6.0, )"
             },
             "System.Buffers": {
               "target": "Package",
-              "version": "[4.5.0, )"
+              "version": "[4.5.1, )"
             },
             "System.ComponentModel.Annotations": {
               "target": "Package",
-              "version": "[4.5.0, )"
+              "version": "[4.7.0, )"
             },
             "System.ComponentModel.Composition": {
               "target": "Package",
-              "version": "[4.5.0, )"
+              "version": "[4.7.0, )"
             },
             "System.Configuration.ConfigurationManager": {
               "target": "Package",
-              "version": "[4.5.0, )"
+              "version": "[4.7.0, )"
             },
             "System.Data.DataSetExtensions": {
               "target": "Package",
@@ -637,15 +637,15 @@
             },
             "System.Diagnostics.PerformanceCounter": {
               "target": "Package",
-              "version": "[4.5.0, )"
+              "version": "[4.7.0, )"
             },
             "System.DirectoryServices": {
               "target": "Package",
-              "version": "[4.5.0, )"
+              "version": "[4.7.0, )"
             },
             "System.Drawing.Common": {
               "target": "Package",
-              "version": "[4.5.1, )"
+              "version": "[4.7.0, )"
             },
             "System.IO": {
               "target": "Package",
@@ -661,15 +661,15 @@
             },
             "System.IO.Packaging": {
               "target": "Package",
-              "version": "[4.5.0, )"
+              "version": "[4.7.0, )"
             },
             "System.IO.Pipelines": {
               "target": "Package",
-              "version": "[4.5.3, )"
+              "version": "[4.7.1, )"
             },
             "System.Memory": {
               "target": "Package",
-              "version": "[4.5.3, )"
+              "version": "[4.5.4, )"
             },
             "System.Net.Http": {
               "target": "Package",
@@ -681,15 +681,15 @@
             },
             "System.Runtime": {
               "target": "Package",
-              "version": "[4.3.0, )"
+              "version": "[4.3.1, )"
             },
             "System.Runtime.CompilerServices.Unsafe": {
               "target": "Package",
-              "version": "[4.5.2, )"
+              "version": "[4.7.1, )"
             },
             "System.Security.AccessControl": {
               "target": "Package",
-              "version": "[4.5.0, )"
+              "version": "[4.7.0, )"
             },
             "System.Security.Cryptography.Algorithms": {
               "target": "Package",
@@ -697,23 +697,23 @@
             },
             "System.Security.Cryptography.Xml": {
               "target": "Package",
-              "version": "[4.5.0, )"
+              "version": "[4.7.0, )"
             },
             "System.Security.Permissions": {
               "target": "Package",
-              "version": "[4.5.0, )"
+              "version": "[4.7.0, )"
             },
             "System.Security.Principal.Windows": {
               "target": "Package",
-              "version": "[4.5.1, )"
+              "version": "[4.7.0, )"
             },
             "System.Threading.Channels": {
               "target": "Package",
-              "version": "[4.5.0, )"
+              "version": "[4.7.0, )"
             },
             "System.Threading.Tasks.Extensions": {
               "target": "Package",
-              "version": "[4.5.2, )"
+              "version": "[4.5.4, )"
             },
             "System.Web.Http.Common": {
               "target": "Package",
@@ -923,7 +923,7 @@
             },
             "System.Data.SqlClient": {
               "target": "Package",
-              "version": "[4.6.0, )"
+              "version": "[4.8.1, )"
             }
           },
           "imports": [

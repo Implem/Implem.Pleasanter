@@ -1,0 +1,1 @@
+﻿create #Unique# index "#IxName#" on "#TableName#" (#IxColumns#);

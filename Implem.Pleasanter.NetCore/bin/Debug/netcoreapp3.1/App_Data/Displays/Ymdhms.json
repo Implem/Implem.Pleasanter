@@ -1,0 +1,13 @@
+﻿{
+    "Id": "Ymdhms",
+    "Type": 120,
+    "Languages": [
+        {
+            "Body": "Date and seconds"
+        },
+        {
+            "Language": "ja",
+            "Body": "日付と時刻(秒)"
+        }
+    ]
+}

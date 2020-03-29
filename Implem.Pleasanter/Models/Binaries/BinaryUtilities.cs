@@ -505,10 +505,8 @@ namespace Implem.Pleasanter.Models
                         columnName: column.ColumnName,
                         fieldCss: column.FieldCss,
                         fieldDescription: column.Description,
-                        controlCss: column.ControlCss,
                         labelText: column.LabelText,
                         value: attachments.ToJson(),
-                        placeholder: column.LabelText,
                         readOnly: column.ColumnPermissionType(context: context)
                             != Permissions.ColumnPermissionTypes.Update))
                 .SetData("#" + controlId)
@@ -525,6 +523,18 @@ namespace Implem.Pleasanter.Models
                 return null;
             }
             return FileContentResults.Download(context: context, guid: guid);
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        public static System.Web.Mvc.ContentResult ApiDonwload(Context context, string guid)
+        {
+            if (!context.ContractSettings.Attachments())
+            {
+                return null;
+            }
+            return FileContentResults.DownloadByApi(context: context, guid: guid);
         }
 
         /// <summary>

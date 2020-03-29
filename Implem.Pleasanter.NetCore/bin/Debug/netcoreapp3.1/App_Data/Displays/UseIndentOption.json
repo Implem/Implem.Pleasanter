@@ -1,0 +1,13 @@
+﻿{
+    "Id": "UseIndentOption",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Use indent option"
+        },
+        {
+            "Language": "ja",
+            "Body": "インデント機能を使う"
+        }
+    ]
+}

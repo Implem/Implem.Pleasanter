@@ -1,0 +1,13 @@
+﻿{
+    "Id": "SsoLogin",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "SSO Login"
+        },
+        {
+            "Language": "ja",
+            "Body": "SSO ログイン"
+        }
+    ]
+}

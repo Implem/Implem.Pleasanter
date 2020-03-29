@@ -1,0 +1,13 @@
+﻿{
+    "Id": "DeleteSite",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Delete site"
+        },
+        {
+            "Language": "ja",
+            "Body": "サイト削除"
+        }
+    ]
+}

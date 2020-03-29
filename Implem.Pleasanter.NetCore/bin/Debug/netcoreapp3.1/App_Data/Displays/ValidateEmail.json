@@ -1,0 +1,14 @@
+﻿{
+    "Id": "ValidateEmail",
+    "Type": 410,
+    "ClientScript": true,
+    "Languages": [
+        {
+            "Body": "Doesn’t look like a valid email."
+        },
+        {
+            "Language": "ja",
+            "Body": "メールアドレスの形式が不正です。"
+        }
+    ]
+}

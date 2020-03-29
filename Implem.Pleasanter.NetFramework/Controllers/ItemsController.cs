@@ -378,6 +378,17 @@ namespace Implem.Pleasanter.NetFramework.Controllers
         }
 
         [HttpPost]
+        public ActionResult RelatingDropDown(long id = 0)
+        {
+            var context = new ContextImplement();
+            var controller = new Pleasanter.Controllers.ItemsController();
+            var json = controller.RelatingDropDown(
+                context: context,
+                id: id);
+            return Content(json);
+        }
+
+        [HttpPost]
         public ActionResult SelectSearchDropDown(long id = 0)
         {
             var context = new ContextImplement();

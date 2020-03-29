@@ -23,7 +23,7 @@ namespace Implem.Pleasanter.Libraries.Extensions
             this HtmlBuilder hb, Context context, Column column, TimeZoneInfo value)
         {
             return hb.Td(action: () => hb
-                .Text(text: value?.StandardName ?? string.Empty));
+                .Text(text: value?.StandardName));
         }
 
         public static HtmlBuilder Td(
@@ -32,6 +32,14 @@ namespace Implem.Pleasanter.Libraries.Extensions
             return column.HasChoices()
                 ? hb.Td(action: () =>
                 {
+                    if (column.UserColumn && column.UseSearch == true && !value.IsNullOrEmpty())
+                    {
+                        column.ChoiceHash.AddIfNotConainsKey(
+                            value,
+                            new Choice(SiteInfo.UserName(
+                                context: context,
+                                userId: value.ToInt())));
+                    }
                     var choice = column.Choice(
                         value,
                         nullCase: value.IsNullOrEmpty()

@@ -294,7 +294,10 @@ namespace Implem.Pleasanter.Models
             var statements = new List<SqlStatement>();
             var where = Rds.DemosWhereDefault(this)
                 .UpdatedTime(timestamp, _using: timestamp.InRange());
-            if (VerUp)
+            if (Versions.VerUp(
+                context: context,
+                ss: ss,
+                verUp: VerUp))
             {
                 statements.Add(Rds.DemosCopyToStatement(
                     where: where,
@@ -384,7 +387,7 @@ namespace Implem.Pleasanter.Models
             {
                 Rds.DeleteDemos(factory: context, where: where)
             });
-            var response = Repository.ExecuteScalar_response(
+            Repository.ExecuteNonQuery(
                 context: context,
                 transactional: true,
                 statements: statements.ToArray());

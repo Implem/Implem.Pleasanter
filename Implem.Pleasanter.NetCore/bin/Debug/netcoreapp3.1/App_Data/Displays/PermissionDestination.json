@@ -1,0 +1,13 @@
+﻿{
+    "Id": "PermissionDestination",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Current permissions"
+        },
+        {
+            "Language": "ja",
+            "Body": "現在の権限設定"
+        }
+    ]
+}

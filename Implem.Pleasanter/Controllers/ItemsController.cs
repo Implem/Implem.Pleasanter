@@ -352,6 +352,14 @@ namespace Implem.Pleasanter.Controllers
             return json;
         }
 
+        public string RelatingDropDown(Context context, long id = 0)
+        {
+            var log = new SysLogModel(context: context);
+            var json = new ItemModel(context: context, referenceId: id).RelatingDropDown(context: context);
+            log.Finish(context: context, responseSize: json.Length);
+            return json;
+        }
+
         public string SelectSearchDropDown(Context context, long id = 0)
         {
             var log = new SysLogModel(context: context);

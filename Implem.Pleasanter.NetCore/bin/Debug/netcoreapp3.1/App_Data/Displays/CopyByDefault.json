@@ -1,0 +1,13 @@
+﻿{
+    "Id": "CopyByDefault",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Copy by default"
+        },
+        {
+            "Language": "ja",
+            "Body": "既定値でコピー"
+        }
+    ]
+}

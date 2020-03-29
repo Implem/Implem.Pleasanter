@@ -1,0 +1,13 @@
+﻿{
+    "Id": "SelectTemplate",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Please select a template from the list. A sample of the screen will be displayed."
+        },
+        {
+            "Language": "ja",
+            "Body": "リストからテンプレートを選択してください。画面のサンプルが表示されます。"
+        }
+    ]
+}

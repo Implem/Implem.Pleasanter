@@ -1045,11 +1045,15 @@ namespace Implem.Pleasanter.Models
             }
             else
             {
+                var verUp = Versions.VerUp(
+                    context: context,
+                    ss: ss,
+                    verUp: false);
                 return res
                     .Ver(context: context, ss: ss)
                     .Timestamp(context: context, ss: ss)
-                    .Val("#VerUp", false)
-                    .Disabled("#VerUp", false)
+                    .Val("#VerUp", verUp)
+                    .Disabled("#VerUp", verUp)
                     .Html("#HeaderTitle", siteModel.Title.Value)
                     .Html("#RecordInfo", new HtmlBuilder().RecordInfo(
                         context: context,
@@ -3493,6 +3497,9 @@ namespace Implem.Pleasanter.Models
                     referenceType: "Sites",
                     referenceId: siteModel.SiteId,
                     referenceVer: siteModel.Ver)
+                .DropDownSearchDialog(
+                    context: context,
+                    id: ss.SiteId)
                 .CopyDialog(
                     context: context,
                     referenceType: "items",
@@ -4094,7 +4101,13 @@ namespace Implem.Pleasanter.Models
                     controlId: "UseGridHeaderFilters",
                     fieldCss: "field-auto-thin",
                     labelText: Displays.UseGridHeaderFilters(context: context),
-                    _checked: ss.UseGridHeaderFilters == true));
+                    _checked: ss.UseRelatingColumnsOnFilter == false && ss.UseGridHeaderFilters == true,
+                    disabled: ss.UseRelatingColumnsOnFilter != false)
+                .FieldCheckBox(
+                    controlId: "UseRelatingColumnsOnFilter",
+                    fieldCss: "field-auto-thin",
+                    labelText: Displays.UseRelatingColumns(context: context),
+                    _checked: ss.UseRelatingColumnsOnFilter == true));
         }
 
         /// <summary>
@@ -5882,52 +5895,78 @@ namespace Implem.Pleasanter.Models
             this HtmlBuilder hb, Context context, SiteSettings ss)
         {
             return hb.FieldSet(id: "ViewsSettingsEditor", action: () => hb
-                .FieldSelectable(
-                    controlId: "Views",
-                    fieldCss: "field-vertical w400",
-                    controlContainerCss: "container-selectable",
-                    controlWrapperCss: " h350",
-                    controlCss: " always-send send-all",
-                    listItemCollection: ss.ViewSelectableOptions(),
-                    commandOptionPositionIsTop: true,
-                    commandOptionAction: () => hb
-                        .Div(css: "command-center", action: () => hb
-                            .Button(
-                                controlId: "MoveUpViews",
-                                text: Displays.MoveUp(context: context),
-                                controlCss: "button-icon",
-                                onClick: "$p.moveColumnsById($(this),'Views', '');",
-                                icon: "ui-icon-circle-triangle-n")
-                            .Button(
-                                controlId: "MoveDownViews",
-                                text: Displays.MoveDown(context: context),
-                                controlCss: "button-icon",
-                                onClick: "$p.moveColumnsById($(this),'Views', '');",
-                                icon: "ui-icon-circle-triangle-s")
-                            .Button(
-                                controlId: "NewView",
-                                text: Displays.New(context: context),
-                                controlCss: "button-icon",
-                                onClick: "$p.openViewDialog($(this));",
-                                icon: "ui-icon-gear",
-                                action: "SetSiteSettings",
-                                method: "put")
-                            .Button(
-                                controlId: "EditView",
-                                text: Displays.AdvancedSetting(context: context),
-                                controlCss: "button-icon",
-                                onClick: "$p.openViewDialog($(this));",
-                                icon: "ui-icon-gear",
-                                action: "SetSiteSettings",
-                                method: "put")
-                            .Button(
-                                controlId: "DeleteViews",
-                                text: Displays.Delete(context: context),
-                                controlCss: "button-icon",
-                                onClick: "$p.send($(this));",
-                                icon: "ui-icon-trash",
-                                action: "SetSiteSettings",
-                                method: "put"))));
+                .FieldSet(
+                    css: " enclosed-thin",
+                    legendText: Displays.ViewSettings(context: context),
+                    action: () => hb
+                        .FieldSelectable(
+                            controlId: "Views",
+                            fieldCss: "field-vertical w400",
+                            controlContainerCss: "container-selectable",
+                            controlWrapperCss: " h350",
+                            controlCss: " always-send send-all",
+                            listItemCollection: ss.ViewSelectableOptions(),
+                            commandOptionPositionIsTop: true,
+                            commandOptionAction: () => hb
+                                .Div(css: "command-center", action: () => hb
+                                    .Button(
+                                        controlId: "MoveUpViews",
+                                        text: Displays.MoveUp(context: context),
+                                        controlCss: "button-icon",
+                                        onClick: "$p.moveColumnsById($(this),'Views', '');",
+                                        icon: "ui-icon-circle-triangle-n")
+                                    .Button(
+                                        controlId: "MoveDownViews",
+                                        text: Displays.MoveDown(context: context),
+                                        controlCss: "button-icon",
+                                        onClick: "$p.moveColumnsById($(this),'Views', '');",
+                                        icon: "ui-icon-circle-triangle-s")
+                                    .Button(
+                                        controlId: "NewView",
+                                        text: Displays.New(context: context),
+                                        controlCss: "button-icon",
+                                        onClick: "$p.openViewDialog($(this));",
+                                        icon: "ui-icon-gear",
+                                        action: "SetSiteSettings",
+                                        method: "put")
+                                    .Button(
+                                        controlId: "EditView",
+                                        text: Displays.AdvancedSetting(context: context),
+                                        controlCss: "button-icon",
+                                        onClick: "$p.openViewDialog($(this));",
+                                        icon: "ui-icon-gear",
+                                        action: "SetSiteSettings",
+                                        method: "put")
+                                    .Button(
+                                        controlId: "DeleteViews",
+                                        text: Displays.Delete(context: context),
+                                        controlCss: "button-icon",
+                                        onClick: "$p.send($(this));",
+                                        icon: "ui-icon-trash",
+                                        action: "SetSiteSettings",
+                                        method: "put"))))
+                .FieldDropDown(
+                    context: context,
+                    controlId: "SaveViewType",
+                    fieldCss: "field-auto-thin",
+                    labelText: Displays.SaveViewType(context: context),
+                    optionCollection: new Dictionary<string, string>()
+                    {
+                        {
+                            SiteSettings.SaveViewTypes.Session.ToInt().ToString(),
+                            Displays.SaveViewSession(context: context)
+                        },
+                        {
+                            SiteSettings.SaveViewTypes.User.ToInt().ToString(),
+                            Displays.SaveViewUser(context: context)
+                        },
+                        {
+                            SiteSettings.SaveViewTypes.None.ToInt().ToString(),
+                            Displays.SaveViewNone(context: context)
+                        },
+                    },
+                    selectedValue: ss.SaveViewType.ToInt().ToString(),
+                    insertBlank: true));
         }
 
         /// <summary>

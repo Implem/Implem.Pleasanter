@@ -1,0 +1,13 @@
+﻿{
+    "Id": "UseQuarter",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Use quarter"
+        },
+        {
+            "Language": "ja",
+            "Body": "四半期を使用"
+        }
+    ]
+}

@@ -298,6 +298,16 @@ namespace Implem.Pleasanter.Libraries.Responses
                 data: data);
         }
 
+        public static string Always(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "Always",
+                data: data);
+        }
+
         public static string AlwaysRequestSearchCondition(
             Context context,
             params string[] data)
@@ -525,6 +535,16 @@ namespace Implem.Pleasanter.Libraries.Responses
             return Get(
                 context: context,
                 id: "Auto",
+                data: data);
+        }
+
+        public static string AutoVerUpType(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "AutoVerUpType",
                 data: data);
         }
 
@@ -5778,6 +5798,26 @@ namespace Implem.Pleasanter.Libraries.Responses
                 data: data);
         }
 
+        public static string SsoLogin(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "SsoLogin",
+                data: data);
+        }
+
+        public static string SsoLoginMessage(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "SsoLoginMessage",
+                data: data);
+        }
+
         public static string Standard(
             Context context,
             params string[] data)
@@ -6535,6 +6575,16 @@ namespace Implem.Pleasanter.Libraries.Responses
             return Get(
                 context: context,
                 id: "UserDisabled",
+                data: data);
+        }
+
+        public static string UseRelatingColumns(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "UseRelatingColumns",
                 data: data);
         }
 

@@ -3,8 +3,10 @@ using Implem.Libraries.Utilities;
 using Implem.Pleasanter.Libraries.Mails;
 using Implem.Pleasanter.Libraries.Requests;
 using Implem.Pleasanter.Models;
+using SendGrid;
+using SendGrid.Helpers.Mail;
 using System;
-using System.Linq;
+using System.Collections.Generic;
 using System.Net.Mail;
 using System.Threading.Tasks;
 namespace Implem.Pleasanter.Libraries.DataSources
@@ -12,8 +14,8 @@ namespace Implem.Pleasanter.Libraries.DataSources
     public class SendGridMail
     {
         public string Host;
-        public MailAddress From;
-        public string To;
+        public EmailAddress From;
+        public EmailAddress To;
         public string Cc;
         public string Bcc;
         public string Subject;
@@ -32,47 +34,59 @@ namespace Implem.Pleasanter.Libraries.DataSources
         {
             Context = context;
             Host = host;
-            From = from;
-            To = Strings.CoalesceEmpty(to, Parameters.Mail.FixedFrom, Parameters.Mail.SupportFrom);
+            From = new EmailAddress(from.Address);
+            To = new EmailAddress(Strings.CoalesceEmpty(
+                to, Parameters.Mail.FixedFrom, Parameters.Mail.SupportFrom));
             Cc = cc;
             Bcc = bcc;
             Subject = subject;
             Body = body;
         }
 
-        public void Send(Context context)
+        public async Task SendAsync(Context context)
         {
-            Task.Run(() =>
+            try
             {
-                try
+                var msg = MailHelper.CreateSingleEmail(From, To, Subject, Body, Body);
+                Addresses.GetEnumerable(
+                    context: context,
+                    addresses: Cc)
+                        .ForEach(cc => msg.AddCc(cc));
+                Addresses.GetEnumerable(
+                    context: context,
+                    addresses: Bcc)
+                        .ForEach(bcc => msg.AddBcc(bcc));
+                var client = new SendGridClient(Parameters.Mail.SmtpPassword);
+                var response = await client.SendEmailAsync(msg);
+            }
+            catch (Exception e)
+            {
+                new SysLogModel(Context, e);
+            }
+        }
+
+        private IDictionary<string, IDictionary<string, string>> CreateAddressInfo(string address)
+        {
+            var mailAddress = new MailAddress(address);
+            return new Dictionary<string, IDictionary<string, string>>
+            {
+                [mailAddress.Address] = new Dictionary<string, string>
                 {
-                    var sendGridMessage = new SendGrid.SendGridMessage();
-                    sendGridMessage.From = Addresses.From(From);
-                    Addresses.GetEnumerable(
-                        context: context,
-                        addresses: To)
-                            .ForEach(to => sendGridMessage.AddTo(to));
-                    Addresses.GetEnumerable(
-                        context: context,
-                        addresses: Cc)
-                            .ForEach(cc => sendGridMessage.AddCc(cc));
-                    Addresses.GetEnumerable(
-                        context: context,
-                        addresses: Bcc)
-                            .ForEach(bcc => sendGridMessage.AddBcc(bcc));
-                    sendGridMessage.Subject = Subject;
-                    sendGridMessage.Text = Body;
-                    var response = new SendGrid.Web(new System.Net.NetworkCredential(
-                        Parameters.Mail.SmtpUserName,
-                        Parameters.Mail.SmtpPassword))
-                            .DeliverAsync(sendGridMessage);
-                    response.Wait();
+                    ["DisplayName"] = mailAddress.DisplayName.IsNullOrEmpty()
+                        ? mailAddress.Address
+                        : mailAddress.DisplayName
                 }
-                catch (Exception e)
-                {
-                    new SysLogModel(Context, e);
-                }
-            });
+            };
+        }
+
+        private MailAddress CreateMailAddress(string address)
+        {
+            var mailAddress = new MailAddress(address);
+            return new MailAddress(
+                mailAddress.Address,
+                mailAddress.DisplayName.IsNullOrEmpty()
+                    ? mailAddress.Address
+                    : mailAddress.DisplayName);
         }
     }
 }

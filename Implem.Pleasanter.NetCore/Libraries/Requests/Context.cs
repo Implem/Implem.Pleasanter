@@ -34,6 +34,7 @@ namespace Implem.Pleasanter.NetCore.Libraries.Requests
         public override bool SwitchUser { get; set; }
         public override string SessionGuid { get; set; } = Strings.NewGuid();
         public override Dictionary<string, string> SessionData { get; set; } = new Dictionary<string, string>();
+        public override Dictionary<string, string> UserSessionData { get; set; } = new Dictionary<string, string>();
         public override bool Publish { get; set; }
         public override QueryStrings QueryStrings { get; set; } = new QueryStrings();
         public override Forms Forms { get; set; } = new Forms();
@@ -82,7 +83,7 @@ namespace Implem.Pleasanter.NetCore.Libraries.Requests
         public override UserSettings UserSettings { get; set; }
         public override bool HasPrivilege { get; set; }
         public override ContractSettings ContractSettings { get; set; } = new ContractSettings();
-        public override decimal ApiVersion { get; set; }
+        public override decimal ApiVersion { get; set; } = 1.000M;
         public override string ApiRequestBody { get; set; }
         public override string RequestDataString { get => !string.IsNullOrEmpty(ApiRequestBody) ? ApiRequestBody : FormString; }
 
@@ -208,7 +209,7 @@ namespace Implem.Pleasanter.NetCore.Libraries.Requests
                                     .ReferenceId()
                                     .Title(),
                                 where: Rds.ItemsWhere()
-                                    .Or(or: Rds.ItemsWhere()
+                                    .Add(or: Rds.ItemsWhere()
                                         .ReferenceId(Id)
                                         .ReferenceId(sub: Rds.SelectItems(
                                             column: Rds.ItemsColumn().SiteId(),

@@ -1,0 +1,13 @@
+﻿{
+    "Id": "LimitBeforeMinutes",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "{0} minutes excess"
+        },
+        {
+            "Language": "ja",
+            "Body": "{0} 分超過"
+        }
+    ]
+}

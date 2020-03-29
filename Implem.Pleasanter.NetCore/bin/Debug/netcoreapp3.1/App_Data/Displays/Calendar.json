@@ -1,0 +1,13 @@
+﻿{
+    "Id": "Calendar",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Calendar"
+        },
+        {
+            "Language": "ja",
+            "Body": "カレンダー"
+        }
+    ]
+}

@@ -1,7 +1,6 @@
 ﻿using Implem.DefinitionAccessor;
 using Implem.Libraries.Utilities;
 using Implem.Pleasanter.Libraries.Requests;
-using Implem.Pleasanter.Libraries.Security;
 using System.Linq;
 namespace Implem.Pleasanter.Libraries.Responses
 {
@@ -50,7 +49,7 @@ namespace Implem.Pleasanter.Libraries.Responses
                 {
                     "Users",
                     "Logout"
-                }); 
+                });
         }
 
         public static string Admins(Context context)
@@ -472,8 +471,12 @@ namespace Implem.Pleasanter.Libraries.Responses
         private static string Trim(string data)
         {
             var ret = data;
-            ret = ret.StartsWith("/") ? ret.Substring(1) : ret;
-            ret = ret.EndsWith("/") ? ret.Substring(0, ret.Length - 1) : ret;
+            ret = ret?.StartsWith("/") == true
+                ? ret.Substring(1)
+                : ret;
+            ret = ret?.EndsWith("/") == true
+                ? ret.Substring(0, ret.Length - 1)
+                : ret;
             return ret;
         }
     }

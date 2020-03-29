@@ -1,0 +1,13 @@
+﻿{
+    "Id": "CurrentMembers",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Current members"
+        },
+        {
+            "Language": "ja",
+            "Body": "現在のメンバー"
+        }
+    ]
+}

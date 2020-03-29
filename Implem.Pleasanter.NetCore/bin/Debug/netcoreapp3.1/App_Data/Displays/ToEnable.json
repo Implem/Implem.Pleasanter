@@ -1,0 +1,13 @@
+﻿{
+    "Id": "ToEnable",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "To enable"
+        },
+        {
+            "Language": "ja",
+            "Body": "有効化"
+        }
+    ]
+}

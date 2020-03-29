@@ -64,6 +64,16 @@ namespace Implem.Libraries.Utilities
             return self.ToDictionary(o => o.Key, o => o.Value);
         }
 
+        public static Dictionary<K, V> AddRangeIfNotConainsKey<K, V>(
+            this IDictionary<K, V> self, IDictionary<K, V> data)
+        {
+            foreach (var dataPart in data)
+            {
+                self.AddIfNotConainsKey(dataPart.Key, dataPart.Value);
+            }
+            return self.ToDictionary(o => o.Key, o => o.Value);
+        }
+
         public static Dictionary<K, V> UpdateOrAdd<K, V>(
             this Dictionary<K, V> self, K key, V value)
         {

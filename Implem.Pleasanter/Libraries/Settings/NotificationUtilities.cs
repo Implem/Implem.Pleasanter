@@ -107,46 +107,5 @@ namespace Implem.Pleasanter.Libraries.Settings
                 .Select(o => o.First())
                 .ToList();
         }
-
-        private static SettingList<Notification> SettingList(IEnumerable<Notification> notifications)
-        {
-            var list = new SettingList<Notification>();
-            notifications.ForEach(notification => list.Add(notification));
-            return list;
-        }
-
-        public static List<Notification> Get(
-            this List<Notification> notifications,
-            List<View> views,
-            bool before,
-            DataSet dataSet)
-        {
-            return notifications
-                .Where(notification => dataSet.Tables[ notification.ToJson().Sha512Cng()].Rows.Count == 1 )
-                .ToList();
-
-                //.ForEach(o =>
-                //{
-                //    if (before)
-                //    {
-                //        o.Notification.Enabled = o.Exists;
-                //    }
-                //    else if (views?.Get(o.Notification.AfterCondition) != null)
-                //    {
-                //        if (views?.Get(o.Notification.BeforeCondition) == null)
-                //        {
-                //            o.Notification.Enabled = o.Exists;
-                //        }
-                //        else if (o.Notification.Expression == Notification.Expressions.And)
-                //        {
-                //            o.Notification.Enabled &= o.Exists;
-                //        }
-                //        else
-                //        {
-                //            o.Notification.Enabled |= o.Exists;
-                //        }
-                //    }
-                //});
-        }
     }
 }

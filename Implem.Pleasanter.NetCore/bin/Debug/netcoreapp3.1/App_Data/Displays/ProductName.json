@@ -1,0 +1,13 @@
+﻿{
+    "Id": "ProductName",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Pleasanter"
+        },
+        {
+            "Language": "ja",
+            "Body": "プリザンター"
+        }
+    ]
+}

@@ -1,0 +1,13 @@
+﻿{
+    "Id": "Count",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Count"
+        },
+        {
+            "Language": "ja",
+            "Body": "件数"
+        }
+    ]
+}

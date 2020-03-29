@@ -858,6 +858,7 @@ namespace Implem.Pleasanter.Models
             {
                 var columnName = context.Forms.ControlId()
                     .Replace("ViewFilters__", string.Empty)
+                    .Replace("ViewFiltersOnGridHeader__", string.Empty)
                     .Replace("_NumericRange", string.Empty);
                 var column = Site.SiteSettings.GetColumn(
                     context: context,
@@ -887,6 +888,7 @@ namespace Implem.Pleasanter.Models
             {
                 var columnName = context.Forms.ControlId()
                     .Replace("ViewFilters__", string.Empty)
+                    .Replace("ViewFiltersOnGridHeader__", string.Empty)
                     .Replace("_DateRange", string.Empty);
                 var column = Site.SiteSettings.GetColumn(
                     context: context,
@@ -1015,7 +1017,8 @@ namespace Implem.Pleasanter.Models
                 || controlId.StartsWith("ViewFiltersOnGridHeader__");
             var searchText = context.Forms.Data("DropDownSearchText");
             string parentClass = context.Forms.Data("DropDownSearchParentClass");
-            int parentId = context.Forms.Int("DropDownSearchParentDataId");
+            var parentDataId = context.Forms.Data("DropDownSearchParentDataId");
+            var parentIds = parentDataId.Deserialize<long[]>();
             switch (context.Forms.ControlId())
             {
                 case "DropDownSearchResults":
@@ -1026,7 +1029,7 @@ namespace Implem.Pleasanter.Models
                             searchText: searchText,
                             filter: filter,
                             parentClass: parentClass,
-                            parentId: parentId);
+                            parentIds: parentIds);
                 default:
                     return SearchDropDown(
                         context: context,
@@ -1034,7 +1037,7 @@ namespace Implem.Pleasanter.Models
                         searchText: searchText,
                         filter: filter,
                         parentClass: parentClass,
-                        parentId: parentId);
+                        parentIds: parentIds);
             }
         }
 
@@ -1044,7 +1047,7 @@ namespace Implem.Pleasanter.Models
             string searchText,
             bool filter,
             string parentClass = "",
-            int parentId = 0)
+            IEnumerable<long> parentIds = null)
         {
             var offset = context.Forms.Int("DropDownSearchResultsOffset");
             var column = SearchDropDownColumn(
@@ -1054,7 +1057,7 @@ namespace Implem.Pleasanter.Models
                 filter: filter,
                 offset: offset,
                 parentClass: parentClass,
-                parentId: parentId);
+                parentIds: parentIds);
             var nextOffset = Paging.NextOffset(
                 offset: offset,
                 totalCount: column.TotalCount,
@@ -1075,7 +1078,7 @@ namespace Implem.Pleasanter.Models
             string searchText,
             bool filter,
             string parentClass = "",
-            int parentId = 0)
+            IEnumerable<long> parentIds = null)
         {
             var column = SearchDropDownColumn(
                 context: context,
@@ -1083,7 +1086,7 @@ namespace Implem.Pleasanter.Models
                 searchText: searchText,
                 filter: filter,
                 parentClass: parentClass,
-                parentId: parentId);
+                parentIds: parentIds);
             var nextOffset = Paging.NextOffset(
                 offset: 0,
                 totalCount: column.TotalCount,
@@ -1100,6 +1103,73 @@ namespace Implem.Pleasanter.Models
                         method: "post"))
                 .Val("#DropDownSearchResultsOffset", nextOffset)
                 .ClearFormData("DropDownSearchResults")
+                .ToJson();
+        }
+
+        public string RelatingDropDown(Context context)
+        {
+            SetSite(context: context);
+            var controlId = context.Forms.Data("RelatingDropDownControlId");
+            var filter = controlId.StartsWith("ViewFilters__")
+                || controlId.StartsWith("ViewFiltersOnGridHeader__");
+            string parentClass = context.Forms.Data("RelatingDropDownParentClass");
+            var selectedValue = context.Forms.Data("RelatingDropDownSelected");
+            var parentDataId = context.Forms.Data("RelatingDropDownParentDataId");
+            var parentIds = parentDataId.Deserialize<long[]>();
+            return RelatingDropDown(
+                context: context,
+                controlId: controlId,
+                selectedValue: selectedValue,
+                searchText: "",
+                filter: filter,
+                parentClass: parentClass,
+                parentIds: parentIds);
+        }
+
+        private string RelatingDropDown(
+            Context context,
+            string controlId,
+            string searchText,
+            string selectedValue,
+            bool filter,
+            string parentClass = "",
+            IEnumerable<long> parentIds = null)
+        {
+            var column = SearchDropDownColumn(
+                context: context,
+                controlId: controlId,
+                searchText: searchText,
+                filter: filter,
+                parentClass: parentClass,
+                parentIds: parentIds,
+                searchColumnOnly: false);
+            Dictionary<string, ControlData> optionCollection
+                = new Dictionary<string, ControlData>();
+            if (filter || parentIds?.Any() == true)
+            {
+                optionCollection = column?.EditChoices(context: context, addNotSet: filter);
+            }
+            if (parentIds?.Any() != true)
+            {
+                selectedValue = null;
+            }
+            else if (!filter)
+            {
+                selectedValue = selectedValue.Deserialize<string[]>().FirstOrDefault();
+            }
+            return new ResponseCollection()
+                .Html(
+                    "#" + controlId,
+                    new HtmlBuilder().OptionCollection(
+                        context: context,
+                        optionCollection: optionCollection,
+                        selectedValue: selectedValue,
+                        multiple: filter,
+                        addSelectedValue: false,
+                        insertBlank: !filter,
+                        column: column))
+                .Invoke("callbackRelatingColumn", "#" + controlId)
+                .ClearFormData("#" + controlId)
                 .ToJson();
         }
 
@@ -1152,7 +1222,8 @@ namespace Implem.Pleasanter.Models
             bool filter,
             int offset = 0,
             string parentClass = "",
-            int parentId = 0)
+            IEnumerable<long> parentIds = null,
+            bool searchColumnOnly = true)
         {
             var ss = SiteSettingsUtilities.Get(
                 context: context,
@@ -1176,9 +1247,10 @@ namespace Implem.Pleasanter.Models
                         context: context,
                         columnName: column.Name,
                         searchIndexes: searchIndexes,
+                        searchColumnOnly: searchColumnOnly,
                         offset: offset,
                         parentClass: parentClass,
-                        parentId: parentId,
+                        parentIds: parentIds,
                         setTotalCount: true),
                     searchIndexes: searchIndexes);
             }
@@ -1214,7 +1286,7 @@ namespace Implem.Pleasanter.Models
                 addNotSet: true)?
                     .Where(o => selected.Contains(o.Key))
                     .ToDictionary(o => o.Key, o => o.Value);
-            return optionCollection?.Any() == true
+            return optionCollection?.Any() == true || !selected.Any()
                 ? new ResponseCollection()
                     .CloseDialog("#DropDownSearchDialog")
                     .Html("[id=\"" + controlId + "\"]", new HtmlBuilder()

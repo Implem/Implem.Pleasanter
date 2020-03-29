@@ -1,0 +1,13 @@
+﻿{
+    "Id": "Overdue",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Overdue"
+        },
+        {
+            "Language": "ja",
+            "Body": "期限超過"
+        }
+    ]
+}

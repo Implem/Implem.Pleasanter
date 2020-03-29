@@ -1,0 +1,13 @@
+﻿{
+    "Id": "SeparateNumber",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Separate number"
+        },
+        {
+            "Language": "ja",
+            "Body": "分割数"
+        }
+    ]
+}

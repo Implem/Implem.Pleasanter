@@ -1,0 +1,14 @@
+﻿{
+    "Id": "ValidateMaxLength",
+    "Type": 410,
+    "ClientScript": true,
+    "Languages": [
+        {
+            "Body": "Entered is too long."
+        },
+        {
+            "Language": "ja",
+            "Body": "入力した文字が長すぎます。"
+        }
+    ]
+}

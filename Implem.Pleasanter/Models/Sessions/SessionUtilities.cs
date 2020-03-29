@@ -27,7 +27,7 @@ namespace Implem.Pleasanter.Models
         /// <summary>
         /// Fixed:
         /// </summary>
-        public static Dictionary<string, string> Get(Context context, bool includeUserArea = false)
+        public static Dictionary<string, string> Get(Context context, bool includeUserArea = false, string sessionGuid = null)
         {
             return Repository.ExecuteTable(
                 context: context,
@@ -38,20 +38,21 @@ namespace Implem.Pleasanter.Models
                             .Key()
                             .Value(),
                         where: Rds.SessionsWhere()
-                            .SessionGuid(context.SessionGuid)
+                            .SessionGuid(sessionGuid?? context.SessionGuid)
                             .Add(raw: $"((\"UserArea\" is null) or (\"UserArea\" {context.Sqls.IsNotTrue}))", _using: !includeUserArea)
-                            .Or(or: Rds.SessionsWhere()
+                            .Add(or: Rds.SessionsWhere()
                                 .Page(context.Page, _using: context.Page != null)
                                 .Page(raw: "''"))),
                     Rds.PhysicalDeleteSessions(
                         where: Rds.SessionsWhere()
-                            .SessionGuid(context.SessionGuid)
+                            .SessionGuid(sessionGuid ?? context.SessionGuid)
                             .ReadOnce(context.Sqls.TrueValue)),
                     Rds.PhysicalDeleteSessions(
                         where: Rds.SessionsWhere()
                             .UpdatedTime(
                                 DateTime.Now.AddMinutes(Parameters.Session.RetentionPeriod * -1),
-                                _operator: "<"))
+                                _operator: "<")
+                            .Add(raw: "( [SessionGuid] not like '@%' )"))
                 })
                     .AsEnumerable()
                     .ToDictionary(
@@ -70,7 +71,8 @@ namespace Implem.Pleasanter.Models
                     column: Rds.SessionsColumn().Value(),
                     where: Rds.SessionsWhere()
                         .SessionGuid(context.SessionGuid)
-                        .Key(key)));
+                        .Key(key)
+                        .Page(context.Page, _using: context.Page != null)));
         }
 
         /// <summary>
@@ -82,7 +84,8 @@ namespace Implem.Pleasanter.Models
             string value,
             bool readOnce = false,
             bool page = false,
-            bool userArea = false)
+            bool userArea = false,
+            string sessionGuid = null)
         {
             SetContext(
                 context: context,
@@ -94,7 +97,8 @@ namespace Implem.Pleasanter.Models
                 value: value,
                 readOnce: readOnce,
                 page: page,
-                userArea: userArea);
+                userArea: userArea,
+                sessionGuid: sessionGuid);
         }
 
         /// <summary>
@@ -128,7 +132,8 @@ namespace Implem.Pleasanter.Models
             string value,
             bool readOnce,
             bool page,
-            bool userArea)
+            bool userArea,
+            string sessionGuid = null)
         {
             if (value != null)
             {
@@ -136,7 +141,7 @@ namespace Implem.Pleasanter.Models
                     context: context,
                     statements: Rds.UpdateOrInsertSessions(
                         param: Rds.SessionsParam()
-                            .SessionGuid(context.SessionGuid)
+                            .SessionGuid(sessionGuid ?? context.SessionGuid)
                             .Key(key)
                             .Page(page
                                 ? context.Page ?? string.Empty
@@ -145,7 +150,7 @@ namespace Implem.Pleasanter.Models
                             .ReadOnce(readOnce)
                             .UserArea(userArea),
                         where: Rds.SessionsWhere()
-                            .SessionGuid(context.SessionGuid)
+                            .SessionGuid(sessionGuid ?? context.SessionGuid)
                             .Key(key)
                             .Page(context.Page, _using: page)));
             }
@@ -184,13 +189,14 @@ namespace Implem.Pleasanter.Models
         /// <summary>
         /// Fixed:
         /// </summary>
-        public static void Set(Context context, SiteSettings ss, string key, View view)
+        public static void Set(Context context, SiteSettings ss, string key, View view, string sessionGuid = null)
         {
             Set(
                 context: context,
                 key: key,
                 value: view.GetRecordingData(ss: ss).ToJson(),
-                page: true);
+                page: true,
+                sessionGuid: sessionGuid);
         }
 
         /// <summary>
@@ -208,13 +214,13 @@ namespace Implem.Pleasanter.Models
         /// <summary>
         /// Fixed:
         /// </summary>
-        public static void Remove(Context context, string key, bool page)
+        public static void Remove(Context context, string key, bool page, string sessionGuid = null)
         {
             Repository.ExecuteNonQuery(
                 context: context,
                 statements: Rds.PhysicalDeleteSessions(
                     where: Rds.SessionsWhere()
-                        .SessionGuid(context.SessionGuid)
+                        .SessionGuid(sessionGuid ?? context.SessionGuid)
                         .Key(key)
                         .Page(context.Page, _using: page)));
         }
@@ -222,13 +228,13 @@ namespace Implem.Pleasanter.Models
         /// <summary>
         /// Fixed:
         /// </summary>
-        private static void RemoveAll(Context context)
+        private static void RemoveAll(Context context, string sessionGuid = null)
         {
             Repository.ExecuteNonQuery(
                 context: context,
                 statements: Rds.PhysicalDeleteSessions(
                     where: Rds.SessionsWhere()
-                        .SessionGuid(context.SessionGuid)));
+                        .SessionGuid(sessionGuid ?? context.SessionGuid)));
         }
 
         /// <summary>
@@ -243,22 +249,24 @@ namespace Implem.Pleasanter.Models
         /// <summary>
         /// Fixed:
         /// </summary>
-        public static void SetUserArea(Context context, string key, string value, bool page)
+        public static void SetUserArea(Context context, string key, string value, bool page, string sessionGuid = null)
         {
             Set(
                 context: context,
                 key: $"User_{key}",
                 value: value,
                 page: page,
-                userArea: true);
+                userArea: true,
+                sessionGuid: sessionGuid);
         }
 
         /// <summary>
         /// Fixed:
         /// </summary>
-        public static string GetUserArea(Context context, string key)
+        public static string GetUserArea(Context context, string key, bool useUserSessionData = false)
         {
-            return context.SessionData.TryGetValue(
+            var sessionData = useUserSessionData ? context.UserSessionData : context.SessionData;
+            return sessionData.TryGetValue(
                 $"User_{key}",
                 out string value) ? value : null;
         }
@@ -266,12 +274,13 @@ namespace Implem.Pleasanter.Models
         /// <summary>
         /// Fixed:
         /// </summary>
-        public static void DeleteUserArea(Context context, string key, bool page)
+        public static void DeleteUserArea(Context context, string key, bool page, string sessionGuid = null)
         {
             Remove(
                 context: context,
                 key: $"User_{key}",
-                page: page);
+                page: page,
+                sessionGuid: sessionGuid);
         }
 
         /// <summary>
@@ -284,7 +293,10 @@ namespace Implem.Pleasanter.Models
             {
                 return ApiResults.Get(ApiResponses.BadRequest(context: context));
             }
-            var value = GetUserArea(context, api.SessionKey);
+            var value = GetUserArea(
+                context: context,
+                key: api.SessionKey,
+                useUserSessionData: api.SavePerUser);
             if (value == null)
             {
                 return ApiResults.Get(ApiResponses.NotFound(context));
@@ -311,13 +323,15 @@ namespace Implem.Pleasanter.Models
             {
                 return ApiResults.Get(ApiResponses.BadRequest(context: context));
             }
+            var sessionGuid = api.SavePerUser ? "@" + context.UserId : context.SessionGuid;
             try
             {
                 SetUserArea(
-                    context: context, 
-                    key: api.SessionKey, 
+                    context: context,
+                    key: api.SessionKey,
                     value: api.SessionValue,
-                    page: false);
+                    page: false,
+                    sessionGuid: sessionGuid);
             }
             catch
             {
@@ -344,16 +358,17 @@ namespace Implem.Pleasanter.Models
             {
                 return ApiResults.Get(ApiResponses.BadRequest(context: context));
             }
-            if (GetUserArea(context, api.SessionKey) == null)
+            if (GetUserArea(context, api.SessionKey, api.SavePerUser) == null)
             {
                 return ApiResults.Get(ApiResponses.NotFound(context));
             }
             try
             {
                 DeleteUserArea(
-                    context: context, 
+                    context: context,
                     key: api.SessionKey,
-                    page: false);
+                    page: false,
+                    sessionGuid: api.SavePerUser ? "@" + context.UserId : context.SessionGuid);
             }
             catch
             {

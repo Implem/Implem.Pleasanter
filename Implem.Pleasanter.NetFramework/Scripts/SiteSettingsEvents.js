@@ -87,4 +87,12 @@
             $('#FilterColumnSettingField').addClass('hidden');
         }
     });
+    $(document).on('change', '#UseRelatingColumnsOnFilter', function () {
+        if ($('#UseRelatingColumnsOnFilter').prop('checked')) {
+            $p.set($('#UseGridHeaderFilters'), false);
+            $('#UseGridHeaderFilters').prop('disabled', true);
+        } else {
+            $('#UseGridHeaderFilters').prop('disabled', false);
+        }
+    });
 });

@@ -46,6 +46,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                 case HtmlTypes.TextTypes.Normal:
                     return hb.Input(attributes: new HtmlAttributes()
                         .Id(controlId)
+                        .Name(controlId)
                         .Class(Css.Class("control-textbox", controlCss))
                         .Type("text")
                         .Value(text)
@@ -71,6 +72,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                 case HtmlTypes.TextTypes.DateTime:
                     return hb.Input(attributes: new HtmlAttributes()
                         .Id(controlId)
+                        .Name(controlId)
                         .Class(Css.Class("control-textbox datepicker", controlCss))
                         .Type("text")
                         .Value(text)
@@ -95,6 +97,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     return hb.TextArea(
                         attributes: new HtmlAttributes()
                             .Id(controlId)
+                            .Name(controlId)
                             .Class(Css.Class("control-textarea", controlCss))
                             .Placeholder(placeholder)
                             .Disabled(disabled)
@@ -115,6 +118,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                 case HtmlTypes.TextTypes.Password:
                     return hb.Input(attributes: new HtmlAttributes()
                         .Id(controlId)
+                        .Name(controlId)
                         .Class(Css.Class("control-textbox", controlCss))
                         .Type("password")
                         .Value(text)
@@ -134,10 +138,10 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                 case HtmlTypes.TextTypes.File:
                     return hb.Input(attributes: new HtmlAttributes()
                         .Id(controlId)
+                        .Name(controlId)
                         .Class(Css.Class("control-textbox", controlCss))
                         .Type("file")
                         .Value(text)
-                        .Placeholder(placeholder)
                         .Accept(accept)
                         .Disabled(disabled)
                         .DataAlwaysSend(alwaysSend)
@@ -191,6 +195,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     .TextArea(
                         attributes: new HtmlAttributes()
                             .Id(controlId)
+                            .Name(controlId)
                             .Class(Css.Class(
                                 "control-markdown" +
                                     (CanUploadImage(context, readOnly, allowImage, preview)
@@ -285,20 +290,12 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             Column column = null,
             bool _using = true)
         {
-            var link = column == null
-                ? null
-                : column.ChoicesText.SplitReturn()
-                    .Select(o => o.Trim())
-                    .Where(o => o.RegexExists(@"^\[\[.+\]\]$"))
-                    .Select(settings => new Link(
-                        columnName: column.ColumnName,
-                        settings: settings))
-                    .FirstOrDefault(o => o.SiteId != 0);
-            var srcId = link?.SiteId.ToString() ?? string.Empty;
+            var srcId = column?.RelatingSrcId().ToString() ?? string.Empty;
             return _using
                 ? hb.Select(
                     attributes: new HtmlAttributes()
                         .Id(controlId)
+                        .Name(controlId)
                         .Class(Css.Class(
                             "control-dropdown" + (optionCollection?.Any(o =>
                                 !o.Value.Css.IsNullOrEmpty() ||
@@ -357,9 +354,20 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                 .DataStyle(htmlData.Value.Style)
                                 .Selected(Selected(
                                     selectedValue, selectedValues, htmlData.Key, multiple)),
-                            action: () => hb
-                                .Text(text: Strings.CoalesceEmpty(
-                                    htmlData.Value.Text, htmlData.Key))));
+                            action: () =>
+                            {
+                                var text = Strings.CoalesceEmpty(
+                                    htmlData.Value.Text,
+                                    htmlData.Key);
+                                if (text.IsNullOrEmpty())
+                                {
+                                    hb.Raw(text: "&nbsp;");
+                                }
+                                else
+                                {
+                                    hb.Text(text: text);
+                                }
+                            }));
             }
             return hb;
         }
@@ -436,6 +444,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     .ForEach(data => hb
                         .Input(attributes: new HtmlAttributes()
                             .Id(name + data.Index)
+                            .Name(name + data.Index)
                             .Class(Css.Class("control-radio", controlCss))
                             .Type("radio")
                             .Value(data.Option.Key)
@@ -466,6 +475,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             return _using
                 ? hb.Input(attributes: new HtmlAttributes()
                     .Id(controlId)
+                    .Name(controlId)
                     .Class(Css.Class("control-spinner", controlCss))
                     .Type("number")
                     .Value(value != null
@@ -500,6 +510,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             {
                 hb.Input(attributes: new HtmlAttributes()
                     .Id(controlId)
+                    .Name(controlId)
                     .Class(Css.Class("control-checkbox", controlCss))
                     .Type("checkbox")
                     .Disabled(disabled)
@@ -646,6 +657,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             return _using
                 ? hb.Input(attributes: new HtmlAttributes()
                     .Id(controlId)
+                    .Name(controlId)
                     .Class(css)
                     .Type("hidden")
                     .Value(value)
@@ -777,13 +789,8 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             Context context,
             string controlId = null,
             string columnName = null,
-            string controlCss = null,
             string value = null,
-            string placeholder = null,
             bool readOnly = false,
-            bool allowBulkUpdate = false,
-            bool validateRequired = false,
-            Dictionary<string, string> attributes = null,
             bool preview = false,
             bool _using = true)
         {
@@ -803,12 +810,11 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                             .DataAction("binaries/multiupload"),
                         action: () => hb
                             .Text(text: Displays.FileDragDrop(context: context))
-                            .Input(
-                                id: columnName + ".input",
-                                attributes: new HtmlAttributes()
-                                    .Class("hidden")
-                                    .Type("file")
-                                    .Multiple(true)),
+                            .Input(attributes: new HtmlAttributes()
+                                .Id(columnName + ".input")
+                                .Class("hidden")
+                                .Type("file")
+                                .Multiple(true)),
                         _using: !readOnly && !preview)
                     .Div(
                         id: columnName + ".items",

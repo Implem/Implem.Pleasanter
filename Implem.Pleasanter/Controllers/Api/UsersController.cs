@@ -5,7 +5,6 @@ using System.Web.Http;
 using System.Net.Http;
 using System.Threading.Tasks;
 using System.Web.Mvc;
-
 namespace Implem.Pleasanter.Controllers.Api
 {
     public class UsersController

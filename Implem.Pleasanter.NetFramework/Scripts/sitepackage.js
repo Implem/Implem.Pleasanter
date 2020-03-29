@@ -63,9 +63,11 @@ $p.siteSelected = function ($control, $target) {
     var items = container.getElementsByTagName("li");
     var itemArray = Array.prototype.slice.call(items);
     function compareText(a, b) {
-        if (a.attributes.getNamedItem("data-order").value > b.attributes.getNamedItem("data-order").value)
+        var _a = parseInt(a.attributes.getNamedItem("data-order").value);
+        var _b = parseInt(b.attributes.getNamedItem("data-order").value);
+        if (_a > _b)
             return 1;
-        else if (a.attributes.getNamedItem("data-order").value < b.attributes.getNamedItem("data-order").value)
+        else if (_a < _b)
             return -1;
         return 0;
     }

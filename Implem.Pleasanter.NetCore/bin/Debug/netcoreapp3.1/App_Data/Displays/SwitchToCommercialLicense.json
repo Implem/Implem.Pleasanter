@@ -1,0 +1,13 @@
+﻿{
+    "Id": "SwitchToCommercialLicense",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Switch to commercial license"
+        },
+        {
+            "Language": "ja",
+            "Body": "商用ライセンスへの切り替え"
+        }
+    ]
+}

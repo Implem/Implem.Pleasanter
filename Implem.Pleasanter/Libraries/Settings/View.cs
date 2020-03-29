@@ -162,10 +162,15 @@ namespace Implem.Pleasanter.Libraries.Settings
         {
             if (CrosstabMonth?.InRange() != true)
             {
-                var now = DateTime.Now;
-                CrosstabMonth = new DateTime(now.Year, now.Month, 1);
+                CrosstabMonth = GetCrosstabMonthDefault();
             }
             return CrosstabMonth.ToDateTime();
+        }
+
+        private DateTime GetCrosstabMonthDefault()
+        {
+            var now = DateTime.Now;
+            return new DateTime(now.Year, now.Month, 1);
         }
 
         public string GetGanttGroupBy()
@@ -1017,7 +1022,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                             where.Bool(column, "=1");
                             break;
                         case ColumnUtilities.CheckFilterTypes.Off:
-                            where.Or(or: new SqlWhereCollection()
+                            where.Add(or: new SqlWhereCollection()
                                 .Bool(column, " is null")
                                 .Bool(column, "=0"));
                             break;
@@ -1248,6 +1253,7 @@ namespace Implem.Pleasanter.Libraries.Settings
         public SqlOrderByCollection OrderBy(
             Context context,
             SiteSettings ss,
+            string itemsTableName = "Items",
             SqlOrderByCollection orderBy = null)
         {
             orderBy = orderBy ?? new SqlOrderByCollection();
@@ -1261,7 +1267,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                             orderBy.Add(new SqlOrderBy(
                                 columnBracket: "\"Title\"",
                                 orderType: data.Value,
-                                tableName: "Items"));
+                                tableName: itemsTableName));
                             break;
                         default:
                             orderBy.Add(
@@ -1285,12 +1291,19 @@ namespace Implem.Pleasanter.Libraries.Settings
             SqlWhereCollection where,
             bool itemJoin)
         {
-            if (Search.IsNullOrEmpty()) return;
-            where.FullTextWhere(
-                context: context,
-                ss: ss,
-                searchText: Search,
-                itemJoin: itemJoin);
+            var or = new SqlWhereCollection();
+            Search?
+                .Replace("　", " ")
+                .Replace(" or ", "\n")
+                .Split('\n')
+                .Where(o => !o.IsNullOrEmpty())
+                .ForEach(search =>
+                    or.Add(and: new SqlWhereCollection().FullTextWhere(
+                        context: context,
+                        ss: ss,
+                        searchText: search,
+                        itemJoin: itemJoin)));
+            if (or.Any()) where.Add(or: or);
         }
 
         public bool RequestSearchCondition(Context context, SiteSettings ss)

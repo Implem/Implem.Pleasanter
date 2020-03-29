@@ -1,0 +1,13 @@
+﻿{
+    "Id": "Error",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Error"
+        },
+        {
+            "Language": "ja",
+            "Body": "エラー"
+        }
+    ]
+}

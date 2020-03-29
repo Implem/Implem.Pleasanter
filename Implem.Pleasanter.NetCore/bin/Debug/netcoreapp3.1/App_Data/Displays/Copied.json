@@ -1,0 +1,13 @@
+﻿{
+    "Id": "Copied",
+    "Type": 210,
+    "Languages": [
+        {
+            "Body": "It was copied."
+        },
+        {
+            "Language": "ja",
+            "Body": "コピーしました。"
+        }
+    ]
+}

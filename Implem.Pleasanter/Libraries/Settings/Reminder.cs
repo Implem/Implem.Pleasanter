@@ -236,7 +236,11 @@ namespace Implem.Pleasanter.Libraries.Settings
                         columnBrackets: new string[] { $"\"{orderByColumn.ColumnName}\"" },
                         _operator: "<'{0}'".Params(
                             DateTime.Now.ToLocal(context: context).Date.AddDays(Range)))
-                    .Or(new SqlWhereCollection()
+                    .Add(or: new SqlWhereCollection()
+                        .Add(
+                            tableName: ss.ReferenceType,
+                            columnBrackets: new string[] { "\"Status\"" },
+                            _operator: " is null")
                         .Add(
                             tableName: ss.ReferenceType,
                             columnBrackets: new string[] { "\"Status\"" },

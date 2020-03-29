@@ -1,0 +1,13 @@
+﻿{
+    "Id": "ReadOnly",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Read only"
+        },
+        {
+            "Language": "ja",
+            "Body": "読取専用"
+        }
+    ]
+}

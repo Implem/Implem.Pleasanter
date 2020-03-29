@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Globalization;
 using System.IO;
 using System.Text;
 namespace Implem.Libraries.Classes
@@ -27,7 +28,7 @@ namespace Implem.Libraries.Classes
         {
             using (var stream = new MemoryStream(csv))
             using (var reader = new StreamReader(stream))
-            using (var data = new CsvHelper.CsvReader(reader))
+            using (var data = new CsvHelper.CsvReader(reader, CultureInfo.CurrentCulture))
             {
                 data.Configuration.HasHeaderRecord = false;
                 var header = true;

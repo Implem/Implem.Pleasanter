@@ -12,7 +12,10 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
         public static HtmlBuilder VerUpCheckBox(
             this HtmlBuilder hb, Context context, SiteSettings ss, BaseModel baseModel)
         {
-            var mustVerUp = Versions.MustVerUp(context: context, baseModel: baseModel);
+            var mustVerUp = Versions.MustVerUp(
+                context: context,
+                ss: ss,
+                baseModel: baseModel);
             return baseModel.VerType == Versions.VerTypes.Latest
                 && baseModel.MethodType != BaseModel.MethodTypes.New
                 && context.CanUpdate(ss: ss)

@@ -1,0 +1,13 @@
+﻿{
+    "Id": "Restricted",
+    "Type": 240,
+    "Languages": [
+        {
+            "Body": "Usage of this function is restricted."
+        },
+        {
+            "Language": "ja",
+            "Body": "この機能の使用は制限されています。"
+        }
+    ]
+}

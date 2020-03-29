@@ -1,0 +1,13 @@
+﻿{
+    "Id": "MaxColumns",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Max columns"
+        },
+        {
+            "Language": "ja",
+            "Body": "最大列数"
+        }
+    ]
+}

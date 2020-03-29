@@ -1,0 +1,13 @@
+﻿{
+    "Id": "NoTitle",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "No title"
+        },
+        {
+            "Language": "ja",
+            "Body": "タイトル無し"
+        }
+    ]
+}

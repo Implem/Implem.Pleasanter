@@ -1,0 +1,13 @@
+﻿{
+    "Id": "PublishWarning",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "This table is open to the public. Users who are not logged in can also view it."
+        },
+        {
+            "Language": "ja",
+            "Body": "このテーブルは公開されています。ログインしていないユーザも閲覧可能です。"
+        }
+    ]
+}

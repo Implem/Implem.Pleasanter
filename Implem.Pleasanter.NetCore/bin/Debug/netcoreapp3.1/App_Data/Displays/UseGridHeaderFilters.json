@@ -1,0 +1,13 @@
+﻿{
+    "Id": "UseGridHeaderFilters",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Use filter on grid header"
+        },
+        {
+            "Language": "ja",
+            "Body": "一覧のヘッダメニューでフィルタを使用する"
+        }
+    ]
+}

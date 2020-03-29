@@ -4,6 +4,7 @@ using Implem.Pleasanter.Libraries.General;
 using Implem.Pleasanter.Libraries.Requests;
 using Implem.Pleasanter.Libraries.Security;
 using Implem.Pleasanter.Libraries.Settings;
+using System.Collections.Generic;
 using System.Linq;
 namespace Implem.Pleasanter.Models
 {
@@ -17,7 +18,9 @@ namespace Implem.Pleasanter.Models
             }
             return context.HasPermission(ss: ss)
                 ? new ErrorData(type: Error.Types.None)
-                : new ErrorData(type: Error.Types.HasNotPermission);
+                : !context.CanRead(ss: ss)
+                    ? new ErrorData(type: Error.Types.NotFound)
+                    : new ErrorData(type: Error.Types.HasNotPermission);
         }
 
         public static ErrorData OnReading(Context context, SiteSettings ss, bool api = false)
@@ -49,7 +52,9 @@ namespace Implem.Pleasanter.Models
                 case BaseModel.MethodTypes.New:
                     return context.CanCreate(ss: ss)
                         ? new ErrorData(type: Error.Types.None)
-                        : new ErrorData(type: Error.Types.HasNotPermission);
+                        : !context.CanRead(ss: ss)
+                            ? new ErrorData(type: Error.Types.NotFound)
+                            : new ErrorData(type: Error.Types.HasNotPermission);
                 default:
                     return new ErrorData(type: Error.Types.NotFound);
             }
@@ -64,7 +69,9 @@ namespace Implem.Pleasanter.Models
             }
             if (!context.CanCreate(ss: ss))
             {
-                return new ErrorData(type: Error.Types.HasNotPermission);
+                return !context.CanRead(ss: ss)
+                    ? new ErrorData(type: Error.Types.NotFound)
+                    : new ErrorData(type: Error.Types.HasNotPermission);
             }
             ss.SetColumnAccessControls(context: context, mine: registrationModel.Mine(context: context));
             foreach (var column in ss.Columns
@@ -147,7 +154,7 @@ namespace Implem.Pleasanter.Models
                         }
                         break;
                     case "Comments":
-                        if (!ss.GetColumn(context: context, columnName: "Comments").CanUpdate)
+                        if (registrationModel.Comments_Updated(context: context))
                         {
                             return new ErrorData(type: Error.Types.HasNotPermission);
                         }
@@ -225,7 +232,9 @@ namespace Implem.Pleasanter.Models
             }
             if (!context.CanUpdate(ss: ss))
             {
-                return new ErrorData(type: Error.Types.HasNotPermission);
+                return !context.CanRead(ss: ss)
+                    ? new ErrorData(type: Error.Types.NotFound)
+                    : new ErrorData(type: Error.Types.HasNotPermission);
             }
             ss.SetColumnAccessControls(context: context, mine: registrationModel.Mine(context: context));
             foreach (var column in ss.Columns
@@ -307,7 +316,7 @@ namespace Implem.Pleasanter.Models
                         }
                         break;
                     case "Comments":
-                        if (!ss.GetColumn(context: context, columnName: "Comments").CanUpdate)
+                        if (registrationModel.Comments_Updated(context: context))
                         {
                             return new ErrorData(type: Error.Types.HasNotPermission);
                         }
@@ -385,7 +394,9 @@ namespace Implem.Pleasanter.Models
             }
             return context.CanDelete(ss: ss)
                 ? new ErrorData(type: Error.Types.None)
-                : new ErrorData(type: Error.Types.HasNotPermission);
+                : !context.CanRead(ss: ss)
+                    ? new ErrorData(type: Error.Types.NotFound)
+                    : new ErrorData(type: Error.Types.HasNotPermission);
         }
 
         public static ErrorData OnRestoring(Context context, bool api = false)
@@ -399,6 +410,19 @@ namespace Implem.Pleasanter.Models
                 : new ErrorData(type: Error.Types.HasNotPermission);
         }
 
+        public static ErrorData OnImporting(Context context, SiteSettings ss, bool api = false)
+        {
+            if (api && (context.ContractSettings.Api == false || !Parameters.Api.Enabled))
+            {
+                return new ErrorData(type: Error.Types.InvalidRequest);
+            }
+            return context.CanImport(ss: ss)
+                ? new ErrorData(type: Error.Types.None)
+                : !context.CanRead(ss: ss)
+                    ? new ErrorData(type: Error.Types.NotFound)
+                    : new ErrorData(type: Error.Types.HasNotPermission);
+        }
+
         public static ErrorData OnExporting(Context context, SiteSettings ss, bool api = false)
         {
             if (api && (context.ContractSettings.Api == false || !Parameters.Api.Enabled))
@@ -407,7 +431,9 @@ namespace Implem.Pleasanter.Models
             }
             return context.CanExport(ss: ss)
                 ? new ErrorData(type: Error.Types.None)
-                : new ErrorData(type: Error.Types.HasNotPermission);
+                : !context.CanRead(ss: ss)
+                    ? new ErrorData(type: Error.Types.NotFound)
+                    : new ErrorData(type: Error.Types.HasNotPermission);
         }
 
         /// <summary>

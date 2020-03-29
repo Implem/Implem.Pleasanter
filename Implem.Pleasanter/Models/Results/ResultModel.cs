@@ -953,7 +953,10 @@ namespace Implem.Pleasanter.Models
             var where = Rds.ResultsWhereDefault(this)
                 .UpdatedTime(timestamp, _using: timestamp.InRange());
             statements.AddRange(IfDuplicatedStatements(ss: ss));
-            if (VerUp)
+            if (Versions.VerUp(
+                context: context,
+                ss: ss,
+                verUp: VerUp))
             {
                 statements.Add(Rds.ResultsCopyToStatement(
                     where: where,
@@ -1171,11 +1174,6 @@ namespace Implem.Pleasanter.Models
 
         public ErrorData Delete(Context context, SiteSettings ss, bool notice = false)
         {
-            var notifications = GetNotifications(
-                context: context,
-                ss: ss,
-                notice: notice,
-                before: true);
             var statements = new List<SqlStatement>();
             var where = Rds.ResultsWhere().SiteId(SiteId).ResultId(ResultId);
             statements.OnDeletingExtendedSqls(SiteId, ResultId);
@@ -1192,7 +1190,7 @@ namespace Implem.Pleasanter.Models
                 Rds.DeleteResults(factory: context, where: where)
             });
             statements.OnDeletedExtendedSqls(SiteId, ResultId);
-            var response = Repository.ExecuteScalar_response(
+            Repository.ExecuteNonQuery(
                 context: context,
                 transactional: true,
                 statements: statements.ToArray());
@@ -1742,15 +1740,18 @@ namespace Implem.Pleasanter.Models
 
         public void SetTitle(Context context, SiteSettings ss)
         {
-            Title = new Title(
-                context: context,
-                ss: ss,
-                id: ResultId,
-                ver: Ver,
-                isHistory: VerType == Versions.VerTypes.History,
-                data: PropertyValues(
+            if (Title?.ItemTitle != true)
+            {
+                Title = new Title(
                     context: context,
-                    names: ss.TitleColumns));
+                    ss: ss,
+                    id: ResultId,
+                    ver: Ver,
+                    isHistory: VerType == Versions.VerTypes.History,
+                    data: PropertyValues(
+                        context: context,
+                        names: ss.TitleColumns));
+            }
         }
 
         private bool Matched(Context context, SiteSettings ss, View view)
@@ -1864,22 +1865,27 @@ namespace Implem.Pleasanter.Models
                 var dataSet = Repository.ExecuteDataSet(
                     context: context,
                     statements: notifications.Select(notification =>
-                        Rds.SelectResults(
+                    {
+                        var where = ss.Views?.Get(before
+                            ? notification.BeforeCondition
+                            : notification.AfterCondition)
+                                ?.Where(
+                                    context: context,
+                                    ss: ss,
+                                    where: Rds.ResultsWhere().ResultId(ResultId))
+                                        ?? Rds.ResultsWhere().ResultId(ResultId);
+                        return Rds.SelectResults(
                             dataTableName: notification.Index.ToString(),
                             tableType: tableTypes,
                             column: Rds.ResultsColumn().ResultId(),
-                            where: ss.Views?.Get(before
-                                ? notification.BeforeCondition
-                                : notification.AfterCondition)
-                                    ?.Where(
-                                        context: context,
-                                        ss: ss,
-                                        where: Rds.ResultsWhere().ResultId(ResultId))
-                                            ?? Rds.ResultsWhere().ResultId(ResultId)))
-                                                .ToArray());
+                            join: ss.Join(
+                                context: context,
+                                join: where),
+                            where: where);
+                    }).ToArray());
                 return notifications
                     .Where(notification =>
-                        dataSet.Tables[notification.Index.ToString()].Rows.Count == 1 )
+                        dataSet.Tables[notification.Index.ToString()].Rows.Count == 1)
                     .ToList();
             }
             else

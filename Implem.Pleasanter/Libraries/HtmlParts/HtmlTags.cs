@@ -7,12 +7,14 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
     {
         public static HtmlBuilder Html(
             this HtmlBuilder hb,
+            string lang,
             bool _using = true,
             Action action = null)
         {
             return _using
                 ? hb.Append(
                     tag: "html",
+                    attributes: new HtmlAttributes().Add("lang", lang),
                     action: action)
                 : hb;
         }
@@ -121,24 +123,6 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             return _using
                 ? hb.Append(
                     tag: "footer",
-                    id: id,
-                    css: css,
-                    attributes: attributes,
-                    action: action)
-                : hb;
-        }
-
-        public static HtmlBuilder Article(
-            this HtmlBuilder hb,
-            string id = null,
-            string css = null,
-            HtmlAttributes attributes = null,
-            bool _using = true,
-            Action action = null)
-        {
-            return _using
-                ? hb.Append(
-                    tag: "article",
                     id: id,
                     css: css,
                     attributes: attributes,
@@ -385,6 +369,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
         public static HtmlBuilder Input(
             this HtmlBuilder hb,
             string id = null,
+            string name = null,
             string css = null,
             HtmlAttributes attributes = null,
             bool _using = true)
@@ -395,6 +380,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     closeLevel: 1,
                     attributes: (attributes ?? new HtmlAttributes())
                         .Id(id)
+                        .Name(name)
                         .Class(css))
                 : hb;
         }
@@ -402,6 +388,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
         public static HtmlBuilder TextArea(
             this HtmlBuilder hb,
             string id = null,
+            string name = null,
             string css = null,
             string placeholder = null,
             HtmlAttributes attributes = null,
@@ -411,13 +398,12 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             return _using
                 ? hb.Append(
                     tag: "textarea",
-                    id: id,
-                    css: css,
                     attributes: (attributes ?? new HtmlAttributes())
                         .Id(id)
+                        .Name(name)
                         .Class(css)
                         .Placeholder(placeholder),
-                    action: ()=> hb
+                    action: () => hb
                         .Text(text: "\n" + text))
                 : hb;
         }
@@ -443,6 +429,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
         public static HtmlBuilder Select(
             this HtmlBuilder hb,
             string id = null,
+            string name = null,
             string css = null,
             HtmlAttributes attributes = null,
             bool _using = true,
@@ -451,9 +438,10 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             return _using
                 ? hb.Append(
                     tag: "select",
-                    id: id,
-                    css: css,
-                    attributes: attributes,
+                    attributes: (attributes ?? new HtmlAttributes())
+                        .Id(id)
+                        .Name(name)
+                        .Class(css),
                     action: action)
                 : hb;
         }
@@ -659,6 +647,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
         public static HtmlBuilder Img(
             this HtmlBuilder hb,
             string id = null,
+            string alt = "image",
             string css = null,
             string src = null,
             bool _using = true)
@@ -668,6 +657,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     tag: "img",
                     attributes: new HtmlAttributes()
                         .Id(id)
+                        .Alt(alt)
                         .Class(css)
                         .Src(src),
                     closeLevel: 1)
@@ -685,8 +675,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     tag: "video",
                     attributes: new HtmlAttributes()
                         .Id(id)
-                        .Class(css),
-                    closeLevel: 1)
+                        .Class(css))
                 : hb;
         }
 
@@ -701,8 +690,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     tag: "canvas",
                     attributes: new HtmlAttributes()
                         .Id(id)
-                        .Class(css),
-                    closeLevel: 1)
+                        .Class(css))
                 : hb;
         }
 

@@ -1284,10 +1284,8 @@ namespace Implem.Pleasanter.Models
                                                 columnName: column.ColumnName,
                                                 fieldCss: column.FieldCss,
                                                 fieldDescription: column.Description,
-                                                controlCss: column.ControlCss,
                                                 labelText: column.LabelText,
                                                 value: deptModel.Attachments(columnName: column.Name).ToJson(),
-                                                placeholder: column.LabelText,
                                                 readOnly: column.ColumnPermissionType(context: context)
                                                     != Permissions.ColumnPermissionTypes.Update));
                                     break;
@@ -1331,7 +1329,7 @@ namespace Implem.Pleasanter.Models
                             controller: context.Controller,
                             id: ss.Columns.Any(o => o.Linking)
                                 ? context.Forms.Long("LinkId")
-                                : deptModel.DeptId))
+                                : deptModel.DeptId) + "?new=1")
                         .ToJson();
                 default:
                     return errorData.Type.MessageJson(context: context);
@@ -1419,12 +1417,16 @@ namespace Implem.Pleasanter.Models
             }
             else
             {
+                var verUp = Versions.VerUp(
+                    context: context,
+                    ss: ss,
+                    verUp: false);
                 return res
                     .Ver(context: context, ss: ss)
                     .Timestamp(context: context, ss: ss)
                     .FieldResponse(context: context, ss: ss, deptModel: deptModel)
-                    .Val("#VerUp", false)
-                    .Disabled("#VerUp", false)
+                    .Val("#VerUp", verUp)
+                    .Disabled("#VerUp", verUp)
                     .Html("#HeaderTitle", deptModel.Title.Value)
                     .Html("#RecordInfo", new HtmlBuilder().RecordInfo(
                         context: context,

@@ -8,6 +8,8 @@ namespace Implem.Pleasanter.Libraries.Requests
     {
         public static View GetBySession(Context context, SiteSettings ss, bool setSession = true)
         {
+            var useUsersView = ss.SaveViewType == SiteSettings.SaveViewTypes.User;
+            setSession = setSession && ss.SaveViewType != SiteSettings.SaveViewTypes.None;
             var view = !context.Ajax
                 ? context.QueryStrings.Data("View")?.Deserialize<View>()
                 : null;
@@ -17,7 +19,8 @@ namespace Implem.Pleasanter.Libraries.Requests
                     context: context,
                     ss: ss,
                     view: view,
-                    setSession: setSession);
+                    setSession: setSession,
+                    useUsersView: useUsersView);
                 return view;
             }
             if (context.Forms.ControlId() == "ViewSelector")
@@ -28,10 +31,12 @@ namespace Implem.Pleasanter.Libraries.Requests
                     context: context,
                     ss: ss,
                     view: view,
-                    setSession: setSession);
+                    setSession: setSession,
+                    useUsersView: useUsersView);
                 return view;
             }
-            view = context.SessionData.Get("View")?.Deserialize<View>()
+            var sessionData = useUsersView ? context.UserSessionData : context.SessionData;
+            view = sessionData.Get("View")?.Deserialize<View>()
                 ?? ss.Views?.Get(ss.GridView)
                 ?? new View();
             view.SetByForm(
@@ -41,7 +46,8 @@ namespace Implem.Pleasanter.Libraries.Requests
                 context: context,
                 ss: ss,
                 view: view,
-                setSession: setSession);
+                setSession: setSession,
+                useUsersView: useUsersView);
             return view;
         }
 
@@ -52,7 +58,10 @@ namespace Implem.Pleasanter.Libraries.Requests
             bool setSession = false)
         {
             var key = "View_" + dataTableName;
-            var view = context.SessionData.Get(key)?.Deserialize<View>();
+            var useUsersView = ss.SaveViewType == SiteSettings.SaveViewTypes.User;
+            var sessionData = useUsersView ? context.UserSessionData : context.SessionData;
+            setSession = setSession && ss.SaveViewType != SiteSettings.SaveViewTypes.None;
+            var view = sessionData.Get(key)?.Deserialize<View>();
             if (view == null)
             {
                 view = ss.Views.Get(ss.LinkTableView);
@@ -75,13 +84,14 @@ namespace Implem.Pleasanter.Libraries.Requests
                     ss: ss,
                     view: view,
                     setSession: true,
-                    key: key);
+                    key: key,
+                    useUsersView: useUsersView);
             }
             return view;
         }
 
         private static void SetSession(
-            Context context, SiteSettings ss, View view, bool setSession, string key = "View")
+            Context context, SiteSettings ss, View view, bool setSession, string key = "View", bool useUsersView = false)
         {
             if (setSession)
             {
@@ -89,7 +99,10 @@ namespace Implem.Pleasanter.Libraries.Requests
                     context: context,
                     ss: ss,
                     key: key,
-                    view: view);
+                    view: view,
+                    sessionGuid: useUsersView
+                        ? "@" + context.UserId
+                        : null);
             }
         }
     }

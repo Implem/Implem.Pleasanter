@@ -31,13 +31,11 @@ $p.clear = function ($control) {
 }
 
 $p.outsideDialog = function ($control) {
-    var dialogs = $('.ui-dialog:visible').map(function (i, e)
-    {
+    var dialogs = $('.ui-dialog:visible').map(function (i, e) {
         return $('#' + e.getAttribute('aria-describedby'));
     });
     return dialogs.length !== 0 &&
-        dialogs.filter(function (i, e)
-        {
+        dialogs.filter(function (i, e) {
             return $control.closest(e).length === 1
         }).length === 0;
 }
@@ -46,7 +44,7 @@ $p.syncSend = function ($control, formId) {
     return $p.send($control, formId, false);
 }
 
-$p.send = function ($control, formId, _async) {
+$p.send = function ($control, formId, _async, clearMessage) {
     if ($p.outsideDialog($control)) return false;
     if ($control.hasClass('no-send')) return false;
     $form = formId !== undefined
@@ -88,7 +86,8 @@ $p.send = function ($control, formId, _async) {
             methodType,
             methodType !== 'get' ? data : null,
             $control,
-            _async);
+            _async,
+            clearMessage);
     }
 }
 
@@ -97,3 +96,23 @@ $p.setFormChanged = function ($control) {
         $p.formChanged = true;
     }
 }
+
+$p.throttle = (function () {
+    var lastTime = 0;
+    return function (action, interval) {
+        if (lastTime + interval <= new Date().getTime()) {
+            lastTime = new Date().getTime();
+            action();
+        }
+    };
+})();
+
+$p.debounce = (function () {
+    let timer;
+    return function (action, interval) {
+        clearTimeout(timer);
+        timer = setTimeout(function () {
+            action();
+        }, interval);
+    };
+})();

@@ -21,14 +21,14 @@
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
-          "netcoreapp2.2"
+          "netcoreapp3.1"
         ],
         "sources": {
           "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
-          "netcoreapp2.2": {
+          "netcoreapp3.1": {
             "projectReferences": {
               "C:\\Implem\\PleasanterYakushi\\Implem.CodeDefiner\\Implem.CodeDefiner.csproj": {
                 "projectPath": "C:\\Implem\\PleasanterYakushi\\Implem.CodeDefiner\\Implem.CodeDefiner.csproj"
@@ -43,17 +43,11 @@
         }
       },
       "frameworks": {
-        "netcoreapp2.2": {
+        "netcoreapp3.1": {
           "dependencies": {
-            "Microsoft.NETCore.App": {
-              "suppressParent": "All",
-              "target": "Package",
-              "version": "[2.2.0, )",
-              "autoReferenced": true
-            },
             "System.Text.Encoding.CodePages": {
               "target": "Package",
-              "version": "[4.5.0, )"
+              "version": "[4.7.0, )"
             }
           },
           "imports": [
@@ -66,6 +60,11 @@
           ],
           "assetTargetFallback": true,
           "warn": true,
+          "frameworkReferences": {
+            "Microsoft.NETCore.App": {
+              "privateAssets": "all"
+            }
+          },
           "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.1.200\\RuntimeIdentifierGraph.json"
         }
       }
@@ -388,11 +387,11 @@
           "dependencies": {
             "CsvHelper": {
               "target": "Package",
-              "version": "[12.1.2, )"
+              "version": "[15.0.3, )"
             },
             "DocumentFormat.OpenXml": {
               "target": "Package",
-              "version": "[2.9.0, )"
+              "version": "[2.10.1, )"
             },
             "NETStandard.Library": {
               "suppressParent": "All",
@@ -402,7 +401,7 @@
             },
             "Newtonsoft.Json": {
               "target": "Package",
-              "version": "[12.0.1, )"
+              "version": "[12.0.3, )"
             },
             "System.Data.DataSetExtensions": {
               "target": "Package",
@@ -410,7 +409,7 @@
             },
             "System.Drawing.Common": {
               "target": "Package",
-              "version": "[4.5.1, )"
+              "version": "[4.7.0, )"
             },
             "System.IO.FileSystem.Primitives": {
               "target": "Package",
@@ -418,7 +417,7 @@
             },
             "System.IO.Packaging": {
               "target": "Package",
-              "version": "[4.5.0, )"
+              "version": "[4.7.0, )"
             },
             "System.ValueTuple": {
               "target": "Package",
@@ -678,7 +677,7 @@
             },
             "System.Data.SqlClient": {
               "target": "Package",
-              "version": "[4.6.0, )"
+              "version": "[4.8.1, )"
             }
           },
           "imports": [

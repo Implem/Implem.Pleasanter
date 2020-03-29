@@ -1,0 +1,14 @@
+﻿{
+    "Id": "ConfirmReset",
+    "Type": 310,
+    "ClientScript": true,
+    "Languages": [
+        {
+            "Body": "Are you sure you want to reset ?"
+        },
+        {
+            "Language": "ja",
+            "Body": "本当にリセットしてもよろしいですか？"
+        }
+    ]
+}

@@ -1,0 +1,13 @@
+﻿{
+    "Id": "SelectableMembers",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Selectable members"
+        },
+        {
+            "Language": "ja",
+            "Body": "選択可能なメンバー"
+        }
+    ]
+}

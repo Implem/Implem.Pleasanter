@@ -1284,10 +1284,8 @@ namespace Implem.Pleasanter.Models
                                                 columnName: column.ColumnName,
                                                 fieldCss: column.FieldCss,
                                                 fieldDescription: column.Description,
-                                                controlCss: column.ControlCss,
                                                 labelText: column.LabelText,
                                                 value: groupModel.Attachments(columnName: column.Name).ToJson(),
-                                                placeholder: column.LabelText,
                                                 readOnly: column.ColumnPermissionType(context: context)
                                                     != Permissions.ColumnPermissionTypes.Update));
                                     break;
@@ -1331,7 +1329,7 @@ namespace Implem.Pleasanter.Models
                             controller: context.Controller,
                             id: ss.Columns.Any(o => o.Linking)
                                 ? context.Forms.Long("LinkId")
-                                : groupModel.GroupId))
+                                : groupModel.GroupId) + "?new=1")
                         .ToJson();
                 default:
                     return errorData.Type.MessageJson(context: context);
@@ -1419,12 +1417,16 @@ namespace Implem.Pleasanter.Models
             }
             else
             {
+                var verUp = Versions.VerUp(
+                    context: context,
+                    ss: ss,
+                    verUp: false);
                 return res
                     .Ver(context: context, ss: ss)
                     .Timestamp(context: context, ss: ss)
                     .FieldResponse(context: context, ss: ss, groupModel: groupModel)
-                    .Val("#VerUp", false)
-                    .Disabled("#VerUp", false)
+                    .Val("#VerUp", verUp)
+                    .Disabled("#VerUp", verUp)
                     .Html("#HeaderTitle", groupModel.Title.Value)
                     .Html("#RecordInfo", new HtmlBuilder().RecordInfo(
                         context: context,
@@ -1676,17 +1678,17 @@ namespace Implem.Pleasanter.Models
                         .UserId()
                         .Admin(),
                     where: Rds.GroupMembersWhere()
-                        .Or(Rds.GroupMembersWhere()
+                        .GroupId(groupModel.GroupId)
+                        .Add(or: Rds.GroupMembersWhere()
                             .Sub(sub: Rds.ExistsDepts(where: Rds.DeptsWhere()
                                 .DeptId(raw: "\"GroupMembers\".\"DeptId\"")))
                             .Sub(sub: Rds.ExistsUsers(where: Rds.UsersWhere()
-                                .UserId(raw: "\"GroupMembers\".\"UserId\""))))
-                        .GroupId(groupModel.GroupId)))
-                            .AsEnumerable()
-                            .ForEach(dataRow =>
-                                data.AddMember(
-                                    context: context,
-                                    dataRow: dataRow));
+                                .UserId(raw: "\"GroupMembers\".\"UserId\""))))))
+                                    .AsEnumerable()
+                                    .ForEach(dataRow =>
+                                        data.AddMember(
+                                            context: context,
+                                            dataRow: dataRow));
             return data;
         }
 

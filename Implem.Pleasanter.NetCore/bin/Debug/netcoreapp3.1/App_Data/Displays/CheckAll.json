@@ -1,0 +1,14 @@
+﻿{
+    "Id": "CheckAll",
+    "Type": 110,
+    "ClientScript": true,
+    "Languages": [
+        {
+            "Body": "Check all"
+        },
+        {
+            "Language": "ja",
+            "Body": "全て選択"
+        }
+    ]
+}

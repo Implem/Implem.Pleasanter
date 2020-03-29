@@ -3,30 +3,32 @@
 }
 
 $p.apiGet = function (args) {
-    $p.apiExec($p.apiUrl(args.id, 'get'), args);
+    return $p.apiExec($p.apiUrl(args.id, 'get'), args);
 }
 
 $p.apiCreate = function (args) {
-    $p.apiExec($p.apiUrl(args.id, 'create'), args);
+    return $p.apiExec($p.apiUrl(args.id, 'create'), args);
 }
 
 $p.apiUpdate = function (args) {
-    $p.apiExec($p.apiUrl(args.id, 'update'), args);
+    return $p.apiExec($p.apiUrl(args.id, 'update'), args);
 }
 
 $p.apiDelete = function (args) {
-    $p.apiExec($p.apiUrl(args.id, 'delete'), args);
+    return $p.apiExec($p.apiUrl(args.id, 'delete'), args);
 }
 
 $p.apiExec = function (url, args) {
-    $.ajax({
-        type: 'post',
+    return $.ajax({
+        type: 'Post',
         url: url,
-        cache: false,
-        contentType: 'application/json',
-        data: JSON.stringify(args.data),
+        data: args.data !== undefined
+            ? JSON.stringify(args.data)
+            : "",
         dataType: 'json',
-        async: args.async !== undefined ? args.async : true
+        async: args.async !== undefined
+            ? args.async
+            : true
     })
         .done(args.done)
         .fail(args.fail)
@@ -47,17 +49,17 @@ $p.apiUsersUrl = function (action, id) {
 }
 
 $p.apiUsersGet = function (args) {
-    $p.apiExec($p.apiUsersUrl('get'), args);
+    return $p.apiExec($p.apiUsersUrl('get'), args);
 }
 
 $p.apiUsersCreate = function (args) {
-    $p.apiExec($p.apiUsersUrl('create'), args);
+    return $p.apiExec($p.apiUsersUrl('create'), args);
 }
 
 $p.apiUsersUpdate = function (args) {
-    $p.apiExec($p.apiUsersUrl('update', args.id), args);
+    return $p.apiExec($p.apiUsersUrl('update', args.id), args);
 }
 
 $p.apiUsersDelete = function (args) {
-    $p.apiExec($p.apiUsersUrl('delete', args.id), args);
+    return $p.apiExec($p.apiUsersUrl('delete', args.id), args);
 }

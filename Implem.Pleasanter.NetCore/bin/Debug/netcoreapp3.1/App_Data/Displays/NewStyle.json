@@ -1,0 +1,13 @@
+﻿{
+    "Id": "NewStyle",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "New screen style"
+        },
+        {
+            "Language": "ja",
+            "Body": "新規画面スタイル"
+        }
+    ]
+}

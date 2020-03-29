@@ -1920,10 +1920,8 @@ namespace Implem.Pleasanter.Models
                                                 columnName: column.ColumnName,
                                                 fieldCss: column.FieldCss,
                                                 fieldDescription: column.Description,
-                                                controlCss: column.ControlCss,
                                                 labelText: column.LabelText,
                                                 value: userModel.Attachments(columnName: column.Name).ToJson(),
-                                                placeholder: column.LabelText,
                                                 readOnly: column.ColumnPermissionType(context: context)
                                                     != Permissions.ColumnPermissionTypes.Update));
                                     break;
@@ -1983,7 +1981,7 @@ namespace Implem.Pleasanter.Models
                             controller: context.Controller,
                             id: ss.Columns.Any(o => o.Linking)
                                 ? context.Forms.Long("LinkId")
-                                : userModel.UserId))
+                                : userModel.UserId) + "?new=1")
                         .ToJson();
                 default:
                     return errorData.Type.MessageJson(context: context);
@@ -2076,12 +2074,16 @@ namespace Implem.Pleasanter.Models
             }
             else
             {
+                var verUp = Versions.VerUp(
+                    context: context,
+                    ss: ss,
+                    verUp: false);
                 return res
                     .Ver(context: context, ss: ss)
                     .Timestamp(context: context, ss: ss)
                     .FieldResponse(context: context, ss: ss, userModel: userModel)
-                    .Val("#VerUp", false)
-                    .Disabled("#VerUp", false)
+                    .Val("#VerUp", verUp)
+                    .Disabled("#VerUp", verUp)
                     .Html("#HeaderTitle", userModel.Title.Value)
                     .Html("#RecordInfo", new HtmlBuilder().RecordInfo(
                         context: context,
@@ -2550,9 +2552,6 @@ namespace Implem.Pleasanter.Models
                     if (userModel.AccessStatus == Databases.AccessStatuses.Selected)
                     {
                         var mailAddressUpdated = UpdateMailAddresses(context, userModel);
-                        userModel.VerUp = Versions.MustVerUp(
-                            context: context,
-                            baseModel: userModel);
                         if (userModel.Updated(context: context))
                         {
                             var errorData = userModel.Update(

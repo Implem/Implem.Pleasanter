@@ -1,4 +1,4 @@
-﻿$p.ajax = function (url, methodType, data, $control, _async) {
+﻿$p.ajax = function (url, methodType, data, $control, _async, clearMessage) {
     if ($p.before_send($p.eventArgs(url, methodType, data, $control, _async)) === false) {
         return false;
     }
@@ -13,7 +13,9 @@
     $p.loading($control);
     var ret = 0;
     _async = _async !== undefined ? _async : true;
-    $p.clearMessage();
+    if (clearMessage !== false) {
+        $p.clearMessage();
+    }
     $.ajax({
         url: url,
         type: methodType,
@@ -22,22 +24,22 @@
         data: data,
         dataType: 'json'
     })
-    .done(function (json, textStatus, jqXHR) {
-        $p.setByJson(url, methodType, data, $control, _async, json);
-        ret = json.filter(function (i) {
-            return i.Method === 'Message' && JSON.parse(i.Value).Css === 'alert-error';
-        }).length !== 0
-            ? -1
-            : 0;
-    })
-    .fail(function (jqXHR, textStatus, errorThrown) {
-        alert(textStatus + '\n' +
-            $(jqXHR.responseText).text().trim().replace('\n', ''));
-        ret = -1;
-    })
-    .always(function (jqXHR, textStatus) {
-        $p.clearData('ControlId', data);
-        $p.loaded();
+        .done(function (json, textStatus, jqXHR) {
+            $p.setByJson(url, methodType, data, $control, _async, json);
+            ret = json.filter(function (i) {
+                return i.Method === 'Message' && JSON.parse(i.Value).Css === 'alert-error';
+            }).length !== 0
+                ? -1
+                : 0;
+        })
+        .fail(function (jqXHR, textStatus, errorThrown) {
+            alert(textStatus + '\n' +
+                $(jqXHR.responseText).text().trim().replace('\n', ''));
+            ret = -1;
+        })
+        .always(function (jqXHR, textStatus) {
+            $p.clearData('ControlId', data);
+            $p.loaded();
         });
     $p.after_send($p.eventArgs(url, methodType, data, $control, _async, ret));
     return ret;

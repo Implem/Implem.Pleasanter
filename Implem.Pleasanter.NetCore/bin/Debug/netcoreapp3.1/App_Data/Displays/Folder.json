@@ -1,0 +1,13 @@
+﻿{
+    "Id": "Folder",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Folder"
+        },
+        {
+            "Language": "ja",
+            "Body": "フォルダ"
+        }
+    ]
+}

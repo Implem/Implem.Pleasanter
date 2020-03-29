@@ -1,0 +1,13 @@
+﻿{
+    "Id": "AddressBook",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Address book"
+        },
+        {
+            "Language": "ja",
+            "Body": "アドレス帳"
+        }
+    ]
+}

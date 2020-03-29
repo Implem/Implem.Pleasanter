@@ -1,0 +1,13 @@
+﻿{
+    "Id": "DeletedImage",
+    "Type": 210,
+    "Languages": [
+        {
+            "Body": "Deleted the image."
+        },
+        {
+            "Language": "ja",
+            "Body": "画像を削除しました。"
+        }
+    ]
+}

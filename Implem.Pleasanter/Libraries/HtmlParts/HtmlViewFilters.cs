@@ -1,7 +1,9 @@
 ﻿using Implem.Libraries.Utilities;
+using Implem.Pleasanter.Libraries.DataTypes;
 using Implem.Pleasanter.Libraries.Html;
 using Implem.Pleasanter.Libraries.Requests;
 using Implem.Pleasanter.Libraries.Responses;
+using Implem.Pleasanter.Libraries.Server;
 using Implem.Pleasanter.Libraries.Settings;
 using Implem.Pleasanter.Models;
 using System.Collections.Generic;
@@ -49,7 +51,11 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                 view: view)
                             .Search(
                                 context: context,
-                                view: view))
+                                view: view)
+                            .Hidden(
+                                controlId: "TriggerRelatingColumns_Filter",
+                                value: Jsons.ToJson(ss?.RelatingColumns),
+                                _using: ss?.UseRelatingColumnsOnFilter == true))
                     : hb.Div(
                         id: "ViewFilters",
                         css: "reduced",
@@ -57,7 +63,11 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                             .DisplayControl(
                                 context: context,
                                 id: "ExpandViewFilters",
-                                icon: "ui-icon-folder-open"))
+                                icon: "ui-icon-folder-open")
+                            .Hidden(
+                                controlId: "TriggerRelatingColumns_Filter",
+                                value: Jsons.ToJson(ss?.RelatingColumns),
+                                _using: ss?.UseRelatingColumnsOnFilter == true))
                 : hb;
         }
 
@@ -453,6 +463,34 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             string action = null,
             bool controlOnly = false)
         {
+            var selectedValue = view.ColumnFilter(column.ColumnName);
+            if (column.UseSearch == true)
+            {
+                selectedValue?.Deserialize<List<string>>()?.ForEach(value =>
+                {
+                    if (column.UserColumn)
+                    {
+                        var userId = value.ToInt();
+                        if (userId > 0 && userId != User.UserTypes.Anonymous.ToInt())
+                        {
+                            optionCollection.AddIfNotConainsKey(
+                                value, new ControlData(SiteInfo.UserName(
+                                    context: context,
+                                    userId: userId)));
+                        }
+                    }
+                    else
+                    {
+                        HtmlFields.EditChoices(
+                            context: context,
+                            ss: ss,
+                            column: column,
+                            value: value)
+                                .ForEach(data =>
+                                    optionCollection.AddIfNotConainsKey(data.Key, data.Value));
+                    }
+                });
+            }
             return hb.FieldDropDown(
                 context: context,
                 controlId: idPrefix + column.ColumnName,
@@ -467,10 +505,11 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                 controlOnly: controlOnly,
                 action: action,
                 optionCollection: optionCollection,
-                selectedValue: view.ColumnFilter(column.ColumnName),
+                selectedValue: selectedValue,
                 multiple: true,
                 addSelectedValue: false,
-                method: "post");
+                method: "post",
+                column: column);
         }
 
         private static HtmlBuilder Search(this HtmlBuilder hb, Context context, View view)
@@ -485,5 +524,5 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                 _using: context.Controller == "items"
                     || context.Controller == "publishes");
         }
-    }   
+    }
 }

@@ -1,0 +1,13 @@
+﻿{
+    "Id": "Class",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Class"
+        },
+        {
+            "Language": "ja",
+            "Body": "分類"
+        }
+    ]
+}

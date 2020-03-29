@@ -1,0 +1,13 @@
+﻿{
+    "Id": "Spinner",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Spinner"
+        },
+        {
+            "Language": "ja",
+            "Body": "スピナー"
+        }
+    ]
+}

@@ -2979,7 +2979,7 @@ h3.title-header{
 }
 
 .menu-sort > li > div.field-control > *{
-    color:initial;
+    color:black;
     background-color:white;
     border:solid 1px silver;
 }
@@ -2994,5 +2994,11 @@ select:focus:not(.has-css){
 
 textarea:focus{
     background-color:#ffffcc;
+}
+
+.ssoLoginMessage{
+    margin:10px;
+    padding:6px;
+    border-top:solid 1px silver;
 }
 

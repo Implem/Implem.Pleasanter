@@ -1,0 +1,18 @@
+﻿{
+    "LabelText": "添付ファイル",
+    "No": "700",
+    "History": "700",
+    "Export": "700",
+    "GridColumn": "700",
+    "EditorColumn": "700",
+    "LinkColumn": "700",
+    "HistoryColumn": "700",
+    "TypeName": "nvarchar",
+    "TypeCs": "Attachments",
+    "MaxLength": "-1",
+    "Nullable": "1",
+    "SearchIndexPriority": "200",
+    "FieldCss": "field-wide",
+    "ControlType": "Attachments",
+    "ExtendedColumnType": "Attachments"
+}

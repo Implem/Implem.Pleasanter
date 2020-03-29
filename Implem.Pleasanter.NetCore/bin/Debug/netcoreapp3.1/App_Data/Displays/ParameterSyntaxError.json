@@ -1,0 +1,13 @@
+﻿{
+    "Id": "ParameterSyntaxError",
+    "Type": 240,
+    "Languages": [
+        {
+            "Body": "The syntax of parameter \"{0}\" is invalid."
+        },
+        {
+            "Language": "ja",
+            "Body": "パラメータファイル \"{0}\" の構文エラーです。システムが起動できません。"
+        }
+    ]
+}

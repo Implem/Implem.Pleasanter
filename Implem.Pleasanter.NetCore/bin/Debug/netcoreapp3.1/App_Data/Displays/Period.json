@@ -1,0 +1,13 @@
+﻿{
+    "Id": "Period",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Period"
+        },
+        {
+            "Language": "ja",
+            "Body": "期間"
+        }
+    ]
+}

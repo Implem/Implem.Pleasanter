@@ -1,0 +1,13 @@
+﻿{
+    "Id": "LinkSources",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Link sources"
+        },
+        {
+            "Language": "ja",
+            "Body": "リンク元"
+        }
+    ]
+}

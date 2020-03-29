@@ -1,0 +1,13 @@
+﻿{
+    "Id": "ImageAndText",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Image and text"
+        },
+        {
+            "Language": "ja",
+            "Body": "画像とテキスト"
+        }
+    ]
+}

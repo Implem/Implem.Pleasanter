@@ -1,0 +1,13 @@
+﻿{
+    "Id": "Always",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Always"
+        },
+        {
+            "Language": "ja",
+            "Body": "常時"
+        }
+    ]
+}

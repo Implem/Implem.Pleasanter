@@ -630,7 +630,10 @@ namespace Implem.Pleasanter.Models
             var statements = new List<SqlStatement>();
             var where = Rds.SitesWhereDefault(this)
                 .UpdatedTime(timestamp, _using: timestamp.InRange());
-            if (VerUp)
+            if (Versions.VerUp(
+                context: context,
+                ss: ss,
+                verUp: VerUp))
             {
                 statements.Add(Rds.SitesCopyToStatement(
                     where: where,
@@ -3924,23 +3927,28 @@ namespace Implem.Pleasanter.Models
         /// <summary>
         /// Fixed:
         /// </summary>
-        public string OpenSetNumericRangeDialog(Context context, ResponseCollection res, string controlId)
+        public string OpenSetNumericRangeDialog(
+            Context context, ResponseCollection res, string controlId)
         {
+            SiteSettings.SetPermissions(
+                context: context,
+                referenceId: SiteId);
             if (context.CanRead(SiteSettings))
             {
                 var columnName = controlId
                     .Replace("ViewFilters__", string.Empty)
+                    .Replace("ViewFiltersOnGridHeader__", string.Empty)
                     .Replace("_NumericRange", string.Empty);
                 var column = SiteSettings.GetColumn(
                     context: context,
                     columnName: columnName);
                 return res.Html(
-                            "#SetNumericRangeDialog",
-                            new HtmlBuilder().SetNumericRangeDialog(
-                                context: context,
-                                ss: SiteSettings,
-                                column: column))
-                        .ToJson();
+                    target: "#SetNumericRangeDialog",
+                    value: new HtmlBuilder().SetNumericRangeDialog(
+                        context: context,
+                        ss: SiteSettings,
+                        column: column))
+                            .ToJson();
             }
             else
             {
@@ -3951,27 +3959,31 @@ namespace Implem.Pleasanter.Models
         /// <summary>
         /// Fixed:
         /// </summary>
-        public string OpenSetDateRangeDialog(Context context, ResponseCollection res, string controlId)
+        public string OpenSetDateRangeDialog(
+            Context context, ResponseCollection res, string controlId)
         {
+            SiteSettings.SetPermissions(
+                context: context,
+                referenceId: SiteId);
             if (context.CanRead(SiteSettings))
             {
-                var columnName = context.Forms.ControlId()
+                var columnName = controlId
                     .Replace("ViewFilters__", string.Empty)
+                    .Replace("ViewFiltersOnGridHeader__", string.Empty)
                     .Replace("_DateRange", string.Empty);
                 var column = SiteSettings.GetColumn(
                     context: context,
                     columnName: columnName);
                 return res.Html(
-                            "#SetDateRangeDialog",
-                            new HtmlBuilder()
-                                .Input(
-                                    attributes: new HtmlAttributes()
-                                        .Style("opacity: 0; position: absolute; top: 0; left: 0;"))
-                                .SetDateRangeDialog(
-                                    context: context,
-                                    ss: SiteSettings,
-                                    column: column))
-                        .ToJson();
+                    target: "#SetDateRangeDialog",
+                    value: new HtmlBuilder()
+                        .Input(attributes: new HtmlAttributes()
+                            .Style("opacity: 0; position: absolute; top: 0; left: 0;"))
+                        .SetDateRangeDialog(
+                            context: context,
+                            ss: SiteSettings,
+                            column: column))
+                                .ToJson();
             }
             else
             {

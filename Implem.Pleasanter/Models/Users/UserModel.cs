@@ -1370,7 +1370,10 @@ namespace Implem.Pleasanter.Models
             var statements = new List<SqlStatement>();
             var where = Rds.UsersWhereDefault(this)
                 .UpdatedTime(timestamp, _using: timestamp.InRange());
-            if (VerUp)
+            if (Versions.VerUp(
+                context: context,
+                ss: ss,
+                verUp: VerUp))
             {
                 statements.Add(Rds.UsersCopyToStatement(
                     where: where,
@@ -1443,7 +1446,7 @@ namespace Implem.Pleasanter.Models
                     tenantId: context.TenantId,
                     type: StatusUtilities.Types.UsersUpdated),
             });
-            var response = Repository.ExecuteScalar_response(
+            Repository.ExecuteNonQuery(
                 context: context,
                 transactional: true,
                 statements: statements.ToArray());

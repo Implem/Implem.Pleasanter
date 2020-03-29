@@ -424,12 +424,14 @@ namespace Implem.Pleasanter.Libraries.Search
                     ss: ss,
                     searchText: searchText,
                     siteIdList: siteIdList,
-                    like: Rds.Items_FullText_WhereLike(factory: context, forward: false));
+                    like: Rds.Items_FullText_WhereLike(
+                            factory: context,
+                            forward: true));
             }
             switch (ss?.SearchType)
             {
                 case SiteSettings.SearchTypes.FullText:
-                    var words = Words(searchText);
+                    var words = Words(searchText.SearchIndexes().Join(" "));
                     if (words?.Any() != true) return null;
                     return SelectByFullText(
                         context: context,
@@ -442,20 +444,26 @@ namespace Implem.Pleasanter.Libraries.Search
                         ss: ss,
                         searchText: searchText,
                         siteIdList: siteIdList,
-                        like: Rds.Items_Title_WhereLike(factory: context, forward: true));
+                        like: Rds.Items_Title_WhereLike(
+                            factory: context,
+                            forward: true));
                 case SiteSettings.SearchTypes.BroadMatchOfTitle:
                     return Select(
                         ss: ss,
                         searchText: searchText,
                         siteIdList: siteIdList,
-                        like: Rds.Items_Title_WhereLike(factory: context, forward: false));
+                        like: Rds.Items_Title_WhereLike(
+                            factory: context,
+                            forward: true));
                 case SiteSettings.SearchTypes.PartialMatch:
                 default:
                     return Select(
                         ss: ss,
-                        searchText: searchText,
+                        searchText: searchText.SearchIndexes().Join(" "),
                         siteIdList: siteIdList,
-                        like: Rds.Items_FullText_WhereLike(factory: context, forward: false));
+                        like: Rds.Items_FullText_WhereLike(
+                            factory: context,
+                            forward: true));
             }
         }
 
@@ -565,7 +573,7 @@ namespace Implem.Pleasanter.Libraries.Search
             var tableName = ItemTableName(
                 ss: ss,
                 itemJoin: itemJoin);
-            return where.Add(Rds.ItemsWhere().SqlWhereLike(
+            return where.Add(or: Rds.ItemsWhere().SqlWhereLike(
                 tableName: "Items",
                 name: name,
                 searchText: searchText,

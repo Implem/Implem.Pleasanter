@@ -20,7 +20,25 @@ namespace Implem.Libraries.DataSources.SqlServer
         {
             if (_using)
             {
-                Add(new SqlParam(columnBracket, name, value, sub, raw));
+                Add(new SqlParam(
+                    columnBracket: columnBracket,
+                    name: name,
+                    value: value,
+                    sub: sub,
+                    raw: raw));
+            }
+            return this;
+        }
+
+        public SqlParamCollection Add(string variableName, object value, bool _using = true)
+        {
+            if (_using)
+            {
+                Add(new SqlParam()
+                {
+                    VariableName = variableName,
+                    Value = value
+                });
             }
             return this;
         }

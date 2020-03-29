@@ -248,18 +248,6 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             return xColumn?.TypeName == "datetime" && timePeriod == "Daily";
         }
 
-        private static Dictionary<string, ControlData> CorrectedChoices(
-            Column groupBy, IEnumerable<KeyValuePair<string, ControlData>> choices)
-        {
-            return groupBy != null
-                ? groupBy.TypeName.CsTypeSummary() != Types.CsNumeric
-                    ? choices.ToDictionary(o => o.Key, o => o.Value)
-                    : choices.ToDictionary(
-                        o => o.Key != string.Empty ? o.Key : "0",
-                        o => o.Value)
-                : null;
-        }
-
         private static HtmlBuilder Table(
             this HtmlBuilder hb,
             Context context,

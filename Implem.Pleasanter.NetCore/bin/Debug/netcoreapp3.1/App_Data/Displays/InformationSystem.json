@@ -1,0 +1,13 @@
+﻿{
+    "Id": "InformationSystem",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Information system"
+        },
+        {
+            "Language": "ja",
+            "Body": "情報システム"
+        }
+    ]
+}

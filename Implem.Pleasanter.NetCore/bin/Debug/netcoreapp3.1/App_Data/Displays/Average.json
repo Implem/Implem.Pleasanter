@@ -1,0 +1,13 @@
+﻿{
+    "Id": "Average",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Average"
+        },
+        {
+            "Language": "ja",
+            "Body": "平均"
+        }
+    ]
+}

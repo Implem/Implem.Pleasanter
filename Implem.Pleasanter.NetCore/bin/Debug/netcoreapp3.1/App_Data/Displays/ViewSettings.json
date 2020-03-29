@@ -1,0 +1,13 @@
+﻿{
+    "Id": "ViewSettings",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "View Settings"
+        },
+        {
+            "Language": "ja",
+            "Body": "ビューの設定"
+        }
+    ]
+}

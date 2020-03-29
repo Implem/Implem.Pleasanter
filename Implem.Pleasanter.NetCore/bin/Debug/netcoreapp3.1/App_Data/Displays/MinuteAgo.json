@@ -1,0 +1,13 @@
+﻿{
+    "Id": "MinuteAgo",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "1 minute excess"
+        },
+        {
+            "Language": "ja",
+            "Body": "1 分前"
+        }
+    ]
+}

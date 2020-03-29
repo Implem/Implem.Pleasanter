@@ -1,0 +1,13 @@
+﻿{
+    "Id": "Special",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Special"
+        },
+        {
+            "Language": "ja",
+            "Body": "特殊"
+        }
+    ]
+}

@@ -1,7 +1,9 @@
 ﻿{
+    "Name": null,
     "Description": "Sample",
     "SiteIdList": [2],
     "IdList": null,
+    "Api": false,
     "OnCreating": false,
     "OnCreated": false,
     "OnUpdating": false,

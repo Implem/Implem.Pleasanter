@@ -556,7 +556,10 @@ namespace Implem.Pleasanter.Models
             var statements = new List<SqlStatement>();
             var where = Rds.WikisWhereDefault(this)
                 .UpdatedTime(timestamp, _using: timestamp.InRange());
-            if (VerUp)
+            if (Versions.VerUp(
+                context: context,
+                ss: ss,
+                verUp: VerUp))
             {
                 statements.Add(Rds.WikisCopyToStatement(
                     where: where,
@@ -1011,15 +1014,18 @@ namespace Implem.Pleasanter.Models
 
         public void SetTitle(Context context, SiteSettings ss)
         {
-            Title = new Title(
-                context: context,
-                ss: ss,
-                id: WikiId,
-                ver: Ver,
-                isHistory: VerType == Versions.VerTypes.History,
-                data: PropertyValues(
+            if (Title?.ItemTitle != true)
+            {
+                Title = new Title(
                     context: context,
-                    names: ss.TitleColumns));
+                    ss: ss,
+                    id: WikiId,
+                    ver: Ver,
+                    isHistory: VerType == Versions.VerTypes.History,
+                    data: PropertyValues(
+                        context: context,
+                        names: ss.TitleColumns));
+            }
         }
 
         private bool Matched(Context context, SiteSettings ss, View view)
@@ -1108,22 +1114,27 @@ namespace Implem.Pleasanter.Models
                 var dataSet = Repository.ExecuteDataSet(
                     context: context,
                     statements: notifications.Select(notification =>
-                        Rds.SelectWikis(
+                    {
+                        var where = ss.Views?.Get(before
+                            ? notification.BeforeCondition
+                            : notification.AfterCondition)
+                                ?.Where(
+                                    context: context,
+                                    ss: ss,
+                                    where: Rds.WikisWhere().WikiId(WikiId))
+                                        ?? Rds.WikisWhere().WikiId(WikiId);
+                        return Rds.SelectWikis(
                             dataTableName: notification.Index.ToString(),
                             tableType: tableTypes,
                             column: Rds.WikisColumn().WikiId(),
-                            where: ss.Views?.Get(before
-                                ? notification.BeforeCondition
-                                : notification.AfterCondition)
-                                    ?.Where(
-                                        context: context,
-                                        ss: ss,
-                                        where: Rds.WikisWhere().WikiId(WikiId))
-                                            ?? Rds.WikisWhere().WikiId(WikiId)))
-                                                .ToArray());
+                            join: ss.Join(
+                                context: context,
+                                join: where),
+                            where: where);
+                    }).ToArray());
                 return notifications
                     .Where(notification =>
-                        dataSet.Tables[notification.Index.ToString()].Rows.Count == 1 )
+                        dataSet.Tables[notification.Index.ToString()].Rows.Count == 1)
                     .ToList();
             }
             else

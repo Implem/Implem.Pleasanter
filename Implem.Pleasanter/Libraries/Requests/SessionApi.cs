@@ -6,5 +6,6 @@ namespace Implem.Pleasanter.Libraries.Requests
     {
         public string SessionKey;
         public string SessionValue;
+        public bool SavePerUser = false;
     }
 }

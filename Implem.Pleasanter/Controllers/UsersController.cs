@@ -206,7 +206,8 @@ namespace Implem.Pleasanter.Controllers
         /// <summary>
         /// Fixed:
         /// </summary>
-        public (string redirectUrl, string redirectResultUrl, string html) Login(Context context, string returnUrl, string ssocode = "")
+        public (string redirectUrl, string redirectResultUrl, string html) Login(
+            Context context, string returnUrl, bool isLocalUrl, string ssocode = "")
         {
             var log = new SysLogModel(context: context);
             if (context.Authenticated)
@@ -236,7 +237,9 @@ namespace Implem.Pleasanter.Controllers
             }
             var html = UserUtilities.HtmlLogin(
                 context: context,
-                returnUrl: returnUrl,
+                returnUrl: isLocalUrl
+                    ? returnUrl
+                    : string.Empty,
                 message: context.QueryStrings.ContainsKey("expired") && context.QueryStrings["expired"] == "1" && !context.Ajax
                     ? Messages.Expired(context: context).Text
                     : string.Empty);

@@ -1,0 +1,13 @@
+﻿{
+    "Id": "HtmlTitle",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Html title"
+        },
+        {
+            "Language": "ja",
+            "Body": "HTMLタイトル"
+        }
+    ]
+}

@@ -1,0 +1,13 @@
+﻿{
+    "Id": "Week",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Week"
+        },
+        {
+            "Language": "ja",
+            "Body": "週"
+        }
+    ]
+}

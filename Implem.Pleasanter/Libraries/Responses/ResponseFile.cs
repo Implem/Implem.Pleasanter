@@ -1,5 +1,6 @@
 ﻿using Implem.Libraries.Utilities;
 using Implem.Pleasanter.Libraries.Web;
+using System;
 using System.IO;
 using System.Web.Mvc;
 namespace Implem.Pleasanter.Libraries.Responses
@@ -38,6 +39,42 @@ namespace Implem.Pleasanter.Libraries.Responses
             return fileContentResult;
         }
 
+        public ContentResult ToContentResult(
+            long id,
+            long referenceId,
+            string binaryType,
+            string guid,
+            string extension,
+            long size,
+            long creator,
+            long updator,
+            string createdTime,
+            string updatedTime
+            )
+        {
+            return ApiResults.Get(new
+            {
+                Id = id,
+                StatusCode = 200,
+                Message = FileDownloadName + "を取得しました。",
+                Response = new
+                {
+                    ReferenceId = referenceId,
+                    BinaryType = binaryType,
+                    Base64 = GetBase64Content(),
+                    Guid = guid,
+                    FileName = FileDownloadName,
+                    Extension = extension,
+                    Size = size,
+                    ContentType,
+                    Creator = creator,
+                    Updator = updator,
+                    CreatedTime = createdTime,
+                    UpdatedTime = updatedTime
+                }
+            }.ToJson());
+        }
+
         public FileContentResult FileStream()
         {
             using (MemoryStream ms = new MemoryStream())
@@ -47,6 +84,15 @@ namespace Implem.Pleasanter.Libraries.Responses
                 {
                     FileDownloadName = FileDownloadName
                 };
+            }
+        }
+
+        private string GetBase64Content()
+        {
+            using (MemoryStream ms = new MemoryStream())
+            {
+                FileContentsStream.CopyTo(ms);
+                return Convert.ToBase64String(ms.ToArray());
             }
         }
     }

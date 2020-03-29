@@ -1,0 +1,13 @@
+﻿{
+  "Id": "UseRelatingColumns",
+  "Type": 110,
+  "Languages": [
+    {
+      "Body": "Use RelatingColumn"
+    },
+    {
+      "Language": "ja",
+      "Body": "項目連携を使用する"
+    }
+  ]
+}

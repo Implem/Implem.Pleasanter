@@ -1,0 +1,13 @@
+﻿{
+    "Id": "GroupAdmin",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Group administration"
+        },
+        {
+            "Language": "ja",
+            "Body": "グループの管理"
+        }
+    ]
+}

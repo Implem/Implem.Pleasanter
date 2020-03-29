@@ -1,0 +1,14 @@
+﻿{
+    "Id": "ConfirmSynchronize",
+    "Type": 310,
+    "ClientScript": true,
+    "Languages": [
+        {
+            "Body": "Are you sure you want to synchronize the data ?"
+        },
+        {
+            "Language": "ja",
+            "Body": "データを同期してもよろしいですか？"
+        }
+    ]
+}

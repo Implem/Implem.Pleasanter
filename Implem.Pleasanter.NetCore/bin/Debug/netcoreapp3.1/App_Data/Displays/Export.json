@@ -1,0 +1,13 @@
+﻿{
+    "Id": "Export",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Export"
+        },
+        {
+            "Language": "ja",
+            "Body": "エクスポート"
+        }
+    ]
+}

@@ -1,6 +1,3 @@
-C:\Implem\PleasanterYakushi\Implem.CodeDefiner.NetCore\obj\Debug\netcoreapp3.1\Implem.CodeDefiner.NetCore.csprojAssemblyReference.cache
-C:\Implem\PleasanterYakushi\Implem.CodeDefiner.NetCore\obj\Debug\netcoreapp3.1\Implem.CodeDefiner.NetCore.AssemblyInfoInputs.cache
-C:\Implem\PleasanterYakushi\Implem.CodeDefiner.NetCore\obj\Debug\netcoreapp3.1\Implem.CodeDefiner.NetCore.AssemblyInfo.cs
 C:\Implem\PleasanterYakushi\Implem.CodeDefiner.NetCore\bin\Debug\netcoreapp3.1\Implem.CodeDefiner.NetCore.exe
 C:\Implem\PleasanterYakushi\Implem.CodeDefiner.NetCore\bin\Debug\netcoreapp3.1\Implem.CodeDefiner.NetCore.deps.json
 C:\Implem\PleasanterYakushi\Implem.CodeDefiner.NetCore\bin\Debug\netcoreapp3.1\Implem.CodeDefiner.NetCore.runtimeconfig.json
@@ -15,14 +12,11 @@ C:\Implem\PleasanterYakushi\Implem.CodeDefiner.NetCore\bin\Debug\netcoreapp3.1\N
 C:\Implem\PleasanterYakushi\Implem.CodeDefiner.NetCore\bin\Debug\netcoreapp3.1\System.Data.SqlClient.dll
 C:\Implem\PleasanterYakushi\Implem.CodeDefiner.NetCore\bin\Debug\netcoreapp3.1\System.Drawing.Common.dll
 C:\Implem\PleasanterYakushi\Implem.CodeDefiner.NetCore\bin\Debug\netcoreapp3.1\System.IO.Packaging.dll
-C:\Implem\PleasanterYakushi\Implem.CodeDefiner.NetCore\bin\Debug\netcoreapp3.1\runtimes\win\lib\netcoreapp2.0\Microsoft.Win32.SystemEvents.dll
 C:\Implem\PleasanterYakushi\Implem.CodeDefiner.NetCore\bin\Debug\netcoreapp3.1\runtimes\win-arm64\native\sni.dll
 C:\Implem\PleasanterYakushi\Implem.CodeDefiner.NetCore\bin\Debug\netcoreapp3.1\runtimes\win-x64\native\sni.dll
 C:\Implem\PleasanterYakushi\Implem.CodeDefiner.NetCore\bin\Debug\netcoreapp3.1\runtimes\win-x86\native\sni.dll
 C:\Implem\PleasanterYakushi\Implem.CodeDefiner.NetCore\bin\Debug\netcoreapp3.1\runtimes\unix\lib\netcoreapp2.1\System.Data.SqlClient.dll
 C:\Implem\PleasanterYakushi\Implem.CodeDefiner.NetCore\bin\Debug\netcoreapp3.1\runtimes\win\lib\netcoreapp2.1\System.Data.SqlClient.dll
-C:\Implem\PleasanterYakushi\Implem.CodeDefiner.NetCore\bin\Debug\netcoreapp3.1\runtimes\unix\lib\netcoreapp2.0\System.Drawing.Common.dll
-C:\Implem\PleasanterYakushi\Implem.CodeDefiner.NetCore\bin\Debug\netcoreapp3.1\runtimes\win\lib\netcoreapp2.0\System.Drawing.Common.dll
 C:\Implem\PleasanterYakushi\Implem.CodeDefiner.NetCore\bin\Debug\netcoreapp3.1\Implem.CodeDefiner.dll
 C:\Implem\PleasanterYakushi\Implem.CodeDefiner.NetCore\bin\Debug\netcoreapp3.1\Implem.DefinitionAccessor.dll
 C:\Implem\PleasanterYakushi\Implem.CodeDefiner.NetCore\bin\Debug\netcoreapp3.1\Implem.DisplayAccessor.dll
@@ -45,6 +39,14 @@ C:\Implem\PleasanterYakushi\Implem.CodeDefiner.NetCore\bin\Debug\netcoreapp3.1\I
 C:\Implem\PleasanterYakushi\Implem.CodeDefiner.NetCore\bin\Debug\netcoreapp3.1\Implem.ParameterAccessor.pdb
 C:\Implem\PleasanterYakushi\Implem.CodeDefiner.NetCore\bin\Debug\netcoreapp3.1\Implem.PostgreSql.pdb
 C:\Implem\PleasanterYakushi\Implem.CodeDefiner.NetCore\bin\Debug\netcoreapp3.1\Implem.SqlServer.pdb
+C:\Implem\PleasanterYakushi\Implem.CodeDefiner.NetCore\obj\Debug\netcoreapp3.1\Implem.CodeDefiner.NetCore.csprojAssemblyReference.cache
+C:\Implem\PleasanterYakushi\Implem.CodeDefiner.NetCore\obj\Debug\netcoreapp3.1\Implem.CodeDefiner.NetCore.csproj.CoreCompileInputs.cache
+C:\Implem\PleasanterYakushi\Implem.CodeDefiner.NetCore\obj\Debug\netcoreapp3.1\Implem.CodeDefiner.NetCore.AssemblyInfoInputs.cache
+C:\Implem\PleasanterYakushi\Implem.CodeDefiner.NetCore\obj\Debug\netcoreapp3.1\Implem.CodeDefiner.NetCore.AssemblyInfo.cs
 C:\Implem\PleasanterYakushi\Implem.CodeDefiner.NetCore\obj\Debug\netcoreapp3.1\Implem.CodeDefiner.NetCore.csproj.CopyComplete
 C:\Implem\PleasanterYakushi\Implem.CodeDefiner.NetCore\obj\Debug\netcoreapp3.1\Implem.CodeDefiner.NetCore.dll
 C:\Implem\PleasanterYakushi\Implem.CodeDefiner.NetCore\obj\Debug\netcoreapp3.1\Implem.CodeDefiner.NetCore.pdb
+C:\Implem\PleasanterYakushi\Implem.CodeDefiner.NetCore\obj\Debug\netcoreapp3.1\Implem.CodeDefiner.NetCore.genruntimeconfig.cache
+C:\Implem\PleasanterYakushi\Implem.CodeDefiner.NetCore\bin\Debug\netcoreapp3.1\runtimes\win\lib\netcoreapp3.0\Microsoft.Win32.SystemEvents.dll
+C:\Implem\PleasanterYakushi\Implem.CodeDefiner.NetCore\bin\Debug\netcoreapp3.1\runtimes\unix\lib\netcoreapp3.0\System.Drawing.Common.dll
+C:\Implem\PleasanterYakushi\Implem.CodeDefiner.NetCore\bin\Debug\netcoreapp3.1\runtimes\win\lib\netcoreapp3.0\System.Drawing.Common.dll

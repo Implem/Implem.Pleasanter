@@ -1,0 +1,13 @@
+﻿{
+    "Id": "Separate",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Separate"
+        },
+        {
+            "Language": "ja",
+            "Body": "分割"
+        }
+    ]
+}

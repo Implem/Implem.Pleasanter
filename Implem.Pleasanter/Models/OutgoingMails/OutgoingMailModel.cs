@@ -349,7 +349,10 @@ namespace Implem.Pleasanter.Models
             var statements = new List<SqlStatement>();
             var where = Rds.OutgoingMailsWhereDefault(this)
                 .UpdatedTime(timestamp, _using: timestamp.InRange());
-            if (VerUp)
+            if (Versions.VerUp(
+                context: context,
+                ss: ss,
+                verUp: VerUp))
             {
                 statements.Add(Rds.OutgoingMailsCopyToStatement(
                     where: where,
@@ -439,7 +442,7 @@ namespace Implem.Pleasanter.Models
             {
                 Rds.DeleteOutgoingMails(factory: context, where: where)
             });
-            var response = Repository.ExecuteScalar_response(
+            Repository.ExecuteNonQuery(
                 context: context,
                 transactional: true,
                 statements: statements.ToArray());
@@ -854,7 +857,7 @@ namespace Implem.Pleasanter.Models
                 bcc: Bcc,
                 subject: Title.Value,
                 body: Body)
-                    .Send(context: context);
+                    .SendAsync(context: context);
         }
     }
 }

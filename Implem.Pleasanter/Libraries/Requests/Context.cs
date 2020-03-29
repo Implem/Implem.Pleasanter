@@ -16,6 +16,7 @@ namespace Implem.Pleasanter.Libraries.Requests
         public abstract bool SwitchUser { get; set; }
         public abstract string SessionGuid { get; set; }
         public abstract Dictionary<string, string> SessionData { get; set; }
+        public abstract Dictionary<string, string> UserSessionData { get; set; }
         public abstract bool Publish { get; set; }
         public abstract QueryStrings QueryStrings { get; set; }
         public abstract Forms Forms { get; set; }
@@ -48,7 +49,6 @@ namespace Implem.Pleasanter.Libraries.Requests
         public abstract string RecordTitle { get; set; }
         public abstract bool DisableAllUsersPermission { get; set; }
         public bool DisableStartGuide { get; set; }
-
         public abstract string HtmlTitleTop { get; set; }
         public abstract string HtmlTitleSite { get; set; }
         public abstract string HtmlTitleRecord { get; set; }
@@ -69,22 +69,19 @@ namespace Implem.Pleasanter.Libraries.Requests
         public abstract decimal ApiVersion { get; set; }
         public abstract string ApiRequestBody { get; set; }
         public abstract string RequestDataString { get; }
-
         public abstract string AuthenticationType { get; }
         public abstract bool? IsAuthenticated { get; }
-
         public abstract void Set(bool request = true, bool sessionStatus = true, bool setData = true, bool user = true, bool item = true, string apiRequestBody = null);
-
         public abstract RdsUser RdsUser();
         public abstract CultureInfo CultureInfo();
         public abstract Message Message();
         public abstract double SessionAge();
         public abstract double SessionRequestInterval();
         public abstract Dictionary<string, string> GetRouteData();
-
         public abstract void SetTenantCaches();
-
+        
         static Func<bool, Context> _factory;
+        
         protected static void SetFactory(Func<bool, Context> factory)
         {
             _factory = factory;
@@ -101,18 +98,13 @@ namespace Implem.Pleasanter.Libraries.Requests
         public abstract Context CreateContext(int tenantId, string language);
         public abstract Context CreateContext(int tenantId, int userId, string language);
         public abstract Context CreateContext(bool request, bool sessionStatus, bool sessionData, bool user);
-
         public abstract string VirtualPathToAbsolute(string virtualPath);
-
         public abstract void FormsAuthenticationSignIn(string userName, bool createPersistentCookie);
         public abstract void FormsAuthenticationSignOut();
-
         public abstract void SessionAbandon();
-
         public abstract void FederatedAuthenticationSessionAuthenticationModuleDeleteSessionTokenCookie();
-
         public abstract bool AuthenticationsWindows();
-
+        
         protected void SetPermissions()
         {
             PermissionHash = Permissions.Get(context: this);

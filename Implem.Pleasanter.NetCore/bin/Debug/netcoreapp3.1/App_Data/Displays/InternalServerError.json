@@ -1,0 +1,13 @@
+﻿{
+    "Id": "InternalServerError",
+    "Type": 240,
+    "Languages": [
+        {
+            "Body": "Internal server error."
+        },
+        {
+            "Language": "ja",
+            "Body": "内部サーバエラーが発生しました。"
+        }
+    ]
+}

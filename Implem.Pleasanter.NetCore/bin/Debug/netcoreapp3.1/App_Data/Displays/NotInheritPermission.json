@@ -1,0 +1,13 @@
+﻿{
+    "Id": "NotInheritPermission",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Not inherit permission"
+        },
+        {
+            "Language": "ja",
+            "Body": "アクセス権を継承しない"
+        }
+    ]
+}

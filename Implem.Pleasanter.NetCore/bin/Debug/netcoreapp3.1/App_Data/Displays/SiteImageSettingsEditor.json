@@ -1,0 +1,13 @@
+﻿{
+    "Id": "SiteImageSettingsEditor",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Site image"
+        },
+        {
+            "Language": "ja",
+            "Body": "サイト画像"
+        }
+    ]
+}

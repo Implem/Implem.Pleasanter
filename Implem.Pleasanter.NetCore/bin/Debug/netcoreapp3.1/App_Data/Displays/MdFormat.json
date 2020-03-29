@@ -1,0 +1,13 @@
+﻿{
+    "Id": "MdFormat",
+    "Type": 130,
+    "Languages": [
+        {
+            "Body": "MM/dd"
+        },
+        {
+            "Language": "ja",
+            "Body": "MM/dd"
+        }
+    ]
+}

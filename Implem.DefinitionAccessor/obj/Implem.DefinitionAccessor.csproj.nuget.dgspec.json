@@ -176,11 +176,11 @@
           "dependencies": {
             "CsvHelper": {
               "target": "Package",
-              "version": "[12.1.2, )"
+              "version": "[15.0.3, )"
             },
             "DocumentFormat.OpenXml": {
               "target": "Package",
-              "version": "[2.9.0, )"
+              "version": "[2.10.1, )"
             },
             "NETStandard.Library": {
               "suppressParent": "All",
@@ -190,7 +190,7 @@
             },
             "Newtonsoft.Json": {
               "target": "Package",
-              "version": "[12.0.1, )"
+              "version": "[12.0.3, )"
             },
             "System.Data.DataSetExtensions": {
               "target": "Package",
@@ -198,7 +198,7 @@
             },
             "System.Drawing.Common": {
               "target": "Package",
-              "version": "[4.5.1, )"
+              "version": "[4.7.0, )"
             },
             "System.IO.FileSystem.Primitives": {
               "target": "Package",
@@ -206,7 +206,7 @@
             },
             "System.IO.Packaging": {
               "target": "Package",
-              "version": "[4.5.0, )"
+              "version": "[4.7.0, )"
             },
             "System.ValueTuple": {
               "target": "Package",
