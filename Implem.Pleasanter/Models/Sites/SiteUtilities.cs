@@ -112,9 +112,6 @@ namespace Implem.Pleasanter.Models
                                 backButton: !context.Publish)
                             .Div(css: "margin-bottom")
                             .Hidden(
-                                controlId: "TableName",
-                                value: "Sites")
-                            .Hidden(
                                 controlId: "BaseUrl",
                                 value: Locations.BaseUrl(context: context))
                             .Hidden(
@@ -2698,7 +2695,6 @@ namespace Implem.Pleasanter.Models
                                 href: "#FieldSetHistories",
                                 text: Displays.ChangeHistoryList(context: context)));
                 }
-                hb.Hidden(controlId: "TableName", value: "Sites");
             });
         }
 
@@ -3396,9 +3392,6 @@ namespace Implem.Pleasanter.Models
                         controlId: "BaseUrl",
                         value: Locations.BaseUrl(context: context))
                     .Hidden(
-                        controlId: "ReferenceType",
-                        value: "Sites")
-                    .Hidden(
                         controlId: "SwitchTargets",
                         css: "always-send",
                         value: siteModel.SiteId.ToString(),
@@ -3488,8 +3481,7 @@ namespace Implem.Pleasanter.Models
                         .Hidden(
                             controlId: "Sites_Timestamp",
                             css: "control-hidden always-send",
-                            value: siteModel.Timestamp)
-                        .Hidden(controlId: "Id", value: siteModel.SiteId.ToString()))
+                            value: siteModel.Timestamp))
                 .OutgoingMailsForm(
                     context: context,
                     ss: ss,
@@ -3672,7 +3664,6 @@ namespace Implem.Pleasanter.Models
                         mobile: context.Mobile,
                         _using: ss.ReferenceType != "Sites")
                     .Field(
-                        controlId: "Sites_ReferenceType",
                         labelText: Displays.Sites_ReferenceType(context: context),
                         controlAction: () => hb
                             .ReferenceType(

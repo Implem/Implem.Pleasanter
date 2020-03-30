@@ -82,9 +82,6 @@ namespace Implem.Pleasanter.Models
                                     verType: Versions.VerTypes.Latest)
                                 .Div(css: "margin-bottom")
                                 .Hidden(
-                                    controlId: "TableName",
-                                    value: "Groups")
-                                .Hidden(
                                     controlId: "BaseUrl",
                                     value: Locations.BaseUrl(context: context))
                                 .Hidden(
@@ -163,9 +160,6 @@ namespace Implem.Pleasanter.Models
                                 verType: Versions.VerTypes.Latest,
                                 backButton: !context.Publish)
                             .Div(css: "margin-bottom")
-                            .Hidden(
-                                controlId: "TableName",
-                                value: "Groups")
                             .Hidden(
                                 controlId: "BaseUrl",
                                 value: Locations.BaseUrl(context: context))
@@ -1289,10 +1283,8 @@ namespace Implem.Pleasanter.Models
                                                 columnName: column.ColumnName,
                                                 fieldCss: column.FieldCss,
                                                 fieldDescription: column.Description,
-                                                controlCss: column.ControlCss,
                                                 labelText: column.LabelText,
                                                 value: groupModel.Attachments(columnName: column.Name).ToJson(),
-                                                placeholder: column.LabelText,
                                                 readOnly: column.ColumnPermissionType(context: context)
                                                     != Permissions.ColumnPermissionTypes.Update));
                                     break;

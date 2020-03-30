@@ -82,14 +82,8 @@ namespace Implem.Pleasanter.Models
                                     verType: Versions.VerTypes.Latest)
                                 .Div(css: "margin-bottom")
                                 .Hidden(
-                                    controlId: "TableName",
-                                    value: "Depts")
-                                .Hidden(
                                     controlId: "BaseUrl",
-                                    value: Locations.BaseUrl(context: context))
-                                .Hidden(
-                                    controlId: "GridOffset",
-                                    value: Parameters.General.GridPageSize.ToString()))
+                                    value: Locations.BaseUrl(context: context)))
                         .Div(attributes: new HtmlAttributes()
                             .Id("ImportSettingsDialog")
                             .Class("dialog")
@@ -163,9 +157,6 @@ namespace Implem.Pleasanter.Models
                                 verType: Versions.VerTypes.Latest,
                                 backButton: !context.Publish)
                             .Div(css: "margin-bottom")
-                            .Hidden(
-                                controlId: "TableName",
-                                value: "Depts")
                             .Hidden(
                                 controlId: "BaseUrl",
                                 value: Locations.BaseUrl(context: context))
@@ -1289,10 +1280,8 @@ namespace Implem.Pleasanter.Models
                                                 columnName: column.ColumnName,
                                                 fieldCss: column.FieldCss,
                                                 fieldDescription: column.Description,
-                                                controlCss: column.ControlCss,
                                                 labelText: column.LabelText,
                                                 value: deptModel.Attachments(columnName: column.Name).ToJson(),
-                                                placeholder: column.LabelText,
                                                 readOnly: column.ColumnPermissionType(context: context)
                                                     != Permissions.ColumnPermissionTypes.Update));
                                     break;

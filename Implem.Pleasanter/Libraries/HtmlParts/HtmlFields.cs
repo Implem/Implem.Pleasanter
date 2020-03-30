@@ -226,13 +226,10 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                 fieldDescription: column.Description,
                                 labelCss: labelCss,
                                 controlContainerCss: controlContainerCss,
-                                controlCss: controlCss,
                                 labelText: column.LabelText,
                                 controlOnly: controlOnly,
                                 value: value,
-                                placeholder: column.LabelText,
                                 readOnly: true,
-                                validateRequired: required,
                                 preview: preview);
                         default:
                             return hb.FieldText(
@@ -469,14 +466,11 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                 fieldDescription: column.Description,
                                 labelCss: labelCss,
                                 controlContainerCss: controlContainerCss,
-                                controlCss: controlCss,
                                 labelText: column.LabelText,
                                 labelRequired: required,
                                 controlOnly: controlOnly,
                                 value: value,
-                                placeholder: column.LabelText,
                                 readOnly: column.EditorReadOnly == true,
-                                validateRequired: required,
                                 preview: preview);
                         default:
                             return hb;
@@ -725,7 +719,6 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                 ? hb.Field(
                     fieldId: fieldId,
                     fieldDescription: fieldDescription,
-                    controlId: controlId,
                     fieldCss: fieldCss,
                     labelCss: labelCss,
                     labelText: labelText,
@@ -1126,8 +1119,6 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             bool controlOnly = false,
             Dictionary<string, ControlData> optionCollection = null,
             string selectedValueText = null,
-            string action = null,
-            string method = null,
             bool _using = true)
         {
             return _using
@@ -1260,37 +1251,6 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                 : hb;
         }
 
-        public static HtmlBuilder FieldAnchor(
-            this HtmlBuilder hb,
-            string fieldId = null,
-            string controlId = null,
-            string fieldCss = "field-auto",
-            string controlContainerCss = null,
-            string controlCss = null,
-            string iconCss = null,
-            string text = null,
-            string href = null,
-            bool _using = true)
-        {
-            return _using
-                ? hb.Field(
-                    fieldId: fieldId,
-                    controlId: controlId,
-                    fieldCss: fieldCss,
-                    controlContainerCss: controlContainerCss,
-                    labelText: string.Empty,
-                    controlAction: () =>
-                    {
-                        if (iconCss != string.Empty) hb.Icon(iconCss: iconCss);
-                        hb.Anchor(
-                            controlId: controlId,
-                            controlCss: controlCss,
-                            text: text,
-                            href: href);
-                    })
-                : hb;
-        }
-
         public static HtmlBuilder FieldSelectable(
             this HtmlBuilder hb,
             string fieldId = null,
@@ -1304,7 +1264,6 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             string labelText = null,
             string labelTitle = null,
             bool labelRequired = false,
-            bool alwaysSend = false,
             bool controlOnly = false,
             Dictionary<string, ControlData> listItemCollection = null,
             IEnumerable<string> selectedValueCollection = null,
@@ -1319,7 +1278,6 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             {
                 return hb.Field(
                     fieldId: fieldId,
-                    controlId: controlId,
                     fieldCss: fieldCss,
                     fieldDescription: fieldDescription,
                     labelCss: labelCss,
@@ -1343,7 +1301,6 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             {
                 return hb.Field(
                     fieldId: fieldId,
-                    controlId: controlId,
                     fieldCss: fieldCss,
                     labelCss: labelCss,
                     controlContainerCss: controlContainerCss,
@@ -1372,10 +1329,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             string controlId = null,
             string fieldCss = null,
             string fieldDescription = null,
-            string labelCss = null,
-            string controlContainerCss = null,
             string controlCss = null,
-            string title = null,
             Action labelAction = null,
             Dictionary<string, ControlData> listItemCollection = null,
             IEnumerable<string> selectedValueCollection = null,
@@ -1409,24 +1363,17 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             string fieldDescription = null,
             string labelCss = null,
             string controlContainerCss = null,
-            string controlCss = null,
             string labelText = null,
             bool labelRequired = false,
-            bool alwaysSend = false,
             bool controlOnly = false,
             string value = null,
-            string placeholder = null,
             bool readOnly = false,
-            bool allowBulkUpdate = false,
-            bool validateRequired = false,
-            Dictionary<string, string> attributes = null,
             bool preview = false,
             bool _using = true)
         {
             return _using
                 ? hb.Field(
                     fieldId: fieldId,
-                    controlId: controlId,
                     fieldCss: fieldCss,
                     fieldDescription: fieldDescription,
                     labelCss: labelCss,
@@ -1439,13 +1386,8 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                             context: context,
                             controlId: controlId,
                             columnName: columnName,
-                            controlCss: controlCss,
                             value: value,
-                            placeholder: placeholder,
                             readOnly: readOnly,
-                            allowBulkUpdate: allowBulkUpdate,
-                            validateRequired: validateRequired,
-                            attributes: attributes,
                             preview: preview))
                 : hb;
         }

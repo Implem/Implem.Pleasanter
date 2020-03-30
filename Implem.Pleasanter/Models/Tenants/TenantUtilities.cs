@@ -899,10 +899,8 @@ namespace Implem.Pleasanter.Models
                                                 columnName: column.ColumnName,
                                                 fieldCss: column.FieldCss,
                                                 fieldDescription: column.Description,
-                                                controlCss: column.ControlCss,
                                                 labelText: column.LabelText,
                                                 value: tenantModel.Attachments(columnName: column.Name).ToJson(),
-                                                placeholder: column.LabelText,
                                                 readOnly: column.ColumnPermissionType(context: context)
                                                     != Permissions.ColumnPermissionTypes.Update));
                                     break;

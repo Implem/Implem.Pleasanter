@@ -28,7 +28,6 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             string action = "GridRows")
         {
             return hb.Tr(
-                id: "GridHeader",
                 css: "ui-widget-header",
                 action: () =>
                 {

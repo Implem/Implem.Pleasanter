@@ -304,6 +304,7 @@
     <Compile Include="Libraries\HtmlParts\HtmlHistoryCommands.cs" />
     <Compile Include="Libraries\HtmlParts\HtmlImageLib.cs" />
     <Compile Include="Libraries\HtmlParts\HtmlSiteMenu.cs" />
+    <Compile Include="Libraries\Initializers\NotificationInitializer.cs" />
     <Compile Include="Libraries\Initializers\ParametersInitializer.cs" />
     <Compile Include="Libraries\Initializers\StatusesInitializer.cs" />
     <Compile Include="Libraries\Migrators\SiteSettings\Version1_016.cs" />

@@ -1,4 +1,5 @@
 ﻿{
+    "SecurityProtocolType": "Tls12",
     "Mail": true,
     "Slack": true,
     "ChatWork": true,

@@ -85,10 +85,10 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
         {
             if (!context.Ajax)
             {
-                return hb.Html(action: () => hb
-                    .Head(action: () => hb
+                return hb.Html(
+                    lang: context.Language,
+                    action: () => hb.Head(action: () => hb
                         .Meta(httpEquiv: "X-UA-Compatible", content: "IE=edge")
-                        .Meta(httpEquiv: "content-language", content: context.Language)
                         .Meta(charset: "utf-8")
                         .Meta(name: "keywords", content: Parameters.General.HtmlHeadKeywords)
                         .Meta(name: "description", content: Description(
@@ -227,7 +227,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     useBreadcrumb: useBreadcrumb,
                     useTitle: useTitle,
                     action: action)
-                .Div(id: "BottomMargin both")
+                .Div(id: "BottomMargin")
                 .Footer()
                 .BackUrl(
                     context: context,
@@ -250,7 +250,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             bool useTitle = true,
             Action action = null)
         {
-            return hb.Article(id: "Application", action: () =>
+            return hb.Div(id: "Application", action: () =>
             {
                 if (!errorType.Has())
                 {
@@ -471,7 +471,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     .Hidden(controlId: "UserId", value: context.UserId.ToString())
                     .Hidden(controlId: "LoginId", value: context.LoginId)
                     .Hidden(controlId: "Publish", value: "1", _using: context.Publish)
-                    .Hidden(controlId: "TableName", value: ss?.ReferenceType)
+                    .Hidden(controlId: "TableName", ss?.ReferenceType)
                     .Hidden(controlId: "Controller", value: context.Controller)
                     .Hidden(controlId: "Id", value: context.Id.ToString())
                     .Hidden(controlId: "SiteId", value: ss?.SiteId.ToString())
