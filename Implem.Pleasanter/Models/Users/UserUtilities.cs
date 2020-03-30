@@ -112,9 +112,6 @@ namespace Implem.Pleasanter.Models
                                 backButton: !context.Publish)
                             .Div(css: "margin-bottom")
                             .Hidden(
-                                controlId: "TableName",
-                                value: "Users")
-                            .Hidden(
                                 controlId: "BaseUrl",
                                 value: Locations.BaseUrl(context: context))
                             .Hidden(
@@ -2371,9 +2368,13 @@ namespace Implem.Pleasanter.Models
             {
                 return Messages.ResponseRestricted(context: context).ToJson();
             }
-            if (!context.CanCreate(ss: ss))
+            var invalid = UserValidators.OnImporting(
+                context: context,
+                ss: ss);
+            switch (invalid.Type)
             {
-                return Messages.ResponseHasNotPermission(context: context).ToJson();
+                case Error.Types.None: break;
+                default: return invalid.Type.MessageJson(context: context);
             }
             var res = new ResponseCollection();
             Csv csv;
@@ -2414,7 +2415,7 @@ namespace Implem.Pleasanter.Models
                     }
                     if (column != null) columnHash.Add(data.Index, column);
                 });
-                var invalid = Imports.ColumnValidate(
+                var invalidColumn = Imports.ColumnValidate(
                     context: context,
                     ss: ss,
                     headers: columnHash.Values.Select(o => o.ColumnName),
@@ -2423,7 +2424,7 @@ namespace Implem.Pleasanter.Models
                         "LoginId",
                         "Name"
                     });
-                if (invalid != null) return invalid;
+                if (invalidColumn != null) return invalidColumn;
                 var userHash = new Dictionary<int, UserModel>();
                 csv.Rows.Select((o, i) => new { Row = o, Index = i }).ForEach(data =>
                 {
@@ -2557,6 +2558,7 @@ namespace Implem.Pleasanter.Models
                             var errorData = userModel.Update(
                                 context: context,
                                 ss: ss,
+                                updateMailAddresses: false,
                                 get: false);
                             switch (errorData.Type)
                             {
@@ -2612,7 +2614,7 @@ namespace Implem.Pleasanter.Models
         /// </summary>
         private static bool UpdateMailAddresses(Context context, UserModel userModel)
         {
-            if (userModel.MailAddresses.Any())
+            if (userModel.UserId > 0 && userModel.MailAddresses.Any())
             {
                 var mailAddresses = userModel.MailAddresses
                     .OrderBy(o => o)
@@ -2628,14 +2630,16 @@ namespace Implem.Pleasanter.Models
                         .Join() != mailAddresses)
                 {
                     var statements = new List<SqlStatement>()
-                            {
-                                Rds.PhysicalDeleteMailAddresses(where: where)
-                            };
-                    userModel.MailAddresses.ForEach(mailAddress =>
-                        statements.Add(Rds.InsertMailAddresses(param: Rds.MailAddressesParam()
-                            .OwnerId(userModel.UserId)
-                            .OwnerType("Users")
-                            .MailAddress(mailAddress))));
+                    {
+                        Rds.PhysicalDeleteMailAddresses(where: where)
+                    };
+                    userModel.MailAddresses
+                        .Where(mailAddress => !Libraries.Mails.Addresses.Get(mailAddress).IsNullOrEmpty())
+                        .ForEach(mailAddress =>
+                            statements.Add(Rds.InsertMailAddresses(param: Rds.MailAddressesParam()
+                                .OwnerId(userModel.UserId)
+                                .OwnerType("Users")
+                                .MailAddress(mailAddress))));
                     Repository.ExecuteNonQuery(
                         context: context,
                         transactional: true,

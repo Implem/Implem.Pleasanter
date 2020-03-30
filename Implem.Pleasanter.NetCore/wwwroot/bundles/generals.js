@@ -852,13 +852,10 @@ $(function () {
     $(document).on('click', '#Aggregations .data.link', function () {
         var $control = $($(this).attr('data-selector'));
         if ($control.length === 1) {
-            var value = $(this).attr('data-value');
-            $control.multiselect('widget').find(':checkbox').each(function () {
-                if ($(this).val() === value) {
-                    $(this).click();
-                    return;
-                }
-            });
+            $p.set($control, $control.find(':selected').length === 0
+                ? '["' + $(this).attr('data-value') + '"]'
+                : '[]');
+            $p.send($control);
         }
     });
     $(document).on('click', '#Aggregations .overdue', function () {

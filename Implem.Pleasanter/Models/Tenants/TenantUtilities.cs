@@ -752,23 +752,28 @@ namespace Implem.Pleasanter.Models
                     where,
                     orderBy
                 });
-            var switchTargets = Repository.ExecuteScalar_int(
-                context: context,
-                statements: Rds.SelectTenants(
-                    column: Rds.TenantsColumn().TenantsCount(),
-                    join: join,
-                    where: where)) <= Parameters.General.SwitchTargetsLimit
-                        ? Repository.ExecuteTable(
-                            context: context,
-                            statements: Rds.SelectTenants(
-                                column: Rds.TenantsColumn().TenantId(),
-                                join: join,
-                                where: where,
-                                orderBy: orderBy))
-                                    .AsEnumerable()
-                                    .Select(o => o["TenantId"].ToInt())
-                                    .ToList()
-                        : new List<int>();
+            var switchTargets = new List<int>();
+            if (Parameters.General.SwitchTargetsLimit > 0)
+            {
+                if (Repository.ExecuteScalar_int(
+                    context: context,
+                    statements: Rds.SelectTenants(
+                        column: Rds.TenantsColumn().TenantsCount(),
+                        join: join,
+                        where: where)) <= Parameters.General.SwitchTargetsLimit)
+                {
+                    switchTargets = Repository.ExecuteTable(
+                        context: context,
+                        statements: Rds.SelectTenants(
+                            column: Rds.TenantsColumn().TenantId(),
+                            join: join,
+                            where: where,
+                            orderBy: orderBy))
+                                .AsEnumerable()
+                                .Select(o => o["TenantId"].ToInt())
+                                .ToList();
+                }
+            }
             if (!switchTargets.Contains(tenantId))
             {
                 switchTargets.Add(tenantId);

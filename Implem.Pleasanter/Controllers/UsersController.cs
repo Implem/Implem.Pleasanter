@@ -219,7 +219,7 @@ namespace Implem.Pleasanter.Controllers
                 log.Finish(context: context);
                 return (Locations.Top(context: context), null, null);
             }
-            if ((Parameters.Authentication.Provider == "SAML") && (ssocode != string.Empty))
+            if ((Parameters.Authentication.Provider == "SAML-MultiTenant") && (ssocode != string.Empty))
             {
                 var tenant = new TenantModel().Get(
                     context: context,

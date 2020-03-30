@@ -172,7 +172,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                         new Line(context,
                             "*{0}{1}*\n{2}\n{3}".Params(Prefix, title, url, body),
                             from, Token)
-                                .Send(Address, Type==Types.LineGroup);
+                                .Send(Address, Type == Types.LineGroup);
                     }
                     break;
                 case Types.Teams:
@@ -205,7 +205,7 @@ namespace Implem.Pleasanter.Libraries.Settings
             return Type == Types.Mail && Address?.Contains("[RelatedUsers]") == true;
         }
 
-        public void ReplaceRelatedUsers(Context context, IEnumerable<long> users)
+        public void ReplaceRelatedUsers(Context context, List<int> users)
         {
             Address = Address.Replace(
                 "[RelatedUsers]",
@@ -216,7 +216,13 @@ namespace Implem.Pleasanter.Libraries.Settings
                             .OwnerId()
                             .MailAddress(),
                         where: Rds.MailAddressesWhere()
-                            .OwnerId_In(users.Distinct())))
+                            .OwnerId_In(users
+                                .Distinct()
+                                .Where(userId => SiteInfo.User(
+                                    context: context,
+                                    userId: userId).Id != User.UserTypes.Anonymous.ToInt())
+                                .Select(userId => userId.ToLong()))
+                            .OwnerType("Users")))
                                 .AsEnumerable()
                                 .GroupBy(o => o["OwnerId"])
                                 .Select(o => MailAddressUtilities.Get(

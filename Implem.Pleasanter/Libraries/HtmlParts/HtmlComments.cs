@@ -3,7 +3,6 @@ using Implem.Pleasanter.Libraries.Html;
 using Implem.Pleasanter.Libraries.Models;
 using Implem.Pleasanter.Libraries.Requests;
 using Implem.Pleasanter.Libraries.Security;
-using Implem.Pleasanter.Libraries.Server;
 using Implem.Pleasanter.Libraries.Settings;
 namespace Implem.Pleasanter.Libraries.HtmlParts
 {
@@ -78,6 +77,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                         .TextArea(
                             attributes: new HtmlAttributes()
                                 .Id("Comments")
+                                .Name("Comments")
                                 .Class("control-textarea" +
                                     (context.ContractSettings.Images() && allowImage
                                         ? " upload-image"

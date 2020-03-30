@@ -849,6 +849,12 @@ C:\Implem\PleasanterYakushi\Implem.Pleasanter.NetCore\bin\Debug\netcoreapp3.1\Sy
 C:\Implem\PleasanterYakushi\Implem.Pleasanter.NetCore\bin\Debug\netcoreapp3.1\System.Web.WebPages.Deployment.dll
 C:\Implem\PleasanterYakushi\Implem.Pleasanter.NetCore\bin\Debug\netcoreapp3.1\System.Web.WebPages.Razor.dll
 C:\Implem\PleasanterYakushi\Implem.Pleasanter.NetCore\bin\Debug\netcoreapp3.1\System.Web.WebPages.dll
+C:\Implem\PleasanterYakushi\Implem.Pleasanter.NetCore\bin\Debug\netcoreapp3.1\Microsoft.Extensions.Caching.Abstractions.dll
+C:\Implem\PleasanterYakushi\Implem.Pleasanter.NetCore\bin\Debug\netcoreapp3.1\Microsoft.Extensions.Caching.Memory.dll
+C:\Implem\PleasanterYakushi\Implem.Pleasanter.NetCore\bin\Debug\netcoreapp3.1\Microsoft.Extensions.DependencyInjection.Abstractions.dll
+C:\Implem\PleasanterYakushi\Implem.Pleasanter.NetCore\bin\Debug\netcoreapp3.1\Microsoft.Extensions.Logging.Abstractions.dll
+C:\Implem\PleasanterYakushi\Implem.Pleasanter.NetCore\bin\Debug\netcoreapp3.1\Microsoft.Extensions.Options.dll
+C:\Implem\PleasanterYakushi\Implem.Pleasanter.NetCore\bin\Debug\netcoreapp3.1\Microsoft.Extensions.Primitives.dll
 C:\Implem\PleasanterYakushi\Implem.Pleasanter.NetCore\bin\Debug\netcoreapp3.1\Microsoft.IdentityModel.Logging.dll
 C:\Implem\PleasanterYakushi\Implem.Pleasanter.NetCore\bin\Debug\netcoreapp3.1\Microsoft.IdentityModel.Protocols.dll
 C:\Implem\PleasanterYakushi\Implem.Pleasanter.NetCore\bin\Debug\netcoreapp3.1\Microsoft.IdentityModel.Tokens.dll
@@ -871,6 +877,8 @@ C:\Implem\PleasanterYakushi\Implem.Pleasanter.NetCore\bin\Debug\netcoreapp3.1\Sy
 C:\Implem\PleasanterYakushi\Implem.Pleasanter.NetCore\bin\Debug\netcoreapp3.1\System.Diagnostics.PerformanceCounter.dll
 C:\Implem\PleasanterYakushi\Implem.Pleasanter.NetCore\bin\Debug\netcoreapp3.1\System.DirectoryServices.dll
 C:\Implem\PleasanterYakushi\Implem.Pleasanter.NetCore\bin\Debug\netcoreapp3.1\System.IO.Packaging.dll
+C:\Implem\PleasanterYakushi\Implem.Pleasanter.NetCore\bin\Debug\netcoreapp3.1\System.IO.Pipelines.dll
+C:\Implem\PleasanterYakushi\Implem.Pleasanter.NetCore\bin\Debug\netcoreapp3.1\System.Runtime.CompilerServices.Unsafe.dll
 C:\Implem\PleasanterYakushi\Implem.Pleasanter.NetCore\bin\Debug\netcoreapp3.1\System.Security.Cryptography.ProtectedData.dll
 C:\Implem\PleasanterYakushi\Implem.Pleasanter.NetCore\bin\Debug\netcoreapp3.1\System.Web.Http.Common.dll
 C:\Implem\PleasanterYakushi\Implem.Pleasanter.NetCore\bin\Debug\netcoreapp3.1\WebGrease.dll
@@ -974,11 +982,3 @@ C:\Implem\PleasanterYakushi\Implem.Pleasanter.NetCore\obj\Debug\netcoreapp3.1\st
 C:\Implem\PleasanterYakushi\Implem.Pleasanter.NetCore\obj\Debug\netcoreapp3.1\Implem.Pleasanter.NetCore.dll
 C:\Implem\PleasanterYakushi\Implem.Pleasanter.NetCore\obj\Debug\netcoreapp3.1\Implem.Pleasanter.NetCore.pdb
 C:\Implem\PleasanterYakushi\Implem.Pleasanter.NetCore\obj\Debug\netcoreapp3.1\Implem.Pleasanter.NetCore.genruntimeconfig.cache
-C:\Implem\PleasanterYakushi\Implem.Pleasanter.NetCore\bin\Debug\netcoreapp3.1\Microsoft.Extensions.Caching.Abstractions.dll
-C:\Implem\PleasanterYakushi\Implem.Pleasanter.NetCore\bin\Debug\netcoreapp3.1\Microsoft.Extensions.Caching.Memory.dll
-C:\Implem\PleasanterYakushi\Implem.Pleasanter.NetCore\bin\Debug\netcoreapp3.1\Microsoft.Extensions.DependencyInjection.Abstractions.dll
-C:\Implem\PleasanterYakushi\Implem.Pleasanter.NetCore\bin\Debug\netcoreapp3.1\Microsoft.Extensions.Logging.Abstractions.dll
-C:\Implem\PleasanterYakushi\Implem.Pleasanter.NetCore\bin\Debug\netcoreapp3.1\Microsoft.Extensions.Options.dll
-C:\Implem\PleasanterYakushi\Implem.Pleasanter.NetCore\bin\Debug\netcoreapp3.1\Microsoft.Extensions.Primitives.dll
-C:\Implem\PleasanterYakushi\Implem.Pleasanter.NetCore\bin\Debug\netcoreapp3.1\System.IO.Pipelines.dll
-C:\Implem\PleasanterYakushi\Implem.Pleasanter.NetCore\bin\Debug\netcoreapp3.1\System.Runtime.CompilerServices.Unsafe.dll

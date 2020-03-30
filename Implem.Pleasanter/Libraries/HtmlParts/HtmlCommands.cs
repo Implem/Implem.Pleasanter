@@ -62,7 +62,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                 break;
                         }
                     }
-                    else if (context.CanRead(ss: ss) && verType == Versions.VerTypes.Latest)
+                    else if (verType == Versions.VerTypes.Latest)
                     {
                         switch (context.Controller)
                         {

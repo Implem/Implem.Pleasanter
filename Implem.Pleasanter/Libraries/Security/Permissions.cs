@@ -449,7 +449,7 @@ namespace Implem.Pleasanter.Libraries.Security
                         && context.UserId != context.Id;
                 case "registrations":
                     return PrivilegedUsers(loginId: context.LoginId);
-                default :
+                default:
                     if (ss.ReferenceType == "Sites")
                     {
                         return context.CanManageSite(ss: ss);
@@ -507,7 +507,7 @@ namespace Implem.Pleasanter.Libraries.Security
 
         public static bool CanExport(this Context context, SiteSettings ss, bool site = false)
         {
-            if (context.ContractSettings.Import == false) return false;
+            if (context.ContractSettings.Export == false) return false;
             switch (context.Controller)
             {
                 case "tenants":
@@ -533,7 +533,7 @@ namespace Implem.Pleasanter.Libraries.Security
 
         public static ColumnPermissionTypes ColumnPermissionType(this Column self, Context context)
         {
-            switch(context.Action)
+            switch (context.Action)
             {
                 case "new":
                     return self.CanCreate
@@ -567,7 +567,7 @@ namespace Implem.Pleasanter.Libraries.Security
 
         public static bool CanReadGroup(Context context)
         {
-            return 
+            return
                 context.UserSettings?.DisableGroupAdmin != true &&
                 (context.Id == 0 ||
                 CanManageTenant(context: context) ||

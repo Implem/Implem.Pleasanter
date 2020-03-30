@@ -6,3 +6,4 @@ C:\Implem\PleasanterYakushi\Rds\Implem.IRds\obj\Debug\netstandard2.0\Implem.IRds
 C:\Implem\PleasanterYakushi\Rds\Implem.IRds\obj\Debug\netstandard2.0\Implem.IRds.AssemblyInfo.cs
 C:\Implem\PleasanterYakushi\Rds\Implem.IRds\obj\Debug\netstandard2.0\Implem.IRds.dll
 C:\Implem\PleasanterYakushi\Rds\Implem.IRds\obj\Debug\netstandard2.0\Implem.IRds.pdb
+C:\Implem\PleasanterYakushi\Rds\Implem.IRds\obj\Debug\netstandard2.0\Implem.IRds.csprojAssemblyReference.cache

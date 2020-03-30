@@ -112,9 +112,6 @@ namespace Implem.Pleasanter.Models
                                 backButton: !context.Publish)
                             .Div(css: "margin-bottom")
                             .Hidden(
-                                controlId: "TableName",
-                                value: "Registrations")
-                            .Hidden(
                                 controlId: "BaseUrl",
                                 value: Locations.BaseUrl(context: context))
                             .Hidden(
@@ -1292,23 +1289,28 @@ namespace Implem.Pleasanter.Models
                     where,
                     orderBy
                 });
-            var switchTargets = Repository.ExecuteScalar_int(
-                context: context,
-                statements: Rds.SelectRegistrations(
-                    column: Rds.RegistrationsColumn().RegistrationsCount(),
-                    join: join,
-                    where: where)) <= Parameters.General.SwitchTargetsLimit
-                        ? Repository.ExecuteTable(
-                            context: context,
-                            statements: Rds.SelectRegistrations(
-                                column: Rds.RegistrationsColumn().RegistrationId(),
-                                join: join,
-                                where: where,
-                                orderBy: orderBy))
-                                    .AsEnumerable()
-                                    .Select(o => o["RegistrationId"].ToInt())
-                                    .ToList()
-                        : new List<int>();
+            var switchTargets = new List<int>();
+            if (Parameters.General.SwitchTargetsLimit > 0)
+            {
+                if (Repository.ExecuteScalar_int(
+                    context: context,
+                    statements: Rds.SelectRegistrations(
+                        column: Rds.RegistrationsColumn().RegistrationsCount(),
+                        join: join,
+                        where: where)) <= Parameters.General.SwitchTargetsLimit)
+                {
+                    switchTargets = Repository.ExecuteTable(
+                        context: context,
+                        statements: Rds.SelectRegistrations(
+                            column: Rds.RegistrationsColumn().RegistrationId(),
+                            join: join,
+                            where: where,
+                            orderBy: orderBy))
+                                .AsEnumerable()
+                                .Select(o => o["RegistrationId"].ToInt())
+                                .ToList();
+                }
+            }
             if (!switchTargets.Contains(registrationId))
             {
                 switchTargets.Add(registrationId);

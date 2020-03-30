@@ -14,8 +14,6 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             return _using
                 ? hb.Append(
                     tag: "svg",
-                    id: id,
-                    css: css,
                     attributes: new HtmlAttributes()
                         .Id(id)
                         .Class(css)

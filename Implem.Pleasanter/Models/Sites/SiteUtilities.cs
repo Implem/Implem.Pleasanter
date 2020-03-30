@@ -112,9 +112,6 @@ namespace Implem.Pleasanter.Models
                                 backButton: !context.Publish)
                             .Div(css: "margin-bottom")
                             .Hidden(
-                                controlId: "TableName",
-                                value: "Sites")
-                            .Hidden(
                                 controlId: "BaseUrl",
                                 value: Locations.BaseUrl(context: context))
                             .Hidden(
@@ -1636,7 +1633,7 @@ namespace Implem.Pleasanter.Models
                                 text: Displays.GoBack(context: context),
                                 controlCss: "button-icon",
                                 accessKey: "q",
-                                onClick: "$p.send($(this),'SitesForm');",
+                                onClick: "$p.send($(this),'MainForm');",
                                 icon: "ui-icon-disk",
                                 action: "SiteMenu",
                                 method: "post")
@@ -2703,7 +2700,6 @@ namespace Implem.Pleasanter.Models
                                 href: "#FieldSetHistories",
                                 text: Displays.ChangeHistoryList(context: context)));
                 }
-                hb.Hidden(controlId: "TableName", value: "Sites");
             });
         }
 
@@ -3397,9 +3393,6 @@ namespace Implem.Pleasanter.Models
                         controlId: "BaseUrl",
                         value: Locations.BaseUrl(context: context))
                     .Hidden(
-                        controlId: "ReferenceType",
-                        value: "Sites")
-                    .Hidden(
                         controlId: "SwitchTargets",
                         css: "always-send",
                         value: siteModel.SiteId.ToString(),
@@ -3489,8 +3482,7 @@ namespace Implem.Pleasanter.Models
                         .Hidden(
                             controlId: "Sites_Timestamp",
                             css: "control-hidden always-send",
-                            value: siteModel.Timestamp)
-                        .Hidden(controlId: "Id", value: siteModel.SiteId.ToString()))
+                            value: siteModel.Timestamp))
                 .OutgoingMailsForm(
                     context: context,
                     ss: ss,

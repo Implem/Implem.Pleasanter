@@ -59,9 +59,10 @@ namespace Implem.Pleasanter.Libraries.Extensions
         public static string ToResponse(
             this string self, Context context, SiteSettings ss, Column column)
         {
-            return column.EditorReadOnly != true || !column.HasChoices()
-                ? self.ToString()
-                : column.Choice(self).Text;
+            return !column.HasChoices()
+                || (column.CanUpdate && column.EditorReadOnly != true)
+                    ? self.ToString()
+                    : column.Choice(self).Text;
         }
     }
 }

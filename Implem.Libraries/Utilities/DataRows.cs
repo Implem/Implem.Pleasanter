@@ -66,6 +66,8 @@ namespace Implem.Libraries.Utilities
             {
                 switch (dataRow.Table.Columns[name].DataType.Name)
                 {
+                    case "Boolean":
+                        return dataRow.Field<bool>(name).ToString();
                     case "Int32":
                         return dataRow.Field<int>(name).ToString();
                     case "Int64":
@@ -89,7 +91,7 @@ namespace Implem.Libraries.Utilities
         public static byte[] Bytes(this DataRow dataRow, string name)
         {
             return dataRow?.Table.Columns.Contains(name) == true
-                ? dataRow[name] is DBNull 
+                ? dataRow[name] is DBNull
                     ? null
                     : dataRow[name] as byte[]
                 : null;

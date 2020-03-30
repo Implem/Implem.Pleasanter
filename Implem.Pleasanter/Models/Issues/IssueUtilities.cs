@@ -121,9 +121,6 @@ namespace Implem.Pleasanter.Models
                                 backButton: !context.Publish)
                             .Div(css: "margin-bottom")
                             .Hidden(
-                                controlId: "TableName",
-                                value: "Issues")
-                            .Hidden(
                                 controlId: "BaseUrl",
                                 value: Locations.BaseUrl(context: context))
                             .Hidden(
@@ -1727,23 +1724,28 @@ namespace Implem.Pleasanter.Models
                     where,
                     orderBy
                 });
-            var switchTargets = Repository.ExecuteScalar_int(
-                context: context,
-                statements: Rds.SelectIssues(
-                    column: Rds.IssuesColumn().IssuesCount(),
-                    join: join,
-                    where: where)) <= Parameters.General.SwitchTargetsLimit
-                        ? Repository.ExecuteTable(
-                            context: context,
-                            statements: Rds.SelectIssues(
-                                column: Rds.IssuesColumn().IssueId(),
-                                join: join,
-                                where: where,
-                                orderBy: orderBy))
-                                    .AsEnumerable()
-                                    .Select(o => o["IssueId"].ToLong())
-                                    .ToList()
-                        : new List<long>();
+            var switchTargets = new List<long>();
+            if (Parameters.General.SwitchTargetsLimit > 0)
+            {
+                if (Repository.ExecuteScalar_int(
+                    context: context,
+                    statements: Rds.SelectIssues(
+                        column: Rds.IssuesColumn().IssuesCount(),
+                        join: join,
+                        where: where)) <= Parameters.General.SwitchTargetsLimit)
+                {
+                    switchTargets = Repository.ExecuteTable(
+                        context: context,
+                        statements: Rds.SelectIssues(
+                            column: Rds.IssuesColumn().IssueId(),
+                            join: join,
+                            where: where,
+                            orderBy: orderBy))
+                                .AsEnumerable()
+                                .Select(o => o["IssueId"].ToLong())
+                                .ToList();
+                }
+            }
             if (!switchTargets.Contains(issueId))
             {
                 switchTargets.Add(issueId);
@@ -3983,13 +3985,13 @@ namespace Implem.Pleasanter.Models
                 context: context,
                 referenceId: siteModel.SiteId,
                 setAllChoices: true);
-            if (context.ContractSettings.Import == false)
+            var invalid = IssueValidators.OnImporting(
+                context: context,
+                ss: ss);
+            switch (invalid.Type)
             {
-                return Messages.ResponseRestricted(context: context).ToJson();
-            }
-            if (!context.CanCreate(ss: ss))
-            {
-                return Messages.ResponseHasNotPermission(context: context).ToJson();
+                case Error.Types.None: break;
+                default: return invalid.Type.MessageJson(context: context);
             }
             var res = new ResponseCollection();
             Csv csv;
@@ -4029,8 +4031,8 @@ namespace Implem.Pleasanter.Models
                     }
                     if (column != null) columnHash.Add(data.Index, column);
                 });
-                var invalid = Imports.ColumnValidate(context, ss, columnHash.Values.Select(o => o.ColumnName), "CompletionTime");
-                if (invalid != null) return invalid;
+                var invalidColumn = Imports.ColumnValidate(context, ss, columnHash.Values.Select(o => o.ColumnName), "CompletionTime");
+                if (invalidColumn != null) return invalidColumn;
                 Repository.ExecuteNonQuery(
                     context: context,
                     transactional: true,
