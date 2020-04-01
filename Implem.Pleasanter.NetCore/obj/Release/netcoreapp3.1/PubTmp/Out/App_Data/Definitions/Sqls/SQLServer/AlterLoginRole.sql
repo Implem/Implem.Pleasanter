@@ -1,1 +1,0 @@
-﻿alter login "#Uid#" with password='#Pwd#';
