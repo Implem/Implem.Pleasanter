@@ -3224,7 +3224,10 @@ namespace Implem.Pleasanter.Models
                                                 icon: "ui-icon-mail-closed",
                                                 action: "Register",
                                                 method: "post")))))
-                    .P(id: "Message", css: "message-form-bottom", action: () => hb.Raw(message))
+                    .P(
+                        id: "LoginMessage",
+                        css: "message-form-bottom",
+                        action: () => hb.Raw(message))
                     .ChangePasswordAtLoginDialog(
                         context: context,
                         ss: ss)

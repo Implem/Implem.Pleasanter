@@ -4,7 +4,6 @@ using Implem.Pleasanter.Libraries.Settings;
 using Implem.Pleasanter.Models;
 using System.Configuration;
 using System.IdentityModel.Services;
-using System.Web;
 using System.Web.Configuration;
 using System.Web.Security;
 namespace Implem.Pleasanter.Libraries.Security
@@ -17,7 +16,9 @@ namespace Implem.Pleasanter.Libraries.Security
                 context: context,
                 ss: SiteSettingsUtilities.UsersSiteSettings(context: context),
                 formData: context.Forms)
-                    .Authenticate(context: context, returnUrl: returnUrl);
+                    .Authenticate(
+                        context: context,
+                        returnUrl: returnUrl);
         }
 
         public static bool Try(Context context, string loginId, string password)

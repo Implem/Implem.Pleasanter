@@ -2172,7 +2172,7 @@ namespace Implem.Pleasanter.Models
         /// </summary>
         public bool Authenticate(Context context)
         {
-            var ret = false;
+            bool ret;
             switch (Parameters.Authentication.Provider)
             {
                 case "LDAP":
@@ -2372,7 +2372,9 @@ namespace Implem.Pleasanter.Models
                 createPersistentCookie: createPersistentCookie);
             return new UsersResponseCollection(this)
                 .CloseDialog(_using: atLogin)
-                .Message(Messages.LoginIn(context: context))
+                .Message(
+                    message: Messages.LoginIn(context: context),
+                    target: "#LoginMessage")
                 .Href(returnUrl == string.Empty
                     ? Locations.Top(context: context)
                     : returnUrl).ToJson();
@@ -2416,8 +2418,10 @@ namespace Implem.Pleasanter.Models
         private string Deny(Context context)
         {
             IncrementsNumberOfDenial(context: context);
-            return Messages.ResponseAuthentication(context: context)
-                .Focus("#Password").ToJson();
+            return Messages.ResponseAuthentication(
+                context: context,
+                target: "#LoginMessage")
+                    .Focus("#Password").ToJson();
         }
 
         /// <summary>
@@ -2425,8 +2429,10 @@ namespace Implem.Pleasanter.Models
         /// </summary>
         private string InvalidIpAddress(Context context)
         {
-            return Messages.ResponseInvalidIpAddress(context: context)
-                .Focus("#Password").ToJson();
+            return Messages.ResponseInvalidIpAddress(
+                context: context,
+                target: "#LoginMessage")
+                    .Focus("#Password").ToJson();
         }
 
         /// <summary>
@@ -2435,8 +2441,10 @@ namespace Implem.Pleasanter.Models
         private string UserDisabled(Context context)
         {
             IncrementsNumberOfDenial(context: context);
-            return Messages.ResponseUserDisabled(context: context)
-                .Focus("#Password").ToJson();
+            return Messages.ResponseUserDisabled(
+                context: context,
+                target: "#LoginMessage")
+                    .Focus("#Password").ToJson();
         }
 
         /// <summary>
@@ -2444,8 +2452,10 @@ namespace Implem.Pleasanter.Models
         /// </summary>
         private string UserLockout(Context context)
         {
-            return Messages.ResponseUserLockout(context: context)
-                .Focus("#Password").ToJson();
+            return Messages.ResponseUserLockout(
+                context: context,
+                target: "#LoginMessage")
+                    .Focus("#Password").ToJson();
         }
 
         /// <summary>
