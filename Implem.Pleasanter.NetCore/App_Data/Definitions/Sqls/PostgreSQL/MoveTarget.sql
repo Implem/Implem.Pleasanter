@@ -19,7 +19,7 @@
         "Sites"."ReferenceType" = @ReferenceType_ and
         "Sites"."SiteId" <> @SiteId_ and
         (
-            @HasPrivilege_ = 1 or
+            @HasPrivilege_ = true or
             (exists(select * from "Permissions" where "Permissions"."ReferenceId" = "InheritPermission" and "Permissions"."PermissionType" & 4 = 4 and (("Permissions"."UserId" = @ipU and @ipU <> 0) or ("Permissions"."DeptId" = @ipD and @ipD <> 0) or (exists(select * from "GroupMembers" where "Permissions"."GroupId"="GroupMembers"."GroupId" and (("GroupMembers"."DeptId" = @ipD and @ipD <> 0) or ("GroupMembers"."UserId" = @ipU and @ipU <> 0)))))))
         )
 

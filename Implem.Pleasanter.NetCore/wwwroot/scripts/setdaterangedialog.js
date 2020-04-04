@@ -1,7 +1,7 @@
 ﻿$p.openSetDateRangeDialog = function ($control) {
     $control.blur();
     $p.set($control, $control.val());
-    error = $p.send($control);
+    var error = $p.syncSend($control);
     if (error === 0) {
         $('#SetDateRangeDialog').dialog({
             autoOpen: false,
