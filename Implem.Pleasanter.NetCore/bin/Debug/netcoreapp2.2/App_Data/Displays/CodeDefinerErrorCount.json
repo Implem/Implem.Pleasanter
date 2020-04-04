@@ -1,9 +1,0 @@
-﻿{
-    "Id": "CodeDefinerErrorCount",
-    "Type": 210,
-    "Languages": [
-        {
-            "Body": "There were {0} errors. Please check the log file ({1})."
-        }
-    ]
-}

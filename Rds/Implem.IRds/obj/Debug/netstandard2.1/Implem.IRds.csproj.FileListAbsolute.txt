@@ -1,7 +1,0 @@
-C:\Implem\PleasanterYakushi\Rds\Implem.IRds\bin\Debug\netstandard2.1\Implem.IRds.deps.json
-C:\Implem\PleasanterYakushi\Rds\Implem.IRds\bin\Debug\netstandard2.1\Implem.IRds.dll
-C:\Implem\PleasanterYakushi\Rds\Implem.IRds\bin\Debug\netstandard2.1\Implem.IRds.pdb
-C:\Implem\PleasanterYakushi\Rds\Implem.IRds\obj\Debug\netstandard2.1\Implem.IRds.AssemblyInfoInputs.cache
-C:\Implem\PleasanterYakushi\Rds\Implem.IRds\obj\Debug\netstandard2.1\Implem.IRds.AssemblyInfo.cs
-C:\Implem\PleasanterYakushi\Rds\Implem.IRds\obj\Debug\netstandard2.1\Implem.IRds.dll
-C:\Implem\PleasanterYakushi\Rds\Implem.IRds\obj\Debug\netstandard2.1\Implem.IRds.pdb

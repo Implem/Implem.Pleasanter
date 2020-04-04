@@ -52,7 +52,7 @@ namespace Implem.Pleasanter.Models
                             .UpdatedTime(
                                 DateTime.Now.AddMinutes(Parameters.Session.RetentionPeriod * -1),
                                 _operator: "<")
-                            .Add(raw: "( [SessionGuid] not like '@%' )"))
+                            .Add(raw: "( \"SessionGuid\" not like '@%' )"))
                 })
                     .AsEnumerable()
                     .ToDictionary(

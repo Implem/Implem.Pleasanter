@@ -504,6 +504,13 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="Global.asax" />
+    <Content Include="images\hayato1.png" />
+    <Content Include="images\hayato2.png" />
+    <Content Include="images\hayato3.png" />
+    <Content Include="images\loading.gif" />
+    <Content Include="images\logo-corp-with-title.png" />
+    <Content Include="images\logo-corp.png" />
+    <Content Include="images\logo-version.png" />
     <Content Include="Tools\DbBackup.vbs" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
@@ -647,7 +654,297 @@
     <Content Include="..\Implem.Pleasanter\Views\*.*" Link="Views\%(RecursiveDir)%(FileName)%(Extension)" />
     <Content Include="..\Implem.Pleasanter\Views\*\*.*" Link="Views\%(RecursiveDir)%(FileName)%(Extension)" />
     <Content Include="..\Implem.Pleasanter\wwwroot\*.*" Link="%(RecursiveDir)%(FileName)%(Extension)" />
-    <Content Include="..\Implem.Pleasanter\wwwroot\*\*.*" Link="%(RecursiveDir)%(FileName)%(Extension)" />
+    <Content Include="..\Implem.Pleasanter\wwwroot\bundles\generals.js">
+      <Link>bundles\generals.js</Link>
+    </Content>
+    <Content Include="..\Implem.Pleasanter\wwwroot\bundles\generals.min.js">
+      <Link>bundles\generals.min.js</Link>
+    </Content>
+    <Content Include="..\Implem.Pleasanter\wwwroot\content\styles.css">
+      <Link>content\styles.css</Link>
+    </Content>
+    <Content Include="..\Implem.Pleasanter\wwwroot\content\styles.min.css">
+      <Link>content\styles.min.css</Link>
+    </Content>
+    <Content Include="..\Implem.Pleasanter\wwwroot\scripts\aggregationevents.js">
+      <Link>scripts\aggregationevents.js</Link>
+    </Content>
+    <Content Include="..\Implem.Pleasanter\wwwroot\scripts\anchorevents.js">
+      <Link>scripts\anchorevents.js</Link>
+    </Content>
+    <Content Include="..\Implem.Pleasanter\wwwroot\scripts\attachments.js">
+      <Link>scripts\attachments.js</Link>
+    </Content>
+    <Content Include="..\Implem.Pleasanter\wwwroot\scripts\attachmentsevents.js">
+      <Link>scripts\attachmentsevents.js</Link>
+    </Content>
+    <Content Include="..\Implem.Pleasanter\wwwroot\scripts\basket.js">
+      <Link>scripts\basket.js</Link>
+    </Content>
+    <Content Include="..\Implem.Pleasanter\wwwroot\scripts\basketevents.js">
+      <Link>scripts\basketevents.js</Link>
+    </Content>
+    <Content Include="..\Implem.Pleasanter\wwwroot\scripts\BulkUpdate.js">
+      <Link>scripts\BulkUpdate.js</Link>
+    </Content>
+    <Content Include="..\Implem.Pleasanter\wwwroot\scripts\burndown.js">
+      <Link>scripts\burndown.js</Link>
+    </Content>
+    <Content Include="..\Implem.Pleasanter\wwwroot\scripts\burndownevents.js">
+      <Link>scripts\burndownevents.js</Link>
+    </Content>
+    <Content Include="..\Implem.Pleasanter\wwwroot\scripts\calendar.js">
+      <Link>scripts\calendar.js</Link>
+    </Content>
+    <Content Include="..\Implem.Pleasanter\wwwroot\scripts\calendarevents.js">
+      <Link>scripts\calendarevents.js</Link>
+    </Content>
+    <Content Include="..\Implem.Pleasanter\wwwroot\scripts\clipboard.js">
+      <Link>scripts\clipboard.js</Link>
+    </Content>
+    <Content Include="..\Implem.Pleasanter\wwwroot\scripts\columnaccesscontrol.js">
+      <Link>scripts\columnaccesscontrol.js</Link>
+    </Content>
+    <Content Include="..\Implem.Pleasanter\wwwroot\scripts\confirm.js">
+      <Link>scripts\confirm.js</Link>
+    </Content>
+    <Content Include="..\Implem.Pleasanter\wwwroot\scripts\confirmevents.js">
+      <Link>scripts\confirmevents.js</Link>
+    </Content>
+    <Content Include="..\Implem.Pleasanter\wwwroot\scripts\crosstab.js">
+      <Link>scripts\crosstab.js</Link>
+    </Content>
+    <Content Include="..\Implem.Pleasanter\wwwroot\scripts\dialog.js">
+      <Link>scripts\dialog.js</Link>
+    </Content>
+    <Content Include="..\Implem.Pleasanter\wwwroot\scripts\dialogevents.js">
+      <Link>scripts\dialogevents.js</Link>
+    </Content>
+    <Content Include="..\Implem.Pleasanter\wwwroot\scripts\display.js">
+      <Link>scripts\display.js</Link>
+    </Content>
+    <Content Include="..\Implem.Pleasanter\wwwroot\scripts\dropdownsearch.js">
+      <Link>scripts\dropdownsearch.js</Link>
+    </Content>
+    <Content Include="..\Implem.Pleasanter\wwwroot\scripts\dropdownsearchevents.js">
+      <Link>scripts\dropdownsearchevents.js</Link>
+    </Content>
+    <Content Include="..\Implem.Pleasanter\wwwroot\scripts\export.js">
+      <Link>scripts\export.js</Link>
+    </Content>
+    <Content Include="..\Implem.Pleasanter\wwwroot\scripts\fieldselectable.js">
+      <Link>scripts\fieldselectable.js</Link>
+    </Content>
+    <Content Include="..\Implem.Pleasanter\wwwroot\scripts\filterevents.js">
+      <Link>scripts\filterevents.js</Link>
+    </Content>
+    <Content Include="..\Implem.Pleasanter\wwwroot\scripts\focus.js">
+      <Link>scripts\focus.js</Link>
+    </Content>
+    <Content Include="..\Implem.Pleasanter\wwwroot\scripts\focusevents.js">
+      <Link>scripts\focusevents.js</Link>
+    </Content>
+    <Content Include="..\Implem.Pleasanter\wwwroot\scripts\gantt.js">
+      <Link>scripts\gantt.js</Link>
+    </Content>
+    <Content Include="..\Implem.Pleasanter\wwwroot\scripts\ganttevents.js">
+      <Link>scripts\ganttevents.js</Link>
+    </Content>
+    <Content Include="..\Implem.Pleasanter\wwwroot\scripts\grid.js">
+      <Link>scripts\grid.js</Link>
+    </Content>
+    <Content Include="..\Implem.Pleasanter\wwwroot\scripts\gridevents.js">
+      <Link>scripts\gridevents.js</Link>
+    </Content>
+    <Content Include="..\Implem.Pleasanter\wwwroot\scripts\group.js">
+      <Link>scripts\group.js</Link>
+    </Content>
+    <Content Include="..\Implem.Pleasanter\wwwroot\scripts\imagelib.js">
+      <Link>scripts\imagelib.js</Link>
+    </Content>
+    <Content Include="..\Implem.Pleasanter\wwwroot\scripts\imagelibevents.js">
+      <Link>scripts\imagelibevents.js</Link>
+    </Content>
+    <Content Include="..\Implem.Pleasanter\wwwroot\scripts\import.js">
+      <Link>scripts\import.js</Link>
+    </Content>
+    <Content Include="..\Implem.Pleasanter\wwwroot\scripts\item.js">
+      <Link>scripts\item.js</Link>
+    </Content>
+    <Content Include="..\Implem.Pleasanter\wwwroot\scripts\jqueryui.js">
+      <Link>scripts\jqueryui.js</Link>
+    </Content>
+    <Content Include="..\Implem.Pleasanter\wwwroot\scripts\kamban.js">
+      <Link>scripts\kamban.js</Link>
+    </Content>
+    <Content Include="..\Implem.Pleasanter\wwwroot\scripts\kambanevents.js">
+      <Link>scripts\kambanevents.js</Link>
+    </Content>
+    <Content Include="..\Implem.Pleasanter\wwwroot\scripts\keyevents.js">
+      <Link>scripts\keyevents.js</Link>
+    </Content>
+    <Content Include="..\Implem.Pleasanter\wwwroot\scripts\legendevents.js">
+      <Link>scripts\legendevents.js</Link>
+    </Content>
+    <Content Include="..\Implem.Pleasanter\wwwroot\scripts\loading.js">
+      <Link>scripts\loading.js</Link>
+    </Content>
+    <Content Include="..\Implem.Pleasanter\wwwroot\scripts\markdown.js">
+      <Link>scripts\markdown.js</Link>
+    </Content>
+    <Content Include="..\Implem.Pleasanter\wwwroot\scripts\markdownevents.js">
+      <Link>scripts\markdownevents.js</Link>
+    </Content>
+    <Content Include="..\Implem.Pleasanter\wwwroot\scripts\menuevents.js">
+      <Link>scripts\menuevents.js</Link>
+    </Content>
+    <Content Include="..\Implem.Pleasanter\wwwroot\scripts\message.js">
+      <Link>scripts\message.js</Link>
+    </Content>
+    <Content Include="..\Implem.Pleasanter\wwwroot\scripts\messageevents.js">
+      <Link>scripts\messageevents.js</Link>
+    </Content>
+    <Content Include="..\Implem.Pleasanter\wwwroot\scripts\move.js">
+      <Link>scripts\move.js</Link>
+    </Content>
+    <Content Include="..\Implem.Pleasanter\wwwroot\scripts\multiselect.js">
+      <Link>scripts\multiselect.js</Link>
+    </Content>
+    <Content Include="..\Implem.Pleasanter\wwwroot\scripts\navigation.js">
+      <Link>scripts\navigation.js</Link>
+    </Content>
+    <Content Include="..\Implem.Pleasanter\wwwroot\scripts\navigationevents.js">
+      <Link>scripts\navigationevents.js</Link>
+    </Content>
+    <Content Include="..\Implem.Pleasanter\wwwroot\scripts\outgoingmail.js">
+      <Link>scripts\outgoingmail.js</Link>
+    </Content>
+    <Content Include="..\Implem.Pleasanter\wwwroot\scripts\outgoingmailevents.js">
+      <Link>scripts\outgoingmailevents.js</Link>
+    </Content>
+    <Content Include="..\Implem.Pleasanter\wwwroot\scripts\permission.js">
+      <Link>scripts\permission.js</Link>
+    </Content>
+    <Content Include="..\Implem.Pleasanter\wwwroot\scripts\position.js">
+      <Link>scripts\position.js</Link>
+    </Content>
+    <Content Include="..\Implem.Pleasanter\wwwroot\scripts\positionevents.js">
+      <Link>scripts\positionevents.js</Link>
+    </Content>
+    <Content Include="..\Implem.Pleasanter\wwwroot\scripts\relatingcolumns.js">
+      <Link>scripts\relatingcolumns.js</Link>
+    </Content>
+    <Content Include="..\Implem.Pleasanter\wwwroot\scripts\scroll.js">
+      <Link>scripts\scroll.js</Link>
+    </Content>
+    <Content Include="..\Implem.Pleasanter\wwwroot\scripts\scrollevents.js">
+      <Link>scripts\scrollevents.js</Link>
+    </Content>
+    <Content Include="..\Implem.Pleasanter\wwwroot\scripts\searchevents.js">
+      <Link>scripts\searchevents.js</Link>
+    </Content>
+    <Content Include="..\Implem.Pleasanter\wwwroot\scripts\security.js">
+      <Link>scripts\security.js</Link>
+    </Content>
+    <Content Include="..\Implem.Pleasanter\wwwroot\scripts\selectable.js">
+      <Link>scripts\selectable.js</Link>
+    </Content>
+    <Content Include="..\Implem.Pleasanter\wwwroot\scripts\separate.js">
+      <Link>scripts\separate.js</Link>
+    </Content>
+    <Content Include="..\Implem.Pleasanter\wwwroot\scripts\setdaterangedialog.js">
+      <Link>scripts\setdaterangedialog.js</Link>
+    </Content>
+    <Content Include="..\Implem.Pleasanter\wwwroot\scripts\SetNumericRangeDialog.js">
+      <Link>scripts\SetNumericRangeDialog.js</Link>
+    </Content>
+    <Content Include="..\Implem.Pleasanter\wwwroot\scripts\site.js">
+      <Link>scripts\site.js</Link>
+    </Content>
+    <Content Include="..\Implem.Pleasanter\wwwroot\scripts\siteinfo.js">
+      <Link>scripts\siteinfo.js</Link>
+    </Content>
+    <Content Include="..\Implem.Pleasanter\wwwroot\scripts\sitemenu.js">
+      <Link>scripts\sitemenu.js</Link>
+    </Content>
+    <Content Include="..\Implem.Pleasanter\wwwroot\scripts\sitepackage.js">
+      <Link>scripts\sitepackage.js</Link>
+    </Content>
+    <Content Include="..\Implem.Pleasanter\wwwroot\scripts\sitesettings.js">
+      <Link>scripts\sitesettings.js</Link>
+    </Content>
+    <Content Include="..\Implem.Pleasanter\wwwroot\scripts\sitesettingsevents.js">
+      <Link>scripts\sitesettingsevents.js</Link>
+    </Content>
+    <Content Include="..\Implem.Pleasanter\wwwroot\scripts\startguide.js">
+      <Link>scripts\startguide.js</Link>
+    </Content>
+    <Content Include="..\Implem.Pleasanter\wwwroot\scripts\statusevents.js">
+      <Link>scripts\statusevents.js</Link>
+    </Content>
+    <Content Include="..\Implem.Pleasanter\wwwroot\scripts\submitevents.js">
+      <Link>scripts\submitevents.js</Link>
+    </Content>
+    <Content Include="..\Implem.Pleasanter\wwwroot\scripts\template.js">
+      <Link>scripts\template.js</Link>
+    </Content>
+    <Content Include="..\Implem.Pleasanter\wwwroot\scripts\tenants.js">
+      <Link>scripts\tenants.js</Link>
+    </Content>
+    <Content Include="..\Implem.Pleasanter\wwwroot\scripts\timeseries.js">
+      <Link>scripts\timeseries.js</Link>
+    </Content>
+    <Content Include="..\Implem.Pleasanter\wwwroot\scripts\users.js">
+      <Link>scripts\users.js</Link>
+    </Content>
+    <Content Include="..\Implem.Pleasanter\wwwroot\scripts\validator.js">
+      <Link>scripts\validator.js</Link>
+    </Content>
+    <Content Include="..\Implem.Pleasanter\wwwroot\scripts\video.js">
+      <Link>scripts\video.js</Link>
+    </Content>
+    <Content Include="..\Implem.Pleasanter\wwwroot\scripts\viewmode.js">
+      <Link>scripts\viewmode.js</Link>
+    </Content>
+    <Content Include="..\Implem.Pleasanter\wwwroot\scripts\_ajax.js">
+      <Link>scripts\_ajax.js</Link>
+    </Content>
+    <Content Include="..\Implem.Pleasanter\wwwroot\scripts\_api.js">
+      <Link>scripts\_api.js</Link>
+    </Content>
+    <Content Include="..\Implem.Pleasanter\wwwroot\scripts\_controllevents.js">
+      <Link>scripts\_controllevents.js</Link>
+    </Content>
+    <Content Include="..\Implem.Pleasanter\wwwroot\scripts\_data.js">
+      <Link>scripts\_data.js</Link>
+    </Content>
+    <Content Include="..\Implem.Pleasanter\wwwroot\scripts\_dispatch.js">
+      <Link>scripts\_dispatch.js</Link>
+    </Content>
+    <Content Include="..\Implem.Pleasanter\wwwroot\scripts\_elements.js">
+      <Link>scripts\_elements.js</Link>
+    </Content>
+    <Content Include="..\Implem.Pleasanter\wwwroot\scripts\_event.js">
+      <Link>scripts\_event.js</Link>
+    </Content>
+    <Content Include="..\Implem.Pleasanter\wwwroot\scripts\_form.js">
+      <Link>scripts\_form.js</Link>
+    </Content>
+    <Content Include="..\Implem.Pleasanter\wwwroot\scripts\_init.js">
+      <Link>scripts\_init.js</Link>
+    </Content>
+    <Content Include="..\Implem.Pleasanter\wwwroot\scripts\_show.js">
+      <Link>scripts\_show.js</Link>
+    </Content>
+    <Content Include="..\Implem.Pleasanter\wwwroot\scripts\_time.js">
+      <Link>scripts\_time.js</Link>
+    </Content>
+    <Content Include="..\Implem.Pleasanter\wwwroot\scripts\_view.js">
+      <Link>scripts\_view.js</Link>
+    </Content>
+    <Content Include="..\Implem.Pleasanter\wwwroot\styles\site.css">
+      <Link>styles\site.css</Link>
+    </Content>
     <Content Include="..\Implem.Pleasanter\wwwroot\*\*\*.*" Link="%(RecursiveDir)%(FileName)%(Extension)" />
     <Content Include="..\Implem.Pleasanter\App_Data\*.*" Link="App_Data\%(RecursiveDir)%(FileName)%(Extension)" />
     <Content Include="..\Implem.Pleasanter\App_Data\Definitions\definition_Code.xlsm">
@@ -2928,6 +3225,7 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
   </ItemGroup>
+  <ItemGroup />
   <PropertyGroup>
     <PreBuildEvent>xcopy /S /Y ..\..\Implem.Pleasanter\Views ..\Views
 xcopy /S /Y ..\..\Implem.Pleasanter\wwwroot ..\
