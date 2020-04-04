@@ -12,7 +12,9 @@ namespace Implem.Pleasanter.Libraries.Security
                 context: context,
                 ss: SiteSettingsUtilities.UsersSiteSettings(context: context),
                 formData: context.Forms)
-                    .Authenticate(context: context, returnUrl: returnUrl);
+                    .Authenticate(
+                        context: context,
+                        returnUrl: returnUrl);
         }
 
         public static bool Try(Context context, string loginId, string password)

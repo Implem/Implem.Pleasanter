@@ -675,7 +675,9 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     tag: "video",
                     attributes: new HtmlAttributes()
                         .Id(id)
-                        .Class(css))
+                        .Class(css),
+                    action: () => hb
+                        .Raw(text: string.Empty))
                 : hb;
         }
 
@@ -690,13 +692,14 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     tag: "canvas",
                     attributes: new HtmlAttributes()
                         .Id(id)
-                        .Class(css))
+                        .Class(css),
+                    action: () => hb
+                        .Raw(text: string.Empty))
                 : hb;
         }
 
         public static HtmlBuilder Style(
             this HtmlBuilder hb,
-            string id = null,
             string src = null,
             string type = null,
             string style = null,

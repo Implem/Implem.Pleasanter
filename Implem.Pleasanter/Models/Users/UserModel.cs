@@ -2173,7 +2173,7 @@ namespace Implem.Pleasanter.Models
         /// </summary>
         public bool Authenticate(Context context)
         {
-            var ret = false;
+            bool ret;
             switch (Parameters.Authentication.Provider)
             {
                 case "LDAP":

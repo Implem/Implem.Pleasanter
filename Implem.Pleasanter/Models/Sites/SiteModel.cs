@@ -3976,14 +3976,11 @@ namespace Implem.Pleasanter.Models
                     columnName: columnName);
                 return res.Html(
                     target: "#SetDateRangeDialog",
-                    value: new HtmlBuilder()
-                        .Input(attributes: new HtmlAttributes()
-                            .Style("opacity: 0; position: absolute; top: 0; left: 0;"))
-                        .SetDateRangeDialog(
-                            context: context,
-                            ss: SiteSettings,
-                            column: column))
-                                .ToJson();
+                    value: new HtmlBuilder().SetDateRangeDialog(
+                        context: context,
+                        ss: SiteSettings,
+                        column: column))
+                            .ToJson();
             }
             else
             {

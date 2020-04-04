@@ -338,8 +338,12 @@ namespace Implem.Pleasanter.Controllers
         public string Authenticate(Context context, string returnUrl)
         {
             var log = new SysLogModel(context: context);
-            var json = Authentications.SignIn(context: context, returnUrl: returnUrl);
-            log.Finish(context: context, responseSize: json.Length);
+            var json = Authentications.SignIn(
+                context: context,
+                returnUrl: returnUrl);
+            log.Finish(
+                context: context,
+                responseSize: json.Length);
             return json;
         }
 

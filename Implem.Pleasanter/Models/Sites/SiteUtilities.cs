@@ -2855,8 +2855,7 @@ namespace Implem.Pleasanter.Models
                                 siteId: siteModelChild.SiteId,
                                 referenceType: siteModelChild.ReferenceType,
                                 title: siteModelChild.Title.Value,
-                                siteConditions: siteConditions))))
-                .SiteMenuData());
+                                siteConditions: siteConditions)))));
         }
 
         /// <summary>

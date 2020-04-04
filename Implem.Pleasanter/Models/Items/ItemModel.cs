@@ -896,15 +896,11 @@ namespace Implem.Pleasanter.Models
                 return new ResponseCollection()
                     .Html(
                         "#SetDateRangeDialog",
-                        new HtmlBuilder().
-                            Input(
-                                attributes: new HtmlAttributes()
-                                    .Style("opacity: 0; position: absolute; top: 0; left: 0;"))
-                            .SetDateRangeDialog(
-                                context: context,
-                                ss: Site.SiteSettings,
-                                column: column,
-                                itemfilter: true))
+                        new HtmlBuilder().SetDateRangeDialog(
+                            context: context,
+                            ss: Site.SiteSettings,
+                            column: column,
+                            itemfilter: true))
                     .ToJson();
             }
             else
