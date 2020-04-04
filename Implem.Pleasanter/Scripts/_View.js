@@ -6,6 +6,10 @@
         case 'radio':
             $control.val([value]);
             break;
+        case 'textarea':
+            $control.val(value);
+            $p.showMarkDownViewer($control);
+            break;
         default:
             switch ($control.prop('tagName')) {
                 case 'SPAN':
