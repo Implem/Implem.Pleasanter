@@ -26,9 +26,8 @@ namespace Implem.Pleasanter.Models
         /// Fixed:
         /// </summary>
         public static ErrorData OnSending(
-            Context context, SiteSettings ss, OutgoingMailModel outgoingMailModel, out string data)
+            Context context, SiteSettings ss, OutgoingMailModel outgoingMailModel)
         {
-            data = null;
             if (!context.CanSendMail(ss: ss))
             {
                 return new ErrorData(type: Error.Types.HasNotPermission);
@@ -46,33 +45,27 @@ namespace Implem.Pleasanter.Models
             }
             var badTo = MailAddressValidators.BadMailAddress(
                 context: context,
-                addresses: outgoingMailModel.To,
-                data: out data);
+                addresses: outgoingMailModel.To);
             if (badTo.Type != Error.Types.None) return badTo;
             var badCc = MailAddressValidators.BadMailAddress(
                 context: context,
-                addresses: outgoingMailModel.Cc,
-                data: out data);
+                addresses: outgoingMailModel.Cc);
             if (badCc.Type != Error.Types.None) return badCc;
             var badBcc = MailAddressValidators.BadMailAddress(
                 context: context,
-                addresses: outgoingMailModel.Bcc,
-                data: out data);
+                addresses: outgoingMailModel.Bcc);
             if (badBcc.Type != Error.Types.None) return badBcc;
             var externalTo = MailAddressValidators.ExternalMailAddress(
                 context: context,
-                addresses: outgoingMailModel.To,
-                data: out data);
+                addresses: outgoingMailModel.To);
             if (externalTo.Type != Error.Types.None) return externalTo;
             var externalCc = MailAddressValidators.ExternalMailAddress(
                 context: context,
-                addresses: outgoingMailModel.Cc,
-                data: out data);
+                addresses: outgoingMailModel.Cc);
             if (externalCc.Type != Error.Types.None) return externalCc;
             var externalBcc = MailAddressValidators.ExternalMailAddress(
                 context: context,
-                addresses: outgoingMailModel.Bcc,
-                data: out data);
+                addresses: outgoingMailModel.Bcc);
             if (externalBcc.Type != Error.Types.None) return externalBcc;
             return new ErrorData(type: Error.Types.None);
         }

@@ -2071,7 +2071,7 @@ namespace Implem.Pleasanter.Models
             switch (invalid.Type)
             {
                 case Error.Types.None: break;
-                default: return invalid.Type.MessageJson(context: context);
+                default: return invalid.MessageJson(context: context);
             }
             var errorData = issueModel.Create(context: context, ss: ss, notice: true);
             switch (errorData.Type)
@@ -2100,7 +2100,7 @@ namespace Implem.Pleasanter.Models
                             columnName: errorData.ColumnName)?.LabelText)
                                 .ToJson();
                 default:
-                    return errorData.Type.MessageJson(context: context);
+                    return errorData.MessageJson(context: context);
             }
         }
 
@@ -2174,7 +2174,7 @@ namespace Implem.Pleasanter.Models
             switch (invalid.Type)
             {
                 case Error.Types.None: break;
-                default: return invalid.Type.MessageJson(context: context);
+                default: return invalid.MessageJson(context: context);
             }
             if (issueModel.AccessStatus != Databases.AccessStatuses.Selected)
             {
@@ -2218,7 +2218,7 @@ namespace Implem.Pleasanter.Models
                         data: issueModel.Updator.Name)
                             .ToJson();
                 default:
-                    return errorData.Type.MessageJson(context: context);
+                    return errorData.MessageJson(context: context);
             }
         }
 
@@ -2602,7 +2602,7 @@ namespace Implem.Pleasanter.Models
                     switch (invalid.Type)
                     {
                         case Error.Types.None: break;
-                        default: return invalid.Type.MessageJson(context: context);
+                        default: return invalid.MessageJson(context: context);
                     }
                     statements.AddRange(issueModel.UpdateStatements(
                         context: context,
@@ -2625,7 +2625,7 @@ namespace Implem.Pleasanter.Models
                     switch (invalid.Type)
                     {
                         case Error.Types.None: break;
-                        default: return invalid.Type.MessageJson(context: context);
+                        default: return invalid.MessageJson(context: context);
                     }
                     statements.AddRange(issueModel.CreateStatements(
                         context: context,
@@ -2878,7 +2878,7 @@ namespace Implem.Pleasanter.Models
             switch (invalid.Type)
             {
                 case Error.Types.None: break;
-                default: return invalid.Type.MessageJson(context: context);
+                default: return invalid.MessageJson(context: context);
             }
             issueModel.IssueId = 0;
             if (ss.EditorColumns.Contains("Title"))
@@ -2931,7 +2931,7 @@ namespace Implem.Pleasanter.Models
                             columnName: errorData.ColumnName)?.LabelText)
                                 .ToJson();
                 default:
-                    return errorData.Type.MessageJson(context: context);
+                    return errorData.MessageJson(context: context);
             }
         }
 
@@ -2956,7 +2956,7 @@ namespace Implem.Pleasanter.Models
             switch (invalid.Type)
             {
                 case Error.Types.None: break;
-                default: return invalid.Type.MessageJson(context: context);
+                default: return invalid.MessageJson(context: context);
             }
             var targetSs = SiteSettingsUtilities.Get(
                 context: context,
@@ -3004,7 +3004,7 @@ namespace Implem.Pleasanter.Models
                             columnName: errorData.ColumnName)?.LabelText)
                                 .ToJson();
                 default:
-                    return errorData.Type.MessageJson(context: context);
+                    return errorData.MessageJson(context: context);
             }
         }
 
@@ -3018,7 +3018,7 @@ namespace Implem.Pleasanter.Models
             switch (invalid.Type)
             {
                 case Error.Types.None: break;
-                default: return invalid.Type.MessageJson(context: context);
+                default: return invalid.MessageJson(context: context);
             }
             var errorData = issueModel.Delete(context: context, ss: ss, notice: true);
             switch (errorData.Type)
@@ -3035,7 +3035,7 @@ namespace Implem.Pleasanter.Models
                         .Invoke("back");
                     return res.ToJson();
                 default:
-                    return errorData.Type.MessageJson(context: context);
+                    return errorData.MessageJson(context: context);
             }
         }
 
@@ -3269,7 +3269,7 @@ namespace Implem.Pleasanter.Models
             switch (invalid.Type)
             {
                 case Error.Types.None: break;
-                default: return invalid.Type.MessageJson(context: context);
+                default: return invalid.MessageJson(context: context);
             }
             var ver = context.Forms.Data("GridCheckedItems")
                 .Split(',')
@@ -3316,7 +3316,7 @@ namespace Implem.Pleasanter.Models
                             id: issueId))
                         .ToJson();
                 default:
-                    return errorData.Type.MessageJson(context: context);
+                    return errorData.MessageJson(context: context);
             }
         }
 
@@ -3458,7 +3458,7 @@ namespace Implem.Pleasanter.Models
             switch (invalid.Type)
             {
                 case Error.Types.None: break;
-                default: return invalid.Type.MessageJson(context: context);
+                default: return invalid.MessageJson(context: context);
             }
             return new ResponseCollection()
                 .Html(
@@ -3498,7 +3498,7 @@ namespace Implem.Pleasanter.Models
             switch (invalid.Type)
             {
                 case Error.Types.None: break;
-                default: return invalid.Type.MessageJson(context: context);
+                default: return invalid.MessageJson(context: context);
             }
             if (number >= 2)
             {
@@ -3982,7 +3982,7 @@ namespace Implem.Pleasanter.Models
             switch (invalid.Type)
             {
                 case Error.Types.None: break;
-                default: return invalid.Type.MessageJson(context: context);
+                default: return invalid.MessageJson(context: context);
             }
             var res = new ResponseCollection();
             Csv csv;
@@ -4140,7 +4140,7 @@ namespace Implem.Pleasanter.Models
                                             columnName: errorData.ColumnName)?.LabelText)
                                                 .ToJson();
                                 default:
-                                    return errorData.Type.MessageJson(context: context);
+                                    return errorData.MessageJson(context: context);
                             }
                             updateCount++;
                         }
@@ -4164,7 +4164,7 @@ namespace Implem.Pleasanter.Models
                                         columnName: errorData.ColumnName)?.LabelText)
                                             .ToJson();
                             default:
-                                return errorData.Type.MessageJson(context: context);
+                                return errorData.MessageJson(context: context);
                         }
                         insertCount++;
                     }
@@ -4229,7 +4229,7 @@ namespace Implem.Pleasanter.Models
             switch (invalid.Type)
             {
                 case Error.Types.None: break;
-                default: return invalid.Type.MessageJson(context: context);
+                default: return invalid.MessageJson(context: context);
             }
             return new ResponseCollection()
                 .Html(
@@ -4290,7 +4290,7 @@ namespace Implem.Pleasanter.Models
             switch (invalid.Type)
             {
                 case Error.Types.None: break;
-                default: return invalid.Type.MessageJson(context: context);
+                default: return invalid.MessageJson(context: context);
             }
             System.Threading.Tasks.Task.Factory.StartNew(() =>
             {
@@ -4560,7 +4560,7 @@ namespace Implem.Pleasanter.Models
             switch (invalid.Type)
             {
                 case Error.Types.None: break;
-                default: return invalid.Type.MessageJson(context: context);
+                default: return invalid.MessageJson(context: context);
             }
             if (issueModel.AccessStatus != Databases.AccessStatuses.Selected)
             {
@@ -5865,7 +5865,7 @@ namespace Implem.Pleasanter.Models
             switch (invalid.Type)
             {
                 case Error.Types.None: break;
-                default: return invalid.Type.MessageJson(context: context);
+                default: return invalid.MessageJson(context: context);
             }
             if (issueModel.AccessStatus != Databases.AccessStatuses.Selected)
             {

@@ -3077,6 +3077,7 @@ namespace Implem.DefinitionAccessor
                     case "input_colon_focus": Css.input_colon_focus = definitionRow[1].ToString(); SetCssTable(CssTable.input_colon_focus, definitionRow, CssXls); break;
                     case "select_colon_focus_colon_not__dot_has_css_": Css.select_colon_focus_colon_not__dot_has_css_ = definitionRow[1].ToString(); SetCssTable(CssTable.select_colon_focus_colon_not__dot_has_css_, definitionRow, CssXls); break;
                     case "textarea_colon_focus": Css.textarea_colon_focus = definitionRow[1].ToString(); SetCssTable(CssTable.textarea_colon_focus, definitionRow, CssXls); break;
+                    case "_dot_ssoLoginMessage": Css._dot_ssoLoginMessage = definitionRow[1].ToString(); SetCssTable(CssTable._dot_ssoLoginMessage, definitionRow, CssXls); break;
                     default: break;
                 }
             });
@@ -10409,6 +10410,7 @@ namespace Implem.DefinitionAccessor
         public string input_colon_focus;
         public string select_colon_focus_colon_not__dot_has_css_;
         public string textarea_colon_focus;
+        public string _dot_ssoLoginMessage;
     }
 
     public class CssTable
@@ -10918,6 +10920,7 @@ namespace Implem.DefinitionAccessor
         public CssDefinition input_colon_focus = new CssDefinition();
         public CssDefinition select_colon_focus_colon_not__dot_has_css_ = new CssDefinition();
         public CssDefinition textarea_colon_focus = new CssDefinition();
+        public CssDefinition _dot_ssoLoginMessage = new CssDefinition();
     }
 
     public class DemoDefinition

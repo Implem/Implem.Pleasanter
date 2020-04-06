@@ -1476,7 +1476,7 @@ namespace Implem.Pleasanter.Models
             switch (invalid.Type)
             {
                 case Error.Types.None: break;
-                default: return invalid.Type.MessageJson(context: context);
+                default: return invalid.MessageJson(context: context);
             }
             var mailAddress = Rds.ExecuteScalar_string(
                 context: context,
@@ -1489,8 +1489,8 @@ namespace Implem.Pleasanter.Models
                 statements: Rds.SelectUsers(
                 column: Rds.UsersColumn().Name(),
                 where: Rds.UsersWhere().UserId(context.UserId)));
-            var error = registrationModel.Create(context: context, ss: ss);
-            switch (error.Type)
+            var errorData = registrationModel.Create(context: context, ss: ss);
+            switch (errorData.Type)
             {
                 case Error.Types.None:
                     SessionUtilities.Set(
@@ -1532,7 +1532,6 @@ namespace Implem.Pleasanter.Models
                     {
                         outgoingMailModel.Send(context: context, ss: new SiteSettings());
                     });
-                    // mod ....
                     return new ResponseCollection()
                         .Response("id", registrationModel.RegistrationId.ToString())
                         .SetMemory("formChanged", false)
@@ -1544,7 +1543,7 @@ namespace Implem.Pleasanter.Models
                                 : registrationModel.RegistrationId))
                         .ToJson();
                 default:
-                    return error.Type.MessageJson(context: context);
+                    return errorData.MessageJson(context: context);
             }
         }
 
@@ -1562,7 +1561,7 @@ namespace Implem.Pleasanter.Models
             switch (invalid.Type)
             {
                 case Error.Types.None: break;
-                default: return invalid.Type.MessageJson(context: context);
+                default: return invalid.MessageJson(context: context);
             }
             if (registrationModel.AccessStatus != Databases.AccessStatuses.Selected)
             {
@@ -1587,7 +1586,7 @@ namespace Implem.Pleasanter.Models
                         data: registrationModel.Updator.Name)
                             .ToJson();
                 default:
-                    return errorData.Type.MessageJson(context: context);
+                    return errorData.MessageJson(context: context);
             }
         }
 
@@ -1668,7 +1667,7 @@ namespace Implem.Pleasanter.Models
             switch (invalid.Type)
             {
                 case Error.Types.None: break;
-                default: return invalid.Type.MessageJson(context: context);
+                default: return invalid.MessageJson(context: context);
             }
             var errorData = registrationModel.Delete(context: context, ss: ss);
             switch (errorData.Type)
@@ -1685,7 +1684,7 @@ namespace Implem.Pleasanter.Models
                         .Invoke("back");
                     return res.ToJson();
                 default:
-                    return errorData.Type.MessageJson(context: context);
+                    return errorData.MessageJson(context: context);
             }
         }
 
@@ -2018,8 +2017,8 @@ namespace Implem.Pleasanter.Models
                 return Messages.ResponseDeleteConflicts(context: context).ToJson();
             }
             registrationModel.Invitingflg = "1";
-            var error = registrationModel.Update(context: context, ss: ss);
-            switch (error.Type)
+            var errorData = registrationModel.Update(context: context, ss: ss);
+            switch (errorData.Type)
             {
                 case Error.Types.None:
                     var tenantTitle = Rds.ExecuteScalar_string(
@@ -2068,7 +2067,7 @@ namespace Implem.Pleasanter.Models
                         data: registrationModel.Updator.Name)
                             .ToJson();
                 default:
-                    return error.Type.MessageJson(context: context);
+                    return errorData.MessageJson(context: context);
             }
         }
 

@@ -1952,7 +1952,7 @@ namespace Implem.Pleasanter.Models
             switch (invalid.Type)
             {
                 case Error.Types.None: break;
-                default: return invalid.Type.MessageJson(context: context);
+                default: return invalid.MessageJson(context: context);
             }
             foreach (var policy in Parameters.Security.PasswordPolicies.Where(o => o.Enabled))
             {
@@ -1981,7 +1981,7 @@ namespace Implem.Pleasanter.Models
                                 : userModel.UserId) + "?new=1")
                         .ToJson();
                 default:
-                    return errorData.Type.MessageJson(context: context);
+                    return errorData.MessageJson(context: context);
             }
         }
 
@@ -2004,7 +2004,7 @@ namespace Implem.Pleasanter.Models
                         .Val("#Users_TenantManager", userModel.SavedTenantManager)
                         .ClearFormData("Users_TenantManager")
                         .ToJson();
-                default: return invalid.Type.MessageJson(context: context);
+                default: return invalid.MessageJson(context: context);
             }
             if (userModel.AccessStatus != Databases.AccessStatuses.Selected)
             {
@@ -2029,7 +2029,7 @@ namespace Implem.Pleasanter.Models
                         data: userModel.Updator.Name)
                             .ToJson();
                 default:
-                    return errorData.Type.MessageJson(context: context);
+                    return errorData.MessageJson(context: context);
             }
         }
 
@@ -2110,7 +2110,7 @@ namespace Implem.Pleasanter.Models
             switch (invalid.Type)
             {
                 case Error.Types.None: break;
-                default: return invalid.Type.MessageJson(context: context);
+                default: return invalid.MessageJson(context: context);
             }
             var errorData = userModel.Delete(context: context, ss: ss);
             switch (errorData.Type)
@@ -2127,7 +2127,7 @@ namespace Implem.Pleasanter.Models
                         .Invoke("back");
                     return res.ToJson();
                 default:
-                    return errorData.Type.MessageJson(context: context);
+                    return errorData.MessageJson(context: context);
             }
         }
 
@@ -2373,7 +2373,7 @@ namespace Implem.Pleasanter.Models
             switch (invalid.Type)
             {
                 case Error.Types.None: break;
-                default: return invalid.Type.MessageJson(context: context);
+                default: return invalid.MessageJson(context: context);
             }
             var res = new ResponseCollection();
             Csv csv;
@@ -2564,7 +2564,7 @@ namespace Implem.Pleasanter.Models
                                 case Error.Types.None:
                                     break;
                                 default:
-                                    return errorData.Type.MessageJson(context: context);
+                                    return errorData.MessageJson(context: context);
                             }
                             updateCount++;
                         }
@@ -2584,7 +2584,7 @@ namespace Implem.Pleasanter.Models
                             case Error.Types.None:
                                 break;
                             default:
-                                return errorData.Type.MessageJson(context: context);
+                                return errorData.MessageJson(context: context);
                         }
                         UpdateMailAddresses(context, userModel);
                         insertCount++;
@@ -2679,7 +2679,7 @@ namespace Implem.Pleasanter.Models
             switch (invalid.Type)
             {
                 case Error.Types.None: break;
-                default: return invalid.Type.MessageJson(context: context);
+                default: return invalid.MessageJson(context: context);
             }
             return new ResponseCollection()
                 .Html(
@@ -2779,7 +2779,7 @@ namespace Implem.Pleasanter.Models
             switch (invalid.Type)
             {
                 case Error.Types.None: break;
-                default: return invalid.Type.MessageJson(context: context);
+                default: return invalid.MessageJson(context: context);
             }
             if (Parameters.Security.JoeAccountCheck
                 && context.Forms.Data("Users_ChangedPassword") == userModel.LoginId)
@@ -2831,7 +2831,7 @@ namespace Implem.Pleasanter.Models
             switch (invalid.Type)
             {
                 case Error.Types.None: break;
-                default: return invalid.Type.MessageJson(context: context);
+                default: return invalid.MessageJson(context: context);
             }
             if (Parameters.Security.JoeAccountCheck
                 && context.Forms.Data("Users_ChangedPassword") == userModel.LoginId)
@@ -2869,7 +2869,7 @@ namespace Implem.Pleasanter.Models
             switch (invalid.Type)
             {
                 case Error.Types.None: break;
-                default: return invalid.Type.MessageJson(context: context);
+                default: return invalid.MessageJson(context: context);
             }
             if (Parameters.Security.JoeAccountCheck
                 && context.Forms.Data("Users_AfterResetPassword") == userModel.LoginId)
@@ -2916,22 +2916,18 @@ namespace Implem.Pleasanter.Models
                 userId: userId);
             var mailAddress = context.Forms.Data("MailAddress").Trim();
             var selected = context.Forms.List("MailAddresses");
-            var badMailAddress = string.Empty;
             var invalid = UserValidators.OnAddingMailAddress(
                 context: context,
                 userModel: userModel,
-                mailAddress: mailAddress,
-                data: out badMailAddress);
+                mailAddress: mailAddress);
             switch (invalid.Type)
             {
                 case Error.Types.None:
                     break;
                 case Error.Types.BadMailAddress:
-                    return invalid.Type.MessageJson(
-                        context: context,
-                        data: badMailAddress);
+                    return invalid.MessageJson(context: context);
                 default:
-                    return invalid.Type.MessageJson(context: context);
+                    return invalid.MessageJson(context: context);
             }
             var error = userModel.AddMailAddress(
                 context: context,
@@ -2956,7 +2952,7 @@ namespace Implem.Pleasanter.Models
             switch (invalid.Type)
             {
                 case Error.Types.None: break;
-                default: return invalid.Type.MessageJson(context: context);
+                default: return invalid.MessageJson(context: context);
             }
             var selected = context.Forms.List("MailAddresses");
             var error = userModel.DeleteMailAddresses(
@@ -3464,7 +3460,7 @@ namespace Implem.Pleasanter.Models
             var error = userModel.CreateApiKey(context: context, ss: ss);
             if (error.Type.Has())
             {
-                return error.Type.MessageJson(context: context);
+                return error.MessageJson(context: context);
             }
             else
             {
@@ -3496,7 +3492,7 @@ namespace Implem.Pleasanter.Models
             var error = userModel.DeleteApiKey(context: context, ss: ss);
             if (error.Type.Has())
             {
-                return error.Type.MessageJson(context: context);
+                return error.MessageJson(context: context);
             }
             else
             {
