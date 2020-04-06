@@ -139,8 +139,15 @@ namespace Implem.Pleasanter.Models
             var password = Strings.NewGuid().Sha512Cng();
             System.Threading.Tasks.Task.Run(() =>
             {
-                demoModel.Initialize(context: context, idHash: idHash, password: password);
-                outgoingMailModel.Send(context: context, ss: new SiteSettings());
+                try
+                {
+                    demoModel.Initialize(context: context, idHash: idHash, password: password);
+                    outgoingMailModel.Send(context: context, ss: new SiteSettings());
+                }
+                catch(Exception e)
+                {
+                    new SysLogModel(context: context, e: e);
+                }
             });
         }
 
