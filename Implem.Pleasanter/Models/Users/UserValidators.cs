@@ -726,15 +726,11 @@ namespace Implem.Pleasanter.Models
         /// Fixed:
         /// </summary>
         public static ErrorData OnAddingMailAddress(
-            Context context,
-            UserModel userModel,
-            string mailAddress,
-            out string data)
+            Context context, UserModel userModel, string mailAddress)
         {
             var errorData = MailAddressValidators.BadMailAddress(
                 context: context,
-                addresses: mailAddress,
-                data: out data);
+                addresses: mailAddress);
             if (!Parameters.Service.ShowProfiles)
             {
                 return new ErrorData(type: Error.Types.InvalidRequest);

@@ -925,7 +925,7 @@ namespace Implem.Pleasanter.Models
             switch (invalid.Type)
             {
                 case Error.Types.None: break;
-                default: return invalid.Type.MessageJson(context: context);
+                default: return invalid.MessageJson(context: context);
             }
             var errorData = tenantModel.Create(context: context, ss: ss);
             switch (errorData.Type)
@@ -947,7 +947,7 @@ namespace Implem.Pleasanter.Models
                                 : tenantModel.TenantId) + "?new=1")
                         .ToJson();
                 default:
-                    return errorData.Type.MessageJson(context: context);
+                    return errorData.MessageJson(context: context);
             }
         }
 
@@ -965,7 +965,7 @@ namespace Implem.Pleasanter.Models
             switch (invalid.Type)
             {
                 case Error.Types.None: break;
-                default: return invalid.Type.MessageJson(context: context);
+                default: return invalid.MessageJson(context: context);
             }
             if (tenantModel.AccessStatus != Databases.AccessStatuses.Selected)
             {
@@ -990,7 +990,7 @@ namespace Implem.Pleasanter.Models
                         data: tenantModel.Updator.Name)
                             .ToJson();
                 default:
-                    return errorData.Type.MessageJson(context: context);
+                    return errorData.MessageJson(context: context);
             }
         }
 
@@ -1071,7 +1071,7 @@ namespace Implem.Pleasanter.Models
             switch (invalid.Type)
             {
                 case Error.Types.None: break;
-                default: return invalid.Type.MessageJson(context: context);
+                default: return invalid.MessageJson(context: context);
             }
             var errorData = tenantModel.Delete(context: context, ss: ss);
             switch (errorData.Type)
@@ -1088,7 +1088,7 @@ namespace Implem.Pleasanter.Models
                         .Invoke("back");
                     return res.ToJson();
                 default:
-                    return errorData.Type.MessageJson(context: context);
+                    return errorData.MessageJson(context: context);
             }
         }
 

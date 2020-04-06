@@ -895,7 +895,7 @@ namespace Implem.Pleasanter.Models
             switch (invalid.Type)
             {
                 case Error.Types.None: break;
-                default: return invalid.Type.MessageJson(context: context);
+                default: return invalid.MessageJson(context: context);
             }
             var errorData = siteModel.Create(context: context);
             switch (errorData.Type)
@@ -921,7 +921,7 @@ namespace Implem.Pleasanter.Models
                                 : siteModel.SiteId))
                         .ToJson();
                 default:
-                    return errorData.Type.MessageJson(context: context);
+                    return errorData.MessageJson(context: context);
             }
         }
 
@@ -942,7 +942,7 @@ namespace Implem.Pleasanter.Models
             switch (invalid.Type)
             {
                 case Error.Types.None: break;
-                default: return invalid.Type.MessageJson(context: context);
+                default: return invalid.MessageJson(context: context);
             }
             if (siteModel.AccessStatus != Databases.AccessStatuses.Selected)
             {
@@ -1000,7 +1000,7 @@ namespace Implem.Pleasanter.Models
                         data: siteModel.Updator.Name)
                             .ToJson();
                 default:
-                    return errorData.Type.MessageJson(context: context);
+                    return errorData.MessageJson(context: context);
             }
         }
 
@@ -1134,7 +1134,7 @@ namespace Implem.Pleasanter.Models
                     statements: statements.ToArray());
             }
             return errorData.Type.Has()
-                ? errorData.Type.MessageJson(context: context)
+                ? errorData.MessageJson(context: context)
                 : EditorResponse(
                     context: context,
                     siteModel: siteModel,
@@ -1151,7 +1151,7 @@ namespace Implem.Pleasanter.Models
             switch (invalid.Type)
             {
                 case Error.Types.None: break;
-                default: return invalid.Type.MessageJson(context: context);
+                default: return invalid.MessageJson(context: context);
             }
             var errorData = siteModel.Delete(context: context, ss: ss);
             switch (errorData.Type)
@@ -1170,7 +1170,7 @@ namespace Implem.Pleasanter.Models
                         id: siteModel.ParentId));
                     return res.ToJson();
                 default:
-                    return errorData.Type.MessageJson(context: context);
+                    return errorData.MessageJson(context: context);
             }
         }
 
@@ -1281,7 +1281,7 @@ namespace Implem.Pleasanter.Models
             switch (invalid.Type)
             {
                 case Error.Types.None: break;
-                default: return invalid.Type.MessageJson(context: context);
+                default: return invalid.MessageJson(context: context);
             }
             var ver = context.Forms.Data("GridCheckedItems")
                 .Split(',')
@@ -1316,7 +1316,7 @@ namespace Implem.Pleasanter.Models
                             id: siteId))
                         .ToJson();
                 default:
-                    return errorData.Type.MessageJson(context: context);
+                    return errorData.MessageJson(context: context);
             }
         }
 
@@ -1615,7 +1615,7 @@ namespace Implem.Pleasanter.Models
             switch (invalid.Type)
             {
                 case Error.Types.None: break;
-                default: return invalid.Type.MessageJson(context: context);
+                default: return invalid.MessageJson(context: context);
             }
             var hb = new HtmlBuilder();
             return new ResponseCollection()
@@ -1984,7 +1984,7 @@ namespace Implem.Pleasanter.Models
             switch (invalid.Type)
             {
                 case Error.Types.None: break;
-                default: return invalid.Type.MessageJson(context: context);
+                default: return invalid.MessageJson(context: context);
             }
             var id = context.Forms.Data("TemplateId");
             if (id.IsNullOrEmpty())
@@ -2029,7 +2029,7 @@ namespace Implem.Pleasanter.Models
             switch (invalid.Type)
             {
                 case Error.Types.None: break;
-                default: return invalid.Type.MessageJson(context: context);
+                default: return invalid.MessageJson(context: context);
             }
             return SiteMenuResponse(context: context, siteModel: siteModel);
         }
@@ -2443,7 +2443,7 @@ namespace Implem.Pleasanter.Models
                         .SiteMenu
                         .SiteConditions(context: context, ss: siteModel.SiteSettings)))
                 .Invoke("setSiteMenu")
-                .Message(invalid.Type.Message(context: context))
+                .Message(invalid.Message(context: context))
                 .ToJson();
         }
 
@@ -8653,7 +8653,7 @@ namespace Implem.Pleasanter.Models
             switch (invalid.Type)
             {
                 case Error.Types.None: break;
-                default: return invalid.Type.MessageJson(context: context);
+                default: return invalid.MessageJson(context: context);
             }
             ItemUtilities.UpdateTitles(context: context, ss: ss);
             return Messages.ResponseSynchronizationCompleted(context: context).ToJson();
@@ -8673,7 +8673,7 @@ namespace Implem.Pleasanter.Models
             switch (invalid.Type)
             {
                 case Error.Types.None: break;
-                default: return invalid.Type.MessageJson(context: context);
+                default: return invalid.MessageJson(context: context);
             }
             var selected = context.Forms.IntList("EditSummary");
             if (selected?.Any() != true)
@@ -8704,7 +8704,7 @@ namespace Implem.Pleasanter.Models
             switch (invalid.Type)
             {
                 case Error.Types.None: break;
-                default: return invalid.Type.MessageJson(context: context);
+                default: return invalid.MessageJson(context: context);
             }
             var selected = context.Forms.IntList("EditFormula");
             if (selected?.Any() != true)
@@ -8922,7 +8922,7 @@ namespace Implem.Pleasanter.Models
             switch (invalid.Type)
             {
                 case Error.Types.None: break;
-                default: return invalid.Type.MessageJson(context: context);
+                default: return invalid.MessageJson(context: context);
             }
             Repository.ExecuteNonQuery(
                 context: context,
@@ -8951,7 +8951,7 @@ namespace Implem.Pleasanter.Models
             switch (invalid.Type)
             {
                 case Error.Types.None: break;
-                default: return invalid.Type.MessageJson(context: context);
+                default: return invalid.MessageJson(context: context);
             }
             Repository.ExecuteNonQuery(
                 context: context,
@@ -8980,7 +8980,7 @@ namespace Implem.Pleasanter.Models
             switch (invalid.Type)
             {
                 case Error.Types.None: break;
-                default: return invalid.Type.MessageJson(context: context);
+                default: return invalid.MessageJson(context: context);
             }
             Repository.ExecuteNonQuery(
                 context: context,
