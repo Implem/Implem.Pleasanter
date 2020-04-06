@@ -1428,7 +1428,7 @@ namespace Implem.Pleasanter.Models
                         context: context,
                         data: invalidFormat).ToJson();
                 case Error.Types.None: break;
-                default: return invalid.Type.MessageJson(context: context);
+                default: return invalid.MessageJson(context: context);
             }
             var res = new SitesResponseCollection(this);
             SetSiteSettingsPropertiesBySession(context: context);
@@ -2933,10 +2933,7 @@ namespace Implem.Pleasanter.Models
             }
             else
             {
-                var invalidMailAddress = string.Empty;
-                var invalid = SiteValidators.SetReminder(
-                    context: context,
-                    data: out invalidMailAddress);
+                var invalid = SiteValidators.SetReminder(context: context);
                 switch (invalid.Type)
                 {
                     case Error.Types.None:
@@ -2958,19 +2955,16 @@ namespace Implem.Pleasanter.Models
                             disabled: context.Forms.Bool("ReminderDisabled")));
                         SetRemindersResponseCollection(context: context, res: res);
                         break;
-                    case Error.Types.BadMailAddress:
-                    case Error.Types.ExternalMailAddress:
-                        res.Message(invalid.Type.Message(
-                            context: context,
-                            data: invalidMailAddress));
-                        break;
                     default:
-                        res.Message(invalid.Type.Message(context: context));
+                        res.Message(invalid.Message(context: context));
                         break;
                 }
             }
         }
 
+        /// <summary>
+        /// Fixed:
+        /// </summary>
         /// <summary>
         /// Fixed:
         /// </summary>
@@ -2989,10 +2983,7 @@ namespace Implem.Pleasanter.Models
                 }
                 else
                 {
-                    var invalidMailAddress = string.Empty;
-                    var invalid = SiteValidators.SetReminder(
-                        context: context,
-                        data: out invalidMailAddress);
+                    var invalid = SiteValidators.SetReminder(context: context);
                     switch (invalid.Type)
                     {
                         case Error.Types.None:
@@ -3013,14 +3004,8 @@ namespace Implem.Pleasanter.Models
                                 disabled: context.Forms.Bool("ReminderDisabled"));
                             SetRemindersResponseCollection(context: context, res: res);
                             break;
-                        case Error.Types.BadMailAddress:
-                        case Error.Types.ExternalMailAddress:
-                            res.Message(invalid.Type.Message(
-                                context: context,
-                                data: invalidMailAddress));
-                            break;
                         default:
-                            res.Message(invalid.Type.Message(context: context));
+                            res.Message(invalid.Message(context: context));
                             break;
                     }
                 }

@@ -48,7 +48,7 @@ namespace Implem.Pleasanter.Models
             switch (invalid.Type)
             {
                 case Error.Types.None: break;
-                default: return invalid.Type.MessageJson(context: context);
+                default: return invalid.MessageJson(context: context);
             }
             var hb = new HtmlBuilder();
             var permissions = SourceCollection(
@@ -624,7 +624,7 @@ namespace Implem.Pleasanter.Models
             switch (invalid.Type)
             {
                 case Error.Types.None: break;
-                default: return invalid.Type.MessageJson(context: context);
+                default: return invalid.MessageJson(context: context);
             }
             var res = new ResponseCollection();
             var selectedCurrentPermissions = context.Forms.List("CurrentPermissions");
@@ -838,7 +838,7 @@ namespace Implem.Pleasanter.Models
             switch (invalid.Type)
             {
                 case Error.Types.None: break;
-                default: return invalid.Type.MessageJson(context: context);
+                default: return invalid.MessageJson(context: context);
             }
             var res = new ResponseCollection();
             var currentPermissions = CurrentPermissions(
@@ -1239,7 +1239,7 @@ namespace Implem.Pleasanter.Models
             switch (invalid.Type)
             {
                 case Error.Types.None: break;
-                default: return invalid.Type.MessageJson(context: context);
+                default: return invalid.MessageJson(context: context);
             }
             var res = new ResponseCollection();
             var selectedCurrentPermissionForCreating = context.Forms.List("CurrentPermissionForCreating");
@@ -1535,7 +1535,7 @@ namespace Implem.Pleasanter.Models
             switch (invalid.Type)
             {
                 case Error.Types.None: break;
-                default: return invalid.Type.MessageJson(context: context);
+                default: return invalid.MessageJson(context: context);
             }
             var res = new ResponseCollection();
             var type = context.Forms.Data("ColumnAccessControlType");
@@ -1900,7 +1900,7 @@ namespace Implem.Pleasanter.Models
             switch (invalid.Type)
             {
                 case Error.Types.None: break;
-                default: return invalid.Type.MessageJson(context: context);
+                default: return invalid.MessageJson(context: context);
             }
             var res = new ResponseCollection();
             var currentPermissions = CurrentColumnAccessControlAll(context: context);

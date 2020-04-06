@@ -936,7 +936,7 @@ namespace Implem.Pleasanter.Libraries.Search
             switch (invalid.Type)
             {
                 case Error.Types.None: break;
-                default: return invalid.Type.MessageJson(context: context);
+                default: return invalid.MessageJson(context: context);
             }
             RebuildSearchIndexes(
                 context: context,

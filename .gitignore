@@ -72,5 +72,9 @@ bundles/
 /Implem.Pleasanter.NetCore/wwwroot/
 /Implem.Pleasanter.NetCore/Views/
 /Implem.Pleasanter.NetFramework/App_Data/
-/Implem.Pleasanter.NetFramework/wwwroot/
+/Implem.Pleasanter.NetFramework/content/
+/Implem.Pleasanter.NetFramework/Images/
+/Implem.Pleasanter.NetFramework/Scripts/
+/Implem.Pleasanter.NetFramework/Styles/
 /Implem.Pleasanter.NetFramework/Views/
+

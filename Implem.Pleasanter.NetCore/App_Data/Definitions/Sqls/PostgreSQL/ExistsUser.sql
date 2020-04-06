@@ -1,1 +1,0 @@
-﻿select usename from pg_user where usename='#Uid#';

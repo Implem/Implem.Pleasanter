@@ -922,7 +922,7 @@ namespace Implem.Pleasanter.Models
             switch (invalid.Type)
             {
                 case Error.Types.None: break;
-                default: return invalid.Type.MessageJson(context: context);
+                default: return invalid.MessageJson(context: context);
             }
             if (wikiModel.AccessStatus != Databases.AccessStatuses.Selected)
             {
@@ -954,7 +954,7 @@ namespace Implem.Pleasanter.Models
                         data: wikiModel.Updator.Name)
                             .ToJson();
                 default:
-                    return errorData.Type.MessageJson(context: context);
+                    return errorData.MessageJson(context: context);
             }
         }
 
@@ -1039,7 +1039,7 @@ namespace Implem.Pleasanter.Models
             switch (invalid.Type)
             {
                 case Error.Types.None: break;
-                default: return invalid.Type.MessageJson(context: context);
+                default: return invalid.MessageJson(context: context);
             }
             var errorData = wikiModel.Delete(context: context, ss: ss, notice: true);
             switch (errorData.Type)
@@ -1056,7 +1056,7 @@ namespace Implem.Pleasanter.Models
                     .Invoke("back");
                     return res.ToJson();
                 default:
-                    return errorData.Type.MessageJson(context: context);
+                    return errorData.MessageJson(context: context);
             }
         }
 
@@ -1241,7 +1241,7 @@ namespace Implem.Pleasanter.Models
             switch (invalid.Type)
             {
                 case Error.Types.None: break;
-                default: return invalid.Type.MessageJson(context: context);
+                default: return invalid.MessageJson(context: context);
             }
             var ver = context.Forms.Data("GridCheckedItems")
                 .Split(',')
@@ -1288,7 +1288,7 @@ namespace Implem.Pleasanter.Models
                             id: wikiId))
                         .ToJson();
                 default:
-                    return errorData.Type.MessageJson(context: context);
+                    return errorData.MessageJson(context: context);
             }
         }
 

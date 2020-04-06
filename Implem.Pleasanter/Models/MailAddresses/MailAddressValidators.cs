@@ -13,15 +13,16 @@ namespace Implem.Pleasanter.Models
         /// <summary>
         /// Fixed:
         /// </summary>
-        public static ErrorData BadMailAddress(
-            Context context, string addresses, out string data)
+        public static ErrorData BadMailAddress(Context context, string addresses)
         {
-            data = Libraries.Mails.Addresses.BadAddress(
+            var data = Libraries.Mails.Addresses.BadAddress(
                 context: context,
                 addresses: addresses);
             if (data != string.Empty)
             {
-                return new ErrorData(type: Error.Types.BadMailAddress);
+                return new ErrorData(
+                    type: Error.Types.BadMailAddress,
+                    data: new string[] { data });
             }
             return new ErrorData(type: Error.Types.None);
         }
@@ -29,15 +30,16 @@ namespace Implem.Pleasanter.Models
         /// <summary>
         /// Fixed:
         /// </summary>
-        public static ErrorData ExternalMailAddress(
-            Context context, string addresses, out string data)
+        public static ErrorData ExternalMailAddress(Context context, string addresses)
         {
-            data = Libraries.Mails.Addresses.ExternalMailAddress(
+            var data = Libraries.Mails.Addresses.ExternalMailAddress(
                 context: context,
                 addresses: addresses);
             if (data != string.Empty)
             {
-                return new ErrorData(type: Error.Types.ExternalMailAddress);
+                return new ErrorData(
+                    type: Error.Types.ExternalMailAddress,
+                    data: new string[] { data });
             }
             return new ErrorData(type: Error.Types.None);
         }
