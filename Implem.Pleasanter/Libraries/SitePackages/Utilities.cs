@@ -436,27 +436,27 @@ namespace Implem.Pleasanter.Libraries.SitePackages
                 .Comments(model.Comments?.ToJson(), _using: model.Comments?.Any() == true);
             model.ClassHash?.ForEach(o =>
                 param.Add(
-                    columnBracket: o.Key,
+                    columnBracket: $"\"{o.Key}\"",
                     name: o.Key,
                     value: o.Value.ToString().MaxLength(1024)));
             model.NumHash?.ForEach(o =>
                 param.Add(
-                    columnBracket: o.Key,
+                    columnBracket: $"\"{o.Key}\"",
                     name: o.Key,
                     value: o.Value));
             model.DateHash?.ForEach(o =>
                 param.Add(
-                    columnBracket: o.Key,
+                    columnBracket: $"\"{o.Key}\"",
                     name: o.Key,
                     value: o.Value));
             model.DescriptionHash?.ForEach(o =>
                 param.Add(
-                    columnBracket: o.Key,
+                    columnBracket: $"\"{o.Key}\"",
                     name: o.Key,
                     value: o.Value));
             model.CheckHash?.ForEach(o =>
                 param.Add(
-                    columnBracket: o.Key,
+                    columnBracket: $"\"{o.Key}\"",
                     name: o.Key,
                     value: o.Value));
             Repository.ExecuteScalar_response(
@@ -496,27 +496,27 @@ namespace Implem.Pleasanter.Libraries.SitePackages
                 .Comments(model.Comments?.ToJson(), _using: model.Comments?.Any() == true);
             model.ClassHash?.ForEach(o =>
                 param.Add(
-                    columnBracket: o.Key,
+                    columnBracket: $"\"{o.Key}\"",
                     name: o.Key,
                     value: o.Value.ToString().MaxLength(1024)));
             model.NumHash?.ForEach(o =>
                 param.Add(
-                    columnBracket: o.Key,
+                    columnBracket: $"\"{o.Key}\"",
                     name: o.Key,
                     value: o.Value));
             model.DateHash?.ForEach(o =>
                 param.Add(
-                    columnBracket: o.Key,
+                    columnBracket: $"\"{o.Key}\"",
                     name: o.Key,
                     value: o.Value));
             model.DescriptionHash?.ForEach(o =>
                 param.Add(
-                    columnBracket: o.Key,
+                    columnBracket: $"\"{o.Key}\"",
                     name: o.Key,
                     value: o.Value));
             model.CheckHash?.ForEach(o =>
                 param.Add(
-                    columnBracket: o.Key,
+                    columnBracket: $"\"{o.Key}\"",
                     name: o.Key,
                     value: o.Value));
             Repository.ExecuteScalar_response(
