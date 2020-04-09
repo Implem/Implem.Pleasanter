@@ -421,12 +421,17 @@ namespace Implem.Pleasanter.Libraries.DataSources
         }
 
         public static SqlWhereCollection Bool(
-            this SqlWhereCollection where, Column column, string _operator)
+            this SqlWhereCollection where, Column column, bool? value)
         {
-            return where.Add(
-                tableName: column.TableName(),
-                columnBrackets: new string[] { "\"" + column.Name + "\"" },
-                _operator: _operator);
+            return value.HasValue
+                ? where.Add(
+                    tableName: column.TableName(),
+                    columnBrackets: new string[] { "\"" + column.Name + "\"" },
+                    value: value)
+                : where.Add(
+                    tableName: column.TableName(),
+                    columnBrackets: new string[] { "\"" + column.Name + "\"" },
+                    _operator: " is null");
         }
 
         public static SqlStatement TenantsStatement(
@@ -82495,7 +82500,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBrackets: new string[] { "\"Guid\"" },
                     tableName: tableName,
                     name: "Guid",
-                    value: ((string)value)?.ToUpper(),
+                    value: value,
                     _operator: _operator,
                     multiColumnOperator: multiColumnOperator,
                     multiParamOperator: multiParamOperator,
@@ -82524,7 +82529,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBrackets: new string[] { "\"Guid\"" },
                     tableName: tableName,
                     name: "Guid",
-                    value: ((string)value)?.ToUpper(),
+                    value: value,
                     _operator: _operator,
                     multiColumnOperator: multiColumnOperator,
                     multiParamOperator: multiParamOperator,

@@ -433,7 +433,7 @@ namespace Implem.Pleasanter.Models
                                     Rds.Depts_DeptName_WhereLike(factory: context),
                                     Rds.Depts_Body_WhereLike(factory: context)
                                 })
-                            .Users_Disabled(context.Sqls.FalseValue),
+                            .Users_Disabled(false),
                         unionType: Sqls.UnionTypes.UnionAll)
                 })
                     .AsEnumerable()

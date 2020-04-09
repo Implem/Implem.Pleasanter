@@ -419,7 +419,7 @@ namespace Implem.Pleasanter.Models
                     context: context,
                     where: Rds.BinariesWhere()
                         .TenantId(context.TenantId)
-                        .Guid(guid));
+                        .Guid(guid.ToUpper()));
             var ss = new ItemModel(
                 context: context,
                 referenceId: binaryModel.ReferenceId)
@@ -522,7 +522,7 @@ namespace Implem.Pleasanter.Models
             {
                 return null;
             }
-            return FileContentResults.Download(context: context, guid: guid);
+            return FileContentResults.Download(context: context, guid: guid.ToUpper());
         }
 
         /// <summary>
@@ -534,7 +534,7 @@ namespace Implem.Pleasanter.Models
             {
                 return null;
             }
-            return FileContentResults.DownloadByApi(context: context, guid: guid);
+            return FileContentResults.DownloadByApi(context: context, guid: guid.ToUpper());
         }
 
         /// <summary>
@@ -546,7 +546,7 @@ namespace Implem.Pleasanter.Models
             {
                 return null;
             }
-            return FileContentResults.DownloadTemp(guid);
+            return FileContentResults.DownloadTemp(guid.ToUpper());
         }
 
         /// <summary>
