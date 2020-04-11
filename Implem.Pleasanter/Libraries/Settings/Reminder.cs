@@ -32,6 +32,7 @@ namespace Implem.Pleasanter.Libraries.Settings
         public int Range;
         public bool? SendCompletedInPast;
         public bool? NotSendIfNotApplicable;
+        public bool? NotSendHyperLink;
         public int Condition;
         public bool? Disabled;
 
@@ -60,8 +61,10 @@ namespace Implem.Pleasanter.Libraries.Settings
             int range,
             bool sendCompletedInPast,
             bool notSendIfNotApplicable,
+            bool notSendHyperLink,
             int condition,
-            bool disabled)
+            bool disabled
+            )
         {
             Id = id;
             Subject = subject;
@@ -75,6 +78,7 @@ namespace Implem.Pleasanter.Libraries.Settings
             Range = range;
             SendCompletedInPast = sendCompletedInPast;
             NotSendIfNotApplicable = notSendIfNotApplicable;
+            NotSendHyperLink = notSendHyperLink;
             Condition = condition;
             Disabled = disabled;
         }
@@ -91,6 +95,7 @@ namespace Implem.Pleasanter.Libraries.Settings
             int range,
             bool sendCompletedInPast,
             bool notSendIfNotApplicable,
+            bool notSendHyperLink,
             int condition,
             bool disabled)
         {
@@ -105,6 +110,7 @@ namespace Implem.Pleasanter.Libraries.Settings
             Range = range;
             SendCompletedInPast = sendCompletedInPast;
             NotSendIfNotApplicable = notSendIfNotApplicable;
+            NotSendHyperLink = notSendHyperLink;
             Condition = condition;
             Disabled = disabled;
         }
@@ -192,14 +198,23 @@ namespace Implem.Pleasanter.Libraries.Settings
                 timeGroup
                     .OrderBy(dataRow => dataRow.Int("Status"))
                     .ForEach(dataRow =>
+                    {
                         sb.Append(
                             "\t",
-                            ReplacedLine(context: context, ss: ss, dataRow: dataRow),
-                            "\n\t",
-                            Locations.ItemEditAbsoluteUri(
+                            ReplacedLine(
                                 context: context,
-                                id: dataRow.Long(Rds.IdColumn(ss.ReferenceType))),
-                            "\n"));
+                                ss: ss,
+                                dataRow: dataRow));
+                        if (NotSendHyperLink != true)
+                        {
+                            sb.Append(
+                                "\n\t",
+                                Locations.ItemEditAbsoluteUri(
+                                    context: context,
+                                    id: dataRow.Long(Rds.IdColumn(ss.ReferenceType))));
+                        }
+                        sb.Append("\n");
+                    });
                 sb.Append("\n");
             });
             if (!timeGroups.Any())
@@ -322,6 +337,10 @@ namespace Implem.Pleasanter.Libraries.Settings
             if (NotSendIfNotApplicable == true)
             {
                 reminder.NotSendIfNotApplicable = NotSendIfNotApplicable;
+            }
+            if (NotSendHyperLink == true)
+            {
+                reminder.NotSendHyperLink = NotSendHyperLink;
             }
             if (Disabled == true)
             {

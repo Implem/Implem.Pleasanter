@@ -39,6 +39,7 @@ namespace Implem.DefinitionAccessor
             DateTimes.FirstMonth = Parameters.General.FirstMonth;
             DateTimes.MinTime = Parameters.General.MinTime;
             DateTimes.MaxTime = Parameters.General.MaxTime;
+            DeleteTemporaryFiles();
         }
 
         private static void SetRdsPassword(bool setRdsPassword, bool setRandomPassword)
@@ -479,6 +480,14 @@ namespace Implem.DefinitionAccessor
             Sqls.SelectIdentity = Def.Sql.SelectIdentity;
             Sqls.BeginTransaction = Def.Sql.BeginTransaction;
             Sqls.CommitTransaction = Def.Sql.CommitTransaction;
+        }
+
+        private static void DeleteTemporaryFiles()
+        {
+            Files.DeleteTemporaryFiles(
+                Directories.Temp(), Parameters.General.DeleteTempOldThan);
+            Files.DeleteTemporaryFiles(
+                Directories.Histories(), Parameters.General.DeleteHistoriesOldThan);
         }
     }
 }

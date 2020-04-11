@@ -43,7 +43,6 @@ namespace Implem.CodeDefiner
                 setSaPassword: argHash.ContainsKey("s"),
                 setRandomPassword: argHash.ContainsKey("r"));
             Performances.Record(MethodBase.GetCurrentMethod().Name);
-            DeleteTemporaryFiles();
             switch (action)
             {
                 case "_rds":
@@ -91,14 +90,6 @@ namespace Implem.CodeDefiner
                     Consoles.Types.Success);
             }
             WaitConsole(args);
-        }
-
-        private static void DeleteTemporaryFiles()
-        {
-            Files.DeleteTemporaryFiles(
-                Directories.Temp(), Parameters.General.DeleteTempOldThan);
-            Files.DeleteTemporaryFiles(
-                Directories.Histories(), Parameters.General.DeleteHistoriesOldThan);
         }
 
         private static void ValidateArgs(IEnumerable<string> argList)

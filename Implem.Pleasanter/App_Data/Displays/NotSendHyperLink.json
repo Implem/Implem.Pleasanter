@@ -1,0 +1,13 @@
+﻿{
+    "Id": "NotSendHyperLink",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "NotSendHyperLink"
+        },
+        {
+            "Language": "ja",
+            "Body": "URLを送信しない"
+        }
+    ]
+}

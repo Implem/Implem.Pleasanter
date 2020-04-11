@@ -1548,6 +1548,7 @@
     <Content Include="App_Data\Displays\UseRelatingColumns.json" />
     <Content Include="App_Data\Displays\SsoLoginMessage.json" />
     <Content Include="App_Data\Displays\SsoLogin.json" />
+    <Content Include="App_Data\Displays\NotSendHyperLink.json" />
     <Content Include="Tools\BackgroundTasks.ps1" />
     <Content Include="Tools\SyncByLdap.ps1" />
     <Content Include="Views\Users\EditApi.cshtml" />

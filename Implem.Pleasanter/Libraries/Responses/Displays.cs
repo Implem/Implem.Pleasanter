@@ -4318,6 +4318,16 @@ namespace Implem.Pleasanter.Libraries.Responses
                 data: data);
         }
 
+        public static string NotSendHyperLink(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "NotSendHyperLink",
+                data: data);
+        }
+
         public static string NotSendIfNotApplicable(
             Context context,
             params string[] data)

@@ -251,6 +251,14 @@ namespace Implem.Libraries.Utilities
                     fileInfo.Delete();
                 }
             });
+            Directory.EnumerateDirectories(path).ForEach(dirPath =>
+            {
+                var dirInfo = new DirectoryInfo(dirPath);
+                if ((DateTime.Now - dirInfo.LastWriteTime).TotalMinutes > timeElapsed)
+                {
+                    Directory.Delete(dirPath, true);
+                }
+            });
         }
     }
 }
