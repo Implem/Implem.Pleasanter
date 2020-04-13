@@ -1,4 +1,4 @@
-﻿{
+{
     "Id": "HasNotPermission",
     "Type": 240,
     "Languages": [
@@ -6,8 +6,24 @@
             "Body": "You do not have permission to perform this operation."
         },
         {
+            "Language": "zh",
+            "Body": "您没有执行此操作的权限。"
+        },
+        {
             "Language": "ja",
             "Body": "この操作を行うための権限がありません。"
+        },
+        {
+            "Language": "de",
+            "Body": "Sie haben keine Berechtigung zum Ausführen dieser Aktion."
+        },
+        {
+            "Language": "ko",
+            "Body": "이 작업을 수행할 권한이 없습니다."
+        },
+        {
+            "Language": "es",
+            "Body": "No tiene permiso para realizar esta operación."
         }
     ]
 }

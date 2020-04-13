@@ -6,8 +6,24 @@
             "Body": "Please download from the link below."
         },
         {
+            "Language": "zh",
+            "Body": "请从下面的链接下载。"
+        },
+        {
             "Language": "ja",
             "Body": "以下のリンクからダウンロードしてください。"
+        },
+        {
+            "Language": "de",
+            "Body": "Bitte laden Sie über den unten stehenden Link."
+        },
+        {
+            "Language": "ko",
+            "Body": "아래 링크에서 다운로드하십시오."
+        },
+        {
+            "Language": "es",
+            "Body": "Si prega di scaricare dal link sottostante."
         }
     ]
 }

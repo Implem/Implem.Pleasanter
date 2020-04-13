@@ -1,4 +1,4 @@
-﻿{
+{
     "Id": "CopySettings",
     "Type": 110,
     "Languages": [
@@ -6,8 +6,24 @@
             "Body": "Copy settings"
         },
         {
+            "Language": "zh",
+            "Body": "复制设置"
+        },
+        {
             "Language": "ja",
             "Body": "コピー設定"
+        },
+        {
+            "Language": "de",
+            "Body": "Einstellungen kopieren"
+        },
+        {
+            "Language": "ko",
+            "Body": "복사 설정"
+        },
+        {
+            "Language": "es",
+            "Body": "Copiar los ajustes"
         }
     ]
 }

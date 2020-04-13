@@ -6,8 +6,24 @@
             "Body": "Show start guide"
         },
         {
+            "Language": "zh",
+            "Body": "显示开始指南"
+        },
+        {
             "Language": "ja",
             "Body": "スタートガイドを表示"
+        },
+        {
+            "Language": "de",
+            "Body": "Startanleitung anzeigen"
+        },
+        {
+            "Language": "ko",
+            "Body": "시작 안내서 표시"
+        },
+        {
+            "Language": "es",
+            "Body": "Mostra la guida di avvio"
         }
     ]
 }

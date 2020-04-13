@@ -1,13 +1,29 @@
-﻿{
+{
     "Id": "DemoMailBody",
     "Type": 110,
     "Languages": [
         {
-            "Body": "Thank you for your application to the demonstration environment available .\r\n\r\n, Please try to access the following URL .\r\n\r\n{0}\r\n\r\ncan be used for {1} days."
+            "Body": "Thank you for signing up to use the demo environment.\n\nPlease access the following URL to try.\n\n{0}\n\nThe demo environment is available for use for {1} day(s)."
+        },
+        {
+            "Language": "zh",
+            "Body": "感谢您注册使用此演示环境。\n\n请访问以下URL尝试操作。\n\n{0}\n\n此演示环境还可以使用{1}天。"
         },
         {
             "Language": "ja",
-            "Body": "デモ環境ご利用へのお申し込みありがとうございます。\r\n\r\n下記のURLにアクセスしご試用ください。\r\n\r\n{0}\r\n\r\nデモ環境は{1}日間ご利用いただけます。\r\n\r\nアプリ作成ガイド\r\nhttps://pleasanter.org/downloads/hands-on1.pdf\r\n\r\nユーザーマニュアル\r\nhttps://pleasanter.net/fs/publishes/418092/index\r\n\r\nお問い合わせ\r\nhttps://implem.co.jp/contact/"
+            "Body": "デモ環境ご利用へのお申し込みありがとうございます。\r\n\r\n下記のURLにアクセスしご試用ください。\r\n\r\n{0}\r\n\r\nデモ環境は{1}日間ご利用いただけます。"
+        },
+        {
+            "Language": "de",
+            "Body": "Vielen Dank für Ihre Anmeldung in der Demo-Umgebung.\n\nZum Testen rufen Sie bitte die folgende URL auf.\n\n{0}\n\nSie können die Demo-Umgebung {1} Tag(e) nutzen."
+        },
+        {
+            "Language": "ko",
+            "Body": "데모 환경 사용을 위해 가입해 주셔서 감사합니다.\n\n사용하려면 다음 URL에 액세스하십시오.\n\n{0}\n\n데모 환경은 {1}일 동안 사용할 수 있습니다."
+        },
+        {
+            "Language": "es",
+            "Body": "Gracias por registrarse para usar el entorno de demostración.\n\nPor favor, acceda a la URL siguiente para hacer una prueba.\n\n{0}\n\nEl entorno de demostración está disponible para usar durante {1} día(s)."
         }
     ]
 }

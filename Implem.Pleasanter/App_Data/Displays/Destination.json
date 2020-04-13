@@ -1,13 +1,29 @@
-﻿{
+{
     "Id": "Destination",
     "Type": 110,
     "Languages": [
         {
-            "Body": "Destination"
+            "Body": "Move to"
+        },
+        {
+            "Language": "zh",
+            "Body": "移动至"
         },
         {
             "Language": "ja",
             "Body": "移動先"
+        },
+        {
+            "Language": "de",
+            "Body": "Verschieben nach"
+        },
+        {
+            "Language": "ko",
+            "Body": "(으)로 이동"
+        },
+        {
+            "Language": "es",
+            "Body": "Mover a"
         }
     ]
 }

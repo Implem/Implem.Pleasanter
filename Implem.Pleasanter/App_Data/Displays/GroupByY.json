@@ -1,13 +1,29 @@
-﻿{
+{
     "Id": "GroupByY",
     "Type": 110,
     "Languages": [
         {
-            "Body": "Rows group by"
+            "Body": "Group by row"
+        },
+        {
+            "Language": "zh",
+            "Body": "按行分组"
         },
         {
             "Language": "ja",
             "Body": "行の分類"
+        },
+        {
+            "Language": "de",
+            "Body": "Gruppieren nach Zeile"
+        },
+        {
+            "Language": "ko",
+            "Body": "행별 그룹"
+        },
+        {
+            "Language": "es",
+            "Body": "Agrupar por fila"
         }
     ]
 }

@@ -1,13 +1,29 @@
-﻿{
+{
     "Id": "RequireManagePermission",
     "Type": 240,
     "Languages": [
         {
-            "Body": "This operation can not be performed because the administrator is away."
+            "Body": "This operation cannot be performed due to the administrator being away."
+        },
+        {
+            "Language": "zh",
+            "Body": "由于管理员离开，无法执行此操作。"
         },
         {
             "Language": "ja",
             "Body": "管理者が不在となるため、この操作を行うことができません。"
+        },
+        {
+            "Language": "de",
+            "Body": "Dieser Vorgang kann wegen Abwesenheit des Administrators nicht ausgeführt werden."
+        },
+        {
+            "Language": "ko",
+            "Body": "관리자가 없어 이 작업을 수행할 수 없습니다."
+        },
+        {
+            "Language": "es",
+            "Body": "Esta operación no puede realizarse debido a que el administrador está fuera."
         }
     ]
 }

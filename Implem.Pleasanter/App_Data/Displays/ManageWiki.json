@@ -1,13 +1,29 @@
-﻿{
+{
     "Id": "ManageWiki",
     "Type": 110,
     "Languages": [
         {
-            "Body": "Manage wiki"
+            "Body": "Manage Wiki"
+        },
+        {
+            "Language": "zh",
+            "Body": "管理维基百科"
         },
         {
             "Language": "ja",
             "Body": "Wikiの管理"
+        },
+        {
+            "Language": "de",
+            "Body": "Wiki verwalten"
+        },
+        {
+            "Language": "ko",
+            "Body": "위키 관리"
+        },
+        {
+            "Language": "es",
+            "Body": "Gestionar Wiki"
         }
     ]
 }

@@ -1,13 +1,29 @@
-﻿{
+{
     "Id": "CanNotInherit",
     "Type": 240,
     "Languages": [
         {
-            "Body": "Inherited sites can not be inherited."
+            "Body": "You cannot inherit the sites already inherited."
+        },
+        {
+            "Language": "zh",
+            "Body": "您无法继承已继承的站点。"
         },
         {
             "Language": "ja",
             "Body": "継承中のサイトは継承できません。"
+        },
+        {
+            "Language": "de",
+            "Body": "Bereits vererbte Sites können nicht erneut vererbt werden."
+        },
+        {
+            "Language": "ko",
+            "Body": "이미 계승된 사이트를 계승할 수 없습니다."
+        },
+        {
+            "Language": "es",
+            "Body": "No puede heredar los sitios ya heredados."
         }
     ]
 }

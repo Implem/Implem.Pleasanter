@@ -1,4 +1,4 @@
-﻿{
+{
     "Id": "ImageOnly",
     "Type": 110,
     "Languages": [
@@ -6,8 +6,24 @@
             "Body": "Image only"
         },
         {
+            "Language": "zh",
+            "Body": "仅图像"
+        },
+        {
             "Language": "ja",
             "Body": "画像のみ"
+        },
+        {
+            "Language": "de",
+            "Body": "Nur Bild"
+        },
+        {
+            "Language": "ko",
+            "Body": "이미지만"
+        },
+        {
+            "Language": "es",
+            "Body": "Solo imagen"
         }
     ]
 }

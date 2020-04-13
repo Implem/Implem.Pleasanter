@@ -1,4 +1,4 @@
-﻿{
+{
     "Id": "Address",
     "Type": 110,
     "Languages": [
@@ -6,8 +6,24 @@
             "Body": "Address"
         },
         {
+            "Language": "zh",
+            "Body": "地址"
+        },
+        {
             "Language": "ja",
             "Body": "アドレス"
+        },
+        {
+            "Language": "de",
+            "Body": "Adresse"
+        },
+        {
+            "Language": "ko",
+            "Body": "주소"
+        },
+        {
+            "Language": "es",
+            "Body": "Dirección"
         }
     ]
 }

@@ -1,4 +1,4 @@
-﻿{
+{
     "Id": "ListMode",
     "Type": 110,
     "Languages": [
@@ -6,8 +6,24 @@
             "Body": "List mode"
         },
         {
+            "Language": "zh",
+            "Body": "列表模式"
+        },
+        {
             "Language": "ja",
             "Body": "一覧モード"
+        },
+        {
+            "Language": "de",
+            "Body": "Listenmodus"
+        },
+        {
+            "Language": "ko",
+            "Body": "목록 모드"
+        },
+        {
+            "Language": "es",
+            "Body": "Modo de lista"
         }
     ]
 }

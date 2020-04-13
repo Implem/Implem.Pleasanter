@@ -1,14 +1,30 @@
-﻿{
+{
     "Id": "ResetOrder",
     "Type": 110,
     "ClientScript": true,
     "Languages": [
         {
-            "Body": "Reset"
+            "Body": "Reset order"
+        },
+        {
+            "Language": "zh",
+            "Body": "重置顺序"
         },
         {
             "Language": "ja",
             "Body": "リセット"
+        },
+        {
+            "Language": "de",
+            "Body": "Reihenfolge zurücksetzen"
+        },
+        {
+            "Language": "ko",
+            "Body": "순서 재설정"
+        },
+        {
+            "Language": "es",
+            "Body": "Restablecer orden"
         }
     ]
 }

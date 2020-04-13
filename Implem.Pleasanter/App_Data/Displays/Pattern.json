@@ -1,4 +1,4 @@
-﻿{
+{
     "Id": "Pattern",
     "Type": 110,
     "Languages": [
@@ -6,8 +6,24 @@
             "Body": "Pattern"
         },
         {
+            "Language": "zh",
+            "Body": "形式"
+        },
+        {
             "Language": "ja",
             "Body": "パターン"
+        },
+        {
+            "Language": "de",
+            "Body": "Muster"
+        },
+        {
+            "Language": "ko",
+            "Body": "패턴"
+        },
+        {
+            "Language": "es",
+            "Body": "Patrón"
         }
     ]
 }

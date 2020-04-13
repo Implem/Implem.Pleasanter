@@ -1,12 +1,28 @@
-﻿{
+{
     "Id": "YmdhmsFormat",
     "Type": 130,
     "Languages": [
         {
-            "Body": "MM/dd/yyyy HH:mm:ss"
+            "Body": "yyyy/MM/dd HH:mm:ss"
+        },
+        {
+            "Language": "zh",
+            "Body": "yyyy/MM/dd HH:mm:ss"
         },
         {
             "Language": "ja",
+            "Body": "yyyy/MM/dd HH:mm:ss"
+        },
+        {
+            "Language": "de",
+            "Body": "JJJJ-MM-TT HH:mm:ss"
+        },
+        {
+            "Language": "ko",
+            "Body": "yyyy/MM/dd HH:mm:ss"
+        },
+        {
+            "Language": "es",
             "Body": "yyyy/MM/dd HH:mm:ss"
         }
     ]

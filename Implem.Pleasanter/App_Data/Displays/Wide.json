@@ -1,4 +1,4 @@
-﻿{
+{
     "Id": "Wide",
     "Type": 110,
     "Languages": [
@@ -6,8 +6,24 @@
             "Body": "Wide"
         },
         {
+            "Language": "zh",
+            "Body": "宽度"
+        },
+        {
             "Language": "ja",
             "Body": "ワイド"
+        },
+        {
+            "Language": "de",
+            "Body": "Quer"
+        },
+        {
+            "Language": "ko",
+            "Body": "넓게"
+        },
+        {
+            "Language": "es",
+            "Body": "Ancho"
         }
     ]
 }

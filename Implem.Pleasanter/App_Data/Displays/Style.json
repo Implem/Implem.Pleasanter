@@ -1,4 +1,4 @@
-﻿{
+{
     "Id": "Style",
     "Type": 110,
     "Languages": [
@@ -6,8 +6,24 @@
             "Body": "Style"
         },
         {
+            "Language": "zh",
+            "Body": "样式"
+        },
+        {
             "Language": "ja",
             "Body": "スタイル"
+        },
+        {
+            "Language": "de",
+            "Body": "Stil"
+        },
+        {
+            "Language": "ko",
+            "Body": "스타일"
+        },
+        {
+            "Language": "es",
+            "Body": "Estilo"
         }
     ]
 }

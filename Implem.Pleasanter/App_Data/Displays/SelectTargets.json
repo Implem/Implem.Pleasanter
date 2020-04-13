@@ -1,13 +1,29 @@
-﻿{
+{
     "Id": "SelectTargets",
     "Type": 240,
     "Languages": [
         {
-            "Body": "Please select targets"
+            "Body": "Please select the target."
+        },
+        {
+            "Language": "zh",
+            "Body": "请选择目标。"
         },
         {
             "Language": "ja",
             "Body": "対象を選択してください。"
+        },
+        {
+            "Language": "de",
+            "Body": "Bitte wählen Sie das Ziel aus."
+        },
+        {
+            "Language": "ko",
+            "Body": "대상을 선택하십시오."
+        },
+        {
+            "Language": "es",
+            "Body": "Por favor, seleccione el destino."
         }
     ]
 }

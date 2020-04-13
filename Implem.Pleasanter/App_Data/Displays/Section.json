@@ -1,4 +1,4 @@
-﻿{
+{
     "Id": "Section",
     "Type": 110,
     "Languages": [
@@ -6,8 +6,24 @@
             "Body": "Section"
         },
         {
+            "Language": "zh",
+            "Body": "部分"
+        },
+        {
             "Language": "ja",
             "Body": "セクション"
+        },
+        {
+            "Language": "de",
+            "Body": "Abschnitt"
+        },
+        {
+            "Language": "ko",
+            "Body": "섹션"
+        },
+        {
+            "Language": "es",
+            "Body": "Sección"
         }
     ]
 }

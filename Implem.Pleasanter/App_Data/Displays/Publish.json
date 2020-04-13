@@ -1,4 +1,4 @@
-﻿{
+{
     "Id": "Publish",
     "Type": 110,
     "Languages": [
@@ -6,8 +6,24 @@
             "Body": "Publish"
         },
         {
+            "Language": "zh",
+            "Body": "发布"
+        },
+        {
             "Language": "ja",
             "Body": "公開"
+        },
+        {
+            "Language": "de",
+            "Body": "Veröffentlichen"
+        },
+        {
+            "Language": "ko",
+            "Body": "공개"
+        },
+        {
+            "Language": "es",
+            "Body": "Publicar"
         }
     ]
 }

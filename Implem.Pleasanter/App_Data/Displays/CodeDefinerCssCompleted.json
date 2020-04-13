@@ -1,9 +1,29 @@
-﻿{
+{
     "Id": "CodeDefinerCssCompleted",
     "Type": 210,
     "Languages": [
         {
-            "Body": "Css codes creation completion."
+            "Body": "CSS code has been created."
+        },
+        {
+            "Language": "zh",
+            "Body": "已创建CSS代码。"
+        },
+        {
+            "Language": "ja",
+            "Body": "CSSコードの作成処理が完了しました。"
+        },
+        {
+            "Language": "de",
+            "Body": "Der CSS-Code wurde erstellt."
+        },
+        {
+            "Language": "ko",
+            "Body": "CSS 코드가 생성되었습니다."
+        },
+        {
+            "Language": "es",
+            "Body": "Se ha creado el código CSS."
         }
     ]
 }

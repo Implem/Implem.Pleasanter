@@ -1,13 +1,29 @@
-﻿{
+{
     "Id": "InputMailAddress",
     "Type": 240,
     "Languages": [
         {
-            "Body": "Please input mail address"
+            "Body": "Please enter your email address."
+        },
+        {
+            "Language": "zh",
+            "Body": "请输入您的邮箱地址。"
         },
         {
             "Language": "ja",
             "Body": "メールアドレスを入力してください。"
+        },
+        {
+            "Language": "de",
+            "Body": "Bitte geben Sie Ihre E-Mail-Adresse ein."
+        },
+        {
+            "Language": "ko",
+            "Body": "이메일 주소를 입력하십시오."
+        },
+        {
+            "Language": "es",
+            "Body": "Por favor, introduzca su dirección de correo electrónico."
         }
     ]
 }

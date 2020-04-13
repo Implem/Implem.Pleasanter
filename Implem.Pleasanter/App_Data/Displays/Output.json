@@ -1,4 +1,4 @@
-﻿{
+{
     "Id": "Output",
     "Type": 110,
     "Languages": [
@@ -6,8 +6,24 @@
             "Body": "Output"
         },
         {
+            "Language": "zh",
+            "Body": "输出"
+        },
+        {
             "Language": "ja",
             "Body": "出力"
+        },
+        {
+            "Language": "de",
+            "Body": "Ausgabe"
+        },
+        {
+            "Language": "ko",
+            "Body": "출력"
+        },
+        {
+            "Language": "es",
+            "Body": "Salida"
         }
     ]
 }

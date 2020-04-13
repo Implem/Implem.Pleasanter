@@ -1,13 +1,29 @@
-﻿{
-  "Id": "HistoryDeleted",
-  "Type": 210,
-  "Languages": [
-    {
-      "Body": "{0} it was deleted from history."
-    },
-    {
-      "Language": "ja",
-      "Body": "履歴を {0} 件 削除しました。"
-    }
-  ]
+{
+    "Id": "HistoryDeleted",
+    "Type": 210,
+    "Languages": [
+        {
+            "Body": "{0} entries have been deleted from history."
+        },
+        {
+            "Language": "zh",
+            "Body": "{0}条目已从历史中删除。"
+        },
+        {
+            "Language": "ja",
+            "Body": "履歴を {0} 件 削除しました。"
+        },
+        {
+            "Language": "de",
+            "Body": "{0} Einträge wurden aus dem Verlauf gelöscht."
+        },
+        {
+            "Language": "ko",
+            "Body": "히스토리에서 {0}개의 항목이 삭제되었습니다."
+        },
+        {
+            "Language": "es",
+            "Body": "Se han eliminado {0} entradas del historial."
+        }
+    ]
 }

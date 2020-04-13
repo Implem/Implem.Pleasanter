@@ -1,0 +1,29 @@
+﻿{
+    "Id": "AutoDataBaseOrLocalFolder",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Auto (Database Or Local folder)"
+        },
+        {
+            "Language": "zh",
+            "Body": "自动（数据库或本地文件夹）"
+        },
+        {
+            "Language": "ja",
+            "Body": "自動 (データベースまたはローカルフォルダー)"
+        },
+        {
+            "Language": "de",
+            "Body": "Auto (Datenbank oder lokaler Ordner)"
+        },
+        {
+            "Language": "ko",
+            "Body": "자동 (데이터베이스 또는 로컬 폴더)"
+        },
+        {
+            "Language": "es",
+            "Body": "Auto (database o cartella locale)"
+        }
+    ]
+}

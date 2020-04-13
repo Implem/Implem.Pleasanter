@@ -1,4 +1,4 @@
-﻿{
+{
     "Id": "Purchase",
     "Type": 110,
     "Languages": [
@@ -6,8 +6,24 @@
             "Body": "Purchase"
         },
         {
+            "Language": "zh",
+            "Body": "购置"
+        },
+        {
             "Language": "ja",
             "Body": "購買・仕入"
+        },
+        {
+            "Language": "de",
+            "Body": "Kaufen"
+        },
+        {
+            "Language": "ko",
+            "Body": "구매"
+        },
+        {
+            "Language": "es",
+            "Body": "Compra"
         }
     ]
 }

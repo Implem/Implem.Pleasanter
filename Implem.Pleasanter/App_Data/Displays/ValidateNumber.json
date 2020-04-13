@@ -1,14 +1,30 @@
-﻿{
+{
     "Id": "ValidateNumber",
     "Type": 410,
     "ClientScript": true,
     "Languages": [
         {
-            "Body": "You can not enter a non-numeric."
+            "Body": "Only numeric value can be entered."
+        },
+        {
+            "Language": "zh",
+            "Body": "只能输入数字。"
         },
         {
             "Language": "ja",
             "Body": "数値以外入力不可です。"
+        },
+        {
+            "Language": "de",
+            "Body": "Es können nur numerische Werte eingegeben werden."
+        },
+        {
+            "Language": "ko",
+            "Body": "수치값만 입력할 수 있습니다."
+        },
+        {
+            "Language": "es",
+            "Body": "Solo pueden introducirse valores numéricos."
         }
     ]
 }

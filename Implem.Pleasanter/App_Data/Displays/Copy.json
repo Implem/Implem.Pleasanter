@@ -1,4 +1,4 @@
-﻿{
+{
     "Id": "Copy",
     "Type": 110,
     "Languages": [
@@ -6,8 +6,24 @@
             "Body": "Copy"
         },
         {
+            "Language": "zh",
+            "Body": "复制"
+        },
+        {
             "Language": "ja",
             "Body": "コピー"
+        },
+        {
+            "Language": "de",
+            "Body": "Kopieren"
+        },
+        {
+            "Language": "ko",
+            "Body": "복사"
+        },
+        {
+            "Language": "es",
+            "Body": "Copiar"
         }
     ]
 }

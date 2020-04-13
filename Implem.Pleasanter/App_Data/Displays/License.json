@@ -1,4 +1,4 @@
-﻿{
+{
     "Id": "License",
     "Type": 110,
     "Languages": [
@@ -6,8 +6,24 @@
             "Body": "License"
         },
         {
+            "Language": "zh",
+            "Body": "许可"
+        },
+        {
             "Language": "ja",
             "Body": "ライセンス"
+        },
+        {
+            "Language": "de",
+            "Body": "Lizenz"
+        },
+        {
+            "Language": "ko",
+            "Body": "라이선스"
+        },
+        {
+            "Language": "es",
+            "Body": "Licencia"
         }
     ]
 }

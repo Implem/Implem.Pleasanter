@@ -1,13 +1,29 @@
-﻿{
+{
     "Id": "Deleted",
     "Type": 210,
     "Languages": [
         {
-            "Body": "Delete process of \" {0} \" was successful."
+            "Body": "\" {0} \" has been deleted."
+        },
+        {
+            "Language": "zh",
+            "Body": "“{0}”已删除。"
         },
         {
             "Language": "ja",
             "Body": "\" {0} \" を削除しました。"
+        },
+        {
+            "Language": "de",
+            "Body": "„ {0} “ wurde gelöscht."
+        },
+        {
+            "Language": "ko",
+            "Body": "\" {0} \"이(가) 삭제되었습니다."
+        },
+        {
+            "Language": "es",
+            "Body": "Se ha eliminado \" {0} \"."
         }
     ]
 }

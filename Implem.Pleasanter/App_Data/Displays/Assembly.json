@@ -1,4 +1,4 @@
-﻿{
+{
     "Id": "Assembly",
     "Type": 110,
     "Languages": [
@@ -6,8 +6,24 @@
             "Body": "Assembly"
         },
         {
+            "Language": "zh",
+            "Body": "组件"
+        },
+        {
             "Language": "ja",
             "Body": "アセンブリ"
+        },
+        {
+            "Language": "de",
+            "Body": "Zusammenstellung"
+        },
+        {
+            "Language": "ko",
+            "Body": "어셈블리"
+        },
+        {
+            "Language": "es",
+            "Body": "Conjunto"
         }
     ]
 }

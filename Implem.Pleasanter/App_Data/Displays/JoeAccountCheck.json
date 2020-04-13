@@ -1,13 +1,29 @@
-﻿{
+{
     "Id": "JoeAccountCheck",
     "Type": 240,
     "Languages": [
         {
-            "Body": "It is not possible to set the same password as the login ID."
+            "Body": "Password must be different from login ID."
+        },
+        {
+            "Language": "zh",
+            "Body": "密码必须与登录ID不同。"
         },
         {
             "Language": "ja",
             "Body": "ログインIDと同一のパスワードは設定できません。"
+        },
+        {
+            "Language": "de",
+            "Body": "Das Passwort darf nicht identisch mit der Anmelde-ID sein."
+        },
+        {
+            "Language": "ko",
+            "Body": "비밀번호는 로그인 ID와 달라야 합니다."
+        },
+        {
+            "Language": "es",
+            "Body": "La contraseña debe ser diferente de la ID de inicio de sesión."
         }
     ]
 }

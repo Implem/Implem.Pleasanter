@@ -1,13 +1,29 @@
-﻿{
+{
     "Id": "PermissionDestination",
     "Type": 110,
     "Languages": [
         {
-            "Body": "Current permissions"
+            "Body": "Current permission setting"
+        },
+        {
+            "Language": "zh",
+            "Body": "当前许可设置"
         },
         {
             "Language": "ja",
             "Body": "現在の権限設定"
+        },
+        {
+            "Language": "de",
+            "Body": "Aktuelle Berechtigungseinstellung"
+        },
+        {
+            "Language": "ko",
+            "Body": "현재 권한 설정"
+        },
+        {
+            "Language": "es",
+            "Body": "Ajustes de permiso actual"
         }
     ]
 }

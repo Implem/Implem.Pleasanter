@@ -1,4 +1,4 @@
-﻿{
+{
     "Id": "View",
     "Type": 110,
     "Languages": [
@@ -6,8 +6,24 @@
             "Body": "View"
         },
         {
+            "Language": "zh",
+            "Body": "视图"
+        },
+        {
             "Language": "ja",
             "Body": "表示"
+        },
+        {
+            "Language": "de",
+            "Body": "Anzeigen"
+        },
+        {
+            "Language": "ko",
+            "Body": "보기"
+        },
+        {
+            "Language": "es",
+            "Body": "Ver"
         }
     ]
 }

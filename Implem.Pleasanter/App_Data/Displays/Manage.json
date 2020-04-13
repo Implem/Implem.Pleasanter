@@ -1,4 +1,4 @@
-﻿{
+{
     "Id": "Manage",
     "Type": 110,
     "Languages": [
@@ -6,8 +6,24 @@
             "Body": "Manage"
         },
         {
+            "Language": "zh",
+            "Body": "管理"
+        },
+        {
             "Language": "ja",
             "Body": "管理"
+        },
+        {
+            "Language": "de",
+            "Body": "Verwalten"
+        },
+        {
+            "Language": "ko",
+            "Body": "관리"
+        },
+        {
+            "Language": "es",
+            "Body": "Gestionar"
         }
     ]
 }

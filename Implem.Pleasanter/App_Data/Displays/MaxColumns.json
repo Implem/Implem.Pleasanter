@@ -1,13 +1,29 @@
-﻿{
+{
     "Id": "MaxColumns",
     "Type": 110,
     "Languages": [
         {
-            "Body": "Max columns"
+            "Body": "Max. number of columns"
+        },
+        {
+            "Language": "zh",
+            "Body": "最大列数"
         },
         {
             "Language": "ja",
             "Body": "最大列数"
+        },
+        {
+            "Language": "de",
+            "Body": "Max. Spaltenanzahl"
+        },
+        {
+            "Language": "ko",
+            "Body": "최대 열 수"
+        },
+        {
+            "Language": "es",
+            "Body": "Número máx. de columnas"
         }
     ]
 }

@@ -1,4 +1,4 @@
-﻿{
+{
     "Id": "Range",
     "Type": 110,
     "Languages": [
@@ -6,8 +6,24 @@
             "Body": "Range"
         },
         {
+            "Language": "zh",
+            "Body": "范围"
+        },
+        {
             "Language": "ja",
             "Body": "範囲"
+        },
+        {
+            "Language": "de",
+            "Body": "Bereich"
+        },
+        {
+            "Language": "ko",
+            "Body": "범위"
+        },
+        {
+            "Language": "es",
+            "Body": "Intervalo"
         }
     ]
 }

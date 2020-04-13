@@ -1,13 +1,29 @@
-﻿{
+{
     "Id": "SendMail",
     "Type": 110,
     "Languages": [
         {
-            "Body": "Send mail"
+            "Body": "Send email"
+        },
+        {
+            "Language": "zh",
+            "Body": "发送电子邮件"
         },
         {
             "Language": "ja",
             "Body": "メール送信"
+        },
+        {
+            "Language": "de",
+            "Body": "E-Mail senden"
+        },
+        {
+            "Language": "ko",
+            "Body": "이메일 전송"
+        },
+        {
+            "Language": "es",
+            "Body": "Enviar correo electrónico"
         }
     ]
 }

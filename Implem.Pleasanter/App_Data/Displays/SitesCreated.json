@@ -1,13 +1,29 @@
-﻿{
+{
     "Id": "SitesCreated",
     "Type": 210,
     "Languages": [
         {
-            "Body": "The creation of the site is completed."
+            "Body": "A site has been created."
+        },
+        {
+            "Language": "zh",
+            "Body": "已创建站点。"
         },
         {
             "Language": "ja",
             "Body": "サイトを作成しました。"
+        },
+        {
+            "Language": "de",
+            "Body": "Es wurde eine Site erstellt."
+        },
+        {
+            "Language": "ko",
+            "Body": "사이트가 생성되었습니다."
+        },
+        {
+            "Language": "es",
+            "Body": "Se ha creado un sitio."
         }
     ]
 }

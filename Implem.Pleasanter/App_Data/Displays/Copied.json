@@ -1,13 +1,29 @@
-﻿{
+{
     "Id": "Copied",
     "Type": 210,
     "Languages": [
         {
-            "Body": "It was copied."
+            "Body": "Copied."
+        },
+        {
+            "Language": "zh",
+            "Body": "已复制。"
         },
         {
             "Language": "ja",
             "Body": "コピーしました。"
+        },
+        {
+            "Language": "de",
+            "Body": "Kopiert."
+        },
+        {
+            "Language": "ko",
+            "Body": "복사되었습니다."
+        },
+        {
+            "Language": "es",
+            "Body": "Copiado."
         }
     ]
 }

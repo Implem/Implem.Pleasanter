@@ -1,13 +1,29 @@
-﻿{
+{
     "Id": "LimitAfterMinutes",
     "Type": 110,
     "Languages": [
         {
-            "Body": "{0} minutes after"
+            "Body": "{0} minutes later"
+        },
+        {
+            "Language": "zh",
+            "Body": "{0}分钟后"
         },
         {
             "Language": "ja",
             "Body": "{0} 分後"
+        },
+        {
+            "Language": "de",
+            "Body": "{0} Minuten später"
+        },
+        {
+            "Language": "ko",
+            "Body": "{0}분 후"
+        },
+        {
+            "Language": "es",
+            "Body": "{0} minutos después"
         }
     ]
 }

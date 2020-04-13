@@ -1,4 +1,4 @@
-﻿{
+{
     "Id": "ReCreate",
     "Type": 110,
     "Languages": [
@@ -6,8 +6,24 @@
             "Body": "Re-create"
         },
         {
+            "Language": "zh",
+            "Body": "重新创建"
+        },
+        {
             "Language": "ja",
             "Body": "再作成"
+        },
+        {
+            "Language": "de",
+            "Body": "Neu erstellen"
+        },
+        {
+            "Language": "ko",
+            "Body": "재생성"
+        },
+        {
+            "Language": "es",
+            "Body": "Volver a crear"
         }
     ]
 }

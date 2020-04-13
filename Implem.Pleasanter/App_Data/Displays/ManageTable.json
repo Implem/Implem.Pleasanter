@@ -1,4 +1,4 @@
-﻿{
+{
     "Id": "ManageTable",
     "Type": 110,
     "Languages": [
@@ -6,8 +6,24 @@
             "Body": "Manage table"
         },
         {
+            "Language": "zh",
+            "Body": "管理表格"
+        },
+        {
             "Language": "ja",
             "Body": "テーブルの管理"
+        },
+        {
+            "Language": "de",
+            "Body": "Tabelle verwalten"
+        },
+        {
+            "Language": "ko",
+            "Body": "목록 관리"
+        },
+        {
+            "Language": "es",
+            "Body": "Gestionar tabla"
         }
     ]
 }

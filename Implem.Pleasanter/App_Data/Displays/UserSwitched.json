@@ -1,13 +1,29 @@
-﻿{
+{
     "Id": "UserSwitched",
     "Type": 210,
     "Languages": [
         {
-            "Body": "I switched the user to \" {0} \"."
+            "Body": "The user has been switched to \" {0} \"."
+        },
+        {
+            "Language": "zh",
+            "Body": "用户已切换为“{0}”。"
         },
         {
             "Language": "ja",
             "Body": "ユーザを \" {0} \" に切り替えました。"
+        },
+        {
+            "Language": "de",
+            "Body": "Der Benutzer wurde zu „ {0} “ gewechselt."
+        },
+        {
+            "Language": "ko",
+            "Body": "사용자가 \" {0} \"(으)로 전환되었습니다."
+        },
+        {
+            "Language": "es",
+            "Body": "El usuario se ha cambiado a \" {0} \"."
         }
     ]
 }

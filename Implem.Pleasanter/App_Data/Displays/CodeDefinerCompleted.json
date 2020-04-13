@@ -1,9 +1,29 @@
-﻿{
+{
     "Id": "CodeDefinerCompleted",
     "Type": 210,
     "Languages": [
         {
-            "Body": "All of the processing has been completed."
+            "Body": "All of the processes have been completed."
+        },
+        {
+            "Language": "zh",
+            "Body": "所有进程均已完成。"
+        },
+        {
+            "Language": "ja",
+            "Body": "すべての処理が完了しました。"
+        },
+        {
+            "Language": "de",
+            "Body": "Alle Prozesse sind abgeschlossen."
+        },
+        {
+            "Language": "ko",
+            "Body": "모든 프로세스가 완료되었습니다."
+        },
+        {
+            "Language": "es",
+            "Body": "Se han realizado todos los procesos."
         }
     ]
 }

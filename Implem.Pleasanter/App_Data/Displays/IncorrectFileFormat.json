@@ -1,13 +1,29 @@
-﻿{
+{
     "Id": "IncorrectFileFormat",
     "Type": 240,
     "Languages": [
         {
-            "Body": "The format of the file is incorrect."
+            "Body": "Incorrect file format."
+        },
+        {
+            "Language": "zh",
+            "Body": "文件格式错误。"
         },
         {
             "Language": "ja",
             "Body": "ファイルの形式が正しくありません。"
+        },
+        {
+            "Language": "de",
+            "Body": "Falsches Dateiformat."
+        },
+        {
+            "Language": "ko",
+            "Body": "올바르지 않은 파일 형식입니다."
+        },
+        {
+            "Language": "es",
+            "Body": "Formato de archivo incorrecto."
         }
     ]
 }

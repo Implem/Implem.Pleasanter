@@ -1,4 +1,4 @@
-﻿{
+{
     "Id": "NotificationType",
     "Type": 110,
     "Languages": [
@@ -6,8 +6,24 @@
             "Body": "Notification type"
         },
         {
+            "Language": "zh",
+            "Body": "通知类型"
+        },
+        {
             "Language": "ja",
             "Body": "通知種別"
+        },
+        {
+            "Language": "de",
+            "Body": "Benachrichtigungstyp"
+        },
+        {
+            "Language": "ko",
+            "Body": "알림 유형"
+        },
+        {
+            "Language": "es",
+            "Body": "Tipo de notificación"
         }
     ]
 }

@@ -1,4 +1,4 @@
-﻿{
+{
     "Id": "OnAndOff",
     "Type": 110,
     "Languages": [
@@ -6,8 +6,24 @@
             "Body": "On and off"
         },
         {
+            "Language": "zh",
+            "Body": "开启和关闭"
+        },
+        {
             "Language": "ja",
             "Body": "オンとオフ"
+        },
+        {
+            "Language": "de",
+            "Body": "EIN und AUS"
+        },
+        {
+            "Language": "ko",
+            "Body": "켜기 및 끄기"
+        },
+        {
+            "Language": "es",
+            "Body": "Encendido y apagado"
         }
     ]
 }

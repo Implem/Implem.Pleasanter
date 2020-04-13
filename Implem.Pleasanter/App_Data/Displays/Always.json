@@ -6,8 +6,24 @@
             "Body": "Always"
         },
         {
+            "Language": "zh",
+            "Body": "总是"
+        },
+        {
             "Language": "ja",
             "Body": "常時"
+        },
+        {
+            "Language": "de",
+            "Body": "Immer"
+        },
+        {
+            "Language": "ko",
+            "Body": "항상"
+        },
+        {
+            "Language": "es",
+            "Body": "Sempre"
         }
     ]
 }

@@ -6,8 +6,24 @@
             "Body": "Don't show start guide next time"
         },
         {
+            "Language": "zh",
+            "Body": "下次不显示入门指南"
+        },
+        {
             "Language": "ja",
             "Body": "次回はスタートガイドを表示しない"
+        },
+        {
+            "Language": "de",
+            "Body": "Startanleitung beim nächsten Mal nicht anzeigen"
+        },
+        {
+            "Language": "ko",
+            "Body": "다음에 시작 안내서를 표시하지 마십시오"
+        },
+        {
+            "Language": "es",
+            "Body": "Non mostrare la guida di avvio la prossima volta"
         }
     ]
 }

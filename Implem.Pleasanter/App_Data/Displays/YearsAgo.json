@@ -1,13 +1,29 @@
-﻿{
+{
     "Id": "YearsAgo",
     "Type": 110,
     "Languages": [
         {
-            "Body": "{0} years excess"
+            "Body": "{0} years ago"
+        },
+        {
+            "Language": "zh",
+            "Body": "{0}年之前"
         },
         {
             "Language": "ja",
             "Body": "{0} 年前"
+        },
+        {
+            "Language": "de",
+            "Body": "Vor {0} Jahren"
+        },
+        {
+            "Language": "ko",
+            "Body": "{0}년 전"
+        },
+        {
+            "Language": "es",
+            "Body": "Hace {0} años"
         }
     ]
 }

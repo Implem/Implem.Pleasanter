@@ -1,4 +1,4 @@
-﻿{
+{
     "Id": "Delay",
     "Type": 110,
     "Languages": [
@@ -6,8 +6,24 @@
             "Body": "Delay"
         },
         {
+            "Language": "zh",
+            "Body": "延迟"
+        },
+        {
             "Language": "ja",
             "Body": "遅延"
+        },
+        {
+            "Language": "de",
+            "Body": "Verzögerung"
+        },
+        {
+            "Language": "ko",
+            "Body": "지연"
+        },
+        {
+            "Language": "es",
+            "Body": "Retrasar"
         }
     ]
 }

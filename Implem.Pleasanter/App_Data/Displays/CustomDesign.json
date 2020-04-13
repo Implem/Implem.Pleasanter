@@ -1,4 +1,4 @@
-﻿{
+{
     "Id": "CustomDesign",
     "Type": 110,
     "Languages": [
@@ -6,8 +6,24 @@
             "Body": "Custom design"
         },
         {
+            "Language": "zh",
+            "Body": "自定义设计"
+        },
+        {
             "Language": "ja",
             "Body": "カスタムデザイン"
+        },
+        {
+            "Language": "de",
+            "Body": "Individuelles Design"
+        },
+        {
+            "Language": "ko",
+            "Body": "사용자 정의 디자인"
+        },
+        {
+            "Language": "es",
+            "Body": "Diseño personalizado"
         }
     ]
 }

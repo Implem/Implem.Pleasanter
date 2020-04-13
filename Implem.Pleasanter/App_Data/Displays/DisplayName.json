@@ -1,13 +1,29 @@
-﻿{
+{
     "Id": "DisplayName",
     "Type": 110,
     "Languages": [
         {
-            "Body": "Display name"
+            "Body": "Name displayed"
+        },
+        {
+            "Language": "zh",
+            "Body": "显示名称"
         },
         {
             "Language": "ja",
             "Body": "表示名"
+        },
+        {
+            "Language": "de",
+            "Body": "Angezeigter Name"
+        },
+        {
+            "Language": "ko",
+            "Body": "표시되는 이름"
+        },
+        {
+            "Language": "es",
+            "Body": "Nombre mostrado"
         }
     ]
 }

@@ -1,13 +1,29 @@
-﻿{
+{
     "Id": "LimitAfterSecond",
     "Type": 110,
     "Languages": [
         {
-            "Body": "1 second after"
+            "Body": "1 second later"
+        },
+        {
+            "Language": "zh",
+            "Body": "1秒后"
         },
         {
             "Language": "ja",
             "Body": "1 秒後"
+        },
+        {
+            "Language": "de",
+            "Body": "1 Sekunde später"
+        },
+        {
+            "Language": "ko",
+            "Body": "1초 후"
+        },
+        {
+            "Language": "es",
+            "Body": "1 segundo después"
         }
     ]
 }

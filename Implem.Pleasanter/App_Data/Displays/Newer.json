@@ -1,4 +1,4 @@
-﻿{
+{
     "Id": "Newer",
     "Type": 110,
     "Languages": [
@@ -6,8 +6,24 @@
             "Body": "Newer"
         },
         {
+            "Language": "zh",
+            "Body": "较新"
+        },
+        {
             "Language": "ja",
             "Body": "新"
+        },
+        {
+            "Language": "de",
+            "Body": "Neuer"
+        },
+        {
+            "Language": "ko",
+            "Body": "최신"
+        },
+        {
+            "Language": "es",
+            "Body": "Más reciente"
         }
     ]
 }

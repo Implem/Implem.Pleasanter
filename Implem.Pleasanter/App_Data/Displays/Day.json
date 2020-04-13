@@ -1,4 +1,4 @@
-﻿{
+{
     "Id": "Day",
     "Type": 110,
     "Languages": [
@@ -6,8 +6,24 @@
             "Body": "Day"
         },
         {
+            "Language": "zh",
+            "Body": "天"
+        },
+        {
             "Language": "ja",
             "Body": "日"
+        },
+        {
+            "Language": "de",
+            "Body": "Tag"
+        },
+        {
+            "Language": "ko",
+            "Body": "일"
+        },
+        {
+            "Language": "es",
+            "Body": "Día"
         }
     ]
 }

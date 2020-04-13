@@ -6,8 +6,24 @@
             "Body": "Bulk update"
         },
         {
+            "Language": "zh",
+            "Body": "批量更新"
+        },
+        {
             "Language": "ja",
             "Body": "一括更新"
+        },
+        {
+            "Language": "de",
+            "Body": "Bulk-Update"
+        },
+        {
+            "Language": "ko",
+            "Body": "대량 업데이트"
+        },
+        {
+            "Language": "es",
+            "Body": "Aggiornamento in blocco"
         }
     ]
 }

@@ -1,13 +1,29 @@
-﻿{
+{
     "Id": "CanNotPerformed",
     "Type": 240,
     "Languages": [
         {
-            "Body": "This operation can not be performed."
+            "Body": "This operation cannot be performed."
+        },
+        {
+            "Language": "zh",
+            "Body": "无法执行此操作。"
         },
         {
             "Language": "ja",
             "Body": "この操作は行なえません。"
+        },
+        {
+            "Language": "de",
+            "Body": "Dieser Vorgang kann nicht ausgeführt werden."
+        },
+        {
+            "Language": "ko",
+            "Body": "이 작업을 수행할 수 없습니다."
+        },
+        {
+            "Language": "es",
+            "Body": "No puede realizarse esta operación."
         }
     ]
 }

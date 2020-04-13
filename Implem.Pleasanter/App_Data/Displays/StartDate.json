@@ -1,4 +1,4 @@
-﻿{
+{
     "Id": "StartDate",
     "Type": 110,
     "Languages": [
@@ -6,8 +6,24 @@
             "Body": "Start date"
         },
         {
+            "Language": "zh",
+            "Body": "开始日期"
+        },
+        {
             "Language": "ja",
             "Body": "開始日"
+        },
+        {
+            "Language": "de",
+            "Body": "Startdatum"
+        },
+        {
+            "Language": "ko",
+            "Body": "시작 날짜"
+        },
+        {
+            "Language": "es",
+            "Body": "Fecha de comienzo"
         }
     ]
 }

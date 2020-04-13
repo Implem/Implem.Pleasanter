@@ -1,4 +1,4 @@
-﻿{
+{
     "Id": "Difference",
     "Type": 110,
     "Languages": [
@@ -6,8 +6,24 @@
             "Body": "Difference"
         },
         {
+            "Language": "zh",
+            "Body": "差别"
+        },
+        {
             "Language": "ja",
             "Body": "予実差"
+        },
+        {
+            "Language": "de",
+            "Body": "Differenz"
+        },
+        {
+            "Language": "ko",
+            "Body": "차이점"
+        },
+        {
+            "Language": "es",
+            "Body": "Diferencia"
         }
     ]
 }

@@ -1,4 +1,4 @@
-﻿{
+{
     "Id": "BulkDelete",
     "Type": 110,
     "Languages": [
@@ -6,8 +6,24 @@
             "Body": "Bulk delete"
         },
         {
+            "Language": "zh",
+            "Body": "批量删除"
+        },
+        {
             "Language": "ja",
             "Body": "一括削除"
+        },
+        {
+            "Language": "de",
+            "Body": "Massenlöschung"
+        },
+        {
+            "Language": "ko",
+            "Body": "벌크 삭제"
+        },
+        {
+            "Language": "es",
+            "Body": "Eliminación masiva"
         }
     ]
 }

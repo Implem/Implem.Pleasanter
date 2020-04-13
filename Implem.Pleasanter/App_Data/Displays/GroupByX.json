@@ -1,13 +1,29 @@
-﻿{
+{
     "Id": "GroupByX",
     "Type": 110,
     "Languages": [
         {
-            "Body": "Columns group by"
+            "Body": "Group by column"
+        },
+        {
+            "Language": "zh",
+            "Body": "按列分组"
         },
         {
             "Language": "ja",
             "Body": "列の分類"
+        },
+        {
+            "Language": "de",
+            "Body": "Gruppieren nach Spalte"
+        },
+        {
+            "Language": "ko",
+            "Body": "열별 그룹"
+        },
+        {
+            "Language": "es",
+            "Body": "Agrupar por columna"
         }
     ]
 }

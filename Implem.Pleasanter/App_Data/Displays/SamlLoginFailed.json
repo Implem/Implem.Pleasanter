@@ -1,4 +1,4 @@
-﻿{
+{
     "Id": "SamlLoginFailed",
     "Type": 240,
     "Languages": [
@@ -6,8 +6,24 @@
             "Body": "SAML login failed."
         },
         {
+            "Language": "zh",
+            "Body": "SAML登录失败。"
+        },
+        {
             "Language": "ja",
             "Body": "SAMLログインに失敗しました。"
+        },
+        {
+            "Language": "de",
+            "Body": "SAML-Anmeldung fehlgeschlagen."
+        },
+        {
+            "Language": "ko",
+            "Body": "SAML 로그인에 실패했습니다."
+        },
+        {
+            "Language": "es",
+            "Body": "No se ha podido iniciar sesión en SAML."
         }
     ]
 }

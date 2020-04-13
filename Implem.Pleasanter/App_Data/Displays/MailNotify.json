@@ -6,8 +6,24 @@
             "Body": "Notify URL by email"
         },
         {
+            "Language": "zh",
+            "Body": "通过电子邮件通知网址"
+        },
+        {
             "Language": "ja",
             "Body": "URLを自分にメール"
+        },
+        {
+            "Language": "de",
+            "Body": "URL per E-Mail benachrichtigen"
+        },
+        {
+            "Language": "ko",
+            "Body": "이메일로 URL 알림"
+        },
+        {
+            "Language": "es",
+            "Body": "Notifica URL via e-mail"
         }
     ]
 }

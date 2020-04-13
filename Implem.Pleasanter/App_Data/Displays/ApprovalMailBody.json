@@ -1,13 +1,29 @@
-﻿{
+{
     "Id": "ApprovalMailBody",
     "Type": 110,
     "Languages": [
         {
-            "Body": "Approval completion email to the status management system. \r\n\r\n, Please try to access the following URL .\r\n\r\n{0}\r\n\r\n"
+            "Body": "This is a message to notify {0} that the request has been approved.\n\nPlease access the following URL to start using.\n\n{1}"
+        },
+        {
+            "Language": "zh",
+            "Body": "此为通知{0}请求已获批准的消息。\n\n请访问以下URL开始使用。\n\n{1}"
         },
         {
             "Language": "ja",
-            "Body": "{0}への承認完了メールです。\r\n\r\n下記のURLにアクセスし利用開始してください。\r\n\r\n{1}\r\n\r\n"
+            "Body": "{0}への承認完了メールです。\r\n\r\n下記のURLにアクセスし利用開始してください。\r\n\r\n{1}\r"
+        },
+        {
+            "Language": "de",
+            "Body": "Hiermit wird {0} benachrichtigt, dass die Anforderung genehmigt wurde.\n\nFolgen Sie diesem Link, um mit der Verwendung zu beginnen.\n\n{1}"
+        },
+        {
+            "Language": "ko",
+            "Body": "요청이 승인되었음을 {0}에 알려드립니다.\n\n사용을 시작하려면 다음 URL에 액세스하십시오.\n\n{1}"
+        },
+        {
+            "Language": "es",
+            "Body": "Este es un mensaje para notificar a {0} que se ha aprobado la solicitud.\n\nPor favor, acceda a la URL siguiente para comenzar a usar.\n\n{1}"
         }
     ]
 }

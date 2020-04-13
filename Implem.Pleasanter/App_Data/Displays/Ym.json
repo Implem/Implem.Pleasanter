@@ -1,4 +1,4 @@
-﻿{
+{
     "Id": "Ym",
     "Type": 120,
     "Languages": [
@@ -6,8 +6,24 @@
             "Body": "Month and year"
         },
         {
+            "Language": "zh",
+            "Body": "月份和年份"
+        },
+        {
             "Language": "ja",
             "Body": "年月"
+        },
+        {
+            "Language": "de",
+            "Body": "Monat und Jahr"
+        },
+        {
+            "Language": "ko",
+            "Body": "월 및 년"
+        },
+        {
+            "Language": "es",
+            "Body": "Mes y año"
         }
     ]
 }

@@ -6,8 +6,24 @@
             "Body": "Storage"
         },
         {
+            "Language": "zh",
+            "Body": "存储"
+        },
+        {
             "Language": "ja",
-            "Body": "ストレージ"
+            "Body": "格納先"
+        },
+        {
+            "Language": "de",
+            "Body": "Lager"
+        },
+        {
+            "Language": "ko",
+            "Body": "저장"
+        },
+        {
+            "Language": "es",
+            "Body": "Conservazione"
         }
     ]
 }

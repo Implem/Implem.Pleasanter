@@ -1,13 +1,29 @@
-﻿{
+{
     "Id": "Ymda",
     "Type": 120,
     "Languages": [
         {
-            "Body": "Date and week"
+            "Body": "Date and day of the week"
+        },
+        {
+            "Language": "zh",
+            "Body": "日期和星期"
         },
         {
             "Language": "ja",
             "Body": "年月日曜"
+        },
+        {
+            "Language": "de",
+            "Body": "Datum und Wochentag"
+        },
+        {
+            "Language": "ko",
+            "Body": "날짜 및 요일"
+        },
+        {
+            "Language": "es",
+            "Body": "Fecha y día de la semana"
         }
     ]
 }

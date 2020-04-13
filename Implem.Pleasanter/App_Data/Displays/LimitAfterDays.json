@@ -1,13 +1,29 @@
-﻿{
+{
     "Id": "LimitAfterDays",
     "Type": 110,
     "Languages": [
         {
-            "Body": "{0} days after"
+            "Body": "{0} days later"
+        },
+        {
+            "Language": "zh",
+            "Body": "{0}天后"
         },
         {
             "Language": "ja",
             "Body": "{0} 日後"
+        },
+        {
+            "Language": "de",
+            "Body": "{0} Tage später"
+        },
+        {
+            "Language": "ko",
+            "Body": "{0}일 후"
+        },
+        {
+            "Language": "es",
+            "Body": "{0} días después"
         }
     ]
 }

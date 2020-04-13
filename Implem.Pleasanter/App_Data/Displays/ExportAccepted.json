@@ -6,8 +6,24 @@
             "Body": "Accepted the export."
         },
         {
+            "Language": "zh",
+            "Body": "接受出口。"
+        },
+        {
             "Language": "ja",
             "Body": "エクスポートを受け付けました。"
+        },
+        {
+            "Language": "de",
+            "Body": "Akzeptierte den Export."
+        },
+        {
+            "Language": "ko",
+            "Body": "수출을 수락했습니다."
+        },
+        {
+            "Language": "es",
+            "Body": "Ha accettato l'esportazione."
         }
     ]
 }

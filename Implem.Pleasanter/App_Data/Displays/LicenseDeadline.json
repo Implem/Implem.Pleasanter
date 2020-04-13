@@ -1,4 +1,4 @@
-﻿{
+{
     "Id": "LicenseDeadline",
     "Type": 110,
     "Languages": [
@@ -6,8 +6,24 @@
             "Body": "License deadline"
         },
         {
+            "Language": "zh",
+            "Body": "许可截止日期"
+        },
+        {
             "Language": "ja",
             "Body": "ライセンス期限"
+        },
+        {
+            "Language": "de",
+            "Body": "Lizenzfrist"
+        },
+        {
+            "Language": "ko",
+            "Body": "라이선스 유효기한"
+        },
+        {
+            "Language": "es",
+            "Body": "Fecha final de la licencia"
         }
     ]
 }

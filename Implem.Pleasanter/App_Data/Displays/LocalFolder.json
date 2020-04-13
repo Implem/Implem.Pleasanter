@@ -1,0 +1,29 @@
+﻿{
+    "Id": "LocalFolder",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Local folder"
+        },
+        {
+            "Language": "zh",
+            "Body": "本地文件夹"
+        },
+        {
+            "Language": "ja",
+            "Body": "ローカルフォルダー"
+        },
+        {
+            "Language": "de",
+            "Body": "Lokaler Ordner"
+        },
+        {
+            "Language": "ko",
+            "Body": "로컬 폴더"
+        },
+        {
+            "Language": "es",
+            "Body": "Cartella locale"
+        }
+    ]
+}

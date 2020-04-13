@@ -1,13 +1,29 @@
-﻿{
+{
     "Id": "UpdatableImport",
     "Type": 110,
     "Languages": [
         {
-            "Body": "Update record whose ID matches."
+            "Body": "Update record with the same ID."
+        },
+        {
+            "Language": "zh",
+            "Body": "更新相同ID的记录。"
         },
         {
             "Language": "ja",
             "Body": "IDが一致するレコードを更新する"
+        },
+        {
+            "Language": "de",
+            "Body": "Aktualisieren Sie den Datensatz mit der dieselben ID."
+        },
+        {
+            "Language": "ko",
+            "Body": "같은 ID를 가진 레코드를 업데이트하십시오."
+        },
+        {
+            "Language": "es",
+            "Body": "Actualizar registro con el mismo ID."
         }
     ]
 }

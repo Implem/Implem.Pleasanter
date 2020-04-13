@@ -1,4 +1,4 @@
-﻿{
+{
     "Id": "Check",
     "Type": 110,
     "Languages": [
@@ -6,8 +6,24 @@
             "Body": "Check"
         },
         {
+            "Language": "zh",
+            "Body": "选择"
+        },
+        {
             "Language": "ja",
             "Body": "チェック"
+        },
+        {
+            "Language": "de",
+            "Body": "Prüfen"
+        },
+        {
+            "Language": "ko",
+            "Body": "선택"
+        },
+        {
+            "Language": "es",
+            "Body": "Marcar"
         }
     ]
 }

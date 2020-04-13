@@ -3,11 +3,27 @@
     "Type": 110,
     "Languages": [
         {
-            "Body": "Export settings"
+            "Body": "Export Settings"
+        },
+        {
+            "Language": "zh",
+            "Body": "汇出设定"
         },
         {
             "Language": "ja",
             "Body": "エクスポートの設定"
+        },
+        {
+            "Language": "de",
+            "Body": "Exporteinstellungen"
+        },
+        {
+            "Language": "ko",
+            "Body": "내보내기 설정"
+        },
+        {
+            "Language": "es",
+            "Body": "Configuración de exportación"
         }
     ]
 }

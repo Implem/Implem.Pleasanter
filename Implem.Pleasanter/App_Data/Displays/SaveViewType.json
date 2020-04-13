@@ -6,8 +6,24 @@
             "Body": "Save view type"
         },
         {
+            "Language": "zh",
+            "Body": "保存视图类型"
+        },
+        {
             "Language": "ja",
             "Body": "ビューの保存種別"
+        },
+        {
+            "Language": "de",
+            "Body": "Ansichtstyp speichern"
+        },
+        {
+            "Language": "ko",
+            "Body": "보기 유형 저장"
+        },
+        {
+            "Language": "es",
+            "Body": "Salva tipo di vista"
         }
     ]
 }

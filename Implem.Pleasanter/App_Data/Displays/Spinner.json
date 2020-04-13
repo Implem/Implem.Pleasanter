@@ -1,4 +1,4 @@
-﻿{
+{
     "Id": "Spinner",
     "Type": 110,
     "Languages": [
@@ -6,8 +6,24 @@
             "Body": "Spinner"
         },
         {
+            "Language": "zh",
+            "Body": "下拉列表"
+        },
+        {
             "Language": "ja",
             "Body": "スピナー"
+        },
+        {
+            "Language": "de",
+            "Body": "Drehfeld"
+        },
+        {
+            "Language": "ko",
+            "Body": "스피너"
+        },
+        {
+            "Language": "es",
+            "Body": "Indicador giratorio"
         }
     ]
 }

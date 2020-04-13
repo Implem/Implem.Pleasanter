@@ -1,13 +1,29 @@
-﻿{
+{
     "Id": "Unauthorized",
     "Type": 240,
     "Languages": [
         {
-            "Body": "Unauthorized."
+            "Body": "Unable to authorize."
+        },
+        {
+            "Language": "zh",
+            "Body": "无法授权。"
         },
         {
             "Language": "ja",
             "Body": "認証できませんでした。"
+        },
+        {
+            "Language": "de",
+            "Body": "Kann nicht autorisiert werden."
+        },
+        {
+            "Language": "ko",
+            "Body": "인증할 수 없습니다."
+        },
+        {
+            "Language": "es",
+            "Body": "No se puede autorizar."
         }
     ]
 }

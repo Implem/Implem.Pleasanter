@@ -1,13 +1,29 @@
-﻿{
+{
     "Id": "InvitationMailTitle",
     "Type": 110,
     "Languages": [
         {
-            "Body": "Status management system invitation email"
+            "Body": "{0} Invitation email"
+        },
+        {
+            "Language": "zh",
+            "Body": "{0}邀请邮件"
         },
         {
             "Language": "ja",
             "Body": "{0}招待メール"
+        },
+        {
+            "Language": "de",
+            "Body": "{0} Einladungs-E-Mail"
+        },
+        {
+            "Language": "ko",
+            "Body": "{0} 초대 이메일"
+        },
+        {
+            "Language": "es",
+            "Body": "{0} Correo electrónico de invitación"
         }
     ]
 }

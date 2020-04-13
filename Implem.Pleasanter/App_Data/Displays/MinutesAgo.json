@@ -1,13 +1,29 @@
-﻿{
+{
     "Id": "MinutesAgo",
     "Type": 110,
     "Languages": [
         {
-            "Body": "{0} minutes excess"
+            "Body": "{0} minutes ago"
+        },
+        {
+            "Language": "zh",
+            "Body": "{0}分钟之前"
         },
         {
             "Language": "ja",
             "Body": "{0} 分前"
+        },
+        {
+            "Language": "de",
+            "Body": "Vor {0} Minuten"
+        },
+        {
+            "Language": "ko",
+            "Body": "{0}분 전"
+        },
+        {
+            "Language": "es",
+            "Body": "Hace {0} minutos"
         }
     ]
 }

@@ -1,9 +1,25 @@
-﻿{
+{
     "Id": "Id",
     "Type": 110,
     "Languages": [
         {
             "Body": "ID"
+        },
+        {
+            "Language": "zh",
+            "Body": "ID"
+        },
+        {
+            "Language": "de",
+            "Body": "ICH WÜRDE"
+        },
+        {
+            "Language": "ko",
+            "Body": "ID"
+        },
+        {
+            "Language": "es",
+            "Body": "Identificación"
         }
     ]
 }

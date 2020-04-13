@@ -1,4 +1,4 @@
-﻿{
+{
     "Id": "AggregationTarget",
     "Type": 110,
     "Languages": [
@@ -6,8 +6,24 @@
             "Body": "Aggregation target"
         },
         {
+            "Language": "zh",
+            "Body": "聚合目标"
+        },
+        {
             "Language": "ja",
             "Body": "集計対象"
+        },
+        {
+            "Language": "de",
+            "Body": "Aggregationsziel"
+        },
+        {
+            "Language": "ko",
+            "Body": "집계 대상"
+        },
+        {
+            "Language": "es",
+            "Body": "Destino de la agregación"
         }
     ]
 }

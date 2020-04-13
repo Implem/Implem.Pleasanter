@@ -1,13 +1,29 @@
-﻿{
+{
     "Id": "CopyToNew",
     "Type": 110,
     "Languages": [
         {
-            "Body": "Copy to new"
+            "Body": "Copy to create"
+        },
+        {
+            "Language": "zh",
+            "Body": "待创建副本"
         },
         {
             "Language": "ja",
             "Body": "コピーして作成"
+        },
+        {
+            "Language": "de",
+            "Body": "Kopieren zum Erstellen"
+        },
+        {
+            "Language": "ko",
+            "Body": "복사하여 생성"
+        },
+        {
+            "Language": "es",
+            "Body": "Copiar para crear"
         }
     ]
 }

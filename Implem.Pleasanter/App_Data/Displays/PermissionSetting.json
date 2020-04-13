@@ -1,13 +1,29 @@
-﻿{
+{
     "Id": "PermissionSetting",
     "Type": 110,
     "Languages": [
         {
-            "Body": "Permissions"
+            "Body": "Permission setting"
+        },
+        {
+            "Language": "zh",
+            "Body": "许可设置"
         },
         {
             "Language": "ja",
             "Body": "権限設定"
+        },
+        {
+            "Language": "de",
+            "Body": "Berechtigungseinstellung"
+        },
+        {
+            "Language": "ko",
+            "Body": "권한 설정"
+        },
+        {
+            "Language": "es",
+            "Body": "Configuración de permisos"
         }
     ]
 }

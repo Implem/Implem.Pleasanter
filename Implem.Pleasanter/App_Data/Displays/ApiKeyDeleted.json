@@ -1,13 +1,29 @@
-﻿{
+{
     "Id": "ApiKeyDeleted",
     "Type": 210,
     "Languages": [
         {
-            "Body": "The API Key was deleted."
+            "Body": "API key has been deleted."
+        },
+        {
+            "Language": "zh",
+            "Body": "已删除API密钥。"
         },
         {
             "Language": "ja",
             "Body": "APIキーが削除されました。"
+        },
+        {
+            "Language": "de",
+            "Body": "API-Schlüssel wurde gelöscht."
+        },
+        {
+            "Language": "ko",
+            "Body": "API 키가 삭제되었습니다."
+        },
+        {
+            "Language": "es",
+            "Body": "Se ha eliminado la clave API."
         }
     ]
 }

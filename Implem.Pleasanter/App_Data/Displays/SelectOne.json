@@ -1,13 +1,29 @@
-﻿{
+{
     "Id": "SelectOne",
     "Type": 240,
     "Languages": [
         {
-            "Body": "Select one."
+            "Body": "Please select one."
+        },
+        {
+            "Language": "zh",
+            "Body": "请选择一个。"
         },
         {
             "Language": "ja",
             "Body": "1つ選択してください。"
+        },
+        {
+            "Language": "de",
+            "Body": "Wählen Sie bitte 1 aus."
+        },
+        {
+            "Language": "ko",
+            "Body": "1개를 선택하십시오."
+        },
+        {
+            "Language": "es",
+            "Body": "Por favor, seleccione uno."
         }
     ]
 }

@@ -1,13 +1,29 @@
-﻿{
+{
     "Id": "DeleteConflicts",
     "Type": 240,
     "Languages": [
         {
-            "Body": "Not found."
+            "Body": "The record does not exist. It may have been deleted."
+        },
+        {
+            "Language": "zh",
+            "Body": "该记录不存在，可能已删除。"
         },
         {
             "Language": "ja",
             "Body": "レコードが存在しません。削除された可能性があります。"
+        },
+        {
+            "Language": "de",
+            "Body": "Dieser Datensatz ist nicht vorhanden. Er wurde möglicherweise gelöscht."
+        },
+        {
+            "Language": "ko",
+            "Body": "레코드가 존재하지 않습니다. 삭제되었을 수 있습니다."
+        },
+        {
+            "Language": "es",
+            "Body": "No existe el registro. Es posible que se haya eliminado."
         }
     ]
 }

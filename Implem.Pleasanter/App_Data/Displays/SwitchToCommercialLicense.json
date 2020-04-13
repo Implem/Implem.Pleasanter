@@ -6,8 +6,24 @@
             "Body": "Switch to commercial license"
         },
         {
+            "Language": "zh",
+            "Body": "切换到商业许可证"
+        },
+        {
             "Language": "ja",
             "Body": "商用ライセンスへの切り替え"
+        },
+        {
+            "Language": "de",
+            "Body": "Wechseln Sie zur kommerziellen Lizenz"
+        },
+        {
+            "Language": "ko",
+            "Body": "상용 라이센스로 전환"
+        },
+        {
+            "Language": "es",
+            "Body": "Passa alla licenza commerciale"
         }
     ]
 }

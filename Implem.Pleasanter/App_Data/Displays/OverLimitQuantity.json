@@ -1,13 +1,29 @@
-﻿{
+{
     "Id": "OverLimitQuantity",
     "Type": 240,
     "Languages": [
         {
-            "Body": "The number of attachable files is {0}."
+            "Body": "Up to {0} files can be attached."
+        },
+        {
+            "Language": "zh",
+            "Body": "可附加最多{0}个文件。"
         },
         {
             "Language": "ja",
             "Body": "添付可能のファイル数は{0}件までです。"
+        },
+        {
+            "Language": "de",
+            "Body": "Es können bis zu {0} Dateien angehängt werden."
+        },
+        {
+            "Language": "ko",
+            "Body": "최대 {0}개의 파일을 첨부할 수 있습니다."
+        },
+        {
+            "Language": "es",
+            "Body": "Pueden adjuntarse hasta {0} archivos."
         }
     ]
 }

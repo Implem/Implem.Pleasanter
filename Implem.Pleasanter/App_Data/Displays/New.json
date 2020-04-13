@@ -1,4 +1,4 @@
-﻿{
+{
     "Id": "New",
     "Type": 110,
     "Languages": [
@@ -6,8 +6,24 @@
             "Body": "New"
         },
         {
+            "Language": "zh",
+            "Body": "新"
+        },
+        {
             "Language": "ja",
             "Body": "新規作成"
+        },
+        {
+            "Language": "de",
+            "Body": "Neu"
+        },
+        {
+            "Language": "ko",
+            "Body": "새로 만들기"
+        },
+        {
+            "Language": "es",
+            "Body": "Nuevo"
         }
     ]
 }

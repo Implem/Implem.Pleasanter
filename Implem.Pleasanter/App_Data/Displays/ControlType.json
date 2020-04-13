@@ -1,4 +1,4 @@
-﻿{
+{
     "Id": "ControlType",
     "Type": 110,
     "Languages": [
@@ -6,8 +6,24 @@
             "Body": "Control type"
         },
         {
+            "Language": "zh",
+            "Body": "控制类型"
+        },
+        {
             "Language": "ja",
             "Body": "コントロール種別"
+        },
+        {
+            "Language": "de",
+            "Body": "Kontrolltyp"
+        },
+        {
+            "Language": "ko",
+            "Body": "제어 유형"
+        },
+        {
+            "Language": "es",
+            "Body": "Tipo de control"
         }
     ]
 }

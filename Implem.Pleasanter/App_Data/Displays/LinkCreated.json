@@ -1,13 +1,29 @@
-﻿{
+{
     "Id": "LinkCreated",
     "Type": 210,
     "Languages": [
         {
-            "Body": "Link creation is completed."
+            "Body": "Link has been created."
+        },
+        {
+            "Language": "zh",
+            "Body": "已创建链接。"
         },
         {
             "Language": "ja",
             "Body": "リンクを作成しました。"
+        },
+        {
+            "Language": "de",
+            "Body": "Verknüpfung wurde erstellt."
+        },
+        {
+            "Language": "ko",
+            "Body": "링크가 생성되었습니다."
+        },
+        {
+            "Language": "es",
+            "Body": "Se ha creado un enlace."
         }
     ]
 }

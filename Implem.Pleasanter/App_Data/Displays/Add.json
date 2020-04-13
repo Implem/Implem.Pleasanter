@@ -1,4 +1,4 @@
-﻿{
+{
     "Id": "Add",
     "Type": 110,
     "Languages": [
@@ -6,8 +6,24 @@
             "Body": "Add"
         },
         {
+            "Language": "zh",
+            "Body": "添加"
+        },
+        {
             "Language": "ja",
             "Body": "追加"
+        },
+        {
+            "Language": "de",
+            "Body": "Hinzufügen"
+        },
+        {
+            "Language": "ko",
+            "Body": "추가"
+        },
+        {
+            "Language": "es",
+            "Body": "Añadir"
         }
     ]
 }

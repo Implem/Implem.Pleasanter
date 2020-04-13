@@ -1,4 +1,4 @@
-﻿{
+{
     "Id": "ColumnAccessControl",
     "Type": 110,
     "Languages": [
@@ -6,8 +6,24 @@
             "Body": "Column access control"
         },
         {
+            "Language": "zh",
+            "Body": "列访问控制"
+        },
+        {
             "Language": "ja",
             "Body": "項目のアクセス制御"
+        },
+        {
+            "Language": "de",
+            "Body": "Spaltenzugriffskontrolle"
+        },
+        {
+            "Language": "ko",
+            "Body": "열 액세스 제어"
+        },
+        {
+            "Language": "es",
+            "Body": "Control de acceso a columna"
         }
     ]
 }

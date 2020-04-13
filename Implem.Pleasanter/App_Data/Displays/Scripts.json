@@ -1,4 +1,4 @@
-﻿{
+{
     "Id": "Scripts",
     "Type": 110,
     "Languages": [
@@ -6,8 +6,24 @@
             "Body": "Scripts"
         },
         {
+            "Language": "zh",
+            "Body": "多个脚本"
+        },
+        {
             "Language": "ja",
             "Body": "スクリプト"
+        },
+        {
+            "Language": "de",
+            "Body": "Skripte"
+        },
+        {
+            "Language": "ko",
+            "Body": "스크립트"
+        },
+        {
+            "Language": "es",
+            "Body": "Guiones"
         }
     ]
 }

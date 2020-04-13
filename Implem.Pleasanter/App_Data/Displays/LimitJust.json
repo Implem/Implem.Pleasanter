@@ -1,4 +1,4 @@
-﻿{
+{
     "Id": "LimitJust",
     "Type": 110,
     "Languages": [
@@ -6,8 +6,24 @@
             "Body": "Just now"
         },
         {
+            "Language": "zh",
+            "Body": "现在"
+        },
+        {
             "Language": "ja",
             "Body": "現在"
+        },
+        {
+            "Language": "de",
+            "Body": "Soeben"
+        },
+        {
+            "Language": "ko",
+            "Body": "지금 당장"
+        },
+        {
+            "Language": "es",
+            "Body": "Justo ahora"
         }
     ]
 }

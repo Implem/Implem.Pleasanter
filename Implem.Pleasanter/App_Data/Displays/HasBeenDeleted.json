@@ -1,13 +1,29 @@
-﻿{
+{
     "Id": "HasBeenDeleted",
     "Type": 220,
     "Languages": [
         {
-            "Body": "{0} has been deleted."
+            "Body": "\" {0} \" entries have been deleted."
+        },
+        {
+            "Language": "zh",
+            "Body": "“{0}”条目已删除。"
         },
         {
             "Language": "ja",
             "Body": "{0} 件削除しました。"
+        },
+        {
+            "Language": "de",
+            "Body": "„ {0} “ Einträge wurden gelöscht."
+        },
+        {
+            "Language": "ko",
+            "Body": "\" {0} \"개의 항목이 삭제되었습니다."
+        },
+        {
+            "Language": "es",
+            "Body": "Se han eliminado \" {0} \" entradas."
         }
     ]
 }

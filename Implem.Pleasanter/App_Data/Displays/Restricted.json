@@ -1,4 +1,4 @@
-﻿{
+{
     "Id": "Restricted",
     "Type": 240,
     "Languages": [
@@ -6,8 +6,24 @@
             "Body": "Usage of this function is restricted."
         },
         {
+            "Language": "zh",
+            "Body": "限制使用此功能。"
+        },
+        {
             "Language": "ja",
             "Body": "この機能の使用は制限されています。"
+        },
+        {
+            "Language": "de",
+            "Body": "Die Nutzung dieser Funktion ist eingeschränkt."
+        },
+        {
+            "Language": "ko",
+            "Body": "이 기능의 사용이 제한됩니다."
+        },
+        {
+            "Language": "es",
+            "Body": "El uso de esta función está limitado."
         }
     ]
 }

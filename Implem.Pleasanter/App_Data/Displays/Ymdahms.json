@@ -1,13 +1,29 @@
-﻿{
+{
     "Id": "Ymdahms",
     "Type": 120,
     "Languages": [
         {
-            "Body": "Date, week and seconds"
+            "Body": "Date, day of the week, time (seconds)"
+        },
+        {
+            "Language": "zh",
+            "Body": "日期，星期，时间（秒）"
         },
         {
             "Language": "ja",
             "Body": "日付と曜日と時刻(秒)"
+        },
+        {
+            "Language": "de",
+            "Body": "Datum, Wochentag, Uhrzeit (Sekunden)"
+        },
+        {
+            "Language": "ko",
+            "Body": "날짜, 요일, 시간(초)"
+        },
+        {
+            "Language": "es",
+            "Body": "Fecha, día de la semana, hora (segundos)"
         }
     ]
 }

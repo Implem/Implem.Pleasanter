@@ -1,4 +1,4 @@
-﻿{
+{
     "Id": "Error",
     "Type": 110,
     "Languages": [
@@ -6,8 +6,24 @@
             "Body": "Error"
         },
         {
+            "Language": "zh",
+            "Body": "错误"
+        },
+        {
             "Language": "ja",
             "Body": "エラー"
+        },
+        {
+            "Language": "de",
+            "Body": "Fehler"
+        },
+        {
+            "Language": "ko",
+            "Body": "오류"
+        },
+        {
+            "Language": "es",
+            "Body": "Error"
         }
     ]
 }

@@ -1,4 +1,4 @@
-﻿{
+{
     "Id": "Custom",
     "Type": 110,
     "Languages": [
@@ -6,8 +6,24 @@
             "Body": "Custom"
         },
         {
+            "Language": "zh",
+            "Body": "自定义"
+        },
+        {
             "Language": "ja",
             "Body": "カスタム"
+        },
+        {
+            "Language": "de",
+            "Body": "Individuell"
+        },
+        {
+            "Language": "ko",
+            "Body": "사용자 정의"
+        },
+        {
+            "Language": "es",
+            "Body": "Personalizar"
         }
     ]
 }

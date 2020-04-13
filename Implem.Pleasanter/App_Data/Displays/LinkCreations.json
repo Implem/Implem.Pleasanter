@@ -1,13 +1,29 @@
-﻿{
+{
     "Id": "LinkCreations",
     "Type": 110,
     "Languages": [
         {
-            "Body": "The creation of the linked items"
+            "Body": "Creation of linked item"
+        },
+        {
+            "Language": "zh",
+            "Body": "已链接项目的创建"
         },
         {
             "Language": "ja",
             "Body": "リンクしたアイテムの作成"
+        },
+        {
+            "Language": "de",
+            "Body": "Erstellen eines verknüpften Elements"
+        },
+        {
+            "Language": "ko",
+            "Body": "링크된 항목 생성"
+        },
+        {
+            "Language": "es",
+            "Body": "Creación de elemento vinculado"
         }
     ]
 }

@@ -1,13 +1,29 @@
-﻿{
+{
     "Id": "ApprovalRequestMailTitle",
     "Type": 110,
     "Languages": [
         {
-            "Body": "ApprovalRequest"
+            "Body": "{0} Approval request email"
+        },
+        {
+            "Language": "zh",
+            "Body": "{0}批准请求邮件"
         },
         {
             "Language": "ja",
             "Body": "{0}承認依頼メール"
+        },
+        {
+            "Language": "de",
+            "Body": "{0} E-Mail zur Genehmigungsanforderung"
+        },
+        {
+            "Language": "ko",
+            "Body": "{0} 승인 요청 이메일"
+        },
+        {
+            "Language": "es",
+            "Body": "{0} Correo electrónico de notificación de aprobación"
         }
     ]
 }

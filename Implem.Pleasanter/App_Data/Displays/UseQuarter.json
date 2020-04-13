@@ -1,13 +1,29 @@
-﻿{
+{
     "Id": "UseQuarter",
     "Type": 110,
     "Languages": [
         {
-            "Body": "Use quarter"
+            "Body": "Use quarter period"
+        },
+        {
+            "Language": "zh",
+            "Body": "使用季度"
         },
         {
             "Language": "ja",
             "Body": "四半期を使用"
+        },
+        {
+            "Language": "de",
+            "Body": "Quartal verwenden"
+        },
+        {
+            "Language": "ko",
+            "Body": "사분기 사용"
+        },
+        {
+            "Language": "es",
+            "Body": "Usar período trimestral"
         }
     ]
 }

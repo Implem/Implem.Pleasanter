@@ -1,13 +1,29 @@
-﻿{
+{
     "Id": "Expired",
     "Type": 240,
     "Languages": [
         {
-            "Body": "This license is expired and can not be used."
+            "Body": "This license is expired and cannot be used."
+        },
+        {
+            "Language": "zh",
+            "Body": "此许可已过期，无法使用。"
         },
         {
             "Language": "ja",
             "Body": "本ライセンスは失効しているためご利用いただけません。"
+        },
+        {
+            "Language": "de",
+            "Body": "Diese Lizenz ist abgelaufen und steht nicht mehr zur Verfügung."
+        },
+        {
+            "Language": "ko",
+            "Body": "이 라이선스는 만료되어 사용할 수 없습니다."
+        },
+        {
+            "Language": "es",
+            "Body": "Esta licencia ha caducado y no puede usarse."
         }
     ]
 }

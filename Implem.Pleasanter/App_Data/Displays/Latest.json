@@ -1,4 +1,4 @@
-﻿{
+{
     "Id": "Latest",
     "Type": 110,
     "Languages": [
@@ -6,8 +6,24 @@
             "Body": "Latest"
         },
         {
+            "Language": "zh",
+            "Body": "最新"
+        },
+        {
             "Language": "ja",
             "Body": "最新"
+        },
+        {
+            "Language": "de",
+            "Body": "Neueste"
+        },
+        {
+            "Language": "ko",
+            "Body": "최신"
+        },
+        {
+            "Language": "es",
+            "Body": "Más reciente"
         }
     ]
 }

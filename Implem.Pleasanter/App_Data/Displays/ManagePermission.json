@@ -1,4 +1,4 @@
-﻿{
+{
     "Id": "ManagePermission",
     "Type": 110,
     "Languages": [
@@ -6,8 +6,24 @@
             "Body": "Manage permission"
         },
         {
+            "Language": "zh",
+            "Body": "管理许可"
+        },
+        {
             "Language": "ja",
             "Body": "権限の管理"
+        },
+        {
+            "Language": "de",
+            "Body": "Berechtigung verwalten"
+        },
+        {
+            "Language": "ko",
+            "Body": "권한 관리"
+        },
+        {
+            "Language": "es",
+            "Body": "Gestionar permiso"
         }
     ]
 }

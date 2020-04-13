@@ -1,13 +1,29 @@
-﻿{
+{
     "Id": "InternalServerError",
     "Type": 240,
     "Languages": [
         {
-            "Body": "Internal server error."
+            "Body": "An internal server error occurred."
+        },
+        {
+            "Language": "zh",
+            "Body": "内部服务器出错。"
         },
         {
             "Language": "ja",
             "Body": "内部サーバエラーが発生しました。"
+        },
+        {
+            "Language": "de",
+            "Body": "Ein interner Serverfehler ist aufgetreten."
+        },
+        {
+            "Language": "ko",
+            "Body": "내부 서버 오류가 발생했습니다."
+        },
+        {
+            "Language": "es",
+            "Body": "Se ha producido un error interno del servidor."
         }
     ]
 }

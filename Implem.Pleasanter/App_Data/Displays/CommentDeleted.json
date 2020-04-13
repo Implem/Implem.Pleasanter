@@ -1,13 +1,29 @@
-﻿{
+{
     "Id": "CommentDeleted",
     "Type": 210,
     "Languages": [
         {
-            "Body": "The comment has been deleted."
+            "Body": "Comment has been deleted."
+        },
+        {
+            "Language": "zh",
+            "Body": "评论已删除。"
         },
         {
             "Language": "ja",
             "Body": "コメントを削除しました。"
+        },
+        {
+            "Language": "de",
+            "Body": "Der Kommentar wurde gelöscht."
+        },
+        {
+            "Language": "ko",
+            "Body": "주석이 삭제되었습니다."
+        },
+        {
+            "Language": "es",
+            "Body": "Se ha eliminado el comentario."
         }
     ]
 }

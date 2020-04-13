@@ -427,12 +427,15 @@ namespace Implem.DefinitionAccessor
             Displays.DisplayHash = DisplayHash();
             Def.ColumnDefinitionCollection
                 .Where(o => !o.Base)
-                .Where(o => o.ExtendedColumnType.IsNullOrEmpty())
                 .Select(o => new
                 {
                     o.Id,
-                    En = o.ColumnName,
-                    Ja = o.LabelText
+                    En = o.LabelText_en,
+                    Zh = o.LabelText_zh,
+                    Ja = o.LabelText,
+                    De = o.LabelText_de,
+                    Ko = o.LabelText_ko,
+                    Es = o.LabelText_en
                 })
                 .Union(Def.ColumnDefinitionCollection
                     .Where(o => !o.Base)
@@ -440,7 +443,11 @@ namespace Implem.DefinitionAccessor
                     {
                         Id = o.TableName,
                         En = o.TableName,
-                        Ja = o.Label
+                        Zh = o.TableName,
+                        Ja = o.Label,
+                        De = o.TableName,
+                        Ko = o.TableName,
+                        Es = o.TableName
                     })
                     .Distinct())
                 .Where(o => !Displays.DisplayHash.ContainsKey(o.Id))
@@ -456,8 +463,28 @@ namespace Implem.DefinitionAccessor
                             },
                             new DisplayElement
                             {
+                                Language = "zh",
+                                Body = o.Zh
+                            },
+                            new DisplayElement
+                            {
                                 Language = "ja",
                                 Body = o.Ja
+                            },
+                            new DisplayElement
+                            {
+                                Language = "de",
+                                Body = o.De
+                            },
+                            new DisplayElement
+                            {
+                                Language = "ko",
+                                Body = o.Ko
+                            },
+                            new DisplayElement
+                            {
+                                Language = "es",
+                                Body = o.Es
                             }
                         }
                     }));

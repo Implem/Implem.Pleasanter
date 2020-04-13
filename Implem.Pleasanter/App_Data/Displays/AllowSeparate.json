@@ -6,8 +6,24 @@
             "Body": "Allow separating record"
         },
         {
+            "Language": "zh",
+            "Body": "允许分开记录"
+        },
+        {
             "Language": "ja",
             "Body": "分割を許可"
+        },
+        {
+            "Language": "de",
+            "Body": "Trennungsdatensatz zulassen"
+        },
+        {
+            "Language": "ko",
+            "Body": "분리 기록 허용"
+        },
+        {
+            "Language": "es",
+            "Body": "Consenti record di separazione"
         }
     ]
 }

@@ -8,6 +8,22 @@
         {
             "Language": "ja",
             "Body": "フィルタ設定領域を使用する"
+        },
+        {
+            "Language": "zh",
+            "Body": "使用过滤器区域"
+        },
+        {
+            "Language": "de",
+            "Body": "Filterbereich verwenden"
+        },
+        {
+            "Language": "ko",
+            "Body": "필터 영역 사용"
+        },
+        {
+            "Language": "es",
+            "Body": "Usa l'area dei filtri"
         }
     ]
 }

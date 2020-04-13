@@ -1,4 +1,4 @@
-﻿{
+{
     "Id": "DeletePermission",
     "Type": 110,
     "Languages": [
@@ -6,8 +6,24 @@
             "Body": "Delete permission"
         },
         {
+            "Language": "zh",
+            "Body": "删除许可"
+        },
+        {
             "Language": "ja",
             "Body": "権限削除"
+        },
+        {
+            "Language": "de",
+            "Body": "Berechtigung löschen"
+        },
+        {
+            "Language": "ko",
+            "Body": "권한 삭제"
+        },
+        {
+            "Language": "es",
+            "Body": "Eliminar permiso"
         }
     ]
 }

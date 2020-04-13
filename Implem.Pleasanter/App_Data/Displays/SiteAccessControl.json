@@ -1,4 +1,4 @@
-﻿{
+{
     "Id": "SiteAccessControl",
     "Type": 110,
     "Languages": [
@@ -6,8 +6,24 @@
             "Body": "Site access control"
         },
         {
+            "Language": "zh",
+            "Body": "站点访问控制"
+        },
+        {
             "Language": "ja",
             "Body": "サイトのアクセス制御"
+        },
+        {
+            "Language": "de",
+            "Body": "Site-Zugriffskontrolle"
+        },
+        {
+            "Language": "ko",
+            "Body": "사이트 액세스 제어"
+        },
+        {
+            "Language": "es",
+            "Body": "Control de acceso al sitio"
         }
     ]
 }

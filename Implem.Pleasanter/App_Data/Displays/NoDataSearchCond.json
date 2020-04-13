@@ -6,8 +6,24 @@
             "Body": "Please specify the search condition."
         },
         {
+            "Language": "zh",
+            "Body": "请指定搜索条件。"
+        },
+        {
             "Language": "ja",
             "Body": "検索条件を指定してください"
+        },
+        {
+            "Language": "de",
+            "Body": "Bitte geben Sie die Suchbedingung an."
+        },
+        {
+            "Language": "ko",
+            "Body": "검색 조건을 지정하십시오."
+        },
+        {
+            "Language": "es",
+            "Body": "Si prega di specificare la condizione di ricerca."
         }
     ]
 }

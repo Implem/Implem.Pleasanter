@@ -1,4 +1,4 @@
-﻿{
+{
     "Id": "PeriodType",
     "Type": 110,
     "Languages": [
@@ -6,8 +6,24 @@
             "Body": "Period type"
         },
         {
+            "Language": "zh",
+            "Body": "周期类型"
+        },
+        {
             "Language": "ja",
             "Body": "期間種別"
+        },
+        {
+            "Language": "de",
+            "Body": "Periodentyp"
+        },
+        {
+            "Language": "ko",
+            "Body": "기간 유형"
+        },
+        {
+            "Language": "es",
+            "Body": "Tipo de período"
         }
     ]
 }

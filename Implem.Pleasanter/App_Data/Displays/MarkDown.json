@@ -1,4 +1,4 @@
-﻿{
+{
     "Id": "MarkDown",
     "Type": 110,
     "Languages": [
@@ -6,8 +6,24 @@
             "Body": "Markdown"
         },
         {
+            "Language": "zh",
+            "Body": "减价"
+        },
+        {
             "Language": "ja",
             "Body": "マークダウン"
+        },
+        {
+            "Language": "de",
+            "Body": "Reduktion"
+        },
+        {
+            "Language": "ko",
+            "Body": "가격 인하"
+        },
+        {
+            "Language": "es",
+            "Body": "Reducir"
         }
     ]
 }

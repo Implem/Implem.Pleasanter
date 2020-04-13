@@ -1,13 +1,29 @@
-﻿{
+{
     "Id": "NumericColumn",
     "Type": 110,
     "Languages": [
         {
-            "Body": "Numeric column"
+            "Body": "Numeric value column"
+        },
+        {
+            "Language": "zh",
+            "Body": "数值列"
         },
         {
             "Language": "ja",
             "Body": "数値項目"
+        },
+        {
+            "Language": "de",
+            "Body": "Spalte mit numerischen Werten"
+        },
+        {
+            "Language": "ko",
+            "Body": "수치값 열"
+        },
+        {
+            "Language": "es",
+            "Body": "Columna de valor numérico"
         }
     ]
 }
