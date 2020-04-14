@@ -601,7 +601,7 @@ namespace Implem.Pleasanter.Models
                             factory: context,
                             tableName:"MailAddresses")
                     })
-                .Users_Disabled(context.Sqls.FalseValue);
+                .Users_Disabled(false);
         }
 
         /// <summary>

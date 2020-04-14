@@ -334,10 +334,7 @@ namespace Implem.Pleasanter.Models
                 {
                     var creator = idHash.Get(demoDefinition.Creator);
                     var updator = idHash.Get(demoDefinition.Updator);
-                    context = context.CreateContext(
-                        tenantId: demoModel.TenantId,
-                        userId: updator.ToInt(),
-                        language: context.Language);
+                    context.UserId = updator.ToInt();
                     idHash.Add(
                         demoDefinition.Id, Repository.ExecuteScalar_response(
                             context: context,
@@ -412,10 +409,7 @@ namespace Implem.Pleasanter.Models
                 {
                     var creator = idHash.Get(demoDefinition.Creator);
                     var updator = idHash.Get(demoDefinition.Updator);
-                    context = context.CreateContext(
-                        tenantId: demoModel.TenantId,
-                        userId: updator.ToInt(),
-                        language: context.Language);
+                    context.UserId = updator.ToInt();
                     var issueId = Repository.ExecuteScalar_response(
                         context: context,
                         selectIdentity: true,
@@ -707,10 +701,7 @@ namespace Implem.Pleasanter.Models
                 {
                     var creator = idHash.Get(demoDefinition.Creator);
                     var updator = idHash.Get(demoDefinition.Updator);
-                    context = context.CreateContext(
-                        tenantId: demoModel.TenantId,
-                        userId: updator.ToInt(),
-                        language: context.Language);
+                    context.UserId = updator.ToInt();    
                     var resultId = Repository.ExecuteScalar_response(
                         context: context,
                         selectIdentity: true,

@@ -1012,19 +1012,19 @@ namespace Implem.Pleasanter.Libraries.Settings
                 case ColumnUtilities.CheckFilterControlTypes.OnOnly:
                     if (value.ToBool())
                     {
-                        where.Bool(column, "='1'");
+                        where.Bool(column, true);
                     }
                     break;
                 case ColumnUtilities.CheckFilterControlTypes.OnAndOff:
                     switch ((ColumnUtilities.CheckFilterTypes)value.ToInt())
                     {
                         case ColumnUtilities.CheckFilterTypes.On:
-                            where.Bool(column, "='1'");
+                            where.Bool(column, true);
                             break;
                         case ColumnUtilities.CheckFilterTypes.Off:
                             where.Add(or: new SqlWhereCollection()
-                                .Bool(column, " is null")
-                                .Bool(column, "='0'"));
+                                .Bool(column, null)
+                                .Bool(column, false));
                             break;
                     }
                     break;

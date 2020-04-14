@@ -8,10 +8,6 @@ namespace Implem.PostgreSql
 
         public string FalseString { get; } = "false";
 
-        public object TrueValue { get; } = true;
-
-        public object FalseValue { get; } = false;
-
         public string IsNotTrue { get; } = " is not true ";
 
         public string CurrentDateTime { get; } = " CURRENT_TIMESTAMP ";
