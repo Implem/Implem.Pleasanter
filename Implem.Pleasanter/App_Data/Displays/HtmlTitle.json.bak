@@ -1,0 +1,29 @@
+﻿{
+    "Id": "HtmlTitle",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Html title"
+        },
+        {
+            "Language": "zh",
+            "Body": "HTML标题"
+        },
+        {
+            "Language": "ja",
+            "Body": "HTMLタイトル"
+        },
+        {
+            "Language": "de",
+            "Body": "HTML-Titel"
+        },
+        {
+            "Language": "ko",
+            "Body": "HTML 제목"
+        },
+        {
+            "Language": "es",
+            "Body": "Titolo HTML"
+        }
+    ]
+}

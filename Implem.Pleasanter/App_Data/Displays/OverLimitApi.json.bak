@@ -1,0 +1,29 @@
+﻿{
+    "Id": "OverLimitApi",
+    "Type": 240,
+    "Languages": [
+        {
+            "Body": "The API limit ({1} Requests/Day) that can be used on the site with ID {0} has been exceeded."
+        },
+        {
+            "Language": "zh",
+            "Body": "超过了ID为 {0} 的网站上可以使用的API限制（{1} /天）。"
+        },
+        {
+            "Language": "ja",
+            "Body": "ID: {0} のサイトで利用できるAPIの制限（{1} 件/日）を超えました。"
+        },
+        {
+            "Language": "de",
+            "Body": "Das API-Limit ({1} Requests / Day), das auf der Site mit der ID {0} verwendet werden kann, wurde überschritten."
+        },
+        {
+            "Language": "ko",
+            "Body": "ID가 {0} 인 사이트에서 사용할 수있는 API 제한 ({1} 요청 / 일)이 초과되었습니다."
+        },
+        {
+            "Language": "es",
+            "Body": "È stato superato il limite API ({1} Richieste / giorno) che è possibile utilizzare sul sito con ID {0}."
+        }
+    ]
+}

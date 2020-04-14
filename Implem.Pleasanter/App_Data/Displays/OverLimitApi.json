@@ -23,7 +23,7 @@
         },
         {
             "Language": "es",
-            "Body": "È stato superato il limite API ({1} Richieste / giorno) che è possibile utilizzare sul sito con ID {0}."
+            "Body": "Se ha excedido el límite de API ({1} solicitudes / día) que se puede usar en el sitio con ID {0}."
         }
     ]
 }

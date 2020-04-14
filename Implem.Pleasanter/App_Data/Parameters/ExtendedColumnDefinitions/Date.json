@@ -21,5 +21,10 @@
     "Max": "365",
     "Step": "1",
     "Width": "50",
-    "ExtendedColumnType": "Date"
+    "ExtendedColumnType": "Date",
+    "LabelText_en": "Date",
+    "LabelText_zh": "日期",
+    "LabelText_de": "Datum",
+    "LabelText_ko": "날짜",
+    "LabelText_es": "Fecha"
 }

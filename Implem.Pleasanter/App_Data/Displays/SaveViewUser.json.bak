@@ -1,0 +1,29 @@
+﻿{
+    "Id": "SaveViewUser",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "User"
+        },
+        {
+            "Language": "zh",
+            "Body": "用户"
+        },
+        {
+            "Language": "ja",
+            "Body": "ユーザ"
+        },
+        {
+            "Language": "de",
+            "Body": "Nutzer"
+        },
+        {
+            "Language": "ko",
+            "Body": "사용자"
+        },
+        {
+            "Language": "es",
+            "Body": "Utente"
+        }
+    ]
+}

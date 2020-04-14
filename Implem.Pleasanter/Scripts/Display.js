@@ -67,7 +67,7 @@
         ConfirmSwitchTenant_ja: '本当にテナント切り替えますか？',
         ConfirmSwitchTenant_de: 'Sind Sie sicher, dass Sie den Mieter wechseln m&#246;chten?',
         ConfirmSwitchTenant_ko: '테넌트를 전환 하시겠습니까?',
-        ConfirmSwitchTenant_es: 'Sei sicuro di voler cambiare inquilino?',
+        ConfirmSwitchTenant_es: '&#191;Est&#225;s seguro de que quieres cambiar de inquilino?',
         ConfirmSwitchUser: 'Are you sure you want to switch users?',
         ConfirmSwitchUser_zh: '是否确定切换用户？',
         ConfirmSwitchUser_ja: '本当にユーザを切り替えますか？',

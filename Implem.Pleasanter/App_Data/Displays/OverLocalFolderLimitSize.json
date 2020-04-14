@@ -23,7 +23,7 @@
         },
         {
             "Language": "es",
-            "Body": "Esiste un file che supera la dimensione limite di {0} Mbyte."
+            "Body": "Hay un archivo que supera el tamaño límite de {0} Mbyte."
         }
     ]
 }

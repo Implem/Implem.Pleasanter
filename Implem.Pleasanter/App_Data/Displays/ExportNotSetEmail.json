@@ -23,7 +23,7 @@
         },
         {
             "Language": "es",
-            "Body": "Non è stato impostato un indirizzo e-mail per l'utente destinatario della notifica {0}"
+            "Body": "No se ha establecido una dirección de correo electrónico para el usuario destinatario de la notificación {0}"
         }
     ]
 }

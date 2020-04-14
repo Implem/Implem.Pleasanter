@@ -6646,6 +6646,11 @@ namespace Implem.DefinitionAccessor
             columnDefinition.Add("TableName", tableName);
             columnDefinition.Add("ColumnName", columnName);
             columnDefinition["LabelText"] = columnDefinition.Get("LabelText") + suffix;
+            columnDefinition["LabelText_en"] = columnDefinition.Get("LabelText_en") + suffix;
+            columnDefinition["LabelText_zh"] = columnDefinition.Get("LabelText_zh") + suffix;
+            columnDefinition["LabelText_de"] = columnDefinition.Get("LabelText_de") + suffix;
+            columnDefinition["LabelText_ko"] = columnDefinition.Get("LabelText_ko") + suffix;
+            columnDefinition["LabelText_es"] = columnDefinition.Get("LabelText_es") + suffix;
             return columnDefinition;
         }
 

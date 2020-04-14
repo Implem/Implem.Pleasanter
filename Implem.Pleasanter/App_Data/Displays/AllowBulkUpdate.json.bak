@@ -1,0 +1,29 @@
+﻿{
+    "Id": "AllowBulkUpdate",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Allow bulk update"
+        },
+        {
+            "Language": "zh",
+            "Body": "允许批量更新"
+        },
+        {
+            "Language": "ja",
+            "Body": "一括更新を許可"
+        },
+        {
+            "Language": "de",
+            "Body": "Massenaktualisierung zulassen"
+        },
+        {
+            "Language": "ko",
+            "Body": "대량 업데이트 허용"
+        },
+        {
+            "Language": "es",
+            "Body": "Consenti aggiornamento in blocco"
+        }
+    ]
+}

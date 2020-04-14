@@ -16,5 +16,10 @@
     "SearchIndexPriority": "200",
     "FieldCss": "field-markdown",
     "ControlType": "MarkDown",
-    "ExtendedColumnType": "Description"
+    "ExtendedColumnType": "Description",
+    "LabelText_en": "Description",
+    "LabelText_zh": "说明",
+    "LabelText_de": "Beschreibung",
+    "LabelText_ko": "설명",
+    "LabelText_es": "Descripción"
 }

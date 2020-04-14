@@ -1,0 +1,29 @@
+﻿{
+    "Id": "AllowLockTable",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Allow lock table"
+        },
+        {
+            "Language": "zh",
+            "Body": "允许锁表"
+        },
+        {
+            "Language": "ja",
+            "Body": "テーブルのロックを許可"
+        },
+        {
+            "Language": "de",
+            "Body": "Sperrtabelle zulassen"
+        },
+        {
+            "Language": "ko",
+            "Body": "잠금 테이블 허용"
+        },
+        {
+            "Language": "es",
+            "Body": "Consenti blocco tabella"
+        }
+    ]
+}

@@ -1,0 +1,29 @@
+﻿{
+    "Id": "UseGridHeaderFilters",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Use filter on grid header"
+        },
+        {
+            "Language": "zh",
+            "Body": "在网格标题上使用过滤器"
+        },
+        {
+            "Language": "ja",
+            "Body": "一覧のヘッダメニューでフィルタを使用する"
+        },
+        {
+            "Language": "de",
+            "Body": "Verwenden Sie den Filter für den Rasterkopf"
+        },
+        {
+            "Language": "ko",
+            "Body": "그리드 헤더에 필터 사용"
+        },
+        {
+            "Language": "es",
+            "Body": "Usa il filtro sull'intestazione della griglia"
+        }
+    ]
+}

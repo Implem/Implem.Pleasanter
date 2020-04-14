@@ -1,0 +1,30 @@
+﻿{
+    "Id": "ConfirmSwitchTenant",
+    "Type": 310,
+    "ClientScript": true,
+    "Languages": [
+        {
+            "Body": "Are you sure you want to switch tenant?"
+        },
+        {
+            "Language": "zh",
+            "Body": "您确定要切换租户吗？"
+        },
+        {
+            "Language": "ja",
+            "Body": "本当にテナント切り替えますか？"
+        },
+        {
+            "Language": "de",
+            "Body": "Sind Sie sicher, dass Sie den Mieter wechseln möchten?"
+        },
+        {
+            "Language": "ko",
+            "Body": "테넌트를 전환 하시겠습니까?"
+        },
+        {
+            "Language": "es",
+            "Body": "Sei sicuro di voler cambiare inquilino?"
+        }
+    ]
+}

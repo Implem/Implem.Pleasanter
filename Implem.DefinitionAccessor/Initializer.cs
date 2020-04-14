@@ -323,6 +323,7 @@ namespace Implem.DefinitionAccessor
 
         public static void SetDefinitions()
         {
+            Displays.DisplayHash = DisplayHash();
             Def.SetCodeDefinition();
             Def.SetColumnDefinition();
             Def.SetCssDefinition();
@@ -424,7 +425,6 @@ namespace Implem.DefinitionAccessor
 
         private static void SetDisplayAccessor()
         {
-            Displays.DisplayHash = DisplayHash();
             Def.ColumnDefinitionCollection
                 .Where(o => !o.Base)
                 .Select(o => new
@@ -435,7 +435,7 @@ namespace Implem.DefinitionAccessor
                     Ja = o.LabelText,
                     De = o.LabelText_de,
                     Ko = o.LabelText_ko,
-                    Es = o.LabelText_en
+                    Es = o.LabelText_es
                 })
                 .Union(Def.ColumnDefinitionCollection
                     .Where(o => !o.Base)

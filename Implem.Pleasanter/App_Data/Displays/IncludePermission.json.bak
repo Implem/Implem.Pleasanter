@@ -1,0 +1,29 @@
+﻿{
+    "Id": "IncludePermission",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Include permission"
+        },
+        {
+            "Language": "zh",
+            "Body": "包含权限"
+        },
+        {
+            "Language": "ja",
+            "Body": "アクセス制御を含める"
+        },
+        {
+            "Language": "de",
+            "Body": "Berechtigung einschließen"
+        },
+        {
+            "Language": "ko",
+            "Body": "권한 포함"
+        },
+        {
+            "Language": "es",
+            "Body": "Includi permesso"
+        }
+    ]
+}

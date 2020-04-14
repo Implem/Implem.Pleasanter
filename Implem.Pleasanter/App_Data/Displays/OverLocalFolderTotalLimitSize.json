@@ -23,7 +23,7 @@
         },
         {
             "Language": "es",
-            "Body": "La dimensione attaccabile è fino a {0} Mbyte."
+            "Body": "El tamaño adjunto es de hasta {0} Mbyte."
         }
     ]
 }
