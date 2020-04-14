@@ -1,13 +1,29 @@
-﻿{
+{
     "Id": "TooManyCases",
     "Type": 240,
     "Languages": [
         {
-            "Body": "There are too many cases. Please narrow down to within {0} cases."
+            "Body": "Too many entries. Narrow down to {0} entries or less."
+        },
+        {
+            "Language": "zh",
+            "Body": "条目数过多，请将条目数缩减至{0}或以下。"
         },
         {
             "Language": "ja",
             "Body": "件数が多すぎます。{0} 件以内に絞り込んで下さい。"
+        },
+        {
+            "Language": "de",
+            "Body": "Zu viele Einträge. Grenzen Sie die Anzahl der Einträge auf max. {0} ein."
+        },
+        {
+            "Language": "ko",
+            "Body": "항목이 너무 많습니다. {0}개 항목 이하로 줄이십시오."
+        },
+        {
+            "Language": "es",
+            "Body": "Demasiadas entradas. Limitar a {0} entradas o menos."
         }
     ]
 }

@@ -1,4 +1,4 @@
-﻿{
+{
     "Id": "Monthly",
     "Type": 110,
     "Languages": [
@@ -6,8 +6,24 @@
             "Body": "Monthly"
         },
         {
+            "Language": "zh",
+            "Body": "每月"
+        },
+        {
             "Language": "ja",
             "Body": "毎月"
+        },
+        {
+            "Language": "de",
+            "Body": "Monatlich"
+        },
+        {
+            "Language": "ko",
+            "Body": "월간"
+        },
+        {
+            "Language": "es",
+            "Body": "Mensualmente"
         }
     ]
 }

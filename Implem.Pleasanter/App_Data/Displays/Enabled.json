@@ -1,4 +1,4 @@
-﻿{
+{
     "Id": "Enabled",
     "Type": 110,
     "Languages": [
@@ -6,8 +6,24 @@
             "Body": "Enabled"
         },
         {
+            "Language": "zh",
+            "Body": "已启用"
+        },
+        {
             "Language": "ja",
             "Body": "有効"
+        },
+        {
+            "Language": "de",
+            "Body": "Aktiviert"
+        },
+        {
+            "Language": "ko",
+            "Body": "활성화됨"
+        },
+        {
+            "Language": "es",
+            "Body": "Activado"
         }
     ]
 }

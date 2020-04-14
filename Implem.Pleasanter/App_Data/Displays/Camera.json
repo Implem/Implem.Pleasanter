@@ -1,4 +1,4 @@
-﻿{
+{
     "Id": "Camera",
     "Type": 110,
     "Languages": [
@@ -6,8 +6,24 @@
             "Body": "Camera"
         },
         {
+            "Language": "zh",
+            "Body": "摄像机"
+        },
+        {
             "Language": "ja",
             "Body": "カメラ"
+        },
+        {
+            "Language": "de",
+            "Body": "Kamera"
+        },
+        {
+            "Language": "ko",
+            "Body": "카메라"
+        },
+        {
+            "Language": "es",
+            "Body": "Cámara"
         }
     ]
 }

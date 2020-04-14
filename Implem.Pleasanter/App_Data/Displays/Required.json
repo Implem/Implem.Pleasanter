@@ -1,4 +1,4 @@
-﻿{
+{
     "Id": "Required",
     "Type": 110,
     "Languages": [
@@ -6,8 +6,24 @@
             "Body": "Required"
         },
         {
+            "Language": "zh",
+            "Body": "必填"
+        },
+        {
             "Language": "ja",
             "Body": "入力必須"
+        },
+        {
+            "Language": "de",
+            "Body": "Erforderlich"
+        },
+        {
+            "Language": "ko",
+            "Body": "필요"
+        },
+        {
+            "Language": "es",
+            "Body": "Obligatorio"
         }
     ]
 }

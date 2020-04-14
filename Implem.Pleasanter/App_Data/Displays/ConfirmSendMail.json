@@ -1,14 +1,30 @@
-﻿{
+{
     "Id": "ConfirmSendMail",
     "Type": 310,
     "ClientScript": true,
     "Languages": [
         {
-            "Body": "Are you sure you want to send an email ?"
+            "Body": "Are you sure you want to send the email?"
+        },
+        {
+            "Language": "zh",
+            "Body": "是否确定发送邮件？"
         },
         {
             "Language": "ja",
             "Body": "メールを送信してもよろしいですか？"
+        },
+        {
+            "Language": "de",
+            "Body": "Soll die E-Mail tatsächlich gesendet werden?"
+        },
+        {
+            "Language": "ko",
+            "Body": "이메일을 전송하시겠습니까?"
+        },
+        {
+            "Language": "es",
+            "Body": "¿Está seguro de que quiere enviar el correo electrónico?"
         }
     ]
 }

@@ -1,13 +1,29 @@
-﻿{
+{
     "Id": "Ymdahm",
     "Type": 120,
     "Languages": [
         {
-            "Body": "Date, week and minute"
+            "Body": "Date, day of the week, time (minutes)"
+        },
+        {
+            "Language": "zh",
+            "Body": "日期，星期，时间（分钟）"
         },
         {
             "Language": "ja",
             "Body": "日付と曜日と時刻(分)"
+        },
+        {
+            "Language": "de",
+            "Body": "Datum, Wochentag, Uhrzeit (Minuten)"
+        },
+        {
+            "Language": "ko",
+            "Body": "날짜, 요일, 시간(분)"
+        },
+        {
+            "Language": "es",
+            "Body": "Fecha, día de la semana, hora (minutos)"
         }
     ]
 }

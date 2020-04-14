@@ -1,4 +1,4 @@
-﻿{
+{
     "Id": "Version",
     "Type": 110,
     "Languages": [
@@ -6,8 +6,24 @@
             "Body": "Version"
         },
         {
+            "Language": "zh",
+            "Body": "版本"
+        },
+        {
             "Language": "ja",
             "Body": "バージョン"
+        },
+        {
+            "Language": "de",
+            "Body": "Version"
+        },
+        {
+            "Language": "ko",
+            "Body": "버전"
+        },
+        {
+            "Language": "es",
+            "Body": "Versión"
         }
     ]
 }

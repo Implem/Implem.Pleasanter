@@ -1,13 +1,29 @@
-﻿{
+{
     "Id": "SummaryLinkColumn",
     "Type": 110,
     "Languages": [
         {
-            "Body": "Summary link column"
+            "Body": "Link column"
+        },
+        {
+            "Language": "zh",
+            "Body": "链接列"
         },
         {
             "Language": "ja",
             "Body": "リンク項目"
+        },
+        {
+            "Language": "de",
+            "Body": "Spalte verknüpfen"
+        },
+        {
+            "Language": "ko",
+            "Body": "링크 열"
+        },
+        {
+            "Language": "es",
+            "Body": "Vincular columna"
         }
     ]
 }

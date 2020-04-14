@@ -3,11 +3,27 @@
     "Type": 110,
     "Languages": [
         {
-            "Body": "View Settings"
+            "Body": "View settings"
+        },
+        {
+            "Language": "zh",
+            "Body": "查看设定"
         },
         {
             "Language": "ja",
             "Body": "ビューの設定"
+        },
+        {
+            "Language": "de",
+            "Body": "Einstellungen anzeigen"
+        },
+        {
+            "Language": "ko",
+            "Body": "설정보기"
+        },
+        {
+            "Language": "es",
+            "Body": "Ver configuraciones"
         }
     ]
 }

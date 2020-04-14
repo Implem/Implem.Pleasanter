@@ -1,13 +1,29 @@
-﻿{
+{
     "Id": "FailedReadFile",
     "Type": 240,
     "Languages": [
         {
-            "Body": "It failed to read the file."
+            "Body": "Failed to read the file."
+        },
+        {
+            "Language": "zh",
+            "Body": "读取文件失败。"
         },
         {
             "Language": "ja",
             "Body": "ファイルの読込に失敗しました。"
+        },
+        {
+            "Language": "de",
+            "Body": "Fehler beim Lesen der Datei."
+        },
+        {
+            "Language": "ko",
+            "Body": "파일을 읽지 못했습니다."
+        },
+        {
+            "Language": "es",
+            "Body": "No se ha podido leer el archivo."
         }
     ]
 }

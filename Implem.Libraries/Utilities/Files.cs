@@ -142,22 +142,22 @@ namespace Implem.Libraries.Utilities
             }
         }
 
-        public static bool Exists(this string self) 
-        { 
-            return File.Exists(self); 
+        public static bool Exists(this string self)
+        {
+            return File.Exists(self);
         }
 
-        public static string FileNameOnly(this string self) 
+        public static string FileNameOnly(this string self)
         {
             return Path.ChangeExtension(Path.GetFileName(self), null);
         }
 
-        public static string FileExtension(this string self) 
+        public static string FileExtension(this string self)
         {
             return new FileInfo(self).Extension;
         }
 
-        public static string DirectoryName(this string self) 
+        public static string DirectoryName(this string self)
         {
             return new FileInfo(self).DirectoryName;
         }
@@ -194,8 +194,8 @@ namespace Implem.Libraries.Utilities
 
         public static void CopyDirectory(
             string sourcePath,
-            string destinationPath, 
-            IEnumerable<string> excludePathCollection, 
+            string destinationPath,
+            IEnumerable<string> excludePathCollection,
             FileAttributes excludeFileAttributes = FileAttributes.Hidden,
             FileAttributes excludeDirectoryAttributes = FileAttributes.Hidden,
             bool overwrite = true)
@@ -249,6 +249,14 @@ namespace Implem.Libraries.Utilities
                 if ((DateTime.Now - fileInfo.LastWriteTime).TotalMinutes > timeElapsed)
                 {
                     fileInfo.Delete();
+                }
+            });
+            Directory.EnumerateDirectories(path).ForEach(dirPath =>
+            {
+                var dirInfo = new DirectoryInfo(dirPath);
+                if ((DateTime.Now - dirInfo.LastWriteTime).TotalMinutes > timeElapsed)
+                {
+                    Directory.Delete(dirPath, true);
                 }
             });
         }

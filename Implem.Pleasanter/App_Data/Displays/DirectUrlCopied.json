@@ -1,14 +1,30 @@
-﻿{
-  "Id": "DirectUrlCopied",
-  "Type": 310,
-  "ClientScript": true,
-  "Languages": [
-    {
-      "Body": "Copied to Clipboard"
-    },
-    {
-      "Language": "ja",
-      "Body": "クリップボードにコピーしました"
-    }
-  ]
+{
+    "Id": "DirectUrlCopied",
+    "Type": 310,
+    "ClientScript": true,
+    "Languages": [
+        {
+            "Body": "Copied to clipboard"
+        },
+        {
+            "Language": "zh",
+            "Body": "复制到剪贴板"
+        },
+        {
+            "Language": "ja",
+            "Body": "クリップボードにコピーしました"
+        },
+        {
+            "Language": "de",
+            "Body": "In die Zwischenablage kopiert"
+        },
+        {
+            "Language": "ko",
+            "Body": "클립보드로 복사됨"
+        },
+        {
+            "Language": "es",
+            "Body": "Copiado al portapapeles"
+        }
+    ]
 }

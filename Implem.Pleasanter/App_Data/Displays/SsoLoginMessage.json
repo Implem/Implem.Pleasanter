@@ -6,8 +6,24 @@
             "Body": "If you are using SSO, please log in here."
         },
         {
+            "Language": "zh",
+            "Body": "如果您使用的是SSO，请在此处登录。"
+        },
+        {
             "Language": "ja",
             "Body": "SSO連携をご利用のお客様はこちらからログインしてください。"
+        },
+        {
+            "Language": "de",
+            "Body": "Wenn Sie SSO verwenden, melden Sie sich bitte hier an."
+        },
+        {
+            "Language": "ko",
+            "Body": "SSO를 사용하는 경우 여기에 로그인하십시오."
+        },
+        {
+            "Language": "es",
+            "Body": "Si está utilizando SSO, inicie sesión aquí."
         }
     ]
 }

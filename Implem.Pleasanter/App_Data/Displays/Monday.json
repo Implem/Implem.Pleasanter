@@ -1,4 +1,4 @@
-﻿{
+{
     "Id": "Monday",
     "Type": 110,
     "Languages": [
@@ -6,8 +6,24 @@
             "Body": "Monday"
         },
         {
+            "Language": "zh",
+            "Body": "星期一"
+        },
+        {
             "Language": "ja",
             "Body": "月曜日"
+        },
+        {
+            "Language": "de",
+            "Body": "Montag"
+        },
+        {
+            "Language": "ko",
+            "Body": "월요일"
+        },
+        {
+            "Language": "es",
+            "Body": "Lunes"
         }
     ]
 }

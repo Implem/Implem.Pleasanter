@@ -1,13 +1,29 @@
-﻿{
+{
     "Id": "DaysAgo",
     "Type": 110,
     "Languages": [
         {
-            "Body": "{0} days excess"
+            "Body": "{0} days ago"
+        },
+        {
+            "Language": "zh",
+            "Body": "{0}天前"
         },
         {
             "Language": "ja",
             "Body": "{0} 日前"
+        },
+        {
+            "Language": "de",
+            "Body": "Vor {0} Tagen"
+        },
+        {
+            "Language": "ko",
+            "Body": "{0}일 전"
+        },
+        {
+            "Language": "es",
+            "Body": "Hace {0} días"
         }
     ]
 }

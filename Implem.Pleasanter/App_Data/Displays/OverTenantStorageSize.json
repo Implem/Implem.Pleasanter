@@ -1,13 +1,29 @@
-﻿{
+{
     "Id": "OverTenantStorageSize",
     "Type": 240,
     "Languages": [
         {
-            "Body": "This operation can not be executed because the disk usage exceeds {0} Gbytes."
+            "Body": "This operation cannot be performed because it exceeds the available storage capacity of {0} GB."
+        },
+        {
+            "Language": "zh",
+            "Body": "由于此操作超出可使用的存储量{0}GB，因此无法执行此操作。"
         },
         {
             "Language": "ja",
             "Body": "ご利用可能なストレージ容量{0}Gbyteを超過するため、この操作は行なえません。"
+        },
+        {
+            "Language": "de",
+            "Body": "Dieser Vorgang überschreitet die verfügbare Speicherkapazität von {0} GB und kann deshalb nicht ausgeführt werden."
+        },
+        {
+            "Language": "ko",
+            "Body": "최대 저장 크기 {0}GB를 초과하므로 이 작업을 수행할 수 없습니다."
+        },
+        {
+            "Language": "es",
+            "Body": "Esta operación no puede realizarse porque supera la capacidad de almacenamiento disponible de {0} GB."
         }
     ]
 }

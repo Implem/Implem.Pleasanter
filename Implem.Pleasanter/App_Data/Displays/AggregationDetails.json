@@ -1,4 +1,4 @@
-﻿{
+{
     "Id": "AggregationDetails",
     "Type": 110,
     "Languages": [
@@ -6,8 +6,24 @@
             "Body": "Aggregation details"
         },
         {
+            "Language": "zh",
+            "Body": "聚合详情"
+        },
+        {
             "Language": "ja",
             "Body": "集計の詳細設定"
+        },
+        {
+            "Language": "de",
+            "Body": "Aggregationsdetails"
+        },
+        {
+            "Language": "ko",
+            "Body": "집계 세부사항"
+        },
+        {
+            "Language": "es",
+            "Body": "Detalles de agregación"
         }
     ]
 }

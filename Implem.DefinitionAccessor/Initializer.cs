@@ -39,6 +39,7 @@ namespace Implem.DefinitionAccessor
             DateTimes.FirstMonth = Parameters.General.FirstMonth;
             DateTimes.MinTime = Parameters.General.MinTime;
             DateTimes.MaxTime = Parameters.General.MaxTime;
+            DeleteTemporaryFiles();
         }
 
         private static void SetRdsPassword(bool setRdsPassword, bool setRandomPassword)
@@ -97,6 +98,7 @@ namespace Implem.DefinitionAccessor
             Parameters.SitePackage = Read<ParameterAccessor.Parts.SitePackage>();
             Parameters.SysLog = Read<ParameterAccessor.Parts.SysLog>();
             Parameters.Parameter = Read<ParameterAccessor.Parts.Parameter>();
+            Parameters.Locations = Read<ParameterAccessor.Parts.Locations>();
         }
 
         public static void ReloadParameters()
@@ -431,15 +433,17 @@ namespace Implem.DefinitionAccessor
 
         private static void SetDisplayAccessor()
         {
-            Displays.DisplayHash = DisplayHash();
             Def.ColumnDefinitionCollection
                 .Where(o => !o.Base)
-                .Where(o => o.ExtendedColumnType.IsNullOrEmpty())
                 .Select(o => new
                 {
                     o.Id,
-                    En = o.ColumnName,
-                    Ja = o.LabelText
+                    En = o.LabelText_en,
+                    Zh = o.LabelText_zh,
+                    Ja = o.LabelText,
+                    De = o.LabelText_de,
+                    Ko = o.LabelText_ko,
+                    Es = o.LabelText_es
                 })
                 .Union(Def.ColumnDefinitionCollection
                     .Where(o => !o.Base)
@@ -447,7 +451,11 @@ namespace Implem.DefinitionAccessor
                     {
                         Id = o.TableName,
                         En = o.TableName,
-                        Ja = o.Label
+                        Zh = o.TableName,
+                        Ja = o.Label,
+                        De = o.TableName,
+                        Ko = o.TableName,
+                        Es = o.TableName
                     })
                     .Distinct())
                 .Where(o => !Displays.DisplayHash.ContainsKey(o.Id))
@@ -463,8 +471,28 @@ namespace Implem.DefinitionAccessor
                             },
                             new DisplayElement
                             {
+                                Language = "zh",
+                                Body = o.Zh
+                            },
+                            new DisplayElement
+                            {
                                 Language = "ja",
                                 Body = o.Ja
+                            },
+                            new DisplayElement
+                            {
+                                Language = "de",
+                                Body = o.De
+                            },
+                            new DisplayElement
+                            {
+                                Language = "ko",
+                                Body = o.Ko
+                            },
+                            new DisplayElement
+                            {
+                                Language = "es",
+                                Body = o.Es
                             }
                         }
                     }));
@@ -487,6 +515,14 @@ namespace Implem.DefinitionAccessor
             Sqls.SelectIdentity = Def.Sql.SelectIdentity;
             Sqls.BeginTransaction = Def.Sql.BeginTransaction;
             Sqls.CommitTransaction = Def.Sql.CommitTransaction;
+        }
+
+        private static void DeleteTemporaryFiles()
+        {
+            Files.DeleteTemporaryFiles(
+                Directories.Temp(), Parameters.General.DeleteTempOldThan);
+            Files.DeleteTemporaryFiles(
+                Directories.Histories(), Parameters.General.DeleteHistoriesOldThan);
         }
     }
 }

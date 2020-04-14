@@ -1,4 +1,4 @@
-﻿{
+{
     "Id": "Read",
     "Type": 110,
     "Languages": [
@@ -6,8 +6,24 @@
             "Body": "Read"
         },
         {
+            "Language": "zh",
+            "Body": "读取"
+        },
+        {
             "Language": "ja",
             "Body": "読取り"
+        },
+        {
+            "Language": "de",
+            "Body": "Lesen"
+        },
+        {
+            "Language": "ko",
+            "Body": "읽기"
+        },
+        {
+            "Language": "es",
+            "Body": "Leer"
         }
     ]
 }

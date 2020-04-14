@@ -1,4 +1,4 @@
-﻿{
+{
     "Id": "SiteTitle",
     "Type": 110,
     "Languages": [
@@ -6,8 +6,24 @@
             "Body": "Site title"
         },
         {
+            "Language": "zh",
+            "Body": "站点标题"
+        },
+        {
             "Language": "ja",
             "Body": "サイトのタイトル"
+        },
+        {
+            "Language": "de",
+            "Body": "Site-Titel"
+        },
+        {
+            "Language": "ko",
+            "Body": "사이트 제목"
+        },
+        {
+            "Language": "es",
+            "Body": "Título del sitio"
         }
     ]
 }

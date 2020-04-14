@@ -1,13 +1,29 @@
-﻿{
+{
     "Id": "HoursAgo",
     "Type": 110,
     "Languages": [
         {
-            "Body": "{0} hours excess"
+            "Body": "{0} hours ago"
+        },
+        {
+            "Language": "zh",
+            "Body": "{0}小时前"
         },
         {
             "Language": "ja",
             "Body": "{0} 時間前"
+        },
+        {
+            "Language": "de",
+            "Body": "Vor {0} Stunden"
+        },
+        {
+            "Language": "ko",
+            "Body": "{0}시간 전"
+        },
+        {
+            "Language": "es",
+            "Body": "Hace {0} horas"
         }
     ]
 }

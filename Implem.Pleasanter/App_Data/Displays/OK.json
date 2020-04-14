@@ -1,4 +1,4 @@
-﻿{
+{
     "Id": "OK",
     "Type": 110,
     "Languages": [
@@ -6,7 +6,23 @@
             "Body": "OK"
         },
         {
+            "Language": "zh",
+            "Body": "确定"
+        },
+        {
             "Language": "ja",
+            "Body": "OK"
+        },
+        {
+            "Language": "de",
+            "Body": "OK"
+        },
+        {
+            "Language": "ko",
+            "Body": "확인"
+        },
+        {
+            "Language": "es",
             "Body": "OK"
         }
     ]

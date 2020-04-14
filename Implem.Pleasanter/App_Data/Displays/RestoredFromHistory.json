@@ -1,13 +1,29 @@
-﻿{
-  "Id": "RestoredFromHistory",
-  "Type": 210,
-  "Languages": [
-    {
-      "Body": "restored from version {0}."
-    },
-    {
-      "Language": "ja",
-      "Body": "バージョン {0} から復元しました。"
-    }
-  ]
+{
+    "Id": "RestoredFromHistory",
+    "Type": 210,
+    "Languages": [
+        {
+            "Body": "Restored from version {0}."
+        },
+        {
+            "Language": "zh",
+            "Body": "从版本{0}恢复。"
+        },
+        {
+            "Language": "ja",
+            "Body": "バージョン {0} から復元しました。"
+        },
+        {
+            "Language": "de",
+            "Body": "Wiederhergestellt aus Version {0}."
+        },
+        {
+            "Language": "ko",
+            "Body": "버전 {0}에서 복원되었습니다."
+        },
+        {
+            "Language": "es",
+            "Body": "Restaurado desde la versión {0}."
+        }
+    ]
 }

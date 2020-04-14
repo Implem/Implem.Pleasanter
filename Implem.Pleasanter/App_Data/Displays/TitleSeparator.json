@@ -1,4 +1,4 @@
-﻿{
+{
     "Id": "TitleSeparator",
     "Type": 110,
     "Languages": [
@@ -6,8 +6,24 @@
             "Body": "Title separator"
         },
         {
+            "Language": "zh",
+            "Body": "标题分隔符"
+        },
+        {
             "Language": "ja",
             "Body": "タイトル区切り文字"
+        },
+        {
+            "Language": "de",
+            "Body": "Titeltrennzeichen"
+        },
+        {
+            "Language": "ko",
+            "Body": "제목 분리자"
+        },
+        {
+            "Language": "es",
+            "Body": "Separador de títulos"
         }
     ]
 }

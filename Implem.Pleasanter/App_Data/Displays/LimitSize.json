@@ -1,13 +1,29 @@
-﻿{
+{
     "Id": "LimitSize",
     "Type": 110,
     "Languages": [
         {
-            "Body": "Limit size"
+            "Body": "Size limit (MB)"
+        },
+        {
+            "Language": "zh",
+            "Body": "大小限制(MB)"
         },
         {
             "Language": "ja",
             "Body": "容量制限(MB)"
+        },
+        {
+            "Language": "de",
+            "Body": "Maximale Größe (MB)"
+        },
+        {
+            "Language": "ko",
+            "Body": "크기 한계(MB)"
+        },
+        {
+            "Language": "es",
+            "Body": "Limite de tamaño (MB)"
         }
     ]
 }

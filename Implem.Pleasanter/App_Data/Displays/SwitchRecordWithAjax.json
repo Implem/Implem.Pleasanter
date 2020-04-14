@@ -1,13 +1,29 @@
-﻿{
+{
     "Id": "SwitchRecordWithAjax",
     "Type": 110,
     "Languages": [
         {
-            "Body": "Switch record with ajax"
+            "Body": "Switch record with Ajax"
+        },
+        {
+            "Language": "zh",
+            "Body": "带Ajax的切换记录"
         },
         {
             "Language": "ja",
             "Body": "レコードの遷移にAjaxを使用"
+        },
+        {
+            "Language": "de",
+            "Body": "Datensatz tauschen mit Ajax"
+        },
+        {
+            "Language": "ko",
+            "Body": "Ajax로 레코드 전환"
+        },
+        {
+            "Language": "es",
+            "Body": "Cambiar registro con Ajax"
         }
     ]
 }

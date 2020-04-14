@@ -1,0 +1,29 @@
+﻿{
+    "Id": "DefaultViewMode",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Default view mode"
+        },
+        {
+            "Language": "zh",
+            "Body": "默认查看模式"
+        },
+        {
+            "Language": "ja",
+            "Body": "既定の表示"
+        },
+        {
+            "Language": "de",
+            "Body": "Standardansichtsmodus"
+        },
+        {
+            "Language": "ko",
+            "Body": "기본보기 모드"
+        },
+        {
+            "Language": "es",
+            "Body": "Modo de vista predeterminado"
+        }
+    ]
+}

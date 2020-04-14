@@ -1,4 +1,4 @@
-﻿{
+{
     "Id": "Gantt",
     "Type": 110,
     "Languages": [
@@ -6,8 +6,24 @@
             "Body": "Gantt chart"
         },
         {
+            "Language": "zh",
+            "Body": "甘特图"
+        },
+        {
             "Language": "ja",
             "Body": "ガントチャート"
+        },
+        {
+            "Language": "de",
+            "Body": "Gantt-Diagramm"
+        },
+        {
+            "Language": "ko",
+            "Body": "간트 차트"
+        },
+        {
+            "Language": "es",
+            "Body": "Gráfica de Gantt"
         }
     ]
 }

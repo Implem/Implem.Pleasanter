@@ -1,4 +1,4 @@
-﻿{
+{
     "Id": "Menu",
     "Type": 110,
     "Languages": [
@@ -6,8 +6,24 @@
             "Body": "Menu"
         },
         {
+            "Language": "zh",
+            "Body": "菜单"
+        },
+        {
             "Language": "ja",
             "Body": "メニュー"
+        },
+        {
+            "Language": "de",
+            "Body": "Menü"
+        },
+        {
+            "Language": "ko",
+            "Body": "메뉴"
+        },
+        {
+            "Language": "es",
+            "Body": "Menú"
         }
     ]
 }

@@ -1,14 +1,30 @@
-﻿{
+{
     "Id": "ConfirmReset",
     "Type": 310,
     "ClientScript": true,
     "Languages": [
         {
-            "Body": "Are you sure you want to reset ?"
+            "Body": "Are you sure you want to reset?"
+        },
+        {
+            "Language": "zh",
+            "Body": "是否确定重置？"
         },
         {
             "Language": "ja",
             "Body": "本当にリセットしてもよろしいですか？"
+        },
+        {
+            "Language": "de",
+            "Body": "Tatsächlich zurücksetzen?"
+        },
+        {
+            "Language": "ko",
+            "Body": "재설정하시겠습니까?"
+        },
+        {
+            "Language": "es",
+            "Body": "¿Está seguro de que quiere restablecer?"
         }
     ]
 }

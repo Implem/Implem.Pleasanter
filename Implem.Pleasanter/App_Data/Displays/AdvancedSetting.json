@@ -1,13 +1,29 @@
-﻿{
+{
     "Id": "AdvancedSetting",
     "Type": 110,
     "Languages": [
         {
-            "Body": "Advanced setting"
+            "Body": "Advanced settings"
+        },
+        {
+            "Language": "zh",
+            "Body": "高级设置"
         },
         {
             "Language": "ja",
             "Body": "詳細設定"
+        },
+        {
+            "Language": "de",
+            "Body": "Erweiterte Einstellungen"
+        },
+        {
+            "Language": "ko",
+            "Body": "고급 설정"
+        },
+        {
+            "Language": "es",
+            "Body": "Configuración avanzada"
         }
     ]
 }

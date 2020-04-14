@@ -1,4 +1,4 @@
-﻿{
+{
     "Id": "RebuildSearchIndexes",
     "Type": 110,
     "Languages": [
@@ -6,8 +6,24 @@
             "Body": "Rebuild search indexes"
         },
         {
+            "Language": "zh",
+            "Body": "重建搜索索引"
+        },
+        {
             "Language": "ja",
             "Body": "検索インデックスの再構築"
+        },
+        {
+            "Language": "de",
+            "Body": "Suchindizes neu erstellen"
+        },
+        {
+            "Language": "ko",
+            "Body": "검색 색인 재구성"
+        },
+        {
+            "Language": "es",
+            "Body": "Índices de búsqueda de reconstrucciones"
         }
     ]
 }

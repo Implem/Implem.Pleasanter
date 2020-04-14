@@ -1,4 +1,4 @@
-﻿{
+{
     "Id": "SiteIntegration",
     "Type": 110,
     "Languages": [
@@ -6,8 +6,24 @@
             "Body": "Site integration"
         },
         {
+            "Language": "zh",
+            "Body": "站点整合"
+        },
+        {
             "Language": "ja",
             "Body": "サイト統合"
+        },
+        {
+            "Language": "de",
+            "Body": "Site-Integration"
+        },
+        {
+            "Language": "ko",
+            "Body": "사이트 통합"
+        },
+        {
+            "Language": "es",
+            "Body": "Integración del sitio"
         }
     ]
 }

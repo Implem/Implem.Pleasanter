@@ -1,13 +1,29 @@
-﻿{
+{
     "Id": "UnlockTable",
     "Type": 110,
     "Languages": [
         {
-            "Body": "Unlock the table"
+            "Body": "Unlock table"
+        },
+        {
+            "Language": "zh",
+            "Body": "解锁表格"
         },
         {
             "Language": "ja",
             "Body": "テーブルのロックを解除"
+        },
+        {
+            "Language": "de",
+            "Body": "Tabelle entsperren"
+        },
+        {
+            "Language": "ko",
+            "Body": "목록 잠금 해제"
+        },
+        {
+            "Language": "es",
+            "Body": "Desbloquear tabla"
         }
     ]
 }

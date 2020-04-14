@@ -1,4 +1,4 @@
-﻿{
+{
     "Id": "LinkSources",
     "Type": 110,
     "Languages": [
@@ -6,8 +6,24 @@
             "Body": "Link sources"
         },
         {
+            "Language": "zh",
+            "Body": "链接源"
+        },
+        {
             "Language": "ja",
             "Body": "リンク元"
+        },
+        {
+            "Language": "de",
+            "Body": "Verknüpfungsquellen"
+        },
+        {
+            "Language": "ko",
+            "Body": "링크 소스"
+        },
+        {
+            "Language": "es",
+            "Body": "Orígenes de enlace"
         }
     ]
 }

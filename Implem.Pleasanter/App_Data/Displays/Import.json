@@ -1,4 +1,4 @@
-﻿{
+{
     "Id": "Import",
     "Type": 110,
     "Languages": [
@@ -6,8 +6,24 @@
             "Body": "Import"
         },
         {
+            "Language": "zh",
+            "Body": "导入"
+        },
+        {
             "Language": "ja",
             "Body": "インポート"
+        },
+        {
+            "Language": "de",
+            "Body": "Importieren"
+        },
+        {
+            "Language": "ko",
+            "Body": "가져오기"
+        },
+        {
+            "Language": "es",
+            "Body": "Importar"
         }
     ]
 }

@@ -1,4 +1,4 @@
-﻿{
+{
     "Id": "SiteUser",
     "Type": 110,
     "Languages": [
@@ -6,8 +6,24 @@
             "Body": "Site user"
         },
         {
+            "Language": "zh",
+            "Body": "站点用户"
+        },
+        {
             "Language": "ja",
             "Body": "サイトユーザ"
+        },
+        {
+            "Language": "de",
+            "Body": "Site-Benutzer"
+        },
+        {
+            "Language": "ko",
+            "Body": "사이트 사용자"
+        },
+        {
+            "Language": "es",
+            "Body": "Usuario del sitio"
         }
     ]
 }

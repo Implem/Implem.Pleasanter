@@ -6,8 +6,24 @@
             "Body": "Failed to export."
         },
         {
+            "Language": "zh",
+            "Body": "出口失败。"
+        },
+        {
             "Language": "ja",
             "Body": "エクスポートに失敗しました。"
+        },
+        {
+            "Language": "de",
+            "Body": "Export fehlgeschlagen."
+        },
+        {
+            "Language": "ko",
+            "Body": "내 보내지 못했습니다."
+        },
+        {
+            "Language": "es",
+            "Body": "No se pudo exportar."
         }
     ]
 }

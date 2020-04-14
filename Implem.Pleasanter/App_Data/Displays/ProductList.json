@@ -1,13 +1,29 @@
-﻿{
+{
     "Id": "ProductList",
     "Type": 110,
     "Languages": [
         {
-            "Body": "ProductList"
+            "Body": "Product list"
+        },
+        {
+            "Language": "zh",
+            "Body": "产品清单"
         },
         {
             "Language": "ja",
             "Body": "商品一覧"
+        },
+        {
+            "Language": "de",
+            "Body": "Produktliste"
+        },
+        {
+            "Language": "ko",
+            "Body": "제품 목록"
+        },
+        {
+            "Language": "es",
+            "Body": "Lista de productos"
         }
     ]
 }

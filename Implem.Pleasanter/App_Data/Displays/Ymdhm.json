@@ -1,13 +1,29 @@
-﻿{
+{
     "Id": "Ymdhm",
     "Type": 120,
     "Languages": [
         {
-            "Body": "Date and minute"
+            "Body": "Date and time (minutes)"
+        },
+        {
+            "Language": "zh",
+            "Body": "日期和时间（分钟）"
         },
         {
             "Language": "ja",
             "Body": "日付と時刻(分)"
+        },
+        {
+            "Language": "de",
+            "Body": "Datum und Uhrzeit (Minuten)"
+        },
+        {
+            "Language": "ko",
+            "Body": "날짜 및 시간(분)"
+        },
+        {
+            "Language": "es",
+            "Body": "Fecha y hora (minutos)"
         }
     ]
 }

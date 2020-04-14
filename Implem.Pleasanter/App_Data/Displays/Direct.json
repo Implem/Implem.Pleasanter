@@ -6,8 +6,24 @@
             "Body": "Direct"
         },
         {
+            "Language": "zh",
+            "Body": "直接"
+        },
+        {
             "Language": "ja",
             "Body": "ダイレクト"
+        },
+        {
+            "Language": "de",
+            "Body": "Direkte"
+        },
+        {
+            "Language": "ko",
+            "Body": "곧장"
+        },
+        {
+            "Language": "es",
+            "Body": "Directo"
         }
     ]
 }

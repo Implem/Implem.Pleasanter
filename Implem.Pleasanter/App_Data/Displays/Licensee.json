@@ -1,4 +1,4 @@
-﻿{
+{
     "Id": "Licensee",
     "Type": 110,
     "Languages": [
@@ -6,8 +6,24 @@
             "Body": "Licensee"
         },
         {
+            "Language": "zh",
+            "Body": "获许可方"
+        },
+        {
             "Language": "ja",
             "Body": "使用者"
+        },
+        {
+            "Language": "de",
+            "Body": "Lizenznehmer"
+        },
+        {
+            "Language": "ko",
+            "Body": "라이선스 소지자"
+        },
+        {
+            "Language": "es",
+            "Body": "Titular de la licencia"
         }
     ]
 }

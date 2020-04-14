@@ -6,8 +6,24 @@
             "Body": "Site package"
         },
         {
+            "Language": "zh",
+            "Body": "网站套餐"
+        },
+        {
             "Language": "ja",
             "Body": "サイトパッケージ"
+        },
+        {
+            "Language": "de",
+            "Body": "Site-Paket"
+        },
+        {
+            "Language": "ko",
+            "Body": "사이트 패키지"
+        },
+        {
+            "Language": "es",
+            "Body": "Paquete del sitio"
         }
     ]
 }

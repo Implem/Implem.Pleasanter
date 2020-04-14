@@ -3,11 +3,27 @@
     "Type": 110,
     "Languages": [
         {
-            "Body": "Numeric Range"
+            "Body": "Numeric range"
+        },
+        {
+            "Language": "zh",
+            "Body": "数值范围"
         },
         {
             "Language": "ja",
             "Body": "数値の範囲"
+        },
+        {
+            "Language": "de",
+            "Body": "Numerischer Bereich"
+        },
+        {
+            "Language": "ko",
+            "Body": "숫자 범위"
+        },
+        {
+            "Language": "es",
+            "Body": "Rango numérico"
         }
     ]
 }

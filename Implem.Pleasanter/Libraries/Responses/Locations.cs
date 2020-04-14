@@ -1,6 +1,7 @@
 ﻿using Implem.DefinitionAccessor;
 using Implem.Libraries.Utilities;
 using Implem.Pleasanter.Libraries.Requests;
+using Implem.Pleasanter.Libraries.Security;
 using System.Linq;
 namespace Implem.Pleasanter.Libraries.Responses
 {
@@ -8,7 +9,9 @@ namespace Implem.Pleasanter.Libraries.Responses
     {
         public static string Top(Context context)
         {
-            return Get(context: context);
+            return (!Parameters.Locations.TopUrl.IsNullOrEmpty() && !Permissions.PrivilegedUsers(context.LoginId))
+                ? Get(context: context, Parameters.Locations.TopUrl)
+                : Get(context: context);
         }
 
         public static string BaseUrl(Context context)

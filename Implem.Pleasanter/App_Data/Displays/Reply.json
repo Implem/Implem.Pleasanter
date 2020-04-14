@@ -1,4 +1,4 @@
-﻿{
+{
     "Id": "Reply",
     "Type": 110,
     "Languages": [
@@ -6,8 +6,24 @@
             "Body": "Reply"
         },
         {
+            "Language": "zh",
+            "Body": "回复"
+        },
+        {
             "Language": "ja",
             "Body": "返信"
+        },
+        {
+            "Language": "de",
+            "Body": "Antworten"
+        },
+        {
+            "Language": "ko",
+            "Body": "회신"
+        },
+        {
+            "Language": "es",
+            "Body": "Respuesta"
         }
     ]
 }

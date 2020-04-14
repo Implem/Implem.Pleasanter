@@ -1,13 +1,29 @@
-﻿{
+{
     "Id": "NearCompletionTimeBeforeDays",
     "Type": 110,
     "Languages": [
         {
-            "Body": "Near deadline before days"
+            "Body": "No. of days from time of completion (before)"
+        },
+        {
+            "Language": "zh",
+            "Body": "完成前天数"
         },
         {
             "Language": "ja",
             "Body": "「期限が近い」の日数（前）"
+        },
+        {
+            "Language": "de",
+            "Body": "Anzahl der Tage bis Fertigstellung (vor)"
+        },
+        {
+            "Language": "ko",
+            "Body": "완료 시점으로부터 일 수(이전)"
+        },
+        {
+            "Language": "es",
+            "Body": "N.º de días desde la hora de finalización (antes)"
         }
     ]
 }

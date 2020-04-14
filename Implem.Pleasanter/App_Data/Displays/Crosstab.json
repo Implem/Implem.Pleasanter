@@ -1,4 +1,4 @@
-﻿{
+{
     "Id": "Crosstab",
     "Type": 110,
     "Languages": [
@@ -6,8 +6,24 @@
             "Body": "Crosstab"
         },
         {
+            "Language": "zh",
+            "Body": "交叉表"
+        },
+        {
             "Language": "ja",
             "Body": "クロス集計"
+        },
+        {
+            "Language": "de",
+            "Body": "Kreuztabelle"
+        },
+        {
+            "Language": "ko",
+            "Body": "크로스탭"
+        },
+        {
+            "Language": "es",
+            "Body": "Tabla cruzada"
         }
     ]
 }

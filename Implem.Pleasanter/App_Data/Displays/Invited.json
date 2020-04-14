@@ -1,4 +1,4 @@
-﻿{
+{
     "Id": "Invited",
     "Type": 110,
     "Languages": [
@@ -6,8 +6,24 @@
             "Body": "Invited"
         },
         {
+            "Language": "zh",
+            "Body": "已邀请"
+        },
+        {
             "Language": "ja",
             "Body": "招待済み"
+        },
+        {
+            "Language": "de",
+            "Body": "Eingeladen"
+        },
+        {
+            "Language": "ko",
+            "Body": "초대됨"
+        },
+        {
+            "Language": "es",
+            "Body": "Invitado"
         }
     ]
 }

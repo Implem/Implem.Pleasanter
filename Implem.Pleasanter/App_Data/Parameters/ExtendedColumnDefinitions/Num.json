@@ -19,5 +19,10 @@
     "NumFilterMin": "0",
     "NumFilterMax": "10000",
     "NumFilterStep": "1000",
-    "ExtendedColumnType": "Num"
+    "ExtendedColumnType": "Num",
+    "LabelText_en": "Numeric value",
+    "LabelText_zh": "数字值",
+    "LabelText_de": "Numerischer Wert",
+    "LabelText_ko": "수치값",
+    "LabelText_es": "Valor numérico"
 }

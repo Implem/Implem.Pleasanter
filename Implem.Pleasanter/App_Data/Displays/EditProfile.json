@@ -1,4 +1,4 @@
-﻿{
+{
     "Id": "EditProfile",
     "Type": 110,
     "Languages": [
@@ -6,8 +6,24 @@
             "Body": "Edit profile"
         },
         {
+            "Language": "zh",
+            "Body": "编辑配置文件"
+        },
+        {
             "Language": "ja",
             "Body": "プロファイル編集"
+        },
+        {
+            "Language": "de",
+            "Body": "Profil bearbeiten"
+        },
+        {
+            "Language": "ko",
+            "Body": "프로필 편집"
+        },
+        {
+            "Language": "es",
+            "Body": "Editar perfil"
         }
     ]
 }

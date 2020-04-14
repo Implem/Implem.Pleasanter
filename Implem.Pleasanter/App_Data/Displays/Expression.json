@@ -1,4 +1,4 @@
-﻿{
+{
     "Id": "Expression",
     "Type": 110,
     "Languages": [
@@ -6,8 +6,24 @@
             "Body": "Expression"
         },
         {
+            "Language": "zh",
+            "Body": "表达式"
+        },
+        {
             "Language": "ja",
             "Body": "論理式"
+        },
+        {
+            "Language": "de",
+            "Body": "Ausdruck"
+        },
+        {
+            "Language": "ko",
+            "Body": "수식"
+        },
+        {
+            "Language": "es",
+            "Body": "Expresión"
         }
     ]
 }

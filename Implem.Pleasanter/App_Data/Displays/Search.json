@@ -1,4 +1,4 @@
-﻿{
+{
     "Id": "Search",
     "Type": 110,
     "Languages": [
@@ -6,8 +6,24 @@
             "Body": "Search"
         },
         {
+            "Language": "zh",
+            "Body": "搜索"
+        },
+        {
             "Language": "ja",
             "Body": "検索"
+        },
+        {
+            "Language": "de",
+            "Body": "Suchen"
+        },
+        {
+            "Language": "ko",
+            "Body": "검색"
+        },
+        {
+            "Language": "es",
+            "Body": "Búsqueda"
         }
     ]
 }

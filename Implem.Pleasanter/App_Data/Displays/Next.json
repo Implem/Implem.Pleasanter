@@ -1,4 +1,4 @@
-﻿{
+{
     "Id": "Next",
     "Type": 110,
     "Languages": [
@@ -6,8 +6,24 @@
             "Body": "Next"
         },
         {
+            "Language": "zh",
+            "Body": "下一个"
+        },
+        {
             "Language": "ja",
             "Body": "次"
+        },
+        {
+            "Language": "de",
+            "Body": "Weiter"
+        },
+        {
+            "Language": "ko",
+            "Body": "다음"
+        },
+        {
+            "Language": "es",
+            "Body": "Siguiente"
         }
     ]
 }

@@ -1,4 +1,4 @@
-﻿{
+{
     "Id": "Leader",
     "Type": 110,
     "Languages": [
@@ -6,8 +6,24 @@
             "Body": "Leader"
         },
         {
+            "Language": "zh",
+            "Body": "主管"
+        },
+        {
             "Language": "ja",
             "Body": "リーダー"
+        },
+        {
+            "Language": "de",
+            "Body": "Gesprächsleiter"
+        },
+        {
+            "Language": "ko",
+            "Body": "리더"
+        },
+        {
+            "Language": "es",
+            "Body": "Jefe"
         }
     ]
 }

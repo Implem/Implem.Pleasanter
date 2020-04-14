@@ -1,4 +1,4 @@
-﻿{
+{
     "Id": "SortBy",
     "Type": 110,
     "Languages": [
@@ -6,8 +6,24 @@
             "Body": "Sort by"
         },
         {
+            "Language": "zh",
+            "Body": "分类依据"
+        },
+        {
             "Language": "ja",
             "Body": "ソート"
+        },
+        {
+            "Language": "de",
+            "Body": "Sortieren nach"
+        },
+        {
+            "Language": "ko",
+            "Body": "정렬"
+        },
+        {
+            "Language": "es",
+            "Body": "Clasificar por"
         }
     ]
 }

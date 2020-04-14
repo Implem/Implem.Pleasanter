@@ -1,4 +1,4 @@
-﻿{
+{
     "Id": "Subject",
     "Type": 110,
     "Languages": [
@@ -6,8 +6,24 @@
             "Body": "Subject"
         },
         {
+            "Language": "zh",
+            "Body": "主题"
+        },
+        {
             "Language": "ja",
             "Body": "件名"
+        },
+        {
+            "Language": "de",
+            "Body": "Betreff"
+        },
+        {
+            "Language": "ko",
+            "Body": "제목"
+        },
+        {
+            "Language": "es",
+            "Body": "Asunto"
         }
     ]
 }

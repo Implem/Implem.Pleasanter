@@ -1,13 +1,29 @@
-﻿{
+{
     "Id": "StartDateTime",
     "Type": 110,
     "Languages": [
         {
-            "Body": "Start date time"
+            "Body": "Started on"
+        },
+        {
+            "Language": "zh",
+            "Body": "开始时间"
         },
         {
             "Language": "ja",
             "Body": "開始日時"
+        },
+        {
+            "Language": "de",
+            "Body": "Gestartet am"
+        },
+        {
+            "Language": "ko",
+            "Body": "시작된 날짜"
+        },
+        {
+            "Language": "es",
+            "Body": "Iniciado el"
         }
     ]
 }

@@ -1,13 +1,29 @@
-﻿{
+{
     "Id": "SentMail",
     "Type": 110,
     "Languages": [
         {
-            "Body": "Sent mail"
+            "Body": "Sent email"
+        },
+        {
+            "Language": "zh",
+            "Body": "已发送的电子邮件"
         },
         {
             "Language": "ja",
             "Body": "送信メール"
+        },
+        {
+            "Language": "de",
+            "Body": "E-Mail gesendet"
+        },
+        {
+            "Language": "ko",
+            "Body": "전송한 이메일"
+        },
+        {
+            "Language": "es",
+            "Body": "Correo electrónico enviado"
         }
     ]
 }

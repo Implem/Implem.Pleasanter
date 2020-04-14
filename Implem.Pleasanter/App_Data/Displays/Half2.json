@@ -1,4 +1,4 @@
-﻿{
+{
     "Id": "Half2",
     "Type": 110,
     "Languages": [
@@ -6,8 +6,24 @@
             "Body": "FY {0} H2"
         },
         {
+            "Language": "zh",
+            "Body": "FY {0} H2"
+        },
+        {
             "Language": "ja",
             "Body": "{0}年度下半期"
+        },
+        {
+            "Language": "de",
+            "Body": "GJ {0} H2"
+        },
+        {
+            "Language": "ko",
+            "Body": "FY {0} H2"
+        },
+        {
+            "Language": "es",
+            "Body": "FY {0} H2"
         }
     ]
 }

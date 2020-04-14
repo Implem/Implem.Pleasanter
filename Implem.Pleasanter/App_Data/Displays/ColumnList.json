@@ -1,4 +1,4 @@
-﻿{
+{
     "Id": "ColumnList",
     "Type": 110,
     "Languages": [
@@ -6,8 +6,24 @@
             "Body": "Column list"
         },
         {
+            "Language": "zh",
+            "Body": "列清单"
+        },
+        {
             "Language": "ja",
             "Body": "項目一覧"
+        },
+        {
+            "Language": "de",
+            "Body": "Spaltenliste"
+        },
+        {
+            "Language": "ko",
+            "Body": "열 목록"
+        },
+        {
+            "Language": "es",
+            "Body": "Lista de columnas"
         }
     ]
 }

@@ -1,4 +1,4 @@
-﻿{
+{
     "Id": "Special",
     "Type": 110,
     "Languages": [
@@ -6,8 +6,24 @@
             "Body": "Special"
         },
         {
+            "Language": "zh",
+            "Body": "特殊"
+        },
+        {
             "Language": "ja",
             "Body": "特殊"
+        },
+        {
+            "Language": "de",
+            "Body": "Sonderfall"
+        },
+        {
+            "Language": "ko",
+            "Body": "특수"
+        },
+        {
+            "Language": "es",
+            "Body": "Especial"
         }
     ]
 }

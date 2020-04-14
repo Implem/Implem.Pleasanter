@@ -1,4 +1,4 @@
-﻿{
+{
     "Id": "Reload",
     "Type": 110,
     "Languages": [
@@ -6,8 +6,24 @@
             "Body": "Reload"
         },
         {
+            "Language": "zh",
+            "Body": "重新加载"
+        },
+        {
             "Language": "ja",
             "Body": "再読込"
+        },
+        {
+            "Language": "de",
+            "Body": "Neu laden"
+        },
+        {
+            "Language": "ko",
+            "Body": "리로드"
+        },
+        {
+            "Language": "es",
+            "Body": "Volver a cargar"
         }
     ]
 }

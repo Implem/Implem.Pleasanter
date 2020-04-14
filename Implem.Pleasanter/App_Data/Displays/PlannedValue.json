@@ -1,4 +1,4 @@
-﻿{
+{
     "Id": "PlannedValue",
     "Type": 110,
     "Languages": [
@@ -6,8 +6,24 @@
             "Body": "Planned value"
         },
         {
+            "Language": "zh",
+            "Body": "计划值"
+        },
+        {
             "Language": "ja",
             "Body": "予定"
+        },
+        {
+            "Language": "de",
+            "Body": "Geplanter Wert"
+        },
+        {
+            "Language": "ko",
+            "Body": "계획된 값"
+        },
+        {
+            "Language": "es",
+            "Body": "Valor planificado"
         }
     ]
 }

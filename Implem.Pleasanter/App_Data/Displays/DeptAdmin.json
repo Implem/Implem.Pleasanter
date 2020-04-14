@@ -1,4 +1,4 @@
-﻿{
+{
     "Id": "DeptAdmin",
     "Type": 110,
     "Languages": [
@@ -6,8 +6,24 @@
             "Body": "Department administration"
         },
         {
+            "Language": "zh",
+            "Body": "部门管理"
+        },
+        {
             "Language": "ja",
             "Body": "組織の管理"
+        },
+        {
+            "Language": "de",
+            "Body": "Abteilungsadministration"
+        },
+        {
+            "Language": "ko",
+            "Body": "부서 관리"
+        },
+        {
+            "Language": "es",
+            "Body": "Administración del departamento"
         }
     ]
 }

@@ -1,13 +1,29 @@
-﻿{
+{
     "Id": "UpdateColumnAccessControl",
     "Type": 110,
     "Languages": [
         {
-            "Body": "Update access control"
+            "Body": "Access control during update"
+        },
+        {
+            "Language": "zh",
+            "Body": "更新期间的访问控制"
         },
         {
             "Language": "ja",
             "Body": "更新時のアクセス制御"
+        },
+        {
+            "Language": "de",
+            "Body": "Zugriffskontrolle beim Aktualisieren"
+        },
+        {
+            "Language": "ko",
+            "Body": "업데이트 중 액세스 제어"
+        },
+        {
+            "Language": "es",
+            "Body": "Acceder al control durante la actualización."
         }
     ]
 }

@@ -1,4 +1,4 @@
-﻿{
+{
     "Id": "Register",
     "Type": 110,
     "Languages": [
@@ -6,8 +6,24 @@
             "Body": "Register"
         },
         {
+            "Language": "zh",
+            "Body": "注册"
+        },
+        {
             "Language": "ja",
             "Body": "登録"
+        },
+        {
+            "Language": "de",
+            "Body": "Registrieren"
+        },
+        {
+            "Language": "ko",
+            "Body": "등록"
+        },
+        {
+            "Language": "es",
+            "Body": "Registro"
         }
     ]
 }

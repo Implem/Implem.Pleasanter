@@ -1,4 +1,4 @@
-﻿{
+{
     "Id": "DayOfWeek",
     "Type": 110,
     "Languages": [
@@ -6,8 +6,24 @@
             "Body": "Day of week"
         },
         {
+            "Language": "zh",
+            "Body": "星期"
+        },
+        {
             "Language": "ja",
             "Body": "曜日"
+        },
+        {
+            "Language": "de",
+            "Body": "Wochentag"
+        },
+        {
+            "Language": "ko",
+            "Body": "요일"
+        },
+        {
+            "Language": "es",
+            "Body": "Día de la semana"
         }
     ]
 }

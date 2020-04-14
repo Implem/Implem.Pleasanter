@@ -6,8 +6,24 @@
             "Body": "Import site package"
         },
         {
+            "Language": "zh",
+            "Body": "导入网站包"
+        },
+        {
             "Language": "ja",
             "Body": "サイトパッケージのインポート"
+        },
+        {
+            "Language": "de",
+            "Body": "Site-Paket importieren"
+        },
+        {
+            "Language": "ko",
+            "Body": "사이트 패키지 가져 오기"
+        },
+        {
+            "Language": "es",
+            "Body": "Paquete de sitio de importación"
         }
     ]
 }

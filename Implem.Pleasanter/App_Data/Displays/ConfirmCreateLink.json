@@ -1,14 +1,30 @@
-﻿{
+{
     "Id": "ConfirmCreateLink",
     "Type": 310,
     "ClientScript": true,
     "Languages": [
         {
-            "Body": "Would you like to create a link ?"
+            "Body": "Would you like to create a link?"
+        },
+        {
+            "Language": "zh",
+            "Body": "是否需要创建链接？"
         },
         {
             "Language": "ja",
             "Body": "リンクを作成しますか？"
+        },
+        {
+            "Language": "de",
+            "Body": "Möchten Sie eine Verknüpfung erstellen?"
+        },
+        {
+            "Language": "ko",
+            "Body": "링크를 생성하시겠습니까?"
+        },
+        {
+            "Language": "es",
+            "Body": "¿Le gustaría crear un enlace?"
         }
     ]
 }

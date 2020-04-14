@@ -1,4 +1,4 @@
-﻿{
+{
     "Id": "Folder",
     "Type": 110,
     "Languages": [
@@ -6,8 +6,24 @@
             "Body": "Folder"
         },
         {
+            "Language": "zh",
+            "Body": "文件夹"
+        },
+        {
             "Language": "ja",
             "Body": "フォルダ"
+        },
+        {
+            "Language": "de",
+            "Body": "Ordner"
+        },
+        {
+            "Language": "ko",
+            "Body": "폴더"
+        },
+        {
+            "Language": "es",
+            "Body": "Carpeta"
         }
     ]
 }

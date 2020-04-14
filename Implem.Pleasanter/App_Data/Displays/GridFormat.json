@@ -1,4 +1,4 @@
-﻿{
+{
     "Id": "GridFormat",
     "Type": 110,
     "Languages": [
@@ -6,8 +6,24 @@
             "Body": "Grid format"
         },
         {
+            "Language": "zh",
+            "Body": "网格格式"
+        },
+        {
             "Language": "ja",
             "Body": "一覧の書式"
+        },
+        {
+            "Language": "de",
+            "Body": "Rasterformat"
+        },
+        {
+            "Language": "ko",
+            "Body": "그리드 형식"
+        },
+        {
+            "Language": "es",
+            "Body": "Formato de cuadrícula"
         }
     ]
 }

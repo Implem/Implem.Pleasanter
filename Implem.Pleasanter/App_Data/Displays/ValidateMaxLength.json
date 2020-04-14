@@ -1,14 +1,30 @@
-﻿{
+{
     "Id": "ValidateMaxLength",
     "Type": 410,
     "ClientScript": true,
     "Languages": [
         {
-            "Body": "Entered is too long."
+            "Body": "The text entered is too long."
+        },
+        {
+            "Language": "zh",
+            "Body": "输入的文本过长。"
         },
         {
             "Language": "ja",
             "Body": "入力した文字が長すぎます。"
+        },
+        {
+            "Language": "de",
+            "Body": "Der eingegebene Text ist zu lang."
+        },
+        {
+            "Language": "ko",
+            "Body": "입력한 텍스트가 너무 깁니다."
+        },
+        {
+            "Language": "es",
+            "Body": "El texto introducido es demasiado largo."
         }
     ]
 }

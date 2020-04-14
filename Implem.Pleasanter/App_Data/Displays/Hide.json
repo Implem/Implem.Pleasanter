@@ -1,4 +1,4 @@
-﻿{
+{
     "Id": "Hide",
     "Type": 110,
     "Languages": [
@@ -6,8 +6,24 @@
             "Body": "Hide"
         },
         {
+            "Language": "zh",
+            "Body": "隐藏"
+        },
+        {
             "Language": "ja",
             "Body": "非表示"
+        },
+        {
+            "Language": "de",
+            "Body": "Ausblenden"
+        },
+        {
+            "Language": "ko",
+            "Body": "숨기기"
+        },
+        {
+            "Language": "es",
+            "Body": "Ocultar"
         }
     ]
 }

@@ -18,5 +18,10 @@
     "ControlType": "ChoicesText",
     "Aggregatable": "1",
     "SettingEnable": "1",
-    "ExtendedColumnType": "Class"
+    "ExtendedColumnType": "Class",
+    "LabelText_en": "Class",
+    "LabelText_zh": "类别",
+    "LabelText_de": "Klasse",
+    "LabelText_ko": "클래스",
+    "LabelText_es": "Clase"
 }

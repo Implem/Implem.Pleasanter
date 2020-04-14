@@ -1,4 +1,4 @@
-﻿{
+{
     "Id": "CopyWithComments",
     "Type": 110,
     "Languages": [
@@ -6,8 +6,24 @@
             "Body": "Copy with comments"
         },
         {
+            "Language": "zh",
+            "Body": "带评论复制"
+        },
+        {
             "Language": "ja",
             "Body": "コメントをコピーする"
+        },
+        {
+            "Language": "de",
+            "Body": "Mit Kommentaren kopieren"
+        },
+        {
+            "Language": "ko",
+            "Body": "주석과 함께 복사"
+        },
+        {
+            "Language": "es",
+            "Body": "Copiar con comentarios"
         }
     ]
 }

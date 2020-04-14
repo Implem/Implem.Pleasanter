@@ -1,13 +1,29 @@
-﻿{
+{
     "Id": "Inviting",
     "Type": 110,
     "Languages": [
         {
-            "Body": "Inviting"
+            "Body": "Inviting..."
+        },
+        {
+            "Language": "zh",
+            "Body": "正在邀请…"
         },
         {
             "Language": "ja",
             "Body": "招待中"
+        },
+        {
+            "Language": "de",
+            "Body": "Einladen ..."
+        },
+        {
+            "Language": "ko",
+            "Body": "초대 중..."
+        },
+        {
+            "Language": "es",
+            "Body": "Invitando..."
         }
     ]
 }

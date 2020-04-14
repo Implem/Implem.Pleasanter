@@ -1,13 +1,29 @@
-﻿{
+{
     "Id": "OutputDestination",
     "Type": 110,
     "Languages": [
         {
-            "Body": "Output destination"
+            "Body": "Output to"
+        },
+        {
+            "Language": "zh",
+            "Body": "输出至"
         },
         {
             "Language": "ja",
             "Body": "出力先"
+        },
+        {
+            "Language": "de",
+            "Body": "Ausgabe in"
+        },
+        {
+            "Language": "ko",
+            "Body": "출력 대상"
+        },
+        {
+            "Language": "es",
+            "Body": "Salida a"
         }
     ]
 }

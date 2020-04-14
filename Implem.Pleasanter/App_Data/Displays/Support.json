@@ -1,4 +1,4 @@
-﻿{
+{
     "Id": "Support",
     "Type": 110,
     "Languages": [
@@ -6,8 +6,24 @@
             "Body": "Support"
         },
         {
+            "Language": "zh",
+            "Body": "支持"
+        },
+        {
             "Language": "ja",
             "Body": "サポート"
+        },
+        {
+            "Language": "de",
+            "Body": "Support"
+        },
+        {
+            "Language": "ko",
+            "Body": "지원"
+        },
+        {
+            "Language": "es",
+            "Body": "Asistencia"
         }
     ]
 }

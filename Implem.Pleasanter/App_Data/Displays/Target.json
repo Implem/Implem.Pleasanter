@@ -1,4 +1,4 @@
-﻿{
+{
     "Id": "Target",
     "Type": 110,
     "Languages": [
@@ -6,8 +6,24 @@
             "Body": "Target"
         },
         {
+            "Language": "zh",
+            "Body": "目标"
+        },
+        {
             "Language": "ja",
             "Body": "対象"
+        },
+        {
+            "Language": "de",
+            "Body": "Ziel"
+        },
+        {
+            "Language": "ko",
+            "Body": "대상"
+        },
+        {
+            "Language": "es",
+            "Body": "Destino"
         }
     ]
 }

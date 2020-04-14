@@ -1,13 +1,29 @@
-﻿{
+{
     "Id": "EditStyle",
     "Type": 110,
     "Languages": [
         {
-            "Body": "Edit screen style"
+            "Body": "Editor screen style"
+        },
+        {
+            "Language": "zh",
+            "Body": "编辑器界面样式"
         },
         {
             "Language": "ja",
             "Body": "エディタ画面スタイル"
+        },
+        {
+            "Language": "de",
+            "Body": "Editor-Fenster-Stil"
+        },
+        {
+            "Language": "ko",
+            "Body": "편집기 화면 스타일"
+        },
+        {
+            "Language": "es",
+            "Body": "Estilo de la pantalla del editor"
         }
     ]
 }

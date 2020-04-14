@@ -1,4 +1,4 @@
-﻿{
+{
     "Id": "Icon",
     "Type": 110,
     "Languages": [
@@ -6,8 +6,24 @@
             "Body": "Icon"
         },
         {
+            "Language": "zh",
+            "Body": "图标"
+        },
+        {
             "Language": "ja",
             "Body": "アイコン"
+        },
+        {
+            "Language": "de",
+            "Body": "Symbol"
+        },
+        {
+            "Language": "ko",
+            "Body": "아이콘"
+        },
+        {
+            "Language": "es",
+            "Body": "Icono"
         }
     ]
 }

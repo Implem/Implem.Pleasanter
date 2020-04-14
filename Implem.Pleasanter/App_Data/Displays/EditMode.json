@@ -1,4 +1,4 @@
-﻿{
+{
     "Id": "EditMode",
     "Type": 110,
     "Languages": [
@@ -6,8 +6,24 @@
             "Body": "Edit mode"
         },
         {
+            "Language": "zh",
+            "Body": "编辑模式"
+        },
+        {
             "Language": "ja",
             "Body": "編集モード"
+        },
+        {
+            "Language": "de",
+            "Body": "Bearbeitungsmodus"
+        },
+        {
+            "Language": "ko",
+            "Body": "편집 모드"
+        },
+        {
+            "Language": "es",
+            "Body": "Modo de edición"
         }
     ]
 }

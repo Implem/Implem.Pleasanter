@@ -1,4 +1,4 @@
-﻿{
+{
     "Id": "ToParent",
     "Type": 110,
     "Languages": [
@@ -6,8 +6,24 @@
             "Body": "To the parent"
         },
         {
+            "Language": "zh",
+            "Body": "至上一层级"
+        },
+        {
             "Language": "ja",
             "Body": "上へ"
+        },
+        {
+            "Language": "de",
+            "Body": "Zum übergeordneten Element"
+        },
+        {
+            "Language": "ko",
+            "Body": "상위로"
+        },
+        {
+            "Language": "es",
+            "Body": "Al principal"
         }
     ]
 }

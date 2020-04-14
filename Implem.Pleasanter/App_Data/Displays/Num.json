@@ -1,13 +1,29 @@
-﻿{
+{
     "Id": "Num",
     "Type": 110,
     "Languages": [
         {
-            "Body": "Num"
+            "Body": "Numeric value"
+        },
+        {
+            "Language": "zh",
+            "Body": "数字值"
         },
         {
             "Language": "ja",
             "Body": "数値"
+        },
+        {
+            "Language": "de",
+            "Body": "Numerischer Wert"
+        },
+        {
+            "Language": "ko",
+            "Body": "수치값"
+        },
+        {
+            "Language": "es",
+            "Body": "Valor numérico"
         }
     ]
 }

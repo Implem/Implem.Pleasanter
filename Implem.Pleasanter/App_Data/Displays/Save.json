@@ -1,4 +1,4 @@
-﻿{
+{
     "Id": "Save",
     "Type": 110,
     "Languages": [
@@ -6,8 +6,24 @@
             "Body": "Save"
         },
         {
+            "Language": "zh",
+            "Body": "保存"
+        },
+        {
             "Language": "ja",
             "Body": "保存"
+        },
+        {
+            "Language": "de",
+            "Body": "Speichern"
+        },
+        {
+            "Language": "ko",
+            "Body": "저장"
+        },
+        {
+            "Language": "es",
+            "Body": "Guardar"
         }
     ]
 }

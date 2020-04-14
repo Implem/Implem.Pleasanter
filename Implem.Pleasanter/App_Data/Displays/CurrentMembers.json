@@ -1,4 +1,4 @@
-﻿{
+{
     "Id": "CurrentMembers",
     "Type": 110,
     "Languages": [
@@ -6,8 +6,24 @@
             "Body": "Current members"
         },
         {
+            "Language": "zh",
+            "Body": "当前成员"
+        },
+        {
             "Language": "ja",
             "Body": "現在のメンバー"
+        },
+        {
+            "Language": "de",
+            "Body": "Aktuelle Mitglieder"
+        },
+        {
+            "Language": "ko",
+            "Body": "현재 구성원"
+        },
+        {
+            "Language": "es",
+            "Body": "Miembros actuales"
         }
     ]
 }

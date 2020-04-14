@@ -1,4 +1,4 @@
-﻿{
+{
     "Id": "DeleteSite",
     "Type": 110,
     "Languages": [
@@ -6,8 +6,24 @@
             "Body": "Delete site"
         },
         {
+            "Language": "zh",
+            "Body": "删除站点"
+        },
+        {
             "Language": "ja",
             "Body": "サイト削除"
+        },
+        {
+            "Language": "de",
+            "Body": "Site löschen"
+        },
+        {
+            "Language": "ko",
+            "Body": "사이트 삭제"
+        },
+        {
+            "Language": "es",
+            "Body": "Eliminar sitio"
         }
     ]
 }

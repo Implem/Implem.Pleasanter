@@ -1,13 +1,29 @@
-﻿{
+{
     "Id": "SeparateNumber",
     "Type": 110,
     "Languages": [
         {
-            "Body": "Separate number"
+            "Body": "No. of divisions"
+        },
+        {
+            "Language": "zh",
+            "Body": "划分数量"
         },
         {
             "Language": "ja",
             "Body": "分割数"
+        },
+        {
+            "Language": "de",
+            "Body": "Anzahl der Aufteilungen"
+        },
+        {
+            "Language": "ko",
+            "Body": "분할 수"
+        },
+        {
+            "Language": "es",
+            "Body": "N.º de divisiones"
         }
     ]
 }

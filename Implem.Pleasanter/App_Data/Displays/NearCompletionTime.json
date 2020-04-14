@@ -1,13 +1,29 @@
-﻿{
+{
     "Id": "NearCompletionTime",
     "Type": 110,
     "Languages": [
         {
-            "Body": "Near completion time"
+            "Body": "Near time of completion"
+        },
+        {
+            "Language": "zh",
+            "Body": "临近完成"
         },
         {
             "Language": "ja",
             "Body": "期限が近い"
+        },
+        {
+            "Language": "de",
+            "Body": "Kurz vor Fertigstellung"
+        },
+        {
+            "Language": "ko",
+            "Body": "완료 시점 근접"
+        },
+        {
+            "Language": "es",
+            "Body": "Cerca de la hora de finalización"
         }
     ]
 }

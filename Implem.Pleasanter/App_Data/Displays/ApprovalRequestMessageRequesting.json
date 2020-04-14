@@ -1,13 +1,29 @@
-﻿{
-  "Id": "ApprovalRequestMessageRequesting",
-  "Type": 210,
-  "Languages": [
-    {
-      "Body": "Approval request process of \" {0} \" was successful."
-    },
-    {
-      "Language": "ja",
-      "Body": "\" {0} \" は承認依頼中です。"
-    }
-  ]
+{
+    "Id": "ApprovalRequestMessageRequesting",
+    "Type": 210,
+    "Languages": [
+        {
+            "Body": "Approval request for \" {0} \" is being processed."
+        },
+        {
+            "Language": "zh",
+            "Body": "正在处理“{0}”批准请求。"
+        },
+        {
+            "Language": "ja",
+            "Body": "\" {0} \" は承認依頼中です。"
+        },
+        {
+            "Language": "de",
+            "Body": "Genehmigungsanforderung für „ {0} “ wird bearbeitet."
+        },
+        {
+            "Language": "ko",
+            "Body": "\" {0} \"에 대한 승인 요청을 처리 중입니다."
+        },
+        {
+            "Language": "es",
+            "Body": "Se está procesando la solicitud de aprobación para \" {0} \"."
+        }
+    ]
 }

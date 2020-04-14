@@ -1,4 +1,4 @@
-﻿{
+{
     "Id": "Weekly",
     "Type": 110,
     "Languages": [
@@ -6,8 +6,24 @@
             "Body": "Weekly"
         },
         {
+            "Language": "zh",
+            "Body": "每周"
+        },
+        {
             "Language": "ja",
             "Body": "毎週"
+        },
+        {
+            "Language": "de",
+            "Body": "Wöchentlich"
+        },
+        {
+            "Language": "ko",
+            "Body": "주간"
+        },
+        {
+            "Language": "es",
+            "Body": "Semanal"
         }
     ]
 }

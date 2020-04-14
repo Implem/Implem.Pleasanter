@@ -1,9 +1,29 @@
-﻿{
+{
     "Id": "CodeDefinerRdsCompleted",
     "Type": 210,
     "Languages": [
         {
-            "Body": "Database configuration is complete."
+            "Body": "Database configuration has been completed."
+        },
+        {
+            "Language": "zh",
+            "Body": "已完成数据库配置。"
+        },
+        {
+            "Language": "ja",
+            "Body": "データベース構成処理が完了しました。"
+        },
+        {
+            "Language": "de",
+            "Body": "Die Konfiguration der Datenbank ist abgeschlossen."
+        },
+        {
+            "Language": "ko",
+            "Body": "데이터베이스 구성이 완료되었습니다."
+        },
+        {
+            "Language": "es",
+            "Body": "Se ha realizado la configuración de la base de datos."
         }
     ]
 }

@@ -1,4 +1,4 @@
-﻿{
+{
     "Id": "Value",
     "Type": 110,
     "Languages": [
@@ -6,8 +6,24 @@
             "Body": "Value"
         },
         {
+            "Language": "zh",
+            "Body": "数值"
+        },
+        {
             "Language": "ja",
             "Body": "値"
+        },
+        {
+            "Language": "de",
+            "Body": "Wert"
+        },
+        {
+            "Language": "ko",
+            "Body": "값"
+        },
+        {
+            "Language": "es",
+            "Body": "Valor"
         }
     ]
 }

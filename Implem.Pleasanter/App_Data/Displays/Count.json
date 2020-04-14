@@ -1,4 +1,4 @@
-﻿{
+{
     "Id": "Count",
     "Type": 110,
     "Languages": [
@@ -6,8 +6,24 @@
             "Body": "Count"
         },
         {
+            "Language": "zh",
+            "Body": "计数"
+        },
+        {
             "Language": "ja",
             "Body": "件数"
+        },
+        {
+            "Language": "de",
+            "Body": "Anzahl"
+        },
+        {
+            "Language": "ko",
+            "Body": "카운트"
+        },
+        {
+            "Language": "es",
+            "Body": "Contar"
         }
     ]
 }

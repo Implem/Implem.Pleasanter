@@ -2439,6 +2439,31 @@ namespace Implem.DefinitionAccessor
                                 data.ToString();
                             newColumnDefinition.SavedExtendedColumnType = newColumnDefinition.ExtendedColumnType;
                             break;
+                        case "LabelText_en":
+                            newColumnDefinition.LabelText_en = customDefinitionRow.Get("LabelText_en")?.ToString() ??
+                                data.ToString();
+                            newColumnDefinition.SavedLabelText_en = newColumnDefinition.LabelText_en;
+                            break;
+                        case "LabelText_zh":
+                            newColumnDefinition.LabelText_zh = customDefinitionRow.Get("LabelText_zh")?.ToString() ??
+                                data.ToString();
+                            newColumnDefinition.SavedLabelText_zh = newColumnDefinition.LabelText_zh;
+                            break;
+                        case "LabelText_de":
+                            newColumnDefinition.LabelText_de = customDefinitionRow.Get("LabelText_de")?.ToString() ??
+                                data.ToString();
+                            newColumnDefinition.SavedLabelText_de = newColumnDefinition.LabelText_de;
+                            break;
+                        case "LabelText_ko":
+                            newColumnDefinition.LabelText_ko = customDefinitionRow.Get("LabelText_ko")?.ToString() ??
+                                data.ToString();
+                            newColumnDefinition.SavedLabelText_ko = newColumnDefinition.LabelText_ko;
+                            break;
+                        case "LabelText_es":
+                            newColumnDefinition.LabelText_es = customDefinitionRow.Get("LabelText_es")?.ToString() ??
+                                data.ToString();
+                            newColumnDefinition.SavedLabelText_es = newColumnDefinition.LabelText_es;
+                            break;
                         default: break;
                     }
                 });
@@ -2557,6 +2582,11 @@ namespace Implem.DefinitionAccessor
             if (definitionRow.ContainsKey("SettingEnable")) { definition.SettingEnable = definitionRow["SettingEnable"].ToBool(); definition.SavedSettingEnable = definition.SettingEnable; }
             if (definitionRow.ContainsKey("OldColumnName")) { definition.OldColumnName = definitionRow["OldColumnName"].ToString(); definition.SavedOldColumnName = definition.OldColumnName; }
             if (definitionRow.ContainsKey("ExtendedColumnType")) { definition.ExtendedColumnType = definitionRow["ExtendedColumnType"].ToString(); definition.SavedExtendedColumnType = definition.ExtendedColumnType; }
+            if (definitionRow.ContainsKey("LabelText_en")) { definition.LabelText_en = definitionRow["LabelText_en"].ToString(); definition.SavedLabelText_en = definition.LabelText_en; }
+            if (definitionRow.ContainsKey("LabelText_zh")) { definition.LabelText_zh = definitionRow["LabelText_zh"].ToString(); definition.SavedLabelText_zh = definition.LabelText_zh; }
+            if (definitionRow.ContainsKey("LabelText_de")) { definition.LabelText_de = definitionRow["LabelText_de"].ToString(); definition.SavedLabelText_de = definition.LabelText_de; }
+            if (definitionRow.ContainsKey("LabelText_ko")) { definition.LabelText_ko = definitionRow["LabelText_ko"].ToString(); definition.SavedLabelText_ko = definition.LabelText_ko; }
+            if (definitionRow.ContainsKey("LabelText_es")) { definition.LabelText_es = definitionRow["LabelText_es"].ToString(); definition.SavedLabelText_es = definition.LabelText_es; }
         }
 
         private static void ConstructColumnDefinitions()
@@ -6147,6 +6177,11 @@ namespace Implem.DefinitionAccessor
                         case "SettingEnable": columnDefinition.SettingEnable = optionValue.ToBool(); break;
                         case "OldColumnName": columnDefinition.OldColumnName = optionValue.ToString(); break;
                         case "ExtendedColumnType": columnDefinition.ExtendedColumnType = optionValue.ToString(); break;
+                        case "LabelText_en": columnDefinition.LabelText_en = optionValue.ToString(); break;
+                        case "LabelText_zh": columnDefinition.LabelText_zh = optionValue.ToString(); break;
+                        case "LabelText_de": columnDefinition.LabelText_de = optionValue.ToString(); break;
+                        case "LabelText_ko": columnDefinition.LabelText_ko = optionValue.ToString(); break;
+                        case "LabelText_es": columnDefinition.LabelText_es = optionValue.ToString(); break;
                     }
                 });
         }
@@ -6568,6 +6603,11 @@ namespace Implem.DefinitionAccessor
             columnDefinition.Add("TableName", tableName);
             columnDefinition.Add("ColumnName", columnName);
             columnDefinition["LabelText"] = columnDefinition.Get("LabelText") + suffix;
+            columnDefinition["LabelText_en"] = columnDefinition.Get("LabelText_en") + suffix;
+            columnDefinition["LabelText_zh"] = columnDefinition.Get("LabelText_zh") + suffix;
+            columnDefinition["LabelText_de"] = columnDefinition.Get("LabelText_de") + suffix;
+            columnDefinition["LabelText_ko"] = columnDefinition.Get("LabelText_ko") + suffix;
+            columnDefinition["LabelText_es"] = columnDefinition.Get("LabelText_es") + suffix;
             return columnDefinition;
         }
 
@@ -8301,6 +8341,11 @@ namespace Implem.DefinitionAccessor
         public bool SettingEnable; public bool SavedSettingEnable;
         public string OldColumnName; public string SavedOldColumnName;
         public string ExtendedColumnType; public string SavedExtendedColumnType;
+        public string LabelText_en; public string SavedLabelText_en;
+        public string LabelText_zh; public string SavedLabelText_zh;
+        public string LabelText_de; public string SavedLabelText_de;
+        public string LabelText_ko; public string SavedLabelText_ko;
+        public string LabelText_es; public string SavedLabelText_es;
 
         public ColumnDefinition()
         {
@@ -8417,6 +8462,11 @@ namespace Implem.DefinitionAccessor
             if (propertyCollection.ContainsKey("SettingEnable")) SettingEnable = propertyCollection["SettingEnable"].ToBool(); else SettingEnable = false;
             if (propertyCollection.ContainsKey("OldColumnName")) OldColumnName = propertyCollection["OldColumnName"].ToString(); else OldColumnName = string.Empty;
             if (propertyCollection.ContainsKey("ExtendedColumnType")) ExtendedColumnType = propertyCollection["ExtendedColumnType"].ToString(); else ExtendedColumnType = string.Empty;
+            if (propertyCollection.ContainsKey("LabelText_en")) LabelText_en = propertyCollection["LabelText_en"].ToString(); else LabelText_en = string.Empty;
+            if (propertyCollection.ContainsKey("LabelText_zh")) LabelText_zh = propertyCollection["LabelText_zh"].ToString(); else LabelText_zh = string.Empty;
+            if (propertyCollection.ContainsKey("LabelText_de")) LabelText_de = propertyCollection["LabelText_de"].ToString(); else LabelText_de = string.Empty;
+            if (propertyCollection.ContainsKey("LabelText_ko")) LabelText_ko = propertyCollection["LabelText_ko"].ToString(); else LabelText_ko = string.Empty;
+            if (propertyCollection.ContainsKey("LabelText_es")) LabelText_es = propertyCollection["LabelText_es"].ToString(); else LabelText_es = string.Empty;
         }
 
         public object this[string key]
@@ -8533,6 +8583,11 @@ namespace Implem.DefinitionAccessor
                     case "SettingEnable": return SettingEnable;
                     case "OldColumnName": return OldColumnName;
                     case "ExtendedColumnType": return ExtendedColumnType;
+                    case "LabelText_en": return LabelText_en;
+                    case "LabelText_zh": return LabelText_zh;
+                    case "LabelText_de": return LabelText_de;
+                    case "LabelText_ko": return LabelText_ko;
+                    case "LabelText_es": return LabelText_es;
                     default: return null;
                 }
             }
@@ -8649,6 +8704,11 @@ namespace Implem.DefinitionAccessor
             SettingEnable = SavedSettingEnable;
             OldColumnName = SavedOldColumnName;
             ExtendedColumnType = SavedExtendedColumnType;
+            LabelText_en = SavedLabelText_en;
+            LabelText_zh = SavedLabelText_zh;
+            LabelText_de = SavedLabelText_de;
+            LabelText_ko = SavedLabelText_ko;
+            LabelText_es = SavedLabelText_es;
         }
     }
 

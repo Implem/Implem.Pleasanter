@@ -1,13 +1,29 @@
-﻿{
+{
     "Id": "EditScript",
     "Type": 110,
     "Languages": [
         {
-            "Body": "Edit screen script"
+            "Body": "Editor screen script"
+        },
+        {
+            "Language": "zh",
+            "Body": "编辑器界面脚本"
         },
         {
             "Language": "ja",
             "Body": "エディタ画面スクリプト"
+        },
+        {
+            "Language": "de",
+            "Body": "Editor-Fenster-Skript"
+        },
+        {
+            "Language": "ko",
+            "Body": "편집기 화면 스크립트"
+        },
+        {
+            "Language": "es",
+            "Body": "Texto de la pantalla del editor"
         }
     ]
 }

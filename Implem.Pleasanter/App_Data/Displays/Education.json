@@ -1,13 +1,29 @@
-﻿{
+{
     "Id": "Education",
     "Type": 110,
     "Languages": [
         {
-            "Body": "Education"
+            "Body": "Education/HRD"
+        },
+        {
+            "Language": "zh",
+            "Body": "指导/HRD"
         },
         {
             "Language": "ja",
             "Body": "教育・人材開発"
+        },
+        {
+            "Language": "de",
+            "Body": "Schulung/Personalwesen"
+        },
+        {
+            "Language": "ko",
+            "Body": "교육/HRD"
+        },
+        {
+            "Language": "es",
+            "Body": "Educación/HRD"
         }
     ]
 }

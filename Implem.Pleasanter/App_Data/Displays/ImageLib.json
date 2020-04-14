@@ -1,4 +1,4 @@
-﻿{
+{
     "Id": "ImageLib",
     "Type": 110,
     "Languages": [
@@ -6,8 +6,24 @@
             "Body": "Image library"
         },
         {
+            "Language": "zh",
+            "Body": "图像库"
+        },
+        {
             "Language": "ja",
             "Body": "画像ライブラリ"
+        },
+        {
+            "Language": "de",
+            "Body": "Bildbibliothek"
+        },
+        {
+            "Language": "ko",
+            "Body": "이미지 라이브러리"
+        },
+        {
+            "Language": "es",
+            "Body": "Biblioteca de imágenes"
         }
     ]
 }

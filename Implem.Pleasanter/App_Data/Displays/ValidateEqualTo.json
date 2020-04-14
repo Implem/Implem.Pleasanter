@@ -1,14 +1,30 @@
-﻿{
+{
     "Id": "ValidateEqualTo",
     "Type": 410,
     "ClientScript": true,
     "Languages": [
         {
-            "Body": "Please enter the same value again."
+            "Body": "The text entered does not match."
+        },
+        {
+            "Language": "zh",
+            "Body": "输入的文本不匹配。"
         },
         {
             "Language": "ja",
             "Body": "入力した文字列が一致しません。"
+        },
+        {
+            "Language": "de",
+            "Body": "Der eingegebene Text stimmt nicht überein."
+        },
+        {
+            "Language": "ko",
+            "Body": "입력한 텍스트가 일치하지 않습니다."
+        },
+        {
+            "Language": "es",
+            "Body": "El texto introducido no coincide."
         }
     ]
 }

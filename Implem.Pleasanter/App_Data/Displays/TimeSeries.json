@@ -1,4 +1,4 @@
-﻿{
+{
     "Id": "TimeSeries",
     "Type": 110,
     "Languages": [
@@ -6,8 +6,24 @@
             "Body": "Time series chart"
         },
         {
+            "Language": "zh",
+            "Body": "时间数列图"
+        },
+        {
             "Language": "ja",
             "Body": "時系列チャート"
+        },
+        {
+            "Language": "de",
+            "Body": "Zeitreihendiagramm"
+        },
+        {
+            "Language": "ko",
+            "Body": "시계열 차트"
+        },
+        {
+            "Language": "es",
+            "Body": "Gráfica de series de tiempo"
         }
     ]
 }

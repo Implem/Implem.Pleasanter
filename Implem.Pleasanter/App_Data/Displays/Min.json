@@ -1,4 +1,4 @@
-﻿{
+{
     "Id": "Min",
     "Type": 110,
     "Languages": [
@@ -6,8 +6,24 @@
             "Body": "Min"
         },
         {
+            "Language": "zh",
+            "Body": "最小"
+        },
+        {
             "Language": "ja",
             "Body": "最小"
+        },
+        {
+            "Language": "de",
+            "Body": "Mindestens"
+        },
+        {
+            "Language": "ko",
+            "Body": "최소"
+        },
+        {
+            "Language": "es",
+            "Body": "Mín."
         }
     ]
 }

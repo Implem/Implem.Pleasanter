@@ -1,13 +1,29 @@
-﻿{
+{
     "Id": "LimitBeforeHour",
     "Type": 110,
     "Languages": [
         {
-            "Body": "1 hour excess"
+            "Body": "1 hour exceeded"
+        },
+        {
+            "Language": "zh",
+            "Body": "已超出1小时"
         },
         {
             "Language": "ja",
             "Body": "1 時間超過"
+        },
+        {
+            "Language": "de",
+            "Body": "1 Stunde überschritten"
+        },
+        {
+            "Language": "ko",
+            "Body": "1시간 초과됨"
+        },
+        {
+            "Language": "es",
+            "Body": "1 hora de más"
         }
     ]
 }

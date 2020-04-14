@@ -1,4 +1,4 @@
-﻿{
+{
     "Id": "Invite",
     "Type": 110,
     "Languages": [
@@ -6,8 +6,24 @@
             "Body": "Invite"
         },
         {
+            "Language": "zh",
+            "Body": "邀请"
+        },
+        {
             "Language": "ja",
             "Body": "招待"
+        },
+        {
+            "Language": "de",
+            "Body": "Einladen"
+        },
+        {
+            "Language": "ko",
+            "Body": "초대"
+        },
+        {
+            "Language": "es",
+            "Body": "Invitar"
         }
     ]
 }
