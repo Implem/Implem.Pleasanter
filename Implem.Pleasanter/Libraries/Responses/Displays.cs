@@ -5618,7 +5618,7 @@ namespace Implem.Pleasanter.Libraries.Responses
                 data: data);
         }
 
-        public static string SentAcceptanceMail(
+        public static string SentAcceptanceMail (
             Context context,
             params string[] data)
         {

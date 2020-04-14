@@ -325,6 +325,7 @@ namespace Implem.DefinitionAccessor
 
         public static void SetDefinitions()
         {
+            Displays.DisplayHash = DisplayHash();
             Def.SetCodeDefinition();
             Def.SetColumnDefinition();
             Def.SetCssDefinition();
