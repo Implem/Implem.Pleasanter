@@ -981,8 +981,6 @@ namespace Implem.Pleasanter.Libraries.Search
                         {
                             ReferenceId = o["ReferenceId"].ToLong(),
                             SiteId = o["SiteId"].ToLong(),
-                            UpdatedTime = o.Field<DateTime>("UpdatedTime")
-                                .ToString("yyyy/M/d H:m:s.fff"),
                             TenantId = o.Int("TenantId"),
                             DeptId = o.Int("DeptId"),
                             UserId = o.Int("UserId")
@@ -1016,7 +1014,7 @@ namespace Implem.Pleasanter.Libraries.Search
                                     where: Rds.ItemsWhere()
                                         .ReferenceId(data.ReferenceId),
                                     param: Rds.ItemsParam()
-                                        .SearchIndexCreatedTime(data.UpdatedTime),
+                                        .SearchIndexCreatedTime(raw: "\"UpdatedTime\""),
                                     addUpdatorParam: false,
                                     addUpdatedTimeParam: false));
                         });
