@@ -2620,24 +2620,21 @@ namespace Implem.Pleasanter.Libraries.Settings
                 case "AllowImage": column.AllowImage = value.ToBool(); break;
                 case "FieldCss": column.FieldCss = value; break;
                 case "Description": column.Description = value; break;
-                case "ChoicesText":
-                    column.ChoicesText = value; SetLinks(
-    context: context, column: column); break;
+                case "ChoicesText": column.ChoicesText = value; SetLinks(
+                    context: context, column: column); break;
                 case "UseSearch": column.UseSearch = value.ToBool(); break;
                 case "DefaultInput": column.DefaultInput = value; break;
                 case "GridFormat": column.GridFormat = value; break;
                 case "EditorFormat": column.EditorFormat = value; break;
                 case "ExportFormat": column.ExportFormat = value; break;
                 case "Unit": column.Unit = value; break;
-                case "CheckFilterControlType":
-                    column.CheckFilterControlType =
-(ColumnUtilities.CheckFilterControlTypes)value.ToInt(); break;
+                case "CheckFilterControlType": column.CheckFilterControlType =
+                    (ColumnUtilities.CheckFilterControlTypes)value.ToInt(); break;
                 case "NumFilterMin": column.NumFilterMin = value.ToDecimal(); break;
                 case "NumFilterMax": column.NumFilterMax = value.ToDecimal(); break;
                 case "NumFilterStep": column.NumFilterStep = value.ToDecimal(); break;
-                case "DateFilterSetMode":
-                    column.DateFilterSetMode =
-  (ColumnUtilities.DateFilterSetMode)value.ToInt(); break;
+                case "DateFilterSetMode": column.DateFilterSetMode =
+                    (ColumnUtilities.DateFilterSetMode)value.ToInt(); break;
                 case "DateFilterMinSpan": column.DateFilterMinSpan = value.ToInt(); break;
                 case "DateFilterMaxSpan": column.DateFilterMaxSpan = value.ToInt(); break;
                 case "DateFilterFy": column.DateFilterFy = value.ToBool(); break;
@@ -3244,9 +3241,8 @@ namespace Implem.Pleasanter.Libraries.Settings
                 case "BurnDown": return canRead && EnableBurnDown == true;
                 case "TimeSeries": return canRead && EnableTimeSeries == true;
                 case "Kamban": return canRead && EnableKamban == true;
-                case "ImageLib":
-                    return context.ContractSettings.Images()
-&& canRead && EnableImageLib == true;
+                case "ImageLib": return context.ContractSettings.Images()
+                    && canRead && EnableImageLib == true;
                 default: return false;
             }
         }

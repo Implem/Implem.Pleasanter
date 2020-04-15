@@ -11,8 +11,8 @@ namespace Implem.ParameterAccessor.Parts
         {
             SqlParameterPrefix = string.IsNullOrWhiteSpace(SqlParameterPrefix)
                 ? Parameters.Rds.Dbms == "SQLServer"
-                ? "@_"
-                : "@ip"
+                    ? "@_"
+                    : "@ip"
                 : Parameters.Parameter.SqlParameterPrefix;
         }
     }

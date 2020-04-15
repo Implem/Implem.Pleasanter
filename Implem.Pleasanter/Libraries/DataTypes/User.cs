@@ -51,6 +51,7 @@ namespace Implem.Pleasanter.Libraries.DataTypes
                             .LoginId()
                             .Name()
                             .UserCode()
+                            .UserSettings()
                             .TenantManager()
                             .ServiceManager()
                             .Disabled(),

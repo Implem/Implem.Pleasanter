@@ -91,7 +91,12 @@ namespace Implem.Pleasanter.Libraries.Requests
         }
 
         private static void SetSession(
-            Context context, SiteSettings ss, View view, bool setSession, string key = "View", bool useUsersView = false)
+            Context context,
+            SiteSettings ss,
+            View view,
+            bool setSession,
+            string key = "View",
+            bool useUsersView = false)
         {
             if (setSession)
             {

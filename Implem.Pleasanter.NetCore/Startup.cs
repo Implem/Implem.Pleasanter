@@ -223,6 +223,7 @@ namespace Implem.Pleasanter.NetCore
             StatusesMigrator.Migrate(context: context);
             SiteSettingsMigrator.Migrate(context: context);
             StatusesInitializer.Initialize(context: context);
+            NotificationInitializer.Initialize();
             SetConfigrations(context: context);
             SiteInfo.Reflesh(context: context);
             log.Finish(context: context);

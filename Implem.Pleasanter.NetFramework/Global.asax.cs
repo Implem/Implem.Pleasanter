@@ -26,6 +26,7 @@ namespace Implem.Pleasanter
             UsersInitializer.Initialize(context: context);
             StatusesMigrator.Migrate(context: context);
             StatusesInitializer.Initialize(context: context);
+            NotificationInitializer.Initialize();
             SetConfigrations(context: context);
             SiteInfo.Reflesh(context: context);
             log.Finish(context: context);

@@ -44,7 +44,11 @@ namespace Implem.Pleasanter.Libraries.Responses
             };
         }
 
-        public static ContentResult Get(int statusCode, int limitPerDate, int limitRemaining, object response)
+        public static ContentResult Get(
+            int statusCode,
+            int limitPerDate,
+            int limitRemaining,
+            object response)
         {
             return new ContentResult
             {

@@ -741,6 +741,10 @@ namespace Implem.Pleasanter.Libraries.Settings
             {
                 view.CrosstabTimePeriod = CrosstabTimePeriod;
             }
+            if (CrosstabMonth != GetCrosstabMonthDefault())
+            {
+                view.CrosstabMonth = CrosstabMonth;
+            }
             if (!GanttGroupBy.IsNullOrEmpty())
             {
                 view.GanttGroupBy = GanttGroupBy;

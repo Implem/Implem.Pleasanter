@@ -337,6 +337,10 @@ namespace Implem.Pleasanter.Libraries.Settings
             {
                 reminder.NotSendIfNotApplicable = NotSendIfNotApplicable;
             }
+            if (NotSendHyperLink == true)
+            {
+                reminder.NotSendHyperLink = NotSendHyperLink;
+            }
             if (Disabled == true)
             {
                 reminder.Disabled = Disabled;

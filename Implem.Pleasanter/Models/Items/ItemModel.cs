@@ -361,14 +361,16 @@ namespace Implem.Pleasanter.Models
                         ss: Site.IssuesSiteSettings(
                             context: context,
                             referenceId: ReferenceId,
-                            setSiteIntegration: true));
+                            setSiteIntegration: true,
+                            setAllChoices: true));
                 case "Results":
                     return ResultUtilities.Crosstab(
                         context: context,
                         ss: Site.ResultsSiteSettings(
                             context: context,
                             referenceId: ReferenceId,
-                            setSiteIntegration: true));
+                            setSiteIntegration: true,
+                            setAllChoices: true));
                 default:
                     return HtmlTemplates.Error(
                         context: context,
@@ -388,14 +390,16 @@ namespace Implem.Pleasanter.Models
                         ss: Site.IssuesSiteSettings(
                             context: context,
                             referenceId: ReferenceId,
-                            setSiteIntegration: true));
+                            setSiteIntegration: true,
+                            setAllChoices: true));
                 case "Results":
                     return ResultUtilities.CrosstabJson(
                         context: context,
                         ss: Site.ResultsSiteSettings(
                             context: context,
                             referenceId: ReferenceId,
-                            setSiteIntegration: true));
+                            setSiteIntegration: true,
+                            setAllChoices: true));
                 default:
                     return Messages.ResponseNotFound(context: context).ToJson();
             }
@@ -443,17 +447,18 @@ namespace Implem.Pleasanter.Models
 
         public string BurnDown(Context context)
         {
-            SetSite(
-                context: context,
-                initSiteSettings: true,
-                setSiteIntegration: true);
+            SetSite(context: context);
             ViewModes.Set(context: context, siteId: Site.SiteId);
             switch (Site.ReferenceType)
             {
                 case "Issues":
                     return IssueUtilities.BurnDown(
                         context: context,
-                        ss: Site.SiteSettings);
+                        ss: Site.IssuesSiteSettings(
+                            context: context,
+                            referenceId: ReferenceId,
+                            setSiteIntegration: true,
+                            setAllChoices: true));
                 default:
                     return HtmlTemplates.Error(
                         context: context,
@@ -463,17 +468,18 @@ namespace Implem.Pleasanter.Models
 
         public string BurnDownJson(Context context)
         {
-            SetSite(
-                context: context,
-                initSiteSettings: true,
-                setSiteIntegration: true);
+            SetSite(context: context);
             ViewModes.Set(context: context, siteId: Site.SiteId);
             switch (Site.ReferenceType)
             {
                 case "Issues":
                     return IssueUtilities.BurnDownJson(
                         context: context,
-                        ss: Site.SiteSettings);
+                        ss: Site.IssuesSiteSettings(
+                            context: context,
+                            referenceId: ReferenceId,
+                            setSiteIntegration: true,
+                            setAllChoices: true));
                 default:
                     return Messages.ResponseNotFound(context: context).ToJson();
             }
@@ -481,16 +487,17 @@ namespace Implem.Pleasanter.Models
 
         public string BurnDownRecordDetailsJson(Context context)
         {
-            SetSite(
-                context: context,
-                initSiteSettings: true,
-                setSiteIntegration: true);
+            SetSite(context: context);
             switch (Site.ReferenceType)
             {
                 case "Issues":
                     return IssueUtilities.BurnDownRecordDetails(
                         context: context,
-                        ss: Site.SiteSettings);
+                        ss: Site.IssuesSiteSettings(
+                            context: context,
+                            referenceId: ReferenceId,
+                            setSiteIntegration: true,
+                            setAllChoices: true));
                 default:
                     return Messages.ResponseNotFound(context: context).ToJson();
             }
@@ -508,14 +515,16 @@ namespace Implem.Pleasanter.Models
                         ss: Site.IssuesSiteSettings(
                             context: context,
                             referenceId: ReferenceId,
-                            setSiteIntegration: true));
+                            setSiteIntegration: true,
+                            setAllChoices: true));
                 case "Results":
                     return ResultUtilities.TimeSeries(
                         context: context,
                         ss: Site.ResultsSiteSettings(
                             context: context,
                             referenceId: ReferenceId,
-                            setSiteIntegration: true));
+                            setSiteIntegration: true,
+                            setAllChoices: true));
                 default:
                     return HtmlTemplates.Error(
                         context: context,
@@ -535,14 +544,16 @@ namespace Implem.Pleasanter.Models
                         ss: Site.IssuesSiteSettings(
                             context: context,
                             referenceId: ReferenceId,
-                            setSiteIntegration: true));
+                            setSiteIntegration: true,
+                            setAllChoices: true));
                 case "Results":
                     return ResultUtilities.TimeSeriesJson(
                         context: context,
                         ss: Site.ResultsSiteSettings(
                             context: context,
                             referenceId: ReferenceId,
-                            setSiteIntegration: true));
+                            setSiteIntegration: true,
+                            setAllChoices: true));
                 default:
                     return Messages.ResponseNotFound(context: context).ToJson();
             }
