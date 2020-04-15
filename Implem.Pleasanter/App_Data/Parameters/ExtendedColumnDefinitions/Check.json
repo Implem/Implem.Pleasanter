@@ -12,5 +12,10 @@
     "HistoryColumn": "600",
     "TypeName": "bit",
     "Nullable": "1",
-    "ExtendedColumnType": "Check"
+    "ExtendedColumnType": "Check",
+    "LabelText_en": "Check",
+    "LabelText_zh": "选择",
+    "LabelText_de": "Prüfen",
+    "LabelText_ko": "선택",
+    "LabelText_es": "Marcar"
 }

@@ -1,4 +1,4 @@
-﻿{
+{
     "Id": "SiteImageSettingsEditor",
     "Type": 110,
     "Languages": [
@@ -6,8 +6,24 @@
             "Body": "Site image"
         },
         {
+            "Language": "zh",
+            "Body": "站点图像"
+        },
+        {
             "Language": "ja",
             "Body": "サイト画像"
+        },
+        {
+            "Language": "de",
+            "Body": "Site-Bild"
+        },
+        {
+            "Language": "ko",
+            "Body": "사이트 이미지"
+        },
+        {
+            "Language": "es",
+            "Body": "Imagen del sitio"
         }
     ]
 }

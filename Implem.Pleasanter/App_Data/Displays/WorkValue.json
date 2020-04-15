@@ -1,13 +1,29 @@
-﻿{
+{
     "Id": "WorkValue",
     "Type": 110,
     "Languages": [
         {
-            "Body": "Work value"
+            "Body": "Work volume"
+        },
+        {
+            "Language": "zh",
+            "Body": "工作量"
         },
         {
             "Language": "ja",
             "Body": "作業量"
+        },
+        {
+            "Language": "de",
+            "Body": "Arbeitsaufwand"
+        },
+        {
+            "Language": "ko",
+            "Body": "작업 볼륨"
+        },
+        {
+            "Language": "es",
+            "Body": "Volumen de trabajo"
         }
     ]
 }

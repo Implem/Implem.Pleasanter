@@ -3,11 +3,27 @@
     "Type": 110,
     "Languages": [
         {
-            "Body": "Include site permission"
+            "Body": "Include Site Permission"
+        },
+        {
+            "Language": "zh",
+            "Body": "包括网站权限"
         },
         {
             "Language": "ja",
             "Body": "サイトのアクセス制御を含める"
+        },
+        {
+            "Language": "de",
+            "Body": "Standortzugriffskontrolle einschließen"
+        },
+        {
+            "Language": "ko",
+            "Body": "사이트 권한 포함"
+        },
+        {
+            "Language": "es",
+            "Body": "Incluir permiso del sitio"
         }
     ]
 }

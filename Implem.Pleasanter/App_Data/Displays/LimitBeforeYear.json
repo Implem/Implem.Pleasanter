@@ -1,13 +1,29 @@
-﻿{
+{
     "Id": "LimitBeforeYear",
     "Type": 110,
     "Languages": [
         {
-            "Body": "1 year excess"
+            "Body": "1 year exceeded"
+        },
+        {
+            "Language": "zh",
+            "Body": "已超出1年"
         },
         {
             "Language": "ja",
             "Body": "1 年超過"
+        },
+        {
+            "Language": "de",
+            "Body": "1 Jahr überschritten"
+        },
+        {
+            "Language": "ko",
+            "Body": "1년 초과됨"
+        },
+        {
+            "Language": "es",
+            "Body": "1 año de más"
         }
     ]
 }

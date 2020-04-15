@@ -1,13 +1,29 @@
-﻿{
-  "Id": "DeletedTime",
-  "Type": 110,
-  "Languages": [
-    {
-      "Body": "Deleted time"
-    },
-    {
-      "Language": "ja",
-      "Body": "削除日時"
-    }
-  ]
+{
+    "Id": "DeletedTime",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Deleted on"
+        },
+        {
+            "Language": "zh",
+            "Body": "删除时间"
+        },
+        {
+            "Language": "ja",
+            "Body": "削除日時"
+        },
+        {
+            "Language": "de",
+            "Body": "Gelöscht am"
+        },
+        {
+            "Language": "ko",
+            "Body": "삭제 날짜"
+        },
+        {
+            "Language": "es",
+            "Body": "Eliminado el"
+        }
+    ]
 }

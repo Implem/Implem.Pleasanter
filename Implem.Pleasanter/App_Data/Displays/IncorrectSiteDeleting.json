@@ -1,13 +1,29 @@
-﻿{
+{
     "Id": "IncorrectSiteDeleting",
     "Type": 240,
     "Languages": [
         {
-            "Body": "The specified site title or password is incorrect."
+            "Body": "The title or password for the specified site is incorrect."
+        },
+        {
+            "Language": "zh",
+            "Body": "指定站点的标题或密码错误。"
         },
         {
             "Language": "ja",
             "Body": "指定されたサイトのタイトルまたはパスワードが不正です。"
+        },
+        {
+            "Language": "de",
+            "Body": "Der Titel oder das Passwort für die angegebene Site ist falsch."
+        },
+        {
+            "Language": "ko",
+            "Body": "지정된 사이트의 제목 또는 비밀번호가 올바르지 않습니다."
+        },
+        {
+            "Language": "es",
+            "Body": "El título o la contraseña para el sitio especificado no es correcto."
         }
     ]
 }

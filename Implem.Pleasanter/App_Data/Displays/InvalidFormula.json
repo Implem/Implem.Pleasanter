@@ -1,4 +1,4 @@
-﻿{
+{
     "Id": "InvalidFormula",
     "Type": 240,
     "Languages": [
@@ -6,8 +6,24 @@
             "Body": "Invalid formula."
         },
         {
+            "Language": "zh",
+            "Body": "无效公式。"
+        },
+        {
             "Language": "ja",
             "Body": "不正な計算式です。"
+        },
+        {
+            "Language": "de",
+            "Body": "Ungültige Formel."
+        },
+        {
+            "Language": "ko",
+            "Body": "유효하지 않은 공식입니다."
+        },
+        {
+            "Language": "es",
+            "Body": "Fórmula no válida."
         }
     ]
 }

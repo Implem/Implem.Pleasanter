@@ -1,13 +1,29 @@
-﻿{
+{
     "Id": "SetZeroWhenOutOfCondition",
     "Type": 110,
     "Languages": [
         {
-            "Body": "Set zero when out of condition"
+            "Body": "Set to zero when conditions are not met."
+        },
+        {
+            "Language": "zh",
+            "Body": "当不满足条件时设置为零。"
         },
         {
             "Language": "ja",
             "Body": "条件が満たされていない場合ゼロにする"
+        },
+        {
+            "Language": "de",
+            "Body": "Wird auf null gesetzt, wenn die Bedingungen nicht erfüllt sind."
+        },
+        {
+            "Language": "ko",
+            "Body": "조건이 충족되지 않는 경우 0으로 설정하십시오."
+        },
+        {
+            "Language": "es",
+            "Body": "Poner a cero cuando no se cumplan las condiciones."
         }
     ]
 }

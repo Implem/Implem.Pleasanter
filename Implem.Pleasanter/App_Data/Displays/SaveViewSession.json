@@ -6,8 +6,24 @@
             "Body": "Session"
         },
         {
+            "Language": "zh",
+            "Body": "届会"
+        },
+        {
             "Language": "ja",
             "Body": "セッション"
+        },
+        {
+            "Language": "de",
+            "Body": "Session"
+        },
+        {
+            "Language": "ko",
+            "Body": "세션"
+        },
+        {
+            "Language": "es",
+            "Body": "Sesión"
         }
     ]
 }

@@ -1,4 +1,4 @@
-﻿{
+{
     "Id": "Normal",
     "Type": 110,
     "Languages": [
@@ -6,8 +6,24 @@
             "Body": "Normal"
         },
         {
+            "Language": "zh",
+            "Body": "正常"
+        },
+        {
             "Language": "ja",
             "Body": "ノーマル"
+        },
+        {
+            "Language": "de",
+            "Body": "Normal"
+        },
+        {
+            "Language": "ko",
+            "Body": "보통"
+        },
+        {
+            "Language": "es",
+            "Body": "Normal"
         }
     ]
 }

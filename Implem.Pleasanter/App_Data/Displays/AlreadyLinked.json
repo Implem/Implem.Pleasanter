@@ -1,13 +1,29 @@
-﻿{
+{
     "Id": "AlreadyLinked",
     "Type": 240,
     "Languages": [
         {
-            "Body": "It is already linked."
+            "Body": "Already linked."
+        },
+        {
+            "Language": "zh",
+            "Body": "已链接。"
         },
         {
             "Language": "ja",
             "Body": "既にリンクされています。"
+        },
+        {
+            "Language": "de",
+            "Body": "Bereits verknüpft."
+        },
+        {
+            "Language": "ko",
+            "Body": "이미 링크되었습니다."
+        },
+        {
+            "Language": "es",
+            "Body": "Ya vinculados."
         }
     ]
 }

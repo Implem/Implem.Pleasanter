@@ -1,13 +1,29 @@
-﻿{
+{
     "Id": "Histories",
     "Type": 110,
     "Languages": [
         {
-            "Body": "Histories"
+            "Body": "History"
+        },
+        {
+            "Language": "zh",
+            "Body": "历史"
         },
         {
             "Language": "ja",
             "Body": "履歴"
+        },
+        {
+            "Language": "de",
+            "Body": "Verlauf"
+        },
+        {
+            "Language": "ko",
+            "Body": "히스토리"
+        },
+        {
+            "Language": "es",
+            "Body": "Historial"
         }
     ]
 }

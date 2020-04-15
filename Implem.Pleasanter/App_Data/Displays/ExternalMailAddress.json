@@ -1,13 +1,29 @@
-﻿{
+{
     "Id": "ExternalMailAddress",
     "Type": 240,
     "Languages": [
         {
-            "Body": "You can not send it to an external e-mail address. [{0}]"
+            "Body": "Cannot send to an external email address.[{0}]"
+        },
+        {
+            "Language": "zh",
+            "Body": "无法发送至外部电子邮箱地址。[{0}]"
         },
         {
             "Language": "ja",
             "Body": "外部のメールアドレスには送信できません。[{0}]"
+        },
+        {
+            "Language": "de",
+            "Body": "Senden an externe E-Mail-Adresse nicht möglich.[{0}]"
+        },
+        {
+            "Language": "ko",
+            "Body": "외부 이메일 주소로 전송할 수 없습니다.[{0}]"
+        },
+        {
+            "Language": "es",
+            "Body": "No puede enviarse a una dirección de correo electrónico externa.[{0}]"
         }
     ]
 }

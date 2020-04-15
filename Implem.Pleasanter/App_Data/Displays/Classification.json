@@ -1,13 +1,29 @@
-﻿{
+{
     "Id": "Classification",
     "Type": 110,
     "Languages": [
         {
-            "Body": "Classification"
+            "Body": "Classification master"
+        },
+        {
+            "Language": "zh",
+            "Body": "主分类"
         },
         {
             "Language": "ja",
             "Body": "分類マスタ"
+        },
+        {
+            "Language": "de",
+            "Body": "Klassifizierung Stammsatz"
+        },
+        {
+            "Language": "ko",
+            "Body": "분류 마스터"
+        },
+        {
+            "Language": "es",
+            "Body": "Clasificación principal"
         }
     ]
 }

@@ -1,4 +1,4 @@
-﻿{
+{
     "Id": "OrderRelease",
     "Type": 110,
     "ClientScript": true,
@@ -7,8 +7,24 @@
             "Body": "Release"
         },
         {
+            "Language": "zh",
+            "Body": "释放"
+        },
+        {
             "Language": "ja",
             "Body": "解除"
+        },
+        {
+            "Language": "de",
+            "Body": "Freigabe"
+        },
+        {
+            "Language": "ko",
+            "Body": "릴리즈"
+        },
+        {
+            "Language": "es",
+            "Body": "Liberar"
         }
     ]
 }

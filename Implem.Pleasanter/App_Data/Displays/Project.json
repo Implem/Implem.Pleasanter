@@ -1,4 +1,4 @@
-﻿{
+{
     "Id": "Project",
     "Type": 110,
     "Languages": [
@@ -6,8 +6,24 @@
             "Body": "Project"
         },
         {
+            "Language": "zh",
+            "Body": "项目"
+        },
+        {
             "Language": "ja",
             "Body": "プロジェクト"
+        },
+        {
+            "Language": "de",
+            "Body": "Projekt"
+        },
+        {
+            "Language": "ko",
+            "Body": "프로젝트"
+        },
+        {
+            "Language": "es",
+            "Body": "Proyecto"
         }
     ]
 }

@@ -1,4 +1,4 @@
-﻿{
+{
     "Id": "MdFormat",
     "Type": 130,
     "Languages": [
@@ -6,7 +6,23 @@
             "Body": "MM/dd"
         },
         {
+            "Language": "zh",
+            "Body": "MM/dd"
+        },
+        {
             "Language": "ja",
+            "Body": "MM/dd"
+        },
+        {
+            "Language": "de",
+            "Body": "MM/TT"
+        },
+        {
+            "Language": "ko",
+            "Body": "MM/dd"
+        },
+        {
+            "Language": "es",
             "Body": "MM/dd"
         }
     ]

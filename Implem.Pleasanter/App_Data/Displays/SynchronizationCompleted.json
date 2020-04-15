@@ -1,13 +1,29 @@
-﻿{
+{
     "Id": "SynchronizationCompleted",
     "Type": 210,
     "Languages": [
         {
-            "Body": "Synchronization has completed."
+            "Body": "Synchronization has been completed."
+        },
+        {
+            "Language": "zh",
+            "Body": "已完成同步。"
         },
         {
             "Language": "ja",
             "Body": "同期が完了しました。"
+        },
+        {
+            "Language": "de",
+            "Body": "Die Synchronisierung ist abgeschlossen."
+        },
+        {
+            "Language": "ko",
+            "Body": "동기화가 완료되었습니다."
+        },
+        {
+            "Language": "es",
+            "Body": "Se ha realizado la sincronización."
         }
     ]
 }

@@ -1,4 +1,4 @@
-﻿{
+{
     "Id": "UseMonth",
     "Type": 110,
     "Languages": [
@@ -6,8 +6,24 @@
             "Body": "Use month"
         },
         {
+            "Language": "zh",
+            "Body": "使用月份"
+        },
+        {
             "Language": "ja",
             "Body": "月を使用"
+        },
+        {
+            "Language": "de",
+            "Body": "Monat verwenden"
+        },
+        {
+            "Language": "ko",
+            "Body": "월 사용"
+        },
+        {
+            "Language": "es",
+            "Body": "Usar mes"
         }
     ]
 }

@@ -1,4 +1,4 @@
-﻿{
+{
     "Id": "Tables",
     "Type": 110,
     "Languages": [
@@ -6,8 +6,24 @@
             "Body": "Tables"
         },
         {
+            "Language": "zh",
+            "Body": "表格"
+        },
+        {
             "Language": "ja",
             "Body": "テーブル"
+        },
+        {
+            "Language": "de",
+            "Body": "Tabellen"
+        },
+        {
+            "Language": "ko",
+            "Body": "목록"
+        },
+        {
+            "Language": "es",
+            "Body": "Tablas"
         }
     ]
 }

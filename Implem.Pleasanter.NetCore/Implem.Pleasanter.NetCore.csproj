@@ -25,6 +25,7 @@
 
   <ItemGroup>
     <Folder Include="Views\" />
+    <Folder Include="App_Data\" />
   </ItemGroup>
 
   <ItemGroup>

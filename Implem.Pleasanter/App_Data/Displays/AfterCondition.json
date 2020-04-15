@@ -1,13 +1,29 @@
-﻿{
+{
     "Id": "AfterCondition",
     "Type": 110,
     "Languages": [
         {
-            "Body": "After condition"
+            "Body": "Conditions after change"
+        },
+        {
+            "Language": "zh",
+            "Body": "变更后条件"
         },
         {
             "Language": "ja",
             "Body": "変更後の条件"
+        },
+        {
+            "Language": "de",
+            "Body": "Bedingungen nach Änderung"
+        },
+        {
+            "Language": "ko",
+            "Body": "변경 후 상태"
+        },
+        {
+            "Language": "es",
+            "Body": "Condiciones después del cambio"
         }
     ]
 }

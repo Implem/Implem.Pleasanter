@@ -1,4 +1,4 @@
-﻿{
+{
     "Id": "Template",
     "Type": 110,
     "Languages": [
@@ -6,8 +6,24 @@
             "Body": "Template"
         },
         {
+            "Language": "zh",
+            "Body": "模板"
+        },
+        {
             "Language": "ja",
             "Body": "テンプレート"
+        },
+        {
+            "Language": "de",
+            "Body": "Vorlage"
+        },
+        {
+            "Language": "ko",
+            "Body": "템플릿"
+        },
+        {
+            "Language": "es",
+            "Body": "Plantilla"
         }
     ]
 }

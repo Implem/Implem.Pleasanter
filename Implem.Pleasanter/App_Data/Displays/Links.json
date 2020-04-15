@@ -1,4 +1,4 @@
-﻿{
+{
     "Id": "Links",
     "Type": 110,
     "Languages": [
@@ -6,8 +6,24 @@
             "Body": "Links"
         },
         {
+            "Language": "zh",
+            "Body": "链接"
+        },
+        {
             "Language": "ja",
             "Body": "リンク"
+        },
+        {
+            "Language": "de",
+            "Body": "Verknüpfungen"
+        },
+        {
+            "Language": "ko",
+            "Body": "링크"
+        },
+        {
+            "Language": "es",
+            "Body": "Enlaces"
         }
     ]
 }

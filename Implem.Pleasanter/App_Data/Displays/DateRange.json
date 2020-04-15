@@ -1,13 +1,29 @@
-﻿{
+{
     "Id": "DateRange",
     "Type": 110,
     "Languages": [
         {
-            "Body": "Date Range"
+            "Body": "Date range"
+        },
+        {
+            "Language": "zh",
+            "Body": "日期范围"
         },
         {
             "Language": "ja",
             "Body": "日付の範囲"
+        },
+        {
+            "Language": "de",
+            "Body": "Datumsbereich"
+        },
+        {
+            "Language": "ko",
+            "Body": "날짜 범위"
+        },
+        {
+            "Language": "es",
+            "Body": "Intervalo de fechas"
         }
     ]
 }

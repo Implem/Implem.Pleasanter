@@ -881,6 +881,26 @@ namespace Implem.Pleasanter.Libraries.Responses
                 css: "alert-error");
         }
 
+        public static Message OverLocalFolderLimitSize(Context context, params string[] data)
+        {
+            return Get(
+                id: "OverLocalFolderLimitSize",
+                text: Displays.OverLocalFolderLimitSize(
+                    context: context,
+                    data: data),
+                css: "alert-error");
+        }
+
+        public static Message OverLocalFolderTotalLimitSize(Context context, params string[] data)
+        {
+            return Get(
+                id: "OverLocalFolderTotalLimitSize",
+                text: Displays.OverLocalFolderTotalLimitSize(
+                    context: context,
+                    data: data),
+                css: "alert-error");
+        }
+
         public static Message OverTenantStorageSize(Context context, params string[] data)
         {
             return Get(
@@ -2096,6 +2116,26 @@ namespace Implem.Pleasanter.Libraries.Responses
         {
             return ResponseMessage(
                 message: OverLimitSize(
+                    context: context,
+                    data: data),
+                target: target);
+        }
+
+        public static ResponseCollection ResponseOverLocalFolderLimitSize(
+            Context context, string target = null, params string[] data)
+        {
+            return ResponseMessage(
+                message: OverLocalFolderLimitSize(
+                    context: context,
+                    data: data),
+                target: target);
+        }
+
+        public static ResponseCollection ResponseOverLocalFolderTotalLimitSize(
+            Context context, string target = null, params string[] data)
+        {
+            return ResponseMessage(
+                message: OverLocalFolderTotalLimitSize(
                     context: context,
                     data: data),
                 target: target);

@@ -1,13 +1,29 @@
-﻿{
+{
     "Id": "LimitAfterHour",
     "Type": 110,
     "Languages": [
         {
-            "Body": "an hour after"
+            "Body": "1 hour later"
+        },
+        {
+            "Language": "zh",
+            "Body": "1小时后"
         },
         {
             "Language": "ja",
             "Body": "1 時間後"
+        },
+        {
+            "Language": "de",
+            "Body": "1 Stunde später"
+        },
+        {
+            "Language": "ko",
+            "Body": "1시간 후"
+        },
+        {
+            "Language": "es",
+            "Body": "1 hora después"
         }
     ]
 }

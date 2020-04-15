@@ -1,4 +1,4 @@
-﻿{
+{
     "Id": "LimitBeforeSeconds",
     "Type": 110,
     "Languages": [
@@ -6,8 +6,24 @@
             "Body": "{0} seconds exceeded"
         },
         {
+            "Language": "zh",
+            "Body": "已超出{0}秒"
+        },
+        {
             "Language": "ja",
             "Body": "{0} 秒超過"
+        },
+        {
+            "Language": "de",
+            "Body": "{0} Sekunden überschritten"
+        },
+        {
+            "Language": "ko",
+            "Body": "{0}초 초과됨"
+        },
+        {
+            "Language": "es",
+            "Body": "{0} segundos de más"
         }
     ]
 }

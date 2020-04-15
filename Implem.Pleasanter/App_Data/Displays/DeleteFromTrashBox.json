@@ -1,13 +1,29 @@
-﻿{
-  "Id": "DeleteFromTrashBox",
-  "Type": 110,
-  "Languages": [
-    {
-      "Body": "Delete from trash box"
-    },
-    {
-      "Language": "ja",
-      "Body": "ごみ箱から削除"
-    }
-  ]
+{
+    "Id": "DeleteFromTrashBox",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Delete from recycle bin"
+        },
+        {
+            "Language": "zh",
+            "Body": "从回收站中删除"
+        },
+        {
+            "Language": "ja",
+            "Body": "ごみ箱から削除"
+        },
+        {
+            "Language": "de",
+            "Body": "Aus dem Papierkorb löschen"
+        },
+        {
+            "Language": "ko",
+            "Body": "휴지통에서 삭제"
+        },
+        {
+            "Language": "es",
+            "Body": "Eliminar de la papera de reciclaje"
+        }
+    ]
 }

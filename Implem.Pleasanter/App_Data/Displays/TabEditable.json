@@ -1,0 +1,29 @@
+﻿{
+    "Id": "TabEditable",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Editable Tab"
+        },
+        {
+            "Language": "ja",
+            "Body": "タブ（編集可）"
+        },
+        {
+            "Language": "zh",
+            "Body": "可编辑标签"
+        },
+        {
+            "Language": "de",
+            "Body": "Bearbeitbare Registerkarte"
+        },
+        {
+            "Language": "ko",
+            "Body": "편집 가능한 탭"
+        },
+        {
+            "Language": "es",
+            "Body": "Pestaña Editable"
+        }
+    ]
+}

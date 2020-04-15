@@ -1,13 +1,29 @@
-﻿{
+{
     "Id": "CanNotDisabled",
     "Type": 240,
     "Languages": [
         {
-            "Body": "You can not be disabled the {0}."
+            "Body": "Cannot disable {0}."
+        },
+        {
+            "Language": "zh",
+            "Body": "无法禁用{0}。"
         },
         {
             "Language": "ja",
             "Body": "{0} を無効化できません。"
+        },
+        {
+            "Language": "de",
+            "Body": "{0} kann nicht deaktiviert werden."
+        },
+        {
+            "Language": "ko",
+            "Body": "{0}을(를) 비활성화할 수 없습니다."
+        },
+        {
+            "Language": "es",
+            "Body": "No puede desactivarse {0}."
         }
     ]
 }

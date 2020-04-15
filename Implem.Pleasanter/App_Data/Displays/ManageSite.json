@@ -1,4 +1,4 @@
-﻿{
+{
     "Id": "ManageSite",
     "Type": 110,
     "Languages": [
@@ -6,8 +6,24 @@
             "Body": "Manage site"
         },
         {
+            "Language": "zh",
+            "Body": "管理站点"
+        },
+        {
             "Language": "ja",
             "Body": "サイトの管理"
+        },
+        {
+            "Language": "de",
+            "Body": "Site verwalten"
+        },
+        {
+            "Language": "ko",
+            "Body": "사이트 관리"
+        },
+        {
+            "Language": "es",
+            "Body": "Gestionar sitio"
         }
     ]
 }

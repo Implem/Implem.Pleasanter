@@ -1,13 +1,29 @@
-﻿{
+{
     "Id": "ExportColumns",
     "Type": 110,
     "Languages": [
         {
-            "Body": "Export column"
+            "Body": "Columns to export"
+        },
+        {
+            "Language": "zh",
+            "Body": "待导出列"
         },
         {
             "Language": "ja",
             "Body": "エクスポートする項目"
+        },
+        {
+            "Language": "de",
+            "Body": "Zu exportierende Spalten"
+        },
+        {
+            "Language": "ko",
+            "Body": "내보낼 열"
+        },
+        {
+            "Language": "es",
+            "Body": "Columnas para exportar"
         }
     ]
 }

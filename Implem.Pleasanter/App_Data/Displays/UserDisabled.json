@@ -1,13 +1,29 @@
-﻿{
+{
     "Id": "UserDisabled",
     "Type": 240,
     "Languages": [
-      {
-        "Body": "The specified user name is disabled."
-      },
+        {
+            "Body": "The specified login ID is disabled."
+        },
+        {
+            "Language": "zh",
+            "Body": "禁用指定的登录ID。"
+        },
         {
             "Language": "ja",
             "Body": "指定したログインIDは無効です。"
+        },
+        {
+            "Language": "de",
+            "Body": "Die angegebene Anmelde-ID ist deaktiviert."
+        },
+        {
+            "Language": "ko",
+            "Body": "지정된 로그인 ID가 비활성화된 상태입니다."
+        },
+        {
+            "Language": "es",
+            "Body": "El ID de inicio de sesión especificado está desactivado."
         }
     ]
 }

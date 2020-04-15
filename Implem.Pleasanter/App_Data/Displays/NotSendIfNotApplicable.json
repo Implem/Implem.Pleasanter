@@ -1,13 +1,29 @@
-﻿{
+{
     "Id": "NotSendIfNotApplicable",
     "Type": 110,
     "Languages": [
         {
-            "Body": "Not send if not applicable"
+            "Body": "Do not send if not applicable."
+        },
+        {
+            "Language": "zh",
+            "Body": "如不适用，请勿发送。"
         },
         {
             "Language": "ja",
             "Body": "該当が無い場合は送信しない"
+        },
+        {
+            "Language": "de",
+            "Body": "Nicht senden, falls unzutreffend."
+        },
+        {
+            "Language": "ko",
+            "Body": "해당하지 않는 경우 전송하지 마십시오."
+        },
+        {
+            "Language": "es",
+            "Body": "No enviar si no procede."
         }
     ]
 }

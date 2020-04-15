@@ -1,4 +1,4 @@
-﻿{
+{
     "Id": "Format",
     "Type": 110,
     "Languages": [
@@ -6,8 +6,24 @@
             "Body": "Format"
         },
         {
+            "Language": "zh",
+            "Body": "格式"
+        },
+        {
             "Language": "ja",
             "Body": "書式"
+        },
+        {
+            "Language": "de",
+            "Body": "Format"
+        },
+        {
+            "Language": "ko",
+            "Body": "형식"
+        },
+        {
+            "Language": "es",
+            "Body": "Formato"
         }
     ]
 }

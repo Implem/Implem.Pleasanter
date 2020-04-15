@@ -1,4 +1,4 @@
-﻿{
+{
     "Id": "LinkDestinations",
     "Type": 110,
     "Languages": [
@@ -6,8 +6,24 @@
             "Body": "Link destinations"
         },
         {
+            "Language": "zh",
+            "Body": "链接目的地"
+        },
+        {
             "Language": "ja",
             "Body": "リンク先"
+        },
+        {
+            "Language": "de",
+            "Body": "Ziele verknüpfen"
+        },
+        {
+            "Language": "ko",
+            "Body": "링크 대상"
+        },
+        {
+            "Language": "es",
+            "Body": "Destinos de enlace"
         }
     ]
 }

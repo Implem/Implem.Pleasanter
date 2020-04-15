@@ -1,13 +1,29 @@
-﻿{
+{
     "Id": "MenuGuide",
     "Type": 110,
     "Languages": [
         {
-            "Body": "MenuGuide"
+            "Body": "Menu guide"
+        },
+        {
+            "Language": "zh",
+            "Body": "菜单指南"
         },
         {
             "Language": "ja",
             "Body": "メニュー画面のガイド"
+        },
+        {
+            "Language": "de",
+            "Body": "Menüführung"
+        },
+        {
+            "Language": "ko",
+            "Body": "메뉴 가이드"
+        },
+        {
+            "Language": "es",
+            "Body": "Guía del menú"
         }
     ]
 }

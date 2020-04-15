@@ -1,4 +1,4 @@
-﻿{
+{
     "Id": "ViewDemoEnvironment",
     "Type": 110,
     "Languages": [
@@ -6,8 +6,24 @@
             "Body": "View demo environment"
         },
         {
+            "Language": "zh",
+            "Body": "查看演示环境"
+        },
+        {
             "Language": "ja",
             "Body": "デモ環境を見る"
+        },
+        {
+            "Language": "de",
+            "Body": "Demo-Umgebung anzeigen"
+        },
+        {
+            "Language": "ko",
+            "Body": "데모 환경 보기"
+        },
+        {
+            "Language": "es",
+            "Body": "Ver entorno de demostración"
         }
     ]
 }

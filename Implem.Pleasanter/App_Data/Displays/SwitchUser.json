@@ -1,4 +1,4 @@
-﻿{
+{
     "Id": "SwitchUser",
     "Type": 110,
     "Languages": [
@@ -6,8 +6,24 @@
             "Body": "Switch to this user"
         },
         {
+            "Language": "zh",
+            "Body": "切换至该用户"
+        },
+        {
             "Language": "ja",
             "Body": "このユーザに切り替え"
+        },
+        {
+            "Language": "de",
+            "Body": "Zu diesem Benutzer wechseln"
+        },
+        {
+            "Language": "ko",
+            "Body": "이 사용자로 전환"
+        },
+        {
+            "Language": "es",
+            "Body": "Cambiar a este usuario"
         }
     ]
 }

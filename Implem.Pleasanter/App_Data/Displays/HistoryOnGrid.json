@@ -1,13 +1,29 @@
-﻿{
+{
     "Id": "HistoryOnGrid",
     "Type": 110,
     "Languages": [
         {
-            "Body": "History on grid"
+            "Body": "Show history on grid"
+        },
+        {
+            "Language": "zh",
+            "Body": "在网格上显示历史"
         },
         {
             "Language": "ja",
             "Body": "一覧上に履歴を表示"
+        },
+        {
+            "Language": "de",
+            "Body": "Verlauf im Raster anzeigen"
+        },
+        {
+            "Language": "ko",
+            "Body": "그리드에 히스토리 표시"
+        },
+        {
+            "Language": "es",
+            "Body": "Mostrar historial en la cuadrícula"
         }
     ]
 }

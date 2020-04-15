@@ -1,4 +1,4 @@
-﻿{
+{
     "Id": "Setting",
     "Type": 110,
     "Languages": [
@@ -6,8 +6,24 @@
             "Body": "Setting"
         },
         {
+            "Language": "zh",
+            "Body": "设置"
+        },
+        {
             "Language": "ja",
             "Body": "設定"
+        },
+        {
+            "Language": "de",
+            "Body": "Einstellung"
+        },
+        {
+            "Language": "ko",
+            "Body": "설정"
+        },
+        {
+            "Language": "es",
+            "Body": "Ajustes"
         }
     ]
 }

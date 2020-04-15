@@ -1,4 +1,4 @@
-﻿{
+{
     "Id": "NoClassification",
     "Type": 110,
     "Languages": [
@@ -6,8 +6,24 @@
             "Body": "No classification"
         },
         {
+            "Language": "zh",
+            "Body": "无分类"
+        },
+        {
             "Language": "ja",
             "Body": "分類無し"
+        },
+        {
+            "Language": "de",
+            "Body": "Keine Klassifizierung"
+        },
+        {
+            "Language": "ko",
+            "Body": "분류 없음"
+        },
+        {
+            "Language": "es",
+            "Body": "Sin clasificación"
         }
     ]
 }

@@ -2371,6 +2371,14 @@ namespace Implem.Pleasanter.Models
                                     updated: Check_Updated(columnName: column.Name),
                                     update: update));
                                 break;
+                            case "Attachments":
+                                body.Append(Attachments(columnName: column.Name).ToNotice(
+                                    context: context,
+                                    saved: SavedAttachments(columnName: column.Name),
+                                    column: column,
+                                    updated: Attachments_Updated(columnName: column.Name),
+                                    update: update));
+                                break;
                         }
                         break;
                 }

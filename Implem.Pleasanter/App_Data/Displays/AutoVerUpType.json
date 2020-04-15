@@ -6,8 +6,24 @@
             "Body": "Automatic version upgrade"
         },
         {
+            "Language": "zh",
+            "Body": "自动版本升级"
+        },
+        {
             "Language": "ja",
             "Body": "自動バージョンアップ"
+        },
+        {
+            "Language": "de",
+            "Body": "Automatisches Versions-Upgrade"
+        },
+        {
+            "Language": "ko",
+            "Body": "자동 버전 업그레이드"
+        },
+        {
+            "Language": "es",
+            "Body": "Actualización automática de versión"
         }
     ]
 }

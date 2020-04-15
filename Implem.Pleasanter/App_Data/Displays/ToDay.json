@@ -1,4 +1,4 @@
-﻿{
+{
     "Id": "Today",
     "Type": 110,
     "Languages": [
@@ -6,8 +6,24 @@
             "Body": "Today"
         },
         {
+            "Language": "zh",
+            "Body": "今日"
+        },
+        {
             "Language": "ja",
             "Body": "今日"
+        },
+        {
+            "Language": "de",
+            "Body": "Heute"
+        },
+        {
+            "Language": "ko",
+            "Body": "오늘"
+        },
+        {
+            "Language": "es",
+            "Body": "Hoy"
         }
     ]
 }

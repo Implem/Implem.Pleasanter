@@ -1,4 +1,4 @@
-﻿{
+{
     "Id": "Total",
     "Type": 110,
     "Languages": [
@@ -6,8 +6,24 @@
             "Body": "Total"
         },
         {
+            "Language": "zh",
+            "Body": "总数"
+        },
+        {
             "Language": "ja",
             "Body": "合計"
+        },
+        {
+            "Language": "de",
+            "Body": "Summe"
+        },
+        {
+            "Language": "ko",
+            "Body": "합계"
+        },
+        {
+            "Language": "es",
+            "Body": "Total"
         }
     ]
 }

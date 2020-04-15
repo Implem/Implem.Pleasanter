@@ -1,13 +1,29 @@
-﻿{
+{
     "Id": "SwitchUserInfo",
     "Type": 110,
     "Languages": [
         {
-            "Body": "It is running as the user who switched it. Click to return to the original user."
+            "Body": "Running with the new user. Click to return to the original user."
+        },
+        {
+            "Language": "zh",
+            "Body": "当前由新用户运行。点击返回为原始用户。"
         },
         {
             "Language": "ja",
             "Body": "スイッチしたユーザで実行中です。クリックすると元のユーザにもどります。"
+        },
+        {
+            "Language": "de",
+            "Body": "Wird mit dem neuen Benutzer ausgeführt. Klicken Sie hier, um zum ursprünglichen Benutzer zurückzukehren."
+        },
+        {
+            "Language": "ko",
+            "Body": "새 사용자로 실행 중입니다. 본래 사용자로 되돌아가려면 클릭하십시오."
+        },
+        {
+            "Language": "es",
+            "Body": "Ejecutándose con el nuevo usuario. Haga clic para volver al usuario original."
         }
     ]
 }

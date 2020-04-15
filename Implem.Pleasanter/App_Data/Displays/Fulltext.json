@@ -1,13 +1,29 @@
-﻿{
+{
     "Id": "FullText",
     "Type": 110,
     "Languages": [
         {
-            "Body": "FullText"
+            "Body": "Full text"
+        },
+        {
+            "Language": "zh",
+            "Body": "全文"
         },
         {
             "Language": "ja",
             "Body": "フルテキスト"
+        },
+        {
+            "Language": "de",
+            "Body": "Volltext"
+        },
+        {
+            "Language": "ko",
+            "Body": "전체 텍스트"
+        },
+        {
+            "Language": "es",
+            "Body": "Texto completo"
         }
     ]
 }

@@ -1,4 +1,4 @@
-﻿{
+{
     "Id": "Year",
     "Type": 110,
     "Languages": [
@@ -6,8 +6,24 @@
             "Body": "Year"
         },
         {
+            "Language": "zh",
+            "Body": "年"
+        },
+        {
             "Language": "ja",
             "Body": "年"
+        },
+        {
+            "Language": "de",
+            "Body": "Jahr"
+        },
+        {
+            "Language": "ko",
+            "Body": "년도"
+        },
+        {
+            "Language": "es",
+            "Body": "Año"
         }
     ]
 }

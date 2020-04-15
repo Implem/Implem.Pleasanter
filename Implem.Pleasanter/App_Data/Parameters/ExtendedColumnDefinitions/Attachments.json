@@ -14,5 +14,10 @@
     "SearchIndexPriority": "200",
     "FieldCss": "field-wide",
     "ControlType": "Attachments",
-    "ExtendedColumnType": "Attachments"
+    "ExtendedColumnType": "Attachments",
+    "LabelText_en": "Attachments",
+    "LabelText_zh": "附件",
+    "LabelText_de": "Anhänge",
+    "LabelText_ko": "첨부파일",
+    "LabelText_es": "Adjuntos"
 }

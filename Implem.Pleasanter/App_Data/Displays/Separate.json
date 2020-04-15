@@ -1,13 +1,29 @@
-﻿{
+{
     "Id": "Separate",
     "Type": 110,
     "Languages": [
         {
-            "Body": "Separate"
+            "Body": "Divide"
+        },
+        {
+            "Language": "zh",
+            "Body": "划分"
         },
         {
             "Language": "ja",
             "Body": "分割"
+        },
+        {
+            "Language": "de",
+            "Body": "Aufteilen"
+        },
+        {
+            "Language": "ko",
+            "Body": "분할"
+        },
+        {
+            "Language": "es",
+            "Body": "Dividir"
         }
     ]
 }

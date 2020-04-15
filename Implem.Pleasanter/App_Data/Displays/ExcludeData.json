@@ -3,11 +3,27 @@
     "Type": 110,
     "Languages": [
         {
-            "Body": "Exclude data"
+            "Body": "Exclude Data"
+        },
+        {
+            "Language": "zh",
+            "Body": "排除资料"
         },
         {
             "Language": "ja",
             "Body": "データを含めない"
+        },
+        {
+            "Language": "de",
+            "Body": "Daten ausschließen"
+        },
+        {
+            "Language": "ko",
+            "Body": "데이터 제외"
+        },
+        {
+            "Language": "es",
+            "Body": "Excluir datos"
         }
     ]
 }

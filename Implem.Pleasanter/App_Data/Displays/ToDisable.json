@@ -1,4 +1,4 @@
-﻿{
+{
     "Id": "ToDisable",
     "Type": 110,
     "Languages": [
@@ -6,8 +6,24 @@
             "Body": "To disable"
         },
         {
+            "Language": "zh",
+            "Body": "禁用"
+        },
+        {
             "Language": "ja",
             "Body": "無効化"
+        },
+        {
+            "Language": "de",
+            "Body": "Zu deaktivieren"
+        },
+        {
+            "Language": "ko",
+            "Body": "비활성화"
+        },
+        {
+            "Language": "es",
+            "Body": "Para desactivar"
         }
     ]
 }

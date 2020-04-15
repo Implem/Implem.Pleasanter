@@ -1,13 +1,29 @@
-﻿{
+{
     "Id": "LogoImage",
     "Type": 110,
     "Languages": [
         {
-            "Body": "Logo Image"
+            "Body": "Logo image"
+        },
+        {
+            "Language": "zh",
+            "Body": "标志图像"
         },
         {
             "Language": "ja",
             "Body": "ロゴ画像"
+        },
+        {
+            "Language": "de",
+            "Body": "Logo-Bild"
+        },
+        {
+            "Language": "ko",
+            "Body": "로고 이미지"
+        },
+        {
+            "Language": "es",
+            "Body": "Imagen del logotipo"
         }
     ]
 }

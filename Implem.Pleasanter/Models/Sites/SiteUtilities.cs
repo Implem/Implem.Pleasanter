@@ -7076,6 +7076,8 @@ namespace Implem.Pleasanter.Models
                     .Th(action: () => hb
                         .Text(text: Displays.NotSendIfNotApplicable(context: context)))
                     .Th(action: () => hb
+                        .Text(text: Displays.NotSendHyperLink(context: context)))
+                    .Th(action: () => hb
                         .Text(text: Displays.Condition(context: context)))
                     .Th(action: () => hb
                         .Text(text: Displays.Disabled(context: context)))));
@@ -7269,10 +7271,15 @@ namespace Implem.Pleasanter.Models
                         labelText: Displays.SendCompletedInPast(context: context),
                         _checked: reminder.SendCompletedInPast == true)
                     .FieldCheckBox(
-                        controlId: "NotSendIfNotApplicable",
+                        controlId: "ReminderNotSendIfNotApplicable",
                         controlCss: " always-send",
                         labelText: Displays.NotSendIfNotApplicable(context: context),
                         _checked: reminder.NotSendIfNotApplicable == true)
+                    .FieldCheckBox(
+                        controlId: "ReminderNotSendHyperLink",
+                        controlCss: " always-send",
+                        labelText: Displays.NotSendHyperLink(context: context),
+                        _checked: reminder.NotSendHyperLink == true)
                     .FieldDropDown(
                         context: context,
                         controlId: "ReminderCondition",

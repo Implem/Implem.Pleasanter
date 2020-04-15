@@ -1,4 +1,4 @@
-﻿{
+{
     "Id": "Top",
     "Type": 110,
     "Languages": [
@@ -6,8 +6,24 @@
             "Body": "Top"
         },
         {
+            "Language": "zh",
+            "Body": "顶部"
+        },
+        {
             "Language": "ja",
             "Body": "トップ"
+        },
+        {
+            "Language": "de",
+            "Body": "Nach oben"
+        },
+        {
+            "Language": "ko",
+            "Body": "위로"
+        },
+        {
+            "Language": "es",
+            "Body": "Arriba"
         }
     ]
 }

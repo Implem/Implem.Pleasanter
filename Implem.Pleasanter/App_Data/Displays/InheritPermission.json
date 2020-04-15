@@ -1,13 +1,29 @@
-﻿{
-  "Id": "InheritPermission",
-  "Type": 110,
-  "Languages": [
-    {
-      "Body": "Inherit permission"
-    },
-    {
-      "Language": "ja",
-      "Body": "アクセス権の継承"
-    }
-  ]
+{
+    "Id": "InheritPermission",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Inherit permission"
+        },
+        {
+            "Language": "zh",
+            "Body": "继承许可"
+        },
+        {
+            "Language": "ja",
+            "Body": "アクセス権の継承"
+        },
+        {
+            "Language": "de",
+            "Body": "Berechtigung erben"
+        },
+        {
+            "Language": "ko",
+            "Body": "권한 계승"
+        },
+        {
+            "Language": "es",
+            "Body": "Heredar permiso"
+        }
+    ]
 }

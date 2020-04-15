@@ -6,8 +6,24 @@
             "Body": "Application building guide"
         },
         {
+            "Language": "zh",
+            "Body": "应用程序构建指南"
+        },
+        {
             "Language": "ja",
             "Body": "アプリ作成ガイド"
+        },
+        {
+            "Language": "de",
+            "Body": "Anwendungserstellungshandbuch"
+        },
+        {
+            "Language": "ko",
+            "Body": "응용 프로그램 구축 가이드"
+        },
+        {
+            "Language": "es",
+            "Body": "Guía de construcción de aplicaciones"
         }
     ]
 }

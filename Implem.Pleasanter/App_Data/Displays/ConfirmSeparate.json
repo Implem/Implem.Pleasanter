@@ -1,14 +1,30 @@
-﻿{
+{
     "Id": "ConfirmSeparate",
     "Type": 310,
     "ClientScript": true,
     "Languages": [
         {
-            "Body": "Are you sure you want to separate ?"
+            "Body": "Are you sure you want to divide?"
+        },
+        {
+            "Language": "zh",
+            "Body": "是否确定划分？"
         },
         {
             "Language": "ja",
             "Body": "分割してもよろしいですか？"
+        },
+        {
+            "Language": "de",
+            "Body": "Tatsächlich aufteilen?"
+        },
+        {
+            "Language": "ko",
+            "Body": "분할하시겠습니까?"
+        },
+        {
+            "Language": "es",
+            "Body": "¿Está seguro de que quiere dividir?"
         }
     ]
 }

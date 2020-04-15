@@ -6,8 +6,24 @@
             "Body": "No save"
         },
         {
+            "Language": "zh",
+            "Body": "没有保存"
+        },
+        {
             "Language": "ja",
             "Body": "保存しない"
+        },
+        {
+            "Language": "de",
+            "Body": "Kein Speichern"
+        },
+        {
+            "Language": "ko",
+            "Body": "저장 안함"
+        },
+        {
+            "Language": "es",
+            "Body": "No guardar"
         }
     ]
 }

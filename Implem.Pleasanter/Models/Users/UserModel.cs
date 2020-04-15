@@ -2140,15 +2140,17 @@ namespace Implem.Pleasanter.Models
                 {
                     return UserLockout(context: context);
                 }
-                else if(PasswordExpired())
+                else if (PasswordExpired())
                 {
                     return OpenChangePasswordAtLoginDialog();
                 }
-                else 
+                else
                 {
                     return Allow(
                         context: context,
-                        returnUrl: returnUrl,
+                        returnUrl: (!string.IsNullOrEmpty(returnUrl) || Permissions.PrivilegedUsers(LoginId))
+                            ? returnUrl
+                            : Parameters.Locations.LoginAfterUrl,
                         createPersistentCookie: context.Forms.Bool("Users_RememberMe"));
                 }
             }

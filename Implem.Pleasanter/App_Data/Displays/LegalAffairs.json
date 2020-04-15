@@ -1,13 +1,29 @@
-﻿{
+{
     "Id": "LegalAffairs",
     "Type": 110,
     "Languages": [
         {
-            "Body": "LegalAffairs"
+            "Body": "Legal affairs"
+        },
+        {
+            "Language": "zh",
+            "Body": "法律事务"
         },
         {
             "Language": "ja",
             "Body": "法務"
+        },
+        {
+            "Language": "de",
+            "Body": "Rechtliches"
+        },
+        {
+            "Language": "ko",
+            "Body": "법률사무"
+        },
+        {
+            "Language": "es",
+            "Body": "Asuntos Legales"
         }
     ]
 }

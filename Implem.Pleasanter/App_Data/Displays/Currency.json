@@ -1,4 +1,4 @@
-﻿{
+{
     "Id": "Currency",
     "Type": 110,
     "Languages": [
@@ -6,8 +6,24 @@
             "Body": "Currency"
         },
         {
+            "Language": "zh",
+            "Body": "现金"
+        },
+        {
             "Language": "ja",
             "Body": "通貨"
+        },
+        {
+            "Language": "de",
+            "Body": "Währung"
+        },
+        {
+            "Language": "ko",
+            "Body": "통화"
+        },
+        {
+            "Language": "es",
+            "Body": "Moneda"
         }
     ]
 }

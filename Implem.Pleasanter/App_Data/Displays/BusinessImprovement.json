@@ -1,13 +1,29 @@
-﻿{
+{
     "Id": "BusinessImprovement",
     "Type": 110,
     "Languages": [
         {
-            "Body": "BusinessImprovement"
+            "Body": "Business improvement"
+        },
+        {
+            "Language": "zh",
+            "Body": "业务改进"
         },
         {
             "Language": "ja",
             "Body": "業務改善"
+        },
+        {
+            "Language": "de",
+            "Body": "Geschäftsoptimierung"
+        },
+        {
+            "Language": "ko",
+            "Body": "비즈니스 개선사항"
+        },
+        {
+            "Language": "es",
+            "Body": "Mejora del negocio"
         }
     ]
 }

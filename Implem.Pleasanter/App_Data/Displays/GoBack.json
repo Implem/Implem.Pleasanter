@@ -1,4 +1,4 @@
-﻿{
+{
     "Id": "GoBack",
     "Type": 110,
     "Languages": [
@@ -6,8 +6,24 @@
             "Body": "Back"
         },
         {
+            "Language": "zh",
+            "Body": "返回"
+        },
+        {
             "Language": "ja",
             "Body": "戻る"
+        },
+        {
+            "Language": "de",
+            "Body": "Zurück"
+        },
+        {
+            "Language": "ko",
+            "Body": "뒤로"
+        },
+        {
+            "Language": "es",
+            "Body": "Atrás"
         }
     ]
 }

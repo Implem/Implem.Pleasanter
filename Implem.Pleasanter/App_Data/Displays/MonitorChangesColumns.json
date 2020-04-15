@@ -1,13 +1,29 @@
-﻿{
+{
     "Id": "MonitorChangesColumns",
     "Type": 110,
     "Languages": [
         {
-            "Body": "Monitor changes column"
+            "Body": "Columns monitored for changes"
+        },
+        {
+            "Language": "zh",
+            "Body": "变更监控列"
         },
         {
             "Language": "ja",
             "Body": "変更を監視する項目"
+        },
+        {
+            "Language": "de",
+            "Body": "Auf Änderungen überwachte Spalten"
+        },
+        {
+            "Language": "ko",
+            "Body": "변경사항 모니터링 열"
+        },
+        {
+            "Language": "es",
+            "Body": "Columnas controladas para cambios"
         }
     ]
 }

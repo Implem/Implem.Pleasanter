@@ -1,13 +1,29 @@
-﻿{
+{
     "Id": "Moved",
     "Type": 210,
     "Languages": [
         {
-            "Body": "Move process of \" {0} \" was successful."
+            "Body": "\" {0} \" has been moved."
+        },
+        {
+            "Language": "zh",
+            "Body": "“{0}”已移动。"
         },
         {
             "Language": "ja",
             "Body": "\" {0} \" を移動しました。"
+        },
+        {
+            "Language": "de",
+            "Body": "„ {0} “ wurde verschoben."
+        },
+        {
+            "Language": "ko",
+            "Body": "\" {0} \"이(가) 이동되었습니다."
+        },
+        {
+            "Language": "es",
+            "Body": "Se ha movido \" {0} \"."
         }
     ]
 }

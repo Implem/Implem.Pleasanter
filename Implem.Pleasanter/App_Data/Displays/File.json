@@ -1,4 +1,4 @@
-﻿{
+{
     "Id": "File",
     "Type": 110,
     "Languages": [
@@ -6,8 +6,24 @@
             "Body": "File"
         },
         {
+            "Language": "zh",
+            "Body": "文件"
+        },
+        {
             "Language": "ja",
             "Body": "ファイル"
+        },
+        {
+            "Language": "de",
+            "Body": "Datei"
+        },
+        {
+            "Language": "ko",
+            "Body": "파일"
+        },
+        {
+            "Language": "es",
+            "Body": "Archivo"
         }
     ]
 }

@@ -1,13 +1,29 @@
-﻿{
+{
     "Id": "InCompression",
     "Type": 220,
     "Languages": [
         {
-            "Body": "It is in compression."
+            "Body": "Compressing..."
+        },
+        {
+            "Language": "zh",
+            "Body": "正在压缩…"
         },
         {
             "Language": "ja",
             "Body": "圧縮中です。"
+        },
+        {
+            "Language": "de",
+            "Body": "Komprimieren ..."
+        },
+        {
+            "Language": "ko",
+            "Body": "압축 중..."
+        },
+        {
+            "Language": "es",
+            "Body": "Comprimiendo..."
         }
     ]
 }

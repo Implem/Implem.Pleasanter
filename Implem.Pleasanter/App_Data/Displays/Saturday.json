@@ -1,4 +1,4 @@
-﻿{
+{
     "Id": "Saturday",
     "Type": 110,
     "Languages": [
@@ -6,8 +6,24 @@
             "Body": "Saturday"
         },
         {
+            "Language": "zh",
+            "Body": "星期六"
+        },
+        {
             "Language": "ja",
             "Body": "土曜日"
+        },
+        {
+            "Language": "de",
+            "Body": "Samstag"
+        },
+        {
+            "Language": "ko",
+            "Body": "토요일"
+        },
+        {
+            "Language": "es",
+            "Body": "Sábado"
         }
     ]
 }

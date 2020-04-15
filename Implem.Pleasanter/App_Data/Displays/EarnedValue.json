@@ -1,4 +1,4 @@
-﻿{
+{
     "Id": "EarnedValue",
     "Type": 110,
     "Languages": [
@@ -6,8 +6,24 @@
             "Body": "Earned value"
         },
         {
+            "Language": "zh",
+            "Body": "挣值"
+        },
+        {
             "Language": "ja",
             "Body": "実績"
+        },
+        {
+            "Language": "de",
+            "Body": "Fertigstellungswert"
+        },
+        {
+            "Language": "ko",
+            "Body": "획득값"
+        },
+        {
+            "Language": "es",
+            "Body": "Valor ganado"
         }
     ]
 }

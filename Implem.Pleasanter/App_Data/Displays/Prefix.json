@@ -1,4 +1,4 @@
-﻿{
+{
     "Id": "Prefix",
     "Type": 110,
     "Languages": [
@@ -6,8 +6,24 @@
             "Body": "Prefix"
         },
         {
+            "Language": "zh",
+            "Body": "前缀"
+        },
+        {
             "Language": "ja",
             "Body": "プレフィックス"
+        },
+        {
+            "Language": "de",
+            "Body": "Präfix"
+        },
+        {
+            "Language": "ko",
+            "Body": "프리픽스"
+        },
+        {
+            "Language": "es",
+            "Body": "Prefijo"
         }
     ]
 }

@@ -6,8 +6,24 @@
             "Body": "An email address has not been set for the notification recipient user {0}"
         },
         {
+            "Language": "zh",
+            "Body": "尚未为通知收件人用户{0}设置电子邮件地址"
+        },
+        {
             "Language": "ja",
             "Body": "通知先ユーザー{0}にメールアドレスが設定されていません。"
+        },
+        {
+            "Language": "de",
+            "Body": "Für den Benutzer des Benachrichtigungsempfängers {0} wurde keine E-Mail-Adresse festgelegt."
+        },
+        {
+            "Language": "ko",
+            "Body": "알림 수신자 사용자 {0}에 대한 이메일 주소가 설정되지 않았습니다."
+        },
+        {
+            "Language": "es",
+            "Body": "No se ha establecido una dirección de correo electrónico para el usuario destinatario de la notificación {0}"
         }
     ]
 }

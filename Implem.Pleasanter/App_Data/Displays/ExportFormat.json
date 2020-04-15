@@ -1,4 +1,4 @@
-﻿{
+{
     "Id": "ExportFormat",
     "Type": 110,
     "Languages": [
@@ -6,8 +6,24 @@
             "Body": "Export format"
         },
         {
+            "Language": "zh",
+            "Body": "导出格式"
+        },
+        {
             "Language": "ja",
             "Body": "エクスポートの書式"
+        },
+        {
+            "Language": "de",
+            "Body": "Exportformat"
+        },
+        {
+            "Language": "ko",
+            "Body": "내보내기 형식"
+        },
+        {
+            "Language": "es",
+            "Body": "Formato de exportación"
         }
     ]
 }

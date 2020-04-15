@@ -1,4 +1,4 @@
-﻿{
+{
     "Id": "OnOnly",
     "Type": 110,
     "Languages": [
@@ -6,8 +6,24 @@
             "Body": "On only"
         },
         {
+            "Language": "zh",
+            "Body": "仅开启"
+        },
+        {
             "Language": "ja",
             "Body": "オンのみ"
+        },
+        {
+            "Language": "de",
+            "Body": "Nur EIN"
+        },
+        {
+            "Language": "ko",
+            "Body": "켜기만"
+        },
+        {
+            "Language": "es",
+            "Body": "Solo encendido"
         }
     ]
 }

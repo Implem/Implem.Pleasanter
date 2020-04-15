@@ -1,13 +1,29 @@
-﻿{
+{
     "Id": "NoDuplication",
     "Type": 110,
     "Languages": [
         {
-            "Body": "No duplication"
+            "Body": "Duplication prohibited"
+        },
+        {
+            "Language": "zh",
+            "Body": "禁止复制"
         },
         {
             "Language": "ja",
             "Body": "重複禁止"
+        },
+        {
+            "Language": "de",
+            "Body": "Vervielfältigung verboten"
+        },
+        {
+            "Language": "ko",
+            "Body": "중복 금지됨"
+        },
+        {
+            "Language": "es",
+            "Body": "Prohibida la duplicación."
         }
     ]
 }

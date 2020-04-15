@@ -1,13 +1,29 @@
-﻿{
+{
     "Id": "ReadColumnAccessControl",
     "Type": 110,
     "Languages": [
         {
-            "Body": "Read access control"
+            "Body": "Access control for reading"
+        },
+        {
+            "Language": "zh",
+            "Body": "读取权限控制"
         },
         {
             "Language": "ja",
             "Body": "読取り時のアクセス制御"
+        },
+        {
+            "Language": "de",
+            "Body": "Zugriffskontrolle zum Lesen"
+        },
+        {
+            "Language": "ko",
+            "Body": "읽기 액세스 제어"
+        },
+        {
+            "Language": "es",
+            "Body": "Control de acceso para lectura"
         }
     ]
 }

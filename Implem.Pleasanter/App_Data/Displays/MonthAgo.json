@@ -1,13 +1,29 @@
-﻿{
+{
     "Id": "MonthAgo",
     "Type": 110,
     "Languages": [
         {
-            "Body": "1 month excess"
+            "Body": "1 month ago"
+        },
+        {
+            "Language": "zh",
+            "Body": "1个月之前"
         },
         {
             "Language": "ja",
             "Body": "1 ヶ月前"
+        },
+        {
+            "Language": "de",
+            "Body": "Vor 1 Monat"
+        },
+        {
+            "Language": "ko",
+            "Body": "1개월 전"
+        },
+        {
+            "Language": "es",
+            "Body": "Hace un mes"
         }
     ]
 }

@@ -1,13 +1,29 @@
-﻿{
+{
     "Id": "CreatedTime",
     "Type": 110,
     "Languages": [
         {
-            "Body": "Created time"
+            "Body": "Created on"
+        },
+        {
+            "Language": "zh",
+            "Body": "创建时间"
         },
         {
             "Language": "ja",
             "Body": "作成日時"
+        },
+        {
+            "Language": "de",
+            "Body": "Erstellt am"
+        },
+        {
+            "Language": "ko",
+            "Body": "생성날짜"
+        },
+        {
+            "Language": "es",
+            "Body": "Creado el"
         }
     ]
 }

@@ -1,13 +1,29 @@
-﻿{
+{
     "Id": "RebuildingCompleted",
     "Type": 210,
     "Languages": [
         {
-            "Body": "Rebuilding is completed."
+            "Body": "Rebuilding has been completed."
+        },
+        {
+            "Language": "zh",
+            "Body": "已完成重建。"
         },
         {
             "Language": "ja",
             "Body": "再構築が完了しました。"
+        },
+        {
+            "Language": "de",
+            "Body": "Die Neuerstellung ist abgeschlossen."
+        },
+        {
+            "Language": "ko",
+            "Body": "재구성이 완료되었습니다."
+        },
+        {
+            "Language": "es",
+            "Body": "Se ha terminado la reconstrucción."
         }
     ]
 }

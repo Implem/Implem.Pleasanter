@@ -1,4 +1,4 @@
-﻿{
+{
     "Id": "Reminders",
     "Type": 110,
     "Languages": [
@@ -6,8 +6,24 @@
             "Body": "Reminders"
         },
         {
+            "Language": "zh",
+            "Body": "提醒"
+        },
+        {
             "Language": "ja",
             "Body": "リマインダー"
+        },
+        {
+            "Language": "de",
+            "Body": "Erinnerungen"
+        },
+        {
+            "Language": "ko",
+            "Body": "알림"
+        },
+        {
+            "Language": "es",
+            "Body": "Recordatorios"
         }
     ]
 }

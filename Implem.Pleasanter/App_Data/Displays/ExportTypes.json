@@ -1,13 +1,29 @@
-﻿{
+{
     "Id": "ExportTypes",
     "Type": 110,
     "Languages": [
         {
-            "Body": "Export types"
+            "Body": "Export type"
+        },
+        {
+            "Language": "zh",
+            "Body": "导出类型"
         },
         {
             "Language": "ja",
             "Body": "エクスポートの種類"
+        },
+        {
+            "Language": "de",
+            "Body": "Exporttyp"
+        },
+        {
+            "Language": "ko",
+            "Body": "내보내기 유형"
+        },
+        {
+            "Language": "es",
+            "Body": "Tipo de exportación"
         }
     ]
 }

@@ -1,4 +1,4 @@
-﻿{
+{
     "Id": "ToShoot",
     "Type": 110,
     "Languages": [
@@ -6,8 +6,24 @@
             "Body": "To shoot"
         },
         {
+            "Language": "zh",
+            "Body": "拍摄"
+        },
+        {
             "Language": "ja",
             "Body": "撮影"
+        },
+        {
+            "Language": "de",
+            "Body": "Zu filmen"
+        },
+        {
+            "Language": "ko",
+            "Body": "촬영"
+        },
+        {
+            "Language": "es",
+            "Body": "Para grabar"
         }
     ]
 }

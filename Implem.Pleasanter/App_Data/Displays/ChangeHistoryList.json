@@ -1,13 +1,29 @@
-﻿{
+{
     "Id": "ChangeHistoryList",
     "Type": 110,
     "Languages": [
         {
-            "Body": "Change history list"
+            "Body": "Change history"
+        },
+        {
+            "Language": "zh",
+            "Body": "变更历史"
         },
         {
             "Language": "ja",
             "Body": "変更履歴の一覧"
+        },
+        {
+            "Language": "de",
+            "Body": "Änderungsverlauf"
+        },
+        {
+            "Language": "ko",
+            "Body": "변경 히스토리"
+        },
+        {
+            "Language": "es",
+            "Body": "Historial de cambios"
         }
     ]
 }

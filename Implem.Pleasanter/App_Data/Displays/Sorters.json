@@ -1,4 +1,4 @@
-﻿{
+{
     "Id": "Sorters",
     "Type": 110,
     "Languages": [
@@ -6,8 +6,24 @@
             "Body": "Sorters"
         },
         {
+            "Language": "zh",
+            "Body": "分类器"
+        },
+        {
             "Language": "ja",
             "Body": "ソータ"
+        },
+        {
+            "Language": "de",
+            "Body": "Sortierer"
+        },
+        {
+            "Language": "ko",
+            "Body": "정렬자"
+        },
+        {
+            "Language": "es",
+            "Body": "Clasificadores"
         }
     ]
 }

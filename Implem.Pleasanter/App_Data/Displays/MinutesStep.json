@@ -1,0 +1,29 @@
+﻿{
+    "Id": "MinutesStep",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Minutes step"
+        },
+        {
+            "Language": "zh",
+            "Body": "分钟步"
+        },
+        {
+            "Language": "ja",
+            "Body": "時刻間隔(分)"
+        },
+        {
+            "Language": "de",
+            "Body": "Minuten Schritt"
+        },
+        {
+            "Language": "ko",
+            "Body": "분 단계"
+        },
+        {
+            "Language": "es",
+            "Body": "Minutos paso"
+        }
+    ]
+}

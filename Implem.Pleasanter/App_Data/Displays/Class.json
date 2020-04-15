@@ -1,4 +1,4 @@
-﻿{
+{
     "Id": "Class",
     "Type": 110,
     "Languages": [
@@ -6,8 +6,24 @@
             "Body": "Class"
         },
         {
+            "Language": "zh",
+            "Body": "类别"
+        },
+        {
             "Language": "ja",
             "Body": "分類"
+        },
+        {
+            "Language": "de",
+            "Body": "Klasse"
+        },
+        {
+            "Language": "ko",
+            "Body": "클래스"
+        },
+        {
+            "Language": "es",
+            "Body": "Clase"
         }
     ]
 }

@@ -1,4 +1,4 @@
-﻿{
+{
     "Id": "Summaries",
     "Type": 110,
     "Languages": [
@@ -6,8 +6,24 @@
             "Body": "Summaries"
         },
         {
+            "Language": "zh",
+            "Body": "汇总"
+        },
+        {
             "Language": "ja",
             "Body": "サマリ"
+        },
+        {
+            "Language": "de",
+            "Body": "Übersichten"
+        },
+        {
+            "Language": "ko",
+            "Body": "요약"
+        },
+        {
+            "Language": "es",
+            "Body": "Resúmenes"
         }
     ]
 }

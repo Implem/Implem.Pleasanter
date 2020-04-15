@@ -1,4 +1,4 @@
-﻿{
+{
     "Id": "DefaultView",
     "Type": 110,
     "Languages": [
@@ -6,8 +6,24 @@
             "Body": "Default view"
         },
         {
+            "Language": "zh",
+            "Body": "默认视图"
+        },
+        {
             "Language": "ja",
             "Body": "既定のビュー"
+        },
+        {
+            "Language": "de",
+            "Body": "Standardansicht"
+        },
+        {
+            "Language": "ko",
+            "Body": "기본 보기"
+        },
+        {
+            "Language": "es",
+            "Body": "Vista predeterminada"
         }
     ]
 }

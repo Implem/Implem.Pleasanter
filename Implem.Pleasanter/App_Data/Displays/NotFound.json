@@ -1,13 +1,29 @@
-﻿{
+{
     "Id": "NotFound",
     "Type": 240,
     "Languages": [
         {
-            "Body": "Specified information was not found"
+            "Body": "The specified information was not found."
+        },
+        {
+            "Language": "zh",
+            "Body": "此前未找到指定的信息。"
         },
         {
             "Language": "ja",
             "Body": "指定された情報は見つかりませんでした。"
+        },
+        {
+            "Language": "de",
+            "Body": "Die angegebenen Informationen wurden nicht gefunden."
+        },
+        {
+            "Language": "ko",
+            "Body": "지정된 정보가 없습니다."
+        },
+        {
+            "Language": "es",
+            "Body": "No se encontró la información especificada."
         }
     ]
 }

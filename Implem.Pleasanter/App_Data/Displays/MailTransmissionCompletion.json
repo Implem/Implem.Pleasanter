@@ -1,13 +1,29 @@
-﻿{
+{
     "Id": "MailTransmissionCompletion",
     "Type": 210,
     "Languages": [
         {
-            "Body": "E-mail transmission completion."
+            "Body": "Email has been sent."
+        },
+        {
+            "Language": "zh",
+            "Body": "已发送电子邮件。"
         },
         {
             "Language": "ja",
             "Body": "メールを送信しました。"
+        },
+        {
+            "Language": "de",
+            "Body": "Die E-Mail wurde gesendet."
+        },
+        {
+            "Language": "ko",
+            "Body": "이메일이 전송되었습니다."
+        },
+        {
+            "Language": "es",
+            "Body": "Se ha enviado un correo electrónico."
         }
     ]
 }

@@ -1,13 +1,29 @@
-﻿{
+{
     "Id": "NotInheritPermission",
     "Type": 110,
     "Languages": [
         {
-            "Body": "Not inherit permission"
+            "Body": "Do not inherit permission"
+        },
+        {
+            "Language": "zh",
+            "Body": "请勿继承许可"
         },
         {
             "Language": "ja",
             "Body": "アクセス権を継承しない"
+        },
+        {
+            "Language": "de",
+            "Body": "Berechtigung nicht erben"
+        },
+        {
+            "Language": "ko",
+            "Body": "권한을 계승하지 마십시오"
+        },
+        {
+            "Language": "es",
+            "Body": "No se hereda el permiso"
         }
     ]
 }

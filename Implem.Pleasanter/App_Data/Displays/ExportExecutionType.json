@@ -6,8 +6,24 @@
             "Body": "Execution Type"
         },
         {
+            "Language": "zh",
+            "Body": "执行方式"
+        },
+        {
             "Language": "ja",
             "Body": "エクスポート方式"
+        },
+        {
+            "Language": "de",
+            "Body": "Ausführungsart"
+        },
+        {
+            "Language": "ko",
+            "Body": "실행 유형"
+        },
+        {
+            "Language": "es",
+            "Body": "Tipo de ejecución"
         }
     ]
 }

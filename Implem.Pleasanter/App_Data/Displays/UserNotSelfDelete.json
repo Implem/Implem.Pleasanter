@@ -1,4 +1,4 @@
-﻿{
+{
     "Id": "UserNotSelfDelete",
     "Type": 240,
     "Languages": [
@@ -6,8 +6,24 @@
             "Body": "It is not possible to delete your own account."
         },
         {
+            "Language": "zh",
+            "Body": "无法删除您已有的账户。"
+        },
+        {
             "Language": "ja",
             "Body": "自分自身を削除することはできません。"
+        },
+        {
+            "Language": "de",
+            "Body": "Das eigene Konto kann nicht gelöscht werden."
+        },
+        {
+            "Language": "ko",
+            "Body": "본인 계정을 삭제할 수 없습니다."
+        },
+        {
+            "Language": "es",
+            "Body": "No puede eliminar su propia cuenta."
         }
     ]
 }

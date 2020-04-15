@@ -1,4 +1,4 @@
-﻿{
+{
     "Id": "AggregationView",
     "Type": 110,
     "Languages": [
@@ -6,8 +6,24 @@
             "Body": "Aggregation view"
         },
         {
+            "Language": "zh",
+            "Body": "聚合视图"
+        },
+        {
             "Language": "ja",
             "Body": "集計表示"
+        },
+        {
+            "Language": "de",
+            "Body": "Ansicht Aggregation"
+        },
+        {
+            "Language": "ko",
+            "Body": "집계 보기"
+        },
+        {
+            "Language": "es",
+            "Body": "Vista de la agregación"
         }
     ]
 }

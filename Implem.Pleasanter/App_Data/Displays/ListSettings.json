@@ -1,4 +1,4 @@
-﻿{
+{
     "Id": "ListSettings",
     "Type": 110,
     "Languages": [
@@ -6,8 +6,24 @@
             "Body": "List settings"
         },
         {
+            "Language": "zh",
+            "Body": "列表设置"
+        },
+        {
             "Language": "ja",
             "Body": "一覧の設定"
+        },
+        {
+            "Language": "de",
+            "Body": "Listeneinstellungen"
+        },
+        {
+            "Language": "ko",
+            "Body": "목록 설정"
+        },
+        {
+            "Language": "es",
+            "Body": "Ajuste de la lista"
         }
     ]
 }

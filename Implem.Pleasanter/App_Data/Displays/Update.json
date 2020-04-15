@@ -1,4 +1,4 @@
-﻿{
+{
     "Id": "Update",
     "Type": 110,
     "Languages": [
@@ -6,8 +6,24 @@
             "Body": "Update"
         },
         {
+            "Language": "zh",
+            "Body": "更新"
+        },
+        {
             "Language": "ja",
             "Body": "更新"
+        },
+        {
+            "Language": "de",
+            "Body": "Aktualisieren"
+        },
+        {
+            "Language": "ko",
+            "Body": "업데이트"
+        },
+        {
+            "Language": "es",
+            "Body": "Actualizar"
         }
     ]
 }

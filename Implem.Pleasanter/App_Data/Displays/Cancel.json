@@ -1,4 +1,4 @@
-﻿{
+{
     "Id": "Cancel",
     "Type": 110,
     "Languages": [
@@ -6,8 +6,24 @@
             "Body": "Cancel"
         },
         {
+            "Language": "zh",
+            "Body": "取消"
+        },
+        {
             "Language": "ja",
             "Body": "キャンセル"
+        },
+        {
+            "Language": "de",
+            "Body": "Abbrechen"
+        },
+        {
+            "Language": "ko",
+            "Body": "취소"
+        },
+        {
+            "Language": "es",
+            "Body": "Cancelar"
         }
     ]
 }

@@ -1,13 +1,29 @@
-﻿{
+{
     "Id": "InvalidSsoCode",
     "Type": 240,
     "Languages": [
         {
-            "Body": "The specified ssocode can not be used."
+            "Body": "The specified SSO code cannot be used."
+        },
+        {
+            "Language": "zh",
+            "Body": "无法使用指定的SSO代码。"
         },
         {
             "Language": "ja",
             "Body": "指定されたssocodeは使用できません。"
+        },
+        {
+            "Language": "de",
+            "Body": "Der angegebene SSO-Code kann nicht verwendet werden."
+        },
+        {
+            "Language": "ko",
+            "Body": "지정된 SSO 코드를 사용할 수 없습니다."
+        },
+        {
+            "Language": "es",
+            "Body": "El código SSO especificado no puede usarse."
         }
     ]
 }

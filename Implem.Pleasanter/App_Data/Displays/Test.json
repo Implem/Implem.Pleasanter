@@ -1,4 +1,4 @@
-﻿{
+{
     "Id": "Test",
     "Type": 110,
     "Languages": [
@@ -6,8 +6,24 @@
             "Body": "Test"
         },
         {
+            "Language": "zh",
+            "Body": "测试"
+        },
+        {
             "Language": "ja",
             "Body": "テスト"
+        },
+        {
+            "Language": "de",
+            "Body": "Testen"
+        },
+        {
+            "Language": "ko",
+            "Body": "테스트"
+        },
+        {
+            "Language": "es",
+            "Body": "Prueba"
         }
     ]
 }

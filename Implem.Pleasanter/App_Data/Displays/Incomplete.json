@@ -1,4 +1,4 @@
-﻿{
+{
     "Id": "Incomplete",
     "Type": 110,
     "Languages": [
@@ -6,8 +6,24 @@
             "Body": "Incomplete"
         },
         {
+            "Language": "zh",
+            "Body": "不完整"
+        },
+        {
             "Language": "ja",
             "Body": "未完了"
+        },
+        {
+            "Language": "de",
+            "Body": "Nicht abgeschlossen"
+        },
+        {
+            "Language": "ko",
+            "Body": "완료되지 않음"
+        },
+        {
+            "Language": "es",
+            "Body": "Incompleto"
         }
     ]
 }

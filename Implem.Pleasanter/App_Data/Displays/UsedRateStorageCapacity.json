@@ -6,8 +6,24 @@
             "Body": "Used rate storage capacity"
         },
         {
+            "Language": "zh",
+            "Body": "已使用费率存储容量"
+        },
+        {
             "Language": "ja",
             "Body": "使用率"
+        },
+        {
+            "Language": "de",
+            "Body": "Verwendete Speicherkapazität"
+        },
+        {
+            "Language": "ko",
+            "Body": "사용 요금 저장 용량"
+        },
+        {
+            "Language": "es",
+            "Body": "Capacidad de almacenamiento de la tasa utilizada"
         }
     ]
 }

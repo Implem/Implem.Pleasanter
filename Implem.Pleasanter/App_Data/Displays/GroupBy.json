@@ -1,4 +1,4 @@
-﻿{
+{
     "Id": "GroupBy",
     "Type": 110,
     "Languages": [
@@ -6,8 +6,24 @@
             "Body": "Group by"
         },
         {
+            "Language": "zh",
+            "Body": "分组依据"
+        },
+        {
             "Language": "ja",
             "Body": "分類"
+        },
+        {
+            "Language": "de",
+            "Body": "Gruppieren nach"
+        },
+        {
+            "Language": "ko",
+            "Body": "그룹화"
+        },
+        {
+            "Language": "es",
+            "Body": "Agrupar por"
         }
     ]
 }

@@ -1,4 +1,4 @@
-﻿{
+{
     "Id": "Operations",
     "Type": 110,
     "Languages": [
@@ -6,8 +6,24 @@
             "Body": "Operations"
         },
         {
+            "Language": "zh",
+            "Body": "操作"
+        },
+        {
             "Language": "ja",
             "Body": "操作"
+        },
+        {
+            "Language": "de",
+            "Body": "Vorgänge"
+        },
+        {
+            "Language": "ko",
+            "Body": "작업"
+        },
+        {
+            "Language": "es",
+            "Body": "Operaciones"
         }
     ]
 }

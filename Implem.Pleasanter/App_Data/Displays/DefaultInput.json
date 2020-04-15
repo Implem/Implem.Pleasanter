@@ -1,13 +1,29 @@
-﻿{
+{
     "Id": "DefaultInput",
     "Type": 110,
     "Languages": [
         {
-            "Body": "Default input"
+            "Body": "Default value"
+        },
+        {
+            "Language": "zh",
+            "Body": "默认值"
         },
         {
             "Language": "ja",
-            "Body": "既定値"
+            "Body": "規定値"
+        },
+        {
+            "Language": "de",
+            "Body": "Standardwert"
+        },
+        {
+            "Language": "ko",
+            "Body": "기본값"
+        },
+        {
+            "Language": "es",
+            "Body": "Valor predeterminado"
         }
     ]
 }

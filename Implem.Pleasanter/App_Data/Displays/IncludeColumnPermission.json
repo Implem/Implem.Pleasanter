@@ -3,11 +3,27 @@
     "Type": 110,
     "Languages": [
         {
-            "Body": "Include column permission"
+            "Body": "Include Column Permission"
+        },
+        {
+            "Language": "zh",
+            "Body": "包含列权限"
         },
         {
             "Language": "ja",
             "Body": "項目のアクセス制御を含める"
+        },
+        {
+            "Language": "de",
+            "Body": "Spaltenberechtigung einschließen"
+        },
+        {
+            "Language": "ko",
+            "Body": "열 권한 포함"
+        },
+        {
+            "Language": "es",
+            "Body": "Incluir permiso de columna"
         }
     ]
 }

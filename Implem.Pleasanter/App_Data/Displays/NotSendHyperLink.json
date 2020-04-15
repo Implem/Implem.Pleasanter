@@ -1,0 +1,29 @@
+﻿{
+    "Id": "NotSendHyperLink",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Do not send URL"
+        },
+        {
+            "Language": "zh",
+            "Body": "不发送网址"
+        },
+        {
+            "Language": "ja",
+            "Body": "URLを送信しない"
+        },
+        {
+            "Language": "de",
+            "Body": "URL nicht senden"
+        },
+        {
+            "Language": "ko",
+            "Body": "URL을 보내지 마십시오"
+        },
+        {
+            "Language": "es",
+            "Body": "No enviar URL"
+        }
+    ]
+}
