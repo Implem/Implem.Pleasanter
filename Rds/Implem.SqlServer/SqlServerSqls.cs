@@ -13,7 +13,7 @@ namespace Implem.SqlServer
 
         public string WhereLikeTemplateForward { get; } = "'%' + ";
 
-        public string WhereLikeTemplate { get; } = "@SearchText#ParamCount#_#CommandCount# + '%')";
+        public string WhereLikeTemplate { get; } = "#ParamCount#_#CommandCount# + '%')";
 
         public string GenerateIdentity { get; } = " identity({0}, 1)";
 

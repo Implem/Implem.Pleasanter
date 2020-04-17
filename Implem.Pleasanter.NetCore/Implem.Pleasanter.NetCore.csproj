@@ -24,6 +24,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="App_Data\Displays\" />
     <Folder Include="Views\" />
     <Folder Include="App_Data\" />
   </ItemGroup>
