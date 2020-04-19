@@ -1,0 +1,30 @@
+{
+    "Id": "ValidateDate",
+    "Type": 410,
+    "ClientScript": true,
+    "Languages": [
+        {
+            "Body": "Invalid date or time."
+        },
+        {
+            "Language": "zh",
+            "Body": "日期或时间无效。"
+        },
+        {
+            "Language": "ja",
+            "Body": "日付または時刻が不正です。"
+        },
+        {
+            "Language": "de",
+            "Body": "Datum oder Uhrzeit ungültig."
+        },
+        {
+            "Language": "ko",
+            "Body": "유효하지 않은 날짜 또는 시간입니다."
+        },
+        {
+            "Language": "es",
+            "Body": "Fecha u hora no válida."
+        }
+    ]
+}

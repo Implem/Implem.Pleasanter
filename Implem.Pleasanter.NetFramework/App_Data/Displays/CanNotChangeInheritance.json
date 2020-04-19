@@ -1,0 +1,29 @@
+{
+    "Id": "CanNotChangeInheritance",
+    "Type": 240,
+    "Languages": [
+        {
+            "Body": "You cannot change the inheritance settings for already inherited sites."
+        },
+        {
+            "Language": "zh",
+            "Body": "您无法更改已继承站点的继承设置。"
+        },
+        {
+            "Language": "ja",
+            "Body": "既に継承されているサイトは継承の設定を変更できません。"
+        },
+        {
+            "Language": "de",
+            "Body": "Die Vererbungseinstellungen für bereits vererbte Sites können nicht geändert werden."
+        },
+        {
+            "Language": "ko",
+            "Body": "이미 계승된 사이트의 계승 설정을 변경할 수 없습니다."
+        },
+        {
+            "Language": "es",
+            "Body": "No puede modificar la configuración de herencia para sitios ya heredados."
+        }
+    ]
+}

@@ -1,0 +1,29 @@
+{
+    "Id": "CanNotUpdate",
+    "Type": 220,
+    "Languages": [
+        {
+            "Body": "Cannot be updated as it is read-only."
+        },
+        {
+            "Language": "zh",
+            "Body": "只读格式，无法更新。"
+        },
+        {
+            "Language": "ja",
+            "Body": "読み取り専用のため更新できません。"
+        },
+        {
+            "Language": "de",
+            "Body": "Kann nicht aktualisiert werden, da schreibgeschützt."
+        },
+        {
+            "Language": "ko",
+            "Body": "읽기 전용이므로 업데이트할 수 없습니다."
+        },
+        {
+            "Language": "es",
+            "Body": "No puede actualizarse porque es solo para lectura."
+        }
+    ]
+}

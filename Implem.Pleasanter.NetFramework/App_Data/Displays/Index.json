@@ -1,0 +1,29 @@
+{
+    "Id": "Index",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Index"
+        },
+        {
+            "Language": "zh",
+            "Body": "索引"
+        },
+        {
+            "Language": "ja",
+            "Body": "一覧"
+        },
+        {
+            "Language": "de",
+            "Body": "Index"
+        },
+        {
+            "Language": "ko",
+            "Body": "색인"
+        },
+        {
+            "Language": "es",
+            "Body": "Índice"
+        }
+    ]
+}

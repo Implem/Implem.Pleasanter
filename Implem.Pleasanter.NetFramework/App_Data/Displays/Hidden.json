@@ -1,0 +1,29 @@
+{
+    "Id": "Hidden",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Hidden"
+        },
+        {
+            "Language": "zh",
+            "Body": "已隐藏"
+        },
+        {
+            "Language": "ja",
+            "Body": "非表示"
+        },
+        {
+            "Language": "de",
+            "Body": "Ausgeblendet"
+        },
+        {
+            "Language": "ko",
+            "Body": "숨긴 항목"
+        },
+        {
+            "Language": "es",
+            "Body": "Oculto"
+        }
+    ]
+}

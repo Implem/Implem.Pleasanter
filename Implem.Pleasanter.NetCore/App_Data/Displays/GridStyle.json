@@ -1,0 +1,29 @@
+{
+    "Id": "GridStyle",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Grid style"
+        },
+        {
+            "Language": "zh",
+            "Body": "网格样式"
+        },
+        {
+            "Language": "ja",
+            "Body": "一覧画面スタイル"
+        },
+        {
+            "Language": "de",
+            "Body": "Rasterstil"
+        },
+        {
+            "Language": "ko",
+            "Body": "그리드 스타일"
+        },
+        {
+            "Language": "es",
+            "Body": "Estilo de cuadrícula"
+        }
+    ]
+}

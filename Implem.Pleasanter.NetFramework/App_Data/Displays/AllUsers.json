@@ -1,0 +1,29 @@
+{
+    "Id": "AllUsers",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "All users"
+        },
+        {
+            "Language": "zh",
+            "Body": "所有用户"
+        },
+        {
+            "Language": "ja",
+            "Body": "全てのユーザ"
+        },
+        {
+            "Language": "de",
+            "Body": "Alle Benutzer"
+        },
+        {
+            "Language": "ko",
+            "Body": "모든 사용자"
+        },
+        {
+            "Language": "es",
+            "Body": "Todos los usuarios"
+        }
+    ]
+}

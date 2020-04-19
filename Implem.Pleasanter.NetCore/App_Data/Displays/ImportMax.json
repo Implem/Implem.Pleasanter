@@ -1,0 +1,29 @@
+{
+    "Id": "ImportMax",
+    "Type": 240,
+    "Languages": [
+        {
+            "Body": "Data exceeding {0} rows cannot be imported at once."
+        },
+        {
+            "Language": "zh",
+            "Body": "超出{0}行的数据无法一次性导入。"
+        },
+        {
+            "Language": "ja",
+            "Body": "{0} 行を超えるデータは1度にインポートできません。"
+        },
+        {
+            "Language": "de",
+            "Body": "Es können nur Daten mit maximal {0} Zeilen importiert werden."
+        },
+        {
+            "Language": "ko",
+            "Body": "{0}행을 초과하는 데이터를 한 번에 가져올 수 없습니다."
+        },
+        {
+            "Language": "es",
+            "Body": "Los datos que superen {0} filas no pueden importarse a la vez."
+        }
+    ]
+}

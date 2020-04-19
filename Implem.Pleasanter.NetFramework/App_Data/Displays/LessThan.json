@@ -1,0 +1,29 @@
+{
+    "Id": "LessThan",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Less than {0}"
+        },
+        {
+            "Language": "zh",
+            "Body": "小于{0}"
+        },
+        {
+            "Language": "ja",
+            "Body": "{0} 未満"
+        },
+        {
+            "Language": "de",
+            "Body": "Weniger als {0}"
+        },
+        {
+            "Language": "ko",
+            "Body": "{0} 미만"
+        },
+        {
+            "Language": "es",
+            "Body": "Menos de {0}"
+        }
+    ]
+}

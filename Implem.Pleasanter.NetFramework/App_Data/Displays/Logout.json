@@ -1,0 +1,29 @@
+{
+    "Id": "Logout",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Logout"
+        },
+        {
+            "Language": "zh",
+            "Body": "注销"
+        },
+        {
+            "Language": "ja",
+            "Body": "ログアウト"
+        },
+        {
+            "Language": "de",
+            "Body": "Abmelden"
+        },
+        {
+            "Language": "ko",
+            "Body": "로그아웃"
+        },
+        {
+            "Language": "es",
+            "Body": "Cierre de sesión"
+        }
+    ]
+}

@@ -1,0 +1,29 @@
+{
+    "Id": "TrashBox",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Recycle bin"
+        },
+        {
+            "Language": "zh",
+            "Body": "回收站"
+        },
+        {
+            "Language": "ja",
+            "Body": "ごみ箱"
+        },
+        {
+            "Language": "de",
+            "Body": "Papierkorb"
+        },
+        {
+            "Language": "ko",
+            "Body": "휴지통"
+        },
+        {
+            "Language": "es",
+            "Body": "Papelera de reciclaje"
+        }
+    ]
+}

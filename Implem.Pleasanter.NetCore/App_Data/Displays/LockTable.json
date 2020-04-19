@@ -1,0 +1,29 @@
+{
+    "Id": "LockTable",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Lock table"
+        },
+        {
+            "Language": "zh",
+            "Body": "锁定表格"
+        },
+        {
+            "Language": "ja",
+            "Body": "テーブルをロック"
+        },
+        {
+            "Language": "de",
+            "Body": "Tabelle sperren"
+        },
+        {
+            "Language": "ko",
+            "Body": "목록 잠그기"
+        },
+        {
+            "Language": "es",
+            "Body": "Bloquear tabla"
+        }
+    ]
+}

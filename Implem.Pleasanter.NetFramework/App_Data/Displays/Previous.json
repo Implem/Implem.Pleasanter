@@ -1,0 +1,29 @@
+{
+    "Id": "Previous",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Previous"
+        },
+        {
+            "Language": "zh",
+            "Body": "上一个"
+        },
+        {
+            "Language": "ja",
+            "Body": "前"
+        },
+        {
+            "Language": "de",
+            "Body": "Zurück"
+        },
+        {
+            "Language": "ko",
+            "Body": "이전"
+        },
+        {
+            "Language": "es",
+            "Body": "Anterior"
+        }
+    ]
+}

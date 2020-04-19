@@ -1,0 +1,29 @@
+{
+    "Id": "DataStorageDestination",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Save data to"
+        },
+        {
+            "Language": "zh",
+            "Body": "保存数据至"
+        },
+        {
+            "Language": "ja",
+            "Body": "データ保存先"
+        },
+        {
+            "Language": "de",
+            "Body": "Daten speichern in"
+        },
+        {
+            "Language": "ko",
+            "Body": "데이터 저장 위치"
+        },
+        {
+            "Language": "es",
+            "Body": "Guardar datos en"
+        }
+    ]
+}

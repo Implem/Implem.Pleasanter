@@ -1,0 +1,29 @@
+{
+    "Id": "Attachments",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Attachments"
+        },
+        {
+            "Language": "zh",
+            "Body": "附件"
+        },
+        {
+            "Language": "ja",
+            "Body": "添付ファイル"
+        },
+        {
+            "Language": "de",
+            "Body": "Anhänge"
+        },
+        {
+            "Language": "ko",
+            "Body": "첨부파일"
+        },
+        {
+            "Language": "es",
+            "Body": "Adjuntos"
+        }
+    ]
+}

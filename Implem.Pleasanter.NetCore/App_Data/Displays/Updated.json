@@ -1,0 +1,29 @@
+{
+    "Id": "Updated",
+    "Type": 210,
+    "Languages": [
+        {
+            "Body": "\" {0} \" has been updated."
+        },
+        {
+            "Language": "zh",
+            "Body": "“{0}”已更新。"
+        },
+        {
+            "Language": "ja",
+            "Body": "\" {0} \" を更新しました。"
+        },
+        {
+            "Language": "de",
+            "Body": "„ {0} “ wurde aktualisiert."
+        },
+        {
+            "Language": "ko",
+            "Body": "\" {0} \"이(가) 업데이트되었습니다."
+        },
+        {
+            "Language": "es",
+            "Body": "Se ha actualizado \" {0} \"."
+        }
+    ]
+}

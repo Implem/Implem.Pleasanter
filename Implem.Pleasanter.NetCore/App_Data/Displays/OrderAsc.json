@@ -1,0 +1,30 @@
+{
+    "Id": "OrderAsc",
+    "Type": 110,
+    "ClientScript": true,
+    "Languages": [
+        {
+            "Body": "Ascendant"
+        },
+        {
+            "Language": "zh",
+            "Body": "上升"
+        },
+        {
+            "Language": "ja",
+            "Body": "昇順"
+        },
+        {
+            "Language": "de",
+            "Body": "Aufsteigend"
+        },
+        {
+            "Language": "ko",
+            "Body": "오름차순"
+        },
+        {
+            "Language": "es",
+            "Body": "Ascendente"
+        }
+    ]
+}

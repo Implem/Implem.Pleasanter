@@ -1,0 +1,29 @@
+{
+    "Id": "Grid",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Grid"
+        },
+        {
+            "Language": "zh",
+            "Body": "网格"
+        },
+        {
+            "Language": "ja",
+            "Body": "一覧"
+        },
+        {
+            "Language": "de",
+            "Body": "Raster"
+        },
+        {
+            "Language": "ko",
+            "Body": "그리드"
+        },
+        {
+            "Language": "es",
+            "Body": "Cuadrícula"
+        }
+    ]
+}

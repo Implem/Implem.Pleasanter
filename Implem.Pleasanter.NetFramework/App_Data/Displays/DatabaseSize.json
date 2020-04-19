@@ -1,0 +1,29 @@
+{
+    "Id": "DatabaseSize",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Database usage {0}"
+        },
+        {
+            "Language": "zh",
+            "Body": "数据库使用情况{0}"
+        },
+        {
+            "Language": "ja",
+            "Body": "データベース使用量 {0}"
+        },
+        {
+            "Language": "de",
+            "Body": "Datenbanknutzung {0}"
+        },
+        {
+            "Language": "ko",
+            "Body": "데이터베이스 사용량 {0}"
+        },
+        {
+            "Language": "es",
+            "Body": "Uso de base de datos {0}"
+        }
+    ]
+}

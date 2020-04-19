@@ -1,0 +1,29 @@
+﻿{
+    "Id": "SwitchTenantInfo",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "It is running as the tenant who switched it. Click to return to the original tenant."
+        },
+        {
+            "Language": "zh",
+            "Body": "它以切换它的租户身份运行。 单击以返回到原始租户。"
+        },
+        {
+            "Language": "ja",
+            "Body": "スイッチしたテナントで実行中です。クリックすると元のテナントにもどります。"
+        },
+        {
+            "Language": "de",
+            "Body": "Es läuft als der Mieter, der es gewechselt hat. Klicken Sie hier, um zum ursprünglichen Mandanten zurückzukehren."
+        },
+        {
+            "Language": "ko",
+            "Body": "그것을 전환 한 세입자로 실행 중입니다. 원래 테넌트로 돌아가려면 클릭하십시오."
+        },
+        {
+            "Language": "es",
+            "Body": "Está funcionando como el inquilino que lo cambió. Haga clic para volver al inquilino original."
+        }
+    ]
+}

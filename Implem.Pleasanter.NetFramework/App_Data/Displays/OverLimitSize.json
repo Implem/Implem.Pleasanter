@@ -1,0 +1,29 @@
+{
+    "Id": "OverLimitSize",
+    "Type": 240,
+    "Languages": [
+        {
+            "Body": "There is a file exceeding the max. size of {0} MB."
+        },
+        {
+            "Language": "zh",
+            "Body": "有大小超出最大值{0}MB的文件。"
+        },
+        {
+            "Language": "ja",
+            "Body": "制限容量{0}Mbyteを超えているファイルがあります。"
+        },
+        {
+            "Language": "de",
+            "Body": "Eine Datei überschreitet die maximale Größe von {0} MB."
+        },
+        {
+            "Language": "ko",
+            "Body": "최대 크기 {0}MB를 초과하는 파일이 있습니다."
+        },
+        {
+            "Language": "es",
+            "Body": "Hay un archivo que supera el tamaño máx. de {0} MB."
+        }
+    ]
+}

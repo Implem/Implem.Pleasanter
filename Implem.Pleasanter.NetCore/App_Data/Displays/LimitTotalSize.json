@@ -1,0 +1,29 @@
+{
+    "Id": "LimitTotalSize",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Total size limit (MB)"
+        },
+        {
+            "Language": "zh",
+            "Body": "总大小限制(MB)"
+        },
+        {
+            "Language": "ja",
+            "Body": "全容量制限(MB)"
+        },
+        {
+            "Language": "de",
+            "Body": "Maximale Gesamtgröße (MB)"
+        },
+        {
+            "Language": "ko",
+            "Body": "총 크기 한계(MB)"
+        },
+        {
+            "Language": "es",
+            "Body": "Límite de tamaño total (MB)"
+        }
+    ]
+}

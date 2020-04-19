@@ -1,0 +1,29 @@
+{
+    "Id": "ShowProgressRate",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Show progression rate"
+        },
+        {
+            "Language": "zh",
+            "Body": "显示进展率"
+        },
+        {
+            "Language": "ja",
+            "Body": "進捗率を表示"
+        },
+        {
+            "Language": "de",
+            "Body": "Fortschritt anzeigen"
+        },
+        {
+            "Language": "ko",
+            "Body": "진행률 표시"
+        },
+        {
+            "Language": "es",
+            "Body": "Mostrar velocidad de avance"
+        }
+    ]
+}

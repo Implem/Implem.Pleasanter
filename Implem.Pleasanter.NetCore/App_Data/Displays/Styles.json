@@ -1,0 +1,29 @@
+{
+    "Id": "Styles",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Styles"
+        },
+        {
+            "Language": "zh",
+            "Body": "多种样式"
+        },
+        {
+            "Language": "ja",
+            "Body": "スタイル"
+        },
+        {
+            "Language": "de",
+            "Body": "Stile"
+        },
+        {
+            "Language": "ko",
+            "Body": "스타일"
+        },
+        {
+            "Language": "es",
+            "Body": "Estilos"
+        }
+    ]
+}

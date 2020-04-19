@@ -1,0 +1,29 @@
+{
+    "Id": "Marketing",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Marketing"
+        },
+        {
+            "Language": "zh",
+            "Body": "营销"
+        },
+        {
+            "Language": "ja",
+            "Body": "マーケティング"
+        },
+        {
+            "Language": "de",
+            "Body": "Marketing"
+        },
+        {
+            "Language": "ko",
+            "Body": "마케팅"
+        },
+        {
+            "Language": "es",
+            "Body": "Comercialización"
+        }
+    ]
+}

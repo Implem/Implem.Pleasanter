@@ -1,0 +1,29 @@
+{
+    "Id": "Notifications",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Notifications"
+        },
+        {
+            "Language": "zh",
+            "Body": "通知"
+        },
+        {
+            "Language": "ja",
+            "Body": "通知"
+        },
+        {
+            "Language": "de",
+            "Body": "Benachrichtigungen"
+        },
+        {
+            "Language": "ko",
+            "Body": "알림"
+        },
+        {
+            "Language": "es",
+            "Body": "Notificaciones"
+        }
+    ]
+}

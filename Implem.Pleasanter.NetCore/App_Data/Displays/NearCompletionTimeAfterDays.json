@@ -1,0 +1,29 @@
+{
+    "Id": "NearCompletionTimeAfterDays",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "No. of days from time of completion (after)"
+        },
+        {
+            "Language": "zh",
+            "Body": "完成后天数"
+        },
+        {
+            "Language": "ja",
+            "Body": "「期限が近い」の日数（後）"
+        },
+        {
+            "Language": "de",
+            "Body": "Anzahl der Tage nach Fertigstellung (nach)"
+        },
+        {
+            "Language": "ko",
+            "Body": "완료 시점으로부터 일 수(이후)"
+        },
+        {
+            "Language": "es",
+            "Body": "N.º de días desde la hora de finalización (después)"
+        }
+    ]
+}

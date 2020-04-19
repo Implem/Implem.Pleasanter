@@ -1,0 +1,30 @@
+{
+    "Id": "ConfirmPhysicalDelete",
+    "Type": 310,
+    "ClientScript": true,
+    "Languages": [
+        {
+            "Body": "This operation cannot be undone. Are you sure you want to delete?"
+        },
+        {
+            "Language": "zh",
+            "Body": "无法撤销此操作，是否确定删除？"
+        },
+        {
+            "Language": "ja",
+            "Body": "この操作を行うと元に戻すことはできません。本当に削除してもよろしいですか？"
+        },
+        {
+            "Language": "de",
+            "Body": "Dieser Vorgang kann nicht rückgängig gemacht werden. Tatsächlich löschen?"
+        },
+        {
+            "Language": "ko",
+            "Body": "이 작업은 실행 취소할 수 없습니다. 삭제하시겠습니까?"
+        },
+        {
+            "Language": "es",
+            "Body": "Esta operación no puede deshacerse. ¿Está seguro de que quiere eliminar?"
+        }
+    ]
+}

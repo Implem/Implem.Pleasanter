@@ -1,0 +1,29 @@
+{
+    "Id": "Move",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Move"
+        },
+        {
+            "Language": "zh",
+            "Body": "移动"
+        },
+        {
+            "Language": "ja",
+            "Body": "移動"
+        },
+        {
+            "Language": "de",
+            "Body": "Verschieben"
+        },
+        {
+            "Language": "ko",
+            "Body": "이동"
+        },
+        {
+            "Language": "es",
+            "Body": "Mover"
+        }
+    ]
+}

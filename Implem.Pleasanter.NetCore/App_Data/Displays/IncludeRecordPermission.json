@@ -1,0 +1,29 @@
+﻿{
+    "Id": "IncludeRecordPermission",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Include Record Permission"
+        },
+        {
+            "Language": "zh",
+            "Body": "包含记录权限"
+        },
+        {
+            "Language": "ja",
+            "Body": "レコードのアクセス制御を含める"
+        },
+        {
+            "Language": "de",
+            "Body": "Datensatzzugriffskontrolle einschließen"
+        },
+        {
+            "Language": "ko",
+            "Body": "기록 허가 포함"
+        },
+        {
+            "Language": "es",
+            "Body": "Incluir permiso de registro"
+        }
+    ]
+}

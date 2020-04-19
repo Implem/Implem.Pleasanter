@@ -1,0 +1,29 @@
+{
+    "Id": "Customer",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Customer/service"
+        },
+        {
+            "Language": "zh",
+            "Body": "客户/服务"
+        },
+        {
+            "Language": "ja",
+            "Body": "顧客・サービス"
+        },
+        {
+            "Language": "de",
+            "Body": "Kunde/Service"
+        },
+        {
+            "Language": "ko",
+            "Body": "고객/서비스"
+        },
+        {
+            "Language": "es",
+            "Body": "Cliente/servicio"
+        }
+    ]
+}

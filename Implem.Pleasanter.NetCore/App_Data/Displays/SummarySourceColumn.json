@@ -1,0 +1,29 @@
+{
+    "Id": "SummarySourceColumn",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Summary column"
+        },
+        {
+            "Language": "zh",
+            "Body": "汇总列"
+        },
+        {
+            "Language": "ja",
+            "Body": "サマリ項目"
+        },
+        {
+            "Language": "de",
+            "Body": "Übersichtsspalte"
+        },
+        {
+            "Language": "ko",
+            "Body": "요약 열"
+        },
+        {
+            "Language": "es",
+            "Body": "Columna de resumen"
+        }
+    ]
+}

@@ -1,0 +1,29 @@
+﻿{
+    "Id": "OverLocalFolderTotalLimitSize",
+    "Type": 240,
+    "Languages": [
+        {
+            "Body": "Attachable Size is up to {0} Mbyte."
+        },
+        {
+            "Language": "zh",
+            "Body": "可附加大小最大为{0} MB。"
+        },
+        {
+            "Language": "ja",
+            "Body": "添付可能な容量は{0}Mbyteまでです。"
+        },
+        {
+            "Language": "de",
+            "Body": "Die anbringbare Größe beträgt bis zu {0} MB."
+        },
+        {
+            "Language": "ko",
+            "Body": "첨부 가능한 크기는 최대 {0} MB입니다."
+        },
+        {
+            "Language": "es",
+            "Body": "El tamaño adjunto es de hasta {0} Mbyte."
+        }
+    ]
+}

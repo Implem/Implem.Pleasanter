@@ -1,0 +1,29 @@
+{
+    "Id": "MoveTargetsSettings",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Destination settings"
+        },
+        {
+            "Language": "zh",
+            "Body": "目的地设置"
+        },
+        {
+            "Language": "ja",
+            "Body": "移動先の設定"
+        },
+        {
+            "Language": "de",
+            "Body": "Zieleinstellungen"
+        },
+        {
+            "Language": "ko",
+            "Body": "대상 설정"
+        },
+        {
+            "Language": "es",
+            "Body": "Ajustes de destino"
+        }
+    ]
+}

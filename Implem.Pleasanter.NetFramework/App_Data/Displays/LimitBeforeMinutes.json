@@ -1,0 +1,29 @@
+{
+    "Id": "LimitBeforeMinutes",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "{0} minutes exceeded"
+        },
+        {
+            "Language": "zh",
+            "Body": "已超出{0}分钟"
+        },
+        {
+            "Language": "ja",
+            "Body": "{0} 分超過"
+        },
+        {
+            "Language": "de",
+            "Body": "{0} Minuten überschritten"
+        },
+        {
+            "Language": "ko",
+            "Body": "{0}분 초과됨"
+        },
+        {
+            "Language": "es",
+            "Body": "{0} minutos de más"
+        }
+    ]
+}

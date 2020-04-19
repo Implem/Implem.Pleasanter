@@ -1,0 +1,29 @@
+{
+    "Id": "ManagePermissions",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Manage permissions"
+        },
+        {
+            "Language": "zh",
+            "Body": "管理多个许可"
+        },
+        {
+            "Language": "ja",
+            "Body": "権限の管理"
+        },
+        {
+            "Language": "de",
+            "Body": "Berechtigungen verwalten"
+        },
+        {
+            "Language": "ko",
+            "Body": "복수 권한 관리"
+        },
+        {
+            "Language": "es",
+            "Body": "Gestionar permisos"
+        }
+    ]
+}

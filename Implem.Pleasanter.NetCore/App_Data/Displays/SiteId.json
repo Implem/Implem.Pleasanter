@@ -1,0 +1,29 @@
+{
+    "Id": "SiteId",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Site ID"
+        },
+        {
+            "Language": "zh",
+            "Body": "站点ID"
+        },
+        {
+            "Language": "ja",
+            "Body": "サイトID"
+        },
+        {
+            "Language": "de",
+            "Body": "Site-ID"
+        },
+        {
+            "Language": "ko",
+            "Body": "사이트 ID"
+        },
+        {
+            "Language": "es",
+            "Body": "ID del sitio"
+        }
+    ]
+}

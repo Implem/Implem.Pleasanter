@@ -1,0 +1,29 @@
+{
+    "Id": "FileUpdateCompleted",
+    "Type": 210,
+    "Languages": [
+        {
+            "Body": "File upload has been completed."
+        },
+        {
+            "Language": "zh",
+            "Body": "已完成文件上传。"
+        },
+        {
+            "Language": "ja",
+            "Body": "ファイルのアップロードが完了しました。"
+        },
+        {
+            "Language": "de",
+            "Body": "Das Hochladen der Datei ist abgeschlossen."
+        },
+        {
+            "Language": "ko",
+            "Body": "파일 업로드가 완료되었습니다."
+        },
+        {
+            "Language": "es",
+            "Body": "Se ha terminado de subir el archivo."
+        }
+    ]
+}

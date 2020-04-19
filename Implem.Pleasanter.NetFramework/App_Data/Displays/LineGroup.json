@@ -1,0 +1,29 @@
+{
+    "Id": "LineGroup",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "LINE group"
+        },
+        {
+            "Language": "zh",
+            "Body": "线路组"
+        },
+        {
+            "Language": "ja",
+            "Body": "LINEグループ"
+        },
+        {
+            "Language": "de",
+            "Body": "LINE-Gruppe"
+        },
+        {
+            "Language": "ko",
+            "Body": "LINE 그룹"
+        },
+        {
+            "Language": "es",
+            "Body": "Grupo de LÍNEAS"
+        }
+    ]
+}

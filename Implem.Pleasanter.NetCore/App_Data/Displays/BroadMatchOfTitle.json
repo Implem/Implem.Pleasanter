@@ -1,0 +1,29 @@
+{
+    "Id": "BroadMatchOfTitle",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Broad match in title"
+        },
+        {
+            "Language": "zh",
+            "Body": "标题广泛匹配"
+        },
+        {
+            "Language": "ja",
+            "Body": "タイトルの部分一致"
+        },
+        {
+            "Language": "de",
+            "Body": "Weitgehend passende Übereinstimmung mit dem Titel"
+        },
+        {
+            "Language": "ko",
+            "Body": "광범위한 제목 일치"
+        },
+        {
+            "Language": "es",
+            "Body": "Concordancia amplia en el título"
+        }
+    ]
+}

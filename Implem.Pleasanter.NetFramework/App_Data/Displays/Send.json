@@ -1,0 +1,29 @@
+{
+    "Id": "Send",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Send"
+        },
+        {
+            "Language": "zh",
+            "Body": "发送"
+        },
+        {
+            "Language": "ja",
+            "Body": "送信"
+        },
+        {
+            "Language": "de",
+            "Body": "Senden"
+        },
+        {
+            "Language": "ko",
+            "Body": "전송"
+        },
+        {
+            "Language": "es",
+            "Body": "Enviar"
+        }
+    ]
+}

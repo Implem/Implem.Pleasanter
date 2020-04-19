@@ -1,0 +1,29 @@
+{
+    "Id": "List",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "List"
+        },
+        {
+            "Language": "zh",
+            "Body": "列表"
+        },
+        {
+            "Language": "ja",
+            "Body": "一覧"
+        },
+        {
+            "Language": "de",
+            "Body": "Auflisten"
+        },
+        {
+            "Language": "ko",
+            "Body": "목록"
+        },
+        {
+            "Language": "es",
+            "Body": "Lista"
+        }
+    ]
+}

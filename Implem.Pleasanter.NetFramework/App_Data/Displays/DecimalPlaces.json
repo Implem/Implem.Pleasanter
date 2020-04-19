@@ -1,0 +1,29 @@
+{
+    "Id": "DecimalPlaces",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Decimal places"
+        },
+        {
+            "Language": "zh",
+            "Body": "小数位"
+        },
+        {
+            "Language": "ja",
+            "Body": "小数点以下桁数"
+        },
+        {
+            "Language": "de",
+            "Body": "Dezimalstellen"
+        },
+        {
+            "Language": "ko",
+            "Body": "소수 자리"
+        },
+        {
+            "Language": "es",
+            "Body": "Cifras decimales"
+        }
+    ]
+}

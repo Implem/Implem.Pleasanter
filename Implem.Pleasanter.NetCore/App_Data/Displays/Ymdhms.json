@@ -1,0 +1,29 @@
+{
+    "Id": "Ymdhms",
+    "Type": 120,
+    "Languages": [
+        {
+            "Body": "Date and time (seconds)"
+        },
+        {
+            "Language": "zh",
+            "Body": "日期和时间（秒）"
+        },
+        {
+            "Language": "ja",
+            "Body": "日付と時刻(秒)"
+        },
+        {
+            "Language": "de",
+            "Body": "Datum und Uhrzeit (Sekunden)"
+        },
+        {
+            "Language": "ko",
+            "Body": "날짜 및 시간(초)"
+        },
+        {
+            "Language": "es",
+            "Body": "Fecha y hora (segundos)"
+        }
+    ]
+}

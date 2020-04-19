@@ -1,0 +1,29 @@
+{
+    "Id": "YmdahmsFormat",
+    "Type": 130,
+    "Languages": [
+        {
+            "Body": "yyyy/MM/dd ddd HH:mm:ss"
+        },
+        {
+            "Language": "zh",
+            "Body": "yyyy/MM/dd ddd HH:mm:ss"
+        },
+        {
+            "Language": "ja",
+            "Body": "yyyy/MM/dd ddd HH:mm:ss"
+        },
+        {
+            "Language": "de",
+            "Body": "JJJJ-MM-TT TTT HH:mm:ss"
+        },
+        {
+            "Language": "ko",
+            "Body": "yyyy/MM/dd ddd HH:mm:ss"
+        },
+        {
+            "Language": "es",
+            "Body": "yyyy/MM/dd ddd HH:mm:ss"
+        }
+    ]
+}

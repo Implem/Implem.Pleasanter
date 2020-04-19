@@ -1,0 +1,29 @@
+{
+    "Id": "ItemsLimit",
+    "Type": 240,
+    "Languages": [
+        {
+            "Body": "The number of records has reached the upper limit."
+        },
+        {
+            "Language": "zh",
+            "Body": "记录数量已达上限。"
+        },
+        {
+            "Language": "ja",
+            "Body": "レコード数が上限に達しました。"
+        },
+        {
+            "Language": "de",
+            "Body": "Die maximale zulässige Anzahl von Datensätzen ist erreicht."
+        },
+        {
+            "Language": "ko",
+            "Body": "레코드 수가 상한에 도달했습니다."
+        },
+        {
+            "Language": "es",
+            "Body": "El número de registros ha alcanzado el límite superior."
+        }
+    ]
+}

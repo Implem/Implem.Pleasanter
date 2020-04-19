@@ -1,0 +1,29 @@
+{
+    "Id": "Average",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Average"
+        },
+        {
+            "Language": "zh",
+            "Body": "平均值"
+        },
+        {
+            "Language": "ja",
+            "Body": "平均"
+        },
+        {
+            "Language": "de",
+            "Body": "Mittelwert"
+        },
+        {
+            "Language": "ko",
+            "Body": "평균"
+        },
+        {
+            "Language": "es",
+            "Body": "Promedio"
+        }
+    ]
+}

@@ -1,0 +1,29 @@
+{
+    "Id": "CodeDefinerMvcCompleted",
+    "Type": 210,
+    "Languages": [
+        {
+            "Body": "MVC code has been created."
+        },
+        {
+            "Language": "zh",
+            "Body": "已创建MVC密钥。"
+        },
+        {
+            "Language": "ja",
+            "Body": "MVCコードの作成処理が完了しました。"
+        },
+        {
+            "Language": "de",
+            "Body": "Der MVC-Code wurde erstellt."
+        },
+        {
+            "Language": "ko",
+            "Body": "MVC 코드가 생성되었습니다."
+        },
+        {
+            "Language": "es",
+            "Body": "Se ha creado el código MVC."
+        }
+    ]
+}

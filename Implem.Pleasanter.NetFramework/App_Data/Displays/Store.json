@@ -1,0 +1,29 @@
+{
+    "Id": "Store",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Store"
+        },
+        {
+            "Language": "zh",
+            "Body": "商店"
+        },
+        {
+            "Language": "ja",
+            "Body": "店舗・販売"
+        },
+        {
+            "Language": "de",
+            "Body": "Speichern"
+        },
+        {
+            "Language": "ko",
+            "Body": "보관"
+        },
+        {
+            "Language": "es",
+            "Body": "Almacenar"
+        }
+    ]
+}

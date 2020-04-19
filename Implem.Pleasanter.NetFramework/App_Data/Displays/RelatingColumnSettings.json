@@ -1,0 +1,29 @@
+{
+    "Id": "RelatingColumnSettings",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Relating column settings"
+        },
+        {
+            "Language": "zh",
+            "Body": "关联列设置"
+        },
+        {
+            "Language": "ja",
+            "Body": "項目連携の設定"
+        },
+        {
+            "Language": "de",
+            "Body": "Einstellungen für zugehörige Spalten"
+        },
+        {
+            "Language": "ko",
+            "Body": "관련 열 설정"
+        },
+        {
+            "Language": "es",
+            "Body": "Ajustes de relación de columnas"
+        }
+    ]
+}

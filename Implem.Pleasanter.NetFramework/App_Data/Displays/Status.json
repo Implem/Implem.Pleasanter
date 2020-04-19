@@ -1,0 +1,29 @@
+﻿{
+    "Id": "Status",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Status"
+        },
+        {
+            "Language": "zh",
+            "Body": "状态"
+        },
+        {
+            "Language": "ja",
+            "Body": "状況"
+        },
+        {
+            "Language": "de",
+            "Body": "Status"
+        },
+        {
+            "Language": "ko",
+            "Body": "상태"
+        },
+        {
+            "Language": "es",
+            "Body": "Estado"
+        }
+    ]
+}

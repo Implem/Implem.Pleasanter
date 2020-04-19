@@ -1,0 +1,29 @@
+{
+    "Id": "BadFormat",
+    "Type": 240,
+    "Languages": [
+        {
+            "Body": "Invalid format.[{0}]"
+        },
+        {
+            "Language": "zh",
+            "Body": "无效格式。[{0}]"
+        },
+        {
+            "Language": "ja",
+            "Body": "不正な書式です。[{0}]"
+        },
+        {
+            "Language": "de",
+            "Body": "Format ungültig.[{0}]"
+        },
+        {
+            "Language": "ko",
+            "Body": "유효하지 않은 형식입니다.[{0}]"
+        },
+        {
+            "Language": "es",
+            "Body": "Formato no válido.[{0}]"
+        }
+    ]
+}

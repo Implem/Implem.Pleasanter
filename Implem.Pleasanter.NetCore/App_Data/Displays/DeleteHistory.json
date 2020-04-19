@@ -1,0 +1,29 @@
+{
+    "Id": "DeleteHistory",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Delete change history"
+        },
+        {
+            "Language": "zh",
+            "Body": "删除变更历史"
+        },
+        {
+            "Language": "ja",
+            "Body": "変更履歴を削除"
+        },
+        {
+            "Language": "de",
+            "Body": "Änderungsverlauf löschen"
+        },
+        {
+            "Language": "ko",
+            "Body": "변경 히스토리 삭제"
+        },
+        {
+            "Language": "es",
+            "Body": "Eliminar historial de cambios"
+        }
+    ]
+}

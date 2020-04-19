@@ -1,0 +1,29 @@
+{
+    "Id": "AllowedUsers",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Allowed users"
+        },
+        {
+            "Language": "zh",
+            "Body": "允许的用户"
+        },
+        {
+            "Language": "ja",
+            "Body": "許可するユーザ"
+        },
+        {
+            "Language": "de",
+            "Body": "Zugelassene Benutzer"
+        },
+        {
+            "Language": "ko",
+            "Body": "허용된 사용자"
+        },
+        {
+            "Language": "es",
+            "Body": "Usuarios autorizados"
+        }
+    ]
+}

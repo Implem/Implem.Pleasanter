@@ -1,0 +1,29 @@
+{
+    "Id": "BulkMove",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Bulk move"
+        },
+        {
+            "Language": "zh",
+            "Body": "批量移动"
+        },
+        {
+            "Language": "ja",
+            "Body": "一括移動"
+        },
+        {
+            "Language": "de",
+            "Body": "Massenverschiebung"
+        },
+        {
+            "Language": "ko",
+            "Body": "벌크 이동"
+        },
+        {
+            "Language": "es",
+            "Body": "Movimiento en bloque"
+        }
+    ]
+}

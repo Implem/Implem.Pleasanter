@@ -1,0 +1,29 @@
+{
+    "Id": "RecordAccessControl",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Record access control"
+        },
+        {
+            "Language": "zh",
+            "Body": "记录访问控制"
+        },
+        {
+            "Language": "ja",
+            "Body": "レコードのアクセス制御"
+        },
+        {
+            "Language": "de",
+            "Body": "Zugriffskontrolle auf Datensätze"
+        },
+        {
+            "Language": "ko",
+            "Body": "레코드 액세스 제어"
+        },
+        {
+            "Language": "es",
+            "Body": "Control de acceso a los registros"
+        }
+    ]
+}

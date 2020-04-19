@@ -1,0 +1,29 @@
+{
+    "Id": "DemoMailTitle",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Use of Pleasanter demo environment"
+        },
+        {
+            "Language": "zh",
+            "Body": "Pleasanter演示环境的使用"
+        },
+        {
+            "Language": "ja",
+            "Body": "プリザンター デモ環境のご利用について"
+        },
+        {
+            "Language": "de",
+            "Body": "Nutzung der Pleasanter-Demo-Umgebung"
+        },
+        {
+            "Language": "ko",
+            "Body": "Pleasanter 데모 환경 사용"
+        },
+        {
+            "Language": "es",
+            "Body": "Uso del entorno de demostración Pleasanter"
+        }
+    ]
+}

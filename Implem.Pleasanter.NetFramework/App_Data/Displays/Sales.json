@@ -1,0 +1,29 @@
+{
+    "Id": "Sales",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Sales"
+        },
+        {
+            "Language": "zh",
+            "Body": "销售"
+        },
+        {
+            "Language": "ja",
+            "Body": "営業"
+        },
+        {
+            "Language": "de",
+            "Body": "Vertrieb"
+        },
+        {
+            "Language": "ko",
+            "Body": "영업"
+        },
+        {
+            "Language": "es",
+            "Body": "Ventas"
+        }
+    ]
+}

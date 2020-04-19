@@ -1,0 +1,29 @@
+{
+    "Id": "Over",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Over {0}"
+        },
+        {
+            "Language": "zh",
+            "Body": "超出{0}"
+        },
+        {
+            "Language": "ja",
+            "Body": "{0} ～"
+        },
+        {
+            "Language": "de",
+            "Body": "Über {0}"
+        },
+        {
+            "Language": "ko",
+            "Body": "{0} 초과"
+        },
+        {
+            "Language": "es",
+            "Body": "Finalizado {0}"
+        }
+    ]
+}

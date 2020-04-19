@@ -1,0 +1,29 @@
+{
+    "Id": "PublishToAnonymousUsers",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Publish to anonymous users"
+        },
+        {
+            "Language": "zh",
+            "Body": "发布给匿名用户"
+        },
+        {
+            "Language": "ja",
+            "Body": "匿名ユーザに公開する"
+        },
+        {
+            "Language": "de",
+            "Body": "Für anonyme Benutzer veröffentlichen"
+        },
+        {
+            "Language": "ko",
+            "Body": "익명의 사용자에게 공개"
+        },
+        {
+            "Language": "es",
+            "Body": "Publicar para usuarios anónimos"
+        }
+    ]
+}

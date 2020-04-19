@@ -1,0 +1,29 @@
+﻿{
+    "Id": "UseIndentOption",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Use indent option"
+        },
+        {
+            "Language": "zh",
+            "Body": "使用缩进选项"
+        },
+        {
+            "Language": "ja",
+            "Body": "インデント機能を使う"
+        },
+        {
+            "Language": "de",
+            "Body": "Verwenden der Einrückfunktion"
+        },
+        {
+            "Language": "ko",
+            "Body": "들여 쓰기 옵션 사용"
+        },
+        {
+            "Language": "es",
+            "Body": "Usar opción de sangría"
+        }
+    ]
+}

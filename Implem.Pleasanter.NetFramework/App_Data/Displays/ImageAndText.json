@@ -1,0 +1,29 @@
+{
+    "Id": "ImageAndText",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Image and text"
+        },
+        {
+            "Language": "zh",
+            "Body": "图像和文本"
+        },
+        {
+            "Language": "ja",
+            "Body": "画像とテキスト"
+        },
+        {
+            "Language": "de",
+            "Body": "Bild und Text"
+        },
+        {
+            "Language": "ko",
+            "Body": "이미지 및 텍스트"
+        },
+        {
+            "Language": "es",
+            "Body": "Imagen y texto"
+        }
+    ]
+}

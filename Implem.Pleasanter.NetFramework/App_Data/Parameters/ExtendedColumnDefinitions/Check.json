@@ -1,0 +1,21 @@
+﻿{
+    "LabelText": "チェック",
+    "No": "600",
+    "History": "600",
+    "Export": "600",
+    "GridColumn": "600",
+    "FilterColumn": "600",
+    "FilterEnabled": "1",
+    "EditorColumn": "600",
+    "TitleColumn": "600",
+    "LinkColumn": "600",
+    "HistoryColumn": "600",
+    "TypeName": "bit",
+    "Nullable": "1",
+    "ExtendedColumnType": "Check",
+    "LabelText_en": "Check",
+    "LabelText_zh": "选择",
+    "LabelText_de": "Prüfen",
+    "LabelText_ko": "선택",
+    "LabelText_es": "Marcar"
+}

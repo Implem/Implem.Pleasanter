@@ -1,0 +1,29 @@
+{
+    "Id": "OverTotalLimitSize",
+    "Type": 240,
+    "Languages": [
+        {
+            "Body": "Up to {0} MB can be attached."
+        },
+        {
+            "Language": "zh",
+            "Body": "最多可以附加{0}MB文件。"
+        },
+        {
+            "Language": "ja",
+            "Body": "添付可能な容量は{0}Mbyteまでです。"
+        },
+        {
+            "Language": "de",
+            "Body": "Es können bis zu {0} MB angehängt werden."
+        },
+        {
+            "Language": "ko",
+            "Body": "최대 {0}MB의 파일을 첨부할 수 있습니다."
+        },
+        {
+            "Language": "es",
+            "Body": "Pueden adjuntarse hasta {0} MB."
+        }
+    ]
+}

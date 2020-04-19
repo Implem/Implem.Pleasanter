@@ -1,0 +1,29 @@
+{
+    "Id": "CommercialLicense",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Commercial license"
+        },
+        {
+            "Language": "zh",
+            "Body": "商业许可证"
+        },
+        {
+            "Language": "ja",
+            "Body": "商用ライセンス"
+        },
+        {
+            "Language": "de",
+            "Body": "Kommerzielle Lizenz"
+        },
+        {
+            "Language": "ko",
+            "Body": "상업용 라이선스"
+        },
+        {
+            "Language": "es",
+            "Body": "Licencia comercial"
+        }
+    ]
+}

@@ -1,0 +1,29 @@
+{
+    "Id": "ToEnable",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "To enable"
+        },
+        {
+            "Language": "zh",
+            "Body": "启用"
+        },
+        {
+            "Language": "ja",
+            "Body": "有効化"
+        },
+        {
+            "Language": "de",
+            "Body": "Zu aktivieren"
+        },
+        {
+            "Language": "ko",
+            "Body": "활성화"
+        },
+        {
+            "Language": "es",
+            "Body": "Para activar"
+        }
+    ]
+}

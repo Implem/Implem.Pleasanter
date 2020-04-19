@@ -1,0 +1,29 @@
+{
+    "Id": "InvitationMailBody",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "You are invited to {0}.\n\nAccess the following URL and register your user information, then request approval.\n\n{1}\n\n"
+        },
+        {
+            "Language": "zh",
+            "Body": "邀请您进入{0}。\n\n请访问以下URL并注册您的用户信息，然后请求批准。\n\n{1}\n\n"
+        },
+        {
+            "Language": "ja",
+            "Body": "{0}へ招待されました。\r\n\r\n下記のURLにアクセスし、ユーザ情報を登録をしてから承認依頼をしてください。\r\n\r\n{1}\r\n\r\n"
+        },
+        {
+            "Language": "de",
+            "Body": "Sie sind zu {0} eingeladen.\n\nRufen Sie die folgende URL auf. Melden Sie sich mit Ihren Benutzerdaten an, und fordern Sie dann eine Genehmigung an.\n\n{1}\n\n"
+        },
+        {
+            "Language": "ko",
+            "Body": "{0}(으)로 초대되었습니다.\n\n다음 URL에 액세스하여 사용자 정보를 등록한 후 승인을 요청하십시오.\n\n{1}\n\n"
+        },
+        {
+            "Language": "es",
+            "Body": "Ha recibido una invitación para {0}.\n\nAcceda a la siguiente URL y registre su información de usuario, luego solicite aprobación.\n\n{1}\n\n"
+        }
+    ]
+}

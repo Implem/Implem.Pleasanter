@@ -1,0 +1,29 @@
+﻿{
+    "Id": "SsoLogin",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "SSO Login"
+        },
+        {
+            "Language": "zh",
+            "Body": "SSO登录"
+        },
+        {
+            "Language": "ja",
+            "Body": "SSO ログイン"
+        },
+        {
+            "Language": "de",
+            "Body": "SSO-Login"
+        },
+        {
+            "Language": "ko",
+            "Body": "SSO 로그인"
+        },
+        {
+            "Language": "es",
+            "Body": "Inicio de sesión SSO"
+        }
+    ]
+}

@@ -1,0 +1,29 @@
+{
+    "Id": "CopyByDefault",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Copy with default values"
+        },
+        {
+            "Language": "zh",
+            "Body": "带默认值复制"
+        },
+        {
+            "Language": "ja",
+            "Body": "既定値でコピー"
+        },
+        {
+            "Language": "de",
+            "Body": "Mit Standardwerten kopieren"
+        },
+        {
+            "Language": "ko",
+            "Body": "기본값으로 복사"
+        },
+        {
+            "Language": "es",
+            "Body": "Copiar con los valores predeterminados"
+        }
+    ]
+}

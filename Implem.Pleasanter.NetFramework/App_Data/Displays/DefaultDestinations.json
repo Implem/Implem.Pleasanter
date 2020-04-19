@@ -1,0 +1,29 @@
+{
+    "Id": "DefaultDestinations",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Default recipients"
+        },
+        {
+            "Language": "zh",
+            "Body": "默认收件人"
+        },
+        {
+            "Language": "ja",
+            "Body": "既定の宛先"
+        },
+        {
+            "Language": "de",
+            "Body": "Standardempfänger"
+        },
+        {
+            "Language": "ko",
+            "Body": "기본 수신인"
+        },
+        {
+            "Language": "es",
+            "Body": "Destinatarios predeterminados"
+        }
+    ]
+}

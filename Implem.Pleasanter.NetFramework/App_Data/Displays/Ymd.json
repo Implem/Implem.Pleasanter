@@ -1,0 +1,29 @@
+{
+    "Id": "Ymd",
+    "Type": 120,
+    "Languages": [
+        {
+            "Body": "Date"
+        },
+        {
+            "Language": "zh",
+            "Body": "日期"
+        },
+        {
+            "Language": "ja",
+            "Body": "年月日"
+        },
+        {
+            "Language": "de",
+            "Body": "Datum"
+        },
+        {
+            "Language": "ko",
+            "Body": "날짜"
+        },
+        {
+            "Language": "es",
+            "Body": "Fecha"
+        }
+    ]
+}

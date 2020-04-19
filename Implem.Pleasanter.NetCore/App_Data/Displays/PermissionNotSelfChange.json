@@ -1,0 +1,29 @@
+{
+    "Id": "PermissionNotSelfChange",
+    "Type": 240,
+    "Languages": [
+        {
+            "Body": "It is not possible to change your own permissions."
+        },
+        {
+            "Language": "zh",
+            "Body": "无法更改您已有的许可。"
+        },
+        {
+            "Language": "ja",
+            "Body": "自分自身の権限を変更することはできません。"
+        },
+        {
+            "Language": "de",
+            "Body": "Sie können Ihre eigenen Berechtigungen nicht ändern."
+        },
+        {
+            "Language": "ko",
+            "Body": "자신의 권한을 변경할 수 없습니다."
+        },
+        {
+            "Language": "es",
+            "Body": "No puede cambiar sus propios permisos."
+        }
+    ]
+}

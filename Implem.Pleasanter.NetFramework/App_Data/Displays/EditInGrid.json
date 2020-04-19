@@ -1,0 +1,29 @@
+{
+    "Id": "EditInGrid",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Edit in grid"
+        },
+        {
+            "Language": "zh",
+            "Body": "在网格中编辑"
+        },
+        {
+            "Language": "ja",
+            "Body": "一覧画面で編集"
+        },
+        {
+            "Language": "de",
+            "Body": "Im Raster bearbeiten"
+        },
+        {
+            "Language": "ko",
+            "Body": "그리드로 편집"
+        },
+        {
+            "Language": "es",
+            "Body": "Editar en cuadrícula"
+        }
+    ]
+}

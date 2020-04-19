@@ -1,0 +1,29 @@
+﻿{
+    "Id": "AlwaysRequestSearchCondition",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Always request search condition"
+        },
+        {
+            "Language": "zh",
+            "Body": "一律要求搜寻条件"
+        },
+        {
+            "Language": "ja",
+            "Body": "常に検索条件を要求する"
+        },
+        {
+            "Language": "de",
+            "Body": "Suchbedingung immer anfordern"
+        },
+        {
+            "Language": "ko",
+            "Body": "항상 검색 조건을 요청하십시오"
+        },
+        {
+            "Language": "es",
+            "Body": "Solicitar siempre la condición de búsqueda"
+        }
+    ]
+}

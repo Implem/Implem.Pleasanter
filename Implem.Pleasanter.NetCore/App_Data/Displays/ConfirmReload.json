@@ -1,0 +1,14 @@
+﻿{
+    "Id": "ConfirmReload",
+    "Type": 310,
+    "ClientScript": true,
+    "Languages": [
+        {
+            "Body": "Are you sure you want to reload this page?"
+        },
+        {
+            "Language": "ja",
+            "Body": "このページを離れようとしています。"
+        }
+    ]
+}

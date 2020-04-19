@@ -1,0 +1,29 @@
+{
+    "Id": "Daily",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Daily"
+        },
+        {
+            "Language": "zh",
+            "Body": "每天"
+        },
+        {
+            "Language": "ja",
+            "Body": "毎日"
+        },
+        {
+            "Language": "de",
+            "Body": "Täglich"
+        },
+        {
+            "Language": "ko",
+            "Body": "일일"
+        },
+        {
+            "Language": "es",
+            "Body": "Diario"
+        }
+    ]
+}

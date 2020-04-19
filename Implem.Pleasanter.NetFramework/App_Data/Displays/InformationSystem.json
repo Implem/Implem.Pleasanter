@@ -1,0 +1,29 @@
+{
+    "Id": "InformationSystem",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Information system"
+        },
+        {
+            "Language": "zh",
+            "Body": "信息系统"
+        },
+        {
+            "Language": "ja",
+            "Body": "情報システム"
+        },
+        {
+            "Language": "de",
+            "Body": "Informationssystem"
+        },
+        {
+            "Language": "ko",
+            "Body": "정보 시스템"
+        },
+        {
+            "Language": "es",
+            "Body": "Sistema de información"
+        }
+    ]
+}

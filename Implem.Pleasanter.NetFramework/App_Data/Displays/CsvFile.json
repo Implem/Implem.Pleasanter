@@ -1,0 +1,29 @@
+{
+    "Id": "CsvFile",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "CSV file"
+        },
+        {
+            "Language": "zh",
+            "Body": "CSV文件"
+        },
+        {
+            "Language": "ja",
+            "Body": "CSVファイル"
+        },
+        {
+            "Language": "de",
+            "Body": "CSV-Datei"
+        },
+        {
+            "Language": "ko",
+            "Body": "CSV 파일"
+        },
+        {
+            "Language": "es",
+            "Body": "Archivo CSV"
+        }
+    ]
+}

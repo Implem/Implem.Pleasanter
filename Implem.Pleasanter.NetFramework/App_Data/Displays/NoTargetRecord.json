@@ -1,0 +1,29 @@
+{
+    "Id": "NoTargetRecord",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "There are no applicable records."
+        },
+        {
+            "Language": "zh",
+            "Body": "没有相关记录。"
+        },
+        {
+            "Language": "ja",
+            "Body": "対象のレコードはありませんでした。"
+        },
+        {
+            "Language": "de",
+            "Body": "Keine anwendbaren Datensätze vorhanden."
+        },
+        {
+            "Language": "ko",
+            "Body": "해당하는 레코드가 없습니다."
+        },
+        {
+            "Language": "es",
+            "Body": "No hay registros aplicables."
+        }
+    ]
+}

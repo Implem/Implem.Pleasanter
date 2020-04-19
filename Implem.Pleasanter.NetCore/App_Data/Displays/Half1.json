@@ -1,0 +1,29 @@
+{
+    "Id": "Half1",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "FY {0} H1"
+        },
+        {
+            "Language": "zh",
+            "Body": "FY {0} H1"
+        },
+        {
+            "Language": "ja",
+            "Body": "{0}年度上半期"
+        },
+        {
+            "Language": "de",
+            "Body": "GJ {0} H1"
+        },
+        {
+            "Language": "ko",
+            "Body": "FY {0} H1"
+        },
+        {
+            "Language": "es",
+            "Body": "FY {0} H1"
+        }
+    ]
+}

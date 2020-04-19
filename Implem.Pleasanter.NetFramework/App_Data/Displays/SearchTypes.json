@@ -1,0 +1,29 @@
+{
+    "Id": "SearchTypes",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Search types"
+        },
+        {
+            "Language": "zh",
+            "Body": "搜索类型"
+        },
+        {
+            "Language": "ja",
+            "Body": "検索の種類"
+        },
+        {
+            "Language": "de",
+            "Body": "Suchtypen"
+        },
+        {
+            "Language": "ko",
+            "Body": "검색 유형"
+        },
+        {
+            "Language": "es",
+            "Body": "Tipos de búsqueda"
+        }
+    ]
+}

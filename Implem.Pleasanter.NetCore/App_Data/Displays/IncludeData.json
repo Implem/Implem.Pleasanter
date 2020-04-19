@@ -1,0 +1,30 @@
+﻿{
+    "Id": "IncludeData",
+    "Type": 110,
+    "ClientScript": true,
+    "Languages": [
+        {
+            "Body": "Include Data"
+        },
+        {
+            "Language": "zh",
+            "Body": "包含数据"
+        },
+        {
+            "Language": "ja",
+            "Body": "データを含める"
+        },
+        {
+            "Language": "de",
+            "Body": "Daten einschließen"
+        },
+        {
+            "Language": "ko",
+            "Body": "데이터 포함"
+        },
+        {
+            "Language": "es",
+            "Body": "Incluir datos"
+        }
+    ]
+}

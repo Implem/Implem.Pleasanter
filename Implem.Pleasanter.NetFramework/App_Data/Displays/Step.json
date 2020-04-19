@@ -1,0 +1,29 @@
+{
+    "Id": "Step",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Step"
+        },
+        {
+            "Language": "zh",
+            "Body": "步骤"
+        },
+        {
+            "Language": "ja",
+            "Body": "ステップ"
+        },
+        {
+            "Language": "de",
+            "Body": "Schritt"
+        },
+        {
+            "Language": "ko",
+            "Body": "단계"
+        },
+        {
+            "Language": "es",
+            "Body": "Paso"
+        }
+    ]
+}

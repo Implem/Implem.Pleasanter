@@ -1,0 +1,29 @@
+{
+    "Id": "NotRequiredColumn",
+    "Type": 240,
+    "Languages": [
+        {
+            "Body": "The required column is not included. Column:{0}"
+        },
+        {
+            "Language": "zh",
+            "Body": "不包含所需列。列：{0}"
+        },
+        {
+            "Language": "ja",
+            "Body": "必要な列が含まれていません。列:{0}"
+        },
+        {
+            "Language": "de",
+            "Body": "Die gewünschte Spalte ist nicht enthalten. Spalte:{0}"
+        },
+        {
+            "Language": "ko",
+            "Body": "필요한 열이 포함되지 않았습니다. 열:{0}"
+        },
+        {
+            "Language": "es",
+            "Body": "No está incluida la columna obligatoria. Columna:{0}"
+        }
+    ]
+}

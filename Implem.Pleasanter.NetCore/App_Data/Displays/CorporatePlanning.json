@@ -1,0 +1,29 @@
+{
+    "Id": "CorporatePlanning",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Corporate planning"
+        },
+        {
+            "Language": "zh",
+            "Body": "企业规划"
+        },
+        {
+            "Language": "ja",
+            "Body": "経営企画"
+        },
+        {
+            "Language": "de",
+            "Body": "Unternehmensplanung"
+        },
+        {
+            "Language": "ko",
+            "Body": "기업 계획"
+        },
+        {
+            "Language": "es",
+            "Body": "Planificación empresarial"
+        }
+    ]
+}

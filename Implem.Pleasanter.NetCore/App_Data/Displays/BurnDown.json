@@ -1,0 +1,29 @@
+{
+    "Id": "BurnDown",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Burndown chart"
+        },
+        {
+            "Language": "zh",
+            "Body": "燃尽图"
+        },
+        {
+            "Language": "ja",
+            "Body": "バーンダウンチャート"
+        },
+        {
+            "Language": "de",
+            "Body": "Burn-down-Diagramm"
+        },
+        {
+            "Language": "ko",
+            "Body": "번다운 차트"
+        },
+        {
+            "Language": "es",
+            "Body": "Gráfica de trabajo pendiente"
+        }
+    ]
+}

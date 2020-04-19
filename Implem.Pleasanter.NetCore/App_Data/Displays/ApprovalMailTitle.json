@@ -1,0 +1,29 @@
+{
+    "Id": "ApprovalMailTitle",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "{0}Approval notification email"
+        },
+        {
+            "Language": "zh",
+            "Body": "{0}批准通知邮件"
+        },
+        {
+            "Language": "ja",
+            "Body": "{0}承認完了メール"
+        },
+        {
+            "Language": "de",
+            "Body": "{0}E-Mail zur Benachrichtigung über die Genehmigung"
+        },
+        {
+            "Language": "ko",
+            "Body": "{0} 승인 알림 이메일"
+        },
+        {
+            "Language": "es",
+            "Body": "{0}Correo electrónico de notificación de la aprobación"
+        }
+    ]
+}

@@ -1,0 +1,29 @@
+{
+    "Id": "SentAcceptanceMail ",
+    "Type": 210,
+    "Languages": [
+        {
+            "Body": "Please wait for a while to receive a login URL."
+        },
+        {
+            "Language": "zh",
+            "Body": "正在接收登录URL，请稍后。"
+        },
+        {
+            "Language": "ja",
+            "Body": "ログイン用のURLを送信しますので、しばらくお待ち下さい。"
+        },
+        {
+            "Language": "de",
+            "Body": "Einen Augenblick bitte ... Ihre Anmelde-URL wird Ihnen in Kürze zugesandt."
+        },
+        {
+            "Language": "ko",
+            "Body": "로그인 URL을 받으려면 잠시 기다리십시오."
+        },
+        {
+            "Language": "es",
+            "Body": "Por favor, espere un poco para recibir una URL de inicio de sesión."
+        }
+    ]
+}

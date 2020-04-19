@@ -1,0 +1,29 @@
+{
+    "Id": "DayAgo",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "1 day ago"
+        },
+        {
+            "Language": "zh",
+            "Body": "1天前"
+        },
+        {
+            "Language": "ja",
+            "Body": "1 日前"
+        },
+        {
+            "Language": "de",
+            "Body": "Vor 1 Tag"
+        },
+        {
+            "Language": "ko",
+            "Body": "1일 전"
+        },
+        {
+            "Language": "es",
+            "Body": "Hace un día"
+        }
+    ]
+}

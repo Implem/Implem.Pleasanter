@@ -1,0 +1,29 @@
+{
+    "Id": "Approval",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Approval"
+        },
+        {
+            "Language": "zh",
+            "Body": "批准"
+        },
+        {
+            "Language": "ja",
+            "Body": "え"
+        },
+        {
+            "Language": "de",
+            "Body": "Genehmigung"
+        },
+        {
+            "Language": "ko",
+            "Body": "승인"
+        },
+        {
+            "Language": "es",
+            "Body": "Aprobación"
+        }
+    ]
+}

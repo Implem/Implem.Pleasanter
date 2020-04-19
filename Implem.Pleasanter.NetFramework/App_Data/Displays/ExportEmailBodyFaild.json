@@ -1,0 +1,29 @@
+﻿{
+    "Id": "ExportEmailBodyFaild",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "An error occurred during export processing."
+        },
+        {
+            "Language": "zh",
+            "Body": "导出处理期间发生错误。"
+        },
+        {
+            "Language": "ja",
+            "Body": "エクスポート処理中にエラーが発生しました。\nExport Name: {0}\nError Message: {1}"
+        },
+        {
+            "Language": "de",
+            "Body": "Während der Exportverarbeitung ist ein Fehler aufgetreten."
+        },
+        {
+            "Language": "ko",
+            "Body": "내보내기 처리 중 오류가 발생했습니다."
+        },
+        {
+            "Language": "es",
+            "Body": "Se produjo un error durante el proceso de exportación."
+        }
+    ]
+}

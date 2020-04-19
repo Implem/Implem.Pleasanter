@@ -1,0 +1,29 @@
+{
+    "Id": "EditorSettings",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Editor settings"
+        },
+        {
+            "Language": "zh",
+            "Body": "编辑器设置"
+        },
+        {
+            "Language": "ja",
+            "Body": "エディタの設定"
+        },
+        {
+            "Language": "de",
+            "Body": "Editor-Einstellungen"
+        },
+        {
+            "Language": "ko",
+            "Body": "편집기 설정"
+        },
+        {
+            "Language": "es",
+            "Body": "Opciones de editor"
+        }
+    ]
+}

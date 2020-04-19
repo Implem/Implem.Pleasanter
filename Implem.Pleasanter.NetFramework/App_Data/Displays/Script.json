@@ -1,0 +1,29 @@
+{
+    "Id": "Script",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Script"
+        },
+        {
+            "Language": "zh",
+            "Body": "脚本"
+        },
+        {
+            "Language": "ja",
+            "Body": "スクリプト"
+        },
+        {
+            "Language": "de",
+            "Body": "Skript"
+        },
+        {
+            "Language": "ko",
+            "Body": "스크립트"
+        },
+        {
+            "Language": "es",
+            "Body": "Guion"
+        }
+    ]
+}

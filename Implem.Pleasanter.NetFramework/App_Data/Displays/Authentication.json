@@ -1,0 +1,29 @@
+{
+    "Id": "Authentication",
+    "Type": 240,
+    "Languages": [
+        {
+            "Body": "The specified login ID or password is invalid."
+        },
+        {
+            "Language": "zh",
+            "Body": "指定的登录ID或密码无效。"
+        },
+        {
+            "Language": "ja",
+            "Body": "指定されたログインIDまたはパスワードが不正です。"
+        },
+        {
+            "Language": "de",
+            "Body": "Die angegebene Anmelde-ID oder das Passwort ist ungültig."
+        },
+        {
+            "Language": "ko",
+            "Body": "지정된 로그인 ID나 비밀번호가 유효하지 않습니다."
+        },
+        {
+            "Language": "es",
+            "Body": "La ID o la contraseña de inicio de sesión especificadas no son válidas."
+        }
+    ]
+}

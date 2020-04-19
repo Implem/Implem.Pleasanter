@@ -1,0 +1,29 @@
+{
+    "Id": "Select",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Select"
+        },
+        {
+            "Language": "zh",
+            "Body": "选择"
+        },
+        {
+            "Language": "ja",
+            "Body": "選択"
+        },
+        {
+            "Language": "de",
+            "Body": "Auswählen"
+        },
+        {
+            "Language": "ko",
+            "Body": "선택"
+        },
+        {
+            "Language": "es",
+            "Body": "Seleccionar"
+        }
+    ]
+}

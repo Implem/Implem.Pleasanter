@@ -1,0 +1,29 @@
+{
+    "Id": "YmdaFormat",
+    "Type": 130,
+    "Languages": [
+        {
+            "Body": "yyyy/MM/dd ddd"
+        },
+        {
+            "Language": "zh",
+            "Body": "yyyy/MM/dd ddd"
+        },
+        {
+            "Language": "ja",
+            "Body": "yyyy/MM/dd ddd"
+        },
+        {
+            "Language": "de",
+            "Body": "JJJJ-MM-TT TTT"
+        },
+        {
+            "Language": "ko",
+            "Body": "yyyy/MM/dd ddd"
+        },
+        {
+            "Language": "es",
+            "Body": "yyyy/MM/dd ddd"
+        }
+    ]
+}

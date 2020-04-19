@@ -1,0 +1,29 @@
+{
+    "Id": "CurrentSettings",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Current settings"
+        },
+        {
+            "Language": "zh",
+            "Body": "当前设置"
+        },
+        {
+            "Language": "ja",
+            "Body": "現在の設定"
+        },
+        {
+            "Language": "de",
+            "Body": "Aktuelle Einstellungen"
+        },
+        {
+            "Language": "ko",
+            "Body": "현재 설정"
+        },
+        {
+            "Language": "es",
+            "Body": "Valores actuales"
+        }
+    ]
+}

@@ -1,0 +1,29 @@
+{
+    "Id": "ApiKey",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "API key"
+        },
+        {
+            "Language": "zh",
+            "Body": "API密钥"
+        },
+        {
+            "Language": "ja",
+            "Body": "APIキー"
+        },
+        {
+            "Language": "de",
+            "Body": "API-Schlüssel"
+        },
+        {
+            "Language": "ko",
+            "Body": "API 키"
+        },
+        {
+            "Language": "es",
+            "Body": "Clave API"
+        }
+    ]
+}

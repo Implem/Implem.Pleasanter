@@ -1,0 +1,29 @@
+{
+    "Id": "LimitAfterMonths",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "{0} months later"
+        },
+        {
+            "Language": "zh",
+            "Body": "{0}个月后"
+        },
+        {
+            "Language": "ja",
+            "Body": "{0} ヶ月後"
+        },
+        {
+            "Language": "de",
+            "Body": "{0} Monate später"
+        },
+        {
+            "Language": "ko",
+            "Body": "{0}개월 후"
+        },
+        {
+            "Language": "es",
+            "Body": "{0} meses después"
+        }
+    ]
+}

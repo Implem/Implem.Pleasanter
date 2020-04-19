@@ -1,0 +1,29 @@
+{
+    "Id": "Title",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Title"
+        },
+        {
+            "Language": "zh",
+            "Body": "标题"
+        },
+        {
+            "Language": "ja",
+            "Body": "タイトル"
+        },
+        {
+            "Language": "de",
+            "Body": "Titel"
+        },
+        {
+            "Language": "ko",
+            "Body": "제목"
+        },
+        {
+            "Language": "es",
+            "Body": "Título"
+        }
+    ]
+}

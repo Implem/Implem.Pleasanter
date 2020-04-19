@@ -1,0 +1,29 @@
+{
+    "Id": "EditInDialog",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Edit in dialog"
+        },
+        {
+            "Language": "zh",
+            "Body": "在对话框中编辑"
+        },
+        {
+            "Language": "ja",
+            "Body": "ダイアログで編集"
+        },
+        {
+            "Language": "de",
+            "Body": "Im Dialogfeld bearbeiten"
+        },
+        {
+            "Language": "ko",
+            "Body": "대화상자로 편집"
+        },
+        {
+            "Language": "es",
+            "Body": "Editar en diálogo"
+        }
+    ]
+}

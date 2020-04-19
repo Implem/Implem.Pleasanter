@@ -1,0 +1,29 @@
+{
+    "Id": "VerUp",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Save as a new version"
+        },
+        {
+            "Language": "zh",
+            "Body": "保存为新版本"
+        },
+        {
+            "Language": "ja",
+            "Body": "新バージョンとして保存"
+        },
+        {
+            "Language": "de",
+            "Body": "Als neue Version speichern"
+        },
+        {
+            "Language": "ko",
+            "Body": "새 버전으로 저장"
+        },
+        {
+            "Language": "es",
+            "Body": "Guardar como versión nueva"
+        }
+    ]
+}

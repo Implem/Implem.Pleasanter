@@ -1,0 +1,29 @@
+{
+    "Id": "EmptyUserName",
+    "Type": 240,
+    "Languages": [
+        {
+            "Body": "User name is not set."
+        },
+        {
+            "Language": "zh",
+            "Body": "未设置用户名称。"
+        },
+        {
+            "Language": "ja",
+            "Body": "ユーザー名が未設定です。"
+        },
+        {
+            "Language": "de",
+            "Body": "Benutzername unbekannt."
+        },
+        {
+            "Language": "ko",
+            "Body": "사용자 이름이 설정되지 않았습니다."
+        },
+        {
+            "Language": "es",
+            "Body": "No se ha establecido el nombre de usuario."
+        }
+    ]
+}

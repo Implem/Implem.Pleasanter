@@ -1,0 +1,29 @@
+{
+    "Id": "NotOutput",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Not output"
+        },
+        {
+            "Language": "zh",
+            "Body": "非输出"
+        },
+        {
+            "Language": "ja",
+            "Body": "出力しない"
+        },
+        {
+            "Language": "de",
+            "Body": "Keine Ausgabe"
+        },
+        {
+            "Language": "ko",
+            "Body": "출력되지 않음"
+        },
+        {
+            "Language": "es",
+            "Body": "Ninguna salida"
+        }
+    ]
+}

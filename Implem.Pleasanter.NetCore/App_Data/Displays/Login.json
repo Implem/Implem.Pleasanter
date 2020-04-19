@@ -1,0 +1,29 @@
+{
+    "Id": "Login",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Login"
+        },
+        {
+            "Language": "zh",
+            "Body": "登录"
+        },
+        {
+            "Language": "ja",
+            "Body": "ログイン"
+        },
+        {
+            "Language": "de",
+            "Body": "Anmelden"
+        },
+        {
+            "Language": "ko",
+            "Body": "로그인"
+        },
+        {
+            "Language": "es",
+            "Body": "Inicio de sesión"
+        }
+    ]
+}

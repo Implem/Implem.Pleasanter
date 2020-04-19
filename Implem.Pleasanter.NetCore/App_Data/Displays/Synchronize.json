@@ -1,0 +1,29 @@
+{
+    "Id": "Synchronize",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Synchronize"
+        },
+        {
+            "Language": "zh",
+            "Body": "同步"
+        },
+        {
+            "Language": "ja",
+            "Body": "同期"
+        },
+        {
+            "Language": "de",
+            "Body": "Synchronisieren"
+        },
+        {
+            "Language": "ko",
+            "Body": "동기화"
+        },
+        {
+            "Language": "es",
+            "Body": "Sincronizar"
+        }
+    ]
+}

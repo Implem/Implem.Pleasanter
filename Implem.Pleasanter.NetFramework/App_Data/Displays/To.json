@@ -1,0 +1,29 @@
+{
+    "Id": "To",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "To"
+        },
+        {
+            "Language": "zh",
+            "Body": "收件人"
+        },
+        {
+            "Language": "ja",
+            "Body": "宛先"
+        },
+        {
+            "Language": "de",
+            "Body": "An"
+        },
+        {
+            "Language": "ko",
+            "Body": "수신인"
+        },
+        {
+            "Language": "es",
+            "Body": "Para"
+        }
+    ]
+}

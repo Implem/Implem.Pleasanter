@@ -1,0 +1,29 @@
+{
+    "Id": "AllowImage",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Allow adding images"
+        },
+        {
+            "Language": "zh",
+            "Body": "允许添加图像"
+        },
+        {
+            "Language": "ja",
+            "Body": "画像の登録を許可"
+        },
+        {
+            "Language": "de",
+            "Body": "Hinzufügen von Bildern zulassen"
+        },
+        {
+            "Language": "ko",
+            "Body": "이미지 추가 허용"
+        },
+        {
+            "Language": "es",
+            "Body": "Permitir añadir imágenes"
+        }
+    ]
+}

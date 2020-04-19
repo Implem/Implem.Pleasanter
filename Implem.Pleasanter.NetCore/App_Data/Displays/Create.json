@@ -1,0 +1,29 @@
+{
+    "Id": "Create",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Create"
+        },
+        {
+            "Language": "zh",
+            "Body": "创建"
+        },
+        {
+            "Language": "ja",
+            "Body": "作成"
+        },
+        {
+            "Language": "de",
+            "Body": "Erstellen"
+        },
+        {
+            "Language": "ko",
+            "Body": "생성"
+        },
+        {
+            "Language": "es",
+            "Body": "Crear"
+        }
+    ]
+}

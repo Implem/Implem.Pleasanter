@@ -1,0 +1,29 @@
+{
+    "Id": "GridScript",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Grid script"
+        },
+        {
+            "Language": "zh",
+            "Body": "网格脚本"
+        },
+        {
+            "Language": "ja",
+            "Body": "一覧画面スクリプト"
+        },
+        {
+            "Language": "de",
+            "Body": "Rasterskript"
+        },
+        {
+            "Language": "ko",
+            "Body": "그리드 스크립트"
+        },
+        {
+            "Language": "es",
+            "Body": "Texto de cuadrícula"
+        }
+    ]
+}

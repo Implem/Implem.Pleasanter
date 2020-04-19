@@ -1,0 +1,29 @@
+{
+    "Id": "FileDragDrop",
+    "Type": 210,
+    "Languages": [
+        {
+            "Body": "Please drag and drop the file."
+        },
+        {
+            "Language": "zh",
+            "Body": "请拖放文件。"
+        },
+        {
+            "Language": "ja",
+            "Body": "ファイルをドラッグ＆ドロップしてください"
+        },
+        {
+            "Language": "de",
+            "Body": "Ziehen Sie die Datei per Drag & Drop in das Fenster."
+        },
+        {
+            "Language": "ko",
+            "Body": "파일을 끌어다 놓으십시오."
+        },
+        {
+            "Language": "es",
+            "Body": "Por favor, arrastre y suelte el archivo."
+        }
+    ]
+}

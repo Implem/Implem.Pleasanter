@@ -1,0 +1,29 @@
+{
+    "Id": "LockWarning",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "This table was locked to {1} by {0}."
+        },
+        {
+            "Language": "zh",
+            "Body": "此表格由{0}锁定为{1}。"
+        },
+        {
+            "Language": "ja",
+            "Body": "このテーブルは {0} が {1} にロックしました。"
+        },
+        {
+            "Language": "de",
+            "Body": "Diese Tabelle wurde gesperrt für {1} von {0}."
+        },
+        {
+            "Language": "ko",
+            "Body": "{0}이(가) 이 목록을 {1}(으)로 잠갔습니다."
+        },
+        {
+            "Language": "es",
+            "Body": "Esta tabla se bloqueó para {1} por {0}."
+        }
+    ]
+}

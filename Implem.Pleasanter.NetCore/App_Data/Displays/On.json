@@ -1,0 +1,29 @@
+{
+    "Id": "On",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "On"
+        },
+        {
+            "Language": "zh",
+            "Body": "开启"
+        },
+        {
+            "Language": "ja",
+            "Body": "オン"
+        },
+        {
+            "Language": "de",
+            "Body": "EIN"
+        },
+        {
+            "Language": "ko",
+            "Body": "켜기"
+        },
+        {
+            "Language": "es",
+            "Body": "Encendido"
+        }
+    ]
+}

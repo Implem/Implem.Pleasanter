@@ -1,0 +1,29 @@
+{
+    "Id": "ApprovalRequestMessage",
+    "Type": 210,
+    "Languages": [
+        {
+            "Body": "Approval request for \" {0} \" has been sent."
+        },
+        {
+            "Language": "zh",
+            "Body": "已发送“{0}”批准请求。"
+        },
+        {
+            "Language": "ja",
+            "Body": "\" {0} \" を承認依頼しました。"
+        },
+        {
+            "Language": "de",
+            "Body": "Genehmigungsanforderung für „ {0} “ wurde gesendet."
+        },
+        {
+            "Language": "ko",
+            "Body": "\" {0} \"에 대한 승인 요청을 전송했습니다."
+        },
+        {
+            "Language": "es",
+            "Body": "Se ha enviado la solicitud de aprobación para \" {0} \"."
+        }
+    ]
+}

@@ -1,0 +1,29 @@
+{
+    "Id": "GroupAdmin",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Group administration"
+        },
+        {
+            "Language": "zh",
+            "Body": "组管理"
+        },
+        {
+            "Language": "ja",
+            "Body": "グループの管理"
+        },
+        {
+            "Language": "de",
+            "Body": "Gruppenverwaltung"
+        },
+        {
+            "Language": "ko",
+            "Body": "그룹 관리"
+        },
+        {
+            "Language": "es",
+            "Body": "Administración del grupo"
+        }
+    ]
+}

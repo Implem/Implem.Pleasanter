@@ -1,0 +1,29 @@
+{
+    "Id": "Column",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Column"
+        },
+        {
+            "Language": "zh",
+            "Body": "列"
+        },
+        {
+            "Language": "ja",
+            "Body": "項目"
+        },
+        {
+            "Language": "de",
+            "Body": "Spalte"
+        },
+        {
+            "Language": "ko",
+            "Body": "열"
+        },
+        {
+            "Language": "es",
+            "Body": "Columna"
+        }
+    ]
+}

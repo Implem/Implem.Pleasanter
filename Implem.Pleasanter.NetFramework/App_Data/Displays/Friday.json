@@ -1,0 +1,29 @@
+{
+    "Id": "Friday",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Friday"
+        },
+        {
+            "Language": "zh",
+            "Body": "星期五"
+        },
+        {
+            "Language": "ja",
+            "Body": "金曜日"
+        },
+        {
+            "Language": "de",
+            "Body": "Freitag"
+        },
+        {
+            "Language": "ko",
+            "Body": "금요일"
+        },
+        {
+            "Language": "es",
+            "Body": "Viernes"
+        }
+    ]
+}

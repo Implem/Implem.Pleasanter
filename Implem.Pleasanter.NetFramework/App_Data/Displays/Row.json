@@ -1,0 +1,29 @@
+{
+    "Id": "Row",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Row"
+        },
+        {
+            "Language": "zh",
+            "Body": "行"
+        },
+        {
+            "Language": "ja",
+            "Body": "行"
+        },
+        {
+            "Language": "de",
+            "Body": "Zeile"
+        },
+        {
+            "Language": "ko",
+            "Body": "행"
+        },
+        {
+            "Language": "es",
+            "Body": "Fila"
+        }
+    ]
+}

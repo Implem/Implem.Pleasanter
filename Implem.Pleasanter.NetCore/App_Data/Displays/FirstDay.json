@@ -1,0 +1,29 @@
+{
+    "Id": "FirstDay",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "First day"
+        },
+        {
+            "Language": "zh",
+            "Body": "第一天"
+        },
+        {
+            "Language": "ja",
+            "Body": "初日"
+        },
+        {
+            "Language": "de",
+            "Body": "Erster Tag"
+        },
+        {
+            "Language": "ko",
+            "Body": "첫날"
+        },
+        {
+            "Language": "es",
+            "Body": "Primer día"
+        }
+    ]
+}

@@ -1,0 +1,29 @@
+{
+    "Id": "MoveUp",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Move up"
+        },
+        {
+            "Language": "zh",
+            "Body": "上移"
+        },
+        {
+            "Language": "ja",
+            "Body": "上"
+        },
+        {
+            "Language": "de",
+            "Body": "Nach oben"
+        },
+        {
+            "Language": "ko",
+            "Body": "위로 이동"
+        },
+        {
+            "Language": "es",
+            "Body": "Mover hacia arriba"
+        }
+    ]
+}

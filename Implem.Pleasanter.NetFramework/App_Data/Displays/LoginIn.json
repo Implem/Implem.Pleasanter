@@ -1,0 +1,29 @@
+﻿{
+    "Id": "LoginIn",
+    "Type": 210,
+    "Languages": [
+        {
+            "Body": "Logging in..."
+        },
+        {
+            "Language": "zh",
+            "Body": "正在登录…"
+        },
+        {
+            "Language": "ja",
+            "Body": "ログインしています …"
+        },
+        {
+            "Language": "de",
+            "Body": "Anmelden ..."
+        },
+        {
+            "Language": "ko",
+            "Body": "로그인 중..."
+        },
+        {
+            "Language": "es",
+            "Body": "Iniciando sesión..."
+        }
+    ]
+}

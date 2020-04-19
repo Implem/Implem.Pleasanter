@@ -1,0 +1,29 @@
+{
+    "Id": "Date",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Date"
+        },
+        {
+            "Language": "zh",
+            "Body": "日期"
+        },
+        {
+            "Language": "ja",
+            "Body": "日付"
+        },
+        {
+            "Language": "de",
+            "Body": "Datum"
+        },
+        {
+            "Language": "ko",
+            "Body": "날짜"
+        },
+        {
+            "Language": "es",
+            "Body": "Fecha"
+        }
+    ]
+}

@@ -1,0 +1,29 @@
+{
+    "Id": "Change",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Change"
+        },
+        {
+            "Language": "zh",
+            "Body": "变更"
+        },
+        {
+            "Language": "ja",
+            "Body": "変更"
+        },
+        {
+            "Language": "de",
+            "Body": "Ändern"
+        },
+        {
+            "Language": "ko",
+            "Body": "변경"
+        },
+        {
+            "Language": "es",
+            "Body": "Cambiar"
+        }
+    ]
+}

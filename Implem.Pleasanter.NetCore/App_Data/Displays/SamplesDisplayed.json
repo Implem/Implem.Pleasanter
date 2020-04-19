@@ -1,0 +1,29 @@
+{
+    "Id": "SamplesDisplayed",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Screen sample of the selected template is displayed. Press the Create button to use this template."
+        },
+        {
+            "Language": "zh",
+            "Body": "显示所选模板的界面样例。按下“创建”按钮可使用此模板。"
+        },
+        {
+            "Language": "ja",
+            "Body": "選択したテンプレートの画面サンプルを表示しています。このテンプレートを利用するには作成ボタンを押してください。"
+        },
+        {
+            "Language": "de",
+            "Body": "Ein Bildschirmausdruck der ausgewählten Vorlage wird angezeigt. Drücken Sie auf die Schaltfläche \"Erstellen\", um diese Vorlage zu verwenden."
+        },
+        {
+            "Language": "ko",
+            "Body": "선택된 템플릿의 화면 샘플이 표시됩니다. 이 템플릿을 사용하려면 생성 버튼을 누르십시오."
+        },
+        {
+            "Language": "es",
+            "Body": "Se muestra una muestra de la pantalla de la plantilla seleccionada. Pulse el botón Crear para usar esta plantilla."
+        }
+    ]
+}

@@ -67,15 +67,7 @@ bld/
 [Ll]ogs/
 
 bundles/
-/Implem.Pleasanter.NetCore/.config/dotnet-tools.json
-/Implem.Pleasanter.NetCore/App_Data/
-/Implem.Pleasanter.NetCore/wwwroot/
-/Implem.Pleasanter.NetCore/Views/
-/Implem.Pleasanter.NetFramework/App_Data/
-/Implem.Pleasanter.NetFramework/content/
-/Implem.Pleasanter.NetFramework/[Ii]mages/
-/Implem.Pleasanter.NetFramework/[Ss]cripts/
-/Implem.Pleasanter.NetFramework/[Ss]tyles/
-/Implem.Pleasanter.NetFramework/Views/
-
+Histories/
+Logs/
+Temp/
 /Implem.CodeDefiner.NetCore/Properties/launchSettings.json

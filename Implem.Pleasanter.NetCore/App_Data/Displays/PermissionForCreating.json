@@ -1,0 +1,29 @@
+{
+    "Id": "PermissionForCreating",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Permission for creating records"
+        },
+        {
+            "Language": "zh",
+            "Body": "创建记录许可"
+        },
+        {
+            "Language": "ja",
+            "Body": "レコード作成時の許可"
+        },
+        {
+            "Language": "de",
+            "Body": "Berechtigung zum Erstellen von Datensätzen"
+        },
+        {
+            "Language": "ko",
+            "Body": "레코드 생성 권한"
+        },
+        {
+            "Language": "es",
+            "Body": "Permiso para crear registros"
+        }
+    ]
+}

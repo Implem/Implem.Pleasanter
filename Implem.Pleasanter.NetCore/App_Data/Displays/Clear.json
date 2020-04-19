@@ -1,0 +1,29 @@
+{
+    "Id": "Clear",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Clear"
+        },
+        {
+            "Language": "zh",
+            "Body": "清除"
+        },
+        {
+            "Language": "ja",
+            "Body": "クリア"
+        },
+        {
+            "Language": "de",
+            "Body": "Löschen"
+        },
+        {
+            "Language": "ko",
+            "Body": "지우기"
+        },
+        {
+            "Language": "es",
+            "Body": "Limpiar"
+        }
+    ]
+}

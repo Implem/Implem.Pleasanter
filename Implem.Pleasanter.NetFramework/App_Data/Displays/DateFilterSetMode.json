@@ -1,0 +1,29 @@
+{
+    "Id": "DateFilterSetMode",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Set mode"
+        },
+        {
+            "Language": "zh",
+            "Body": "设置模式"
+        },
+        {
+            "Language": "ja",
+            "Body": "モード選択"
+        },
+        {
+            "Language": "de",
+            "Body": "Modus einstellen"
+        },
+        {
+            "Language": "ko",
+            "Body": "모드 설정"
+        },
+        {
+            "Language": "es",
+            "Body": "Configurar modo"
+        }
+    ]
+}

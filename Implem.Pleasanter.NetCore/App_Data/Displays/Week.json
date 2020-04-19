@@ -1,0 +1,29 @@
+{
+    "Id": "Week",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Week"
+        },
+        {
+            "Language": "zh",
+            "Body": "周"
+        },
+        {
+            "Language": "ja",
+            "Body": "週"
+        },
+        {
+            "Language": "de",
+            "Body": "Woche"
+        },
+        {
+            "Language": "ko",
+            "Body": "주"
+        },
+        {
+            "Language": "es",
+            "Body": "Semana"
+        }
+    ]
+}

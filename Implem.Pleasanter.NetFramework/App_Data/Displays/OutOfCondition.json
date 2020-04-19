@@ -1,0 +1,29 @@
+{
+    "Id": "OutOfCondition",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Conditions are not met"
+        },
+        {
+            "Language": "zh",
+            "Body": "不满足条件"
+        },
+        {
+            "Language": "ja",
+            "Body": "条件外の場合"
+        },
+        {
+            "Language": "de",
+            "Body": "Bedingungen sind nicht erfüllt"
+        },
+        {
+            "Language": "ko",
+            "Body": "조건이 충족되지 않습니다"
+        },
+        {
+            "Language": "es",
+            "Body": "No se cumplen las condiciones."
+        }
+    ]
+}

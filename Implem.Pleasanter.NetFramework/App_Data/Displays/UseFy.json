@@ -1,0 +1,29 @@
+{
+    "Id": "UseFy",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Use fiscal year"
+        },
+        {
+            "Language": "zh",
+            "Body": "使用财年"
+        },
+        {
+            "Language": "ja",
+            "Body": "年度を使用"
+        },
+        {
+            "Language": "de",
+            "Body": "Geschäftsjahr verwenden"
+        },
+        {
+            "Language": "ko",
+            "Body": "회계연도 사용"
+        },
+        {
+            "Language": "es",
+            "Body": "Usar ejercicio fiscal"
+        }
+    ]
+}

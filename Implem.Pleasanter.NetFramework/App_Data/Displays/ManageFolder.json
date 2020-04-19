@@ -1,0 +1,29 @@
+{
+    "Id": "ManageFolder",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Manage folder"
+        },
+        {
+            "Language": "zh",
+            "Body": "管理文件夹"
+        },
+        {
+            "Language": "ja",
+            "Body": "フォルダの管理"
+        },
+        {
+            "Language": "de",
+            "Body": "Ordner verwalten"
+        },
+        {
+            "Language": "ko",
+            "Body": "폴더 관리"
+        },
+        {
+            "Language": "es",
+            "Body": "Gestionar carpeta"
+        }
+    ]
+}

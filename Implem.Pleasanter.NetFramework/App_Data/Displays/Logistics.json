@@ -1,0 +1,29 @@
+{
+    "Id": "Logistics",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Logistics"
+        },
+        {
+            "Language": "zh",
+            "Body": "物流"
+        },
+        {
+            "Language": "ja",
+            "Body": "物流"
+        },
+        {
+            "Language": "de",
+            "Body": "Logistik"
+        },
+        {
+            "Language": "ko",
+            "Body": "물류"
+        },
+        {
+            "Language": "es",
+            "Body": "Logística"
+        }
+    ]
+}

@@ -1,0 +1,29 @@
+{
+    "Id": "Created",
+    "Type": 210,
+    "Languages": [
+        {
+            "Body": "\" {0} \" has been created."
+        },
+        {
+            "Language": "zh",
+            "Body": "“{0}”已创建。"
+        },
+        {
+            "Language": "ja",
+            "Body": "\" {0} \" を作成しました。"
+        },
+        {
+            "Language": "de",
+            "Body": "„ {0} “ wurde erstellt."
+        },
+        {
+            "Language": "ko",
+            "Body": "\" {0} \"이(가) 생성되었습니다."
+        },
+        {
+            "Language": "es",
+            "Body": "Se ha creado \" {0} \"."
+        }
+    ]
+}

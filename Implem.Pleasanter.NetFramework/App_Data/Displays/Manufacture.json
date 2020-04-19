@@ -1,0 +1,29 @@
+{
+    "Id": "Manufacture",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Manufacture"
+        },
+        {
+            "Language": "zh",
+            "Body": "制造"
+        },
+        {
+            "Language": "ja",
+            "Body": "製造・生産"
+        },
+        {
+            "Language": "de",
+            "Body": "Herstellen"
+        },
+        {
+            "Language": "ko",
+            "Body": "제조"
+        },
+        {
+            "Language": "es",
+            "Body": "Fabricar"
+        }
+    ]
+}

@@ -1,0 +1,29 @@
+{
+    "Id": "Yearly",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "yearly"
+        },
+        {
+            "Language": "zh",
+            "Body": "每年"
+        },
+        {
+            "Language": "ja",
+            "Body": "毎年"
+        },
+        {
+            "Language": "de",
+            "Body": "jährlich"
+        },
+        {
+            "Language": "ko",
+            "Body": "연간"
+        },
+        {
+            "Language": "es",
+            "Body": "anual"
+        }
+    ]
+}

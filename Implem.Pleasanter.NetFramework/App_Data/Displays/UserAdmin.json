@@ -1,0 +1,29 @@
+{
+    "Id": "UserAdmin",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "User administration"
+        },
+        {
+            "Language": "zh",
+            "Body": "用户管理"
+        },
+        {
+            "Language": "ja",
+            "Body": "ユーザの管理"
+        },
+        {
+            "Language": "de",
+            "Body": "Benutzerverwaltung"
+        },
+        {
+            "Language": "ko",
+            "Body": "사용자 관리"
+        },
+        {
+            "Language": "es",
+            "Body": "Administración de usuarios"
+        }
+    ]
+}

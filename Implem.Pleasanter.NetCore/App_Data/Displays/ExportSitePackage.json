@@ -1,0 +1,29 @@
+﻿{
+    "Id": "ExportSitePackage",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Export site package"
+        },
+        {
+            "Language": "zh",
+            "Body": "出口网站配套"
+        },
+        {
+            "Language": "ja",
+            "Body": "サイトパッケージのエクスポート"
+        },
+        {
+            "Language": "de",
+            "Body": "Site-Paket exportieren"
+        },
+        {
+            "Language": "ko",
+            "Body": "사이트 패키지 내보내기"
+        },
+        {
+            "Language": "es",
+            "Body": "Paquete de sitio de exportación"
+        }
+    ]
+}

@@ -1,0 +1,30 @@
+{
+    "Id": "ConfirmRebuildSearchIndex",
+    "Type": 310,
+    "ClientScript": true,
+    "Languages": [
+        {
+            "Body": "Would you like to rebuild the search index?"
+        },
+        {
+            "Language": "zh",
+            "Body": "是否需要重建搜索索引？"
+        },
+        {
+            "Language": "ja",
+            "Body": "検索インデックスを再構築しますか？"
+        },
+        {
+            "Language": "de",
+            "Body": "Soll der Suchindex neu erstellt werden?"
+        },
+        {
+            "Language": "ko",
+            "Body": "검색 색인을 재구성하시겠습니까?"
+        },
+        {
+            "Language": "es",
+            "Body": "¿Le gustaría volver a construir el índice de búsqueda?"
+        }
+    ]
+}

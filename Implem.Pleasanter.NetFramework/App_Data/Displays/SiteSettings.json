@@ -1,0 +1,29 @@
+{
+    "Id": "SiteSettings",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Site settings"
+        },
+        {
+            "Language": "zh",
+            "Body": "站点设置"
+        },
+        {
+            "Language": "ja",
+            "Body": "サイト設定"
+        },
+        {
+            "Language": "de",
+            "Body": "Site-Einstellungen"
+        },
+        {
+            "Language": "ko",
+            "Body": "사이트 설정"
+        },
+        {
+            "Language": "es",
+            "Body": "Ajustes del sitio"
+        }
+    ]
+}

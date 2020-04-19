@@ -1,0 +1,29 @@
+{
+    "Id": "ResearchAndDevelopment",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Research and development"
+        },
+        {
+            "Language": "zh",
+            "Body": "研发"
+        },
+        {
+            "Language": "ja",
+            "Body": "研究・開発"
+        },
+        {
+            "Language": "de",
+            "Body": "Forschung und Entwicklung"
+        },
+        {
+            "Language": "ko",
+            "Body": "연구개발"
+        },
+        {
+            "Language": "es",
+            "Body": "Investigación y desarrollo"
+        }
+    ]
+}

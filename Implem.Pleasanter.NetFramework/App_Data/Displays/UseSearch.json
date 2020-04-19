@@ -1,0 +1,29 @@
+{
+    "Id": "UseSearch",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Use search function."
+        },
+        {
+            "Language": "zh",
+            "Body": "使用搜索功能。"
+        },
+        {
+            "Language": "ja",
+            "Body": "検索機能を使う"
+        },
+        {
+            "Language": "de",
+            "Body": "Verwenden Sie die Suchfunktion."
+        },
+        {
+            "Language": "ko",
+            "Body": "검색 기능을 사용하십시오."
+        },
+        {
+            "Language": "es",
+            "Body": "Usar función de búsqueda."
+        }
+    ]
+}

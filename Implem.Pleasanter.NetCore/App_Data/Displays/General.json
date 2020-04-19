@@ -1,0 +1,29 @@
+{
+    "Id": "General",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "General"
+        },
+        {
+            "Language": "zh",
+            "Body": "一般"
+        },
+        {
+            "Language": "ja",
+            "Body": "全般"
+        },
+        {
+            "Language": "de",
+            "Body": "Allgemeines"
+        },
+        {
+            "Language": "ko",
+            "Body": "일반"
+        },
+        {
+            "Language": "es",
+            "Body": "General"
+        }
+    ]
+}

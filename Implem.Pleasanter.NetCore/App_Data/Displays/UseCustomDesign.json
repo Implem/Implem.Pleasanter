@@ -1,0 +1,29 @@
+{
+    "Id": "UseCustomDesign",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Use custom design"
+        },
+        {
+            "Language": "zh",
+            "Body": "使用自定义设计"
+        },
+        {
+            "Language": "ja",
+            "Body": "カスタムデザインを使用"
+        },
+        {
+            "Language": "de",
+            "Body": "Individuelles Design verwenden"
+        },
+        {
+            "Language": "ko",
+            "Body": "사용자 정의 디자인 사용"
+        },
+        {
+            "Language": "es",
+            "Body": "Usar diseño a medida"
+        }
+    ]
+}

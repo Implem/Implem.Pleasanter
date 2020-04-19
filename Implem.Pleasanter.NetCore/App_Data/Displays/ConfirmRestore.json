@@ -1,0 +1,30 @@
+{
+    "Id": "ConfirmRestore",
+    "Type": 310,
+    "ClientScript": true,
+    "Languages": [
+        {
+            "Body": "Are you sure you want to restore?"
+        },
+        {
+            "Language": "zh",
+            "Body": "是否确定恢复？"
+        },
+        {
+            "Language": "ja",
+            "Body": "本当に復元してもよろしいですか？"
+        },
+        {
+            "Language": "de",
+            "Body": "Tatsächlich wiederherstellen?"
+        },
+        {
+            "Language": "ko",
+            "Body": "복원하시겠습니까?"
+        },
+        {
+            "Language": "es",
+            "Body": "¿Está seguro de quiere restaurar?"
+        }
+    ]
+}

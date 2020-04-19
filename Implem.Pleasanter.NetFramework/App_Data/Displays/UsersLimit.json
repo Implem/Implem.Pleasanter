@@ -1,0 +1,29 @@
+{
+    "Id": "UsersLimit",
+    "Type": 240,
+    "Languages": [
+        {
+            "Body": "The number of users has reached the upper limit."
+        },
+        {
+            "Language": "zh",
+            "Body": "用户数量已达上限。"
+        },
+        {
+            "Language": "ja",
+            "Body": "ユーザ数が上限に達しました。"
+        },
+        {
+            "Language": "de",
+            "Body": "Die maximale zulässige Anzahl von Benutzern ist erreicht."
+        },
+        {
+            "Language": "ko",
+            "Body": "사용자 수가 상한에 도달했습니다."
+        },
+        {
+            "Language": "es",
+            "Body": "El número de usuarios ha alcanzado el límite superior."
+        }
+    ]
+}

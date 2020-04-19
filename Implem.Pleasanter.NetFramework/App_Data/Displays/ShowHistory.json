@@ -1,0 +1,29 @@
+{
+    "Id": "ShowHistory",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Show history"
+        },
+        {
+            "Language": "zh",
+            "Body": "显示历史"
+        },
+        {
+            "Language": "ja",
+            "Body": "履歴も表示"
+        },
+        {
+            "Language": "de",
+            "Body": "Verlauf anzeigen"
+        },
+        {
+            "Language": "ko",
+            "Body": "히스토리 표시"
+        },
+        {
+            "Language": "es",
+            "Body": "Mostrar historial"
+        }
+    ]
+}

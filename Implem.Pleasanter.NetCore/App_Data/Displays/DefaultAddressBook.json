@@ -1,0 +1,29 @@
+{
+    "Id": "DefaultAddressBook",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Default address book"
+        },
+        {
+            "Language": "zh",
+            "Body": "默认地址簿"
+        },
+        {
+            "Language": "ja",
+            "Body": "既定のアドレス帳"
+        },
+        {
+            "Language": "de",
+            "Body": "Standardadressbuch"
+        },
+        {
+            "Language": "ko",
+            "Body": "기본 주소록"
+        },
+        {
+            "Language": "es",
+            "Body": "Libreta de direcciones predeterminada"
+        }
+    ]
+}

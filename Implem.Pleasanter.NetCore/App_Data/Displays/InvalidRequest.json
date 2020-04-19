@@ -1,0 +1,29 @@
+{
+    "Id": "InvalidRequest",
+    "Type": 240,
+    "Languages": [
+        {
+            "Body": "Invalid request has been sent."
+        },
+        {
+            "Language": "zh",
+            "Body": "已发送的请求无效。"
+        },
+        {
+            "Language": "ja",
+            "Body": "不正なリクエストが送信されました。"
+        },
+        {
+            "Language": "de",
+            "Body": "Die gesendete Anforderung ist ungültig."
+        },
+        {
+            "Language": "ko",
+            "Body": "유효하지 않은 요청을 전송했습니다."
+        },
+        {
+            "Language": "es",
+            "Body": "Se ha enviado una solicitud no válida."
+        }
+    ]
+}

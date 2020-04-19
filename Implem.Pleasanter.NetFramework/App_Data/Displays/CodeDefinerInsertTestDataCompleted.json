@@ -1,0 +1,29 @@
+{
+    "Id": "CodeDefinerInsertTestDataCompleted",
+    "Type": 210,
+    "Languages": [
+        {
+            "Body": "Test data has been inserted."
+        },
+        {
+            "Language": "zh",
+            "Body": "已插入测试数据。"
+        },
+        {
+            "Language": "ja",
+            "Body": "テストデータの挿入が完了しました。"
+        },
+        {
+            "Language": "de",
+            "Body": "Die Testdaten wurden eingefügt."
+        },
+        {
+            "Language": "ko",
+            "Body": "테스트 데이터가 삽입되었습니다."
+        },
+        {
+            "Language": "es",
+            "Body": "Se han introducido los datos de prueba."
+        }
+    ]
+}

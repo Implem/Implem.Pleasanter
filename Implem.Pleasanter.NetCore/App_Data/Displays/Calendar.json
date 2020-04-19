@@ -1,0 +1,29 @@
+{
+    "Id": "Calendar",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Calendar"
+        },
+        {
+            "Language": "zh",
+            "Body": "日历"
+        },
+        {
+            "Language": "ja",
+            "Body": "カレンダー"
+        },
+        {
+            "Language": "de",
+            "Body": "Kalender"
+        },
+        {
+            "Language": "ko",
+            "Body": "캘린더"
+        },
+        {
+            "Language": "es",
+            "Body": "Calendario"
+        }
+    ]
+}

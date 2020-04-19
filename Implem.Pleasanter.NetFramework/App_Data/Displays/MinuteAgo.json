@@ -1,0 +1,29 @@
+{
+    "Id": "MinuteAgo",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "1 minute ago"
+        },
+        {
+            "Language": "zh",
+            "Body": "1分钟之前"
+        },
+        {
+            "Language": "ja",
+            "Body": "1 分前"
+        },
+        {
+            "Language": "de",
+            "Body": "Vor 1 Minute"
+        },
+        {
+            "Language": "ko",
+            "Body": "1분 전"
+        },
+        {
+            "Language": "es",
+            "Body": "Hace un minuto"
+        }
+    ]
+}

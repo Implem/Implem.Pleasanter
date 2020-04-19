@@ -1,0 +1,29 @@
+﻿{
+    "Id": "Kamban",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Kanban"
+        },
+        {
+            "Language": "zh",
+            "Body": "看板"
+        },
+        {
+            "Language": "ja",
+            "Body": "カンバン"
+        },
+        {
+            "Language": "de",
+            "Body": "Kanban"
+        },
+        {
+            "Language": "ko",
+            "Body": "간판 방식"
+        },
+        {
+            "Language": "es",
+            "Body": "Kanban"
+        }
+    ]
+}

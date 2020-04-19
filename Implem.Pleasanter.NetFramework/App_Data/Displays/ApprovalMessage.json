@@ -1,0 +1,29 @@
+{
+    "Id": "ApprovalMessage",
+    "Type": 210,
+    "Languages": [
+        {
+            "Body": "\" {0} \" has been approved."
+        },
+        {
+            "Language": "zh",
+            "Body": "“{0}”已获批准。"
+        },
+        {
+            "Language": "ja",
+            "Body": "\" {0} \" を承認しました。"
+        },
+        {
+            "Language": "de",
+            "Body": "„ {0} “ wurde genehmigt."
+        },
+        {
+            "Language": "ko",
+            "Body": "\" {0} \"이(가) 승인되었습니다."
+        },
+        {
+            "Language": "es",
+            "Body": "Se ha aprobado \" {0} \"."
+        }
+    ]
+}

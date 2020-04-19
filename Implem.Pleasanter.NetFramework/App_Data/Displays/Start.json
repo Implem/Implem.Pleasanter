@@ -1,0 +1,29 @@
+{
+    "Id": "Start",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Start"
+        },
+        {
+            "Language": "zh",
+            "Body": "开始"
+        },
+        {
+            "Language": "ja",
+            "Body": "開始"
+        },
+        {
+            "Language": "de",
+            "Body": "Starten"
+        },
+        {
+            "Language": "ko",
+            "Body": "시작"
+        },
+        {
+            "Language": "es",
+            "Body": "Comienzo"
+        }
+    ]
+}

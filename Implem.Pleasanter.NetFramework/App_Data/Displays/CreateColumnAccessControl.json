@@ -1,0 +1,29 @@
+{
+    "Id": "CreateColumnAccessControl",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Access control during creation"
+        },
+        {
+            "Language": "zh",
+            "Body": "创建期间的访问控制"
+        },
+        {
+            "Language": "ja",
+            "Body": "作成時のアクセス制御"
+        },
+        {
+            "Language": "de",
+            "Body": "Zugriffskontrolle beim Erstellen"
+        },
+        {
+            "Language": "ko",
+            "Body": "생성 중 액세스 제어"
+        },
+        {
+            "Language": "es",
+            "Body": "Control de acceso durante la creación"
+        }
+    ]
+}

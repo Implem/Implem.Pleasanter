@@ -1,0 +1,29 @@
+﻿{
+    "Id": "UpdatedByGrid",
+    "Type": 210,
+    "Languages": [
+        {
+            "Body": "{0} it was updated."
+        },
+        {
+            "Language": "zh",
+            "Body": "{0}已更新。"
+        },
+        {
+            "Language": "ja",
+            "Body": "{0} 件 更新しました。"
+        },
+        {
+            "Language": "de",
+            "Body": "{0} es wurde aktualisiert."
+        },
+        {
+            "Language": "ko",
+            "Body": "{0}이 (가) 업데이트되었습니다."
+        },
+        {
+            "Language": "es",
+            "Body": "{0} se actualizó."
+        }
+    ]
+}

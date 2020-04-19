@@ -1,0 +1,30 @@
+{
+    "Id": "ValidateRequired",
+    "Type": 410,
+    "ClientScript": true,
+    "Languages": [
+        {
+            "Body": "This is a required field."
+        },
+        {
+            "Language": "zh",
+            "Body": "必填字段。"
+        },
+        {
+            "Language": "ja",
+            "Body": "入力必須項目です。"
+        },
+        {
+            "Language": "de",
+            "Body": "Dieses Feld muss ausgefüllt werden."
+        },
+        {
+            "Language": "ko",
+            "Body": "필수 입력 필드입니다."
+        },
+        {
+            "Language": "es",
+            "Body": "Este es un campo obligatorio."
+        }
+    ]
+}

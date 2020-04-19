@@ -1,0 +1,29 @@
+{
+    "Id": "Mail",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Email"
+        },
+        {
+            "Language": "zh",
+            "Body": "电子邮件"
+        },
+        {
+            "Language": "ja",
+            "Body": "メール"
+        },
+        {
+            "Language": "de",
+            "Body": "E-Mail"
+        },
+        {
+            "Language": "ko",
+            "Body": "이메일"
+        },
+        {
+            "Language": "es",
+            "Body": "Correo electrónico"
+        }
+    ]
+}

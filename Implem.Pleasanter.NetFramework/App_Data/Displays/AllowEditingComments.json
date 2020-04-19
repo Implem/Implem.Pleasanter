@@ -1,0 +1,29 @@
+{
+    "Id": "AllowEditingComments",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Allow editing comments"
+        },
+        {
+            "Language": "zh",
+            "Body": "允许编辑评论"
+        },
+        {
+            "Language": "ja",
+            "Body": "コメントの編集を許可"
+        },
+        {
+            "Language": "de",
+            "Body": "Bearbeiten von Kommentaren zulassen"
+        },
+        {
+            "Language": "ko",
+            "Body": "주석 편집 허용"
+        },
+        {
+            "Language": "es",
+            "Body": "Permitir editar comentarios"
+        }
+    ]
+}

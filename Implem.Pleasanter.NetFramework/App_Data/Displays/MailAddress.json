@@ -1,0 +1,29 @@
+{
+    "Id": "MailAddress",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Email address"
+        },
+        {
+            "Language": "zh",
+            "Body": "电子邮箱地址"
+        },
+        {
+            "Language": "ja",
+            "Body": "メールアドレス"
+        },
+        {
+            "Language": "de",
+            "Body": "E-Mail-Adresse"
+        },
+        {
+            "Language": "ko",
+            "Body": "이메일 주소"
+        },
+        {
+            "Language": "es",
+            "Body": "Dirección de correo electrónico"
+        }
+    ]
+}

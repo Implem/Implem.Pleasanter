@@ -1,0 +1,29 @@
+﻿{
+    "Id": "JsonFile",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Json file"
+        },
+        {
+            "Language": "zh",
+            "Body": "Json文件"
+        },
+        {
+            "Language": "ja",
+            "Body": "Jsonファイル"
+        },
+        {
+            "Language": "de",
+            "Body": "Json-Datei"
+        },
+        {
+            "Language": "ko",
+            "Body": "JSON 파일"
+        },
+        {
+            "Language": "es",
+            "Body": "Archivo Json"
+        }
+    ]
+}

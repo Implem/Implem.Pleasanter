@@ -1,0 +1,29 @@
+{
+    "Id": "NumberPerPage",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "No. of entries displayed per page"
+        },
+        {
+            "Language": "zh",
+            "Body": "每页显示的条目数"
+        },
+        {
+            "Language": "ja",
+            "Body": "ページ当たりの表示件数"
+        },
+        {
+            "Language": "de",
+            "Body": "Anzahl der pro Seite angezeigten Einträge"
+        },
+        {
+            "Language": "ko",
+            "Body": "페이지당 표시 항목 수"
+        },
+        {
+            "Language": "es",
+            "Body": "N.º de entradas mostradas por página"
+        }
+    ]
+}

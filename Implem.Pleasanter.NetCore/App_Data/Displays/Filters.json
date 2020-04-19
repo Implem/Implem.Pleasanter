@@ -1,0 +1,29 @@
+{
+    "Id": "Filters",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Filter"
+        },
+        {
+            "Language": "zh",
+            "Body": "过滤器"
+        },
+        {
+            "Language": "ja",
+            "Body": "フィルタ"
+        },
+        {
+            "Language": "de",
+            "Body": "Filter"
+        },
+        {
+            "Language": "ko",
+            "Body": "필터"
+        },
+        {
+            "Language": "es",
+            "Body": "Filtro"
+        }
+    ]
+}

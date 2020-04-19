@@ -1,0 +1,29 @@
+{
+    "Id": "ParameterSyntaxError",
+    "Type": 240,
+    "Languages": [
+        {
+            "Body": "Parameter file \"{0}\" syntax error. Unable to start the system."
+        },
+        {
+            "Language": "zh",
+            "Body": "参数文件“{0}”语法错误。无法启动系统。"
+        },
+        {
+            "Language": "ja",
+            "Body": "パラメータファイル \"{0}\" の構文エラーです。システムが起動できません。"
+        },
+        {
+            "Language": "de",
+            "Body": "Syntaxfehler in der Parameterdatei „{0}“. Das System kann nicht gestartet werden."
+        },
+        {
+            "Language": "ko",
+            "Body": "파라미터 파일 \"{0}\" 구문 오류입니다. 시스템을 시작할 수 없습니다."
+        },
+        {
+            "Language": "es",
+            "Body": "Error de sintaxis en el archivo de parámetros \"{0}\". No se puede iniciar el sistema."
+        }
+    ]
+}

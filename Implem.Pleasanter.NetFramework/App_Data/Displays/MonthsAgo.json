@@ -1,0 +1,29 @@
+{
+    "Id": "MonthsAgo",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "{0} months ago"
+        },
+        {
+            "Language": "zh",
+            "Body": "{0}个月之前"
+        },
+        {
+            "Language": "ja",
+            "Body": "{0} ヶ月前"
+        },
+        {
+            "Language": "de",
+            "Body": "Vor {0} Monaten"
+        },
+        {
+            "Language": "ko",
+            "Body": "{0}개월 전"
+        },
+        {
+            "Language": "es",
+            "Body": "Hace {0} meses"
+        }
+    ]
+}

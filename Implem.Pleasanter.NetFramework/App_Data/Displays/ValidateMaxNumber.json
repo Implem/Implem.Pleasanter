@@ -1,0 +1,30 @@
+{
+    "Id": "ValidateMaxNumber",
+    "Type": 410,
+    "ClientScript": true,
+    "Languages": [
+        {
+            "Body": "The number entered is too large."
+        },
+        {
+            "Language": "zh",
+            "Body": "输入的数字过大。"
+        },
+        {
+            "Language": "ja",
+            "Body": "入力された数字が大きすぎます。"
+        },
+        {
+            "Language": "de",
+            "Body": "Die eingegebene Zahl ist zu groß."
+        },
+        {
+            "Language": "ko",
+            "Body": "입력한 숫자가 너무 큽니다."
+        },
+        {
+            "Language": "es",
+            "Body": "El número introducido es demasiado largo."
+        }
+    ]
+}

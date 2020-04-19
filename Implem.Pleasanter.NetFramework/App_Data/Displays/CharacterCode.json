@@ -1,0 +1,29 @@
+{
+    "Id": "CharacterCode",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Character code"
+        },
+        {
+            "Language": "zh",
+            "Body": "字符代码"
+        },
+        {
+            "Language": "ja",
+            "Body": "文字コード"
+        },
+        {
+            "Language": "de",
+            "Body": "Zeichencode"
+        },
+        {
+            "Language": "ko",
+            "Body": "문자 코드"
+        },
+        {
+            "Language": "es",
+            "Body": "Código de caracteres"
+        }
+    ]
+}

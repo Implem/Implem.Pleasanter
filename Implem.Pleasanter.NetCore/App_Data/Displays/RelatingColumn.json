@@ -1,0 +1,29 @@
+{
+    "Id": "RelatingColumn",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Relating columns"
+        },
+        {
+            "Language": "zh",
+            "Body": "关联列"
+        },
+        {
+            "Language": "ja",
+            "Body": "項目連携"
+        },
+        {
+            "Language": "de",
+            "Body": "Zugehörige Spalten"
+        },
+        {
+            "Language": "ko",
+            "Body": "관련 열"
+        },
+        {
+            "Language": "es",
+            "Body": "Relacionar columnas"
+        }
+    ]
+}

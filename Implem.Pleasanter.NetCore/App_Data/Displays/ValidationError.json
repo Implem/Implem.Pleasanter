@@ -1,0 +1,30 @@
+{
+    "Id": "ValidationError",
+    "Type": 410,
+    "ClientScript": true,
+    "Languages": [
+        {
+            "Body": "The data entered is incorrect."
+        },
+        {
+            "Language": "zh",
+            "Body": "输入的数据错误。"
+        },
+        {
+            "Language": "ja",
+            "Body": "入力された内容に誤りがあります。"
+        },
+        {
+            "Language": "de",
+            "Body": "Die eingegebenen Daten sind falsch."
+        },
+        {
+            "Language": "ko",
+            "Body": "입력한 데이터가 올바르지 않습니다."
+        },
+        {
+            "Language": "es",
+            "Body": "El dato introducido es incorrecto."
+        }
+    ]
+}

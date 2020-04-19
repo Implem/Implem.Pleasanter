@@ -1,0 +1,29 @@
+{
+    "Id": "BadRequest",
+    "Type": 240,
+    "Languages": [
+        {
+            "Body": "Invalid request."
+        },
+        {
+            "Language": "zh",
+            "Body": "无效请求。"
+        },
+        {
+            "Language": "ja",
+            "Body": "要求が不正です。"
+        },
+        {
+            "Language": "de",
+            "Body": "Anforderung ungültig."
+        },
+        {
+            "Language": "ko",
+            "Body": "유효하지 않은 요청입니다."
+        },
+        {
+            "Language": "es",
+            "Body": "Solicitud no válida."
+        }
+    ]
+}

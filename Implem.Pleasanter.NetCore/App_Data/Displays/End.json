@@ -1,0 +1,29 @@
+{
+    "Id": "End",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "End"
+        },
+        {
+            "Language": "zh",
+            "Body": "终止"
+        },
+        {
+            "Language": "ja",
+            "Body": "終了"
+        },
+        {
+            "Language": "de",
+            "Body": "Ende"
+        },
+        {
+            "Language": "ko",
+            "Body": "종료"
+        },
+        {
+            "Language": "es",
+            "Body": "Fin"
+        }
+    ]
+}

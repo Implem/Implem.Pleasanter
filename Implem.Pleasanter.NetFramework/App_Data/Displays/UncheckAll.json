@@ -1,0 +1,30 @@
+{
+    "Id": "UncheckAll",
+    "Type": 110,
+    "ClientScript": true,
+    "Languages": [
+        {
+            "Body": "Uncheck all"
+        },
+        {
+            "Language": "zh",
+            "Body": "取消全选"
+        },
+        {
+            "Language": "ja",
+            "Body": "全て解除"
+        },
+        {
+            "Language": "de",
+            "Body": "Alle Markierungen aufheben"
+        },
+        {
+            "Language": "ko",
+            "Body": "모두 선택 취소"
+        },
+        {
+            "Language": "es",
+            "Body": "Desmarcar todo"
+        }
+    ]
+}

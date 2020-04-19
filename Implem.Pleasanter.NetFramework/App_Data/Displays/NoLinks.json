@@ -1,0 +1,29 @@
+{
+    "Id": "NoLinks",
+    "Type": 240,
+    "Languages": [
+        {
+            "Body": "There are no linked columns."
+        },
+        {
+            "Language": "zh",
+            "Body": "没有已链接列。"
+        },
+        {
+            "Language": "ja",
+            "Body": "リンクしている項目がありません"
+        },
+        {
+            "Language": "de",
+            "Body": "Es sind keine verknüpften Spalten vorhanden."
+        },
+        {
+            "Language": "ko",
+            "Body": "링크된 열이 없습니다."
+        },
+        {
+            "Language": "es",
+            "Body": "No hay columnas vinculadas."
+        }
+    ]
+}

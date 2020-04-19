@@ -1,0 +1,29 @@
+{
+    "Id": "AlreadyAdded",
+    "Type": 240,
+    "Languages": [
+        {
+            "Body": "Already added."
+        },
+        {
+            "Language": "zh",
+            "Body": "已添加。"
+        },
+        {
+            "Language": "ja",
+            "Body": "既に追加されています。"
+        },
+        {
+            "Language": "de",
+            "Body": "Bereits hinzugefügt."
+        },
+        {
+            "Language": "ko",
+            "Body": "이미 추가되었습니다."
+        },
+        {
+            "Language": "es",
+            "Body": "Ya añadidos."
+        }
+    ]
+}

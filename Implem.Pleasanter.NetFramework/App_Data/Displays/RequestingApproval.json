@@ -1,0 +1,29 @@
+{
+    "Id": "RequestingApproval",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Requesting approval"
+        },
+        {
+            "Language": "zh",
+            "Body": "请求批准"
+        },
+        {
+            "Language": "ja",
+            "Body": "承認依頼中"
+        },
+        {
+            "Language": "de",
+            "Body": "Genehmigung wird angefordert"
+        },
+        {
+            "Language": "ko",
+            "Body": "승인 요청 중"
+        },
+        {
+            "Language": "es",
+            "Body": "Solicitud de aprobación"
+        }
+    ]
+}

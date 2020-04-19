@@ -1,0 +1,29 @@
+{
+    "Id": "SecondsAgo",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "{0} seconds ago"
+        },
+        {
+            "Language": "zh",
+            "Body": "{0}秒之前"
+        },
+        {
+            "Language": "ja",
+            "Body": "{0} 秒前"
+        },
+        {
+            "Language": "de",
+            "Body": "Vor {0} Sekunden"
+        },
+        {
+            "Language": "ko",
+            "Body": "{0}초 전"
+        },
+        {
+            "Language": "es",
+            "Body": "Hace {0} segundos"
+        }
+    ]
+}

@@ -1,0 +1,29 @@
+{
+    "Id": "DateFilterSetModeDefault",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Default"
+        },
+        {
+            "Language": "zh",
+            "Body": "默认"
+        },
+        {
+            "Language": "ja",
+            "Body": "規定"
+        },
+        {
+            "Language": "de",
+            "Body": "Voreinstellung"
+        },
+        {
+            "Language": "ko",
+            "Body": "기본값"
+        },
+        {
+            "Language": "es",
+            "Body": "Predeterminado"
+        }
+    ]
+}

@@ -1,0 +1,29 @@
+{
+    "Id": "Admin",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Admin"
+        },
+        {
+            "Language": "zh",
+            "Body": "管理员"
+        },
+        {
+            "Language": "ja",
+            "Body": "管理"
+        },
+        {
+            "Language": "de",
+            "Body": "Administrator"
+        },
+        {
+            "Language": "ko",
+            "Body": "관리자"
+        },
+        {
+            "Language": "es",
+            "Body": "Admin."
+        }
+    ]
+}

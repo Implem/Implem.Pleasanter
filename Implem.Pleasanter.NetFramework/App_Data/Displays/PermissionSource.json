@@ -1,0 +1,29 @@
+{
+    "Id": "PermissionSource",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Selection list"
+        },
+        {
+            "Language": "zh",
+            "Body": "选择列表"
+        },
+        {
+            "Language": "ja",
+            "Body": "選択可能な一覧"
+        },
+        {
+            "Language": "de",
+            "Body": "Auswahlliste"
+        },
+        {
+            "Language": "ko",
+            "Body": "선택 목록"
+        },
+        {
+            "Language": "es",
+            "Body": "Lista de selección"
+        }
+    ]
+}

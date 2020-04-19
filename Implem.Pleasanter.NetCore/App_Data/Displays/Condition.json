@@ -1,0 +1,29 @@
+{
+    "Id": "Condition",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Conditions"
+        },
+        {
+            "Language": "zh",
+            "Body": "条件"
+        },
+        {
+            "Language": "ja",
+            "Body": "条件"
+        },
+        {
+            "Language": "de",
+            "Body": "Bedingungen"
+        },
+        {
+            "Language": "ko",
+            "Body": "상태"
+        },
+        {
+            "Language": "es",
+            "Body": "Condiciones"
+        }
+    ]
+}

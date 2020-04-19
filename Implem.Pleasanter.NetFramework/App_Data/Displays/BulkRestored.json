@@ -1,0 +1,29 @@
+{
+    "Id": "BulkRestored",
+    "Type": 210,
+    "Languages": [
+        {
+            "Body": "\" {0} \" entries have been restored."
+        },
+        {
+            "Language": "zh",
+            "Body": "“{0}”条目已恢复。"
+        },
+        {
+            "Language": "ja",
+            "Body": "{0} 件 復元しました。"
+        },
+        {
+            "Language": "de",
+            "Body": "„ {0} “ Einträge wurden wiederhergestellt."
+        },
+        {
+            "Language": "ko",
+            "Body": "\" {0} \"개의 항목이 복원되었습니다."
+        },
+        {
+            "Language": "es",
+            "Body": "Se han restaurado \" {0} \" entradas."
+        }
+    ]
+}

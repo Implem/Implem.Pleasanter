@@ -1,0 +1,30 @@
+{
+    "Id": "CanNotConnectCamera",
+    "Type": 410,
+    "ClientScript": true,
+    "Languages": [
+        {
+            "Body": "Cannot connect to camera."
+        },
+        {
+            "Language": "zh",
+            "Body": "无法连接至摄像机。"
+        },
+        {
+            "Language": "ja",
+            "Body": "カメラに接続できません。"
+        },
+        {
+            "Language": "de",
+            "Body": "Keine Verbindung zur Kamera möglich."
+        },
+        {
+            "Language": "ko",
+            "Body": "카메라에 연결할 수 없습니다."
+        },
+        {
+            "Language": "es",
+            "Body": "No puede conectarse a la cámara."
+        }
+    ]
+}

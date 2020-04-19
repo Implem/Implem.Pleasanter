@@ -1,0 +1,29 @@
+{
+    "Id": "LimitBeforeDays",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "{0} days exceeded"
+        },
+        {
+            "Language": "zh",
+            "Body": "已超出{0}天"
+        },
+        {
+            "Language": "ja",
+            "Body": "{0} 日超過"
+        },
+        {
+            "Language": "de",
+            "Body": "{0} Tage überschritten"
+        },
+        {
+            "Language": "ko",
+            "Body": "{0}일 초과됨"
+        },
+        {
+            "Language": "es",
+            "Body": "{0} días de más"
+        }
+    ]
+}

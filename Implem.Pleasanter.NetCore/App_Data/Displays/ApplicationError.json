@@ -1,0 +1,29 @@
+{
+    "Id": "ApplicationError",
+    "Type": 240,
+    "Languages": [
+        {
+            "Body": "A problem occurred in the application."
+        },
+        {
+            "Language": "zh",
+            "Body": "应用程序出现问题。"
+        },
+        {
+            "Language": "ja",
+            "Body": "アプリケーションで問題が発生しました。"
+        },
+        {
+            "Language": "de",
+            "Body": "In der Anwendung ist ein Fehler aufgetreten."
+        },
+        {
+            "Language": "ko",
+            "Body": "애플리케이션에서 문제가 발생했습니다."
+        },
+        {
+            "Language": "es",
+            "Body": "Se produjo un problema en la aplicación."
+        }
+    ]
+}

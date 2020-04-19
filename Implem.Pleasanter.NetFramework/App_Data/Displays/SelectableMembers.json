@@ -1,0 +1,29 @@
+{
+    "Id": "SelectableMembers",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Selectable members"
+        },
+        {
+            "Language": "zh",
+            "Body": "可选择成员"
+        },
+        {
+            "Language": "ja",
+            "Body": "選択可能なメンバー"
+        },
+        {
+            "Language": "de",
+            "Body": "Auswählbare Mitglieder"
+        },
+        {
+            "Language": "ko",
+            "Body": "선택 가능 구성원"
+        },
+        {
+            "Language": "es",
+            "Body": "Miembros seleccionables"
+        }
+    ]
+}

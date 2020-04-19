@@ -1,0 +1,29 @@
+{
+    "Id": "UserLockout",
+    "Type": 240,
+    "Languages": [
+        {
+            "Body": "This user is locked out."
+        },
+        {
+            "Language": "zh",
+            "Body": "此用户已被锁定。"
+        },
+        {
+            "Language": "ja",
+            "Body": "このユーザはロックされています。"
+        },
+        {
+            "Language": "de",
+            "Body": "Dieser Benutzer ist gesperrt."
+        },
+        {
+            "Language": "ko",
+            "Body": "이 사용자는 잠겨 있습니다."
+        },
+        {
+            "Language": "es",
+            "Body": "Este usuario está bloqueado."
+        }
+    ]
+}

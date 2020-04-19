@@ -1,0 +1,29 @@
+{
+    "Id": "CanNotLink",
+    "Type": 240,
+    "Languages": [
+        {
+            "Body": "There are no items that can be linked."
+        },
+        {
+            "Language": "zh",
+            "Body": "没有可链接的项目。"
+        },
+        {
+            "Language": "ja",
+            "Body": "リンクできる項目がありません。"
+        },
+        {
+            "Language": "de",
+            "Body": "Keine Elemente zum Verknüpfen vorhanden."
+        },
+        {
+            "Language": "ko",
+            "Body": "링크할 수 있는 항목이 없습니다."
+        },
+        {
+            "Language": "es",
+            "Body": "No hay elementos que puedan vincularse."
+        }
+    ]
+}

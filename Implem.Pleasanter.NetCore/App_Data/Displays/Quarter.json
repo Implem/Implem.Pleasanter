@@ -1,0 +1,29 @@
+{
+    "Id": "Quarter",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "FY {0} {1}Q"
+        },
+        {
+            "Language": "zh",
+            "Body": "FY {0} {1}Q"
+        },
+        {
+            "Language": "ja",
+            "Body": "{0}年度{1}Q"
+        },
+        {
+            "Language": "de",
+            "Body": "GJ {0} Q{1}"
+        },
+        {
+            "Language": "ko",
+            "Body": "FY {0} {1}Q"
+        },
+        {
+            "Language": "es",
+            "Body": "FY {0} {1}Q"
+        }
+    ]
+}

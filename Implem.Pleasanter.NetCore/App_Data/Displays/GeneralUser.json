@@ -1,0 +1,29 @@
+{
+    "Id": "GeneralUser",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "General user"
+        },
+        {
+            "Language": "zh",
+            "Body": "一般用户"
+        },
+        {
+            "Language": "ja",
+            "Body": "一般ユーザ"
+        },
+        {
+            "Language": "de",
+            "Body": "Normaler Anwender"
+        },
+        {
+            "Language": "ko",
+            "Body": "일반 사용자"
+        },
+        {
+            "Language": "es",
+            "Body": "Usuario general"
+        }
+    ]
+}

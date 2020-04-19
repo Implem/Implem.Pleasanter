@@ -1,0 +1,29 @@
+{
+    "Id": "Auto",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Auto"
+        },
+        {
+            "Language": "zh",
+            "Body": "自动"
+        },
+        {
+            "Language": "ja",
+            "Body": "オート"
+        },
+        {
+            "Language": "de",
+            "Body": "Automatisch"
+        },
+        {
+            "Language": "ko",
+            "Body": "자동"
+        },
+        {
+            "Language": "es",
+            "Body": "Automático"
+        }
+    ]
+}

@@ -1,0 +1,29 @@
+{
+    "Id": "OutputHeader",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Output header"
+        },
+        {
+            "Language": "zh",
+            "Body": "输出标题"
+        },
+        {
+            "Language": "ja",
+            "Body": "ヘッダを出力する"
+        },
+        {
+            "Language": "de",
+            "Body": "Ausgabeheader"
+        },
+        {
+            "Language": "ko",
+            "Body": "출력 헤더"
+        },
+        {
+            "Language": "es",
+            "Body": "Encabezado de salida"
+        }
+    ]
+}

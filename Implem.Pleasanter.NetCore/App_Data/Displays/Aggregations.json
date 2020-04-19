@@ -1,0 +1,29 @@
+{
+    "Id": "Aggregations",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Aggregations"
+        },
+        {
+            "Language": "zh",
+            "Body": "聚合"
+        },
+        {
+            "Language": "ja",
+            "Body": "集計"
+        },
+        {
+            "Language": "de",
+            "Body": "Aggregationen"
+        },
+        {
+            "Language": "ko",
+            "Body": "집계"
+        },
+        {
+            "Language": "es",
+            "Body": "Agregaciones"
+        }
+    ]
+}

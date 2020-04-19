@@ -1,0 +1,29 @@
+{
+    "Id": "Editor",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Editor"
+        },
+        {
+            "Language": "zh",
+            "Body": "编辑器"
+        },
+        {
+            "Language": "ja",
+            "Body": "エディタ"
+        },
+        {
+            "Language": "de",
+            "Body": "Editor"
+        },
+        {
+            "Language": "ko",
+            "Body": "편집기"
+        },
+        {
+            "Language": "es",
+            "Body": "Editor"
+        }
+    ]
+}

@@ -1,0 +1,29 @@
+{
+    "Id": "CantSetAtTopOfSite",
+    "Type": 240,
+    "Languages": [
+        {
+            "Body": "Cannot set on the top-level site."
+        },
+        {
+            "Language": "zh",
+            "Body": "无法在顶层站点上设置。"
+        },
+        {
+            "Language": "ja",
+            "Body": "最上位のサイトで設定することはできません。"
+        },
+        {
+            "Language": "de",
+            "Body": "Kann nicht als Site auf oberster Ebene festgelegt werden."
+        },
+        {
+            "Language": "ko",
+            "Body": "최고 레벨 사이트에서 설정할 수 없습니다."
+        },
+        {
+            "Language": "es",
+            "Body": "No puede establecerse en el sitio de alto nivel."
+        }
+    ]
+}

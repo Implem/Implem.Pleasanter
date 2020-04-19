@@ -1,0 +1,30 @@
+{
+    "Id": "Manager",
+    "Type": 110,
+    "ClientScript": true,
+    "Languages": [
+        {
+            "Body": "Manager"
+        },
+        {
+            "Language": "zh",
+            "Body": "经理"
+        },
+        {
+            "Language": "ja",
+            "Body": "管理者"
+        },
+        {
+            "Language": "de",
+            "Body": "Manager"
+        },
+        {
+            "Language": "ko",
+            "Body": "관리자"
+        },
+        {
+            "Language": "es",
+            "Body": "Gestor"
+        }
+    ]
+}

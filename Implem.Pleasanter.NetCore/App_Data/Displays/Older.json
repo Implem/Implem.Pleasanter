@@ -1,0 +1,29 @@
+{
+    "Id": "Older",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Older"
+        },
+        {
+            "Language": "zh",
+            "Body": "较久"
+        },
+        {
+            "Language": "ja",
+            "Body": "旧"
+        },
+        {
+            "Language": "de",
+            "Body": "Älter"
+        },
+        {
+            "Language": "ko",
+            "Body": "이전"
+        },
+        {
+            "Language": "es",
+            "Body": "Más antiguo"
+        }
+    ]
+}

@@ -1,0 +1,29 @@
+{
+    "Id": "NoTitle",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "No title"
+        },
+        {
+            "Language": "zh",
+            "Body": "无标题"
+        },
+        {
+            "Language": "ja",
+            "Body": "タイトル無し"
+        },
+        {
+            "Language": "de",
+            "Body": "Ohne Titel"
+        },
+        {
+            "Language": "ko",
+            "Body": "제목 없음"
+        },
+        {
+            "Language": "es",
+            "Body": "Sin título"
+        }
+    ]
+}

@@ -1,0 +1,29 @@
+{
+    "Id": "Members",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Members"
+        },
+        {
+            "Language": "zh",
+            "Body": "成员"
+        },
+        {
+            "Language": "ja",
+            "Body": "メンバー"
+        },
+        {
+            "Language": "de",
+            "Body": "Mitglieder"
+        },
+        {
+            "Language": "ko",
+            "Body": "구성원"
+        },
+        {
+            "Language": "es",
+            "Body": "Miembros"
+        }
+    ]
+}

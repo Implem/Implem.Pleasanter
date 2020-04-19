@@ -1,0 +1,29 @@
+{
+    "Id": "EnterTitle",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Please enter title."
+        },
+        {
+            "Language": "zh",
+            "Body": "请输入标题。"
+        },
+        {
+            "Language": "ja",
+            "Body": "タイトルを入力して下さい。"
+        },
+        {
+            "Language": "de",
+            "Body": "Bitte Titel eingeben."
+        },
+        {
+            "Language": "ko",
+            "Body": "제목을 입력하십시오."
+        },
+        {
+            "Language": "es",
+            "Body": "Por favor, introduzca el título."
+        }
+    ]
+}

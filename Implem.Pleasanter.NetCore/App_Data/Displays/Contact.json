@@ -1,0 +1,29 @@
+{
+    "Id": "Contact",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Contact"
+        },
+        {
+            "Language": "zh",
+            "Body": "联系方式"
+        },
+        {
+            "Language": "ja",
+            "Body": "お問い合わせ"
+        },
+        {
+            "Language": "de",
+            "Body": "Kontaktieren"
+        },
+        {
+            "Language": "ko",
+            "Body": "연락처"
+        },
+        {
+            "Language": "es",
+            "Body": "Contactar"
+        }
+    ]
+}

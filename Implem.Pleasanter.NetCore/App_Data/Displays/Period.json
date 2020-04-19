@@ -1,0 +1,29 @@
+{
+    "Id": "Period",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Period"
+        },
+        {
+            "Language": "zh",
+            "Body": "周期"
+        },
+        {
+            "Language": "ja",
+            "Body": "期間"
+        },
+        {
+            "Language": "de",
+            "Body": "Periode"
+        },
+        {
+            "Language": "ko",
+            "Body": "기간"
+        },
+        {
+            "Language": "es",
+            "Body": "Período"
+        }
+    ]
+}

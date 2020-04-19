@@ -1,0 +1,29 @@
+{
+    "Id": "Duplicated",
+    "Type": 240,
+    "Languages": [
+        {
+            "Body": "Cannot be updated because {0} is duplicated."
+        },
+        {
+            "Language": "zh",
+            "Body": "由于{0}为副本，因此无法更新。"
+        },
+        {
+            "Language": "ja",
+            "Body": "{0} が重複しているため更新できません。"
+        },
+        {
+            "Language": "de",
+            "Body": "Kann nicht aktualisiert werden, da {0} mehrfach vorhanden ist."
+        },
+        {
+            "Language": "ko",
+            "Body": "{0}이(가) 중복되어 업데이트할 수 없습니다."
+        },
+        {
+            "Language": "es",
+            "Body": "No puede actualizarse porque {0} está duplicado."
+        }
+    ]
+}

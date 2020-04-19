@@ -1,0 +1,29 @@
+{
+    "Id": "Md",
+    "Type": 120,
+    "Languages": [
+        {
+            "Body": "Month and date"
+        },
+        {
+            "Language": "zh",
+            "Body": "月份和日期"
+        },
+        {
+            "Language": "ja",
+            "Body": "月日"
+        },
+        {
+            "Language": "de",
+            "Body": "Monat und Datum"
+        },
+        {
+            "Language": "ko",
+            "Body": "월 및 일"
+        },
+        {
+            "Language": "es",
+            "Body": "Mes y fecha"
+        }
+    ]
+}

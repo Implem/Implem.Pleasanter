@@ -1,0 +1,29 @@
+{
+    "Id": "Basic",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Basic"
+        },
+        {
+            "Language": "zh",
+            "Body": "基础"
+        },
+        {
+            "Language": "ja",
+            "Body": "基本"
+        },
+        {
+            "Language": "de",
+            "Body": "Standard"
+        },
+        {
+            "Language": "ko",
+            "Body": "기본"
+        },
+        {
+            "Language": "es",
+            "Body": "Básico"
+        }
+    ]
+}

@@ -1,0 +1,29 @@
+{
+    "Id": "UpdateConflicts",
+    "Type": 240,
+    "Languages": [
+        {
+            "Body": "Unable to update because {0} updated first. Please reload."
+        },
+        {
+            "Language": "zh",
+            "Body": "由于{0}首次完成更新，无法再次更新。请重新加载。"
+        },
+        {
+            "Language": "ja",
+            "Body": "{0} さんが先に更新したため更新できません。再読み込みしてください。"
+        },
+        {
+            "Language": "de",
+            "Body": "Kann nicht aktualisiert werden, da {0} zuerst aktualisiert wurde. Bitte neu laden."
+        },
+        {
+            "Language": "ko",
+            "Body": "{0}이(가) 먼저 업데이트하여 업데이트할 수 없습니다. 리로드하십시오."
+        },
+        {
+            "Language": "es",
+            "Body": "No se puede actualizar porque se actualizó {0} primero. Por favor, cargue de nuevo."
+        }
+    ]
+}

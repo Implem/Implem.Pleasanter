@@ -1,0 +1,29 @@
+{
+    "Id": "Reset",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Reset"
+        },
+        {
+            "Language": "zh",
+            "Body": "重置"
+        },
+        {
+            "Language": "ja",
+            "Body": "リセット"
+        },
+        {
+            "Language": "de",
+            "Body": "Zurücksetzen"
+        },
+        {
+            "Language": "ko",
+            "Body": "재설정"
+        },
+        {
+            "Language": "es",
+            "Body": "Restablecer"
+        }
+    ]
+}

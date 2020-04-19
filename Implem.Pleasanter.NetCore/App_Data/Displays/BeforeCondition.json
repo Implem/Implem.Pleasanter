@@ -1,0 +1,29 @@
+{
+    "Id": "BeforeCondition",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Conditions before change"
+        },
+        {
+            "Language": "zh",
+            "Body": "变更前条件"
+        },
+        {
+            "Language": "ja",
+            "Body": "変更前の条件"
+        },
+        {
+            "Language": "de",
+            "Body": "Bedingungen vor Änderung"
+        },
+        {
+            "Language": "ko",
+            "Body": "변경 전 상태"
+        },
+        {
+            "Language": "es",
+            "Body": "Condiciones antes del cambio"
+        }
+    ]
+}

@@ -1,0 +1,29 @@
+{
+    "Id": "SearchSettings",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Search settings"
+        },
+        {
+            "Language": "zh",
+            "Body": "搜索设置"
+        },
+        {
+            "Language": "ja",
+            "Body": "検索の設定"
+        },
+        {
+            "Language": "de",
+            "Body": "Sucheinstellungen"
+        },
+        {
+            "Language": "ko",
+            "Body": "검색 설정"
+        },
+        {
+            "Language": "es",
+            "Body": "Ajustes de búsqueda"
+        }
+    ]
+}

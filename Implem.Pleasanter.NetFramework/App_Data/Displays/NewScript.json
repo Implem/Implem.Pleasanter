@@ -1,0 +1,29 @@
+{
+    "Id": "NewScript",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "New screen script"
+        },
+        {
+            "Language": "zh",
+            "Body": "新界面脚本"
+        },
+        {
+            "Language": "ja",
+            "Body": "新規画面スクリプト"
+        },
+        {
+            "Language": "de",
+            "Body": "Neues Fenster-Skript"
+        },
+        {
+            "Language": "ko",
+            "Body": "새 화면 스크립트"
+        },
+        {
+            "Language": "es",
+            "Body": "Guión de pantalla nuevo"
+        }
+    ]
+}

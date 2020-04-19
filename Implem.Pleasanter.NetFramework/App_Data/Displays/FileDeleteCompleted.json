@@ -1,0 +1,29 @@
+{
+    "Id": "FileDeleteCompleted",
+    "Type": 210,
+    "Languages": [
+        {
+            "Body": "File deletion has been completed."
+        },
+        {
+            "Language": "zh",
+            "Body": "已完成文件删除。"
+        },
+        {
+            "Language": "ja",
+            "Body": "ファイルの削除が完了しました。"
+        },
+        {
+            "Language": "de",
+            "Body": "Das Löschen der Datei ist abgeschlossen."
+        },
+        {
+            "Language": "ko",
+            "Body": "파일 삭제가 완료되었습니다."
+        },
+        {
+            "Language": "es",
+            "Body": "Se ha eliminado el archivo."
+        }
+    ]
+}

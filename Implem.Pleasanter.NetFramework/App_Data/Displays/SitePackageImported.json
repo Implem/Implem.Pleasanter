@@ -1,0 +1,29 @@
+﻿{
+    "Id": "SitePackageImported",
+    "Type": 210,
+    "Languages": [
+        {
+            "Body": "{0} sites were imported and {1} records were inserted."
+        },
+        {
+            "Language": "zh",
+            "Body": "导入了 {0} 个站点，并插入了 {1} 条记录。"
+        },
+        {
+            "Language": "ja",
+            "Body": "サイト {0} 件、データ {1} 件 インポートしました。"
+        },
+        {
+            "Language": "de",
+            "Body": "Importierte {0} Websites, {1} Daten."
+        },
+        {
+            "Language": "ko",
+            "Body": "{0} 개의 사이트를 가져오고 {1} 개의 레코드를 삽입했습니다."
+        },
+        {
+            "Language": "es",
+            "Body": "Se importaron {0} sitios y se insertaron {1} registros."
+        }
+    ]
+}

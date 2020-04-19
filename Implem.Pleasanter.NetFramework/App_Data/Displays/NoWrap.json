@@ -1,0 +1,29 @@
+{
+    "Id": "NoWrap",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "No wrap"
+        },
+        {
+            "Language": "zh",
+            "Body": "不换行"
+        },
+        {
+            "Language": "ja",
+            "Body": "回り込みしない"
+        },
+        {
+            "Language": "de",
+            "Body": "Kein Umbruch"
+        },
+        {
+            "Language": "ko",
+            "Body": "래핑 없음"
+        },
+        {
+            "Language": "es",
+            "Body": "Sin ajuste"
+        }
+    ]
+}

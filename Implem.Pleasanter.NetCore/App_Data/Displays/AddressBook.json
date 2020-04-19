@@ -1,0 +1,29 @@
+{
+    "Id": "AddressBook",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Address book"
+        },
+        {
+            "Language": "zh",
+            "Body": "地址簿"
+        },
+        {
+            "Language": "ja",
+            "Body": "アドレス帳"
+        },
+        {
+            "Language": "de",
+            "Body": "Adressbuch"
+        },
+        {
+            "Language": "ko",
+            "Body": "주소록"
+        },
+        {
+            "Language": "es",
+            "Body": "Libreta de direcciones"
+        }
+    ]
+}

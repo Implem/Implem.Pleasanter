@@ -1,0 +1,29 @@
+{
+    "Id": "RequireTo",
+    "Type": 240,
+    "Languages": [
+        {
+            "Body": "Add at least one recipient."
+        },
+        {
+            "Language": "zh",
+            "Body": "至少添加一个收件人。"
+        },
+        {
+            "Language": "ja",
+            "Body": "1つ以上のToを追加してください。"
+        },
+        {
+            "Language": "de",
+            "Body": "Fügen Sie mindestens einen Empfänger hinzu."
+        },
+        {
+            "Language": "ko",
+            "Body": "최소 1명의 수신인을 추가하십시오."
+        },
+        {
+            "Language": "es",
+            "Body": "Añadir al menos un destinatario."
+        }
+    ]
+}

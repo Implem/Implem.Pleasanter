@@ -1,0 +1,29 @@
+{
+    "Id": "Deleter",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Deleted by"
+        },
+        {
+            "Language": "zh",
+            "Body": "删除人员"
+        },
+        {
+            "Language": "ja",
+            "Body": "削除者"
+        },
+        {
+            "Language": "de",
+            "Body": "Gelöscht von"
+        },
+        {
+            "Language": "ko",
+            "Body": "삭제자"
+        },
+        {
+            "Language": "es",
+            "Body": "Eliminado por"
+        }
+    ]
+}

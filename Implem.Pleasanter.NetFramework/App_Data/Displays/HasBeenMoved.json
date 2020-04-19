@@ -1,0 +1,29 @@
+{
+    "Id": "HasBeenMoved",
+    "Type": 220,
+    "Languages": [
+        {
+            "Body": "\" {0} \" entries have been moved."
+        },
+        {
+            "Language": "zh",
+            "Body": "“{0}”条目已移动。"
+        },
+        {
+            "Language": "ja",
+            "Body": "{0} 件移動しました。"
+        },
+        {
+            "Language": "de",
+            "Body": "„ {0} “ Einträge wurden verschoben."
+        },
+        {
+            "Language": "ko",
+            "Body": "\" {0} \"개의 항목이 이동되었습니다."
+        },
+        {
+            "Language": "es",
+            "Body": "Se han movido \" {0} \" entradas."
+        }
+    ]
+}

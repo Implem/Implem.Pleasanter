@@ -1,0 +1,29 @@
+{
+    "Id": "Own",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Own"
+        },
+        {
+            "Language": "zh",
+            "Body": "自己"
+        },
+        {
+            "Language": "ja",
+            "Body": "自分"
+        },
+        {
+            "Language": "de",
+            "Body": "Eigene"
+        },
+        {
+            "Language": "ko",
+            "Body": "소유"
+        },
+        {
+            "Language": "es",
+            "Body": "Propios"
+        }
+    ]
+}

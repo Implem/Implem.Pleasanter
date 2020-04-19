@@ -1,0 +1,29 @@
+{
+    "Id": "LoginIdAlreadyUse",
+    "Type": 240,
+    "Languages": [
+        {
+            "Body": "This login ID is already in use."
+        },
+        {
+            "Language": "zh",
+            "Body": "此登录ID正在被使用。"
+        },
+        {
+            "Language": "ja",
+            "Body": "このログインIDは既に使用中です"
+        },
+        {
+            "Language": "de",
+            "Body": "Diese Anmelde-ID wird bereits verwendet."
+        },
+        {
+            "Language": "ko",
+            "Body": "이 로그인 ID는 이미 사용 중입니다."
+        },
+        {
+            "Language": "es",
+            "Body": "Este ID de inicio de sesión ya está en uso."
+        }
+    ]
+}

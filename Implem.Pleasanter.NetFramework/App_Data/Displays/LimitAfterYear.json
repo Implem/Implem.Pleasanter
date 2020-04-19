@@ -1,0 +1,29 @@
+{
+    "Id": "LimitAfterYear",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "1 year later"
+        },
+        {
+            "Language": "zh",
+            "Body": "1年后"
+        },
+        {
+            "Language": "ja",
+            "Body": "1 年後"
+        },
+        {
+            "Language": "de",
+            "Body": "1 Jahr später"
+        },
+        {
+            "Language": "ko",
+            "Body": "1년 후"
+        },
+        {
+            "Language": "es",
+            "Body": "1 año después"
+        }
+    ]
+}

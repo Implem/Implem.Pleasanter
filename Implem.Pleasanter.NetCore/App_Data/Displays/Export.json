@@ -1,0 +1,29 @@
+{
+    "Id": "Export",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Export"
+        },
+        {
+            "Language": "zh",
+            "Body": "导出"
+        },
+        {
+            "Language": "ja",
+            "Body": "エクスポート"
+        },
+        {
+            "Language": "de",
+            "Body": "Exportieren"
+        },
+        {
+            "Language": "ko",
+            "Body": "내보내기"
+        },
+        {
+            "Language": "es",
+            "Body": "Exportar"
+        }
+    ]
+}

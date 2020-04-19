@@ -1,0 +1,29 @@
+{
+    "Id": "ConfirmDeleteSite",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Please confirm the deletion of the site."
+        },
+        {
+            "Language": "zh",
+            "Body": "请确认删除此站点。"
+        },
+        {
+            "Language": "ja",
+            "Body": "サイト削除の確認をして下さい"
+        },
+        {
+            "Language": "de",
+            "Body": "Bitte bestätigen Sie das Löschen dieser Site."
+        },
+        {
+            "Language": "ko",
+            "Body": "사이트 삭제를 확인하십시오."
+        },
+        {
+            "Language": "es",
+            "Body": "Por favor, confirme la eliminación del sitio."
+        }
+    ]
+}

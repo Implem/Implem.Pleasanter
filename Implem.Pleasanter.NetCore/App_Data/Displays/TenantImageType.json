@@ -1,0 +1,29 @@
+{
+    "Id": "TenantImageType",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Logo type"
+        },
+        {
+            "Language": "zh",
+            "Body": "标志类型"
+        },
+        {
+            "Language": "ja",
+            "Body": "ロゴタイプ"
+        },
+        {
+            "Language": "de",
+            "Body": "Logotyp"
+        },
+        {
+            "Language": "ko",
+            "Body": "로고 유형"
+        },
+        {
+            "Language": "es",
+            "Body": "Clase de logotipo"
+        }
+    ]
+}

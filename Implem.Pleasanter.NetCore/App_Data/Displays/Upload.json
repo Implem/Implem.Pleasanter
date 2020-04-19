@@ -1,0 +1,29 @@
+{
+    "Id": "Upload",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Upload"
+        },
+        {
+            "Language": "zh",
+            "Body": "上传"
+        },
+        {
+            "Language": "ja",
+            "Body": "アップロード"
+        },
+        {
+            "Language": "de",
+            "Body": "Hochladen"
+        },
+        {
+            "Language": "ko",
+            "Body": "업로드"
+        },
+        {
+            "Language": "es",
+            "Body": "Cargar"
+        }
+    ]
+}

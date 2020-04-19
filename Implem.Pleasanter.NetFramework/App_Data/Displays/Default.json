@@ -1,0 +1,29 @@
+{
+    "Id": "Default",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Default"
+        },
+        {
+            "Language": "zh",
+            "Body": "默认"
+        },
+        {
+            "Language": "ja",
+            "Body": "既定"
+        },
+        {
+            "Language": "de",
+            "Body": "Voreinstellung"
+        },
+        {
+            "Language": "ko",
+            "Body": "기본값"
+        },
+        {
+            "Language": "es",
+            "Body": "Predeterminado"
+        }
+    ]
+}

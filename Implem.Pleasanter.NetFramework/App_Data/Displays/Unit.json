@@ -1,0 +1,29 @@
+{
+    "Id": "Unit",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Unit"
+        },
+        {
+            "Language": "zh",
+            "Body": "单位"
+        },
+        {
+            "Language": "ja",
+            "Body": "単位"
+        },
+        {
+            "Language": "de",
+            "Body": "Einheit"
+        },
+        {
+            "Language": "ko",
+            "Body": "단위"
+        },
+        {
+            "Language": "es",
+            "Body": "Unidad"
+        }
+    ]
+}

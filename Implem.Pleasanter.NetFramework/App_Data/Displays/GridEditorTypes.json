@@ -1,0 +1,29 @@
+{
+    "Id": "GridEditorTypes",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Grid editor types"
+        },
+        {
+            "Language": "zh",
+            "Body": "网格编辑器类型"
+        },
+        {
+            "Language": "ja",
+            "Body": "一覧編集種別"
+        },
+        {
+            "Language": "de",
+            "Body": "Rastereditor-Typen"
+        },
+        {
+            "Language": "ko",
+            "Body": "그리드 편집기 유형"
+        },
+        {
+            "Language": "es",
+            "Body": "Tipos de editor de cuadrícula"
+        }
+    ]
+}

@@ -1,0 +1,29 @@
+{
+    "Id": "HumanResourcesAndGeneralAffairs",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Human Resources and General Affairs"
+        },
+        {
+            "Language": "zh",
+            "Body": "人力资源和总务部"
+        },
+        {
+            "Language": "ja",
+            "Body": "人事・総務"
+        },
+        {
+            "Language": "de",
+            "Body": "Personalwesen und Allgemeine Angelegenheiten"
+        },
+        {
+            "Language": "ko",
+            "Body": "인사총무"
+        },
+        {
+            "Language": "es",
+            "Body": "Recursos Humanos y Asuntos Generales"
+        }
+    ]
+}

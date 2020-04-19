@@ -1,0 +1,29 @@
+{
+    "Id": "DateFilterSetModeRange",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Specify range"
+        },
+        {
+            "Language": "zh",
+            "Body": "指定范围"
+        },
+        {
+            "Language": "ja",
+            "Body": "範囲指定"
+        },
+        {
+            "Language": "de",
+            "Body": "Bereich angeben"
+        },
+        {
+            "Language": "ko",
+            "Body": "범위 지정"
+        },
+        {
+            "Language": "es",
+            "Body": "Indicar intervalo"
+        }
+    ]
+}

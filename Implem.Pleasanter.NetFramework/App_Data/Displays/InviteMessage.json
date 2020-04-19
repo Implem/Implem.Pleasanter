@@ -1,0 +1,29 @@
+{
+    "Id": "InviteMessage",
+    "Type": 210,
+    "Languages": [
+        {
+            "Body": "\" {0} \" has been invited."
+        },
+        {
+            "Language": "zh",
+            "Body": "已邀请“{0}”。"
+        },
+        {
+            "Language": "ja",
+            "Body": "\" {0} \" を招待しました。"
+        },
+        {
+            "Language": "de",
+            "Body": "„ {0} “ wurde eingeladen."
+        },
+        {
+            "Language": "ko",
+            "Body": "\" {0} \"이(가) 초대되었습니다."
+        },
+        {
+            "Language": "es",
+            "Body": "Se ha invitado \" {0} \"."
+        }
+    ]
+}

@@ -1,0 +1,29 @@
+{
+    "Id": "All",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "All"
+        },
+        {
+            "Language": "zh",
+            "Body": "所有"
+        },
+        {
+            "Language": "ja",
+            "Body": "全て"
+        },
+        {
+            "Language": "de",
+            "Body": "Alle"
+        },
+        {
+            "Language": "ko",
+            "Body": "모두"
+        },
+        {
+            "Language": "es",
+            "Body": "Todos"
+        }
+    ]
+}

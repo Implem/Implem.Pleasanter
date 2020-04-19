@@ -1,0 +1,29 @@
+{
+    "Id": "Excel",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Excel"
+        },
+        {
+            "Language": "zh",
+            "Body": "Excel"
+        },
+        {
+            "Language": "ja",
+            "Body": "Excel"
+        },
+        {
+            "Language": "de",
+            "Body": "Excel"
+        },
+        {
+            "Language": "ko",
+            "Body": "Excel"
+        },
+        {
+            "Language": "es",
+            "Body": "Excel"
+        }
+    ]
+}

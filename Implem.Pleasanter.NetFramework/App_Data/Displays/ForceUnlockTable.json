@@ -1,0 +1,29 @@
+{
+    "Id": "ForceUnlockTable",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Force unlock the table"
+        },
+        {
+            "Language": "zh",
+            "Body": "强制解锁表格"
+        },
+        {
+            "Language": "ja",
+            "Body": "テーブルのロックを強制解除"
+        },
+        {
+            "Language": "de",
+            "Body": "Entsperren der Tabelle erzwingen"
+        },
+        {
+            "Language": "ko",
+            "Body": "목록 강제 잠금 해제"
+        },
+        {
+            "Language": "es",
+            "Body": "Forzar desbloqueo de la tabla."
+        }
+    ]
+}

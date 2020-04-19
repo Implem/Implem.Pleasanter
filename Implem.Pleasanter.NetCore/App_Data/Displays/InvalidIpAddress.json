@@ -1,0 +1,29 @@
+{
+    "Id": "InvalidIpAddress",
+    "Type": 240,
+    "Languages": [
+        {
+            "Body": "Invalid IP address."
+        },
+        {
+            "Language": "zh",
+            "Body": "无效IP地址。"
+        },
+        {
+            "Language": "ja",
+            "Body": "IPアドレスが不正です。"
+        },
+        {
+            "Language": "de",
+            "Body": "Ungültige IP-Adresse."
+        },
+        {
+            "Language": "ko",
+            "Body": "유효하지 않은 IP 주소입니다."
+        },
+        {
+            "Language": "es",
+            "Body": "Dirección IP no válida."
+        }
+    ]
+}

@@ -1,0 +1,29 @@
+{
+    "Id": "SeparateSettings",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Division settings"
+        },
+        {
+            "Language": "zh",
+            "Body": "划分设置"
+        },
+        {
+            "Language": "ja",
+            "Body": "分割設定"
+        },
+        {
+            "Language": "de",
+            "Body": "Aufteilungseinstellungen"
+        },
+        {
+            "Language": "ko",
+            "Body": "분할 설정"
+        },
+        {
+            "Language": "es",
+            "Body": "Ajustes de división"
+        }
+    ]
+}

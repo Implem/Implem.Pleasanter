@@ -1,0 +1,29 @@
+{
+    "Id": "InvalidCsvData",
+    "Type": 240,
+    "Languages": [
+        {
+            "Body": "Invalid data. Row: {0} Column: {1}"
+        },
+        {
+            "Language": "zh",
+            "Body": "无效数据。行：{0} 列：{1}"
+        },
+        {
+            "Language": "ja",
+            "Body": "データが不正です。 行: {0} 列: {1}"
+        },
+        {
+            "Language": "de",
+            "Body": "Ungültige Daten. Zeile: {0} Spalte: {1}"
+        },
+        {
+            "Language": "ko",
+            "Body": "유효하지 않은 데이터입니다. 행: {0} 열: {1}"
+        },
+        {
+            "Language": "es",
+            "Body": "Datos no válidos: Fila: {0} Columna: {1}"
+        }
+    ]
+}

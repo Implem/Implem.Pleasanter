@@ -1,0 +1,29 @@
+{
+    "Id": "ReadWrite",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Write"
+        },
+        {
+            "Language": "zh",
+            "Body": "写入"
+        },
+        {
+            "Language": "ja",
+            "Body": "書き込み"
+        },
+        {
+            "Language": "de",
+            "Body": "Schreiben"
+        },
+        {
+            "Language": "ko",
+            "Body": "쓰기"
+        },
+        {
+            "Language": "es",
+            "Body": "Escribir"
+        }
+    ]
+}

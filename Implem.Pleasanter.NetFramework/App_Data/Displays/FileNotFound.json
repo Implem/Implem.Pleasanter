@@ -1,0 +1,29 @@
+{
+    "Id": "FileNotFound",
+    "Type": 240,
+    "Languages": [
+        {
+            "Body": "Please select a file."
+        },
+        {
+            "Language": "zh",
+            "Body": "请选择文件。"
+        },
+        {
+            "Language": "ja",
+            "Body": "ファイルを選択してください。"
+        },
+        {
+            "Language": "de",
+            "Body": "Bitte wählen Sie eine Datei aus."
+        },
+        {
+            "Language": "ko",
+            "Body": "파일을 선택하십시오."
+        },
+        {
+            "Language": "es",
+            "Body": "Por favor, seleccione un archivo."
+        }
+    ]
+}

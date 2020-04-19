@@ -1,0 +1,29 @@
+{
+    "Id": "SendCompletedInPast",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Send together with what you completed in the past"
+        },
+        {
+            "Language": "zh",
+            "Body": "与此前完成的内容一起发送"
+        },
+        {
+            "Language": "ja",
+            "Body": "過去に完了したものも送信"
+        },
+        {
+            "Language": "de",
+            "Body": "Zusammen mit bereits Abgeschlossenem senden"
+        },
+        {
+            "Language": "ko",
+            "Body": "과거에 완료한 것과 함께 전송"
+        },
+        {
+            "Language": "es",
+            "Body": "Enviar junto con el que rellenó con anterioridad."
+        }
+    ]
+}

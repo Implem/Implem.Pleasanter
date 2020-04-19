@@ -1,0 +1,29 @@
+{
+    "Id": "Plan",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Plan"
+        },
+        {
+            "Language": "zh",
+            "Body": "计划"
+        },
+        {
+            "Language": "ja",
+            "Body": "プラン"
+        },
+        {
+            "Language": "de",
+            "Body": "Planen"
+        },
+        {
+            "Language": "ko",
+            "Body": "계획"
+        },
+        {
+            "Language": "es",
+            "Body": "Plan"
+        }
+    ]
+}

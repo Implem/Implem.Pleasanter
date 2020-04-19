@@ -1,0 +1,30 @@
+{
+    "Id": "ConfirmSwitchUser",
+    "Type": 310,
+    "ClientScript": true,
+    "Languages": [
+        {
+            "Body": "Are you sure you want to switch users?"
+        },
+        {
+            "Language": "zh",
+            "Body": "是否确定切换用户？"
+        },
+        {
+            "Language": "ja",
+            "Body": "本当にユーザを切り替えますか？"
+        },
+        {
+            "Language": "de",
+            "Body": "Soll der Benutzer tatsächlich gewechselt werden?"
+        },
+        {
+            "Language": "ko",
+            "Body": "사용자를 전환하시겠습니까?"
+        },
+        {
+            "Language": "es",
+            "Body": "¿Está seguro de quiere cambiar los usuarios?"
+        }
+    ]
+}

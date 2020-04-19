@@ -1,0 +1,29 @@
+{
+    "Id": "DeletedImage",
+    "Type": 210,
+    "Languages": [
+        {
+            "Body": "Image has been deleted."
+        },
+        {
+            "Language": "zh",
+            "Body": "图像已删除。"
+        },
+        {
+            "Language": "ja",
+            "Body": "画像を削除しました。"
+        },
+        {
+            "Language": "de",
+            "Body": "Das Bild wurde gelöscht."
+        },
+        {
+            "Language": "ko",
+            "Body": "이미지가 삭제되었습니다."
+        },
+        {
+            "Language": "es",
+            "Body": "Se ha eliminado la imagen."
+        }
+    ]
+}

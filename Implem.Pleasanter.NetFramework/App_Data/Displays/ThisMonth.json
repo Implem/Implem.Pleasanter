@@ -1,0 +1,29 @@
+{
+    "Id": "ThisMonth",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "This month"
+        },
+        {
+            "Language": "zh",
+            "Body": "本月"
+        },
+        {
+            "Language": "ja",
+            "Body": "今月"
+        },
+        {
+            "Language": "de",
+            "Body": "Aktueller Monat"
+        },
+        {
+            "Language": "ko",
+            "Body": "이번 달"
+        },
+        {
+            "Language": "es",
+            "Body": "Este mes"
+        }
+    ]
+}

@@ -1,0 +1,29 @@
+{
+    "Id": "PublishWarning",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "This table is open to the public and available to users who are not logged in for viewing."
+        },
+        {
+            "Language": "zh",
+            "Body": "此表格是公开的，未登录的用户也可查看。"
+        },
+        {
+            "Language": "ja",
+            "Body": "このテーブルは公開されています。ログインしていないユーザも閲覧可能です。"
+        },
+        {
+            "Language": "de",
+            "Body": "Diese Tabelle ist öffentlich zugänglich und kann von nicht angemeldeten Benutzern angezeigt werden."
+        },
+        {
+            "Language": "ko",
+            "Body": "이 목록은 공개되어 있으며 로그인하지 않은 사용자가 확인할 수 있습니다."
+        },
+        {
+            "Language": "es",
+            "Body": "Esta tabla está abierta al público y pueden verla los usuarios no registrados."
+        }
+    ]
+}

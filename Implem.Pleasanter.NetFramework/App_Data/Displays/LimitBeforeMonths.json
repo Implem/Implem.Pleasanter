@@ -1,0 +1,29 @@
+{
+    "Id": "LimitBeforeMonths",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "{0} months exceeded"
+        },
+        {
+            "Language": "zh",
+            "Body": "已超出{0}个月"
+        },
+        {
+            "Language": "ja",
+            "Body": "{0} ヶ月超過"
+        },
+        {
+            "Language": "de",
+            "Body": "{0} Monate überschritten"
+        },
+        {
+            "Language": "ko",
+            "Body": "{0}개월 초과됨"
+        },
+        {
+            "Language": "es",
+            "Body": "{0} meses de más"
+        }
+    ]
+}

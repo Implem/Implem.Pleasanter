@@ -1,0 +1,29 @@
+{
+    "Id": "SelectTemplate",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Please select a template from the list. The screen sample will be displayed."
+        },
+        {
+            "Language": "zh",
+            "Body": "请从列表中选择模板。随后将显示界面样例。"
+        },
+        {
+            "Language": "ja",
+            "Body": "リストからテンプレートを選択してください。画面のサンプルが表示されます。"
+        },
+        {
+            "Language": "de",
+            "Body": "Bitte wählen Sie eine Vorlage aus der Liste aus. Der Bildschirmausdruck wird angezeigt."
+        },
+        {
+            "Language": "ko",
+            "Body": "목록에서 템플릿을 선택하십시오. 화면 샘플이 표시됩니다."
+        },
+        {
+            "Language": "es",
+            "Body": "Por favor, seleccione una plantilla de la lista. Se mostrará la pantalla de ejemplo."
+        }
+    ]
+}

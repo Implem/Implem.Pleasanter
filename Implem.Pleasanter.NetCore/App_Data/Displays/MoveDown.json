@@ -1,0 +1,29 @@
+{
+    "Id": "MoveDown",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Move down"
+        },
+        {
+            "Language": "zh",
+            "Body": "下移"
+        },
+        {
+            "Language": "ja",
+            "Body": "下"
+        },
+        {
+            "Language": "de",
+            "Body": "Nach unten"
+        },
+        {
+            "Language": "ko",
+            "Body": "아래로 이동"
+        },
+        {
+            "Language": "es",
+            "Body": "Mover hacia abajo"
+        }
+    ]
+}

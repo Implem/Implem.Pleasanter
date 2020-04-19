@@ -1,0 +1,29 @@
+{
+    "Id": "HourAgo",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "1 hour ago"
+        },
+        {
+            "Language": "zh",
+            "Body": "1小时前"
+        },
+        {
+            "Language": "ja",
+            "Body": "1 時間前"
+        },
+        {
+            "Language": "de",
+            "Body": "Vor 1 Stunde"
+        },
+        {
+            "Language": "ko",
+            "Body": "1시간 전"
+        },
+        {
+            "Language": "es",
+            "Body": "Hace una hora"
+        }
+    ]
+}

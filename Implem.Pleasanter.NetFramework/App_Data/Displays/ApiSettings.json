@@ -1,0 +1,29 @@
+{
+    "Id": "ApiSettings",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "API settings"
+        },
+        {
+            "Language": "zh",
+            "Body": "API设置"
+        },
+        {
+            "Language": "ja",
+            "Body": "API設定"
+        },
+        {
+            "Language": "de",
+            "Body": "API-Einstellungen"
+        },
+        {
+            "Language": "ko",
+            "Body": "API 설정"
+        },
+        {
+            "Language": "es",
+            "Body": "Configuración de API"
+        }
+    ]
+}

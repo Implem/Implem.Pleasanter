@@ -1,0 +1,29 @@
+{
+    "Id": "EndOfMonth",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "End of the month"
+        },
+        {
+            "Language": "zh",
+            "Body": "月末"
+        },
+        {
+            "Language": "ja",
+            "Body": "月末"
+        },
+        {
+            "Language": "de",
+            "Body": "Monatsende"
+        },
+        {
+            "Language": "ko",
+            "Body": "월말"
+        },
+        {
+            "Language": "es",
+            "Body": "Fin del mes"
+        }
+    ]
+}

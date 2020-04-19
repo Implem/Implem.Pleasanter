@@ -1,0 +1,29 @@
+{
+    "Id": "Blog",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Blog"
+        },
+        {
+            "Language": "zh",
+            "Body": "博客"
+        },
+        {
+            "Language": "ja",
+            "Body": "ブログ"
+        },
+        {
+            "Language": "de",
+            "Body": "Blog"
+        },
+        {
+            "Language": "ko",
+            "Body": "블로그"
+        },
+        {
+            "Language": "es",
+            "Body": "Blog"
+        }
+    ]
+}

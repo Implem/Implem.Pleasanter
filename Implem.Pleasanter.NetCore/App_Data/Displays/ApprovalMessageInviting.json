@@ -1,0 +1,29 @@
+{
+    "Id": "ApprovalMessageInviting",
+    "Type": 240,
+    "Languages": [
+        {
+            "Body": "{0} is currently invited and cannot be approved."
+        },
+        {
+            "Language": "zh",
+            "Body": "{0}当前已接受邀请，无法获批。"
+        },
+        {
+            "Language": "ja",
+            "Body": "{0} は現在招待中の為、承認できません。"
+        },
+        {
+            "Language": "de",
+            "Body": "{0} ist derzeit eingeladen und kann nicht genehmigt werden."
+        },
+        {
+            "Language": "ko",
+            "Body": "{0}이(가) 현재 초대된 상태이므로 승인할 수 없습니다."
+        },
+        {
+            "Language": "es",
+            "Body": "{0} está invitado actualmente y no puede aprobarse."
+        }
+    ]
+}

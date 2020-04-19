@@ -1,0 +1,29 @@
+{
+    "Id": "MatchInFrontOfTitle",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Match at beginning of the title"
+        },
+        {
+            "Language": "zh",
+            "Body": "与标题开头匹配"
+        },
+        {
+            "Language": "ja",
+            "Body": "タイトルの前方一致"
+        },
+        {
+            "Language": "de",
+            "Body": "Übereinstimmung an Titelanfang"
+        },
+        {
+            "Language": "ko",
+            "Body": "제목 시작 맞추기"
+        },
+        {
+            "Language": "es",
+            "Body": "Concordancia al principio del título"
+        }
+    ]
+}

@@ -1,0 +1,29 @@
+{
+    "Id": "MoveSettings",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Move settings"
+        },
+        {
+            "Language": "zh",
+            "Body": "移动设置"
+        },
+        {
+            "Language": "ja",
+            "Body": "移動設定"
+        },
+        {
+            "Language": "de",
+            "Body": "Verschiebeeinstellungen"
+        },
+        {
+            "Language": "ko",
+            "Body": "이동 설정"
+        },
+        {
+            "Language": "es",
+            "Body": "Ajustes de movimiento"
+        }
+    ]
+}

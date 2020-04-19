@@ -1,0 +1,29 @@
+{
+    "Id": "PartialMatch",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Partial match"
+        },
+        {
+            "Language": "zh",
+            "Body": "部分匹配"
+        },
+        {
+            "Language": "ja",
+            "Body": "部分一致"
+        },
+        {
+            "Language": "de",
+            "Body": "Teilübereinstimmung"
+        },
+        {
+            "Language": "ko",
+            "Body": "부분 일치"
+        },
+        {
+            "Language": "es",
+            "Body": "Concordancia parcial"
+        }
+    ]
+}

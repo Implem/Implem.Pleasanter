@@ -1,0 +1,29 @@
+{
+    "Id": "OptionList",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Option list"
+        },
+        {
+            "Language": "zh",
+            "Body": "选项列表"
+        },
+        {
+            "Language": "ja",
+            "Body": "選択肢一覧"
+        },
+        {
+            "Language": "de",
+            "Body": "Optionsliste"
+        },
+        {
+            "Language": "ko",
+            "Body": "옵션 목록"
+        },
+        {
+            "Language": "es",
+            "Body": "Lista de opciones"
+        }
+    ]
+}

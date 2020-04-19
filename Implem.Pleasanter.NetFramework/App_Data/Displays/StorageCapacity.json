@@ -1,0 +1,29 @@
+﻿{
+    "Id": "StorageCapacity",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Storage capacity"
+        },
+        {
+            "Language": "zh",
+            "Body": "存储容量"
+        },
+        {
+            "Language": "ja",
+            "Body": "契約容量"
+        },
+        {
+            "Language": "de",
+            "Body": "Speicherkapazität"
+        },
+        {
+            "Language": "ko",
+            "Body": "저장 용량"
+        },
+        {
+            "Language": "es",
+            "Body": "Capacidad de almacenamiento"
+        }
+    ]
+}

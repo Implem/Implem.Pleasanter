@@ -1,0 +1,29 @@
+{
+    "Id": "Standard",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Standard"
+        },
+        {
+            "Language": "zh",
+            "Body": "标准"
+        },
+        {
+            "Language": "ja",
+            "Body": "標準"
+        },
+        {
+            "Language": "de",
+            "Body": "Standard"
+        },
+        {
+            "Language": "ko",
+            "Body": "표준"
+        },
+        {
+            "Language": "es",
+            "Body": "Estándar"
+        }
+    ]
+}

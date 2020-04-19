@@ -1,0 +1,30 @@
+{
+    "Id": "OrderDesc",
+    "Type": 110,
+    "ClientScript": true,
+    "Languages": [
+        {
+            "Body": "Descendant"
+        },
+        {
+            "Language": "zh",
+            "Body": "下降"
+        },
+        {
+            "Language": "ja",
+            "Body": "降順"
+        },
+        {
+            "Language": "de",
+            "Body": "Absteigend"
+        },
+        {
+            "Language": "ko",
+            "Body": "내림차순"
+        },
+        {
+            "Language": "es",
+            "Body": "Descendente"
+        }
+    ]
+}

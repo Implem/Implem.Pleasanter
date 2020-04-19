@@ -1,0 +1,29 @@
+{
+    "Id": "ReadOnly",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Read only"
+        },
+        {
+            "Language": "zh",
+            "Body": "只读"
+        },
+        {
+            "Language": "ja",
+            "Body": "読取専用"
+        },
+        {
+            "Language": "de",
+            "Body": "Nur lesen"
+        },
+        {
+            "Language": "ko",
+            "Body": "읽기 전용"
+        },
+        {
+            "Language": "es",
+            "Body": "Solo lectura"
+        }
+    ]
+}

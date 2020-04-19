@@ -1,0 +1,29 @@
+{
+    "Id": "Month",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Month"
+        },
+        {
+            "Language": "zh",
+            "Body": "月"
+        },
+        {
+            "Language": "ja",
+            "Body": "月"
+        },
+        {
+            "Language": "de",
+            "Body": "Monat"
+        },
+        {
+            "Language": "ko",
+            "Body": "월"
+        },
+        {
+            "Language": "es",
+            "Body": "Mes"
+        }
+    ]
+}

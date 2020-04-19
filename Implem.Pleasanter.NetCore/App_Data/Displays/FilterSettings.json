@@ -1,0 +1,29 @@
+{
+    "Id": "FilterSettings",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Filter settings"
+        },
+        {
+            "Language": "zh",
+            "Body": "过滤器设置"
+        },
+        {
+            "Language": "ja",
+            "Body": "フィルタの設定"
+        },
+        {
+            "Language": "de",
+            "Body": "Filtereinstellungen"
+        },
+        {
+            "Language": "ko",
+            "Body": "필터 설정"
+        },
+        {
+            "Language": "es",
+            "Body": "Ajustes del filtro"
+        }
+    ]
+}

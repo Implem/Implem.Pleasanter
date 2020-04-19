@@ -1,0 +1,29 @@
+{
+    "Id": "Restore",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Restore"
+        },
+        {
+            "Language": "zh",
+            "Body": "恢复"
+        },
+        {
+            "Language": "ja",
+            "Body": "復元"
+        },
+        {
+            "Language": "de",
+            "Body": "Wiederherstellen"
+        },
+        {
+            "Language": "ko",
+            "Body": "복원"
+        },
+        {
+            "Language": "es",
+            "Body": "Restaurar"
+        }
+    ]
+}

@@ -1,0 +1,29 @@
+{
+    "Id": "Separated",
+    "Type": 210,
+    "Languages": [
+        {
+            "Body": "Divided"
+        },
+        {
+            "Language": "zh",
+            "Body": "已划分"
+        },
+        {
+            "Language": "ja",
+            "Body": "分割しました。"
+        },
+        {
+            "Language": "de",
+            "Body": "Aufgeteilt"
+        },
+        {
+            "Language": "ko",
+            "Body": "분할됨"
+        },
+        {
+            "Language": "es",
+            "Body": "Dividido"
+        }
+    ]
+}

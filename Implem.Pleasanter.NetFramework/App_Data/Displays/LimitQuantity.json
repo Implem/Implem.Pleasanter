@@ -1,0 +1,29 @@
+{
+    "Id": "LimitQuantity",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "File quantity limit"
+        },
+        {
+            "Language": "zh",
+            "Body": "文件数量限制"
+        },
+        {
+            "Language": "ja",
+            "Body": "ファイル数制限"
+        },
+        {
+            "Language": "de",
+            "Body": "Maximale Anzahl von Dateien"
+        },
+        {
+            "Language": "ko",
+            "Body": "파일 개수 한계"
+        },
+        {
+            "Language": "es",
+            "Body": "Limite de cantidad de archivos"
+        }
+    ]
+}

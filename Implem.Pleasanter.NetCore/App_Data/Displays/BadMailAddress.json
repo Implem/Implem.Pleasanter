@@ -1,0 +1,29 @@
+{
+    "Id": "BadMailAddress",
+    "Type": 240,
+    "Languages": [
+        {
+            "Body": "Invalid email address.[{0}]"
+        },
+        {
+            "Language": "zh",
+            "Body": "无效电子邮箱地址。[{0}]"
+        },
+        {
+            "Language": "ja",
+            "Body": "不正なメールアドレスです。[{0}]"
+        },
+        {
+            "Language": "de",
+            "Body": "E-Mail-Adresse ungültig.[{0}]"
+        },
+        {
+            "Language": "ko",
+            "Body": "유효하지 않은 이메일 주소입니다.[{0}]"
+        },
+        {
+            "Language": "es",
+            "Body": "Dirección de correo electrónica no válida.[{0}]"
+        }
+    ]
+}

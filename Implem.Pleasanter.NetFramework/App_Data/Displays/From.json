@@ -1,0 +1,29 @@
+{
+    "Id": "From",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "From"
+        },
+        {
+            "Language": "zh",
+            "Body": "寄件人"
+        },
+        {
+            "Language": "ja",
+            "Body": "差出人"
+        },
+        {
+            "Language": "de",
+            "Body": "Von"
+        },
+        {
+            "Language": "ko",
+            "Body": "발신인"
+        },
+        {
+            "Language": "es",
+            "Body": "De"
+        }
+    ]
+}

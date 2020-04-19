@@ -1,0 +1,29 @@
+{
+    "Id": "SummaryType",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Summary type"
+        },
+        {
+            "Language": "zh",
+            "Body": "汇总类型"
+        },
+        {
+            "Language": "ja",
+            "Body": "サマリ種別"
+        },
+        {
+            "Language": "de",
+            "Body": "Übersichtstyp"
+        },
+        {
+            "Language": "ko",
+            "Body": "요약 유형"
+        },
+        {
+            "Language": "es",
+            "Body": "Tipo de resumen"
+        }
+    ]
+}

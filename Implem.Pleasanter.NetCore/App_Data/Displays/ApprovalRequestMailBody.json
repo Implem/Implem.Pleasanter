@@ -1,0 +1,29 @@
+{
+    "Id": "ApprovalRequestMailBody",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "This is an approval request to {0}.\n\nPlease access the following URL to approve.\n\n{1}\n\n"
+        },
+        {
+            "Language": "zh",
+            "Body": "此为{0}的批准请求。\n\n请访问以下URL进行批准。\n\n{1}\n\n"
+        },
+        {
+            "Language": "ja",
+            "Body": "{0}への承認依頼です。\r\n\r\n下記のURLにアクセスし承認してください。\r\n\r\n{1}\r\n\r\n"
+        },
+        {
+            "Language": "de",
+            "Body": "Das ist eine Genehmigungsanforderung an {0}.\n\nFolgen Sie diesem Link, um die Anforderung zu genehmigen.\n\n{1}\n\n"
+        },
+        {
+            "Language": "ko",
+            "Body": "{0}에 대한 승인 요청입니다.\n\n승인하려면 다음 URL에 액세스하십시오.\n\n{1}\n\n"
+        },
+        {
+            "Language": "es",
+            "Body": "Esta es una solicitud de aprobación para {0}.\n\nPor favor, acceda a la URL siguiente para la aprobación.\n\n{1}\n\n"
+        }
+    ]
+}

@@ -1,0 +1,29 @@
+{
+    "Id": "UpdatedTime",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Updated on"
+        },
+        {
+            "Language": "zh",
+            "Body": "更新时间"
+        },
+        {
+            "Language": "ja",
+            "Body": "更新日時"
+        },
+        {
+            "Language": "de",
+            "Body": "Aktualisiert am"
+        },
+        {
+            "Language": "ko",
+            "Body": "업데이트 날짜"
+        },
+        {
+            "Language": "es",
+            "Body": "Actualizado el"
+        }
+    ]
+}

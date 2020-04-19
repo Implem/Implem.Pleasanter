@@ -1,0 +1,29 @@
+{
+    "Id": "EditSettings",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Edit settings"
+        },
+        {
+            "Language": "zh",
+            "Body": "编辑设置"
+        },
+        {
+            "Language": "ja",
+            "Body": "設定変更"
+        },
+        {
+            "Language": "de",
+            "Body": "Einstellungen bearbeiten"
+        },
+        {
+            "Language": "ko",
+            "Body": "설정 편집"
+        },
+        {
+            "Language": "es",
+            "Body": "Editar configuración"
+        }
+    ]
+}

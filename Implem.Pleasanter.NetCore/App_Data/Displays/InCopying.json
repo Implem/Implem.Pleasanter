@@ -1,0 +1,29 @@
+{
+    "Id": "InCopying",
+    "Type": 220,
+    "Languages": [
+        {
+            "Body": "Copying..."
+        },
+        {
+            "Language": "zh",
+            "Body": "正在复制…"
+        },
+        {
+            "Language": "ja",
+            "Body": "コピー中です。"
+        },
+        {
+            "Language": "de",
+            "Body": "Kopieren ..."
+        },
+        {
+            "Language": "ko",
+            "Body": "복사 중..."
+        },
+        {
+            "Language": "es",
+            "Body": "Copiando..."
+        }
+    ]
+}

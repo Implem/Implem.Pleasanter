@@ -1,0 +1,29 @@
+{
+    "Id": "Name",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Name"
+        },
+        {
+            "Language": "zh",
+            "Body": "名称"
+        },
+        {
+            "Language": "ja",
+            "Body": "名称"
+        },
+        {
+            "Language": "de",
+            "Body": "Name"
+        },
+        {
+            "Language": "ko",
+            "Body": "이름"
+        },
+        {
+            "Language": "es",
+            "Body": "Nombre"
+        }
+    ]
+}

@@ -1,0 +1,29 @@
+{
+    "Id": "NoData",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "There is no applicable data."
+        },
+        {
+            "Language": "zh",
+            "Body": "无相关数据。"
+        },
+        {
+            "Language": "ja",
+            "Body": "該当するデータがありません"
+        },
+        {
+            "Language": "de",
+            "Body": "Keine anwendbaren Daten vorhanden."
+        },
+        {
+            "Language": "ko",
+            "Body": "해당하는 데이터가 없습니다."
+        },
+        {
+            "Language": "es",
+            "Body": "No hay datos aplicables."
+        }
+    ]
+}

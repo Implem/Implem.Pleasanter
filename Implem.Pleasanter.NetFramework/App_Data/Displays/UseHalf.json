@@ -1,0 +1,29 @@
+{
+    "Id": "UseHalf",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Use half period"
+        },
+        {
+            "Language": "zh",
+            "Body": "使用半年"
+        },
+        {
+            "Language": "ja",
+            "Body": "半期を使用"
+        },
+        {
+            "Language": "de",
+            "Body": "Halbjahr verwenden"
+        },
+        {
+            "Language": "ko",
+            "Body": "반기 사용"
+        },
+        {
+            "Language": "es",
+            "Body": "Usar medio período"
+        }
+    ]
+}

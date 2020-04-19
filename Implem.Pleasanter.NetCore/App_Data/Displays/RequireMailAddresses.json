@@ -1,0 +1,29 @@
+{
+    "Id": "RequireMailAddresses",
+    "Type": 240,
+    "Languages": [
+        {
+            "Body": "Add at least one email address."
+        },
+        {
+            "Language": "zh",
+            "Body": "至少添加一个电子邮箱地址。"
+        },
+        {
+            "Language": "ja",
+            "Body": "1つ以上の宛先を追加してください。"
+        },
+        {
+            "Language": "de",
+            "Body": "Fügen Sie mindestens eine E-Mail-Adresse hinzu."
+        },
+        {
+            "Language": "ko",
+            "Body": "최소 1개의 이메일 주소를 추가하십시오."
+        },
+        {
+            "Language": "es",
+            "Body": "Añadir al menos una dirección de correo electrónico."
+        }
+    ]
+}

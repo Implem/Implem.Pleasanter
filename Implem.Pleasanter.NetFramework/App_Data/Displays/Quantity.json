@@ -1,0 +1,29 @@
+{
+    "Id": "Quantity",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Q'ty"
+        },
+        {
+            "Language": "zh",
+            "Body": "数量"
+        },
+        {
+            "Language": "ja",
+            "Body": "件数"
+        },
+        {
+            "Language": "de",
+            "Body": "Menge"
+        },
+        {
+            "Language": "ko",
+            "Body": "수량"
+        },
+        {
+            "Language": "es",
+            "Body": "Cantidad"
+        }
+    ]
+}
