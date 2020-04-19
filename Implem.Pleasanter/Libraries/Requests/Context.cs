@@ -3,6 +3,7 @@ using Implem.Libraries.Classes;
 using Implem.Pleasanter.Libraries.DataTypes;
 using Implem.Pleasanter.Libraries.Responses;
 using Implem.Pleasanter.Libraries.Security;
+using Implem.Pleasanter.Libraries.Server;
 using Implem.Pleasanter.Libraries.Settings;
 using Implem.Pleasanter.Models;
 using System;
@@ -12,6 +13,7 @@ namespace Implem.Pleasanter.Libraries.Requests
 {
     public abstract class Context : ISqlObjectFactory
     {
+        public abstract Stopwatch Stopwatch { get; set; }
         public abstract bool Authenticated { get; set; }
         public abstract bool SwitchUser { get; set; }
         public abstract string SessionGuid { get; set; }

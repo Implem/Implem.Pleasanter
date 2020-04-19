@@ -3985,6 +3985,7 @@ namespace Implem.Pleasanter.Models
                 context: context,
                 referenceId: siteModel.SiteId,
                 setAllChoices: true);
+            ss.SetColumnAccessControls(context: context);
             var invalid = IssueValidators.OnImporting(
                 context: context,
                 ss: ss);
@@ -4012,7 +4013,10 @@ namespace Implem.Pleasanter.Models
                     context: context,
                     data: Parameters.General.ImportMax.ToString());
             }
-            if (context.ContractSettings.ItemsLimit(context: context, siteId: ss.SiteId, number: count))
+            if (context.ContractSettings.ItemsLimit(
+                context: context,
+                siteId: ss.SiteId,
+                number: count))
             {
                 return Error.Types.ItemsLimit.MessageJson(context: context);
             }
@@ -4055,64 +4059,67 @@ namespace Implem.Pleasanter.Models
                             issueModel = model;
                         }
                     }
-                    columnHash.ForEach(column =>
-                    {
-                        var recordingData = ImportRecordingData(
-                            context: context,
-                            column: column.Value,
-                            value: data.Row[column.Key],
-                            inheritPermission: ss.InheritPermission);
-                        switch (column.Value.ColumnName)
+                    columnHash
+                        .Where(column => (column.Value.CanCreate && issueModel.IssueId == 0)
+                            || (column.Value.CanUpdate && issueModel.IssueId > 0))
+                        .ForEach(column =>
                         {
-                            case "Title":
-                                issueModel.Title.Value = recordingData.ToString();
-                                break;
-                            case "Body":
-                                issueModel.Body = recordingData.ToString();
-                                break;
-                            case "StartTime":
-                                issueModel.StartTime = recordingData.ToDateTime();
-                                break;
-                            case "CompletionTime":
-                                issueModel.CompletionTime.Value = recordingData.ToDateTime();
-                                break;
-                            case "WorkValue":
-                                issueModel.WorkValue.Value = recordingData.ToDecimal();
-                                break;
-                            case "ProgressRate":
-                                issueModel.ProgressRate.Value = recordingData.ToDecimal();
-                                break;
-                            case "Status":
-                                issueModel.Status.Value = recordingData.ToInt();
-                                break;
-                            case "Manager":
-                                issueModel.Manager = SiteInfo.User(
-                                    context: context,
-                                    userId: recordingData.ToInt());
-                                break;
-                            case "Owner":
-                                issueModel.Owner = SiteInfo.User(
-                                    context: context,
-                                    userId: recordingData.ToInt());
-                                break;
-                            case "Comments":
-                                if (issueModel.AccessStatus != Databases.AccessStatuses.Selected &&
-                                    !data.Row[column.Key].IsNullOrEmpty())
-                                {
-                                    issueModel.Comments.Prepend(
+                            var recordingData = ImportRecordingData(
+                                context: context,
+                                column: column.Value,
+                                value: data.Row[column.Key],
+                                inheritPermission: ss.InheritPermission);
+                            switch (column.Value.ColumnName)
+                            {
+                                case "Title":
+                                    issueModel.Title.Value = recordingData.ToString();
+                                    break;
+                                case "Body":
+                                    issueModel.Body = recordingData.ToString();
+                                    break;
+                                case "StartTime":
+                                    issueModel.StartTime = recordingData.ToDateTime();
+                                    break;
+                                case "CompletionTime":
+                                    issueModel.CompletionTime.Value = recordingData.ToDateTime();
+                                    break;
+                                case "WorkValue":
+                                    issueModel.WorkValue.Value = recordingData.ToDecimal();
+                                    break;
+                                case "ProgressRate":
+                                    issueModel.ProgressRate.Value = recordingData.ToDecimal();
+                                    break;
+                                case "Status":
+                                    issueModel.Status.Value = recordingData.ToInt();
+                                    break;
+                                case "Manager":
+                                    issueModel.Manager = SiteInfo.User(
                                         context: context,
-                                        ss: ss,
-                                        body: data.Row[column.Key]);
-                                }
-                                break;
-                            default:
-                                issueModel.Value(
-                                    context: context,
-                                    columnName: column.Value.ColumnName,
-                                    value: recordingData);
-                                break;
-                        }
-                    });
+                                        userId: recordingData.ToInt());
+                                    break;
+                                case "Owner":
+                                    issueModel.Owner = SiteInfo.User(
+                                        context: context,
+                                        userId: recordingData.ToInt());
+                                    break;
+                                case "Comments":
+                                    if (issueModel.AccessStatus != Databases.AccessStatuses.Selected &&
+                                        !data.Row[column.Key].IsNullOrEmpty())
+                                    {
+                                        issueModel.Comments.Prepend(
+                                            context: context,
+                                            ss: ss,
+                                            body: data.Row[column.Key]);
+                                    }
+                                    break;
+                                default:
+                                    issueModel.Value(
+                                        context: context,
+                                        columnName: column.Value.ColumnName,
+                                        value: recordingData);
+                                    break;
+                            }
+                        });
                     issueHash.Add(data.Index, issueModel);
                 });
                 var errorCompletionTime = Imports.Validate(

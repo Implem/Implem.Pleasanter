@@ -30,6 +30,7 @@ namespace Implem.Pleasanter.NetCore.Libraries.Requests
 {
     public class ContextImplement : Context
     {
+        public override Stopwatch Stopwatch { get; set; } = new Stopwatch();
         public override bool Authenticated { get; set; }
         public override bool SwitchUser { get; set; }
         public override string SessionGuid { get; set; } = Strings.NewGuid();
