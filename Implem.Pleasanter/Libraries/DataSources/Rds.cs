@@ -5494,7 +5494,9 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     template: "set identity_insert \"Tenants_Deleted\" off;"));
         }
 
-        public static SqlStatement IdentityInsertTenants_History(ISqlObjectFactory factory, bool on)
+        public static SqlStatement IdentityInsertTenants_History(
+            ISqlObjectFactory factory,
+            bool on)
         {
             return on
                 ? new SqlStatement(factory.SqlCommandText.CreateIdentityInsert(
@@ -5672,7 +5674,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
         }
 
         public static SqlStatement IdentityInsertSysLogs_History(
-            ISqlObjectFactory factory, 
+            ISqlObjectFactory factory,
             bool on)
         {
             return on
@@ -5731,7 +5733,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
         }
 
         public static SqlStatement IdentityInsertStatuses_History(
-            ISqlObjectFactory factory, 
+            ISqlObjectFactory factory,
             bool on)
         {
             return on
@@ -5790,7 +5792,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
         }
 
         public static SqlStatement IdentityInsertReminderSchedules_History(
-            ISqlObjectFactory factory, 
+            ISqlObjectFactory factory,
             bool on)
         {
             return on
@@ -5850,7 +5852,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
         }
 
         public static SqlStatement IdentityInsertDepts_History(
-            ISqlObjectFactory factory, 
+            ISqlObjectFactory factory,
             bool on)
         {
             return on
@@ -5910,7 +5912,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
         }
 
         public static SqlStatement IdentityInsertGroups_History(
-            ISqlObjectFactory factory, 
+            ISqlObjectFactory factory,
             bool on)
         {
             return on
@@ -5969,7 +5971,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
         }
 
         public static SqlStatement IdentityInsertGroupMembers_History(
-            ISqlObjectFactory factory, 
+            ISqlObjectFactory factory,
             bool on)
         {
             return on
@@ -6029,7 +6031,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
         }
 
         public static SqlStatement IdentityInsertRegistrations_History(
-            ISqlObjectFactory factory, 
+            ISqlObjectFactory factory,
             bool on)
         {
             return on
@@ -6089,7 +6091,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
         }
 
         public static SqlStatement IdentityInsertUsers_History(
-            ISqlObjectFactory factory, 
+            ISqlObjectFactory factory,
             bool on)
         {
             return on
@@ -6148,7 +6150,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
         }
 
         public static SqlStatement IdentityInsertLoginKeys_History(
-            ISqlObjectFactory factory, 
+            ISqlObjectFactory factory,
             bool on)
         {
             return on
@@ -6208,7 +6210,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
         }
 
         public static SqlStatement IdentityInsertMailAddresses_History(
-            ISqlObjectFactory factory, 
+            ISqlObjectFactory factory,
             bool on)
         {
             return on
@@ -6268,7 +6270,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
         }
 
         public static SqlStatement IdentityInsertOutgoingMails_History(
-            ISqlObjectFactory factory, 
+            ISqlObjectFactory factory,
             bool on)
         {
             return on
@@ -6387,7 +6389,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
         }
 
         public static SqlStatement IdentityInsertSites_History(
-            ISqlObjectFactory factory, 
+            ISqlObjectFactory factory,
             bool on)
         {
             return on
@@ -6446,7 +6448,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
         }
 
         public static SqlStatement IdentityInsertOrders_History(
-            ISqlObjectFactory factory, 
+            ISqlObjectFactory factory,
             bool on)
         {
             return on
@@ -6506,7 +6508,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
         }
 
         public static SqlStatement IdentityInsertExportSettings_History(
-            ISqlObjectFactory factory, 
+            ISqlObjectFactory factory,
             bool on)
         {
             return on
@@ -6565,7 +6567,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
         }
 
         public static SqlStatement IdentityInsertLinks_History(
-            ISqlObjectFactory factory, 
+            ISqlObjectFactory factory,
             bool on)
         {
             return on
@@ -6625,7 +6627,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
         }
 
         public static SqlStatement IdentityInsertBinaries_History(
-            ISqlObjectFactory factory, 
+            ISqlObjectFactory factory,
             bool on)
         {
             return on
@@ -6684,7 +6686,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
         }
 
         public static SqlStatement IdentityInsertPermissions_History(
-            ISqlObjectFactory factory, 
+            ISqlObjectFactory factory,
             bool on)
         {
             return on
@@ -6743,7 +6745,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
         }
 
         public static SqlStatement IdentityInsertIssues_History(
-            ISqlObjectFactory factory, 
+            ISqlObjectFactory factory,
             bool on)
         {
             return on
@@ -6802,7 +6804,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
         }
 
         public static SqlStatement IdentityInsertResults_History(
-            ISqlObjectFactory factory, 
+            ISqlObjectFactory factory,
             bool on)
         {
             return on
@@ -6861,7 +6863,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
         }
 
         public static SqlStatement IdentityInsertWikis_History(
-            ISqlObjectFactory factory, 
+            ISqlObjectFactory factory,
             bool on)
         {
             return on
@@ -13308,7 +13310,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     ""Updator"" = {Parameters.Parameter.SqlParameterPrefix}U,
                     ""UpdatedTime"" = {factory.Sqls.CurrentDateTime} {{0}};
                 {factory.SqlCommandText.CreateIdentityInsert(
-                    template: "set identity_insert \"Tenants\" on;")}
+    template: "set identity_insert \"Tenants\" on;")}
                 insert into ""Tenants""
                 (
                     ""TenantId"",
@@ -13354,7 +13356,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     {{1}}
                 from ""Tenants_deleted"" {{0}});
                 {factory.SqlCommandText.CreateIdentityInsert(
-                    template: "set identity_insert \"Tenants\" off;")}
+    template: "set identity_insert \"Tenants\" off;")}
                 delete from ""Tenants_deleted"" {{0}}".Params(DeleteParams(tableName: "Tenants"));
         }
 
@@ -13366,7 +13368,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     ""Updator"" = {Parameters.Parameter.SqlParameterPrefix}U,
                     ""UpdatedTime"" = {factory.Sqls.CurrentDateTime} {{0}};
                 {factory.SqlCommandText.CreateIdentityInsert(
-                    template: "set identity_insert \"Demos\" on;")}
+    template: "set identity_insert \"Demos\" on;")}
                 insert into ""Demos""
                 (
                     ""DemoId"",
@@ -13402,7 +13404,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     {{1}}
                 from ""Demos_deleted"" {{0}});
                 {factory.SqlCommandText.CreateIdentityInsert(
-                    template: "set identity_insert \"Demos\" off;")}
+    template: "set identity_insert \"Demos\" off;")}
                 delete from ""Demos_deleted"" {{0}}".Params(DeleteParams(tableName: "Demos"));
         }
 
@@ -13456,7 +13458,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     ""Updator"" = {Parameters.Parameter.SqlParameterPrefix}U,
                     ""UpdatedTime"" = {factory.Sqls.CurrentDateTime} {{0}};
                 {factory.SqlCommandText.CreateIdentityInsert(
-                    template: "set identity_insert \"SysLogs\" on;")}
+    template: "set identity_insert \"SysLogs\" on;")}
                 insert into ""SysLogs""
                 (
                     ""CreatedTime"",
@@ -13546,7 +13548,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     {{1}}
                 from ""SysLogs_deleted"" {{0}});
                 {factory.SqlCommandText.CreateIdentityInsert(
-                    template: "set identity_insert \"SysLogs\" off;")}
+    template: "set identity_insert \"SysLogs\" off;")}
                 delete from ""SysLogs_deleted"" {{0}}".Params(DeleteParams(tableName: "SysLogs"));
         }
 
@@ -13630,7 +13632,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     ""Updator"" = {Parameters.Parameter.SqlParameterPrefix}U,
                     ""UpdatedTime"" = {factory.Sqls.CurrentDateTime} {{0}};
                 {factory.SqlCommandText.CreateIdentityInsert(
-                    template: "set identity_insert \"Depts\" on;")}
+    template: "set identity_insert \"Depts\" on;")}
                 insert into ""Depts""
                 (
                     ""TenantId"",
@@ -13662,7 +13664,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     {{1}}
                 from ""Depts_deleted"" {{0}});
                 {factory.SqlCommandText.CreateIdentityInsert(
-                    template: "set identity_insert \"Depts\" off;")}
+    template: "set identity_insert \"Depts\" off;")}
                 delete from ""Depts_deleted"" {{0}}".Params(DeleteParams(tableName: "Depts"));
         }
 
@@ -13674,7 +13676,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     ""Updator"" = {Parameters.Parameter.SqlParameterPrefix}U,
                     ""UpdatedTime"" = {factory.Sqls.CurrentDateTime} {{0}};
                 {factory.SqlCommandText.CreateIdentityInsert(
-                    template: "set identity_insert \"Groups\" on;")} 
+    template: "set identity_insert \"Groups\" on;")}
                 insert into ""Groups""
                 (
                     ""TenantId"",
@@ -13704,7 +13706,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     {{1}}
                 from ""Groups_deleted"" {{0}});
                 {factory.SqlCommandText.CreateIdentityInsert(
-                    template: "set identity_insert \"Groups\" off;")}
+    template: "set identity_insert \"Groups\" off;")}
                 delete from ""Groups_deleted"" {{0}}".Params(DeleteParams(tableName: "Groups"));
         }
 
@@ -13754,7 +13756,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     ""Updator"" = {Parameters.Parameter.SqlParameterPrefix}U,
                     ""UpdatedTime"" = {factory.Sqls.CurrentDateTime} {{0}};
                 {factory.SqlCommandText.CreateIdentityInsert(
-                    template: "set identity_insert \"Registrations\" on;")} 
+    template: "set identity_insert \"Registrations\" on;")}
                 insert into ""Registrations""
                 (
                     ""TenantId"",
@@ -13804,7 +13806,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     {{1}}
                 from ""Registrations_deleted"" {{0}});
                 {factory.SqlCommandText.CreateIdentityInsert(
-                    template: "set identity_insert \"Registrations\" off;")} 
+    template: "set identity_insert \"Registrations\" off;")}
                 delete from ""Registrations_deleted"" {{0}}".Params(DeleteParams(tableName: "Registrations"));
         }
 
@@ -13816,7 +13818,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     ""Updator"" = {Parameters.Parameter.SqlParameterPrefix}U,
                     ""UpdatedTime"" = {factory.Sqls.CurrentDateTime} {{0}};
                 {factory.SqlCommandText.CreateIdentityInsert(
-                    template: "set identity_insert \"Users\" on;")}  
+    template: "set identity_insert \"Users\" on;")}
                 insert into ""Users""
                 (
                     ""TenantId"",
@@ -13900,7 +13902,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     {{1}}
                 from ""Users_deleted"" {{0}});
                 {factory.SqlCommandText.CreateIdentityInsert(
-                    template: "set identity_insert \"Users\" off;")}  
+    template: "set identity_insert \"Users\" off;")}
                 delete from ""Users_deleted"" {{0}}".Params(DeleteParams(tableName: "Users"));
         }
 
@@ -13952,7 +13954,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     ""Updator"" = {Parameters.Parameter.SqlParameterPrefix}U,
                     ""UpdatedTime"" = {factory.Sqls.CurrentDateTime} {{0}};
                 {factory.SqlCommandText.CreateIdentityInsert(
-                    template: "set identity_insert \"MailAddresses\" on;")}  
+    template: "set identity_insert \"MailAddresses\" on;")}
                 insert into ""MailAddresses""
                 (
                     ""OwnerId"",
@@ -13982,7 +13984,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     {{1}}
                 from ""MailAddresses_deleted"" {{0}});
                 {factory.SqlCommandText.CreateIdentityInsert(
-                    template: "set identity_insert \"MailAddresses\" off;")}
+    template: "set identity_insert \"MailAddresses\" off;")}
                 delete from ""MailAddresses_deleted"" {{0}}".Params(DeleteParams(tableName: "MailAddresses"));
         }
 
@@ -13994,7 +13996,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     ""Updator"" = {Parameters.Parameter.SqlParameterPrefix}U,
                     ""UpdatedTime"" = {factory.Sqls.CurrentDateTime} {{0}};
                 {factory.SqlCommandText.CreateIdentityInsert(
-                    template: "set identity_insert \"OutgoingMails\" on;")}
+    template: "set identity_insert \"OutgoingMails\" on;")}
                 insert into ""OutgoingMails""
                 (
                     ""ReferenceType"",
@@ -14042,7 +14044,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     {{1}}
                 from ""OutgoingMails_deleted"" {{0}});
                 {factory.SqlCommandText.CreateIdentityInsert(
-                    template: "set identity_insert \"OutgoingMails\" off;")} 
+    template: "set identity_insert \"OutgoingMails\" off;")}
                 delete from ""OutgoingMails_deleted"" {{0}}".Params(DeleteParams(tableName: "OutgoingMails"));
         }
 
@@ -14054,7 +14056,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     ""Updator"" = {Parameters.Parameter.SqlParameterPrefix}U,
                     ""UpdatedTime"" = {factory.Sqls.CurrentDateTime} {{0}};
                 {factory.SqlCommandText.CreateIdentityInsert(
-                    template: "set identity_insert \"Items\" on;")}
+    template: "set identity_insert \"Items\" on;")}
                 insert into ""Items""
                 (
                     ""ReferenceId"",
@@ -14088,7 +14090,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     {{1}}
                 from ""Items_deleted"" {{0}});
                 {factory.SqlCommandText.CreateIdentityInsert(
-                    template: "set identity_insert \"Items\" off;")} 
+    template: "set identity_insert \"Items\" off;")}
                 delete from ""Items_deleted"" {{0}}".Params(DeleteParams(tableName: "Items"));
         }
 
@@ -14198,7 +14200,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     ""Updator"" = {Parameters.Parameter.SqlParameterPrefix}U,
                     ""UpdatedTime"" = {factory.Sqls.CurrentDateTime} {{0}};
                 {factory.SqlCommandText.CreateIdentityInsert(
-                    template: "set identity_insert \"ExportSettings\" on;")} 
+    template: "set identity_insert \"ExportSettings\" on;")}
                 insert into ""ExportSettings""
                 (
                     ""ReferenceType"",
@@ -14232,7 +14234,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     {{1}}
                 from ""ExportSettings_deleted"" {{0}});
                 {factory.SqlCommandText.CreateIdentityInsert(
-                    template: "set identity_insert \"ExportSettings\" off;")} 
+    template: "set identity_insert \"ExportSettings\" off;")}
                 delete from ""ExportSettings_deleted"" {{0}}".Params(DeleteParams(tableName: "ExportSettings"));
         }
 
@@ -14278,7 +14280,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     ""Updator"" = {Parameters.Parameter.SqlParameterPrefix}U,
                     ""UpdatedTime"" = {factory.Sqls.CurrentDateTime} {{0}};
                 {factory.SqlCommandText.CreateIdentityInsert(
-                    template: "set identity_insert \"Binaries\" on;")}
+    template: "set identity_insert \"Binaries\" on;")}
                 insert into ""Binaries""
                 (
                     ""BinaryId"",
@@ -14330,7 +14332,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     {{1}}
                 from ""Binaries_deleted"" {{0}});
                 {factory.SqlCommandText.CreateIdentityInsert(
-                    template: "set identity_insert \"Binaries\" off;")}
+    template: "set identity_insert \"Binaries\" off;")}
                 delete from ""Binaries_deleted"" {{0}}".Params(DeleteParams(tableName: "Binaries"));
         }
 

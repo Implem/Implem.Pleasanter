@@ -10,7 +10,6 @@ using Implem.Libraries.Utilities;
 using Implem.Pleasanter.Libraries.DataSources;
 using System.Security.Claims;
 using System.Data.Common;
-
 namespace Implem.Pleasanter.Controllers
 {
     public class UsersController : Controller
