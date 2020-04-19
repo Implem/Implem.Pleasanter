@@ -66,6 +66,7 @@ bld/
 [Ll]og/
 [Ll]ogs/
 
+.pubxml
 bundles/
 Histories/
 Logs/

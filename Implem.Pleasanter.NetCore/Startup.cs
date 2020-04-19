@@ -72,7 +72,10 @@ namespace Implem.Pleasanter.NetCore
             Initializer.Initialize(
                 path: env.ContentRootPath,
                 assemblyVersion: Assembly.GetExecutingAssembly().GetName().Version.ToString());
-            app.UseHttpsRedirection();
+            if (Parameters.Service.RequireHttps)
+            {
+                app.UseHttpsRedirection();
+            }
             app.UsePathBase(configuration["pathBase"]);
             app.UseStaticFiles();
             app.UseSession();
