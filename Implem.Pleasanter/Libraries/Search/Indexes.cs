@@ -515,6 +515,7 @@ namespace Implem.Pleasanter.Libraries.Search
                     if (itemJoin)
                     {
                         where.FullTextWhere(
+                            context:context,
                             words: words,
                             itemsTableName: ss.ReferenceType + "_Items");
                     }
@@ -767,7 +768,9 @@ namespace Implem.Pleasanter.Libraries.Search
                             joinType: SqlJoin.JoinTypes.Inner,
                             joinExpression: "\"Items\".\"SiteId\"=\"Sites\".\"SiteId\"")),
                     where: Rds.ItemsWhere()
-                        .FullTextWhere(words)
+                        .FullTextWhere(
+                            context: context,
+                            words: words)
                         .Add(
                             raw: Def.Sql.CanRead,
                             _using: !context.HasPrivilege && !context.Publish)
@@ -786,7 +789,9 @@ namespace Implem.Pleasanter.Libraries.Search
                             joinType: SqlJoin.JoinTypes.Inner,
                             joinExpression: "\"Items\".\"SiteId\"=\"Sites\".\"SiteId\"")),
                     where: Rds.ItemsWhere()
-                        .FullTextWhere(words)
+                        .FullTextWhere(
+                            context: context,
+                            words: words)
                         .Add(
                             raw: Def.Sql.CanRead,
                             _using: !context.HasPrivilege && !context.Publish)
@@ -801,14 +806,18 @@ namespace Implem.Pleasanter.Libraries.Search
         /// </summary>
         private static SqlWhereCollection FullTextWhere(
             this SqlWhereCollection where,
+            Context context,
             Dictionary<string, string> words,
             string itemsTableName = "Items")
         {
-            words.ForEach(data => where.Add(
-                name: data.Key,
-                value: data.Value,
+            words
+                .Select((word, i) => new { word, i })
+                .ForEach(data => where.Add(
+                name: data.word.Key,
+                value: data.word.Value,
                 raw: FullTextWhere(
-                    name: data.Key,
+                    factory: context,
+                    count: data.i,
                     itemsTableName: itemsTableName)));
             return where;
         }
@@ -816,10 +825,10 @@ namespace Implem.Pleasanter.Libraries.Search
         /// <summary>
         /// Fixed:
         /// </summary>
-        private static string FullTextWhere(string name, string itemsTableName = "Items")
+        private static string FullTextWhere(ISqlObjectFactory factory, int count, string itemsTableName = "Items")
         {
-            var item = $"contains(\"{itemsTableName}\".\"FullText\", @{name}#CommandCount#)";
-            var binary = $"exists(select * from \"Binaries\" where \"Binaries\".\"ReferenceId\"=\"{itemsTableName}\".\"ReferenceId\" and contains(\"Bin\", @{name}#CommandCount#))";
+            var item = factory.SqlCommandText.CreateFullTextWhereItem(itemsTableName, count);
+            var binary = factory.SqlCommandText.CreateFullTextWhereBinary(itemsTableName, count);
             return Parameters.Search.SearchDocuments
                 ? $"({item} or {binary})"
                 : item;

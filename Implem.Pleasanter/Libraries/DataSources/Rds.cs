@@ -1,4 +1,5 @@
-﻿using Implem.DefinitionAccessor;
+﻿using DocumentFormat.OpenXml;
+using Implem.DefinitionAccessor;
 using Implem.IRds;
 using Implem.Libraries.DataSources.SqlServer;
 using Implem.Libraries.Utilities;
@@ -427,6 +428,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                 ? where.Add(
                     tableName: column.TableName(),
                     columnBrackets: new string[] { "\"" + column.Name + "\"" },
+                    name: Strings.NewGuid(),
                     value: value)
                 : where.Add(
                     tableName: column.TableName(),
