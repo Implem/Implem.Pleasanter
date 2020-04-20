@@ -64,7 +64,6 @@ namespace Implem.Pleasanter
         {
             var context = new Context();
             var log = new SysLogModel(context: context);
-            Performances.PerformanceCollection.Save(Directories.Logs());
             log.Finish(context: context);
         }
 

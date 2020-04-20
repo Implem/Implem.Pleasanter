@@ -8,10 +8,6 @@ namespace Implem.CodeDefiner.Utilities
         {
             if (existingCode.IsNullOrEmpty() || newCode != existingCode)
             {
-                if (!existingCode.IsNullOrEmpty())
-                {
-                    CodeHistories.Create(codePath);
-                }
                 Consoles.Write(
                     codePath.Substring(Directories.ServicePath().Length),
                     Consoles.Types.Info);

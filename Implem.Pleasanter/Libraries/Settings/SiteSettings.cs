@@ -590,7 +590,7 @@ namespace Implem.Pleasanter.Libraries.Settings
             {
                 ss.AllowLockTable = AllowLockTable;
             }
-            if (SwitchRecordWithAjax==true)
+            if (SwitchRecordWithAjax == true)
             {
                 ss.SwitchRecordWithAjax = SwitchRecordWithAjax;
             }
@@ -634,7 +634,7 @@ namespace Implem.Pleasanter.Libraries.Settings
             {
                 ss.UseGridHeaderFilters = UseGridHeaderFilters;
             }
-            if(UseRelatingColumnsOnFilter == true)
+            if (UseRelatingColumnsOnFilter == true)
             {
                 ss.UseRelatingColumnsOnFilter = UseRelatingColumnsOnFilter;
             }
@@ -650,7 +650,7 @@ namespace Implem.Pleasanter.Libraries.Settings
             {
                 ss.SearchType = SearchType;
             }
-            if(SaveViewType != SaveViewTypes.Session)
+            if (SaveViewType != SaveViewTypes.Session)
             {
                 ss.SaveViewType = SaveViewType;
             }
@@ -2474,7 +2474,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                 case "AllowEditingComments": AllowEditingComments = value.ToBool(); break;
                 case "AllowSeparate": AllowSeparate = value.ToBool(); break;
                 case "AllowLockTable": AllowLockTable = value.ToBool(); break;
-                case "SwitchRecordWithAjax":SwitchRecordWithAjax = value.ToBool(); break;
+                case "SwitchRecordWithAjax": SwitchRecordWithAjax = value.ToBool(); break;
                 case "EnableCalendar": EnableCalendar = value.ToBool(); break;
                 case "EnableCrosstab": EnableCrosstab = value.ToBool(); break;
                 case "EnableGantt": EnableGantt = value.ToBool(); break;
@@ -2628,12 +2628,12 @@ namespace Implem.Pleasanter.Libraries.Settings
                 case "ExportFormat": column.ExportFormat = value; break;
                 case "Unit": column.Unit = value; break;
                 case "CheckFilterControlType": column.CheckFilterControlType =
-                        (ColumnUtilities.CheckFilterControlTypes)value.ToInt(); break;
+                    (ColumnUtilities.CheckFilterControlTypes)value.ToInt(); break;
                 case "NumFilterMin": column.NumFilterMin = value.ToDecimal(); break;
                 case "NumFilterMax": column.NumFilterMax = value.ToDecimal(); break;
                 case "NumFilterStep": column.NumFilterStep = value.ToDecimal(); break;
                 case "DateFilterSetMode": column.DateFilterSetMode =
-                        (ColumnUtilities.DateFilterSetMode)value.ToInt(); break;
+                    (ColumnUtilities.DateFilterSetMode)value.ToInt(); break;
                 case "DateFilterMinSpan": column.DateFilterMinSpan = value.ToInt(); break;
                 case "DateFilterMaxSpan": column.DateFilterMaxSpan = value.ToInt(); break;
                 case "DateFilterFy": column.DateFilterFy = value.ToBool(); break;
@@ -3240,7 +3240,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                 case "TimeSeries": return canRead && EnableTimeSeries == true;
                 case "Kamban": return canRead && EnableKamban == true;
                 case "ImageLib": return context.ContractSettings.Images()
-                        && canRead && EnableImageLib == true;
+                    && canRead && EnableImageLib == true;
                 default: return false;
             }
         }
@@ -3677,14 +3677,14 @@ namespace Implem.Pleasanter.Libraries.Settings
         public void SetRelatingColumnsLinkedClass()
         {
             Dictionary<string, string> linkedClasses = new Dictionary<string, string>();
-            foreach(var relcol in RelatingColumns
+            foreach (var relcol in RelatingColumns
                 .Where(o => o.Columns != null)
                 .Select(o => o))
             {
                 var precol = "";
                 foreach (var col in relcol.Columns)
                 {
-                    if(precol != "")
+                    if (precol != "")
                     {
                         linkedClasses[col] = GetParentLinkedClass(precol, col);
                     }
@@ -3751,8 +3751,8 @@ namespace Implem.Pleasanter.Libraries.Settings
 
         public bool IsDefaultFilterColumn(Column column)
         {
-            return  ColumnDefinitionHash.FilterDefinitions(enableOnly:false)
-                .Any(o=> o.ColumnName == column.Name);
+            return ColumnDefinitionHash.FilterDefinitions(enableOnly: false)
+                .Any(o => o.ColumnName == column.Name);
         }
     }
 }

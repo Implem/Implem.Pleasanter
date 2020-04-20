@@ -98,9 +98,9 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
            View view,
            IEnumerable<Column> columns)
         {
-            hb.Div(id:"GridHeaderMenus", action:()=>
-                columns.ForEach((column) => {
-                    hb.Ul(
+            return hb.Div(id: "GridHeaderMenus", action: () =>
+                columns.ForEach((column) => hb
+                    .Ul(
                         id: "GridHeaderMenu__" + column.ColumnName,
                         attributes: new HtmlAttributes()
                             .Class("menu-sort")
@@ -109,43 +109,41 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                         action: () => hb
                             .Li(
                                 action: () => hb.ViewFiltersColumnOnGrid(
-                                     context: context,
-                                     ss: ss,
-                                     view: view,
-                                     column: column),
+                                    context: context,
+                                    ss: ss,
+                                    view: view,
+                                    column: column),
                                 _using: ss.UseGridHeaderFilters == true && ss.IsDefaultFilterColumn(column))
-                             .Li(
-                                 attributes: new HtmlAttributes()
-                                     .Class("sort")
-                                     .Add("data-order-type", "asc"),
-                                 action: () => hb
-                                     .Span(attributes: new HtmlAttributes().Class("ui-icon ui-icon-triangle-1-n"))
-                                     .Span(action: () => hb.Text(Displays.OrderAsc(context)))
-                                 )
-                             .Li(
-                                 attributes: new HtmlAttributes()
-                                     .Class("sort")
-                                     .Add("data-order-type", "desc"),
-                                 action: () => hb
-                                     .Span(attributes: new HtmlAttributes().Class("ui-icon ui-icon-triangle-1-s"))
-                                     .Span(action: () => hb.Text(Displays.OrderDesc(context)))
-                                 )
-                             .Li(
-                                 attributes: new HtmlAttributes()
-                                     .Class("sort")
-                                     .Add("data-order-type", "release"),
-                                 action: () => hb
-                                     .Span(attributes: new HtmlAttributes().Class("ui-icon ui-icon-close"))
-                                     .Span(action: () => hb.Text(Displays.OrderRelease(context)))
-                                 )
-                             .Li(
-                                 attributes: new HtmlAttributes()
-                                     .Class("reset"),
-                                 action: () => hb
-                                     .Span(attributes: new HtmlAttributes().Class("ui-icon ui-icon-power"))
-                                     .Span(action: () => hb.Text(Displays.ResetOrder(context)))));
-                }));
-            return hb;
+                            .Li(
+                                attributes: new HtmlAttributes()
+                                    .Class("sort")
+                                    .Add("data-order-type", "asc"),
+                                action: () => hb
+                                    .Span(attributes: new HtmlAttributes().Class("ui-icon ui-icon-triangle-1-n"))
+                                    .Span(action: () => hb.Text(Displays.OrderAsc(context)))
+                                )
+                            .Li(
+                                attributes: new HtmlAttributes()
+                                    .Class("sort")
+                                    .Add("data-order-type", "desc"),
+                                action: () => hb
+                                    .Span(attributes: new HtmlAttributes().Class("ui-icon ui-icon-triangle-1-s"))
+                                    .Span(action: () => hb.Text(Displays.OrderDesc(context)))
+                                )
+                            .Li(
+                                attributes: new HtmlAttributes()
+                                    .Class("sort")
+                                    .Add("data-order-type", "release"),
+                                action: () => hb
+                                    .Span(attributes: new HtmlAttributes().Class("ui-icon ui-icon-close"))
+                                    .Span(action: () => hb.Text(Displays.OrderRelease(context)))
+                                )
+                            .Li(
+                                attributes: new HtmlAttributes()
+                                    .Class("reset"),
+                                action: () => hb
+                                    .Span(attributes: new HtmlAttributes().Class("ui-icon ui-icon-power"))
+                                    .Span(action: () => hb.Text(Displays.ResetOrder(context)))))));
         }
 
         private static string OrderBy(View view, string key)

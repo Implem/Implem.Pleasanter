@@ -172,7 +172,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                         new Line(context,
                             "*{0}{1}*\n{2}\n{3}".Params(Prefix, title, url, body),
                             from, Token)
-                                .Send(Address, Type==Types.LineGroup);
+                                .Send(Address, Type == Types.LineGroup);
                     }
                     break;
                 case Types.Teams:

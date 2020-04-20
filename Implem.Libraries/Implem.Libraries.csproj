@@ -113,7 +113,6 @@
     <Compile Include="Plugins\kanaxs_ex-1.0.2.cs" />
     <Compile Include="Utilities\Bools.cs" />
     <Compile Include="Classes\ListEx.cs" />
-    <Compile Include="Classes\Performance.cs" />
     <Compile Include="DataSources\SqlServer\SqlStatement.cs" />
     <Compile Include="DataSources\SqlServer\SqlContainer.cs" />
     <Compile Include="DataSources\SqlServer\SqlDelete.cs" />
@@ -144,7 +143,6 @@
     <Compile Include="Utilities\Jsons.cs" />
     <Compile Include="Utilities\Linqs.cs" />
     <Compile Include="Utilities\Names.cs" />
-    <Compile Include="Utilities\Performances.cs" />
     <Compile Include="Utilities\Regexes.cs" />
     <Compile Include="Utilities\Splits.cs" />
     <Compile Include="DataSources\SqlServer\Sqls.cs" />

@@ -127,30 +127,56 @@ namespace Implem.Pleasanter.Libraries.Security
             {
                 where.Add(
                     tableName: "Sites",
-                    raw: $"[Sites].[ParentId] in ({ss.SiteId})");
+                    raw: $"[Sites].[ParentId]={ss.SiteId}");
             }
             else
             {
                 if (ss.ColumnHash.ContainsKey("SiteId"))
                 {
-                    if (ss.AllowedIntegratedSites != null)
-                    {
-                        where.Add(or: new SqlWhereCollection()
-                            .Add(
-                                tableName: ss.ReferenceType,
-                                raw: "[{0}].[SiteId] in ({1})".Params(
-                                    ss.ReferenceType, ss.AllowedIntegratedSites.Join()))
-                            .CheckRecordPermission(ss, ss.IntegratedSites));
-                    }
-                    else
+                    if (ss.AllowedIntegratedSites == null)
                     {
                         where.Add(
                             tableName: ss.ReferenceType,
-                            raw: "[{0}].[SiteId] in ({1})".Params(
-                                ss.ReferenceType, ss.SiteId));
+                            raw: $"[{ss.ReferenceType}].[SiteId]={ss.SiteId}");
                         if (!context.CanRead(ss: ss, site: true) && checkPermission)
                         {
                             where.CheckRecordPermission(ss);
+                        }
+                    }
+                    else
+                    {
+                        var denySites = ss.IntegratedSites
+                           .Where(siteId => !ss.AllowedIntegratedSites.Contains(siteId))
+                           .ToList();
+                        denySites = denySites.Any()
+                            ? Rds.ExecuteTable(
+                                context: context,
+                                statements: Rds.SelectSites(
+                                    column: Rds.SitesColumn().SiteId(),
+                                    where: Rds.SitesWhere()
+                                        .TenantId(context.TenantId)
+                                        .SiteId_In(denySites)))
+                                            .AsEnumerable()
+                                            .Select(dataRow => dataRow.Long("SiteId"))
+                                            .ToList()
+                            : new List<long>();
+                        if (!denySites.Any())
+                        {
+                            where.Add(
+                                tableName: ss.ReferenceType,
+                                raw: $"[{ss.ReferenceType}].[SiteId] in ({ss.AllowedIntegratedSites.Join()})");
+                        }
+                        else
+                        {
+                            where.Add(or: new SqlWhereCollection()
+                                .Add(
+                                    tableName: ss.ReferenceType,
+                                    raw: $"[{ss.ReferenceType}].[SiteId] in ({ss.AllowedIntegratedSites.Join()})")
+                                .Add(and: new SqlWhereCollection()
+                                    .Add(
+                                        tableName: ss.ReferenceType,
+                                        raw: $"[{ss.ReferenceType}].[SiteId] in ({denySites.Join()})")
+                                    .CheckRecordPermission(ss, ss.IntegratedSites)));
                         }
                     }
                 }

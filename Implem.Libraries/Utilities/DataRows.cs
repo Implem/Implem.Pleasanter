@@ -76,6 +76,8 @@ namespace Implem.Libraries.Utilities
                         return dataRow.Field<decimal>(name).ToString();
                     case "DateTime":
                         return dataRow.Field<DateTime>(name).ToString();
+                    case "Double":
+                        return dataRow.Field<double>(name).ToString();
                     default:
                         return dataRow.Field<string>(name);
                 }

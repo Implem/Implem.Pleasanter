@@ -3,7 +3,6 @@ using Implem.Pleasanter.Libraries.Requests;
 using Implem.Pleasanter.Models;
 namespace Implem.Pleasanter.Libraries.SitePackages
 {
-
     public class IdConverter
     {
         public bool Convert = false;

@@ -3654,6 +3654,7 @@ namespace Implem.Pleasanter.Models
                 context: context,
                 referenceId: siteModel.SiteId,
                 setAllChoices: true);
+            ss.SetColumnAccessControls(context: context);
             var invalid = ResultValidators.OnImporting(
                 context: context,
                 ss: ss);
@@ -3681,7 +3682,10 @@ namespace Implem.Pleasanter.Models
                     context: context,
                     data: Parameters.General.ImportMax.ToString());
             }
-            if (context.ContractSettings.ItemsLimit(context: context, siteId: ss.SiteId, number: count))
+            if (context.ContractSettings.ItemsLimit(
+                context: context,
+                siteId: ss.SiteId,
+                number: count))
             {
                 return Error.Types.ItemsLimit.MessageJson(context: context);
             }
@@ -3724,52 +3728,55 @@ namespace Implem.Pleasanter.Models
                             resultModel = model;
                         }
                     }
-                    columnHash.ForEach(column =>
-                    {
-                        var recordingData = ImportRecordingData(
-                            context: context,
-                            column: column.Value,
-                            value: data.Row[column.Key],
-                            inheritPermission: ss.InheritPermission);
-                        switch (column.Value.ColumnName)
+                    columnHash
+                        .Where(column => (column.Value.CanCreate && resultModel.ResultId == 0)
+                            || (column.Value.CanUpdate && resultModel.ResultId > 0))
+                        .ForEach(column =>
                         {
-                            case "Title":
-                                resultModel.Title.Value = recordingData.ToString();
-                                break;
-                            case "Body":
-                                resultModel.Body = recordingData.ToString();
-                                break;
-                            case "Status":
-                                resultModel.Status.Value = recordingData.ToInt();
-                                break;
-                            case "Manager":
-                                resultModel.Manager = SiteInfo.User(
-                                    context: context,
-                                    userId: recordingData.ToInt());
-                                break;
-                            case "Owner":
-                                resultModel.Owner = SiteInfo.User(
-                                    context: context,
-                                    userId: recordingData.ToInt());
-                                break;
-                            case "Comments":
-                                if (resultModel.AccessStatus != Databases.AccessStatuses.Selected &&
-                                    !data.Row[column.Key].IsNullOrEmpty())
-                                {
-                                    resultModel.Comments.Prepend(
+                            var recordingData = ImportRecordingData(
+                                context: context,
+                                column: column.Value,
+                                value: data.Row[column.Key],
+                                inheritPermission: ss.InheritPermission);
+                            switch (column.Value.ColumnName)
+                            {
+                                case "Title":
+                                    resultModel.Title.Value = recordingData.ToString();
+                                    break;
+                                case "Body":
+                                    resultModel.Body = recordingData.ToString();
+                                    break;
+                                case "Status":
+                                    resultModel.Status.Value = recordingData.ToInt();
+                                    break;
+                                case "Manager":
+                                    resultModel.Manager = SiteInfo.User(
                                         context: context,
-                                        ss: ss,
-                                        body: data.Row[column.Key]);
-                                }
-                                break;
-                            default:
-                                resultModel.Value(
-                                    context: context,
-                                    columnName: column.Value.ColumnName,
-                                    value: recordingData);
-                                break;
-                        }
-                    });
+                                        userId: recordingData.ToInt());
+                                    break;
+                                case "Owner":
+                                    resultModel.Owner = SiteInfo.User(
+                                        context: context,
+                                        userId: recordingData.ToInt());
+                                    break;
+                                case "Comments":
+                                    if (resultModel.AccessStatus != Databases.AccessStatuses.Selected &&
+                                        !data.Row[column.Key].IsNullOrEmpty())
+                                    {
+                                        resultModel.Comments.Prepend(
+                                            context: context,
+                                            ss: ss,
+                                            body: data.Row[column.Key]);
+                                    }
+                                    break;
+                                default:
+                                    resultModel.Value(
+                                        context: context,
+                                        columnName: column.Value.ColumnName,
+                                        value: recordingData);
+                                    break;
+                            }
+                        });
                     resultHash.Add(data.Index, resultModel);
                 });
                 var insertCount = 0;

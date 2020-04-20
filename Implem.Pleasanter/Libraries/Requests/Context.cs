@@ -21,6 +21,7 @@ namespace Implem.Pleasanter.Libraries.Requests
 {
     public class Context
     {
+        public Stopwatch Stopwatch = new Stopwatch();
         public bool Authenticated;
         public bool SwitchUser;
         public string SessionGuid = Strings.NewGuid();

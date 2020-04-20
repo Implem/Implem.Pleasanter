@@ -63,8 +63,7 @@ namespace Implem.Pleasanter.Libraries.Settings
             bool notSendIfNotApplicable,
             bool notSendHyperLink,
             int condition,
-            bool disabled
-            )
+            bool disabled)
         {
             Id = id;
             Subject = subject;

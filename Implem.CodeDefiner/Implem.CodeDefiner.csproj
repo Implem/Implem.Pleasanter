@@ -96,7 +96,6 @@
     <Compile Include="Functions\AspNetMvc\CSharp\MvcCreator.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Utilities\CodeWriter.cs" />
-    <Compile Include="Utilities\CodeHistories.cs" />
     <Compile Include="Functions\AspNetMvc\CSharp\Merger.cs" />
     <Compile Include="Functions\AspNetMvc\CSharp\Creators.cs" />
     <Compile Include="Starter.cs" />

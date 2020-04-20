@@ -42,7 +42,6 @@ namespace Implem.CodeDefiner
                 codeDefiner: true,
                 setSaPassword: argHash.ContainsKey("s"),
                 setRandomPassword: argHash.ContainsKey("r"));
-            Performances.Record(MethodBase.GetCurrentMethod().Name);
             switch (action)
             {
                 case "_rds":
@@ -73,8 +72,6 @@ namespace Implem.CodeDefiner
                     WriteErrorToConsole(args);
                     break;
             }
-            Performances.Record(MethodBase.GetCurrentMethod().Name);
-            Performances.PerformanceCollection.Save(Directories.Logs());
             if (Consoles.ErrorCount > 0)
             {
                 Consoles.Write(
@@ -110,12 +107,10 @@ namespace Implem.CodeDefiner
         private static void ConfigureDatabase()
         {
             TryOpenConnections();
-            Performances.Record(MethodBase.GetCurrentMethod().Name);
             Functions.SqlServer.Configurator.Configure();
             Consoles.Write(
                 DisplayAccessor.Displays.Get("CodeDefinerRdsCompleted"),
                 Consoles.Types.Success);
-            Performances.Record(MethodBase.GetCurrentMethod().Name);
         }
 
         private static void TryOpenConnections()
@@ -131,42 +126,34 @@ namespace Implem.CodeDefiner
 
         private static void CreateDefinitionAccessorCode()
         {
-            Performances.Record(MethodBase.GetCurrentMethod().Name);
             Functions.AspNetMvc.CSharp.DefinitionAccessorCreator.Create();
             Consoles.Write(
                 DisplayAccessor.Displays.Get("CodeDefinerDefCompleted"),
                 Consoles.Types.Success);
-            Performances.Record(MethodBase.GetCurrentMethod().Name);
         }
 
         private static void CreateMvcCode(string target)
         {
-            Performances.Record(MethodBase.GetCurrentMethod().Name);
             Functions.AspNetMvc.CSharp.MvcCreator.Create(target);
             Consoles.Write(
                 DisplayAccessor.Displays.Get("CodeDefinerMvcCompleted"),
                 Consoles.Types.Success);
-            Performances.Record(MethodBase.GetCurrentMethod().Name);
         }
 
         private static void CreateCssCode()
         {
-            Performances.Record(MethodBase.GetCurrentMethod().Name);
             Functions.Web.Styles.CssCreator.Create();
             Consoles.Write(
                 DisplayAccessor.Displays.Get("CodeDefinerCssCompleted"),
                 Consoles.Types.Success);
-            Performances.Record(MethodBase.GetCurrentMethod().Name);
         }
 
         private static void CreateSolutionBackup()
         {
-            Performances.Record(MethodBase.GetCurrentMethod().Name);
             Functions.CodeDefiner.BackupCreater.BackupSolutionFiles();
             Consoles.Write(
                 DisplayAccessor.Displays.Get("CodeDefinerBackupCompleted"),
                 Consoles.Types.Success);
-            Performances.Record(MethodBase.GetCurrentMethod().Name);
         }
 
         private static void WaitConsole(string[] args)
@@ -193,12 +180,10 @@ namespace Implem.CodeDefiner
                 .Select((o, i) => new { Count = i + 1, Action = o })
                 .ForEach(data =>
                 {
-                    Performances.Record("Action:" + data.Count);
                     for (int count = 1; count <= loopCount; count++)
                     {
                         data.Action();
                     }
-                    Performances.Record("Action:" + data.Count);
                 });
         }
     }

@@ -270,7 +270,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             }
             else if (groupBy.HasChoices())
             {
-                var label = groupBy.Linked()
+                var label = linkedLabelHash != null
                     ? linkedLabelHash?.Get(selectedValue)
                     : groupBy.Choice(selectedValue).TextMini;
                 return label.IsNullOrEmpty()

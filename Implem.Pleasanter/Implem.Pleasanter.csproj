@@ -353,6 +353,7 @@
     <Compile Include="Libraries\Security\Permission.cs" />
     <Compile Include="Libraries\Server\IpAddress.cs" />
     <Compile Include="Libraries\Server\IpRange.cs" />
+    <Compile Include="Libraries\Server\Stopwatch.cs" />
     <Compile Include="Libraries\Server\TenantCache.cs" />
     <Compile Include="Libraries\Server\UpdateMonitor.cs" />
     <Compile Include="Libraries\Requests\Context.cs" />
@@ -1561,6 +1562,7 @@
     <Content Include="App_Data\Displays\TabEditable.json" />
     <Content Include="App_Data\Displays\UserManual.json" />
     <Content Include="App_Data\Displays\ViewSettings.json" />
+    <Content Include="App_Data\Parameters\Locations.json" />
     <Content Include="Tools\BackgroundTasks.ps1" />
     <Content Include="Tools\SyncByLdap.ps1" />
     <Content Include="Views\Users\EditApi.cshtml" />

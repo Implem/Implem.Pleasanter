@@ -35,7 +35,8 @@ namespace Implem.DefinitionAccessor
         public static Site Site;
         public static SitePackage SitePackage;
         public static SysLog SysLog;
-        
+        public static Locations Locations;
+
         public static bool CommercialLicense()
         {
             return License.Check();

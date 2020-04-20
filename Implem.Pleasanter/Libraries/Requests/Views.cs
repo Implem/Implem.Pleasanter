@@ -91,7 +91,12 @@ namespace Implem.Pleasanter.Libraries.Requests
         }
 
         private static void SetSession(
-            Context context, SiteSettings ss, View view, bool setSession, string key = "View", bool useUsersView=false)
+            Context context,
+            SiteSettings ss,
+            View view,
+            bool setSession,
+            string key = "View",
+            bool useUsersView = false)
         {
             if (setSession)
             {
@@ -101,7 +106,7 @@ namespace Implem.Pleasanter.Libraries.Requests
                     key: key,
                     view: view,
                     sessionGuid: useUsersView
-                        ? "@" + context.UserId 
+                        ? "@" + context.UserId
                         : null);
             }
         }

@@ -9,7 +9,7 @@ namespace Implem.Pleasanter.Libraries.Responses
     {
         public static ContentResult Success(long id, string message, int? limitPerDate = null, int? limitRemaining = null)
         {
-            if(limitPerDate == 0)
+            if (limitPerDate == 0)
             {
                 limitPerDate = null;
                 limitRemaining = null;
@@ -43,7 +43,11 @@ namespace Implem.Pleasanter.Libraries.Responses
             };
         }
 
-        public static ContentResult Get(int statusCode,int limitPerDate, int limitRemaining, object response)
+        public static ContentResult Get(
+            int statusCode,
+            int limitPerDate,
+            int limitRemaining,
+            object response)
         {
             return new ContentResult
             {
@@ -51,11 +55,11 @@ namespace Implem.Pleasanter.Libraries.Responses
                 Content = new
                 {
                     StatusCode = statusCode,
-                    LimitPerDate = limitPerDate == 0 
-                        ? null 
+                    LimitPerDate = limitPerDate == 0
+                        ? null
                         : (int?)limitPerDate,
-                    LimitRemaining = limitPerDate == 0 
-                        ? null 
+                    LimitRemaining = limitPerDate == 0
+                        ? null
                         : (int?)limitRemaining,
                     Response = response
                 }.ToJson()

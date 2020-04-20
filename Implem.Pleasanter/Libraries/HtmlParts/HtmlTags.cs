@@ -403,7 +403,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                         .Name(name)
                         .Class(css)
                         .Placeholder(placeholder),
-                    action: ()=> hb
+                    action: () => hb
                         .Text(text: "\n" + text))
                 : hb;
         }
