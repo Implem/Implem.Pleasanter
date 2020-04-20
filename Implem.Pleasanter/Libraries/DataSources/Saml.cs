@@ -72,7 +72,9 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     .TenantId(tenantId)
                     .LoginId(loginId)
                     .Name(name)
-                    .TenantManager(attributes.TenantManager)
+                    .TenantManager(
+                        attributes.TenantManager,
+                        _using: attributes[nameof(UserModel.TenantManager)] != null)
                     .FirstName(
                         attributes[nameof(UserModel.FirstName)],
                         _using: attributes[nameof(UserModel.FirstName)] != null)
@@ -140,12 +142,13 @@ namespace Implem.Pleasanter.Libraries.DataSources
                         .DeptCode(deptCode)
                         .DeptName(deptName),
                     where: Rds.DeptsWhere().DeptCode(deptCode)));
-            }            
+            }
             var param = Rds.UsersParam()
                 .TenantId(tenantId)
                 .LoginId(loginId)
                 .Name(name)
-                .TenantManager(attributes.TenantManager)
+                .TenantManager(attributes.TenantManager,
+                    _using: attributes[nameof(UserModel.TenantManager)] != null)
                 .SynchronizedTime(synchronizedTime)
                 .FirstName(
                         attributes[nameof(UserModel.FirstName)],
@@ -164,7 +167,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                         column: Rds.DeptsColumn().DeptId(),
                         where: Rds.DeptsWhere().DeptCode(deptCode)),
                     _using: deptSettings)
-                .DeptId(0, _using : isEmptyDeptCode)
+                .DeptId(0, _using: isEmptyDeptCode)
                 .Birthday(
                     attributes[nameof(UserModel.Birthday)],
                     _using: attributes[nameof(UserModel.Birthday)] != null)
