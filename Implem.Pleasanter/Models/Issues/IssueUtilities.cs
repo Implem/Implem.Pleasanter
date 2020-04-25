@@ -3384,10 +3384,14 @@ namespace Implem.Pleasanter.Models
                                 .DataAction("History")
                                 .DataMethod("post")
                                 .DataVer(issueModelHistory.Ver)
-                                .DataLatest(1, _using:
-                                    issueModelHistory.Ver == issueModel.Ver),
+                                .DataLatest(
+                                    value: 1,
+                                    _using: issueModelHistory.Ver == issueModel.Ver),
                             action: () =>
                             {
+                                issueModelHistory.SetChoiceHash(
+                                    context: context,
+                                    ss: ss);
                                 hb.Td(
                                     css: "grid-check-td",
                                     action: () => hb
@@ -3396,13 +3400,12 @@ namespace Implem.Pleasanter.Models
                                             _checked: false,
                                             dataId: issueModelHistory.Ver.ToString(),
                                             _using: issueModelHistory.Ver < issueModel.Ver));
-                                columns
-                                    .ForEach(column => hb
-                                        .TdValue(
-                                            context: context,
-                                            ss: ss,
-                                            column: column,
-                                            issueModel: issueModelHistory));
+                                columns.ForEach(column => hb
+                                    .TdValue(
+                                        context: context,
+                                        ss: ss,
+                                        column: column,
+                                        issueModel: issueModelHistory));
                             }));
         }
 

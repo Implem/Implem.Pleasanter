@@ -3203,10 +3203,14 @@ namespace Implem.Pleasanter.Models
                                 .DataAction("History")
                                 .DataMethod("post")
                                 .DataVer(resultModelHistory.Ver)
-                                .DataLatest(1, _using:
-                                    resultModelHistory.Ver == resultModel.Ver),
+                                .DataLatest(
+                                    value: 1,
+                                    _using: resultModelHistory.Ver == resultModel.Ver),
                             action: () =>
                             {
+                                resultModelHistory.SetChoiceHash(
+                                    context: context,
+                                    ss: ss);
                                 hb.Td(
                                     css: "grid-check-td",
                                     action: () => hb
@@ -3215,13 +3219,12 @@ namespace Implem.Pleasanter.Models
                                             _checked: false,
                                             dataId: resultModelHistory.Ver.ToString(),
                                             _using: resultModelHistory.Ver < resultModel.Ver));
-                                columns
-                                    .ForEach(column => hb
-                                        .TdValue(
-                                            context: context,
-                                            ss: ss,
-                                            column: column,
-                                            resultModel: resultModelHistory));
+                                columns.ForEach(column => hb
+                                    .TdValue(
+                                        context: context,
+                                        ss: ss,
+                                        column: column,
+                                        resultModel: resultModelHistory));
                             }));
         }
 
