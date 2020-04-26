@@ -1347,8 +1347,9 @@ namespace Implem.Pleasanter.Models
                                 .DataAction("History")
                                 .DataMethod("post")
                                 .DataVer(wikiModelHistory.Ver)
-                                .DataLatest(1, _using:
-                                    wikiModelHistory.Ver == wikiModel.Ver),
+                                .DataLatest(
+                                    value: 1,
+                                    _using: wikiModelHistory.Ver == wikiModel.Ver),
                             action: () =>
                             {
                                 hb.Td(
@@ -1359,13 +1360,12 @@ namespace Implem.Pleasanter.Models
                                             _checked: false,
                                             dataId: wikiModelHistory.Ver.ToString(),
                                             _using: wikiModelHistory.Ver < wikiModel.Ver));
-                                columns
-                                    .ForEach(column => hb
-                                        .TdValue(
-                                            context: context,
-                                            ss: ss,
-                                            column: column,
-                                            wikiModel: wikiModelHistory));
+                                columns.ForEach(column => hb
+                                    .TdValue(
+                                        context: context,
+                                        ss: ss,
+                                        column: column,
+                                        wikiModel: wikiModelHistory));
                             }));
         }
 

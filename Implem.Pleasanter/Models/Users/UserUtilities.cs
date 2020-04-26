@@ -2189,8 +2189,9 @@ namespace Implem.Pleasanter.Models
                                 .DataAction("History")
                                 .DataMethod("post")
                                 .DataVer(userModelHistory.Ver)
-                                .DataLatest(1, _using:
-                                    userModelHistory.Ver == userModel.Ver),
+                                .DataLatest(
+                                    value: 1,
+                                    _using: userModelHistory.Ver == userModel.Ver),
                             action: () =>
                             {
                                 hb.Td(
@@ -2201,13 +2202,12 @@ namespace Implem.Pleasanter.Models
                                             _checked: false,
                                             dataId: userModelHistory.Ver.ToString(),
                                             _using: userModelHistory.Ver < userModel.Ver));
-                                columns
-                                    .ForEach(column => hb
-                                        .TdValue(
-                                            context: context,
-                                            ss: ss,
-                                            column: column,
-                                            userModel: userModelHistory));
+                                columns.ForEach(column => hb
+                                    .TdValue(
+                                        context: context,
+                                        ss: ss,
+                                        column: column,
+                                        userModel: userModelHistory));
                             }));
         }
 

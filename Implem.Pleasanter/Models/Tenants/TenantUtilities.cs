@@ -1150,8 +1150,9 @@ namespace Implem.Pleasanter.Models
                                 .DataAction("History")
                                 .DataMethod("post")
                                 .DataVer(tenantModelHistory.Ver)
-                                .DataLatest(1, _using:
-                                    tenantModelHistory.Ver == tenantModel.Ver),
+                                .DataLatest(
+                                    value: 1,
+                                    _using: tenantModelHistory.Ver == tenantModel.Ver),
                             action: () =>
                             {
                                 hb.Td(
@@ -1162,13 +1163,12 @@ namespace Implem.Pleasanter.Models
                                             _checked: false,
                                             dataId: tenantModelHistory.Ver.ToString(),
                                             _using: tenantModelHistory.Ver < tenantModel.Ver));
-                                columns
-                                    .ForEach(column => hb
-                                        .TdValue(
-                                            context: context,
-                                            ss: ss,
-                                            column: column,
-                                            tenantModel: tenantModelHistory));
+                                columns.ForEach(column => hb
+                                    .TdValue(
+                                        context: context,
+                                        ss: ss,
+                                        column: column,
+                                        tenantModel: tenantModelHistory));
                             }));
         }
 

@@ -1534,8 +1534,9 @@ namespace Implem.Pleasanter.Models
                                 .DataAction("History")
                                 .DataMethod("post")
                                 .DataVer(groupModelHistory.Ver)
-                                .DataLatest(1, _using:
-                                    groupModelHistory.Ver == groupModel.Ver),
+                                .DataLatest(
+                                    value: 1,
+                                    _using: groupModelHistory.Ver == groupModel.Ver),
                             action: () =>
                             {
                                 hb.Td(
@@ -1546,13 +1547,12 @@ namespace Implem.Pleasanter.Models
                                             _checked: false,
                                             dataId: groupModelHistory.Ver.ToString(),
                                             _using: groupModelHistory.Ver < groupModel.Ver));
-                                columns
-                                    .ForEach(column => hb
-                                        .TdValue(
-                                            context: context,
-                                            ss: ss,
-                                            column: column,
-                                            groupModel: groupModelHistory));
+                                columns.ForEach(column => hb
+                                    .TdValue(
+                                        context: context,
+                                        ss: ss,
+                                        column: column,
+                                        groupModel: groupModelHistory));
                             }));
         }
 

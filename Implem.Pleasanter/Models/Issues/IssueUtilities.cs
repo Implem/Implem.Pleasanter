@@ -3378,10 +3378,14 @@ namespace Implem.Pleasanter.Models
                                 .DataAction("History")
                                 .DataMethod("post")
                                 .DataVer(issueModelHistory.Ver)
-                                .DataLatest(1, _using:
-                                    issueModelHistory.Ver == issueModel.Ver),
+                                .DataLatest(
+                                    value: 1,
+                                    _using: issueModelHistory.Ver == issueModel.Ver),
                             action: () =>
                             {
+                                issueModelHistory.SetChoiceHash(
+                                    context: context,
+                                    ss: ss);
                                 hb.Td(
                                     css: "grid-check-td",
                                     action: () => hb
@@ -3390,13 +3394,12 @@ namespace Implem.Pleasanter.Models
                                             _checked: false,
                                             dataId: issueModelHistory.Ver.ToString(),
                                             _using: issueModelHistory.Ver < issueModel.Ver));
-                                columns
-                                    .ForEach(column => hb
-                                        .TdValue(
-                                            context: context,
-                                            ss: ss,
-                                            column: column,
-                                            issueModel: issueModelHistory));
+                                columns.ForEach(column => hb
+                                    .TdValue(
+                                        context: context,
+                                        ss: ss,
+                                        column: column,
+                                        issueModel: issueModelHistory));
                             }));
         }
 
@@ -3594,11 +3597,18 @@ namespace Implem.Pleasanter.Models
             if (context.ContractSettings.ItemsLimit(
                 context: context,
                 siteId: siteId,
-                number: BulkMoveCount(
+                number: Rds.ExecuteScalar_int(
                     context: context,
-                    ss: ss,
-                    siteId: siteId,
-                    where: where)))
+                    statements: Rds.SelectIssues(
+                        column: Rds.IssuesColumn().IssuesCount(),
+                        where: Views.GetBySession(
+                            context: context,
+                            ss: ss)
+                                .Where(
+                                    context: context,
+                                    ss: ss,
+                                    where: where,
+                                    itemJoin: false)))))
             {
                 return Error.Types.ItemsLimit.MessageJson(context: context);
             }
@@ -3635,22 +3645,6 @@ namespace Implem.Pleasanter.Models
             {
                 return Messages.ResponseHasNotPermission(context: context).ToJson();
             }
-        }
-
-        private static int BulkMoveCount(
-            Context context,
-            SiteSettings ss,
-            long siteId,
-            SqlWhereCollection where)
-        {
-            return Rds.ExecuteScalar_int(
-                context: context,
-                statements: Rds.SelectIssues(
-                    column: Rds.IssuesColumn().IssuesCount(),
-                    join: ss.Join(
-                        context: context,
-                        join: where),
-                    where: where));
         }
 
         private static int BulkMove(

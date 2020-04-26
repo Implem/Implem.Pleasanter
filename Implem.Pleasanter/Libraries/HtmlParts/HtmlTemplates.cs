@@ -474,6 +474,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     .Hidden(controlId: "TableName", value: ss?.ReferenceType)
                     .Hidden(controlId: "Controller", value: context.Controller)
                     .Hidden(controlId: "Id", value: context.Id.ToString())
+                    .Hidden(controlId: "TenantId", value: context.TenantId.ToString())
                     .Hidden(controlId: "SiteId", value: ss?.SiteId.ToString())
                     .Hidden(controlId: "JoinedSites", value: ss?.JoinedSsHash
                         ?.Select(o => new
