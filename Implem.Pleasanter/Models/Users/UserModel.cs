@@ -2377,7 +2377,7 @@ namespace Implem.Pleasanter.Models
                 .Message(
                     message: Messages.LoginIn(context: context),
                     target: "#LoginMessage")
-                .Href(returnUrl == string.Empty
+                .Href(returnUrl.IsNullOrEmpty()
                     ? Locations.Top(context: context)
                     : returnUrl).ToJson();
         }
