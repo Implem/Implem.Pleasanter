@@ -3063,7 +3063,7 @@ namespace Implem.Pleasanter.Libraries.Settings
             {
                 statements.Add(
                     Rds.SelectCount(
-                        tableName: "\"Items\"",
+                        tableName: "Items",
                         join: join,
                         where: where));
             }

@@ -1000,6 +1000,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                                 break;
                             case Types.CsString:
                                 CsStringColumns(
+                                    context: context,
                                     column: data.Column,
                                     value: data.Value,
                                     where: where);
@@ -1198,7 +1199,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                 : null;
         }
 
-        private void CsStringColumns(Column column, string value, SqlWhereCollection where)
+        private void CsStringColumns(Context context, Column column, string value, SqlWhereCollection where)
         {
             if (column.HasChoices())
             {
@@ -1220,8 +1221,13 @@ namespace Implem.Pleasanter.Libraries.Settings
                         tableName: tableName,
                         name: name,
                         searchText: value,
-                        clauseCollection: "(\"{0}\".\"{1}\" like '%' + @{2}#ParamCount#_#CommandCount# + '%')"
-                            .Params(tableName, column.Name, name)
+                        clauseCollection: "(\"{0}\".\"{1}\" like {2}@{3}{4}"
+                            .Params(
+                                tableName, 
+                                column.Name, 
+                                context.Sqls.WhereLikeTemplateForward, 
+                                name,
+                                context.Sqls.WhereLikeTemplate)
                             .ToSingleList());
                 }
             }
