@@ -24,11 +24,14 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
         public static HtmlBuilder Styles(
             this HtmlBuilder hb, Context context, SiteSettings ss, string userStyle = null)
         {
+            var style = ss.GetStyleBody(
+                context: context,
+                peredicate: o => o.All == true);
             return hb
                 .Style(
-                    style: ss.GetStyleBody(context: context, peredicate: o => o.All == true),
+                    style: style,
                     _using: context.ContractSettings.Style != false
-                        && ss.Styles?.Any() == true)
+                        && !style.IsNullOrEmpty())
                 .Style(
                     style: userStyle,
                     _using: context.ContractSettings.Style != false

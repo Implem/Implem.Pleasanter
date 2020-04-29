@@ -2397,7 +2397,7 @@ namespace Implem.Pleasanter.Models
             return new UsersResponseCollection(this)
                 .CloseDialog(_using: atLogin)
                 .Message(Messages.LoginIn(context: context))
-                .Href(returnUrl == string.Empty
+                .Href(returnUrl.IsNullOrEmpty()
                     ? Locations.Top(context: context)
                     : returnUrl).ToJson();
         }
