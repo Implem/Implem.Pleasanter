@@ -19,16 +19,16 @@ $p.apiDelete = function (args) {
 }
 
 $p.apiExec = function (url, args) {
+    if (args.async !== undefined) {
+        $.ajaxSetup({ async: args.async });
+    }
     return $.ajax({
         type: 'Post',
         url: url,
         data: args.data !== undefined
             ? JSON.stringify(args.data)
             : "",
-        dataType: 'json',
-        async: args.async !== undefined
-            ? args.async
-            : true
+        dataType: 'json'
     })
         .done(args.done)
         .fail(args.fail)
@@ -62,4 +62,20 @@ $p.apiUsersUpdate = function (args) {
 
 $p.apiUsersDelete = function (args) {
     return $p.apiExec($p.apiUsersUrl('delete', args.id), args);
+}
+
+$p.apiDeptsUrl = function (action) {
+    return $('#ApplicationPath').val() + 'api/depts/' + action;
+}
+
+$p.apiDeptsGet = function (args) {
+    return $p.apiExec($p.apiDeptsUrl('get'), args);
+}
+
+$p.apiGroupsUrl = function (action) {
+    return $('#ApplicationPath').val() + 'api/groups/' + action;
+}
+
+$p.apiGroupsGet = function (args) {
+    return $p.apiExec($p.apiGroupsUrl('get'), args);
 }
