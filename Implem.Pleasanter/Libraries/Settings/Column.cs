@@ -496,16 +496,22 @@ namespace Implem.Pleasanter.Libraries.Settings
         public string Display(
             Context context, decimal value, bool unit = false, bool format = true)
         {
-            return (!Format.IsNullOrEmpty() && format
+            var ret = (!Format.IsNullOrEmpty() && format
                 ? value.ToString(
                     Format + (Format == "C" && DecimalPlaces.ToInt() > 0
                         ? DecimalPlaces.ToString()
-                        : string.Empty),
-                    context.CultureInfo())
+                        : string.Empty))
                 : DecimalPlaces.ToInt() == 0
                     ? value.ToString("0", "0")
                     : DisplayValue(value))
                         + (unit ? Unit : string.Empty);
+            switch (context.Language)
+            {
+                case "ja":
+                    return ret.Replace("￥", "¥");
+                default:
+                    return ret;
+            }
         }
 
         private string DisplayValue(decimal value)
