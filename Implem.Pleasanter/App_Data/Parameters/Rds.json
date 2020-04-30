@@ -1,7 +1,7 @@
 ﻿{
     "Dbms": "PostgreSQL",
     "Provider": "Local",
-    "TimeZoneInfo": "Tokyo Standard Time",
+    "TimeZoneInfo": "Asia/Tokyo",
     "SaConnectionString": "Server=localhost;Database=postgres;UID=postgres;PWD=SetSaPWD",
     "OwnerConnectionString": "Server=localhost;Database=#ServiceName#;UID=#ServiceName#_Owner;PWD=SetAdminsPWD",
     "UserConnectionString": "Server=localhost;Database=#ServiceName#;UID=#ServiceName#_User;PWD=SetUsersPWD",

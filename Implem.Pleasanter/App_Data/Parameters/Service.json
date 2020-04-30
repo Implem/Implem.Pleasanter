@@ -1,6 +1,6 @@
 ﻿{
     "Name": "Implem.Pleasanter",
-    "TimeZoneDefault": "Tokyo Standard Time",
+    "TimeZoneDefault": "Asia/Tokyo",
     "DefaultPassword": "pleasanter",
     "DefaultLanguage": "ja",
     "AbsoluteUri": null,
