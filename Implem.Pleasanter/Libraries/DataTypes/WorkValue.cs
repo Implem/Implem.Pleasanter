@@ -51,10 +51,14 @@ namespace Implem.Pleasanter.Libraries.DataTypes
 
         public HtmlBuilder Td(HtmlBuilder hb, Context context, Column column)
         {
-            return hb.Td(action: () => Svg(
-                hb: hb,
-                context: context,
-                column: column));
+            return hb.Td(
+                css: column.TextAlign == SiteSettings.TextAlignTypes.Right
+                    ? " right-align "
+                    : string.Empty,
+                action: () => Svg(
+                    hb: hb,
+                    context: context,
+                    column: column));
         }
 
         private HtmlBuilder Svg(HtmlBuilder hb, Context context, Column column)

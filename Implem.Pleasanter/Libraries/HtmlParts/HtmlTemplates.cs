@@ -363,20 +363,30 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
         }
 
         private static HtmlBuilder LockWarning(
-            this HtmlBuilder hb,
-            Context context,
-            SiteSettings ss)
+            this HtmlBuilder hb, Context context, SiteSettings ss)
         {
-            return !context.Publish && ss?.Locked() == true
+            var text = !context.Publish && ss?.LockedTable() == true
+                ? Displays.LockedTable(
+                    context: context,
+                    data: new string[]
+                    {
+                        ss.LockedTableUser.Name,
+                        ss.LockedTableTime.DisplayValue.ToString(context.CultureInfo())
+                    })
+                : !context.Publish && ss?.LockedRecord() == true
+                    ? Displays.LockedRecord(
+                        context: context,
+                        data: new string[]
+                        {
+                            context.Id.ToString(),
+                            ss.LockedRecordUser.Name,
+                            ss.LockedRecordTime.DisplayValue.ToString(context.CultureInfo())
+                        })
+                    : null;
+            return !text.IsNullOrEmpty()
                 ? hb.Div(id: "LockedWarning", action: () => hb
                     .Div(action: () => hb
-                        .Text(text: Displays.LockWarning(
-                            context: context,
-                            data: new string[]
-                            {
-                                ss.LockedUser.Name,
-                                ss.LockedTime.DisplayValue.ToString(context.CultureInfo())
-                            }))))
+                        .Text(text: text)))
                 : hb;
         }
 

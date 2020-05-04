@@ -81,17 +81,21 @@ namespace Implem.Pleasanter.Libraries.DataTypes
 
         public override HtmlBuilder Td(HtmlBuilder hb, Context context, Column column)
         {
-            return hb.Td(action: () =>
-            {
-                hb.P(css: "time", action: () => hb
-                    .Text(column.DisplayGrid(
-                        context: context,
-                        value: DisplayValue)));
-                if (Status?.Value < Parameters.General.CompletionCode)
+            return hb.Td(
+                css: column.TextAlign == SiteSettings.TextAlignTypes.Right
+                    ? " right-align "
+                    : string.Empty,
+                action: () =>
                 {
-                    LimitText(hb, context);
-                }
-            });
+                    hb.P(css: "time", action: () => hb
+                        .Text(column.DisplayGrid(
+                            context: context,
+                            value: DisplayValue)));
+                    if (Status?.Value < Parameters.General.CompletionCode)
+                    {
+                        LimitText(hb, context);
+                    }
+                });
         }
 
         public bool Near(Context context, SiteSettings ss)

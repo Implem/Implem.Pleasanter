@@ -219,7 +219,8 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     .DataId(dataId.ToString())
                     .DataVer(dataVersion)
                     .DataLatest(1, _using: !isHistory)
-                    .Add(name: "data-history", value: "1", _using: isHistory),
+                    .Add(name: "data-history", value: "1", _using: isHistory)
+                    .Add(name: "data-locked", value: "1", _using: dataRow.Bool("Locked")),
                 action: () =>
                 {
                     if (editRow)
@@ -390,15 +391,19 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                         context: context,
                                         mine: issueModel.Mine(context: context));
                                 }
-                                if (EditColumns.Get(column.ColumnName))
+                                if (!issueModel.Locked && EditColumns.Get(column.ColumnName))
                                 {
-                                    hb.Td(action: () => hb.Field(
-                                        context: context,
-                                        column: column,
-                                        issueModel: issueModel,
-                                        ss: column.SiteSettings,
-                                        controlOnly: true,
-                                        idSuffix: issueModel.IdSuffix()));
+                                    hb.Td(
+                                        css: column.TextAlign == SiteSettings.TextAlignTypes.Right
+                                            ? " right-align"
+                                            : string.Empty,
+                                        action: () => hb.Field(
+                                            context: context,
+                                            column: column,
+                                            issueModel: issueModel,
+                                            ss: column.SiteSettings,
+                                            controlOnly: true,
+                                            idSuffix: issueModel.IdSuffix()));
                                 }
                                 else
                                 {
@@ -427,15 +432,19 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                         context: context,
                                         mine: resultModel.Mine(context: context));
                                 }
-                                if (EditColumns.Get(column.ColumnName))
+                                if (!resultModel.Locked && EditColumns.Get(column.ColumnName))
                                 {
-                                    hb.Td(action: () => hb.Field(
-                                        context: context,
-                                        column: column,
-                                        resultModel: resultModel,
-                                        ss: column.SiteSettings,
-                                        controlOnly: true,
-                                        idSuffix: resultModel.IdSuffix()));
+                                    hb.Td(
+                                        css: column.TextAlign == SiteSettings.TextAlignTypes.Right
+                                            ? " right-align"
+                                            : string.Empty,
+                                        action: () => hb.Field(
+                                            context: context,
+                                            column: column,
+                                            resultModel: resultModel,
+                                            ss: column.SiteSettings,
+                                            controlOnly: true,
+                                            idSuffix: resultModel.IdSuffix()));
                                 }
                                 else
                                 {

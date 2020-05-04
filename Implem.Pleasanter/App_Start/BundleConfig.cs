@@ -72,6 +72,7 @@ namespace Implem.Pleasanter
                 "~/Scripts/KeyEvents.js",
                 "~/Scripts/LegendEvents.js",
                 "~/Scripts/Loading.js",
+                "~/Scripts/LockEvents.js",
                 "~/Scripts/MarkDown.js",
                 "~/Scripts/MarkDownEvents.js",
                 "~/Scripts/MenuEvents.js",

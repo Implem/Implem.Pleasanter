@@ -37,7 +37,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             Column column,
             BaseModel.MethodTypes methodType = BaseModel.MethodTypes.NotSet,
             string value = null,
-            Permissions.ColumnPermissionTypes columnPermissionType = 
+            Permissions.ColumnPermissionTypes columnPermissionType =
                 Permissions.ColumnPermissionTypes.Update,
             string fieldCss = null,
             string labelCss = null,
@@ -80,10 +80,16 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                         ? $"{column.Id}{idSuffix}"
                         : null,
                     columnName: $"{column.ColumnName}{idSuffix}",
-                    fieldCss: FieldCss(column, fieldCss),
+                    fieldCss: FieldCss(column, fieldCss)
+                        + (column.TextAlign == SiteSettings.TextAlignTypes.Right
+                            ? " right-align"
+                            : string.Empty),
                     labelCss: labelCss,
                     controlContainerCss: controlContainerCss,
-                    controlCss: Strings.CoalesceEmpty(controlCss, column.ControlCss),
+                    controlCss: Strings.CoalesceEmpty(controlCss, column.ControlCss)
+                        + (column.TextAlign == SiteSettings.TextAlignTypes.Right
+                            ? " right-align"
+                            : string.Empty),
                     controlType: ControlType(column),
                     value: value,
                     optionCollection: EditChoices(

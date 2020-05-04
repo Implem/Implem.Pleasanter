@@ -615,10 +615,12 @@ namespace Implem.Pleasanter.Libraries.Security
         {
             if (ss.Locked())
             {
-                if ((type & Types.Create) == Types.Create) return false;
                 if ((type & Types.Update) == Types.Update) return false;
                 if ((type & Types.Delete) == Types.Delete) return false;
-                if ((type & Types.SendMail) == Types.SendMail) return false;
+            }
+            if (ss.LockedTable())
+            {
+                if ((type & Types.Create) == Types.Create) return false;
                 if ((type & Types.Import) == Types.Import) return false;
             }
             return (ss.GetPermissionType(site) & type) == type

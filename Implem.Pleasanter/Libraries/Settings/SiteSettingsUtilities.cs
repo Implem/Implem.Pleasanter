@@ -350,8 +350,8 @@ namespace Implem.Pleasanter.Libraries.Settings
             Sqls.TableTypes tableType = Sqls.TableTypes.Normal)
         {
             var ss = siteModel.SiteSettings ?? new SiteSettings();
-            ss.LockedTime = siteModel.LockedTime;
-            ss.LockedUser = siteModel.LockedUser;
+            ss.LockedTableTime = siteModel.LockedTime;
+            ss.LockedTableUser = siteModel.LockedUser;
             ss.TableType = tableType;
             ss.SiteId = siteModel.SiteId;
             ss.ReferenceId = referenceId;
@@ -392,8 +392,8 @@ namespace Implem.Pleasanter.Libraries.Settings
             Sqls.TableTypes tableType = Sqls.TableTypes.Normal)
         {
             var ss = siteModel.SiteSettings ?? new SiteSettings();
-            ss.LockedTime = siteModel.LockedTime;
-            ss.LockedUser = siteModel.LockedUser;
+            ss.LockedTableTime = siteModel.LockedTime;
+            ss.LockedTableUser = siteModel.LockedUser;
             ss.TableType = tableType;
             ss.SiteId = siteModel.SiteId;
             ss.ReferenceId = referenceId;
@@ -436,8 +436,8 @@ namespace Implem.Pleasanter.Libraries.Settings
             Sqls.TableTypes tableType = Sqls.TableTypes.Normal)
         {
             var ss = siteModel.SiteSettings ?? new SiteSettings();
-            ss.LockedTime = siteModel.LockedTime;
-            ss.LockedUser = siteModel.LockedUser;
+            ss.LockedTableTime = siteModel.LockedTime;
+            ss.LockedTableUser = siteModel.LockedUser;
             ss.TableType = tableType;
             ss.SiteId = siteModel.SiteId;
             ss.ReferenceId = referenceId;
@@ -480,8 +480,8 @@ namespace Implem.Pleasanter.Libraries.Settings
             Sqls.TableTypes tableType = Sqls.TableTypes.Normal)
         {
             var ss = siteModel.SiteSettings ?? new SiteSettings();
-            ss.LockedTime = siteModel.LockedTime;
-            ss.LockedUser = siteModel.LockedUser;
+            ss.LockedTableTime = siteModel.LockedTime;
+            ss.LockedTableUser = siteModel.LockedUser;
             ss.TableType = tableType;
             ss.SiteId = siteModel.SiteId;
             ss.ReferenceId = referenceId;

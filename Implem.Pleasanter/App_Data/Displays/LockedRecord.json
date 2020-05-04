@@ -1,0 +1,29 @@
+{
+    "Id": "LockedRecord",
+    "Type": 240,
+    "Languages": [
+        {
+            "Body": "Record {0} has been locked by {1} at {2}."
+        },
+        {
+            "Language": "zh",
+            "Body": "记录 {0} 已被 {2} 上的 {1} 锁定。"
+        },
+        {
+            "Language": "ja",
+            "Body": "レコード {0} は {1} が {2} にロックしました。"
+        },
+        {
+            "Language": "de",
+            "Body": "Datensatz {0} wurde von {1} bei {2} gesperrt."
+        },
+        {
+            "Language": "ko",
+            "Body": "{2} 에서 {1} 에 의해 레코드 {0} 이 (가) 잠겼습니다."
+        },
+        {
+            "Language": "es",
+            "Body": "El registro {0} ha sido bloqueado por {1} en {2}."
+        }
+    ]
+}

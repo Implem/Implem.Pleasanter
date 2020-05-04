@@ -353,6 +353,14 @@ namespace Implem.Pleasanter.Libraries.Settings
                     tableAlias: tableAlias,
                     columnName: "SiteId"));
             }
+            if (currentSs.ColumnHash.ContainsKey("Locked"))
+            {
+                columns.Add(GetColumn(
+                    context: context,
+                    ss: ss,
+                    tableAlias: tableAlias,
+                    columnName: "Locked"));
+            }
             currentSs.TitleColumns
                 .Where(o => currentSs.ColumnHash.ContainsKey(o))
                 .ForEach(name =>

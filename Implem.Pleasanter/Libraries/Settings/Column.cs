@@ -47,6 +47,7 @@ namespace Implem.Pleasanter.Libraries.Settings
         public bool? AllowImage;
         public bool? AllowBulkUpdate;
         public string FieldCss;
+        public SiteSettings.TextAlignTypes? TextAlign;
         public string Unit;
         public bool? Link;
         public ColumnUtilities.CheckFilterControlTypes? CheckFilterControlType;
@@ -1165,6 +1166,9 @@ namespace Implem.Pleasanter.Libraries.Settings
                         case "Owner":
                             sql.Issues_Owner(tableName: path, _as: _as);
                             break;
+                        case "Locked":
+                            sql.Issues_Locked(tableName: path, _as: _as);
+                            break;
                         case "SiteTitle":
                             sql.Issues_SiteTitle(tableName: path, _as: _as);
                             break;
@@ -1239,6 +1243,9 @@ namespace Implem.Pleasanter.Libraries.Settings
                             break;
                         case "Owner":
                             sql.Results_Owner(tableName: path, _as: _as);
+                            break;
+                        case "Locked":
+                            sql.Results_Locked(tableName: path, _as: _as);
                             break;
                         case "SiteTitle":
                             sql.Results_SiteTitle(tableName: path, _as: _as);

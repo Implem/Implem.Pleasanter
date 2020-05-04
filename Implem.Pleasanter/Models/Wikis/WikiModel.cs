@@ -24,6 +24,7 @@ namespace Implem.Pleasanter.Models
     public class WikiModel : BaseItemModel
     {
         public long WikiId = 0;
+        public bool Locked = false;
 
         public TitleBody TitleBody
         {
@@ -34,6 +35,15 @@ namespace Implem.Pleasanter.Models
         }
 
         public long SavedWikiId = 0;
+        public bool SavedLocked = false;
+
+        public bool Locked_Updated(Context context, Column column = null)
+        {
+            return Locked != SavedLocked &&
+                (column == null ||
+                column.DefaultInput.IsNullOrEmpty() ||
+                column.GetDefaultInput(context: context).ToBool() != Locked);
+        }
 
         public string PropertyValue(Context context, string name)
         {
@@ -46,6 +56,7 @@ namespace Implem.Pleasanter.Models
                 case "Title": return Title.Value;
                 case "Body": return Body;
                 case "TitleBody": return TitleBody.ToString();
+                case "Locked": return Locked.ToString();
                 case "Comments": return Comments.ToJson();
                 case "Creator": return Creator.Id.ToString();
                 case "Updator": return Updator.Id.ToString();
@@ -85,6 +96,9 @@ namespace Implem.Pleasanter.Models
                         break;
                     case "TitleBody":
                         hash.Add("TitleBody", TitleBody.ToString());
+                        break;
+                    case "Locked":
+                        hash.Add("Locked", Locked.ToString());
                         break;
                     case "Comments":
                         hash.Add("Comments", Comments.ToJson());
@@ -173,6 +187,13 @@ namespace Implem.Pleasanter.Models
                     formData: formData);
             }
             if (setByApi) SetByApi(context: context, ss: ss);
+            if (SavedLocked)
+            {
+                ss.SetLockedRecord(
+                    context: context,
+                    time: UpdatedTime,
+                    user: Updator);
+            }
             MethodType = methodType;
             OnConstructed(context: context);
         }
@@ -258,6 +279,7 @@ namespace Implem.Pleasanter.Models
                     case "Ver": data.Ver = Ver; break;
                     case "Title": data.Title = Title.Value; break;
                     case "Body": data.Body = Body; break;
+                    case "Locked": data.Locked = Locked; break;
                     case "Creator": data.Creator = Creator.Id; break;
                     case "Updator": data.Updator = Updator.Id; break;
                     case "CreatedTime": data.CreatedTime = CreatedTime.Value.ToLocal(context: context); break;
@@ -797,6 +819,7 @@ namespace Implem.Pleasanter.Models
                 {
                     case "Wikis_Title": Title = new Title(WikiId, value); break;
                     case "Wikis_Body": Body = value.ToString(); break;
+                    case "Wikis_Locked": Locked = value.ToBool(); break;
                     case "Wikis_Timestamp": Timestamp = value.ToString(); break;
                     case "Comments": Comments.Prepend(
                         context: context,
@@ -877,6 +900,7 @@ namespace Implem.Pleasanter.Models
             UpdatedTime = wikiModel.UpdatedTime;
             Title = wikiModel.Title;
             Body = wikiModel.Body;
+            Locked = wikiModel.Locked;
             Comments = wikiModel.Comments;
             Creator = wikiModel.Creator;
             Updator = wikiModel.Updator;
@@ -900,6 +924,7 @@ namespace Implem.Pleasanter.Models
             }
             if (data.Title != null) Title = new Title(data.WikiId.ToLong(), data.Title);
             if (data.Body != null) Body = data.Body.ToString().ToString();
+            if (data.Locked != null) Locked = data.Locked.ToBool().ToBool();
             if (data.Comments != null) Comments.Prepend(context: context, ss: ss, body: data.Comments);
             if (data.VerUp != null) VerUp = data.VerUp.ToBool();
             data.ClassHash?.ForEach(o => Class(
@@ -1040,6 +1065,11 @@ namespace Implem.Pleasanter.Models
                             break;
                         case "Body":
                             match = Body.Matched(
+                                column: column,
+                                condition: filter.Value);
+                            break;
+                        case "Locked":
+                            match = Locked.Matched(
                                 column: column,
                                 condition: filter.Value);
                             break;
@@ -1239,6 +1269,14 @@ namespace Implem.Pleasanter.Models
                             updated: Body_Updated(context: context),
                             update: update));
                         break;
+                    case "Locked":
+                        body.Append(Locked.ToNotice(
+                            context: context,
+                            saved: SavedLocked,
+                            column: column,
+                            updated: Locked_Updated(context: context),
+                            update: update));
+                        break;
                     case "Comments":
                         body.Append(Comments.ToNotice(
                             context: context,
@@ -1404,6 +1442,10 @@ namespace Implem.Pleasanter.Models
                             Body = dataRow[column.ColumnName].ToString();
                             SavedBody = Body;
                             break;
+                        case "Locked":
+                            Locked = dataRow[column.ColumnName].ToBool();
+                            SavedLocked = Locked;
+                            break;
                         case "Comments":
                             Comments = dataRow[column.ColumnName].ToString().Deserialize<Comments>() ?? new Comments();
                             SavedComments = Comments.ToJson();
@@ -1490,6 +1532,7 @@ namespace Implem.Pleasanter.Models
                 || Ver_Updated(context: context)
                 || Title_Updated(context: context)
                 || Body_Updated(context: context)
+                || Locked_Updated(context: context)
                 || Comments_Updated(context: context)
                 || Creator_Updated(context: context)
                 || Updator_Updated(context: context);

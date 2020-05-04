@@ -46,10 +46,13 @@ namespace Implem.Pleasanter.Libraries.General
             InvalidSsoCode,
             ItemsLimit,
             JoeAccountCheck,
+            LockedRecord,
+            LockedTable,
             LoginIdAlreadyUse,
             MailAddressHasNotSet,
             NoLinks,
             NotFound,
+            NotLockedRecord,
             NotRequiredColumn,
             OverLimitApi,
             OverLimitQuantity,
@@ -243,6 +246,14 @@ namespace Implem.Pleasanter.Libraries.General
                     return Messages.JoeAccountCheck(
                         context: context,
                         data: data);
+                case Types.LockedRecord:
+                    return Messages.LockedRecord(
+                        context: context,
+                        data: data);
+                case Types.LockedTable:
+                    return Messages.LockedTable(
+                        context: context,
+                        data: data);
                 case Types.LoginIdAlreadyUse:
                     return Messages.LoginIdAlreadyUse(
                         context: context,
@@ -257,6 +268,10 @@ namespace Implem.Pleasanter.Libraries.General
                         data: data);
                 case Types.NotFound:
                     return Messages.NotFound(
+                        context: context,
+                        data: data);
+                case Types.NotLockedRecord:
+                    return Messages.NotLockedRecord(
                         context: context,
                         data: data);
                 case Types.NotRequiredColumn:

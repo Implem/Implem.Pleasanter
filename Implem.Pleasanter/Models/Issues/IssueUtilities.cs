@@ -833,6 +833,21 @@ namespace Implem.Pleasanter.Models
                                     context: context,
                                     column: column,
                                     value: string.Empty);
+                    case "Locked":
+                        return ss.ReadColumnAccessControls.Allowed(
+                            context: context,
+                            ss: ss,
+                            column: column,
+                            type: ss.PermissionType,
+                            mine: mine)
+                                ? hb.Td(
+                                    context: context,
+                                    column: column,
+                                    value: issueModel.Locked)
+                                : hb.Td(
+                                    context: context,
+                                    column: column,
+                                    value: string.Empty);
                     case "SiteTitle":
                         return ss.ReadColumnAccessControls.Allowed(
                             context: context,
@@ -1063,6 +1078,9 @@ namespace Implem.Pleasanter.Models
                         context: context,
                         column: column); break;
                     case "Owner": value = issueModel.Owner.GridText(
+                        context: context,
+                        column: column); break;
+                    case "Locked": value = issueModel.Locked.GridText(
                         context: context,
                         column: column); break;
                     case "SiteTitle": value = issueModel.SiteTitle.GridText(
@@ -1302,6 +1320,16 @@ namespace Implem.Pleasanter.Models
                             controlId: "BaseUrl",
                             value: Locations.BaseUrl(context: context))
                         .Hidden(
+                            controlId: "LockedTable",
+                            value: ss.LockedTable()
+                                ? "1"
+                                : "0")
+                        .Hidden(
+                            controlId: "LockedRecord",
+                            value: ss.LockedRecord()
+                                ? "1"
+                                : "0")
+                        .Hidden(
                             controlId: "FromSiteId",
                             css: "control-hidden always-send",
                             value: context.QueryStrings.Data("FromSiteId"),
@@ -1366,8 +1394,10 @@ namespace Implem.Pleasanter.Models
                         .A(
                             href: "#FieldSetHistories",
                             text: Displays.ChangeHistoryList(context: context)))
-                .Li(_using: context.CanManagePermission(ss: ss) &&
-                        issueModel.MethodType != BaseModel.MethodTypes.New,
+                .Li(
+                    _using: context.CanManagePermission(ss: ss)
+                        && !ss.Locked()
+                        && issueModel.MethodType != BaseModel.MethodTypes.New,
                     action: () => hb
                         .A(
                             href: "#FieldSetRecordAccessControl",
@@ -1580,6 +1610,12 @@ namespace Implem.Pleasanter.Models
                             column: column);
                 case "Owner":
                     return issueModel.Owner
+                        .ToControl(
+                            context: context,
+                            ss: ss,
+                            column: column);
+                case "Locked":
+                    return issueModel.Locked
                         .ToControl(
                             context: context,
                             ss: ss,
@@ -1820,6 +1856,11 @@ namespace Implem.Pleasanter.Models
                                 "#Issues_Owner" + idSuffix,
                                 issueModel.Owner.ToResponse(context: context, ss: ss, column: column));
                             break;
+                        case "Locked":
+                            res.Val(
+                                "#Issues_Locked" + idSuffix,
+                                issueModel.Locked);
+                            break;
                         default:
                             switch (Def.ExtendedColumnTypes.Get(column.Name))
                             {
@@ -1869,7 +1910,10 @@ namespace Implem.Pleasanter.Models
                                                 fieldId: $"Issues_{column.Name}Field",
                                                 controlId: $"Issues_{column.Name}",
                                                 columnName: column.ColumnName,
-                                                fieldCss: column.FieldCss,
+                                                fieldCss: column.FieldCss
+                                                    + (column.TextAlign == SiteSettings.TextAlignTypes.Right
+                                                        ? " right-align"
+                                                        : string.Empty),
                                                 fieldDescription: column.Description,
                                                 labelText: column.LabelText,
                                                 value: issueModel.Attachments(columnName: column.Name).ToJson(),
@@ -2258,6 +2302,22 @@ namespace Implem.Pleasanter.Models
                         context: context,
                         data: issueModel.Title.DisplayValue));
             }
+            else if (issueModel.Locked)
+            {
+                ss.SetLockedRecord(
+                    context: context,
+                    time: issueModel.UpdatedTime,
+                    user: issueModel.Updator);
+                return EditorResponse(
+                    context: context,
+                    ss: ss,
+                    issueModel: issueModel)
+                        .SetMemory("formChanged", false)
+                        .Message(Messages.Updated(
+                            context: context,
+                            data: issueModel.Title.DisplayValue))
+                        .ClearFormData();
+            }
             else
             {
                 var verUp = Versions.VerUp(
@@ -2373,24 +2433,38 @@ namespace Implem.Pleasanter.Models
             issueModel.PropertyValue(
                 context: context,
                 name: column.ColumnName);
-            var where = SelectedWhere(
+            var selectedWhere = SelectedWhere(
                 context: context,
                 ss: ss);
-            if (where == null)
+            if (selectedWhere == null)
             {
                 return Messages.ResponseSelectTargets(context: context).ToJson();
+            }
+            var view = Views.GetBySession(
+                context: context,
+                ss: ss);
+            var where = view.Where(
+                context: context,
+                ss: ss,
+                where: selectedWhere,
+                itemJoin: false);
+            var invalid = ExistsLockedRecord(
+                context: context,
+                ss: ss,
+                where: where,
+                orderBy: view.OrderBy(
+                    context: context,
+                    ss: ss),
+                bulkUpdateColumn: column);
+            switch (invalid.Type)
+            {
+                case Error.Types.None: break;
+                default: return invalid.MessageJson(context: context);
             }
             var count = BulkUpdate(
                 context: context,
                 ss: ss,
-                where: Views.GetBySession(
-                    context: context,
-                    ss: ss)
-                        .Where(
-                            context: context,
-                            ss: ss,
-                            where: where,
-                            itemJoin: false));
+                where: where);
             Summaries.Synchronize(context: context, ss: ss);
             ss.Notifications.ForEach(notification =>
             {
@@ -2490,6 +2564,9 @@ namespace Implem.Pleasanter.Models
                 case "Owner":
                     param.Owner(issueModel.Owner.Id);
                     break;
+                case "Locked":
+                    param.Locked(issueModel.Locked);
+                    break;
                 default:
                     var columnNameBracket = $"[{column.ColumnName}]";
                     switch (Def.ExtendedColumnTypes.Get(column.ColumnName))
@@ -2579,6 +2656,15 @@ namespace Implem.Pleasanter.Models
                         .Where(formData => formData.Id > 0)
                         .Select(formData => formData.Id)),
                 formDataSet: formDataSet);
+            var exists = ExistsLockedRecord(
+                context: context,
+                ss: ss,
+                targets: issueCollection.Select(o => o.IssueId).ToList());
+            switch (exists.Type)
+            {
+                case Error.Types.None: break;
+                default: return exists.MessageJson(context: context);
+            }
             var notificationHash = issueCollection.ToDictionary(
                 o => o.IssueId,
                 o => o.GetNotifications(
@@ -2948,11 +3034,12 @@ namespace Implem.Pleasanter.Models
                 issueId: issueId);
             var invalid = IssueValidators.OnMoving(
                 context: context,
-                source: ss,
-                destination: SiteSettingsUtilities.Get(
+                ss: ss,
+                destinationSs: SiteSettingsUtilities.Get(
                     context: context,
                     siteId: siteId,
-                    referenceId: issueId));
+                    referenceId: issueId),
+                issueModel: issueModel);
             switch (invalid.Type)
             {
                 case Error.Types.None: break;
@@ -3586,12 +3673,32 @@ namespace Implem.Pleasanter.Models
 
         public static string BulkMove(Context context, SiteSettings ss)
         {
-            var where = SelectedWhere(
+            var selectedWhere = SelectedWhere(
                 context: context,
                 ss: ss);
-            if (where == null)
+            if (selectedWhere == null)
             {
                 return Messages.ResponseSelectTargets(context: context).ToJson();
+            }
+            var view = Views.GetBySession(
+                context: context,
+                ss: ss);
+            var where = view.Where(
+                context: context,
+                ss: ss,
+                where: selectedWhere,
+                itemJoin: false);
+            var invalid = ExistsLockedRecord(
+                context: context,
+                ss: ss,
+                where: where,
+                orderBy: view.OrderBy(
+                    context: context,
+                    ss: ss));
+            switch (invalid.Type)
+            {
+                case Error.Types.None: break;
+                default: return invalid.MessageJson(context: context);
             }
             var siteId = context.Forms.Long("MoveTargets");
             if (context.ContractSettings.ItemsLimit(
@@ -3601,14 +3708,7 @@ namespace Implem.Pleasanter.Models
                     context: context,
                     statements: Rds.SelectIssues(
                         column: Rds.IssuesColumn().IssuesCount(),
-                        where: Views.GetBySession(
-                            context: context,
-                            ss: ss)
-                                .Where(
-                                    context: context,
-                                    ss: ss,
-                                    where: where,
-                                    itemJoin: false)))))
+                        where: where))))
             {
                 return Error.Types.ItemsLimit.MessageJson(context: context);
             }
@@ -3624,14 +3724,7 @@ namespace Implem.Pleasanter.Models
                     context: context,
                     ss: ss,
                     siteId: siteId,
-                    where: Views.GetBySession(
-                        context: context,
-                        ss: ss)
-                            .Where(
-                                context: context,
-                                ss: ss,
-                                where: where,
-                                itemJoin: false));
+                    where: where);
                 Summaries.Synchronize(context: context, ss: ss);
                 return GridRows(
                     context: context,
@@ -3687,24 +3780,37 @@ namespace Implem.Pleasanter.Models
         {
             if (context.CanDelete(ss: ss))
             {
-                var where = SelectedWhere(
+                var selectedWhere = SelectedWhere(
                     context: context,
                     ss: ss);
-                if (where == null)
+                if (selectedWhere == null)
                 {
                     return Messages.ResponseSelectTargets(context: context).ToJson();
+                }
+                var view = Views.GetBySession(
+                    context: context,
+                    ss: ss);
+                var where = view.Where(
+                    context: context,
+                    ss: ss,
+                    where: selectedWhere,
+                    itemJoin: false);
+                var invalid = ExistsLockedRecord(
+                    context: context,
+                    ss: ss,
+                    where: where,
+                    orderBy: view.OrderBy(
+                        context: context,
+                        ss: ss));
+                switch (invalid.Type)
+                {
+                    case Error.Types.None: break;
+                    default: return invalid.MessageJson(context: context);
                 }
                 var count = BulkDelete(
                     context: context,
                     ss: ss,
-                    where: Views.GetBySession(
-                        context: context,
-                        ss: ss)
-                            .Where(
-                                context: context,
-                                ss: ss,
-                                where: where,
-                                itemJoin: false));
+                    where: where);
                 Summaries.Synchronize(context: context, ss: ss);
                 return GridRows(
                     context: context,
@@ -3767,54 +3873,58 @@ namespace Implem.Pleasanter.Models
 
         public static string DeleteHistory(Context context, SiteSettings ss, long issueId)
         {
-            if (!Parameters.History.PhysicalDelete)
+            var issueModel = new IssueModel(
+                context: context,
+                ss: ss,
+                issueId: issueId);
+            var invalid = IssueValidators.OnDeleteHistory(
+                context: context,
+                ss: ss,
+                issueModel: issueModel);
+            switch (invalid.Type)
             {
-                return Error.Types.InvalidRequest.MessageJson(context: context);
+                case Error.Types.None: break;
+                default: return HtmlTemplates.Error(
+                    context: context,
+                    errorData: invalid);
             }
-            if (context.CanManageSite(ss: ss))
+            var selector = new GridSelector(context: context);
+            var selected = selector
+                .Selected
+                .Select(o => o.ToInt())
+                .ToList();
+            var count = 0;
+            if (selector.All)
             {
-                var selector = new GridSelector(context: context);
-                var selected = selector
-                    .Selected
-                    .Select(o => o.ToInt())
-                    .ToList();
-                var count = 0;
-                if (selector.All)
+                count = DeleteHistory(
+                    context: context,
+                    ss: ss,
+                    issueId: issueId,
+                    selected: selected,
+                    negative: true);
+            }
+            else
+            {
+                if (selector.Selected.Any())
                 {
                     count = DeleteHistory(
                         context: context,
                         ss: ss,
                         issueId: issueId,
-                        selected: selected,
-                        negative: true);
+                        selected: selected);
                 }
                 else
                 {
-                    if (selector.Selected.Any())
-                    {
-                        count = DeleteHistory(
-                            context: context,
-                            ss: ss,
-                            issueId: issueId,
-                            selected: selected);
-                    }
-                    else
-                    {
-                        return Messages.ResponseSelectTargets(context: context).ToJson();
-                    }
+                    return Messages.ResponseSelectTargets(context: context).ToJson();
                 }
-                return Histories(
+            }
+            return Histories(
+                context: context,
+                ss: ss,
+                issueId: issueId,
+                message: Messages.HistoryDeleted(
                     context: context,
-                    ss: ss,
-                    issueId: issueId,
-                    message: Messages.HistoryDeleted(
-                        context: context,
-                        data: count.ToString()));
-            }
-            else
-            {
-                return Messages.ResponseHasNotPermission(context: context).ToJson();
-            }
+                    data: count.ToString()));
         }
 
         private static int DeleteHistory(
@@ -3966,6 +4076,7 @@ namespace Implem.Pleasanter.Models
 
         public static string Import(Context context, SiteModel siteModel)
         {
+            var updatableImport = context.Forms.Bool("UpdatableImport");
             var ss = siteModel.IssuesSiteSettings(
                 context: context,
                 referenceId: siteModel.SiteId,
@@ -4020,6 +4131,18 @@ namespace Implem.Pleasanter.Models
                     }
                     if (column != null) columnHash.Add(data.Index, column);
                 });
+                if (updatableImport && idColumn > -1)
+                {
+                    var exists = ExistsLockedRecord(
+                        context: context,
+                        ss: ss,
+                        targets: csv.Rows.Select(o => o[idColumn].ToLong()).ToList());
+                    switch (exists.Type)
+                    {
+                        case Error.Types.None: break;
+                        default: return exists.MessageJson(context: context);
+                    }
+                }
                 var invalidColumn = Imports.ColumnValidate(context, ss, columnHash.Values.Select(o => o.ColumnName), "CompletionTime");
                 if (invalidColumn != null) return invalidColumn;
                 Rds.ExecuteNonQuery(
@@ -4033,7 +4156,7 @@ namespace Implem.Pleasanter.Models
                     var issueModel = new IssueModel(
                         context: context,
                         ss: ss);
-                    if (context.Forms.Bool("UpdatableImport") && idColumn > -1)
+                    if (updatableImport && idColumn > -1)
                     {
                         var model = new IssueModel(
                             context: context,
@@ -4076,6 +4199,9 @@ namespace Implem.Pleasanter.Models
                                     break;
                                 case "Status":
                                     issueModel.Status.Value = recordingData.ToInt();
+                                    break;
+                                case "Locked":
+                                    issueModel.Locked = recordingData.ToBool();
                                     break;
                                 case "Manager":
                                     issueModel.Manager = SiteInfo.User(
@@ -5879,6 +6005,51 @@ namespace Implem.Pleasanter.Models
             return KambanJson(context: context, ss: ss);
         }
 
+        public static string UnlockRecord(
+            Context context, SiteSettings ss, long issueId)
+        {
+            var issueModel = new IssueModel(
+                context: context,
+                ss: ss,
+                issueId: issueId,
+                formData: context.Forms);
+            var invalid = IssueValidators.OnUnlockRecord(
+                context: context,
+                ss: ss);
+            switch (invalid.Type)
+            {
+                case Error.Types.None: break;
+                default: return invalid.MessageJson(context: context);
+            }
+            issueModel.Timestamp = context.Forms.Get("Timestamp");
+            issueModel.Locked = false;
+            var errorData = issueModel.Update(
+                context: context,
+                ss: ss,
+                notice: true);
+            switch (errorData.Type)
+            {
+                case Error.Types.None:
+                    ss.LockedRecordTime = null;
+                    ss.LockedRecordUser = null;
+                    return EditorResponse(
+                        context: context,
+                        ss: ss,
+                        issueModel: issueModel)
+                            .SetMemory("formChanged", false)
+                            .Message(Messages.UnlockedRecord(context: context))
+                            .ClearFormData()
+                            .ToJson();
+                case Error.Types.UpdateConflicts:
+                    return Messages.ResponseUpdateConflicts(
+                        context: context,
+                        data: issueModel.Updator.Name)
+                            .ToJson();
+                default:
+                    return errorData.MessageJson(context: context);
+            }
+        }
+
         public static string ImageLib(Context context, SiteSettings ss)
         {
             if (!ss.EnableViewMode(context: context, name: "ImageLib"))
@@ -6025,6 +6196,85 @@ namespace Implem.Pleasanter.Models
                             where
                         }),
                     where: where)) <= limit;
+        }
+
+        private static ErrorData ExistsLockedRecord(
+            Context context,
+            SiteSettings ss,
+            SqlWhereCollection where,
+            SqlOrderByCollection orderBy,
+            Column bulkUpdateColumn = null)
+        {
+            var lockedRecordWhere = new Rds.IssuesWhereCollection()
+                .Issues_Locked(true);
+            lockedRecordWhere.AddRange(where);
+            if (bulkUpdateColumn?.ColumnName == "Locked")
+            {
+                if (context.HasPrivilege)
+                {
+                    return new ErrorData(type: Error.Types.None);
+                }
+                else
+                {    
+                    lockedRecordWhere.Issues_Updator(
+                        value: context.UserId,
+                        _operator: "<>");
+                }
+            }
+            var issueId = Rds.ExecuteScalar_long(
+                context: context,
+                statements: Rds.SelectIssues(
+                    column: Rds.IssuesColumn().IssueId(),
+                    where: lockedRecordWhere,
+                    orderBy: orderBy,
+                    top: 1));
+            return issueId > 0
+                ? ExistsLockedRecord(
+                    context: context,
+                    ss: ss,
+                    issueId: issueId)
+                : new ErrorData(type: Error.Types.None);
+        }
+
+        private static ErrorData ExistsLockedRecord(
+            Context context,
+            SiteSettings ss,
+            List<long> targets)
+        {
+            var data = Rds.ExecuteTable(
+                context: context,
+                statements: Rds.SelectIssues(
+                    column: Rds.IssuesColumn().IssueId(),
+                    where: Rds.IssuesWhere()
+                        .SiteId(ss.SiteId)
+                        .Locked(true)))
+                            .AsEnumerable()
+                            .Select(dataRow => dataRow.Long("IssueId"))
+                            .ToList();
+            var issueId = data.FirstOrDefault(id => targets.Contains(id));
+            return issueId > 0
+                ? ExistsLockedRecord(
+                    context: context,
+                    ss: ss,
+                    issueId: issueId)
+                : new ErrorData(type: Error.Types.None);
+        }
+
+        private static ErrorData ExistsLockedRecord(
+            Context context, SiteSettings ss, long issueId)
+        {
+            var issueModel = new IssueModel(
+                context: context,
+                ss: ss,
+                issueId: issueId);
+            return new ErrorData(
+                type: Error.Types.LockedRecord,
+                data: new string[]
+                {
+                    issueModel.IssueId.ToString(),
+                    issueModel.Updator.Name,
+                    issueModel.UpdatedTime.DisplayValue.ToString(context.CultureInfo())
+                });
         }
     }
 }

@@ -11,6 +11,7 @@ namespace Implem.Pleasanter.Models
         public int? Ver { get; set; }
         public string Title { get; set; }
         public string Body { get; set; }
+        public bool? Locked { get; set; }
         public string Comments { get; set; }
         public int? Creator { get; set; }
         public int? Updator { get; set; }

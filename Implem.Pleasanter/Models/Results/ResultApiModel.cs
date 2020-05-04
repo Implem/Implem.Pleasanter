@@ -14,6 +14,7 @@ namespace Implem.Pleasanter.Models
         public int? Status { get; set; }
         public int? Manager { get; set; }
         public int? Owner { get; set; }
+        public bool? Locked { get; set; }
         public string Comments { get; set; }
         public int? Creator { get; set; }
         public int? Updator { get; set; }

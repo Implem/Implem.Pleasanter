@@ -1,6 +1,6 @@
 {
-    "Id": "LockWarning",
-    "Type": 110,
+    "Id": "LockedTable",
+    "Type": 240,
     "Languages": [
         {
             "Body": "This table was locked to {1} by {0}."

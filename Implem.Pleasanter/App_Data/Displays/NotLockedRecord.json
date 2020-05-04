@@ -1,0 +1,29 @@
+{
+    "Id": "NotLockedRecord",
+    "Type": 240,
+    "Languages": [
+        {
+            "Body": "This record is not locked."
+        },
+        {
+            "Language": "zh",
+            "Body": "该记录未锁定。"
+        },
+        {
+            "Language": "ja",
+            "Body": "このレコードはロックされていません。"
+        },
+        {
+            "Language": "de",
+            "Body": "Dieser Datensatz ist nicht gesperrt."
+        },
+        {
+            "Language": "ko",
+            "Body": "이 레코드는 잠겨 있지 않습니다."
+        },
+        {
+            "Language": "es",
+            "Body": "Este registro no está bloqueado."
+        }
+    ]
+}

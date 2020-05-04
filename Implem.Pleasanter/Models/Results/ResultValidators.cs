@@ -67,6 +67,16 @@ namespace Implem.Pleasanter.Models
             {
                 return new ErrorData(type: Error.Types.InvalidRequest);
             }
+            if (ss.LockedTable())
+            {
+                return new ErrorData(
+                    type: Error.Types.LockedTable,
+                    data: new string[]
+                    {
+                        ss.LockedTableUser.Name,
+                        ss.LockedTableTime.DisplayValue.ToString(context.CultureInfo())
+                    });
+            }
             if (!context.CanCreate(ss: ss))
             {
                 return !context.CanRead(ss: ss)
@@ -107,6 +117,12 @@ namespace Implem.Pleasanter.Models
                         break;
                     case "Owner":
                         if (resultModel.Owner_Updated(context: context, column: column))
+                        {
+                            return new ErrorData(type: Error.Types.HasNotPermission);
+                        }
+                        break;
+                    case "Locked":
+                        if (resultModel.Locked_Updated(context: context, column: column))
                         {
                             return new ErrorData(type: Error.Types.HasNotPermission);
                         }
@@ -196,6 +212,27 @@ namespace Implem.Pleasanter.Models
             {
                 return new ErrorData(type: Error.Types.InvalidRequest);
             }
+            if (ss.LockedTable())
+            {
+                return new ErrorData(
+                    type: Error.Types.LockedTable,
+                    data: new string[]
+                    {
+                        ss.LockedTableUser.Name,
+                        ss.LockedTableTime.DisplayValue.ToString(context.CultureInfo())
+                    });
+            }
+            if (ss.LockedRecord())
+            {
+                return new ErrorData(
+                    type: Error.Types.LockedRecord,
+                    data: new string[]
+                    {
+                        resultModel.ResultId.ToString(),
+                        ss.LockedRecordUser.Name,
+                        ss.LockedRecordTime.DisplayValue.ToString(context.CultureInfo())
+                    });
+            }
             if (!context.CanUpdate(ss: ss))
             {
                 return !context.CanRead(ss: ss)
@@ -235,6 +272,12 @@ namespace Implem.Pleasanter.Models
                         break;
                     case "Owner":
                         if (resultModel.Owner_Updated(context: context))
+                        {
+                            return new ErrorData(type: Error.Types.HasNotPermission);
+                        }
+                        break;
+                    case "Locked":
+                        if (resultModel.Locked_Updated(context: context))
                         {
                             return new ErrorData(type: Error.Types.HasNotPermission);
                         }
@@ -318,9 +361,36 @@ namespace Implem.Pleasanter.Models
         }
 
         public static ErrorData OnMoving(
-            Context context, SiteSettings source, SiteSettings destination)
+            Context context,
+            SiteSettings ss,
+            SiteSettings destinationSs,
+            ResultModel resultModel)
         {
-            if (!Permissions.CanMove(context: context, source: source, destination: destination))
+            if (ss.LockedTable())
+            {
+                return new ErrorData(
+                    type: Error.Types.LockedTable,
+                    data: new string[]
+                    {
+                        ss.LockedTableUser.Name,
+                        ss.LockedTableTime.DisplayValue.ToString(context.CultureInfo())
+                    });
+            }
+            if (ss.LockedRecord())
+            {
+                return new ErrorData(
+                    type: Error.Types.LockedRecord,
+                    data: new string[]
+                    {
+                        resultModel.ResultId.ToString(),
+                        ss.LockedRecordUser.Name,
+                        ss.LockedRecordTime.DisplayValue.ToString(context.CultureInfo())
+                    });
+            }
+            if (!Permissions.CanMove(
+                context: context,
+                source: ss,
+                destination: destinationSs))
             {
                 return new ErrorData(type: Error.Types.HasNotPermission);
             }
@@ -334,6 +404,27 @@ namespace Implem.Pleasanter.Models
             {
                 return new ErrorData(type: Error.Types.InvalidRequest);
             }
+            if (ss.LockedTable())
+            {
+                return new ErrorData(
+                    type: Error.Types.LockedTable,
+                    data: new string[]
+                    {
+                        ss.LockedTableUser.Name,
+                        ss.LockedTableTime.DisplayValue.ToString(context.CultureInfo())
+                    });
+            }
+            if (ss.LockedRecord())
+            {
+                return new ErrorData(
+                    type: Error.Types.LockedRecord,
+                    data: new string[]
+                    {
+                        resultModel.ResultId.ToString(),
+                        ss.LockedRecordUser.Name,
+                        ss.LockedRecordTime.DisplayValue.ToString(context.CultureInfo())
+                    });
+            }
             return context.CanDelete(ss: ss)
                 ? new ErrorData(type: Error.Types.None)
                 : !context.CanRead(ss: ss)
@@ -341,11 +432,21 @@ namespace Implem.Pleasanter.Models
                     : new ErrorData(type: Error.Types.HasNotPermission);
         }
 
-        public static ErrorData OnRestoring(Context context, bool api = false)
+        public static ErrorData OnRestoring(Context context, SiteSettings ss, bool api = false)
         {
             if (api && (context.ContractSettings.Api == false || !Parameters.Api.Enabled))
             {
                 return new ErrorData(type: Error.Types.InvalidRequest);
+            }
+            if (ss.LockedTable())
+            {
+                return new ErrorData(
+                    type: Error.Types.LockedTable,
+                    data: new string[]
+                    {
+                        ss.LockedTableUser.Name,
+                        ss.LockedTableTime.DisplayValue.ToString(context.CultureInfo())
+                    });
             }
             return Permissions.CanManageTenant(context: context)
                 ? new ErrorData(type: Error.Types.None)
@@ -357,6 +458,16 @@ namespace Implem.Pleasanter.Models
             if (api && (context.ContractSettings.Api == false || !Parameters.Api.Enabled))
             {
                 return new ErrorData(type: Error.Types.InvalidRequest);
+            }
+            if (ss.LockedTable())
+            {
+                return new ErrorData(
+                    type: Error.Types.LockedTable,
+                    data: new string[]
+                    {
+                        ss.LockedTableUser.Name,
+                        ss.LockedTableTime.DisplayValue.ToString(context.CultureInfo())
+                    });
             }
             return context.CanImport(ss: ss)
                 ? new ErrorData(type: Error.Types.None)
@@ -376,6 +487,56 @@ namespace Implem.Pleasanter.Models
                 : !context.CanRead(ss: ss)
                     ? new ErrorData(type: Error.Types.NotFound)
                     : new ErrorData(type: Error.Types.HasNotPermission);
+        }
+
+        public static ErrorData OnDeleteHistory(
+            Context context,
+            SiteSettings ss,
+            ResultModel resultModel,
+            bool api = false)
+        {
+            if (!Parameters.History.PhysicalDelete)
+            {
+                return new ErrorData(type: Error.Types.InvalidRequest);
+            }
+            if (!context.CanManageSite(ss: ss))
+            {
+                return new ErrorData(type: Error.Types.HasNotPermission);
+            }
+            if (api && (context.ContractSettings.Api == false || !Parameters.Api.Enabled))
+            {
+                return new ErrorData(type: Error.Types.InvalidRequest);
+            }
+            if (ss.LockedRecord())
+            {
+                return new ErrorData(
+                    type: Error.Types.LockedRecord,
+                    data: new string[]
+                    {
+                        resultModel.ResultId.ToString(),
+                        ss.LockedRecordUser.Name,
+                        ss.LockedRecordTime.DisplayValue.ToString(context.CultureInfo())
+                    });
+            }
+            return new ErrorData(type: Error.Types.None);
+        }
+
+        public static ErrorData OnUnlockRecord(
+            Context context, SiteSettings ss, bool api = false)
+        {
+            if (api && (context.ContractSettings.Api == false || !Parameters.Api.Enabled))
+            {
+                return new ErrorData(type: Error.Types.InvalidRequest);
+            }
+            if (!ss.LockedRecord())
+            {
+                return new ErrorData(type: Error.Types.NotLockedRecord);
+            }
+            if (!context.HasPrivilege && ss.LockedRecordUser.Id != context.UserId)
+            {
+                return new ErrorData(type: Error.Types.HasNotPermission);
+            }
+            return new ErrorData(type: Error.Types.None);
         }
 
         private static ErrorData OnAttaching(

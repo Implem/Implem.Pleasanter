@@ -771,6 +771,26 @@ namespace Implem.Pleasanter.Libraries.Responses
                 css: "alert-success");
         }
 
+        public static Message LockedRecord(Context context, params string[] data)
+        {
+            return Get(
+                id: "LockedRecord",
+                text: Displays.LockedRecord(
+                    context: context,
+                    data: data),
+                css: "alert-error");
+        }
+
+        public static Message LockedTable(Context context, params string[] data)
+        {
+            return Get(
+                id: "LockedTable",
+                text: Displays.LockedTable(
+                    context: context,
+                    data: data),
+                css: "alert-error");
+        }
+
         public static Message LoginIdAlreadyUse(Context context, params string[] data)
         {
             return Get(
@@ -836,6 +856,16 @@ namespace Implem.Pleasanter.Libraries.Responses
             return Get(
                 id: "NotFound",
                 text: Displays.NotFound(
+                    context: context,
+                    data: data),
+                css: "alert-error");
+        }
+
+        public static Message NotLockedRecord(Context context, params string[] data)
+        {
+            return Get(
+                id: "NotLockedRecord",
+                text: Displays.NotLockedRecord(
                     context: context,
                     data: data),
                 css: "alert-error");
@@ -1189,6 +1219,16 @@ namespace Implem.Pleasanter.Libraries.Responses
                     context: context,
                     data: data),
                 css: "alert-error");
+        }
+
+        public static Message UnlockedRecord(Context context, params string[] data)
+        {
+            return Get(
+                id: "UnlockedRecord",
+                text: Displays.UnlockedRecord(
+                    context: context,
+                    data: data),
+                css: "alert-success");
         }
 
         public static Message UpdateConflicts(Context context, params string[] data)
@@ -2011,6 +2051,26 @@ namespace Implem.Pleasanter.Libraries.Responses
                 target: target);
         }
 
+        public static ResponseCollection ResponseLockedRecord(
+            Context context, string target = null, params string[] data)
+        {
+            return ResponseMessage(
+                message: LockedRecord(
+                    context: context,
+                    data: data),
+                target: target);
+        }
+
+        public static ResponseCollection ResponseLockedTable(
+            Context context, string target = null, params string[] data)
+        {
+            return ResponseMessage(
+                message: LockedTable(
+                    context: context,
+                    data: data),
+                target: target);
+        }
+
         public static ResponseCollection ResponseLoginIdAlreadyUse(
             Context context, string target = null, params string[] data)
         {
@@ -2076,6 +2136,16 @@ namespace Implem.Pleasanter.Libraries.Responses
         {
             return ResponseMessage(
                 message: NotFound(
+                    context: context,
+                    data: data),
+                target: target);
+        }
+
+        public static ResponseCollection ResponseNotLockedRecord(
+            Context context, string target = null, params string[] data)
+        {
+            return ResponseMessage(
+                message: NotLockedRecord(
                     context: context,
                     data: data),
                 target: target);
@@ -2426,6 +2496,16 @@ namespace Implem.Pleasanter.Libraries.Responses
         {
             return ResponseMessage(
                 message: Unauthorized(
+                    context: context,
+                    data: data),
+                target: target);
+        }
+
+        public static ResponseCollection ResponseUnlockedRecord(
+            Context context, string target = null, params string[] data)
+        {
+            return ResponseMessage(
+                message: UnlockedRecord(
                     context: context,
                     data: data),
                 target: target);

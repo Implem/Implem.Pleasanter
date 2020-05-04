@@ -592,7 +592,7 @@ namespace Implem.Pleasanter.Models
                     : new ErrorData(type: Error.Types.HasNotPermission);
         }
 
-        public static ErrorData OnRestoring(Context context, bool api = false)
+        public static ErrorData OnRestoring(Context context, SiteSettings ss, bool api = false)
         {
             if (api && (context.ContractSettings.Api == false || !Parameters.Api.Enabled))
             {

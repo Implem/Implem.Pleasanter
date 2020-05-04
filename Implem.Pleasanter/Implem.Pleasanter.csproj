@@ -949,7 +949,7 @@
     <Content Include="App_Data\Displays\ListMode.json" />
     <Content Include="App_Data\Displays\ListSettings.json" />
     <Content Include="App_Data\Displays\LockTable.json" />
-    <Content Include="App_Data\Displays\LockWarning.json" />
+    <Content Include="App_Data\Displays\LockedTable.json" />
     <Content Include="App_Data\Displays\Login.json" />
     <Content Include="App_Data\Displays\LoginIdAlreadyUse.json" />
     <Content Include="App_Data\Displays\LoginIn.json" />
@@ -1297,6 +1297,7 @@
     <Content Include="Scripts\ColumnAccessControl.js" />
     <Content Include="Scripts\FieldSelectable.js" />
     <Content Include="Scripts\BulkUpdate.js" />
+    <Content Include="Scripts\LockEvents.js" />
     <Content Include="Scripts\SetDateRangeDialog.js" />
     <Content Include="Scripts\RelatingColumns.js" />
     <Content Include="Scripts\SetNumericRangeDialog.js" />
@@ -1563,6 +1564,13 @@
     <Content Include="App_Data\Displays\UserManual.json" />
     <Content Include="App_Data\Displays\ViewSettings.json" />
     <Content Include="App_Data\Parameters\Locations.json" />
+    <Content Include="App_Data\Displays\LockedRecord.json" />
+    <Content Include="App_Data\Displays\NotLockedRecord.json" />
+    <Content Include="App_Data\Displays\ConfirmUnlockRecord.json" />
+    <Content Include="App_Data\Displays\UnlockedRecord.json" />
+    <Content Include="App_Data\Displays\TextAlign.json" />
+    <Content Include="App_Data\Displays\LeftAlignment.json" />
+    <Content Include="App_Data\Displays\RightAlignment.json" />
     <Content Include="Tools\BackgroundTasks.ps1" />
     <Content Include="Tools\SyncByLdap.ps1" />
     <Content Include="Views\Users\EditApi.cshtml" />

@@ -1,0 +1,29 @@
+﻿{
+    "Id": "TextAlign",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Text alignment"
+        },
+        {
+            "Language": "zh",
+            "Body": "文字对齐"
+        },
+        {
+            "Language": "ja",
+            "Body": "配置"
+        },
+        {
+            "Language": "de",
+            "Body": "Textausrichtung"
+        },
+        {
+            "Language": "ko",
+            "Body": "텍스트 정렬"
+        },
+        {
+            "Language": "es",
+            "Body": "Texto alineado"
+        }
+    ]
+}

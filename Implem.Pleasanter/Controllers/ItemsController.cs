@@ -1107,6 +1107,23 @@ namespace Implem.Pleasanter.Controllers
         }
 
         [HttpPost]
+        public string UnlockRecord(long id)
+        {
+            var context = new Context();
+            var log = new SysLogModel(context: context);
+            var json = new ItemModel(
+                context: context,
+                referenceId: id)
+                    .UnlockRecord(
+                        context: context,
+                        id: id);
+            log.Finish(
+                context: context,
+                responseSize: json.Length);
+            return json;
+        }
+
+        [HttpPost]
         public ContentResult Get(long id)
         {
             var context = new Context();

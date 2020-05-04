@@ -214,8 +214,12 @@ namespace Implem.Pleasanter.Libraries.DataTypes
 
         public virtual HtmlBuilder Td(HtmlBuilder hb, Context context, Column column)
         {
-            return hb.Td(action: () => hb
-                .P(action: () => TdTitle(hb: hb, context: context, column: column)));
+            return hb.Td(
+                css: column.TextAlign == SiteSettings.TextAlignTypes.Right
+                    ? " right-align "
+                    : string.Empty,
+                action: () => hb
+                    .P(action: () => TdTitle(hb: hb, context: context, column: column)));
         }
 
         protected void TdTitle(HtmlBuilder hb, Context context, Column column)

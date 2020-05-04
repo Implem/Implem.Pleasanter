@@ -1165,7 +1165,7 @@ namespace Implem.Pleasanter.Models
             }
             return new ResponseCollection()
                 .Html(
-                    "#"+ controlId,
+                    "#" + controlId,
                     new HtmlBuilder().OptionCollection(
                         context: context,
                         optionCollection: optionCollection,
@@ -1174,7 +1174,7 @@ namespace Implem.Pleasanter.Models
                         addSelectedValue: false,
                         insertBlank: !filter,
                         column: column))
-                .Invoke("callbackRelatingColumn", "#"+ controlId)
+                .Invoke("callbackRelatingColumn", "#" + controlId)
                 .ClearFormData("#" + controlId)
                 .ToJson();
         }
@@ -2443,8 +2443,8 @@ namespace Implem.Pleasanter.Models
                 initSiteSettings: true);
             switch (Site.ReferenceType)
             {
-                    case "Issues":
-                    case "Results":
+                case "Issues":
+                case "Results":
                     return SiteUtilities.LockTable(
                         context: context,
                         ss: Site.SiteSettings);
@@ -2460,8 +2460,8 @@ namespace Implem.Pleasanter.Models
                 initSiteSettings: true);
             switch (Site.ReferenceType)
             {
-                    case "Issues":
-                    case "Results":
+                case "Issues":
+                case "Results":
                     return SiteUtilities.UnlockTable(
                         context: context,
                         ss: Site.SiteSettings);
@@ -2477,11 +2477,38 @@ namespace Implem.Pleasanter.Models
                 initSiteSettings: true);
             switch (Site.ReferenceType)
             {
-                    case "Issues":
-                    case "Results":
+                case "Issues":
+                case "Results":
                     return SiteUtilities.ForceUnlockTable(
                         context: context,
                         ss: Site.SiteSettings);
+                default:
+                    return Messages.ResponseNotFound(context: context).ToJson();
+            }
+        }
+
+        public string UnlockRecord(Context context, long id)
+        {
+            SetSite(
+                context: context,
+                initSiteSettings: true);
+            switch (Site.ReferenceType)
+            {
+                case "Issues":
+                    return IssueUtilities.UnlockRecord(
+                        context: context,
+                        ss: Site.SiteSettings,
+                        issueId: id);
+                case "Results":
+                    return ResultUtilities.UnlockRecord(
+                        context: context,
+                        ss: Site.SiteSettings,
+                        resultId: id);
+                case "Wikis":
+                    return WikiUtilities.UnlockRecord(
+                        context: context,
+                        ss: Site.SiteSettings,
+                        wikiId: id);
                 default:
                     return Messages.ResponseNotFound(context: context).ToJson();
             }
