@@ -597,7 +597,10 @@ namespace Implem.Pleasanter.Models
                             controlId: "SwitchTargets",
                             css: "always-send",
                             value: wikiModel.WikiId.ToString(),
-                            _using: !context.Ajax || context.Action == "create"))
+                            _using: !context.Ajax || context.Action == "create")
+                        .Hidden(
+                            controlId: "TriggerRelatingColumns_Editor", 
+                            value: Jsons.ToJson(ss.RelatingColumns)))
                 .OutgoingMailsForm(
                     context: context,
                     ss: ss,

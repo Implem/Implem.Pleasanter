@@ -197,7 +197,6 @@ namespace Implem.Pleasanter.Libraries.Settings
         public string GridScript;
         // compatibility Version 1.015
         public bool? EditInDialog;
-        public SiteSettings.TextAlignTypes? TextAlign;
 
         public SiteSettings()
         {

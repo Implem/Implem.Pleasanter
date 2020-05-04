@@ -17,10 +17,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                         .Class("dialog")
                         .Title(Displays.Edit(context: context)),
                     action: () => hb
-                        .Div(id: "EditInDialogBody")
-                        .Hidden(
-                            controlId: "TriggerRelatingColumns",
-                            value: Implem.Libraries.Utilities.Jsons.ToJson(ss.RelatingColumns)))
+                        .Div(id: "EditInDialogBody"))
                 : hb;
         }
 
@@ -65,7 +62,10 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                 text: Displays.Cancel(context: context),
                                 controlCss: "button-icon",
                                 onClick: "$p.closeDialog($(this));",
-                                icon: "ui-icon-cancel"));
+                                icon: "ui-icon-cancel"))
+                        .Hidden(
+                            controlId: "TriggerRelatingColumns_Dialog",
+                            value: Implem.Libraries.Utilities.Jsons.ToJson(ss.RelatingColumns));
                 });
         }
     }

@@ -2724,7 +2724,11 @@ namespace Implem.Pleasanter.Models
                 verType: verType,
                 methodType: BaseModel.MethodTypes.Index,
                 referenceType: "Sites",
-                script: "$p.setSiteMenu();",
+                script: (Parameters.Site.TopOrderBy <= 0
+                    || context.UserId == Parameters.Site.TopOrderBy
+                    || Permissions.PrivilegedUsers(loginId: context.LoginId))
+                        ? "$p.setSiteMenu();"
+                        : null,
                 action: () =>
                 {
                     hb
@@ -3664,7 +3668,6 @@ namespace Implem.Pleasanter.Models
                         mobile: context.Mobile,
                         _using: ss.ReferenceType != "Sites")
                     .Field(
-                        controlId: "Sites_ReferenceType",
                         labelText: Displays.Sites_ReferenceType(context: context),
                         controlAction: () => hb
                             .ReferenceType(
@@ -4494,9 +4497,30 @@ namespace Implem.Pleasanter.Models
                     .EditRelatingColumns(
                         context: context,
                         ss: ss))
+                    .FieldDropDown(
+                        context: context,
+                        controlId: "AutoVerUpType",
+                        fieldCss: "field-auto-thin both",
+                        labelText: Displays.AutoVerUpType(context: context),
+                        optionCollection: new Dictionary<string, string>
+                        {
+                            {
+                                Versions.AutoVerUpTypes.Default.ToInt().ToString(),
+                                Displays.Default(context: context)
+                            },
+                            {
+                                Versions.AutoVerUpTypes.Always.ToInt().ToString(),
+                                Displays.Always(context: context)
+                            },
+                            {
+                                Versions.AutoVerUpTypes.Disabled.ToInt().ToString(),
+                                Displays.Disabled(context: context)
+                            }
+                        },
+                        selectedValue: ss.AutoVerUpType.ToInt().ToString())
                     .FieldCheckBox(
                         controlId: "AllowEditingComments",
-                        fieldCss: "field-auto-thin both",
+                        fieldCss: "field-auto-thin",
                         labelText: Displays.AllowEditingComments(context: context),
                         _checked: ss.AllowEditingComments == true)
                     .FieldCheckBox(
@@ -6358,7 +6382,9 @@ namespace Implem.Pleasanter.Models
                             context: context,
                             controlId: controlId,
                             fieldCss: "field-auto-thin",
-                            controlCss: " auto-postback",
+                            controlCss: " auto-postback" + (column.UseSearch == true
+                                ? " search"
+                                : string.Empty),
                             labelText: column.LabelText,
                             labelTitle: labelTitle,
                             optionCollection: column.EditChoices(context: context),
@@ -7153,6 +7179,10 @@ namespace Implem.Pleasanter.Models
                                 .Span(
                                     css: "ui-icon ui-icon-circle-check",
                                     _using: reminder.NotSendIfNotApplicable == true))
+                            .Td(action: () => hb
+                                .Span(
+                                    css: "ui-icon ui-icon-circle-check",
+                                    _using: reminder.NotSendHyperLink == true))
                             .Td(action: () => hb
                                 .Text(text: condition?.Name))
                             .Td(action: () => hb
@@ -8654,16 +8684,6 @@ namespace Implem.Pleasanter.Models
                             controlCss: "button-icon",
                             onClick: "$p.closeDialog($(this));",
                             icon: "ui-icon-cancel")));
-        }
-
-        /// <summary>
-        /// Fixed:
-        /// </summary>
-        private static Permissions.Types SiteTopPermission(Context context)
-        {
-            return context.UserSettings?.DisableTopSiteCreation == true
-                ? Permissions.Types.Read
-                : (Permissions.Types)Parameters.Permissions.Manager;
         }
 
         /// <summary>

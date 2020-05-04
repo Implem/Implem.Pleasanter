@@ -1,7 +1,8 @@
 ﻿{
-    "Mail": true,
-    "Slack": true,
-    "ChatWork": true,
-    "Line": true,
-    "Teams": true
+    "SecurityProtocolType": "Tls12",
+    "Mail": false,
+    "Slack": false,
+    "ChatWork": false,
+    "Line": false,
+    "Teams": false
 }

@@ -1,10 +1,10 @@
 ﻿{
     "TableName": "Results",
     "ReferenceType": "Results",
-    "Class": 100,
-    "Num": 100,
-    "Date": 100,
-    "Description": 100,
-    "Check": 100,
-    "Attachments": 100
+    "Class": 0,
+    "Num": 0,
+    "Date": 0,
+    "Description": 0,
+    "Check": 0,
+    "Attachments": 0
 }

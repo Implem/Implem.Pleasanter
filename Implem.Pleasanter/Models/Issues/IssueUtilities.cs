@@ -4048,7 +4048,8 @@ namespace Implem.Pleasanter.Models
                             ss: ss)
                                 .Where(
                                     context: context,
-                                    ss: ss)));
+                                    ss: ss,
+                                    itemJoin: false)));
             var sub = Rds.SelectIssues(
                 tableType: Sqls.TableTypes.Deleted,
                 _as: "Issues_Deleted",

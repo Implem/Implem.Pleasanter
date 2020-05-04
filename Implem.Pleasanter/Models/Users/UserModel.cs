@@ -39,7 +39,7 @@ namespace Implem.Pleasanter.Models
         public Time Birthday = new Time();
         public string Gender = string.Empty;
         public string Language = "ja";
-        public string TimeZone = "Tokyo Standard Time";
+        public string TimeZone = "Asia/Tokyo";
         public string DeptCode = string.Empty;
         public int DeptId = 0;
         public Names.FirstAndLastNameOrders FirstAndLastNameOrder = (Names.FirstAndLastNameOrders)2;
@@ -72,7 +72,7 @@ namespace Implem.Pleasanter.Models
         {
             get
             {
-                return TimeZoneInfo.GetSystemTimeZones().FirstOrDefault(o => o.Id == TimeZone) ?? TimeZoneInfo.Local;
+                return TimeZoneInfo.GetSystemTimeZones().FirstOrDefault(o => o.Id == TimeZone);
             }
         }
 
@@ -107,7 +107,7 @@ namespace Implem.Pleasanter.Models
         public DateTime SavedBirthday = 0.ToDateTime();
         public string SavedGender = string.Empty;
         public string SavedLanguage = "ja";
-        public string SavedTimeZone = "Tokyo Standard Time";
+        public string SavedTimeZone = "Asia/Tokyo";
         public string SavedDeptCode = string.Empty;
         public int SavedDeptId = 0;
         public int SavedFirstAndLastNameOrder = 2;
@@ -603,6 +603,19 @@ namespace Implem.Pleasanter.Models
                         type: ss.PermissionType,
                         mine: mine)
                             ? TimeZone.ToExport(
+                                context: context,
+                                column: column,
+                                exportColumn: exportColumn)
+                            : string.Empty;
+                    break;
+                case "TimeZoneInfo":
+                    value = ss.ReadColumnAccessControls.Allowed(
+                        context: context,
+                        ss: ss,
+                        column: column,
+                        type: ss.PermissionType,
+                        mine: mine)
+                            ? TimeZoneInfo.ToExport(
                                 context: context,
                                 column: column,
                                 exportColumn: exportColumn)

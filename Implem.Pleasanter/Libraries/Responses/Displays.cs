@@ -3748,16 +3748,6 @@ namespace Implem.Pleasanter.Libraries.Responses
                 data: data);
         }
 
-        public static string LockWarning(
-            Context context,
-            params string[] data)
-        {
-            return Get(
-                context: context,
-                id: "LockWarning",
-                data: data);
-        }
-
         public static string Login(
             Context context,
             params string[] data)

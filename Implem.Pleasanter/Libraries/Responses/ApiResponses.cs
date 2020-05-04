@@ -46,6 +46,11 @@ namespace Implem.Pleasanter.Libraries.Responses
                     return OverTenantStorageSize(
                         context: context,
                         dataList[0].ToDecimal());
+                case General.Error.Types.LockedTable:
+                case General.Error.Types.LockedRecord:
+                    return Locked(
+                        context: context,
+                        errorData: errorData);
                 default:
                     return new ApiResponse(
                         id: context.Id,
@@ -53,7 +58,7 @@ namespace Implem.Pleasanter.Libraries.Responses
                         message: dataList?.Any() == true
                             ? Displays.Get(
                                 context: context,
-                                id: errorData.Type.ToString()).Params(dataList)
+                                id: errorData.Type.ToString()).Params(dataList.ToArray())
                             : Displays.Get(
                                 context: context,
                                 id: errorData.Type.ToString()));
@@ -140,6 +145,16 @@ namespace Implem.Pleasanter.Libraries.Responses
                 message: Displays.OverTenantStorageSize(
                     context: context,
                     data: maxSize.ToString()));
+        }
+
+        public static ApiResponse Locked(Context context, ErrorData errorData)
+        {
+            return new ApiResponse(
+                id: context.Id,
+                statusCode: 405,
+                message: Displays.Get(
+                    context: context,
+                    id: errorData.Type.ToString()).Params(errorData.Data));
         }
     }
 }

@@ -3726,7 +3726,8 @@ namespace Implem.Pleasanter.Models
                             ss: ss)
                                 .Where(
                                     context: context,
-                                    ss: ss)));
+                                    ss: ss,
+                                    itemJoin: false)));
             var sub = Rds.SelectResults(
                 tableType: Sqls.TableTypes.Deleted,
                 _as: "Results_Deleted",
