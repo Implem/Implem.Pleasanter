@@ -347,7 +347,7 @@ namespace Implem.Pleasanter.Models
         public static ErrorData OnUnlockTable(Context context, SiteSettings ss)
         {
             return ss.Locked()
-                && (ss.LockedUser.Id == context.UserId || context.HasPrivilege)
+                && (ss.LockedTableUser.Id == context.UserId || context.HasPrivilege)
                     ? new ErrorData(type: Error.Types.None)
                     : new ErrorData(type: Error.Types.HasNotPermission);
         }

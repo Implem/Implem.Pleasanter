@@ -1278,7 +1278,10 @@ namespace Implem.Pleasanter.Models
                                                 fieldId: $"Depts_{column.Name}Field",
                                                 controlId: $"Depts_{column.Name}",
                                                 columnName: column.ColumnName,
-                                                fieldCss: column.FieldCss,
+                                                fieldCss: column.FieldCss
+                                                    + (column.TextAlign == SiteSettings.TextAlignTypes.Right
+                                                        ? " right-align"
+                                                        : string.Empty),
                                                 fieldDescription: column.Description,
                                                 labelText: column.LabelText,
                                                 value: deptModel.Attachments(columnName: column.Name).ToJson(),

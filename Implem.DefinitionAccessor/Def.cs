@@ -655,6 +655,7 @@ namespace Implem.DefinitionAccessor
                     case "Model_Utilities_Histories": Code.Model_Utilities_Histories = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_Histories, definitionRow, CodeXls); break;
                     case "Model_Utilities_HistoriesParams": Code.Model_Utilities_HistoriesParams = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_HistoriesParams, definitionRow, CodeXls); break;
                     case "Model_Utilities_HistoriesParams_Sites": Code.Model_Utilities_HistoriesParams_Sites = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_HistoriesParams_Sites, definitionRow, CodeXls); break;
+                    case "Model_Utilities_HistoriesSetChoiceHash": Code.Model_Utilities_HistoriesSetChoiceHash = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_HistoriesSetChoiceHash, definitionRow, CodeXls); break;
                     case "Model_Utilities_History": Code.Model_Utilities_History = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_History, definitionRow, CodeXls); break;
                     case "Model_Utilities_History_Sites": Code.Model_Utilities_History_Sites = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_History_Sites, definitionRow, CodeXls); break;
                     case "Model_Utilities_SetSiteSettings": Code.Model_Utilities_SetSiteSettings = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_SetSiteSettings, definitionRow, CodeXls); break;
@@ -707,6 +708,8 @@ namespace Implem.DefinitionAccessor
                     case "Model_ValidatorMethods_Binaries": Code.Model_ValidatorMethods_Binaries = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_ValidatorMethods_Binaries, definitionRow, CodeXls); break;
                     case "Model_Validator_Api": Code.Model_Validator_Api = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Validator_Api, definitionRow, CodeXls); break;
                     case "Model_Validator_ShowProfiles": Code.Model_Validator_ShowProfiles = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Validator_ShowProfiles, definitionRow, CodeXls); break;
+                    case "Model_Validator_OnAttaching": Code.Model_Validator_OnAttaching = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Validator_OnAttaching, definitionRow, CodeXls); break;
+                    case "Model_Validator_OnAttachingMethod": Code.Model_Validator_OnAttachingMethod = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Validator_OnAttachingMethod, definitionRow, CodeXls); break;
                     case "Model_Api": Code.Model_Api = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Api, definitionRow, CodeXls); break;
                     case "Model_ApiPropertyCases": Code.Model_ApiPropertyCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_ApiPropertyCases, definitionRow, CodeXls); break;
                     case "Model_ApiPropertyNullType": Code.Model_ApiPropertyNullType = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_ApiPropertyNullType, definitionRow, CodeXls); break;
@@ -727,6 +730,7 @@ namespace Implem.DefinitionAccessor
                     case "Rds_SqlSelect": Code.Rds_SqlSelect = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Rds_SqlSelect, definitionRow, CodeXls); break;
                     case "Rds_SqlExists": Code.Rds_SqlExists = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Rds_SqlExists, definitionRow, CodeXls); break;
                     case "Rds_SqlInsert": Code.Rds_SqlInsert = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Rds_SqlInsert, definitionRow, CodeXls); break;
+                    case "Rds_SqlInsert_SetIdentityColumn": Code.Rds_SqlInsert_SetIdentityColumn = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Rds_SqlInsert_SetIdentityColumn, definitionRow, CodeXls); break;
                     case "Rds_SqlUpdate": Code.Rds_SqlUpdate = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Rds_SqlUpdate, definitionRow, CodeXls); break;
                     case "Rds_SqlUpdateOrInsert": Code.Rds_SqlUpdateOrInsert = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Rds_SqlUpdateOrInsert, definitionRow, CodeXls); break;
                     case "Rds_SqlDelete": Code.Rds_SqlDelete = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Rds_SqlDelete, definitionRow, CodeXls); break;
@@ -737,6 +741,7 @@ namespace Implem.DefinitionAccessor
                     case "Rds_CopyToStatementColums_Extended": Code.Rds_CopyToStatementColums_Extended = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Rds_CopyToStatementColums_Extended, definitionRow, CodeXls); break;
                     case "Rds_Aggregations": Code.Rds_Aggregations = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Rds_Aggregations, definitionRow, CodeXls); break;
                     case "Rds_AggregationTableCases": Code.Rds_AggregationTableCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Rds_AggregationTableCases, definitionRow, CodeXls); break;
+                    case "Rds_AggregationWhereTenantId": Code.Rds_AggregationWhereTenantId = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Rds_AggregationWhereTenantId, definitionRow, CodeXls); break;
                     case "Rds_AggregationTables": Code.Rds_AggregationTables = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Rds_AggregationTables, definitionRow, CodeXls); break;
                     case "Rds_AggregationTotalCases": Code.Rds_AggregationTotalCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Rds_AggregationTotalCases, definitionRow, CodeXls); break;
                     case "Rds_AggregationAverageCases": Code.Rds_AggregationAverageCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Rds_AggregationAverageCases, definitionRow, CodeXls); break;
@@ -1423,6 +1428,7 @@ namespace Implem.DefinitionAccessor
                     case "Tenants_ContractSettings": Column.Tenants_ContractSettings = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Tenants_ContractSettings, definitionRow, ColumnXls); break;
                     case "Tenants_ContractDeadline": Column.Tenants_ContractDeadline = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Tenants_ContractDeadline, definitionRow, ColumnXls); break;
                     case "Tenants_DisableAllUsersPermission": Column.Tenants_DisableAllUsersPermission = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Tenants_DisableAllUsersPermission, definitionRow, ColumnXls); break;
+                    case "Tenants_DisableStartGuide": Column.Tenants_DisableStartGuide = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Tenants_DisableStartGuide, definitionRow, ColumnXls); break;
                     case "Tenants_LogoType": Column.Tenants_LogoType = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Tenants_LogoType, definitionRow, ColumnXls); break;
                     case "Tenants_HtmlTitleTop": Column.Tenants_HtmlTitleTop = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Tenants_HtmlTitleTop, definitionRow, ColumnXls); break;
                     case "Tenants_HtmlTitleSite": Column.Tenants_HtmlTitleSite = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Tenants_HtmlTitleSite, definitionRow, ColumnXls); break;
@@ -1663,14 +1669,17 @@ namespace Implem.DefinitionAccessor
                     case "Issues_Status": Column.Issues_Status = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Issues_Status, definitionRow, ColumnXls); break;
                     case "Issues_Manager": Column.Issues_Manager = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Issues_Manager, definitionRow, ColumnXls); break;
                     case "Issues_Owner": Column.Issues_Owner = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Issues_Owner, definitionRow, ColumnXls); break;
+                    case "Issues_Locked": Column.Issues_Locked = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Issues_Locked, definitionRow, ColumnXls); break;
                     case "Issues_SiteTitle": Column.Issues_SiteTitle = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Issues_SiteTitle, definitionRow, ColumnXls); break;
                     case "Results_ResultId": Column.Results_ResultId = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Results_ResultId, definitionRow, ColumnXls); break;
                     case "Results_Title": Column.Results_Title = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Results_Title, definitionRow, ColumnXls); break;
                     case "Results_Status": Column.Results_Status = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Results_Status, definitionRow, ColumnXls); break;
                     case "Results_Manager": Column.Results_Manager = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Results_Manager, definitionRow, ColumnXls); break;
                     case "Results_Owner": Column.Results_Owner = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Results_Owner, definitionRow, ColumnXls); break;
+                    case "Results_Locked": Column.Results_Locked = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Results_Locked, definitionRow, ColumnXls); break;
                     case "Results_SiteTitle": Column.Results_SiteTitle = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Results_SiteTitle, definitionRow, ColumnXls); break;
                     case "Wikis_WikiId": Column.Wikis_WikiId = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Wikis_WikiId, definitionRow, ColumnXls); break;
+                    case "Wikis_Locked": Column.Wikis_Locked = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Wikis_Locked, definitionRow, ColumnXls); break;
                     case "Tenants_Ver": Column.Tenants_Ver = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Tenants_Ver, definitionRow, ColumnXls); break;
                     case "Tenants_Comments": Column.Tenants_Comments = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Tenants_Comments, definitionRow, ColumnXls); break;
                     case "Tenants_Creator": Column.Tenants_Creator = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Tenants_Creator, definitionRow, ColumnXls); break;
@@ -2661,6 +2670,14 @@ namespace Implem.DefinitionAccessor
                     case "_sharp_LockedWarning_space___space_div": Css._sharp_LockedWarning_space___space_div = definitionRow[1].ToString(); SetCssTable(CssTable._sharp_LockedWarning_space___space_div, definitionRow, CssXls); break;
                     case "_sharp_Application": Css._sharp_Application = definitionRow[1].ToString(); SetCssTable(CssTable._sharp_Application, definitionRow, CssXls); break;
                     case "_sharp_Application_space___space__dot_site_image_icon": Css._sharp_Application_space___space__dot_site_image_icon = definitionRow[1].ToString(); SetCssTable(CssTable._sharp_Application_space___space__dot_site_image_icon, definitionRow, CssXls); break;
+                    case "_sharp_StartGuide": Css._sharp_StartGuide = definitionRow[1].ToString(); SetCssTable(CssTable._sharp_StartGuide, definitionRow, CssXls); break;
+                    case "_sharp_StartGuide_space___space__sharp_StartGuideContents": Css._sharp_StartGuide_space___space__sharp_StartGuideContents = definitionRow[1].ToString(); SetCssTable(CssTable._sharp_StartGuide_space___space__sharp_StartGuideContents, definitionRow, CssXls); break;
+                    case "_sharp_StartGuide_space___space__sharp_StartGuideContents_space___space_a": Css._sharp_StartGuide_space___space__sharp_StartGuideContents_space___space_a = definitionRow[1].ToString(); SetCssTable(CssTable._sharp_StartGuide_space___space__sharp_StartGuideContents_space___space_a, definitionRow, CssXls); break;
+                    case "_sharp_StartGuide_space___space__sharp_StartGuideContents_space___space_a_colon_hover": Css._sharp_StartGuide_space___space__sharp_StartGuideContents_space___space_a_colon_hover = definitionRow[1].ToString(); SetCssTable(CssTable._sharp_StartGuide_space___space__sharp_StartGuideContents_space___space_a_colon_hover, definitionRow, CssXls); break;
+                    case "_sharp_StartGuide_space___space__sharp_StartGuideContents_space___space_a_space___space__asterisk_": Css._sharp_StartGuide_space___space__sharp_StartGuideContents_space___space_a_space___space__asterisk_ = definitionRow[1].ToString(); SetCssTable(CssTable._sharp_StartGuide_space___space__sharp_StartGuideContents_space___space_a_space___space__asterisk_, definitionRow, CssXls); break;
+                    case "_sharp_StartGuide_space___space__sharp_StartGuideContents_space___space_a_space___space_img": Css._sharp_StartGuide_space___space__sharp_StartGuideContents_space___space_a_space___space_img = definitionRow[1].ToString(); SetCssTable(CssTable._sharp_StartGuide_space___space__sharp_StartGuideContents_space___space_a_space___space_img, definitionRow, CssXls); break;
+                    case "_sharp_StartGuide_space___space__sharp_DisableStartGuideField": Css._sharp_StartGuide_space___space__sharp_DisableStartGuideField = definitionRow[1].ToString(); SetCssTable(CssTable._sharp_StartGuide_space___space__sharp_DisableStartGuideField, definitionRow, CssXls); break;
+                    case "_sharp_StartGuide_space___space__dot_ui_icon": Css._sharp_StartGuide_space___space__dot_ui_icon = definitionRow[1].ToString(); SetCssTable(CssTable._sharp_StartGuide_space___space__dot_ui_icon, definitionRow, CssXls); break;
                     case "_sharp_SiteImageIconContainer": Css._sharp_SiteImageIconContainer = definitionRow[1].ToString(); SetCssTable(CssTable._sharp_SiteImageIconContainer, definitionRow, CssXls); break;
                     case "_sharp_SiteImageIconContainer_space___space__asterisk_": Css._sharp_SiteImageIconContainer_space___space__asterisk_ = definitionRow[1].ToString(); SetCssTable(CssTable._sharp_SiteImageIconContainer_space___space__asterisk_, definitionRow, CssXls); break;
                     case "_sharp_HeaderTitleContainer": Css._sharp_HeaderTitleContainer = definitionRow[1].ToString(); SetCssTable(CssTable._sharp_HeaderTitleContainer, definitionRow, CssXls); break;
@@ -2682,6 +2699,7 @@ namespace Implem.DefinitionAccessor
                     case "_sharp_Aggregations_space__dot_data_dot_overdue": Css._sharp_Aggregations_space__dot_data_dot_overdue = definitionRow[1].ToString(); SetCssTable(CssTable._sharp_Aggregations_space__dot_data_dot_overdue, definitionRow, CssXls); break;
                     case "_sharp_Aggregations_space_em": Css._sharp_Aggregations_space_em = definitionRow[1].ToString(); SetCssTable(CssTable._sharp_Aggregations_space_em, definitionRow, CssXls); break;
                     case "_sharp_Aggregations_space___space__dot_display_control": Css._sharp_Aggregations_space___space__dot_display_control = definitionRow[1].ToString(); SetCssTable(CssTable._sharp_Aggregations_space___space__dot_display_control, definitionRow, CssXls); break;
+                    case "_sharp_SitePackagesSelectable_space_span_dot_include_data": Css._sharp_SitePackagesSelectable_space_span_dot_include_data = definitionRow[1].ToString(); SetCssTable(CssTable._sharp_SitePackagesSelectable_space_span_dot_include_data, definitionRow, CssXls); break;
                     case "_sharp_CalendarMonth": Css._sharp_CalendarMonth = definitionRow[1].ToString(); SetCssTable(CssTable._sharp_CalendarMonth, definitionRow, CssXls); break;
                     case "_sharp_CalendarBody_space_table": Css._sharp_CalendarBody_space_table = definitionRow[1].ToString(); SetCssTable(CssTable._sharp_CalendarBody_space_table, definitionRow, CssXls); break;
                     case "_sharp_CalendarBody_space_th": Css._sharp_CalendarBody_space_th = definitionRow[1].ToString(); SetCssTable(CssTable._sharp_CalendarBody_space_th, definitionRow, CssXls); break;
@@ -2961,6 +2979,7 @@ namespace Implem.DefinitionAccessor
                     case "_dot_both": Css._dot_both = definitionRow[1].ToString(); SetCssTable(CssTable._dot_both, definitionRow, CssXls); break;
                     case "_dot_hidden": Css._dot_hidden = definitionRow[1].ToString(); SetCssTable(CssTable._dot_hidden, definitionRow, CssXls); break;
                     case "_dot_right": Css._dot_right = definitionRow[1].ToString(); SetCssTable(CssTable._dot_right, definitionRow, CssXls); break;
+                    case "_dot_right_align": Css._dot_right_align = definitionRow[1].ToString(); SetCssTable(CssTable._dot_right_align, definitionRow, CssXls); break;
                     case "_dot_tooltip": Css._dot_tooltip = definitionRow[1].ToString(); SetCssTable(CssTable._dot_tooltip, definitionRow, CssXls); break;
                     case "_dot_no_border": Css._dot_no_border = definitionRow[1].ToString(); SetCssTable(CssTable._dot_no_border, definitionRow, CssXls); break;
                     case "_dot_grid": Css._dot_grid = definitionRow[1].ToString(); SetCssTable(CssTable._dot_grid, definitionRow, CssXls); break;
@@ -3106,6 +3125,7 @@ namespace Implem.DefinitionAccessor
                     case "input_colon_focus": Css.input_colon_focus = definitionRow[1].ToString(); SetCssTable(CssTable.input_colon_focus, definitionRow, CssXls); break;
                     case "select_colon_focus_colon_not__dot_has_css_": Css.select_colon_focus_colon_not__dot_has_css_ = definitionRow[1].ToString(); SetCssTable(CssTable.select_colon_focus_colon_not__dot_has_css_, definitionRow, CssXls); break;
                     case "textarea_colon_focus": Css.textarea_colon_focus = definitionRow[1].ToString(); SetCssTable(CssTable.textarea_colon_focus, definitionRow, CssXls); break;
+                    case "_dot_ssoLoginMessage": Css._dot_ssoLoginMessage = definitionRow[1].ToString(); SetCssTable(CssTable._dot_ssoLoginMessage, definitionRow, CssXls); break;
                     default: break;
                 }
             });
@@ -3200,6 +3220,11 @@ namespace Implem.DefinitionAccessor
                             newCssDefinition.text_align = customDefinitionRow.Get("text-align")?.ToString() ??
                                 data.ToString();
                             newCssDefinition.Savedtext_align = newCssDefinition.text_align;
+                            break;
+                        case "text-align-last":
+                            newCssDefinition.text_align_last = customDefinitionRow.Get("text-align-last")?.ToString() ??
+                                data.ToString();
+                            newCssDefinition.Savedtext_align_last = newCssDefinition.text_align_last;
                             break;
                         case "vertical-align":
                             newCssDefinition.vertical_align = customDefinitionRow.Get("vertical-align")?.ToString() ??
@@ -3426,6 +3451,7 @@ namespace Implem.DefinitionAccessor
             if (definitionRow.ContainsKey("padding")) { definition.padding = definitionRow["padding"].ToString(); definition.Savedpadding = definition.padding; }
             if (definitionRow.ContainsKey("padding-bottom")) { definition.padding_bottom = definitionRow["padding-bottom"].ToString(); definition.Savedpadding_bottom = definition.padding_bottom; }
             if (definitionRow.ContainsKey("text-align")) { definition.text_align = definitionRow["text-align"].ToString(); definition.Savedtext_align = definition.text_align; }
+            if (definitionRow.ContainsKey("text-align-last")) { definition.text_align_last = definitionRow["text-align-last"].ToString(); definition.Savedtext_align_last = definition.text_align_last; }
             if (definitionRow.ContainsKey("vertical-align")) { definition.vertical_align = definitionRow["vertical-align"].ToString(); definition.Savedvertical_align = definition.vertical_align; }
             if (definitionRow.ContainsKey("line-height")) { definition.line_height = definitionRow["line-height"].ToString(); definition.Savedline_height = definition.line_height; }
             if (definitionRow.ContainsKey("font-size")) { definition.font_size = definitionRow["font-size"].ToString(); definition.Savedfont_size = definition.font_size; }
@@ -5218,19 +5244,19 @@ namespace Implem.DefinitionAccessor
             SqllDefinitionFiles
                 .Where(file => file.Id != string.Empty)
                 .ForEach(s =>
-            {
-                var newSqlDefinition = new SqlDefinition();
-                var customDefinitionRow = Parameters.CustomDefinitions
-                    .Get("Sql")
-                    .Get(s.Id);
-                newSqlDefinition.Id = customDefinitionRow.Get("Id")?.ToString()
-                    ?? s.Id;
-                newSqlDefinition.SavedId = newSqlDefinition.Id;
-                newSqlDefinition.Body = customDefinitionRow.Get("Body")?.ToString()
-                    ?? s.Body;
-                newSqlDefinition.SavedBody = newSqlDefinition.Body;
-                SqlDefinitionCollection.Add(newSqlDefinition);
-            });
+                {
+                    var newSqlDefinition = new SqlDefinition();
+                    var customDefinitionRow = Parameters.CustomDefinitions
+                        .Get("Sql")
+                        .Get(s.Id);
+                    newSqlDefinition.Id = customDefinitionRow.Get("Id")?.ToString()
+                        ?? s.Id;
+                    newSqlDefinition.SavedId = newSqlDefinition.Id;
+                    newSqlDefinition.Body = customDefinitionRow.Get("Body")?.ToString()
+                        ?? s.Body;
+                    newSqlDefinition.SavedBody = newSqlDefinition.Body;
+                    SqlDefinitionCollection.Add(newSqlDefinition);
+                });
         }
 
         private static void SetSqlTable(SqlDefinition definition, XlsRow definitionRow, XlsIo sqlxls)
@@ -6212,6 +6238,7 @@ namespace Implem.DefinitionAccessor
                         case "padding": cssDefinition.padding = optionValue.ToString(); break;
                         case "padding-bottom": cssDefinition.padding_bottom = optionValue.ToString(); break;
                         case "text-align": cssDefinition.text_align = optionValue.ToString(); break;
+                        case "text-align-last": cssDefinition.text_align_last = optionValue.ToString(); break;
                         case "vertical-align": cssDefinition.vertical_align = optionValue.ToString(); break;
                         case "line-height": cssDefinition.line_height = optionValue.ToString(); break;
                         case "font-size": cssDefinition.font_size = optionValue.ToString(); break;
@@ -7390,6 +7417,7 @@ namespace Implem.DefinitionAccessor
         public string Model_Utilities_Histories;
         public string Model_Utilities_HistoriesParams;
         public string Model_Utilities_HistoriesParams_Sites;
+        public string Model_Utilities_HistoriesSetChoiceHash;
         public string Model_Utilities_History;
         public string Model_Utilities_History_Sites;
         public string Model_Utilities_SetSiteSettings;
@@ -7442,6 +7470,8 @@ namespace Implem.DefinitionAccessor
         public string Model_ValidatorMethods_Binaries;
         public string Model_Validator_Api;
         public string Model_Validator_ShowProfiles;
+        public string Model_Validator_OnAttaching;
+        public string Model_Validator_OnAttachingMethod;
         public string Model_Api;
         public string Model_ApiPropertyCases;
         public string Model_ApiPropertyNullType;
@@ -7462,6 +7492,7 @@ namespace Implem.DefinitionAccessor
         public string Rds_SqlSelect;
         public string Rds_SqlExists;
         public string Rds_SqlInsert;
+        public string Rds_SqlInsert_SetIdentityColumn;
         public string Rds_SqlUpdate;
         public string Rds_SqlUpdateOrInsert;
         public string Rds_SqlDelete;
@@ -7472,6 +7503,7 @@ namespace Implem.DefinitionAccessor
         public string Rds_CopyToStatementColums_Extended;
         public string Rds_Aggregations;
         public string Rds_AggregationTableCases;
+        public string Rds_AggregationWhereTenantId;
         public string Rds_AggregationTables;
         public string Rds_AggregationTotalCases;
         public string Rds_AggregationAverageCases;
@@ -8007,6 +8039,7 @@ namespace Implem.DefinitionAccessor
         public CodeDefinition Model_Utilities_Histories = new CodeDefinition();
         public CodeDefinition Model_Utilities_HistoriesParams = new CodeDefinition();
         public CodeDefinition Model_Utilities_HistoriesParams_Sites = new CodeDefinition();
+        public CodeDefinition Model_Utilities_HistoriesSetChoiceHash = new CodeDefinition();
         public CodeDefinition Model_Utilities_History = new CodeDefinition();
         public CodeDefinition Model_Utilities_History_Sites = new CodeDefinition();
         public CodeDefinition Model_Utilities_SetSiteSettings = new CodeDefinition();
@@ -8059,6 +8092,8 @@ namespace Implem.DefinitionAccessor
         public CodeDefinition Model_ValidatorMethods_Binaries = new CodeDefinition();
         public CodeDefinition Model_Validator_Api = new CodeDefinition();
         public CodeDefinition Model_Validator_ShowProfiles = new CodeDefinition();
+        public CodeDefinition Model_Validator_OnAttaching = new CodeDefinition();
+        public CodeDefinition Model_Validator_OnAttachingMethod = new CodeDefinition();
         public CodeDefinition Model_Api = new CodeDefinition();
         public CodeDefinition Model_ApiPropertyCases = new CodeDefinition();
         public CodeDefinition Model_ApiPropertyNullType = new CodeDefinition();
@@ -8079,6 +8114,7 @@ namespace Implem.DefinitionAccessor
         public CodeDefinition Rds_SqlSelect = new CodeDefinition();
         public CodeDefinition Rds_SqlExists = new CodeDefinition();
         public CodeDefinition Rds_SqlInsert = new CodeDefinition();
+        public CodeDefinition Rds_SqlInsert_SetIdentityColumn = new CodeDefinition();
         public CodeDefinition Rds_SqlUpdate = new CodeDefinition();
         public CodeDefinition Rds_SqlUpdateOrInsert = new CodeDefinition();
         public CodeDefinition Rds_SqlDelete = new CodeDefinition();
@@ -8089,6 +8125,7 @@ namespace Implem.DefinitionAccessor
         public CodeDefinition Rds_CopyToStatementColums_Extended = new CodeDefinition();
         public CodeDefinition Rds_Aggregations = new CodeDefinition();
         public CodeDefinition Rds_AggregationTableCases = new CodeDefinition();
+        public CodeDefinition Rds_AggregationWhereTenantId = new CodeDefinition();
         public CodeDefinition Rds_AggregationTables = new CodeDefinition();
         public CodeDefinition Rds_AggregationTotalCases = new CodeDefinition();
         public CodeDefinition Rds_AggregationAverageCases = new CodeDefinition();
@@ -8734,6 +8771,7 @@ namespace Implem.DefinitionAccessor
         public string Tenants_ContractSettings;
         public string Tenants_ContractDeadline;
         public string Tenants_DisableAllUsersPermission;
+        public string Tenants_DisableStartGuide;
         public string Tenants_LogoType;
         public string Tenants_HtmlTitleTop;
         public string Tenants_HtmlTitleSite;
@@ -8974,14 +9012,17 @@ namespace Implem.DefinitionAccessor
         public string Issues_Status;
         public string Issues_Manager;
         public string Issues_Owner;
+        public string Issues_Locked;
         public string Issues_SiteTitle;
         public string Results_ResultId;
         public string Results_Title;
         public string Results_Status;
         public string Results_Manager;
         public string Results_Owner;
+        public string Results_Locked;
         public string Results_SiteTitle;
         public string Wikis_WikiId;
+        public string Wikis_Locked;
         public string Tenants_Ver;
         public string Tenants_Comments;
         public string Tenants_Creator;
@@ -9209,6 +9250,7 @@ namespace Implem.DefinitionAccessor
         public ColumnDefinition Tenants_ContractSettings = new ColumnDefinition();
         public ColumnDefinition Tenants_ContractDeadline = new ColumnDefinition();
         public ColumnDefinition Tenants_DisableAllUsersPermission = new ColumnDefinition();
+        public ColumnDefinition Tenants_DisableStartGuide = new ColumnDefinition();
         public ColumnDefinition Tenants_LogoType = new ColumnDefinition();
         public ColumnDefinition Tenants_HtmlTitleTop = new ColumnDefinition();
         public ColumnDefinition Tenants_HtmlTitleSite = new ColumnDefinition();
@@ -9449,14 +9491,17 @@ namespace Implem.DefinitionAccessor
         public ColumnDefinition Issues_Status = new ColumnDefinition();
         public ColumnDefinition Issues_Manager = new ColumnDefinition();
         public ColumnDefinition Issues_Owner = new ColumnDefinition();
+        public ColumnDefinition Issues_Locked = new ColumnDefinition();
         public ColumnDefinition Issues_SiteTitle = new ColumnDefinition();
         public ColumnDefinition Results_ResultId = new ColumnDefinition();
         public ColumnDefinition Results_Title = new ColumnDefinition();
         public ColumnDefinition Results_Status = new ColumnDefinition();
         public ColumnDefinition Results_Manager = new ColumnDefinition();
         public ColumnDefinition Results_Owner = new ColumnDefinition();
+        public ColumnDefinition Results_Locked = new ColumnDefinition();
         public ColumnDefinition Results_SiteTitle = new ColumnDefinition();
         public ColumnDefinition Wikis_WikiId = new ColumnDefinition();
+        public ColumnDefinition Wikis_Locked = new ColumnDefinition();
         public ColumnDefinition Tenants_Ver = new ColumnDefinition();
         public ColumnDefinition Tenants_Comments = new ColumnDefinition();
         public ColumnDefinition Tenants_Creator = new ColumnDefinition();
@@ -9680,6 +9725,7 @@ namespace Implem.DefinitionAccessor
         public string padding; public string Savedpadding;
         public string padding_bottom; public string Savedpadding_bottom;
         public string text_align; public string Savedtext_align;
+        public string text_align_last; public string Savedtext_align_last;
         public string vertical_align; public string Savedvertical_align;
         public string line_height; public string Savedline_height;
         public string font_size; public string Savedfont_size;
@@ -9743,6 +9789,7 @@ namespace Implem.DefinitionAccessor
             if (propertyCollection.ContainsKey("padding")) padding = propertyCollection["padding"].ToString(); else padding = string.Empty;
             if (propertyCollection.ContainsKey("padding_bottom")) padding_bottom = propertyCollection["padding_bottom"].ToString(); else padding_bottom = string.Empty;
             if (propertyCollection.ContainsKey("text_align")) text_align = propertyCollection["text_align"].ToString(); else text_align = string.Empty;
+            if (propertyCollection.ContainsKey("text_align_last")) text_align_last = propertyCollection["text_align_last"].ToString(); else text_align_last = string.Empty;
             if (propertyCollection.ContainsKey("vertical_align")) vertical_align = propertyCollection["vertical_align"].ToString(); else vertical_align = string.Empty;
             if (propertyCollection.ContainsKey("line_height")) line_height = propertyCollection["line_height"].ToString(); else line_height = string.Empty;
             if (propertyCollection.ContainsKey("font_size")) font_size = propertyCollection["font_size"].ToString(); else font_size = string.Empty;
@@ -9806,6 +9853,7 @@ namespace Implem.DefinitionAccessor
                     case "padding": return padding;
                     case "padding_bottom": return padding_bottom;
                     case "text_align": return text_align;
+                    case "text_align_last": return text_align_last;
                     case "vertical_align": return vertical_align;
                     case "line_height": return line_height;
                     case "font_size": return font_size;
@@ -9869,6 +9917,7 @@ namespace Implem.DefinitionAccessor
             padding = Savedpadding;
             padding_bottom = Savedpadding_bottom;
             text_align = Savedtext_align;
+            text_align_last = Savedtext_align_last;
             vertical_align = Savedvertical_align;
             line_height = Savedline_height;
             font_size = Savedfont_size;
@@ -9965,6 +10014,14 @@ namespace Implem.DefinitionAccessor
         public string _sharp_LockedWarning_space___space_div;
         public string _sharp_Application;
         public string _sharp_Application_space___space__dot_site_image_icon;
+        public string _sharp_StartGuide;
+        public string _sharp_StartGuide_space___space__sharp_StartGuideContents;
+        public string _sharp_StartGuide_space___space__sharp_StartGuideContents_space___space_a;
+        public string _sharp_StartGuide_space___space__sharp_StartGuideContents_space___space_a_colon_hover;
+        public string _sharp_StartGuide_space___space__sharp_StartGuideContents_space___space_a_space___space__asterisk_;
+        public string _sharp_StartGuide_space___space__sharp_StartGuideContents_space___space_a_space___space_img;
+        public string _sharp_StartGuide_space___space__sharp_DisableStartGuideField;
+        public string _sharp_StartGuide_space___space__dot_ui_icon;
         public string _sharp_SiteImageIconContainer;
         public string _sharp_SiteImageIconContainer_space___space__asterisk_;
         public string _sharp_HeaderTitleContainer;
@@ -9986,6 +10043,7 @@ namespace Implem.DefinitionAccessor
         public string _sharp_Aggregations_space__dot_data_dot_overdue;
         public string _sharp_Aggregations_space_em;
         public string _sharp_Aggregations_space___space__dot_display_control;
+        public string _sharp_SitePackagesSelectable_space_span_dot_include_data;
         public string _sharp_CalendarMonth;
         public string _sharp_CalendarBody_space_table;
         public string _sharp_CalendarBody_space_th;
@@ -10265,6 +10323,7 @@ namespace Implem.DefinitionAccessor
         public string _dot_both;
         public string _dot_hidden;
         public string _dot_right;
+        public string _dot_right_align;
         public string _dot_tooltip;
         public string _dot_no_border;
         public string _dot_grid;
@@ -10410,6 +10469,7 @@ namespace Implem.DefinitionAccessor
         public string input_colon_focus;
         public string select_colon_focus_colon_not__dot_has_css_;
         public string textarea_colon_focus;
+        public string _dot_ssoLoginMessage;
     }
 
     public class CssTable
@@ -10465,6 +10525,14 @@ namespace Implem.DefinitionAccessor
         public CssDefinition _sharp_LockedWarning_space___space_div = new CssDefinition();
         public CssDefinition _sharp_Application = new CssDefinition();
         public CssDefinition _sharp_Application_space___space__dot_site_image_icon = new CssDefinition();
+        public CssDefinition _sharp_StartGuide = new CssDefinition();
+        public CssDefinition _sharp_StartGuide_space___space__sharp_StartGuideContents = new CssDefinition();
+        public CssDefinition _sharp_StartGuide_space___space__sharp_StartGuideContents_space___space_a = new CssDefinition();
+        public CssDefinition _sharp_StartGuide_space___space__sharp_StartGuideContents_space___space_a_colon_hover = new CssDefinition();
+        public CssDefinition _sharp_StartGuide_space___space__sharp_StartGuideContents_space___space_a_space___space__asterisk_ = new CssDefinition();
+        public CssDefinition _sharp_StartGuide_space___space__sharp_StartGuideContents_space___space_a_space___space_img = new CssDefinition();
+        public CssDefinition _sharp_StartGuide_space___space__sharp_DisableStartGuideField = new CssDefinition();
+        public CssDefinition _sharp_StartGuide_space___space__dot_ui_icon = new CssDefinition();
         public CssDefinition _sharp_SiteImageIconContainer = new CssDefinition();
         public CssDefinition _sharp_SiteImageIconContainer_space___space__asterisk_ = new CssDefinition();
         public CssDefinition _sharp_HeaderTitleContainer = new CssDefinition();
@@ -10486,6 +10554,7 @@ namespace Implem.DefinitionAccessor
         public CssDefinition _sharp_Aggregations_space__dot_data_dot_overdue = new CssDefinition();
         public CssDefinition _sharp_Aggregations_space_em = new CssDefinition();
         public CssDefinition _sharp_Aggregations_space___space__dot_display_control = new CssDefinition();
+        public CssDefinition _sharp_SitePackagesSelectable_space_span_dot_include_data = new CssDefinition();
         public CssDefinition _sharp_CalendarMonth = new CssDefinition();
         public CssDefinition _sharp_CalendarBody_space_table = new CssDefinition();
         public CssDefinition _sharp_CalendarBody_space_th = new CssDefinition();
@@ -10765,6 +10834,7 @@ namespace Implem.DefinitionAccessor
         public CssDefinition _dot_both = new CssDefinition();
         public CssDefinition _dot_hidden = new CssDefinition();
         public CssDefinition _dot_right = new CssDefinition();
+        public CssDefinition _dot_right_align = new CssDefinition();
         public CssDefinition _dot_tooltip = new CssDefinition();
         public CssDefinition _dot_no_border = new CssDefinition();
         public CssDefinition _dot_grid = new CssDefinition();
@@ -10910,6 +10980,7 @@ namespace Implem.DefinitionAccessor
         public CssDefinition input_colon_focus = new CssDefinition();
         public CssDefinition select_colon_focus_colon_not__dot_has_css_ = new CssDefinition();
         public CssDefinition textarea_colon_focus = new CssDefinition();
+        public CssDefinition _dot_ssoLoginMessage = new CssDefinition();
     }
 
     public class DemoDefinition
@@ -13271,7 +13342,7 @@ namespace Implem.DefinitionAccessor
     }
 
     public class SqlDefinitionFileText : ISqlDefinitionFile
-	{
+    {
         public string Id { get; }
         public string Body { get; private set; }
 
@@ -13313,7 +13384,7 @@ namespace Implem.DefinitionAccessor
         private static readonly string SearchPattern = "*.sql";
         private IList<ISqlDefinitionFile> sqls = new List<ISqlDefinitionFile>();
 
-        public string FullPath { get; set;  }
+        public string FullPath { get; set; }
         public int Count => sqls.Count;
         public IEnumerator<ISqlDefinitionFile> GetEnumerator() => sqls.GetEnumerator();
 

@@ -50,17 +50,21 @@ namespace Implem.Pleasanter.Libraries.DataTypes
         public HtmlBuilder Td(HtmlBuilder hb, Context context, Column column)
         {
             var choice = column.Choice(Value.ToString());
-            return hb.Td(action: () => hb
-                .P(
-                    attributes: new HtmlAttributes()
-                        .Class(choice.CssClass)
-                        .Style(choice.Style),
-                    action: () => hb
-                        .Text(column.ChoiceHash.Get(Value.ToString()) == null
-                            ? Value == 0
-                                ? null
-                                : "?" + Value
-                            : choice.TextMini)));
+            return hb.Td(
+                css: column.TextAlign == SiteSettings.TextAlignTypes.Right
+                    ? " right-align "
+                    : string.Empty,
+                action: () => hb
+                    .P(
+                        attributes: new HtmlAttributes()
+                            .Class(choice.CssClass)
+                            .Style(choice.Style),
+                        action: () => hb
+                            .Text(column.ChoiceHash.Get(Value.ToString()) == null
+                                ? Value == 0
+                                    ? null
+                                    : "?" + Value
+                                : choice.TextMini)));
         }
 
         public bool Incomplete()

@@ -47,6 +47,7 @@ namespace Implem.Pleasanter.Libraries.Settings
         public bool? AllowImage;
         public bool? AllowBulkUpdate;
         public string FieldCss;
+        public SiteSettings.TextAlignTypes? TextAlign;
         public string Unit;
         public bool? Link;
         public ColumnUtilities.CheckFilterControlTypes? CheckFilterControlType;
@@ -813,8 +814,50 @@ namespace Implem.Pleasanter.Libraries.Settings
                 case "Registrations":
                     switch (columnName)
                     {
+                        case "TenantId":
+                            sql.Registrations_TenantId(tableName: path, _as: _as);
+                            break;
+                        case "RegistrationId":
+                            sql.Registrations_RegistrationId(tableName: path, _as: _as);
+                            break;
                         case "Ver":
                             sql.Registrations_Ver(tableName: path, _as: _as);
+                            break;
+                        case "MailAddress":
+                            sql.Registrations_MailAddress(tableName: path, _as: _as);
+                            break;
+                        case "Invitee":
+                            sql.Registrations_Invitee(tableName: path, _as: _as);
+                            break;
+                        case "InviteeName":
+                            sql.Registrations_InviteeName(tableName: path, _as: _as);
+                            break;
+                        case "LoginId":
+                            sql.Registrations_LoginId(tableName: path, _as: _as);
+                            break;
+                        case "Name":
+                            sql.Registrations_Name(tableName: path, _as: _as);
+                            break;
+                        case "Password":
+                            sql.Registrations_Password(tableName: path, _as: _as);
+                            break;
+                        case "Language":
+                            sql.Registrations_Language(tableName: path, _as: _as);
+                            break;
+                        case "Passphrase":
+                            sql.Registrations_Passphrase(tableName: path, _as: _as);
+                            break;
+                        case "Invitingflg":
+                            sql.Registrations_Invitingflg(tableName: path, _as: _as);
+                            break;
+                        case "UserId":
+                            sql.Registrations_UserId(tableName: path, _as: _as);
+                            break;
+                        case "DeptId":
+                            sql.Registrations_DeptId(tableName: path, _as: _as);
+                            break;
+                        case "GroupId":
+                            sql.Registrations_GroupId(tableName: path, _as: _as);
                             break;
                         case "Comments":
                             sql.Registrations_Comments(tableName: path, _as: _as);
@@ -1127,6 +1170,9 @@ namespace Implem.Pleasanter.Libraries.Settings
                         case "Owner":
                             sql.Issues_Owner(tableName: path, _as: _as);
                             break;
+                        case "Locked":
+                            sql.Issues_Locked(tableName: path, _as: _as);
+                            break;
                         case "SiteTitle":
                             sql.Issues_SiteTitle(tableName: path, _as: _as);
                             break;
@@ -1201,6 +1247,9 @@ namespace Implem.Pleasanter.Libraries.Settings
                             break;
                         case "Owner":
                             sql.Results_Owner(tableName: path, _as: _as);
+                            break;
+                        case "Locked":
+                            sql.Results_Locked(tableName: path, _as: _as);
                             break;
                         case "SiteTitle":
                             sql.Results_SiteTitle(tableName: path, _as: _as);

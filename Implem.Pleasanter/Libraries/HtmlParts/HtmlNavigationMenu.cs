@@ -371,7 +371,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                 .Text(text: Displays.LockTable(context: context))),
                         _using: canManageSite && ss.AllowLockTable == true);
                 }
-                else if (ss.LockedUser.Id == context.UserId)
+                else if (ss.LockedTableUser.Id == context.UserId)
                 {
                     return hb.Li(action: () => hb
                         .A(

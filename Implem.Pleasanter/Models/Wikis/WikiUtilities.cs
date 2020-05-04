@@ -149,6 +149,21 @@ namespace Implem.Pleasanter.Models
                                     context: context,
                                     column: column,
                                     value: string.Empty);
+                    case "Locked":
+                        return ss.ReadColumnAccessControls.Allowed(
+                            context: context,
+                            ss: ss,
+                            column: column,
+                            type: ss.PermissionType,
+                            mine: mine)
+                                ? hb.Td(
+                                    context: context,
+                                    column: column,
+                                    value: wikiModel.Locked)
+                                : hb.Td(
+                                    context: context,
+                                    column: column,
+                                    value: string.Empty);
                     case "Comments":
                         return ss.ReadColumnAccessControls.Allowed(
                             context: context,
@@ -340,6 +355,9 @@ namespace Implem.Pleasanter.Models
                         context: context,
                         column: column); break;
                     case "TitleBody": value = wikiModel.TitleBody.GridText(
+                        context: context,
+                        column: column); break;
+                    case "Locked": value = wikiModel.Locked.GridText(
                         context: context,
                         column: column); break;
                     case "Comments": value = wikiModel.Comments.GridText(
@@ -612,8 +630,10 @@ namespace Implem.Pleasanter.Models
                         .A(
                             href: "#FieldSetHistories",
                             text: Displays.ChangeHistoryList(context: context)))
-                .Li(_using: context.CanManagePermission(ss: ss) &&
-                        wikiModel.MethodType != BaseModel.MethodTypes.New,
+                .Li(
+                    _using: context.CanManagePermission(ss: ss)
+                        && !ss.Locked()
+                        && wikiModel.MethodType != BaseModel.MethodTypes.New,
                     action: () => hb
                         .A(
                             href: "#FieldSetRecordAccessControl",
@@ -723,6 +743,12 @@ namespace Implem.Pleasanter.Models
                             column: column);
                 case "Body":
                     return wikiModel.Body
+                        .ToControl(
+                            context: context,
+                            ss: ss,
+                            column: column);
+                case "Locked":
+                    return wikiModel.Locked
                         .ToControl(
                             context: context,
                             ss: ss,
@@ -845,6 +871,11 @@ namespace Implem.Pleasanter.Models
                                 "#Wikis_Body" + idSuffix,
                                 wikiModel.Body.ToResponse(context: context, ss: ss, column: column));
                             break;
+                        case "Locked":
+                            res.Val(
+                                "#Wikis_Locked" + idSuffix,
+                                wikiModel.Locked);
+                            break;
                         default:
                             switch (Def.ExtendedColumnTypes.Get(column.Name))
                             {
@@ -894,7 +925,10 @@ namespace Implem.Pleasanter.Models
                                                 fieldId: $"Wikis_{column.Name}Field",
                                                 controlId: $"Wikis_{column.Name}",
                                                 columnName: column.ColumnName,
-                                                fieldCss: column.FieldCss,
+                                                fieldCss: column.FieldCss
+                                                    + (column.TextAlign == SiteSettings.TextAlignTypes.Right
+                                                        ? " right-align"
+                                                        : string.Empty),
                                                 fieldDescription: column.Description,
                                                 labelText: column.LabelText,
                                                 value: wikiModel.Attachments(columnName: column.Name).ToJson(),
@@ -993,6 +1027,22 @@ namespace Implem.Pleasanter.Models
                     .Message(Messages.Updated(
                         context: context,
                         data: wikiModel.Title.DisplayValue));
+            }
+            else if (wikiModel.Locked)
+            {
+                ss.SetLockedRecord(
+                    context: context,
+                    time: wikiModel.UpdatedTime,
+                    user: wikiModel.Updator);
+                return EditorResponse(
+                    context: context,
+                    ss: ss,
+                    wikiModel: wikiModel)
+                        .SetMemory("formChanged", false)
+                        .Message(Messages.Updated(
+                            context: context,
+                            data: wikiModel.Title.DisplayValue))
+                        .ClearFormData();
             }
             else
             {
@@ -1414,54 +1464,58 @@ namespace Implem.Pleasanter.Models
 
         public static string DeleteHistory(Context context, SiteSettings ss, long wikiId)
         {
-            if (!Parameters.History.PhysicalDelete)
+            var wikiModel = new WikiModel(
+                context: context,
+                ss: ss,
+                wikiId: wikiId);
+            var invalid = WikiValidators.OnDeleteHistory(
+                context: context,
+                ss: ss,
+                wikiModel: wikiModel);
+            switch (invalid.Type)
             {
-                return Error.Types.InvalidRequest.MessageJson(context: context);
+                case Error.Types.None: break;
+                default: return HtmlTemplates.Error(
+                    context: context,
+                    errorData: invalid);
             }
-            if (context.CanManageSite(ss: ss))
+            var selector = new GridSelector(context: context);
+            var selected = selector
+                .Selected
+                .Select(o => o.ToInt())
+                .ToList();
+            var count = 0;
+            if (selector.All)
             {
-                var selector = new GridSelector(context: context);
-                var selected = selector
-                    .Selected
-                    .Select(o => o.ToInt())
-                    .ToList();
-                var count = 0;
-                if (selector.All)
+                count = DeleteHistory(
+                    context: context,
+                    ss: ss,
+                    wikiId: wikiId,
+                    selected: selected,
+                    negative: true);
+            }
+            else
+            {
+                if (selector.Selected.Any())
                 {
                     count = DeleteHistory(
                         context: context,
                         ss: ss,
                         wikiId: wikiId,
-                        selected: selected,
-                        negative: true);
+                        selected: selected);
                 }
                 else
                 {
-                    if (selector.Selected.Any())
-                    {
-                        count = DeleteHistory(
-                            context: context,
-                            ss: ss,
-                            wikiId: wikiId,
-                            selected: selected);
-                    }
-                    else
-                    {
-                        return Messages.ResponseSelectTargets(context: context).ToJson();
-                    }
+                    return Messages.ResponseSelectTargets(context: context).ToJson();
                 }
-                return Histories(
+            }
+            return Histories(
+                context: context,
+                ss: ss,
+                wikiId: wikiId,
+                message: Messages.HistoryDeleted(
                     context: context,
-                    ss: ss,
-                    wikiId: wikiId,
-                    message: Messages.HistoryDeleted(
-                        context: context,
-                        data: count.ToString()));
-            }
-            else
-            {
-                return Messages.ResponseHasNotPermission(context: context).ToJson();
-            }
+                    data: count.ToString()));
         }
 
         private static int DeleteHistory(
@@ -1502,6 +1556,51 @@ namespace Implem.Pleasanter.Models
                                             ss: ss)))),
                     Rds.RowCount()
                 }).Count.ToInt();
+        }
+
+        public static string UnlockRecord(
+            Context context, SiteSettings ss, long wikiId)
+        {
+            var wikiModel = new WikiModel(
+                context: context,
+                ss: ss,
+                wikiId: wikiId,
+                formData: context.Forms);
+            var invalid = WikiValidators.OnUnlockRecord(
+                context: context,
+                ss: ss);
+            switch (invalid.Type)
+            {
+                case Error.Types.None: break;
+                default: return invalid.MessageJson(context: context);
+            }
+            wikiModel.Timestamp = context.Forms.Get("Timestamp");
+            wikiModel.Locked = false;
+            var errorData = wikiModel.Update(
+                context: context,
+                ss: ss,
+                notice: true);
+            switch (errorData.Type)
+            {
+                case Error.Types.None:
+                    ss.LockedRecordTime = null;
+                    ss.LockedRecordUser = null;
+                    return EditorResponse(
+                        context: context,
+                        ss: ss,
+                        wikiModel: wikiModel)
+                            .SetMemory("formChanged", false)
+                            .Message(Messages.UnlockedRecord(context: context))
+                            .ClearFormData()
+                            .ToJson();
+                case Error.Types.UpdateConflicts:
+                    return Messages.ResponseUpdateConflicts(
+                        context: context,
+                        data: wikiModel.Updator.Name)
+                            .ToJson();
+                default:
+                    return errorData.MessageJson(context: context);
+            }
         }
 
         /// <summary>

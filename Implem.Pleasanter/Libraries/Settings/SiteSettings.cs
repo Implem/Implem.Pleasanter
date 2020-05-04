@@ -46,13 +46,23 @@ namespace Implem.Pleasanter.Libraries.Settings
             User = 2
         }
 
+        public enum TextAlignTypes : int
+        {
+            Left = 10,
+            Right = 20
+        }
+
         public decimal Version;
         [NonSerialized]
         public bool Migrated;
         [NonSerialized]
-        public Time LockedTime;
+        public Time LockedTableTime;
         [NonSerialized]
-        public User LockedUser;
+        public User LockedTableUser;
+        [NonSerialized]
+        public Time LockedRecordTime;
+        [NonSerialized]
+        public User LockedRecordUser;
         [NonSerialized]
         public Dictionary<long, SiteSettings> Destinations;
         [NonSerialized]
@@ -187,6 +197,7 @@ namespace Implem.Pleasanter.Libraries.Settings
         public string GridScript;
         // compatibility Version 1.015
         public bool? EditInDialog;
+        public SiteSettings.TextAlignTypes? TextAlign;
 
         public SiteSettings()
         {
@@ -475,9 +486,11 @@ namespace Implem.Pleasanter.Libraries.Settings
                 {
                     ss.ItemPermissionType = context.PermissionHash[referenceId];
                 }
-                if (Locked())
+                if (LockedTable())
                 {
-                    var lockedPermissionType = Permissions.Types.Read | Permissions.Types.Export;
+                    var lockedPermissionType = Permissions.Types.Read
+                        | Permissions.Types.Export
+                        | Permissions.Types.SendMail;
                     ss.PermissionType &= lockedPermissionType;
                     ss.ItemPermissionType &= lockedPermissionType;
                 }
@@ -486,8 +499,30 @@ namespace Implem.Pleasanter.Libraries.Settings
 
         public bool Locked()
         {
-            return LockedTime?.Value.InRange() == true
-                && LockedUser?.Anonymous() == false;
+            return LockedTable() || LockedRecord();
+        }
+
+        public bool LockedTable()
+        {
+            return LockedTableTime?.Value.InRange() == true
+                && LockedTableUser?.Anonymous() == false;
+        }
+
+        public bool LockedRecord()
+        {
+            return LockedRecordTime?.Value.InRange() == true
+                && LockedRecordUser?.Anonymous() == false;
+        }
+
+        public void SetLockedRecord(Context context, Time time, User user)
+        {
+            LockedRecordTime = time;
+            LockedRecordUser = user;
+            GetColumn(
+                context: context,
+                columnName: "Locked")
+                    .EditorReadOnly = !context.HasPrivilege
+                        && user.Id != context.UserId;
         }
 
         public bool IsSite(Context context)
@@ -985,6 +1020,11 @@ namespace Implem.Pleasanter.Libraries.Settings
                         enabled = true;
                         newColumn.FieldCss = column.FieldCss;
                     }
+                    if (column.TextAlign != TextAlignTypes.Left)
+                    {
+                        enabled = true;
+                        newColumn.TextAlign = column.TextAlign;
+                    }
                     if (column.Unit != columnDefinition.Unit)
                     {
                         enabled = true;
@@ -1296,6 +1336,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                 column.AllowBulkUpdate = column.AllowBulkUpdate ?? false;
                 column.AllowImage = column.AllowImage ?? true;
                 column.FieldCss = column.FieldCss ?? columnDefinition.FieldCss;
+                column.TextAlign = column.TextAlign ?? TextAlignTypes.Left;
                 column.Unit = column.Unit ?? columnDefinition.Unit;
                 column.CheckFilterControlType = column.CheckFilterControlType ?? ColumnUtilities.CheckFilterControlTypes.OnOnly;
                 column.NumFilterMin = column.NumFilterMin ?? columnDefinition.NumFilterMin;
@@ -2619,6 +2660,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                 case "AllowBulkUpdate": column.AllowBulkUpdate = value.ToBool(); break;
                 case "AllowImage": column.AllowImage = value.ToBool(); break;
                 case "FieldCss": column.FieldCss = value; break;
+                case "TextAlign": column.TextAlign = (TextAlignTypes)value.ToInt(); break;
                 case "Description": column.Description = value; break;
                 case "ChoicesText": column.ChoicesText = value; SetLinks(
                     context: context, column: column); break;

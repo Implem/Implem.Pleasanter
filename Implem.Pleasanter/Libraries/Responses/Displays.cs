@@ -1278,6 +1278,16 @@ namespace Implem.Pleasanter.Libraries.Responses
                 data: data);
         }
 
+        public static string ConfirmUnlockRecord(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "ConfirmUnlockRecord",
+                data: data);
+        }
+
         public static string Contact(
             Context context,
             params string[] data)
@@ -3248,6 +3258,16 @@ namespace Implem.Pleasanter.Libraries.Responses
                 data: data);
         }
 
+        public static string LeftAlignment(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "LeftAlignment",
+                data: data);
+        }
+
         public static string LegalAffairs(
             Context context,
             params string[] data)
@@ -3695,6 +3715,26 @@ namespace Implem.Pleasanter.Libraries.Responses
             return Get(
                 context: context,
                 id: "LocalFolder",
+                data: data);
+        }
+
+        public static string LockedRecord(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "LockedRecord",
+                data: data);
+        }
+
+        public static string LockedTable(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "LockedTable",
                 data: data);
         }
 
@@ -4385,6 +4425,16 @@ namespace Implem.Pleasanter.Libraries.Responses
             return Get(
                 context: context,
                 id: "NoTitle",
+                data: data);
+        }
+
+        public static string NotLockedRecord(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "NotLockedRecord",
                 data: data);
         }
 
@@ -5368,6 +5418,16 @@ namespace Implem.Pleasanter.Libraries.Responses
                 data: data);
         }
 
+        public static string RightAlignment(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "RightAlignment",
+                data: data);
+        }
+
         public static string Row(
             Context context,
             params string[] data)
@@ -6278,6 +6338,16 @@ namespace Implem.Pleasanter.Libraries.Responses
                 data: data);
         }
 
+        public static string TextAlign(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "TextAlign",
+                data: data);
+        }
+
         public static string ThisMonth(
             Context context,
             params string[] data)
@@ -6495,6 +6565,16 @@ namespace Implem.Pleasanter.Libraries.Responses
             return Get(
                 context: context,
                 id: "Unit",
+                data: data);
+        }
+
+        public static string UnlockedRecord(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "UnlockedRecord",
                 data: data);
         }
 
@@ -9648,6 +9728,16 @@ namespace Implem.Pleasanter.Libraries.Responses
                 data: data);
         }
 
+        public static string Issues_Locked(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "Issues_Locked",
+                data: data);
+        }
+
         public static string Issues_SiteTitle(
             Context context,
             params string[] data)
@@ -9708,6 +9798,16 @@ namespace Implem.Pleasanter.Libraries.Responses
                 data: data);
         }
 
+        public static string Results_Locked(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "Results_Locked",
+                data: data);
+        }
+
         public static string Results_SiteTitle(
             Context context,
             params string[] data)
@@ -9725,6 +9825,16 @@ namespace Implem.Pleasanter.Libraries.Responses
             return Get(
                 context: context,
                 id: "Wikis_WikiId",
+                data: data);
+        }
+
+        public static string Wikis_Locked(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "Wikis_Locked",
                 data: data);
         }
 

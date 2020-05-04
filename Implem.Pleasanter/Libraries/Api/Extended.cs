@@ -33,7 +33,7 @@ namespace Implem.Pleasanter.Libraries.Api
                 param.Add(
                     variableName: part.Key,
                     value: part.Value));
-            var dataSet = Rds.ExecuteDataSet(
+            var dataSet = Repository.ExecuteDataSet(
                 context: context,
                 statements: new SqlStatement(
                     commandText: extendedSql.CommandText,

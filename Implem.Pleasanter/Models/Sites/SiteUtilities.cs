@@ -4551,11 +4551,28 @@ namespace Implem.Pleasanter.Models
                 legendText: column.LabelTextDefault,
                 action: () =>
                 {
-                    hb.FieldTextBox(
-                        controlId: "LabelText",
-                        labelText: Displays.DisplayName(context: context),
-                        text: column.LabelText,
-                        validateRequired: true);
+                    hb
+                        .FieldTextBox(
+                            controlId: "LabelText",
+                            labelText: Displays.DisplayName(context: context),
+                            text: column.LabelText,
+                            validateRequired: true)
+                        .FieldDropDown(
+                            context: context,
+                            controlId: "TextAlign",
+                            labelText: Displays.TextAlign(context: context),
+                            optionCollection: new Dictionary<string, string>
+                            {
+                                {
+                                    SiteSettings.TextAlignTypes.Left.ToInt().ToString(),
+                                    Displays.LeftAlignment(context: context)
+                                },
+                                {
+                                    SiteSettings.TextAlignTypes.Right.ToInt().ToString(),
+                                    Displays.RightAlignment(context: context)
+                                },
+                            },
+                            selectedValue: column.TextAlign.ToInt().ToString());
                     if (column.ColumnName != "Comments" &&
                         column.TypeName != "bit" &&
                         column.ControlType != "Attachments")
@@ -9012,7 +9029,7 @@ namespace Implem.Pleasanter.Models
         {
             if (Parameters.Api.LimitPerSite > 0)
             {
-                Rds.ExecuteNonQuery(
+                Repository.ExecuteNonQuery(
                     context: context,
                     statements: Rds.UpdateSites(
                         where: Rds.SitesWhere()

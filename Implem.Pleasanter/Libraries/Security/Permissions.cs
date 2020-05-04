@@ -149,7 +149,7 @@ namespace Implem.Pleasanter.Libraries.Security
                            .Where(siteId => !ss.AllowedIntegratedSites.Contains(siteId))
                            .ToList();
                         denySites = denySites.Any()
-                            ? Rds.ExecuteTable(
+                            ? Repository.ExecuteTable(
                                 context: context,
                                 statements: Rds.SelectSites(
                                     column: Rds.SitesColumn().SiteId(),

@@ -448,6 +448,13 @@ namespace Implem.Pleasanter.Libraries.Settings
                                         context: context,
                                         column: column));
                                 break;
+                            case "Locked":
+                                line = line.Replace(
+                                    "[Locked]",
+                                    issueModel.Locked.ToExport(
+                                        context: context,
+                                        column: column));
+                                break;
                             case "Comments":
                                 line = line.Replace(
                                     "[Comments]",
@@ -582,6 +589,13 @@ namespace Implem.Pleasanter.Libraries.Settings
                                 line = line.Replace(
                                     "[Owner]",
                                     resultModel.Owner.ToExport(
+                                        context: context,
+                                        column: column));
+                                break;
+                            case "Locked":
+                                line = line.Replace(
+                                    "[Locked]",
+                                    resultModel.Locked.ToExport(
                                         context: context,
                                         column: column));
                                 break;

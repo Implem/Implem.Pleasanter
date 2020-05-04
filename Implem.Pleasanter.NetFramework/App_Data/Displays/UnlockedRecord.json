@@ -1,0 +1,29 @@
+{
+    "Id": "UnlockedRecord",
+    "Type": 210,
+    "Languages": [
+        {
+            "Body": "The record is unlocked."
+        },
+        {
+            "Language": "zh",
+            "Body": "记录已解锁。"
+        },
+        {
+            "Language": "ja",
+            "Body": "レコードのロックを解除しました。"
+        },
+        {
+            "Language": "de",
+            "Body": "Der Datensatz ist entsperrt."
+        },
+        {
+            "Language": "ko",
+            "Body": "레코드가 잠금 해제되었습니다."
+        },
+        {
+            "Language": "es",
+            "Body": "El registro está desbloqueado."
+        }
+    ]
+}

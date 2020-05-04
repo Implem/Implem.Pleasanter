@@ -21,23 +21,27 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                 !context.CanUpdate(ss: ss) ||
                 column?.EditorReadOnly == true ||
                 columnPermissionType != Permissions.ColumnPermissionTypes.Update;
+            var css = column.TextAlign == SiteSettings.TextAlignTypes.Right
+                ? " right-align "
+                : string.Empty;
             return hb
                 .TextArea(
                     context: context,
                     ss: ss,
+                    css: css,
                     title: column?.Description,
                     labelText: column?.LabelText,
                     allowImage: column?.AllowImage == true,
                     mobile: context.Mobile == true,
                     _using: !readOnly)
-                .Div(id: "CommentList", action: () => comments
-                    .ForEach(comment => hb
-                        .Comment(
-                            context: context,
-                            ss: ss,
-                            column: column,
-                            comment: comment,
-                            readOnly: readOnly)));
+                .Div(id: "CommentList", css: css, action: () => comments
+                     .ForEach(comment => hb
+                         .Comment(
+                             context: context,
+                             ss: ss,
+                             column: column,
+                             comment: comment,
+                             readOnly: readOnly)));
         }
 
         public static HtmlBuilder Comment(
@@ -65,6 +69,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             this HtmlBuilder hb,
             Context context,
             SiteSettings ss,
+            string css,
             string title,
             string labelText,
             bool allowImage,
@@ -72,7 +77,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             bool _using = true)
         {
             return _using
-                ? hb.Div(id: "CommentField", action: () =>
+                ? hb.Div(id: "CommentField", css: css, action: () =>
                     hb
                         .TextArea(
                             attributes: new HtmlAttributes()
@@ -81,7 +86,8 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                 .Class("control-textarea" +
                                     (context.ContractSettings.Images() && allowImage
                                         ? " upload-image"
-                                        : string.Empty))
+                                        : string.Empty) +
+                                    css)
                                 .Title(title)
                                 .Placeholder(labelText))
                         .MarkDownCommands(

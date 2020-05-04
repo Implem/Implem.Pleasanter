@@ -2488,6 +2488,33 @@ namespace Implem.Pleasanter.Models
             }
         }
 
+        public string UnlockRecord(Context context, long id)
+        {
+            SetSite(
+                context: context,
+                initSiteSettings: true);
+            switch (Site.ReferenceType)
+            {
+                case "Issues":
+                    return IssueUtilities.UnlockRecord(
+                        context: context,
+                        ss: Site.SiteSettings,
+                        issueId: id);
+                case "Results":
+                    return ResultUtilities.UnlockRecord(
+                        context: context,
+                        ss: Site.SiteSettings,
+                        resultId: id);
+                case "Wikis":
+                    return WikiUtilities.UnlockRecord(
+                        context: context,
+                        ss: Site.SiteSettings,
+                        wikiId: id);
+                default:
+                    return Messages.ResponseNotFound(context: context).ToJson();
+            }
+        }
+
         public string SynchronizeTitles(Context context)
         {
             SetSite(context: context, initSiteSettings: true);

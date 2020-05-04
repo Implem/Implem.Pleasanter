@@ -928,6 +928,21 @@ namespace Implem.Pleasanter.Controllers
             return json;
         }
 
+        public string UnlockRecord(Context context, long id)
+        {
+            var log = new SysLogModel(context: context);
+            var json = new ItemModel(
+                context: context,
+                referenceId: id)
+                    .UnlockRecord(
+                        context: context,
+                        id: id);
+            log.Finish(
+                context: context,
+                responseSize: json.Length);
+            return json;
+        }
+
         public ContentResult Get(Context context, long id)
         {
             var log = new SysLogModel(context: context);

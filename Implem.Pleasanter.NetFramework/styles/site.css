@@ -2257,6 +2257,11 @@ pre{
     float:right;
 }
 
+.right-align{
+    text-align:right;
+    text-align-last:right;
+}
+
 .tooltip{
     display:none;
     position:absolute;

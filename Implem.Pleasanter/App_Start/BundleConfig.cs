@@ -57,6 +57,7 @@ namespace Implem.Pleasanter.App_Start
                 "~/scripts/keyevents.js",
                 "~/scripts/legendevents.js",
                 "~/scripts/loading.js",
+                "~/Scripts/lockevents.js",
                 "~/scripts/markdown.js",
                 "~/scripts/markdownevents.js",
                 "~/scripts/menuevents.js",

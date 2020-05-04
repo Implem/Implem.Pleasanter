@@ -33,6 +33,7 @@ namespace Implem.Pleasanter.Models
         public Status Status = new Status();
         public User Manager = new User();
         public User Owner = new User();
+        public bool Locked = false;
 
         public TitleBody TitleBody
         {
@@ -59,6 +60,7 @@ namespace Implem.Pleasanter.Models
         public int SavedStatus = 0;
         public int SavedManager = 0;
         public int SavedOwner = 0;
+        public bool SavedLocked = false;
 
         public bool WorkValue_Updated(Context context, Column column = null)
         {
@@ -100,6 +102,14 @@ namespace Implem.Pleasanter.Models
                 column.GetDefaultInput(context: context).ToInt() != Owner.Id);
         }
 
+        public bool Locked_Updated(Context context, Column column = null)
+        {
+            return Locked != SavedLocked &&
+                (column == null ||
+                column.DefaultInput.IsNullOrEmpty() ||
+                column.GetDefaultInput(context: context).ToBool() != Locked);
+        }
+
         public bool StartTime_Updated(Context context, Column column = null)
         {
             return StartTime != SavedStartTime &&
@@ -135,6 +145,7 @@ namespace Implem.Pleasanter.Models
                 case "Status": return Status.Value.ToString();
                 case "Manager": return Manager.Id.ToString();
                 case "Owner": return Owner.Id.ToString();
+                case "Locked": return Locked.ToString();
                 case "SiteTitle": return SiteTitle.SiteId.ToString();
                 case "Comments": return Comments.ToJson();
                 case "Creator": return Creator.Id.ToString();
@@ -199,6 +210,9 @@ namespace Implem.Pleasanter.Models
                         break;
                     case "Owner":
                         hash.Add("Owner", Owner.Id.ToString());
+                        break;
+                    case "Locked":
+                        hash.Add("Locked", Locked.ToString());
                         break;
                     case "SiteTitle":
                         hash.Add("SiteTitle", SiteTitle.SiteId.ToString());
@@ -436,6 +450,19 @@ namespace Implem.Pleasanter.Models
                                 exportColumn: exportColumn)
                             : string.Empty;
                     break;
+                case "Locked":
+                    value = ss.ReadColumnAccessControls.Allowed(
+                        context: context,
+                        ss: ss,
+                        column: column,
+                        type: ss.PermissionType,
+                        mine: mine)
+                            ? Locked.ToExport(
+                                context: context,
+                                column: column,
+                                exportColumn: exportColumn)
+                            : string.Empty;
+                    break;
                 case "SiteTitle":
                     value = ss.ReadColumnAccessControls.Allowed(
                         context: context,
@@ -653,6 +680,13 @@ namespace Implem.Pleasanter.Models
                     formData: formData);
             }
             if (setByApi) SetByApi(context: context, ss: ss);
+            if (SavedLocked)
+            {
+                ss.SetLockedRecord(
+                    context: context,
+                    time: UpdatedTime,
+                    user: Updator);
+            }
             SwitchTargets = switchTargets;
             MethodType = methodType;
             OnConstructed(context: context);
@@ -747,6 +781,7 @@ namespace Implem.Pleasanter.Models
                     case "Status": data.Status = Status.Value; break;
                     case "Manager": data.Manager = Manager.Id; break;
                     case "Owner": data.Owner = Owner.Id; break;
+                    case "Locked": data.Locked = Locked; break;
                     case "Creator": data.Creator = Creator.Id; break;
                     case "Updator": data.Updator = Updator.Id; break;
                     case "CreatedTime": data.CreatedTime = CreatedTime.Value.ToLocal(context: context); break;
@@ -1530,6 +1565,9 @@ namespace Implem.Pleasanter.Models
                 case "Status":
                     Status.Value = column.GetDefaultInput(context: context).ToInt();
                     break;
+                case "Locked":
+                    Locked = column.GetDefaultInput(context: context).ToBool();
+                    break;
                 case "Timestamp":
                     Timestamp = column.GetDefaultInput(context: context).ToString();
                     break;
@@ -1611,6 +1649,7 @@ namespace Implem.Pleasanter.Models
                     case "Issues_Status": Status = new Status(value.ToInt()); CompletionTime.Status = Status; break;
                     case "Issues_Manager": Manager = SiteInfo.User(context: context, userId: value.ToInt()); break;
                     case "Issues_Owner": Owner = SiteInfo.User(context: context, userId: value.ToInt()); break;
+                    case "Issues_Locked": Locked = value.ToBool(); break;
                     case "Issues_Timestamp": Timestamp = value.ToString(); break;
                     case "Comments": Comments.Prepend(
                         context: context,
@@ -1710,6 +1749,7 @@ namespace Implem.Pleasanter.Models
             Status = issueModel.Status;
             Manager = issueModel.Manager;
             Owner = issueModel.Owner;
+            Locked = issueModel.Locked;
             Comments = issueModel.Comments;
             Creator = issueModel.Creator;
             Updator = issueModel.Updator;
@@ -1740,6 +1780,7 @@ namespace Implem.Pleasanter.Models
             if (data.Status != null) Status = new Status(data.Status.ToInt()); CompletionTime.Status = Status;
             if (data.Manager != null) Manager = SiteInfo.User(context: context, userId: data.Manager.ToInt());
             if (data.Owner != null) Owner = SiteInfo.User(context: context, userId: data.Owner.ToInt());
+            if (data.Locked != null) Locked = data.Locked.ToBool().ToBool();
             if (data.Comments != null) Comments.Prepend(context: context, ss: ss, body: data.Comments);
             if (data.VerUp != null) VerUp = data.VerUp.ToBool();
             data.ClassHash?.ForEach(o => Class(
@@ -2043,6 +2084,11 @@ namespace Implem.Pleasanter.Models
                                 column: column,
                                 condition: filter.Value);
                             break;
+                        case "Locked":
+                            match = Locked.Matched(
+                                column: column,
+                                condition: filter.Value);
+                            break;
                         case "SiteTitle":
                             match = SiteTitle.SiteId.Matched(
                                 column: column,
@@ -2304,6 +2350,14 @@ namespace Implem.Pleasanter.Models
                             updated: Owner_Updated(context: context),
                             update: update));
                         break;
+                    case "Locked":
+                        body.Append(Locked.ToNotice(
+                            context: context,
+                            saved: SavedLocked,
+                            column: column,
+                            updated: Locked_Updated(context: context),
+                            update: update));
+                        break;
                     case "Comments":
                         body.Append(Comments.ToNotice(
                             context: context,
@@ -2501,6 +2555,10 @@ namespace Implem.Pleasanter.Models
                             Owner = SiteInfo.User(context: context, userId: dataRow.Int(column.ColumnName));
                             SavedOwner = Owner.Id;
                             break;
+                        case "Locked":
+                            Locked = dataRow[column.ColumnName].ToBool();
+                            SavedLocked = Locked;
+                            break;
                         case "Comments":
                             Comments = dataRow[column.ColumnName].ToString().Deserialize<Comments>() ?? new Comments();
                             SavedComments = Comments.ToJson();
@@ -2595,6 +2653,7 @@ namespace Implem.Pleasanter.Models
                 || Status_Updated(context: context)
                 || Manager_Updated(context: context)
                 || Owner_Updated(context: context)
+                || Locked_Updated(context: context)
                 || Comments_Updated(context: context)
                 || Creator_Updated(context: context)
                 || Updator_Updated(context: context);

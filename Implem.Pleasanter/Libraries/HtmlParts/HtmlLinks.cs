@@ -311,9 +311,8 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
         {
             return hb.Div(action: () =>
             {
-                ss.Destinations.Keys.ForEach(siteId =>
+                ss.Destinations.Values.ForEach(currentSs =>
                 {
-                    var currentSs = ss.JoinedSsHash.Get(siteId);
                     var dataTableName = DataTableName(
                         ss: currentSs,
                         direction: "Destination");
@@ -331,9 +330,8 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                         direction: "Destination",
                         dataTableName: dataTableName);
                 });
-                ss.Sources.Keys.ForEach(siteId =>
+                ss.Sources.Values.ForEach(currentSs =>
                 {
-                    var currentSs = ss.JoinedSsHash.Get(siteId);
                     var dataTableName = DataTableName(
                         ss: currentSs,
                         direction: "Source");

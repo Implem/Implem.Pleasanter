@@ -1281,7 +1281,10 @@ namespace Implem.Pleasanter.Models
                                                 fieldId: $"Groups_{column.Name}Field",
                                                 controlId: $"Groups_{column.Name}",
                                                 columnName: column.ColumnName,
-                                                fieldCss: column.FieldCss,
+                                                fieldCss: column.FieldCss
+                                                    + (column.TextAlign == SiteSettings.TextAlignTypes.Right
+                                                        ? " right-align"
+                                                        : string.Empty),
                                                 fieldDescription: column.Description,
                                                 labelText: column.LabelText,
                                                 value: groupModel.Attachments(columnName: column.Name).ToJson(),

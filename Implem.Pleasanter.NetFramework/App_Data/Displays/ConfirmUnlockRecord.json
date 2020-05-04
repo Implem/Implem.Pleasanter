@@ -1,0 +1,30 @@
+{
+    "Id": "ConfirmUnlockRecord",
+    "Type": 310,
+    "ClientScript": true,
+    "Languages": [
+        {
+            "Body": "Are you sure you want to unlock this record?"
+        },
+        {
+            "Language": "zh",
+            "Body": "您确定要解锁此记录吗？"
+        },
+        {
+            "Language": "ja",
+            "Body": "レコードのロックを解除してもよろしいですか？"
+        },
+        {
+            "Language": "de",
+            "Body": "Möchten Sie diesen Datensatz wirklich entsperren?"
+        },
+        {
+            "Language": "ko",
+            "Body": "이 레코드를 잠금 해제 하시겠습니까?"
+        },
+        {
+            "Language": "es",
+            "Body": "¿Estás seguro de que quieres desbloquear este registro?"
+        }
+    ]
+}

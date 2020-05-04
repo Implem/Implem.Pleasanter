@@ -1,0 +1,29 @@
+﻿{
+    "Id": "RightAlignment",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Right alignment"
+        },
+        {
+            "Language": "zh",
+            "Body": "右对齐"
+        },
+        {
+            "Language": "ja",
+            "Body": "右寄せ"
+        },
+        {
+            "Language": "de",
+            "Body": "Richtige Ausrichtung"
+        },
+        {
+            "Language": "ko",
+            "Body": "오른쪽 정렬"
+        },
+        {
+            "Language": "es",
+            "Body": "Alineación correcta"
+        }
+    ]
+}

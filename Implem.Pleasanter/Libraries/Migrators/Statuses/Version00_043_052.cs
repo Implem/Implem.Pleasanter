@@ -7,7 +7,7 @@ namespace Implem.Pleasanter.Libraries.Migrators.Statuses
         public static void Migrate(Context context)
         {
             var sub = Rds.SelectItems(column: Rds.ItemsColumn().ReferenceId());
-            Rds.ExecuteNonQuery(
+            Repository.ExecuteNonQuery(
                 context: context,
                 statements: Rds.PhysicalDeleteLinks(
                     where: Rds.LinksWhere()

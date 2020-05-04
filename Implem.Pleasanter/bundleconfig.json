@@ -59,6 +59,7 @@
             "wwwroot/scripts/keyevents.js",
             "wwwroot/scripts/legendevents.js",
             "wwwroot/scripts/loading.js",
+            "wwwroot/scripts/lockevents.js",
             "wwwroot/scripts/markdown.js",
             "wwwroot/scripts/markdownevents.js",
             "wwwroot/scripts/menuevents.js",

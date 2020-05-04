@@ -8850,6 +8850,50 @@ namespace Implem.Pleasanter.Libraries.Responses
             return res.ValAndFormData("#Issues_Owner", value);
         }
 
+        public static IssuesResponseCollection Locked(
+            this IssuesResponseCollection res,
+            Context context,
+            SiteSettings ss,
+            Column column = null)
+        {
+            return res.Val(
+                "#Issues_Locked",
+                res.IssueModel.Locked.ToResponse(
+                    context: context,
+                    ss: ss,
+                    column: column ?? ss.GetColumn(
+                        context: context,
+                        columnName: "Locked")));
+        }
+
+        public static IssuesResponseCollection Locked(
+            this IssuesResponseCollection res, Context context, string value)
+        {
+            return res.Val("#Issues_Locked", value);
+        }
+
+        public static IssuesResponseCollection Locked_FormData(
+            this IssuesResponseCollection res,
+            Context context,
+            SiteSettings ss,
+            Column column = null)
+        {
+            return res.ValAndFormData(
+                "#Issues_Locked",
+                res.IssueModel.Locked.ToResponse(
+                    context: context,
+                    ss: ss,
+                    column: column ?? ss.GetColumn(
+                        context: context,
+                        columnName: "Locked")));
+        }
+
+        public static IssuesResponseCollection Locked_FormData(
+            this IssuesResponseCollection res, Context context, string value)
+        {
+            return res.ValAndFormData("#Issues_Locked", value);
+        }
+
         public static IssuesResponseCollection Comments(
             this IssuesResponseCollection res,
             Context context,
@@ -9334,6 +9378,50 @@ namespace Implem.Pleasanter.Libraries.Responses
             return res.ValAndFormData("#Results_Owner", value);
         }
 
+        public static ResultsResponseCollection Locked(
+            this ResultsResponseCollection res,
+            Context context,
+            SiteSettings ss,
+            Column column = null)
+        {
+            return res.Val(
+                "#Results_Locked",
+                res.ResultModel.Locked.ToResponse(
+                    context: context,
+                    ss: ss,
+                    column: column ?? ss.GetColumn(
+                        context: context,
+                        columnName: "Locked")));
+        }
+
+        public static ResultsResponseCollection Locked(
+            this ResultsResponseCollection res, Context context, string value)
+        {
+            return res.Val("#Results_Locked", value);
+        }
+
+        public static ResultsResponseCollection Locked_FormData(
+            this ResultsResponseCollection res,
+            Context context,
+            SiteSettings ss,
+            Column column = null)
+        {
+            return res.ValAndFormData(
+                "#Results_Locked",
+                res.ResultModel.Locked.ToResponse(
+                    context: context,
+                    ss: ss,
+                    column: column ?? ss.GetColumn(
+                        context: context,
+                        columnName: "Locked")));
+        }
+
+        public static ResultsResponseCollection Locked_FormData(
+            this ResultsResponseCollection res, Context context, string value)
+        {
+            return res.ValAndFormData("#Results_Locked", value);
+        }
+
         public static ResultsResponseCollection Comments(
             this ResultsResponseCollection res,
             Context context,
@@ -9684,6 +9772,50 @@ namespace Implem.Pleasanter.Libraries.Responses
             this WikisResponseCollection res, Context context, string value)
         {
             return res.ValAndFormData("#Wikis_Body", value);
+        }
+
+        public static WikisResponseCollection Locked(
+            this WikisResponseCollection res,
+            Context context,
+            SiteSettings ss,
+            Column column = null)
+        {
+            return res.Val(
+                "#Wikis_Locked",
+                res.WikiModel.Locked.ToResponse(
+                    context: context,
+                    ss: ss,
+                    column: column ?? ss.GetColumn(
+                        context: context,
+                        columnName: "Locked")));
+        }
+
+        public static WikisResponseCollection Locked(
+            this WikisResponseCollection res, Context context, string value)
+        {
+            return res.Val("#Wikis_Locked", value);
+        }
+
+        public static WikisResponseCollection Locked_FormData(
+            this WikisResponseCollection res,
+            Context context,
+            SiteSettings ss,
+            Column column = null)
+        {
+            return res.ValAndFormData(
+                "#Wikis_Locked",
+                res.WikiModel.Locked.ToResponse(
+                    context: context,
+                    ss: ss,
+                    column: column ?? ss.GetColumn(
+                        context: context,
+                        columnName: "Locked")));
+        }
+
+        public static WikisResponseCollection Locked_FormData(
+            this WikisResponseCollection res, Context context, string value)
+        {
+            return res.ValAndFormData("#Wikis_Locked", value);
         }
 
         public static WikisResponseCollection Comments(

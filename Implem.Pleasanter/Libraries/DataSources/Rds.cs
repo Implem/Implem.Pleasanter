@@ -1,5 +1,4 @@
-﻿using DocumentFormat.OpenXml;
-using Implem.DefinitionAccessor;
+﻿using Implem.DefinitionAccessor;
 using Implem.IRds;
 using Implem.Libraries.DataSources.SqlServer;
 using Implem.Libraries.Utilities;
@@ -428,7 +427,6 @@ namespace Implem.Pleasanter.Libraries.DataSources
                 ? where.Add(
                     tableName: column.TableName(),
                     columnBrackets: new string[] { "\"" + column.Name + "\"" },
-                    name: Strings.NewGuid(),
                     value: value)
                 : where.Add(
                     tableName: column.TableName(),
@@ -1455,6 +1453,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                         case "Status": return "\"Status\"";
                         case "Manager": return "\"Manager\"";
                         case "Owner": return "\"Owner\"";
+                        case "Locked": return "\"Locked\"";
                         case "SiteTitle": return "\"SiteId\"";
                         case "Comments": return "\"Comments\"";
                         case "Creator": return "\"Creator\"";
@@ -1480,6 +1479,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                         case "Status": return "\"Status\"";
                         case "Manager": return "\"Manager\"";
                         case "Owner": return "\"Owner\"";
+                        case "Locked": return "\"Locked\"";
                         case "SiteTitle": return "\"SiteId\"";
                         case "Comments": return "\"Comments\"";
                         case "Creator": return "\"Creator\"";
@@ -1502,6 +1502,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                         case "Title": return "\"Title\"";
                         case "Body": return "\"Body\"";
                         case "TitleBody": return "\"TitleBody\"";
+                        case "Locked": return "\"Locked\"";
                         case "Comments": return "\"Comments\"";
                         case "Creator": return "\"Creator\"";
                         case "Updator": return "\"Updator\"";
@@ -3537,6 +3538,11 @@ namespace Implem.Pleasanter.Libraries.DataSources
                                 tableName: column.TableName(),
                                 orderType: orderType,
                                 function: function);
+                        case "Locked":
+                            return self.Issues_Locked(
+                                tableName: column.TableName(),
+                                orderType: orderType,
+                                function: function);
                         case "SiteTitle":
                             return self.Issues_SiteTitle(
                                 tableName: column.TableName(),
@@ -3624,6 +3630,11 @@ namespace Implem.Pleasanter.Libraries.DataSources
                                 tableName: column.TableName(),
                                 orderType: orderType,
                                 function: function);
+                        case "Locked":
+                            return self.Results_Locked(
+                                tableName: column.TableName(),
+                                orderType: orderType,
+                                function: function);
                         case "SiteTitle":
                             return self.Results_SiteTitle(
                                 tableName: column.TableName(),
@@ -3693,6 +3704,11 @@ namespace Implem.Pleasanter.Libraries.DataSources
                                 function: function);
                         case "TitleBody":
                             return self.Wikis_TitleBody(
+                                tableName: column.TableName(),
+                                orderType: orderType,
+                                function: function);
+                        case "Locked":
+                            return self.Wikis_Locked(
                                 tableName: column.TableName(),
                                 orderType: orderType,
                                 function: function);
@@ -10231,6 +10247,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             column.Status(function: Sqls.Functions.SingleColumn); param.Status();
             column.Manager(function: Sqls.Functions.SingleColumn); param.Manager();
             column.Owner(function: Sqls.Functions.SingleColumn); param.Owner();
+            column.Locked(function: Sqls.Functions.SingleColumn); param.Locked();
             column.Comments(function: Sqls.Functions.SingleColumn); param.Comments();
             column.Creator(function: Sqls.Functions.SingleColumn); param.Creator();
             column.Updator(function: Sqls.Functions.SingleColumn); param.Updator();
@@ -10265,6 +10282,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             column.Status(function: Sqls.Functions.SingleColumn); param.Status();
             column.Manager(function: Sqls.Functions.SingleColumn); param.Manager();
             column.Owner(function: Sqls.Functions.SingleColumn); param.Owner();
+            column.Locked(function: Sqls.Functions.SingleColumn); param.Locked();
             column.Comments(function: Sqls.Functions.SingleColumn); param.Comments();
             column.Creator(function: Sqls.Functions.SingleColumn); param.Creator();
             column.Updator(function: Sqls.Functions.SingleColumn); param.Updator();
@@ -10296,6 +10314,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             column.Ver(function: Sqls.Functions.SingleColumn); param.Ver();
             column.Title(function: Sqls.Functions.SingleColumn); param.Title();
             column.Body(function: Sqls.Functions.SingleColumn); param.Body();
+            column.Locked(function: Sqls.Functions.SingleColumn); param.Locked();
             column.Comments(function: Sqls.Functions.SingleColumn); param.Comments();
             column.Creator(function: Sqls.Functions.SingleColumn); param.Creator();
             column.Updator(function: Sqls.Functions.SingleColumn); param.Updator();
@@ -13173,6 +13192,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     ""Status"",
                     ""Manager"",
                     ""Owner"",
+                    ""Locked"",
                     ""Comments"",
                     ""Creator"",
                     ""Updator"",
@@ -13194,6 +13214,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     ""Issues"".""Status"",
                     ""Issues"".""Manager"",
                     ""Issues"".""Owner"",
+                    ""Issues"".""Locked"",
                     ""Issues"".""Comments"",
                     ""Issues"".""Creator"",
                     ""Issues"".""Updator"",
@@ -13221,6 +13242,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     ""Status"",
                     ""Manager"",
                     ""Owner"",
+                    ""Locked"",
                     ""Comments"",
                     ""Creator"",
                     ""Updator"",
@@ -13238,6 +13260,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     ""Results"".""Status"",
                     ""Results"".""Manager"",
                     ""Results"".""Owner"",
+                    ""Results"".""Locked"",
                     ""Results"".""Comments"",
                     ""Results"".""Creator"",
                     ""Results"".""Updator"",
@@ -13262,6 +13285,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     ""Ver"",
                     ""Title"",
                     ""Body"",
+                    ""Locked"",
                     ""Comments"",
                     ""Creator"",
                     ""Updator"",
@@ -13276,6 +13300,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     ""Wikis"".""Ver"",
                     ""Wikis"".""Title"",
                     ""Wikis"".""Body"",
+                    ""Wikis"".""Locked"",
                     ""Wikis"".""Comments"",
                     ""Wikis"".""Creator"",
                     ""Wikis"".""Updator"",
@@ -14400,6 +14425,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     ""Status"",
                     ""Manager"",
                     ""Owner"",
+                    ""Locked"",
                     ""Comments"",
                     ""Creator"",
                     ""Updator"",
@@ -14421,6 +14447,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     ""Issues_deleted"".""Status"",
                     ""Issues_deleted"".""Manager"",
                     ""Issues_deleted"".""Owner"",
+                    ""Issues_deleted"".""Locked"",
                     ""Issues_deleted"".""Comments"",
                     ""Issues_deleted"".""Creator"",
                     ""Issues_deleted"".""Updator"",
@@ -14448,6 +14475,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     ""Status"",
                     ""Manager"",
                     ""Owner"",
+                    ""Locked"",
                     ""Comments"",
                     ""Creator"",
                     ""Updator"",
@@ -14465,6 +14493,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     ""Results_deleted"".""Status"",
                     ""Results_deleted"".""Manager"",
                     ""Results_deleted"".""Owner"",
+                    ""Results_deleted"".""Locked"",
                     ""Results_deleted"".""Comments"",
                     ""Results_deleted"".""Creator"",
                     ""Results_deleted"".""Updator"",
@@ -14489,6 +14518,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     ""Ver"",
                     ""Title"",
                     ""Body"",
+                    ""Locked"",
                     ""Comments"",
                     ""Creator"",
                     ""Updator"",
@@ -14503,6 +14533,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     ""Wikis_deleted"".""Ver"",
                     ""Wikis_deleted"".""Title"",
                     ""Wikis_deleted"".""Body"",
+                    ""Wikis_deleted"".""Locked"",
                     ""Wikis_deleted"".""Comments"",
                     ""Wikis_deleted"".""Creator"",
                     ""Wikis_deleted"".""Updator"",
@@ -89396,6 +89427,8 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     return self.Manager(_as: _as, function: function);
                 case "Owner":
                     return self.Owner(_as: _as, function: function);
+                case "Locked":
+                    return self.Locked(_as: _as, function: function);
                 case "SiteTitle":
                     return self.SiteTitle(_as: _as, function: function);
                 case "Comments":
@@ -89750,6 +89783,40 @@ namespace Implem.Pleasanter.Libraries.DataSources
         {
             return self.Add(
                 columnBracket: "\"Owner\"",
+                tableName: tableName,
+                columnName: columnName,
+                _as: _as,
+                function: function,
+                sub: sub);
+        }
+
+        public static IssuesColumnCollection Locked(
+            this IssuesColumnCollection self,
+            string tableName = "Issues",
+            string columnName = "Locked",
+            string _as = null,
+            Sqls.Functions function = Sqls.Functions.None,
+            SqlStatement sub = null)
+        {
+            return self.Add(
+                columnBracket: "\"Locked\"",
+                tableName: tableName,
+                columnName: columnName,
+                _as: _as,
+                function: function,
+                sub: sub);
+        }
+
+        public static SqlColumnCollection Issues_Locked(
+            this SqlColumnCollection self,
+            string tableName = "Issues",
+            string columnName = "Locked",
+            string _as = null,
+            Sqls.Functions function = Sqls.Functions.None,
+            SqlStatement sub = null)
+        {
+            return self.Add(
+                columnBracket: "\"Locked\"",
                 tableName: tableName,
                 columnName: columnName,
                 _as: _as,
@@ -90709,6 +90776,64 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBrackets: new string[] { "\"Owner\"" },
                     tableName: tableName,
                     name: "Owner",
+                    value: value,
+                    _operator: _operator,
+                    multiColumnOperator: multiColumnOperator,
+                    multiParamOperator: multiParamOperator,
+                    subLeft: subLeft,
+                    sub: sub,
+                    subPrefix: subPrefix,
+                    raw: raw)
+                : self;
+        }
+
+        public static IssuesWhereCollection Locked(
+            this IssuesWhereCollection self,
+            object value = null,
+            string tableName = "Issues",
+            string _operator = "=",
+            string multiColumnOperator = " or ",
+            string multiParamOperator = " and ",
+            SqlStatement subLeft = null,
+            SqlStatement sub = null,
+            bool subPrefix = true,
+            string raw = null,
+            bool _using = true)
+        {
+            return _using
+                ? self.Add(
+                    columnBrackets: new string[] { "\"Locked\"" },
+                    tableName: tableName,
+                    name: "Locked",
+                    value: value,
+                    _operator: _operator,
+                    multiColumnOperator: multiColumnOperator,
+                    multiParamOperator: multiParamOperator,
+                    subLeft: subLeft,
+                    sub: sub,
+                    subPrefix: subPrefix,
+                    raw: raw)
+                : self;
+        }
+
+        public static SqlWhereCollection Issues_Locked(
+            this SqlWhereCollection self,
+            object value = null,
+            string tableName = "Issues",
+            string _operator = "=",
+            string multiColumnOperator = " or ",
+            string multiParamOperator = " and ",
+            SqlStatement subLeft = null,
+            SqlStatement sub = null,
+            bool subPrefix = true,
+            string raw = null,
+            bool _using = true)
+        {
+            return _using
+                ? self.Add(
+                    columnBrackets: new string[] { "\"Locked\"" },
+                    tableName: tableName,
+                    name: "Locked",
                     value: value,
                     _operator: _operator,
                     multiColumnOperator: multiColumnOperator,
@@ -92311,6 +92436,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     case "Status": return self.Status();
                     case "Manager": return self.Manager();
                     case "Owner": return self.Owner();
+                    case "Locked": return self.Locked();
                     case "SiteTitle": return self.SiteTitle();
                     case "Comments": return self.Comments();
                     case "Creator": return self.Creator();
@@ -92506,6 +92632,18 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this SqlGroupByCollection self, string tableName = "Issues")
         {
             return self.Add(columnBracket: "\"Owner\"", tableName: tableName);
+        }
+
+        public static IssuesGroupByCollection Locked(
+            this IssuesGroupByCollection self, string tableName = "Issues")
+        {
+            return self.Add(columnBracket: "\"Locked\"", tableName: tableName);
+        }
+
+        public static SqlGroupByCollection Issues_Locked(
+            this SqlGroupByCollection self, string tableName = "Issues")
+        {
+            return self.Add(columnBracket: "\"Locked\"", tableName: tableName);
         }
 
         public static IssuesGroupByCollection SiteTitle(
@@ -92852,6 +92990,21 @@ namespace Implem.Pleasanter.Libraries.DataSources
             return self;
         }
 
+        public static IssuesOrderByCollection Locked(
+            this IssuesOrderByCollection self,
+            SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
+            string tableName = "Issues",
+            Sqls.Functions function = Sqls.Functions.None)
+        {
+            new List<string> { "\"Locked\"" }.ForEach(columnBracket =>
+                self.Add(
+                    columnBracket: columnBracket,
+                    orderType: orderType,
+                    tableName: tableName,
+                    function: function));
+            return self;
+        }
+
         public static IssuesOrderByCollection SiteTitle(
             this IssuesOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
@@ -93144,6 +93297,21 @@ namespace Implem.Pleasanter.Libraries.DataSources
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"Owner\"" }.ForEach(columnBracket =>
+                self.Add(
+                    columnBracket: columnBracket,
+                    orderType: orderType,
+                    tableName: tableName,
+                    function: function));
+            return self;
+        }
+
+        public static SqlOrderByCollection Issues_Locked(
+            this SqlOrderByCollection self,
+            SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
+            string tableName = "Issues",
+            Sqls.Functions function = Sqls.Functions.None)
+        {
+            new List<string> { "\"Locked\"" }.ForEach(columnBracket =>
                 self.Add(
                     columnBracket: columnBracket,
                     orderType: orderType,
@@ -93691,6 +93859,40 @@ namespace Implem.Pleasanter.Libraries.DataSources
                 : self;
         }
 
+        public static IssuesParamCollection Locked(
+            this IssuesParamCollection self,
+            object value = null,
+            SqlStatement sub = null,
+            string raw = null,
+            bool _using = true)
+        {
+            return _using
+                ? self.Add(
+                    columnBracket: "\"Locked\"",
+                    name: "Locked",
+                    value: value,
+                    sub: sub,
+                    raw: raw)
+                : self;
+        }
+
+        public static SqlParamCollection Issues_Locked(
+            this SqlParamCollection self,
+            object value = null,
+            SqlStatement sub = null,
+            string raw = null,
+            bool _using = true)
+        {
+            return _using
+                ? self.Add(
+                    columnBracket: "\"Locked\"",
+                    name: "Locked",
+                    value: value,
+                    sub: sub,
+                    raw: raw)
+                : self;
+        }
+
         public static IssuesParamCollection Comments(
             this IssuesParamCollection self,
             object value = null,
@@ -94052,6 +94254,8 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     return self.Manager(_as: _as, function: function);
                 case "Owner":
                     return self.Owner(_as: _as, function: function);
+                case "Locked":
+                    return self.Locked(_as: _as, function: function);
                 case "SiteTitle":
                     return self.SiteTitle(_as: _as, function: function);
                 case "Comments":
@@ -94372,6 +94576,40 @@ namespace Implem.Pleasanter.Libraries.DataSources
         {
             return self.Add(
                 columnBracket: "\"Owner\"",
+                tableName: tableName,
+                columnName: columnName,
+                _as: _as,
+                function: function,
+                sub: sub);
+        }
+
+        public static ResultsColumnCollection Locked(
+            this ResultsColumnCollection self,
+            string tableName = "Results",
+            string columnName = "Locked",
+            string _as = null,
+            Sqls.Functions function = Sqls.Functions.None,
+            SqlStatement sub = null)
+        {
+            return self.Add(
+                columnBracket: "\"Locked\"",
+                tableName: tableName,
+                columnName: columnName,
+                _as: _as,
+                function: function,
+                sub: sub);
+        }
+
+        public static SqlColumnCollection Results_Locked(
+            this SqlColumnCollection self,
+            string tableName = "Results",
+            string columnName = "Locked",
+            string _as = null,
+            Sqls.Functions function = Sqls.Functions.None,
+            SqlStatement sub = null)
+        {
+            return self.Add(
+                columnBracket: "\"Locked\"",
                 tableName: tableName,
                 columnName: columnName,
                 _as: _as,
@@ -95113,6 +95351,64 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBrackets: new string[] { "\"Owner\"" },
                     tableName: tableName,
                     name: "Owner",
+                    value: value,
+                    _operator: _operator,
+                    multiColumnOperator: multiColumnOperator,
+                    multiParamOperator: multiParamOperator,
+                    subLeft: subLeft,
+                    sub: sub,
+                    subPrefix: subPrefix,
+                    raw: raw)
+                : self;
+        }
+
+        public static ResultsWhereCollection Locked(
+            this ResultsWhereCollection self,
+            object value = null,
+            string tableName = "Results",
+            string _operator = "=",
+            string multiColumnOperator = " or ",
+            string multiParamOperator = " and ",
+            SqlStatement subLeft = null,
+            SqlStatement sub = null,
+            bool subPrefix = true,
+            string raw = null,
+            bool _using = true)
+        {
+            return _using
+                ? self.Add(
+                    columnBrackets: new string[] { "\"Locked\"" },
+                    tableName: tableName,
+                    name: "Locked",
+                    value: value,
+                    _operator: _operator,
+                    multiColumnOperator: multiColumnOperator,
+                    multiParamOperator: multiParamOperator,
+                    subLeft: subLeft,
+                    sub: sub,
+                    subPrefix: subPrefix,
+                    raw: raw)
+                : self;
+        }
+
+        public static SqlWhereCollection Results_Locked(
+            this SqlWhereCollection self,
+            object value = null,
+            string tableName = "Results",
+            string _operator = "=",
+            string multiColumnOperator = " or ",
+            string multiParamOperator = " and ",
+            SqlStatement subLeft = null,
+            SqlStatement sub = null,
+            bool subPrefix = true,
+            string raw = null,
+            bool _using = true)
+        {
+            return _using
+                ? self.Add(
+                    columnBrackets: new string[] { "\"Locked\"" },
+                    tableName: tableName,
+                    name: "Locked",
                     value: value,
                     _operator: _operator,
                     multiColumnOperator: multiColumnOperator,
@@ -96210,6 +96506,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     case "Status": return self.Status();
                     case "Manager": return self.Manager();
                     case "Owner": return self.Owner();
+                    case "Locked": return self.Locked();
                     case "SiteTitle": return self.SiteTitle();
                     case "Comments": return self.Comments();
                     case "Creator": return self.Creator();
@@ -96345,6 +96642,18 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this SqlGroupByCollection self, string tableName = "Results")
         {
             return self.Add(columnBracket: "\"Owner\"", tableName: tableName);
+        }
+
+        public static ResultsGroupByCollection Locked(
+            this ResultsGroupByCollection self, string tableName = "Results")
+        {
+            return self.Add(columnBracket: "\"Locked\"", tableName: tableName);
+        }
+
+        public static SqlGroupByCollection Results_Locked(
+            this SqlGroupByCollection self, string tableName = "Results")
+        {
+            return self.Add(columnBracket: "\"Locked\"", tableName: tableName);
         }
 
         public static ResultsGroupByCollection SiteTitle(
@@ -96586,6 +96895,21 @@ namespace Implem.Pleasanter.Libraries.DataSources
             return self;
         }
 
+        public static ResultsOrderByCollection Locked(
+            this ResultsOrderByCollection self,
+            SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
+            string tableName = "Results",
+            Sqls.Functions function = Sqls.Functions.None)
+        {
+            new List<string> { "\"Locked\"" }.ForEach(columnBracket =>
+                self.Add(
+                    columnBracket: columnBracket,
+                    orderType: orderType,
+                    tableName: tableName,
+                    function: function));
+            return self;
+        }
+
         public static ResultsOrderByCollection SiteTitle(
             this ResultsOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
@@ -96803,6 +97127,21 @@ namespace Implem.Pleasanter.Libraries.DataSources
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"Owner\"" }.ForEach(columnBracket =>
+                self.Add(
+                    columnBracket: columnBracket,
+                    orderType: orderType,
+                    tableName: tableName,
+                    function: function));
+            return self;
+        }
+
+        public static SqlOrderByCollection Results_Locked(
+            this SqlOrderByCollection self,
+            SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
+            string tableName = "Results",
+            Sqls.Functions function = Sqls.Functions.None)
+        {
+            new List<string> { "\"Locked\"" }.ForEach(columnBracket =>
                 self.Add(
                     columnBracket: columnBracket,
                     orderType: orderType,
@@ -97214,6 +97553,40 @@ namespace Implem.Pleasanter.Libraries.DataSources
                 : self;
         }
 
+        public static ResultsParamCollection Locked(
+            this ResultsParamCollection self,
+            object value = null,
+            SqlStatement sub = null,
+            string raw = null,
+            bool _using = true)
+        {
+            return _using
+                ? self.Add(
+                    columnBracket: "\"Locked\"",
+                    name: "Locked",
+                    value: value,
+                    sub: sub,
+                    raw: raw)
+                : self;
+        }
+
+        public static SqlParamCollection Results_Locked(
+            this SqlParamCollection self,
+            object value = null,
+            SqlStatement sub = null,
+            string raw = null,
+            bool _using = true)
+        {
+            return _using
+                ? self.Add(
+                    columnBracket: "\"Locked\"",
+                    name: "Locked",
+                    value: value,
+                    sub: sub,
+                    raw: raw)
+                : self;
+        }
+
         public static ResultsParamCollection Comments(
             this ResultsParamCollection self,
             object value = null,
@@ -97569,6 +97942,8 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     return self.Body(_as: _as, function: function);
                 case "TitleBody":
                     return self.TitleBody(_as: _as, function: function);
+                case "Locked":
+                    return self.Locked(_as: _as, function: function);
                 case "Comments":
                     return self.Comments(_as: _as, function: function);
                 case "Creator":
@@ -97785,6 +98160,40 @@ namespace Implem.Pleasanter.Libraries.DataSources
         {
             return self.Add(
                 columnBracket: "\"Body\"",
+                tableName: tableName,
+                columnName: columnName,
+                _as: _as,
+                function: function,
+                sub: sub);
+        }
+
+        public static WikisColumnCollection Locked(
+            this WikisColumnCollection self,
+            string tableName = "Wikis",
+            string columnName = "Locked",
+            string _as = null,
+            Sqls.Functions function = Sqls.Functions.None,
+            SqlStatement sub = null)
+        {
+            return self.Add(
+                columnBracket: "\"Locked\"",
+                tableName: tableName,
+                columnName: columnName,
+                _as: _as,
+                function: function,
+                sub: sub);
+        }
+
+        public static SqlColumnCollection Wikis_Locked(
+            this SqlColumnCollection self,
+            string tableName = "Wikis",
+            string columnName = "Locked",
+            string _as = null,
+            Sqls.Functions function = Sqls.Functions.None,
+            SqlStatement sub = null)
+        {
+            return self.Add(
+                columnBracket: "\"Locked\"",
                 tableName: tableName,
                 columnName: columnName,
                 _as: _as,
@@ -98318,6 +98727,64 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     columnBrackets: new string[] { "\"Body\"" },
                     tableName: tableName,
                     name: "Body",
+                    value: value,
+                    _operator: _operator,
+                    multiColumnOperator: multiColumnOperator,
+                    multiParamOperator: multiParamOperator,
+                    subLeft: subLeft,
+                    sub: sub,
+                    subPrefix: subPrefix,
+                    raw: raw)
+                : self;
+        }
+
+        public static WikisWhereCollection Locked(
+            this WikisWhereCollection self,
+            object value = null,
+            string tableName = "Wikis",
+            string _operator = "=",
+            string multiColumnOperator = " or ",
+            string multiParamOperator = " and ",
+            SqlStatement subLeft = null,
+            SqlStatement sub = null,
+            bool subPrefix = true,
+            string raw = null,
+            bool _using = true)
+        {
+            return _using
+                ? self.Add(
+                    columnBrackets: new string[] { "\"Locked\"" },
+                    tableName: tableName,
+                    name: "Locked",
+                    value: value,
+                    _operator: _operator,
+                    multiColumnOperator: multiColumnOperator,
+                    multiParamOperator: multiParamOperator,
+                    subLeft: subLeft,
+                    sub: sub,
+                    subPrefix: subPrefix,
+                    raw: raw)
+                : self;
+        }
+
+        public static SqlWhereCollection Wikis_Locked(
+            this SqlWhereCollection self,
+            object value = null,
+            string tableName = "Wikis",
+            string _operator = "=",
+            string multiColumnOperator = " or ",
+            string multiParamOperator = " and ",
+            SqlStatement subLeft = null,
+            SqlStatement sub = null,
+            bool subPrefix = true,
+            string raw = null,
+            bool _using = true)
+        {
+            return _using
+                ? self.Add(
+                    columnBrackets: new string[] { "\"Locked\"" },
+                    tableName: tableName,
+                    name: "Locked",
                     value: value,
                     _operator: _operator,
                     multiColumnOperator: multiColumnOperator,
@@ -99070,6 +99537,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     case "Title": return self.Title();
                     case "Body": return self.Body();
                     case "TitleBody": return self.TitleBody();
+                    case "Locked": return self.Locked();
                     case "Comments": return self.Comments();
                     case "Creator": return self.Creator();
                     case "Updator": return self.Updator();
@@ -99168,6 +99636,18 @@ namespace Implem.Pleasanter.Libraries.DataSources
             this SqlGroupByCollection self, string tableName = "Wikis")
         {
             return self.Add(columnBracket: "\"TitleBody\"", tableName: tableName);
+        }
+
+        public static WikisGroupByCollection Locked(
+            this WikisGroupByCollection self, string tableName = "Wikis")
+        {
+            return self.Add(columnBracket: "\"Locked\"", tableName: tableName);
+        }
+
+        public static SqlGroupByCollection Wikis_Locked(
+            this SqlGroupByCollection self, string tableName = "Wikis")
+        {
+            return self.Add(columnBracket: "\"Locked\"", tableName: tableName);
         }
 
         public static WikisGroupByCollection Comments(
@@ -99352,6 +99832,21 @@ namespace Implem.Pleasanter.Libraries.DataSources
             return self;
         }
 
+        public static WikisOrderByCollection Locked(
+            this WikisOrderByCollection self,
+            SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
+            string tableName = "Wikis",
+            Sqls.Functions function = Sqls.Functions.None)
+        {
+            new List<string> { "\"Locked\"" }.ForEach(columnBracket =>
+                self.Add(
+                    columnBracket: columnBracket,
+                    orderType: orderType,
+                    tableName: tableName,
+                    function: function));
+            return self;
+        }
+
         public static WikisOrderByCollection Comments(
             this WikisOrderByCollection self,
             SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
@@ -99509,6 +100004,21 @@ namespace Implem.Pleasanter.Libraries.DataSources
             Sqls.Functions function = Sqls.Functions.None)
         {
             new List<string> { "\"Title\"", "\"Body\"" }.ForEach(columnBracket =>
+                self.Add(
+                    columnBracket: columnBracket,
+                    orderType: orderType,
+                    tableName: tableName,
+                    function: function));
+            return self;
+        }
+
+        public static SqlOrderByCollection Wikis_Locked(
+            this SqlOrderByCollection self,
+            SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
+            string tableName = "Wikis",
+            Sqls.Functions function = Sqls.Functions.None)
+        {
+            new List<string> { "\"Locked\"" }.ForEach(columnBracket =>
                 self.Add(
                     columnBracket: columnBracket,
                     orderType: orderType,
@@ -99797,6 +100307,40 @@ namespace Implem.Pleasanter.Libraries.DataSources
                 ? self.Add(
                     columnBracket: "\"Body\"",
                     name: "Body",
+                    value: value,
+                    sub: sub,
+                    raw: raw)
+                : self;
+        }
+
+        public static WikisParamCollection Locked(
+            this WikisParamCollection self,
+            object value = null,
+            SqlStatement sub = null,
+            string raw = null,
+            bool _using = true)
+        {
+            return _using
+                ? self.Add(
+                    columnBracket: "\"Locked\"",
+                    name: "Locked",
+                    value: value,
+                    sub: sub,
+                    raw: raw)
+                : self;
+        }
+
+        public static SqlParamCollection Wikis_Locked(
+            this SqlParamCollection self,
+            object value = null,
+            SqlStatement sub = null,
+            string raw = null,
+            bool _using = true)
+        {
+            return _using
+                ? self.Add(
+                    columnBracket: "\"Locked\"",
+                    name: "Locked",
                     value: value,
                     sub: sub,
                     raw: raw)
@@ -102392,6 +102936,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                 .Status()
                 .Manager()
                 .Owner()
+                .Locked()
                 .SiteTitle()
                 .Comments()
                 .Creator()
@@ -102456,6 +103001,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                 .Status(issueModel.Status.Value, _using: issueModel.Status_Updated(context) || setDefault || (otherInitValue && !issueModel.Status.InitialValue(context)))
                 .Manager(issueModel.Manager.Id, _using: issueModel.Manager_Updated(context) || (otherInitValue && !issueModel.Manager.InitialValue(context)))
                 .Owner(issueModel.Owner.Id, _using: issueModel.Owner_Updated(context) || (otherInitValue && !issueModel.Owner.InitialValue(context)))
+                .Locked(issueModel.Locked, _using: issueModel.Locked_Updated(context) || (otherInitValue && !issueModel.Locked.InitialValue(context)))
                 .Comments(issueModel.Comments.ToJson(), _using: issueModel.Comments_Updated(context) || (otherInitValue && !issueModel.Comments.InitialValue(context)));
             issueModel.ClassHash
                 .Where(o => issueModel.Class_Updated(columnName: o.Key)
@@ -102527,6 +103073,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                 .Status()
                 .Manager()
                 .Owner()
+                .Locked()
                 .SiteTitle()
                 .Comments()
                 .Creator()
@@ -102587,6 +103134,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                 .Status(resultModel.Status.Value, _using: resultModel.Status_Updated(context) || (otherInitValue && !resultModel.Status.InitialValue(context)))
                 .Manager(resultModel.Manager.Id, _using: resultModel.Manager_Updated(context) || (otherInitValue && !resultModel.Manager.InitialValue(context)))
                 .Owner(resultModel.Owner.Id, _using: resultModel.Owner_Updated(context) || (otherInitValue && !resultModel.Owner.InitialValue(context)))
+                .Locked(resultModel.Locked, _using: resultModel.Locked_Updated(context) || (otherInitValue && !resultModel.Locked.InitialValue(context)))
                 .Comments(resultModel.Comments.ToJson(), _using: resultModel.Comments_Updated(context) || (otherInitValue && !resultModel.Comments.InitialValue(context)));
             resultModel.ClassHash
                 .Where(o => resultModel.Class_Updated(columnName: o.Key)
@@ -102655,6 +103203,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                 .Title()
                 .Body()
                 .TitleBody()
+                .Locked()
                 .Comments()
                 .Creator()
                 .Updator()
@@ -102710,6 +103259,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                 .Ver(wikiModel.Ver, _using: wikiModel.Ver_Updated(context) || setDefault || (otherInitValue && !wikiModel.Ver.InitialValue(context)))
                 .Title(wikiModel.Title.Value.MaxLength(1024), _using: wikiModel.Title_Updated(context) || setDefault || (otherInitValue && !wikiModel.Title.InitialValue(context)))
                 .Body(wikiModel.Body, _using: wikiModel.Body_Updated(context) || (otherInitValue && !wikiModel.Body.InitialValue(context)))
+                .Locked(wikiModel.Locked, _using: wikiModel.Locked_Updated(context) || (otherInitValue && !wikiModel.Locked.InitialValue(context)))
                 .Comments(wikiModel.Comments.ToJson(), _using: wikiModel.Comments_Updated(context) || (otherInitValue && !wikiModel.Comments.InitialValue(context)));
             wikiModel.ClassHash
                 .Where(o => wikiModel.Class_Updated(columnName: o.Key)

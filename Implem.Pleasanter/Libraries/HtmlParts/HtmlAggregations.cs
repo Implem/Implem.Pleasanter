@@ -207,7 +207,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     var currentSs = ss.Destinations.Get(link.SiteId);
                     if (currentSs != null && context.CanRead(ss: currentSs))
                     {
-                        return Rds.ExecuteTable(
+                        return Repository.ExecuteTable(
                             context: context,
                             statements: Rds.SelectItems(
                                 column: Rds.ItemsColumn()

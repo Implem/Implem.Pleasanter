@@ -19,15 +19,19 @@ namespace Implem.Pleasanter.Libraries.DataTypes
 
         public HtmlBuilder Td(HtmlBuilder hb, Context context, Column column)
         {
-            return hb.Td(action: () => hb
-                .Ol(action: () => ForEach(item => hb
-                    .Li(action: () => hb
-                        .A(
-                            href: Locations.DownloadFile(
-                                context: context,
-                                guid: item.Guid),
-                            action: () => hb
-                                .Text(text: item.Name))))));
+            return hb.Td(
+                css: column.TextAlign == SiteSettings.TextAlignTypes.Right
+                    ? " right-align "
+                    : string.Empty,
+                action: () => hb
+                    .Ol(action: () => ForEach(item => hb
+                        .Li(action: () => hb
+                            .A(
+                                href: Locations.DownloadFile(
+                                    context: context,
+                                    guid: item.Guid),
+                                action: () => hb
+                                    .Text(text: item.Name))))));
         }
 
         public string ToControl(Context context, SiteSettings ss, Column column)

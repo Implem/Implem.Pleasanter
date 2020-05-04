@@ -87,18 +87,22 @@ namespace Implem.Pleasanter.Libraries.DataTypes
         public HtmlBuilder Td(HtmlBuilder hb, Context context, Column column)
         {
             var css = GridCss(context: context);
-            return hb.Td(action: () => this?
-                .Take(DisplayCount(context: context))
-                .ForEach(comment => comment
-                    .Html(
-                        hb: hb,
-                        context: context,
-                        ss: column.SiteSettings,
-                        allowEditing: column.SiteSettings.AllowEditingComments == true,
-                        allowImage: column.AllowImage == true,
-                        mobile: context.Mobile,
-                        css: css,
-                        readOnly: true)));
+            return hb.Td(
+                css: column.TextAlign == SiteSettings.TextAlignTypes.Right
+                    ? " right-align "
+                    : string.Empty,
+                action: () => this?
+                    .Take(DisplayCount(context: context))
+                    .ForEach(comment => comment
+                        .Html(
+                            hb: hb,
+                            context: context,
+                            ss: column.SiteSettings,
+                            allowEditing: column.SiteSettings.AllowEditingComments == true,
+                            allowImage: column.AllowImage == true,
+                            mobile: context.Mobile,
+                            css: css,
+                            readOnly: true)));
         }
 
         public string GridText(Context context, Column column)

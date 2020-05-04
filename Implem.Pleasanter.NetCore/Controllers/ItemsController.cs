@@ -1054,6 +1054,17 @@ namespace Implem.Pleasanter.NetCore.Controllers
         }
 
         [HttpPost]
+        public string UnlockRecord(long id)
+        {
+            var context = new ContextImplement();
+            var controller = new Pleasanter.Controllers.ItemsController();
+            var json = controller.UnlockRecord(
+                context: context,
+                id: id);
+            return json;
+        }
+
+        [HttpPost]
         public ContentResult Get(long id)
         {
             var context = new ContextImplement();

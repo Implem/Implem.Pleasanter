@@ -26,6 +26,7 @@ namespace Implem.Pleasanter.Models
         public Status Status { get; set; }
         public User Manager { get; set; }
         public User Owner { get; set; }
+        public bool? Locked { get; set; }
         public Comments Comments { get; set; }
         public User Creator { get; set; }
         public User Updator { get; set; }
@@ -236,6 +237,9 @@ namespace Implem.Pleasanter.Models
                             break;
                         case "Owner":
                             Owner = SiteInfo.User(context: context, userId: dataRow.Int(column.ColumnName));
+                            break;
+                        case "Locked":
+                            Locked = dataRow[column.ColumnName].ToBool();
                             break;
                         case "Comments":
                             Comments = dataRow[column.ColumnName].ToString().Deserialize<Comments>() ?? new Comments();
