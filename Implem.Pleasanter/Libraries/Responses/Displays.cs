@@ -1028,6 +1028,16 @@ namespace Implem.Pleasanter.Libraries.Responses
                 data: data);
         }
 
+        public static string CodeDefinerMigrationCompleted(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "CodeDefinerMigrationCompleted",
+                data: data);
+        }
+
         public static string CodeDefinerMvcCompleted(
             Context context,
             params string[] data)

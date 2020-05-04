@@ -1,0 +1,6 @@
+﻿{
+    "SourceConnectionString": "Server=(local);Database=master;UID=sa;PWD=SetSaPWD;",
+    "ExcludeTables": [
+        "SysLogs"
+    ]
+}

@@ -23,6 +23,7 @@ namespace Implem.DefinitionAccessor
         public static History History;
         public static ParameterAccessor.Parts.Version Version;
         public static Mail Mail;
+        public static Migration Migration;
         public static Notification Notification;
         public static Parameter Parameter;
         public static Permissions Permissions;

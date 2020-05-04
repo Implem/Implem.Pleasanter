@@ -73,6 +73,10 @@ namespace Implem.CodeDefiner
                 case "backup":
                     CreateSolutionBackup();
                     break;
+                case "migrate":
+                    ConfigureDatabase(factory: factory);
+                    MigrateDatabase();
+                    break;
                 default:
                     WriteErrorToConsole(args);
                     break;
@@ -159,6 +163,14 @@ namespace Implem.CodeDefiner
             Functions.CodeDefiner.BackupCreater.BackupSolutionFiles();
             Consoles.Write(
                 DisplayAccessor.Displays.Get("CodeDefinerBackupCompleted"),
+                Consoles.Types.Success);
+        }
+
+        private static void MigrateDatabase()
+        {
+            Functions.AspNetMvc.CSharp.Migrator.MigrateDatabaseAsync();
+            Consoles.Write(
+                DisplayAccessor.Displays.Get("CodeDefinerMigrationCompleted"),
                 Consoles.Types.Success);
         }
 

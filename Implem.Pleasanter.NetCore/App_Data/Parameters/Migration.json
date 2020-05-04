@@ -1,0 +1,6 @@
+﻿{
+    "SourceConnectionString": "Server=(local);Database=Implem.Pleasanter;UID=sa;PWD=SetSaPWD;",
+    "ExcludeTables": [
+        "SysLogs"
+    ]
+}
