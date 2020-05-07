@@ -45,7 +45,7 @@ namespace Implem.PostgreSql
 
         public string CreateTryCast(string left, string name, string type)
         {
-            return $"(CASE WHEN \"{left}\".\"{name}\"~E'^\\d+$' THEN \"{left}\".\"{name}\"::{type} ELSE null END)";
+            return $"(CASE WHEN \"{left}\".\"{name}\"~E'^\\\\d+$' THEN \"{left}\".\"{name}\"::{type} ELSE null END)";
         }
 
         public string CreateUpdateOrInsert(

@@ -3072,6 +3072,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                                 where: Rds.SitesWhere().SiteId(link.SiteId))) != "Wikis")
                 .ReferenceId_In(
                     sub: new SqlStatement(LinkHashRelatingColumnsSubQuery(
+                        context: context,
                         referenceType: referenceType,
                         parentColumn: parentColumn,
                         parentIds: parentIds)),
@@ -3703,7 +3704,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                         .Where(o => o.StartsWith("Class")).ToList<string>());
         }
 
-        private static string LinkHashRelatingColumnsSubQuery(string referenceType, Column parentColumn, IEnumerable<long> parentIds)
+        private static string LinkHashRelatingColumnsSubQuery(Context context, string referenceType, Column parentColumn, IEnumerable<long> parentIds)
         {
             if (parentColumn == null
                 || referenceType == "Wikis"
@@ -3715,7 +3716,7 @@ namespace Implem.Pleasanter.Libraries.Settings
             var whereNullorEmpty = parentIds?.Contains(-1) == true
                 ? $"\"{parentColumn.ColumnName}\" is null or \"{parentColumn.ColumnName}\" = '' " : string.Empty;
             var whereIn = parentIds.Where(n => n >= 0).Any()
-                ? $"try_cast(\"{parentColumn.ColumnName}\" as bigint) in ({parentIds.Where(n => n >= 0).Join()})"
+                ? $"{context.SqlCommandText.CreateTryCast(referenceType, parentColumn.ColumnName, "bigint")} in ({parentIds.Where(n => n >= 0).Join()})"
                 : string.Empty;
             var Or = (whereNullorEmpty == string.Empty || whereIn == string.Empty) ? string.Empty : " or ";
             return $"select \"{Rds.IdColumn(referenceType)}\" from \"{referenceType}\" where " + whereNullorEmpty + Or + whereIn;
