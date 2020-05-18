@@ -245,6 +245,40 @@ namespace Implem.Pleasanter.Models
             return hash;
         }
 
+        public bool PropertyUpdated(Context context, string name)
+        {
+            switch (name)
+            {
+                case "SiteId": return SiteId_Updated(context: context);
+                case "Ver": return Ver_Updated(context: context);
+                case "Title": return Title_Updated(context: context);
+                case "Body": return Body_Updated(context: context);
+                case "StartTime": return StartTime_Updated(context: context);
+                case "CompletionTime": return CompletionTime_Updated(context: context);
+                case "WorkValue": return WorkValue_Updated(context: context);
+                case "ProgressRate": return ProgressRate_Updated(context: context);
+                case "Status": return Status_Updated(context: context);
+                case "Manager": return Manager_Updated(context: context);
+                case "Owner": return Owner_Updated(context: context);
+                case "Locked": return Locked_Updated(context: context);
+                case "Comments": return Comments_Updated(context: context);
+                case "Creator": return Creator_Updated(context: context);
+                case "Updator": return Updator_Updated(context: context);
+                default: 
+                    switch (Def.ExtendedColumnTypes.Get(name))
+                    {
+                        case "Class": return Class_Updated(name);
+                        case "Num": return Num_Updated(name);
+                        case "Date": return Date_Updated(name);
+                        case "Description": return Description_Updated(name);
+                        case "Check": return Check_Updated(name);
+                        case "Attachments": return Attachments_Updated(name);
+                    }
+                    break;
+            }
+            return false;
+        }
+
         public string CsvData(
             Context context,
             SiteSettings ss,
@@ -1353,6 +1387,12 @@ namespace Implem.Pleasanter.Models
 
         public ErrorData Delete(Context context, SiteSettings ss, bool notice = false)
         {
+            var notifications = context.ContractSettings.Notice != false && notice
+                ? GetNotifications(
+                    context: context,
+                    ss: ss,
+                    notice: notice)
+                : null;
             var statements = new List<SqlStatement>();
             var where = Rds.IssuesWhere().SiteId(SiteId).IssueId(IssueId);
             statements.OnDeletingExtendedSqls(SiteId, IssueId);
@@ -1379,11 +1419,7 @@ namespace Implem.Pleasanter.Models
                 Notice(
                     context: context,
                     ss: ss,
-                    notifications: GetNotifications(
-                        context: context,
-                        ss: ss,
-                        notice: notice,
-                        tableTypes: Sqls.TableTypes.Deleted),
+                    notifications: notifications,
                     type: "Deleted");
             }
             return new ErrorData(type: Error.Types.None);
@@ -2190,9 +2226,6 @@ namespace Implem.Pleasanter.Models
             List<Notification> notifications,
             string type)
         {
-            var url = Locations.ItemEditAbsoluteUri(
-                context: context,
-                id: IssueId);
             notifications?.ForEach(notification =>
             {
                 if (notification.HasRelatedUsers())
@@ -2230,26 +2263,27 @@ namespace Implem.Pleasanter.Models
                             title: Displays.Created(
                                 context: context,
                                 data: Title.DisplayValue).ToString(),
-                            url: url,
                             body: NoticeBody(
                                 context: context,
                                 ss: ss,
                                 notification: notification));
                         break;
                     case "Updated":
-                        var body = NoticeBody(
+                        if (notification.MonitorChangesColumns.Any(columnName => PropertyUpdated(
                             context: context,
-                            ss: ss,
-                            notification: notification, update: true);
-                        if (body.Length > 0)
+                            name: columnName)))
                         {
+                            var body = NoticeBody(
+                                context: context,
+                                ss: ss,
+                                notification: notification,
+                                update: true);
                             notification.Send(
                                 context: context,
                                 ss: ss,
                                 title: Displays.Updated(
                                     context: context,
                                     data: Title.DisplayValue).ToString(),
-                                url: url,
                                 body: body);
                         }
                         break;
@@ -2260,7 +2294,6 @@ namespace Implem.Pleasanter.Models
                             title: Displays.Deleted(
                                 context: context,
                                 data: Title.DisplayValue).ToString(),
-                            url: url,
                             body: NoticeBody(
                                 context: context,
                                 ss: ss,
@@ -2274,169 +2307,216 @@ namespace Implem.Pleasanter.Models
             Context context, SiteSettings ss, Notification notification, bool update = false)
         {
             var body = new System.Text.StringBuilder();
-            notification.ColumnCollection(context, ss, update)?.ForEach(column =>
-            {
-                switch (column.Name)
-                {
-                    case "Title":
-                        body.Append(Title.ToNotice(
-                            context: context,
-                            saved: SavedTitle,
-                            column: column,
-                            updated: Title_Updated(context: context),
-                            update: update));
-                        break;
-                    case "Body":
-                        body.Append(Body.ToNotice(
-                            context: context,
-                            saved: SavedBody,
-                            column: column,
-                            updated: Body_Updated(context: context),
-                            update: update));
-                        break;
-                    case "StartTime":
-                        body.Append(StartTime.ToNotice(
-                            context: context,
-                            saved: SavedStartTime,
-                            column: column,
-                            updated: StartTime_Updated(context: context),
-                            update: update));
-                        break;
-                    case "CompletionTime":
-                        body.Append(CompletionTime.ToNotice(
-                            context: context,
-                            saved: SavedCompletionTime,
-                            column: column,
-                            updated: CompletionTime_Updated(context: context),
-                            update: update));
-                        break;
-                    case "WorkValue":
-                        body.Append(WorkValue.ToNotice(
-                            context: context,
-                            saved: SavedWorkValue,
-                            column: column,
-                            updated: WorkValue_Updated(context: context),
-                            update: update));
-                        break;
-                    case "ProgressRate":
-                        body.Append(ProgressRate.ToNotice(
-                            context: context,
-                            saved: SavedProgressRate,
-                            column: column,
-                            updated: ProgressRate_Updated(context: context),
-                            update: update));
-                        break;
-                    case "Status":
-                        body.Append(Status.ToNotice(
-                            context: context,
-                            saved: SavedStatus,
-                            column: column,
-                            updated: Status_Updated(context: context),
-                            update: update));
-                        break;
-                    case "Manager":
-                        body.Append(Manager.ToNotice(
-                            context: context,
-                            saved: SavedManager,
-                            column: column,
-                            updated: Manager_Updated(context: context),
-                            update: update));
-                        break;
-                    case "Owner":
-                        body.Append(Owner.ToNotice(
-                            context: context,
-                            saved: SavedOwner,
-                            column: column,
-                            updated: Owner_Updated(context: context),
-                            update: update));
-                        break;
-                    case "Locked":
-                        body.Append(Locked.ToNotice(
-                            context: context,
-                            saved: SavedLocked,
-                            column: column,
-                            updated: Locked_Updated(context: context),
-                            update: update));
-                        break;
-                    case "Comments":
-                        body.Append(Comments.ToNotice(
-                            context: context,
-                            saved: SavedComments,
-                            column: column,
-                            updated: Comments_Updated(context: context),
-                            update: update));
-                        break;
-                    case "Creator":
-                        body.Append(Creator.ToNotice(
-                            context: context,
-                            saved: SavedCreator,
-                            column: column,
-                            updated: Creator_Updated(context: context),
-                            update: update));
-                        break;
-                    case "Updator":
-                        body.Append(Updator.ToNotice(
-                            context: context,
-                            saved: SavedUpdator,
-                            column: column,
-                            updated: Updator_Updated(context: context),
-                            update: update));
-                        break;
-                    default:
-                        switch (Def.ExtendedColumnTypes.Get(column.Name))
+            var url = Locations.ItemEditAbsoluteUri(
+                context: context,
+                id: IssueId);
+            var mailAddress = MailAddressUtilities.Get(
+                context: context,
+                userId: context.UserId);
+            notification.GetFormat(
+                context,
+                ss)
+                    .Split('\n')
+                    .Select(line => new
+                    {
+                        Line = line.Trim(),
+                        Format = line.Trim().Deserialize<NotificationColumnFormat>()
+                    })
+                    .ForEach(data =>
+                    {
+                        var column = ss.IncludedColumns(data.Format?.Name)?.FirstOrDefault();
+                        if (column == null)
                         {
-                            case "Class":
-                                body.Append(Class(columnName: column.Name).ToNotice(
-                                    context: context,
-                                    saved: SavedClass(columnName: column.Name),
-                                    column: column,
-                                    updated: Class_Updated(columnName: column.Name),
-                                    update: update));
-                                break;
-                            case "Num":
-                                body.Append(Num(columnName: column.Name).ToNotice(
-                                    context: context,
-                                    saved: SavedNum(columnName: column.Name),
-                                    column: column,
-                                    updated: Num_Updated(columnName: column.Name),
-                                    update: update));
-                                break;
-                            case "Date":
-                                body.Append(Date(columnName: column.Name).ToNotice(
-                                    context: context,
-                                    saved: SavedDate(columnName: column.Name),
-                                    column: column,
-                                    updated: Date_Updated(columnName: column.Name),
-                                    update: update));
-                                break;
-                            case "Description":
-                                body.Append(Description(columnName: column.Name).ToNotice(
-                                    context: context,
-                                    saved: SavedDescription(columnName: column.Name),
-                                    column: column,
-                                    updated: Description_Updated(columnName: column.Name),
-                                    update: update));
-                                break;
-                            case "Check":
-                                body.Append(Check(columnName: column.Name).ToNotice(
-                                    context: context,
-                                    saved: SavedCheck(columnName: column.Name),
-                                    column: column,
-                                    updated: Check_Updated(columnName: column.Name),
-                                    update: update));
-                                break;
-                            case "Attachments":
-                                body.Append(Attachments(columnName: column.Name).ToNotice(
-                                    context: context,
-                                    saved: SavedAttachments(columnName: column.Name),
-                                    column: column,
-                                    updated: Attachments_Updated(columnName: column.Name),
-                                    update: update));
-                                break;
+                            body.Append(data.Line
+                                .Replace("{Url}", url)
+                                .Replace("{LoginId}", context.User.LoginId)
+                                .Replace("{UserName}", context.User.Name)
+                                .Replace("{MailAddress}", mailAddress));
+                            body.Append("\n");
                         }
-                        break;
-                }
-            });
+                        else
+                        {
+                            switch (column.Name)
+                            {
+                                case "Title":
+                                    body.Append(Title.ToNotice(
+                                        context: context,
+                                        saved: SavedTitle,
+                                        column: column,
+                                        notificationColumnFormat: data.Format,
+                                        updated: Title_Updated(context: context),
+                                        update: update));
+                                    break;
+                                case "Body":
+                                    body.Append(Body.ToNotice(
+                                        context: context,
+                                        saved: SavedBody,
+                                        column: column,
+                                        notificationColumnFormat: data.Format,
+                                        updated: Body_Updated(context: context),
+                                        update: update));
+                                    break;
+                                case "StartTime":
+                                    body.Append(StartTime.ToNotice(
+                                        context: context,
+                                        saved: SavedStartTime,
+                                        column: column,
+                                        notificationColumnFormat: data.Format,
+                                        updated: StartTime_Updated(context: context),
+                                        update: update));
+                                    break;
+                                case "CompletionTime":
+                                    body.Append(CompletionTime.ToNotice(
+                                        context: context,
+                                        saved: SavedCompletionTime,
+                                        column: column,
+                                        notificationColumnFormat: data.Format,
+                                        updated: CompletionTime_Updated(context: context),
+                                        update: update));
+                                    break;
+                                case "WorkValue":
+                                    body.Append(WorkValue.ToNotice(
+                                        context: context,
+                                        saved: SavedWorkValue,
+                                        column: column,
+                                        notificationColumnFormat: data.Format,
+                                        updated: WorkValue_Updated(context: context),
+                                        update: update));
+                                    break;
+                                case "ProgressRate":
+                                    body.Append(ProgressRate.ToNotice(
+                                        context: context,
+                                        saved: SavedProgressRate,
+                                        column: column,
+                                        notificationColumnFormat: data.Format,
+                                        updated: ProgressRate_Updated(context: context),
+                                        update: update));
+                                    break;
+                                case "Status":
+                                    body.Append(Status.ToNotice(
+                                        context: context,
+                                        saved: SavedStatus,
+                                        column: column,
+                                        notificationColumnFormat: data.Format,
+                                        updated: Status_Updated(context: context),
+                                        update: update));
+                                    break;
+                                case "Manager":
+                                    body.Append(Manager.ToNotice(
+                                        context: context,
+                                        saved: SavedManager,
+                                        column: column,
+                                        notificationColumnFormat: data.Format,
+                                        updated: Manager_Updated(context: context),
+                                        update: update));
+                                    break;
+                                case "Owner":
+                                    body.Append(Owner.ToNotice(
+                                        context: context,
+                                        saved: SavedOwner,
+                                        column: column,
+                                        notificationColumnFormat: data.Format,
+                                        updated: Owner_Updated(context: context),
+                                        update: update));
+                                    break;
+                                case "Locked":
+                                    body.Append(Locked.ToNotice(
+                                        context: context,
+                                        saved: SavedLocked,
+                                        column: column,
+                                        notificationColumnFormat: data.Format,
+                                        updated: Locked_Updated(context: context),
+                                        update: update));
+                                    break;
+                                case "Comments":
+                                    body.Append(Comments.ToNotice(
+                                        context: context,
+                                        saved: SavedComments,
+                                        column: column,
+                                        notificationColumnFormat: data.Format,
+                                        updated: Comments_Updated(context: context),
+                                        update: update));
+                                    break;
+                                case "Creator":
+                                    body.Append(Creator.ToNotice(
+                                        context: context,
+                                        saved: SavedCreator,
+                                        column: column,
+                                        notificationColumnFormat: data.Format,
+                                        updated: Creator_Updated(context: context),
+                                        update: update));
+                                    break;
+                                case "Updator":
+                                    body.Append(Updator.ToNotice(
+                                        context: context,
+                                        saved: SavedUpdator,
+                                        column: column,
+                                        notificationColumnFormat: data.Format,
+                                        updated: Updator_Updated(context: context),
+                                        update: update));
+                                    break;
+                                default:
+                                    switch (Def.ExtendedColumnTypes.Get(column.Name))
+                                    {
+                                        case "Class":
+                                            body.Append(Class(columnName: column.Name).ToNotice(
+                                                context: context,
+                                                saved: SavedClass(columnName: column.Name),
+                                                column: column,
+                                                notificationColumnFormat: data.Format,
+                                                updated: Class_Updated(columnName: column.Name),
+                                                update: update));
+                                            break;
+                                        case "Num":
+                                            body.Append(Num(columnName: column.Name).ToNotice(
+                                                context: context,
+                                                saved: SavedNum(columnName: column.Name),
+                                                column: column,
+                                                notificationColumnFormat: data.Format,
+                                                updated: Num_Updated(columnName: column.Name),
+                                                update: update));
+                                            break;
+                                        case "Date":
+                                            body.Append(Date(columnName: column.Name).ToNotice(
+                                                context: context,
+                                                saved: SavedDate(columnName: column.Name),
+                                                column: column,
+                                                notificationColumnFormat: data.Format,
+                                                updated: Date_Updated(columnName: column.Name),
+                                                update: update));
+                                            break;
+                                        case "Description":
+                                            body.Append(Description(columnName: column.Name).ToNotice(
+                                                context: context,
+                                                saved: SavedDescription(columnName: column.Name),
+                                                column: column,
+                                                notificationColumnFormat: data.Format,
+                                                updated: Description_Updated(columnName: column.Name),
+                                                update: update));
+                                            break;
+                                        case "Check":
+                                            body.Append(Check(columnName: column.Name).ToNotice(
+                                                context: context,
+                                                saved: SavedCheck(columnName: column.Name),
+                                                column: column,
+                                                notificationColumnFormat: data.Format,
+                                                updated: Check_Updated(columnName: column.Name),
+                                                update: update));
+                                            break;
+                                        case "Attachments":
+                                            body.Append(Attachments(columnName: column.Name).ToNotice(
+                                                context: context,
+                                                saved: SavedAttachments(columnName: column.Name),
+                                                column: column,
+                                                notificationColumnFormat: data.Format,
+                                                updated: Attachments_Updated(columnName: column.Name),
+                                                update: update));
+                                            break;
+                                    }
+                                    break;
+                            }
+                        }
+                    });
             return body.ToString();
         }
 

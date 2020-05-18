@@ -28,6 +28,9 @@
                 .split(',')
                 .indexOf($('#NotificationType').val()) !== -1);
     });
+    $(document).on('change', '#NotificationUseCustomFormat', function () {
+        $('#NotificationFormatField').toggle($('#NotificationUseCustomFormat').prop('checked'));
+    });
     $(document).on('click', '#SummarySettings .grid-row button', function () {
         var $control = $($(this).attr('data-selector'))
         $p.getData($control)[$control.attr('id') + "Id"] = $(this).attr('data-id');

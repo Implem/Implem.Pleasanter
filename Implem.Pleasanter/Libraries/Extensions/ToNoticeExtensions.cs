@@ -15,11 +15,12 @@ namespace Implem.Pleasanter.Libraries.Extensions
             Context context,
             bool saved,
             Column column,
+            NotificationColumnFormat notificationColumnFormat,
             bool updated,
             bool update)
         {
-            return self.ToString().ToNoticeLine(
-                context: context,
+            return notificationColumnFormat.DisplayText(
+                self: self.ToString(),
                 saved: saved.ToString(),
                 column: column,
                 updated: updated,
@@ -31,11 +32,12 @@ namespace Implem.Pleasanter.Libraries.Extensions
             Context context,
             int saved,
             Column column,
+            NotificationColumnFormat notificationColumnFormat,
             bool updated,
             bool update)
         {
-            return self.ToString().ToNoticeLine(
-                context: context,
+            return notificationColumnFormat.DisplayText(
+                self: self.ToString(),
                 saved: saved.ToString(),
                 column: column,
                 updated: updated,
@@ -47,11 +49,12 @@ namespace Implem.Pleasanter.Libraries.Extensions
             Context context,
             long saved,
             Column column,
+            NotificationColumnFormat notificationColumnFormat,
             bool updated,
             bool update)
         {
-            return self.ToString().ToNoticeLine(
-                context: context,
+            return notificationColumnFormat.DisplayText(
+                self: self.ToString(),
                 saved: saved.ToString(),
                 column: column,
                 updated: updated,
@@ -63,21 +66,22 @@ namespace Implem.Pleasanter.Libraries.Extensions
             Context context,
             decimal saved,
             Column column,
+            NotificationColumnFormat notificationColumnFormat,
             bool updated,
             bool update)
         {
-            return column.Display(
-                context: context,
-                value: self,
-                unit: true).ToNoticeLine(
+            return notificationColumnFormat.DisplayText(
+                self: column.Display(
                     context: context,
-                    saved: column.Display(
-                        context: context,
-                        value: saved,
-                        unit: true),
-                    column: column,
-                    updated: updated,
-                    update: update);
+                    value: self,
+                    unit: true),
+                saved: column.Display(
+                    context: context,
+                    value: saved,
+                    unit: true),
+                column: column,
+                updated: updated,
+                update: update);
         }
 
         public static string ToNotice(
@@ -85,19 +89,20 @@ namespace Implem.Pleasanter.Libraries.Extensions
             Context context,
             DateTime saved,
             Column column,
+            NotificationColumnFormat notificationColumnFormat,
             bool updated,
             bool update)
         {
-            return column.DisplayControl(
-                context: context,
-                value: self.ToLocal(context: context)).ToNoticeLine(
+            return notificationColumnFormat.DisplayText(
+                self: column.DisplayControl(
                     context: context,
-                    saved: column.DisplayControl(
-                        context: context,
-                        value: saved.ToLocal(context: context)),
-                    column: column,
-                    updated: updated,
-                    update: update);
+                    value: self.ToLocal(context: context)),
+                saved: column.DisplayControl(
+                    context: context,
+                    value: saved.ToLocal(context: context)),
+                column: column,
+                updated: updated,
+                update: update);
         }
 
         public static string ToNotice(
@@ -105,18 +110,19 @@ namespace Implem.Pleasanter.Libraries.Extensions
             Context context,
             string saved,
             Column column,
+            NotificationColumnFormat notificationColumnFormat,
             bool updated,
             bool update)
         {
             return column.HasChoices()
-                ? column.Choice(self).Text.ToNoticeLine(
-                    context: context,
+                ? notificationColumnFormat.DisplayText(
+                    self: column.Choice(self).Text,
                     saved: column.Choice(saved).Text,
                     column: column,
                     updated: updated,
                     update: update)
-                : self.ToNoticeLine(
-                    context: context,
+                : notificationColumnFormat.DisplayText(
+                    self: self,
                     saved: saved,
                     column: column,
                     updated: updated,
@@ -128,46 +134,33 @@ namespace Implem.Pleasanter.Libraries.Extensions
             Context context,
             string saved,
             Column column,
+            NotificationColumnFormat notificationColumnFormat,
             bool updated,
             bool update)
         {
             var body = new StringBuilder();
+            body.Append("\n");
             self.ForEach(attachment =>
             {
                 if (attachment.Added == true)
                 {
-                    body.Append("  {0} - {1}\r\n".Params(
+                    body.Append("  {0} - {1}\n".Params(
                         Displays.Add(context: context),
                         attachment.Name));
                 }
                 else if (attachment.Deleted == true)
                 {
-                    body.Append("  {0} - {1}\r\n".Params(
+                    body.Append("  {0} - {1}\n".Params(
                         Displays.Delete(context: context),
                         attachment.Name));
                 }
             });
-            return body.ToString().IsNullOrEmpty()
-                ? string.Empty
-                : column.LabelText + " : \r\n" + body;
-        }
-
-        public static string ToNoticeLine(
-            this string self,
-            Context context,
-            string saved,
-            Column column,
-            bool updated,
-            bool update,
-            string suffix = null)
-        {
-            return update
-                ? updated
-                    ? saved != string.Empty
-                        ? "{0}{3} : {2} => {1}\r\n".Params(column.LabelText, self, saved, suffix)
-                        : "{0}{2} : {1}\r\n".Params(column.LabelText, self, suffix)
-                    : string.Empty
-                : "{0}{2} : {1}\r\n".Params(column.LabelText, self, suffix);
+            return notificationColumnFormat.DisplayText(
+                self: body.ToString(),
+                saved: null,
+                column: column,
+                updated: updated && !body.ToString().IsNullOrEmpty(),
+                update: update);
         }
     }
 }

@@ -105,21 +105,22 @@ namespace Implem.Pleasanter.Libraries.DataTypes
             Context context,
             decimal saved,
             Column column,
+            NotificationColumnFormat notificationColumnFormat,
             bool updated,
             bool update)
         {
-            return column.Display(
-                context: context,
-                value: Value,
-                unit: true).ToNoticeLine(
+            return notificationColumnFormat.DisplayText(
+                self: column.Display(
                     context: context,
-                    saved: column.Display(
-                        context: context,
-                        value: saved,
-                        unit: true),
-                    column: column,
-                    updated: updated,
-                    update: update);
+                    value: Value,
+                    unit: true),
+                saved: column.Display(
+                    context: context,
+                    value: saved,
+                    unit: true),
+                column: column,
+                updated: updated,
+                update: update);
         }
 
         public bool InitialValue(Context context)

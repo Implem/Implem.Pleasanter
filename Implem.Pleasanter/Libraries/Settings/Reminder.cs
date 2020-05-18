@@ -5,11 +5,13 @@ using Implem.Pleasanter.Interfaces;
 using Implem.Pleasanter.Libraries.DataSources;
 using Implem.Pleasanter.Libraries.DataTypes;
 using Implem.Pleasanter.Libraries.Extensions;
+using Implem.Pleasanter.Libraries.Mails;
 using Implem.Pleasanter.Libraries.Requests;
 using Implem.Pleasanter.Libraries.Responses;
 using Implem.Pleasanter.Libraries.Server;
 using Implem.Pleasanter.Models;
 using System;
+using System.Collections.Generic;
 using System.Data;
 using System.Linq;
 using System.Net.Mail;
@@ -114,40 +116,52 @@ namespace Implem.Pleasanter.Libraries.Settings
             Disabled = disabled;
         }
 
-        public string DisplayLine(SiteSettings ss)
-        {
-            return ss.ColumnNameToLabelText(Line);
-        }
-
         public string GetColumn(SiteSettings ss)
         {
-            return Column ??
-                (ss.ColumnHash.ContainsKey("CompletionTime")
+            return Column
+                ?? (ss.ColumnHash.ContainsKey("CompletionTime")
                     ? "CompletionTime"
                     : null);
         }
 
         public void Remind(Context context, SiteSettings ss, bool test = false)
         {
-            if (Disabled == true && !test)
-            {
-                return;
-            }
-            ss.SetChoiceHash(context: context, withLink: true, all: true);
-            var dataSet = GetDataSet(context: context, ss: ss);
-            if (Rds.Count(dataSet) > 0 || NotSendIfNotApplicable != true)
-            {
-                new OutgoingMailModel()
-                {
-                    Title = GetSubject(context: context, test: test),
-                    Body = GetBody(context: context, ss: ss, dataSet: dataSet),
-                    From = new MailAddress(From),
-                    To = To
-                }.Send(context: context, ss: ss);
-            }
+            if (Disabled == true && !test) return;
+            ss.SetChoiceHash(
+                context: context,
+                withLink: true,
+                all: true);
+            var toColumns = ss.IncludedColumns(To);
+            var fixedTo = GetFixedTo(
+                context: context,
+                toColumns: toColumns);
+            GetDataHash(
+                context: context,
+                ss: ss,
+                toColumns: toColumns,
+                fixedTo: fixedTo)
+                    .Where(data => data.Value.Count > 0
+                        || NotSendIfNotApplicable != true)
+                    .ForEach(data =>
+                    {
+                        new OutgoingMailModel()
+                        {
+                            Title = GetSubject(
+                                context: context,
+                                test: test),
+                            Body = GetBody(
+                                context: context,
+                                ss: ss,
+                                dataRows: data.Value.Values.ToList()),
+                            From = new MailAddress(From),
+                            To = data.Key
+                        }.Send(
+                            context: context,
+                            ss: ss);
+                    });
             if (!test)
             {
-                Repository.ExecuteNonQuery(
+                Rds.ExecuteNonQuery(
                     context: context,
                     statements: Rds.UpdateReminderSchedules(
                         param: Rds.ReminderSchedulesParam()
@@ -160,6 +174,58 @@ namespace Implem.Pleasanter.Libraries.Settings
             }
         }
 
+        private string GetFixedTo(Context context, List<Column> toColumns)
+        {
+            var to = To;
+            toColumns.ForEach(toColumn =>
+                to = to.Replace($"[{toColumn.ColumnName}]", string.Empty));
+            to = Addresses.GetEnumerable(
+                context: context,
+                addresses: to)
+                    .Join(",");
+            return to;
+        }
+
+        private Dictionary<string, Dictionary<long, DataRow>> GetDataHash(
+            Context context, SiteSettings ss, List<Column> toColumns, string fixedTo)
+        {
+            var hash = new Dictionary<string, Dictionary<long, DataRow>>()
+            {
+                {
+                    fixedTo,
+                    new Dictionary<long, DataRow>()
+                }
+            };
+            GetDataSet(
+                context: context,
+                ss: ss,
+                toColumns: toColumns)
+                    .Tables["Main"]
+                    .AsEnumerable()
+                    .ForEach(dataRow =>
+                    {
+                        var id = dataRow.Long(Rds.IdColumn(ss.ReferenceType));
+                        hash[fixedTo].AddIfNotConainsKey(id, dataRow);
+                        toColumns.ForEach(toColumn =>
+                            Addresses.GetEnumerable(
+                                context: context,
+                                addresses: toColumn.UserColumn
+                                    ? $"[User{dataRow.String(toColumn.ColumnName)}]"
+                                    : dataRow.String(toColumn.ColumnName))
+                                        .ForEach(mailAddress =>
+                                        {
+                                            if (!hash.ContainsKey(mailAddress))
+                                            {
+                                                hash.Add(
+                                                    mailAddress,
+                                                    new Dictionary<long, DataRow>());
+                                            }
+                                            hash[mailAddress].AddIfNotConainsKey(id, dataRow);
+                                        }));
+                    });
+            return hash;
+        }
+
         private Title GetSubject(Context context, bool test)
         {
             return new Title((test
@@ -168,11 +234,10 @@ namespace Implem.Pleasanter.Libraries.Settings
                     + Subject);
         }
 
-        private string GetBody(Context context, SiteSettings ss, DataSet dataSet)
+        private string GetBody(Context context, SiteSettings ss, List<DataRow> dataRows)
         {
             var sb = new StringBuilder();
-            var timeGroups = dataSet.Tables["Main"]
-                .AsEnumerable()
+            var timeGroups = dataRows
                 .GroupBy(dataRow => dataRow.DateTime(Column).Date)
                 .ToList();
             timeGroups.ForEach(timeGroup =>
@@ -225,17 +290,21 @@ namespace Implem.Pleasanter.Libraries.Settings
                 : Body + "\n" + sb.ToString();
         }
 
-        private DataSet GetDataSet(Context context, SiteSettings ss)
+        private DataSet GetDataSet(Context context, SiteSettings ss, List<Column> toColumns)
         {
-            var orderByColumn = ss.GetColumn(context: context, columnName: Column);
+            var orderByColumn = ss.GetColumn(
+                context: context,
+                columnName: Column);
             var column = new SqlColumnCollection()
-                .Add(context: context, column: ss.GetColumn(
+                .Add(column: ss.GetColumn(
                     context: context,
                     columnName: Rds.IdColumn(ss.ReferenceType)))
-                .Add(context: context, column: orderByColumn)
+                .Add(column: orderByColumn)
                 .ItemTitle(ss.ReferenceType);
+            toColumns.ForEach(toColumn =>
+                column.Add(column: toColumn));
             var columns = ss.IncludedColumns(Line).ToList();
-            columns.ForEach(o => column.Add(context: context, column: o));
+            columns.ForEach(o => column.Add(column: o));
             if (columns.Any(o => o.ColumnName == "Status"))
             {
                 columns.Add(ss.GetColumn(context: context, columnName: "Status"));

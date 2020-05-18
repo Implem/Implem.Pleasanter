@@ -751,7 +751,9 @@ namespace Implem.Pleasanter.Libraries.Settings
                 {
                     ss.Notifications = new SettingList<Notification>();
                 }
-                ss.Notifications.Add(notification.GetRecordingData());
+                ss.Notifications.Add(notification.GetRecordingData(
+                    context: context,
+                    ss: ss));
             });
             Reminders?.ForEach(reminder =>
             {
@@ -2731,26 +2733,35 @@ namespace Implem.Pleasanter.Libraries.Settings
             return text;
         }
 
-        public IEnumerable<string> IncludedColumns()
+        public List<string> IncludedColumns()
         {
             return IncludedColumns(Columns
                 .Where(o => !o.GridDesign.IsNullOrEmpty())
                 .Select(o => o.GridDesign)
                 .Join(string.Empty))
-                    .Select(o => o.ColumnName);
+                    .Select(o => o.ColumnName)
+                    .ToList();
         }
 
-        public IEnumerable<Column> IncludedColumns(string value, bool labelText = false)
+        public List<Column> IncludedColumns(string value, bool labelText = false)
         {
-            foreach (Match match in value.RegexMatches(@"(?<=\[).+?(?=\])"))
+            var columns = new List<Column>();
+            if (!value.IsNullOrEmpty())
             {
-                var column = labelText
-                    ? Columns.FirstOrDefault(o =>
-                        o.LabelText == match.Value)
-                    : Columns.FirstOrDefault(o =>
-                        o.ColumnName == match.Value);
-                if (column != null) yield return column;
+                foreach (Match match in value.RegexMatches(@"(?<=\[).+?(?=\])"))
+                {
+                    var column = labelText
+                        ? Columns.FirstOrDefault(o =>
+                            o.LabelText == match.Value)
+                        : Columns.FirstOrDefault(o =>
+                            o.ColumnName == match.Value);
+                    if (column != null)
+                    {
+                        columns.Add(column);
+                    }
+                }
             }
+            return columns;
         }
 
         public List<Link> GetUseSearchLinks(Context context)

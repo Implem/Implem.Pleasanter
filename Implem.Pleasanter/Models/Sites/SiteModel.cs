@@ -371,6 +371,43 @@ namespace Implem.Pleasanter.Models
             return hash;
         }
 
+        public bool PropertyUpdated(Context context, string name)
+        {
+            switch (name)
+            {
+                case "TenantId": return TenantId_Updated(context: context);
+                case "Ver": return Ver_Updated(context: context);
+                case "Title": return Title_Updated(context: context);
+                case "Body": return Body_Updated(context: context);
+                case "GridGuide": return GridGuide_Updated(context: context);
+                case "EditorGuide": return EditorGuide_Updated(context: context);
+                case "ReferenceType": return ReferenceType_Updated(context: context);
+                case "ParentId": return ParentId_Updated(context: context);
+                case "InheritPermission": return InheritPermission_Updated(context: context);
+                case "SiteSettings": return SiteSettings_Updated(context: context);
+                case "Publish": return Publish_Updated(context: context);
+                case "LockedTime": return LockedTime_Updated(context: context);
+                case "LockedUser": return LockedUser_Updated(context: context);
+                case "ApiCountDate": return ApiCountDate_Updated(context: context);
+                case "ApiCount": return ApiCount_Updated(context: context);
+                case "Comments": return Comments_Updated(context: context);
+                case "Creator": return Creator_Updated(context: context);
+                case "Updator": return Updator_Updated(context: context);
+                default: 
+                    switch (Def.ExtendedColumnTypes.Get(name))
+                    {
+                        case "Class": return Class_Updated(name);
+                        case "Num": return Num_Updated(name);
+                        case "Date": return Date_Updated(name);
+                        case "Description": return Description_Updated(name);
+                        case "Check": return Check_Updated(name);
+                        case "Attachments": return Attachments_Updated(name);
+                    }
+                    break;
+            }
+            return false;
+        }
+
         public List<long> SwitchTargets;
 
         public SiteModel()
@@ -2759,6 +2796,9 @@ namespace Implem.Pleasanter.Models
                     prefix: context.Forms.Data("NotificationPrefix"),
                     address: context.Forms.Data("NotificationAddress"),
                     token: context.Forms.Data("NotificationToken"),
+                    useCustomFormat: context.Forms.Bool("NotificationUseCustomFormat"),
+                    format: SiteSettings.LabelTextToColumnName(
+                        context.Forms.Data("NotificationFormat")),
                     monitorChangesColumns: context.Forms.List("MonitorChangesColumnsAll"),
                     beforeCondition: context.Forms.Int("BeforeCondition"),
                     afterCondition: context.Forms.Int("AfterCondition"),
@@ -2791,6 +2831,9 @@ namespace Implem.Pleasanter.Models
                         prefix: context.Forms.Data("NotificationPrefix"),
                         address: context.Forms.Data("NotificationAddress"),
                         token: context.Forms.Data("NotificationToken"),
+                        useCustomFormat: context.Forms.Bool("NotificationUseCustomFormat"),
+                        format: SiteSettings.LabelTextToColumnName(
+                            context.Forms.Data("NotificationFormat")),
                         monitorChangesColumns: context.Forms.List("MonitorChangesColumnsAll"),
                         beforeCondition: context.Forms.Int("BeforeCondition"),
                         afterCondition: context.Forms.Int("AfterCondition"),
@@ -2933,7 +2976,9 @@ namespace Implem.Pleasanter.Models
             }
             else
             {
-                var invalid = SiteValidators.SetReminder(context: context);
+                var invalid = SiteValidators.SetReminder(
+                    context: context,
+                    ss: SiteSettings);
                 switch (invalid.Type)
                 {
                     case Error.Types.None:
@@ -2944,7 +2989,8 @@ namespace Implem.Pleasanter.Models
                             line: SiteSettings.LabelTextToColumnName(
                                 context.Forms.Data("ReminderLine")),
                             from: context.Forms.Data("ReminderFrom"),
-                            to: context.Forms.Data("ReminderTo"),
+                            to: SiteSettings.LabelTextToColumnName(
+                                context.Forms.Data("ReminderTo")),
                             column: context.Forms.Data("ReminderColumn"),
                             startDateTime: context.Forms.DateTime("ReminderStartDateTime"),
                             type: (Times.RepeatTypes)context.Forms.Int("ReminderType"),
@@ -2981,7 +3027,9 @@ namespace Implem.Pleasanter.Models
                 }
                 else
                 {
-                    var invalid = SiteValidators.SetReminder(context: context);
+                    var invalid = SiteValidators.SetReminder(
+                        context: context,
+                        ss: SiteSettings);
                     switch (invalid.Type)
                     {
                         case Error.Types.None:
@@ -2991,7 +3039,8 @@ namespace Implem.Pleasanter.Models
                                 line: SiteSettings.LabelTextToColumnName(
                                     context.Forms.Data("ReminderLine")),
                                 from: context.Forms.Data("ReminderFrom"),
-                                to: context.Forms.Data("ReminderTo"),
+                                to: SiteSettings.LabelTextToColumnName(
+                                    context.Forms.Data("ReminderTo")),
                                 column: context.Forms.Data("ReminderColumn"),
                                 startDateTime: context.Forms.DateTime("ReminderStartDateTime"),
                                 type: (Times.RepeatTypes)context.Forms.Int("ReminderType"),

@@ -14,11 +14,16 @@ namespace Implem.Pleasanter.Libraries.Mails
         public static IEnumerable<string> GetEnumerable(
             Context context, string addresses)
         {
-            return addresses.Split(';', ',')
+            return addresses
+                .Split(';', ',', '\n', ' ')
                 .Select(address => address.Trim())
                 .SelectMany(address => ConvertedMailAddresses(
                     context: context,
                     address: address))
+                .Where(o => Get(o) == o)
+                .Where(o => ExternalMailAddress(
+                    context: context,
+                    addresses: o).IsNullOrEmpty())
                 .Where(address => !address.IsNullOrEmpty());
         }
 

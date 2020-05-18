@@ -274,11 +274,12 @@ namespace Implem.Pleasanter.Libraries.DataTypes
             Context context,
             string saved,
             Column column,
+            NotificationColumnFormat notificationColumnFormat,
             bool updated,
             bool update)
         {
-            return Value.ToNoticeLine(
-                context: context,
+            return notificationColumnFormat.DisplayText(
+                self: Value,
                 saved: saved,
                 column: column,
                 updated: updated,

@@ -312,19 +312,22 @@ namespace Implem.Pleasanter.Models
             return new ErrorData(type: Error.Types.None);
         }
 
-        public static ErrorData SetReminder(Context context)
+        public static ErrorData SetReminder(Context context, SiteSettings ss)
         {
+            var to = ss.LabelTextToColumnName(context.Forms.Data("ReminderTo"));
+            ss.IncludedColumns(value: to).ForEach(column =>
+                to = to.Replace($"[{column.ColumnName}]", string.Empty));
             var badFrom = MailAddressValidators.BadMailAddress(
                 context: context,
                 addresses: context.Forms.Data("ReminderFrom"));
             if (badFrom.Type != Error.Types.None) return badFrom;
             var badTo = MailAddressValidators.BadMailAddress(
                 context: context,
-                addresses: context.Forms.Data("ReminderTo"));
+                addresses: to);
             if (badTo.Type != Error.Types.None) return badTo;
             var externalTo = MailAddressValidators.ExternalMailAddress(
                 context: context,
-                addresses: context.Forms.Data("ReminderTo"));
+                addresses: to);
             if (externalTo.Type != Error.Types.None) return externalTo;
             return new ErrorData(type: Error.Types.None);
         }

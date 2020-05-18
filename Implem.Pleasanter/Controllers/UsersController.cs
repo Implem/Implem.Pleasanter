@@ -216,7 +216,9 @@ namespace Implem.Pleasanter.Controllers
                     Authentications.SignOut(context: context);
                 }
                 log.Finish(context: context);
-                return (Locations.Top(context: context), null, null);
+                return (isLocalUrl
+                    ? returnUrl
+                    : Locations.Top(context: context), null, null);
             }
             if ((Parameters.Authentication.Provider == "SAML-MultiTenant") && (ssocode != string.Empty))
             {

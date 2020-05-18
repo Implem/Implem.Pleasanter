@@ -22,6 +22,8 @@ namespace Implem.Pleasanter.Libraries.Settings
         public string Prefix;
         public string Address;
         public string Token;
+        public bool? UseCustomFormat;
+        public string Format;
         public List<string> MonitorChangesColumns;
         public int BeforeCondition;
         public int AfterCondition;
@@ -62,6 +64,8 @@ namespace Implem.Pleasanter.Libraries.Settings
             string prefix,
             string address,
             string token,
+            bool? useCustomFormat,
+            string format,
             List<string> monitorChangesColumns,
             int beforeCondition,
             int afterCondition,
@@ -73,6 +77,8 @@ namespace Implem.Pleasanter.Libraries.Settings
             Prefix = prefix;
             Address = address;
             Token = token;
+            UseCustomFormat = useCustomFormat;
+            Format = format;
             MonitorChangesColumns = monitorChangesColumns;
             BeforeCondition = beforeCondition;
             AfterCondition = afterCondition;
@@ -95,6 +101,8 @@ namespace Implem.Pleasanter.Libraries.Settings
             string prefix,
             string address,
             string token,
+            bool? useCustomFormat,
+            string format,
             List<string> monitorChangesColumns,
             int beforeCondition,
             int afterCondition,
@@ -105,6 +113,8 @@ namespace Implem.Pleasanter.Libraries.Settings
             Prefix = prefix;
             Address = address;
             Token = token;
+            UseCustomFormat = useCustomFormat;
+            Format = format;
             MonitorChangesColumns = monitorChangesColumns;
             BeforeCondition = beforeCondition;
             AfterCondition = afterCondition;
@@ -112,7 +122,7 @@ namespace Implem.Pleasanter.Libraries.Settings
             Disabled = disabled;
         }
 
-        public void Send(Context context, SiteSettings ss, string title, string url, string body)
+        public void Send(Context context, SiteSettings ss, string title, string body)
         {
             if (Disabled == true)
             {
@@ -136,9 +146,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                         new OutgoingMailModel()
                         {
                             Title = new Title(Prefix + title),
-                            Body = "{0}\r\n{1}".Params(url, body) + (Addresses.FixedFrom(mailFrom)
-                                ? "\r\n\r\n{0}<{1}>".Params(mailFrom.DisplayName, mailFrom.Address)
-                                : string.Empty),
+                            Body = body,
                             From = mailFrom,
                             To = Addresses.GetEnumerable(
                                 context: context,
@@ -149,19 +157,21 @@ namespace Implem.Pleasanter.Libraries.Settings
                 case Types.Slack:
                     if (Parameters.Notification.Slack)
                     {
-                        new Slack(context,
-                            "*{0}{1}*\n{2}\n{3}".Params(Prefix, title, url, body),
-                            from)
+                        new Slack(
+                            _context: context,
+                            _text: $"*{Prefix}{title}*\n{body}",
+                            _username: from)
                                 .Send(Address);
                     }
                     break;
                 case Types.ChatWork:
                     if (Parameters.Notification.ChatWork)
                     {
-                        new ChatWork(context,
-                            "*{0}{1}*\n{2}\n{3}".Params(Prefix, title, url, body),
-                            from,
-                            Token)
+                        new ChatWork(
+                            _context: context,
+                            _text: $"*{Prefix}{title}*\n{body}",
+                            _username: from,
+                            _token: Token)
                                 .Send(Address);
                     }
                     break;
@@ -169,17 +179,20 @@ namespace Implem.Pleasanter.Libraries.Settings
                 case Types.LineGroup:
                     if (Parameters.Notification.Line)
                     {
-                        new Line(context,
-                            "*{0}{1}*\n{2}\n{3}".Params(Prefix, title, url, body),
-                            from, Token)
+                        new Line(
+                            _context: context,
+                            _text: $"*{Prefix}{title}*\n{body}",
+                            _username: from,
+                            _token: Token)
                                 .Send(Address, Type == Types.LineGroup);
                     }
                     break;
                 case Types.Teams:
                     if (Parameters.Notification.Teams)
                     {
-                        new Teams(context,
-                            "*{0}{1}*\n{2}\n{3}".Params(Prefix, title, url, body))
+                        new Teams(
+                            _context: context,
+                            _text: $"*{Prefix}{title}*\n{body}")
                                 .Send(Address);
                     }
                     break;
@@ -233,7 +246,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                                 .Join(";"));
         }
 
-        public Notification GetRecordingData()
+        public Notification GetRecordingData(Context context, SiteSettings ss)
         {
             var notification = new Notification
             {
@@ -256,6 +269,16 @@ namespace Implem.Pleasanter.Libraries.Settings
             {
                 notification.Token = Token;
             }
+            if (UseCustomFormat == true)
+            {
+                notification.UseCustomFormat = UseCustomFormat;
+                if (GetDefaultFormat(
+                    context: context,
+                    ss: ss) != Format)
+                {
+                    notification.Format = Format;
+                }
+            }
             if (MonitorChangesColumns?.Any() == true)
             {
                 notification.MonitorChangesColumns = MonitorChangesColumns;
@@ -264,6 +287,26 @@ namespace Implem.Pleasanter.Libraries.Settings
             notification.AfterCondition = AfterCondition;
             notification.Expression = Expression;
             return notification;
+        }
+
+        public string GetFormat(Context context, SiteSettings ss)
+        {
+            return Strings.CoalesceEmpty(Format, GetDefaultFormat(
+                context: context,
+                ss: ss));
+        }
+
+        public string GetDefaultFormat(Context context, SiteSettings ss)
+        {
+            return "{Url}\n"
+                + ColumnCollection(
+                    context: context,
+                    ss: ss,
+                    update: true)
+                        .Select(o => new NotificationColumnFormat(
+                            columnName: o.ColumnName).ToJson())
+                        .Join("\n")
+                + "\n\n{UserName}<{MailAddress}>";
         }
     }
 }

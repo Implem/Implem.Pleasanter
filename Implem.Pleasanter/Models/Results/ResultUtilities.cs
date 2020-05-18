@@ -2317,10 +2317,10 @@ namespace Implem.Pleasanter.Models
                     title: Displays.BulkUpdated(
                         context: context,
                         data: count.ToString()).ToString(),
-                    url: Locations.ItemIndex(
+                    body: Locations.ItemIndex(
                         context: context,
-                        ss.SiteId),
-                    body: body.Select(o => o.Key + ":" + o.Value).Join("\n"));
+                        ss.SiteId)
+                            + body.Select(o => o.Key + ":" + o.Value).Join("\n"));
             });
             return GridRows(
                 context: context,

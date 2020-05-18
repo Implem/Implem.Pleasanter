@@ -162,11 +162,12 @@ namespace Implem.Pleasanter.Libraries.DataTypes
             Context context,
             int saved,
             Column column,
+            NotificationColumnFormat notificationColumnFormat,
             bool updated,
             bool update)
         {
-            return Name.ToNoticeLine(
-                context: context,
+            return notificationColumnFormat.DisplayText(
+                self: Name,
                 saved: SiteInfo.User(
                     context: context,
                     userId: saved).Name,
