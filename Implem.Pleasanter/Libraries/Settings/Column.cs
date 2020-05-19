@@ -938,6 +938,9 @@ namespace Implem.Pleasanter.Libraries.Settings
                         case "TimeZone":
                             sql.Users_TimeZone(tableName: path, _as: _as);
                             break;
+                        case "TimeZoneInfo":
+                            sql.Users_TimeZoneInfo(tableName: path, _as: _as);
+                            break;
                         case "DeptCode":
                             sql.Users_DeptCode(tableName: path, _as: _as);
                             break;
