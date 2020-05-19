@@ -30,10 +30,10 @@ namespace Implem.IRds
 
         string CreateTryCast(string left, string name, string type);
 
-        string CreateFullTextWhereItem(string itemsTableName, int count);
+        string CreateFullTextWhereItem(string itemsTableName, string paramName);
 
-        string CreateFullTextWhereBinary(string itemsTableName, int count);
+        string CreateFullTextWhereBinary(string itemsTableName, string paramName);
 
-        List<string> CreateSearchTextWords(List<string> words, string searchText);
+        Dictionary<string,string> CreateSearchTextWords(Dictionary<string,string> words, string searchText);
     }
 }

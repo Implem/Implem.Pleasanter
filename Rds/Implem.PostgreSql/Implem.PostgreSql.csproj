@@ -9,6 +9,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\Implem.Libraries\Implem.Libraries.csproj" />
     <ProjectReference Include="..\Implem.IRds\Implem.IRds.csproj" />
   </ItemGroup>
 

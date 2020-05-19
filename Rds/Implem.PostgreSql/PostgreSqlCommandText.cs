@@ -1,4 +1,5 @@
 ﻿using Implem.IRds;
+using Implem.Libraries.Utilities;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -76,23 +77,23 @@ namespace Implem.PostgreSql
             return commandText.ToString();
         }
 
-        public string CreateFullTextWhereItem(string itemsTableName, int count)
+        public string CreateFullTextWhereItem(string itemsTableName, string paramName)
         {
-            return $"(\"{itemsTableName}\".\"FullText\" %> @SearchText{count}_#CommandCount#)";
+            return $"(\"{itemsTableName}\".\"FullText\" %> @{paramName}#CommandCount#)";
         }
 
         public string CreateFullTextWhereBinary(
             string itemsTableName,
-            int count)
+            string paramName)
         {
-            return $"(exists(select * from \"Binaries\" where \"Binaries\".\"ReferenceId\"=\"{itemsTableName}\".\"ReferenceId\" and (encode(\"Bin\", 'escape') %> @SearchText{count}_#CommandCount#)))";
+            return $"(exists(select * from \"Binaries\" where \"Binaries\".\"ReferenceId\"=\"{itemsTableName}\".\"ReferenceId\" and (encode(\"Bin\", 'escape') %> @{paramName}#CommandCount#)))";
         }
 
-        public List<string> CreateSearchTextWords(
-            List<string> words,
+        public Dictionary<string,string> CreateSearchTextWords(
+            Dictionary<string,string> words,
             string searchText)
         {
-            return new List<string> { searchText };
+            return new Dictionary<string, string> { [Strings.NewGuid()] = searchText };
         }
     }
 }

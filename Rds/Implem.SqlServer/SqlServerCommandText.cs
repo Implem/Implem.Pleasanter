@@ -68,20 +68,21 @@ namespace Implem.SqlServer
             return commandText.ToString();
         }
 
-        public string CreateFullTextWhereItem(string itemsTableName, int count)
+        public string CreateFullTextWhereItem(string itemsTableName, string paramName)
         {
-            return $"(contains(\"{itemsTableName}\".\"FullText\", @SearchText{count}_#CommandCount#))";
+            return $"(contains(\"{itemsTableName}\".\"FullText\", @{paramName}#CommandCount#))";
         }
 
         public string CreateFullTextWhereBinary(
             string itemsTableName,
-            int count)
+            string paramName)
         {
-            return $"(exists(select * from \"Binaries\" where \"Binaries\".\"ReferenceId\"=\"{itemsTableName}\".\"ReferenceId\" and contains(\"Bin\", @SearchText{count}_#CommandCount#)))";
+            return $"(exists(select * from \"Binaries\" where \"Binaries\".\"ReferenceId\"=\"{itemsTableName}\".\"ReferenceId\" and contains(\"Bin\", @{paramName}#CommandCount#)))";
+
         }
 
-        public List<string> CreateSearchTextWords(
-            List<string> words,
+        public Dictionary<string,string> CreateSearchTextWords(
+            Dictionary<string,string> words,
             string searchText)
         {
             return words;
