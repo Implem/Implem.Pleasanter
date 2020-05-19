@@ -2387,7 +2387,7 @@ namespace Implem.Pleasanter.Models
                     param.Locked(resultModel.Locked);
                     break;
                 default:
-                    var columnNameBracket = $"[{column.ColumnName}]";
+                    var columnNameBracket = $"\"{column.ColumnName}\"";
                     switch (Def.ExtendedColumnTypes.Get(column.ColumnName))
                     {
                         case "Class":
