@@ -8,52 +8,44 @@ using Implem.Pleasanter.Libraries.Settings;
 using Implem.Pleasanter.Models;
 using System;
 using System.Collections.Generic;
+using Novell.Directory.Ldap;
 using System.DirectoryServices;
+using Implem.ParameterAccessor.Parts;
+using System.Linq;
 namespace Implem.Pleasanter.Libraries.DataSources
 {
     public static class Ldap
     {
         public static bool Authenticate(Context context, string loginId, string password)
         {
-            DirectorySearcher searcher = null;
             foreach (var ldap in Parameters.Authentication.LdapParameters)
             {
                 try
                 {
-                    searcher = DirectorySearcher(
-                        loginId: ldap.LdapLoginPattern != null
-                            ? ldap.LdapLoginPattern.Replace("{loginId}", loginId)
-                            : loginId,
-                        password: password,
-                        ldap: ldap);
+                    using (var con = LdapConnection(loginId, password, ldap))
+                    {
+                        var entry = con.Search(
+                            con.DN(ldap),
+                            Novell.Directory.Ldap.LdapConnection.ScopeSub,
+                            $"({ldap.LdapSearchProperty}={loginId})",
+                            null,
+                            false).FindOne();
+                        if (entry != null)
+                        {
+                            UpdateOrInsert(
+                                context: context,
+                                loginId: loginId,
+                                entry: entry,
+                                ldap: ldap,
+                                synchronizedTime: DateTime.Now);
+                            return true;
+                        }
+                    }
                 }
                 catch (Exception e)
                 {
                     new SysLogModel(context: context, e: e);
                     return false;
-                }
-                SearchResult result = null;
-                searcher.Filter = ldap.LdapSearchPattern != null
-                    ? ldap.LdapSearchPattern.Replace("{loginId}", loginId)
-                    : $"({ldap.LdapSearchProperty}={loginId})";
-                try
-                {
-                    result = searcher.FindOne();
-                }
-                catch (Exception e)
-                {
-                    new SysLogModel(context: context, e: e);
-                    return false;
-                }
-                if (result != null)
-                {
-                    UpdateOrInsert(
-                        context: context,
-                        loginId: loginId,
-                        result: result,
-                        ldap: ldap,
-                        synchronizedTime: DateTime.Now);
-                    return true;
                 }
             }
             return false;
@@ -65,16 +57,16 @@ namespace Implem.Pleasanter.Libraries.DataSources
             {
                 var root = new DirectoryEntry(ldap.LdapSearchRoot);
                 var searcher = new DirectorySearcher(root);
-                searcher.Filter = ldap.LdapSearchPattern != null
-                    ? ldap.LdapSearchPattern.Replace("{loginId}", loginId)
-                    : $"({ldap.LdapSearchProperty}={loginId.Split_2nd('\\')})";
+                searcher.Filter = "({0}={1})".Params(
+                    ldap.LdapSearchProperty, loginId.Split_2nd('\\'));
                 try
                 {
-                    SearchResult result = searcher.FindOne();
+                    var searchResult = searcher.FindOne();
+                    var entry = new DirectoryEntry(searchResult.Path);
                     UpdateOrInsert(
                         context: context,
                         loginId: loginId,
-                        result: result,
+                        entry: entry,
                         ldap: ldap,
                         synchronizedTime: DateTime.Now);
                 }
@@ -88,33 +80,117 @@ namespace Implem.Pleasanter.Libraries.DataSources
         private static void UpdateOrInsert(
             Context context,
             string loginId,
-            SearchResult result,
+            DirectoryEntry entry,
             ParameterAccessor.Parts.Ldap ldap,
             DateTime synchronizedTime)
         {
-            var deptCode = result.Property(
+            var deptCode = entry.Property(
                 context: context,
                 name: ldap.LdapDeptCode,
                 pattern: ldap.LdapDeptCodePattern);
-            var deptName = result.Property(
+            var deptName = entry.Property(
                 context: context,
                 name: ldap.LdapDeptName,
                 pattern: ldap.LdapDeptNamePattern);
-            var deptExists = !deptCode.IsNullOrEmpty() && !deptName.IsNullOrEmpty();
-            var deptSettings = !ldap.LdapDeptCode.IsNullOrEmpty() && !ldap.LdapDeptName.IsNullOrEmpty();
-            var userCode = result.Property(
+            var userCode = entry.Property(
                 context: context,
                 name: ldap.LdapUserCode,
                 pattern: ldap.LdapUserCodePattern);
             var name = Name(
                 context: context,
                 loginId: loginId,
-                result: result,
+                entry: entry,
                 ldap: ldap);
-            var mailAddress = result.Property(
+            var mailAddress = entry.Property(
                 context: context,
                 name: ldap.LdapMailAddress,
                 pattern: ldap.LdapMailAddressPattern);
+            var attributes = ldap.LdapExtendedAttributes?
+                .Select(attribute =>
+                new KeyValuePair<LdapExtendedAttribute, string>(
+                    attribute,
+                    entry.Property(
+                        context: context,
+                        name: attribute.Name,
+                        pattern: attribute.Pattern)))
+                        .ToList();
+            UpdateOrInsert(
+                context: context,
+                loginId: loginId,
+                deptCode: deptCode,
+                deptName: deptName,
+                userCode: userCode,
+                name: name,
+                mailAddress: mailAddress,
+                attributes: attributes,
+                ldap: ldap,
+                synchronizedTime: synchronizedTime);
+        }
+
+        private static void UpdateOrInsert(
+            Context context,
+            string loginId,
+            LdapEntry entry,
+            ParameterAccessor.Parts.Ldap ldap,
+            DateTime synchronizedTime)
+        {
+            var deptCode = entry.Property(
+                context: context,
+                name: ldap.LdapDeptCode,
+                pattern: ldap.LdapDeptCodePattern);
+            var deptName = entry.Property(
+                context: context,
+                name: ldap.LdapDeptName,
+                pattern: ldap.LdapDeptNamePattern);
+            var userCode = entry.Property(
+                context: context,
+                name: ldap.LdapUserCode,
+                pattern: ldap.LdapUserCodePattern);
+            var name = Name(
+                context: context,
+                loginId: loginId,
+                entry: entry,
+                ldap: ldap);
+            var mailAddress = entry.Property(
+                context: context,
+                name: ldap.LdapMailAddress,
+                pattern: ldap.LdapMailAddressPattern);
+            var attributes = ldap.LdapExtendedAttributes?
+                .Select(attribute =>
+                new KeyValuePair<LdapExtendedAttribute, string>(
+                    attribute,
+                    entry.Property(
+                        context: context,
+                        name: attribute.Name,
+                        pattern: attribute.Pattern)))
+                        .ToList();
+            UpdateOrInsert(
+                context: context,
+                loginId: loginId,
+                deptCode: deptCode,
+                deptName: deptName,
+                userCode: userCode,
+                name: name,
+                mailAddress: mailAddress,
+                attributes: attributes,
+                ldap: ldap,
+                synchronizedTime: synchronizedTime);
+        }
+
+        private static void UpdateOrInsert(
+            Context context,
+            string loginId,
+            string deptCode,
+            string deptName,
+            string userCode,
+            string name,
+            string mailAddress,
+            List<KeyValuePair<LdapExtendedAttribute, string>> attributes,
+            ParameterAccessor.Parts.Ldap ldap,
+            DateTime synchronizedTime)
+        {
+            var deptExists = !deptCode.IsNullOrEmpty() && !deptName.IsNullOrEmpty();
+            var deptSettings = !ldap.LdapDeptCode.IsNullOrEmpty() && !ldap.LdapDeptName.IsNullOrEmpty();
             var statements = new List<SqlStatement>();
             if (deptExists)
             {
@@ -138,14 +214,11 @@ namespace Implem.Pleasanter.Libraries.DataSources
                 .DeptId(0, _using: deptSettings && !deptExists)
                 .LdapSearchRoot(ldap.LdapSearchRoot)
                 .SynchronizedTime(synchronizedTime);
-            ldap.LdapExtendedAttributes?.ForEach(attribute =>
+            attributes?.ForEach(attributeAndName =>
                 param.Add(
-                    $"[Users].[{attribute.ColumnName}]",
-                    attribute.ColumnName,
-                    result.Property(
-                        context: context,
-                        name: attribute.Name,
-                        pattern: attribute.Pattern)));
+                    $"\"Users\".\"{attributeAndName.Key.ColumnName}\"",
+                    attributeAndName.Key.ColumnName,
+                    attributeAndName.Value));
             statements.Add(Rds.UpdateOrInsertUsers(
                 param: param,
                 where: Rds.UsersWhere().LoginId(loginId),
@@ -233,48 +306,48 @@ namespace Implem.Pleasanter.Libraries.DataSources
             };
             try
             {
-                var directorySearcher = DirectorySearcher(
+                using (var con = LdapConnection(
                     ldap.LdapSyncUser,
                     ldap.LdapSyncPassword,
-                    ldap);
-                directorySearcher.Filter = pattern;
-                if (ldap.LdapSyncPageSize == 0)
+                    ldap))
                 {
-                    directorySearcher.PageSize = 1000;
-                }
-                else if (ldap.LdapSyncPageSize > 0)
-                {
-                    directorySearcher.PageSize = ldap.LdapSyncPageSize;
-                }
-                var results = directorySearcher.FindAll();
-                logs.Add("results", results.Count.ToString());
-                foreach (SearchResult result in results)
-                {
-                    if (Enabled(result, ldap))
+                    var results = con.Search(
+                        con.DN(ldap),
+                        Novell.Directory.Ldap.LdapConnection.ScopeSub,
+                        pattern,
+                        null,
+                        false,
+                        new LdapSearchConstraints() { MaxResults = 1000 });
+                    logs.Add("results", results.Count().ToString());
+                    while (results.HasMore())
                     {
-                        logs.Add("result", result.Path);
-                        if (Authentications.Windows(context: context))
+                        var entry = results.Next();
+                        if (Enabled(entry, ldap))
                         {
-                            UpdateOrInsert(
-                                context: context,
-                                loginId: NetBiosName(
+                            logs.Add("entry", entry.Dn);
+                            if (Authentications.Windows(context: context))
+                            {
+                                UpdateOrInsert(
                                     context: context,
-                                    result: result,
-                                    ldap: ldap),
-                                result: result,
-                                ldap: ldap,
-                                synchronizedTime: synchronizedTime);
-                        }
-                        else
-                        {
-                            UpdateOrInsert(
-                                context: context,
-                                loginId: result.Property(
+                                    loginId: NetBiosName(
+                                        context: context,
+                                        entry: entry,
+                                        ldap: ldap),
+                                    entry: entry,
+                                    ldap: ldap,
+                                    synchronizedTime: synchronizedTime);
+                            }
+                            else
+                            {
+                                UpdateOrInsert(
                                     context: context,
-                                    name: ldap.LdapSearchProperty),
-                                result: result,
-                                ldap: ldap,
-                                synchronizedTime: synchronizedTime);
+                                    loginId: entry.Property(
+                                        context: context,
+                                        name: ldap.LdapSearchProperty),
+                                    entry: entry,
+                                    ldap: ldap,
+                                    synchronizedTime: synchronizedTime);
+                            }
                         }
                     }
                 }
@@ -285,56 +358,50 @@ namespace Implem.Pleasanter.Libraries.DataSources
             }
         }
 
-        private static bool Enabled(SearchResult result, ParameterAccessor.Parts.Ldap ldap)
+        private static bool Enabled(LdapEntry entry, ParameterAccessor.Parts.Ldap ldap)
         {
             var accountDisabled = 2;
-            return !ldap.LdapExcludeAccountDisabled
-                || !result.Properties.Contains("UserAccountControl")
-                || (result.Properties["UserAccountControl"].ToLong() & accountDisabled) == 0;
+            return
+                !ldap.LdapExcludeAccountDisabled ||
+                (entry.GetAttribute("UserAccountControl")?.StringValue.ToLong() & accountDisabled) == 0;
         }
 
-        private static DirectorySearcher DirectorySearcher(
+        private static LdapConnection LdapConnection(
             string loginId, string password, ParameterAccessor.Parts.Ldap ldap)
         {
-            if (!Enum.TryParse(ldap.LdapAuthenticationType, out AuthenticationTypes type)
-                || !Enum.IsDefined(typeof(AuthenticationTypes), type))
-            {
-                type = AuthenticationTypes.Secure;
-            }
-            return new DirectorySearcher(loginId == null || password == null
-                ? new DirectoryEntry(ldap.LdapSearchRoot)
-                : new DirectoryEntry(ldap.LdapSearchRoot, loginId, password, type));
+            var url = new LdapUrl(ldap.LdapSearchRoot);
+            var con = new LdapConnection();
+            con.Connect(url.Host, url.Port);
+            if (loginId != null && password != null)
+                con.Bind($"{loginId}@{url.Host}", password);
+            else
+                con.Bind(null, null);
+            return con;
         }
 
         private static string Property(
-            this SearchResult result, Context context, string name, string pattern = null)
+            this DirectoryEntry entry,
+            Context context,
+            string name,
+            string pattern = null)
         {
+            var logs = new Logs()
+            {
+                new Log("entry", entry.Path),
+                new Log("propertyName", name)
+            };
             if (!name.IsNullOrEmpty())
             {
                 try
                 {
-                    if (result.Properties.Contains(name))
-                    {
-                        if (pattern.IsNullOrEmpty())
-                        {
-                            return result.Properties[name][0].ToString();
-                        }
-                        foreach (object obj in result.Properties[name])
-                        {
-                            if (obj.ToString().RegexExists(pattern))
-                            {
-                                return obj.ToString().RegexFirst(pattern);
-                            }
-                        }
-                    }
+                    return entry.Properties[name].Value != null
+                        ? pattern.IsNullOrEmpty()
+                            ? entry.Properties[name].Value.ToString()
+                            : entry.Properties[name].Value.ToString().RegexFirst(pattern)
+                        : string.Empty;
                 }
                 catch (Exception e)
                 {
-                    var logs = new Logs()
-                    {
-                        new Log("result", result.Path),
-                        new Log("propertyName", name)
-                    };
                     new SysLogModel(context: context, e: e, logs: logs);
                 }
             }
@@ -344,15 +411,64 @@ namespace Implem.Pleasanter.Libraries.DataSources
         private static string Name(
             Context context,
             string loginId,
-            SearchResult result,
+            DirectoryEntry entry,
             ParameterAccessor.Parts.Ldap ldap)
         {
             var name = "{0} {1}".Params(
-                result.Property(
+                entry.Property(
                     context: context,
                     name: ldap.LdapLastName,
                     pattern: ldap.LdapLastNamePattern),
-                result.Property(
+                entry.Property(
+                    context: context,
+                    name: ldap.LdapFirstName,
+                    pattern: ldap.LdapFirstNamePattern));
+            return name != " "
+                ? name.Trim()
+                : loginId;
+        }
+
+        private static string Property(
+            this LdapEntry entry,
+            Context context,
+            string name,
+            string pattern = null)
+        {
+            var logs = new Logs()
+            {
+                new Log("entry", entry.Dn),
+                new Log("propertyName", name)
+            };
+            if (!name.IsNullOrEmpty())
+            {
+                try
+                {
+                    return entry.GetAttribute(name)?.StringValue != null
+                        ? pattern.IsNullOrEmpty()
+                            ? entry.GetAttribute(name).StringValue
+                            : entry.GetAttribute(name).StringValue.RegexFirst(pattern)
+                        : string.Empty;
+                }
+                catch (Exception e)
+                {
+                    new SysLogModel(context: context, e: e, logs: logs);
+                }
+            }
+            return string.Empty;
+        }
+
+        private static string Name(
+            Context context,
+            string loginId,
+            LdapEntry entry,
+            ParameterAccessor.Parts.Ldap ldap)
+        {
+            var name = "{0} {1}".Params(
+                entry.Property(
+                    context: context,
+                    name: ldap.LdapLastName,
+                    pattern: ldap.LdapLastNamePattern),
+                entry.Property(
                     context: context,
                     name: ldap.LdapFirstName,
                     pattern: ldap.LdapFirstNamePattern));
@@ -362,11 +478,21 @@ namespace Implem.Pleasanter.Libraries.DataSources
         }
 
         public static string NetBiosName(
-            Context context, SearchResult result, ParameterAccessor.Parts.Ldap ldap)
+            Context context, LdapEntry entry, ParameterAccessor.Parts.Ldap ldap)
         {
-            return ldap.NetBiosDomainName + "\\" + result.Property(
+            return ldap.NetBiosDomainName + "\\" + entry.Property(
                 context: context,
                 name: "sAMAccountName");
+        }
+
+        private static string DN(this LdapConnection con, ParameterAccessor.Parts.Ldap ldap)
+        {
+            return (new LdapUrl(ldap.LdapSearchRoot)).GetDn();
+        }
+
+        private static LdapEntry FindOne(this ILdapSearchResults results)
+        {
+            return results.HasMore() ? results.Next() : null;
         }
     }
 }
