@@ -196,7 +196,7 @@ namespace Implem.Pleasanter.Models
                 context: context,
                 statements: Rds.UpdateDemos(
                     param: Rds.DemosParam().Initialized(true),
-                    where: Rds.DemosWhere().Passphrase(demoModel.Passphrase)));
+                    where: Rds.DemosWhere().Passphrase(demoModel.Passphrase.TrimEnd())));
         }
 
         /// <summary>
