@@ -91,11 +91,12 @@ namespace Implem.Pleasanter.Libraries.DataTypes
             Context context,
             int saved,
             Column column,
+            NotificationColumnFormat notificationColumnFormat,
             bool updated,
             bool update)
         {
-            return column.Choice(Value.ToString()).Text.ToNoticeLine(
-                context: context,
+            return notificationColumnFormat.DisplayText(
+                self: column.Choice(Value.ToString()).Text,
                 saved: column.Choice(saved.ToString()).Text,
                 column: column,
                 updated: updated,

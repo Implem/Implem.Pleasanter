@@ -6871,40 +6871,60 @@ namespace Implem.Pleasanter.Models
                     .Hidden(
                         controlId: "NotificationTokenEnableList",
                         value: NotificationUtilities.Tokens())
-                    .Div(_using: ss.Views?.Any() == true, action: () => hb
-                        .FieldDropDown(
+                    .FieldCheckBox(
+                        controlId: "NotificationUseCustomFormat",
+                        controlCss: " always-send",
+                        labelText: Displays.UseCustomDesign(context: context),
+                        _checked: notification.UseCustomFormat == true)
+                    .FieldTextBox(
+                        textType: HtmlTypes.TextTypes.MultiLine,
+                        fieldId: "NotificationFormatField",
+                        controlId: "NotificationFormat",
+                        fieldCss: "field-wide" + (notification.UseCustomFormat != true
+                            ? " hidden"
+                            : string.Empty),
+                        controlCss: " always-send",
+                        labelText: Displays.Format(context: context),
+                        text: ss.ColumnNameToLabelText(notification.GetFormat(
                             context: context,
-                            controlId: "BeforeCondition",
-                            controlCss: " always-send",
-                            labelText: Displays.BeforeCondition(context: context),
-                            optionCollection: ss.ViewSelectableOptions(),
-                            selectedValue: notification.BeforeCondition.ToString(),
-                            insertBlank: true)
-                        .FieldDropDown(
-                            context: context,
-                            controlId: "Expression",
-                            controlCss: " always-send",
-                            labelText: Displays.Expression(context: context),
-                            optionCollection: new Dictionary<string, string>
-                            {
+                            ss: ss)))
+                    .Div(
+                        css:"both",
+                        _using: ss.Views?.Any() == true,
+                        action: () => hb
+                            .FieldDropDown(
+                                context: context,
+                                controlId: "BeforeCondition",
+                                controlCss: " always-send",
+                                labelText: Displays.BeforeCondition(context: context),
+                                optionCollection: ss.ViewSelectableOptions(),
+                                selectedValue: notification.BeforeCondition.ToString(),
+                                insertBlank: true)
+                            .FieldDropDown(
+                                context: context,
+                                controlId: "Expression",
+                                controlCss: " always-send",
+                                labelText: Displays.Expression(context: context),
+                                optionCollection: new Dictionary<string, string>
                                 {
-                                    Notification.Expressions.Or.ToInt().ToString(),
-                                    Displays.Or(context: context)
+                                    {
+                                        Notification.Expressions.Or.ToInt().ToString(),
+                                        Displays.Or(context: context)
+                                    },
+                                    {
+                                        Notification.Expressions.And.ToInt().ToString(),
+                                        Displays.And(context: context)
+                                    }
                                 },
-                                {
-                                    Notification.Expressions.And.ToInt().ToString(),
-                                    Displays.And(context: context)
-                                }
-                            },
-                            selectedValue: notification.Expression.ToInt().ToString())
-                        .FieldDropDown(
-                            context: context,
-                            controlId: "AfterCondition",
-                            controlCss: " always-send",
-                            labelText: Displays.AfterCondition(context: context),
-                            optionCollection: ss.ViewSelectableOptions(),
-                            selectedValue: notification.AfterCondition.ToString(),
-                            insertBlank: true))
+                                selectedValue: notification.Expression.ToInt().ToString())
+                            .FieldDropDown(
+                                context: context,
+                                controlId: "AfterCondition",
+                                controlCss: " always-send",
+                                labelText: Displays.AfterCondition(context: context),
+                                optionCollection: ss.ViewSelectableOptions(),
+                                selectedValue: notification.AfterCondition.ToString(),
+                                insertBlank: true))
                     .FieldCheckBox(
                         controlId: "NotificationDisabled",
                         controlCss: " always-send",
@@ -7148,11 +7168,11 @@ namespace Implem.Pleasanter.Models
                             .Td(action: () => hb
                                 .Text(text: reminder.Body))
                             .Td(action: () => hb
-                                .Text(text: reminder.DisplayLine(ss)))
+                                .Text(text: ss.ColumnNameToLabelText(reminder.Line)))
                             .Td(action: () => hb
                                 .Text(text: reminder.From))
                             .Td(action: () => hb
-                                .Text(text: reminder.To))
+                                .Text(text: ss.ColumnNameToLabelText(reminder.To)))
                             .Td(action: () => hb
                                 .Text(text: ss.GetColumn(
                                     context: context,
@@ -7228,7 +7248,7 @@ namespace Implem.Pleasanter.Models
                         fieldCss: "field-wide",
                         controlCss: " always-send",
                         labelText: Displays.Row(context: context),
-                        text: reminder.DisplayLine(ss),
+                        text: ss.ColumnNameToLabelText(reminder.Line),
                         validateRequired: true)
                     .FieldTextBox(
                         controlId: "ReminderFrom",
@@ -7242,7 +7262,7 @@ namespace Implem.Pleasanter.Models
                         fieldCss: "field-wide",
                         controlCss: " always-send",
                         labelText: Displays.To(context: context),
-                        text: reminder.To,
+                        text: ss.ColumnNameToLabelText(reminder.To),
                         validateRequired: true)
                     .FieldDropDown(
                         context: context,

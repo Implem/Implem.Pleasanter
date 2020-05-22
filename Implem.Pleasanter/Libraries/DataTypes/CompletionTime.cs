@@ -239,21 +239,22 @@ namespace Implem.Pleasanter.Libraries.DataTypes
             Context context,
             DateTime saved,
             Column column,
+            NotificationColumnFormat notificationColumnFormat,
             bool updated,
             bool update)
         {
-            return column.DisplayControl(
-                context: context,
-                value: DisplayValue).ToNoticeLine(
+            return notificationColumnFormat.DisplayText(
+                self: column.DisplayControl(
                     context: context,
-                    saved: column.DisplayControl(
-                        context: context,
-                        value: saved
-                            .ToLocal(context: context)
-                            .AddDifferenceOfDates(column.EditorFormat, minus: true)),
-                    column: column,
-                    updated: updated,
-                    update: update);
+                    value: DisplayValue),
+                saved: column.DisplayControl(
+                    context: context,
+                    value: saved
+                        .ToLocal(context: context)
+                        .AddDifferenceOfDates(column.EditorFormat, minus: true)),
+                column: column,
+                updated: updated,
+                update: update);
         }
     }
 }

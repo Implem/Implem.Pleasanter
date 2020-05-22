@@ -358,6 +358,7 @@
     <Compile Include="Libraries\Server\UpdateMonitor.cs" />
     <Compile Include="Libraries\Requests\Context.cs" />
     <Compile Include="Libraries\Settings\JoinStack.cs" />
+    <Compile Include="Libraries\Settings\NotificationColumnFormat.cs" />
     <Compile Include="Libraries\Settings\RelatingColumn.cs" />
     <Compile Include="Libraries\Settings\Reminder.cs" />
     <Compile Include="Libraries\Settings\ColumnAccessControl.cs" />

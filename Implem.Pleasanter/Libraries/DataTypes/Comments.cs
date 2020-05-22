@@ -151,9 +151,10 @@ namespace Implem.Pleasanter.Libraries.DataTypes
         }
 
         public string ToNotice(
-            Context context, 
+            Context context,
             string saved,
             Column column,
+            NotificationColumnFormat notificationColumnFormat,
             bool updated,
             bool update)
         {
@@ -164,23 +165,23 @@ namespace Implem.Pleasanter.Libraries.DataTypes
             }
             if (this.Any())
             {
-                body += this.FirstOrDefault(o => o.Created)?
-                    .Body
-                        .ToNoticeLine(
-                            context: context,
-                            saved: string.Empty,
-                            column: column,
-                            updated: updated,
-                            update: update);
+                var created = this.FirstOrDefault(o => o.Created)?.Body;
+                if (created != null)
+                {
+                    body += notificationColumnFormat.DisplayText(
+                        self: created,
+                        saved: string.Empty,
+                        column: column,
+                        updated: updated,
+                        update: update);
+                }
                 this.Where(o => o.Updated).ForEach(comment =>
-                    body += comment.Body
-                        .ToNoticeLine(
-                            context: context,
-                            saved: string.Empty,
-                            column: column,
-                            updated: updated,
-                            update: update,
-                            suffix: Displays.CommentUpdated(context: context)));
+                    body += notificationColumnFormat.DisplayText(
+                        self: comment.Body,
+                        saved: string.Empty,
+                        column: column,
+                        updated: updated,
+                        update: update));
                 return body;
             }
             else
