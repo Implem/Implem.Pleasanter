@@ -42,6 +42,11 @@ namespace Implem.Pleasanter.Libraries.DataSources
                         }
                     }
                 }
+                catch (LdapException le)
+                {
+                    var logs = new Logs() { new Log("LdapErrorMessage", le.LdapErrorMessage.TrimEnd('\0')) };
+                    new SysLogModel(context: context, e: le, logs: logs);
+                }
                 catch (Exception e)
                 {
                     new SysLogModel(context: context, e: e);
@@ -317,8 +322,8 @@ namespace Implem.Pleasanter.Libraries.DataSources
                         pattern,
                         null,
                         false,
-                        new LdapSearchConstraints() { MaxResults = 1000 });
-                    logs.Add("results", results.Count().ToString());
+                        new LdapSearchConstraints() { MaxResults = 1000, ReferralFollowing=true });
+                    logs.Add("results",results.Count.ToString());
                     while (results.HasMore())
                     {
                         var entry = results.Next();
@@ -352,6 +357,11 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     }
                 }
             }
+            catch(LdapException le)
+            {
+                logs.Add(new Log("LdapErrorMessage",le.LdapErrorMessage.TrimEnd('\0')));
+                new SysLogModel(context: context, e: le, logs: logs);
+            }
             catch (Exception e)
             {
                 new SysLogModel(context: context, e: e, logs: logs);
@@ -373,7 +383,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             var con = new LdapConnection();
             con.Connect(url.Host, url.Port);
             if (loginId != null && password != null)
-                con.Bind($"{loginId}@{url.Host}", password);
+                con.Bind(loginId, password);
             else
                 con.Bind(null, null);
             return con;
