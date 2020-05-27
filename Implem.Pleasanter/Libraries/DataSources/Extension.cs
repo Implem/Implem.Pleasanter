@@ -24,4 +24,5 @@ namespace Implem.Pleasanter.Libraries.DataSources
         {
             throw new NotImplementedException();
         }
+    }
 }
