@@ -1,5 +1,5 @@
 ﻿{
-    "Provider": "",
+    "Provider": null,
     "ServiceId": null,
     "ExtensionUrl": null,
     "RejectUnregisteredUser": false,
