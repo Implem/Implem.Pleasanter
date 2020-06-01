@@ -3849,7 +3849,9 @@ namespace Implem.Pleasanter.Models
                         var model = new ResultModel(
                             context: context,
                             ss: ss,
-                            resultId: data.Row[idColumn].ToLong());
+                            resultId: data.Row.Count > idColumn
+                                ? data.Row[idColumn].ToLong()
+                                : 0);
                         if (model.AccessStatus == Databases.AccessStatuses.Selected)
                         {
                             resultModel = model;
@@ -3863,7 +3865,9 @@ namespace Implem.Pleasanter.Models
                             var recordingData = ImportRecordingData(
                                 context: context,
                                 column: column.Value,
-                                value: data.Row[column.Key],
+                                value: data.Row.Count > column.Key
+                                    ? data.Row[column.Key]
+                                    : string.Empty,
                                 inheritPermission: ss.InheritPermission);
                             switch (column.Value.ColumnName)
                             {

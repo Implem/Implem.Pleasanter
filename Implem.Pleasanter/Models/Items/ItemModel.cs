@@ -1280,6 +1280,23 @@ namespace Implem.Pleasanter.Models
             bool filter,
             bool multiple)
         {
+            if (selected.Any()
+                && column.UseSearch == true
+                && column.UserColumn
+                && !selected.All(o => column.ChoiceHash.ContainsKey(o)))
+            {
+                selected
+                    .Select(userId => SiteInfo.User(
+                        context: context,
+                        userId: userId.ToInt()))
+                    .Where(o => !o.Anonymous())
+                    .ForEach(user =>
+                        column.ChoiceHash.AddIfNotConainsKey(
+                            user.Id.ToString(),
+                            new Choice(
+                                value: user.Id.ToString(),
+                                text: user.Name)));
+            }
             if (selected.Any() &&
                 !selected.All(o => column.ChoiceHash.ContainsKey(o)))
             {
