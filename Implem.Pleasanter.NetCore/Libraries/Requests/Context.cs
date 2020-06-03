@@ -107,6 +107,10 @@ namespace Implem.Pleasanter.NetCore.Libraries.Requests
                 user: user,
                 item: item,
                 apiRequestBody: apiRequestBody);
+            if (ApiRequestBody != null)
+            {
+                SiteInfo.Reflesh(context: this);
+            }
         }
 
         public ContextImplement(int tenantId, int deptId = 0, int userId = 0, string language = null)
