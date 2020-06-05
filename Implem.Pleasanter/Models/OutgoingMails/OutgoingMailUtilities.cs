@@ -377,7 +377,7 @@ namespace Implem.Pleasanter.Models
                     case "to":
                         var to = outgoingMailModel.To
                             .Split(';')
-                            .Where(o => Libraries.Mails.Addresses.Get(o) != myAddress)
+                            .Where(o => Libraries.Mails.Addresses.GetBody(o) != myAddress)
                             .Where(o => o.Trim() != string.Empty)
                             .Join(";");
                         return to.Trim() != string.Empty

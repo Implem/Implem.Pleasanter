@@ -55,6 +55,7 @@
     <Compile Include="Parts\Saml.cs" />
     <Compile Include="Parts\SitePackage.cs" />
     <Compile Include="Parts\Registration.cs" />
+    <Compile Include="Parts\Validation.cs" />
     <Compile Include="Parts\Version.cs" />
     <Compile Include="Parts\PasswordPolicy.cs" />
     <Compile Include="Parts\Session.cs" />

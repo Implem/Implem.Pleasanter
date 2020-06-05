@@ -301,7 +301,7 @@ namespace Implem.Pleasanter.Models
             bool clearCheck = false,
             string action = "GridRows")
         {
-            var checkRow = !ss.GridColumnsHasSources();
+            var checkRow = ss.CheckRow(context: context);
             var checkAll = clearCheck
                 ? false
                 : context.Forms.Bool("GridCheckAll");
@@ -1326,7 +1326,7 @@ namespace Implem.Pleasanter.Models
             string idSuffix = null)
         {
             var mine = registrationModel.Mine(context: context);
-            ss.EditorColumns
+            ss.GetEditorColumnNames()
                 .Select(columnName => ss.GetColumn(
                     context: context,
                     columnName: columnName))

@@ -3,6 +3,7 @@ using Implem.Pleasanter.Libraries.Html;
 using Implem.Pleasanter.Libraries.Requests;
 using Implem.Pleasanter.Libraries.Responses;
 using Implem.Pleasanter.Libraries.Settings;
+using System.Collections.Generic;
 using System.Linq;
 namespace Implem.Pleasanter.Libraries.HtmlParts
 {
@@ -26,6 +27,16 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     controlCss: " always-send",
                     labelText: Displays.Format(context: context),
                     optionCollection: optionCollection)
+                .FieldDropDown(
+                    context: context,
+                    controlId: "ExportEncoding",
+                    controlCss: " always-send",
+                    labelText: Displays.CharacterCode(context: context),
+                    optionCollection: new Dictionary<string, ControlData>
+                    {
+                        { "Shift-JIS", new ControlData("Shift-JIS") },
+                        { "UTF-8", new ControlData("UTF-8") },
+                    })
                 .P(css: "message-dialog")
                 .Div(css: "command-center", action: () => hb
                     .Button(

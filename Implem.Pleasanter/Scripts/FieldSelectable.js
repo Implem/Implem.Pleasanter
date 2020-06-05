@@ -1,4 +1,13 @@
-﻿$p.moveColumns = function ($control, columnHeader, isKeepSource, isJoin) {
+﻿$p.enableColumns = function ($control, columnHeader, columnsTypeControl) {
+    if ($('#' + columnsTypeControl + " option:selected").attr("data-type") === 'multiple') {
+        $p.send($control);
+    }
+    else {
+        $p.moveColumns($control, columnHeader);
+    }
+}
+
+$p.moveColumns = function ($control, columnHeader, isKeepSource, isJoin) {
     if (formId === undefined) return false;
     return $p.moveColumnsById($control,
         columnHeader + 'Columns',

@@ -7,24 +7,31 @@ using System.Net.Mail;
 using System.Data;
 using Implem.Pleasanter.Libraries.Requests;
 using Implem.Libraries.DataSources.SqlServer;
+using System;
 namespace Implem.Pleasanter.Libraries.Mails
 {
     public static class Addresses
     {
-        public static IEnumerable<string> GetEnumerable(
+        public static IEnumerable<string> Get(
             Context context, string addresses)
         {
             return addresses
-                .Split(';', ',', '\n', ' ')
-                .Select(address => address.Trim())
+                .GetSplitList()
                 .SelectMany(address => ConvertedMailAddresses(
                     context: context,
                     address: address))
-                .Where(o => Get(o) == o)
-                .Where(o => ExternalMailAddress(
-                    context: context,
-                    addresses: o).IsNullOrEmpty())
+                .Where(address => IsValid(address: address))
+                .Where(address => ExternalMailAddress(addresses: address).IsNullOrEmpty())
                 .Where(address => !address.IsNullOrEmpty());
+        }
+
+        public static List<string> GetSplitList(this string addresses)
+        {
+            return addresses
+                ?.Split(';', ',', '\n')
+                .Select(address => address.Trim())
+                .ToList()
+                    ?? new List<string>();
         }
 
         private static IEnumerable<string> ConvertedMailAddresses(
@@ -52,13 +59,11 @@ namespace Implem.Pleasanter.Libraries.Mails
                 : address?.ToSingleList();
         }
 
-        public static string BadAddress(Context context, string addresses)
+        public static string BadAddress(string addresses)
         {
-            foreach (var address in GetEnumerable(
-                context: context,
-                addresses: addresses))
+            foreach (var address in addresses.GetSplitList())
             {
-                if (Get(address) == string.Empty)
+                if (!IsValid(address))
                 {
                     return address;
                 }
@@ -66,25 +71,49 @@ namespace Implem.Pleasanter.Libraries.Mails
             return string.Empty;
         }
 
-        public static string Get(string address)
+        public static string GetBody(string address)
         {
-            return address.RegexFirst(
-                Parameters.Mail.AddressValidation,
-                System.Text.RegularExpressions.RegexOptions.IgnoreCase);
+            if (address.IsNullOrEmpty())
+            {
+                return string.Empty;
+            }
+            try
+            {
+                return new MailAddress(address).Address;
+            }
+            catch (FormatException)
+            {
+                return string.Empty;
+            }
         }
 
-        public static string ExternalMailAddress(Context context, string addresses)
+        private static bool IsValid(string address)
+        {
+            if (address.IsNullOrEmpty())
+            {
+                return false;
+            }
+            try
+            {
+                var mailAddress = new MailAddress(address);
+            }
+            catch (FormatException)
+            {
+                return false;
+            }
+            return true;
+        }
+
+        public static string ExternalMailAddress(string addresses)
         {
             var domains = Parameters.Mail.InternalDomains
                 .Split(',')
                 .Select(o => o.Trim())
                 .Where(o => o != string.Empty);
             if (domains.Count() == 0) return string.Empty;
-            foreach (var mailAddress in GetEnumerable(
-                context: context,
-                addresses: addresses))
+            foreach (var mailAddress in addresses.GetSplitList())
             {
-                if (!domains.Any(o => Get(mailAddress).EndsWith(o)))
+                if (!domains.Any(o => GetBody(mailAddress).EndsWith(o)))
                 {
                     return mailAddress;
                 }

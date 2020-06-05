@@ -47,7 +47,7 @@
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
-    <Optimize>true</Optimize>
+    <Optimize>false</Optimize>
     <OutputPath>bin\</OutputPath>
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
@@ -307,6 +307,7 @@
     <Compile Include="Libraries\Initializers\NotificationInitializer.cs" />
     <Compile Include="Libraries\Initializers\ParametersInitializer.cs" />
     <Compile Include="Libraries\Initializers\StatusesInitializer.cs" />
+    <Compile Include="Libraries\Migrators\SiteSettings\Version1_017.cs" />
     <Compile Include="Libraries\Migrators\SiteSettings\Version1_016.cs" />
     <Compile Include="Libraries\Migrators\SiteSettings\Version1_015.cs" />
     <Compile Include="Libraries\Migrators\SiteSettings\Version1_014.cs" />
@@ -357,6 +358,7 @@
     <Compile Include="Libraries\Server\TenantCache.cs" />
     <Compile Include="Libraries\Server\UpdateMonitor.cs" />
     <Compile Include="Libraries\Requests\Context.cs" />
+    <Compile Include="Libraries\Settings\Section.cs" />
     <Compile Include="Libraries\Settings\JoinStack.cs" />
     <Compile Include="Libraries\Settings\NotificationColumnFormat.cs" />
     <Compile Include="Libraries\Settings\RelatingColumn.cs" />
@@ -376,6 +378,7 @@
     <Compile Include="Libraries\Settings\Script.cs" />
     <Compile Include="Libraries\Settings\SettingList.cs" />
     <Compile Include="Libraries\Settings\Style.cs" />
+    <Compile Include="Libraries\Settings\Tab.cs" />
     <Compile Include="Libraries\Settings\UserSettings.cs" />
     <Compile Include="Libraries\SitePackages\DeptIdHash.cs" />
     <Compile Include="Libraries\SitePackages\GroupIdHash.cs" />
@@ -1565,6 +1568,8 @@
     <Content Include="App_Data\Displays\UserManual.json" />
     <Content Include="App_Data\Displays\ViewSettings.json" />
     <Content Include="App_Data\Parameters\Locations.json" />
+    <Content Include="App_Data\Displays\Tab.json" />
+    <Content Include="App_Data\Displays\TabSettings.json" />
     <Content Include="App_Data\Displays\LockedRecord.json" />
     <Content Include="App_Data\Displays\NotLockedRecord.json" />
     <Content Include="App_Data\Displays\ConfirmUnlockRecord.json" />
@@ -1572,6 +1577,15 @@
     <Content Include="App_Data\Displays\TextAlign.json" />
     <Content Include="App_Data\Displays\LeftAlignment.json" />
     <Content Include="App_Data\Displays\RightAlignment.json" />
+    <Content Include="App_Data\Displays\MaxLength.json" />
+    <Content Include="App_Data\Parameters\Validation.json" />
+    <Content Include="App_Data\Displays\ValidateInput.json" />
+    <Content Include="App_Data\Displays\ClientRegexValidation.json" />
+    <Content Include="App_Data\Displays\RegexValidationMessage.json" />
+    <Content Include="App_Data\Displays\ServerRegexValidation.json" />
+    <Content Include="App_Data\Displays\TooLongText.json" />
+    <Content Include="App_Data\Displays\NotMatchRegex.json" />
+    <Content Include="App_Data\Displays\CanNotDelete.json" />
     <Content Include="Tools\BackgroundTasks.ps1" />
     <Content Include="Tools\SyncByLdap.ps1" />
     <Content Include="Views\Users\EditApi.cshtml" />

@@ -318,15 +318,12 @@ namespace Implem.Pleasanter.Models
             ss.IncludedColumns(value: to).ForEach(column =>
                 to = to.Replace($"[{column.ColumnName}]", string.Empty));
             var badFrom = MailAddressValidators.BadMailAddress(
-                context: context,
                 addresses: context.Forms.Data("ReminderFrom"));
             if (badFrom.Type != Error.Types.None) return badFrom;
             var badTo = MailAddressValidators.BadMailAddress(
-                context: context,
                 addresses: to);
             if (badTo.Type != Error.Types.None) return badTo;
             var externalTo = MailAddressValidators.ExternalMailAddress(
-                context: context,
                 addresses: to);
             if (externalTo.Type != Error.Types.None) return externalTo;
             return new ErrorData(type: Error.Types.None);

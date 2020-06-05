@@ -306,7 +306,7 @@ namespace Implem.Pleasanter.Models
             bool clearCheck = false,
             string action = "GridRows")
         {
-            var checkRow = !ss.GridColumnsHasSources();
+            var checkRow = ss.CheckRow(context: context);
             var checkAll = clearCheck
                 ? false
                 : context.Forms.Bool("GridCheckAll");
@@ -1722,7 +1722,7 @@ namespace Implem.Pleasanter.Models
             string idSuffix = null)
         {
             var mine = userModel.Mine(context: context);
-            ss.EditorColumns
+            ss.GetEditorColumnNames()
                 .Select(columnName => ss.GetColumn(
                     context: context,
                     columnName: columnName))
@@ -1981,7 +1981,12 @@ namespace Implem.Pleasanter.Models
                             controller: context.Controller,
                             id: ss.Columns.Any(o => o.Linking)
                                 ? context.Forms.Long("LinkId")
-                                : userModel.UserId) + "?new=1")
+                                : userModel.UserId)
+                                    + "?new=1"
+                                    + (ss.Columns.Any(o => o.Linking)
+                                        && context.Forms.Long("FromTabIndex") > 0
+                                            ? $"&TabIndex={context.Forms.Long("FromTabIndex")}"
+                                            : string.Empty))
                         .ToJson();
                 default:
                     return errorData.MessageJson(context: context);
@@ -2539,7 +2544,6 @@ namespace Implem.Pleasanter.Models
                 foreach (var userModel in userHash.Values)
                 {
                     var badMailAddress = Libraries.Mails.Addresses.BadAddress(
-                        context: context,
                         addresses: userModel.MailAddresses.Join());
                     if (!badMailAddress.IsNullOrEmpty())
                     {
@@ -2636,7 +2640,7 @@ namespace Implem.Pleasanter.Models
                         Rds.PhysicalDeleteMailAddresses(where: where)
                     };
                     userModel.MailAddresses
-                        .Where(mailAddress => !Libraries.Mails.Addresses.Get(mailAddress).IsNullOrEmpty())
+                        .Where(mailAddress => !Libraries.Mails.Addresses.GetBody(mailAddress).IsNullOrEmpty())
                         .ForEach(mailAddress =>
                             statements.Add(Rds.InsertMailAddresses(param: Rds.MailAddressesParam()
                                 .OwnerId(userModel.UserId)
@@ -2762,7 +2766,8 @@ namespace Implem.Pleasanter.Models
                 fileDownloadName: ExportUtilities.FileName(
                     context: context,
                     title: ss.Title,
-                    name: Displays.Users(context: context)));
+                    name: Displays.Users(context: context)),
+                encoding: context.QueryStrings.Data("encoding"));
         }
 
         /// <summary>

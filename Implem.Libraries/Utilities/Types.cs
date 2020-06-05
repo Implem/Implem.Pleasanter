@@ -309,9 +309,21 @@ namespace Implem.Libraries.Utilities
             var str = obj.ToStr();
             return obj != null && DateTime.TryParse(str, out data)
                 ? data
-                : obj.ToDecimal() > 0
+                : FromOADate(obj.ToDecimal(), str);
+        }
+
+        private static DateTime FromOADate(decimal d, string str)
+        {
+            try
+            {
+                return d > 0
                     ? DateTime.FromOADate(double.Parse(str))
                     : DateTime.FromOADate(0);
+            }
+            catch (Exception)
+            {
+                return DateTime.FromOADate(0);
+            }
         }
 
         public static bool ToBool(this object obj) 

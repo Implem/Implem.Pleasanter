@@ -290,6 +290,7 @@ namespace Implem.DefinitionAccessor
                     case "Model_PropertyValue_ColumnCases": Code.Model_PropertyValue_ColumnCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_PropertyValue_ColumnCases, definitionRow, CodeXls); break;
                     case "Model_PropertyValues_ColumnCases": Code.Model_PropertyValues_ColumnCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_PropertyValues_ColumnCases, definitionRow, CodeXls); break;
                     case "Model_PropertyValue_ColumnCases_ToString": Code.Model_PropertyValue_ColumnCases_ToString = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_PropertyValue_ColumnCases_ToString, definitionRow, CodeXls); break;
+                    case "Model_PropertyUpdated_ColumnCases": Code.Model_PropertyUpdated_ColumnCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_PropertyUpdated_ColumnCases, definitionRow, CodeXls); break;
                     case "Model_SwitchTargets": Code.Model_SwitchTargets = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_SwitchTargets, definitionRow, CodeXls); break;
                     case "Model_Constructor": Code.Model_Constructor = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Constructor, definitionRow, CodeXls); break;
                     case "Model_SetDefaultExec": Code.Model_SetDefaultExec = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_SetDefaultExec, definitionRow, CodeXls); break;
@@ -388,6 +389,7 @@ namespace Implem.DefinitionAccessor
                     case "Model_Delete_Sites": Code.Model_Delete_Sites = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Delete_Sites, definitionRow, CodeXls); break;
                     case "Model_Delete_SitesItems": Code.Model_Delete_SitesItems = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Delete_SitesItems, definitionRow, CodeXls); break;
                     case "Model_OnDeleted_SetSiteInfo": Code.Model_OnDeleted_SetSiteInfo = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_OnDeleted_SetSiteInfo, definitionRow, CodeXls); break;
+                    case "Model_OnDeletedNotifications": Code.Model_OnDeletedNotifications = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_OnDeletedNotifications, definitionRow, CodeXls); break;
                     case "Model_OnDeletedNotice": Code.Model_OnDeletedNotice = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_OnDeletedNotice, definitionRow, CodeXls); break;
                     case "Model_Restore": Code.Model_Restore = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Restore, definitionRow, CodeXls); break;
                     case "Model_Restore_Item": Code.Model_Restore_Item = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Restore_Item, definitionRow, CodeXls); break;
@@ -664,6 +666,7 @@ namespace Implem.DefinitionAccessor
                     case "Model_Utilities_ImportUserColumnCases": Code.Model_Utilities_ImportUserColumnCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_ImportUserColumnCases, definitionRow, CodeXls); break;
                     case "Model_Utilities_ImportValidatorHeaders": Code.Model_Utilities_ImportValidatorHeaders = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_ImportValidatorHeaders, definitionRow, CodeXls); break;
                     case "Model_Utilities_ImportValidatorCases": Code.Model_Utilities_ImportValidatorCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_ImportValidatorCases, definitionRow, CodeXls); break;
+                    case "Model_Utilities_InputValidator": Code.Model_Utilities_InputValidator = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_InputValidator, definitionRow, CodeXls); break;
                     case "Model_Utilities_Export": Code.Model_Utilities_Export = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_Export, definitionRow, CodeXls); break;
                     case "Model_Utilities_ExportCrosstab": Code.Model_Utilities_ExportCrosstab = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_ExportCrosstab, definitionRow, CodeXls); break;
                     case "Model_Utilities_NotNull": Code.Model_Utilities_NotNull = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_NotNull, definitionRow, CodeXls); break;
@@ -705,6 +708,8 @@ namespace Implem.DefinitionAccessor
                     case "Model_Validator_ShowProfiles": Code.Model_Validator_ShowProfiles = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Validator_ShowProfiles, definitionRow, CodeXls); break;
                     case "Model_Validator_OnAttaching": Code.Model_Validator_OnAttaching = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Validator_OnAttaching, definitionRow, CodeXls); break;
                     case "Model_Validator_OnAttachingMethod": Code.Model_Validator_OnAttachingMethod = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Validator_OnAttachingMethod, definitionRow, CodeXls); break;
+                    case "Model_Validator_OnInputValidating": Code.Model_Validator_OnInputValidating = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Validator_OnInputValidating, definitionRow, CodeXls); break;
+                    case "Model_Validator_OnInputValidatingMethod": Code.Model_Validator_OnInputValidatingMethod = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Validator_OnInputValidatingMethod, definitionRow, CodeXls); break;
                     case "Model_Validator_OnDeleteHistory": Code.Model_Validator_OnDeleteHistory = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Validator_OnDeleteHistory, definitionRow, CodeXls); break;
                     case "Model_Validator_OnUnlockRecord": Code.Model_Validator_OnUnlockRecord = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Validator_OnUnlockRecord, definitionRow, CodeXls); break;
                     case "Model_Api": Code.Model_Api = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Api, definitionRow, CodeXls); break;
@@ -2379,6 +2384,21 @@ namespace Implem.DefinitionAccessor
                                 data.ToString();
                             newColumnDefinition.SavedValidateEqualTo = newColumnDefinition.ValidateEqualTo;
                             break;
+                        case "ClientRegexValidation":
+                            newColumnDefinition.ClientRegexValidation = customDefinitionRow.Get("ClientRegexValidation")?.ToString() ??
+                                data.ToString();
+                            newColumnDefinition.SavedClientRegexValidation = newColumnDefinition.ClientRegexValidation;
+                            break;
+                        case "ServerRegexValidation":
+                            newColumnDefinition.ServerRegexValidation = customDefinitionRow.Get("ServerRegexValidation")?.ToString() ??
+                                data.ToString();
+                            newColumnDefinition.SavedServerRegexValidation = newColumnDefinition.ServerRegexValidation;
+                            break;
+                        case "RegexValidationMessage":
+                            newColumnDefinition.RegexValidationMessage = customDefinitionRow.Get("RegexValidationMessage")?.ToString() ??
+                                data.ToString();
+                            newColumnDefinition.SavedRegexValidationMessage = newColumnDefinition.RegexValidationMessage;
+                            break;
                         case "DecimalPlaces":
                             newColumnDefinition.DecimalPlaces = customDefinitionRow.Get("DecimalPlaces")?.ToInt() ??
                                 data.ToInt();
@@ -2574,6 +2594,9 @@ namespace Implem.DefinitionAccessor
             if (definitionRow.ContainsKey("ValidateDate")) { definition.ValidateDate = definitionRow["ValidateDate"].ToBool(); definition.SavedValidateDate = definition.ValidateDate; }
             if (definitionRow.ContainsKey("ValidateEmail")) { definition.ValidateEmail = definitionRow["ValidateEmail"].ToBool(); definition.SavedValidateEmail = definition.ValidateEmail; }
             if (definitionRow.ContainsKey("ValidateEqualTo")) { definition.ValidateEqualTo = definitionRow["ValidateEqualTo"].ToString(); definition.SavedValidateEqualTo = definition.ValidateEqualTo; }
+            if (definitionRow.ContainsKey("ClientRegexValidation")) { definition.ClientRegexValidation = definitionRow["ClientRegexValidation"].ToString(); definition.SavedClientRegexValidation = definition.ClientRegexValidation; }
+            if (definitionRow.ContainsKey("ServerRegexValidation")) { definition.ServerRegexValidation = definitionRow["ServerRegexValidation"].ToString(); definition.SavedServerRegexValidation = definition.ServerRegexValidation; }
+            if (definitionRow.ContainsKey("RegexValidationMessage")) { definition.RegexValidationMessage = definitionRow["RegexValidationMessage"].ToString(); definition.SavedRegexValidationMessage = definition.RegexValidationMessage; }
             if (definitionRow.ContainsKey("DecimalPlaces")) { definition.DecimalPlaces = definitionRow["DecimalPlaces"].ToInt(); definition.SavedDecimalPlaces = definition.DecimalPlaces; }
             if (definitionRow.ContainsKey("Min")) { definition.Min = definitionRow["Min"].ToDecimal(); definition.SavedMin = definition.Min; }
             if (definitionRow.ContainsKey("Max")) { definition.Max = definitionRow["Max"].ToDecimal(); definition.SavedMax = definition.Max; }
@@ -2795,6 +2818,7 @@ namespace Implem.DefinitionAccessor
                     case "_sharp_OutgoingMailsForm_space__dot_content": Css._sharp_OutgoingMailsForm_space__dot_content = definitionRow[1].ToString(); SetCssTable(CssTable._sharp_OutgoingMailsForm_space__dot_content, definitionRow, CssXls); break;
                     case "_sharp_DropDownSearchDialogForm": Css._sharp_DropDownSearchDialogForm = definitionRow[1].ToString(); SetCssTable(CssTable._sharp_DropDownSearchDialogForm, definitionRow, CssXls); break;
                     case "_sharp_ViewTabsContainer": Css._sharp_ViewTabsContainer = definitionRow[1].ToString(); SetCssTable(CssTable._sharp_ViewTabsContainer, definitionRow, CssXls); break;
+                    case "_sharp_EditorDetailTabsContainer": Css._sharp_EditorDetailTabsContainer = definitionRow[1].ToString(); SetCssTable(CssTable._sharp_EditorDetailTabsContainer, definitionRow, CssXls); break;
                     case "_sharp_ColumnAccessControlTabsContainer": Css._sharp_ColumnAccessControlTabsContainer = definitionRow[1].ToString(); SetCssTable(CssTable._sharp_ColumnAccessControlTabsContainer, definitionRow, CssXls); break;
                     case "_sharp_SearchResults": Css._sharp_SearchResults = definitionRow[1].ToString(); SetCssTable(CssTable._sharp_SearchResults, definitionRow, CssXls); break;
                     case "_sharp_SearchResults_space__dot_count": Css._sharp_SearchResults_space__dot_count = definitionRow[1].ToString(); SetCssTable(CssTable._sharp_SearchResults_space__dot_count, definitionRow, CssXls); break;
@@ -6227,6 +6251,9 @@ namespace Implem.DefinitionAccessor
                         case "ValidateDate": columnDefinition.ValidateDate = optionValue.ToBool(); break;
                         case "ValidateEmail": columnDefinition.ValidateEmail = optionValue.ToBool(); break;
                         case "ValidateEqualTo": columnDefinition.ValidateEqualTo = optionValue.ToString(); break;
+                        case "ClientRegexValidation": columnDefinition.ClientRegexValidation = optionValue.ToString(); break;
+                        case "ServerRegexValidation": columnDefinition.ServerRegexValidation = optionValue.ToString(); break;
+                        case "RegexValidationMessage": columnDefinition.RegexValidationMessage = optionValue.ToString(); break;
                         case "DecimalPlaces": columnDefinition.DecimalPlaces = optionValue.ToInt(); break;
                         case "Min": columnDefinition.Min = optionValue.ToDecimal(); break;
                         case "Max": columnDefinition.Max = optionValue.ToDecimal(); break;
@@ -7101,6 +7128,7 @@ namespace Implem.DefinitionAccessor
         public string Model_PropertyValue_ColumnCases;
         public string Model_PropertyValues_ColumnCases;
         public string Model_PropertyValue_ColumnCases_ToString;
+        public string Model_PropertyUpdated_ColumnCases;
         public string Model_SwitchTargets;
         public string Model_Constructor;
         public string Model_SetDefaultExec;
@@ -7199,6 +7227,7 @@ namespace Implem.DefinitionAccessor
         public string Model_Delete_Sites;
         public string Model_Delete_SitesItems;
         public string Model_OnDeleted_SetSiteInfo;
+        public string Model_OnDeletedNotifications;
         public string Model_OnDeletedNotice;
         public string Model_Restore;
         public string Model_Restore_Item;
@@ -7475,6 +7504,7 @@ namespace Implem.DefinitionAccessor
         public string Model_Utilities_ImportUserColumnCases;
         public string Model_Utilities_ImportValidatorHeaders;
         public string Model_Utilities_ImportValidatorCases;
+        public string Model_Utilities_InputValidator;
         public string Model_Utilities_Export;
         public string Model_Utilities_ExportCrosstab;
         public string Model_Utilities_NotNull;
@@ -7516,6 +7546,8 @@ namespace Implem.DefinitionAccessor
         public string Model_Validator_ShowProfiles;
         public string Model_Validator_OnAttaching;
         public string Model_Validator_OnAttachingMethod;
+        public string Model_Validator_OnInputValidating;
+        public string Model_Validator_OnInputValidatingMethod;
         public string Model_Validator_OnDeleteHistory;
         public string Model_Validator_OnUnlockRecord;
         public string Model_Api;
@@ -7731,6 +7763,7 @@ namespace Implem.DefinitionAccessor
         public CodeDefinition Model_PropertyValue_ColumnCases = new CodeDefinition();
         public CodeDefinition Model_PropertyValues_ColumnCases = new CodeDefinition();
         public CodeDefinition Model_PropertyValue_ColumnCases_ToString = new CodeDefinition();
+        public CodeDefinition Model_PropertyUpdated_ColumnCases = new CodeDefinition();
         public CodeDefinition Model_SwitchTargets = new CodeDefinition();
         public CodeDefinition Model_Constructor = new CodeDefinition();
         public CodeDefinition Model_SetDefaultExec = new CodeDefinition();
@@ -7829,6 +7862,7 @@ namespace Implem.DefinitionAccessor
         public CodeDefinition Model_Delete_Sites = new CodeDefinition();
         public CodeDefinition Model_Delete_SitesItems = new CodeDefinition();
         public CodeDefinition Model_OnDeleted_SetSiteInfo = new CodeDefinition();
+        public CodeDefinition Model_OnDeletedNotifications = new CodeDefinition();
         public CodeDefinition Model_OnDeletedNotice = new CodeDefinition();
         public CodeDefinition Model_Restore = new CodeDefinition();
         public CodeDefinition Model_Restore_Item = new CodeDefinition();
@@ -8105,6 +8139,7 @@ namespace Implem.DefinitionAccessor
         public CodeDefinition Model_Utilities_ImportUserColumnCases = new CodeDefinition();
         public CodeDefinition Model_Utilities_ImportValidatorHeaders = new CodeDefinition();
         public CodeDefinition Model_Utilities_ImportValidatorCases = new CodeDefinition();
+        public CodeDefinition Model_Utilities_InputValidator = new CodeDefinition();
         public CodeDefinition Model_Utilities_Export = new CodeDefinition();
         public CodeDefinition Model_Utilities_ExportCrosstab = new CodeDefinition();
         public CodeDefinition Model_Utilities_NotNull = new CodeDefinition();
@@ -8146,6 +8181,8 @@ namespace Implem.DefinitionAccessor
         public CodeDefinition Model_Validator_ShowProfiles = new CodeDefinition();
         public CodeDefinition Model_Validator_OnAttaching = new CodeDefinition();
         public CodeDefinition Model_Validator_OnAttachingMethod = new CodeDefinition();
+        public CodeDefinition Model_Validator_OnInputValidating = new CodeDefinition();
+        public CodeDefinition Model_Validator_OnInputValidatingMethod = new CodeDefinition();
         public CodeDefinition Model_Validator_OnDeleteHistory = new CodeDefinition();
         public CodeDefinition Model_Validator_OnUnlockRecord = new CodeDefinition();
         public CodeDefinition Model_Api = new CodeDefinition();
@@ -8418,6 +8455,9 @@ namespace Implem.DefinitionAccessor
         public bool ValidateDate; public bool SavedValidateDate;
         public bool ValidateEmail; public bool SavedValidateEmail;
         public string ValidateEqualTo; public string SavedValidateEqualTo;
+        public string ClientRegexValidation; public string SavedClientRegexValidation;
+        public string ServerRegexValidation; public string SavedServerRegexValidation;
+        public string RegexValidationMessage; public string SavedRegexValidationMessage;
         public int DecimalPlaces; public int SavedDecimalPlaces;
         public decimal Min; public decimal SavedMin;
         public decimal Max; public decimal SavedMax;
@@ -8539,6 +8579,9 @@ namespace Implem.DefinitionAccessor
             if (propertyCollection.ContainsKey("ValidateDate")) ValidateDate = propertyCollection["ValidateDate"].ToBool(); else ValidateDate = false;
             if (propertyCollection.ContainsKey("ValidateEmail")) ValidateEmail = propertyCollection["ValidateEmail"].ToBool(); else ValidateEmail = false;
             if (propertyCollection.ContainsKey("ValidateEqualTo")) ValidateEqualTo = propertyCollection["ValidateEqualTo"].ToString(); else ValidateEqualTo = string.Empty;
+            if (propertyCollection.ContainsKey("ClientRegexValidation")) ClientRegexValidation = propertyCollection["ClientRegexValidation"].ToString(); else ClientRegexValidation = string.Empty;
+            if (propertyCollection.ContainsKey("ServerRegexValidation")) ServerRegexValidation = propertyCollection["ServerRegexValidation"].ToString(); else ServerRegexValidation = string.Empty;
+            if (propertyCollection.ContainsKey("RegexValidationMessage")) RegexValidationMessage = propertyCollection["RegexValidationMessage"].ToString(); else RegexValidationMessage = string.Empty;
             if (propertyCollection.ContainsKey("DecimalPlaces")) DecimalPlaces = propertyCollection["DecimalPlaces"].ToInt(); else DecimalPlaces = 0;
             if (propertyCollection.ContainsKey("Min")) Min = propertyCollection["Min"].ToDecimal(); else Min = 0;
             if (propertyCollection.ContainsKey("Max")) Max = propertyCollection["Max"].ToDecimal(); else Max = 0;
@@ -8660,6 +8703,9 @@ namespace Implem.DefinitionAccessor
                     case "ValidateDate": return ValidateDate;
                     case "ValidateEmail": return ValidateEmail;
                     case "ValidateEqualTo": return ValidateEqualTo;
+                    case "ClientRegexValidation": return ClientRegexValidation;
+                    case "ServerRegexValidation": return ServerRegexValidation;
+                    case "RegexValidationMessage": return RegexValidationMessage;
                     case "DecimalPlaces": return DecimalPlaces;
                     case "Min": return Min;
                     case "Max": return Max;
@@ -8781,6 +8827,9 @@ namespace Implem.DefinitionAccessor
             ValidateDate = SavedValidateDate;
             ValidateEmail = SavedValidateEmail;
             ValidateEqualTo = SavedValidateEqualTo;
+            ClientRegexValidation = SavedClientRegexValidation;
+            ServerRegexValidation = SavedServerRegexValidation;
+            RegexValidationMessage = SavedRegexValidationMessage;
             DecimalPlaces = SavedDecimalPlaces;
             Min = SavedMin;
             Max = SavedMax;
@@ -10196,6 +10245,7 @@ namespace Implem.DefinitionAccessor
         public string _sharp_OutgoingMailsForm_space__dot_content;
         public string _sharp_DropDownSearchDialogForm;
         public string _sharp_ViewTabsContainer;
+        public string _sharp_EditorDetailTabsContainer;
         public string _sharp_ColumnAccessControlTabsContainer;
         public string _sharp_SearchResults;
         public string _sharp_SearchResults_space__dot_count;
@@ -10707,6 +10757,7 @@ namespace Implem.DefinitionAccessor
         public CssDefinition _sharp_OutgoingMailsForm_space__dot_content = new CssDefinition();
         public CssDefinition _sharp_DropDownSearchDialogForm = new CssDefinition();
         public CssDefinition _sharp_ViewTabsContainer = new CssDefinition();
+        public CssDefinition _sharp_EditorDetailTabsContainer = new CssDefinition();
         public CssDefinition _sharp_ColumnAccessControlTabsContainer = new CssDefinition();
         public CssDefinition _sharp_SearchResults = new CssDefinition();
         public CssDefinition _sharp_SearchResults_space__dot_count = new CssDefinition();

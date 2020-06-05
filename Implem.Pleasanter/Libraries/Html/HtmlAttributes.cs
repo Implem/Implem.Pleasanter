@@ -620,6 +620,25 @@ namespace Implem.Pleasanter.Libraries.Html
             }
             return this;
         }
+        public HtmlAttributes DataValidateRegex(string value, bool _using = true)
+        {
+            if (!value.IsNullOrEmpty() && _using)
+            {
+                Add("data-validate-regex");
+                Add(HttpUtility.HtmlEncode(value));
+            }
+            return this;
+        }
+
+        public HtmlAttributes DataValidateRegexErrorMessage(string value, bool _using = true)
+        {
+            if (!value.IsNullOrEmpty() && _using)
+            {
+                Add("data-validate-regex-errormessage");
+                Add(HttpUtility.HtmlEncode(value));
+            }
+            return this;
+        }
 
         public HtmlAttributes DataClass(string value, bool _using = true)
         {

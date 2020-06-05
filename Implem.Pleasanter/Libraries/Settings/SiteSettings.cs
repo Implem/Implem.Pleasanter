@@ -123,7 +123,11 @@ namespace Implem.Pleasanter.Libraries.Settings
         public int? FirstMonth;
         public List<string> GridColumns;
         public List<string> FilterColumns;
-        public List<string> EditorColumns;
+        public Dictionary<string, List<string>> EditorColumnHash;
+        public int? TabLatestId;
+        public SettingList<Tab> Tabs;
+        public int? SectionLatestId;
+        public List<Section> Sections;
         public List<string> TitleColumns;
         public List<string> LinkColumns;
         public List<string> HistoryColumns;
@@ -196,6 +200,8 @@ namespace Implem.Pleasanter.Libraries.Settings
         public string GridScript;
         // compatibility Version 1.015
         public bool? EditInDialog;
+        // compatibility Version 1.016
+        public List<string> EditorColumns;
 
         public SiteSettings()
         {
@@ -234,6 +240,8 @@ namespace Implem.Pleasanter.Libraries.Settings
             UpdateGridColumns(context: context);
             UpdateFilterColumns(context: context);
             UpdateEditorColumns(context: context);
+            TabLatestId = TabLatestId ?? 0;
+            SectionLatestId = SectionLatestId ?? 0;
             UpdateTitleColumns(context: context);
             UpdateLinkColumns(context: context);
             UpdateHistoryColumns(context: context);
@@ -600,10 +608,38 @@ namespace Implem.Pleasanter.Libraries.Settings
             {
                 ss.FilterColumns = FilterColumns;
             }
-            if (!EditorColumns.SequenceEqual(DefaultEditorColumns(context: context)))
+            if (!(EditorColumnHash
+                .Get(TabName(0))
+                ?.SequenceEqual(DefaultEditorColumns(context: context)) == true)
+                    || EditorColumnHash
+                        ?.Any(o => TabId(o.Key) > 0 && o.Value?.Any() == true) == true)
             {
-                ss.EditorColumns = EditorColumns;
+                ss.EditorColumnHash = EditorColumnHash;
             }
+            if (TabLatestId != 0)
+            {
+                ss.TabLatestId = TabLatestId;
+            }
+            Tabs?.ForEach(tab =>
+            {
+                if (ss.Tabs == null)
+                {
+                    ss.Tabs = new SettingList<Tab>();
+                }
+                ss.Tabs.Add(tab.GetRecordingData(ss: this));
+            });
+            if (SectionLatestId != 0)
+            {
+                ss.SectionLatestId = SectionLatestId;
+            }
+            Sections?.ForEach(section =>
+            {
+                if (ss.Sections == null)
+                {
+                    ss.Sections = new List<Section>();
+                }
+                ss.Sections.Add(section.GetRecordingData(ss: this));
+            });
             if (!TitleColumns.SequenceEqual(DefaultTitleColumns()))
             {
                 ss.TitleColumns = TitleColumns;
@@ -899,6 +935,11 @@ namespace Implem.Pleasanter.Libraries.Settings
                         enabled = true;
                         newColumn.DefaultInput = column.DefaultInput;
                     }
+                    if (column.MaxLength != null)
+                    {
+                        enabled = true;
+                        newColumn.MaxLength = column.MaxLength;
+                    }
                     if (column.GridFormat != columnDefinition.GridFormat)
                     {
                         enabled = true;
@@ -969,6 +1010,21 @@ namespace Implem.Pleasanter.Libraries.Settings
                     {
                         enabled = true;
                         newColumn.ValidateMaxLength = column.ValidateMaxLength;
+                    }
+                    if (column.ClientRegexValidation != columnDefinition.ClientRegexValidation)
+                    {
+                        enabled = true;
+                        newColumn.ClientRegexValidation = column.ClientRegexValidation;
+                    }
+                    if (column.ServerRegexValidation != columnDefinition.ServerRegexValidation)
+                    {
+                        enabled = true;
+                        newColumn.ServerRegexValidation = column.ServerRegexValidation;
+                    }
+                    if (column.RegexValidationMessage != columnDefinition.RegexValidationMessage)
+                    {
+                        enabled = true;
+                        newColumn.RegexValidationMessage = column.RegexValidationMessage;
                     }
                     if (column.DecimalPlaces != columnDefinition.DecimalPlaces)
                     {
@@ -1163,13 +1219,15 @@ namespace Implem.Pleasanter.Libraries.Settings
 
         private void UpdateEditorColumns(Context context)
         {
-            if (EditorColumns == null)
+            if (EditorColumnHash == null || EditorColumnHash.All(tab => tab.Value?.Any() != true))
             {
-                EditorColumns = DefaultEditorColumns(context: context);
+                AddOrUpdateEditorColumnHash(
+                    editorColumnsAll: DefaultEditorColumns(context: context));
             }
             else
             {
-                EditorColumns.RemoveAll(o => !EditorColumn(ColumnDefinitionHash.Get(o)));
+                EditorColumnHash.ForEach(tab => tab.Value?.RemoveAll(o => !EditorColumn(
+                    columnDefinition: ColumnDefinitionHash.Get(o)) && !o.StartsWith("_")));
             }
         }
 
@@ -1326,6 +1384,9 @@ namespace Implem.Pleasanter.Libraries.Settings
                 column.ValidateEmail = column.ValidateEmail ?? columnDefinition.ValidateEmail;
                 column.ValidateEqualTo = column.ValidateEqualTo ?? columnDefinition.ValidateEqualTo;
                 column.ValidateMaxLength = column.ValidateMaxLength ?? columnDefinition.MaxLength;
+                column.ClientRegexValidation = column.ClientRegexValidation ?? columnDefinition.ClientRegexValidation;
+                column.ServerRegexValidation = column.ServerRegexValidation ?? columnDefinition.ServerRegexValidation;
+                column.RegexValidationMessage = column.RegexValidationMessage ?? columnDefinition.RegexValidationMessage;
                 column.DecimalPlaces = column.DecimalPlaces ?? columnDefinition.DecimalPlaces;
                 column.Min = column.Min ?? columnDefinition.Min;
                 column.Max = column.Max ?? DefaultMax(columnDefinition);
@@ -1682,13 +1743,58 @@ namespace Implem.Pleasanter.Libraries.Settings
                 .ToList();
         }
 
-        public List<Column> GetEditorColumns(Context context)
+        public List<Column> GetEditorColumns(Context context, bool columnOnly = true)
         {
-            return EditorColumns
-                .Select(columnName => GetColumn(context: context, columnName: columnName))
-                .Where(column => column != null)
-                .Where(o => context.ContractSettings.Attachments()
-                    || o.ControlType != "Attachments")
+            return GetEditorColumns(
+                context: context,
+                tab: null,
+                columnOnly: columnOnly);
+        }
+
+        public List<Column> GetEditorColumns(Context context, Tab tab, bool columnOnly = true)
+        {
+            return (tab == null
+                ? GetEditorColumnNames()
+                : EditorColumnHash.Get(key: TabName(tabId: tab?.Id)))
+                    ?.Select(columnName => columnOnly
+                        ? GetColumn(
+                            context: context,
+                            columnName: columnName)
+                        : GetColumn(
+                            context: context,
+                            columnName: columnName)
+                                ?? new Column(columnName))
+                    .Where(column => column != null)
+                    .Where(o => context.ContractSettings.Attachments()
+                        || o.ControlType != "Attachments")
+                    .ToList();
+        }
+
+        public List<string> GetEditorColumnNames()
+        {
+            return (EditorColumnHash.Get(TabName(0))
+                ?? Enumerable.Empty<string>())
+                    .Union(EditorColumnHash
+                        ?.Where(hash => TabId(hash.Key) > 0)
+                        .Select(hash => new
+                        {
+                            Id = TabId(hash.Key),
+                            Hash = hash
+                        })
+                        .Where(hash => hash.Id > 0)
+                        .SelectMany(hash => hash.Hash.Value)
+                            ?? Enumerable.Empty<string>())
+                    .ToList();
+        }
+
+        public List<string> GetEditorColumnNames(
+            Context context,
+            bool columnOnly)
+        {
+            return GetEditorColumnNames()
+                .Where(columnName => !columnOnly || GetColumn(
+                    context: context,
+                    columnName: columnName) != null)
                 .ToList();
         }
 
@@ -1760,10 +1866,105 @@ namespace Implem.Pleasanter.Libraries.Settings
 
         public IEnumerable<Column> SelectColumns()
         {
-            return Columns?
-                .Where(o => !o.NotSelect)
+            return Columns
+                ?.Where(o => !o.NotSelect)
                 .Where(o => o.Required
-                    || EditorColumns?.Contains(o.ColumnName) == true);
+                    || EditorColumnHash?.Any(tab => tab
+                        .Value
+                        ?.Contains(o.ColumnName) == true) == true);
+        }
+
+        public string TabName(int? tabId)
+        {
+            return tabId > 0 ? $"_Tab-{tabId}" : "General";
+        }
+
+        public int TabId(string tabName)
+        {
+            return tabName?.StartsWith("_Tab-") == true
+                ? tabName.Substring("_Tab-".Length).ToInt()
+                : 0;
+        }
+
+        public void AddOrUpdateEditorColumnHash(
+            List<string> editorColumnsAll,
+            string editorColumnsTabsTarget = "0")
+        {
+            if (!editorColumnsTabsTarget.IsNullOrEmpty())
+            {
+                var tabId = editorColumnsTabsTarget.ToInt();
+                if (tabId == 0 || Tabs?.Get(tabId) != null)
+                {
+                    (EditorColumnHash ?? (EditorColumnHash = new Dictionary<string, List<string>>()))
+                        .AddOrUpdate(
+                            key: TabName(tabId: tabId),
+                            value: editorColumnsAll);
+                }
+            }
+        }
+
+        public string LinkId(SiteSettings ss)
+        {
+            return $"_Links-{ss.SiteId}";
+        }
+
+        public long LinkId(string columnName)
+        {
+            return columnName.StartsWith("_Links-")
+                ? columnName.Substring("_Links-".Length).ToInt()
+                : 0;
+        }
+
+        public int SectionId(string columnName)
+        {
+            return columnName.StartsWith("_Section-")
+                ? columnName.Substring("_Section-".Length).ToInt()
+                : 0;
+        }
+
+        public string SectionName(int? sectionId)
+        {
+            return sectionId > 0 ? $"_Section-{sectionId}" : null;
+        }
+
+        public Dictionary<string, ControlData> TabSelectableOptions(
+            Context context,
+            bool habGeneral = false)
+        {
+            return (habGeneral
+                ? new List<Tab>
+                {
+                    new Tab
+                    {
+                        Id = 0,
+                        LabelText = Displays.General(context: context)
+                    }
+                }
+                    .Union(Tabs ?? Enumerable.Empty<Tab>())
+                : Tabs)
+                    ?.ToDictionary(
+                        o => o.Id.ToString(),
+                        o => new ControlData(o.LabelText));
+        }
+
+        public Dictionary<string, ControlData> EditorLinksSelectableOptions(
+            Context context,
+            bool enabled = true)
+        {
+            return enabled
+                ? Sources
+                    .Union(Destinations)
+                    .OrderBy(currentSs => currentSs.Key)
+                    .ToDictionary(
+                        currentSs => LinkId(currentSs.Value),
+                        currentSs => new ControlData(currentSs.Value.Title))
+                : Sources.Union(Destinations)
+                    .Where(currentSs => !GetEditorColumnNames()
+                    .Contains(LinkId(currentSs.Value)))
+                    .OrderBy(currentSs => currentSs.Key)
+                    .ToDictionary(
+                        currentSs => LinkId(currentSs.Value),
+                        currentSs => new ControlData(currentSs.Value.Title));
         }
 
         public Dictionary<string, ControlData> GridSelectableOptions(
@@ -1912,7 +2113,12 @@ namespace Implem.Pleasanter.Libraries.Settings
                 ? ColumnUtilities.SelectableOptions(
                     context: context,
                     ss: this,
-                    columns: EditorColumns,
+                    columns: EditorColumnHash
+                        ?.Where(o => o.Value?.Contains(context
+                            .Forms
+                            .Data("EditorColumnName")) == true)
+                        .Select(o => o.Value)
+                        .FirstOrDefault() ?? new List<string>(),
                     order: ColumnDefinitionHash.EditorDefinitions(context: context)
                         .OrderBy(o => o.EditorColumn)
                         .Select(o => o.ColumnName).ToList())
@@ -1920,12 +2126,47 @@ namespace Implem.Pleasanter.Libraries.Settings
                     context: context,
                     ss: this,
                     columns: ColumnDefinitionHash.EditorDefinitions(context: context)
-                        .Where(o => !EditorColumns.Contains(o.ColumnName))
+                        .Where(o => !GetEditorColumnNames().Contains(o.ColumnName))
                         .OrderBy(o => o.EditorColumn)
                         .Select(o => o.ColumnName),
                     order: ColumnDefinitionHash?.EditorDefinitions(context: context)?
                         .OrderBy(o => o.EditorColumn)
                         .Select(o => o.ColumnName).ToList());
+        }
+
+        public Dictionary<string, ControlData> EditorSelectableOptions(
+            Context context,
+            int tabId)
+        {
+            return EditorSelectableOptions(
+                context: context,
+                EditorColumnHash?.Get(TabName(tabId)) ?? new List<string>());
+        }
+
+        private Dictionary<string, ControlData> EditorSelectableOptions(
+            Context context,
+            List<string> editorColumns,
+            bool enabled = true)
+        {
+            return enabled
+                ? ColumnUtilities.SelectableOptions(
+                    context: context,
+                    ss: this,
+                    columns: editorColumns,
+                    order: ColumnDefinitionHash.EditorDefinitions(context: context)
+                        .OrderBy(o => o.EditorColumn)
+                        .Select(o => o.ColumnName).ToList())
+                : ColumnUtilities.SelectableOptions(
+                    context: context,
+                    ss: this,
+                    columns: ColumnDefinitionHash.EditorDefinitions(context: context)
+                        .Where(o => !editorColumns.Contains(o.ColumnName))
+                        .OrderBy(o => o.EditorColumn)
+                        .Select(o => o.ColumnName),
+                    order: ColumnDefinitionHash?.EditorDefinitions(context: context)
+                        ?.OrderBy(o => o.EditorColumn)
+                        .Select(o => o.ColumnName)
+                        .ToList());
         }
 
         public Dictionary<string, ControlData> TitleSelectableOptions(
@@ -2276,8 +2517,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                 {
                     hash.AddRange(ss.Columns
                         .Where(o => o.HasChoices() || (o.TypeName == "datetime" && datetime))
-                        .Where(o => !o.Joined)
-                        .Where(o => ss.EditorColumns.Contains(o.Name))
+                        .Where(o => ss.GetEditorColumnNames().Contains(o.Name))
                         .Where(o => o.CanRead)
                         .ToDictionary(
                             o => ColumnUtilities.ColumnName(join.Key, o.Name),
@@ -2309,7 +2549,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                         .Where(o => o.Computable)
                         .Where(o => o.TypeName != "datetime")
                         .Where(o => !o.Joined)
-                        .Where(o => ss.EditorColumns.Contains(o.Name))
+                        .Where(o => ss.GetEditorColumnNames().Contains(o.Name))
                         .Where(o => o.CanRead)
                         .OrderBy(o => o.LabelText)
                         .ToDictionary(
@@ -2355,8 +2595,9 @@ namespace Implem.Pleasanter.Libraries.Settings
 
         public Dictionary<string, string> GanttSortByOptions(Context context)
         {
-            return EditorColumns
+            return GetEditorColumnNames()
                 .Select(columnName => GetColumn(context: context, columnName: columnName))
+                .Where(column => column != null)
                 .Where(column => column.CanRead)
                 .ToDictionary(o => o.ColumnName, o => o.GridLabelText);
         }
@@ -2469,7 +2710,7 @@ namespace Implem.Pleasanter.Libraries.Settings
         {
             return Columns
                 .Where(o =>
-                    EditorColumns.Contains(o.ColumnName)
+                    GetEditorColumnNames().Contains(o.ColumnName)
                     || GridColumns.Contains(o.ColumnName)
                     || !Def.ExtendedColumnTypes.ContainsKey(o.ColumnName))
                 .Where(o => !noJoined || !o.Joined)
@@ -2494,7 +2735,7 @@ namespace Implem.Pleasanter.Libraries.Settings
         public bool ShowComments(Permissions.ColumnPermissionTypes columnPermissionType)
         {
             return
-                EditorColumns?.Contains("Comments") == true &&
+                GetEditorColumnNames()?.Contains("Comments") == true &&
                 columnPermissionType != Permissions.ColumnPermissionTypes.Deny;
         }
 
@@ -2543,7 +2784,41 @@ namespace Implem.Pleasanter.Libraries.Settings
                 case "GridColumnsAll": GridColumns = context.Forms.List(propertyName); break;
                 case "FilterColumnsAll": FilterColumns = context.Forms.List(propertyName); break;
                 case "AggregationDestinationAll": Aggregations = GetAggregations(context: context); break;
-                case "EditorColumnsAll": EditorColumns = context.Forms.List(propertyName); break;
+                case "EditorColumnsAll":
+                    AddOrUpdateEditorColumnHash(
+                        editorColumnsTabsTarget: context
+                            .Forms
+                            .Data(key: "EditorColumnsTabsTarget"),
+                        editorColumnsAll: context.Forms.List(propertyName));
+                     Sections = EditorColumnHash
+                        .SelectMany(o => o
+                            .Value?
+                            .Select(columnName => SectionId(columnName))
+                            .Where(sectionId => sectionId != 0))
+                        .Select(sectionId => new Section
+                        {
+                            Id = sectionId,
+                            LabelText = Sections?
+                                .FirstOrDefault(section => section.Id == sectionId)
+                                ?.LabelText
+                                    ?? Displays.Section(context: context)
+                        })
+                        .ToList();
+                    break;
+                case "TabsAll":
+                    Tabs = Tabs?.Join(context.Forms.List(propertyName).Select((val, key) => new { Key = key, Val = val }), v => v.Id, l => l.Val.ToInt(),
+                        (v, l) => new { Tabs = v, OrderNo = l.Key })
+                        .OrderBy(v => v.OrderNo)
+                        .Select(v => v.Tabs)
+                        .Aggregate(new SettingList<Tab>(), (list, data) => { list.Add(data); return list; });
+                    break;
+                case "SectionsAll":
+                    Sections = Sections?.Join(context.Forms.List(propertyName).Select((val, key) => new { Key = key, Val = val }), v => v.Id, l => l.Val.ToInt(),
+                        (v, l) => new { Sections = v, OrderNo = l.Key })
+                        .OrderBy(v => v.OrderNo)
+                        .Select(v => v.Sections)
+                        .ToList();
+                    break;
                 case "TitleColumnsAll": TitleColumns = context.Forms.List(propertyName); break;
                 case "LinkColumnsAll": LinkColumns = context.Forms.List(propertyName); break;
                 case "HistoryColumnsAll": HistoryColumns = context.Forms.List(propertyName); break;
@@ -2650,6 +2925,10 @@ namespace Implem.Pleasanter.Libraries.Settings
                 case "ValidateEmail": column.ValidateEmail = value.ToBool(); break;
                 case "ValidateEqualTo": column.ValidateEqualTo = value.ToString(); break;
                 case "ValidateMaxLength": column.ValidateMaxLength = value.ToInt(); break;
+                case "MaxLength": column.MaxLength = value.ToDecimal(); break;
+                case "ClientRegexValidation": column.ClientRegexValidation = value; break;
+                case "ServerRegexValidation": column.ServerRegexValidation = value; break;
+                case "RegexValidationMessage": column.RegexValidationMessage = value; break;
                 case "DecimalPlaces": column.DecimalPlaces = value.ToInt(); break;
                 case "Max": column.Max = value.ToDecimal(); break;
                 case "Min": column.Min = value.ToDecimal(); break;
@@ -3167,6 +3446,32 @@ namespace Implem.Pleasanter.Libraries.Settings
                         .ToList();
         }
 
+        public Tab AddTab(Tab tab)
+        {
+            TabLatestId = TabLatestId ?? 0;
+            TabLatestId++;
+            tab.Id = TabLatestId.ToInt();
+            if (Tabs == null)
+            {
+                Tabs = new SettingList<Tab>();
+            }
+            Tabs.Add(tab);
+            return tab;
+        }
+
+        public Section AddSection(Section section)
+        {
+            SectionLatestId = SectionLatestId ?? 0;
+            SectionLatestId++;
+            section.Id = SectionLatestId.ToInt();
+            if (Sections == null)
+            {
+                Sections = new List<Section>();
+            }
+            Sections.Add(section);
+            return section;
+        }
+
         public Error.Types AddSummary(
             long siteId,
             string destinationReferenceType,
@@ -3251,10 +3556,12 @@ namespace Implem.Pleasanter.Libraries.Settings
 
         public List<ExportColumn> DefaultExportColumns(Context context)
         {
-            var columns = EditorColumns
-                .Concat(GridColumns)
-                .Where(o => o != "Ver")
-                .ToList();
+            var columns = GetEditorColumnNames(
+                context: context,
+                columnOnly: true)
+                    .Concat(GridColumns)
+                    .Where(o => o != "Ver")
+                    .ToList();
             return ColumnDefinitionHash.ExportDefinitions()
                 .Where(o => columns.Contains(o.ColumnName) || o.ExportColumn)
                 .Select(o => new ExportColumn(
@@ -3696,15 +4003,15 @@ namespace Implem.Pleasanter.Libraries.Settings
                     context: context,
                     ss: this,
                     columns: GetRelatingColumn(id).Columns ?? new List<string>(),
-                    order: EditorColumns
+                    order: GetEditorColumnNames()
                         .Where(o => o.StartsWith("Class")).ToList<string>())
                 : ColumnUtilities.SelectableSourceOptions(
                     context: context,
                     ss: this,
-                    columns: EditorColumns
+                    columns: GetEditorColumnNames()
                         .Where(o => o.StartsWith("Class")
                             && GetRelatingColumn(id).Columns?.Contains(o) != true),
-                    order: EditorColumns
+                    order: GetEditorColumnNames()
                         .Where(o => o.StartsWith("Class")).ToList<string>());
         }
 
@@ -3764,18 +4071,29 @@ namespace Implem.Pleasanter.Libraries.Settings
                     .Select(l => new
                     {
                         l.ColumnName,
-                        OrderNo = dest.EditorColumns.Contains(l.ColumnName)
-                            ? dest.EditorColumns
-                                .Select((v, k) => new { Key = k, Value = v })
-                                .Where(d => d.Value == l.ColumnName)
-                                .Select(d => d.Key)
-                                .First()
-                            : int.MaxValue
+                        OrderNo = dest
+                            .GetEditorColumnNames()
+                            .Contains(l.ColumnName)
+                                ? dest.GetEditorColumnNames()
+                                    .Select((v, k) => new { Key = k, Value = v })
+                                    .Where(d => d.Value == l.ColumnName)
+                                    .Select(d => d.Key)
+                                    .First()
+                                : int.MaxValue
                     })
                     .OrderBy(o => o.OrderNo)
                     .Select(o => o.ColumnName)
                     .FirstOrDefault())
                 .SingleOrDefault();
+        }
+
+        public bool CheckRow(Context context)
+        {
+            return GridColumnsHasSources()
+                ? false
+                : context.CanUpdate(ss: this)
+                    || context.CanDelete(ss: this)
+                    || context.CanExport(ss: this);
         }
 
         public bool GridColumnsHasSources()
@@ -3788,7 +4106,7 @@ namespace Implem.Pleasanter.Libraries.Settings
             return Columns
                 ?.Where(column => 
                     GridColumns.Contains(column.ColumnName)
-                    || EditorColumns.Contains(column.ColumnName)
+                    || GetEditorColumnNames().Contains(column.ColumnName)
                     || TitleColumns.Contains(column.ColumnName)
                     || LinkColumns.Contains(column.ColumnName)
                     || HistoryColumns.Contains(column.ColumnName)

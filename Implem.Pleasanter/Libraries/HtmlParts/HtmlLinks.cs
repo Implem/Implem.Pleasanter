@@ -32,7 +32,147 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                 : hb;
         }
 
-        private static DataSet DataSet(Context context, SiteSettings ss, long id)
+        public static HtmlBuilder LinkField(
+            this HtmlBuilder hb,
+            Context context,
+            SiteSettings ss,
+            long id,
+            long linkId,
+            List<Link> links,
+            DataSet dataSet,
+            BaseModel.MethodTypes? methodType,
+            int tabIndex)
+        {
+            var sourceSs = TargetSiteSettings(ss.Sources, linkId);
+            var destinationSs = TargetSiteSettings(ss.Destinations, linkId);
+            var targetSs = sourceSs ?? destinationSs;
+            if (targetSs != null)
+            {
+                var direction = sourceSs != null
+                    ? "Source"
+                    : "Destination";
+                var dataTableName = DataTableName(
+                    ss: targetSs,
+                    direction: direction);
+                hb.Div(
+                    id: dataTableName + "Field",
+                    action: () => hb.Link(
+                        context: context,
+                        ss: ss,
+                        id: id,
+                        linkId: linkId,
+                        direction: direction,
+                        targetSs: targetSs,
+                        links: links,
+                        dataSet: dataSet,
+                        methodType: methodType,
+                        tabIndex: tabIndex));
+            }
+            return hb;
+        }
+
+        public static ResponseCollection Links(
+            this ResponseCollection res,
+            Context context,
+            SiteSettings ss,
+            long id,
+            BaseModel.MethodTypes? methodType)
+        {
+            var dataSet = DataSet(
+                context: context,
+                ss: ss,
+                id: id);
+            var links = HtmlLinkCreations.Links(
+                context: context,
+                ss: ss);
+            new[] { ss.TabName(0) }
+                .Concat(ss.Tabs?.Select(tab => ss.TabName(tab.Id)) ?? new List<string>())
+                .Select((tabName, tabIndex) => new { tabName, tabIndex })
+                .ForEach(data =>
+                {
+                    ss.EditorColumnHash?.Get(data.tabName)?.ForEach(columnName =>
+                    {
+                        var linkId = ss.LinkId(columnName);
+                        if (linkId > 0)
+                        {
+                            var sourceSs = TargetSiteSettings(ss.Sources, linkId);
+                            var destinationSs = TargetSiteSettings(ss.Destinations, linkId);
+                            var targetSs = sourceSs ?? destinationSs;
+                            if (targetSs != null)
+                            {
+                                var direction = sourceSs != null
+                                    ? "Source"
+                                    : "Destination";
+                                var dataTableName = DataTableName(
+                                    ss: targetSs,
+                                    direction: direction);
+                                res.Html("#" + dataTableName + "Field", new HtmlBuilder().Link(
+                                    context: context,
+                                    ss: ss,
+                                    id: id,
+                                    linkId: linkId,
+                                    direction: direction,
+                                    targetSs: targetSs,
+                                    links: links,
+                                    dataSet: dataSet,
+                                    methodType: methodType,
+                                    tabIndex: data.tabIndex));
+                            }
+                        }
+                    });
+                });
+            return res;
+        }
+
+        private static HtmlBuilder Link(
+            this HtmlBuilder hb,
+            Context context,
+            SiteSettings ss,
+            long id,
+            long linkId,
+            string direction,
+            SiteSettings targetSs,
+            List<Link> links,
+            DataSet dataSet,
+            BaseModel.MethodTypes? methodType,
+            int tabIndex)
+        {
+            return hb.FieldSet(
+                css: " enclosed link-creations",
+                legendText: Displays.Links(context: context),
+                action: () => hb.Div(action: () =>
+                {
+                    var link = links.FirstOrDefault(o => o.SourceId == linkId);
+                    if (link != null)
+                    {
+                        hb.Div(action: () => hb.LinkCreationButton(
+                            context: context,
+                            ss: ss,
+                            linkId: id,
+                            sourceId: link.SourceId,
+                            text: link.SiteTitle,
+                            tabIndex: tabIndex));
+                    }
+                    hb.LinkTable(
+                        context: context,
+                        ss: targetSs,
+                        direction: direction,
+                        dataSet: dataSet);
+                }),
+                _using: methodType != BaseModel.MethodTypes.New);
+        }
+
+        private static SiteSettings TargetSiteSettings(
+            Dictionary<long, SiteSettings> links,
+            long linkId)
+        {
+            return links
+                ?.Where(o => o.Key == linkId)
+                .Select(o => o.Value)
+                .FirstOrDefault();
+        }
+
+        public static DataSet DataSet(Context context, SiteSettings ss, long id)
         {
             var statements = new List<SqlStatement>();
             ss.Sources
@@ -404,6 +544,31 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
         public static HtmlBuilder LinkTable(
             this HtmlBuilder hb,
             Context context,
+            SiteSettings ss,
+            string direction,
+            DataSet dataSet)
+        {
+            var dataTableName = DataTableName(
+                ss: ss,
+                direction: direction);
+            return hb.LinkTable(
+                context: context,
+                ss: ss,
+                view: Views.GetBySession(
+                    context: context,
+                    ss: ss,
+                    dataTableName: dataTableName),
+                dataRows: DataRows(
+                    dataSet: dataSet,
+                    ss: ss,
+                    dataTableName: dataTableName),
+                direction: direction,
+                dataTableName: dataTableName);
+        }
+
+        public static HtmlBuilder LinkTable(
+            this HtmlBuilder hb,
+            Context context,
             long siteId,
             string direction,
             string dataTableName)
@@ -468,15 +633,31 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                     dataRows: dataRows);
                                 issueCollection.SetLinks(context: context, ss: ss);
                                 hb
-                                    .Caption(caption: "{0} : {1} - {2} {3}".Params(
-                                        Caption(
-                                            context: context,
-                                            direction: direction),
-                                        siteMenu.Breadcrumb(context: context, siteId: ss.SiteId)
-                                            .Select(o => o.Title)
-                                            .Join(" > "),
-                                        Displays.Quantity(context: context),
-                                        dataRows.Count()))
+                                    .Caption(
+                                        action: () => hb
+                                            .Span(
+                                                css: "caption-direction",
+                                                action: () => hb
+                                                    .Text(text: "{0} : ".Params(Caption(
+                                                        context: context,
+                                                        direction: direction))))
+                                            .Span(
+                                                css: "caption-title",
+                                                action: () => hb
+                                                    .Text(text: "{0}".Params(siteMenu.Breadcrumb(
+                                                        context: context,
+                                                        siteId: ss.SiteId)
+                                                            .Select(o => o.Title)
+                                                            .Join(" > "))))
+                                            .Span(
+                                                css: "caption-quantity",
+                                                action: () => hb
+                                                    .Text(text: " - {0} ".Params(
+                                                        Displays.Quantity(context: context))))
+                                            .Span(
+                                                css: "caption-count",
+                                                action: () => hb
+                                                    .Text(text: "{0}".Params(dataRows.Count()))))
                                     .THead(action: () => hb
                                         .GridHeader(
                                             context: context,
@@ -512,15 +693,31 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                     dataRows: dataRows);
                                 resultCollection.SetLinks(context: context, ss: ss);
                                 hb
-                                    .Caption(caption: "{0} : {1} - {2} {3}".Params(
-                                        Caption(
-                                            context: context,
-                                            direction: direction),
-                                        siteMenu.Breadcrumb(context: context, siteId: ss.SiteId)
-                                            .Select(o => o.Title)
-                                            .Join(" > "),
-                                        Displays.Quantity(context: context),
-                                        dataRows.Count()))
+                                    .Caption(
+                                        action: () => hb
+                                            .Span(
+                                                css: "caption-direction",
+                                                action: () => hb
+                                                    .Text(text: "{0} : ".Params(Caption(
+                                                        context: context,
+                                                        direction: direction))))
+                                            .Span(
+                                                css: "caption-title",
+                                                action: () => hb
+                                                    .Text(text: "{0}".Params(siteMenu.Breadcrumb(
+                                                        context: context,
+                                                        siteId: ss.SiteId)
+                                                            .Select(o => o.Title)
+                                                            .Join(" > "))))
+                                            .Span(
+                                                css: "caption-quantity",
+                                                action: () => hb
+                                                    .Text(text: " - {0} ".Params(
+                                                        Displays.Quantity(context: context))))
+                                            .Span(
+                                                css: "caption-count",
+                                                action: () => hb
+                                                    .Text(text: "{0}".Params(dataRows.Count()))))
                                     .THead(action: () => hb
                                         .GridHeader(
                                             context: context,

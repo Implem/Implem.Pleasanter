@@ -637,34 +637,37 @@ namespace Implem.Pleasanter.Models
             Column column,
             List<string> fullText)
         {
-            switch (Def.ExtendedColumnTypes.Get(column.ColumnName))
+            if (column != null)
             {
-                case "Class":
-                    Class(column.ColumnName)?.FullText(
-                        context: context,
-                        column: column,
-                        fullText: fullText);
-                    break;
-                case "Num":
-                    Num(column.ColumnName).FullText(
-                        context: context,
-                        fullText: fullText);
-                    break;
-                case "Date":
-                    Date(column.ColumnName).FullText(
-                        context: context,
-                        fullText: fullText);
-                    break;
-                case "Description":
-                    Description(column.ColumnName)?.FullText(
-                        context: context,
-                        fullText: fullText);
-                    break;
-                case "Attachments":
-                    Attachments(column.ColumnName)?.FullText(
-                        context: context,
-                        fullText: fullText);
-                    break;
+                switch (Def.ExtendedColumnTypes.Get(column.ColumnName))
+                {
+                    case "Class":
+                        Class(column.ColumnName)?.FullText(
+                            context: context,
+                            column: column,
+                            fullText: fullText);
+                        break;
+                    case "Num":
+                        Num(column.ColumnName).FullText(
+                            context: context,
+                            fullText: fullText);
+                        break;
+                    case "Date":
+                        Date(column.ColumnName).FullText(
+                            context: context,
+                            fullText: fullText);
+                        break;
+                    case "Description":
+                        Description(column.ColumnName)?.FullText(
+                            context: context,
+                            fullText: fullText);
+                        break;
+                    case "Attachments":
+                        Attachments(column.ColumnName)?.FullText(
+                            context: context,
+                            fullText: fullText);
+                        break;
+                }
             }
         }
     }

@@ -48,15 +48,15 @@ namespace Implem.Pleasanter.Libraries.DataSources
                 {
                     var sendGridMessage = new SendGrid.SendGridMessage();
                     sendGridMessage.From = Addresses.From(From);
-                    Addresses.GetEnumerable(
+                    Addresses.Get(
                         context: context,
                         addresses: To)
                            .ForEach(to => sendGridMessage.AddTo(CreateAddressInfo(to)));
-                    Addresses.GetEnumerable(
+                    Addresses.Get(
                         context: context,
                         addresses: Cc)
                             .ForEach(cc => sendGridMessage.AddCc(CreateMailAddress(cc)));
-                    Addresses.GetEnumerable(
+                    Addresses.Get(
                         context: context,
                         addresses: Bcc)
                             .ForEach(bcc => sendGridMessage.AddBcc(CreateMailAddress(bcc)));

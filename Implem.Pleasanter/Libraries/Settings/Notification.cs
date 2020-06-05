@@ -138,17 +138,15 @@ namespace Implem.Pleasanter.Libraries.Settings
                     if (Parameters.Notification.Mail)
                     {
                         var mailFrom = new System.Net.Mail.MailAddress(
-                            Addresses.BadAddress(
-                                context: context,
-                                addresses: from) == string.Empty
-                                    ? from
-                                    : Parameters.Mail.SupportFrom);
+                            Addresses.BadAddress(addresses: from) == string.Empty
+                                ? from
+                                : Parameters.Mail.SupportFrom);
                         new OutgoingMailModel()
                         {
                             Title = new Title(Prefix + title),
                             Body = body,
                             From = mailFrom,
-                            To = Addresses.GetEnumerable(
+                            To = Addresses.Get(
                                 context: context,
                                 addresses: Address).Join(",")
                         }.Send(context: context, ss: ss);
@@ -205,7 +203,7 @@ namespace Implem.Pleasanter.Libraries.Settings
         {
             return (update
                 ? MonitorChangesColumns
-                : ss.EditorColumns)?
+                : ss.GetEditorColumnNames())?
                     .Select(columnName => ss.GetColumn(
                         context: context,
                         columnName: columnName))

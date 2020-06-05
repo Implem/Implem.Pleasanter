@@ -180,7 +180,7 @@ namespace Implem.Pleasanter.Libraries.Settings
             var to = To;
             toColumns.ForEach(toColumn =>
                 to = to.Replace($"[{toColumn.ColumnName}]", string.Empty));
-            to = Addresses.GetEnumerable(
+            to = Addresses.Get(
                 context: context,
                 addresses: to)
                     .Join(",");
@@ -208,7 +208,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                         var id = dataRow.Long(Rds.IdColumn(ss.ReferenceType));
                         hash[fixedTo].AddIfNotConainsKey(id, dataRow);
                         toColumns.ForEach(toColumn =>
-                            Addresses.GetEnumerable(
+                            Addresses.Get(
                                 context: context,
                                 addresses: toColumn.UserColumn
                                     ? $"[User{dataRow.String(toColumn.ColumnName)}]"

@@ -80,7 +80,9 @@ namespace Implem.Pleasanter.Libraries.Settings
                 {
                     data.Notification.Index = data.Index;
                     data.Notification.MonitorChangesColumns = data.Notification.MonitorChangesColumns
-                        ?? ss.EditorColumns;
+                        ?? ss.GetEditorColumnNames(
+                            context: context,
+                            columnOnly: true);
                 });
             return notifications;
         }

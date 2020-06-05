@@ -370,7 +370,7 @@ namespace Implem.Pleasanter.Models
             bool clearCheck = false,
             string action = "GridRows")
         {
-            var checkRow = !ss.GridColumnsHasSources();
+            var checkRow = ss.CheckRow(context: context);
             var checkAll = clearCheck
                 ? false
                 : context.Forms.Bool("GridCheckAll");
@@ -471,7 +471,9 @@ namespace Implem.Pleasanter.Models
                 issueModel.SetCopyDefault(
                     context: context,
                     ss: ss);
-                ss.EditorColumns
+                ss.GetEditorColumnNames(
+                    context: context,
+                    columnOnly: true)
                     .Select(columnName => ss.GetColumn(
                         context: context,
                         columnName: columnName))
@@ -1207,13 +1209,12 @@ namespace Implem.Pleasanter.Models
                     siteId: issueModel.SiteId,
                     referenceId: issueModel.IssueId,
                     isHistory: issueModel.VerType == Versions.VerTypes.History,
-                    action: () => hb
-                        .FieldSetGeneral(
-                            context: context,
-                            ss: ss,
-                            issueModel: issueModel,
-                            editInDialog: editInDialog))
-                                .ToString()
+                    action: () => hb.EditorInDialog(
+                        context: context,
+                        ss: ss,
+                        issueModel: issueModel,
+                        editInDialog: editInDialog))
+                            .ToString()
                 : hb.Template(
                     context: context,
                     ss: ss,
@@ -1227,7 +1228,9 @@ namespace Implem.Pleasanter.Models
                         ? Displays.New(context: context)
                         : issueModel.Title.DisplayValue,
                     body: issueModel.Body,
-                    useTitle: ss.TitleColumns?.Any(o => ss.EditorColumns.Contains(o)) == true,
+                    useTitle: ss.TitleColumns?.Any(o => ss
+                        .GetEditorColumnNames()
+                        .Contains(o)) == true,
                     userScript: ss.EditorScripts(
                         context: context, methodType: issueModel.MethodType),
                     userStyle: ss.EditorStyles(
@@ -1239,6 +1242,42 @@ namespace Implem.Pleasanter.Models
                             issueModel: issueModel)
                         .Hidden(controlId: "DropDownSearchPageSize", value: Parameters.General.DropDownSearchPageSize.ToString()))
                             .ToString();
+        }
+
+        private static HtmlBuilder EditorInDialog(
+            this HtmlBuilder hb,
+            Context context,
+            SiteSettings ss,
+            IssueModel issueModel,
+            bool editInDialog)
+        {
+            return ss.Tabs?.Any() != true
+                ? hb.FieldSetGeneral(
+                    context: context,
+                    ss: ss,
+                    issueModel: issueModel,
+                    editInDialog: editInDialog)
+                : hb.Div(
+                    id: "EditorTabsContainer",
+                    css: "max",
+                    attributes: new HtmlAttributes().TabActive(context: context),
+                    action: () => hb
+                        .EditorTabs(
+                            context: context,
+                            ss: ss,
+                            issueModel: issueModel,
+                            editInDialog: editInDialog)
+                        .FieldSetGeneral(
+                            context: context,
+                            ss: ss,
+                            issueModel: issueModel,
+                            editInDialog: editInDialog)
+                        .FieldSetTabs(
+                            context: context,
+                            ss: ss,
+                            id: issueModel.IssueId,
+                            issueModel: issueModel,
+                            editInDialog: editInDialog));
         }
 
         private static HtmlBuilder Editor(
@@ -1278,44 +1317,53 @@ namespace Implem.Pleasanter.Models
                                     verType: issueModel.VerType,
                                     columnPermissionType: commentsColumnPermissionType),
                             _using: showComments)
-                        .Div(id: "EditorTabsContainer", css: tabsCss, action: () => hb
-                            .EditorTabs(
-                                context: context,
-                                ss: ss,
-                                issueModel: issueModel)
-                            .FieldSetGeneral(
-                                context: context,
-                                ss: ss,
-                                issueModel: issueModel)
-                            .FieldSet(
-                                attributes: new HtmlAttributes()
-                                    .Id("FieldSetHistories")
-                                    .DataAction("Histories")
-                                    .DataMethod("post"),
-                                _using: issueModel.MethodType != BaseModel.MethodTypes.New
-                                    && !context.Publish)
-                            .FieldSet(
-                                attributes: new HtmlAttributes()
-                                    .Id("FieldSetRecordAccessControl")
-                                    .DataAction("Permissions")
-                                    .DataMethod("post"),
-                                _using: context.CanManagePermission(ss: ss)
-                                    && !ss.Locked()
-                                    && issueModel.MethodType != BaseModel.MethodTypes.New)
-                            .MainCommands(
-                                context: context,
-                                ss: ss,
-                                verType: issueModel.VerType,
-                                updateButton: true,
-                                copyButton: true,
-                                moveButton: true,
-                                mailButton: true,
-                                deleteButton: true,
-                                extensions: () => hb
-                                    .MainCommandExtensions(
-                                        context: context,
-                                        ss: ss,
-                                        issueModel: issueModel)))
+                        .Div(
+                            id: "EditorTabsContainer",
+                            css: tabsCss,
+                            attributes: new HtmlAttributes().TabActive(context: context),
+                            action: () => hb
+                                .EditorTabs(
+                                    context: context,
+                                    ss: ss,
+                                    issueModel: issueModel)
+                                .FieldSetGeneral(
+                                    context: context,
+                                    ss: ss,
+                                    issueModel: issueModel)
+                                .FieldSetTabs(
+                                    context: context,
+                                    ss: ss,
+                                    id: issueModel.IssueId,
+                                    issueModel: issueModel)
+                                .FieldSet(
+                                    attributes: new HtmlAttributes()
+                                        .Id("FieldSetHistories")
+                                        .DataAction("Histories")
+                                        .DataMethod("post"),
+                                    _using: issueModel.MethodType != BaseModel.MethodTypes.New
+                                        && !context.Publish)
+                                .FieldSet(
+                                    attributes: new HtmlAttributes()
+                                        .Id("FieldSetRecordAccessControl")
+                                        .DataAction("Permissions")
+                                        .DataMethod("post"),
+                                    _using: context.CanManagePermission(ss: ss)
+                                        && !ss.Locked()
+                                        && issueModel.MethodType != BaseModel.MethodTypes.New)
+                                .MainCommands(
+                                    context: context,
+                                    ss: ss,
+                                    verType: issueModel.VerType,
+                                    updateButton: true,
+                                    copyButton: true,
+                                    moveButton: true,
+                                    mailButton: true,
+                                    deleteButton: true,
+                                    extensions: () => hb
+                                        .MainCommandExtensions(
+                                            context: context,
+                                            ss: ss,
+                                            issueModel: issueModel)))
                         .Hidden(
                             controlId: "BaseUrl",
                             value: Locations.BaseUrl(context: context))
@@ -1339,6 +1387,11 @@ namespace Implem.Pleasanter.Models
                             css: "control-hidden always-send",
                             value: context.QueryStrings.Data("LinkId"),
                             _using: context.QueryStrings.Long("LinkId") > 0)
+                        .Hidden(
+                            controlId: "FromTabIndex",
+                            css: "control-hidden always-send",
+                            value: context.QueryStrings.Data("FromTabIndex"),
+                            _using: context.QueryStrings.Long("FromTabIndex") > 0)
                         .Hidden(
                             controlId: "MethodType",
                             value: issueModel.MethodType.ToString().ToLower())
@@ -1380,16 +1433,21 @@ namespace Implem.Pleasanter.Models
             this HtmlBuilder hb,
             Context context,
             SiteSettings ss,
-            IssueModel issueModel)
+            IssueModel issueModel,
+            bool editInDialog = false)
         {
             return hb.Ul(id: "EditorTabs", action: () => hb
                 .Li(action: () => hb
                     .A(
                         href: "#FieldSetGeneral",
                         text: Displays.General(context: context)))
+                .Tabs(
+                    context: context,
+                    ss: ss)
                 .Li(
                     _using: issueModel.MethodType != BaseModel.MethodTypes.New
-                        && !context.Publish,
+                        && !context.Publish
+                        && !editInDialog,
                     action: () => hb
                         .A(
                             href: "#FieldSetHistories",
@@ -1397,7 +1455,8 @@ namespace Implem.Pleasanter.Models
                 .Li(
                     _using: context.CanManagePermission(ss: ss)
                         && !ss.Locked()
-                        && issueModel.MethodType != BaseModel.MethodTypes.New,
+                        && issueModel.MethodType != BaseModel.MethodTypes.New
+                        && !editInDialog,
                     action: () => hb
                         .A(
                             href: "#FieldSetRecordAccessControl",
@@ -1468,20 +1527,24 @@ namespace Implem.Pleasanter.Models
             bool preview = false,
             bool editInDialog = false)
         {
-            ss.GetEditorColumns(context: context).ForEach(column =>
-                hb.Field(
-                    context: context,
-                    ss: ss,
-                    issueModel: issueModel,
-                    column: column,
-                    preview: preview));
+            hb.Fields(
+                context: context,
+                ss: ss,
+                id: issueModel.IssueId,
+                issueModel: issueModel,
+                preview: preview,
+                editInDialog: editInDialog);
             if (!preview)
             {
                 hb.VerUpCheckBox(
                     context: context,
                     ss: ss,
                     baseModel: issueModel);
-                if (!editInDialog)
+                if (!editInDialog
+                    && ss
+                        .EditorColumnHash
+                        ?.SelectMany(tab => tab.Value ?? Enumerable.Empty<string>())
+                        .Any(columnName => ss.LinkId(columnName) != 0) == false)
                 {
                     hb
                         .Div(id: "LinkCreations", css: "links", action: () => hb
@@ -1532,6 +1595,244 @@ namespace Implem.Pleasanter.Models
                     disableSection: disableSection);
             }
             return hb;
+        }
+
+        private static HtmlBuilder Tabs(this HtmlBuilder hb, Context context, SiteSettings ss)
+        {
+            ss.Tabs?.ForEach(tab => hb.Li(action: () => hb.A(
+                href: $"#FieldSetTab{tab.Id}",
+                action: () => hb.Label(action: () => hb.Text(tab.LabelText)))));
+            return hb;
+        }
+
+        private static HtmlBuilder FieldSetTabs(
+            this HtmlBuilder hb,
+            Context context,
+            SiteSettings ss,
+            long id,
+            IssueModel issueModel,
+            bool preview = false,
+            bool editInDialog = false)
+        {
+            var dataSet = HtmlLinks.DataSet(
+                context: context,
+                ss: ss,
+                id: id);
+            var links = HtmlLinkCreations.Links(
+                context: context,
+                ss: ss);
+            ss.Tabs?.Select((tab, index) => new { tab = tab, index = index + 1 })?.ForEach(data =>
+            {
+                hb.FieldSet(
+                    id: $"FieldSetTab{data.tab.Id}",
+                    css: " fieldset cf ui-tabs-panel ui-corner-bottom ui-widget-content ",
+                    action: () => hb.Fields(
+                        context: context,
+                        ss: ss,
+                        id: id,
+                        tab: data.tab,
+                        dataSet: dataSet,
+                        links: links,
+                        preview: preview,
+                        editInDialog: editInDialog,
+                        issueModel: issueModel,
+                        tabIndex: data.index));
+            });
+            return hb;
+        }
+
+        private static HtmlBuilder Fields(
+            this HtmlBuilder hb,
+            Context context,
+            SiteSettings ss,
+            long id,
+            IssueModel issueModel,
+            bool preview = false,
+            bool editInDialog = false)
+        {
+            return hb.Fields(
+                context: context,
+                ss: ss,
+                id: id,
+                tab: new Tab { Id = 0 },
+                dataSet: !preview
+                    ? HtmlLinks.DataSet(
+                        context: context,
+                        ss: ss,
+                        id: id)
+                    : null,
+                links: HtmlLinkCreations.Links(
+                    context: context,
+                    ss: ss),
+                issueModel: issueModel,
+                preview: preview,
+                editInDialog: editInDialog);
+        }
+
+        private static HtmlBuilder Fields(
+            this HtmlBuilder hb,
+            Context context,
+            SiteSettings ss,
+            long id,
+            Tab tab,
+            DataSet dataSet,
+            List<Link> links,
+            IssueModel issueModel,
+            bool preview = false,
+            bool editInDialog = false,
+            int tabIndex = 0)
+        {
+            ss
+                .GetEditorColumns(
+                    context: context,
+                    tab: tab,
+                    columnOnly: false)
+                ?.Aggregate(new List<KeyValuePair<Section, List<string>>>(), (columns, column) =>
+                {
+                    var sectionId = ss.SectionId(column.ColumnName);
+                    if (sectionId != 0)
+                    {
+                        columns.Add(new KeyValuePair<Section, List<string>>(
+                            new Section
+                            {
+                                Id = sectionId,
+                                LabelText = ss
+                                    .Sections
+                                    ?.FirstOrDefault(o => o.Id == sectionId)
+                                    ?.LabelText
+                            },
+                            new List<string>()));
+                    }
+                    else
+                    {
+                        if (!columns.Any())
+                        {
+                            columns.Add(new KeyValuePair<Section, List<string>>(
+                                null,
+                                new List<string>()));
+                        }
+                        columns.Last().Value.Add(column.ColumnName);
+                    }
+                    return columns;
+                }).ForEach(section =>
+                {
+                    if (section.Key == null)
+                    {
+                        hb.Fields(
+                            context: context,
+                            ss: ss,
+                            id: id,
+                            columnNames: section.Value,
+                            dataSet: dataSet,
+                            links: links,
+                            issueModel: issueModel,
+                            preview: preview,
+                            editInDialog: editInDialog,
+                            tabIndex: tabIndex);
+                    }
+                    else
+                    {
+                        hb
+                            .Div(
+                                css: "SectionFields",
+                                action: () => hb.Div(action: () => hb.Label(
+                                    css: "field-section", 
+                                    action: () => hb.Text(text: section.Key.LabelText)))
+                                .Div(
+                                    css: "section-fields",
+                                    action: () => hb.Fields(
+                                        context: context,
+                                        ss: ss,
+                                        id: id,
+                                        columnNames: section.Value,
+                                        dataSet: dataSet,
+                                        links: links,
+                                        issueModel: issueModel,
+                                        preview: preview,
+                                        editInDialog: editInDialog,
+                                        tabIndex: tabIndex)));
+                    }
+                });
+            return hb;
+        }
+
+        private static HtmlBuilder Fields(
+            this HtmlBuilder hb,
+            Context context,
+            SiteSettings ss,
+            long id,
+            List<string> columnNames,
+            DataSet dataSet,
+            List<Link> links,
+            IssueModel issueModel,
+            bool preview = false,
+            bool editInDialog = false,
+            int tabIndex = 0)
+        {
+            columnNames.ForEach(columnName => hb.Field(
+                context: context,
+                ss: ss,
+                id: id,
+                columnName: columnName,
+                dataSet: dataSet,
+                links: links,
+                issueModel: issueModel,
+                preview: preview,
+                editInDialog: editInDialog,
+                tabIndex: tabIndex));
+            return hb;
+        }
+
+        private static HtmlBuilder Field(
+            this HtmlBuilder hb,
+            Context context,
+            SiteSettings ss,
+            long id,
+            string columnName,
+            DataSet dataSet,
+            List<Link> links,
+            IssueModel issueModel,
+            bool preview = false,
+            bool editInDialog = false,
+            int tabIndex = 0)
+        {
+            var column = ss.GetColumn(
+                context: context,
+                columnName: columnName);
+            var linkId = !preview && !editInDialog ? ss.LinkId(columnName) : 0;
+            if (column != null)
+            {
+                hb.Field(
+                    context: context,
+                    ss: ss,
+                    issueModel: issueModel,
+                    column: column,
+                    preview: preview);
+            }
+            else if (!editInDialog && linkId != 0)
+            {
+                hb.LinkField(
+                    context: context,
+                    ss: ss,
+                    id: issueModel.IssueId,
+                    linkId: linkId,
+                    links: links,
+                    dataSet: dataSet,
+                    methodType: issueModel?.MethodType,
+                    tabIndex: tabIndex);
+            }
+            return hb;
+        }
+
+        private static HtmlAttributes TabActive(
+            this HtmlAttributes attributes,
+            Context context)
+        {
+            var tabIndex = context.QueryStrings.Get("TabIndex").ToInt();
+            return attributes.Add(
+                name: "tab-active",
+                value: tabIndex.ToString(),
+                _using: tabIndex > 0);
         }
 
         public static string ControlValue(
@@ -1797,7 +2098,7 @@ namespace Implem.Pleasanter.Models
             string idSuffix = null)
         {
             var mine = issueModel.Mine(context: context);
-            ss.EditorColumns
+            ss.GetEditorColumnNames()
                 .Select(columnName => ss.GetColumn(
                     context: context,
                     columnName: columnName))
@@ -2134,7 +2435,12 @@ namespace Implem.Pleasanter.Models
                             controller: context.Controller,
                             id: ss.Columns.Any(o => o.Linking)
                                 ? context.Forms.Long("LinkId")
-                                : issueModel.IssueId) + "?new=1")
+                                : issueModel.IssueId)
+                                    + "?new=1"
+                                    + (ss.Columns.Any(o => o.Linking)
+                                        && context.Forms.Long("FromTabIndex") > 0
+                                            ? $"&TabIndex={context.Forms.Long("FromTabIndex")}"
+                                            : string.Empty))
                         .ToJson();
                 case Error.Types.Duplicated:
                     return Messages.ResponseDuplicated(
@@ -2339,6 +2645,11 @@ namespace Implem.Pleasanter.Models
                         context: context,
                         ss: ss,
                         id: issueModel.IssueId))
+                    .Links(
+                        context: context,
+                        ss: ss,
+                        id: issueModel.IssueId,
+                        methodType: issueModel.MethodType)
                     .SetMemory("formChanged", false)
                     .Message(Messages.Updated(
                         context: context,
@@ -2967,7 +3278,7 @@ namespace Implem.Pleasanter.Models
                 default: return invalid.MessageJson(context: context);
             }
             issueModel.IssueId = 0;
-            if (ss.EditorColumns.Contains("Title"))
+            if (ss.GetEditorColumnNames().Contains("Title"))
             {
                 issueModel.Title.Value += Displays.SuffixCopy(context: context);
             }
@@ -4161,7 +4472,9 @@ namespace Implem.Pleasanter.Models
                         var model = new IssueModel(
                             context: context,
                             ss: ss,
-                            issueId: data.Row[idColumn].ToLong());
+                            issueId: data.Row.Count > idColumn
+                                ? data.Row[idColumn].ToLong()
+                                : 0);
                         if (model.AccessStatus == Databases.AccessStatuses.Selected)
                         {
                             issueModel = model;
@@ -4175,7 +4488,9 @@ namespace Implem.Pleasanter.Models
                             var recordingData = ImportRecordingData(
                                 context: context,
                                 column: column.Value,
-                                value: data.Row[column.Key],
+                                value: data.Row.Count > column.Key
+                                    ? data.Row[column.Key]
+                                    : string.Empty,
                                 inheritPermission: ss.InheritPermission);
                             switch (column.Value.ColumnName)
                             {
@@ -4240,6 +4555,15 @@ namespace Implem.Pleasanter.Models
                         o => o.Value.CompletionTime.Value.ToString()),
                     column: ss.GetColumn(context: context, columnName: "CompletionTime"));
                 if (errorCompletionTime != null) return errorCompletionTime;
+                var inputErrorData = IssueValidators.OnInputValidating(
+                    context: context,
+                    ss: ss,
+                    issueHash: issueHash).FirstOrDefault();
+                switch (inputErrorData.Type)
+                {
+                    case Error.Types.None: break;
+                    default: return inputErrorData.MessageJson(context: context);
+                }
                 var insertCount = 0;
                 var updateCount = 0;
                 foreach (var issueModel in issueHash.Values)
@@ -4401,7 +4725,8 @@ namespace Implem.Pleasanter.Models
                     context: context,
                     title: ss.Title,
                     name: export.Name,
-                    extension: export.Type.ToString()));
+                    extension: export.Type.ToString()),
+                encoding: context.QueryStrings.Data("encoding"));
         }
 
         public static string ExportAsync(

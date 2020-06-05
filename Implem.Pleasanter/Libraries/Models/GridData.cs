@@ -347,22 +347,23 @@ namespace Implem.Pleasanter.Libraries.Models
         {
             ss.Sources?.Values.ForEach(currentSs =>
             {
-                var tableAlias = currentSs.JoinStacks.First().TableName();
-                var idColumn = tableAlias + "," + Rds.IdColumn(currentSs.ReferenceType);
-                dataRows
-                    .GroupBy(o => o.Long(idColumn))
-                    .Where(o => o.Key > 0)
-                    .Select(o => o.ToList())
-                    .ForEach(groupedDataRows =>
-                    {
-                        exportModel.AddSource(
-                            exportModel: JsonStacks(
-                                context: context,
-                                ss: currentSs,
-                                idColumn: idColumn,
-                                dataRows: groupedDataRows,
-                                tableAlias: tableAlias));
-                    });
+                var tableAlias = currentSs.JoinStacks.FirstOrDefault()?.TableName();
+                if (tableAlias != null)
+                {
+                    var idColumn = tableAlias + "," + Rds.IdColumn(currentSs.ReferenceType);
+                    dataRows
+                        .GroupBy(o => o.Long(idColumn))
+                        .Where(o => o.Key > 0)
+                        .Select(o => o.ToList())
+                        .ForEach(groupedDataRows =>
+                            exportModel.AddSource(
+                                exportModel: JsonStacks(
+                                    context: context,
+                                    ss: currentSs,
+                                    idColumn: idColumn,
+                                    dataRows: groupedDataRows,
+                                    tableAlias: tableAlias)));
+                }
             });
         }
     }

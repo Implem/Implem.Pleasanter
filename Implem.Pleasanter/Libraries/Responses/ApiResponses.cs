@@ -51,6 +51,14 @@ namespace Implem.Pleasanter.Libraries.Responses
                     return Locked(
                         context: context,
                         errorData: errorData);
+                case General.Error.Types.TooLongText:
+                    return TooLongText(
+                        context: context,
+                        errorData: errorData);
+                case General.Error.Types.NotMatchRegex:
+                    return NotMatchRegex(
+                        context: context,
+                        errorData: errorData);
                 default:
                     return new ApiResponse(
                         id: context.Id,
@@ -155,6 +163,26 @@ namespace Implem.Pleasanter.Libraries.Responses
                 message: Displays.Get(
                     context: context,
                     id: errorData.Type.ToString()).Params(errorData.Data));
+        }
+
+        public static ApiResponse TooLongText(Context context, ErrorData errorData)
+        {
+            return new ApiResponse(
+                id: context.Id,
+                statusCode: 422,
+                message: Displays.TooLongText(
+                    context: context,
+                    data: errorData.Data));
+        }
+
+        public static ApiResponse NotMatchRegex(Context context, ErrorData errorData)
+        {
+            return new ApiResponse(
+                id: context.Id,
+                statusCode: 422,
+                message: Displays.NotMatchRegex(
+                    context: context,
+                    data: errorData.Data));
         }
     }
 }

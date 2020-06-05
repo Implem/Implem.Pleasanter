@@ -35,6 +35,8 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             bool validateEmail = false,
             string validateEqualTo = null,
             int validateMaxLength = 0,
+            string validateRegex = null,
+            string validateRegexErrorMessage = null,
             string action = null,
             string method = null,
             Dictionary<string, string> attributes = null,
@@ -66,6 +68,8 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                         .DataValidateEmail(validateEmail)
                         .DataValidateEqualTo(validateEqualTo)
                         .DataValidateMaxLength(validateMaxLength)
+                        .DataValidateRegex(validateRegex)
+                        .DataValidateRegexErrorMessage(validateRegexErrorMessage)
                         .DataAction(action)
                         .DataMethod(method)
                         .Add(attributes));
@@ -177,7 +181,10 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             bool validateRequired = false,
             Dictionary<string, string> attributes = null,
             bool preview = false,
-            bool _using = true)
+            bool _using = true,
+            int validateMaxLength = 0,
+            string validateRegex = null,
+            string validateRegexErrorMessage=null)
         {
             if (preview) controlId = Strings.NewGuid();
             return _using
@@ -204,7 +211,10 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                 controlCss))
                             .Placeholder(placeholder)
                             .DataAlwaysSend(alwaysSend)
+                            .DataValidateMaxLength(validateMaxLength)
                             .DataValidateRequired(validateRequired, _using: !readOnly)
+                            .DataValidateRegex(validateRegex)
+                            .DataValidateRegexErrorMessage(validateRegexErrorMessage)
                             .Add(attributes),
                         text: text)
                     .MarkDownCommands(
@@ -353,7 +363,11 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                 .DataClass(htmlData.Value.Css)
                                 .DataStyle(htmlData.Value.Style)
                                 .Selected(Selected(
-                                    selectedValue, selectedValues, htmlData.Key, multiple)),
+                                    selectedValue: selectedValue,
+                                    selectedValues: selectedValues,
+                                    controlValue: htmlData.Key,
+                                    multiple: multiple))
+                                .Add(htmlData.Value.Attributes),
                             action: () =>
                             {
                                 var text = Strings.CoalesceEmpty(
@@ -792,7 +806,8 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             string value = null,
             bool readOnly = false,
             bool preview = false,
-            bool _using = true)
+            bool _using = true,
+            int validateMaxLength = 0)
         {
             if (preview) controlId = Strings.NewGuid();
             var attachments = value.Deserialize<Attachments>();
@@ -807,7 +822,8 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                         css: "control-attachments-upload",
                         attributes: new HtmlAttributes()
                             .DataName(columnName)
-                            .DataAction("binaries/multiupload"),
+                            .DataAction("binaries/multiupload")
+                            .DataValidateMaxLength(validateMaxLength),
                         action: () => hb
                             .Text(text: Displays.FileDragDrop(context: context))
                             .Input(attributes: new HtmlAttributes()

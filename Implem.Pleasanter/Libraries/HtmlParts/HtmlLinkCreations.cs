@@ -36,7 +36,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     : hb;
         }
 
-        private static List<Link> Links(Context context, SiteSettings ss)
+        public static List<Link> Links(Context context, SiteSettings ss)
         {
             return new LinkCollection(
                 context: context,
@@ -86,13 +86,14 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     text: link.SiteTitle)));
         }
 
-        private static HtmlBuilder LinkCreationButton(
+        public static HtmlBuilder LinkCreationButton(
             this HtmlBuilder hb,
             Context context,
             SiteSettings ss,
             long linkId,
             long sourceId,
-            string text)
+            string text,
+            int tabIndex = 0)
         {
             return hb.Button(
                 attributes: new HtmlAttributes()
@@ -105,7 +106,11 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     .DataId(linkId.ToString())
                     .DataIcon("ui-icon-plus")
                     .Add("data-from-site-id", ss.SiteId.ToString())
-                    .Add("data-to-site-id", sourceId.ToString()),
+                    .Add("data-to-site-id", sourceId.ToString())
+                    .Add(
+                        name: "from-tab-index",
+                        value: tabIndex.ToString(),
+                        _using: tabIndex != 0),
                 action: () => hb
                     .Text(text: text));
         }

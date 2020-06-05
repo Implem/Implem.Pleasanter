@@ -1,4 +1,5 @@
-﻿using Implem.Pleasanter.Libraries.DataTypes;
+﻿using Implem.Libraries.Utilities;
+using Implem.Pleasanter.Libraries.DataTypes;
 using Implem.Pleasanter.Libraries.Html;
 using Implem.Pleasanter.Libraries.Models;
 using Implem.Pleasanter.Libraries.Requests;
@@ -33,7 +34,10 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     labelText: column?.LabelText,
                     allowImage: column?.AllowImage == true,
                     mobile: context.Mobile == true,
-                    _using: !readOnly)
+                    _using: !readOnly,
+                    validateMaxLength: column.MaxLength.ToInt(),
+                    validateRegex: column.ClientRegexValidation,
+                    validateRegexErrorMessage:column.RegexValidationMessage)
                 .Div(id: "CommentList", css: css, action: () => comments
                      .ForEach(comment => hb
                          .Comment(
@@ -72,9 +76,12 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             string css,
             string title,
             string labelText,
+            string validateRegex,
+            string validateRegexErrorMessage,
             bool allowImage,
             bool mobile,
-            bool _using = true)
+            bool _using = true,
+            int validateMaxLength = 0)
         {
             return _using
                 ? hb.Div(id: "CommentField", css: css, action: () =>
@@ -89,6 +96,9 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                         : string.Empty) +
                                     css)
                                 .Title(title)
+                                .DataValidateMaxLength(validateMaxLength)
+                                .DataValidateRegex(validateRegex)
+                                .DataValidateRegexErrorMessage(validateRegexErrorMessage)
                                 .Placeholder(labelText))
                         .MarkDownCommands(
                             context: context,

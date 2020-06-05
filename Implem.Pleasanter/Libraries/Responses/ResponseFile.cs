@@ -13,13 +13,19 @@ namespace Implem.Pleasanter.Libraries.Responses
         public string FileDownloadName;
         public int Length;
         public long StreamLength;
+        public string Encoding;
 
-        public ResponseFile(string fileContent, string fileDownloadName, string contentType = null)
+        public ResponseFile(
+            string fileContent,
+            string fileDownloadName,
+            string contentType = null,
+            string encoding = null)
         {
             FileContents = fileContent;
             FileDownloadName = fileDownloadName;
             ContentType = Strings.CoalesceEmpty(contentType, Mime.Type(FileDownloadName));
             Length = fileContent.Length;
+            Encoding = encoding;
         }
 
         public ResponseFile(Stream fileContent, string fileDownloadName, string contentType = null)
@@ -32,7 +38,11 @@ namespace Implem.Pleasanter.Libraries.Responses
 
         public FileContentResult ToFile()
         {
-            var fileContentResult = new FileContentResult(FileContents.ToBytes(), ContentType)
+            var fileContentResult = new FileContentResult(
+                FileContents.ToBytes(Encoding == "Shift-JIS"
+                    ? System.Text.Encoding.GetEncoding("Shift_JIS")
+                    : null),
+                ContentType)
             {
                 FileDownloadName = FileDownloadName
             };

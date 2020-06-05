@@ -202,7 +202,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
         {
             return
                 ss.GridColumns.Contains(columnName) ||
-                ss.EditorColumns.Contains(columnName);
+                ss.GetEditorColumnNames().Contains(columnName);
         }
 
         internal static string GetDisplayDateFilterRange(string value, bool timepicker)
