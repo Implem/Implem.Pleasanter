@@ -306,7 +306,7 @@ namespace Implem.Pleasanter.Models
             bool clearCheck = false,
             string action = "GridRows")
         {
-            var checkRow = !ss.GridColumnsHasSources();
+            var checkRow = ss.CheckRow(context: context);
             var checkAll = clearCheck
                 ? false
                 : context.Forms.Bool("GridCheckAll");
@@ -2540,7 +2540,6 @@ namespace Implem.Pleasanter.Models
                 foreach (var userModel in userHash.Values)
                 {
                     var badMailAddress = Libraries.Mails.Addresses.BadAddress(
-                        context: context,
                         addresses: userModel.MailAddresses.Join());
                     if (!badMailAddress.IsNullOrEmpty())
                     {
@@ -2637,7 +2636,7 @@ namespace Implem.Pleasanter.Models
                         Rds.PhysicalDeleteMailAddresses(where: where)
                     };
                     userModel.MailAddresses
-                        .Where(mailAddress => !Libraries.Mails.Addresses.Get(mailAddress).IsNullOrEmpty())
+                        .Where(mailAddress => !Libraries.Mails.Addresses.GetBody(mailAddress).IsNullOrEmpty())
                         .ForEach(mailAddress =>
                             statements.Add(Rds.InsertMailAddresses(param: Rds.MailAddressesParam()
                                 .OwnerId(userModel.UserId)

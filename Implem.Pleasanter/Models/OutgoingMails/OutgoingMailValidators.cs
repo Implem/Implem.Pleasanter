@@ -44,27 +44,21 @@ namespace Implem.Pleasanter.Models
                 return new ErrorData(type: Error.Types.RequireMailAddresses);
             }
             var badTo = MailAddressValidators.BadMailAddress(
-                context: context,
                 addresses: outgoingMailModel.To);
             if (badTo.Type != Error.Types.None) return badTo;
             var badCc = MailAddressValidators.BadMailAddress(
-                context: context,
                 addresses: outgoingMailModel.Cc);
             if (badCc.Type != Error.Types.None) return badCc;
             var badBcc = MailAddressValidators.BadMailAddress(
-                context: context,
                 addresses: outgoingMailModel.Bcc);
             if (badBcc.Type != Error.Types.None) return badBcc;
             var externalTo = MailAddressValidators.ExternalMailAddress(
-                context: context,
                 addresses: outgoingMailModel.To);
             if (externalTo.Type != Error.Types.None) return externalTo;
             var externalCc = MailAddressValidators.ExternalMailAddress(
-                context: context,
                 addresses: outgoingMailModel.Cc);
             if (externalCc.Type != Error.Types.None) return externalCc;
             var externalBcc = MailAddressValidators.ExternalMailAddress(
-                context: context,
                 addresses: outgoingMailModel.Bcc);
             if (externalBcc.Type != Error.Types.None) return externalBcc;
             return new ErrorData(type: Error.Types.None);

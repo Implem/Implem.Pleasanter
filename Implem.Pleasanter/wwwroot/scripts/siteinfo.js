@@ -2,6 +2,10 @@
     return $('#TableName').val();
 }
 
-$p.methodType = function () {
-    return $('#MethodType').val();
+$p.controller = function () {
+    return $('#Controller').val();
+}
+
+$p.action = function () {
+    return $('#Action').val();
 }

@@ -3785,6 +3785,15 @@ namespace Implem.Pleasanter.Libraries.Settings
                 .SingleOrDefault();
         }
 
+        public bool CheckRow(Context context)
+        {
+            return GridColumnsHasSources()
+                ? false
+                : context.CanUpdate(ss: this)
+                    || context.CanDelete(ss: this)
+                    || context.CanExport(ss: this);
+        }
+
         public bool GridColumnsHasSources()
         {
             return GridColumns?.Any(o => o.Contains("~~")) == true;

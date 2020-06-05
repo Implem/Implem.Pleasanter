@@ -51,15 +51,15 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     using (var mailMessage = new MailMessage())
                     {
                         mailMessage.From = Addresses.From(From);
-                        Addresses.GetEnumerable(
+                        Addresses.Get(
                             context: context,
                             addresses: To)
                                 .ForEach(to => mailMessage.To.Add(to));
-                        Addresses.GetEnumerable(
+                        Addresses.Get(
                             context: context,
                             addresses: Cc)
                                 .ForEach(cc => mailMessage.CC.Add(cc));
-                        Addresses.GetEnumerable(
+                        Addresses.Get(
                             context: context,
                             addresses: Bcc)
                                 .ForEach(bcc => mailMessage.Bcc.Add(bcc));
