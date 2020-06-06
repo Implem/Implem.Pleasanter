@@ -1,0 +1,29 @@
+{
+    "Id": "ClientRegexValidation",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Client side regular expression"
+        },
+        {
+            "Language": "zh",
+            "Body": "客户端用正则表达式"
+        },
+        {
+            "Language": "ja",
+            "Body": "クライアント正規表現"
+        },
+        {
+            "Language": "de",
+            "Body": "Clientseitiger regulärer Ausdruck"
+        },
+        {
+            "Language": "ko",
+            "Body": "클라이언트 측의 정규식"
+        },
+        {
+            "Language": "es",
+            "Body": "Expresión regular del lado del cliente"
+        }
+    ]
+}

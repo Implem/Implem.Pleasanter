@@ -1,0 +1,29 @@
+﻿{
+    "Id": "Tab",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Tab"
+        },
+        {
+            "Language": "ja",
+            "Body": "タブ"
+        },
+        {
+            "Language": "zh",
+            "Body": "标签"
+        },
+        {
+            "Language": "de",
+            "Body": "Registerkarte"
+        },
+        {
+            "Language": "ko",
+            "Body": "탭"
+        },
+        {
+            "Language": "es",
+            "Body": "Pestaña"
+        }
+    ]
+}

@@ -789,7 +789,7 @@ namespace Implem.Pleasanter.Models
             string idSuffix = null)
         {
             var mine = tenantModel.Mine(context: context);
-            ss.EditorColumns
+            ss.GetEditorColumnNames()
                 .Select(columnName => ss.GetColumn(
                     context: context,
                     columnName: columnName))
@@ -947,7 +947,12 @@ namespace Implem.Pleasanter.Models
                             controller: context.Controller,
                             id: ss.Columns.Any(o => o.Linking)
                                 ? context.Forms.Long("LinkId")
-                                : tenantModel.TenantId) + "?new=1")
+                                : tenantModel.TenantId)
+                                    + "?new=1"
+                                    + (ss.Columns.Any(o => o.Linking)
+                                        && context.Forms.Long("FromTabIndex") > 0
+                                            ? $"&TabIndex={context.Forms.Long("FromTabIndex")}"
+                                            : string.Empty))
                         .ToJson();
                 default:
                     return errorData.MessageJson(context: context);

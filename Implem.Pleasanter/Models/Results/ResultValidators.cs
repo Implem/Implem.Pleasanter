@@ -6,6 +6,7 @@ using Implem.Pleasanter.Libraries.Security;
 using Implem.Pleasanter.Libraries.Settings;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text.RegularExpressions;
 namespace Implem.Pleasanter.Models
 {
     public static class ResultValidators
@@ -202,6 +203,14 @@ namespace Implem.Pleasanter.Models
             {
                 return errorData;
             }
+            var inputErrorData = OnInputValidating(
+                context: context,
+                ss: ss,
+                resultModel: resultModel).FirstOrDefault();
+            if (inputErrorData.Type != Error.Types.None)
+            {
+                return inputErrorData;
+            }
             return new ErrorData(type: Error.Types.None);
         }
 
@@ -356,6 +365,14 @@ namespace Implem.Pleasanter.Models
             if (errorData.Type != Error.Types.None)
             {
                 return errorData;
+            }
+            var inputErrorData = OnInputValidating(
+                context: context,
+                ss: ss,
+                resultModel: resultModel).FirstOrDefault();
+            if (inputErrorData.Type != Error.Types.None)
+            {
+                return inputErrorData;
             }
             return new ErrorData(type: Error.Types.None);
         }
@@ -575,6 +592,95 @@ namespace Implem.Pleasanter.Models
                 }
             }
             return new ErrorData(type: Error.Types.None);
+        }
+
+        public static List<ErrorData> OnInputValidating(
+            Context context,
+            SiteSettings ss,
+            Dictionary<int, ResultModel> resultHash)
+        {
+            var errors = resultHash
+                ?.OrderBy(data => data.Key)
+                .SelectMany((data, index) => OnInputValidating(
+                    context: context,
+                    ss: ss,
+                    resultModel: data.Value,
+                    rowNo: index + 1))
+                .Where(data => data.Type != Error.Types.None).ToList()
+                    ?? new List<ErrorData>();
+            if (errors.Count == 0)
+            {
+                errors.Add(new ErrorData(type: Error.Types.None));
+            }
+            return errors;
+        }
+
+        private static List<ErrorData> OnInputValidating(
+            Context context,
+            SiteSettings ss,
+            ResultModel resultModel,
+            int rowNo = 0)
+        {
+            var errors = new List<ErrorData>();
+            var editorColumns = ss.GetEditorColumns(context: context);
+            editorColumns
+                ?.Concat(ss
+                    .Columns
+                    ?.Where(o => !o.NotEditorSettings)
+                    .Where(column => !editorColumns
+                        .Any(editorColumn => editorColumn.ColumnName == column.ColumnName)))
+                .ForEach(column =>
+                {
+                    var value = resultModel.PropertyValue(
+                        context: context,
+                        column.ColumnName);
+                    if (column.TypeCs == "Comments")
+                    {
+                        var savedCommentId = resultModel
+                            .SavedComments
+                            ?.Deserialize<Libraries.DataTypes.Comments>()
+                            ?.Max(savedComment => (int?)savedComment.CommentId) ?? default(int);
+                        var comment = value
+                            ?.Deserialize<Libraries.DataTypes.Comments>()
+                            ?.FirstOrDefault();
+                        value = comment?.CommentId > savedCommentId ? comment?.Body : null;
+                    }
+                    if (!value.IsNullOrEmpty())
+                    {
+                        if (column.MaxLength > 0 && value?.Length > column.MaxLength)
+                        {
+                            errors.Add(new ErrorData(
+                                type: Error.Types.TooLongText,
+                                columnName: column.ColumnName,
+                                data: column.MaxLength?.ToLong().ToStr()));
+                        }
+                        if (!column.ServerRegexValidation.IsNullOrEmpty())
+                        {
+                            try
+                            {
+                                if (!Regex.IsMatch(value, column.ServerRegexValidation))
+                                {
+                                    errors.Add(new ErrorData(
+                                        type: Error.Types.NotMatchRegex,
+                                        columnName: column.ColumnName,
+                                        data: column.RegexValidationMessage));
+                                }
+                            }
+                            catch (System.ArgumentException)
+                            {
+                                errors.Add(new ErrorData(
+                                    type: Error.Types.NotMatchRegex,
+                                    columnName: column.ColumnName,
+                                    data: column.RegexValidationMessage));
+                            }
+                        }
+                    }
+                });
+            if (errors.Count == 0)
+            {
+                errors.Add(new ErrorData(type: Error.Types.None));
+            }
+            return errors;
         }
     }
 }

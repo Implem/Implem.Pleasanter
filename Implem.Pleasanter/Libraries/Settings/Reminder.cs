@@ -35,6 +35,7 @@ namespace Implem.Pleasanter.Libraries.Settings
         public bool? SendCompletedInPast;
         public bool? NotSendIfNotApplicable;
         public bool? NotSendHyperLink;
+        public bool? ExcludeOverdue;
         public int Condition;
         public bool? Disabled;
 
@@ -64,6 +65,7 @@ namespace Implem.Pleasanter.Libraries.Settings
             bool sendCompletedInPast,
             bool notSendIfNotApplicable,
             bool notSendHyperLink,
+            bool excludeOverdue,
             int condition,
             bool disabled)
         {
@@ -80,6 +82,7 @@ namespace Implem.Pleasanter.Libraries.Settings
             SendCompletedInPast = sendCompletedInPast;
             NotSendIfNotApplicable = notSendIfNotApplicable;
             NotSendHyperLink = notSendHyperLink;
+            ExcludeOverdue = excludeOverdue;
             Condition = condition;
             Disabled = disabled;
         }
@@ -97,6 +100,7 @@ namespace Implem.Pleasanter.Libraries.Settings
             bool sendCompletedInPast,
             bool notSendIfNotApplicable,
             bool notSendHyperLink,
+            bool excludeOverdue,
             int condition,
             bool disabled)
         {
@@ -112,6 +116,7 @@ namespace Implem.Pleasanter.Libraries.Settings
             SendCompletedInPast = sendCompletedInPast;
             NotSendIfNotApplicable = notSendIfNotApplicable;
             NotSendHyperLink = notSendHyperLink;
+            ExcludeOverdue = excludeOverdue;
             Condition = condition;
             Disabled = disabled;
         }
@@ -140,6 +145,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                 ss: ss,
                 toColumns: toColumns,
                 fixedTo: fixedTo)
+                    .Where(data => !data.Key.IsNullOrEmpty())
                     .Where(data => data.Value.Count > 0
                         || NotSendIfNotApplicable != true)
                     .ForEach(data =>
@@ -319,6 +325,11 @@ namespace Implem.Pleasanter.Libraries.Settings
                         columnBrackets: new string[] { $"\"{orderByColumn.ColumnName}\"" },
                         _operator: "<'{0}'".Params(
                             DateTime.Now.ToLocal(context: context).Date.AddDays(Range)))
+                    .Add(
+                        tableName: ss.ReferenceType,
+                        columnBrackets: "\"CompletionTime\"".ToSingleArray(),
+                        _operator: $">{context.Sqls.CurrentDateTime}",
+                        _using: ExcludeOverdue == true)
                     .Add(or: new SqlWhereCollection()
                         .Add(
                             tableName: ss.ReferenceType,
@@ -409,6 +420,10 @@ namespace Implem.Pleasanter.Libraries.Settings
             if (NotSendHyperLink == true)
             {
                 reminder.NotSendHyperLink = NotSendHyperLink;
+            }
+            if (ExcludeOverdue == true)
+            {
+                reminder.ExcludeOverdue = ExcludeOverdue;
             }
             if (Disabled == true)
             {

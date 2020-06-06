@@ -221,7 +221,10 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                 mobile: mobile,
                                 alwaysSend: alwaysSend,
                                 validateRequired: required,
-                                preview: preview);
+                                preview: preview,
+                                validateMaxLength: column.MaxLength.ToInt(),
+                                validateRegex: column.ClientRegexValidation,
+                                validateRegexErrorMessage: column.RegexValidationMessage);
                         case ControlTypes.Attachments:
                             return hb.FieldAttachments(
                                 context: context,
@@ -312,7 +315,11 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                 validateDate: column.ValidateDate ?? false,
                                 validateEmail: column.ValidateEmail ?? false,
                                 validateEqualTo: column.ValidateEqualTo,
-                                validateMaxLength: column.ValidateMaxLength ?? 0);
+                                validateMaxLength: !column.MaxLength.ToString().IsNullOrEmpty()
+                                    ? column.MaxLength.ToInt()
+                                    : column.ValidateMaxLength ?? 0,
+                                validateRegex: column.ClientRegexValidation,
+                                validateRegexErrorMessage: column.RegexValidationMessage);
                         case ControlTypes.MarkDown:
                             return hb.FieldMarkDown(
                                 context: context,
@@ -335,7 +342,10 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                 mobile: mobile,
                                 alwaysSend: alwaysSend,
                                 validateRequired: required,
-                                preview: preview);
+                                preview: preview,
+                                validateMaxLength: column.MaxLength.ToInt(),
+                                validateRegex: column.ClientRegexValidation,
+                                validateRegexErrorMessage: column.RegexValidationMessage);
                         case ControlTypes.TextBox:
                             return hb.FieldTextBox(
                                 textType: column.Hash
@@ -358,7 +368,11 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                 validateDate: column.ValidateDate ?? false,
                                 validateEmail: column.ValidateEmail ?? false,
                                 validateEqualTo: column.ValidateEqualTo,
-                                validateMaxLength: column.ValidateMaxLength ?? 0);
+                                validateMaxLength: !column.MaxLength.ToString().IsNullOrEmpty()
+                                    ? column.MaxLength.ToInt()
+                                    : column.ValidateMaxLength ?? 0,
+                                validateRegex: column.ClientRegexValidation,
+                                validateRegexErrorMessage: column.RegexValidationMessage);
                         case ControlTypes.TextBoxNumeric:
                             return hb.FieldTextBox(
                                 textType: HtmlTypes.TextTypes.Normal,
@@ -386,7 +400,11 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                 validateDate: column.ValidateDate ?? false,
                                 validateEmail: column.ValidateEmail ?? false,
                                 validateEqualTo: column.ValidateEqualTo,
-                                validateMaxLength: column.ValidateMaxLength ?? 0);
+                                validateMaxLength: !column.MaxLength.ToString().IsNullOrEmpty()
+                                    ? column.MaxLength.ToInt()
+                                    : column.ValidateMaxLength ?? 0,
+                                validateRegex: column.ClientRegexValidation,
+                                validateRegexErrorMessage: column.RegexValidationMessage);
                         case ControlTypes.TextBoxDateTime:
                             return hb.FieldTextBox(
                                 textType: HtmlTypes.TextTypes.DateTime,
@@ -409,7 +427,11 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                 validateDate: column.ValidateDate ?? false,
                                 validateEmail: column.ValidateEmail ?? false,
                                 validateEqualTo: column.ValidateEqualTo,
-                                validateMaxLength: column.ValidateMaxLength ?? 0);
+                                validateMaxLength: !column.MaxLength.ToString().IsNullOrEmpty()
+                                    ? column.MaxLength.ToInt()
+                                    : column.ValidateMaxLength ?? 0,
+                                validateRegex: column.ClientRegexValidation,
+                                validateRegexErrorMessage: column.RegexValidationMessage);
                         case ControlTypes.CheckBox:
                             return hb.FieldCheckBox(
                                 fieldId: controlId + "Field",
@@ -772,6 +794,8 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             bool validateEmail = false,
             string validateEqualTo = null,
             int validateMaxLength = 0,
+            string validateRegex = null,
+            string validateRegexErrorMessage = null,
             string action = null,
             string method = null,
             Dictionary<string, string> attributes = null,
@@ -811,6 +835,8 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                             validateEmail: validateEmail,
                             validateEqualTo: validateEqualTo,
                             validateMaxLength: validateMaxLength,
+                            validateRegex: validateRegex,
+                            validateRegexErrorMessage: validateRegexErrorMessage,
                             action: action,
                             method: method,
                             attributes: attributes)
@@ -832,6 +858,9 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             string controlCss = null,
             string labelText = null,
             string labelTitle = null,
+            int validateMaxLength = 0,
+            string validateRegex = null,
+            string validateRegexErrorMessage = null,
             bool labelRequired = false,
             bool controlOnly = false,
             string text = null,
@@ -863,6 +892,9 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                             context: context,
                             controlId: controlId,
                             controlCss: controlCss,
+                            validateMaxLength: validateMaxLength,
+                            validateRegex: validateRegex,
+                            validateRegexErrorMessage: validateRegexErrorMessage,
                             text: text,
                             placeholder: placeholder,
                             readOnly: readOnly,
@@ -1375,7 +1407,8 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             string value = null,
             bool readOnly = false,
             bool preview = false,
-            bool _using = true)
+            bool _using = true,
+            int validateMaxLength = 0)
         {
             return _using
                 ? hb.Field(
@@ -1394,7 +1427,8 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                             columnName: columnName,
                             value: value,
                             readOnly: readOnly,
-                            preview: preview))
+                            preview: preview,
+                            validateMaxLength: validateMaxLength))
                 : hb;
         }
     }

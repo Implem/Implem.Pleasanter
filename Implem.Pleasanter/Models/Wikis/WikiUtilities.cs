@@ -477,13 +477,12 @@ namespace Implem.Pleasanter.Models
                     siteId: wikiModel.SiteId,
                     referenceId: wikiModel.WikiId,
                     isHistory: wikiModel.VerType == Versions.VerTypes.History,
-                    action: () => hb
-                        .FieldSetGeneral(
-                            context: context,
-                            ss: ss,
-                            wikiModel: wikiModel,
-                            editInDialog: editInDialog))
-                                .ToString()
+                    action: () => hb.EditorInDialog(
+                        context: context,
+                        ss: ss,
+                        wikiModel: wikiModel,
+                        editInDialog: editInDialog))
+                            .ToString()
                 : hb.Template(
                     context: context,
                     ss: ss,
@@ -497,7 +496,9 @@ namespace Implem.Pleasanter.Models
                         ? Displays.New(context: context)
                         : wikiModel.Title.DisplayValue,
                     body: wikiModel.Body,
-                    useTitle: ss.TitleColumns?.Any(o => ss.EditorColumns.Contains(o)) == true,
+                    useTitle: ss.TitleColumns?.Any(o => ss
+                        .GetEditorColumnNames()
+                        .Contains(o)) == true,
                     userScript: ss.EditorScripts(
                         context: context, methodType: wikiModel.MethodType),
                     userStyle: ss.EditorStyles(
@@ -509,6 +510,42 @@ namespace Implem.Pleasanter.Models
                             wikiModel: wikiModel)
                         .Hidden(controlId: "DropDownSearchPageSize", value: Parameters.General.DropDownSearchPageSize.ToString()))
                             .ToString();
+        }
+
+        private static HtmlBuilder EditorInDialog(
+            this HtmlBuilder hb,
+            Context context,
+            SiteSettings ss,
+            WikiModel wikiModel,
+            bool editInDialog)
+        {
+            return ss.Tabs?.Any() != true
+                ? hb.FieldSetGeneral(
+                    context: context,
+                    ss: ss,
+                    wikiModel: wikiModel,
+                    editInDialog: editInDialog)
+                : hb.Div(
+                    id: "EditorTabsContainer",
+                    css: "max",
+                    attributes: new HtmlAttributes().TabActive(context: context),
+                    action: () => hb
+                        .EditorTabs(
+                            context: context,
+                            ss: ss,
+                            wikiModel: wikiModel,
+                            editInDialog: editInDialog)
+                        .FieldSetGeneral(
+                            context: context,
+                            ss: ss,
+                            wikiModel: wikiModel,
+                            editInDialog: editInDialog)
+                        .FieldSetTabs(
+                            context: context,
+                            ss: ss,
+                            id: wikiModel.WikiId,
+                            wikiModel: wikiModel,
+                            editInDialog: editInDialog));
         }
 
         /// <summary>
@@ -619,16 +656,21 @@ namespace Implem.Pleasanter.Models
             this HtmlBuilder hb,
             Context context,
             SiteSettings ss,
-            WikiModel wikiModel)
+            WikiModel wikiModel,
+            bool editInDialog = false)
         {
             return hb.Ul(id: "EditorTabs", action: () => hb
                 .Li(action: () => hb
                     .A(
                         href: "#FieldSetGeneral",
                         text: Displays.General(context: context)))
+                .Tabs(
+                    context: context,
+                    ss: ss)
                 .Li(
                     _using: wikiModel.MethodType != BaseModel.MethodTypes.New
-                        && !context.Publish,
+                        && !context.Publish
+                        && !editInDialog,
                     action: () => hb
                         .A(
                             href: "#FieldSetHistories",
@@ -636,7 +678,8 @@ namespace Implem.Pleasanter.Models
                 .Li(
                     _using: context.CanManagePermission(ss: ss)
                         && !ss.Locked()
-                        && wikiModel.MethodType != BaseModel.MethodTypes.New,
+                        && wikiModel.MethodType != BaseModel.MethodTypes.New
+                        && !editInDialog,
                     action: () => hb
                         .A(
                             href: "#FieldSetRecordAccessControl",
@@ -667,13 +710,13 @@ namespace Implem.Pleasanter.Models
             bool preview = false,
             bool editInDialog = false)
         {
-            ss.GetEditorColumns(context: context).ForEach(column =>
-                hb.Field(
-                    context: context,
-                    ss: ss,
-                    wikiModel: wikiModel,
-                    column: column,
-                    preview: preview));
+            hb.Fields(
+                context: context,
+                ss: ss,
+                id: wikiModel.WikiId,
+                wikiModel: wikiModel,
+                preview: preview,
+                editInDialog: editInDialog);
             if (!preview)
             {
                 hb.VerUpCheckBox(
@@ -716,6 +759,244 @@ namespace Implem.Pleasanter.Models
                     disableSection: disableSection);
             }
             return hb;
+        }
+
+        private static HtmlBuilder Tabs(this HtmlBuilder hb, Context context, SiteSettings ss)
+        {
+            ss.Tabs?.ForEach(tab => hb.Li(action: () => hb.A(
+                href: $"#FieldSetTab{tab.Id}",
+                action: () => hb.Label(action: () => hb.Text(tab.LabelText)))));
+            return hb;
+        }
+
+        private static HtmlBuilder FieldSetTabs(
+            this HtmlBuilder hb,
+            Context context,
+            SiteSettings ss,
+            long id,
+            WikiModel wikiModel,
+            bool preview = false,
+            bool editInDialog = false)
+        {
+            var dataSet = HtmlLinks.DataSet(
+                context: context,
+                ss: ss,
+                id: id);
+            var links = HtmlLinkCreations.Links(
+                context: context,
+                ss: ss);
+            ss.Tabs?.Select((tab, index) => new { tab = tab, index = index + 1 })?.ForEach(data =>
+            {
+                hb.FieldSet(
+                    id: $"FieldSetTab{data.tab.Id}",
+                    css: " fieldset cf ui-tabs-panel ui-corner-bottom ui-widget-content ",
+                    action: () => hb.Fields(
+                        context: context,
+                        ss: ss,
+                        id: id,
+                        tab: data.tab,
+                        dataSet: dataSet,
+                        links: links,
+                        preview: preview,
+                        editInDialog: editInDialog,
+                        wikiModel: wikiModel,
+                        tabIndex: data.index));
+            });
+            return hb;
+        }
+
+        private static HtmlBuilder Fields(
+            this HtmlBuilder hb,
+            Context context,
+            SiteSettings ss,
+            long id,
+            WikiModel wikiModel,
+            bool preview = false,
+            bool editInDialog = false)
+        {
+            return hb.Fields(
+                context: context,
+                ss: ss,
+                id: id,
+                tab: new Tab { Id = 0 },
+                dataSet: !preview
+                    ? HtmlLinks.DataSet(
+                        context: context,
+                        ss: ss,
+                        id: id)
+                    : null,
+                links: HtmlLinkCreations.Links(
+                    context: context,
+                    ss: ss),
+                wikiModel: wikiModel,
+                preview: preview,
+                editInDialog: editInDialog);
+        }
+
+        private static HtmlBuilder Fields(
+            this HtmlBuilder hb,
+            Context context,
+            SiteSettings ss,
+            long id,
+            Tab tab,
+            DataSet dataSet,
+            List<Link> links,
+            WikiModel wikiModel,
+            bool preview = false,
+            bool editInDialog = false,
+            int tabIndex = 0)
+        {
+            ss
+                .GetEditorColumns(
+                    context: context,
+                    tab: tab,
+                    columnOnly: false)
+                ?.Aggregate(new List<KeyValuePair<Section, List<string>>>(), (columns, column) =>
+                {
+                    var sectionId = ss.SectionId(column.ColumnName);
+                    if (sectionId != 0)
+                    {
+                        columns.Add(new KeyValuePair<Section, List<string>>(
+                            new Section
+                            {
+                                Id = sectionId,
+                                LabelText = ss
+                                    .Sections
+                                    ?.FirstOrDefault(o => o.Id == sectionId)
+                                    ?.LabelText
+                            },
+                            new List<string>()));
+                    }
+                    else
+                    {
+                        if (!columns.Any())
+                        {
+                            columns.Add(new KeyValuePair<Section, List<string>>(
+                                null,
+                                new List<string>()));
+                        }
+                        columns.Last().Value.Add(column.ColumnName);
+                    }
+                    return columns;
+                }).ForEach(section =>
+                {
+                    if (section.Key == null)
+                    {
+                        hb.Fields(
+                            context: context,
+                            ss: ss,
+                            id: id,
+                            columnNames: section.Value,
+                            dataSet: dataSet,
+                            links: links,
+                            wikiModel: wikiModel,
+                            preview: preview,
+                            editInDialog: editInDialog,
+                            tabIndex: tabIndex);
+                    }
+                    else
+                    {
+                        hb
+                            .Div(
+                                css: "SectionFields",
+                                action: () => hb.Div(action: () => hb.Label(
+                                    css: "field-section", 
+                                    action: () => hb.Text(text: section.Key.LabelText)))
+                                .Div(
+                                    css: "section-fields",
+                                    action: () => hb.Fields(
+                                        context: context,
+                                        ss: ss,
+                                        id: id,
+                                        columnNames: section.Value,
+                                        dataSet: dataSet,
+                                        links: links,
+                                        wikiModel: wikiModel,
+                                        preview: preview,
+                                        editInDialog: editInDialog,
+                                        tabIndex: tabIndex)));
+                    }
+                });
+            return hb;
+        }
+
+        private static HtmlBuilder Fields(
+            this HtmlBuilder hb,
+            Context context,
+            SiteSettings ss,
+            long id,
+            List<string> columnNames,
+            DataSet dataSet,
+            List<Link> links,
+            WikiModel wikiModel,
+            bool preview = false,
+            bool editInDialog = false,
+            int tabIndex = 0)
+        {
+            columnNames.ForEach(columnName => hb.Field(
+                context: context,
+                ss: ss,
+                id: id,
+                columnName: columnName,
+                dataSet: dataSet,
+                links: links,
+                wikiModel: wikiModel,
+                preview: preview,
+                editInDialog: editInDialog,
+                tabIndex: tabIndex));
+            return hb;
+        }
+
+        private static HtmlBuilder Field(
+            this HtmlBuilder hb,
+            Context context,
+            SiteSettings ss,
+            long id,
+            string columnName,
+            DataSet dataSet,
+            List<Link> links,
+            WikiModel wikiModel,
+            bool preview = false,
+            bool editInDialog = false,
+            int tabIndex = 0)
+        {
+            var column = ss.GetColumn(
+                context: context,
+                columnName: columnName);
+            var linkId = !preview && !editInDialog ? ss.LinkId(columnName) : 0;
+            if (column != null)
+            {
+                hb.Field(
+                    context: context,
+                    ss: ss,
+                    wikiModel: wikiModel,
+                    column: column,
+                    preview: preview);
+            }
+            else if (!editInDialog && linkId != 0)
+            {
+                hb.LinkField(
+                    context: context,
+                    ss: ss,
+                    id: wikiModel.WikiId,
+                    linkId: linkId,
+                    links: links,
+                    dataSet: dataSet,
+                    methodType: wikiModel?.MethodType,
+                    tabIndex: tabIndex);
+            }
+            return hb;
+        }
+
+        private static HtmlAttributes TabActive(
+            this HtmlAttributes attributes,
+            Context context)
+        {
+            var tabIndex = context.QueryStrings.Get("TabIndex").ToInt();
+            return attributes.Add(
+                name: "tab-active",
+                value: tabIndex.ToString(),
+                _using: tabIndex > 0);
         }
 
         public static string ControlValue(
@@ -850,7 +1131,7 @@ namespace Implem.Pleasanter.Models
             string idSuffix = null)
         {
             var mine = wikiModel.Mine(context: context);
-            ss.EditorColumns
+            ss.GetEditorColumnNames()
                 .Select(columnName => ss.GetColumn(
                     context: context,
                     columnName: columnName))
@@ -1068,6 +1349,11 @@ namespace Implem.Pleasanter.Models
                         context: context,
                         ss: ss,
                         id: wikiModel.WikiId))
+                    .Links(
+                        context: context,
+                        ss: ss,
+                        id: wikiModel.WikiId,
+                        methodType: wikiModel.MethodType)
                     .SetMemory("formChanged", false)
                     .Message(Messages.Updated(
                         context: context,

@@ -18,6 +18,7 @@ namespace Implem.Pleasanter.Libraries.General
             BadMailAddress,
             BadRequest,
             CanNotChangeInheritance,
+            CanNotDelete,
             CanNotDisabled,
             CanNotInherit,
             CanNotLink,
@@ -53,6 +54,7 @@ namespace Implem.Pleasanter.Libraries.General
             NoLinks,
             NotFound,
             NotLockedRecord,
+            NotMatchRegex,
             NotRequiredColumn,
             OverLimitApi,
             OverLimitQuantity,
@@ -74,6 +76,7 @@ namespace Implem.Pleasanter.Libraries.General
             SelectOne,
             SelectTargets,
             SitesLimit,
+            TooLongText,
             TooManyCases,
             TooManyColumnCases,
             TooManyRowCases,
@@ -132,6 +135,10 @@ namespace Implem.Pleasanter.Libraries.General
                         data: data);
                 case Types.CanNotChangeInheritance:
                     return Messages.CanNotChangeInheritance(
+                        context: context,
+                        data: data);
+                case Types.CanNotDelete:
+                    return Messages.CanNotDelete(
                         context: context,
                         data: data);
                 case Types.CanNotDisabled:
@@ -274,6 +281,10 @@ namespace Implem.Pleasanter.Libraries.General
                     return Messages.NotLockedRecord(
                         context: context,
                         data: data);
+                case Types.NotMatchRegex:
+                    return Messages.NotMatchRegex(
+                        context: context,
+                        data: data);
                 case Types.NotRequiredColumn:
                     return Messages.NotRequiredColumn(
                         context: context,
@@ -356,6 +367,10 @@ namespace Implem.Pleasanter.Libraries.General
                         data: data);
                 case Types.SitesLimit:
                     return Messages.SitesLimit(
+                        context: context,
+                        data: data);
+                case Types.TooLongText:
+                    return Messages.TooLongText(
                         context: context,
                         data: data);
                 case Types.TooManyCases:

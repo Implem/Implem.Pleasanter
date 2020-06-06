@@ -225,7 +225,15 @@ namespace Implem.Pleasanter.Libraries.Settings
             }
             else
             {
-                return new ControlData(string.Empty);
+                var linkId = ss.LinkId(columnName);
+                var sectionId = ss.SectionId(columnName);
+                return new ControlData(linkId > 0
+                    ? ss.Sources.Get(linkId)?.Title
+                        ?? ss.Destinations.Get(linkId)?.Title
+                        ?? string.Empty
+                    : sectionId > 0
+                        ? ss.Sections.FirstOrDefault(o => o.Id == sectionId)?.LabelText
+                        : string.Empty);
             }
         }
 

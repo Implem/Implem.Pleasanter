@@ -27,7 +27,10 @@ $p.new = function ($control) {
     location.href = $('#BaseUrl').val() +
         $control.attr('data-to-site-id') + '/new' +
         '?FromSiteId=' + $control.attr('data-from-site-id') +
-        '&LinkId=' + $control.attr('data-id');
+        '&LinkId=' + $control.attr('data-id') +
+            ($control.attr('from-tab-index')
+                ? '&FromTabIndex=' + $control.attr('from-tab-index')
+                : '');
 }
 
 $p.copy = function ($control) {

@@ -798,6 +798,16 @@ namespace Implem.Pleasanter.Libraries.Responses
                 data: data);
         }
 
+        public static string CanNotDelete(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "CanNotDelete",
+                data: data);
+        }
+
         public static string CanNotDisabled(
             Context context,
             params string[] data)
@@ -965,6 +975,16 @@ namespace Implem.Pleasanter.Libraries.Responses
             return Get(
                 context: context,
                 id: "Clear",
+                data: data);
+        }
+
+        public static string ClientRegexValidation(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "ClientRegexValidation",
                 data: data);
         }
 
@@ -2185,6 +2205,16 @@ namespace Implem.Pleasanter.Libraries.Responses
             return Get(
                 context: context,
                 id: "ExcludeData",
+                data: data);
+        }
+
+        public static string ExcludeOverdue(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "ExcludeOverdue",
                 data: data);
         }
 
@@ -3998,6 +4028,16 @@ namespace Implem.Pleasanter.Libraries.Responses
                 data: data);
         }
 
+        public static string MaxLength(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "MaxLength",
+                data: data);
+        }
+
         public static string Md(
             Context context,
             params string[] data)
@@ -4425,6 +4465,16 @@ namespace Implem.Pleasanter.Libraries.Responses
             return Get(
                 context: context,
                 id: "NotLockedRecord",
+                data: data);
+        }
+
+        public static string NotMatchRegex(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "NotMatchRegex",
                 data: data);
         }
 
@@ -5218,6 +5268,16 @@ namespace Implem.Pleasanter.Libraries.Responses
                 data: data);
         }
 
+        public static string RegexValidationMessage(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "RegexValidationMessage",
+                data: data);
+        }
+
         public static string Register(
             Context context,
             params string[] data)
@@ -5738,6 +5798,16 @@ namespace Implem.Pleasanter.Libraries.Responses
                 data: data);
         }
 
+        public static string ServerRegexValidation(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "ServerRegexValidation",
+                data: data);
+        }
+
         public static string Setting(
             Context context,
             params string[] data)
@@ -6248,6 +6318,16 @@ namespace Implem.Pleasanter.Libraries.Responses
                 data: data);
         }
 
+        public static string Tab(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "Tab",
+                data: data);
+        }
+
         public static string TabEditable(
             Context context,
             params string[] data)
@@ -6265,6 +6345,16 @@ namespace Implem.Pleasanter.Libraries.Responses
             return Get(
                 context: context,
                 id: "Tables",
+                data: data);
+        }
+
+        public static string TabSettings(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "TabSettings",
                 data: data);
         }
 
@@ -6435,6 +6525,16 @@ namespace Implem.Pleasanter.Libraries.Responses
             return Get(
                 context: context,
                 id: "Token",
+                data: data);
+        }
+
+        public static string TooLongText(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "TooLongText",
                 data: data);
         }
 
@@ -6875,6 +6975,16 @@ namespace Implem.Pleasanter.Libraries.Responses
             return Get(
                 context: context,
                 id: "ValidateEqualTo",
+                data: data);
+        }
+
+        public static string ValidateInput(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "ValidateInput",
                 data: data);
         }
 

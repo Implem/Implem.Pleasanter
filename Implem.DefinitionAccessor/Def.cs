@@ -302,6 +302,7 @@ namespace Implem.DefinitionAccessor
                     case "Model_PropertyValue_ColumnCases": Code.Model_PropertyValue_ColumnCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_PropertyValue_ColumnCases, definitionRow, CodeXls); break;
                     case "Model_PropertyValues_ColumnCases": Code.Model_PropertyValues_ColumnCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_PropertyValues_ColumnCases, definitionRow, CodeXls); break;
                     case "Model_PropertyValue_ColumnCases_ToString": Code.Model_PropertyValue_ColumnCases_ToString = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_PropertyValue_ColumnCases_ToString, definitionRow, CodeXls); break;
+                    case "Model_PropertyUpdated_ColumnCases": Code.Model_PropertyUpdated_ColumnCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_PropertyUpdated_ColumnCases, definitionRow, CodeXls); break;
                     case "Model_SwitchTargets": Code.Model_SwitchTargets = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_SwitchTargets, definitionRow, CodeXls); break;
                     case "Model_Constructor": Code.Model_Constructor = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Constructor, definitionRow, CodeXls); break;
                     case "Model_SetDefaultExec": Code.Model_SetDefaultExec = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_SetDefaultExec, definitionRow, CodeXls); break;
@@ -316,6 +317,7 @@ namespace Implem.DefinitionAccessor
                     case "Model_SetParentId": Code.Model_SetParentId = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_SetParentId, definitionRow, CodeXls); break;
                     case "Model_SetInheritPermission": Code.Model_SetInheritPermission = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_SetInheritPermission, definitionRow, CodeXls); break;
                     case "Model_SetByApiExec": Code.Model_SetByApiExec = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_SetByApiExec, definitionRow, CodeXls); break;
+                    case "Model_SetLockedRecord": Code.Model_SetLockedRecord = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_SetLockedRecord, definitionRow, CodeXls); break;
                     case "Model_SetSwitchTargets": Code.Model_SetSwitchTargets = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_SetSwitchTargets, definitionRow, CodeXls); break;
                     case "Model_SwitchTargetsParameter": Code.Model_SwitchTargetsParameter = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_SwitchTargetsParameter, definitionRow, CodeXls); break;
                     case "Model_IdentityParameters": Code.Model_IdentityParameters = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_IdentityParameters, definitionRow, CodeXls); break;
@@ -399,6 +401,7 @@ namespace Implem.DefinitionAccessor
                     case "Model_Delete_Sites": Code.Model_Delete_Sites = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Delete_Sites, definitionRow, CodeXls); break;
                     case "Model_Delete_SitesItems": Code.Model_Delete_SitesItems = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Delete_SitesItems, definitionRow, CodeXls); break;
                     case "Model_OnDeleted_SetSiteInfo": Code.Model_OnDeleted_SetSiteInfo = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_OnDeleted_SetSiteInfo, definitionRow, CodeXls); break;
+                    case "Model_OnDeletedNotifications": Code.Model_OnDeletedNotifications = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_OnDeletedNotifications, definitionRow, CodeXls); break;
                     case "Model_OnDeletedNotice": Code.Model_OnDeletedNotice = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_OnDeletedNotice, definitionRow, CodeXls); break;
                     case "Model_Restore": Code.Model_Restore = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Restore, definitionRow, CodeXls); break;
                     case "Model_Restore_Item": Code.Model_Restore_Item = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Restore_Item, definitionRow, CodeXls); break;
@@ -519,6 +522,7 @@ namespace Implem.DefinitionAccessor
                     case "Model_UpdateByCalendarCases": Code.Model_UpdateByCalendarCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_UpdateByCalendarCases, definitionRow, CodeXls); break;
                     case "Model_UpdateByKambanCases": Code.Model_UpdateByKambanCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_UpdateByKambanCases, definitionRow, CodeXls); break;
                     case "Model_LockCases": Code.Model_LockCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_LockCases, definitionRow, CodeXls); break;
+                    case "Model_UnlockRecordCases": Code.Model_UnlockRecordCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_UnlockRecordCases, definitionRow, CodeXls); break;
                     case "Model_Updated": Code.Model_Updated = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Updated, definitionRow, CodeXls); break;
                     case "Model_Mine": Code.Model_Mine = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Mine, definitionRow, CodeXls); break;
                     case "Model_MineColumnCases": Code.Model_MineColumnCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_MineColumnCases, definitionRow, CodeXls); break;
@@ -633,6 +637,7 @@ namespace Implem.DefinitionAccessor
                     case "Model_Utilities_OnUpdated_Breadcrumb_Sites": Code.Model_Utilities_OnUpdated_Breadcrumb_Sites = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_OnUpdated_Breadcrumb_Sites, definitionRow, CodeXls); break;
                     case "Model_Utilities_OnUpdated_Breadcrumb_Wikis": Code.Model_Utilities_OnUpdated_Breadcrumb_Wikis = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_OnUpdated_Breadcrumb_Wikis, definitionRow, CodeXls); break;
                     case "Model_Utilities_ResponseByUpdate_SiteSettings": Code.Model_Utilities_ResponseByUpdate_SiteSettings = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_ResponseByUpdate_SiteSettings, definitionRow, CodeXls); break;
+                    case "Model_Utilities_ResponseLockedRecord": Code.Model_Utilities_ResponseLockedRecord = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_ResponseLockedRecord, definitionRow, CodeXls); break;
                     case "Model_Utilities_ResponseByUpdate_FieldResponse": Code.Model_Utilities_ResponseByUpdate_FieldResponse = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_ResponseByUpdate_FieldResponse, definitionRow, CodeXls); break;
                     case "Model_Utilities_BulkUpdate": Code.Model_Utilities_BulkUpdate = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_BulkUpdate, definitionRow, CodeXls); break;
                     case "Model_Utilities_BulkUpdate_ColumnCases": Code.Model_Utilities_BulkUpdate_ColumnCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_BulkUpdate_ColumnCases, definitionRow, CodeXls); break;
@@ -684,6 +689,7 @@ namespace Implem.DefinitionAccessor
                     case "Model_Utilities_TimeSeries": Code.Model_Utilities_TimeSeries = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_TimeSeries, definitionRow, CodeXls); break;
                     case "Model_Utilities_Kamban": Code.Model_Utilities_Kamban = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_Kamban, definitionRow, CodeXls); break;
                     case "Model_Utilities_UpdateByKamban": Code.Model_Utilities_UpdateByKamban = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_UpdateByKamban, definitionRow, CodeXls); break;
+                    case "Model_Utilities_UnlockRecord": Code.Model_Utilities_UnlockRecord = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_UnlockRecord, definitionRow, CodeXls); break;
                     case "Model_Utilities_ImageLib": Code.Model_Utilities_ImageLib = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_ImageLib, definitionRow, CodeXls); break;
                     case "Model_Utilities_SetNoticeParam": Code.Model_Utilities_SetNoticeParam = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_SetNoticeParam, definitionRow, CodeXls); break;
                     case "Model_Utilities_SearchIndexes": Code.Model_Utilities_SearchIndexes = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_SearchIndexes, definitionRow, CodeXls); break;
@@ -698,6 +704,7 @@ namespace Implem.DefinitionAccessor
                     case "Model_Utilities_DuplicatedMessage": Code.Model_Utilities_DuplicatedMessage = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_DuplicatedMessage, definitionRow, CodeXls); break;
                     case "Model_Utilities_ApiDuplicatedMessage": Code.Model_Utilities_ApiDuplicatedMessage = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_ApiDuplicatedMessage, definitionRow, CodeXls); break;
                     case "Model_Utilities_InRange": Code.Model_Utilities_InRange = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_InRange, definitionRow, CodeXls); break;
+                    case "Model_Utilities_ExistsLockedRecord": Code.Model_Utilities_ExistsLockedRecord = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_ExistsLockedRecord, definitionRow, CodeXls); break;
                     case "Model_Validator": Code.Model_Validator = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Validator, definitionRow, CodeXls); break;
                     case "Model_ValidatorMethods": Code.Model_ValidatorMethods = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_ValidatorMethods, definitionRow, CodeXls); break;
                     case "Model_Validator_OnMoving": Code.Model_Validator_OnMoving = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Validator_OnMoving, definitionRow, CodeXls); break;
@@ -707,9 +714,15 @@ namespace Implem.DefinitionAccessor
                     case "Model_Validator_OnUpdatingCases": Code.Model_Validator_OnUpdatingCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Validator_OnUpdatingCases, definitionRow, CodeXls); break;
                     case "Model_ValidatorMethods_Binaries": Code.Model_ValidatorMethods_Binaries = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_ValidatorMethods_Binaries, definitionRow, CodeXls); break;
                     case "Model_Validator_Api": Code.Model_Validator_Api = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Validator_Api, definitionRow, CodeXls); break;
+                    case "Model_Validator_LockedTable": Code.Model_Validator_LockedTable = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Validator_LockedTable, definitionRow, CodeXls); break;
+                    case "Model_Validator_LockedRecord": Code.Model_Validator_LockedRecord = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Validator_LockedRecord, definitionRow, CodeXls); break;
                     case "Model_Validator_ShowProfiles": Code.Model_Validator_ShowProfiles = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Validator_ShowProfiles, definitionRow, CodeXls); break;
                     case "Model_Validator_OnAttaching": Code.Model_Validator_OnAttaching = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Validator_OnAttaching, definitionRow, CodeXls); break;
                     case "Model_Validator_OnAttachingMethod": Code.Model_Validator_OnAttachingMethod = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Validator_OnAttachingMethod, definitionRow, CodeXls); break;
+                    case "Model_Validator_OnInputValidating": Code.Model_Validator_OnInputValidating = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Validator_OnInputValidating, definitionRow, CodeXls); break;
+                    case "Model_Validator_OnInputValidatingMethod": Code.Model_Validator_OnInputValidatingMethod = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Validator_OnInputValidatingMethod, definitionRow, CodeXls); break;
+                    case "Model_Validator_OnDeleteHistory": Code.Model_Validator_OnDeleteHistory = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Validator_OnDeleteHistory, definitionRow, CodeXls); break;
+                    case "Model_Validator_OnUnlockRecord": Code.Model_Validator_OnUnlockRecord = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Validator_OnUnlockRecord, definitionRow, CodeXls); break;
                     case "Model_Api": Code.Model_Api = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Api, definitionRow, CodeXls); break;
                     case "Model_ApiPropertyCases": Code.Model_ApiPropertyCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_ApiPropertyCases, definitionRow, CodeXls); break;
                     case "Model_ApiPropertyNullType": Code.Model_ApiPropertyNullType = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_ApiPropertyNullType, definitionRow, CodeXls); break;
@@ -2383,6 +2396,21 @@ namespace Implem.DefinitionAccessor
                                 data.ToString();
                             newColumnDefinition.SavedValidateEqualTo = newColumnDefinition.ValidateEqualTo;
                             break;
+                        case "ClientRegexValidation":
+                            newColumnDefinition.ClientRegexValidation = customDefinitionRow.Get("ClientRegexValidation")?.ToString() ??
+                                data.ToString();
+                            newColumnDefinition.SavedClientRegexValidation = newColumnDefinition.ClientRegexValidation;
+                            break;
+                        case "ServerRegexValidation":
+                            newColumnDefinition.ServerRegexValidation = customDefinitionRow.Get("ServerRegexValidation")?.ToString() ??
+                                data.ToString();
+                            newColumnDefinition.SavedServerRegexValidation = newColumnDefinition.ServerRegexValidation;
+                            break;
+                        case "RegexValidationMessage":
+                            newColumnDefinition.RegexValidationMessage = customDefinitionRow.Get("RegexValidationMessage")?.ToString() ??
+                                data.ToString();
+                            newColumnDefinition.SavedRegexValidationMessage = newColumnDefinition.RegexValidationMessage;
+                            break;
                         case "DecimalPlaces":
                             newColumnDefinition.DecimalPlaces = customDefinitionRow.Get("DecimalPlaces")?.ToInt() ??
                                 data.ToInt();
@@ -2578,6 +2606,9 @@ namespace Implem.DefinitionAccessor
             if (definitionRow.ContainsKey("ValidateDate")) { definition.ValidateDate = definitionRow["ValidateDate"].ToBool(); definition.SavedValidateDate = definition.ValidateDate; }
             if (definitionRow.ContainsKey("ValidateEmail")) { definition.ValidateEmail = definitionRow["ValidateEmail"].ToBool(); definition.SavedValidateEmail = definition.ValidateEmail; }
             if (definitionRow.ContainsKey("ValidateEqualTo")) { definition.ValidateEqualTo = definitionRow["ValidateEqualTo"].ToString(); definition.SavedValidateEqualTo = definition.ValidateEqualTo; }
+            if (definitionRow.ContainsKey("ClientRegexValidation")) { definition.ClientRegexValidation = definitionRow["ClientRegexValidation"].ToString(); definition.SavedClientRegexValidation = definition.ClientRegexValidation; }
+            if (definitionRow.ContainsKey("ServerRegexValidation")) { definition.ServerRegexValidation = definitionRow["ServerRegexValidation"].ToString(); definition.SavedServerRegexValidation = definition.ServerRegexValidation; }
+            if (definitionRow.ContainsKey("RegexValidationMessage")) { definition.RegexValidationMessage = definitionRow["RegexValidationMessage"].ToString(); definition.SavedRegexValidationMessage = definition.RegexValidationMessage; }
             if (definitionRow.ContainsKey("DecimalPlaces")) { definition.DecimalPlaces = definitionRow["DecimalPlaces"].ToInt(); definition.SavedDecimalPlaces = definition.DecimalPlaces; }
             if (definitionRow.ContainsKey("Min")) { definition.Min = definitionRow["Min"].ToDecimal(); definition.SavedMin = definition.Min; }
             if (definitionRow.ContainsKey("Max")) { definition.Max = definitionRow["Max"].ToDecimal(); definition.SavedMax = definition.Max; }
@@ -2799,6 +2830,7 @@ namespace Implem.DefinitionAccessor
                     case "_sharp_OutgoingMailsForm_space__dot_content": Css._sharp_OutgoingMailsForm_space__dot_content = definitionRow[1].ToString(); SetCssTable(CssTable._sharp_OutgoingMailsForm_space__dot_content, definitionRow, CssXls); break;
                     case "_sharp_DropDownSearchDialogForm": Css._sharp_DropDownSearchDialogForm = definitionRow[1].ToString(); SetCssTable(CssTable._sharp_DropDownSearchDialogForm, definitionRow, CssXls); break;
                     case "_sharp_ViewTabsContainer": Css._sharp_ViewTabsContainer = definitionRow[1].ToString(); SetCssTable(CssTable._sharp_ViewTabsContainer, definitionRow, CssXls); break;
+                    case "_sharp_EditorDetailTabsContainer": Css._sharp_EditorDetailTabsContainer = definitionRow[1].ToString(); SetCssTable(CssTable._sharp_EditorDetailTabsContainer, definitionRow, CssXls); break;
                     case "_sharp_ColumnAccessControlTabsContainer": Css._sharp_ColumnAccessControlTabsContainer = definitionRow[1].ToString(); SetCssTable(CssTable._sharp_ColumnAccessControlTabsContainer, definitionRow, CssXls); break;
                     case "_sharp_SearchResults": Css._sharp_SearchResults = definitionRow[1].ToString(); SetCssTable(CssTable._sharp_SearchResults, definitionRow, CssXls); break;
                     case "_sharp_SearchResults_space__dot_count": Css._sharp_SearchResults_space__dot_count = definitionRow[1].ToString(); SetCssTable(CssTable._sharp_SearchResults_space__dot_count, definitionRow, CssXls); break;
@@ -6190,6 +6222,9 @@ namespace Implem.DefinitionAccessor
                         case "ValidateDate": columnDefinition.ValidateDate = optionValue.ToBool(); break;
                         case "ValidateEmail": columnDefinition.ValidateEmail = optionValue.ToBool(); break;
                         case "ValidateEqualTo": columnDefinition.ValidateEqualTo = optionValue.ToString(); break;
+                        case "ClientRegexValidation": columnDefinition.ClientRegexValidation = optionValue.ToString(); break;
+                        case "ServerRegexValidation": columnDefinition.ServerRegexValidation = optionValue.ToString(); break;
+                        case "RegexValidationMessage": columnDefinition.RegexValidationMessage = optionValue.ToString(); break;
                         case "DecimalPlaces": columnDefinition.DecimalPlaces = optionValue.ToInt(); break;
                         case "Min": columnDefinition.Min = optionValue.ToDecimal(); break;
                         case "Max": columnDefinition.Max = optionValue.ToDecimal(); break;
@@ -7064,6 +7099,7 @@ namespace Implem.DefinitionAccessor
         public string Model_PropertyValue_ColumnCases;
         public string Model_PropertyValues_ColumnCases;
         public string Model_PropertyValue_ColumnCases_ToString;
+        public string Model_PropertyUpdated_ColumnCases;
         public string Model_SwitchTargets;
         public string Model_Constructor;
         public string Model_SetDefaultExec;
@@ -7078,6 +7114,7 @@ namespace Implem.DefinitionAccessor
         public string Model_SetParentId;
         public string Model_SetInheritPermission;
         public string Model_SetByApiExec;
+        public string Model_SetLockedRecord;
         public string Model_SetSwitchTargets;
         public string Model_SwitchTargetsParameter;
         public string Model_IdentityParameters;
@@ -7161,6 +7198,7 @@ namespace Implem.DefinitionAccessor
         public string Model_Delete_Sites;
         public string Model_Delete_SitesItems;
         public string Model_OnDeleted_SetSiteInfo;
+        public string Model_OnDeletedNotifications;
         public string Model_OnDeletedNotice;
         public string Model_Restore;
         public string Model_Restore_Item;
@@ -7281,6 +7319,7 @@ namespace Implem.DefinitionAccessor
         public string Model_UpdateByCalendarCases;
         public string Model_UpdateByKambanCases;
         public string Model_LockCases;
+        public string Model_UnlockRecordCases;
         public string Model_Updated;
         public string Model_Mine;
         public string Model_MineColumnCases;
@@ -7395,6 +7434,7 @@ namespace Implem.DefinitionAccessor
         public string Model_Utilities_OnUpdated_Breadcrumb_Sites;
         public string Model_Utilities_OnUpdated_Breadcrumb_Wikis;
         public string Model_Utilities_ResponseByUpdate_SiteSettings;
+        public string Model_Utilities_ResponseLockedRecord;
         public string Model_Utilities_ResponseByUpdate_FieldResponse;
         public string Model_Utilities_BulkUpdate;
         public string Model_Utilities_BulkUpdate_ColumnCases;
@@ -7446,6 +7486,7 @@ namespace Implem.DefinitionAccessor
         public string Model_Utilities_TimeSeries;
         public string Model_Utilities_Kamban;
         public string Model_Utilities_UpdateByKamban;
+        public string Model_Utilities_UnlockRecord;
         public string Model_Utilities_ImageLib;
         public string Model_Utilities_SetNoticeParam;
         public string Model_Utilities_SearchIndexes;
@@ -7460,6 +7501,7 @@ namespace Implem.DefinitionAccessor
         public string Model_Utilities_DuplicatedMessage;
         public string Model_Utilities_ApiDuplicatedMessage;
         public string Model_Utilities_InRange;
+        public string Model_Utilities_ExistsLockedRecord;
         public string Model_Validator;
         public string Model_ValidatorMethods;
         public string Model_Validator_OnMoving;
@@ -7469,9 +7511,15 @@ namespace Implem.DefinitionAccessor
         public string Model_Validator_OnUpdatingCases;
         public string Model_ValidatorMethods_Binaries;
         public string Model_Validator_Api;
+        public string Model_Validator_LockedTable;
+        public string Model_Validator_LockedRecord;
         public string Model_Validator_ShowProfiles;
         public string Model_Validator_OnAttaching;
         public string Model_Validator_OnAttachingMethod;
+        public string Model_Validator_OnInputValidating;
+        public string Model_Validator_OnInputValidatingMethod;
+        public string Model_Validator_OnDeleteHistory;
+        public string Model_Validator_OnUnlockRecord;
         public string Model_Api;
         public string Model_ApiPropertyCases;
         public string Model_ApiPropertyNullType;
@@ -7686,6 +7734,7 @@ namespace Implem.DefinitionAccessor
         public CodeDefinition Model_PropertyValue_ColumnCases = new CodeDefinition();
         public CodeDefinition Model_PropertyValues_ColumnCases = new CodeDefinition();
         public CodeDefinition Model_PropertyValue_ColumnCases_ToString = new CodeDefinition();
+        public CodeDefinition Model_PropertyUpdated_ColumnCases = new CodeDefinition();
         public CodeDefinition Model_SwitchTargets = new CodeDefinition();
         public CodeDefinition Model_Constructor = new CodeDefinition();
         public CodeDefinition Model_SetDefaultExec = new CodeDefinition();
@@ -7700,6 +7749,7 @@ namespace Implem.DefinitionAccessor
         public CodeDefinition Model_SetParentId = new CodeDefinition();
         public CodeDefinition Model_SetInheritPermission = new CodeDefinition();
         public CodeDefinition Model_SetByApiExec = new CodeDefinition();
+        public CodeDefinition Model_SetLockedRecord = new CodeDefinition();
         public CodeDefinition Model_SetSwitchTargets = new CodeDefinition();
         public CodeDefinition Model_SwitchTargetsParameter = new CodeDefinition();
         public CodeDefinition Model_IdentityParameters = new CodeDefinition();
@@ -7783,6 +7833,7 @@ namespace Implem.DefinitionAccessor
         public CodeDefinition Model_Delete_Sites = new CodeDefinition();
         public CodeDefinition Model_Delete_SitesItems = new CodeDefinition();
         public CodeDefinition Model_OnDeleted_SetSiteInfo = new CodeDefinition();
+        public CodeDefinition Model_OnDeletedNotifications = new CodeDefinition();
         public CodeDefinition Model_OnDeletedNotice = new CodeDefinition();
         public CodeDefinition Model_Restore = new CodeDefinition();
         public CodeDefinition Model_Restore_Item = new CodeDefinition();
@@ -7903,6 +7954,7 @@ namespace Implem.DefinitionAccessor
         public CodeDefinition Model_UpdateByCalendarCases = new CodeDefinition();
         public CodeDefinition Model_UpdateByKambanCases = new CodeDefinition();
         public CodeDefinition Model_LockCases = new CodeDefinition();
+        public CodeDefinition Model_UnlockRecordCases = new CodeDefinition();
         public CodeDefinition Model_Updated = new CodeDefinition();
         public CodeDefinition Model_Mine = new CodeDefinition();
         public CodeDefinition Model_MineColumnCases = new CodeDefinition();
@@ -8017,6 +8069,7 @@ namespace Implem.DefinitionAccessor
         public CodeDefinition Model_Utilities_OnUpdated_Breadcrumb_Sites = new CodeDefinition();
         public CodeDefinition Model_Utilities_OnUpdated_Breadcrumb_Wikis = new CodeDefinition();
         public CodeDefinition Model_Utilities_ResponseByUpdate_SiteSettings = new CodeDefinition();
+        public CodeDefinition Model_Utilities_ResponseLockedRecord = new CodeDefinition();
         public CodeDefinition Model_Utilities_ResponseByUpdate_FieldResponse = new CodeDefinition();
         public CodeDefinition Model_Utilities_BulkUpdate = new CodeDefinition();
         public CodeDefinition Model_Utilities_BulkUpdate_ColumnCases = new CodeDefinition();
@@ -8068,6 +8121,7 @@ namespace Implem.DefinitionAccessor
         public CodeDefinition Model_Utilities_TimeSeries = new CodeDefinition();
         public CodeDefinition Model_Utilities_Kamban = new CodeDefinition();
         public CodeDefinition Model_Utilities_UpdateByKamban = new CodeDefinition();
+        public CodeDefinition Model_Utilities_UnlockRecord = new CodeDefinition();
         public CodeDefinition Model_Utilities_ImageLib = new CodeDefinition();
         public CodeDefinition Model_Utilities_SetNoticeParam = new CodeDefinition();
         public CodeDefinition Model_Utilities_SearchIndexes = new CodeDefinition();
@@ -8082,6 +8136,7 @@ namespace Implem.DefinitionAccessor
         public CodeDefinition Model_Utilities_DuplicatedMessage = new CodeDefinition();
         public CodeDefinition Model_Utilities_ApiDuplicatedMessage = new CodeDefinition();
         public CodeDefinition Model_Utilities_InRange = new CodeDefinition();
+        public CodeDefinition Model_Utilities_ExistsLockedRecord = new CodeDefinition();
         public CodeDefinition Model_Validator = new CodeDefinition();
         public CodeDefinition Model_ValidatorMethods = new CodeDefinition();
         public CodeDefinition Model_Validator_OnMoving = new CodeDefinition();
@@ -8091,9 +8146,15 @@ namespace Implem.DefinitionAccessor
         public CodeDefinition Model_Validator_OnUpdatingCases = new CodeDefinition();
         public CodeDefinition Model_ValidatorMethods_Binaries = new CodeDefinition();
         public CodeDefinition Model_Validator_Api = new CodeDefinition();
+        public CodeDefinition Model_Validator_LockedTable = new CodeDefinition();
+        public CodeDefinition Model_Validator_LockedRecord = new CodeDefinition();
         public CodeDefinition Model_Validator_ShowProfiles = new CodeDefinition();
         public CodeDefinition Model_Validator_OnAttaching = new CodeDefinition();
         public CodeDefinition Model_Validator_OnAttachingMethod = new CodeDefinition();
+        public CodeDefinition Model_Validator_OnInputValidating = new CodeDefinition();
+        public CodeDefinition Model_Validator_OnInputValidatingMethod = new CodeDefinition();
+        public CodeDefinition Model_Validator_OnDeleteHistory = new CodeDefinition();
+        public CodeDefinition Model_Validator_OnUnlockRecord = new CodeDefinition();
         public CodeDefinition Model_Api = new CodeDefinition();
         public CodeDefinition Model_ApiPropertyCases = new CodeDefinition();
         public CodeDefinition Model_ApiPropertyNullType = new CodeDefinition();
@@ -8365,6 +8426,9 @@ namespace Implem.DefinitionAccessor
         public bool ValidateDate; public bool SavedValidateDate;
         public bool ValidateEmail; public bool SavedValidateEmail;
         public string ValidateEqualTo; public string SavedValidateEqualTo;
+        public string ClientRegexValidation; public string SavedClientRegexValidation;
+        public string ServerRegexValidation; public string SavedServerRegexValidation;
+        public string RegexValidationMessage; public string SavedRegexValidationMessage;
         public int DecimalPlaces; public int SavedDecimalPlaces;
         public decimal Min; public decimal SavedMin;
         public decimal Max; public decimal SavedMax;
@@ -8486,6 +8550,9 @@ namespace Implem.DefinitionAccessor
             if (propertyCollection.ContainsKey("ValidateDate")) ValidateDate = propertyCollection["ValidateDate"].ToBool(); else ValidateDate = false;
             if (propertyCollection.ContainsKey("ValidateEmail")) ValidateEmail = propertyCollection["ValidateEmail"].ToBool(); else ValidateEmail = false;
             if (propertyCollection.ContainsKey("ValidateEqualTo")) ValidateEqualTo = propertyCollection["ValidateEqualTo"].ToString(); else ValidateEqualTo = string.Empty;
+            if (propertyCollection.ContainsKey("ClientRegexValidation")) ClientRegexValidation = propertyCollection["ClientRegexValidation"].ToString(); else ClientRegexValidation = string.Empty;
+            if (propertyCollection.ContainsKey("ServerRegexValidation")) ServerRegexValidation = propertyCollection["ServerRegexValidation"].ToString(); else ServerRegexValidation = string.Empty;
+            if (propertyCollection.ContainsKey("RegexValidationMessage")) RegexValidationMessage = propertyCollection["RegexValidationMessage"].ToString(); else RegexValidationMessage = string.Empty;
             if (propertyCollection.ContainsKey("DecimalPlaces")) DecimalPlaces = propertyCollection["DecimalPlaces"].ToInt(); else DecimalPlaces = 0;
             if (propertyCollection.ContainsKey("Min")) Min = propertyCollection["Min"].ToDecimal(); else Min = 0;
             if (propertyCollection.ContainsKey("Max")) Max = propertyCollection["Max"].ToDecimal(); else Max = 0;
@@ -8607,6 +8674,9 @@ namespace Implem.DefinitionAccessor
                     case "ValidateDate": return ValidateDate;
                     case "ValidateEmail": return ValidateEmail;
                     case "ValidateEqualTo": return ValidateEqualTo;
+                    case "ClientRegexValidation": return ClientRegexValidation;
+                    case "ServerRegexValidation": return ServerRegexValidation;
+                    case "RegexValidationMessage": return RegexValidationMessage;
                     case "DecimalPlaces": return DecimalPlaces;
                     case "Min": return Min;
                     case "Max": return Max;
@@ -8728,6 +8798,9 @@ namespace Implem.DefinitionAccessor
             ValidateDate = SavedValidateDate;
             ValidateEmail = SavedValidateEmail;
             ValidateEqualTo = SavedValidateEqualTo;
+            ClientRegexValidation = SavedClientRegexValidation;
+            ServerRegexValidation = SavedServerRegexValidation;
+            RegexValidationMessage = SavedRegexValidationMessage;
             DecimalPlaces = SavedDecimalPlaces;
             Min = SavedMin;
             Max = SavedMax;
@@ -10143,6 +10216,7 @@ namespace Implem.DefinitionAccessor
         public string _sharp_OutgoingMailsForm_space__dot_content;
         public string _sharp_DropDownSearchDialogForm;
         public string _sharp_ViewTabsContainer;
+        public string _sharp_EditorDetailTabsContainer;
         public string _sharp_ColumnAccessControlTabsContainer;
         public string _sharp_SearchResults;
         public string _sharp_SearchResults_space__dot_count;
@@ -10654,6 +10728,7 @@ namespace Implem.DefinitionAccessor
         public CssDefinition _sharp_OutgoingMailsForm_space__dot_content = new CssDefinition();
         public CssDefinition _sharp_DropDownSearchDialogForm = new CssDefinition();
         public CssDefinition _sharp_ViewTabsContainer = new CssDefinition();
+        public CssDefinition _sharp_EditorDetailTabsContainer = new CssDefinition();
         public CssDefinition _sharp_ColumnAccessControlTabsContainer = new CssDefinition();
         public CssDefinition _sharp_SearchResults = new CssDefinition();
         public CssDefinition _sharp_SearchResults_space__dot_count = new CssDefinition();

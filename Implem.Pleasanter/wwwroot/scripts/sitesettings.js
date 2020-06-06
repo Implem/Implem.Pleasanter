@@ -61,6 +61,11 @@ $p.resetEditorColumn = function ($control) {
     });
 }
 
+$p.openTabDialog = function ($control) {
+    $p.data.TabForm = {};
+    $p.openSiteSettingsDialog($control, '#TabDialog', '840px');
+}
+
 $p.openSummaryDialog = function ($control) {
     $p.data.SummaryForm = {};
     $p.openSiteSettingsDialog($control, '#SummaryDialog');

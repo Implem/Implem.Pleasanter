@@ -1,0 +1,29 @@
+{
+    "Id": "ValidateInput",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Input validation"
+        },
+        {
+            "Language": "zh",
+            "Body": "输入验证"
+        },
+        {
+            "Language": "ja",
+            "Body": "入力検証"
+        },
+        {
+            "Language": "de",
+            "Body": "Eingabevalidierung"
+        },
+        {
+            "Language": "ko",
+            "Body": "입력 검증"
+        },
+        {
+            "Language": "es",
+            "Body": "Validación de entrada"
+        }
+    ]
+}

@@ -1326,7 +1326,7 @@ namespace Implem.Pleasanter.Models
             string idSuffix = null)
         {
             var mine = registrationModel.Mine(context: context);
-            ss.EditorColumns
+            ss.GetEditorColumnNames()
                 .Select(columnName => ss.GetColumn(
                     context: context,
                     columnName: columnName))

@@ -2,7 +2,7 @@
     "Dbms": "PostgreSQL",
     "Provider": "Local",
     "TimeZoneInfo": "Asia/Tokyo",
-    "SaConnectionString": "Server=localhost;Database=postgres;UID=postgres;PWD=postgres",
+    "SaConnectionString": "Server=localhost;Database=postgres;UID=postgres;PWD=SetSaPWD",
     "OwnerConnectionString": "Server=localhost;Database=#ServiceName#;UID=#ServiceName#_Owner;PWD=SetAdminsPWD",
     "UserConnectionString": "Server=localhost;Database=#ServiceName#;UID=#ServiceName#_User;PWD=SetUsersPWD",
     "SqlCommandTimeOut": 600,

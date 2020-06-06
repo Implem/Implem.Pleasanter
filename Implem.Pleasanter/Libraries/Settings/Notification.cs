@@ -203,7 +203,7 @@ namespace Implem.Pleasanter.Libraries.Settings
         {
             return (update
                 ? MonitorChangesColumns
-                : ss.EditorColumns)?
+                : ss.GetEditorColumnNames())?
                     .Select(columnName => ss.GetColumn(
                         context: context,
                         columnName: columnName))

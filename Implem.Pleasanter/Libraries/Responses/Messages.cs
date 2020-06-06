@@ -221,6 +221,16 @@ namespace Implem.Pleasanter.Libraries.Responses
                 css: "alert-error");
         }
 
+        public static Message CanNotDelete(Context context, params string[] data)
+        {
+            return Get(
+                id: "CanNotDelete",
+                text: Displays.CanNotDelete(
+                    context: context,
+                    data: data),
+                css: "alert-error");
+        }
+
         public static Message CanNotDisabled(Context context, params string[] data)
         {
             return Get(
@@ -881,6 +891,16 @@ namespace Implem.Pleasanter.Libraries.Responses
                 css: "alert-error");
         }
 
+        public static Message NotMatchRegex(Context context, params string[] data)
+        {
+            return Get(
+                id: "NotMatchRegex",
+                text: Displays.NotMatchRegex(
+                    context: context,
+                    data: data),
+                css: "alert-error");
+        }
+
         public static Message NotRequiredColumn(Context context, params string[] data)
         {
             return Get(
@@ -1189,6 +1209,16 @@ namespace Implem.Pleasanter.Libraries.Responses
                     context: context,
                     data: data),
                 css: "alert-success");
+        }
+
+        public static Message TooLongText(Context context, params string[] data)
+        {
+            return Get(
+                id: "TooLongText",
+                text: Displays.TooLongText(
+                    context: context,
+                    data: data),
+                css: "alert-error");
         }
 
         public static Message TooManyCases(Context context, params string[] data)
@@ -1506,6 +1536,16 @@ namespace Implem.Pleasanter.Libraries.Responses
         {
             return ResponseMessage(
                 message: CanNotChangeInheritance(
+                    context: context,
+                    data: data),
+                target: target);
+        }
+
+        public static ResponseCollection ResponseCanNotDelete(
+            Context context, string target = null, params string[] data)
+        {
+            return ResponseMessage(
+                message: CanNotDelete(
                     context: context,
                     data: data),
                 target: target);
@@ -2171,6 +2211,16 @@ namespace Implem.Pleasanter.Libraries.Responses
                 target: target);
         }
 
+        public static ResponseCollection ResponseNotMatchRegex(
+            Context context, string target = null, params string[] data)
+        {
+            return ResponseMessage(
+                message: NotMatchRegex(
+                    context: context,
+                    data: data),
+                target: target);
+        }
+
         public static ResponseCollection ResponseNotRequiredColumn(
             Context context, string target = null, params string[] data)
         {
@@ -2476,6 +2526,16 @@ namespace Implem.Pleasanter.Libraries.Responses
         {
             return ResponseMessage(
                 message: SynchronizationCompleted(
+                    context: context,
+                    data: data),
+                target: target);
+        }
+
+        public static ResponseCollection ResponseTooLongText(
+            Context context, string target = null, params string[] data)
+        {
+            return ResponseMessage(
+                message: TooLongText(
                     context: context,
                     data: data),
                 target: target);

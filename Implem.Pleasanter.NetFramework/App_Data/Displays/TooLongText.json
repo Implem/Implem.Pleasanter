@@ -1,0 +1,30 @@
+{
+    "Id": "TooLongText",
+    "Type": 240,
+    "ClientScript": true,
+    "Languages": [
+        {
+            "Body": "Please enter within {0} characters."
+        },
+        {
+            "Language": "zh",
+            "Body": "请输入 {0} 个字符。"
+        },
+        {
+            "Language": "ja",
+            "Body": "{0} 文字以内で入力してください。"
+        },
+        {
+            "Language": "de",
+            "Body": "Bitte geben Sie innerhalb von {0} Zeichen ein."
+        },
+        {
+            "Language": "ko",
+            "Body": "{0} 자 이내로 입력하십시오."
+        },
+        {
+            "Language": "es",
+            "Body": "Por favor ingrese dentro de {0} caracteres."
+        }
+    ]
+}

@@ -713,41 +713,43 @@ namespace Implem.Pleasanter.Models
                 .SiteMenu.Breadcrumb(context: context, siteId: SiteId)
                 .FullText(context, fullText);
             SiteId.FullText(context, fullText);
-            ss.EditorColumns.ForEach(columnName =>
-            {
-                switch (columnName)
+            ss.GetEditorColumnNames(
+                context: context,
+                columnOnly: true).ForEach(columnName =>
                 {
-                    case "ResultId":
-                        ResultId.FullText(context, fullText);
-                        break;
-                    case "Title":
-                        Title.FullText(context, fullText);
-                        break;
-                    case "Body":
-                        Body.FullText(context, fullText);
-                        break;
-                    case "Status":
-                        Status.FullText(context, ss.GetColumn(context: context, columnName: "Status"), fullText);
-                        break;
-                    case "Manager":
-                        Manager.FullText(context, fullText);
-                        break;
-                    case "Owner":
-                        Owner.FullText(context, fullText);
-                        break;
-                    case "Comments":
-                        Comments.FullText(context, fullText);
-                        break;
-                    default:
-                        FullText(
-                            context: context,
-                            column: ss.GetColumn(
+                    switch (columnName)
+                    {
+                        case "ResultId":
+                            ResultId.FullText(context, fullText);
+                            break;
+                        case "Title":
+                            Title.FullText(context, fullText);
+                            break;
+                        case "Body":
+                            Body.FullText(context, fullText);
+                            break;
+                        case "Status":
+                            Status.FullText(context, ss.GetColumn(context: context, columnName: "Status"), fullText);
+                            break;
+                        case "Manager":
+                            Manager.FullText(context, fullText);
+                            break;
+                        case "Owner":
+                            Owner.FullText(context, fullText);
+                            break;
+                        case "Comments":
+                            Comments.FullText(context, fullText);
+                            break;
+                        default:
+                            FullText(
                                 context: context,
-                                columnName: columnName),
-                            fullText: fullText);
-                        break;
-                }
-            });
+                                column: ss.GetColumn(
+                                    context: context,
+                                    columnName: columnName),
+                                fullText: fullText);
+                            break;
+                    }
+                });
             Creator.FullText(context, fullText);
             Updator.FullText(context, fullText);
             CreatedTime.FullText(context, fullText);

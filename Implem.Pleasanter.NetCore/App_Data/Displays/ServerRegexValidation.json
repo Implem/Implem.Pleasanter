@@ -1,0 +1,29 @@
+{
+    "Id": "ServerRegexValidation",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Server side regular expression"
+        },
+        {
+            "Language": "zh",
+            "Body": "服务器端用正则表达式"
+        },
+        {
+            "Language": "ja",
+            "Body": "サーバ正規表現"
+        },
+        {
+            "Language": "de",
+            "Body": "Serverseitiger regulärer Ausdruck"
+        },
+        {
+            "Language": "ko",
+            "Body": "서버 측 정규식"
+        },
+        {
+            "Language": "es",
+            "Body": "Expresión regular del lado del servidor"
+        }
+    ]
+}
