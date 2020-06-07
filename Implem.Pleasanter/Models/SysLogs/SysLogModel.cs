@@ -865,16 +865,28 @@ namespace Implem.Pleasanter.Models
         /// </summary>
         public string ProcessedRequestData(Context context)
         {
-            return context.FormStringRaw.Split('&')
-                .Where(o => o.Contains('='))
-                .Select(o => ProcessedRequestData(o))
-                .Join("&");
+            return MaskApiKey(context.ApiRequestBody)
+                ?? context.FormStringRaw.Split('&')
+                    .Where(o => o.Contains('='))
+                    .Select(o => MaskPassword(o))
+                    .Join("&");
         }
 
         /// <summary>
         /// Fixed:
         /// </summary>
-        private string ProcessedRequestData(string requestData)
+        private string MaskApiKey(string requestData)
+        {
+            var apiKey = requestData?.RegexFirst("\"ApiKey\": \"[a-zA-Z0-9]+\"");
+            return apiKey.IsNullOrEmpty()
+                ? requestData
+                : requestData.Replace(apiKey, "\"ApiKey\": \"*\"");
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        private string MaskPassword(string requestData)
         {
             switch (requestData.Substring(0, requestData.IndexOf("=")).ToLower())
             {
