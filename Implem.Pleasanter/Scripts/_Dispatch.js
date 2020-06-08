@@ -117,7 +117,7 @@ $p.setByJsonElement = function (jsonElement, data, $control) {
             $p[target](value);
             break;
         case 'Events':
-            $p.execEvents(target,'');
+            $p.execEvents(target, '');
             break;
         case 'WindowScrollTop':
             $(window).scrollTop(value);

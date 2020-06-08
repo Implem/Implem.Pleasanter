@@ -184,7 +184,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             bool _using = true,
             int validateMaxLength = 0,
             string validateRegex = null,
-            string validateRegexErrorMessage=null)
+            string validateRegexErrorMessage = null)
         {
             if (preview) controlId = Strings.NewGuid();
             return _using

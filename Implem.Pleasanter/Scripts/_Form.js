@@ -31,13 +31,11 @@ $p.clear = function ($control) {
 }
 
 $p.outsideDialog = function ($control) {
-    var dialogs = $('.ui-dialog:visible').map(function (i, e)
-    {
+    var dialogs = $('.ui-dialog:visible').map(function (i, e) {
         return $('#' + e.getAttribute('aria-describedby'));
     });
     return dialogs.length !== 0 &&
-        dialogs.filter(function (i, e)
-        {
+        dialogs.filter(function (i, e) {
             return $control.closest(e).length === 1
         }).length === 0;
 }
@@ -54,7 +52,13 @@ $p.send = function ($control, formId, _async, clearMessage) {
         : $control.closest('form');
     var action = $control.attr('data-action');
     var methodType = $control.attr('data-method');
+    if ($p.before_setData($p.eventArgs(null, methodType, null, $control, _async)) === false) {
+        return false;
+    }
     var data = $p.getData($form);
+    if ($p.after_setData($p.eventArgs(null, methodType, data, $control, _async)) === false) {
+        return false;
+    }
     var url = action !== undefined
         ? $form.attr('action').replace('_action_', action.toLowerCase())
         : location.href;

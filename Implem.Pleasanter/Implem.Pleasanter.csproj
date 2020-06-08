@@ -1586,6 +1586,8 @@
     <Content Include="App_Data\Displays\TooLongText.json" />
     <Content Include="App_Data\Displays\NotMatchRegex.json" />
     <Content Include="App_Data\Displays\CanNotDelete.json" />
+    <Content Include="App_Data\Displays\ExcludeOverdue.json" />
+    <Content Include="App_Data\Displays\CodeDefinerMigrationCompleted.json" />
     <Content Include="Tools\BackgroundTasks.ps1" />
     <Content Include="Tools\SyncByLdap.ps1" />
     <Content Include="Views\Users\EditApi.cshtml" />

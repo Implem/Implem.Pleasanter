@@ -1408,7 +1408,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             bool readOnly = false,
             bool preview = false,
             bool _using = true,
-            int validateMaxLength =0)
+            int validateMaxLength = 0)
         {
             return _using
                 ? hb.Field(
@@ -1428,7 +1428,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                             value: value,
                             readOnly: readOnly,
                             preview: preview,
-                            validateMaxLength:validateMaxLength))
+                            validateMaxLength: validateMaxLength))
                 : hb;
         }
     }

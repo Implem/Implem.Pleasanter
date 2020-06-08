@@ -85,8 +85,7 @@ $p.drawGantt = function () {
     axis.append('g')
         .attr('class', 'title')
         .selectAll('text')
-        .data(days.filter(function (d)
-        {
+        .data(days.filter(function (d) {
             return days.length <= 90 || [5, 10, 15, 20, 25, 30].indexOf(d.getDate()) > -1;
         }))
         .enter()

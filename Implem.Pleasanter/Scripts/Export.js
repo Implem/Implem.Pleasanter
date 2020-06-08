@@ -15,7 +15,7 @@ $p.export = function () {
     var encoding = $('#ExportEncoding').val();
     if (exp.mailNotify === true) {
         data["ExportId"] = exp.id;
-        $p.send($("#DoExport"),"MainForm");
+        $p.send($("#DoExport"), "MainForm");
     } else {
         location.href = $('.main-form').attr('action').replace('_action_', 'export')
             + '?id=' + exp.id

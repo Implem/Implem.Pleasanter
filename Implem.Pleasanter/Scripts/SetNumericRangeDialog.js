@@ -48,7 +48,7 @@ $p.openSetNumericRangeOK = function ($controlID) {
     var dispval = "";
     if (sdval || edval) {
         dispval = sdval + " - " + edval;
-        setval = '["'+ sdval + ',' + edval + '"]';
+        setval = '["' + sdval + ',' + edval + '"]';
     }
     $control.val(dispval);
     $p.set($target, setval);

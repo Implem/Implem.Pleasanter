@@ -91,7 +91,7 @@ namespace Implem.Pleasanter.Models
                         action: () => hb
                             .Div(
                                 id: "ViewSelectorField", 
-                                action: ()=> hb
+                                action: () => hb
                                     .ViewSelector(
                                         context: context,
                                         ss: ss,

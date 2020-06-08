@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Net.Mail;
 namespace Implem.SupportTools.MailTester.Model
@@ -12,36 +13,45 @@ namespace Implem.SupportTools.MailTester.Model
                 .Where(o => o != string.Empty);
         }
 
-        public static string BadAddress(string addresses, string addressValidation)
+        public static string BadAddress(string addresses)
         {
             foreach (var address in GetEnumerable(addresses))
             {
-                if (Get(address, addressValidation) == string.Empty)
+                if (Get(address) == string.Empty)
                 {
                     return address;
                 }
             }
             return string.Empty;
         }
-        public static IEnumerable<string> BadAddresses(string addresses, string addressValidation)
+        public static IEnumerable<string> BadAddresses(string addresses)
         {
             foreach (var address in GetEnumerable(addresses))
             {
-                if (Get(address, addressValidation) == string.Empty)
+                if (Get(address) == string.Empty)
                 {
                     yield return address;
                 }
             }
         }
 
-        public static string Get(string address, string addressValidation)
+        public static string Get(string address)
         {
-            return address.RegexFirst(
-                addressValidation,
-                System.Text.RegularExpressions.RegexOptions.IgnoreCase);
+            if (string.IsNullOrEmpty(address))
+            {
+                return string.Empty;
+            }
+            try
+            {
+                return new MailAddress(address).Address;
+            }
+            catch (FormatException)
+            {
+                return string.Empty;
+            }
         }
 
-        public static string ExternalMailAddress(string mailAddresses, string internalDomains, string addressValidation)
+        public static string ExternalMailAddress(string mailAddresses, string internalDomains)
         {
             var domains = internalDomains
                 .Split(',')
@@ -50,7 +60,7 @@ namespace Implem.SupportTools.MailTester.Model
             if (domains.Count() == 0) return string.Empty;
             foreach (var mailAddress in GetEnumerable(mailAddresses))
             {
-                if (!domains.Any(o => Get(mailAddress, addressValidation).EndsWith(o)))
+                if (!domains.Any(o => Get(mailAddress).EndsWith(o)))
                 {
                     return mailAddress;
                 }

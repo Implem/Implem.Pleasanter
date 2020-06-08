@@ -37,7 +37,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     _using: !readOnly,
                     validateMaxLength: column.MaxLength.ToInt(),
                     validateRegex: column.ClientRegexValidation,
-                    validateRegexErrorMessage:column.RegexValidationMessage)
+                    validateRegexErrorMessage: column.RegexValidationMessage)
                 .Div(id: "CommentList", css: css, action: () => comments
                      .ForEach(comment => hb
                          .Comment(

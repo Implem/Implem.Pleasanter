@@ -91,7 +91,7 @@ namespace Implem.Pleasanter.Models
                         action: () => hb
                             .Div(
                                 id: "ViewSelectorField", 
-                                action: ()=> hb
+                                action: () => hb
                                     .ViewSelector(
                                         context: context,
                                         ss: ss,
@@ -2157,11 +2157,7 @@ namespace Implem.Pleasanter.Models
                     errorData: invalid);
             }
             var api = context.RequestDataString.Deserialize<Api>();
-            if (api == null)
-            {
-                return ApiResults.Get(ApiResponses.BadRequest(context: context));
-            }
-            var view = api.View ?? new View();
+            var view = api?.View ?? new View();
             var pageSize = Parameters.Api.PageSize;
             var tableType = (api?.TableType) ?? Sqls.TableTypes.Normal;
             var resultCollection = new ResultCollection(
@@ -2177,7 +2173,7 @@ namespace Implem.Pleasanter.Models
                     context: context,
                     ss: ss,
                     itemsTableName: "Results_Items"),
-                offset: api.Offset,
+                offset: api?.Offset ?? 0,
                 pageSize: pageSize,
                 tableType: tableType);
             SiteUtilities.UpdateApiCount(context, ss);
@@ -2187,7 +2183,7 @@ namespace Implem.Pleasanter.Models
                 limitRemaining: Parameters.Api.LimitPerSite - ss.ApiCount,
                 response: new
                 {
-                    api.Offset,
+                    Offset = api?.Offset ?? 0,
                     PageSize = pageSize,
                     resultCollection.TotalCount,
                     Data = resultCollection.Select(o => o.GetByApi(

@@ -1,6 +1,6 @@
 ﻿$(function () {
     var selector = '#' + $p.tableName() + '_Locked';
-    $(document).on('change', selector , function () {
+    $(document).on('change', selector, function () {
         if ($('#LockedRecord').val() === '1' && !$(selector).prop('checked')) {
             if (confirm($p.display('ConfirmUnlockRecord'))) {
                 var $form = $('#MainForm');

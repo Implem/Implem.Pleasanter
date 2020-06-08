@@ -55,8 +55,7 @@
             date: $p.display('ValidateDate'),
             email: $p.display('ValidateEmail'),
             equalTo: $p.display('ValidateEqualTo'),
-            maxlength: $p.display('ValidateMaxLength'),
-
+            maxlength: $p.display('ValidateMaxLength')
         });
         $('form').each(function () {
             $(this).validate({ ignore: '' });

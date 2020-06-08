@@ -3404,6 +3404,7 @@ namespace Implem.Pleasanter.Models
                             sendCompletedInPast: context.Forms.Bool("ReminderSendCompletedInPast"),
                             notSendIfNotApplicable: context.Forms.Bool("ReminderNotSendIfNotApplicable"),
                             notSendHyperLink: context.Forms.Bool("ReminderNotSendHyperLink"),
+                            excludeOverdue: context.Forms.Bool("ReminderExcludeOverdue"),
                             condition: context.Forms.Int("ReminderCondition"),
                             disabled: context.Forms.Bool("ReminderDisabled")));
                         SetRemindersResponseCollection(context: context, res: res);
@@ -3453,7 +3454,8 @@ namespace Implem.Pleasanter.Models
                                 range: context.Forms.Int("ReminderRange"),
                                 sendCompletedInPast: context.Forms.Bool("ReminderSendCompletedInPast"),
                                 notSendIfNotApplicable: context.Forms.Bool("RminderNotSendIfNotApplicable"),
-                                notSendHyperLink: context.Forms.Bool("ReminderNotSendHyperLink"), 
+                                notSendHyperLink: context.Forms.Bool("ReminderNotSendHyperLink"),
+                                excludeOverdue: context.Forms.Bool("ReminderExcludeOverdue"),
                                 condition: context.Forms.Int("ReminderCondition"),
                                 disabled: context.Forms.Bool("ReminderDisabled"));
                             SetRemindersResponseCollection(context: context, res: res);

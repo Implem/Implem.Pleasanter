@@ -91,7 +91,7 @@ namespace Implem.Pleasanter.Models
                         action: () => hb
                             .Div(
                                 id: "ViewSelectorField", 
-                                action: ()=> hb
+                                action: () => hb
                                     .ViewSelector(
                                         context: context,
                                         ss: ss,
@@ -6465,8 +6465,7 @@ namespace Implem.Pleasanter.Models
                             Displays.SaveViewNone(context: context)
                         },
                     },
-                    selectedValue: ss.SaveViewType.ToInt().ToString(),
-                    insertBlank: true));
+                    selectedValue: ss.SaveViewType.ToInt().ToString()));
         }
 
         /// <summary>
@@ -7362,7 +7361,7 @@ namespace Implem.Pleasanter.Models
                             context: context,
                             ss: ss)))
                     .Div(
-                        css:"both",
+                        css: "both",
                         _using: ss.Views?.Any() == true,
                         action: () => hb
                             .FieldDropDown(
@@ -7609,6 +7608,8 @@ namespace Implem.Pleasanter.Models
                     .Th(action: () => hb
                         .Text(text: Displays.NotSendHyperLink(context: context)))
                     .Th(action: () => hb
+                        .Text(text: Displays.ExcludeOverdue(context: context)))
+                    .Th(action: () => hb
                         .Text(text: Displays.Condition(context: context)))
                     .Th(action: () => hb
                         .Text(text: Displays.Disabled(context: context)))));
@@ -7671,6 +7672,10 @@ namespace Implem.Pleasanter.Models
                                 .Span(
                                     css: "ui-icon ui-icon-circle-check",
                                     _using: reminder.NotSendHyperLink == true))
+                            .Td(action: () => hb
+                                .Span(
+                                    css: "ui-icon ui-icon-circle-check",
+                                    _using: reminder.ExcludeOverdue == true))
                             .Td(action: () => hb
                                 .Text(text: condition?.Name))
                             .Td(action: () => hb
@@ -7815,6 +7820,11 @@ namespace Implem.Pleasanter.Models
                         controlCss: " always-send",
                         labelText: Displays.NotSendHyperLink(context: context),
                         _checked: reminder.NotSendHyperLink == true)
+                    .FieldCheckBox(
+                        controlId: "ReminderExcludeOverdue",
+                        controlCss: " always-send",
+                        labelText: Displays.ExcludeOverdue(context: context),
+                        _checked: reminder.ExcludeOverdue == true)
                     .FieldDropDown(
                         context: context,
                         controlId: "ReminderCondition",

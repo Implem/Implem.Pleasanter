@@ -6,7 +6,6 @@
         $p.moveColumns($control, columnHeader);
     }
 }
-
 $p.moveColumns = function ($control, columnHeader, isKeepSource, isJoin) {
     if (formId === undefined) return false;
     return $p.moveColumnsById($control,
