@@ -456,7 +456,7 @@ namespace Implem.Pleasanter.Libraries.Search
                         siteIdList: siteIdList,
                         like: Rds.Items_Title_WhereLike(
                             factory: context,
-                            forward: true));
+                            forward: false));
                 case SiteSettings.SearchTypes.PartialMatch:
                 default:
                     return Select(
@@ -465,7 +465,7 @@ namespace Implem.Pleasanter.Libraries.Search
                         siteIdList: siteIdList,
                         like: Rds.Items_FullText_WhereLike(
                             factory: context,
-                            forward: true));
+                            forward: false));
             }
         }
 

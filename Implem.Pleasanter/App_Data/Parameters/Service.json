@@ -7,6 +7,6 @@
     "RequireHttps": false,
     "ShowProfiles": true,
     "ShowStartGuide": true,
-    "Demo": true,
+    "Demo": false,
     "DemoUsagePeriod": 30
 }

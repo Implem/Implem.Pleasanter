@@ -640,6 +640,7 @@
     <Content Include="scripts\keyevents.js" />
     <Content Include="scripts\legendevents.js" />
     <Content Include="scripts\loading.js" />
+    <Content Include="scripts\lockevents.js" />
     <Content Include="scripts\markdown.js" />
     <Content Include="scripts\markdownevents.js" />
     <Content Include="scripts\menuevents.js" />
