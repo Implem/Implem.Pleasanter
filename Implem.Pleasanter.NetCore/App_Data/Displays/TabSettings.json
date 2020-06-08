@@ -1,0 +1,29 @@
+﻿{
+    "Id": "TabSettings",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Tab settings"
+        },
+        {
+            "Language": "ja",
+            "Body": "タブの設定"
+        },
+        {
+            "Language": "zh",
+            "Body": "标签设定"
+        },
+        {
+            "Language": "de",
+            "Body": "Registerkarteneinstellungen"
+        },
+        {
+            "Language": "ko",
+            "Body": "탭 설정"
+        },
+        {
+            "Language": "es",
+            "Body": "Configuración de pestañas"
+        }
+    ]
+}

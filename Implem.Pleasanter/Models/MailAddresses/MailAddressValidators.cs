@@ -6,6 +6,7 @@ using Implem.Pleasanter.Libraries.Security;
 using Implem.Pleasanter.Libraries.Settings;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text.RegularExpressions;
 namespace Implem.Pleasanter.Models
 {
     public static class MailAddressValidators
@@ -13,11 +14,15 @@ namespace Implem.Pleasanter.Models
         /// <summary>
         /// Fixed:
         /// </summary>
-        public static ErrorData BadMailAddress(Context context, string addresses)
+        public static ErrorData BadMailAddress(string addresses, bool only = false)
         {
-            var data = Libraries.Mails.Addresses.BadAddress(
-                context: context,
-                addresses: addresses);
+            if (only && Libraries.Mails.Addresses.GetSplitList(addresses).Count() > 1)
+            {
+                return new ErrorData(
+                    type: Error.Types.BadMailAddress,
+                    data: new string[] { addresses });
+            }
+            var data = Libraries.Mails.Addresses.BadAddress(addresses: addresses);
             if (data != string.Empty)
             {
                 return new ErrorData(
@@ -30,11 +35,9 @@ namespace Implem.Pleasanter.Models
         /// <summary>
         /// Fixed:
         /// </summary>
-        public static ErrorData ExternalMailAddress(Context context, string addresses)
+        public static ErrorData ExternalMailAddress(string addresses)
         {
-            var data = Libraries.Mails.Addresses.ExternalMailAddress(
-                context: context,
-                addresses: addresses);
+            var data = Libraries.Mails.Addresses.ExternalMailAddress(addresses: addresses);
             if (data != string.Empty)
             {
                 return new ErrorData(

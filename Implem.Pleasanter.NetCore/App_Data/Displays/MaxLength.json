@@ -1,0 +1,29 @@
+{
+    "Id": "MaxLength",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Maximum number of characters"
+        },
+        {
+            "Language": "zh",
+            "Body": "最长字数"
+        },
+        {
+            "Language": "ja",
+            "Body": "最大文字数"
+        },
+        {
+            "Language": "de",
+            "Body": "Maximale Anzahl von Zeichen"
+        },
+        {
+            "Language": "ko",
+            "Body": "최대 길이"
+        },
+        {
+            "Language": "es",
+            "Body": "Numero maximo de caracteres"
+        }
+    ]
+}

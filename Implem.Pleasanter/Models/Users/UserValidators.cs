@@ -6,6 +6,7 @@ using Implem.Pleasanter.Libraries.Security;
 using Implem.Pleasanter.Libraries.Settings;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text.RegularExpressions;
 namespace Implem.Pleasanter.Models
 {
     public static class UserValidators
@@ -728,9 +729,7 @@ namespace Implem.Pleasanter.Models
         public static ErrorData OnAddingMailAddress(
             Context context, UserModel userModel, string mailAddress)
         {
-            var errorData = MailAddressValidators.BadMailAddress(
-                context: context,
-                addresses: mailAddress);
+            var errorData = MailAddressValidators.BadMailAddress(addresses: mailAddress);
             if (!Parameters.Service.ShowProfiles)
             {
                 return new ErrorData(type: Error.Types.InvalidRequest);

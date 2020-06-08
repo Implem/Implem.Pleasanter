@@ -19,6 +19,17 @@
                 parseFloat(value.replace(/[¥,]/g, '')) <= parseFloat(params);
         }
     );
+    $.validator.addMethod(
+        'c_regex',
+        function (value, element, params) {
+            try{
+                return this.optional(element) || new RegExp(params).test(value);
+            }
+            catch(e){
+                return false;
+            }
+        }
+    );
 
     $p.setValidationError = function ($form) {
         $form.find('.ui-tabs li').each(function () {
@@ -71,7 +82,16 @@
             $(this).rules('add', { equalTo: $(this).attr('data-validate-equal-to') });
         });
         $('[data-validate-maxlength]').each(function () {
-            $(this).rules('add', { maxlength: $(this).attr('data-validate-maxlength') });
+            $(this).rules('add', {
+                maxlength: $(this).attr('data-validate-maxlength'),
+                messages: { maxlength: $p.display('ValidateMaxLength').replace('{0}', $(this).attr('data-validate-maxlength')) }
+            });
+        });
+        $('[data-validate-regex]').each(function () {
+            $(this).rules('add', {
+                c_regex: $(this).attr('data-validate-regex'),
+                messages: { c_regex: $(this).attr('data-validate-regex-errormessage') }
+            });
         });
     }
     $p.applyValidator();

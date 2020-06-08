@@ -1,0 +1,30 @@
+{
+    "Id": "NotMatchRegex",
+    "Type": 240,
+    "ClientScript": true,
+    "Languages": [
+        {
+            "Body": "{0}"
+        },
+        {
+            "Language": "zh",
+            "Body": "{0}"
+        },
+        {
+            "Language": "ja",
+            "Body": "{0}"
+        },
+        {
+            "Language": "de",
+            "Body": "{0}"
+        },
+        {
+            "Language": "ko",
+            "Body": "{0}"
+        },
+        {
+            "Language": "es",
+            "Body": "{0}"
+        }
+    ]
+}

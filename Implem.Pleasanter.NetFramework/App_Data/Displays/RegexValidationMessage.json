@@ -1,0 +1,29 @@
+{
+    "Id": "RegexValidationMessage",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Error message"
+        },
+        {
+            "Language": "zh",
+            "Body": "报错信息"
+        },
+        {
+            "Language": "ja",
+            "Body": "エラーメッセージ"
+        },
+        {
+            "Language": "de",
+            "Body": "Fehlermeldung"
+        },
+        {
+            "Language": "ko",
+            "Body": "오류 메시지"
+        },
+        {
+            "Language": "es",
+            "Body": "Mensaje de error"
+        }
+    ]
+}

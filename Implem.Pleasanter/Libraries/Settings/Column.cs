@@ -35,8 +35,12 @@ namespace Implem.Pleasanter.Libraries.Settings
         public bool? ValidateNumber;
         public bool? ValidateDate;
         public bool? ValidateEmail;
+        public decimal? MaxLength;
         public string ValidateEqualTo;
         public int? ValidateMaxLength;
+        public string ClientRegexValidation;
+        public string ServerRegexValidation;
+        public string RegexValidationMessage;
         public int? DecimalPlaces;
         public decimal? Min;
         public decimal? Max;

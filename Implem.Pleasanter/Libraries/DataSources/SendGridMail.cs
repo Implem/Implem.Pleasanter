@@ -48,11 +48,11 @@ namespace Implem.Pleasanter.Libraries.DataSources
             try
             {
                 var msg = MailHelper.CreateSingleEmail(From, To, Subject, Body, Body);
-                Addresses.GetEnumerable(
+                Addresses.Get(
                     context: context,
                     addresses: Cc)
                         .ForEach(cc => msg.AddCc(cc));
-                Addresses.GetEnumerable(
+                Addresses.Get(
                     context: context,
                     addresses: Bcc)
                         .ForEach(bcc => msg.AddBcc(bcc));

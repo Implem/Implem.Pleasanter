@@ -100,6 +100,7 @@ namespace Implem.DefinitionAccessor
             Parameters.SysLog = Read<ParameterAccessor.Parts.SysLog>();
             Parameters.Parameter = Read<ParameterAccessor.Parts.Parameter>();
             Parameters.Locations = Read<ParameterAccessor.Parts.Locations>();
+            Parameters.Validation = Read<ParameterAccessor.Parts.Validation>();
         }
 
         public static void ReloadParameters()

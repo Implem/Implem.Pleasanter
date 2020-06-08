@@ -549,29 +549,31 @@ namespace Implem.Pleasanter.Models
                 .SiteMenu.Breadcrumb(context: context, siteId: SiteId)
                 .FullText(context, fullText);
             SiteId.FullText(context, fullText);
-            ss.EditorColumns.ForEach(columnName =>
-            {
-                switch (columnName)
+            ss.GetEditorColumnNames(
+                context: context,
+                columnOnly: true).ForEach(columnName =>
                 {
-                    case "Title":
-                        Title.FullText(context, fullText);
-                        break;
-                    case "Body":
-                        Body.FullText(context, fullText);
-                        break;
-                    case "Comments":
-                        Comments.FullText(context, fullText);
-                        break;
-                    default:
-                        FullText(
-                            context: context,
-                            column: ss.GetColumn(
+                    switch (columnName)
+                    {
+                        case "Title":
+                            Title.FullText(context, fullText);
+                            break;
+                        case "Body":
+                            Body.FullText(context, fullText);
+                            break;
+                        case "Comments":
+                            Comments.FullText(context, fullText);
+                            break;
+                        default:
+                            FullText(
                                 context: context,
-                                columnName: columnName),
-                            fullText: fullText);
-                        break;
-                }
-            });
+                                column: ss.GetColumn(
+                                    context: context,
+                                    columnName: columnName),
+                                fullText: fullText);
+                            break;
+                    }
+                });
             Creator.FullText(context, fullText);
             Updator.FullText(context, fullText);
             CreatedTime.FullText(context, fullText);
@@ -1548,6 +1550,65 @@ namespace Implem.Pleasanter.Models
                         context: context,
                         res: res);
                     break;
+                case "ToDisableEditorColumns":
+                    DeleteEditorColumns(
+                        context: context,
+                        res: res);
+                    break;
+                case "EditorColumnsTabs":
+                    SetEditorColumnsTabsSelectable(
+                        context: context,
+                        res: res);
+                    break;
+                case "EditorSourceColumnsType":
+                    SetEditorSourceColumnsSelectable(
+                        context: context,
+                        res: res);
+                    break;
+                case "MoveUpTabs":
+                case "MoveDownTabs":
+                    SetTabsOrder(
+                        context: context,
+                        res: res,
+                        controlId: controlId);
+                    break;
+                case "NewTabDialog":
+                case "EditTabDialog":
+                    OpenTabDialog(
+                        context: context,
+                        res: res,
+                        controlId: controlId);
+                    break;
+                case "AddTab":
+                    AddTab(
+                        context: context,
+                        res: res);
+                    break;
+                case "UpdateTab":
+                    UpdateTab(
+                        context: context,
+                        res: res);
+                    break;
+                case "DeleteTabs":
+                    DeleteTabs(
+                        context: context,
+                        res: res);
+                    break;
+                case "ToEnableEditorColumns":
+                    AddEditorColumns(
+                        context: context,
+                        res: res);
+                    break;
+                case "UpdateSection":
+                    UpdateSection(
+                        context: context,
+                        res: res);
+                    break;
+                case "UpdateLink":
+                    UpdateLink(
+                        context: context,
+                        res: res);
+                    break;
                 case "MoveUpSummaries":
                 case "MoveDownSummaries":
                     SetSummariesOrder(
@@ -2180,20 +2241,25 @@ namespace Implem.Pleasanter.Models
             else
             {
                 var column = SiteSettings.EditorColumn(selectedColumns.FirstOrDefault());
-                if (column == null)
+                var section = SiteSettings.Sections.Get(SiteSettings.SectionId(selectedColumns
+                    .FirstOrDefault()));
+                var linkId = SiteSettings.LinkId(selectedColumns.FirstOrDefault());
+                if (column == null && section == null && linkId == 0)
                 {
                     res.Message(Messages.InvalidRequest(context: context));
                 }
                 else
                 {
                     var titleColumns = SiteSettings.TitleColumns;
-                    if (column.ColumnName == "Title")
+                    if (column?.ColumnName == "Title")
                     {
                         Session_TitleColumns(
                             context: context,
                             value: titleColumns.ToJson());
                     }
-                    SiteSettings.EditorColumns = context.Forms.List("EditorColumnsAll");
+                    AddOrUpdateEditorColumnHash(context: context);
+                    if (column != null)
+                    {
                     res.Html(
                         "#EditorColumnDialog",
                         SiteUtilities.EditorColumnDialog(
@@ -2201,6 +2267,22 @@ namespace Implem.Pleasanter.Models
                             ss: SiteSettings,
                             column: column,
                             titleColumns: titleColumns));
+                }
+                    else if(section != null)
+                    {
+                        res.Html("#EditorColumnDialog", SiteUtilities.SectionDialog(
+                            context: context,
+                            ss: SiteSettings,
+                            controlId: context.Forms.ControlId(),
+                            section: section));
+                    }
+                    else if (linkId != 0)
+                    {
+                        res.Html("#EditorColumnDialog", SiteUtilities.LinkDialog(
+                            context: context,
+                            ss: SiteSettings,
+                            controlId: context.Forms.ControlId()));
+                    }
                 }
             }
         }
@@ -2241,7 +2323,9 @@ namespace Implem.Pleasanter.Models
         /// </summary>
         private void ResetEditorColumn(Context context, ResponseCollection res)
         {
-            var ss = new SiteSettings(context: context, referenceType: ReferenceType);
+            var ss = new SiteSettings(
+                context: context,
+                referenceType: ReferenceType);
             res.Html(
                 "#EditorColumnDialog",
                 SiteUtilities.EditorColumnDialog(
@@ -2251,6 +2335,339 @@ namespace Implem.Pleasanter.Models
                         context: context,
                         columnName: context.Forms.Data("EditorColumnName")),
                     titleColumns: ss.TitleColumns));
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        private void AddOrUpdateEditorColumnHash(Context context)
+        {
+            SiteSettings
+                .AddOrUpdateEditorColumnHash(
+                    editorColumnsAll: context.Forms.List("EditorColumnsAll"),
+                    editorColumnsTabsTarget: context
+                        .Forms
+                        .Data("EditorColumnsTabsTarget"));
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        private void DeleteEditorColumns(Context context, ResponseCollection res)
+        {
+            AddOrUpdateEditorColumnHash(context: context);
+            var selected = context.Forms.List("EditorColumns");
+            if (selected?.Any() != true)
+            {
+                res.Message(Messages.SelectTargets(context: context)).ToJson();
+            }
+            else
+            {
+                SiteSettings.EditorColumnHash?.ForEach(o => o
+                    .Value
+                    ?.RemoveAll(columnName => selected.Contains(columnName)));
+                res.EditorColumnsResponses(
+                    context: context,
+                    ss: SiteSettings);
+            }
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        private void SetEditorColumnsTabsSelectable(Context context, ResponseCollection res)
+        {
+            AddOrUpdateEditorColumnHash(context: context);
+            res.Html("#EditorColumns", new HtmlBuilder().SelectableItems(
+                listItemCollection: SiteSettings.EditorSelectableOptions(
+                    context: context,
+                    tabId: context
+                        .Forms
+                        .Data(key: "EditorColumnsTabs")
+                        .ToInt())))
+                .Val(
+                    "#EditorColumnsTabsTarget",
+                    context.Forms.Data("EditorColumnsTabs"));
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        private void SetEditorSourceColumnsSelectable(Context context, ResponseCollection res)
+        {
+            AddOrUpdateEditorColumnHash(context: context);
+            res.EditorSourceColumnsResponses(
+                context: context,
+                ss: SiteSettings);
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        private void SetTabsOrder(Context context, ResponseCollection res, string controlId)
+        {
+            var selected = context.Forms.IntList("Tabs");
+            if (selected?.Any() != true)
+            {
+                res.Message(Messages.SelectTargets(context: context)).ToJson();
+            }
+            else
+            {
+                SiteSettings.Tabs.MoveUpOrDown(
+                    ColumnUtilities.ChangeCommand(controlId), selected);
+                res
+                    .TabResponses(
+                        context: context,
+                        ss: SiteSettings,
+                        selected: selected)
+                    .EditorColumnsResponses(
+                        context: context,
+                        ss: SiteSettings);
+            }
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        private void OpenTabDialog(Context context, ResponseCollection res, string controlId)
+        {
+            Libraries.Settings.Tab tab;
+            if (controlId == "NewTabDialog")
+            {
+                OpenTabDialog(context: context, res: res, tab: null);
+            }
+            else
+            {
+                var idList = context.Forms.IntList("Tabs");
+                if (idList.Count() != 1)
+                {
+                    OpenDialogError(res, Messages.SelectOne(context: context));
+                }
+                else
+                {
+                    tab = idList.First() == 0
+                        ? new Tab
+                        {
+                            Id = 0,
+                            LabelText = Displays.General(context: context)
+                        }
+                        : SiteSettings.Tabs?.Get(idList.First());
+                    if (tab == null)
+                    {
+                        OpenDialogError(res, Messages.SelectOne(context: context));
+                    }
+                    else
+                    {
+                        SiteSettings.Tabs = SiteSettings.Tabs?.Join(
+                            context
+                                .Forms
+                                .List("TabsAll")
+                                .Select((val, key) => new
+                                    {
+                                        Key = key,
+                                        Val = val
+                                    }),
+                            v => v.Id, l => l.Val.ToInt(),
+                            (v, l) => new { Tabs = v, OrderNo = l.Key })
+                                .OrderBy(v => v.OrderNo)
+                                .Select(v => v.Tabs)
+                                .Aggregate(
+                                    new SettingList<Tab>(),
+                                    (list, data) => { list.Add(data); return list; });
+                        OpenTabDialog(context: context, res: res, tab: tab);
+                    }
+                }
+            }
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        private void OpenTabDialog(
+            Context context,
+            ResponseCollection res,
+            Libraries.Settings.Tab tab)
+        {
+            AddOrUpdateEditorColumnHash(context: context);
+            SiteSettings.SetChoiceHash(context: context);
+            res.Html("#TabDialog", SiteUtilities.Tab(
+                context: context,
+                ss: SiteSettings,
+                controlId: context.Forms.ControlId(),
+                tab: tab));
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        private void AddTab(Context context, ResponseCollection res)
+        {
+            SiteSettings
+                .AddTab(new Libraries.Settings.Tab(
+                    context: context,
+                    ss: SiteSettings));
+            res
+                .TabResponses(
+                    context: context,
+                    ss: SiteSettings,
+                    selected: new List<int>
+                    {
+                        SiteSettings.TabLatestId.ToInt()
+                    })
+                .CloseDialog()
+                .EditorColumnsResponses(
+                    context: context,
+                    ss: SiteSettings);
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        private void UpdateTab(Context context, ResponseCollection res)
+        {
+            var selected = context.Forms.Int("TabId");
+            var tab = SiteSettings.Tabs?.Get(selected);
+            if(selected == 0)
+            {
+                res.CloseDialog();
+            }
+            else if (tab == null)
+            {
+                res.Message(Messages.NotFound(context: context));
+            }
+            else
+            {
+                tab.SetByForm(
+                    context: context,
+                    ss: SiteSettings);
+                res
+                    .TabResponses(
+                        context: context,
+                        ss: SiteSettings,
+                        selected: new List<int> { selected })
+                    .CloseDialog()
+                    .EditorColumnsResponses(
+                        context: context,
+                        ss: SiteSettings);
+            }
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        private void DeleteTabs(Context context, ResponseCollection res)
+        {
+            var selected = context.Forms.IntList("Tabs");
+            if (selected?.Any() != true)
+            {
+                res.Message(Messages.SelectTargets(context: context)).ToJson();
+            }
+            else if (selected.Contains(0))
+            {
+                res.Message(Messages.CanNotDelete(
+                    context: context,
+                    Displays.General(context:context))).ToJson();
+            }
+            else
+            {
+                SiteSettings.Tabs?.RemoveAll(o => selected.Contains(o.Id));
+                SiteSettings.EditorColumnHash?.RemoveAll((key, value) => selected
+                    .Contains(SiteSettings.TabId(key)));
+                SiteSettings.EditorColumnHash?.RemoveAll((key, value) => SiteSettings
+                    .TabId(key) != 0
+                        && !selected.Contains(SiteSettings.TabId(key)));
+                res
+                    .TabResponses(
+                        context: context,
+                        ss: SiteSettings)
+                    .EditorColumnsResponses(
+                        context: context,
+                        ss: SiteSettings);
+            }
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        private void AddEditorColumns(Context context, ResponseCollection res)
+        {
+            switch (context.Forms.Data("EditorSourceColumnsType"))
+            {
+                case "Others":
+                    if (context.Forms.List("EditorSourceColumns")?.FirstOrDefault()?.StartsWith("_Section-") == true)
+                    {
+                        var sectionName = SiteSettings.SectionName(SiteSettings.AddSection(new Section
+                        {
+                            LabelText = Displays.Section(context: context)
+                        }).Id);
+                        var tab = SiteSettings
+                            .EditorColumnHash
+                            .Get(SiteSettings.TabName(context.Forms.Int("EditorColumnsTabsTarget")));
+                        if (tab == null)
+                        {
+                            tab = new List<string>();
+                            SiteSettings.AddOrUpdateEditorColumnHash(
+                                editorColumnsAll: tab,
+                                editorColumnsTabsTarget: context
+                                    .Forms
+                                    .Int("EditorColumnsTabsTarget")
+                                    .ToStr());
+                        }
+                        tab.Add(sectionName);
+                        res.Html(
+                            "#EditorColumns",
+                            new HtmlBuilder().SelectableItems(
+                                listItemCollection: SiteSettings
+                                    .EditorSelectableOptions(
+                                        context: context,
+                                        tabId: context.Forms.Int("EditorColumnsTabs")),
+                                selectedValueTextCollection: new List<string> { sectionName }));
+                    }
+                    break;
+            }
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        private void UpdateSection(Context context, ResponseCollection res)
+        {
+            var selected = context.Forms.Int("SectionId");
+            var section = SiteSettings.Sections.Get(selected);
+            var sectionName = SiteSettings.SectionName(section?.Id);
+            if (section == null)
+            {
+                res.Message(Messages.NotFound(context: context));
+            }
+            else
+            {
+                section.SetByForm(
+                    context: context,
+                    ss: SiteSettings);
+                res.Html(
+                    "#EditorColumns",
+                    new HtmlBuilder().SelectableItems(
+                        listItemCollection: SiteSettings
+                            .EditorSelectableOptions(
+                                context: context,
+                                tabId: SiteSettings
+                                    .TabId(SiteSettings
+                                        .EditorColumnHash
+                                        .Where(o => o
+                                            .Value?
+                                            .Contains(sectionName) == true)
+                                        .Select(o => o.Key)
+                                        .FirstOrDefault()))))
+                    .CloseDialog();
+            }
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        private void UpdateLink(Context context, ResponseCollection res)
+        {
+            res.CloseDialog();
         }
 
         /// <summary>
@@ -2733,7 +3150,7 @@ namespace Implem.Pleasanter.Models
                             .ColumnDefinitionHash
                             .MonitorChangesDefinitions()
                             .Select(o => o.ColumnName)
-                            .Where(o => SiteSettings.EditorColumns.Contains(o)
+                            .Where(o => SiteSettings.GetEditorColumnNames().Contains(o)
                                 || o == "Comments")
                             .ToList()));
             }
@@ -2998,6 +3415,7 @@ namespace Implem.Pleasanter.Models
                             sendCompletedInPast: context.Forms.Bool("ReminderSendCompletedInPast"),
                             notSendIfNotApplicable: context.Forms.Bool("ReminderNotSendIfNotApplicable"),
                             notSendHyperLink: context.Forms.Bool("ReminderNotSendHyperLink"),
+                            excludeOverdue: context.Forms.Bool("ReminderExcludeOverdue"),
                             condition: context.Forms.Int("ReminderCondition"),
                             disabled: context.Forms.Bool("ReminderDisabled")));
                         SetRemindersResponseCollection(context: context, res: res);
@@ -3048,6 +3466,7 @@ namespace Implem.Pleasanter.Models
                                 sendCompletedInPast: context.Forms.Bool("ReminderSendCompletedInPast"),
                                 notSendIfNotApplicable: context.Forms.Bool("RminderNotSendIfNotApplicable"),
                                 notSendHyperLink: context.Forms.Bool("ReminderNotSendHyperLink"),
+                                excludeOverdue: context.Forms.Bool("ReminderExcludeOverdue"),
                                 condition: context.Forms.Int("ReminderCondition"),
                                 disabled: context.Forms.Bool("ReminderDisabled"));
                             SetRemindersResponseCollection(context: context, res: res);
@@ -3829,8 +4248,8 @@ namespace Implem.Pleasanter.Models
         private void OpenDialogError(ResponseCollection res, Message message)
         {
             res
-                .Message(message)
-                .CloseDialog();
+                .CloseDialog()
+                .Message(message);
         }
 
         /// <summary>

@@ -1,0 +1,29 @@
+{
+    "Id": "CanNotDelete",
+    "Type": 240,
+    "Languages": [
+        {
+            "Body": "Cannot delete {0}."
+        },
+        {
+            "Language": "zh",
+            "Body": "无法删除{0}。"
+        },
+        {
+            "Language": "ja",
+            "Body": "{0} を削除できません。"
+        },
+        {
+            "Language": "de",
+            "Body": "{0} kann nicht gelöscht werden."
+        },
+        {
+            "Language": "ko",
+            "Body": "{0}을(를) 삭제할 수 없습니다."
+        },
+        {
+            "Language": "es",
+            "Body": "No puede eliminar {0}."
+        }
+    ]
+}

@@ -1,0 +1,29 @@
+{
+    "Id": "ExcludeOverdue",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Exclude overdue"
+        },
+        {
+            "Language": "zh",
+            "Body": "排除逾期"
+        },
+        {
+            "Language": "ja",
+            "Body": "期限切れを送信しない"
+        },
+        {
+            "Language": "de",
+            "Body": "Überfällige ausschließen"
+        },
+        {
+            "Language": "ko",
+            "Body": "연체 제외"
+        },
+        {
+            "Language": "es",
+            "Body": "Excluir vencido"
+        }
+    ]
+}

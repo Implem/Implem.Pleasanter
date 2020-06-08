@@ -6,7 +6,7 @@
         'POST',
         data,
         undefined,
-        redirect !==1);
+        redirect !== 1);
     if (redirect === 1) {
         location.href = $('#ApplicationPath').val();
     }

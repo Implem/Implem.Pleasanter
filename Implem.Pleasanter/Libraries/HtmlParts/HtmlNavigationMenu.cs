@@ -58,6 +58,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                 id: "NavigationMenu",
                 action: () => hb
                     .Li(
+                        id: "NewMenuContainer",
                         action: () => hb
                             .Div(action: () => hb
                                 .A(
@@ -77,6 +78,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                 && ss.ReferenceType != "Wikis"
                                 && context.Action != "trashbox")
                     .Li(
+                        id: "ViewModeMenuContainer",
                         css: "sub-menu",
                         action: () => hb
                             .Div(
@@ -88,6 +90,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                         _using: Def.ViewModeDefinitionCollection
                             .Any(o => o.ReferenceType == referenceType))
                     .Li(
+                        id: "SettingsMenuContainer",
                         css: "sub-menu",
                         action: () => hb
                             .Div(
@@ -112,6 +115,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                             canManageGroups ||
                             canManageUsers)
                     .Li(
+                        id: "AccountMenuContainer",
                         css: "sub-menu",
                         action: () => hb
                             .Div(

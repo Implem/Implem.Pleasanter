@@ -305,7 +305,7 @@ namespace Implem.Pleasanter.Models
             bool clearCheck = false,
             string action = "GridRows")
         {
-            var checkRow = !ss.GridColumnsHasSources();
+            var checkRow = ss.CheckRow(context: context);
             var checkAll = clearCheck
                 ? false
                 : context.Forms.Bool("GridCheckAll");
@@ -2200,9 +2200,11 @@ namespace Implem.Pleasanter.Models
                                 optionCollection: columns.ToDictionary(o =>
                                     o.ColumnName, o => new ControlData(o.LabelText)),
                                 selectedValue: columns.Where(o => !sourceSiteModel
-                                    .SiteSettings.EditorColumns.Contains(o.ColumnName))
-                                    .FirstOrDefault()?
-                                    .ColumnName)
+                                    .SiteSettings
+                                    .GetEditorColumnNames()
+                                    .Contains(o.ColumnName))
+                                        .FirstOrDefault()?
+                                        .ColumnName)
                             .FieldTextBox(
                                 controlId: "LinkColumnLabelText",
                                 labelText: Displays.DisplayName(context: context),
@@ -2339,15 +2341,17 @@ namespace Implem.Pleasanter.Models
                     id: id,
                     siteModel: siteModel,
                     invalid: new ErrorData(type: Error.Types.InvalidRequest));
-            } 
+            }
             var labelText = context.Forms.Data("LinkColumnLabelText");
             column.LabelText = labelText;
             column.GridLabelText = labelText;
             column.ChoicesText = $"[[{destinationSiteModel.SiteId}]]";
             sourceSiteModel.SiteSettings.SetLinks(context: context, column: column);
-            if (!sourceSiteModel.SiteSettings.EditorColumns.Contains(column.ColumnName))
+            if (!sourceSiteModel.SiteSettings.GetEditorColumnNames().Contains(column.ColumnName))
             {
-                sourceSiteModel.SiteSettings.EditorColumns.Add(column.ColumnName);
+                sourceSiteModel.SiteSettings.EditorColumnHash
+                    ?.Get(sourceSiteModel.SiteSettings.TabName(0))
+                    .Add(column.ColumnName);
             }
             Repository.ExecuteNonQuery(
                 context: context,
@@ -3414,7 +3418,7 @@ namespace Implem.Pleasanter.Models
                 columnName: "Comments");
             var commentsColumnPermissionType = commentsColumn
                 .ColumnPermissionType(context: context);
-            var showComments = ss.EditorColumns?.Contains("Comments") == true &&
+            var showComments = ss.GetEditorColumnNames()?.Contains("Comments") == true &&
                 commentsColumnPermissionType != Permissions.ColumnPermissionTypes.Deny;
             var tabsCss = showComments ? null : "max";
             return hb.Div(id: "Editor", action: () => hb
@@ -3517,6 +3521,10 @@ namespace Implem.Pleasanter.Models
                     .Id("EditorColumnDialog")
                     .Class("dialog")
                     .Title(Displays.AdvancedSetting(context: context)))
+                .Div(attributes: new HtmlAttributes()
+                    .Id("TabDialog")
+                    .Class("dialog")
+                    .Title(Displays.Tab(context: context)))
                 .Div(attributes: new HtmlAttributes()
                     .Id("SummaryDialog")
                     .Class("dialog")
@@ -4145,7 +4153,7 @@ namespace Implem.Pleasanter.Models
                     _using: column.TypeName.CsTypeSummary() == Types.CsDateTime || column.TypeName.CsTypeSummary() == Types.CsNumeric)
                 .FieldSet(
                     id: "FilterColumnSettingField",
-                    css: column.DateFilterSetMode == ColumnUtilities.DateFilterSetMode.Default 
+                    css: column.DateFilterSetMode == ColumnUtilities.DateFilterSetMode.Default
                         ? " enclosed"
                         : " enclosed hidden",
                     legendText: column.LabelText,
@@ -4399,20 +4407,37 @@ namespace Implem.Pleasanter.Models
                             controlWrapperCss: " h250",
                             controlCss: " always-send send-all",
                             labelText: Displays.CurrentSettings(context: context),
-                            listItemCollection: ss.EditorSelectableOptions(context: context),
+                            listItemCollection: ss.EditorSelectableOptions(
+                                context: context,
+                                tabId: 0),
                             commandOptionPositionIsTop: true,
                             commandOptionAction: () => hb
                                 .Div(css: "command-center", action: () => hb
-                                    .Hidden(controlId: "EditorColumnsNessesaryMessage",
+                                    .Hidden(
+                                        controlId: "EditorColumnsNessesaryMessage",
                                         value: Messages.CanNotDisabled(
                                             context: context,
                                             data: "COLUMNNAME").Text)
                                     .Hidden(
                                         controlId: "EditorColumnsNessesaryColumns",
-                                        value: Jsons.ToJson(
-                                            ss.EditorColumns?
-                                            .Where(o => ss.EditorColumn(o).Required)
+                                        value: Jsons.ToJson(ss.GetEditorColumnNames()
+                                            ?.Where(o => ss.EditorColumn(o)?.Required == true)
                                             .Select(o => o)))
+                                     .Hidden(
+                                         controlId: "EditorColumnsTabsTarget",
+                                         css: " always-send",
+                                         value: "0")
+                                    .FieldDropDown(
+                                        context: context,
+                                        controlId: "EditorColumnsTabs",
+                                        fieldCss: "w300",
+                                        controlCss: " auto-postback always-send",
+                                        optionCollection: ss.TabSelectableOptions(
+                                            context: context,
+                                            habGeneral: true),
+                                        addSelectedValue: false,
+                                        action: "SetSiteSettings",
+                                        method: "post")
                                     .Button(
                                         controlId: "MoveUpEditorColumns",
                                         text: Displays.MoveUp(context: context),
@@ -4435,10 +4460,12 @@ namespace Implem.Pleasanter.Models
                                         method: "put")
                                     .Button(
                                         controlId: "ToDisableEditorColumns",
-                                        text: Displays.ToDisable(context: context),
                                         controlCss: "button-icon",
-                                        onClick: "$p.moveColumns($(this),'Editor');",
-                                        icon: "ui-icon-circle-triangle-e")))
+                                        text: Displays.ToDisable(context: context),
+                                        onClick: "$p.send($(this));",
+                                        icon: "ui-icon-circle-triangle-e",
+                                        action: "SetSiteSettings",
+                                        method: "post")))
                         .FieldSelectable(
                             controlId: "EditorSourceColumns",
                             fieldCss: "field-vertical",
@@ -4446,16 +4473,105 @@ namespace Implem.Pleasanter.Models
                             controlWrapperCss: " h250",
                             labelText: Displays.OptionList(context: context),
                             listItemCollection: ss.EditorSelectableOptions(
-                                context: context, enabled: false),
+                                context: context,
+                                enabled: false),
                             commandOptionPositionIsTop: true,
                             commandOptionAction: () => hb
                                 .Div(css: "command-center", action: () => hb
+                                    .FieldDropDown(
+                                        context: context,
+                                        controlId: "EditorSourceColumnsType",
+                                        fieldCss: "w300",
+                                        controlCss: " auto-postback always-send",
+                                        optionCollection: new Dictionary<string, ControlData>
+                                        {
+                                            {
+                                                "Columns",
+                                                new ControlData(
+                                                    text: Displays.Column(context: context))
+                                            },
+                                            {
+                                                "Links",
+                                                new ControlData(
+                                                    text: Displays.Links(context: context))
+                                            },
+                                            {
+                                                "Others",
+                                                new ControlData(
+                                                    text: Displays.Others(context: context),
+                                                    attributes: new Dictionary<string, string>
+                                                    {
+                                                        { "data-type", "multiple"}
+                                                    })
+                                            },
+                                        },
+                                        addSelectedValue: false,
+                                        action: "SetSiteSettings",
+                                        method: "post")
                                     .Button(
                                         controlId: "ToEnableEditorColumns",
                                         text: Displays.ToEnable(context: context),
                                         controlCss: "button-icon",
-                                        onClick: "$p.moveColumns($(this),'Editor');",
-                                        icon: "ui-icon-circle-triangle-w"))))
+                                        onClick: "$p.enableColumns($(this),'Editor', 'EditorSourceColumnsType');",
+                                        icon: "ui-icon-circle-triangle-w",
+                                        action: "SetSiteSettings",
+                                        method: "post"))))
+                .FieldSet(
+                    css: " enclosed-thin",
+                    legendText: Displays.TabSettings(context: context),
+                    action: () => hb
+                        .FieldSelectable(
+                            controlId: "Tabs",
+                            fieldCss: "field-vertical",
+                            controlContainerCss: "container-selectable",
+                            controlWrapperCss: " h200",
+                            controlCss: " always-send send-all",
+                            listItemCollection: ss.TabSelectableOptions(
+                                context: context,
+                                habGeneral: true),
+                            commandOptionPositionIsTop: true,
+                            commandOptionAction: () => hb
+                                .Div(css: "command-center", action: () => hb
+                                    .Button(
+                                        controlId: "MoveUpTabs",
+                                        text: Displays.MoveUp(context: context),
+                                        controlCss: "button-icon",
+                                        onClick: "$p.send($(this));",
+                                        icon: "ui-icon-trash",
+                                        action: "SetSiteSettings",
+                                        method: "put")
+                                    .Button(
+                                        controlId: "MoveDownTabs",
+                                        text: Displays.MoveDown(context: context),
+                                        controlCss: "button-icon",
+                                        onClick: "$p.send($(this));",
+                                        icon: "ui-icon-trash",
+                                        action: "SetSiteSettings",
+                                        method: "put")
+                                    .Button(
+                                        controlId: "NewTabDialog",
+                                        text: Displays.New(context: context),
+                                        controlCss: "button-icon",
+                                        onClick: "$p.openTabDialog($(this));",
+                                        icon: "ui-icon-gear",
+                                        action: "SetSiteSettings",
+                                        method: "put")
+                                    .Button(
+                                        controlId: "EditTabDialog",
+                                        text: Displays.AdvancedSetting(context: context),
+                                        controlCss: "button-icon",
+                                        onClick: "$p.openTabDialog($(this));",
+                                        icon: "ui-icon-gear",
+                                        action: "SetSiteSettings",
+                                        method: "put")
+                                    .Button(
+                                        controlId: "DeleteTabs",
+                                        text: Displays.Delete(context: context),
+                                        controlCss: "button-icon",
+                                        onClick: "$p.send($(this));",
+                                        icon: "ui-icon-trash",
+                                        action: "SetSiteSettings",
+                                        method: "put"))))
                 .FieldSet(id: "RelatingColumnsSettingsEditor",
                     css: " enclosed",
                     legendText: Displays.RelatingColumnSettings(context: context),
@@ -4548,6 +4664,57 @@ namespace Implem.Pleasanter.Models
             Context context, SiteSettings ss, Column column, IEnumerable<string> titleColumns)
         {
             var hb = new HtmlBuilder();
+            if (column.TypeName == "nvarchar"
+                    && column.ControlType != "Attachments")
+            {
+                return hb.Form(
+                attributes: new HtmlAttributes()
+                    .Id("EditorColumnForm")
+                    .Action(Locations.ItemAction(
+                        context: context,
+                        id: ss.SiteId)),
+                action: () => hb
+                    .Div(id: "EditorDetailTabsContainer", action: () => hb
+                        .Ul(id: "EditorDetailsettingTabs", action: () => hb
+                            .Li(action: () => hb
+                                .A(
+                                    href: "#EditorColumnDialog",
+                                    text: Displays.General(context: context)))
+                            .Li(action: () => hb
+                                .A(
+                                    href: "#EditorDetailsettingTab",
+                                    text: Displays.ValidateInput(context: context))))
+                        .EditorDetailsettingTab(context: context, ss: ss, column: column)
+                        .EditorColumnDialog(context: context, ss: ss, column: column, titleColumns: titleColumns))
+                    .Hidden(
+                        controlId: "EditorColumnName",
+                        css: "always-send",
+                        value: column.ColumnName)
+                    .P(css: "message-dialog")
+                    .Div(css: "command-center", action: () => hb
+                        .Button(
+                            controlId: "SetEditorColumn",
+                            text: Displays.Change(context: context),
+                            controlCss: "button-icon validate",
+                            onClick: "$p.send($(this));",
+                            icon: "ui-icon-gear",
+                            action: "SetSiteSettings",
+                            method: "post")
+                        .Button(
+                            controlId: "ResetEditorColumn",
+                            text: Displays.Reset(context: context),
+                            controlCss: "button-icon validate",
+                            onClick: "$p.resetEditorColumn($(this));",
+                            icon: "ui-icon-gear",
+                            action: "SetSiteSettings",
+                            method: "post",
+                            confirm: "ConfirmReset")
+                        .Button(
+                            text: Displays.Cancel(context: context),
+                            controlCss: "button-icon",
+                            onClick: "$p.closeDialog($(this));",
+                            icon: "ui-icon-cancel")));
+            }
             return hb.Form(
                 attributes: new HtmlAttributes()
                     .Id("EditorColumnForm")
@@ -4555,8 +4722,78 @@ namespace Implem.Pleasanter.Models
                         context: context,
                         id: ss.SiteId)),
                 action: () => hb
-                    .EditorColumnDialog(
-                        context: context, ss: ss, column: column, titleColumns: titleColumns));
+                    .Div(id: "EditorDetailTabsContainer", action: () => hb
+                            .Ul(id: "EditorDetailsettingTabs", action: () => hb
+                                .Li(action: () => hb
+                                    .A(
+                                        href: "#EditorColumnDialog",
+                                        text: Displays.General(context: context))))
+                            .EditorColumnDialog(
+                                context: context,
+                                ss: ss,
+                                column: column,
+                                titleColumns: titleColumns))
+                    .Hidden(
+                        controlId: "EditorColumnName",
+                        css: "always-send",
+                        value: column.ColumnName)
+                    .P(css: "message-dialog")
+                    .Div(css: "command-center", action: () => hb
+                        .Button(
+                            controlId: "SetEditorColumn",
+                            text: Displays.Change(context: context),
+                            controlCss: "button-icon validate",
+                            onClick: "$p.send($(this));",
+                            icon: "ui-icon-gear",
+                            action: "SetSiteSettings",
+                            method: "post")
+                        .Button(
+                            controlId: "ResetEditorColumn",
+                            text: Displays.Reset(context: context),
+                            controlCss: "button-icon validate",
+                            onClick: "$p.resetEditorColumn($(this));",
+                            icon: "ui-icon-gear",
+                            action: "SetSiteSettings",
+                            method: "post",
+                            confirm: "ConfirmReset")
+                        .Button(
+                            text: Displays.Cancel(context: context),
+                            controlCss: "button-icon",
+                            onClick: "$p.closeDialog($(this));",
+                            icon: "ui-icon-cancel")));
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        public static HtmlBuilder EditorDetailsettingTab(
+            this HtmlBuilder hb, Column column, Context context, SiteSettings ss)
+        {
+            return hb.FieldSet(
+                id: "EditorDetailsettingTab",
+                action: () => hb
+                    .FieldSet(
+                       css: " enclosed",
+                       legendText: column.LabelTextDefault,
+                       action: () =>
+                       {
+                           hb
+                               .FieldTextBox(
+                                   controlId: "ClientRegexValidation",
+                                   fieldCss: "field-wide",
+                                   labelText: Displays.ClientRegexValidation(context: context),
+                                   text: column.ClientRegexValidation)
+                               .FieldTextBox(
+                                   controlId: "ServerRegexValidation",
+                                   fieldCss: "field-wide",
+                                   labelText: Displays.ServerRegexValidation(context: context),
+                                   text: column.ServerRegexValidation)
+                              .FieldTextBox(
+                                   controlId: "RegexValidationMessage",
+                                   fieldCss: "field-wide",
+                                   labelText: Displays.RegexValidationMessage(context: context),
+                                   text: column.RegexValidationMessage);
+                       }));
         }
 
         /// <summary>
@@ -4570,325 +4807,322 @@ namespace Implem.Pleasanter.Models
             IEnumerable<string> titleColumns)
         {
             var type = column.TypeName.CsTypeSummary();
-            hb.FieldSet(
-                css: " enclosed",
-                legendText: column.LabelTextDefault,
-                action: () =>
-                {
-                    hb
-                        .FieldTextBox(
-                            controlId: "LabelText",
-                            labelText: Displays.DisplayName(context: context),
-                            text: column.LabelText,
-                            validateRequired: true)
-                        .FieldDropDown(
-                            context: context,
-                            controlId: "TextAlign",
-                            labelText: Displays.TextAlign(context: context),
-                            optionCollection: new Dictionary<string, string>
-                            {
-                                {
-                                    SiteSettings.TextAlignTypes.Left.ToInt().ToString(),
-                                    Displays.LeftAlignment(context: context)
-                                },
-                                {
-                                    SiteSettings.TextAlignTypes.Right.ToInt().ToString(),
-                                    Displays.RightAlignment(context: context)
-                                },
-                            },
-                            selectedValue: column.TextAlign.ToInt().ToString());
-                    if (column.ColumnName != "Comments" &&
-                        column.TypeName != "bit" &&
-                        column.ControlType != "Attachments")
-                    {
-                        var optionCollection = FieldCssOptions(
-                            context: context,
-                            column: column);
-                        hb
-                            .FieldDropDown(
-                                context: context,
-                                controlId: "FieldCss",
-                                labelText: Displays.Style(context: context),
-                                optionCollection: optionCollection,
-                                selectedValue: column.FieldCss,
-                                _using: optionCollection?.Any() == true)
-                            .FieldCheckBox(
-                                controlId: "ValidateRequired",
-                                labelText: Displays.Required(context: context),
-                                _checked: column.ValidateRequired ?? false,
-                                disabled: column.Required,
-                                _using: !column.Id_Ver)
-                            .FieldCheckBox(
-                                controlId: "AllowBulkUpdate",
-                                labelText: Displays.AllowBulkUpdate(context: context),
-                                _checked: column.AllowBulkUpdate == true,
-                                _using: !column.Id_Ver);
-                    }
-                    switch (type)
-                    {
-                        case Types.CsNumeric:
-                        case Types.CsDateTime:
-                        case Types.CsString:
-                            hb.FieldCheckBox(
-                                controlId: "NoDuplication",
-                                labelText: Displays.NoDuplication(context: context),
-                                _checked: column.NoDuplication == true,
-                                _using:
-                                    !column.Id_Ver &&
-                                    !column.NotUpdate &&
-                                    column.ControlType != "Attachments" &&
-                                    column.ColumnName != "Comments");
-                            break;
-                    }
-                    if (!column.Required)
-                    {
-                        hb
-                            .FieldCheckBox(
-                                controlId: "CopyByDefault",
-                                labelText: Displays.CopyByDefault(context: context),
-                                _checked: column.CopyByDefault == true,
-                                _using: column.TypeCs != "Attachments")
-                            .FieldCheckBox(
-                                controlId: "EditorReadOnly",
-                                labelText: Displays.ReadOnly(context: context),
-                                _checked: column.EditorReadOnly == true)
-                            .FieldCheckBox(
-                                controlId: "AllowBulkUpdate",
-                                labelText: Displays.AllowBulkUpdate(context: context),
-                                _checked: column.AllowBulkUpdate == true,
-                                _using: column.TypeName == "bit");
-                    }
-                    if (column.TypeName == "datetime")
-                    {
-                        hb
-                            .FieldDropDown(
-                                context: context,
-                                controlId: "EditorFormat",
-                                labelText: Displays.EditorFormat(context: context),
-                                optionCollection: DateTimeOptions(
-                                    context: context,
-                                    editorFormat: true),
-                                selectedValue: column.EditorFormat);
-                    }
-                    switch (type)
-                    {
-                        case Types.CsBool:
-                            hb.FieldCheckBox(
-                                controlId: "DefaultInput",
-                                labelText: Displays.DefaultInput(context: context),
-                                _checked: column.DefaultInput.ToBool());
-                            break;
-                        case Types.CsNumeric:
-                            if (column.ControlType == "ChoicesText")
-                            {
-                                hb.FieldTextBox(
-                                    controlId: "DefaultInput",
-                                    labelText: Displays.DefaultInput(context: context),
-                                    text: column.DefaultInput,
-                                    _using: !column.Id_Ver);
-                            }
-                            else
-                            {
-                                var maxDecimalPlaces = MaxDecimalPlaces(column);
-                                hb
-                                    .FieldTextBox(
-                                        controlId: "DefaultInput",
-                                        labelText: Displays.DefaultInput(context: context),
-                                        text: column.DefaultInput.ToLong().ToString(),
-                                        validateNumber: true,
-                                        _using: !column.Id_Ver)
-                                    .EditorColumnFormatProperties(
-                                        context: context,
-                                        column: column)
-                                    .FieldTextBox(
-                                        controlId: "Unit",
-                                        controlCss: " w50",
-                                        labelText: Displays.Unit(context: context),
-                                        text: column.Unit,
-                                        _using: !column.Id_Ver)
-                                    .FieldSpinner(
-                                        controlId: "DecimalPlaces",
-                                        labelText: Displays.DecimalPlaces(context: context),
-                                        value: column.DecimalPlaces.ToDecimal(),
-                                        min: 0,
-                                        max: maxDecimalPlaces,
-                                        step: 1,
-                                        _using: maxDecimalPlaces > 0);
-                                if (!column.NotUpdate && !column.Id_Ver)
-                                {
-                                    var hidden = column.ControlType != "Spinner"
-                                        ? " hidden"
-                                        : string.Empty;
-                                    hb
-                                        .FieldDropDown(
-                                            context: context,
-                                            controlId: "ControlType",
-                                            labelText: Displays.ControlType(context: context),
-                                            optionCollection: new Dictionary<string, string>
-                                            {
-                                                { "Normal", Displays.Normal(context: context) },
-                                                { "Spinner", Displays.Spinner(context: context) }
-                                            },
-                                            selectedValue: column.ControlType)
-                                        .FieldTextBox(
-                                            fieldId: "MinField",
-                                            controlId: "Min",
-                                            fieldCss: " both" + hidden,
-                                            labelText: Displays.Min(context: context),
-                                            text: column.Min.ToString())
-                                        .FieldTextBox(
-                                            fieldId: "MaxField",
-                                            controlId: "Max",
-                                            fieldCss: hidden,
-                                            labelText: Displays.Max(context: context),
-                                            text: column.Max.ToString())
-                                        .FieldTextBox(
-                                            fieldId: "StepField",
-                                            controlId: "Step",
-                                            fieldCss: hidden,
-                                            labelText: Displays.Step(context: context),
-                                            text: column.Step.ToString());
-                                }
-                            }
-                            break;
-                        case Types.CsDateTime:
-                            hb.FieldSpinner(
-                                controlId: "DefaultInput",
-                                controlCss: " allow-blank",
-                                labelText: Displays.DefaultInput(context: context),
-                                value: column.DefaultInput != string.Empty
-                                    ? column.DefaultInput.ToDecimal()
-                                    : (decimal?)null,
-                                min: column.Min.ToInt(),
-                                max: column.Max.ToInt(),
-                                step: column.Step.ToInt(),
-                                width: column.Width);
-                            break;
-                        case Types.CsString:
-                            switch (column.ControlType)
-                            {
-                                case "Attachments":
-                                    hb
-                                        .FieldSpinner(
-                                            controlId: "LimitQuantity",
-                                            labelText: Displays.LimitQuantity(context: context),
-                                            value: column.LimitQuantity,
-                                            min: Parameters.BinaryStorage.MinQuantity,
-                                            max: Parameters.BinaryStorage.MaxQuantity,
-                                            step: column.Step.ToInt(),
-                                            width: 50)
-                                        .FieldSpinner(
-                                            controlId: "LimitSize",
-                                            labelText: Displays.LimitSize(context: context),
-                                            value: column.LimitSize,
-                                            min: Parameters.BinaryStorage.MinSize,
-                                            max: Parameters.BinaryStorage.MaxSize,
-                                            step: column.Step.ToInt(),
-                                            width: 50)
-                                        .FieldSpinner(
-                                            controlId: "LimitTotalSize",
-                                            labelText: Displays.LimitTotalSize(context: context),
-                                            value: column.TotalLimitSize,
-                                            min: Parameters.BinaryStorage.TotalMinSize,
-                                            max: Parameters.BinaryStorage.TotalMaxSize,
-                                            step: column.Step.ToInt(),
-                                            width: 50);
-                                    break;
-                                default:
-                                    hb
-                                        .FieldCheckBox(
-                                            controlId: "AllowImage",
-                                            labelText: Displays.AllowImage(context: context),
-                                            _checked: column.AllowImage == true,
-                                            _using:
-                                                context.ContractSettings.Images()
-                                                && (column.ControlType == "MarkDown"
-                                                || column.ColumnName == "Comments"))
-                                        .FieldTextBox(
-                                            textType: column.ControlType == "MarkDown"
-                                                ? HtmlTypes.TextTypes.MultiLine
-                                                : HtmlTypes.TextTypes.Normal,
-                                            controlId: "DefaultInput",
-                                            fieldCss: "field-wide",
-                                            labelText: Displays.DefaultInput(context: context),
-                                            text: column.DefaultInput,
-                                            _using: column.ColumnName != "Comments");
-                                    break;
-                            }
-                            break;
-                    }
-                    hb.FieldTextBox(
-                        controlId: "Description",
-                        fieldCss: "field-wide",
-                        labelText: Displays.Description(context: context),
-                        text: column.Description);
-                    switch (column.ControlType)
-                    {
-                        case "ChoicesText":
+            return hb.FieldSet(
+                id: "EditorColumnDialog",
+                action: () => hb
+                    .FieldSet(
+                        css: " enclosed",
+                        legendText: column.LabelTextDefault,
+                        action: () =>
+                        {
                             hb
                                 .FieldTextBox(
-                                    textType: HtmlTypes.TextTypes.MultiLine,
-                                    controlId: "ChoicesText",
-                                    fieldCss: "field-wide",
-                                    labelText: Displays.OptionList(context: context),
-                                    text: column.ChoicesText)
-                                .FieldCheckBox(
-                                    controlId: "UseSearch",
-                                    labelText: Displays.UseSearch(context: context),
-                                    _checked: column.UseSearch == true);
-                            break;
-                        default:
-                            break;
-                    }
-                    if (column.ColumnName == "Title")
-                    {
-                        hb.EditorColumnTitleProperties(
-                            context: context,
-                            ss: ss,
-                            titleColumns: titleColumns);
-                    }
-                    if (column.ColumnName != "Comments")
-                    {
-                        hb
-                            .FieldCheckBox(
-                                controlId: "NoWrap",
-                                labelText: Displays.NoWrap(context: context),
-                                _checked: column.NoWrap == true)
-                            .FieldTextBox(
-                                controlId: "Section",
-                                labelText: Displays.Section(context: context),
-                                text: column.Section);
-                    }
-                });
-            return hb
-                .Hidden(
-                    controlId: "EditorColumnName",
-                    css: "always-send",
-                    value: column.ColumnName)
-                .P(css: "message-dialog")
-                .Div(css: "command-center", action: () => hb
-                    .Button(
-                        controlId: "SetEditorColumn",
-                        text: Displays.Change(context: context),
-                        controlCss: "button-icon validate",
-                        onClick: "$p.send($(this));",
-                        icon: "ui-icon-gear",
-                        action: "SetSiteSettings",
-                        method: "post")
-                    .Button(
-                        controlId: "ResetEditorColumn",
-                        text: Displays.Reset(context: context),
-                        controlCss: "button-icon validate",
-                        onClick: "$p.resetEditorColumn($(this));",
-                        icon: "ui-icon-gear",
-                        action: "SetSiteSettings",
-                        method: "post",
-                        confirm: "ConfirmReset")
-                    .Button(
-                        text: Displays.Cancel(context: context),
-                        controlCss: "button-icon",
-                        onClick: "$p.closeDialog($(this));",
-                        icon: "ui-icon-cancel"));
+                                    controlId: "LabelText",
+                                    labelText: Displays.DisplayName(context: context),
+                                    text: column.LabelText,
+                                    validateRequired: true)
+                                .FieldDropDown(
+                                    context: context,
+                                    controlId: "TextAlign",
+                                    labelText: Displays.TextAlign(context: context),
+                                    optionCollection: new Dictionary<string, string>
+                                    {
+                                        {
+                                            SiteSettings.TextAlignTypes.Left.ToInt().ToString(),
+                                            Displays.LeftAlignment(context: context)
+                                        },
+                                        {
+                                            SiteSettings.TextAlignTypes.Right.ToInt().ToString(),
+                                            Displays.RightAlignment(context: context)
+                                        },
+                                    },
+                                    selectedValue: column.TextAlign.ToInt().ToString());
+                            if (column.TypeName == "nvarchar"
+                                && column.ControlType != "Attachments")
+                            {
+                                hb
+                                    .FieldSpinner(
+                                        fieldId: "MaxChars",
+                                        controlId: "MaxLength",
+                                        controlCss: " allow-blank",
+                                        labelText: Displays.MaxLength(context: context),
+                                        value: column.MaxLength > 0
+                                            ? column.MaxLength
+                                            : (decimal?)null,
+                                        min: 1,
+                                        max: !Parameters
+                                            .Validation
+                                            .MaxLength
+                                            .ToString()
+                                            .IsNullOrEmpty()
+                                                ? Math.Min(
+                                                    Parameters
+                                                        .Validation
+                                                        .MaxLength
+                                                        .ToDecimal(),
+                                                    column.ValidateMaxLength.ToDecimal())
+                                                : column.ValidateMaxLength.ToDecimal(),
+                                        step: column.Step.ToInt(),
+                                        width: 50);
+                            }
+                            if (column.ColumnName != "Comments"
+                                && column.TypeName != "bit"
+                                && column.ControlType != "Attachments")
+                            {
+                                var optionCollection = FieldCssOptions(
+                                    context: context,
+                                    column: column);
+                                hb
+                                    .FieldDropDown(
+                                        context: context,
+                                        controlId: "FieldCss",
+                                        labelText: Displays.Style(context: context),
+                                        optionCollection: optionCollection,
+                                        selectedValue: column.FieldCss,
+                                        _using: optionCollection?.Any() == true)
+                                    .FieldCheckBox(
+                                        controlId: "ValidateRequired",
+                                        labelText: Displays.Required(context: context),
+                                        _checked: column.ValidateRequired ?? false,
+                                        disabled: column.Required,
+                                        _using: !column.Id_Ver)
+                                    .FieldCheckBox(
+                                        controlId: "AllowBulkUpdate",
+                                        labelText: Displays.AllowBulkUpdate(context: context),
+                                        _checked: column.AllowBulkUpdate == true,
+                                        _using: !column.Id_Ver);
+                            }
+                            switch (type)
+                            {
+                                case Types.CsNumeric:
+                                case Types.CsDateTime:
+                                case Types.CsString:
+                                    hb.FieldCheckBox(
+                                        controlId: "NoDuplication",
+                                        labelText: Displays.NoDuplication(context: context),
+                                        _checked: column.NoDuplication == true,
+                                        _using: !column.Id_Ver
+                                            && !column.NotUpdate
+                                            && column.ControlType != "Attachments"
+                                            && column.ColumnName != "Comments");
+                                    break;
+                            }
+                            if (!column.Required)
+                            {
+                                hb
+                                    .FieldCheckBox(
+                                        controlId: "CopyByDefault",
+                                        labelText: Displays.CopyByDefault(context: context),
+                                        _checked: column.CopyByDefault == true,
+                                        _using: column.TypeCs != "Attachments")
+                                    .FieldCheckBox(
+                                        controlId: "EditorReadOnly",
+                                        labelText: Displays.ReadOnly(context: context),
+                                        _checked: column.EditorReadOnly == true)
+                                    .FieldCheckBox(
+                                        controlId: "AllowBulkUpdate",
+                                        labelText: Displays.AllowBulkUpdate(context: context),
+                                        _checked: column.AllowBulkUpdate == true,
+                                        _using: column.TypeName == "bit");
+                            }
+                            if (column.TypeName == "datetime")
+                            {
+                                hb
+                                    .FieldDropDown(
+                                        context: context,
+                                        controlId: "EditorFormat",
+                                        labelText: Displays.EditorFormat(context: context),
+                                        optionCollection: DateTimeOptions(
+                                            context: context,
+                                            editorFormat: true),
+                                        selectedValue: column.EditorFormat);
+                            }
+                            switch (type)
+                            {
+                                case Types.CsBool:
+                                    hb.FieldCheckBox(
+                                        controlId: "DefaultInput",
+                                        labelText: Displays.DefaultInput(context: context),
+                                        _checked: column.DefaultInput.ToBool());
+                                    break;
+                                case Types.CsNumeric:
+                                    if (column.ControlType == "ChoicesText")
+                                    {
+                                        hb.FieldTextBox(
+                                            controlId: "DefaultInput",
+                                            labelText: Displays.DefaultInput(context: context),
+                                            text: column.DefaultInput,
+                                            _using: !column.Id_Ver);
+                                    }
+                                    else
+                                    {
+                                        var maxDecimalPlaces = MaxDecimalPlaces(column);
+                                        hb
+                                            .FieldTextBox(
+                                                controlId: "DefaultInput",
+                                                labelText: Displays.DefaultInput(context: context),
+                                                text: column.DefaultInput.ToLong().ToString(),
+                                                validateNumber: true,
+                                                _using: !column.Id_Ver)
+                                            .EditorColumnFormatProperties(
+                                                context: context,
+                                                column: column)
+                                            .FieldTextBox(
+                                                controlId: "Unit",
+                                                controlCss: " w50",
+                                                labelText: Displays.Unit(context: context),
+                                                text: column.Unit,
+                                                _using: !column.Id_Ver)
+                                            .FieldSpinner(
+                                                controlId: "DecimalPlaces",
+                                                labelText: Displays.DecimalPlaces(context: context),
+                                                value: column.DecimalPlaces.ToDecimal(),
+                                                min: 0,
+                                                max: maxDecimalPlaces,
+                                                step: 1,
+                                                _using: maxDecimalPlaces > 0);
+                                        if (!column.NotUpdate && !column.Id_Ver)
+                                        {
+                                            var hidden = column.ControlType != "Spinner"
+                                                ? " hidden"
+                                                : string.Empty;
+                                            hb
+                                                .FieldDropDown(
+                                                    context: context,
+                                                    controlId: "ControlType",
+                                                    labelText: Displays.ControlType(context: context),
+                                                    optionCollection: new Dictionary<string, string>
+                                                    {
+                                                        { "Normal", Displays.Normal(context: context) },
+                                                        { "Spinner", Displays.Spinner(context: context) }
+                                                    },
+                                                    selectedValue: column.ControlType)
+                                                .FieldTextBox(
+                                                    fieldId: "MinField",
+                                                    controlId: "Min",
+                                                    fieldCss: " both" + hidden,
+                                                    labelText: Displays.Min(context: context),
+                                                    text: column.Min.ToString())
+                                                .FieldTextBox(
+                                                    fieldId: "MaxField",
+                                                    controlId: "Max",
+                                                    fieldCss: hidden,
+                                                    labelText: Displays.Max(context: context),
+                                                    text: column.Max.ToString())
+                                                .FieldTextBox(
+                                                    fieldId: "StepField",
+                                                    controlId: "Step",
+                                                    fieldCss: hidden,
+                                                    labelText: Displays.Step(context: context),
+                                                    text: column.Step.ToString());
+                                        }
+                                    }
+                                    break;
+                                case Types.CsDateTime:
+                                    hb.FieldSpinner(
+                                        controlId: "DefaultInput",
+                                        controlCss: " allow-blank",
+                                        labelText: Displays.DefaultInput(context: context),
+                                        value: column.DefaultInput != string.Empty
+                                            ? column.DefaultInput.ToDecimal()
+                                            : (decimal?)null,
+                                        min: column.Min.ToInt(),
+                                        max: column.Max.ToInt(),
+                                        step: column.Step.ToInt(),
+                                        width: column.Width);
+                                    break;
+                                case Types.CsString:
+                                    switch (column.ControlType)
+                                    {
+                                        case "Attachments":
+                                            hb
+                                                .FieldSpinner(
+                                                    controlId: "LimitQuantity",
+                                                    labelText: Displays.LimitQuantity(context: context),
+                                                    value: column.LimitQuantity,
+                                                    min: Parameters.BinaryStorage.MinQuantity,
+                                                    max: Parameters.BinaryStorage.MaxQuantity,
+                                                    step: column.Step.ToInt(),
+                                                    width: 50)
+                                                .FieldSpinner(
+                                                    controlId: "LimitSize",
+                                                    labelText: Displays.LimitSize(context: context),
+                                                    value: column.LimitSize,
+                                                    min: Parameters.BinaryStorage.MinSize,
+                                                    max: Parameters.BinaryStorage.MaxSize,
+                                                    step: column.Step.ToInt(),
+                                                    width: 50)
+                                                .FieldSpinner(
+                                                    controlId: "LimitTotalSize",
+                                                    labelText: Displays.LimitTotalSize(context: context),
+                                                    value: column.TotalLimitSize,
+                                                    min: Parameters.BinaryStorage.TotalMinSize,
+                                                    max: Parameters.BinaryStorage.TotalMaxSize,
+                                                    step: column.Step.ToInt(),
+                                                    width: 50);
+                                            break;
+                                        default:
+                                            hb
+                                                .FieldCheckBox(
+                                                    controlId: "AllowImage",
+                                                    labelText: Displays.AllowImage(context: context),
+                                                    _checked: column.AllowImage == true,
+                                                    _using:
+                                                        context.ContractSettings.Images()
+                                                        && (column.ControlType == "MarkDown"
+                                                        || column.ColumnName == "Comments"))
+                                                .FieldTextBox(
+                                                    textType: column.ControlType == "MarkDown"
+                                                        ? HtmlTypes.TextTypes.MultiLine
+                                                        : HtmlTypes.TextTypes.Normal,
+                                                    controlId: "DefaultInput",
+                                                    fieldCss: "field-wide",
+                                                    labelText: Displays.DefaultInput(context: context),
+                                                    text: column.DefaultInput,
+                                                    _using: column.ColumnName != "Comments");
+                                            break;
+                                    }
+                                    break;
+                            }
+                            hb.FieldTextBox(
+                                controlId: "Description",
+                                fieldCss: "field-wide",
+                                labelText: Displays.Description(context: context),
+                                text: column.Description);
+                            switch (column.ControlType)
+                            {
+                                case "ChoicesText":
+                                    hb
+                                        .FieldTextBox(
+                                            textType: HtmlTypes.TextTypes.MultiLine,
+                                            controlId: "ChoicesText",
+                                            fieldCss: "field-wide",
+                                            labelText: Displays.OptionList(context: context),
+                                            text: column.ChoicesText)
+                                        .FieldCheckBox(
+                                            controlId: "UseSearch",
+                                            labelText: Displays.UseSearch(context: context),
+                                            _checked: column.UseSearch == true);
+                                    break;
+                                default:
+                                    break;
+                            }
+                            if (column.ColumnName == "Title")
+                            {
+                                hb.EditorColumnTitleProperties(
+                                    context: context,
+                                    ss: ss,
+                                    titleColumns: titleColumns);
+                            }
+                            if (column.ColumnName != "Comments")
+                            {
+                                hb
+                                    .FieldCheckBox(
+                                        controlId: "NoWrap",
+                                        labelText: Displays.NoWrap(context: context),
+                                        _checked: column.NoWrap == true);
+                            }
+                        }));
         }
 
         /// <summary>
@@ -5063,6 +5297,245 @@ namespace Implem.Pleasanter.Models
         private static int MaxDecimalPlaces(Column column)
         {
             return column.Size.Split_2nd().ToInt();
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        public static ResponseCollection EditorColumnsResponses(
+            this ResponseCollection res,
+            Context context,
+            SiteSettings ss)
+        {
+            var tabId = (ss.Tabs?.Get(context.Forms.Int("EditorColumnsTabs"))?.Id ?? 0)
+                .ToString();
+            return res
+                .Val(
+                    "#EditorColumnsTabsTarget",
+                    tabId)
+                .Html(
+                    "#EditorColumnsTabs",
+                    new HtmlBuilder().OptionCollection(
+                        context: context,
+                        optionCollection: ss.TabSelectableOptions(
+                            context: context,
+                            habGeneral: true),
+                        selectedValue: tabId))
+                .Html(
+                    "#EditorColumns",
+                    new HtmlBuilder().SelectableItems(
+                        listItemCollection: ss.EditorSelectableOptions(
+                            context: context,
+                            tabId: tabId.ToInt())))
+                .EditorSourceColumnsResponses(
+                    context: context,
+                    ss: ss);
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        public static ResponseCollection EditorSourceColumnsResponses(
+            this ResponseCollection res,
+            Context context,
+            SiteSettings ss)
+        {
+            switch (context.Forms.Data("EditorSourceColumnsType"))
+            {
+                case "Columns":
+                    res.Html(
+                        "#EditorSourceColumns",
+                        new HtmlBuilder().SelectableItems(
+                            listItemCollection: ss
+                                .EditorSelectableOptions(
+                                    context: context,
+                                    enabled: false)));
+                    break;
+                case "Links":
+                    res.Html(
+                        "#EditorSourceColumns",
+                        new HtmlBuilder().SelectableItems(
+                            listItemCollection: ss
+                                .EditorLinksSelectableOptions(
+                                    context: context,
+                                    enabled: false)));
+                    break;
+                case "Others":
+                    res.Html(
+                        "#EditorSourceColumns",
+                        new HtmlBuilder()
+                            .SelectableItems(
+                                listItemCollection: new Dictionary<string, ControlData>
+                                {
+                                    {
+                                        "_Section-0",
+                                        new ControlData(Displays.Section(context: context))
+                                    },
+                                }));
+                    break;
+            }
+            return res.SetData("#EditorSourceColumns");
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        public static HtmlBuilder Tab(
+            Context context,
+            SiteSettings ss,
+            string controlId,
+            Tab tab)
+        {
+            var hb = new HtmlBuilder();
+            return hb.Form(
+                attributes: new HtmlAttributes().Id("TabForm").Action(Locations.ItemAction(
+                    context: context,
+                    id: ss.SiteId)),
+                action: () => hb
+                    .Hidden(
+                        controlId: "EditorColumnsTabs",
+                        css: " always-send",
+                        value: context.Forms.Int("EditorColumnsTabs").ToString())
+                    .FieldText(
+                        controlId: "TabId",
+                        controlCss: " always-send",
+                        labelText: Displays.Id(context: context),
+                        text: (tab?.Id).ToInt().ToString())
+                    .FieldTextBox(
+                        controlId: "LabelText",
+                        labelText: Displays.DisplayName(context: context),
+                        text: tab?.LabelText,
+                        validateRequired: true,
+                        _using: tab?.Id != 0)
+                    .FieldText(
+                        controlId: "LabelText",
+                        labelText: Displays.DisplayName(context: context),
+                        text: tab?.LabelText,
+                        _using: tab?.Id == 0)
+                    .P(css: "message-dialog")
+                    .Div(css: "command-center", action: () => hb
+                        .Button(
+                            controlId: "AddTab",
+                            text: Displays.Add(context: context),
+                            controlCss: "button-icon validate",
+                            onClick: "$p.send($(this));",
+                            icon: "ui-icon-disk",
+                            action: "SetSiteSettings",
+                            method: "post",
+                            _using: controlId == "NewTabDialog")
+                        .Button(
+                            controlId: "UpdateTab",
+                            text: Displays.Change(context: context),
+                            controlCss: "button-icon validate",
+                            onClick: "$p.send($(this));",
+                            icon: "ui-icon-disk",
+                            action: "SetSiteSettings",
+                            method: "post",
+                            _using: controlId == "EditTabDialog")
+                        .Button(
+                            text: Displays.Cancel(context: context),
+                            controlCss: "button-icon",
+                            onClick: "$p.closeDialog($(this));",
+                            icon: "ui-icon-cancel")));
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        public static ResponseCollection TabResponses(
+            this ResponseCollection res,
+            Context context,
+            SiteSettings ss,
+            IEnumerable<int> selected = null)
+        {
+            return res.Html(
+                "#Tabs",
+                new HtmlBuilder()
+                    .SelectableItems(
+                        listItemCollection: ss
+                            .TabSelectableOptions(
+                                context: context,
+                                habGeneral: true),
+                        selectedValueTextCollection: selected
+                            ?.Select(o => o.ToString())))
+                .SetData("#Tabs");
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        public static HtmlBuilder SectionDialog(
+            Context context,
+            SiteSettings ss,
+            string controlId,
+            Section section)
+        {
+            var hb = new HtmlBuilder();
+            return hb.Form(
+                attributes: new HtmlAttributes().Id("SectionForm").Action(Locations.ItemAction(
+                    context: context,
+                    id: ss.SiteId)),
+                action: () => hb.FieldSet(
+                    css: " enclosed",
+                    legendText: Displays.Section(context: context),
+                    action: () => hb
+                        .FieldText(
+                            controlId: "SectionId",
+                            controlCss: " always-send",
+                            labelText: Displays.Id(context: context),
+                            text: section.Id.ToString())
+                        .FieldTextBox(
+                            controlId: "LabelText",
+                            labelText: Displays.DisplayName(context: context),
+                            text: section.LabelText,
+                            validateRequired: true))
+                        .P(css: "message-dialog")
+                        .Div(css: "command-center", action: () => hb
+                            .Button(
+                                controlId: "UpdateSection",
+                                text: Displays.Change(context: context),
+                                controlCss: "button-icon validate",
+                                onClick: "$p.send($(this));",
+                                icon: "ui-icon-disk",
+                                action: "SetSiteSettings",
+                                method: "post")
+                            .Button(
+                                text: Displays.Cancel(context: context),
+                                controlCss: "button-icon",
+                                onClick: "$p.closeDialog($(this));",
+                                icon: "ui-icon-cancel")));
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        public static HtmlBuilder LinkDialog(
+            Context context,
+            SiteSettings ss,
+            string controlId)
+        {
+            var hb = new HtmlBuilder();
+            return hb.Form(
+                attributes: new HtmlAttributes().Id("LinkForm").Action(Locations.ItemAction(
+                    context: context,
+                    id: ss.SiteId)),
+                action: () => hb.FieldSet(
+                    css: " enclosed",
+                    legendText: Displays.Links(context: context))
+                        .Div(css: "command-center", action: () => hb
+                            .Button(
+                                controlId: "UpdateLink",
+                                text: Displays.Change(context: context),
+                                controlCss: "button-icon validate",
+                                onClick: "$p.send($(this));",
+                                icon: "ui-icon-disk",
+                                action: "SetSiteSettings",
+                                method: "post")
+                            .Button(
+                                text: Displays.Cancel(context: context),
+                                controlCss: "button-icon",
+                                onClick: "$p.closeDialog($(this));",
+                                icon: "ui-icon-cancel")));
         }
 
         /// <summary>
@@ -5997,8 +6470,7 @@ namespace Implem.Pleasanter.Models
                             Displays.SaveViewNone(context: context)
                         },
                     },
-                    selectedValue: ss.SaveViewType.ToInt().ToString(),
-                    insertBlank: true));
+                    selectedValue: ss.SaveViewType.ToInt().ToString()));
         }
 
         /// <summary>
@@ -6336,7 +6808,7 @@ namespace Implem.Pleasanter.Models
                             fieldCss: "field-auto-thin",
                             labelText: column.LabelText,
                             labelTitle: labelTitle,
-                            text: HtmlViewFilters.GetDisplayDateFilterRange(value,column.DateTimepicker()),
+                            text: HtmlViewFilters.GetDisplayDateFilterRange(value, column.DateTimepicker()),
                             method: "put",
                             attributes: new Dictionary<string, string>
                             {
@@ -6894,42 +7366,42 @@ namespace Implem.Pleasanter.Models
                             context: context,
                             ss: ss)))
                     .Div(
-                        css:"both",
+                        css: "both",
                         _using: ss.Views?.Any() == true,
                         action: () => hb
-                        .FieldDropDown(
-                            context: context,
-                            controlId: "BeforeCondition",
-                            controlCss: " always-send",
-                            labelText: Displays.BeforeCondition(context: context),
-                            optionCollection: ss.ViewSelectableOptions(),
-                            selectedValue: notification.BeforeCondition.ToString(),
-                            insertBlank: true)
-                        .FieldDropDown(
-                            context: context,
-                            controlId: "Expression",
-                            controlCss: " always-send",
-                            labelText: Displays.Expression(context: context),
-                            optionCollection: new Dictionary<string, string>
-                            {
+                            .FieldDropDown(
+                                context: context,
+                                controlId: "BeforeCondition",
+                                controlCss: " always-send",
+                                labelText: Displays.BeforeCondition(context: context),
+                                optionCollection: ss.ViewSelectableOptions(),
+                                selectedValue: notification.BeforeCondition.ToString(),
+                                insertBlank: true)
+                            .FieldDropDown(
+                                context: context,
+                                controlId: "Expression",
+                                controlCss: " always-send",
+                                labelText: Displays.Expression(context: context),
+                                optionCollection: new Dictionary<string, string>
                                 {
-                                    Notification.Expressions.Or.ToInt().ToString(),
-                                    Displays.Or(context: context)
+                                    {
+                                        Notification.Expressions.Or.ToInt().ToString(),
+                                        Displays.Or(context: context)
+                                    },
+                                    {
+                                        Notification.Expressions.And.ToInt().ToString(),
+                                        Displays.And(context: context)
+                                    }
                                 },
-                                {
-                                    Notification.Expressions.And.ToInt().ToString(),
-                                    Displays.And(context: context)
-                                }
-                            },
-                            selectedValue: notification.Expression.ToInt().ToString())
-                        .FieldDropDown(
-                            context: context,
-                            controlId: "AfterCondition",
-                            controlCss: " always-send",
-                            labelText: Displays.AfterCondition(context: context),
-                            optionCollection: ss.ViewSelectableOptions(),
-                            selectedValue: notification.AfterCondition.ToString(),
-                            insertBlank: true))
+                                selectedValue: notification.Expression.ToInt().ToString())
+                            .FieldDropDown(
+                                context: context,
+                                controlId: "AfterCondition",
+                                controlCss: " always-send",
+                                labelText: Displays.AfterCondition(context: context),
+                                optionCollection: ss.ViewSelectableOptions(),
+                                selectedValue: notification.AfterCondition.ToString(),
+                                insertBlank: true))
                     .FieldCheckBox(
                         controlId: "NotificationDisabled",
                         controlCss: " always-send",
@@ -7141,6 +7613,8 @@ namespace Implem.Pleasanter.Models
                     .Th(action: () => hb
                         .Text(text: Displays.NotSendHyperLink(context: context)))
                     .Th(action: () => hb
+                        .Text(text: Displays.ExcludeOverdue(context: context)))
+                    .Th(action: () => hb
                         .Text(text: Displays.Condition(context: context)))
                     .Th(action: () => hb
                         .Text(text: Displays.Disabled(context: context)))));
@@ -7203,6 +7677,10 @@ namespace Implem.Pleasanter.Models
                                 .Span(
                                     css: "ui-icon ui-icon-circle-check",
                                     _using: reminder.NotSendHyperLink == true))
+                            .Td(action: () => hb
+                                .Span(
+                                    css: "ui-icon ui-icon-circle-check",
+                                    _using: reminder.ExcludeOverdue == true))
                             .Td(action: () => hb
                                 .Text(text: condition?.Name))
                             .Td(action: () => hb
@@ -7347,6 +7825,11 @@ namespace Implem.Pleasanter.Models
                         controlCss: " always-send",
                         labelText: Displays.NotSendHyperLink(context: context),
                         _checked: reminder.NotSendHyperLink == true)
+                    .FieldCheckBox(
+                        controlId: "ReminderExcludeOverdue",
+                        controlCss: " always-send",
+                        labelText: Displays.ExcludeOverdue(context: context),
+                        _checked: reminder.ExcludeOverdue == true)
                     .FieldDropDown(
                         context: context,
                         controlId: "ReminderCondition",
@@ -7483,7 +7966,7 @@ namespace Implem.Pleasanter.Models
                         .Text(text: Displays.ExportTypes(context: context)))
                     .Th(action: () => hb
                         .Text(text: Displays.OutputHeader(context: context)))
-                    .Th(action: ()=> hb
+                    .Th(action: () => hb
                         .Text(text: Displays.ExportExecutionType(context: context)))));
         }
 

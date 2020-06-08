@@ -1143,6 +1143,11 @@ pre{
     clear:both;
 }
 
+#EditorDetailTabsContainer{
+    margin:0px 20px 10px 20px;
+    clear:both;
+}
+
 #ColumnAccessControlTabsContainer{
     margin:0px 20px 10px 20px;
     clear:both;
@@ -2544,12 +2549,13 @@ pre{
 
 label.error{
     width:100%;
+    display:block;
+    float:left;
     padding:0px 5px;
     color:red;
     background-color:white;
     border-top:none;
-    position:absolute;
-    top:25px;
+    top:-5px;
     left:0px;
     border-radius:0px 0px 5px 5px / 0px 0px 5px 5px;
     z-index:2;
@@ -2561,6 +2567,8 @@ label.error{
 
 .with-unit+label.error{
     width:70%;
+    position:absolute;
+    top:25px;
 }
 
 .button-edit-markdown{

@@ -4,27 +4,27 @@
     "ClientScript": true,
     "Languages": [
         {
-            "Body": "The text entered is too long."
+            "Body": "Please enter within {0} characters."
         },
         {
             "Language": "zh",
-            "Body": "输入的文本过长。"
+            "Body": "请输入 {0} 个字符。"
         },
         {
             "Language": "ja",
-            "Body": "入力した文字が長すぎます。"
+            "Body": "{0} 文字以内で入力してください。"
         },
         {
             "Language": "de",
-            "Body": "Der eingegebene Text ist zu lang."
+            "Body": "Bitte geben Sie innerhalb von {0} Zeichen ein."
         },
         {
             "Language": "ko",
-            "Body": "입력한 텍스트가 너무 깁니다."
+            "Body": "{0} 자 이내로 입력하십시오."
         },
         {
             "Language": "es",
-            "Body": "El texto introducido es demasiado largo."
+            "Body": "Por favor ingrese dentro de {0} caracteres."
         }
     ]
 }

@@ -11,7 +11,7 @@ namespace Implem.Pleasanter.Libraries.Settings
 {
     public static class SiteSettingsUtilities
     {
-        public const decimal Version = 1.016M;
+        public const decimal Version = 1.017M;
 
         public static SiteSettings Get(
             Context context,
@@ -46,6 +46,11 @@ namespace Implem.Pleasanter.Libraries.Settings
         public static SiteSettings Get(this List<SiteSettings> ssList, long siteId)
         {
             return ssList.FirstOrDefault(o => o.SiteId == siteId);
+        }
+
+        public static Section Get(this List<Section> sections, int? id)
+        {
+            return sections?.FirstOrDefault(o => o.Id == id);
         }
 
         public static View Get(this List<View> views, int? id)
