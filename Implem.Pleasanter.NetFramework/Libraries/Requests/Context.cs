@@ -19,6 +19,7 @@ using System.Data;
 using System.Globalization;
 using System.IdentityModel.Services;
 using System.Linq;
+using System.Security.Claims;
 using System.Web;
 using System.Web.Configuration;
 using System.Web.Mvc;
@@ -86,7 +87,7 @@ namespace Implem.Pleasanter.NetFramework.Libraries.Requests
         public override string RequestDataString { get => ApiRequestBody ?? FormString; }
         public override string AuthenticationType { get => HttpContext.Current?.User?.Identity?.AuthenticationType; }
         public override bool? IsAuthenticated { get => HttpContext.Current?.User?.Identity?.IsAuthenticated; }
-
+        public override IEnumerable<Claim> UserClaims { get => ClaimsPrincipal.Current.Claims; }
         public ContextImplement(
             bool request = true,
             bool sessionStatus = true,

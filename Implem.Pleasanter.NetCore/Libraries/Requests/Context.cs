@@ -91,6 +91,7 @@ namespace Implem.Pleasanter.NetCore.Libraries.Requests
         public override string AuthenticationType { get => AspNetCoreHttpContext.Current?.User?.Identity?.AuthenticationType; }
         public override bool? IsAuthenticated { get => AspNetCoreHttpContext.Current?.User?.Identity?.IsAuthenticated; }
 
+        public override IEnumerable<Claim> UserClaims { get => AspNetCoreHttpContext.Current?.User?.Claims; }
 
         public ContextImplement(
             bool request = true,

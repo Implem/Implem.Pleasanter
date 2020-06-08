@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Sustainsys.Saml2.AspNetCore2;
 using System.Collections.Generic;
 namespace Implem.Pleasanter.NetCore.Controllers
 {
@@ -182,6 +183,15 @@ namespace Implem.Pleasanter.NetCore.Controllers
         [HttpGet]
         public ActionResult Login(string returnUrl, string ssocode = "")
         {
+           
+            return new ChallengeResult(Saml2Defaults.Scheme, 
+                new AuthenticationProperties(
+                    items:null, 
+                    parameters:new Dictionary<string,object>{ ["idp"]= "https://portal.trustlogin.com/implem/idp/37864/saml" })
+            {
+                RedirectUri = Url.Action(nameof(SamlLogin), new { returnUrl })
+            });
+
             var context = new ContextImplement();
             var controller = new Pleasanter.Controllers.UsersController();
             var (redirectUrl, redirectResultUrl, html) = controller.Login(
@@ -200,6 +210,7 @@ namespace Implem.Pleasanter.NetCore.Controllers
         /// </summary>
         public ActionResult SamlLogin()
         {
+           
             var context = new ContextImplement();
             var controller = new Pleasanter.Controllers.UsersController();
             var result = controller.SamlLogin(context: context);

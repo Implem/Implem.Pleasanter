@@ -9,6 +9,8 @@ using Implem.Pleasanter.Models;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
+using System.Security.Claims;
+
 namespace Implem.Pleasanter.Libraries.Requests
 {
     public abstract class Context : ISqlObjectFactory
@@ -73,6 +75,7 @@ namespace Implem.Pleasanter.Libraries.Requests
         public abstract string RequestDataString { get; }
         public abstract string AuthenticationType { get; }
         public abstract bool? IsAuthenticated { get; }
+        public abstract IEnumerable<Claim> UserClaims { get; }
         public abstract void Set(bool request = true, bool sessionStatus = true, bool setData = true, bool user = true, bool item = true, string apiRequestBody = null);
         public abstract RdsUser RdsUser();
         public abstract CultureInfo CultureInfo();

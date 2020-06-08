@@ -1,0 +1,175 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Sustainsys.Saml2.AspNetCore2</name>
+    </assembly>
+    <members>
+        <member name="T:Sustainsys.Saml2.AspNetCore2.AspNetCoreLoggerAdapter">
+            <summary>
+            Logger adapter for ASP.NET Core
+            </summary>
+        </member>
+        <member name="M:Sustainsys.Saml2.AspNetCore2.AspNetCoreLoggerAdapter.#ctor(Microsoft.Extensions.Logging.ILogger)">
+            <summary>
+            Ctor
+            </summary>
+            <param name="logger">Logger to write to</param>
+        </member>
+        <member name="M:Sustainsys.Saml2.AspNetCore2.AspNetCoreLoggerAdapter.WriteError(System.String,System.Exception)">
+            <InheritDoc />
+        </member>
+        <member name="M:Sustainsys.Saml2.AspNetCore2.AspNetCoreLoggerAdapter.WriteInformation(System.String)">
+            <InheritDoc />
+        </member>
+        <member name="M:Sustainsys.Saml2.AspNetCore2.AspNetCoreLoggerAdapter.WriteVerbose(System.String)">
+            <InheritDoc />
+        </member>
+        <member name="T:Sustainsys.Saml2.AspNetCore2.PostConfigureSaml2Options">
+            <summary>
+            Post configure service to set default values in configuration if
+            the startup didn't set them.
+            </summary>
+        </member>
+        <member name="M:Sustainsys.Saml2.AspNetCore2.PostConfigureSaml2Options.#ctor(Microsoft.Extensions.Logging.ILoggerFactory,Microsoft.Extensions.Options.IOptions{Microsoft.AspNetCore.Authentication.AuthenticationOptions})">
+            <summary>
+            Ctor
+            </summary>
+            <param name="loggerFactory">Logger factory to use to hook up Saml2 loggin.</param>
+            <param name="authOptions">Authentication options, to look up Default Sign In schema</param>
+        </member>
+        <member name="M:Sustainsys.Saml2.AspNetCore2.PostConfigureSaml2Options.PostConfigure(System.String,Sustainsys.Saml2.AspNetCore2.Saml2Options)">
+            <summary>
+            Add defaults to configuration.
+            </summary>
+            <param name="name"></param>
+            <param name="options"></param>
+        </member>
+        <member name="T:Sustainsys.Saml2.AspNetCore2.Saml2Defaults">
+            <summary>
+            Default constants for Saml2.
+            </summary>
+        </member>
+        <member name="F:Sustainsys.Saml2.AspNetCore2.Saml2Defaults.Scheme">
+            <summary>
+            Default Saml2 authentication scheme.
+            </summary>
+        </member>
+        <member name="F:Sustainsys.Saml2.AspNetCore2.Saml2Defaults.DisplayName">
+            <summary>
+            Default Saml2 display name.
+            </summary>
+        </member>
+        <member name="T:Sustainsys.Saml2.AspNetCore2.Saml2Handler">
+            <summary>
+            Authentication handler for Saml2
+            </summary>
+        </member>
+        <member name="M:Sustainsys.Saml2.AspNetCore2.Saml2Handler.#ctor(Microsoft.Extensions.Options.IOptionsMonitorCache{Sustainsys.Saml2.AspNetCore2.Saml2Options},Microsoft.AspNetCore.DataProtection.IDataProtectionProvider,Microsoft.Extensions.Options.IOptionsFactory{Sustainsys.Saml2.AspNetCore2.Saml2Options})">
+            <summary>
+            Ctor
+            </summary>
+            <param name="optionsCache">Options</param>
+            <param name="dataProtectorProvider">Data Protector Provider</param>
+            <param name="optionsFactory">Factory for options</param>
+        </member>
+        <member name="M:Sustainsys.Saml2.AspNetCore2.Saml2Handler.InitializeAsync(Microsoft.AspNetCore.Authentication.AuthenticationScheme,Microsoft.AspNetCore.Http.HttpContext)">
+            <InheritDoc />
+        </member>
+        <member name="M:Sustainsys.Saml2.AspNetCore2.Saml2Handler.AuthenticateAsync">
+            <InheritDoc />
+        </member>
+        <member name="M:Sustainsys.Saml2.AspNetCore2.Saml2Handler.ChallengeAsync(Microsoft.AspNetCore.Authentication.AuthenticationProperties)">
+            <InheritDoc />
+        </member>
+        <member name="M:Sustainsys.Saml2.AspNetCore2.Saml2Handler.ForbidAsync(Microsoft.AspNetCore.Authentication.AuthenticationProperties)">
+            <InheritDoc />
+        </member>
+        <member name="M:Sustainsys.Saml2.AspNetCore2.Saml2Handler.HandleRequestAsync">
+            <InheritDoc />
+        </member>
+        <member name="M:Sustainsys.Saml2.AspNetCore2.Saml2Handler.SignOutAsync(Microsoft.AspNetCore.Authentication.AuthenticationProperties)">
+            <summary>
+            Initiate a federated sign out if supported (Idp supports it and sp has a configured
+            signing certificate)
+            </summary>
+            <param name="properties">Authentication props, containing a return url.</param>
+            <returns>Task</returns>
+        </member>
+        <member name="T:Sustainsys.Saml2.AspNetCore2.Saml2Options">
+            <summary>
+            Options for Saml2 Authentication
+            </summary>
+        </member>
+        <member name="M:Sustainsys.Saml2.AspNetCore2.Saml2Options.#ctor">
+            <summary>
+            Ctor
+            </summary>
+        </member>
+        <member name="P:Sustainsys.Saml2.AspNetCore2.Saml2Options.SignInScheme">
+            <summary>
+            Authentication scheme to sign in with to establish a session after
+            the SAML2 authentication is done.
+            </summary>
+        </member>
+        <member name="P:Sustainsys.Saml2.AspNetCore2.Saml2Options.SignOutScheme">
+            <summary>
+            Authentication scheme to sign out with when a logout requerst is
+            received from the idp.
+            </summary>
+        </member>
+        <member name="P:Sustainsys.Saml2.AspNetCore2.Saml2Options.SPOptions">
+            <summary>
+            Options for the service provider's behaviour; i.e. everything except
+            the idp list and the notifications.
+            </summary>
+        </member>
+        <member name="P:Sustainsys.Saml2.AspNetCore2.Saml2Options.CookieManager">
+            <summary>
+            Cookie manager for reading/writing cookies
+            </summary>
+        </member>
+        <member name="P:Sustainsys.Saml2.AspNetCore2.Saml2Options.IdentityProviders">
+            <summary>
+            Information about known identity providers.
+            </summary>
+        </member>
+        <member name="P:Sustainsys.Saml2.AspNetCore2.Saml2Options.Notifications">
+            <summary>
+            Set of callbacks that can be used as extension points for various
+            events.
+            </summary>
+        </member>
+        <member name="T:Microsoft.Extensions.DependencyInjection.Saml2AuthExtensions">
+            <summary>
+            Extensions methods for adding Saml2 authentication
+            </summary>
+        </member>
+        <member name="M:Microsoft.Extensions.DependencyInjection.Saml2AuthExtensions.AddSaml2(Microsoft.AspNetCore.Authentication.AuthenticationBuilder,System.Action{Sustainsys.Saml2.AspNetCore2.Saml2Options})">
+            <summary>
+            Register Saml2 Authentication with default scheme name.
+            </summary>
+            <param name="builder">Authentication Builder</param>
+            <param name="configureOptions">Action that configures the Saml2 Options</param>
+            <returns></returns>
+        </member>
+        <member name="M:Microsoft.Extensions.DependencyInjection.Saml2AuthExtensions.AddSaml2(Microsoft.AspNetCore.Authentication.AuthenticationBuilder,System.String,System.Action{Sustainsys.Saml2.AspNetCore2.Saml2Options})">
+            <summary>
+            Register Saml2 Authentication with a custom scheme name.
+            </summary>
+            <param name="builder">Authentication Builder</param>
+            <param name="scheme">Name of the authentication scheme</param>
+            <param name="configureOptions">Action that configures Saml2 Options</param>
+            <returns>Authentication Builder</returns>
+        </member>
+        <member name="M:Microsoft.Extensions.DependencyInjection.Saml2AuthExtensions.AddSaml2(Microsoft.AspNetCore.Authentication.AuthenticationBuilder,System.String,System.String,System.Action{Sustainsys.Saml2.AspNetCore2.Saml2Options})">
+            <summary>
+            Register Saml2 Authentication with a custom scheme name.
+            </summary>
+            <param name="builder">Authentication Builder</param>
+            <param name="scheme">Name of the authentication scheme</param>
+            <param name="configureOptions">Action that configures Saml2 Options</param>
+            <param name="displayName">Display name of scheme</param>
+            <returns>Authentication Builder</returns>
+        </member>
+    </members>
+</doc>

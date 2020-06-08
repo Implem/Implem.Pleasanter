@@ -1,0 +1,571 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Microsoft.AspNetCore.Authentication.Cookies</name>
+    </assembly>
+    <members>
+        <member name="T:Microsoft.AspNetCore.Authentication.Cookies.CookieAuthenticationDefaults">
+            <summary>
+            Default values related to cookie-based authentication handler
+            </summary>
+        </member>
+        <member name="F:Microsoft.AspNetCore.Authentication.Cookies.CookieAuthenticationDefaults.AuthenticationScheme">
+            <summary>
+            The default value used for CookieAuthenticationOptions.AuthenticationScheme
+            </summary>
+        </member>
+        <member name="F:Microsoft.AspNetCore.Authentication.Cookies.CookieAuthenticationDefaults.CookiePrefix">
+            <summary>
+            The prefix used to provide a default CookieAuthenticationOptions.CookieName
+            </summary>
+        </member>
+        <member name="F:Microsoft.AspNetCore.Authentication.Cookies.CookieAuthenticationDefaults.LoginPath">
+            <summary>
+            The default value used by CookieAuthenticationMiddleware for the
+            CookieAuthenticationOptions.LoginPath
+            </summary>
+        </member>
+        <member name="F:Microsoft.AspNetCore.Authentication.Cookies.CookieAuthenticationDefaults.LogoutPath">
+            <summary>
+            The default value used by CookieAuthenticationMiddleware for the
+            CookieAuthenticationOptions.LogoutPath
+            </summary>
+        </member>
+        <member name="F:Microsoft.AspNetCore.Authentication.Cookies.CookieAuthenticationDefaults.AccessDeniedPath">
+            <summary>
+            The default value used by CookieAuthenticationMiddleware for the
+            CookieAuthenticationOptions.AccessDeniedPath
+            </summary>
+        </member>
+        <member name="F:Microsoft.AspNetCore.Authentication.Cookies.CookieAuthenticationDefaults.ReturnUrlParameter">
+            <summary>
+            The default value of the CookieAuthenticationOptions.ReturnUrlParameter
+            </summary>
+        </member>
+        <member name="P:Microsoft.AspNetCore.Authentication.Cookies.CookieAuthenticationHandler.Events">
+            <summary>
+            The handler calls methods on the events which give the application control at certain points where processing is occurring.
+            If it is not provided a default instance is supplied which does nothing when the methods are called.
+            </summary>
+        </member>
+        <member name="M:Microsoft.AspNetCore.Authentication.Cookies.CookieAuthenticationHandler.CreateEventsAsync">
+            <summary>
+            Creates a new instance of the events instance.
+            </summary>
+            <returns>A new instance of the events instance.</returns>
+        </member>
+        <member name="T:Microsoft.AspNetCore.Authentication.Cookies.CookieAuthenticationOptions">
+            <summary>
+            Configuration options for <see cref="T:Microsoft.AspNetCore.Authentication.Cookies.CookieAuthenticationOptions"/>.
+            </summary>
+        </member>
+        <member name="M:Microsoft.AspNetCore.Authentication.Cookies.CookieAuthenticationOptions.#ctor">
+            <summary>
+            Create an instance of the options initialized with the default values
+            </summary>
+        </member>
+        <member name="P:Microsoft.AspNetCore.Authentication.Cookies.CookieAuthenticationOptions.Cookie">
+            <summary>
+            <para>
+            Determines the settings used to create the cookie.
+            </para>
+            <para>
+            <seealso cref="P:Microsoft.AspNetCore.Http.CookieBuilder.SameSite"/> defaults to <see cref="F:Microsoft.AspNetCore.Http.SameSiteMode.Lax"/>.
+            <seealso cref="P:Microsoft.AspNetCore.Http.CookieBuilder.HttpOnly"/> defaults to <c>true</c>.
+            <seealso cref="P:Microsoft.AspNetCore.Http.CookieBuilder.SecurePolicy"/> defaults to <see cref="F:Microsoft.AspNetCore.Http.CookieSecurePolicy.SameAsRequest"/>.
+            </para>
+            </summary>
+            <remarks>
+            <para>
+            The default value for cookie name is ".AspNetCore.Cookies".
+            This value should be changed if you change the name of the AuthenticationScheme, especially if your
+            system uses the cookie authentication handler multiple times.
+            </para>
+            <para>
+            <seealso cref="P:Microsoft.AspNetCore.Http.CookieBuilder.SameSite"/> determines if the browser should allow the cookie to be attached to same-site or cross-site requests.
+            The default is Lax, which means the cookie is only allowed to be attached to cross-site requests using safe HTTP methods and same-site requests.
+            </para>
+            <para>
+            <seealso cref="P:Microsoft.AspNetCore.Http.CookieBuilder.HttpOnly"/> determines if the browser should allow the cookie to be accessed by client-side javascript.
+            The default is true, which means the cookie will only be passed to http requests and is not made available to script on the page.
+            </para>
+            <para>
+            <seealso cref="P:Microsoft.AspNetCore.Http.CookieBuilder.Expiration"/> is currently ignored. Use <see cref="P:Microsoft.AspNetCore.Authentication.Cookies.CookieAuthenticationOptions.ExpireTimeSpan"/> to control lifetime of cookie authentication.
+            </para>
+            </remarks>
+        </member>
+        <member name="P:Microsoft.AspNetCore.Authentication.Cookies.CookieAuthenticationOptions.DataProtectionProvider">
+            <summary>
+            If set this will be used by the CookieAuthenticationHandler for data protection.
+            </summary>
+        </member>
+        <member name="P:Microsoft.AspNetCore.Authentication.Cookies.CookieAuthenticationOptions.SlidingExpiration">
+            <summary>
+            The SlidingExpiration is set to true to instruct the handler to re-issue a new cookie with a new
+            expiration time any time it processes a request which is more than halfway through the expiration window.
+            </summary>
+        </member>
+        <member name="P:Microsoft.AspNetCore.Authentication.Cookies.CookieAuthenticationOptions.LoginPath">
+            <summary>
+            The LoginPath property is used by the handler for the redirection target when handling ChallengeAsync.
+            The current url which is added to the LoginPath as a query string parameter named by the ReturnUrlParameter. 
+            Once a request to the LoginPath grants a new SignIn identity, the ReturnUrlParameter value is used to redirect 
+            the browser back to the original url.
+            </summary>
+        </member>
+        <member name="P:Microsoft.AspNetCore.Authentication.Cookies.CookieAuthenticationOptions.LogoutPath">
+            <summary>
+            If the LogoutPath is provided the handler then a request to that path will redirect based on the ReturnUrlParameter.
+            </summary>
+        </member>
+        <member name="P:Microsoft.AspNetCore.Authentication.Cookies.CookieAuthenticationOptions.AccessDeniedPath">
+            <summary>
+            The AccessDeniedPath property is used by the handler for the redirection target when handling ForbidAsync.
+            </summary>
+        </member>
+        <member name="P:Microsoft.AspNetCore.Authentication.Cookies.CookieAuthenticationOptions.ReturnUrlParameter">
+            <summary>
+            The ReturnUrlParameter determines the name of the query string parameter which is appended by the handler
+            when during a Challenge. This is also the query string parameter looked for when a request arrives on the 
+            login path or logout path, in order to return to the original url after the action is performed.
+            </summary>
+        </member>
+        <member name="P:Microsoft.AspNetCore.Authentication.Cookies.CookieAuthenticationOptions.Events">
+            <summary>
+            The Provider may be assigned to an instance of an object created by the application at startup time. The handler
+            calls methods on the provider which give the application control at certain points where processing is occurring.
+            If it is not provided a default instance is supplied which does nothing when the methods are called.
+            </summary>
+        </member>
+        <member name="P:Microsoft.AspNetCore.Authentication.Cookies.CookieAuthenticationOptions.TicketDataFormat">
+            <summary>
+            The TicketDataFormat is used to protect and unprotect the identity and other properties which are stored in the
+            cookie value. If not provided one will be created using <see cref="P:Microsoft.AspNetCore.Authentication.Cookies.CookieAuthenticationOptions.DataProtectionProvider"/>.
+            </summary>
+        </member>
+        <member name="P:Microsoft.AspNetCore.Authentication.Cookies.CookieAuthenticationOptions.CookieManager">
+             <summary>
+             The component used to get cookies from the request or set them on the response.
+            
+             ChunkingCookieManager will be used by default.
+             </summary>
+        </member>
+        <member name="P:Microsoft.AspNetCore.Authentication.Cookies.CookieAuthenticationOptions.SessionStore">
+            <summary>
+            An optional container in which to store the identity across requests. When used, only a session identifier is sent
+            to the client. This can be used to mitigate potential problems with very large identities.
+            </summary>
+        </member>
+        <member name="P:Microsoft.AspNetCore.Authentication.Cookies.CookieAuthenticationOptions.ExpireTimeSpan">
+            <summary>
+            <para>
+            Controls how much time the authentication ticket stored in the cookie will remain valid from the point it is created
+            The expiration information is stored in the protected cookie ticket. Because of that an expired cookie will be ignored
+            even if it is passed to the server after the browser should have purged it.
+            </para>
+            <para>
+            This is separate from the value of <seealso cref="P:Microsoft.AspNetCore.Http.CookieOptions.Expires"/>, which specifies
+            how long the browser will keep the cookie.
+            </para>
+            </summary>
+        </member>
+        <member name="P:Microsoft.AspNetCore.Authentication.Cookies.CookieAuthenticationOptions.CookieName">
+            <summary>
+            <para>
+            This property is obsolete and will be removed in a future version. The recommended alternative is <seealso cref="P:Microsoft.AspNetCore.Http.CookieBuilder.Name"/> on <see cref="P:Microsoft.AspNetCore.Authentication.Cookies.CookieAuthenticationOptions.Cookie"/>.
+            </para>
+            <para>
+            Determines the cookie name used to persist the identity. The default value is ".AspNetCore.Cookies".
+            This value should be changed if you change the name of the AuthenticationScheme, especially if your
+            system uses the cookie authentication handler multiple times.
+            </para>
+            </summary>
+        </member>
+        <member name="P:Microsoft.AspNetCore.Authentication.Cookies.CookieAuthenticationOptions.CookieDomain">
+            <summary>
+            <para>
+            This property is obsolete and will be removed in a future version. The recommended alternative is <seealso cref="P:Microsoft.AspNetCore.Http.CookieBuilder.Domain"/> on <see cref="P:Microsoft.AspNetCore.Authentication.Cookies.CookieAuthenticationOptions.Cookie"/>.
+            </para>
+            <para>
+            Determines the domain used to create the cookie. Is not provided by default.
+            </para>
+            </summary>
+        </member>
+        <member name="P:Microsoft.AspNetCore.Authentication.Cookies.CookieAuthenticationOptions.CookiePath">
+            <summary>
+            <para>
+            This property is obsolete and will be removed in a future version. The recommended alternative is <seealso cref="P:Microsoft.AspNetCore.Http.CookieBuilder.Path"/> on <see cref="P:Microsoft.AspNetCore.Authentication.Cookies.CookieAuthenticationOptions.Cookie"/>.
+            </para>
+            <para>
+            Determines the path used to create the cookie. The default value is "/" for highest browser compatibility.
+            </para>
+            </summary>
+        </member>
+        <member name="P:Microsoft.AspNetCore.Authentication.Cookies.CookieAuthenticationOptions.CookieHttpOnly">
+            <summary>
+            <para>
+            This property is obsolete and will be removed in a future version. The recommended alternative is <seealso cref="P:Microsoft.AspNetCore.Http.CookieBuilder.HttpOnly"/> on <see cref="P:Microsoft.AspNetCore.Authentication.Cookies.CookieAuthenticationOptions.Cookie"/>.
+            </para>
+            <para>
+            Determines if the browser should allow the cookie to be accessed by client-side javascript. The
+            default is true, which means the cookie will only be passed to http requests and is not made available
+            to script on the page.
+            </para>
+            </summary>
+        </member>
+        <member name="P:Microsoft.AspNetCore.Authentication.Cookies.CookieAuthenticationOptions.CookieSecure">
+            <summary>
+            <para>
+            This property is obsolete and will be removed in a future version. The recommended alternative is <seealso cref="P:Microsoft.AspNetCore.Http.CookieBuilder.SecurePolicy"/> on <see cref="P:Microsoft.AspNetCore.Authentication.Cookies.CookieAuthenticationOptions.Cookie"/>.
+            </para>
+            <para>
+            Determines if the cookie should only be transmitted on HTTPS request. The default is to limit the cookie
+            to HTTPS requests if the page which is doing the SignIn is also HTTPS. If you have an HTTPS sign in page
+            and portions of your site are HTTP you may need to change this value.
+            </para>
+            </summary>
+        </member>
+        <member name="T:Microsoft.AspNetCore.Authentication.Cookies.CookieAuthenticationEvents">
+            <summary>
+            This default implementation of the ICookieAuthenticationEvents may be used if the 
+            application only needs to override a few of the interface methods. This may be used as a base class
+            or may be instantiated directly.
+            </summary>
+        </member>
+        <member name="P:Microsoft.AspNetCore.Authentication.Cookies.CookieAuthenticationEvents.OnValidatePrincipal">
+            <summary>
+            A delegate assigned to this property will be invoked when the related method is called.
+            </summary>
+        </member>
+        <member name="P:Microsoft.AspNetCore.Authentication.Cookies.CookieAuthenticationEvents.OnSigningIn">
+            <summary>
+            A delegate assigned to this property will be invoked when the related method is called.
+            </summary>
+        </member>
+        <member name="P:Microsoft.AspNetCore.Authentication.Cookies.CookieAuthenticationEvents.OnSignedIn">
+            <summary>
+            A delegate assigned to this property will be invoked when the related method is called.
+            </summary>
+        </member>
+        <member name="P:Microsoft.AspNetCore.Authentication.Cookies.CookieAuthenticationEvents.OnSigningOut">
+            <summary>
+            A delegate assigned to this property will be invoked when the related method is called.
+            </summary>
+        </member>
+        <member name="P:Microsoft.AspNetCore.Authentication.Cookies.CookieAuthenticationEvents.OnRedirectToLogin">
+            <summary>
+            A delegate assigned to this property will be invoked when the related method is called.
+            </summary>
+        </member>
+        <member name="P:Microsoft.AspNetCore.Authentication.Cookies.CookieAuthenticationEvents.OnRedirectToAccessDenied">
+            <summary>
+            A delegate assigned to this property will be invoked when the related method is called.
+            </summary>
+        </member>
+        <member name="P:Microsoft.AspNetCore.Authentication.Cookies.CookieAuthenticationEvents.OnRedirectToLogout">
+            <summary>
+            A delegate assigned to this property will be invoked when the related method is called.
+            </summary>
+        </member>
+        <member name="P:Microsoft.AspNetCore.Authentication.Cookies.CookieAuthenticationEvents.OnRedirectToReturnUrl">
+            <summary>
+            A delegate assigned to this property will be invoked when the related method is called.
+            </summary>
+        </member>
+        <member name="M:Microsoft.AspNetCore.Authentication.Cookies.CookieAuthenticationEvents.ValidatePrincipal(Microsoft.AspNetCore.Authentication.Cookies.CookieValidatePrincipalContext)">
+            <summary>
+            Implements the interface method by invoking the related delegate method.
+            </summary>
+            <param name="context"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Microsoft.AspNetCore.Authentication.Cookies.CookieAuthenticationEvents.SigningIn(Microsoft.AspNetCore.Authentication.Cookies.CookieSigningInContext)">
+            <summary>
+            Implements the interface method by invoking the related delegate method.
+            </summary>
+            <param name="context"></param>
+        </member>
+        <member name="M:Microsoft.AspNetCore.Authentication.Cookies.CookieAuthenticationEvents.SignedIn(Microsoft.AspNetCore.Authentication.Cookies.CookieSignedInContext)">
+            <summary>
+            Implements the interface method by invoking the related delegate method.
+            </summary>
+            <param name="context"></param>
+        </member>
+        <member name="M:Microsoft.AspNetCore.Authentication.Cookies.CookieAuthenticationEvents.SigningOut(Microsoft.AspNetCore.Authentication.Cookies.CookieSigningOutContext)">
+            <summary>
+            Implements the interface method by invoking the related delegate method.
+            </summary>
+            <param name="context"></param>
+        </member>
+        <member name="M:Microsoft.AspNetCore.Authentication.Cookies.CookieAuthenticationEvents.RedirectToLogout(Microsoft.AspNetCore.Authentication.RedirectContext{Microsoft.AspNetCore.Authentication.Cookies.CookieAuthenticationOptions})">
+            <summary>
+            Implements the interface method by invoking the related delegate method.
+            </summary>
+            <param name="context">Contains information about the event</param>
+        </member>
+        <member name="M:Microsoft.AspNetCore.Authentication.Cookies.CookieAuthenticationEvents.RedirectToLogin(Microsoft.AspNetCore.Authentication.RedirectContext{Microsoft.AspNetCore.Authentication.Cookies.CookieAuthenticationOptions})">
+            <summary>
+            Implements the interface method by invoking the related delegate method.
+            </summary>
+            <param name="context">Contains information about the event</param>
+        </member>
+        <member name="M:Microsoft.AspNetCore.Authentication.Cookies.CookieAuthenticationEvents.RedirectToReturnUrl(Microsoft.AspNetCore.Authentication.RedirectContext{Microsoft.AspNetCore.Authentication.Cookies.CookieAuthenticationOptions})">
+            <summary>
+            Implements the interface method by invoking the related delegate method.
+            </summary>
+            <param name="context">Contains information about the event</param>
+        </member>
+        <member name="M:Microsoft.AspNetCore.Authentication.Cookies.CookieAuthenticationEvents.RedirectToAccessDenied(Microsoft.AspNetCore.Authentication.RedirectContext{Microsoft.AspNetCore.Authentication.Cookies.CookieAuthenticationOptions})">
+            <summary>
+            Implements the interface method by invoking the related delegate method.
+            </summary>
+            <param name="context">Contains information about the event</param>
+        </member>
+        <member name="T:Microsoft.AspNetCore.Authentication.Cookies.CookieSignedInContext">
+            <summary>
+            Context object passed to the ICookieAuthenticationEvents method SignedIn.
+            </summary>    
+        </member>
+        <member name="M:Microsoft.AspNetCore.Authentication.Cookies.CookieSignedInContext.#ctor(Microsoft.AspNetCore.Http.HttpContext,Microsoft.AspNetCore.Authentication.AuthenticationScheme,System.Security.Claims.ClaimsPrincipal,Microsoft.AspNetCore.Authentication.AuthenticationProperties,Microsoft.AspNetCore.Authentication.Cookies.CookieAuthenticationOptions)">
+            <summary>
+            Creates a new instance of the context object.
+            </summary>
+            <param name="context">The HTTP request context</param>
+            <param name="scheme">The scheme data</param>
+            <param name="principal">Initializes Principal property</param>
+            <param name="properties">Initializes Properties property</param>
+            <param name="options">The handler options</param>
+        </member>
+        <member name="T:Microsoft.AspNetCore.Authentication.Cookies.CookieSigningInContext">
+            <summary>
+            Context object passed to the <see cref="M:Microsoft.AspNetCore.Authentication.Cookies.CookieAuthenticationEvents.SigningIn(Microsoft.AspNetCore.Authentication.Cookies.CookieSigningInContext)"/>.
+            </summary>    
+        </member>
+        <member name="M:Microsoft.AspNetCore.Authentication.Cookies.CookieSigningInContext.#ctor(Microsoft.AspNetCore.Http.HttpContext,Microsoft.AspNetCore.Authentication.AuthenticationScheme,Microsoft.AspNetCore.Authentication.Cookies.CookieAuthenticationOptions,System.Security.Claims.ClaimsPrincipal,Microsoft.AspNetCore.Authentication.AuthenticationProperties,Microsoft.AspNetCore.Http.CookieOptions)">
+            <summary>
+            Creates a new instance of the context object.
+            </summary>
+            <param name="context">The HTTP request context</param>
+            <param name="scheme">The scheme data</param>
+            <param name="options">The handler options</param>
+            <param name="principal">Initializes Principal property</param>
+            <param name="properties">The authentication properties.</param>
+            <param name="cookieOptions">Initializes options for the authentication cookie.</param>
+        </member>
+        <member name="P:Microsoft.AspNetCore.Authentication.Cookies.CookieSigningInContext.CookieOptions">
+            <summary>
+            The options for creating the outgoing cookie.
+            May be replace or altered during the SigningIn call.
+            </summary>
+        </member>
+        <member name="T:Microsoft.AspNetCore.Authentication.Cookies.CookieSigningOutContext">
+            <summary>
+            Context object passed to the <see cref="M:Microsoft.AspNetCore.Authentication.Cookies.CookieAuthenticationEvents.SigningOut(Microsoft.AspNetCore.Authentication.Cookies.CookieSigningOutContext)"/>
+            </summary>
+        </member>
+        <member name="M:Microsoft.AspNetCore.Authentication.Cookies.CookieSigningOutContext.#ctor(Microsoft.AspNetCore.Http.HttpContext,Microsoft.AspNetCore.Authentication.AuthenticationScheme,Microsoft.AspNetCore.Authentication.Cookies.CookieAuthenticationOptions,Microsoft.AspNetCore.Authentication.AuthenticationProperties,Microsoft.AspNetCore.Http.CookieOptions)">
+            <summary>
+            
+            </summary>
+            <param name="context"></param>
+            <param name="scheme"></param>
+            <param name="options"></param>
+            <param name="properties"></param>
+            <param name="cookieOptions"></param>
+        </member>
+        <member name="P:Microsoft.AspNetCore.Authentication.Cookies.CookieSigningOutContext.CookieOptions">
+            <summary>
+            The options for creating the outgoing cookie.
+            May be replace or altered during the SigningOut call.
+            </summary>
+        </member>
+        <member name="T:Microsoft.AspNetCore.Authentication.Cookies.CookieValidatePrincipalContext">
+            <summary>
+            Context object passed to the CookieAuthenticationEvents ValidatePrincipal method.
+            </summary>
+        </member>
+        <member name="M:Microsoft.AspNetCore.Authentication.Cookies.CookieValidatePrincipalContext.#ctor(Microsoft.AspNetCore.Http.HttpContext,Microsoft.AspNetCore.Authentication.AuthenticationScheme,Microsoft.AspNetCore.Authentication.Cookies.CookieAuthenticationOptions,Microsoft.AspNetCore.Authentication.AuthenticationTicket)">
+            <summary>
+            Creates a new instance of the context object.
+            </summary>
+            <param name="context"></param>
+            <param name="scheme"></param>
+            <param name="ticket">Contains the initial values for identity and extra data</param>
+            <param name="options"></param>
+        </member>
+        <member name="P:Microsoft.AspNetCore.Authentication.Cookies.CookieValidatePrincipalContext.ShouldRenew">
+            <summary>
+            If true, the cookie will be renewed
+            </summary>
+        </member>
+        <member name="M:Microsoft.AspNetCore.Authentication.Cookies.CookieValidatePrincipalContext.ReplacePrincipal(System.Security.Claims.ClaimsPrincipal)">
+            <summary>
+            Called to replace the claims principal. The supplied principal will replace the value of the 
+            Principal property, which determines the identity of the authenticated request.
+            </summary>
+            <param name="principal">The <see cref="T:System.Security.Claims.ClaimsPrincipal"/> used as the replacement</param>
+        </member>
+        <member name="M:Microsoft.AspNetCore.Authentication.Cookies.CookieValidatePrincipalContext.RejectPrincipal">
+            <summary>
+            Called to reject the incoming principal. This may be done if the application has determined the
+            account is no longer active, and the request should be treated as if it was anonymous.
+            </summary>
+        </member>
+        <member name="T:Microsoft.AspNetCore.Authentication.Cookies.ICookieManager">
+            <summary>
+            This is used by the CookieAuthenticationMiddleware to process request and response cookies.
+            It is abstracted from the normal cookie APIs to allow for complex operations like chunking.
+            </summary>
+        </member>
+        <member name="M:Microsoft.AspNetCore.Authentication.Cookies.ICookieManager.GetRequestCookie(Microsoft.AspNetCore.Http.HttpContext,System.String)">
+            <summary>
+            Retrieve a cookie of the given name from the request.
+            </summary>
+            <param name="context"></param>
+            <param name="key"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Microsoft.AspNetCore.Authentication.Cookies.ICookieManager.AppendResponseCookie(Microsoft.AspNetCore.Http.HttpContext,System.String,System.String,Microsoft.AspNetCore.Http.CookieOptions)">
+            <summary>
+            Append the given cookie to the response.
+            </summary>
+            <param name="context"></param>
+            <param name="key"></param>
+            <param name="value"></param>
+            <param name="options"></param>
+        </member>
+        <member name="M:Microsoft.AspNetCore.Authentication.Cookies.ICookieManager.DeleteCookie(Microsoft.AspNetCore.Http.HttpContext,System.String,Microsoft.AspNetCore.Http.CookieOptions)">
+            <summary>
+            Append a delete cookie to the response.
+            </summary>
+            <param name="context"></param>
+            <param name="key"></param>
+            <param name="options"></param>
+        </member>
+        <member name="T:Microsoft.AspNetCore.Authentication.Cookies.ITicketStore">
+            <summary>
+            This provides an abstract storage mechanic to preserve identity information on the server
+            while only sending a simple identifier key to the client. This is most commonly used to mitigate
+            issues with serializing large identities into cookies.
+            </summary>
+        </member>
+        <member name="M:Microsoft.AspNetCore.Authentication.Cookies.ITicketStore.StoreAsync(Microsoft.AspNetCore.Authentication.AuthenticationTicket)">
+            <summary>
+            Store the identity ticket and return the associated key.
+            </summary>
+            <param name="ticket">The identity information to store.</param>
+            <returns>The key that can be used to retrieve the identity later.</returns>
+        </member>
+        <member name="M:Microsoft.AspNetCore.Authentication.Cookies.ITicketStore.RenewAsync(System.String,Microsoft.AspNetCore.Authentication.AuthenticationTicket)">
+            <summary>
+            Tells the store that the given identity should be updated.
+            </summary>
+            <param name="key"></param>
+            <param name="ticket"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Microsoft.AspNetCore.Authentication.Cookies.ITicketStore.RetrieveAsync(System.String)">
+            <summary>
+            Retrieves an identity from the store for the given key.
+            </summary>
+            <param name="key">The key associated with the identity.</param>
+            <returns>The identity associated with the given key, or if not found.</returns>
+        </member>
+        <member name="M:Microsoft.AspNetCore.Authentication.Cookies.ITicketStore.RemoveAsync(System.String)">
+            <summary>
+            Remove the identity associated with the given key.
+            </summary>
+            <param name="key">The key associated with the identity.</param>
+            <returns></returns>
+        </member>
+        <member name="T:Microsoft.AspNetCore.Authentication.Cookies.PostConfigureCookieAuthenticationOptions">
+            <summary>
+            Used to setup defaults for all <see cref="T:Microsoft.AspNetCore.Authentication.Cookies.CookieAuthenticationOptions"/>.
+            </summary>
+        </member>
+        <member name="M:Microsoft.AspNetCore.Authentication.Cookies.PostConfigureCookieAuthenticationOptions.PostConfigure(System.String,Microsoft.AspNetCore.Authentication.Cookies.CookieAuthenticationOptions)">
+            <summary>
+            Invoked to post configure a TOptions instance.
+            </summary>
+            <param name="name">The name of the options instance being configured.</param>
+            <param name="options">The options instance to configure.</param>
+        </member>
+        <member name="T:Microsoft.AspNetCore.Authentication.Cookies.ChunkingCookieManager">
+            <summary>
+            This handles cookies that are limited by per cookie length. It breaks down long cookies for responses, and reassembles them
+            from requests.
+            </summary>
+        </member>
+        <member name="F:Microsoft.AspNetCore.Authentication.Cookies.ChunkingCookieManager.DefaultChunkSize">
+            <summary>
+            The default maximum size of characters in a cookie to send back to the client.
+            </summary>
+        </member>
+        <member name="P:Microsoft.AspNetCore.Authentication.Cookies.ChunkingCookieManager.ChunkSize">
+             <summary>
+             The maximum size of cookie to send back to the client. If a cookie exceeds this size it will be broken down into multiple
+             cookies. Set this value to null to disable this behavior. The default is 4090 characters, which is supported by all
+             common browsers.
+            
+             Note that browsers may also have limits on the total size of all cookies per domain, and on the number of cookies per domain.
+             </summary>
+        </member>
+        <member name="P:Microsoft.AspNetCore.Authentication.Cookies.ChunkingCookieManager.ThrowForPartialCookies">
+            <summary>
+            Throw if not all chunks of a cookie are available on a request for re-assembly.
+            </summary>
+        </member>
+        <member name="M:Microsoft.AspNetCore.Authentication.Cookies.ChunkingCookieManager.GetRequestCookie(Microsoft.AspNetCore.Http.HttpContext,System.String)">
+            <summary>
+            Get the reassembled cookie. Non chunked cookies are returned normally.
+            Cookies with missing chunks just have their "chunks-XX" header returned.
+            </summary>
+            <param name="context"></param>
+            <param name="key"></param>
+            <returns>The reassembled cookie, if any, or null.</returns>
+        </member>
+        <member name="M:Microsoft.AspNetCore.Authentication.Cookies.ChunkingCookieManager.AppendResponseCookie(Microsoft.AspNetCore.Http.HttpContext,System.String,System.String,Microsoft.AspNetCore.Http.CookieOptions)">
+            <summary>
+            Appends a new response cookie to the Set-Cookie header. If the cookie is larger than the given size limit
+            then it will be broken down into multiple cookies as follows:
+            Set-Cookie: CookieName=chunks-3; path=/
+            Set-Cookie: CookieNameC1=Segment1; path=/
+            Set-Cookie: CookieNameC2=Segment2; path=/
+            Set-Cookie: CookieNameC3=Segment3; path=/
+            </summary>
+            <param name="context"></param>
+            <param name="key"></param>
+            <param name="value"></param>
+            <param name="options"></param>
+        </member>
+        <member name="M:Microsoft.AspNetCore.Authentication.Cookies.ChunkingCookieManager.DeleteCookie(Microsoft.AspNetCore.Http.HttpContext,System.String,Microsoft.AspNetCore.Http.CookieOptions)">
+            <summary>
+            Deletes the cookie with the given key by setting an expired state. If a matching chunked cookie exists on
+            the request, delete each chunk.
+            </summary>
+            <param name="context"></param>
+            <param name="key"></param>
+            <param name="options"></param>
+        </member>
+        <member name="T:Microsoft.AspNetCore.Builder.CookieAppBuilderExtensions">
+            <summary>
+            Extension methods to add cookie authentication capabilities to an HTTP application pipeline.
+            </summary>
+        </member>
+        <member name="M:Microsoft.AspNetCore.Builder.CookieAppBuilderExtensions.UseCookieAuthentication(Microsoft.AspNetCore.Builder.IApplicationBuilder)">
+            <summary>
+            UseCookieAuthentication is obsolete. Configure Cookie authentication with AddAuthentication().AddCookie in ConfigureServices. See https://go.microsoft.com/fwlink/?linkid=845470 for more details.
+            </summary>
+            <param name="app">The <see cref="T:Microsoft.AspNetCore.Builder.IApplicationBuilder"/> to add the handler to.</param>
+            <returns>A reference to this instance after the operation has completed.</returns>
+        </member>
+        <member name="M:Microsoft.AspNetCore.Builder.CookieAppBuilderExtensions.UseCookieAuthentication(Microsoft.AspNetCore.Builder.IApplicationBuilder,Microsoft.AspNetCore.Authentication.Cookies.CookieAuthenticationOptions)">
+            <summary>
+            UseCookieAuthentication is obsolete. Configure Cookie authentication with AddAuthentication().AddCookie in ConfigureServices. See https://go.microsoft.com/fwlink/?linkid=845470 for more details.
+            </summary>
+            <param name="app">The <see cref="T:Microsoft.AspNetCore.Builder.IApplicationBuilder"/> to add the handler to.</param>
+            <param name="options">A <see cref="T:Microsoft.AspNetCore.Authentication.Cookies.CookieAuthenticationOptions"/> that specifies options for the handler.</param>
+            <returns>A reference to this instance after the operation has completed.</returns>
+        </member>
+    </members>
+</doc>

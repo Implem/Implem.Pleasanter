@@ -10,6 +10,11 @@ using Implem.Libraries.Utilities;
 using Implem.Pleasanter.Libraries.DataSources;
 using System.Security.Claims;
 using System.Data.Common;
+using Microsoft.AspNetCore.Http.Authentication;
+using Microsoft.AspNetCore.Http;
+using System.Linq;
+using Microsoft.IdentityModel.Tokens.Saml;
+
 namespace Implem.Pleasanter.Controllers
 {
     public class UsersController : Controller
@@ -257,12 +262,18 @@ namespace Implem.Pleasanter.Controllers
                 && context.IsAuthenticated == true)
             {
                 Authentications.SignOut(context: context);
-                var loginId = ClaimsPrincipal.Current.FindFirst(ClaimTypes.NameIdentifier);
+                if(context.UserClaims == null) 
+                { 
+                    return (null, Locations.SamlLoginFailed(context: context), null); 
+                }
+
+                var loginId = context.UserClaims.First(c=>c.Type == ClaimTypes.NameIdentifier);
                 var firstName = string.Empty;
                 var lastName = string.Empty;
                 var tenantManager = false;
-                foreach(var claim in ClaimsPrincipal.Current.Claims)
+                foreach(var claim in context.UserClaims)
                 {
+                    
                     switch (claim.Type)
                     {
                         case "FirstName":

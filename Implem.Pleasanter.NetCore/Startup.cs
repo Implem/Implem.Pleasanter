@@ -19,10 +19,14 @@ using Microsoft.AspNetCore.Server.Kestrel.Core;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Sustainsys.Saml2;
+using Sustainsys.Saml2.Configuration;
+using Sustainsys.Saml2.Metadata;
 using System;
 using System.IO;
 using System.Linq;
 using System.Reflection;
+using System.Security.Cryptography.X509Certificates;
 using System.Threading.Tasks;
 namespace Implem.Pleasanter.NetCore
 {
@@ -55,7 +59,27 @@ namespace Implem.Pleasanter.NetCore
                         options.Filters.Add(new Microsoft.AspNetCore.Mvc.RequireHttpsAttribute());
                     }
                 });
-            services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme).AddCookie(o => o.LoginPath = new PathString("/users/login"));
+            services
+                .AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+                .AddCookie(o => o.LoginPath = new PathString("/users/login"))
+                .AddSaml2(options=> 
+                {
+                    options.SPOptions.EntityId = new EntityId("http://localhost:59803/Saml2");
+                    options.SPOptions.ReturnUrl = new Uri("http://localhost:59803/Users/SamlLogin");
+                    var idp = new IdentityProvider(
+                            new EntityId("https://portal.trustlogin.com/implem/idp/37864/saml"),
+                            options.SPOptions)
+                    {
+                        SingleSignOnServiceUrl = new Uri("https://portal.trustlogin.com/implem/idp/37864/saml/auth"),
+                        AllowUnsolicitedAuthnResponse = true,
+                        Binding = Sustainsys.Saml2.WebSso.Saml2BindingType.HttpPost
+                    };
+                    var store = new X509Store(StoreName.My, StoreLocation.CurrentUser);
+                    store.Open(OpenFlags.OpenExistingOnly);
+                    var certs = store.Certificates.Find(X509FindType.FindByThumbprint, "350b459426de554010b35e95f064112bd7865310", false);
+                    idp.SigningKeys.AddConfiguredKey(certs[0]);
+                    options.IdentityProviders.Add(idp);
+                });
             var extensionDirectory = Path.Combine(Path.GetDirectoryName(Assembly.GetEntryAssembly().Location), "ExtendedLibraries");
             if (Directory.Exists(extensionDirectory))
             {

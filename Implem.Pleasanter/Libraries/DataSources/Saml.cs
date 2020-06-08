@@ -140,7 +140,8 @@ namespace Implem.Pleasanter.Libraries.DataSources
                                     var optionsFromConfiguration = typeof(Options).GetField("optionsFromConfiguration",
                                         System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Static);
                                     optionsFromConfiguration.SetValue(null, new Lazy<Options>(() => options, true));
-                                    Sustainsys.Saml2.Mvc.Saml2Controller.Options = Options.FromConfiguration;
+                                    //Sustainsys.Saml2.Mvc.Saml2Controller.Options = Options.FromConfiguration;
+                                    
                                 }
                                 catch
                                 {
@@ -164,7 +165,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                                 var optionsFromConfiguration = typeof(Options).GetField("optionsFromConfiguration",
                                     System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Static);
                                 optionsFromConfiguration.SetValue(null, new Lazy<Options>(() => options, true));
-                                Sustainsys.Saml2.Mvc.Saml2Controller.Options = Options.FromConfiguration;
+                                //Sustainsys.Saml2.Mvc.Saml2Controller.Options = Options.FromConfiguration;
                             }
                         }
                     }
