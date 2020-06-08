@@ -21,7 +21,16 @@ $p.execEvents = function (event, args) {
         if ($p.events[name] !== undefined) {
             return ($p.events[name](args) === false) ? false : true;
         }
+        return true;
     }
+}
+
+$p.before_setData = function (args) {
+    return $p.execEvents('before_setData', args);
+}
+
+$p.after_setData = function (args) {
+    return $p.execEvents('after_setData', args);
 }
 
 $p.before_validate = function (args) {

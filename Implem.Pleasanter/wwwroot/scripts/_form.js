@@ -52,7 +52,13 @@ $p.send = function ($control, formId, _async, clearMessage) {
         : $control.closest('form');
     var action = $control.attr('data-action');
     var methodType = $control.attr('data-method');
+    if ($p.before_setData($p.eventArgs(null, methodType, null, $control, _async)) === false) {
+        return false;
+    }
     var data = $p.getData($form);
+    if ($p.after_setData($p.eventArgs(null, methodType, data, $control, _async)) === false) {
+        return false;
+    }
     var url = action !== undefined
         ? $form.attr('action').replace('_action_', action.toLowerCase())
         : location.href;
