@@ -5,6 +5,7 @@
     <TargetFramework>netcoreapp3.1</TargetFramework>
     <Copyright>Copyright © Implem Inc 2014 - 2019</Copyright>
     <Description>This program does the automatic code creation and merging of existing code based on the definition. Also it will make the configuration change of sql server database.</Description>
+    <Version>1.0.0.1</Version>
   </PropertyGroup>
 
   <ItemGroup>
