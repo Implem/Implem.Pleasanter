@@ -1,6 +1,7 @@
 ﻿using Implem.DefinitionAccessor;
 using Implem.Libraries.Utilities;
 using Npgsql;
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
@@ -21,12 +22,17 @@ namespace Implem.CodeDefiner.Functions.AspNetMvc.CSharp
                 .Select(columnDefinition => columnDefinition.TableName)
                 .Distinct()
                 .ForEach(tableName =>
-                    MigrateTable(tableName: tableName));
+                    MigrateTable(
+                        tableName: tableName,
+                        identity: Def.ColumnDefinitionCollection
+                            .Where(o => o.TableName == tableName)
+                            .FirstOrDefault(o => o.Identity)
+                            ?.ColumnName));
         }
 
-        private static void MigrateTable(string tableName)
+        private static void MigrateTable(string tableName, string identity)
         {
-            using (var pconn = new NpgsqlConnection(Parameters.Rds.UserConnectionString))
+            using (var pconn = new NpgsqlConnection(Parameters.Rds.OwnerConnectionString))
             {
                 pconn.OpenAsync();
                 using (var sconn = new SqlConnection(Parameters.Migration.SourceConnectionString))
@@ -34,11 +40,23 @@ namespace Implem.CodeDefiner.Functions.AspNetMvc.CSharp
                     sconn.Open();
                     try
                     {
-                        MigrateTable(tableName, pconn, sconn);
-                        MigrateTable(tableName + "_deleted", pconn, sconn);
-                        MigrateTable(tableName + "_history", pconn, sconn);
+                        MigrateTable(
+                            tableName: tableName,
+                            identity: identity,
+                            pconn: pconn,
+                            sconn: sconn);
+                        MigrateTable(
+                            tableName: tableName + "_deleted",
+                            identity: null,
+                            pconn: pconn,
+                            sconn: sconn);
+                        MigrateTable(
+                            tableName: tableName + "_history",
+                            identity: null,
+                            pconn: pconn,
+                            sconn: sconn);
                     }
-                    catch (System.Exception e)
+                    catch (Exception e)
                     {
                         Consoles.Write(tableName + ":" + e.Message, Consoles.Types.Info);
                     }
@@ -50,9 +68,9 @@ namespace Implem.CodeDefiner.Functions.AspNetMvc.CSharp
 
         private static void MigrateTable(
             string tableName,
+            string identity,
             NpgsqlConnection pconn,
-            SqlConnection sconn,
-            string suffix = "")
+            SqlConnection sconn)
         {
             Consoles.Write(tableName, Consoles.Types.Info);
             var scmd = new SqlCommand(
@@ -80,6 +98,13 @@ namespace Implem.CodeDefiner.Functions.AspNetMvc.CSharp
                             reader[columnName]));
                     pcmd.ExecuteNonQuery();
                 }
+            }
+            if (identity != null)
+            {
+                var pcmd = new NpgsqlCommand(
+                    cmdText: $"select setval('\"{tableName}_{identity}_seq\"', (select max(\"{identity}\") from \"{tableName}\"));",
+                    connection: pconn);
+                pcmd.ExecuteNonQuery();
             }
         }
     }
