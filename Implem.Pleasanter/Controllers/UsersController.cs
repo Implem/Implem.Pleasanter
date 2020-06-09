@@ -210,7 +210,7 @@ namespace Implem.Pleasanter.Controllers
         /// <summary>
         /// Fixed:
         /// </summary>
-        public (string redirectUrl, string redirectResultUrl, string html) Login(
+        public (string redirectUrl, string redirectResultUrl, string html, bool ssoLogin) Login(
             Context context, string returnUrl, bool isLocalUrl, string ssocode = "")
         {
             var log = new SysLogModel(context: context);
@@ -223,7 +223,7 @@ namespace Implem.Pleasanter.Controllers
                 log.Finish(context: context);
                 return (isLocalUrl
                     ? returnUrl
-                    : Locations.Top(context: context), null, null);
+                    : Locations.Top(context: context), null, null, false);
             }
             if ((Parameters.Authentication.Provider == "SAML-MultiTenant") && (ssocode != string.Empty))
             {
@@ -236,10 +236,10 @@ namespace Implem.Pleasanter.Controllers
                     var redirectUrl = Saml.SetIdpConfiguration(context, tenant.TenantId);
                     if (redirectUrl != null)
                     {
-                        return (null, redirectUrl, null);
+                        return (null, redirectUrl, null, true);
                     }
                 }
-                return (null, Locations.InvalidSsoCode(context), null);
+                return (null, Locations.InvalidSsoCode(context), null, false);
             }
             var html = UserUtilities.HtmlLogin(
                 context: context,
@@ -250,7 +250,7 @@ namespace Implem.Pleasanter.Controllers
                     ? Messages.Expired(context: context).Text
                     : string.Empty);
             log.Finish(context: context, responseSize: html.Length);
-            return (null, null, html);
+            return (null, null, html, false);
         }
 
         /// <summary>
@@ -258,90 +258,95 @@ namespace Implem.Pleasanter.Controllers
         /// </summary>
         public (string redirectUrl, string redirectResultUrl, string html) SamlLogin(Context context)
         {
-            if (context.AuthenticationType == "Federation"
-                && context.IsAuthenticated == true)
+            if (!Authentications.SAML()
+                || context.AuthenticationType != "Federation"
+                || context.IsAuthenticated != true)
             {
-                Authentications.SignOut(context: context);
-                if(context.UserClaims == null) 
-                { 
-                    return (null, Locations.SamlLoginFailed(context: context), null); 
-                }
+                return (null, Locations.SamlLoginFailed(context: context), null);
+            }
+            Authentications.SignOut(context: context);
 
-                var loginId = context.UserClaims.First(c=>c.Type == ClaimTypes.NameIdentifier);
-                var firstName = string.Empty;
-                var lastName = string.Empty;
-                var tenantManager = false;
-                foreach(var claim in context.UserClaims)
-                {
-                    
-                    switch (claim.Type)
-                    {
-                        case "FirstName":
-                            firstName = claim.Value;
-                            break;
-                        case "LastName":
-                            lastName = claim.Value;
-                            break;
-                        case "TenantManager":
-                            tenantManager = claim.Value.ToLower() == "true" ? true : false;
-                            break;
-                    }
-                }
-                var space = (string.IsNullOrEmpty(lastName) || string.IsNullOrEmpty(firstName)) ? string.Empty : "　";
-                var name = lastName + space + firstName;
-                if (name == string.Empty)
+            var loginId = context.UserClaims?.FirstOrDefault(claim => claim.Type == ClaimTypes.NameIdentifier);
+            var attributes = Saml.MapAttributes(context.UserClaims, loginId.Value);
+            var name = attributes.UserName;
+            TenantModel tenant;
+            if (Parameters.Authentication.Provider == "SAML-MultiTenant")
+            {
+                if (string.IsNullOrEmpty(name))
                 {
                     return (null, Locations.EmptyUserName(context: context), null);
                 }
                 var ssocode = loginId.Issuer.TrimEnd('/').Substring(loginId.Issuer.TrimEnd('/').LastIndexOf('/') + 1);
-                var tenant = new TenantModel().Get(
+                tenant = new TenantModel().Get(
                     context: context,
-                    ss:SiteSettingsUtilities.TenantsSiteSettings(context), 
+                    ss: SiteSettingsUtilities.TenantsSiteSettings(context),
                     where: Rds.TenantsWhere().Comments(ssocode));
-                try
-                {
-                    Saml.UpdateOrInsert(
-                        context: context,
-                        tenantId: tenant.TenantId,
-                        loginId: loginId.Value,
-                        name: name,
-                        mailAddress: loginId.Value,
-                        tenantManager: tenantManager,
-                        synchronizedTime: System.DateTime.Now);
-                }
-                catch (DbException e)
-                {
-                    if (context.SqlErrors.ErrorCode(e) == 2601)
-                    {
-                        return (null, Locations.LoginIdAlreadyUse(context: context), null);
-                    }
-                    throw;
-                }
-                var user = new UserModel().Get(
+            }
+            else
+            {
+                tenant = new TenantModel().Get(
                     context: context,
-                    ss: null,
-                    where: Rds.UsersWhere()
-                        .TenantId(tenant.TenantId)
-                        .LoginId(loginId.Value));
-                if (user.AccessStatus == Databases.AccessStatuses.Selected)
+                    ss: SiteSettingsUtilities.TenantsSiteSettings(context),
+                    where: Rds.TenantsWhere().TenantId(Parameters.Authentication.SamlParameters.SamlTenantId));
+                if (tenant.AccessStatus != Databases.AccessStatuses.Selected)
                 {
-                    if (user.Disabled)
-                    {
-                        return (null, Locations.UserDisabled(context: context), null);
-                    }
-                    if (user.Lockout)
-                    {
-                        return (null,  Locations.UserLockout(context: context), null);
-                    }
-                    user.Allow(context: context, returnUrl: Locations.Top(context), createPersistentCookie: true);
-                    return (null, Locations.Top(context), null);
-                }
-                else
-                {
-                    return (null, Locations.SamlLoginFailed(context: context), null);
+                    Rds.ExecuteNonQuery(
+                        context: context,
+                        connectionString: Parameters.Rds.OwnerConnectionString,
+                        statements: new[] {
+                        Rds.InsertTenants(
+                            selectIdentity:true,
+                            param: Rds.TenantsParam()
+                                .TenantId(Parameters.Authentication.SamlParameters.SamlTenantId)
+                                .TenantName("DefaultTenant")),
+                        });
+                    tenant.TenantId = Parameters.Authentication.SamlParameters.SamlTenantId;
                 }
             }
-            return (null, Locations.SamlLoginFailed(context: context), null);
+            try
+            {
+                Saml.UpdateOrInsert(
+                    context: context,
+                    tenantId: tenant.TenantId,
+                    loginId: loginId.Value,
+                    name: string.IsNullOrEmpty(name)
+                        ? loginId.Value
+                        : name,
+                    mailAddress: attributes["MailAddress"],
+                    synchronizedTime: System.DateTime.Now,
+                    attributes: attributes);
+            }
+            catch (DbException e)
+            {
+                if (context.SqlErrors.ErrorCode(e) == 2601)
+                {
+                    return (null, Locations.LoginIdAlreadyUse(context: context), null);
+                }
+                throw;
+            }
+            var user = new UserModel().Get(
+                context: context,
+                ss: null,
+                where: Rds.UsersWhere()
+                    .TenantId(tenant.TenantId)
+                    .LoginId(loginId.Value));
+            if (user.AccessStatus == Databases.AccessStatuses.Selected)
+            {
+                if (user.Disabled)
+                {
+                    return (null, Locations.UserDisabled(context: context), null);
+                }
+                if (user.Lockout)
+                {
+                    return (null, Locations.UserLockout(context: context), null);
+                }
+                user.Allow(context: context, returnUrl: Locations.Top(context), createPersistentCookie: true);
+                return (null, Locations.Top(context), null);
+            }
+            else
+            {
+                return (null, Locations.SamlLoginFailed(context: context), null);
+            }
         }
 
         /// <summary>

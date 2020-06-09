@@ -67,16 +67,16 @@ namespace Implem.Pleasanter.NetCore
                     options.SPOptions.EntityId = new EntityId("http://localhost:59803/Saml2");
                     options.SPOptions.ReturnUrl = new Uri("http://localhost:59803/Users/SamlLogin");
                     var idp = new IdentityProvider(
-                            new EntityId("https://portal.trustlogin.com/implem/idp/37864/saml"),
+                            new EntityId("https://robotid.jp/idaas/f/saml2/vsu2sb/"),
                             options.SPOptions)
                     {
-                        SingleSignOnServiceUrl = new Uri("https://portal.trustlogin.com/implem/idp/37864/saml/auth"),
+                        SingleSignOnServiceUrl = new Uri("https://robotid.jp/idaas/f/saml2/vsu2sb/test001"),
                         AllowUnsolicitedAuthnResponse = true,
                         Binding = Sustainsys.Saml2.WebSso.Saml2BindingType.HttpPost
                     };
                     var store = new X509Store(StoreName.My, StoreLocation.CurrentUser);
                     store.Open(OpenFlags.OpenExistingOnly);
-                    var certs = store.Certificates.Find(X509FindType.FindByThumbprint, "350b459426de554010b35e95f064112bd7865310", false);
+                    var certs = store.Certificates.Find(X509FindType.FindByThumbprint, "fc5aca46237f8eea89ccee3f6cb44b8ef2e5645d", false);
                     idp.SigningKeys.AddConfiguredKey(certs[0]);
                     options.IdentityProviders.Add(idp);
                 });

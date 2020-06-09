@@ -178,7 +178,7 @@ namespace Implem.Pleasanter.NetFramework.Controllers
         {
             var context = new ContextImplement();
             var controller = new Pleasanter.Controllers.UsersController();
-            var (redirectUrl, redirectResultUrl, html) = controller.Login(
+            var (redirectUrl, redirectResultUrl, html, _) = controller.Login(
                 context: context,
                 returnUrl: returnUrl,
                 isLocalUrl: Url.IsLocalUrl(returnUrl),

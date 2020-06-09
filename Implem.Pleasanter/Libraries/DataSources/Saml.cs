@@ -1,6 +1,7 @@
 ﻿using Implem.DefinitionAccessor;
 using Implem.Libraries.DataSources.SqlServer;
 using Implem.Libraries.Utilities;
+using Implem.ParameterAccessor.Parts;
 using Implem.Pleasanter.Libraries.Requests;
 using Implem.Pleasanter.Libraries.Settings;
 using Implem.Pleasanter.Models;
@@ -10,6 +11,7 @@ using System;
 using System.Collections.Generic;
 using System.Configuration;
 using System.Linq;
+using System.Security.Claims;
 using System.Security.Cryptography.X509Certificates;
 
 namespace Implem.Pleasanter.Libraries.DataSources
@@ -18,15 +20,51 @@ namespace Implem.Pleasanter.Libraries.DataSources
     {
         private static bool processing = false;
 
+        public static SamlAttributes MapAttributes(IEnumerable<Claim> claims, string nameId)
+        {
+            var attributes = new SamlAttributes();
+            var setMailAddress = false;
+            if (Parameters.Authentication?.SamlParameters?
+                    .Attributes?["MailAddress"] == "{NameId}")
+            {
+                setMailAddress = true;
+                attributes.Add("MailAddress", nameId);
+            }
+            foreach (var claim in claims)
+            {
+                var attribute = Parameters
+                    .Authentication?
+                    .SamlParameters?
+                    .Attributes?
+                    .FirstOrDefault(kvp => kvp.Value == claim.Type) ?? default(KeyValuePair<string, string>);
+                if (attribute.Key == null)
+                {
+                    continue;
+                }
+                if ((typeof(UserModel).GetField(attribute.Key) != null
+                    || attribute.Key == "Dept" || attribute.Key == "DeptCode"
+                    || (setMailAddress == false && attribute.Key == "MailAddress")))
+                {
+                    attributes.Add(attribute.Key, claim.Value);
+                }
+            }
+            return attributes;
+        }
+
         public static void UpdateOrInsert(
              Context context,
              int tenantId,
              string loginId,
              string name,
              string mailAddress,
-             bool tenantManager,
-             DateTime synchronizedTime)
+             DateTime synchronizedTime,
+             SamlAttributes attributes)
         {
+            var deptCode = attributes[nameof(UserModel.DeptCode)];
+            var deptName = attributes[nameof(UserModel.Dept)];
+            var deptSettings = !deptCode.IsNullOrEmpty()
+                && !deptName.IsNullOrEmpty();
+            var isEmptyDeptCode = deptCode == string.Empty;
             var user = new UserModel().Get(
                 context: context,
                 ss: null,
@@ -34,18 +72,117 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     .TenantId(tenantId)
                     .LoginId(loginId)
                     .Name(name)
-                    .TenantManager(tenantManager));
-            if (user.AccessStatus == Databases.AccessStatuses.Selected)
+                    .TenantManager(
+                        attributes.TenantManager,
+                        _using: attributes[nameof(UserModel.TenantManager)] != null)
+                    .FirstName(
+                        attributes[nameof(UserModel.FirstName)],
+                        _using: attributes[nameof(UserModel.FirstName)] != null)
+                    .LastName(
+                        attributes[nameof(UserModel.LastName)],
+                        _using: attributes[nameof(UserModel.LastName)] != null)
+                    .FirstAndLastNameOrder(
+                        attributes[nameof(UserModel.FirstAndLastNameOrder)],
+                        _using: attributes[nameof(UserModel.FirstAndLastNameOrder)] != null)
+                    .UserCode(
+                        attributes[nameof(UserModel.UserCode)],
+                        _using: attributes[nameof(UserModel.UserCode)] != null)
+                    .Birthday(
+                        attributes[nameof(UserModel.Birthday)],
+                        _using: attributes[nameof(UserModel.Birthday)] != null)
+                    .Gender(
+                        attributes[nameof(UserModel.Gender)],
+                        _using: attributes[nameof(UserModel.Gender)] != null)
+                    .Language(
+                        attributes[nameof(UserModel.Language)],
+                        _using: attributes[nameof(UserModel.Language)] != null)
+                    .TimeZone(
+                        attributes[nameof(UserModel.TimeZone)],
+                        _using: attributes[nameof(UserModel.TimeZone)] != null)
+                    .DeptId(
+                        sub: Rds.SelectDepts(
+                            column: Rds.DeptsColumn().DeptId(),
+                            where: Rds.DeptsWhere().DeptCode(deptCode)),
+                        _using: deptSettings)
+                    .Body(
+                        attributes[nameof(UserModel.Body)],
+                        _using: attributes[nameof(UserModel.Body)] != null));
+            if (!isEmptyDeptCode
+                && user.AccessStatus == Databases.AccessStatuses.Selected)
             {
-                return;
+                if (mailAddress.IsNullOrEmpty())
+                {
+                    return;
+                }
+                var addressCount = Rds.ExecuteScalar_long(
+                    context: context,
+                    statements: new[]
+                    {
+                        Rds.SelectMailAddresses(
+                            dataTableName: "Count",
+                            column: Rds.MailAddressesColumn().MailAddressesCount(),
+                            where: Rds.MailAddressesWhere()
+                            .OwnerType("Users")
+                            .OwnerId(sub: Rds.SelectUsers(
+                                column: Rds.UsersColumn().UserId(),
+                                where: Rds.UsersWhere().LoginId(loginId)))
+                            .MailAddress(mailAddress))
+                    });
+                if (addressCount > 0)
+                {
+                    return;
+                }
             }
             var statements = new List<SqlStatement>();
+            if (deptSettings)
+            {
+                statements.Add(Rds.UpdateOrInsertDepts(
+                    param: Rds.DeptsParam()
+                        .TenantId(tenantId)
+                        .DeptCode(deptCode)
+                        .DeptName(deptName),
+                    where: Rds.DeptsWhere().DeptCode(deptCode)));
+            }
             var param = Rds.UsersParam()
                 .TenantId(tenantId)
                 .LoginId(loginId)
                 .Name(name)
-                .TenantManager(tenantManager)
-                .SynchronizedTime(synchronizedTime);
+                .TenantManager(attributes.TenantManager,
+                    _using: attributes[nameof(UserModel.TenantManager)] != null)
+                .SynchronizedTime(synchronizedTime)
+                .FirstName(
+                        attributes[nameof(UserModel.FirstName)],
+                        _using: attributes[nameof(UserModel.FirstName)] != null)
+                .LastName(
+                    attributes[nameof(UserModel.LastName)],
+                    _using: attributes[nameof(UserModel.LastName)] != null)
+                .FirstAndLastNameOrder(
+                    attributes[nameof(UserModel.FirstAndLastNameOrder)],
+                    _using: attributes[nameof(UserModel.FirstAndLastNameOrder)] != null)
+                .UserCode(
+                        attributes[nameof(UserModel.UserCode)],
+                        _using: attributes[nameof(UserModel.UserCode)] != null)
+                .DeptId(
+                    sub: Rds.SelectDepts(
+                        column: Rds.DeptsColumn().DeptId(),
+                        where: Rds.DeptsWhere().DeptCode(deptCode)),
+                    _using: deptSettings)
+                .DeptId(0, _using: isEmptyDeptCode)
+                .Birthday(
+                    attributes[nameof(UserModel.Birthday)],
+                    _using: attributes[nameof(UserModel.Birthday)] != null)
+                .Gender(
+                    attributes[nameof(UserModel.Gender)],
+                    _using: attributes[nameof(UserModel.Gender)] != null)
+                .Language(
+                    attributes[nameof(UserModel.Language)],
+                    _using: attributes[nameof(UserModel.Language)] != null)
+                .TimeZone(
+                    attributes[nameof(UserModel.TimeZone)],
+                    _using: attributes[nameof(UserModel.TimeZone)] != null)
+                .Body(
+                    attributes[nameof(UserModel.Body)],
+                    _using: attributes[nameof(UserModel.Body)] != null);
             statements.Add(Rds.UpdateOrInsertUsers(
                 param: param,
                 where: Rds.UsersWhere().TenantId(tenantId).LoginId(loginId),
@@ -68,8 +205,10 @@ namespace Implem.Pleasanter.Libraries.DataSources
                         .MailAddress(mailAddress)));
             }
             statements.Add(StatusUtilities.UpdateStatus(
+                tenantId: tenantId, type: StatusUtilities.Types.DeptsUpdated));
+            statements.Add(StatusUtilities.UpdateStatus(
                 tenantId: tenantId, type: StatusUtilities.Types.UsersUpdated));
-            Repository.ExecuteNonQuery(
+            Rds.ExecuteNonQuery(
                 context: context,
                 transactional: true,
                 statements: statements.ToArray());

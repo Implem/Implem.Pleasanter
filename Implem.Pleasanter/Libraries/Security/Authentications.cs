@@ -41,7 +41,13 @@ namespace Implem.Pleasanter.Libraries.Security
 
         public static bool SSO(Context context)
         {
-            return Windows(context: context) || Parameters.Authentication.Provider == "SAML";
+            return Windows(context: context) || SAML();
+        }
+
+        public static bool SAML()
+        {
+            return Parameters.Authentication.Provider == "SAML"
+                || Parameters.Authentication.Provider == "SAML-MultiTenant";
         }
     }
 }

@@ -181,24 +181,44 @@ namespace Implem.Pleasanter.NetCore.Controllers
         /// </summary>
         [AllowAnonymous]
         [HttpGet]
+        public ActionResult Challenge(string idp = "")
+        {
+            return new ChallengeResult(Saml2Defaults.Scheme,
+                new AuthenticationProperties(
+                    items: null,
+                    parameters: string.IsNullOrEmpty(idp)
+                        ? null
+                        : new Dictionary<string, object> { ["idp"] = idp })
+                {
+                    RedirectUri = Url.Action(nameof(SamlLogin))
+                });
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        [AllowAnonymous]
+        [HttpGet]
         public ActionResult Login(string returnUrl, string ssocode = "")
         {
-           
-            return new ChallengeResult(Saml2Defaults.Scheme, 
-                new AuthenticationProperties(
-                    items:null, 
-                    parameters:new Dictionary<string,object>{ ["idp"]= "https://portal.trustlogin.com/implem/idp/37864/saml" })
-            {
-                RedirectUri = Url.Action(nameof(SamlLogin), new { returnUrl })
-            });
-
             var context = new ContextImplement();
             var controller = new Pleasanter.Controllers.UsersController();
-            var (redirectUrl, redirectResultUrl, html) = controller.Login(
+            var (redirectUrl, redirectResultUrl, html, ssoLogin) = controller.Login(
                 context: context,
                 returnUrl: returnUrl,
                 isLocalUrl: Url.IsLocalUrl(returnUrl),
                 ssocode: ssocode);
+
+            if (ssoLogin && !string.IsNullOrEmpty(redirectResultUrl))
+            {
+                return new ChallengeResult(Saml2Defaults.Scheme,
+                    new AuthenticationProperties(
+                        items: null,
+                        parameters: new Dictionary<string, object> { ["idp"] = redirectResultUrl })
+                    {
+                        RedirectUri = Url.Action(nameof(SamlLogin), new { returnUrl })
+                    });
+            }
             if (!string.IsNullOrEmpty(redirectUrl)) return base.Redirect(redirectUrl);
             if (!string.IsNullOrEmpty(redirectResultUrl)) return new RedirectResult(redirectResultUrl);
             ViewBag.HtmlBody = html;
