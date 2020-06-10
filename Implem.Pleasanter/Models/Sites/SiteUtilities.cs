@@ -1297,7 +1297,7 @@ namespace Implem.Pleasanter.Models
                 where: Rds.SitesWhere()
                     .SiteId(ss.SiteId)
                     .SiteId(siteId)
-                    .Ver(ver.First())));
+                    .Ver(ver.First().ToInt())));
             siteModel.VerUp = true;
             var errorData = siteModel.Update(
                 context: context, ss: ss, setBySession: false, otherInitValue: true);
