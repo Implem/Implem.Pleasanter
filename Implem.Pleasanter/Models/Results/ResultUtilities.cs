@@ -3505,7 +3505,7 @@ namespace Implem.Pleasanter.Models
                 where: Rds.ResultsWhere()
                     .SiteId(ss.SiteId)
                     .ResultId(resultId)
-                    .Ver(ver.First())));
+                    .Ver(ver.First().ToInt())));
             resultModel.VerUp = true;
             var errorData = resultModel.Update(
                 context: context,

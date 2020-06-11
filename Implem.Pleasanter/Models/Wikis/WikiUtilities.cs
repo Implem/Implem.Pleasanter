@@ -1597,7 +1597,7 @@ namespace Implem.Pleasanter.Models
                 where: Rds.WikisWhere()
                     .SiteId(ss.SiteId)
                     .WikiId(wikiId)
-                    .Ver(ver.First())));
+                    .Ver(ver.First().ToInt())));
             wikiModel.VerUp = true;
             var errorData = wikiModel.Update(
                 context: context,

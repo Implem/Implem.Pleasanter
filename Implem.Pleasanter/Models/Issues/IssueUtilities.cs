@@ -3686,7 +3686,7 @@ namespace Implem.Pleasanter.Models
                 where: Rds.IssuesWhere()
                     .SiteId(ss.SiteId)
                     .IssueId(issueId)
-                    .Ver(ver.First())));
+                    .Ver(ver.First().ToInt())));
             issueModel.VerUp = true;
             var errorData = issueModel.Update(
                 context: context,
