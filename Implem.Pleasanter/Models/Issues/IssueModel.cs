@@ -807,7 +807,6 @@ namespace Implem.Pleasanter.Models
                     case "Title": data.Title = Title.Value; break;
                     case "Body": data.Body = Body; break;
                     case "StartTime": data.StartTime = StartTime.ToLocal(context: context); break;
-                    case "CompletionTime": data.CompletionTime = CompletionTime.Value.ToLocal(context: context); break;
                     case "WorkValue": data.WorkValue = WorkValue.Value; break;
                     case "ProgressRate": data.ProgressRate = ProgressRate.Value; break;
                     case "RemainingWorkValue": data.RemainingWorkValue = RemainingWorkValue; break;
@@ -818,6 +817,7 @@ namespace Implem.Pleasanter.Models
                     case "Creator": data.Creator = Creator.Id; break;
                     case "Updator": data.Updator = Updator.Id; break;
                     case "CreatedTime": data.CreatedTime = CreatedTime.Value.ToLocal(context: context); break;
+                    case "CompletionTime": data.CompletionTime = CompletionTime.DisplayValue.ToLocal(context: context); break;
                     case "Comments": data.Comments = Comments.ToLocal(context: context).ToJson(); break;
                     default: 
                         data.Value(

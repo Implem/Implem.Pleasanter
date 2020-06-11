@@ -320,6 +320,7 @@ namespace Implem.DefinitionAccessor
                     case "Model_GetItemsDefaultColumns": Code.Model_GetItemsDefaultColumns = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_GetItemsDefaultColumns, definitionRow, CodeXls); break;
                     case "Model_GetByApi": Code.Model_GetByApi = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_GetByApi, definitionRow, CodeXls); break;
                     case "Model_GetByApi_ColumnCases": Code.Model_GetByApi_ColumnCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_GetByApi_ColumnCases, definitionRow, CodeXls); break;
+                    case "Model_GetByApi_CompletionTimeColumnCases": Code.Model_GetByApi_CompletionTimeColumnCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_GetByApi_CompletionTimeColumnCases, definitionRow, CodeXls); break;
                     case "Model_GetByApi_ItemTitle": Code.Model_GetByApi_ItemTitle = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_GetByApi_ItemTitle, definitionRow, CodeXls); break;
                     case "Model_SetSiteSettingsProperties": Code.Model_SetSiteSettingsProperties = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_SetSiteSettingsProperties, definitionRow, CodeXls); break;
                     case "Model_FullText": Code.Model_FullText = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_FullText, definitionRow, CodeXls); break;
@@ -3016,6 +3017,7 @@ namespace Implem.DefinitionAccessor
                     case "_dot_grid_space___space_tbody_space___space_tr_space__class_asterisk__equal__yen_status__yen__": Css._dot_grid_space___space_tbody_space___space_tr_space__class_asterisk__equal__yen_status__yen__ = definitionRow[1].ToString(); SetCssTable(CssTable._dot_grid_space___space_tbody_space___space_tr_space__class_asterisk__equal__yen_status__yen__, definitionRow, CssXls); break;
                     case "_dot_grid_space___space_tbody_space___space_tr_space___space_th": Css._dot_grid_space___space_tbody_space___space_tr_space___space_th = definitionRow[1].ToString(); SetCssTable(CssTable._dot_grid_space___space_tbody_space___space_tr_space___space_th, definitionRow, CssXls); break;
                     case "_dot_grid_row": Css._dot_grid_row = definitionRow[1].ToString(); SetCssTable(CssTable._dot_grid_row, definitionRow, CssXls); break;
+                    case "_dot_grid_row_space_td": Css._dot_grid_row_space_td = definitionRow[1].ToString(); SetCssTable(CssTable._dot_grid_row_space_td, definitionRow, CssXls); break;
                     case "_dot_grid_row_space__dot_comment": Css._dot_grid_row_space__dot_comment = definitionRow[1].ToString(); SetCssTable(CssTable._dot_grid_row_space__dot_comment, definitionRow, CssXls); break;
                     case "_dot_grid_row_space__dot_comment_dot_one_third": Css._dot_grid_row_space__dot_comment_dot_one_third = definitionRow[1].ToString(); SetCssTable(CssTable._dot_grid_row_space__dot_comment_dot_one_third, definitionRow, CssXls); break;
                     case "_dot_grid_row_space__dot_comment_dot_half": Css._dot_grid_row_space__dot_comment_dot_half = definitionRow[1].ToString(); SetCssTable(CssTable._dot_grid_row_space__dot_comment_dot_half, definitionRow, CssXls); break;
@@ -7158,6 +7160,7 @@ namespace Implem.DefinitionAccessor
         public string Model_GetItemsDefaultColumns;
         public string Model_GetByApi;
         public string Model_GetByApi_ColumnCases;
+        public string Model_GetByApi_CompletionTimeColumnCases;
         public string Model_GetByApi_ItemTitle;
         public string Model_SetSiteSettingsProperties;
         public string Model_FullText;
@@ -7793,6 +7796,7 @@ namespace Implem.DefinitionAccessor
         public CodeDefinition Model_GetItemsDefaultColumns = new CodeDefinition();
         public CodeDefinition Model_GetByApi = new CodeDefinition();
         public CodeDefinition Model_GetByApi_ColumnCases = new CodeDefinition();
+        public CodeDefinition Model_GetByApi_CompletionTimeColumnCases = new CodeDefinition();
         public CodeDefinition Model_GetByApi_ItemTitle = new CodeDefinition();
         public CodeDefinition Model_SetSiteSettingsProperties = new CodeDefinition();
         public CodeDefinition Model_FullText = new CodeDefinition();
@@ -10443,6 +10447,7 @@ namespace Implem.DefinitionAccessor
         public string _dot_grid_space___space_tbody_space___space_tr_space__class_asterisk__equal__yen_status__yen__;
         public string _dot_grid_space___space_tbody_space___space_tr_space___space_th;
         public string _dot_grid_row;
+        public string _dot_grid_row_space_td;
         public string _dot_grid_row_space__dot_comment;
         public string _dot_grid_row_space__dot_comment_dot_one_third;
         public string _dot_grid_row_space__dot_comment_dot_half;
@@ -10955,6 +10960,7 @@ namespace Implem.DefinitionAccessor
         public CssDefinition _dot_grid_space___space_tbody_space___space_tr_space__class_asterisk__equal__yen_status__yen__ = new CssDefinition();
         public CssDefinition _dot_grid_space___space_tbody_space___space_tr_space___space_th = new CssDefinition();
         public CssDefinition _dot_grid_row = new CssDefinition();
+        public CssDefinition _dot_grid_row_space_td = new CssDefinition();
         public CssDefinition _dot_grid_row_space__dot_comment = new CssDefinition();
         public CssDefinition _dot_grid_row_space__dot_comment_dot_one_third = new CssDefinition();
         public CssDefinition _dot_grid_row_space__dot_comment_dot_half = new CssDefinition();
