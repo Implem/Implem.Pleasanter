@@ -2360,6 +2360,10 @@ pre{
     border-bottom:solid 1px silver;
 }
 
+.grid-row td{
+    overflow:hidden;
+}
+
 .grid-row .comment{
     min-width:200px;
     max-height:100px;
