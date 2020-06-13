@@ -3785,32 +3785,28 @@ namespace Implem.Pleasanter.Libraries.Settings
                 var alias = path.Join("-");
                 if (tableName != null && name != null)
                 {
-                    if (alias.Contains("~~"))
-                    {
-                        join.Add(new SqlJoin(
-                            tableBracket: "[" + tableName + "]",
-                            joinType: SqlJoin.JoinTypes.LeftOuter,
-                            joinExpression: $"[{leftAlias}].[{Rds.IdColumn(leftTableName)}]=try_cast([{alias}].[{name}] as bigint) and [{alias}].[SiteId]={siteId}",
-                            _as: alias));
-                        join.Add(
-                            tableName: "Items",
-                            joinType: SqlJoin.JoinTypes.LeftOuter,
-                            joinExpression: $"[{alias}].[{Rds.IdColumn(tableName)}]=[{alias}_Items].[ReferenceId]",
-                            _as: alias + "_Items");
-                    }
-                    else
-                    {
-                        join.Add(
-                            tableName: "Items",
-                            joinType: SqlJoin.JoinTypes.LeftOuter,
-                            joinExpression: $"try_cast([{left}].[{name}] as bigint)=[{alias}_Items].[ReferenceId] and [{alias}_Items].[SiteId]={siteId}",
-                            _as: alias + "_Items");
-                        join.Add(new SqlJoin(
-                            tableBracket: "[" + tableName + "]",
-                            joinType: SqlJoin.JoinTypes.LeftOuter,
-                            joinExpression: $"[{alias}_Items].[ReferenceId]=[{alias}].[{Rds.IdColumn(tableName)}]",
-                            _as: alias));
-                    }
+                    join.Add(
+                        tableName: "Items",
+                        joinType: SqlJoin.JoinTypes.LeftOuter,
+                        joinExpression: ItemsJoinExpression(
+                            left: left.Any()
+                                ? left.Join("-")
+                                : ReferenceType,
+                            leftTableName: leftTableName,
+                            leftAlias: leftAlias,
+                            name: name,
+                            alias: alias,
+                            siteId: siteId),
+                        _as: alias + "_Items");
+                    join.Add(new SqlJoin(
+                        tableBracket: "[" + tableName + "]",
+                        joinType: SqlJoin.JoinTypes.LeftOuter,
+                        joinExpression: JoinExpression(
+                            tableName: tableName,
+                            name: name,
+                            alias: alias,
+                            siteId: siteId),
+                        _as: alias));
                     left.Add(part);
                     leftTableName = tableName;
                     leftAlias = alias;
@@ -3821,6 +3817,30 @@ namespace Implem.Pleasanter.Libraries.Settings
                 }
             }
             return join;
+        }
+
+        private string ItemsJoinExpression(
+            string left,
+            string leftTableName,
+            string leftAlias,
+            string name,
+            string alias,
+            long siteId)
+        {
+            return alias.Contains("~~")
+                ? $"[{leftAlias}].[{Rds.IdColumn(leftTableName)}]=[{alias}_Items].[ReferenceId]"
+                : $"try_cast([{left}].[{name}] as bigint)=[{alias}_Items].[ReferenceId] and [{alias}_Items].[SiteId]={siteId}";
+        }
+
+        private string JoinExpression(
+            string tableName,
+            string name,
+            string alias,
+            long siteId)
+        {
+            return alias.Contains("~~")
+                ? $"[{alias}_Items].[ReferenceId]=try_cast([{alias}].[{name}] as bigint) and [{alias}].[SiteId]={siteId}"
+                : $"[{alias}_Items].[ReferenceId]=[{alias}].[{Rds.IdColumn(tableName)}]";
         }
 
         public string LabelTitle(Context context, string columnName)
