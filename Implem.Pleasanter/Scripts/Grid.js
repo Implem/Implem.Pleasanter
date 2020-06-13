@@ -145,8 +145,9 @@ $(function () {
     }
     TBLHD.observer = new MutationObserver(function (records) {
         if (records.some(function (value) {
-            return value.target.className === 'menu-sort';
-        })) { return;}
+            return value.target.className === 'menu-sort'
+                || value.target.tagName === 'TH'
+        })) { return; }
         TBLHD.createClone();
     });
     TBLHD.observer.observe(
