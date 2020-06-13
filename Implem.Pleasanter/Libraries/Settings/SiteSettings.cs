@@ -2518,7 +2518,6 @@ namespace Implem.Pleasanter.Libraries.Settings
                 {
                     hash.AddRange(ss.Columns
                         .Where(o => o.HasChoices() || (o.TypeName == "datetime" && datetime))
-                        .Where(o => !o.Joined)
                         .Where(o => ss.GetEditorColumnNames().Contains(o.Name))
                         .Where(o => o.CanRead)
                         .ToDictionary(
@@ -3789,32 +3788,30 @@ namespace Implem.Pleasanter.Libraries.Settings
                 var alias = path.Join("-");
                 if (tableName != null && name != null)
                 {
-                    if (alias.Contains("~~"))
-                    {
-                        join.Add(new SqlJoin(
-                            tableBracket: "\"" + tableName + "\"",
-                            joinType: SqlJoin.JoinTypes.LeftOuter,
-                            joinExpression: $"\"{leftAlias}\".\"{Rds.IdColumn(leftTableName)}\"=try_cast(\"{alias}\".\"{name}\" as bigint) and \"{alias}\".\"SiteId\"={siteId}",
-                            _as: alias));
-                        join.Add(
-                            tableName: "Items",
-                            joinType: SqlJoin.JoinTypes.LeftOuter,
-                            joinExpression: $"\"{alias}\".\"{Rds.IdColumn(tableName)}\"=\"{alias}_Items\".\"ReferenceId\"",
-                            _as: alias + "_Items");
-                    }
-                    else
-                    {
-                        join.Add(
-                            tableName: "Items",
-                            joinType: SqlJoin.JoinTypes.LeftOuter,
-                            joinExpression: $"{context.SqlCommandText.CreateTryCast(left.Any() ? left.Join("-") : ReferenceType, name, "bigint")}=\"{alias}_Items\".\"ReferenceId\" and \"{alias}_Items\".\"SiteId\"={siteId}",
-                            _as: alias + "_Items");
-                        join.Add(new SqlJoin(
-                            tableBracket: "\"" + tableName + "\"",
-                            joinType: SqlJoin.JoinTypes.LeftOuter,
-                            joinExpression: $"\"{alias}_Items\".\"ReferenceId\"=\"{alias}\".\"{Rds.IdColumn(tableName)}\"",
-                            _as: alias));
-                    }
+                    join.Add(
+                        tableName: "\"Items\"",
+                        joinType: SqlJoin.JoinTypes.LeftOuter,
+                        joinExpression: ItemsJoinExpression(
+                            factory: context,
+                            left: left.Any()
+                                ? left.Join("-")
+                                : ReferenceType,
+                            leftTableName: leftTableName,
+                            leftAlias: leftAlias,
+                            name: name,
+                            alias: alias,
+                            siteId: siteId),
+                        _as: alias + "_Items");
+                    join.Add(new SqlJoin(
+                        tableBracket: "\"" + tableName + "\"",
+                        joinType: SqlJoin.JoinTypes.LeftOuter,
+                        joinExpression: JoinExpression(
+                            factory: context,
+                            tableName: tableName,
+                            name: name,
+                            alias: alias,
+                            siteId: siteId),
+                        _as: alias));
                     left.Add(part);
                     leftTableName = tableName;
                     leftAlias = alias;
@@ -3825,6 +3822,32 @@ namespace Implem.Pleasanter.Libraries.Settings
                 }
             }
             return join;
+        }
+
+        private string ItemsJoinExpression(
+            ISqlObjectFactory factory,
+            string left,
+            string leftTableName,
+            string leftAlias,
+            string name,
+            string alias,
+            long siteId)
+        {
+            return alias.Contains("~~")
+                ? $"\"{leftAlias}\".\"{Rds.IdColumn(leftTableName)}\"=\"{alias}_Items\".\"ReferenceId\""
+                : $"{factory.SqlCommandText.CreateTryCast(left, name, "bigint")}=\"{alias}_Items\".\"ReferenceId\" and \"{alias}_Items\".\"SiteId\"={siteId}";
+        }
+
+        private string JoinExpression(
+            ISqlObjectFactory factory,
+            string tableName,
+            string name,
+            string alias,
+            long siteId)
+        {
+            return alias.Contains("~~")
+                ? $"\"{alias}_Items\".\"ReferenceId\"={factory.SqlCommandText.CreateTryCast(alias, name, "bigint")}"
+                : $"\"{alias}_Items\".\"ReferenceId\"=\"{alias}\".\"{Rds.IdColumn(tableName)}\"";
         }
 
         public string LabelTitle(Context context, string columnName)
