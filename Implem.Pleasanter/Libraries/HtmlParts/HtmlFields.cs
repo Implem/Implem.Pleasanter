@@ -6,6 +6,7 @@ using Implem.Pleasanter.Libraries.Requests;
 using Implem.Pleasanter.Libraries.Resources;
 using Implem.Pleasanter.Libraries.Responses;
 using Implem.Pleasanter.Libraries.Security;
+using Implem.Pleasanter.Libraries.Server;
 using Implem.Pleasanter.Libraries.Settings;
 using Implem.Pleasanter.Models;
 using System;
@@ -252,7 +253,11 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                 labelText: column.LabelText,
                                 controlOnly: controlOnly,
                                 text: column.HasChoices() && !value.IsNullOrEmpty()
-                                    ? optionCollection.Get(value)?.Text ?? "? " + value
+                                    ? column.UserColumn
+                                        ? SiteInfo.UserName(
+                                            context: context,
+                                            userId: value.ToInt())
+                                        : optionCollection.Get(value)?.Text ?? "? " + value
                                     : value,
                                 dataValue: column.HasChoices()
                                     ? value
